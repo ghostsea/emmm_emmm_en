@@ -1,0 +1,253 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  position: relative;
+  background-image: url("../assets/core/background/page-background.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.app-wrap {
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 0 4px;
+}
+
+.board-shell {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 0;
+}
+
+.wheel-wrap {
+  position: relative;
+  flex: none;
+  width: 100%;
+  height: 100%;
+}
+
+.wheel {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+  background-color: transparent;
+  position: absolute;
+  transform-origin: center center;
+}
+
+.fly-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-origin: center center;
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  overflow: hidden;
+}
+
+.fly-wrap-1 {
+  width: 34%;
+  height: 34%;
+  z-index: 8;
+}
+
+.fly-wrap-2 {
+  width: 48%;
+  height: 48%;
+  z-index: 7;
+}
+
+.fly-wrap-3 {
+  width: 62%;
+  height: 62%;
+  z-index: 6;
+}
+
+.fly-wrap-4 {
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+.wheel1 {
+  background-image: url("../assets/core/wheels/wheel1.png");
+}
+
+.wheel2 {
+  background-image: url("../assets/core/wheels/wheel2.png");
+}
+
+.wheel3 {
+  background-image: url("../assets/core/wheels/wheel3.png");
+}
+
+.wheel4 {
+  background-image: url("../assets/core/wheels/wheel4.png");
+}
+
+.sun {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  background-image: url("../assets/core/sun.png");
+  background-size: cover;
+  background-position: center center;
+  background-color: transparent;
+  width: 10%;
+  height: 10%;
+  z-index: 200;
+  pointer-events: none;
+}
+
+button.spin-button {
+  background-image: url("../assets/core/buttons/set-button.png");
+  background-size: cover;
+  width: 4.4%;
+  aspect-ratio: 1;
+  transition: transform 0.1s, filter 0.2s;
+  display: block;
+  border: unset;
+  background-color: transparent;
+  margin-top: -2px;
+  cursor: pointer;
+}
+
+button.spin-button.pulsin {
+  animation: pulse 1s alternate infinite;
+}
+
+@keyframes pulse {
+  from {
+    filter: drop-shadow(0 0 5px #41bfe7);
+  }
+
+  to {
+    filter: drop-shadow(0 0 10px #41bfe7);
+  }
+}
+
+.connector {
+  aspect-ratio: 0.9;
+  width: 2.4%;
+  background-repeat: no-repeat;
+  background-image: url("../assets/core/buttons/button-connector.png");
+  background-size: 100% 100%;
+  pointer-events: none;
+}
+
+button.spin-button:active {
+  transform: scale(0.9);
+}
+
+button.spin-button:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1);
+}
+
+.button-wrap {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.sector-wrap {
+  position: absolute;
+  width: 75%;
+  height: 30%;
+  z-index: 250;
+  pointer-events: none;
+  transform-origin: center center;
+}
+
+#sector-wrap-1 {
+  top: 0.2%;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+}
+
+#sector-wrap-2 {
+  top: 0;
+  bottom: 0;
+  right: 47.1%;
+  margin-block: auto;
+  transform: rotate(-90deg);
+}
+
+#sector-wrap-3 {
+  top: 0;
+  bottom: 0;
+  left: 47.1%;
+  margin-block: auto;
+  transform: rotate(90deg);
+}
+
+#sector-wrap-4 {
+  bottom: 0.2%;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  transform: rotate(180deg);
+}
+
+.sector {
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: center center;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.sector-1 {
+  background-image: url("../assets/core/sectors/sector-1.png");
+}
+
+.sector-2 {
+  background-image: url("../assets/core/sectors/sector-2.png");
+}
+
+.sector-3 {
+  background-image: url("../assets/core/sectors/sector-3.png");
+}
+
+.sector-4 {
+  background-image: url("../assets/core/sectors/sector-4.png");
+}
+
+.state-readout {
+  flex: 0 0 auto;
+  display: block;
+  margin: 0 auto 8px;
+  padding: 0 16px;
+  max-width: 90%;
+  color: rgba(255, 255, 255, 0.75);
+  font: 12px/1.5 Consolas, "SFMono-Regular", Menlo, monospace;
+  text-align: center;
+  white-space: pre-wrap;
+}
