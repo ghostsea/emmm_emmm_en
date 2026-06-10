@@ -16,6 +16,12 @@
           <button class="debug-action-button" type="button" id="debug-launch-button">发射</button>
           <button class="debug-action-button" type="button" id="debug-save-button">保存坐标</button>
         </div>
+        <div class="debug-move-pad" id="debug-move-pad" aria-label="移动当前火箭">
+          <button class="debug-action-button debug-move-button" type="button" id="debug-move-up" data-move-x="0" data-move-y="1">外</button>
+          <button class="debug-action-button debug-move-button" type="button" id="debug-move-left" data-move-x="-1" data-move-y="0">逆</button>
+          <button class="debug-action-button debug-move-button" type="button" id="debug-move-right" data-move-x="1" data-move-y="0">顺</button>
+          <button class="debug-action-button debug-move-button" type="button" id="debug-move-down" data-move-x="0" data-move-y="-1">内</button>
+        </div>
         <output class="debug-readout" id="debug-readout" aria-live="polite"></output>
       </div>
     </aside>

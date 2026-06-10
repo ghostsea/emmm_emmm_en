@@ -55,7 +55,123 @@ assert.deepEqual(solar.solarGridToGlobalPoint(0, 0), { x: 500, y: 500 });
 const topRightGlobal = solar.solarGridToGlobalPoint(0, 1);
 assert.ok(topRightGlobal.x > 500);
 assert.ok(topRightGlobal.y < 500);
-assert.deepEqual(solar.solarGridToGlobalPoint(5, 1), { x: 375.28, y: 551.66 });
+assert.deepEqual(solar.solarGridToGlobalPoint(5, 1), { x: 432.07, y: 528.14 });
+assert.deepEqual(solar.solarGridToPolarPoint(5, 1), { radius: 73.53, angleDegrees: 157.5 });
+assert.deepEqual(
+  solar.globalPointToPolarPoint(solar.solarGridToGlobalPoint(5, 1)),
+  { radius: 73.53, angleDegrees: 157.5 },
+);
+assert.deepEqual(solar.polarToGlobalPoint(73.53, 157.5), { x: 432.07, y: 528.14 });
+assert.equal(solar.collectSolarCellBoundaries().length, 41);
+const earthCellBoundary = solar.getSolarCellBoundary(5, 1);
+assert.deepEqual(earthCellBoundary.radiusRange, { inner: 50, outer: 119.35 });
+assert.deepEqual(earthCellBoundary.angleRangeDegrees, { start: 135, center: 157.5, end: 180 });
+assert.deepEqual(earthCellBoundary.polarBoundary, {
+  innerRadius: 50,
+  outerRadius: 119.35,
+  startAngleDegrees: 135,
+  endAngleDegrees: 180,
+});
+assert.deepEqual(earthCellBoundary.boundingBox, {
+  minX: 380.65,
+  minY: 500,
+  maxX: 464.64,
+  maxY: 584.39,
+});
+assert.equal(solar.collectSectorCoordinateBoundaries().length, 40);
+assert.deepEqual(solar.getSectorCoordinateBoundary(0, 1).polarBoundary, {
+  innerRadius: 50,
+  outerRadius: 119.35,
+  startAngleDegrees: -90,
+  endAngleDegrees: -45,
+});
+assert.deepEqual(solar.getSectorCoordinateBoundary(7, 4).polarBoundary, {
+  innerRadius: 262.15,
+  outerRadius: 332.15,
+  startAngleDegrees: 225,
+  endAngleDegrees: 270,
+});
+assert.deepEqual(solar.getSectorCoordinateBoundary(0, 5).polarBoundary, {
+  innerRadius: 332.15,
+  outerRadius: 500,
+  startAngleDegrees: -90,
+  endAngleDegrees: -45,
+});
+assert.deepEqual(solar.getSectorCoordinateBoundary(7, 5).polarBoundary, {
+  innerRadius: 332.15,
+  outerRadius: 500,
+  startAngleDegrees: 225,
+  endAngleDegrees: 270,
+});
+assert.deepEqual(solar.getSectorCoordinateBoundary(5, 1).polarBoundary, {
+  innerRadius: 50,
+  outerRadius: 119.35,
+  startAngleDegrees: 135,
+  endAngleDegrees: 180,
+});
+assert.deepEqual(
+  solar.resolveSectorCoordinateFromPolarPoint({ radius: 73.53, angleDegrees: 164.62 }).sectorCoordinate,
+  { x: 5, y: 1 },
+);
+assert.deepEqual(
+  solar.resolveSectorCoordinateFromGlobalPoint({ x: 429.1, y: 519.5 }).sectorCoordinate,
+  { x: 5, y: 1 },
+);
+assert.deepEqual(
+  solar.resolveSectorCoordinateFromPolarPoint({ radius: 165.16, angleDegrees: 14.45 }).sectorCoordinate,
+  { x: 2, y: 2 },
+);
+assert.deepEqual(
+  solar.resolveSectorCoordinateFromPolarPoint({ radius: 232.05, angleDegrees: 67.49 }).sectorCoordinate,
+  { x: 3, y: 3 },
+);
+assert.deepEqual(
+  solar.resolveSectorCoordinateFromPolarPoint({ radius: 303.67, angleDegrees: 65.49 }).sectorCoordinate,
+  { x: 3, y: 4 },
+);
+assert.deepEqual(
+  solar.resolveSectorCoordinateFromPolarPoint({ radius: 485, angleDegrees: -67.5 }).sectorCoordinate,
+  { x: 0, y: 5 },
+);
+assert.equal(
+  solar.resolveSectorCoordinateFromPolarPoint({ radius: 30, angleDegrees: 157.5 }).sectorCoordinate,
+  null,
+);
+
+const earthLaunchSlots = solar.getSectorLaunchSlots(5, 1);
+assert.equal(earthLaunchSlots.length, 9);
+assert.equal(earthLaunchSlots.length, solar.LAUNCH_SLOTS_PER_SECTOR);
+// 行优先编号：4 号为中心，0 号为内侧角；优先顺序为中心->四角->四边
+assert.deepEqual(solar.LAUNCH_SLOT_PRIORITY, [4, 0, 2, 6, 8, 1, 3, 5, 7]);
+const earthCenter = solar.getSectorLaunchSlot(5, 1, 4);
+assert.deepEqual([earthCenter.radialRow, earthCenter.angularColumn], [1, 1]);
+assert.equal(earthCenter.angleDegrees, 157.5);
+const earthSlot0 = solar.getSectorLaunchSlot(5, 1, 0);
+assert.deepEqual([earthSlot0.radialRow, earthSlot0.angularColumn], [0, 0]);
+// 中心槽位半径应落在 ring1 边界内侧，绝不贴边
+const ring1 = solar.getSectorCoordinateBoundary(5, 1).polarBoundary;
+assert.ok(earthCenter.radius > ring1.innerRadius && earthCenter.radius < ring1.outerRadius);
+assert.equal(earthCenter.radius, 84.68);
+// 所有槽位都应解析回本扇区
+for (const slot of earthLaunchSlots) {
+  const resolved = solar.resolveSectorCoordinateFromPolarPoint({
+    radius: slot.radius,
+    angleDegrees: slot.angleDegrees,
+  });
+  assert.deepEqual(resolved.sectorCoordinate, { x: 5, y: 1 });
+}
+// 越靠近太阳，同槽位的角向间距（弧长）越小：ring1 应比 ring4 更紧凑
+const innerCols = solar.getSectorLaunchSlots(5, 1);
+const outerCols = solar.getSectorLaunchSlots(5, 4);
+const arc = (slots) => {
+  const left = slots.find((s) => s.angularColumn === 0 && s.radialRow === 1);
+  const right = slots.find((s) => s.angularColumn === 2 && s.radialRow === 1);
+  const dr = (right.angleDegrees - left.angleDegrees) * Math.PI / 180;
+  return Math.abs(dr) * ((left.radius + right.radius) / 2);
+};
+assert.ok(arc(innerCols) < arc(outerCols));
+// 槽位索引应当回绕（mod 9）
+assert.deepEqual(solar.getSectorLaunchSlot(5, 1, 9), solar.getSectorLaunchSlot(5, 1, 0));
 
 let rotation = solar.normalizeRotationState([0, 0, 0, 0, 0], 0);
 assert.deepEqual(solar.getNextOrbitWheelIds(rotation.rotationCount), [1]);

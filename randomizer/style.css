@@ -360,6 +360,38 @@ button.spin-button:hover {
   transform: scale(0.97);
 }
 
+.debug-move-pad {
+  flex: 0 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-areas:
+    ". up ."
+    "left . right"
+    ". down .";
+  gap: 6px;
+}
+
+.debug-move-button {
+  min-height: 32px;
+}
+
+#debug-move-up {
+  grid-area: up;
+}
+
+#debug-move-down {
+  grid-area: down;
+}
+
+#debug-move-left {
+  grid-area: left;
+}
+
+#debug-move-right {
+  grid-area: right;
+}
+
 .debug-readout {
   flex: 1 1 auto;
   display: block;

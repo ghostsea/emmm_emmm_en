@@ -6,21 +6,21 @@
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
   const ROCKET_IMAGE_SRC = "../assets/tokens/rocket.png";
-  const ROCKET_IMAGE_SCALE = 0.2;
-  const ROCKET_COORDINATE_STORAGE_KEY = "seti.randomizer.rocketCoordinates";
+  const ROCKET_IMAGE_SCALE = 0.08;
+  const SECTOR_RING_MIN = 1;
+  const SECTOR_RING_MAX = 4;
 
   const state = solar.createBaselineState();
   const rocketState = {
     nextRocketId: 1,
     activeRocketId: null,
     draggingRocketId: null,
+    draggingRocketElement: null,
     rockets: [],
-    savedCoordinates: loadSavedRocketCoordinates(),
+    savedCoordinates: [],
+    lastSavedFilename: null,
+    statusNote: null,
   };
-
-  rocketState.nextRocketId = rocketState.savedCoordinates.reduce((nextId, rocket) => (
-    Math.max(nextId, Number(rocket.id || 0) + 1)
-  ), 1);
 
   const els = {
     appWrap: document.querySelector(".app-wrap"),
@@ -46,6 +46,7 @@
     debugRotateButton: document.getElementById("debug-rotate-button"),
     debugLaunchButton: document.getElementById("debug-launch-button"),
     debugSaveButton: document.getElementById("debug-save-button"),
+    debugMovePad: document.getElementById("debug-move-pad"),
     debugReadout: document.getElementById("debug-readout"),
     logToggle: document.getElementById("log-toggle"),
     stateReadout: document.getElementById("state-readout"),
@@ -72,34 +73,6 @@
     els.appWrap.classList.toggle("debug-collapsed", !open);
     els.debugToggle.setAttribute("aria-expanded", String(open));
     resize();
-  }
-
-  function loadSavedRocketCoordinates() {
-    try {
-      const value = window.localStorage.getItem(ROCKET_COORDINATE_STORAGE_KEY);
-      if (!value) return [];
-      const parsed = JSON.parse(value);
-      if (!Array.isArray(parsed)) return [];
-
-      return parsed
-        .map((rocket) => ({
-          id: Number(rocket.id),
-          x: roundBoardCoordinate(rocket.x),
-          y: roundBoardCoordinate(rocket.y),
-        }))
-        .filter((rocket) => Number.isFinite(rocket.id)
-          && Number.isFinite(rocket.x)
-          && Number.isFinite(rocket.y));
-    } catch (error) {
-      return [];
-    }
-  }
-
-  function storeSavedRocketCoordinates() {
-    window.localStorage.setItem(
-      ROCKET_COORDINATE_STORAGE_KEY,
-      JSON.stringify(rocketState.savedCoordinates),
-    );
   }
 
   function clamp(value, min, max) {
@@ -132,7 +105,96 @@
     return `[${point.x.toFixed(2)},${point.y.toFixed(2)}]`;
   }
 
-  function getEarthLaunchPoint() {
+  function normalizePolarPoint(point) {
+    const maxRadius = solar.GLOBAL_COORDINATE_SYSTEM.size / 2;
+    return {
+      radius: roundBoardCoordinate(clamp(Number(point.radius), 0, maxRadius)),
+      angleDegrees: roundBoardCoordinate(Number(point.angleDegrees)),
+    };
+  }
+
+  function getPolarPointFromBoardPoint(point) {
+    return normalizePolarPoint(solar.globalPointToPolarPoint(point));
+  }
+
+  function getBoardPointFromPolarPoint(point) {
+    return normalizeBoardPoint(solar.polarToGlobalPoint(point.radius, point.angleDegrees));
+  }
+
+  function getPolarPointFromClientPosition(clientX, clientY) {
+    return getPolarPointFromBoardPoint(getBoardPointFromClientPosition(clientX, clientY));
+  }
+
+  function formatPolarPoint(point) {
+    return `[r=${point.radius.toFixed(2)},a=${point.angleDegrees.toFixed(2)}]`;
+  }
+
+  function formatSectorCoordinate(resolution) {
+    if (!resolution?.sectorCoordinate) return "无";
+    return `[${resolution.sectorCoordinate.x},${resolution.sectorCoordinate.y}]`;
+  }
+
+  function createRocketSnapshot(rocket) {
+    const polar = normalizePolarPoint(rocket);
+    const board = getBoardPointFromPolarPoint(polar);
+    const sectorResolution = solar.resolveSectorCoordinateFromGlobalPoint(board);
+
+    return {
+      id: rocket.id,
+      polar,
+      board,
+      sectorCoordinate: sectorResolution.sectorCoordinate,
+      sectorReason: sectorResolution.reason || null,
+      slotIndex: Number.isInteger(rocket.slotIndex) ? rocket.slotIndex : null,
+      slotSectorCoordinate: Number.isInteger(rocket.sectorX) && Number.isInteger(rocket.sectorY)
+        ? { x: rocket.sectorX, y: rocket.sectorY }
+        : null,
+      launchGrid: rocket.launchGrid ? { ...rocket.launchGrid } : null,
+      launchSectorCoordinate: rocket.launchSectorCoordinate ? { ...rocket.launchSectorCoordinate } : null,
+    };
+  }
+
+  function createTimestampSlug(date) {
+    const pad = (value) => String(value).padStart(2, "0");
+    return [
+      date.getFullYear(),
+      pad(date.getMonth() + 1),
+      pad(date.getDate()),
+      "-",
+      pad(date.getHours()),
+      pad(date.getMinutes()),
+      pad(date.getSeconds()),
+    ].join("");
+  }
+
+  function createRocketCoordinatePayload() {
+    return {
+      version: 1,
+      coordinateSystem: {
+        ...solar.GLOBAL_COORDINATE_SYSTEM,
+        primary: "polar",
+        boardUnit: "0..1000",
+      },
+      savedAt: new Date().toISOString(),
+      rockets: rocketState.savedCoordinates.map((rocket) => ({ ...rocket })),
+    };
+  }
+
+  function downloadJson(filename, payload) {
+    const json = `${JSON.stringify(payload, null, 2)}\n`;
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 0);
+  }
+
+  function getEarthSectorCoordinate() {
     const snapshot = solar.createSolarSnapshot(state);
     const earth = snapshot.planetLocations.find((planet) => planet.planetId === "earth");
 
@@ -140,10 +202,65 @@
       throw new Error("Earth position was not found in the current solar snapshot");
     }
 
-    return {
-      grid: { x: earth.x, y: earth.y },
-      global: normalizeBoardPoint(solar.solarGridToGlobalPoint(earth.x, earth.y)),
-    };
+    return { x: earth.x, y: earth.y };
+  }
+
+  function sectorKey(sectorX, sectorY) {
+    return `${sectorX},${sectorY}`;
+  }
+
+  /** 状态记录器：扫描当前火箭，得到「每个扇区 -> 已占用槽位」的实时占用表。 */
+  function getSectorOccupancy(excludeRocketId) {
+    const occupancy = new Map();
+    for (const rocket of rocketState.rockets) {
+      if (rocket.id === excludeRocketId) continue;
+      if (!Number.isInteger(rocket.sectorX) || !Number.isInteger(rocket.sectorY)) continue;
+      if (!Number.isInteger(rocket.slotIndex)) continue;
+      const key = sectorKey(rocket.sectorX, rocket.sectorY);
+      if (!occupancy.has(key)) occupancy.set(key, new Map());
+      occupancy.get(key).set(rocket.slotIndex, rocket.id);
+    }
+    return occupancy;
+  }
+
+  function getOccupiedSlotIndices(sectorX, sectorY, excludeRocketId) {
+    const slots = getSectorOccupancy(excludeRocketId).get(sectorKey(sectorX, sectorY));
+    return slots ? new Set(slots.keys()) : new Set();
+  }
+
+  /** 按优先顺序（中心->四角->四边）返回该扇区第一个空闲槽位；满了返回 null。 */
+  function findAvailableSlotIndex(sectorX, sectorY, excludeRocketId) {
+    const occupied = getOccupiedSlotIndices(sectorX, sectorY, excludeRocketId);
+    for (const slotIndex of solar.LAUNCH_SLOT_PRIORITY) {
+      if (!occupied.has(slotIndex)) return slotIndex;
+    }
+    return null;
+  }
+
+  function assignRocketToSlot(rocket, sectorX, sectorY, slotIndex) {
+    const slot = solar.getSectorLaunchSlot(sectorX, sectorY, slotIndex);
+    rocket.sectorX = sectorX;
+    rocket.sectorY = sectorY;
+    rocket.slotIndex = slot.slotIndex;
+    rocket.radius = slot.radius;
+    rocket.angleDegrees = slot.angleDegrees;
+    return rocket;
+  }
+
+  /** 把火箭放进目标扇区的优先空位；扇区已满则不放置并返回 false。 */
+  function placeRocketByPriority(rocket, sectorX, sectorY) {
+    const slotIndex = findAvailableSlotIndex(sectorX, sectorY, rocket.id);
+    if (slotIndex === null) return false;
+    assignRocketToSlot(rocket, sectorX, sectorY, slotIndex);
+    return true;
+  }
+
+  function getRocketSectorCoordinate(rocket) {
+    if (Number.isInteger(rocket.sectorX) && Number.isInteger(rocket.sectorY)) {
+      return { x: rocket.sectorX, y: rocket.sectorY };
+    }
+    const resolution = solar.resolveSectorCoordinateFromGlobalPoint(getBoardPointFromPolarPoint(rocket));
+    return resolution.sectorCoordinate || { x: 0, y: SECTOR_RING_MIN };
   }
 
   function setRocketAssetSize() {
@@ -172,8 +289,9 @@
       els.tokenLayer.appendChild(element);
     }
 
-    element.style.left = `${rocket.x / 10}%`;
-    element.style.top = `${rocket.y / 10}%`;
+    const boardPoint = getBoardPointFromPolarPoint(rocket);
+    element.style.left = `${boardPoint.x / 10}%`;
+    element.style.top = `${boardPoint.y / 10}%`;
     element.classList.toggle("is-dragging", rocketState.draggingRocketId === rocket.id);
   }
 
@@ -186,19 +304,50 @@
     const rocketLines = rocketState.rockets.length
       ? rocketState.rockets.map((rocket) => {
         const marker = rocket.id === rocketState.activeRocketId ? "*" : " ";
-        return `${marker}R${rocket.id} ${formatBoardPoint(rocket)}`;
+        const snapshot = createRocketSnapshot(rocket);
+        const slot = snapshot.slotSectorCoordinate
+          ? ` 扇区[${snapshot.slotSectorCoordinate.x},${snapshot.slotSectorCoordinate.y}]#${snapshot.slotIndex}`
+          : "";
+        return `${marker}R${rocket.id} ${formatPolarPoint(snapshot.polar)} ${formatBoardPoint(snapshot.board)}${slot}`;
       })
       : ["无"];
     const savedLines = rocketState.savedCoordinates.length
-      ? rocketState.savedCoordinates.map((rocket) => `R${rocket.id} ${formatBoardPoint(rocket)}`)
+      ? rocketState.savedCoordinates.map((rocket) => (
+        `R${rocket.id} ${formatPolarPoint(rocket.polar)} ${formatBoardPoint(rocket.board)} -> ${formatSectorCoordinate(rocket)}`
+      ))
+      : ["无"];
+    const sectorLines = rocketState.rockets.length
+      ? rocketState.rockets.map((rocket) => {
+        const snapshot = createRocketSnapshot(rocket);
+        return `R${rocket.id} 中心${formatBoardPoint(snapshot.board)} -> ${formatSectorCoordinate(snapshot)}`;
+      })
+      : ["无"];
+    const occupancy = getSectorOccupancy();
+    const occupancyLines = occupancy.size
+      ? [...occupancy.entries()]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([key, slots]) => {
+          const indices = [...slots.keys()].sort((a, b) => a - b).join(",");
+          return `扇区[${key}] 占用#${indices}`;
+        })
       : ["无"];
 
     els.debugReadout.textContent = [
-      `坐标系 board-${solar.GLOBAL_COORDINATE_SYSTEM.size}`,
-      activeRocket ? `当前 R${activeRocket.id} ${formatBoardPoint(activeRocket)}` : "当前 无",
+      `坐标系 polar board-${solar.GLOBAL_COORDINATE_SYSTEM.size}`,
+      activeRocket
+        ? `当前 R${activeRocket.id} ${formatPolarPoint(activeRocket)} ${formatBoardPoint(getBoardPointFromPolarPoint(activeRocket))} -> ${formatSectorCoordinate(createRocketSnapshot(activeRocket))}`
+        : "当前 无",
+      rocketState.statusNote ? `提示 ${rocketState.statusNote}` : "提示 无",
+      rocketState.lastSavedFilename ? `最近保存 ${rocketState.lastSavedFilename}` : "最近保存 无",
       "",
       "火箭坐标",
       ...rocketLines,
+      "",
+      "扇区占用",
+      ...occupancyLines,
+      "",
+      "位置判定",
+      ...sectorLines,
       "",
       "已保存",
       ...savedLines,
@@ -206,17 +355,46 @@
   }
 
   function launchRocket() {
-    const launchPoint = getEarthLaunchPoint();
-    const rocket = {
-      id: rocketState.nextRocketId,
-      x: launchPoint.global.x,
-      y: launchPoint.global.y,
-      launchGrid: launchPoint.grid,
-    };
+    const earthSector = getEarthSectorCoordinate();
+    const rocket = { id: rocketState.nextRocketId };
+
+    if (!placeRocketByPriority(rocket, earthSector.x, earthSector.y)) {
+      rocketState.statusNote = `地球扇区[${earthSector.x},${earthSector.y}]已满，无法发射`;
+      renderDebugReadout();
+      return;
+    }
+    rocket.launchGrid = { ...earthSector };
+    rocket.launchSectorCoordinate = { ...earthSector };
 
     rocketState.nextRocketId += 1;
     rocketState.activeRocketId = rocket.id;
     rocketState.rockets.push(rocket);
+    rocketState.statusNote = `发射 R${rocket.id} -> 扇区[${rocket.sectorX},${rocket.sectorY}]#${rocket.slotIndex}`;
+    renderRocketElement(rocket);
+    renderDebugReadout();
+  }
+
+  function moveActiveRocket(deltaX, deltaY) {
+    const rocket = rocketState.rockets.find((item) => item.id === rocketState.activeRocketId);
+    if (!rocket) return;
+
+    const current = getRocketSectorCoordinate(rocket);
+    const sectorX = solar.mod8(current.x + Number(deltaX || 0));
+    const sectorY = clamp(current.y + Number(deltaY || 0), SECTOR_RING_MIN, SECTOR_RING_MAX);
+
+    if (sectorX === rocket.sectorX && sectorY === rocket.sectorY) {
+      rocketState.statusNote = `R${rocket.id} 已在边界，无法继续移动`;
+      renderDebugReadout();
+      return;
+    }
+
+    if (!placeRocketByPriority(rocket, sectorX, sectorY)) {
+      rocketState.statusNote = `扇区[${sectorX},${sectorY}]已满，R${rocket.id} 保持原位`;
+      renderDebugReadout();
+      return;
+    }
+
+    rocketState.statusNote = `R${rocket.id} -> 扇区[${rocket.sectorX},${rocket.sectorY}]#${rocket.slotIndex}`;
     renderRocketElement(rocket);
     renderDebugReadout();
   }
@@ -225,9 +403,14 @@
     const rocket = rocketState.rockets.find((item) => item.id === rocketState.activeRocketId);
     if (!rocket) return;
 
-    const point = getBoardPointFromClientPosition(event.clientX, event.clientY);
-    rocket.x = point.x;
-    rocket.y = point.y;
+    const point = getPolarPointFromClientPosition(event.clientX, event.clientY);
+    rocket.radius = point.radius;
+    rocket.angleDegrees = point.angleDegrees;
+    const resolution = solar.resolveSectorCoordinateFromGlobalPoint(getBoardPointFromPolarPoint(point));
+    if (resolution.sectorCoordinate) {
+      rocket.sectorX = resolution.sectorCoordinate.x;
+      rocket.sectorY = resolution.sectorCoordinate.y;
+    }
     renderRocketElement(rocket);
     renderDebugReadout();
   }
@@ -236,6 +419,7 @@
     const rocketId = Number(event.currentTarget.dataset.rocketId);
     rocketState.activeRocketId = rocketId;
     rocketState.draggingRocketId = rocketId;
+    rocketState.draggingRocketElement = event.currentTarget;
     if (event.currentTarget.setPointerCapture) {
       event.currentTarget.setPointerCapture(event.pointerId);
     }
@@ -244,32 +428,34 @@
   }
 
   function handleRocketPointerMove(event) {
-    const rocketId = Number(event.currentTarget.dataset.rocketId);
-    if (rocketState.draggingRocketId !== rocketId) return;
+    if (!rocketState.draggingRocketId) return;
 
     updateRocketPositionFromPointer(event);
   }
 
   function handleRocketPointerUp(event) {
-    const rocketId = Number(event.currentTarget.dataset.rocketId);
-    if (rocketState.draggingRocketId !== rocketId) return;
+    const rocketId = rocketState.draggingRocketId;
+    if (!rocketId) return;
 
-    if (event.currentTarget.releasePointerCapture) {
-      event.currentTarget.releasePointerCapture(event.pointerId);
+    if (rocketState.draggingRocketElement?.releasePointerCapture) {
+      try {
+        rocketState.draggingRocketElement.releasePointerCapture(event.pointerId);
+      } catch (error) {
+        // Pointer capture may already be released by the browser.
+      }
     }
     rocketState.draggingRocketId = null;
+    rocketState.draggingRocketElement = null;
     const rocket = rocketState.rockets.find((item) => item.id === rocketId);
     if (rocket) renderRocketElement(rocket);
     renderDebugReadout();
   }
 
   function saveRocketCoordinates() {
-    rocketState.savedCoordinates = rocketState.rockets.map((rocket) => ({
-      id: rocket.id,
-      x: rocket.x,
-      y: rocket.y,
-    }));
-    storeSavedRocketCoordinates();
+    rocketState.savedCoordinates = rocketState.rockets.map(createRocketSnapshot);
+    const filename = `seti-rocket-coordinates-${createTimestampSlug(new Date())}.json`;
+    rocketState.lastSavedFilename = filename;
+    downloadJson(filename, createRocketCoordinatePayload());
     renderDebugReadout();
   }
 
@@ -389,10 +575,18 @@
   });
   els.debugLaunchButton.addEventListener("click", launchRocket);
   els.debugSaveButton.addEventListener("click", saveRocketCoordinates);
+  els.debugMovePad.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-move-x]");
+    if (!button) return;
+    moveActiveRocket(Number(button.dataset.moveX), Number(button.dataset.moveY));
+  });
   els.logToggle.addEventListener("click", () => {
     setLogOpen(els.appWrap.classList.contains("log-collapsed"));
   });
   window.addEventListener("resize", resize);
+  window.addEventListener("pointermove", handleRocketPointerMove);
+  window.addEventListener("pointerup", handleRocketPointerUp);
+  window.addEventListener("pointercancel", handleRocketPointerUp);
 
   setRocketAssetSize();
   resize();
@@ -406,19 +600,38 @@
     randomize: randomizeAll,
     rotateSolarOrbit,
     launchRocket,
+    moveActiveRocket,
+    getSectorLaunchSlots: (x, y) => solar.getSectorLaunchSlots(x, y),
+    getSectorLaunchSlot: (x, y, slotIndex) => solar.getSectorLaunchSlot(x, y, slotIndex),
+    getSectorOccupancy: () => Object.fromEntries(
+      [...getSectorOccupancy().entries()].map(([key, slots]) => [
+        key,
+        [...slots.keys()].sort((a, b) => a - b),
+      ]),
+    ),
     saveRocketCoordinates,
     screenToBoardPoint: (clientX, clientY) => getBoardPointFromClientPosition(clientX, clientY),
+    screenToPolarPoint: (clientX, clientY) => getPolarPointFromClientPosition(clientX, clientY),
     solarGridToGlobalPoint: (x, y) => solar.solarGridToGlobalPoint(x, y),
+    solarGridToPolarPoint: (x, y) => solar.solarGridToPolarPoint(x, y),
+    polarToGlobalPoint: (radius, angleDegrees) => solar.polarToGlobalPoint(radius, angleDegrees),
+    globalPointToPolarPoint: (point) => solar.globalPointToPolarPoint(point),
+    getSolarCellBoundary: (x, y) => solar.getSolarCellBoundary(x, y),
+    getSolarCellBoundaries: () => solar.collectSolarCellBoundaries(),
+    getSectorCoordinateBoundary: (x, y) => solar.getSectorCoordinateBoundary(x, y),
+    getSectorCoordinateBoundaries: () => solar.collectSectorCoordinateBoundaries(),
+    resolveSectorCoordinateFromPolarPoint: (point) => solar.resolveSectorCoordinateFromPolarPoint(point),
+    resolveSectorCoordinateFromGlobalPoint: (point) => solar.resolveSectorCoordinateFromGlobalPoint(point),
     resolveVisibleContent: (x, y) => solar.resolveVisibleContent(x, y, state),
     getSolarSnapshot: () => solar.createSolarSnapshot(state),
     getWheelCoordinateReport: () => solar.collectWheelCoordinateReport(state),
     getVisibleCoordinateReport: () => solar.collectVisibleCoordinateReport(state),
     getVisibleCoordinateGroups: () => solar.collectVisibleCoordinateGroups(state),
-    getRocketCoordinates: () => structuredClone(rocketState.rockets),
+    getRocketCoordinates: () => structuredClone(rocketState.rockets.map(createRocketSnapshot)),
     getSavedRocketCoordinates: () => structuredClone(rocketState.savedCoordinates),
     getState: () => structuredClone({
       ...state,
-      rockets: rocketState.rockets,
+      rockets: rocketState.rockets.map(createRocketSnapshot),
       savedRocketCoordinates: rocketState.savedCoordinates,
       setup: getSetupState(),
       solarSystem: solar.createSolarSnapshot(state),

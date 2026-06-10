@@ -26,18 +26,52 @@
   )));
   const MOVING_WHEEL_IDS = Object.freeze([1, 2, 3]);
   const BOARD_RING_IDS = Object.freeze([1, 2, 3, 4, 5]);
+  const SECTOR_COORDINATE_RING_IDS = Object.freeze([1, 2, 3, 4, 5]);
+  const SECTOR_COORDINATE_X_IDS = Object.freeze([0, 1, 2, 3, 4, 5, 6, 7]);
   const GLOBAL_COORDINATE_SYSTEM = Object.freeze({
     size: 1000,
     center: 500,
     ringRadii: Object.freeze({
       0: 0,
-      1: 135,
-      2: 230,
-      3: 310,
-      4: 415,
+      1: 73.53,
+      2: 165.16,
+      3: 221.17,
+      4: 303.12,
       5: 485,
     }),
+    ringBoundaries: Object.freeze({
+      0: Object.freeze({ inner: 0, outer: 50 }),
+      1: Object.freeze({ inner: 50, outer: 119.35 }),
+      2: Object.freeze({ inner: 119.35, outer: 193.17 }),
+      3: Object.freeze({ inner: 193.17, outer: 262.15 }),
+      4: Object.freeze({ inner: 262.15, outer: 332.15 }),
+      5: Object.freeze({ inner: 332.15, outer: 500 }),
+    }),
+    sectorCoordinateRings: Object.freeze([1, 2, 3, 4, 5]),
+    sectorAngleSize: 45,
+    sectorAngleOrigin: -90,
+    angleZero: "right",
+    angleDirection: "clockwise",
   });
+  const LAUNCH_SLOTS_PER_SECTOR = 9;
+  // 每个扇区内 3（径向）× 3（角向）的发射位网格；分数取在边界内侧，留出火箭宽度的余量。
+  const LAUNCH_RADIAL_FRACTIONS = Object.freeze([0.28, 0.5, 0.72]);
+  const LAUNCH_ANGULAR_FRACTIONS = Object.freeze([0.22, 0.5, 0.78]);
+  // 行优先 3×3 编号：索引 = 径向行*3 + 角向列；径向行 0=近太阳、2=远太阳。4 号为正中心。
+  const LAUNCH_SLOT_LAYOUT = Object.freeze([
+    Object.freeze([0, 0]),
+    Object.freeze([0, 1]),
+    Object.freeze([0, 2]),
+    Object.freeze([1, 0]),
+    Object.freeze([1, 1]),
+    Object.freeze([1, 2]),
+    Object.freeze([2, 0]),
+    Object.freeze([2, 1]),
+    Object.freeze([2, 2]),
+  ]);
+  // 放置优先顺序：中心 -> 四角 -> 四边。
+  const LAUNCH_SLOT_PRIORITY = Object.freeze([4, 0, 2, 6, 8, 1, 3, 5, 7]);
+
   const COUNTED_CONTENT_KINDS = new Set([
     layout.CONTENT_KIND.PLANET,
     layout.CONTENT_KIND.ASTEROID,
@@ -57,6 +91,13 @@
 
   function roundGlobalCoordinate(value) {
     return Math.round(Number(value) * 100) / 100;
+  }
+
+  function normalizePolarAngle(angleDegrees) {
+    let angle = Number(angleDegrees);
+    while (angle < -90) angle += 360;
+    while (angle >= 270) angle -= 360;
+    return roundGlobalCoordinate(angle);
   }
 
   function deepClone(value) {
@@ -182,6 +223,267 @@
       x: roundGlobalCoordinate(GLOBAL_COORDINATE_SYSTEM.center + Math.cos(angle) * radius),
       y: roundGlobalCoordinate(GLOBAL_COORDINATE_SYSTEM.center + Math.sin(angle) * radius),
     };
+  }
+
+  function solarGridToPolarPoint(displayX, y) {
+    const ring = Number(y);
+    const radius = GLOBAL_COORDINATE_SYSTEM.ringRadii[ring];
+
+    if (radius === undefined) {
+      throw new Error(`Unknown solar ring: ${y}`);
+    }
+
+    return {
+      radius,
+      angleDegrees: ring === 0 ? 0 : normalizePolarAngle(-67.5 + mod8(displayX) * 45),
+    };
+  }
+
+  function polarToGlobalPoint(radius, angleDegrees) {
+    const angle = angleDegrees * (Math.PI / 180);
+    return {
+      x: roundGlobalCoordinate(GLOBAL_COORDINATE_SYSTEM.center + Math.cos(angle) * radius),
+      y: roundGlobalCoordinate(GLOBAL_COORDINATE_SYSTEM.center + Math.sin(angle) * radius),
+    };
+  }
+
+  function globalPointToPolarPoint(point) {
+    const dx = Number(point.x) - GLOBAL_COORDINATE_SYSTEM.center;
+    const dy = Number(point.y) - GLOBAL_COORDINATE_SYSTEM.center;
+
+    return {
+      radius: roundGlobalCoordinate(Math.sqrt(dx * dx + dy * dy)),
+      angleDegrees: normalizePolarAngle(Math.atan2(dy, dx) * (180 / Math.PI)),
+    };
+  }
+
+  function getUnwrappedCardinalAngles(startAngle, endAngle) {
+    const cardinals = [0, 90, 180, 270, 360];
+    const result = [];
+
+    for (const cardinal of cardinals) {
+      for (let offset = -360; offset <= 360; offset += 360) {
+        const angle = cardinal + offset;
+        if (angle > startAngle && angle < endAngle) {
+          result.push(angle);
+        }
+      }
+    }
+
+    return [...new Set(result)];
+  }
+
+  function getPointBounds(points) {
+    return {
+      minX: roundGlobalCoordinate(Math.min(...points.map((point) => point.x))),
+      minY: roundGlobalCoordinate(Math.min(...points.map((point) => point.y))),
+      maxX: roundGlobalCoordinate(Math.max(...points.map((point) => point.x))),
+      maxY: roundGlobalCoordinate(Math.max(...points.map((point) => point.y))),
+    };
+  }
+
+  function getSolarCellBoundary(displayX, y) {
+    const ring = Number(y);
+    const normalizedX = ring === 0 ? 0 : mod8(displayX);
+    const radiusRange = GLOBAL_COORDINATE_SYSTEM.ringBoundaries[ring];
+    const center = solarGridToGlobalPoint(normalizedX, ring);
+
+    if (!radiusRange) {
+      throw new Error(`Unknown solar ring: ${y}`);
+    }
+
+    if (ring === 0) {
+      return {
+        coordinate: { x: 0, y: 0 },
+        shape: "circle",
+        center,
+        polarCenter: solarGridToPolarPoint(0, 0),
+        radiusRange: {
+          inner: radiusRange.inner,
+          outer: radiusRange.outer,
+        },
+        angleRangeDegrees: null,
+        polarBoundary: {
+          innerRadius: radiusRange.inner,
+          outerRadius: radiusRange.outer,
+          startAngleDegrees: -90,
+          endAngleDegrees: 270,
+        },
+        corners: [],
+        boundingBox: {
+          minX: roundGlobalCoordinate(GLOBAL_COORDINATE_SYSTEM.center - radiusRange.outer),
+          minY: roundGlobalCoordinate(GLOBAL_COORDINATE_SYSTEM.center - radiusRange.outer),
+          maxX: roundGlobalCoordinate(GLOBAL_COORDINATE_SYSTEM.center + radiusRange.outer),
+          maxY: roundGlobalCoordinate(GLOBAL_COORDINATE_SYSTEM.center + radiusRange.outer),
+        },
+      };
+    }
+
+    const halfAngle = GLOBAL_COORDINATE_SYSTEM.sectorAngleSize / 2;
+    const centerAngle = -67.5 + normalizedX * GLOBAL_COORDINATE_SYSTEM.sectorAngleSize;
+    const startAngle = centerAngle - halfAngle;
+    const endAngle = centerAngle + halfAngle;
+    const corners = [
+      polarToGlobalPoint(radiusRange.inner, startAngle),
+      polarToGlobalPoint(radiusRange.outer, startAngle),
+      polarToGlobalPoint(radiusRange.outer, endAngle),
+      polarToGlobalPoint(radiusRange.inner, endAngle),
+    ];
+    const boundPoints = [
+      ...corners,
+      ...getUnwrappedCardinalAngles(startAngle, endAngle)
+        .map((angle) => polarToGlobalPoint(radiusRange.outer, angle)),
+    ];
+
+    return {
+      coordinate: { x: normalizedX, y: ring },
+      shape: "annular-sector",
+      center,
+      polarCenter: solarGridToPolarPoint(normalizedX, ring),
+      radiusRange: {
+        inner: radiusRange.inner,
+        outer: radiusRange.outer,
+      },
+      angleRangeDegrees: {
+        start: roundGlobalCoordinate(startAngle),
+        center: roundGlobalCoordinate(centerAngle),
+        end: roundGlobalCoordinate(endAngle),
+      },
+      polarBoundary: {
+        innerRadius: radiusRange.inner,
+        outerRadius: radiusRange.outer,
+        startAngleDegrees: roundGlobalCoordinate(startAngle),
+        endAngleDegrees: roundGlobalCoordinate(endAngle),
+      },
+      corners,
+      boundingBox: getPointBounds(boundPoints),
+    };
+  }
+
+  function getSectorCoordinateBoundary(displayX, y) {
+    const ring = Number(y);
+    if (!SECTOR_COORDINATE_RING_IDS.includes(ring)) {
+      throw new Error(`Sector coordinate y must be one of 1..5: ${y}`);
+    }
+
+    const normalizedX = mod8(displayX);
+    const boundary = getSolarCellBoundary(normalizedX, ring);
+
+    return {
+      sectorCoordinate: { x: normalizedX, y: ring },
+      polarCenter: boundary.polarCenter,
+      boardCenter: boundary.center,
+      polarBoundary: {
+        innerRadius: boundary.polarBoundary.innerRadius,
+        outerRadius: boundary.polarBoundary.outerRadius,
+        startAngleDegrees: boundary.polarBoundary.startAngleDegrees,
+        endAngleDegrees: boundary.polarBoundary.endAngleDegrees,
+      },
+      radialWidth: roundGlobalCoordinate(
+        boundary.polarBoundary.outerRadius - boundary.polarBoundary.innerRadius,
+      ),
+      angleWidthDegrees: roundGlobalCoordinate(
+        boundary.polarBoundary.endAngleDegrees - boundary.polarBoundary.startAngleDegrees,
+      ),
+      corners: boundary.corners,
+      boundingBox: boundary.boundingBox,
+    };
+  }
+
+  function collectSectorCoordinateBoundaries() {
+    return SECTOR_COORDINATE_RING_IDS.flatMap((y) => (
+      SECTOR_COORDINATE_X_IDS.map((x) => getSectorCoordinateBoundary(x, y))
+    ));
+  }
+
+  function getSectorLaunchSlots(displayX, y) {
+    const { polarBoundary } = getSectorCoordinateBoundary(displayX, y);
+    const radialSpan = polarBoundary.outerRadius - polarBoundary.innerRadius;
+    const angleSpan = polarBoundary.endAngleDegrees - polarBoundary.startAngleDegrees;
+
+    return LAUNCH_SLOT_LAYOUT.map(([radialRow, angularColumn], slotIndex) => {
+      const radius = roundGlobalCoordinate(
+        polarBoundary.innerRadius + LAUNCH_RADIAL_FRACTIONS[radialRow] * radialSpan,
+      );
+      const angleDegrees = normalizePolarAngle(
+        polarBoundary.startAngleDegrees + LAUNCH_ANGULAR_FRACTIONS[angularColumn] * angleSpan,
+      );
+
+      return {
+        slotIndex,
+        radialRow,
+        angularColumn,
+        radius,
+        angleDegrees,
+        board: polarToGlobalPoint(radius, angleDegrees),
+      };
+    });
+  }
+
+  function getSectorLaunchSlot(displayX, y, slotIndex) {
+    const slots = getSectorLaunchSlots(displayX, y);
+    const index = ((Number(slotIndex) % slots.length) + slots.length) % slots.length;
+    return slots[index];
+  }
+
+  function getSectorCoordinateRingIdForRadius(radius) {
+    const value = Number(radius);
+    const lastRing = SECTOR_COORDINATE_RING_IDS[SECTOR_COORDINATE_RING_IDS.length - 1];
+
+    for (const ring of SECTOR_COORDINATE_RING_IDS) {
+      const boundary = GLOBAL_COORDINATE_SYSTEM.ringBoundaries[ring];
+      const includesOuterEdge = ring === lastRing && value === boundary.outer;
+      if (value >= boundary.inner && (value < boundary.outer || includesOuterEdge)) {
+        return ring;
+      }
+    }
+
+    return null;
+  }
+
+  function getSectorCoordinateXIdForAngle(angleDegrees) {
+    const normalizedAngle = normalizePolarAngle(angleDegrees);
+    const offset = normalizedAngle - GLOBAL_COORDINATE_SYSTEM.sectorAngleOrigin;
+    const index = Math.floor(offset / GLOBAL_COORDINATE_SYSTEM.sectorAngleSize);
+    return mod8(index);
+  }
+
+  function resolveSectorCoordinateFromPolarPoint(point) {
+    const polar = {
+      radius: roundGlobalCoordinate(Number(point.radius)),
+      angleDegrees: normalizePolarAngle(point.angleDegrees),
+    };
+    const y = getSectorCoordinateRingIdForRadius(polar.radius);
+
+    if (!y) {
+      return {
+        sectorCoordinate: null,
+        polar,
+        reason: "outside-sector-coordinate-rings",
+      };
+    }
+
+    const x = getSectorCoordinateXIdForAngle(polar.angleDegrees);
+    const boundary = getSectorCoordinateBoundary(x, y);
+
+    return {
+      sectorCoordinate: { x, y },
+      polar,
+      boundary,
+    };
+  }
+
+  function resolveSectorCoordinateFromGlobalPoint(point) {
+    return resolveSectorCoordinateFromPolarPoint(globalPointToPolarPoint(point));
+  }
+
+  function collectSolarCellBoundaries() {
+    return [
+      getSolarCellBoundary(0, 0),
+      ...BOARD_RING_IDS.flatMap((y) => (
+        Array.from({ length: 8 }, (_, x) => getSolarCellBoundary(x, y))
+      )),
+    ];
   }
 
   function getBaseWheelCell(wheelId, baseX, y) {
@@ -592,6 +894,9 @@
         xAxes: deepClone(layout.X_AXES),
         rings: deepClone(layout.RINGS),
         slots: deepClone(layout.SLOT_DEFINITIONS),
+        global: deepClone(GLOBAL_COORDINATE_SYSTEM),
+        cellBoundaries: collectSolarCellBoundaries(),
+        sectorCoordinateBoundaries: collectSectorCoordinateBoundaries(),
       },
       rotation: {
         ...solar.rotation,
@@ -653,6 +958,10 @@
     VISIBLE_WHEEL_IDS,
     MOVING_WHEEL_IDS,
     BOARD_RING_IDS,
+    SECTOR_COORDINATE_RING_IDS,
+    SECTOR_COORDINATE_X_IDS,
+    LAUNCH_SLOTS_PER_SECTOR,
+    LAUNCH_SLOT_PRIORITY,
     GLOBAL_COORDINATE_SYSTEM,
     mod8,
     normalizeRotationState,
@@ -665,6 +974,17 @@
     toDisplayX,
     toBaseX,
     solarGridToGlobalPoint,
+    solarGridToPolarPoint,
+    polarToGlobalPoint,
+    globalPointToPolarPoint,
+    getSolarCellBoundary,
+    collectSolarCellBoundaries,
+    getSectorCoordinateBoundary,
+    collectSectorCoordinateBoundaries,
+    getSectorLaunchSlots,
+    getSectorLaunchSlot,
+    resolveSectorCoordinateFromPolarPoint,
+    resolveSectorCoordinateFromGlobalPoint,
     getBaseWheelCell,
     getWheelCellAtDisplayCoordinate,
     resolveVisibleContent,
