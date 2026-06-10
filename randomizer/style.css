@@ -4,25 +4,28 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+html {
   margin: 0;
-  height: 100%;
-  overflow: hidden;
+  min-height: 100%;
 }
 
 body {
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
   position: relative;
   background-image: url("../assets/core/background/page-background.jpg");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
 }
 
 .app-wrap {
   position: relative;
   margin: 0;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: stretch;
   justify-content: center;
@@ -163,12 +166,11 @@ body {
 }
 
 .board-shell {
-  flex: 1 1 0;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 0;
 }
 
 .wheel-wrap {
@@ -316,13 +318,30 @@ button.spin-button:hover {
   filter: brightness(1.1);
 }
 
+.planets-reference {
+  flex: 0 0 auto;
+  width: 100%;
+  margin-top: 6px;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.planets-reference img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1672 / 941;
+  object-fit: contain;
+}
+
 .button-wrap {
   flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
 }
 
 .sector-wrap {

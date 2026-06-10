@@ -25,6 +25,7 @@
     wheelWrap: document.getElementById("wheel-wrap"),
     tokenLayer: document.getElementById("token-layer"),
     buttonWrap: document.getElementById("button-wrap"),
+    planetsReference: document.getElementById("planets-reference"),
     wheels: {
       1: document.getElementById("wheel-1"),
       2: document.getElementById("wheel-2"),
@@ -55,6 +56,7 @@
     els.playerCommand.style.width = `${boardSize}px`;
     els.wheelWrap.style.width = `${boardSize}px`;
     els.wheelWrap.style.height = `${boardSize}px`;
+    els.planetsReference.style.width = `${boardSize}px`;
     els.buttonWrap.style.width = `${boardSize}px`;
   }
 
