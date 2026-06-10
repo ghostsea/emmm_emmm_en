@@ -48,8 +48,8 @@
     availableData: 6,
   });
   const DEFAULT_RESOURCES = Object.freeze({
-    credits: 0,
-    energy: 0,
+    credits: 10,
+    energy: 10,
     publicity: 0,
     availableData: 0,
     handSize: 0,
@@ -89,6 +89,7 @@
     const source = input || {};
     const color = normalizePlayerColor(source.color);
     const definition = PLAYER_COLORS[color];
+    const orbitCount = normalizeNumber(source.orbitCount, 0);
 
     return {
       id: source.id || `player-${color}`,
@@ -96,7 +97,59 @@
       colorLabel: definition.label,
       name: source.name || `${definition.label}玩家`,
       resources: normalizeResources(source.resources),
+      orbitCount: Number.isInteger(orbitCount) ? orbitCount : Math.round(orbitCount),
     };
+  }
+
+  function formatResourceCost(cost) {
+    const parts = [];
+    if (cost.credits != null) parts.push(`${cost.credits}信用点`);
+    if (cost.energy != null) parts.push(`${cost.energy}能量`);
+    if (cost.handSize != null) parts.push(`${cost.handSize}张牌`);
+    return parts.join(" + ");
+  }
+
+  function canAfford(player, cost) {
+    if (!player) return false;
+    const resources = player.resources || {};
+    const required = cost || {};
+
+    if (required.credits != null && resources.credits < required.credits) return false;
+    if (required.energy != null && resources.energy < required.energy) return false;
+    if (required.handSize != null && resources.handSize < required.handSize) return false;
+
+    return true;
+  }
+
+  function spendResources(player, cost) {
+    const required = cost || {};
+    if (!canAfford(player, required)) {
+      return {
+        ok: false,
+        message: `资源不足，需要 ${formatResourceCost(required)}`,
+      };
+    }
+
+    if (required.credits != null) player.resources.credits -= required.credits;
+    if (required.energy != null) player.resources.energy -= required.energy;
+    if (required.handSize != null) player.resources.handSize -= required.handSize;
+
+    return { ok: true, message: null };
+  }
+
+  function gainResources(player, gain) {
+    const reward = gain || {};
+    if (reward.credits != null) player.resources.credits += reward.credits;
+    if (reward.energy != null) player.resources.energy += reward.energy;
+    if (reward.handSize != null) player.resources.handSize += reward.handSize;
+    return player;
+  }
+
+  function incrementPlayerOrbitCount(playerState, playerId) {
+    const player = playerState.players.find((item) => item.id === playerId);
+    if (!player) return false;
+    player.orbitCount += 1;
+    return true;
   }
 
   function createPlayerState(input) {
@@ -132,5 +185,10 @@
     createPlayerState,
     getCurrentPlayer,
     getPlayerColorDefinition,
+    formatResourceCost,
+    canAfford,
+    spendResources,
+    gainResources,
+    incrementPlayerOrbitCount,
   });
 });

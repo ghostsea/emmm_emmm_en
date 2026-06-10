@@ -171,6 +171,29 @@
     return { ok: true, rocket, message };
   }
 
+  function setActiveRocket(rocketState, rocketId) {
+    const rocket = rocketState.rockets.find((item) => item.id === rocketId);
+    if (!rocket) {
+      const message = `火箭 R${rocketId} 不存在`;
+      rocketState.statusNote = message;
+      return { ok: false, rocket: null, message };
+    }
+
+    rocketState.activeRocketId = rocket.id;
+    return { ok: true, rocket, message: null };
+  }
+
+  function getRocketsForPlayer(rocketState, playerId) {
+    if (!playerId) return [...rocketState.rockets];
+    return rocketState.rockets.filter((rocket) => rocket.playerId === playerId);
+  }
+
+  function moveRocket(rocketState, rocketId, deltaX, deltaY) {
+    const activation = setActiveRocket(rocketState, rocketId);
+    if (!activation.ok) return activation;
+    return moveActiveRocket(rocketState, deltaX, deltaY);
+  }
+
   function moveActiveRocket(rocketState, deltaX, deltaY) {
     const rocket = rocketState.rockets.find((item) => item.id === rocketState.activeRocketId);
     if (!rocket) {
@@ -200,6 +223,30 @@
     return { ok: true, rocket, message };
   }
 
+  function getActiveRocket(rocketState) {
+    if (!rocketState?.activeRocketId) return null;
+    return rocketState.rockets.find((rocket) => rocket.id === rocketState.activeRocketId) || null;
+  }
+
+  function removeRocket(rocketState, rocketId) {
+    const index = rocketState.rockets.findIndex((rocket) => rocket.id === rocketId);
+    if (index === -1) {
+      const message = `火箭 R${rocketId} 不存在`;
+      rocketState.statusNote = message;
+      return { ok: false, rocketId, message };
+    }
+
+    rocketState.rockets.splice(index, 1);
+    if (rocketState.activeRocketId === rocketId) {
+      const next = rocketState.rockets[rocketState.rockets.length - 1];
+      rocketState.activeRocketId = next ? next.id : null;
+    }
+
+    const message = `移除 R${rocketId}`;
+    rocketState.statusNote = message;
+    return { ok: true, rocketId, message };
+  }
+
   function serializeSectorOccupancy(rocketState) {
     return Object.fromEntries(
       [...getSectorOccupancy(rocketState).entries()].map(([key, slots]) => [
@@ -224,7 +271,12 @@
     assignRocketToSlot,
     placeRocketByPriority,
     getRocketSectorCoordinate,
+    getActiveRocket,
+    setActiveRocket,
+    getRocketsForPlayer,
+    removeRocket,
     launchRocketAtSector,
+    moveRocket,
     moveActiveRocket,
     serializeSectorOccupancy,
   });

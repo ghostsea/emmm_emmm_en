@@ -4,6 +4,9 @@
   const solar = window.SetiSolarSystem;
   const players = window.SetiPlayers;
   const rocketActions = window.SetiRocketActions;
+  const planetStats = window.SetiPlanetStats;
+  const actions = window.SetiActions;
+  const quickTrades = window.SetiQuickTrades;
 
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
@@ -14,6 +17,7 @@
     currentPlayer: { color: players.DEFAULT_PLAYER_COLOR },
   });
   const rocketState = rocketActions.createRocketState();
+  const planetStatsState = planetStats.createPlanetStatsState();
 
   const els = {
     appWrap: document.querySelector(".app-wrap"),
@@ -21,11 +25,20 @@
     playerCommand: document.getElementById("player-command"),
     playerStats: document.getElementById("player-stats"),
     actionLaunchButton: document.getElementById("action-launch-button"),
+    actionOrbitButton: document.getElementById("action-orbit-button"),
+    actionLandButton: document.getElementById("action-land-button"),
+    actionQuickButton: document.getElementById("action-quick-button"),
+    quickActionsPanel: document.getElementById("quick-actions-panel"),
+    quickActionsTrades: document.getElementById("quick-actions-trades"),
+    quickMoveRocketSelect: document.getElementById("quick-move-rocket-select"),
+    quickMovePad: document.getElementById("quick-move-pad"),
+    alienPanels: document.querySelectorAll(".alien-panel"),
     reportDock: document.getElementById("report-dock"),
     wheelWrap: document.getElementById("wheel-wrap"),
     tokenLayer: document.getElementById("token-layer"),
     buttonWrap: document.getElementById("button-wrap"),
     planetsReference: document.getElementById("planets-reference"),
+    planetsReferenceImage: document.querySelector(".planets-reference img"),
     wheels: {
       1: document.getElementById("wheel-1"),
       2: document.getElementById("wheel-2"),
@@ -49,15 +62,31 @@
 
   function resize() {
     const h = window.innerHeight;
-    const chrome = els.playerCommand.offsetHeight + els.buttonWrap.offsetHeight + 24;
     const boardWidth = els.boardShell.clientWidth || window.innerWidth;
-    const boardHeight = h - chrome - 16;
+    const boardHeight = h - 160;
     const boardSize = Math.floor(Math.max(220, Math.min(boardWidth, boardHeight)));
     els.playerCommand.style.width = `${boardSize}px`;
     els.wheelWrap.style.width = `${boardSize}px`;
     els.wheelWrap.style.height = `${boardSize}px`;
     els.planetsReference.style.width = `${boardSize}px`;
     els.buttonWrap.style.width = `${boardSize}px`;
+    alignAlienPanelsToPlanets();
+  }
+
+  function alignAlienPanelsToPlanets() {
+    els.appWrap.style.removeProperty("--alien-panel-min-height");
+    if (window.innerWidth <= 1180 || els.alienPanels.length < 2 || !els.planetsReferenceImage) return;
+
+    const panels = [...els.alienPanels];
+    const firstPanel = panels[0].getBoundingClientRect();
+    const secondPanel = panels[1].getBoundingClientRect();
+    const planets = els.planetsReferenceImage.getBoundingClientRect();
+    const bottomGap = planets.bottom - secondPanel.bottom;
+
+    if (bottomGap <= 0) return;
+
+    const panelHeight = Math.ceil(firstPanel.height + bottomGap / panels.length);
+    els.appWrap.style.setProperty("--alien-panel-min-height", `${panelHeight}px`);
   }
 
   function setLogOpen(open) {
@@ -237,8 +266,151 @@
 
     return [
       "玩家状态",
-      `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 手牌=${resources.handSize} 分数=${resources.score}`,
+      `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 手牌=${resources.handSize} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
     ];
+  }
+
+  function getPlanetStatsReadoutLines() {
+    return [
+      "星球统计",
+      ...planetStats.formatPlanetStatsLines(planetStatsState),
+    ];
+  }
+
+  function createActionContext() {
+    return {
+      solarState,
+      playerState,
+      rocketState,
+      planetStatsState,
+      getEarthSectorCoordinate,
+      getPlanetLocations: () => solar.createSolarSnapshot(solarState).planetLocations,
+    };
+  }
+
+  function removeRocketElement(rocketId) {
+    const element = document.getElementById(`rocket-${rocketId}`);
+    if (element) element.remove();
+  }
+
+  function setActionButtonState(button, enabled, reason) {
+    button.disabled = !enabled;
+    button.classList.toggle("action-button-ready", enabled);
+    button.title = enabled ? "" : (reason || "当前无法执行此行动");
+    button.setAttribute("aria-disabled", String(!enabled));
+  }
+
+  function updateActionButtons() {
+    const context = createActionContext();
+    const launchCheck = actions.canExecute("launch", context);
+    const orbitCheck = actions.canExecute("orbit", context);
+    const landCheck = actions.canExecute("land", context);
+
+    setActionButtonState(els.actionLaunchButton, launchCheck.ok, launchCheck.message);
+    setActionButtonState(els.actionOrbitButton, orbitCheck.ok, orbitCheck.message);
+    setActionButtonState(els.actionLandButton, landCheck.ok, landCheck.message);
+    updateQuickPanel();
+  }
+
+  function isQuickPanelOpen() {
+    return !els.quickActionsPanel.hidden;
+  }
+
+  function setQuickPanelOpen(open) {
+    els.quickActionsPanel.hidden = !open;
+    els.actionQuickButton.setAttribute("aria-expanded", String(open));
+    els.actionQuickButton.classList.toggle("action-button-ready", open);
+    if (open) updateQuickPanel();
+  }
+
+  function toggleQuickPanel() {
+    setQuickPanelOpen(!isQuickPanelOpen());
+  }
+
+  function getSelectedQuickMoveRocketId() {
+    const value = Number(els.quickMoveRocketSelect.value);
+    return Number.isInteger(value) && value > 0 ? value : null;
+  }
+
+  function renderQuickMoveRocketOptions() {
+    const currentPlayer = getCurrentPlayer();
+    const rocketsForPlayer = rocketActions.getRocketsForPlayer(rocketState, currentPlayer.id);
+    const previous = getSelectedQuickMoveRocketId();
+    const options = rocketsForPlayer.map((rocket) => {
+      const option = document.createElement("option");
+      option.value = String(rocket.id);
+      option.textContent = `R${rocket.id}`;
+      return option;
+    });
+
+    els.quickMoveRocketSelect.replaceChildren(...options);
+
+    if (!options.length) {
+      const emptyOption = document.createElement("option");
+      emptyOption.value = "";
+      emptyOption.textContent = "暂无火箭";
+      els.quickMoveRocketSelect.append(emptyOption);
+      els.quickMoveRocketSelect.value = "";
+      els.quickMoveRocketSelect.disabled = true;
+      return;
+    }
+
+    els.quickMoveRocketSelect.disabled = false;
+    const keepPrevious = options.some((option) => Number(option.value) === previous);
+    const fallbackId = rocketState.activeRocketId && rocketsForPlayer.some((rocket) => rocket.id === rocketState.activeRocketId)
+      ? rocketState.activeRocketId
+      : rocketsForPlayer[rocketsForPlayer.length - 1].id;
+    els.quickMoveRocketSelect.value = String(keepPrevious ? previous : fallbackId);
+  }
+
+  function updateQuickTradeButtons() {
+    const context = createActionContext();
+    els.quickActionsTrades.querySelectorAll("[data-quick-trade]").forEach((button) => {
+      const tradeId = button.dataset.quickTrade;
+      const check = quickTrades.canExecuteTrade(tradeId, context);
+      button.disabled = !check.ok;
+      button.title = check.ok ? "" : (check.message || "当前无法兑换");
+    });
+  }
+
+  function updateQuickMoveControls() {
+    renderQuickMoveRocketOptions();
+    const hasRocket = getSelectedQuickMoveRocketId() != null;
+    els.quickMovePad.querySelectorAll("[data-move-x]").forEach((button) => {
+      button.disabled = !hasRocket;
+    });
+  }
+
+  function updateQuickPanel() {
+    if (!isQuickPanelOpen()) return;
+    updateQuickTradeButtons();
+    updateQuickMoveControls();
+  }
+
+  function runQuickTrade(tradeId) {
+    const result = quickTrades.executeTrade(tradeId, createActionContext());
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+    } else {
+      rocketState.statusNote = result.message;
+    }
+
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return result;
+  }
+
+  function runAction(actionId) {
+    const result = actions.execute(actionId, createActionContext());
+
+    if (result.rocket) renderRocketElement(result.rocket);
+    if (result.removedRocketId != null) removeRocketElement(result.removedRocketId);
+
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return result;
   }
 
   function getRocketCoordinateReadoutLines() {
@@ -290,21 +462,34 @@
   }
 
   function launchRocketForCurrentPlayer() {
-    const currentPlayer = getCurrentPlayer();
-    const earthSector = getEarthSectorCoordinate();
-    const result = rocketActions.launchRocketAtSector(rocketState, earthSector, {
-      playerId: currentPlayer.id,
-      color: currentPlayer.color,
-    });
+    runAction("launch");
+  }
 
+  function orbitForCurrentPlayer() {
+    runAction("orbit");
+  }
+
+  function landForCurrentPlayer() {
+    runAction("land");
+  }
+
+  function moveRocket(deltaX, deltaY, rocketId) {
+    const selectedRocketId = rocketId ?? getSelectedQuickMoveRocketId() ?? rocketState.activeRocketId;
+    if (!selectedRocketId) {
+      rocketState.statusNote = "请先选择要移动的火箭";
+      renderStateReadout();
+      return { ok: false, rocket: null, message: rocketState.statusNote };
+    }
+
+    const result = rocketActions.moveRocket(rocketState, selectedRocketId, deltaX, deltaY);
     if (result.rocket) renderRocketElement(result.rocket);
+    updateActionButtons();
     renderStateReadout();
+    return result;
   }
 
   function moveActiveRocket(deltaX, deltaY) {
-    const result = rocketActions.moveActiveRocket(rocketState, deltaX, deltaY);
-    if (result.rocket) renderRocketElement(result.rocket);
-    renderStateReadout();
+    return moveRocket(deltaX, deltaY, rocketState.activeRocketId);
   }
 
   function stepsToTransform(steps) {
@@ -355,6 +540,8 @@
       "",
       ...getPlayerReadoutLines(),
       "",
+      ...getPlanetStatsReadoutLines(),
+      "",
       "可见坐标",
       formatVisibleCoordinateGroups(snapshot.visibleCoordinateGroups),
       "",
@@ -404,6 +591,7 @@
     els.spinButton.classList.remove("pulsin");
     randomizeWheels();
     randomizeSectors();
+    updateActionButtons();
     renderStateReadout();
   }
 
@@ -415,11 +603,31 @@
     solarState.rotation = solar.applySolarOrbitRotation(solarState.rotation, count || 1);
     solarState.wheelSteps = solar.rotationToWheelSteps(solarState.rotation);
     renderWheels();
+    updateActionButtons();
     renderStateReadout();
   }
 
   els.spinButton.addEventListener("click", randomizeAll);
   els.actionLaunchButton.addEventListener("click", launchRocketForCurrentPlayer);
+  els.actionOrbitButton.addEventListener("click", orbitForCurrentPlayer);
+  els.actionLandButton.addEventListener("click", landForCurrentPlayer);
+  els.actionQuickButton.addEventListener("click", toggleQuickPanel);
+  els.quickActionsTrades.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-quick-trade]");
+    if (!button || button.disabled) return;
+    runQuickTrade(button.dataset.quickTrade);
+  });
+  els.quickMovePad.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-move-x]");
+    if (!button || button.disabled) return;
+    moveRocket(Number(button.dataset.moveX), Number(button.dataset.moveY));
+  });
+  els.quickMoveRocketSelect.addEventListener("change", () => {
+    const rocketId = getSelectedQuickMoveRocketId();
+    if (rocketId != null) rocketActions.setActiveRocket(rocketState, rocketId);
+    updateQuickMoveControls();
+    renderStateReadout();
+  });
   els.debugToggle.addEventListener("click", () => {
     setDebugOpen(els.appWrap.classList.contains("debug-collapsed"));
   });
@@ -430,7 +638,7 @@
   els.debugMovePad.addEventListener("click", (event) => {
     const button = event.target.closest("[data-move-x]");
     if (!button) return;
-    moveActiveRocket(Number(button.dataset.moveX), Number(button.dataset.moveY));
+    moveRocket(Number(button.dataset.moveX), Number(button.dataset.moveY));
   });
   els.logToggle.addEventListener("click", () => {
     setLogOpen(els.appWrap.classList.contains("log-collapsed"));
@@ -439,6 +647,7 @@
 
   setRocketAssetSize();
   renderPlayerStats();
+  updateActionButtons();
   resize();
   renderWheels();
   renderSectors();
@@ -449,6 +658,12 @@
     randomize: randomizeAll,
     rotateSolarOrbit,
     launchRocket: launchRocketForCurrentPlayer,
+    orbitRocket: orbitForCurrentPlayer,
+    landRocket: landForCurrentPlayer,
+    runAction,
+    runQuickTrade,
+    toggleQuickPanel,
+    moveRocket,
     moveActiveRocket,
     getSectorLaunchSlots: (x, y) => solar.getSectorLaunchSlots(x, y),
     getSectorLaunchSlot: (x, y, slotIndex) => solar.getSectorLaunchSlot(x, y, slotIndex),
@@ -472,11 +687,13 @@
     getVisibleCoordinateGroups: () => solar.collectVisibleCoordinateGroups(solarState),
     getRocketCoordinates: () => structuredClone(rocketState.rockets.map(createRocketSnapshot)),
     getPlayerState: () => structuredClone(playerState),
+    getPlanetStatsState: () => structuredClone(planetStatsState),
     getCurrentPlayer: () => structuredClone(getCurrentPlayer()),
     getState: () => structuredClone({
       ...solarState,
       players: playerState.players,
       currentPlayerId: playerState.currentPlayerId,
+      planetStats: planetStatsState,
       rockets: rocketState.rockets.map(createRocketSnapshot),
       setup: getSetupState(),
       solarSystem: solar.createSolarSnapshot(solarState),

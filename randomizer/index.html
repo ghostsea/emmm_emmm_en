@@ -8,20 +8,37 @@
 </head>
 <body>
   <div class="app-wrap debug-collapsed log-collapsed" id="app-wrap">
-    <aside class="debug-dock" id="debug-dock">
-      <button class="debug-toggle" type="button" id="debug-toggle" aria-controls="debug-panel" aria-expanded="false">调试</button>
-      <div class="debug-panel" id="debug-panel">
-        <div class="debug-actions">
-          <button class="debug-action-button" type="button" id="debug-rotate-button">旋转</button>
-          <button class="debug-action-button" type="button" id="debug-launch-button">发射</button>
+    <aside class="table-column table-column-left" aria-label="左侧游戏区域">
+      <section class="round-status-panel" aria-label="轮次和旋转状态">
+        <div class="round-status-circle">
+          <span class="round-status-title">轮次</span>
+          <span class="round-status-value">第 1 轮</span>
+          <span class="round-status-subtitle">旋转状态</span>
         </div>
-        <div class="debug-move-pad" id="debug-move-pad" aria-label="移动当前火箭">
-          <button class="debug-action-button debug-move-button" type="button" id="debug-move-up" data-move-x="0" data-move-y="1">外</button>
-          <button class="debug-action-button debug-move-button" type="button" id="debug-move-left" data-move-x="-1" data-move-y="0">逆</button>
-          <button class="debug-action-button debug-move-button" type="button" id="debug-move-right" data-move-x="1" data-move-y="0">顺</button>
-          <button class="debug-action-button debug-move-button" type="button" id="debug-move-down" data-move-x="0" data-move-y="-1">内</button>
+      </section>
+
+      <section class="table-panel public-card-panel" aria-label="公共牌区">
+        <div class="panel-title">公共牌区</div>
+        <div class="public-card-row">
+          <img class="public-card" src="../assets/cards/card_back.png" alt="公共牌背面 1" width="747" height="1040" decoding="async">
+          <img class="public-card" src="../assets/cards/card_back.png" alt="公共牌背面 2" width="747" height="1040" decoding="async">
+          <img class="public-card" src="../assets/cards/card_back.png" alt="公共牌背面 3" width="747" height="1040" decoding="async">
         </div>
-      </div>
+      </section>
+
+      <section class="table-panel alien-panel" aria-label="外星人 1">
+        <div class="alien-stack">
+          <img class="alien-back" src="../assets/aliens/back.png" alt="外星人 1 牌背" width="777" height="1415" decoding="async">
+          <img class="alien-state" src="../assets/aliens/state1.png" alt="外星人 1 状态" width="443" height="208" decoding="async">
+        </div>
+      </section>
+
+      <section class="table-panel alien-panel" aria-label="外星人 2">
+        <div class="alien-stack">
+          <img class="alien-back" src="../assets/aliens/back.png" alt="外星人 2 牌背" width="777" height="1415" decoding="async">
+          <img class="alien-state" src="../assets/aliens/state2.png" alt="外星人 2 状态" width="443" height="208" decoding="async">
+        </div>
+      </section>
     </aside>
 
     <main class="board-column">
@@ -29,13 +46,39 @@
         <div class="player-stats" id="player-stats" aria-live="polite"></div>
         <div class="action-bar" id="action-bar" aria-label="行动">
           <button class="action-button action-button-primary" type="button" id="action-launch-button">发射</button>
-          <button class="action-button" type="button" disabled>环绕</button>
-          <button class="action-button" type="button" disabled>登陆</button>
+          <button class="action-button" type="button" id="action-orbit-button">环绕</button>
+          <button class="action-button" type="button" id="action-land-button">登陆</button>
           <button class="action-button" type="button" disabled>扫描</button>
           <button class="action-button" type="button" disabled>分析</button>
           <button class="action-button" type="button" disabled>打牌</button>
           <button class="action-button" type="button" disabled>科技</button>
-          <button class="action-button" type="button" disabled>快速</button>
+          <button class="action-button" type="button" id="action-quick-button" aria-expanded="false" aria-controls="quick-actions-panel">快速</button>
+        </div>
+        <div class="quick-actions-panel" id="quick-actions-panel" hidden aria-label="快速行动">
+          <div class="quick-actions-row">
+            <span class="quick-actions-label">兑换</span>
+            <div class="quick-actions-trades" id="quick-actions-trades">
+              <button class="quick-trade-button" type="button" data-quick-trade="credits-for-energy">2信用点 → 1能量</button>
+              <button class="quick-trade-button" type="button" data-quick-trade="credits-for-card">2信用点 → 1张牌</button>
+              <button class="quick-trade-button" type="button" data-quick-trade="cards-for-credit">2张牌 → 1信用点</button>
+              <button class="quick-trade-button" type="button" data-quick-trade="cards-for-energy">2张牌 → 1能量</button>
+              <button class="quick-trade-button" type="button" data-quick-trade="energy-for-card">2能量 → 1张牌</button>
+              <button class="quick-trade-button" type="button" data-quick-trade="energy-for-credit">2能量 → 1信用点</button>
+            </div>
+          </div>
+          <div class="quick-actions-row">
+            <span class="quick-actions-label">移动</span>
+            <select class="quick-move-select" id="quick-move-rocket-select" aria-label="选择要移动的火箭"></select>
+            <div class="quick-move-pad" id="quick-move-pad" aria-label="移动所选火箭">
+              <button class="quick-move-button" type="button" data-move-x="0" data-move-y="1">外</button>
+              <button class="quick-move-button" type="button" data-move-x="-1" data-move-y="0">逆</button>
+              <button class="quick-move-button" type="button" data-move-x="1" data-move-y="0">顺</button>
+              <button class="quick-move-button" type="button" data-move-x="0" data-move-y="-1">内</button>
+            </div>
+          </div>
+        </div>
+        <div class="player-board-panel" aria-label="玩家版图">
+          <img src="../assets/core/player_board.png" alt="玩家版图" width="960" height="329" decoding="async">
         </div>
       </section>
 
@@ -74,16 +117,74 @@
       </div>
     </main>
 
+    <aside class="table-column table-column-right" aria-label="右侧游戏区域">
+      <section class="table-panel tech-panel" aria-label="待拿取科技信息">
+        <div class="panel-title">待拿取科技信息</div>
+        <div class="tech-rows">
+          <div class="tech-row">
+            <img class="tech-tile" src="../assets/tech_tile/blue1.png" alt="蓝色科技 1" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/blue2.png" alt="蓝色科技 2" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/blue3.png" alt="蓝色科技 3" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/blue4.png" alt="蓝色科技 4" width="175" height="246" decoding="async">
+          </div>
+          <div class="tech-row">
+            <img class="tech-tile" src="../assets/tech_tile/orange1.png" alt="橙色科技 1" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/orange2.png" alt="橙色科技 2" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/orange3.png" alt="橙色科技 3" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/orange4.png" alt="橙色科技 4" width="175" height="246" decoding="async">
+          </div>
+          <div class="tech-row">
+            <img class="tech-tile" src="../assets/tech_tile/purple1.png" alt="紫色科技 1" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/purple2.png" alt="紫色科技 2" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/purple3.png" alt="紫色科技 3" width="175" height="246" decoding="async">
+            <img class="tech-tile" src="../assets/tech_tile/purple4.png" alt="紫色科技 4" width="175" height="246" decoding="async">
+          </div>
+        </div>
+      </section>
+
+      <section class="table-panel opponents-panel" aria-label="其它玩家信息统计">
+        <div class="panel-title">其它玩家信息统计</div>
+        <div class="opponent-stat-grid">
+          <div class="opponent-stat-slot">玩家 2 状态</div>
+          <div class="opponent-stat-slot">玩家 3 状态</div>
+          <div class="opponent-stat-slot">玩家 4 状态</div>
+        </div>
+      </section>
+    </aside>
+
+    <aside class="debug-dock" id="debug-dock">
+      <button class="debug-toggle" type="button" id="debug-toggle" aria-controls="debug-panel" aria-expanded="false">调试</button>
+      <div class="debug-panel" id="debug-panel">
+        <div class="debug-actions">
+          <button class="debug-action-button" type="button" id="debug-rotate-button">旋转</button>
+          <button class="debug-action-button" type="button" id="debug-launch-button">发射</button>
+        </div>
+        <div class="debug-move-pad" id="debug-move-pad" aria-label="移动当前火箭">
+          <button class="debug-action-button debug-move-button" type="button" id="debug-move-up" data-move-x="0" data-move-y="1">外</button>
+          <button class="debug-action-button debug-move-button" type="button" id="debug-move-left" data-move-x="-1" data-move-y="0">逆</button>
+          <button class="debug-action-button debug-move-button" type="button" id="debug-move-right" data-move-x="1" data-move-y="0">顺</button>
+          <button class="debug-action-button debug-move-button" type="button" id="debug-move-down" data-move-x="0" data-move-y="-1">内</button>
+        </div>
+      </div>
+    </aside>
+
     <aside class="report-dock" id="report-dock">
       <button class="log-toggle" type="button" id="log-toggle" aria-controls="state-readout" aria-expanded="false">日志</button>
       <output class="state-readout" id="state-readout" aria-live="polite"></output>
     </aside>
   </div>
 
-  <script src="./solar-system/layout.js?v=player-actions-1"></script>
-  <script src="./solar-system/core.js?v=player-actions-1"></script>
-  <script src="./game/players.js?v=player-actions-1"></script>
-  <script src="./game/rockets.js?v=player-actions-1"></script>
-  <script src="./app.js?v=player-actions-1"></script>
+  <script src="./solar-system/layout.js?v=player-actions-4"></script>
+  <script src="./solar-system/core.js?v=player-actions-4"></script>
+  <script src="./game/players.js?v=player-actions-4"></script>
+  <script src="./game/rockets.js?v=player-actions-4"></script>
+  <script src="./game/planet-stats.js?v=player-actions-4"></script>
+  <script src="./game/actions/shared.js?v=player-actions-4"></script>
+  <script src="./game/actions/launch.js?v=player-actions-4"></script>
+  <script src="./game/actions/orbit.js?v=player-actions-4"></script>
+  <script src="./game/actions/land.js?v=player-actions-4"></script>
+  <script src="./game/actions/index.js?v=player-actions-4"></script>
+  <script src="./game/actions/quick-trades.js?v=player-actions-4"></script>
+  <script src="./app.js?v=player-actions-4"></script>
 </body>
 </html>
