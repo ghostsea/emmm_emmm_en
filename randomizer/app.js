@@ -183,11 +183,12 @@
     return item;
   }
 
-  function createPlayerNameStat(player) {
+  function createPlayerNameStat(player, score) {
     const color = players.getPlayerColorDefinition(player.color);
     const item = document.createElement("span");
     const marker = document.createElement("span");
     const name = document.createElement("span");
+    const scoreEl = document.createElement("span");
 
     item.className = "player-stat player-stat-current";
     item.style.setProperty("--player-color", color.uiColor);
@@ -195,8 +196,18 @@
     marker.setAttribute("aria-hidden", "true");
     name.className = "player-stat-value";
     name.textContent = player.name;
+    scoreEl.className = "player-stat-score";
+    scoreEl.textContent = `分数 ${score}`;
 
-    item.append(marker, name);
+    item.append(marker, name, scoreEl);
+    return item;
+  }
+
+  function createStatSeparator() {
+    const item = document.createElement("span");
+    item.className = "player-stat-separator";
+    item.setAttribute("aria-hidden", "true");
+    item.textContent = "|";
     return item;
   }
 
@@ -205,13 +216,13 @@
     const resources = currentPlayer.resources;
     const limits = players.RESOURCE_LIMITS;
     const stats = [
-      createPlayerNameStat(currentPlayer),
+      createPlayerNameStat(currentPlayer, resources.score),
+      createStatSeparator(),
       createStatText("信用点", resources.credits),
       createStatText("能量", resources.energy),
       createStatText("宣传", `${resources.publicity}/${limits.publicity}`),
       createStatText("可用数据", `${resources.availableData}/${limits.availableData}`),
       createStatText("手牌", resources.handSize),
-      createStatText("分数", resources.score),
     ];
 
     els.playerStats.replaceChildren(...stats);
