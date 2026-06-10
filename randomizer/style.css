@@ -19,13 +19,23 @@ body {
 }
 
 .app-wrap {
-  margin: 0 auto;
+  margin: 0;
   width: 100%;
   height: 100%;
   display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
+  padding: 8px;
+}
+
+.board-column {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 6px 0 4px;
 }
 
 .board-shell {
@@ -241,13 +251,76 @@ button.spin-button:hover {
 }
 
 .state-readout {
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   display: block;
-  margin: 0 auto 8px;
-  padding: 0 16px;
-  max-width: 90%;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  padding: 12px 14px 14px;
+  overflow: auto;
   color: rgba(255, 255, 255, 0.75);
   font: 12px/1.5 Consolas, "SFMono-Regular", Menlo, monospace;
-  text-align: center;
+  text-align: left;
   white-space: pre-wrap;
+}
+
+.report-dock {
+  flex: 0 0 380px;
+  min-width: 0;
+  height: 100%;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(134, 202, 255, 0.28);
+  background: rgba(5, 13, 24, 0.78);
+  box-shadow: 0 0 18px rgba(22, 102, 169, 0.24);
+  overflow: hidden;
+  transition: flex-basis 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.log-toggle {
+  flex: 0 0 44px;
+  border: 0;
+  border-right: 1px solid rgba(134, 202, 255, 0.22);
+  background: rgba(20, 74, 112, 0.58);
+  color: rgba(255, 255, 255, 0.86);
+  cursor: pointer;
+  font: 700 13px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
+  letter-spacing: 0;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.log-toggle:hover {
+  background: rgba(49, 126, 171, 0.7);
+  color: #fff;
+}
+
+.log-collapsed .report-dock {
+  flex-basis: 44px;
+  border-color: rgba(134, 202, 255, 0.18);
+  background: rgba(5, 13, 24, 0.42);
+}
+
+.log-collapsed .state-readout {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .app-wrap {
+    gap: 6px;
+    padding: 6px;
+  }
+
+  .report-dock {
+    position: absolute;
+    inset: 6px 6px 6px auto;
+    z-index: 500;
+    width: min(86vw, 380px);
+    flex-basis: auto;
+  }
+
+  .log-collapsed .report-dock {
+    width: 44px;
+  }
 }

@@ -7,39 +7,46 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <div class="app-wrap">
-    <div class="board-shell" id="board-shell">
-    <div class="wheel-wrap" id="wheel-wrap">
-      <div class="fly-wrap fly-wrap-1">
-        <div class="wheel wheel1" id="wheel-1"></div>
-      </div>
-      <div class="fly-wrap fly-wrap-2">
-        <div class="wheel wheel2" id="wheel-2"></div>
-      </div>
-      <div class="fly-wrap fly-wrap-3">
-        <div class="wheel wheel3" id="wheel-3"></div>
-      </div>
-      <div class="fly-wrap fly-wrap-4">
-        <div class="wheel wheel4" id="wheel-4"></div>
+  <div class="app-wrap log-collapsed" id="app-wrap">
+    <main class="board-column">
+      <div class="board-shell" id="board-shell">
+        <div class="wheel-wrap" id="wheel-wrap">
+          <div class="fly-wrap fly-wrap-1">
+            <div class="wheel wheel1" id="wheel-1"></div>
+          </div>
+          <div class="fly-wrap fly-wrap-2">
+            <div class="wheel wheel2" id="wheel-2"></div>
+          </div>
+          <div class="fly-wrap fly-wrap-3">
+            <div class="wheel wheel3" id="wheel-3"></div>
+          </div>
+          <div class="fly-wrap fly-wrap-4">
+            <div class="wheel wheel4" id="wheel-4"></div>
+          </div>
+
+          <div class="sector-wrap" id="sector-wrap-1"></div>
+          <div class="sector-wrap" id="sector-wrap-2"></div>
+          <div class="sector-wrap" id="sector-wrap-3"></div>
+          <div class="sector-wrap" id="sector-wrap-4"></div>
+
+          <div class="sun" aria-hidden="true"></div>
+        </div>
       </div>
 
-      <div class="sector-wrap" id="sector-wrap-1"></div>
-      <div class="sector-wrap" id="sector-wrap-2"></div>
-      <div class="sector-wrap" id="sector-wrap-3"></div>
-      <div class="sector-wrap" id="sector-wrap-4"></div>
+      <div class="button-wrap" id="button-wrap">
+        <div class="connector" aria-hidden="true"></div>
+        <button class="spin-button pulsin" type="button" id="spin-button" aria-label="随机设置太阳系与扇区"></button>
+      </div>
+    </main>
 
-      <div class="sun" aria-hidden="true"></div>
-    </div>
-    </div>
-
-    <div class="button-wrap" id="button-wrap">
-      <div class="connector" aria-hidden="true"></div>
-      <button class="spin-button pulsin" type="button" id="spin-button" aria-label="随机设置太阳系与扇区"></button>
-    </div>
-
-    <output class="state-readout" id="state-readout" aria-live="polite"></output>
+    <aside class="report-dock" id="report-dock">
+      <button class="log-toggle" type="button" id="log-toggle" aria-controls="state-readout" aria-expanded="false">日志</button>
+      <output class="state-readout" id="state-readout" aria-live="polite"></output>
+    </aside>
   </div>
 
-  <script src="./app.js"></script>
+  <script src="./solar-system/layout.js?v=base-layout-1"></script>
+  <script src="./solar-system/core.js?v=base-layout-1"></script>
+  <script src="./app.js?v=base-layout-1"></script>
 </body>
 </html>
