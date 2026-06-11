@@ -4,22 +4,77 @@
   let placement = root.SetiDataPlacement;
   let state = root.SetiDataState;
   let render = root.SetiDataRender;
+  let nebulaPlacement = root.SetiNebulaDataPlacement;
+  let nebulaState = root.SetiNebulaDataState;
+  let nebulaRender = root.SetiNebulaDataRender;
 
   if (typeof require === "function") {
     placement = placement || require("./placement");
     state = state || require("./state");
     render = render || require("./render");
+    nebulaPlacement = nebulaPlacement || require("./nebula-placement");
+    nebulaState = nebulaState || require("./nebula-state");
+    nebulaRender = nebulaRender || require("./nebula-render");
   }
 
-  const api = factory(placement, state, render);
+  const api = factory(placement, state, render, nebulaPlacement, nebulaState, nebulaRender);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiData = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (placement, state, render) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (
+  placement,
+  state,
+  render,
+  nebulaPlacement,
+  nebulaState,
+  nebulaRender,
+) {
   "use strict";
+
+  function getNebulaReadoutLines(nebulaDataState) {
+    const stateSource = nebulaDataState || { nebulae: {} };
+    const lines = ["星云数据"];
+
+    for (const nebulaId of nebulaPlacement.NEBULA_IDS) {
+      const label = nebulaPlacement.getNebulaLabel(nebulaId);
+      const capacity = nebulaPlacement.getNebulaCapacity(nebulaId);
+      const tokens = nebulaState.listNebulaTokens(stateSource, nebulaId);
+      const tokensBySlot = new Map(tokens.map((token) => [token.slotIndex, token]));
+
+      lines.push(`[${label}] ${tokens.length}/${capacity}`);
+
+      for (const slot of nebulaPlacement.listNebulaSlotLayouts(nebulaId)) {
+        const token = tokensBySlot.get(slot.slotIndex) || null;
+        const layout = nebulaRender.getEffectiveNebulaSlotLayout(nebulaId, slot.slotIndex, token);
+        if (!layout) continue;
+        if (token) {
+          lines.push(
+            `  序号 ${token.index} 槽位${slot.slotIndex} 局部坐标 ${layout.percentX}%,${layout.percentY}%`,
+          );
+        } else {
+          lines.push(
+            `  槽位${slot.slotIndex} 局部坐标 ${layout.percentX}%,${layout.percentY}%`,
+          );
+        }
+      }
+    }
+
+    const overrides = nebulaRender.listNebulaSlotLayoutOverrides();
+    if (overrides.length) {
+      lines.push("[星云拖动校准]");
+      for (const item of overrides) {
+        const label = nebulaPlacement.getNebulaLabel(item.nebulaId);
+        lines.push(
+          `${label} 槽位${item.slotIndex} → 局部${item.percentX}%,${item.percentY}%`,
+        );
+      }
+    }
+
+    return lines;
+  }
 
   function getReadoutLines(playerState) {
     const currentPlayer = playerState?.players?.find((p) => p.id === playerState.currentPlayerId)
@@ -145,6 +200,35 @@
     bindDataTokenDragging: render.bindDataTokenDragging,
     renderPlayerDataTokens: render.renderPlayerDataTokens,
     resetPlayerDataTokens: render.resetPlayerDataTokens,
+    NEBULA_DATA_CAPACITY: nebulaPlacement.NEBULA_DATA_CAPACITY,
+    NEBULA_LABELS: nebulaPlacement.NEBULA_LABELS,
+    NEBULA_IDS: nebulaPlacement.NEBULA_IDS,
+    BOARD_SLOT_ROTATION: nebulaPlacement.BOARD_SLOT_ROTATION,
+    getNebulaPanelRegion: nebulaPlacement.getNebulaPanelRegion,
+    getBoardSlotRotation: nebulaPlacement.getBoardSlotRotation,
+    sectorImageToNebulaLocal: nebulaPlacement.sectorImageToNebulaLocal,
+    nebulaLocalToSectorImage: nebulaPlacement.nebulaLocalToSectorImage,
+    clientToSectorImagePercent: nebulaRender.clientToSectorImagePercent,
+    clientToNebulaLocalPercent: nebulaRender.clientToNebulaLocalPercent,
+    getNebulaLabel: nebulaPlacement.getNebulaLabel,
+    getNebulaCapacity: nebulaPlacement.getNebulaCapacity,
+    getNebulaDataSlotLayout: nebulaPlacement.getNebulaDataSlotLayout,
+    listNebulaIdsForSector: nebulaPlacement.listNebulaIdsForSector,
+    createDefaultNebulaDataState: nebulaState.createDefaultNebulaDataState,
+    normalizeNebulaDataState: nebulaState.normalizeNebulaDataState,
+    listNebulaTokens: nebulaState.listNebulaTokens,
+    listAllNebulaTokens: nebulaState.listAllNebulaTokens,
+    fillNebulaData: nebulaState.fillNebulaData,
+    fillAllNebulaData: nebulaState.fillAllNebulaData,
+    clearNebulaData: nebulaState.clearNebulaData,
+    updateNebulaTokenPosition: nebulaState.updateNebulaTokenPosition,
+    bindNebulaDataDragging: nebulaRender.bindNebulaDataDragging,
+    renderSectorNebulaData: nebulaRender.renderSectorNebulaData,
+    renderAllSectorNebulaData: nebulaRender.renderAllSectorNebulaData,
+    getEffectiveNebulaSlotLayout: nebulaRender.getEffectiveNebulaSlotLayout,
+    listNebulaSlotLayoutOverrides: nebulaRender.listNebulaSlotLayoutOverrides,
+    resetNebulaDataTokens: nebulaRender.resetNebulaDataTokens,
+    getNebulaReadoutLines,
     getReadoutLines,
   });
 });

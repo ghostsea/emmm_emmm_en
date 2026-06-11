@@ -374,6 +374,7 @@ body {
 }
 
 .public-card {
+  position: relative;
   display: block;
   flex: 0 0 auto;
   width: var(--public-card-width);
@@ -385,6 +386,15 @@ body {
   cursor: default;
   object-fit: contain;
   filter: drop-shadow(0 7px 10px rgba(0, 0, 0, 0.38));
+  transform-origin: bottom center;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.public-card:hover,
+.public-card:focus-visible {
+  z-index: 1000;
+  transform: translateY(-18px) scale(1.3);
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
 }
 
 .public-card img {
@@ -401,12 +411,18 @@ body {
 }
 
 .public-card-slot {
+  position: relative;
   flex: 0 0 auto;
   width: var(--public-card-width);
   height: var(--public-card-height);
   display: flex;
   align-items: flex-end;
   justify-content: center;
+}
+
+.public-card-slot:hover,
+.public-card-slot:focus-within {
+  z-index: 1000;
 }
 
 .public-card-slot.is-empty {
@@ -1049,6 +1065,7 @@ body {
   background: transparent;
   cursor: default;
   filter: drop-shadow(0 7px 10px rgba(0, 0, 0, 0.38));
+  transform-origin: bottom center;
   transition: transform 0.18s ease, filter 0.18s ease;
 }
 
@@ -1064,8 +1081,8 @@ body {
 .player-hand-card-button:hover:not(:disabled),
 .player-hand-card-button:focus-visible:not(:disabled) {
   z-index: 1000;
-  transform: translateY(-18px) scale(1.04);
-  filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48));
+  transform: translateY(-18px) scale(1.3);
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
 }
 
 .player-hand-card {
@@ -1080,6 +1097,7 @@ body {
   filter: drop-shadow(0 7px 10px rgba(0, 0, 0, 0.38));
   cursor: default;
   user-select: none;
+  transform-origin: bottom center;
   transition: transform 0.18s ease, filter 0.18s ease;
 }
 
@@ -1091,8 +1109,8 @@ body {
 .player-hand-card:hover,
 .player-hand-card:focus-visible {
   z-index: 1000;
-  transform: translateY(-18px) scale(1.04);
-  filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48));
+  transform: translateY(-18px) scale(1.3);
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
 }
 
 .player-hand-fan {
@@ -1105,7 +1123,7 @@ body {
   flex-wrap: nowrap;
   gap: 0;
   padding: 12px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .player-hand-fan.is-spread {
@@ -1670,6 +1688,37 @@ button.spin-button:hover {
   z-index: 250;
   pointer-events: none;
   transform-origin: center center;
+}
+
+.nebula-panel {
+  pointer-events: none;
+}
+
+.nebula-data-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.nebula-data-layer .nebula-data-token.nebula-data-token-positioned {
+  position: absolute;
+  /* 星云面板为 sector 宽度的 50%，17% ≈ 整张 sector 的 8.5%，与改版前一致 */
+  width: 17%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  z-index: 4;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.42));
+}
+
+.nebula-data-layer .nebula-data-token.nebula-data-token-positioned.is-dragging {
+  cursor: grabbing;
+  z-index: 12;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
 }
 
 #sector-wrap-1 {

@@ -54,6 +54,8 @@
     Object.freeze({ id: "right-middle", percentX: 76.68, percentY: 49.96 }),
   ]);
   const solarState = solar.createBaselineState();
+  const nebulaDataState = data.createDefaultNebulaDataState();
+  const sectorElements = {};
   const playerState = players.createPlayerState({
     currentPlayer: { color: players.DEFAULT_PLAYER_COLOR },
   });
@@ -121,6 +123,7 @@
     debugPickCardButton: document.getElementById("debug-pick-card-button"),
     debugDiscardCardButton: document.getElementById("debug-discard-card-button"),
     debugGainDataButton: document.getElementById("debug-gain-data-button"),
+    debugFillNebulaDataButton: document.getElementById("debug-fill-nebula-data-button"),
     debugCheatButton: document.getElementById("debug-cheat-button"),
     techPanel: document.getElementById("tech-panel"),
     techStage: document.getElementById("tech-stage"),
@@ -1291,7 +1294,7 @@
     const cardHeight = getPublicCardHeight() || 166;
     const cardWidth = cardHeight * (747 / 1040);
     const fanPadding = 36;
-    const hoverRoom = 24;
+    const hoverRoom = Math.ceil(cardHeight * 0.3) + 18;
     const minStackStep = Math.round(cardWidth * 0.26);
     const count = Number.isInteger(cardCount)
       ? cardCount
@@ -1969,6 +1972,39 @@
     return result;
   }
 
+  function fillDebugNebulaData() {
+    const result = data.fillAllNebulaData(nebulaDataState, { source: "debug" });
+    rocketState.statusNote = result.message;
+    renderSectors();
+    renderStateReadout();
+
+    if (result.ok) {
+      for (const fillResult of result.results || []) {
+        console.info("[星云数据填充]", fillResult.message);
+        for (const { token, layout } of fillResult.added || []) {
+          const label = data.getNebulaLabel(fillResult.nebulaId);
+          console.info(
+            `[星云坐标] ${label} 序号${token.index} 槽位${token.slotIndex}`
+            + ` → 局部${layout.percentX}%,${layout.percentY}%`,
+          );
+        }
+      }
+    } else {
+      console.info("[星云数据填充]", result.message);
+    }
+
+    return result;
+  }
+
+  function renderSectorNebulaDataBoard() {
+    for (const sectorId of [1, 2, 3, 4]) {
+      const sectorElement = sectorElements[sectorId];
+      if (sectorElement) {
+        data.renderSectorNebulaData(sectorId, sectorElement, nebulaDataState);
+      }
+    }
+  }
+
   function moveRocket(deltaX, deltaY, rocketId) {
     const selectedRocketId = rocketId ?? getSelectedQuickMoveRocketId() ?? rocketState.activeRocketId;
     if (!selectedRocketId) {
@@ -2061,6 +2097,10 @@
   }
 
   function renderSectors() {
+    for (const sectorId of [1, 2, 3, 4]) {
+      delete sectorElements[sectorId];
+    }
+
     for (let slot = 1; slot <= 4; slot += 1) {
       const wrap = els.sectorWraps[slot];
       wrap.innerHTML = "";
@@ -2069,8 +2109,13 @@
 
       const sector = document.createElement("div");
       sector.className = `sector sector-${sectorId}`;
+      sector.dataset.sectorId = String(sectorId);
+      sector.dataset.boardSlot = String(slot);
       wrap.appendChild(sector);
+      sectorElements[sectorId] = sector;
     }
+
+    renderSectorNebulaDataBoard();
   }
 
   function renderStateReadout() {
@@ -2102,15 +2147,13 @@
       "可见坐标",
       formatVisibleCoordinateGroups(snapshot.visibleCoordinateGroups),
       "",
-      ...getDefaultPlanetReferencePlacementLines(),
-      "",
-      ...getDefaultSatelliteReferencePlacementLines(),
-      "",
       ...getRocketCoordinateReadoutLines(),
       "",
       ...tech.getReadoutLines(techGameState, playerState),
       "",
       ...data.getReadoutLines(playerState),
+      "",
+      ...data.getNebulaReadoutLines(nebulaDataState),
     ].join("\n");
   }
 
@@ -2254,6 +2297,7 @@
   els.debugIncomeEffectButton?.addEventListener("click", () => beginIncomeForCurrentPlayer({ source: "debug" }));
   els.debugResolveIncomeButton?.addEventListener("click", executeIncomeForCurrentPlayer);
   els.debugGainDataButton?.addEventListener("click", addDebugData);
+  els.debugFillNebulaDataButton?.addEventListener("click", fillDebugNebulaData);
   els.debugPickCardButton?.addEventListener("click", beginCardSelection);
   els.publicBlindDrawButton?.addEventListener("click", handlePublicBlindDrawClick);
   els.publicCardRow?.addEventListener("click", (event) => {
@@ -2295,6 +2339,19 @@
       renderStateReadout();
     },
   });
+  data.bindNebulaDataDragging({
+    onPositionChange(payload) {
+      data.updateNebulaTokenPosition(
+        nebulaDataState,
+        payload.nebulaId,
+        payload.slotIndex,
+        payload,
+      );
+      rocketState.statusNote = payload.message;
+      console.info("[星云数据校准]", payload.message);
+      renderStateReadout();
+    },
+  });
   tech.bindSupplyTileClicks(techGameState, techRenderContext, els.techTiles, {
     onTileClick: handleSupplyTechTileClick,
   });
@@ -2331,6 +2388,8 @@
     addDebugIncome,
     executeIncomeForCurrentPlayer,
     addDebugData,
+    fillDebugNebulaData,
+    getNebulaSlotLayoutOverrides: () => structuredClone(data.listNebulaSlotLayoutOverrides()),
     placeDataToComputer: runPlaceDataToComputer,
     analyzeDataForCurrentPlayer,
     getDataSlotLayoutOverrides: () => structuredClone(data.listSlotLayoutOverrides()),
