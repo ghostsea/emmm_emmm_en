@@ -91,11 +91,15 @@
 
   function normalizeHandCard(card, index) {
     const source = card || {};
-    return {
+    const normalized = {
       id: source.id || `hand-card-${index}`,
       src: source.src || CARD_BACK_SRC,
       faceUp: Boolean(source.faceUp),
     };
+    if (Number.isInteger(source.cardIndex)) {
+      normalized.cardIndex = source.cardIndex;
+    }
+    return normalized;
   }
 
   function normalizeHand(sourceHand, handSize) {
@@ -126,6 +130,43 @@
     return result;
   }
 
+  function createDefaultPlayerTechState() {
+    return { ownedTiles: {}, blueBoardSlots: {} };
+  }
+
+  function normalizePlayerTechState(source) {
+    const ownedTiles = {};
+    const blueBoardSlots = {};
+
+    if (source?.ownedTiles && typeof source.ownedTiles === "object") {
+      for (const [tileId, owned] of Object.entries(source.ownedTiles)) {
+        if (owned) ownedTiles[tileId] = true;
+      }
+    }
+
+    const legacy = source?.ownedTileByType;
+    if (legacy && typeof legacy === "object") {
+      for (const tileId of [legacy.blue, legacy.orange, legacy.purple]) {
+        if (tileId) ownedTiles[tileId] = true;
+      }
+    }
+
+    if (source?.blueBoardSlots && typeof source.blueBoardSlots === "object") {
+      for (const [tileId, slot] of Object.entries(source.blueBoardSlots)) {
+        const normalizedSlot = Number(slot);
+        if (ownedTiles[tileId] && [1, 2, 3, 4].includes(normalizedSlot)) {
+          blueBoardSlots[tileId] = normalizedSlot;
+        }
+      }
+    }
+
+    if (Number.isInteger(source?.blueBoardSlot) && ownedTiles.blue) {
+      blueBoardSlots.blue = source.blueBoardSlot;
+    }
+
+    return { ownedTiles, blueBoardSlots };
+  }
+
   function createPlayer(input) {
     const source = input || {};
     const color = normalizePlayerColor(source.color);
@@ -143,6 +184,7 @@
       name: source.name || `${definition.label}玩家`,
       resources,
       hand,
+      techState: normalizePlayerTechState(source.techState),
       orbitCount: Number.isInteger(orbitCount) ? orbitCount : Math.round(orbitCount),
     };
   }
@@ -151,6 +193,7 @@
     const parts = [];
     if (cost.credits != null) parts.push(`${cost.credits}信用点`);
     if (cost.energy != null) parts.push(`${cost.energy}能量`);
+    if (cost.publicity != null) parts.push(`${cost.publicity}宣传`);
     if (cost.handSize != null) parts.push(`${cost.handSize}张牌`);
     return parts.join(" + ");
   }
@@ -162,6 +205,7 @@
 
     if (required.credits != null && resources.credits < required.credits) return false;
     if (required.energy != null && resources.energy < required.energy) return false;
+    if (required.publicity != null && resources.publicity < required.publicity) return false;
     if (required.handSize != null && resources.handSize < required.handSize) return false;
 
     return true;
@@ -178,6 +222,13 @@
 
     if (required.credits != null) player.resources.credits -= required.credits;
     if (required.energy != null) player.resources.energy -= required.energy;
+    if (required.publicity != null) {
+      player.resources.publicity = clamp(
+        player.resources.publicity - required.publicity,
+        0,
+        RESOURCE_LIMITS.publicity,
+      );
+    }
     if (required.handSize != null) {
       const removeCount = Math.max(0, Math.round(required.handSize));
       player.hand.splice(-removeCount, removeCount);
@@ -191,6 +242,7 @@
     const reward = gain || {};
     if (reward.credits != null) player.resources.credits += reward.credits;
     if (reward.energy != null) player.resources.energy += reward.energy;
+    if (reward.score != null) player.resources.score += reward.score;
     if (reward.publicity != null) {
       player.resources.publicity = clamp(
         player.resources.publicity + reward.publicity,
@@ -257,6 +309,8 @@
     getCurrentPlayer,
     getPlayerColorDefinition,
     formatResourceCost,
+    createDefaultPlayerTechState,
+    normalizePlayerTechState,
     canAfford,
     spendResources,
     gainResources,

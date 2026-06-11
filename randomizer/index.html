@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="./style.css?v=player-hand-5">
 </head>
 <body>
-  <div class="app-wrap debug-collapsed" id="app-wrap">
+  <div class="app-wrap debug-collapsed log-collapsed" id="app-wrap">
     <aside class="table-column table-column-left" aria-label="左侧游戏区域">
       <section class="round-status-panel" aria-label="轮次信息">
         <div class="round-status-frame">
@@ -63,6 +63,8 @@
       </div>
     </div>
 
+    <div class="tech-selection-backdrop" id="tech-selection-backdrop" hidden aria-hidden="true"></div>
+
     <div class="land-target-overlay" id="land-target-overlay" hidden>
       <div class="land-target-dialog" role="dialog" aria-modal="true" aria-labelledby="land-target-title">
         <p class="land-target-title" id="land-target-title">选择登陆目标</p>
@@ -85,7 +87,7 @@
           <button class="action-button" type="button" disabled>扫描</button>
           <button class="action-button" type="button" disabled>分析</button>
           <button class="action-button" type="button" disabled>打牌</button>
-          <button class="action-button" type="button" disabled>科技</button>
+          <button class="action-button" type="button" id="action-research-tech-button">科技</button>
           <button class="action-button" type="button" id="action-quick-button" aria-expanded="false" aria-controls="quick-actions-panel">快速</button>
         </div>
         <div class="quick-actions-panel" id="quick-actions-panel" hidden aria-label="快速行动">
@@ -160,8 +162,11 @@
     </main>
 
     <aside class="table-column table-column-right" aria-label="右侧游戏区域">
-      <section class="table-panel tech-panel" aria-label="待拿取科技信息">
-        <div class="panel-title">待拿取科技信息</div>
+      <section class="table-panel tech-panel" id="tech-panel" aria-label="待拿取科技信息">
+        <div class="tech-panel-header">
+          <div class="panel-title" id="tech-panel-title">待拿取科技信息</div>
+          <button class="tech-selection-cancel" type="button" id="tech-selection-cancel" hidden>取消</button>
+        </div>
         <div class="tech-stage" id="tech-stage">
           <div class="tech-row tech-row-blue">
             <div class="tech-slot" data-tech-slot="blue1">
@@ -309,7 +314,7 @@
           <button class="debug-action-button" type="button" id="debug-income-button">收入</button>
           <button class="debug-action-button" type="button" id="debug-draw-card-button">摸牌</button>
           <button class="debug-action-button" type="button" id="debug-discard-card-button">弃牌</button>
-          <button class="debug-action-button" type="button" id="debug-take-tech-button" aria-pressed="false">拿取科技</button>
+          <button class="debug-action-button" type="button" id="debug-cheat-button" aria-pressed="false">作弊</button>
         </div>
         <div class="debug-move-pad" id="debug-move-pad" aria-label="移动当前火箭">
           <button class="debug-action-button debug-move-button" type="button" id="debug-move-up" data-move-x="0" data-move-y="1">外</button>
@@ -321,7 +326,7 @@
     </aside>
 
     <aside class="report-dock" id="report-dock">
-      <button class="log-toggle" type="button" id="log-toggle" aria-controls="state-readout" aria-expanded="true">日志</button>
+      <button class="log-toggle" type="button" id="log-toggle" aria-controls="state-readout" aria-expanded="false">日志</button>
       <output class="state-readout" id="state-readout" aria-live="polite"></output>
     </aside>
   </div>
@@ -337,9 +342,17 @@
   <script src="./game/actions/launch.js?v=planet-tokens-11"></script>
   <script src="./game/actions/orbit.js?v=planet-tokens-11"></script>
   <script src="./game/actions/land.js?v=planet-tokens-11"></script>
-  <script src="./game/actions/index.js?v=planet-tokens-11"></script>
+  <script src="./game/tech/catalog.js?v=tech-module-1"></script>
+  <script src="./game/tech/board-state.js?v=tech-module-1"></script>
+  <script src="./game/tech/player-tech.js?v=tech-module-1"></script>
+  <script src="./game/tech/placement.js?v=tech-module-1"></script>
+  <script src="./game/tech/bonuses.js?v=tech-module-1"></script>
+  <script src="./game/tech/resolver.js?v=tech-module-1"></script>
+  <script src="./game/tech/render.js?v=tech-module-1"></script>
+  <script src="./game/tech/index.js?v=tech-module-1"></script>
+  <script src="./game/actions/research-tech.js?v=tech-module-1"></script>
+  <script src="./game/actions/index.js?v=tech-module-1"></script>
   <script src="./game/actions/quick-trades.js?v=planet-tokens-11"></script>
-  <script src="./game/tech.js?v=take-tech-3"></script>
-  <script src="./app.js?v=take-tech-3"></script>
+  <script src="./app.js?v=tech-module-1"></script>
 </body>
 </html>

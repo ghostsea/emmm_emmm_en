@@ -1,0 +1,92 @@
+[
+  {
+    "corner": "left_top",
+    "field": "discard_action_code",
+    "code": 0,
+    "color": "红",
+    "effect": "gain_publicity_1",
+    "description": "玩家获取一点宣传",
+    "regions": ""
+  },
+  {
+    "corner": "left_top",
+    "field": "discard_action_code",
+    "code": 1,
+    "color": "蓝",
+    "effect": "gain_data_1",
+    "description": "玩家获取一点数据",
+    "regions": ""
+  },
+  {
+    "corner": "left_top",
+    "field": "discard_action_code",
+    "code": 2,
+    "color": "灰",
+    "effect": "move_1",
+    "description": "玩家获取一次移动",
+    "regions": ""
+  },
+  {
+    "corner": "right_top",
+    "field": "scan_action_code",
+    "code": 0,
+    "color": "黄",
+    "effect": "place_signal",
+    "description": "室女座61或开普勒22区域信号",
+    "regions": "室女座61|开普勒22"
+  },
+  {
+    "corner": "right_top",
+    "field": "scan_action_code",
+    "code": 1,
+    "color": "红",
+    "effect": "place_signal",
+    "description": "巴纳德或比邻星区域信号",
+    "regions": "巴纳德|比邻星"
+  },
+  {
+    "corner": "right_top",
+    "field": "scan_action_code",
+    "code": 2,
+    "color": "蓝",
+    "effect": "place_signal",
+    "description": "天狼星A或南河三区域信号",
+    "regions": "天狼星A|南河三"
+  },
+  {
+    "corner": "right_top",
+    "field": "scan_action_code",
+    "code": 3,
+    "color": "黑",
+    "effect": "place_signal",
+    "description": "织女一或绘架座β区域信号",
+    "regions": "织女一|绘架座β"
+  },
+  {
+    "corner": "bottom_right",
+    "field": "income_code",
+    "code": 0,
+    "color": "黄",
+    "effect": "credit",
+    "description": "信用点收入",
+    "regions": ""
+  },
+  {
+    "corner": "bottom_right",
+    "field": "income_code",
+    "code": 1,
+    "color": "绿",
+    "effect": "energy",
+    "description": "能量收入",
+    "regions": ""
+  },
+  {
+    "corner": "bottom_right",
+    "field": "income_code",
+    "code": 2,
+    "color": "灰",
+    "effect": "blind_draw_card",
+    "description": "盲抽卡牌收入",
+    "regions": ""
+  }
+]

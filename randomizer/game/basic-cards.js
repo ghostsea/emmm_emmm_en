@@ -46,6 +46,27 @@
     return createBasicHandCard(pool[pickIndex], pickIndex);
   }
 
+  function getHandCardIndexes(hand) {
+    if (!Array.isArray(hand)) return [];
+    return hand
+      .map((card) => card?.cardIndex)
+      .filter((cardIndex) => Number.isInteger(cardIndex));
+  }
+
+  function drawRandomBasicCardToHand(hand, random = Math.random) {
+    if (!Array.isArray(hand)) {
+      return { ok: false, message: "手牌状态无效", card: null };
+    }
+
+    const card = pickRandomBasicCard(getHandCardIndexes(hand), random);
+    if (!card) {
+      return { ok: false, message: "牌库已无可用基础牌", card: null };
+    }
+
+    hand.push(card);
+    return { ok: true, message: null, card };
+  }
+
   function pickRandomBasicCards(count, random = Math.random) {
     const pool = buildBasicCardPool();
     const picked = [];
@@ -66,5 +87,7 @@
     createBasicHandCard,
     pickRandomBasicCard,
     pickRandomBasicCards,
+    getHandCardIndexes,
+    drawRandomBasicCardToHand,
   });
 });

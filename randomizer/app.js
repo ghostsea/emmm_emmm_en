@@ -40,7 +40,7 @@
   });
   const rocketState = rocketActions.createRocketState();
   const planetStatsState = planetStats.createPlanetStatsState();
-  const techState = tech.createState();
+  const techGameState = tech.createState();
   const techRenderContext = {
     supplyStage: null,
     supplySlots: {},
@@ -57,6 +57,7 @@
     actionLaunchButton: document.getElementById("action-launch-button"),
     actionOrbitButton: document.getElementById("action-orbit-button"),
     actionLandButton: document.getElementById("action-land-button"),
+    actionResearchTechButton: document.getElementById("action-research-tech-button"),
     actionQuickButton: document.getElementById("action-quick-button"),
     quickActionsPanel: document.getElementById("quick-actions-panel"),
     quickActionsTrades: document.getElementById("quick-actions-trades"),
@@ -91,8 +92,11 @@
     debugDrawCardButton: document.getElementById("debug-draw-card-button"),
     debugDiscardCardButton: document.getElementById("debug-discard-card-button"),
     debugMovePad: document.getElementById("debug-move-pad"),
-    debugTakeTechButton: document.getElementById("debug-take-tech-button"),
+    debugCheatButton: document.getElementById("debug-cheat-button"),
+    techPanel: document.getElementById("tech-panel"),
     techStage: document.getElementById("tech-stage"),
+    techSelectionBackdrop: document.getElementById("tech-selection-backdrop"),
+    techSelectionCancel: document.getElementById("tech-selection-cancel"),
     playerBoardTechLayer: document.getElementById("player-board-tech-layer"),
     techTiles: [...document.querySelectorAll(".tech-tile[data-tech-id]")],
     techBlueSlotOverlay: document.getElementById("tech-blue-slot-overlay"),
@@ -134,25 +138,37 @@
       .filter((cardIndex) => Number.isInteger(cardIndex));
   }
 
+  function drawBasicCardToPlayer(player) {
+    const target = player || getCurrentPlayer();
+    if (!target) {
+      return { ok: false, message: "没有当前玩家", card: null };
+    }
+
+    if (!Array.isArray(target.hand)) {
+      target.hand = [];
+    }
+
+    const drawResult = basicCards.drawRandomBasicCardToHand(target.hand);
+    if (!drawResult.ok) {
+      return drawResult;
+    }
+
+    target.resources.handSize = target.hand.length;
+    return drawResult;
+  }
+
   function drawCardForCurrentPlayer() {
-    const currentPlayer = getCurrentPlayer();
-    if (!currentPlayer) {
-      return { ok: false, message: "没有当前玩家" };
-    }
-
-    const card = basicCards.pickRandomBasicCard(getCurrentPlayerHandCardIndexes());
-    if (!card) {
-      rocketState.statusNote = "牌库已无可用基础牌";
+    const drawResult = drawBasicCardToPlayer();
+    if (!drawResult.ok) {
+      rocketState.statusNote = drawResult.message;
       renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
+      return drawResult;
     }
 
-    currentPlayer.hand.push(card);
-    currentPlayer.resources.handSize = currentPlayer.hand.length;
-    rocketState.statusNote = `摸牌：${card.src.split("/").pop()}`;
+    rocketState.statusNote = `摸牌：${drawResult.card.src.split("/").pop()}`;
     renderPlayerStats();
     renderStateReadout();
-    return { ok: true, card, message: rocketState.statusNote };
+    return { ok: true, card: drawResult.card, message: rocketState.statusNote };
   }
 
   function discardCardFromCurrentPlayer() {
@@ -184,7 +200,7 @@
     els.buttonWrap.style.width = `${boardSize}px`;
     layoutPlayerHandFan();
     alignAlienPanelsToPlanets();
-    tech.renderAll(techState, techRenderContext, els.techTiles);
+    renderTechBoard();
   }
 
   function syncTechRenderContext() {
@@ -226,12 +242,58 @@
     resize();
   }
 
+  function isTechActionSelectionActive() {
+    return Boolean(techGameState.ui.techSelectionActive);
+  }
+
+  function syncTechSelectionChrome() {
+    const active = isTechActionSelectionActive();
+    els.appWrap?.classList.toggle("tech-selection-active", active);
+    if (els.techSelectionBackdrop) {
+      els.techSelectionBackdrop.hidden = !active;
+      els.techSelectionBackdrop.setAttribute("aria-hidden", String(!active));
+    }
+    if (els.techSelectionCancel) {
+      els.techSelectionCancel.hidden = !active;
+    }
+    if (els.techPanel) {
+      els.techPanel.classList.toggle("tech-panel-focused", active);
+    }
+    if (active) setQuickPanelOpen(false);
+  }
+
+  function cancelTechSelection() {
+    tech.setTechSelectionActive(techGameState, false);
+    tech.cancelPendingTake(techGameState);
+    closeTechBlueSlotPicker();
+    techGameState.ui.statusNote = "";
+    rocketState.statusNote = "";
+    syncTechSelectionChrome();
+    renderTechBoard();
+    updateActionButtons();
+    renderStateReadout();
+  }
+
+  function renderTechBoard() {
+    syncTechRenderContext();
+    const currentPlayer = getCurrentPlayer();
+    tech.renderAll(techGameState, techRenderContext, els.techTiles, {
+      currentPlayer,
+      canTakeTile: (tileId) => {
+        if (!currentPlayer?.techState) return false;
+        if (!tech.isSupplySelectionActive(techGameState.ui)) return false;
+        return tech.resolver.canTakeTile(techGameState.board, currentPlayer.techState, tileId).ok;
+      },
+    });
+    syncTechSelectionChrome();
+  }
+
   function closeTechBlueSlotPicker() {
     if (!els.techBlueSlotOverlay) return;
-    tech.cancelBlueSlotChoice(techState);
+    tech.cancelPendingTake(techGameState);
     els.techBlueSlotOverlay.hidden = true;
     delete els.techBlueSlotOverlay.dataset.tileId;
-    tech.renderAll(techState, techRenderContext, els.techTiles);
+    renderTechBoard();
   }
 
   function openTechBlueSlotPicker(request) {
@@ -248,33 +310,84 @@
     }));
     els.techBlueSlotOverlay.dataset.tileId = request.tileId;
     els.techBlueSlotOverlay.hidden = false;
-    tech.renderAll(techState, techRenderContext, els.techTiles);
+    techGameState.ui.pendingTileId = request.tileId;
+    renderTechBoard();
+  }
+
+  function finalizeTechTakeResult(result) {
+    if (!result?.ok || result.needsBlueSlotChoice) return result;
+
+    tech.setTechSelectionActive(techGameState, false);
+    closeTechBlueSlotPicker();
+    syncTechSelectionChrome();
+    renderWheels();
+    renderRotateStateToken();
+    renderPlayerStats();
+    renderTechBoard();
+    updateActionButtons();
+    renderStateReadout();
+    return result;
   }
 
   function confirmTechBlueSlotChoice(blueSlot) {
     const tileId = els.techBlueSlotOverlay?.dataset.tileId;
     if (!tileId) return { ok: false, message: "没有待放置的蓝色科技" };
 
-    const result = tech.confirmBlueSlotChoice(techState, tileId, blueSlot);
-    if (result.ok) {
-      closeTechBlueSlotPicker();
-      tech.renderAll(techState, techRenderContext, els.techTiles);
-      renderStateReadout();
-    }
-    return result;
+    const result = tech.confirmBlueSlotChoice(createActionContext(), techGameState, tileId, blueSlot);
+    return finalizeTechTakeResult(result);
   }
 
-  function setTakeTechDebugOpen(open) {
-    syncTechRenderContext();
-    if (!open) closeTechBlueSlotPicker();
-    tech.setTakeTechDebugEnabled(techState, open);
-    els.debugTakeTechButton?.setAttribute("aria-pressed", String(open));
-    tech.renderAll(techState, techRenderContext, els.techTiles);
+  function handleSupplyTechTileClick(tileId) {
+    if (!tech.isSupplySelectionActive(techGameState.ui)) return;
+
+    const currentPlayer = getCurrentPlayer();
+    if (currentPlayer?.techState) {
+      const canTake = tech.resolver.canTakeTile(
+        techGameState.board,
+        currentPlayer.techState,
+        tileId,
+      );
+      if (!canTake.ok) {
+        techGameState.ui.statusNote = canTake.message;
+        rocketState.statusNote = canTake.message;
+        renderStateReadout();
+        return canTake;
+      }
+    }
+
+    const result = tech.requestTakeTech(createActionContext(), techGameState, tileId);
+    if (result.needsBlueSlotChoice) {
+      techGameState.ui.pendingTileId = tileId;
+      openTechBlueSlotPicker(result);
+      renderTechBoard();
+      renderStateReadout();
+      return result;
+    }
+
+    if (!result.ok) {
+      techGameState.ui.statusNote = result.message;
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+
+    rocketState.statusNote = result.message;
+    return finalizeTechTakeResult(result);
+  }
+
+  function setCheatModeOpen(open) {
+    tech.setCheatModeEnabled(techGameState, open);
+    els.debugCheatButton?.setAttribute("aria-pressed", String(open));
+    rocketState.statusNote = open ? "作弊模式：研究科技不消耗宣传" : "";
     renderStateReadout();
   }
 
-  function toggleTakeTechDebug() {
-    setTakeTechDebugOpen(!techState.takeTechDebugEnabled);
+  function toggleCheatMode() {
+    setCheatModeOpen(!techGameState.ui.cheatModeEnabled);
+  }
+
+  function researchTechForCurrentPlayer() {
+    return runAction("researchTech");
   }
 
   function getCurrentPlayer() {
@@ -790,8 +903,19 @@
       playerState,
       rocketState,
       planetStatsState,
+      techBoardState: techGameState.board,
+      techUiState: techGameState.ui,
+      techGameState,
       getEarthSectorCoordinate,
       getPlanetLocations: () => solar.createSolarSnapshot(solarState).planetLocations,
+      rotateSolarOrbit: (count) => rotateSolarOrbit(count),
+      drawBasicCardToPlayer: (player) => drawBasicCardToPlayer(player),
+      drawBasicCard: () => drawCardForCurrentPlayer(),
+      ensurePlayerTechState: (player) => {
+        if (!player.techState) {
+          player.techState = players.normalizePlayerTechState(null);
+        }
+      },
     };
   }
 
@@ -809,13 +933,30 @@
 
   function updateActionButtons() {
     const context = createActionContext();
+    const techSelectionLocked = isTechActionSelectionActive();
+    const selectionBlockReason = "请先拿取科技或点击取消";
+
+    if (techSelectionLocked) {
+      setActionButtonState(els.actionLaunchButton, false, selectionBlockReason);
+      setActionButtonState(els.actionOrbitButton, false, selectionBlockReason);
+      setActionButtonState(els.actionLandButton, false, selectionBlockReason);
+      setActionButtonState(els.actionResearchTechButton, false, selectionBlockReason);
+      setActionButtonState(els.actionQuickButton, false, selectionBlockReason);
+      renderQuickMoveRocketOptions();
+      updateQuickMoveControls();
+      updateQuickPanel();
+      return;
+    }
+
     const launchCheck = actions.canExecute("launch", context);
     const orbitCheck = actions.canExecute("orbit", context);
     const landCheck = actions.canExecute("land", context);
+    const researchTechCheck = actions.canExecute("researchTech", context);
 
     setActionButtonState(els.actionLaunchButton, launchCheck.ok, launchCheck.message);
     setActionButtonState(els.actionOrbitButton, orbitCheck.ok, orbitCheck.message);
     setActionButtonState(els.actionLandButton, landCheck.ok, landCheck.message);
+    setActionButtonState(els.actionResearchTechButton, researchTechCheck.ok, researchTechCheck.message);
     renderQuickMoveRocketOptions();
     updateQuickMoveControls();
     updateQuickPanel();
@@ -916,6 +1057,19 @@
     if (result.ok && result.markerKind) {
       if (result.removedRocketId != null) removeRocketElement(result.removedRocketId);
       syncPlanetOrbitLandMarkers();
+    } else if (actionId === "researchTech") {
+      if (result.awaitingTileSelection) {
+        rocketState.statusNote = result.message;
+        syncTechSelectionChrome();
+        renderTechBoard();
+        updateActionButtons();
+      } else if (result.tileId) {
+        rocketState.statusNote = result.message;
+        finalizeTechTakeResult(result);
+        return result;
+      } else if (!result.ok) {
+        rocketState.statusNote = result.message;
+      }
     } else {
       if (result.rocket) renderRocketElement(result.rocket);
       if (result.removedRocketId != null) removeRocketElement(result.removedRocketId);
@@ -1267,7 +1421,7 @@
       "",
       ...getRocketCoordinateReadoutLines(),
       "",
-      ...tech.getReadoutLines(techState),
+      ...tech.getReadoutLines(techGameState, playerState),
     ].join("\n");
   }
 
@@ -1325,8 +1479,8 @@
     randomizeWheels();
     randomizeSectors();
     randomizeFinalScores();
-    tech.randomizeSupplyBonuses(techState);
-    tech.renderAll(techState, techRenderContext, els.techTiles);
+    tech.setupBoardBonuses(techGameState);
+    renderTechBoard();
     updateActionButtons();
     renderStateReadout();
   }
@@ -1361,6 +1515,8 @@
   els.actionLaunchButton.addEventListener("click", launchRocketForCurrentPlayer);
   els.actionOrbitButton.addEventListener("click", orbitForCurrentPlayer);
   els.actionLandButton.addEventListener("click", landForCurrentPlayer);
+  els.actionResearchTechButton?.addEventListener("click", researchTechForCurrentPlayer);
+  els.techSelectionCancel?.addEventListener("click", cancelTechSelection);
   els.landTargetConfirm?.addEventListener("click", confirmLandTargetPicker);
   els.landTargetCancel?.addEventListener("click", closeLandTargetPicker);
   els.landTargetOverlay?.addEventListener("click", (event) => {
@@ -1393,7 +1549,7 @@
   els.debugIncomeButton.addEventListener("click", addDebugIncome);
   els.debugDrawCardButton?.addEventListener("click", drawCardForCurrentPlayer);
   els.debugDiscardCardButton?.addEventListener("click", discardCardFromCurrentPlayer);
-  els.debugTakeTechButton?.addEventListener("click", toggleTakeTechDebug);
+  els.debugCheatButton?.addEventListener("click", toggleCheatMode);
   els.techBlueSlotActions?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-blue-slot]");
     if (!button) return;
@@ -1410,14 +1566,8 @@
     }
   });
   syncTechRenderContext();
-  tech.bindSupplyTileClicks(techState, techRenderContext, els.techTiles, {
-    onBlueSlotChoiceRequested: openTechBlueSlotPicker,
-    onChange: (result) => {
-      if (result?.ok && !result.needsBlueSlotChoice) {
-        tech.renderAll(techState, techRenderContext, els.techTiles);
-      }
-      renderStateReadout();
-    },
+  tech.bindSupplyTileClicks(techGameState, techRenderContext, els.techTiles, {
+    onTileClick: handleSupplyTechTileClick,
   });
   els.debugMovePad.addEventListener("click", (event) => {
     const button = event.target.closest("[data-move-x]");
@@ -1433,6 +1583,7 @@
   window.addEventListener("pointercancel", handleRocketPointerUp);
 
   setTokenAssetSizes();
+  setLogOpen(false);
   seedPlayerHand(10);
   seedDefaultReferenceRockets();
   renderRotateStateToken();
@@ -1444,7 +1595,7 @@
   randomizeFinalScores();
   renderStateReadout();
   renderRockets();
-  tech.renderAll(techState, techRenderContext, els.techTiles);
+  renderTechBoard();
 
   window.SetiRandomizer = {
     randomize: randomizeAll,
@@ -1542,16 +1693,15 @@
       solarSystem: solar.createSolarSnapshot(solarState),
     }),
     getSetupState,
-    toggleTakeTechDebug,
-    getTechSnapshot: () => tech.getSnapshot(techState),
+    toggleCheatMode,
+    getTechSnapshot: () => tech.getSnapshot(techGameState),
+    researchTech: researchTechForCurrentPlayer,
     takeTechTile: (tileId, blueSlot) => {
       const result = blueSlot == null
-        ? tech.requestTakeTech(techState, tileId)
-        : tech.confirmBlueSlotChoice(techState, tileId, blueSlot);
-      if (result.ok) {
-        tech.renderAll(techState, techRenderContext, els.techTiles);
-        renderStateReadout();
-      }
+        ? tech.requestTakeTech(createActionContext(), techGameState, tileId)
+        : tech.confirmBlueSlotChoice(createActionContext(), techGameState, tileId, blueSlot);
+      if (result.ok && !result.needsBlueSlotChoice) finalizeTechTakeResult(result);
+      else renderStateReadout();
       return result;
     },
   };
