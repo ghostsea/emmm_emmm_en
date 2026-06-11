@@ -63,6 +63,8 @@
     handSize: 0,
     score: 0,
   });
+  const CARD_BACK_SRC = "../assets/cards/card_back.png";
+  let handCardSequence = 0;
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -76,6 +78,37 @@
   function normalizePlayerColor(color) {
     const key = String(color || DEFAULT_PLAYER_COLOR).toLowerCase();
     return PLAYER_COLORS[key] ? key : DEFAULT_PLAYER_COLOR;
+  }
+
+  function createHandCard(index) {
+    handCardSequence += 1;
+    return {
+      id: `hand-card-${handCardSequence}-${index}`,
+      src: CARD_BACK_SRC,
+      faceUp: false,
+    };
+  }
+
+  function normalizeHandCard(card, index) {
+    const source = card || {};
+    return {
+      id: source.id || `hand-card-${index}`,
+      src: source.src || CARD_BACK_SRC,
+      faceUp: Boolean(source.faceUp),
+    };
+  }
+
+  function normalizeHand(sourceHand, handSize) {
+    if (Array.isArray(sourceHand) && sourceHand.length > 0) {
+      return sourceHand.map(normalizeHandCard);
+    }
+
+    const count = Math.max(0, Math.round(normalizeNumber(handSize, 0)));
+    return Array.from({ length: count }, (_, index) => createHandCard(index));
+  }
+
+  function syncHandSize(player) {
+    player.resources.handSize = player.hand.length;
   }
 
   function normalizeResources(resources) {
@@ -98,13 +131,18 @@
     const color = normalizePlayerColor(source.color);
     const definition = PLAYER_COLORS[color];
     const orbitCount = normalizeNumber(source.orbitCount, 0);
+    const resources = normalizeResources(source.resources);
+    const hand = normalizeHand(source.hand, resources.handSize);
+
+    resources.handSize = hand.length;
 
     return {
       id: source.id || `player-${color}`,
       color,
       colorLabel: definition.label,
       name: source.name || `${definition.label}玩家`,
-      resources: normalizeResources(source.resources),
+      resources,
+      hand,
       orbitCount: Number.isInteger(orbitCount) ? orbitCount : Math.round(orbitCount),
     };
   }
@@ -140,7 +178,11 @@
 
     if (required.credits != null) player.resources.credits -= required.credits;
     if (required.energy != null) player.resources.energy -= required.energy;
-    if (required.handSize != null) player.resources.handSize -= required.handSize;
+    if (required.handSize != null) {
+      const removeCount = Math.max(0, Math.round(required.handSize));
+      player.hand.splice(-removeCount, removeCount);
+      syncHandSize(player);
+    }
 
     return { ok: true, message: null };
   }
@@ -163,7 +205,13 @@
         RESOURCE_LIMITS.availableData,
       );
     }
-    if (reward.handSize != null) player.resources.handSize += reward.handSize;
+    if (reward.handSize != null) {
+      const addCount = Math.max(0, Math.round(reward.handSize));
+      for (let index = 0; index < addCount; index += 1) {
+        player.hand.push(createHandCard(player.hand.length + index));
+      }
+      syncHandSize(player);
+    }
     return player;
   }
 
@@ -201,6 +249,7 @@
     DEFAULT_PLAYER_COLOR,
     RESOURCE_LIMITS,
     DEFAULT_RESOURCES,
+    CARD_BACK_SRC,
     normalizePlayerColor,
     normalizeResources,
     createPlayer,

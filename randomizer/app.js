@@ -8,6 +8,7 @@
   const planetReferenceLayout = window.SetiPlanetReferenceLayout;
   const actions = window.SetiActions;
   const quickTrades = window.SetiQuickTrades;
+  const basicCards = window.SetiBasicCards;
 
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
@@ -27,6 +28,22 @@
     land: "登陆",
     satellite: "卫星",
   });
+  const ROTATE_DISK_SIZE = Object.freeze({ width: 1984, height: 2122 });
+  const ROTATE_TOKEN_WIDTH_PERCENT = 27;
+  const ROTATE_STATE_SLOTS = Object.freeze([
+    Object.freeze({ id: "top-left", percentX: 34.81, percentY: 27.3 }),
+    Object.freeze({ id: "bottom-left", percentX: 34.15, percentY: 71.18 }),
+    Object.freeze({ id: "right-middle", percentX: 76.68, percentY: 49.96 }),
+  ]);
+  const rotateTokenLayout = {
+    slotId: ROTATE_STATE_SLOTS[0].id,
+    percentX: ROTATE_STATE_SLOTS[0].percentX,
+    percentY: ROTATE_STATE_SLOTS[0].percentY,
+  };
+  const rotateTokenDragState = {
+    isDragging: false,
+    element: null,
+  };
   const solarState = solar.createBaselineState();
   const playerState = players.createPlayerState({
     currentPlayer: { color: players.DEFAULT_PLAYER_COLOR },
@@ -39,6 +56,8 @@
     boardShell: document.getElementById("board-shell"),
     playerCommand: document.getElementById("player-command"),
     playerStats: document.getElementById("player-stats"),
+    playerHandPanel: document.getElementById("player-hand-panel"),
+    playerHandFan: document.getElementById("player-hand-fan"),
     actionLaunchButton: document.getElementById("action-launch-button"),
     actionOrbitButton: document.getElementById("action-orbit-button"),
     actionLandButton: document.getElementById("action-land-button"),
@@ -73,6 +92,8 @@
     debugRotateButton: document.getElementById("debug-rotate-button"),
     debugLaunchButton: document.getElementById("debug-launch-button"),
     debugIncomeButton: document.getElementById("debug-income-button"),
+    debugDrawCardButton: document.getElementById("debug-draw-card-button"),
+    debugDiscardCardButton: document.getElementById("debug-discard-card-button"),
     debugMovePad: document.getElementById("debug-move-pad"),
     logToggle: document.getElementById("log-toggle"),
     stateReadout: document.getElementById("state-readout"),
@@ -81,7 +102,72 @@
     landTargetSelect: document.getElementById("land-target-select"),
     landTargetConfirm: document.getElementById("land-target-confirm"),
     landTargetCancel: document.getElementById("land-target-cancel"),
+    roundStatusFrame: document.querySelector(".round-status-frame"),
+    roundStatusToken: document.getElementById("round-status-token"),
+    publicCardReference: document.querySelector(".public-card"),
   };
+
+  function getPublicCardHeight() {
+    const reference = els.publicCardReference;
+    if (!reference) return null;
+    const height = reference.getBoundingClientRect().height;
+    return height > 0 ? height : null;
+  }
+
+  function seedPlayerHand(count = 10) {
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer) return;
+
+    currentPlayer.hand = basicCards.pickRandomBasicCards(count);
+    currentPlayer.resources.handSize = currentPlayer.hand.length;
+  }
+
+  function getCurrentPlayerHandCardIndexes() {
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer || !Array.isArray(currentPlayer.hand)) return [];
+
+    return currentPlayer.hand
+      .map((card) => card.cardIndex)
+      .filter((cardIndex) => Number.isInteger(cardIndex));
+  }
+
+  function drawCardForCurrentPlayer() {
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer) {
+      return { ok: false, message: "没有当前玩家" };
+    }
+
+    const card = basicCards.pickRandomBasicCard(getCurrentPlayerHandCardIndexes());
+    if (!card) {
+      rocketState.statusNote = "牌库已无可用基础牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    currentPlayer.hand.push(card);
+    currentPlayer.resources.handSize = currentPlayer.hand.length;
+    rocketState.statusNote = `摸牌：${card.src.split("/").pop()}`;
+    renderPlayerStats();
+    renderStateReadout();
+    return { ok: true, card, message: rocketState.statusNote };
+  }
+
+  function discardCardFromCurrentPlayer() {
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer || !currentPlayer.hand.length) {
+      rocketState.statusNote = "手牌为空，无法弃牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const discarded = currentPlayer.hand.pop();
+    currentPlayer.resources.handSize = currentPlayer.hand.length;
+    const cardLabel = discarded.src?.split("/").pop() || discarded.id;
+    rocketState.statusNote = `弃牌：${cardLabel}`;
+    renderPlayerStats();
+    renderStateReadout();
+    return { ok: true, card: discarded, message: rocketState.statusNote };
+  }
 
   function resize() {
     const h = window.innerHeight;
@@ -93,6 +179,7 @@
     els.wheelWrap.style.height = `${boardSize}px`;
     els.planetsReference.style.width = `${boardSize}px`;
     els.buttonWrap.style.width = `${boardSize}px`;
+    layoutPlayerHandFan();
     alignAlienPanelsToPlanets();
   }
 
@@ -542,6 +629,59 @@
     return item;
   }
 
+  function layoutPlayerHandFan(cardCount) {
+    const fan = els.playerHandFan;
+    if (!fan) return;
+
+    const cardHeight = getPublicCardHeight() || 128;
+    const cardWidth = cardHeight * (747 / 1040);
+    const fanPadding = 28;
+    const hoverRoom = 18;
+    const count = Number.isInteger(cardCount)
+      ? cardCount
+      : fan.querySelectorAll(".player-hand-card").length;
+
+    fan.style.setProperty("--card-height", `${cardHeight}px`);
+    fan.style.setProperty("--card-width", `${cardWidth}px`);
+    fan.style.minHeight = `${cardHeight + fanPadding + hoverRoom}px`;
+    fan.classList.toggle("is-spread", count > 1);
+
+    if (!count) {
+      fan.style.setProperty("--card-step", `${cardWidth}px`);
+      return;
+    }
+
+    const padding = 24;
+    const available = Math.max(0, fan.clientWidth - padding);
+    const step = count > 1
+      ? Math.max(0, (available - cardWidth) / (count - 1))
+      : cardWidth;
+
+    fan.style.setProperty("--card-step", `${step}px`);
+  }
+
+  function renderPlayerHand() {
+    if (!els.playerHandFan || !els.playerHandPanel) return;
+
+    const currentPlayer = getCurrentPlayer();
+    const hand = Array.isArray(currentPlayer.hand) ? currentPlayer.hand : [];
+
+    els.playerHandPanel.classList.toggle("is-empty", hand.length === 0);
+    layoutPlayerHandFan(hand.length);
+    els.playerHandFan.replaceChildren(...hand.map((card, index) => {
+      const image = document.createElement("img");
+      image.className = "player-hand-card";
+      image.src = card.src || players.CARD_BACK_SRC;
+      image.alt = card.faceUp ? `手牌 ${index + 1}` : `手牌背面 ${index + 1}`;
+      image.width = 747;
+      image.height = 1040;
+      image.decoding = "async";
+      image.style.setProperty("--card-index", String(index + 1));
+      image.dataset.cardIndex = String(index);
+      return image;
+    }));
+  }
+
   function renderPlayerStats() {
     const currentPlayer = getCurrentPlayer();
     const resources = currentPlayer.resources;
@@ -557,6 +697,7 @@
     ];
 
     els.playerStats.replaceChildren(...stats);
+    renderPlayerHand();
   }
 
   function getPlayerReadoutLines() {
@@ -977,12 +1118,102 @@
     event.preventDefault();
   }
 
+  function roundRotateTokenPercent(value) {
+    return Math.round(Number(value) * 100) / 100;
+  }
+
+  function clampRotateTokenPercent(value) {
+    return roundRotateTokenPercent(Math.min(100, Math.max(0, Number(value))));
+  }
+
+  function applyRotateTokenPosition(percentX, percentY) {
+    rotateTokenLayout.percentX = clampRotateTokenPercent(percentX);
+    rotateTokenLayout.percentY = clampRotateTokenPercent(percentY);
+    if (!els.roundStatusToken) return;
+
+    els.roundStatusToken.style.setProperty("--rotate-token-x", `${rotateTokenLayout.percentX}%`);
+    els.roundStatusToken.style.setProperty("--rotate-token-y", `${rotateTokenLayout.percentY}%`);
+  }
+
+  function getRotateTokenImagePoint() {
+    return {
+      x: Math.round((rotateTokenLayout.percentX / 100) * ROTATE_DISK_SIZE.width),
+      y: Math.round((rotateTokenLayout.percentY / 100) * ROTATE_DISK_SIZE.height),
+    };
+  }
+
+  function getRotateStateTokenReadoutLines() {
+    const imagePoint = getRotateTokenImagePoint();
+    return [
+      `公转标记 [${rotateTokenLayout.slotId}] percentX=${rotateTokenLayout.percentX} percentY=${rotateTokenLayout.percentY} imageX=${imagePoint.x} imageY=${imagePoint.y} width=${ROTATE_TOKEN_WIDTH_PERCENT}%`,
+      `公转标记配置 Object.freeze({ id: "${rotateTokenLayout.slotId}", percentX: ${rotateTokenLayout.percentX}, percentY: ${rotateTokenLayout.percentY} }),`,
+    ];
+  }
+
+  function placeRotateTokenAtClientPosition(clientX, clientY) {
+    if (!els.roundStatusFrame) return;
+
+    const frame = els.roundStatusFrame.getBoundingClientRect();
+    if (!frame.width || !frame.height) return;
+
+    const percentX = ((clientX - frame.left) / frame.width) * 100;
+    const percentY = ((clientY - frame.top) / frame.height) * 100;
+    applyRotateTokenPosition(percentX, percentY);
+    renderStateReadout();
+  }
+
+  function handleRotateTokenPointerDown(event) {
+    if (!els.roundStatusToken) return;
+
+    rotateTokenDragState.isDragging = true;
+    rotateTokenDragState.element = event.currentTarget;
+    els.roundStatusToken.classList.add("is-dragging");
+    if (event.currentTarget.setPointerCapture) {
+      event.currentTarget.setPointerCapture(event.pointerId);
+    }
+
+    placeRotateTokenAtClientPosition(event.clientX, event.clientY);
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  function handleRotateTokenPointerMove(event) {
+    if (!rotateTokenDragState.isDragging) return;
+    placeRotateTokenAtClientPosition(event.clientX, event.clientY);
+  }
+
+  function handleRotateTokenPointerUp(event) {
+    if (!rotateTokenDragState.isDragging) return;
+
+    if (rotateTokenDragState.element?.releasePointerCapture) {
+      try {
+        rotateTokenDragState.element.releasePointerCapture(event.pointerId);
+      } catch (error) {
+        // Pointer capture may already be released by the browser.
+      }
+    }
+
+    rotateTokenDragState.isDragging = false;
+    rotateTokenDragState.element = null;
+    els.roundStatusToken?.classList.remove("is-dragging");
+    renderStateReadout();
+  }
+
   function handleRocketPointerMove(event) {
+    if (rotateTokenDragState.isDragging) {
+      handleRotateTokenPointerMove(event);
+      return;
+    }
     if (!rocketState.draggingRocketId) return;
     placeRocketAtClientPosition(rocketState.draggingRocketId, event.clientX, event.clientY);
   }
 
   function handleRocketPointerUp(event) {
+    if (rotateTokenDragState.isDragging) {
+      handleRotateTokenPointerUp(event);
+      return;
+    }
+
     const rocketId = rocketState.draggingRocketId;
     if (!rocketId) return;
 
@@ -1041,6 +1272,8 @@
       .map(([label, count]) => `${label}=${count}`)
       .join("  ");
     els.stateReadout.textContent = [
+      ...getRotateStateTokenReadoutLines(),
+      "",
       axisLine,
       `版图位置 ${wheelLine}`,
       `行星 ${planetLine}`,
@@ -1124,10 +1357,24 @@
     return solar.createSetupState(solarState);
   }
 
+  function getRotateStateSlotIndex(rotationCount) {
+    return ((Number(rotationCount) % ROTATE_STATE_SLOTS.length) + ROTATE_STATE_SLOTS.length) % ROTATE_STATE_SLOTS.length;
+  }
+
+  function renderRotateStateToken() {
+    if (!els.roundStatusToken) return;
+
+    const slot = ROTATE_STATE_SLOTS[getRotateStateSlotIndex(solarState.rotation.rotationCount)];
+    rotateTokenLayout.slotId = slot.id;
+    applyRotateTokenPosition(slot.percentX, slot.percentY);
+    els.roundStatusToken.dataset.slotId = slot.id;
+  }
+
   function rotateSolarOrbit(count) {
     solarState.rotation = solar.applySolarOrbitRotation(solarState.rotation, count || 1);
     solarState.wheelSteps = solar.rotationToWheelSteps(solarState.rotation);
     renderWheels();
+    renderRotateStateToken();
     updateActionButtons();
     renderStateReadout();
   }
@@ -1166,6 +1413,8 @@
   });
   els.debugLaunchButton.addEventListener("click", launchRocketForCurrentPlayer);
   els.debugIncomeButton.addEventListener("click", addDebugIncome);
+  els.debugDrawCardButton?.addEventListener("click", drawCardForCurrentPlayer);
+  els.debugDiscardCardButton?.addEventListener("click", discardCardFromCurrentPlayer);
   els.debugMovePad.addEventListener("click", (event) => {
     const button = event.target.closest("[data-move-x]");
     if (!button) return;
@@ -1178,9 +1427,12 @@
   window.addEventListener("pointermove", handleRocketPointerMove);
   window.addEventListener("pointerup", handleRocketPointerUp);
   window.addEventListener("pointercancel", handleRocketPointerUp);
+  els.roundStatusToken?.addEventListener("pointerdown", handleRotateTokenPointerDown);
 
   setTokenAssetSizes();
+  seedPlayerHand(10);
   seedDefaultReferenceRockets();
+  renderRotateStateToken();
   renderPlayerStats();
   updateActionButtons();
   resize();
@@ -1197,6 +1449,8 @@
     orbitRocket: orbitForCurrentPlayer,
     landRocket: landForCurrentPlayer,
     addDebugIncome,
+    drawCardForCurrentPlayer,
+    discardCardFromCurrentPlayer,
     runAction,
     runQuickTrade,
     toggleQuickPanel,

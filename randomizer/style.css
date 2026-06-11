@@ -94,6 +94,28 @@ body {
   filter: drop-shadow(0 7px 10px rgba(0, 0, 0, 0.38));
 }
 
+.round-status-token {
+  position: absolute;
+  left: var(--rotate-token-x, 34.81%);
+  top: var(--rotate-token-y, 27.3%);
+  width: 27%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  z-index: 2;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+  transition: left 0.28s ease, top 0.28s ease;
+}
+
+.round-status-token.is-dragging {
+  cursor: grabbing;
+  transition: none;
+}
+
 .round-status-circle {
   position: absolute;
   top: 50%;
@@ -370,6 +392,65 @@ body {
   height: auto;
   aspect-ratio: 960 / 329;
   object-fit: contain;
+}
+
+.player-hand-panel {
+  width: 100%;
+  padding-bottom: 12px;
+}
+
+.player-hand-fan {
+  --card-height: 128px;
+  --card-width: calc(var(--card-height) * 747 / 1040);
+  --card-step: 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 0;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.player-hand-fan.is-spread {
+  justify-content: flex-start;
+}
+
+.player-hand-panel.is-empty .player-hand-fan::after {
+  content: "暂无手牌";
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: var(--card-height, 128px);
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.player-hand-card {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--card-width);
+  height: var(--card-height);
+  object-fit: contain;
+  margin-left: calc(var(--card-step) - var(--card-width));
+  z-index: var(--card-index, 1);
+  filter: drop-shadow(0 7px 10px rgba(0, 0, 0, 0.38));
+  cursor: default;
+  user-select: none;
+  transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.player-hand-card:first-child {
+  margin-left: 0;
+}
+
+.player-hand-card:hover,
+.player-hand-card:focus-visible {
+  z-index: 1000;
+  transform: translateY(-14px) scale(1.04);
+  filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.48));
 }
 
 .action-button {

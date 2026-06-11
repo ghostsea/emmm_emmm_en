@@ -28,6 +28,8 @@ assert.equal(currentPlayer.resources.energy, 2);
 assert.equal(currentPlayer.resources.publicity, players.RESOURCE_LIMITS.publicity);
 assert.equal(currentPlayer.resources.availableData, players.RESOURCE_LIMITS.availableData);
 assert.equal(currentPlayer.resources.handSize, 5);
+assert.equal(currentPlayer.hand.length, 5);
+assert.equal(currentPlayer.hand[0].src, players.CARD_BACK_SRC);
 assert.equal(currentPlayer.resources.score, 12);
 assert.equal(currentPlayer.orbitCount, 0);
 assert.equal(players.getPlayerColorDefinition("green").rocketAsset, "../assets/tokens/rocket-green.png");
@@ -55,5 +57,14 @@ assert.equal(receiver.resources.credits, 101);
 assert.equal(receiver.resources.energy, 102);
 assert.equal(receiver.resources.publicity, players.RESOURCE_LIMITS.publicity);
 assert.equal(receiver.resources.availableData, players.RESOURCE_LIMITS.availableData);
+
+const handPlayer = players.createPlayer({ resources: { handSize: 0 } });
+players.gainResources(handPlayer, { handSize: 2 });
+assert.equal(handPlayer.resources.handSize, 2);
+assert.equal(handPlayer.hand.length, 2);
+const handSpend = players.spendResources(handPlayer, { handSize: 1 });
+assert.equal(handSpend.ok, true);
+assert.equal(handPlayer.resources.handSize, 1);
+assert.equal(handPlayer.hand.length, 1);
 
 console.log("player tests passed");

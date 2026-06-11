@@ -59,7 +59,7 @@ def split_sheet(
                 if output_size:
                     card = card.resize(output_size, Image.Resampling.LANCZOS)
 
-                if fmt in {"jpg", "webp"} and card.mode not in {"RGB", "L"}:
+                if fmt == "jpg" and card.mode not in {"RGB", "L"}:
                     card = card.convert("RGB")
 
                 name = name_template.format(

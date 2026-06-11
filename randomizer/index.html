@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=planet-tokens-11">
+  <link rel="stylesheet" href="./style.css?v=player-hand-4">
 </head>
 <body>
   <div class="app-wrap debug-collapsed" id="app-wrap">
@@ -12,6 +12,16 @@
       <section class="round-status-panel" aria-label="轮次信息">
         <div class="round-status-frame">
           <img class="round-status-bg" src="../assets/core/rotate.png" alt="" width="1984" height="2122" decoding="async" aria-hidden="true">
+          <img
+            class="round-status-token"
+            id="round-status-token"
+            src="../assets/tokens/rotate_state.png"
+            alt=""
+            width="512"
+            height="512"
+            decoding="async"
+            aria-hidden="true"
+          >
           <div class="round-status-circle">
             <span class="round-status-title">轮次</span>
             <span class="round-status-value">第 1 轮</span>
@@ -95,6 +105,10 @@
         <div class="player-board-panel" aria-label="玩家版图">
           <img src="../assets/core/player_board.png" alt="玩家版图" width="960" height="329" decoding="async">
         </div>
+        <section class="table-panel player-hand-panel" id="player-hand-panel" aria-label="玩家手牌区">
+          <div class="panel-title">玩家手牌区</div>
+          <div class="player-hand-fan" id="player-hand-fan"></div>
+        </section>
       </section>
 
       <div class="board-shell" id="board-shell">
@@ -185,6 +199,8 @@
           <button class="debug-action-button" type="button" id="debug-rotate-button">旋转</button>
           <button class="debug-action-button" type="button" id="debug-launch-button">发射</button>
           <button class="debug-action-button" type="button" id="debug-income-button">收入</button>
+          <button class="debug-action-button" type="button" id="debug-draw-card-button">摸牌</button>
+          <button class="debug-action-button" type="button" id="debug-discard-card-button">弃牌</button>
         </div>
         <div class="debug-move-pad" id="debug-move-pad" aria-label="移动当前火箭">
           <button class="debug-action-button debug-move-button" type="button" id="debug-move-up" data-move-x="0" data-move-y="1">外</button>
@@ -203,7 +219,8 @@
 
   <script src="./solar-system/layout.js?v=player-actions-4"></script>
   <script src="./solar-system/core.js?v=player-actions-4"></script>
-  <script src="./game/players.js?v=planet-tokens-1"></script>
+  <script src="./game/basic-cards.js?v=player-hand-3"></script>
+  <script src="./game/players.js?v=player-hand-1"></script>
   <script src="./game/rockets.js?v=planet-tokens-11"></script>
   <script src="./game/planet-reference-layout.js?v=planet-tokens-11"></script>
   <script src="./game/planet-stats.js?v=planet-tokens-11"></script>
@@ -213,6 +230,6 @@
   <script src="./game/actions/land.js?v=planet-tokens-11"></script>
   <script src="./game/actions/index.js?v=planet-tokens-11"></script>
   <script src="./game/actions/quick-trades.js?v=planet-tokens-11"></script>
-  <script src="./app.js?v=planet-tokens-11"></script>
+  <script src="./app.js?v=player-hand-4"></script>
 </body>
 </html>
