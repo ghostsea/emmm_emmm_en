@@ -76,6 +76,15 @@
       </div>
     </div>
 
+    <div class="scan-target-overlay" id="scan-target-overlay" hidden>
+      <div class="scan-target-dialog" role="dialog" aria-modal="true" aria-labelledby="scan-target-title">
+        <p class="scan-target-title" id="scan-target-title">选择扫描目标</p>
+        <p class="scan-target-subtitle" id="scan-target-subtitle"></p>
+        <div class="scan-target-actions" id="scan-target-actions"></div>
+        <button class="scan-target-cancel" type="button" id="scan-target-cancel">取消</button>
+      </div>
+    </div>
+
     <div class="land-target-overlay" id="land-target-overlay" hidden>
       <div class="land-target-dialog" role="dialog" aria-modal="true" aria-labelledby="land-target-title">
         <p class="land-target-title" id="land-target-title">选择登陆目标</p>
@@ -92,28 +101,35 @@
       <section class="player-command" id="player-command" aria-label="当前玩家">
         <div class="player-stats" id="player-stats" aria-live="polite"></div>
         <div class="action-bar" id="action-bar" aria-label="行动">
-          <button class="action-button action-button-primary" type="button" id="action-launch-button" aria-label="发射">
-            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c02.webp" alt="" aria-hidden="true">
-          </button>
-          <button class="action-button" type="button" id="action-orbit-button" aria-label="环绕">
-            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c04.webp" alt="" aria-hidden="true">
-          </button>
-          <button class="action-button" type="button" id="action-land-button" aria-label="登陆">
-            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c01.webp" alt="" aria-hidden="true">
-          </button>
-          <button class="action-button" type="button" disabled aria-label="扫描">
-            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c03.webp" alt="" aria-hidden="true">
-          </button>
-          <button class="action-button" type="button" id="action-analyze-button" aria-label="分析">
-            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c00.webp" alt="" aria-hidden="true">
-          </button>
-          <button class="action-button" type="button" id="action-play-card-button" aria-label="打牌">
-            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/play_card.png" alt="" aria-hidden="true">
-          </button>
-          <button class="action-button" type="button" id="action-research-tech-button" aria-label="科技">
-            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r05_c03.webp" alt="" aria-hidden="true">
-          </button>
-          <button class="action-button" type="button" id="action-quick-button" aria-expanded="false" aria-controls="quick-actions-panel">快速</button>
+          <div class="action-bar-main" id="action-bar-main">
+            <button class="action-button action-button-compact action-button-primary" type="button" id="action-launch-button" aria-label="发射">
+              <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c02.webp" alt="" aria-hidden="true">
+            </button>
+            <button class="action-button action-button-compact" type="button" id="action-orbit-button" aria-label="环绕">
+              <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c04.webp" alt="" aria-hidden="true">
+            </button>
+            <button class="action-button action-button-compact" type="button" id="action-land-button" aria-label="登陆">
+              <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c01.webp" alt="" aria-hidden="true">
+            </button>
+            <button class="action-button action-button-compact" type="button" disabled aria-label="扫描">
+              <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c03.webp" alt="" aria-hidden="true">
+            </button>
+            <button class="action-button action-button-compact" type="button" id="action-analyze-button" aria-label="分析">
+              <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c00.webp" alt="" aria-hidden="true">
+            </button>
+            <button class="action-button action-button-compact" type="button" id="action-play-card-button" aria-label="打牌">
+              <img class="action-button-icon" src="../assets/symbol/split/seti-icons/play_card.png" alt="" aria-hidden="true">
+            </button>
+            <button class="action-button action-button-compact" type="button" id="action-research-tech-button" aria-label="科技">
+              <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r05_c03.webp" alt="" aria-hidden="true">
+            </button>
+            <button class="action-button action-button-compact action-button-text" type="button" id="action-quick-button" aria-expanded="false" aria-controls="quick-actions-panel">快速</button>
+          </div>
+          <div class="action-bar-turn" id="action-bar-turn">
+            <button class="action-button action-button-text" type="button" id="action-pass-button" disabled aria-label="结束回合">PASS</button>
+            <button class="action-button action-button-text" type="button" id="action-confirm-button" disabled aria-label="确认行动">确认</button>
+            <button class="action-button action-button-text" type="button" id="action-undo-button" disabled aria-label="撤销行动">撤销</button>
+          </div>
         </div>
         <div class="quick-actions-panel" id="quick-actions-panel" hidden aria-label="快速行动">
           <div class="quick-actions-row">
@@ -157,22 +173,6 @@
               </button>
             </div>
           </div>
-          <div class="quick-actions-row">
-            <span class="quick-actions-label">数据</span>
-            <div class="quick-actions-data" id="quick-actions-data">
-              <button class="quick-trade-button" type="button" id="quick-place-data-button">放置数据</button>
-            </div>
-          </div>
-          <div class="quick-actions-row">
-            <span class="quick-actions-label">移动</span>
-            <select class="quick-move-select" id="quick-move-rocket-select" aria-label="选择要移动的火箭"></select>
-            <div class="quick-move-pad" id="quick-move-pad" aria-label="移动所选火箭">
-              <button class="quick-move-button" type="button" data-move-x="0" data-move-y="1">外</button>
-              <button class="quick-move-button" type="button" data-move-x="-1" data-move-y="0">逆</button>
-              <button class="quick-move-button" type="button" data-move-x="1" data-move-y="0">顺</button>
-              <button class="quick-move-button" type="button" data-move-x="0" data-move-y="-1">内</button>
-            </div>
-          </div>
         </div>
         <div class="player-board-panel" id="player-board-panel" aria-label="玩家版图">
           <div class="player-board-stage" id="player-board-stage">
@@ -185,7 +185,10 @@
           <div class="player-hand-panel-header">
             <div class="panel-title" id="player-hand-panel-title">玩家手牌区</div>
             <button class="play-card-action-button" type="button" id="play-card-action-button" hidden>打出</button>
+            <button class="move-payment-confirm" type="button" id="move-payment-confirm" hidden>确认移动</button>
+            <button class="hand-scan-cancel" type="button" id="hand-scan-cancel" hidden>取消扫描</button>
             <button class="discard-selection-cancel" type="button" id="discard-selection-cancel" hidden>取消</button>
+            <button class="move-payment-cancel" type="button" id="move-payment-cancel" hidden>取消</button>
           </div>
           <div class="player-hand-fan" id="player-hand-fan"></div>
         </section>
@@ -219,6 +222,7 @@
 
           <div class="sun" aria-hidden="true"></div>
           <div class="token-layer" id="token-layer" aria-label="已发射火箭"></div>
+          <div class="move-arrow-layer" id="move-arrow-layer" hidden aria-label="火箭移动方向"></div>
         </div>
       </div>
 
@@ -381,6 +385,8 @@
       <button class="debug-toggle" type="button" id="debug-toggle" aria-controls="debug-panel" aria-expanded="false">调试</button>
       <div class="debug-panel" id="debug-panel">
         <div class="debug-actions">
+          <button class="debug-action-button debug-player-switch-button" type="button" id="debug-player-switch-button" aria-controls="debug-player-menu" aria-expanded="false">玩家：白色</button>
+          <div class="debug-player-menu" id="debug-player-menu" hidden></div>
           <button class="debug-action-button" type="button" id="debug-rotate-button">旋转</button>
           <button class="debug-action-button" type="button" id="debug-income-button">收入</button>
           <button class="debug-action-button" type="button" id="debug-income-effect-button">收入效果</button>
@@ -389,6 +395,9 @@
           <button class="debug-action-button" type="button" id="debug-discard-card-button">弃牌</button>
           <button class="debug-action-button" type="button" id="debug-gain-data-button">获取数据</button>
           <button class="debug-action-button" type="button" id="debug-fill-nebula-data-button">填充星云数据</button>
+          <button class="debug-action-button" type="button" id="debug-sector-scan-button">扇区扫描</button>
+          <button class="debug-action-button" type="button" id="debug-public-scan-button">公共牌区扫描</button>
+          <button class="debug-action-button" type="button" id="debug-hand-scan-button">手牌扫描</button>
           <button class="debug-action-button" type="button" id="debug-cheat-button" aria-pressed="false">作弊</button>
         </div>
       </div>
@@ -405,7 +414,7 @@
   <script src="./game/card-catalog.js?v=card-deck-1"></script>
   <script src="./game/cards/deck.js?v=income-effect-2"></script>
   <script src="./game/basic-cards.js?v=card-deck-1"></script>
-  <script src="./game/players.js?v=income-effect-1"></script>
+  <script src="./game/players.js?v=scan-effects-1"></script>
   <script src="./game/rockets.js?v=planet-tokens-11"></script>
   <script src="./game/planet-reference-layout.js?v=planet-tokens-11"></script>
   <script src="./game/planet-stats.js?v=planet-tokens-11"></script>
@@ -424,13 +433,13 @@
   <script src="./game/data/placement.js?v=data-module-2"></script>
   <script src="./game/data/nebula-placement.js?v=data-module-2"></script>
   <script src="./game/data/state.js?v=data-module-2"></script>
-  <script src="./game/data/nebula-state.js?v=data-module-2"></script>
+  <script src="./game/data/nebula-state.js?v=data-module-3"></script>
   <script src="./game/data/render.js?v=data-module-2"></script>
-  <script src="./game/data/nebula-render.js?v=data-module-2"></script>
-  <script src="./game/data/index.js?v=data-module-2"></script>
+  <script src="./game/data/nebula-render.js?v=data-module-3"></script>
+  <script src="./game/data/index.js?v=data-module-3"></script>
   <script src="./game/actions/research-tech.js?v=tech-module-1"></script>
   <script src="./game/actions/index.js?v=tech-module-1"></script>
   <script src="./game/actions/quick-trades.js?v=income-effect-1"></script>
-  <script src="./app.js?v=income-debug-1"></script>
+  <script src="./app.js?v=scan-effects-2"></script>
 </body>
 </html>

@@ -319,6 +319,35 @@
       .sort((left, right) => left.playerSequence - right.playerSequence);
   }
 
+  function canMoveRocket(rocketState, rocketId, deltaX, deltaY) {
+    const rocket = rocketState.rockets.find((item) => item.id === rocketId);
+    if (!rocket) {
+      const message = `火箭 R${rocketId} 不存在`;
+      return { ok: false, rocket: null, message };
+    }
+
+    const current = getRocketSectorCoordinate(rocket);
+    if (!current) {
+      const message = `R${rocket.id} 不在主盘扇区内，无法用快捷按钮移动`;
+      return { ok: false, rocket, message };
+    }
+
+    const sectorX = solar.mod8(current.x + Number(deltaX || 0));
+    const sectorY = clamp(current.y + Number(deltaY || 0), SECTOR_RING_MIN, SECTOR_RING_MAX);
+
+    if (sectorX === rocket.sectorX && sectorY === rocket.sectorY) {
+      const message = `R${rocket.id} 已在边界，无法继续移动`;
+      return { ok: false, rocket, message };
+    }
+
+    if (findAvailableSlotIndex(rocketState, sectorX, sectorY, rocket.id) === null) {
+      const message = `扇区[${sectorX},${sectorY}]已满，R${rocket.id} 无法移动`;
+      return { ok: false, rocket, message };
+    }
+
+    return { ok: true, rocket, message: null };
+  }
+
   function moveRocket(rocketState, rocketId, deltaX, deltaY) {
     const activation = setActiveRocket(rocketState, rocketId);
     if (!activation.ok) return activation;
@@ -453,6 +482,7 @@
     placeRocketAtBoardPoint,
     placeRocketAtPlanetsReferencePoint,
     launchRocketAtSector,
+    canMoveRocket,
     moveRocket,
     moveActiveRocket,
     serializeSectorOccupancy,

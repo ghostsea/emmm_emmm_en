@@ -43,16 +43,24 @@
       const capacity = nebulaPlacement.getNebulaCapacity(nebulaId);
       const tokens = nebulaState.listNebulaTokens(stateSource, nebulaId);
       const tokensBySlot = new Map(tokens.map((token) => [token.slotIndex, token]));
+      const stats = nebulaState.getNebulaReplacementStats(stateSource, nebulaId);
+      const countText = Object.entries(stats.playerTokenCounts || {})
+        .map(([color, count]) => `${color}:${count}`)
+        .join(" ");
+      const lastText = stats.lastReplacedPlayerLabel || stats.lastReplacedPlayerColor || "无";
 
-      lines.push(`[${label}] ${tokens.length}/${capacity}`);
+      lines.push(`[${label}] ${tokens.length}/${capacity} token=${countText || "无"} last=${lastText}`);
 
       for (const slot of nebulaPlacement.listNebulaSlotLayouts(nebulaId)) {
         const token = tokensBySlot.get(slot.slotIndex) || null;
         const layout = nebulaRender.getEffectiveNebulaSlotLayout(nebulaId, slot.slotIndex, token);
         if (!layout) continue;
         if (token) {
+          const owner = token.replacedByPlayerLabel || token.replacedByPlayerColor;
           lines.push(
-            `  序号 ${token.index} 槽位${slot.slotIndex} 局部坐标 ${layout.percentX}%,${layout.percentY}%`,
+            `  序号 ${token.index} 槽位${slot.slotIndex}`
+            + `${owner ? ` ${owner}token` : ""}`
+            + ` 局部坐标 ${layout.percentX}%,${layout.percentY}%`,
           );
         } else {
           lines.push(
@@ -222,6 +230,12 @@
     fillAllNebulaData: nebulaState.fillAllNebulaData,
     clearNebulaData: nebulaState.clearNebulaData,
     updateNebulaTokenPosition: nebulaState.updateNebulaTokenPosition,
+    NEBULA_SECOND_SLOT_INDEX: nebulaState.NEBULA_SECOND_SLOT_INDEX,
+    NEBULA_SECOND_SLOT_SCORE: nebulaState.NEBULA_SECOND_SLOT_SCORE,
+    getNebulaSecondSlotScoreReward: nebulaState.getNebulaSecondSlotScoreReward,
+    getNebulaReplacementStats: nebulaState.getNebulaReplacementStats,
+    getNextReplaceableNebulaToken: nebulaState.getNextReplaceableNebulaToken,
+    replaceNextNebulaDataToken: nebulaState.replaceNextNebulaDataToken,
     bindNebulaDataDragging: nebulaRender.bindNebulaDataDragging,
     renderSectorNebulaData: nebulaRender.renderSectorNebulaData,
     renderAllSectorNebulaData: nebulaRender.renderAllSectorNebulaData,

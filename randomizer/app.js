@@ -36,6 +36,18 @@
     publicity: "宣传",
     availableData: "数据",
   });
+  const PUBLIC_SCAN_TARGETS_BY_CODE = Object.freeze({
+    0: Object.freeze(["sector-4-a", "sector-3-a"]),
+    1: Object.freeze(["sector-2-b", "sector-3-b"]),
+    2: Object.freeze(["sector-2-a", "sector-1-a"]),
+    3: Object.freeze(["sector-1-b", "sector-4-b"]),
+  });
+  const PUBLIC_SCAN_CODE_LABELS = Object.freeze({
+    0: "黄色扫描",
+    1: "红色扫描",
+    2: "蓝色扫描",
+    3: "黑色扫描",
+  });
   const tokenWidths = {
     rocket: null,
     orbit: null,
@@ -57,7 +69,8 @@
   const nebulaDataState = data.createDefaultNebulaDataState();
   const sectorElements = {};
   const playerState = players.createPlayerState({
-    currentPlayer: { color: players.DEFAULT_PLAYER_COLOR },
+    players: players.PLAYER_COLOR_IDS.map((color) => ({ color })),
+    currentPlayerColor: players.DEFAULT_PLAYER_COLOR,
   });
   const rocketState = rocketActions.createRocketState();
   const planetStatsState = planetStats.createPlanetStatsState();
@@ -65,6 +78,13 @@
   const cardState = cards.createCardState();
   let pendingDiscardAction = null;
   let pendingCardSelectionAction = null;
+  let pendingScanTargetAction = null;
+  let pendingHandScanAction = null;
+  let pendingActionExecuted = false;
+  let moveHighlightRocketId = null;
+  let pendingMovePayment = null;
+  const MOVE_DISCARD_ACTION_CODE = 2;
+  const MOVE_ENERGY_COST = 1;
   const techRenderContext = {
     supplyStage: null,
     supplySlots: {},
@@ -87,15 +107,21 @@
     actionPlayCardButton: document.getElementById("action-play-card-button"),
     actionResearchTechButton: document.getElementById("action-research-tech-button"),
     actionQuickButton: document.getElementById("action-quick-button"),
+    actionPassButton: document.getElementById("action-pass-button"),
+    actionConfirmButton: document.getElementById("action-confirm-button"),
+    actionUndoButton: document.getElementById("action-undo-button"),
     quickActionsPanel: document.getElementById("quick-actions-panel"),
     quickActionsTrades: document.getElementById("quick-actions-trades"),
-    quickPlaceDataButton: document.getElementById("quick-place-data-button"),
     dataPlaceOverlay: document.getElementById("data-place-overlay"),
     dataPlaceSubtitle: document.getElementById("data-place-subtitle"),
     dataPlaceActions: document.getElementById("data-place-actions"),
     dataPlaceCancel: document.getElementById("data-place-cancel"),
-    quickMoveRocketSelect: document.getElementById("quick-move-rocket-select"),
-    quickMovePad: document.getElementById("quick-move-pad"),
+    scanTargetOverlay: document.getElementById("scan-target-overlay"),
+    scanTargetTitle: document.getElementById("scan-target-title"),
+    scanTargetSubtitle: document.getElementById("scan-target-subtitle"),
+    scanTargetActions: document.getElementById("scan-target-actions"),
+    scanTargetCancel: document.getElementById("scan-target-cancel"),
+    moveArrowLayer: document.getElementById("move-arrow-layer"),
     alienPanels: document.querySelectorAll(".alien-panel"),
     finalScoreTiles: document.querySelectorAll(".final-score-tile"),
     reportDock: document.getElementById("report-dock"),
@@ -119,6 +145,8 @@
     },
     spinButton: document.getElementById("spin-button"),
     debugToggle: document.getElementById("debug-toggle"),
+    debugPlayerSwitchButton: document.getElementById("debug-player-switch-button"),
+    debugPlayerMenu: document.getElementById("debug-player-menu"),
     debugRotateButton: document.getElementById("debug-rotate-button"),
     debugIncomeButton: document.getElementById("debug-income-button"),
     debugIncomeEffectButton: document.getElementById("debug-income-effect-button"),
@@ -127,6 +155,9 @@
     debugDiscardCardButton: document.getElementById("debug-discard-card-button"),
     debugGainDataButton: document.getElementById("debug-gain-data-button"),
     debugFillNebulaDataButton: document.getElementById("debug-fill-nebula-data-button"),
+    debugSectorScanButton: document.getElementById("debug-sector-scan-button"),
+    debugPublicScanButton: document.getElementById("debug-public-scan-button"),
+    debugHandScanButton: document.getElementById("debug-hand-scan-button"),
     debugCheatButton: document.getElementById("debug-cheat-button"),
     techPanel: document.getElementById("tech-panel"),
     techStage: document.getElementById("tech-stage"),
@@ -155,6 +186,9 @@
     discardSelectionBackdrop: document.getElementById("discard-selection-backdrop"),
     discardSelectionCancel: document.getElementById("discard-selection-cancel"),
     playCardActionButton: document.getElementById("play-card-action-button"),
+    movePaymentConfirm: document.getElementById("move-payment-confirm"),
+    movePaymentCancel: document.getElementById("move-payment-cancel"),
+    handScanCancel: document.getElementById("hand-scan-cancel"),
     playerHandPanelTitle: document.getElementById("player-hand-panel-title"),
   };
 
@@ -175,20 +209,21 @@
   }
 
   function initializeCardGame(handCount = 10) {
-    const currentPlayer = getCurrentPlayer();
-    if (!currentPlayer) return;
+    if (!Array.isArray(playerState.players) || !playerState.players.length) return;
 
-    currentPlayer.hand = [];
-    currentPlayer.reservedCards = [];
-    currentPlayer.resources.handSize = 0;
+    for (const player of playerState.players) {
+      player.hand = [];
+      player.reservedCards = [];
+      player.resources.handSize = 0;
+    }
     cardState.publicCards = Array.from({ length: cards.PUBLIC_CARD_COUNT }, () => null);
     cardState.discardPile = [];
     cards.setSelectionActive(cardState, false);
     cards.setPlayCardSelectionActive(cardState, false);
-    cards.initializeDeck(cardState, playerState, {
-      player: currentPlayer,
-      handCount,
-    });
+    cards.setDiscardSelectionActive(cardState, false, 0);
+    for (const player of playerState.players) {
+      cards.drawCardsToHand(cardState, playerState, player, handCount);
+    }
     cards.ensurePublicCardsFilled(cardState, playerState);
   }
 
@@ -247,6 +282,235 @@
     renderPlayerHand();
   }
 
+  function isHandScanSelectionActive() {
+    return pendingHandScanAction != null;
+  }
+
+  function syncHandScanSelectionChrome() {
+    const active = isHandScanSelectionActive();
+    els.appWrap?.classList.toggle("hand-scan-selection-active", active);
+    els.playerHandPanel?.classList.toggle("hand-scan-selection-active", active);
+    els.playerHandPanel?.classList.toggle("player-hand-panel-focused", active);
+    if (els.handScanCancel) {
+      els.handScanCancel.hidden = !active;
+    }
+    if (els.playerHandPanelTitle) {
+      els.playerHandPanelTitle.textContent = active
+        ? "玩家手牌区（请选择一张牌进行扫描）"
+        : "玩家手牌区";
+    }
+    if (active) setQuickPanelOpen(false);
+    renderPlayerHand();
+  }
+
+  function cancelHandScanSelection() {
+    if (!isHandScanSelectionActive()) return;
+
+    pendingHandScanAction = null;
+    rocketState.statusNote = "已取消手牌扫描";
+    syncHandScanSelectionChrome();
+    updateActionButtons();
+    renderStateReadout();
+  }
+
+  function isMovePaymentSelectionActive() {
+    return pendingMovePayment != null;
+  }
+
+  function isMovePaymentCard(card) {
+    return Number(card?.discardActionCode) === MOVE_DISCARD_ACTION_CODE;
+  }
+
+  function playerHasMovePaymentCard(player) {
+    return (player?.hand || []).some((card) => isMovePaymentCard(card));
+  }
+
+  function canPayForMove(player) {
+    const energy = Number(player?.resources?.energy) || 0;
+    if (energy >= MOVE_ENERGY_COST) return { ok: true };
+    if (playerHasMovePaymentCard(player)) return { ok: true };
+    return { ok: false, message: "能量不足，也没有可弃置的移动牌" };
+  }
+
+  function syncMovePaymentChrome() {
+    const active = isMovePaymentSelectionActive();
+    els.appWrap?.classList.toggle("move-payment-selection-active", active);
+    els.playerHandPanel?.classList.toggle("move-payment-selection-active", active);
+    els.playerHandPanel?.classList.toggle("player-hand-panel-focused", active);
+    if (els.movePaymentConfirm) {
+      els.movePaymentConfirm.hidden = !active;
+      els.movePaymentConfirm.disabled = !active;
+    }
+    if (els.movePaymentCancel) {
+      els.movePaymentCancel.hidden = !active;
+    }
+    if (els.playerHandPanelTitle && active) {
+      els.playerHandPanelTitle.textContent = "玩家手牌区（可选移动牌弃置，或直接确认消耗 1 能量）";
+    } else if (
+      els.playerHandPanelTitle
+      && !isDiscardSelectionActive()
+      && !isPlayCardSelectionActive()
+    ) {
+      els.playerHandPanelTitle.textContent = "玩家手牌区";
+    }
+    if (active) setQuickPanelOpen(false);
+    renderPlayerHand();
+  }
+
+  function scrollToPlayerHandPanel() {
+    const panel = els.playerHandPanel;
+    if (!panel) return;
+
+    requestAnimationFrame(() => {
+      panel.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "nearest",
+      });
+    });
+  }
+
+  function cancelMovePaymentSelection() {
+    if (!isMovePaymentSelectionActive()) return;
+
+    pendingMovePayment = null;
+    rocketState.statusNote = "已取消移动";
+    syncMovePaymentChrome();
+    updateActionButtons();
+    renderStateReadout();
+  }
+
+  function beginMovePaymentSelection(deltaX, deltaY, rocketId) {
+    if (isTechActionSelectionActive()) {
+      return { ok: false, message: "请先完成科技选择" };
+    }
+    if (isCardSelectionActive()) {
+      return { ok: false, message: "请先完成精选" };
+    }
+    if (isDiscardSelectionActive()) {
+      return { ok: false, message: "请先完成弃牌" };
+    }
+    if (isPlayCardSelectionActive()) {
+      return { ok: false, message: "请先完成打牌" };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    const payCheck = canPayForMove(currentPlayer);
+    if (!payCheck.ok) {
+      rocketState.statusNote = payCheck.message;
+      renderStateReadout();
+      return payCheck;
+    }
+
+    const moveCheck = rocketActions.canMoveRocket(rocketState, rocketId, deltaX, deltaY);
+    if (!moveCheck.ok) {
+      rocketState.statusNote = moveCheck.message;
+      renderStateReadout();
+      return moveCheck;
+    }
+
+    pendingMovePayment = {
+      deltaX,
+      deltaY,
+      rocketId,
+      selectedHandIndex: null,
+    };
+    rocketState.statusNote = "移动：选择移动牌弃置，或直接确认消耗 1 能量";
+    syncMovePaymentChrome();
+    scrollToPlayerHandPanel();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function handleHandCardMovePayment(handIndex) {
+    if (!isMovePaymentSelectionActive()) return;
+
+    const currentPlayer = getCurrentPlayer();
+    const index = Math.round(handIndex);
+    const card = currentPlayer?.hand?.[index];
+    if (!isMovePaymentCard(card)) return;
+
+    pendingMovePayment.selectedHandIndex = pendingMovePayment.selectedHandIndex === index
+      ? null
+      : index;
+    renderPlayerHand();
+  }
+
+  function confirmMovePayment() {
+    if (!isMovePaymentSelectionActive()) return;
+
+    const currentPlayer = getCurrentPlayer();
+    const { deltaX, deltaY, rocketId, selectedHandIndex } = pendingMovePayment;
+    let paymentNote = "";
+
+    if (selectedHandIndex != null) {
+      const card = currentPlayer.hand[selectedHandIndex];
+      if (!isMovePaymentCard(card)) {
+        rocketState.statusNote = "请选择可弃置的移动牌";
+        renderStateReadout();
+        return;
+      }
+
+      const discardResult = cards.discardFromHandAtIndex(currentPlayer, selectedHandIndex);
+      if (!discardResult.ok) {
+        rocketState.statusNote = discardResult.message;
+        renderStateReadout();
+        return;
+      }
+
+      cards.addToDiscardPile(cardState, discardResult.card);
+      paymentNote = `弃掉 ${cards.getCardLabel(discardResult.card)}`;
+    } else if (!players.canAfford(currentPlayer, { energy: MOVE_ENERGY_COST })) {
+      rocketState.statusNote = playerHasMovePaymentCard(currentPlayer)
+        ? "能量不足，请选择移动牌弃置"
+        : "能量不足，无法移动";
+      renderStateReadout();
+      return;
+    } else {
+      const spendResult = players.spendResources(currentPlayer, { energy: MOVE_ENERGY_COST });
+      if (!spendResult.ok) {
+        rocketState.statusNote = spendResult.message;
+        renderStateReadout();
+        return;
+      }
+      paymentNote = "消耗 1 能量";
+    }
+
+    const pending = pendingMovePayment;
+    pendingMovePayment = null;
+    syncMovePaymentChrome();
+
+    const moveCheck = rocketActions.canMoveRocket(rocketState, pending.rocketId, pending.deltaX, pending.deltaY);
+    if (!moveCheck.ok) {
+      rocketState.statusNote = moveCheck.message;
+      renderPlayerStats();
+      updateActionButtons();
+      renderStateReadout();
+      return moveCheck;
+    }
+
+    const moveResult = rocketActions.moveRocket(
+      rocketState,
+      pending.rocketId,
+      pending.deltaX,
+      pending.deltaY,
+    );
+    if (moveResult.rocket) renderRocketElement(moveResult.rocket);
+    if (moveResult.ok) {
+      markActionPending();
+      activateMoveMode(pending.rocketId);
+      rocketState.statusNote = `${paymentNote}，${moveResult.message}`;
+    } else {
+      rocketState.statusNote = moveResult.message;
+    }
+
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return moveResult;
+  }
+
   function syncPlayCardSelectionChrome() {
     const active = isPlayCardSelectionActive();
     els.appWrap?.classList.toggle("play-card-selection-active", active);
@@ -275,6 +539,12 @@
     }
     if (isPlayCardSelectionActive()) {
       return { ok: false, message: "请先完成打牌" };
+    }
+    if (isHandScanSelectionActive()) {
+      return { ok: false, message: "请先完成手牌扫描" };
+    }
+    if (isMovePaymentSelectionActive()) {
+      return { ok: false, message: "请先完成移动" };
     }
 
     const discardCount = Math.max(0, Math.round(count));
@@ -329,6 +599,7 @@
       rocketState.statusNote = tradeResult.ok
         ? tradeResult.message
         : (tradeResult.message || "交易失败");
+      if (tradeResult.ok) markActionPending();
       renderPlayerStats();
       renderPublicCards();
       updatePublicCardControls();
@@ -415,6 +686,12 @@
     if (isDiscardSelectionActive()) {
       return { ok: false, message: "请先完成弃牌" };
     }
+    if (isHandScanSelectionActive()) {
+      return { ok: false, message: "请先完成手牌扫描" };
+    }
+    if (isMovePaymentSelectionActive()) {
+      return { ok: false, message: "请先完成移动" };
+    }
 
     const currentPlayer = getCurrentPlayer();
     if (!currentPlayer?.hand?.length) {
@@ -491,6 +768,7 @@
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${price} 信用点，已弃掉`;
     syncPlayCardSelectionChrome();
     renderPlayerStats();
+    markActionPending();
     updateActionButtons();
     renderStateReadout();
     return {
@@ -511,10 +789,18 @@
     if (isPlayCardSelectionActive()) {
       return { ok: false, message: "请先完成打牌" };
     }
+    if (isHandScanSelectionActive()) {
+      return { ok: false, message: "请先完成手牌扫描" };
+    }
+    if (isMovePaymentSelectionActive()) {
+      return { ok: false, message: "请先完成移动" };
+    }
 
     pendingCardSelectionAction = pendingAction;
     cards.setSelectionActive(cardState, true);
-    rocketState.statusNote = allowsBlindDrawInSelection()
+    rocketState.statusNote = pendingAction?.type === "public_scan"
+      ? "公共牌区扫描：请选择一张亮明的公共牌（不能盲抽）"
+      : allowsBlindDrawInSelection()
       ? "精选：从公共牌区选一张牌，或点击盲抽"
       : "精选：从公共牌区选一张牌";
     syncCardSelectionChrome();
@@ -569,6 +855,8 @@
     if (pending?.type === "trade" && pending.player && pending.refundCost) {
       players.gainResources(pending.player, pending.refundCost);
       rocketState.statusNote = `已取消精选，已退回 ${players.formatResourceCost(pending.refundCost)}`;
+    } else if (pending?.type === "public_scan") {
+      rocketState.statusNote = "已取消公共牌区扫描";
     } else {
       rocketState.statusNote = "";
     }
@@ -729,6 +1017,10 @@
 
   function handlePublicCardClick(slotIndex) {
     if (!isCardSelectionActive()) return;
+    if (pendingCardSelectionAction?.type === "public_scan") {
+      handlePublicScanCardClick(slotIndex);
+      return;
+    }
     pickPublicCardForCurrentPlayer(slotIndex);
   }
 
@@ -740,6 +1032,372 @@
       return;
     }
     drawCardForCurrentPlayer({ fromSelection: true });
+  }
+
+  function getNormalTokenAssetForPlayer(player) {
+    return players.getPlayerColorDefinition(player?.color)?.normalTokenAsset
+      || "../assets/tokens/normal_token.png";
+  }
+
+  function replaceNebulaDataForCurrentPlayer(nebulaId, options = {}) {
+    const currentPlayer = getCurrentPlayer();
+    const color = players.getPlayerColorDefinition(currentPlayer?.color);
+    const replaceResult = data.replaceNextNebulaDataToken(nebulaDataState, nebulaId, currentPlayer, {
+      playerColor: currentPlayer?.color,
+      playerLabel: currentPlayer?.colorLabel,
+      playerTokenSrc: getNormalTokenAssetForPlayer(currentPlayer),
+    });
+
+    if (!replaceResult.ok) {
+      rocketState.statusNote = replaceResult.message;
+      renderSectors();
+      renderStateReadout();
+      return replaceResult;
+    }
+
+    const gainResult = data.gainData(currentPlayer, { source: options.source || "scan" });
+    const label = data.getNebulaLabel(nebulaId);
+    const playerLabel = color?.label || currentPlayer?.colorLabel || "当前玩家";
+    rocketState.statusNote = `${options.prefix || "扫描"}：${label} 槽位${replaceResult.slotIndex}`
+      + ` 替换为${playerLabel}token；${gainResult.ok ? "获得数据" : gainResult.message}`;
+
+    renderSectors();
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return {
+      ok: true,
+      nebulaId,
+      replaced: replaceResult,
+      gainedData: gainResult,
+      message: rocketState.statusNote,
+    };
+  }
+
+  function discardPublicScanCard(pending) {
+    const slotIndex = Number(pending?.publicSlotIndex);
+    const card = pending?.card;
+    if (!card || !Number.isInteger(slotIndex)) {
+      return { ok: false, message: "没有可弃除的公共牌" };
+    }
+
+    cards.addToDiscardPile(cardState, card);
+    let replenished = null;
+    if (cardState.publicCards?.[slotIndex]?.id === card.id) {
+      cardState.publicCards[slotIndex] = null;
+      replenished = cards.replenishPublicSlot(cardState, playerState, slotIndex);
+    }
+
+    renderPublicCards();
+    updatePublicCardControls();
+    return {
+      ok: true,
+      card,
+      replenished,
+      message: replenished
+        ? `弃除 ${cards.getCardLabel(card)}，公共区补牌：${cards.getCardLabel(replenished)}`
+        : `弃除 ${cards.getCardLabel(card)}`,
+    };
+  }
+
+  function discardHandScanCard(pending) {
+    const player = pending?.player || getCurrentPlayer();
+    const handIndex = Number(pending?.handIndex);
+    const card = pending?.card;
+    if (!player || !card || !Number.isInteger(handIndex)) {
+      return { ok: false, message: "没有可弃除的手牌" };
+    }
+
+    const currentIndex = player.hand?.findIndex((item) => item.id === card.id);
+    const discardIndex = currentIndex >= 0 ? currentIndex : handIndex;
+    const discardResult = cards.discardFromHandAtIndex(player, discardIndex);
+    if (!discardResult.ok) return discardResult;
+
+    cards.addToDiscardPile(cardState, discardResult.card);
+    renderPlayerStats();
+    return {
+      ok: true,
+      card: discardResult.card,
+      message: `弃除手牌 ${cards.getCardLabel(discardResult.card)}`,
+    };
+  }
+
+  function finalizeScanSourceCard(pending, scanResult) {
+    if (!scanResult?.ok) return scanResult;
+
+    let discardResult = null;
+    if (pending?.type === "public_scan") {
+      discardResult = discardPublicScanCard(pending);
+    } else if (pending?.type === "hand_scan") {
+      discardResult = discardHandScanCard(pending);
+    }
+
+    if (discardResult?.ok) {
+      rocketState.statusNote = `${scanResult.message}；${discardResult.message}`;
+      renderPlayerStats();
+      renderPublicCards();
+      updatePublicCardControls();
+      updateActionButtons();
+      renderStateReadout();
+      return {
+        ...scanResult,
+        discardedCard: discardResult.card,
+        replenished: discardResult.replenished || null,
+        message: rocketState.statusNote,
+      };
+    }
+
+    return scanResult;
+  }
+
+  function closeScanTargetPicker() {
+    if (!els.scanTargetOverlay) return;
+    pendingScanTargetAction = null;
+    els.scanTargetOverlay.hidden = true;
+  }
+
+  function buildNebulaScanChoice(nebulaId, extra = {}) {
+    const nextToken = data.getNextReplaceableNebulaToken(nebulaDataState, nebulaId);
+    const tokens = data.listNebulaTokens(nebulaDataState, nebulaId);
+    const label = data.getNebulaLabel(nebulaId);
+    return {
+      nebulaId,
+      label: extra.label || label,
+      description: extra.description || (nextToken
+        ? `下一次替换槽位 ${nextToken.slotIndex}`
+        : tokens.length
+          ? "该星云已无未替换数据"
+          : "该星云没有已填充数据"),
+      disabled: !nextToken,
+      title: nextToken ? "" : "需要先填充星云数据，且仍有未替换数据",
+      ...extra,
+    };
+  }
+
+  function openScanTargetPicker(config) {
+    if (!els.scanTargetOverlay || !els.scanTargetActions) return { ok: false, message: "无法打开扫描目标选择" };
+
+    pendingScanTargetAction = config || {};
+    if (els.scanTargetTitle) {
+      els.scanTargetTitle.textContent = config.title || "选择扫描目标";
+    }
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = config.subtitle || "";
+    }
+
+    els.scanTargetActions.replaceChildren(...(config.choices || []).map((choice) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.nebulaId = choice.nebulaId;
+      if (choice.sectorX != null) button.dataset.sectorX = String(choice.sectorX);
+      button.disabled = Boolean(choice.disabled);
+      button.title = choice.title || "";
+      button.innerHTML = `${choice.label}<small>${choice.description || ""}</small>`;
+      return button;
+    }));
+
+    els.scanTargetOverlay.hidden = false;
+    return { ok: true, message: config.subtitle || "" };
+  }
+
+  function confirmScanTarget(nebulaId, sectorX) {
+    const pending = pendingScanTargetAction;
+    closeScanTargetPicker();
+
+    if (pending?.type === "sector_scan") {
+      return replaceNebulaDataForCurrentPlayer(nebulaId, {
+        prefix: `扇区${sectorX}扫描`,
+        source: "debug",
+      });
+    }
+
+    if (pending?.type === "public_scan") {
+      const scanResult = replaceNebulaDataForCurrentPlayer(nebulaId, {
+        prefix: `公共牌区扫描 ${cards.getCardLabel(pending.card)}`,
+        source: "debug",
+      });
+      return finalizeScanSourceCard(pending, scanResult);
+    }
+
+    if (pending?.type === "hand_scan") {
+      const scanResult = replaceNebulaDataForCurrentPlayer(nebulaId, {
+        prefix: `手牌扫描 ${cards.getCardLabel(pending.card)}`,
+        source: "debug",
+      });
+      return finalizeScanSourceCard(pending, scanResult);
+    }
+
+    return { ok: false, message: "没有待确认的扫描目标" };
+  }
+
+  function beginSectorScan() {
+    if (isCardSelectionActive() || isDiscardSelectionActive() || isPlayCardSelectionActive() || isTechActionSelectionActive()) {
+      rocketState.statusNote = "请先完成当前选择";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const choices = Array.from({ length: 8 }, (_, x) => {
+      const nebula = solar.getNebulaAtCoordinate(x, 5, solarState.sectorBySlot);
+      if (!nebula) {
+        return {
+          nebulaId: "",
+          sectorX: x,
+          label: `扇区 ${x}`,
+          description: "当前没有星云",
+          disabled: true,
+        };
+      }
+      return buildNebulaScanChoice(nebula.id, {
+        sectorX: x,
+        label: `扇区 ${x}：${nebula.label}`,
+      });
+    });
+
+    rocketState.statusNote = "扇区扫描：请选择 0-7 号扇区";
+    renderStateReadout();
+    return openScanTargetPicker({
+      type: "sector_scan",
+      title: "扇区扫描",
+      subtitle: "选择当前 0-7 号扇区中的一个星云，按槽位顺序替换未替换的数据。",
+      choices,
+    });
+  }
+
+  function getPublicScanChoicesForCard(card) {
+    const scanCode = Number(card?.scanActionCode);
+    const nebulaIds = PUBLIC_SCAN_TARGETS_BY_CODE[scanCode];
+    if (!nebulaIds) {
+      return {
+        ok: false,
+        message: `无法识别卡牌右上角扫描效果：${cards.getCardLabel(card) || "未知卡牌"}`,
+      };
+    }
+
+    return {
+      ok: true,
+      scanCode,
+      scanLabel: PUBLIC_SCAN_CODE_LABELS[scanCode] || `扫描${scanCode}`,
+      choices: nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId)),
+    };
+  }
+
+  function beginPublicDeckScan() {
+    return beginCardSelection({
+      type: "public_scan",
+      player: getCurrentPlayer(),
+      allowBlindDraw: false,
+    });
+  }
+
+  function handlePublicScanCardClick(slotIndex) {
+    const index = Number(slotIndex);
+    const card = cardState.publicCards[index];
+    if (!card) {
+      rocketState.statusNote = "该公共牌位没有卡牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const scanChoices = getPublicScanChoicesForCard(card);
+    if (!scanChoices.ok) {
+      rocketState.statusNote = scanChoices.message;
+      renderStateReadout();
+      return scanChoices;
+    }
+
+    pendingCardSelectionAction = null;
+    cards.setSelectionActive(cardState, false);
+    syncCardSelectionChrome();
+    rocketState.statusNote = `公共牌区扫描：${cards.getCardLabel(card)}，请选择${scanChoices.scanLabel}目标`;
+    renderStateReadout();
+    return openScanTargetPicker({
+      type: "public_scan",
+      card,
+      publicSlotIndex: index,
+      scanCode: scanChoices.scanCode,
+      title: "公共牌区扫描",
+      subtitle: `${cards.getCardLabel(card)}：${scanChoices.scanLabel}，请选择 2 选 1 星云。`,
+      choices: scanChoices.choices,
+    });
+  }
+
+  function beginHandScan() {
+    if (isTechActionSelectionActive()) {
+      rocketState.statusNote = "请先完成科技选择";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isCardSelectionActive()) {
+      rocketState.statusNote = "请先完成精选";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isDiscardSelectionActive()) {
+      rocketState.statusNote = "请先完成弃牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isPlayCardSelectionActive()) {
+      rocketState.statusNote = "请先完成打牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isMovePaymentSelectionActive()) {
+      rocketState.statusNote = "请先完成移动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer?.hand?.length) {
+      rocketState.statusNote = "没有手牌可用于扫描";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    pendingHandScanAction = { type: "hand_scan", player: currentPlayer };
+    rocketState.statusNote = "手牌扫描：请选择一张手牌弃除并扫描";
+    syncHandScanSelectionChrome();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function handleHandScanCardClick(handIndex) {
+    if (!isHandScanSelectionActive()) return;
+
+    const currentPlayer = getCurrentPlayer();
+    const index = Math.round(handIndex);
+    const card = currentPlayer?.hand?.[index];
+    if (!card) {
+      rocketState.statusNote = "无效的手牌位置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const scanChoices = getPublicScanChoicesForCard(card);
+    if (!scanChoices.ok) {
+      rocketState.statusNote = scanChoices.message;
+      renderStateReadout();
+      return scanChoices;
+    }
+
+    pendingHandScanAction = null;
+    syncHandScanSelectionChrome();
+    rocketState.statusNote = `手牌扫描：${cards.getCardLabel(card)}，请选择${scanChoices.scanLabel}目标`;
+    renderStateReadout();
+    return openScanTargetPicker({
+      type: "hand_scan",
+      card,
+      handIndex: index,
+      player: currentPlayer,
+      scanCode: scanChoices.scanCode,
+      title: "手牌扫描",
+      subtitle: `${cards.getCardLabel(card)}：${scanChoices.scanLabel}，请选择 2 选 1 星云。确认后弃除这张手牌。`,
+      choices: scanChoices.choices,
+    });
   }
 
   function resize() {
@@ -755,6 +1413,7 @@
     layoutPlayerHandFan();
     alignAlienPanelsToPlanets();
     renderTechBoard();
+    if (moveHighlightRocketId != null) scheduleRenderMoveArrows();
   }
 
   function syncTechRenderContext() {
@@ -871,6 +1530,10 @@
   function finalizeTechTakeResult(result) {
     if (!result?.ok || result.needsBlueSlotChoice) return result;
 
+    if (!result.awaitingCardSelection) {
+      markActionPending();
+    }
+
     tech.setTechSelectionActive(techGameState, false);
     closeTechBlueSlotPicker();
     syncTechSelectionChrome();
@@ -954,6 +1617,103 @@
 
   function getCurrentPlayer() {
     return players.getCurrentPlayer(playerState);
+  }
+
+  function getPlayerByColor(color) {
+    const normalizedColor = players.normalizePlayerColor(color);
+    return playerState.players.find((player) => player.color === normalizedColor) || null;
+  }
+
+  function setDebugPlayerMenuOpen(open) {
+    if (!els.debugPlayerMenu || !els.debugPlayerSwitchButton) return;
+    els.debugPlayerMenu.hidden = !open;
+    els.debugPlayerSwitchButton.setAttribute("aria-expanded", String(open));
+  }
+
+  function renderDebugPlayerSwitch() {
+    const currentPlayer = getCurrentPlayer();
+    if (els.debugPlayerSwitchButton && currentPlayer) {
+      els.debugPlayerSwitchButton.textContent = `玩家：${currentPlayer.colorLabel}`;
+    }
+    if (!els.debugPlayerMenu) return;
+
+    els.debugPlayerMenu.replaceChildren(...players.PLAYER_COLOR_IDS.map((colorId) => {
+      const player = getPlayerByColor(colorId) || players.createPlayer({ color: colorId });
+      const color = players.getPlayerColorDefinition(colorId);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "debug-player-option";
+      button.dataset.playerColor = colorId;
+      button.style.setProperty("--player-color", color.uiColor);
+      button.textContent = color.label;
+      button.classList.toggle("is-current", currentPlayer?.color === colorId);
+      button.setAttribute("aria-pressed", String(currentPlayer?.color === colorId));
+      button.title = `切换到${player.name}`;
+      return button;
+    }));
+  }
+
+  function clearPlayerScopedSelectionsForSwitch() {
+    pendingDiscardAction = null;
+    pendingCardSelectionAction = null;
+    pendingHandScanAction = null;
+    cards.setSelectionActive(cardState, false);
+    cards.setDiscardSelectionActive(cardState, false, 0);
+    cards.setPlayCardSelectionActive(cardState, false);
+    tech.setTechSelectionActive(techGameState, false);
+    tech.cancelPendingTake(techGameState);
+    closeTechBlueSlotPicker();
+    closeDataPlacePicker();
+    closeScanTargetPicker();
+    closeLandTargetPicker();
+    clearActionPending();
+  }
+
+  function selectDefaultRocketForCurrentPlayer() {
+    const currentPlayer = getCurrentPlayer();
+    const currentRocket = rocketActions.getActiveRocket(rocketState);
+    if (currentRocket?.playerId === currentPlayer?.id && rocketActions.isControllablePlayerRocket(currentRocket)) {
+      return currentRocket;
+    }
+
+    const rocketsForPlayer = rocketActions.getRocketsForPlayer(rocketState, currentPlayer?.id);
+    const fallbackRocket = rocketsForPlayer[rocketsForPlayer.length - 1] || null;
+    rocketState.activeRocketId = fallbackRocket ? fallbackRocket.id : null;
+    clearMoveRocketHighlight();
+    return fallbackRocket;
+  }
+
+  function switchCurrentPlayerColor(color) {
+    const targetPlayer = getPlayerByColor(color);
+    if (!targetPlayer) {
+      return { ok: false, message: "没有这名玩家" };
+    }
+
+    if (targetPlayer.id === playerState.currentPlayerId) {
+      setDebugPlayerMenuOpen(false);
+      return { ok: true, player: targetPlayer, message: `当前已是${targetPlayer.name}` };
+    }
+
+    clearPlayerScopedSelectionsForSwitch();
+    playerState.currentPlayerId = targetPlayer.id;
+    selectDefaultRocketForCurrentPlayer();
+    rocketState.statusNote = `已切换到${targetPlayer.name}`;
+    setDebugPlayerMenuOpen(false);
+    renderDebugPlayerSwitch();
+    syncCardSelectionChrome();
+    syncDiscardSelectionChrome();
+    syncPlayCardSelectionChrome();
+    syncTechSelectionChrome();
+    setTokenAssetSizes();
+    renderPlayerStats();
+    renderTechBoard();
+    renderRockets();
+    renderPublicCards();
+    updatePublicCardControls();
+    updateActionButtons();
+    renderStateReadout();
+
+    return { ok: true, player: targetPlayer, message: rocketState.statusNote };
   }
 
   function getReferencePlacementKindLabel(kind) {
@@ -1300,6 +2060,12 @@
     element.classList.toggle("is-reference-land", referencePlacement?.kind === "land");
     element.classList.toggle("is-reference-satellite", referencePlacement?.kind === "satellite");
     element.classList.toggle("is-planet-marker", Boolean(referencePlacement?.isPlanetMarker));
+    element.classList.toggle("is-move-target", rocket.id === moveHighlightRocketId);
+    element.classList.toggle(
+      "is-move-selectable",
+      rocket.playerId === getCurrentPlayer().id
+        && rocketActions.isControllablePlayerRocket(rocket),
+    );
 
     if (isRocketOnPlanetsReference(rocket)) {
       applyTokenWidth(element, rocket);
@@ -1476,6 +2242,8 @@
     const hand = Array.isArray(currentPlayer.hand) ? currentPlayer.hand : [];
     const discardActive = isDiscardSelectionActive();
     const playActive = isPlayCardSelectionActive();
+    const movePaymentActive = isMovePaymentSelectionActive();
+    const handScanActive = isHandScanSelectionActive();
     const currentCredits = Number(currentPlayer.resources?.credits) || 0;
 
     els.playerHandPanel.classList.toggle("is-empty", hand.length === 0);
@@ -1483,7 +2251,7 @@
     els.playerHandFan.replaceChildren(...hand.map((card, index) => {
       const label = card.cardName || (card.faceUp ? `手牌 ${index + 1}` : `手牌背面 ${index + 1}`);
 
-      if (discardActive || playActive) {
+      if (discardActive || playActive || movePaymentActive || handScanActive) {
         const price = getCardPrice(card);
         const affordable = currentCredits >= price;
         const button = document.createElement("button");
@@ -1494,6 +2262,31 @@
         if (discardActive) {
           button.classList.add("is-selectable");
           button.setAttribute("aria-label", label);
+        } else if (handScanActive) {
+          const scanChoices = getPublicScanChoicesForCard(card);
+          if (scanChoices.ok) {
+            button.classList.add("is-scan-card");
+            button.setAttribute("aria-label", `${label}（扫描牌，点击弃除并扫描）`);
+            button.title = `${scanChoices.scanLabel}：点击后选择星云`;
+          } else {
+            button.classList.add("is-scan-card-muted");
+            button.disabled = true;
+            button.setAttribute("aria-label", label);
+            button.title = scanChoices.message;
+          }
+        } else if (movePaymentActive) {
+          if (isMovePaymentCard(card)) {
+            button.classList.add("is-move-card");
+            if (pendingMovePayment?.selectedHandIndex === index) {
+              button.classList.add("is-selected");
+            }
+            button.setAttribute("aria-label", `${label}（移动牌，点击选择弃置）`);
+            button.title = "弃置此牌以支付移动";
+          } else {
+            button.classList.add("is-move-card-muted");
+            button.disabled = true;
+            button.setAttribute("aria-label", label);
+          }
         } else {
           button.classList.add(affordable ? "is-playable" : "is-unaffordable");
           button.setAttribute("aria-label", `${label}，费用 ${price} 信用点`);
@@ -1639,10 +2432,256 @@
     button.setAttribute("aria-disabled", String(!enabled));
   }
 
+  function setTurnActionButtonState(button, enabled, highlighted = false) {
+    if (!button) return;
+    button.disabled = !enabled;
+    button.classList.toggle("action-button-pending", Boolean(enabled && highlighted));
+    button.setAttribute("aria-disabled", String(!enabled));
+  }
+
+  function markActionPending() {
+    pendingActionExecuted = true;
+  }
+
+  function clearActionPending() {
+    pendingActionExecuted = false;
+  }
+
+  function resolvePendingAction() {
+    if (!pendingActionExecuted) return;
+    clearActionPending();
+    updateActionButtons();
+    renderStateReadout();
+  }
+
+  let moveArrowRenderFrame = 0;
+
+  function getMoveArrowDirectionRotation(angleDegrees, kind) {
+    const rad = angleDegrees * (Math.PI / 180);
+    let dx;
+    let dy;
+    if (kind === "out") {
+      dx = Math.cos(rad);
+      dy = Math.sin(rad);
+    } else if (kind === "in") {
+      dx = -Math.cos(rad);
+      dy = -Math.sin(rad);
+    } else if (kind === "cw") {
+      dx = -Math.sin(rad);
+      dy = Math.cos(rad);
+    } else {
+      dx = Math.sin(rad);
+      dy = -Math.cos(rad);
+    }
+    return Math.atan2(dy, dx) * (180 / Math.PI);
+  }
+
+  function getRocketPolarAnchor(rocket) {
+    const sector = rocketActions.getRocketSectorCoordinate(rocket);
+    if (!sector) return null;
+
+    const radius = Number(rocket.radius);
+    const angleDegrees = Number(rocket.angleDegrees);
+    if (Number.isFinite(radius) && Number.isFinite(angleDegrees)) {
+      return { sector, radius, angleDegrees };
+    }
+
+    if (Number.isInteger(rocket.slotIndex)) {
+      const slot = solar.getSectorLaunchSlot(sector.x, sector.y, rocket.slotIndex);
+      return {
+        sector,
+        radius: slot.radius,
+        angleDegrees: slot.angleDegrees,
+      };
+    }
+
+    const boardPoint = getBoardPointFromPolarPoint(rocket);
+    const polar = solar.globalPointToPolarPoint(boardPoint);
+    return {
+      sector,
+      radius: polar.radius,
+      angleDegrees: polar.angleDegrees,
+    };
+  }
+
+  function getMoveArrowOffsets(anchor) {
+    const boundary = solar.getSectorCoordinateBoundary(anchor.sector.x, anchor.sector.y);
+    const radialSpan = boundary.polarBoundary.outerRadius - boundary.polarBoundary.innerRadius;
+    const angleSpan = Math.abs(
+      boundary.polarBoundary.endAngleDegrees - boundary.polarBoundary.startAngleDegrees,
+    );
+
+    const boardSize = solar.GLOBAL_COORDINATE_SYSTEM.size;
+    const wheelPx = Math.max(1, els.wheelWrap?.clientWidth || boardSize);
+    const rocketHalfPx = ((tokenWidths.rocket || 41) * 1.2) / 2;
+    const arrowHalfPx = 15;
+    const clearanceBoard = (rocketHalfPx + arrowHalfPx + 6) * (boardSize / wheelPx);
+
+    const radialOffset = Math.max(30, radialSpan * 0.42) + clearanceBoard * 0.7;
+    const tangentialAngle = Math.max(
+      11,
+      angleSpan * 0.2,
+      (Math.atan(clearanceBoard / Math.max(anchor.radius, 1)) * 180) / Math.PI,
+    );
+
+    return {
+      radius: radialOffset,
+      angle: tangentialAngle,
+    };
+  }
+
+  function buildMoveArrowSpecs(rocket) {
+    const anchor = getRocketPolarAnchor(rocket);
+    if (!anchor) return [];
+
+    const { sector, radius, angleDegrees } = anchor;
+    const offsets = getMoveArrowOffsets(anchor);
+    const size = solar.GLOBAL_COORDINATE_SYSTEM.size;
+    const specs = [];
+
+    const push = (kind, deltaX, deltaY, pointRadius, pointAngle) => {
+      const board = solar.polarToGlobalPoint(pointRadius, pointAngle);
+      const labels = {
+        out: "向外移动一个扇区",
+        in: "向内移动一个扇区",
+        cw: "顺时针移动",
+        ccw: "逆时针移动",
+      };
+      specs.push({
+        kind,
+        deltaX,
+        deltaY,
+        left: `${(board.x / size) * 100}%`,
+        top: `${(board.y / size) * 100}%`,
+        rotation: getMoveArrowDirectionRotation(pointAngle, kind),
+        ariaLabel: labels[kind],
+      });
+    };
+
+    if (sector.y < rocketActions.SECTOR_RING_MAX) {
+      push("out", 0, 1, radius + offsets.radius, angleDegrees);
+    }
+    if (sector.y > rocketActions.SECTOR_RING_MIN) {
+      push("in", 0, -1, radius - offsets.radius, angleDegrees);
+    }
+    push("cw", 1, 0, radius, angleDegrees + offsets.angle);
+    push("ccw", -1, 0, radius, angleDegrees - offsets.angle);
+    return specs;
+  }
+
+  function scheduleRenderMoveArrows() {
+    moveArrowRenderFrame += 1;
+    const frameId = moveArrowRenderFrame;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (frameId !== moveArrowRenderFrame) return;
+        renderMoveArrows();
+      });
+    });
+  }
+
+  function renderMoveArrows() {
+    if (!els.moveArrowLayer) return;
+
+    if (moveHighlightRocketId == null) {
+      moveArrowRenderFrame += 1;
+      els.moveArrowLayer.hidden = true;
+      els.moveArrowLayer.replaceChildren();
+      return;
+    }
+
+    const rocket = rocketState.rockets.find((item) => item.id === moveHighlightRocketId);
+    if (!rocket || !rocketActions.isControllablePlayerRocket(rocket)) {
+      deactivateMoveMode();
+      return;
+    }
+
+    const specs = buildMoveArrowSpecs(rocket);
+    els.moveArrowLayer.hidden = false;
+    els.moveArrowLayer.replaceChildren(...specs.map((spec) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `move-arrow-button move-arrow-${spec.kind}`;
+      button.dataset.moveX = String(spec.deltaX);
+      button.dataset.moveY = String(spec.deltaY);
+      button.style.left = spec.left;
+      button.style.top = spec.top;
+      button.style.setProperty("--move-arrow-rotation", `${spec.rotation}deg`);
+      button.setAttribute("aria-label", spec.ariaLabel);
+      button.title = spec.ariaLabel;
+      button.innerHTML = '<span class="move-arrow-glyph" aria-hidden="true"></span>';
+      return button;
+    }));
+  }
+
+  function syncMoveModeChrome() {
+    els.appWrap?.classList.toggle("move-mode-active", moveHighlightRocketId != null);
+  }
+
+  function updateMoveRocketHighlight(rocketId) {
+    const previousId = moveHighlightRocketId;
+    moveHighlightRocketId = rocketId;
+
+    if (previousId != null && previousId !== rocketId) {
+      const previousRocket = rocketState.rockets.find((item) => item.id === previousId);
+      if (previousRocket) renderRocketElement(previousRocket);
+    }
+
+    if (rocketId != null) {
+      const rocket = rocketState.rockets.find((item) => item.id === rocketId);
+      if (rocket) renderRocketElement(rocket);
+    }
+
+    syncMoveModeChrome();
+    scheduleRenderMoveArrows();
+  }
+
+  function clearMoveRocketHighlight() {
+    updateMoveRocketHighlight(null);
+  }
+
+  function activateMoveMode(rocketId) {
+    if (!Number.isInteger(rocketId) || rocketId <= 0) return false;
+
+    const currentPlayer = getCurrentPlayer();
+    const rocketsForPlayer = rocketActions.getRocketsForPlayer(rocketState, currentPlayer.id);
+    if (!rocketsForPlayer.some((rocket) => rocket.id === rocketId)) return false;
+
+    rocketActions.setActiveRocket(rocketState, rocketId);
+    updateMoveRocketHighlight(rocketId);
+    renderStateReadout();
+    return true;
+  }
+
+  function deactivateMoveMode() {
+    if (isMovePaymentSelectionActive()) {
+      cancelMovePaymentSelection();
+    }
+    clearMoveRocketHighlight();
+    renderRockets();
+  }
+
   function setQuickActionButtonEnabled(enabled, reason) {
     els.actionQuickButton.disabled = !enabled;
     els.actionQuickButton.title = enabled ? "" : (reason || "当前无法执行此行动");
     els.actionQuickButton.setAttribute("aria-disabled", String(!enabled));
+    els.actionQuickButton.classList.add("action-button-ready");
+  }
+
+  function updateTurnActionButtons() {
+    const pendingBlockedReason = "请先确认或撤销当前行动";
+
+    if (pendingActionExecuted) {
+      setTurnActionButtonState(els.actionPassButton, false);
+      setTurnActionButtonState(els.actionConfirmButton, true, true);
+      setTurnActionButtonState(els.actionUndoButton, true, true);
+      return pendingBlockedReason;
+    }
+
+    setTurnActionButtonState(els.actionPassButton, false);
+    setTurnActionButtonState(els.actionConfirmButton, false);
+    setTurnActionButtonState(els.actionUndoButton, false);
+    return null;
   }
 
   function updateActionButtons() {
@@ -1651,15 +2690,23 @@
     const cardSelectionLocked = isCardSelectionActive();
     const discardSelectionLocked = isDiscardSelectionActive();
     const playCardSelectionLocked = isPlayCardSelectionActive();
+    const movePaymentLocked = isMovePaymentSelectionActive();
+    const handScanLocked = isHandScanSelectionActive();
     const selectionBlockReason = techSelectionLocked
       ? "请先拿取科技或点击取消"
-      : playCardSelectionLocked
-        ? "请先完成打牌或点击打出取消"
-        : discardSelectionLocked
-          ? "请先完成弃牌或点击取消"
-          : "请先完成精选或点击取消";
+      : handScanLocked
+        ? "请先完成手牌扫描或点击取消"
+        : movePaymentLocked
+          ? "请先确认或取消移动"
+          : playCardSelectionLocked
+            ? "请先完成打牌或点击打出取消"
+            : discardSelectionLocked
+              ? "请先完成弃牌或点击取消"
+              : "请先完成精选或点击取消";
 
-    if (techSelectionLocked || cardSelectionLocked || discardSelectionLocked || playCardSelectionLocked) {
+    const pendingBlockedReason = updateTurnActionButtons();
+
+    if (techSelectionLocked || cardSelectionLocked || discardSelectionLocked || playCardSelectionLocked || movePaymentLocked || handScanLocked) {
       setActionButtonState(els.actionLaunchButton, false, selectionBlockReason);
       setActionButtonState(els.actionOrbitButton, false, selectionBlockReason);
       setActionButtonState(els.actionLandButton, false, selectionBlockReason);
@@ -1667,8 +2714,18 @@
       setActionButtonState(els.actionPlayCardButton, false, selectionBlockReason);
       setActionButtonState(els.actionResearchTechButton, false, selectionBlockReason);
       setQuickActionButtonEnabled(false, selectionBlockReason);
-      renderQuickMoveRocketOptions();
-      updateQuickMoveControls();
+      updateQuickPanel();
+      return;
+    }
+
+    if (pendingActionExecuted) {
+      setActionButtonState(els.actionLaunchButton, false, pendingBlockedReason);
+      setActionButtonState(els.actionOrbitButton, false, pendingBlockedReason);
+      setActionButtonState(els.actionLandButton, false, pendingBlockedReason);
+      setActionButtonState(els.actionAnalyzeButton, false, pendingBlockedReason);
+      setActionButtonState(els.actionPlayCardButton, false, pendingBlockedReason);
+      setActionButtonState(els.actionResearchTechButton, false, pendingBlockedReason);
+      setQuickActionButtonEnabled(true);
       updateQuickPanel();
       return;
     }
@@ -1688,8 +2745,6 @@
     setActionButtonState(els.actionPlayCardButton, canPlayCard, canPlayCard ? "" : "没有手牌可打出");
     setActionButtonState(els.actionResearchTechButton, researchTechCheck.ok, researchTechCheck.message);
     setQuickActionButtonEnabled(true);
-    renderQuickMoveRocketOptions();
-    updateQuickMoveControls();
     updateQuickPanel();
   }
 
@@ -1700,48 +2755,12 @@
   function setQuickPanelOpen(open) {
     els.quickActionsPanel.hidden = !open;
     els.actionQuickButton.setAttribute("aria-expanded", String(open));
-    els.actionQuickButton.classList.toggle("action-button-ready", open);
+    els.actionQuickButton.classList.add("action-button-ready");
     if (open) updateQuickPanel();
   }
 
   function toggleQuickPanel() {
     setQuickPanelOpen(!isQuickPanelOpen());
-  }
-
-  function getSelectedQuickMoveRocketId() {
-    const value = Number(els.quickMoveRocketSelect.value);
-    return Number.isInteger(value) && value > 0 ? value : null;
-  }
-
-  function renderQuickMoveRocketOptions() {
-    const currentPlayer = getCurrentPlayer();
-    const rocketsForPlayer = rocketActions.getRocketsForPlayer(rocketState, currentPlayer.id);
-    const previous = getSelectedQuickMoveRocketId();
-    const options = rocketsForPlayer.map((rocket) => {
-      const option = document.createElement("option");
-      option.value = String(rocket.id);
-      option.textContent = formatRocketLabel(rocket);
-      return option;
-    });
-
-    els.quickMoveRocketSelect.replaceChildren(...options);
-
-    if (!options.length) {
-      const emptyOption = document.createElement("option");
-      emptyOption.value = "";
-      emptyOption.textContent = "暂无火箭";
-      els.quickMoveRocketSelect.append(emptyOption);
-      els.quickMoveRocketSelect.value = "";
-      els.quickMoveRocketSelect.disabled = true;
-      return;
-    }
-
-    els.quickMoveRocketSelect.disabled = false;
-    const keepPrevious = options.some((option) => Number(option.value) === previous);
-    const fallbackId = rocketState.activeRocketId && rocketsForPlayer.some((rocket) => rocket.id === rocketState.activeRocketId)
-      ? rocketState.activeRocketId
-      : rocketsForPlayer[rocketsForPlayer.length - 1].id;
-    els.quickMoveRocketSelect.value = String(keepPrevious ? previous : fallbackId);
   }
 
   function updateQuickTradeButtons() {
@@ -1752,13 +2771,6 @@
       button.disabled = !check.ok;
       button.title = check.ok ? "" : (check.message || "当前无法兑换");
     });
-  }
-
-  function updateQuickPlaceDataButton() {
-    if (!els.quickPlaceDataButton) return;
-    const check = data.canPlaceAnyData(getCurrentPlayer());
-    els.quickPlaceDataButton.disabled = !check.ok;
-    els.quickPlaceDataButton.title = check.ok ? "" : (check.message || "当前无法放置数据");
   }
 
   function closeDataPlacePicker() {
@@ -1810,34 +2822,53 @@
       : { target: data.PLACEMENT_KIND_COMPUTER };
     const result = data.placeDataToComputer(getCurrentPlayer(), options);
     rocketState.statusNote = result.message;
+    if (result.ok) markActionPending();
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
     return result;
   }
 
-  function updateQuickMoveControls() {
-    renderQuickMoveRocketOptions();
-    const hasRocket = getSelectedQuickMoveRocketId() != null;
-    els.quickMovePad.querySelectorAll("[data-move-x]").forEach((button) => {
-      button.disabled = !hasRocket;
-    });
-  }
-
   function updateQuickPanel() {
     if (!isQuickPanelOpen()) return;
     updateQuickTradeButtons();
-    updateQuickPlaceDataButton();
-    updateQuickMoveControls();
   }
 
   function runPlaceDataToComputer() {
+    if (isTechActionSelectionActive()) {
+      rocketState.statusNote = "请先完成科技选择";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isCardSelectionActive()) {
+      rocketState.statusNote = "请先完成精选";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isDiscardSelectionActive()) {
+      rocketState.statusNote = "请先完成弃牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isPlayCardSelectionActive()) {
+      rocketState.statusNote = "请先完成打牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isMovePaymentSelectionActive()) {
+      rocketState.statusNote = "请先完成移动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
     openDataPlacePicker();
+    return { ok: true };
   }
 
   function analyzeDataForCurrentPlayer() {
     const result = data.analyzeData(getCurrentPlayer());
     rocketState.statusNote = result.message;
+    if (result.ok) markActionPending();
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
@@ -1861,6 +2892,7 @@
     }
 
     rocketState.statusNote = result.message;
+    if (result.ok) markActionPending();
     renderPlayerStats();
     renderPublicCards();
     updatePublicCardControls();
@@ -1891,6 +2923,10 @@
     } else {
       if (result.rocket) renderRocketElement(result.rocket);
       if (result.removedRocketId != null) removeRocketElement(result.removedRocketId);
+    }
+
+    if (result.ok && !result.awaitingTileSelection) {
+      markActionPending();
     }
 
     renderPlayerStats();
@@ -2161,28 +3197,39 @@
     return result;
   }
 
-  function fillDebugNebulaData() {
-    const result = data.fillAllNebulaData(nebulaDataState, { source: "debug" });
+  function fillNebulaDataBoard(options = {}) {
+    const { replace = false, source = "debug", log = false } = options;
+    if (replace) {
+      data.clearNebulaData(nebulaDataState);
+    }
+
+    const result = data.fillAllNebulaData(nebulaDataState, { source });
     rocketState.statusNote = result.message;
-    renderSectors();
+    renderSectorNebulaDataBoard();
     renderStateReadout();
 
-    if (result.ok) {
-      for (const fillResult of result.results || []) {
-        console.info("[星云数据填充]", fillResult.message);
-        for (const { token, layout } of fillResult.added || []) {
-          const label = data.getNebulaLabel(fillResult.nebulaId);
-          console.info(
-            `[星云坐标] ${label} 序号${token.index} 槽位${token.slotIndex}`
-            + ` → 局部${layout.percentX}%,${layout.percentY}%`,
-          );
+    if (log) {
+      if (result.ok) {
+        for (const fillResult of result.results || []) {
+          console.info("[星云数据填充]", fillResult.message);
+          for (const { token, layout } of fillResult.added || []) {
+            const label = data.getNebulaLabel(fillResult.nebulaId);
+            console.info(
+              `[星云坐标] ${label} 序号${token.index} 槽位${token.slotIndex}`
+              + ` → 局部${layout.percentX}%,${layout.percentY}%`,
+            );
+          }
         }
+      } else {
+        console.info("[星云数据填充]", result.message);
       }
-    } else {
-      console.info("[星云数据填充]", result.message);
     }
 
     return result;
+  }
+
+  function fillDebugNebulaData() {
+    return fillNebulaDataBoard({ source: "debug", log: true });
   }
 
   function renderSectorNebulaDataBoard() {
@@ -2195,15 +3242,24 @@
   }
 
   function moveRocket(deltaX, deltaY, rocketId) {
-    const selectedRocketId = rocketId ?? getSelectedQuickMoveRocketId() ?? rocketState.activeRocketId;
+    const selectedRocketId = rocketId ?? moveHighlightRocketId ?? rocketState.activeRocketId;
     if (!selectedRocketId) {
-      rocketState.statusNote = "请先选择要移动的火箭";
+      rocketState.statusNote = "请先点击要移动的火箭";
       renderStateReadout();
       return { ok: false, rocket: null, message: rocketState.statusNote };
     }
 
+    return beginMovePaymentSelection(deltaX, deltaY, selectedRocketId);
+  }
+
+  function executeMoveRocket(deltaX, deltaY, rocketId) {
+    const selectedRocketId = rocketId ?? moveHighlightRocketId ?? rocketState.activeRocketId;
     const result = rocketActions.moveRocket(rocketState, selectedRocketId, deltaX, deltaY);
     if (result.rocket) renderRocketElement(result.rocket);
+    if (result.ok) {
+      markActionPending();
+      activateMoveMode(selectedRocketId);
+    }
     updateActionButtons();
     renderStateReadout();
     return result;
@@ -2213,64 +3269,30 @@
     return moveRocket(deltaX, deltaY, rocketState.activeRocketId);
   }
 
-  function placeRocketAtClientPosition(rocketId, clientX, clientY) {
-    const result = isClientPositionInsidePlanetsReference(clientX, clientY)
-      ? rocketActions.placeRocketAtPlanetsReferencePoint(
-        rocketState,
-        rocketId,
-        getPlanetsReferencePointFromClientPosition(clientX, clientY),
-      )
-      : rocketActions.placeRocketAtBoardPoint(
-        rocketState,
-        rocketId,
-        getBoardPointFromClientPosition(clientX, clientY),
-      );
-
-    if (result.rocket) renderRocketElement(result.rocket);
-    updateActionButtons();
-    renderStateReadout();
-    return result;
-  }
-
   function handleRocketPointerDown(event) {
+    if (event.button !== 0) return;
+
     const rocketId = Number(event.currentTarget.dataset.rocketId);
     if (!Number.isInteger(rocketId)) return;
 
     const rocket = rocketState.rockets.find((item) => item.id === rocketId);
     if (!rocket || isPlanetMarkerRocket(rocket)) return;
 
-    rocketState.activeRocketId = rocketId;
-    rocketState.draggingRocketId = rocketId;
-    rocketState.draggingRocketElement = event.currentTarget;
-    if (event.currentTarget.setPointerCapture) {
-      event.currentTarget.setPointerCapture(event.pointerId);
+    event.stopPropagation();
+    if (moveHighlightRocketId === rocketId) {
+      event.preventDefault();
+      return;
     }
+    if (!activateMoveMode(rocketId)) return;
 
-    placeRocketAtClientPosition(rocketId, event.clientX, event.clientY);
     event.preventDefault();
   }
 
-  function handleRocketPointerMove(event) {
-    if (!rocketState.draggingRocketId) return;
-    placeRocketAtClientPosition(rocketState.draggingRocketId, event.clientX, event.clientY);
-  }
-
-  function handleRocketPointerUp(event) {
-    const rocketId = rocketState.draggingRocketId;
-    if (!rocketId) return;
-
-    if (rocketState.draggingRocketElement?.releasePointerCapture) {
-      try {
-        rocketState.draggingRocketElement.releasePointerCapture(event.pointerId);
-      } catch (error) {
-        // Pointer capture may already be released by the browser.
-      }
-    }
-
-    rocketState.draggingRocketId = null;
-    rocketState.draggingRocketElement = null;
-    const rocket = rocketState.rockets.find((item) => item.id === rocketId);
-    if (rocket) renderRocketElement(rocket);
+  function handleBoardPointerDown(event) {
+    if (event.button !== 0) return;
+    if (event.target.closest(".rocket-token") || event.target.closest(".move-arrow-button")) return;
+    if (moveHighlightRocketId == null) return;
+    deactivateMoveMode();
     renderStateReadout();
   }
 
@@ -2399,6 +3421,7 @@
     els.spinButton.classList.remove("pulsin");
     randomizeWheels();
     randomizeSectors();
+    fillNebulaDataBoard({ source: "setup", replace: true });
     randomizeFinalScores();
     tech.setupBoardBonuses(techGameState);
     renderTechBoard();
@@ -2446,13 +3469,25 @@
     if (event.target === els.landTargetOverlay) closeLandTargetPicker();
   });
   els.actionQuickButton.addEventListener("click", toggleQuickPanel);
+  els.actionPassButton?.addEventListener("click", () => {
+    if (els.actionPassButton.disabled) return;
+  });
+  els.actionConfirmButton?.addEventListener("click", () => {
+    if (els.actionConfirmButton.disabled) return;
+    resolvePendingAction();
+  });
+  els.actionUndoButton?.addEventListener("click", () => {
+    if (els.actionUndoButton.disabled) return;
+    resolvePendingAction();
+  });
   els.quickActionsTrades.addEventListener("click", (event) => {
     const button = event.target.closest("[data-quick-trade]");
     if (!button || button.disabled) return;
     runQuickTrade(button.dataset.quickTrade);
   });
-  els.quickPlaceDataButton?.addEventListener("click", () => {
-    if (els.quickPlaceDataButton.disabled) return;
+  els.playerBoardDataLayer?.addEventListener("click", (event) => {
+    const token = event.target.closest(".data-token-pool");
+    if (!token) return;
     runPlaceDataToComputer();
   });
   els.dataPlaceActions?.addEventListener("click", (event) => {
@@ -2466,19 +3501,40 @@
       closeDataPlacePicker();
     }
   });
-  els.quickMovePad.addEventListener("click", (event) => {
+  els.scanTargetActions?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-nebula-id]");
+    if (!button || button.disabled || !button.dataset.nebulaId) return;
+    confirmScanTarget(button.dataset.nebulaId, button.dataset.sectorX);
+  });
+  els.scanTargetCancel?.addEventListener("click", closeScanTargetPicker);
+  els.scanTargetOverlay?.addEventListener("click", (event) => {
+    if (event.target === els.scanTargetOverlay) {
+      closeScanTargetPicker();
+    }
+  });
+  els.tokenLayer?.addEventListener("click", (event) => {
+    if (event.target.closest(".rocket-token")) {
+      event.stopPropagation();
+    }
+  });
+  els.moveArrowLayer?.addEventListener("pointerdown", (event) => {
     const button = event.target.closest("[data-move-x]");
-    if (!button || button.disabled) return;
-    moveRocket(Number(button.dataset.moveX), Number(button.dataset.moveY));
+    if (!button || moveHighlightRocketId == null) return;
+    event.stopPropagation();
+    event.preventDefault();
+    moveRocket(Number(button.dataset.moveX), Number(button.dataset.moveY), moveHighlightRocketId);
   });
-  els.quickMoveRocketSelect.addEventListener("change", () => {
-    const rocketId = getSelectedQuickMoveRocketId();
-    if (rocketId != null) rocketActions.setActiveRocket(rocketState, rocketId);
-    updateQuickMoveControls();
-    renderStateReadout();
-  });
+  els.wheelWrap.addEventListener("pointerdown", handleBoardPointerDown);
   els.debugToggle.addEventListener("click", () => {
     setDebugOpen(els.appWrap.classList.contains("debug-collapsed"));
+  });
+  els.debugPlayerSwitchButton?.addEventListener("click", () => {
+    setDebugPlayerMenuOpen(els.debugPlayerMenu?.hidden);
+  });
+  els.debugPlayerMenu?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-player-color]");
+    if (!button) return;
+    switchCurrentPlayerColor(button.dataset.playerColor);
   });
   els.debugRotateButton.addEventListener("click", () => {
     rotateSolarOrbit(1);
@@ -2488,6 +3544,9 @@
   els.debugResolveIncomeButton?.addEventListener("click", executeIncomeForCurrentPlayer);
   els.debugGainDataButton?.addEventListener("click", addDebugData);
   els.debugFillNebulaDataButton?.addEventListener("click", fillDebugNebulaData);
+  els.debugSectorScanButton?.addEventListener("click", beginSectorScan);
+  els.debugPublicScanButton?.addEventListener("click", beginPublicDeckScan);
+  els.debugHandScanButton?.addEventListener("click", beginHandScan);
   els.debugPickCardButton?.addEventListener("click", beginCardSelection);
   els.publicBlindDrawButton?.addEventListener("click", handlePublicBlindDrawClick);
   els.publicCardRow?.addEventListener("click", (event) => {
@@ -2500,11 +3559,22 @@
   els.discardSelectionCancel?.addEventListener("click", cancelDiscardSelection);
   els.discardSelectionBackdrop?.addEventListener("click", cancelDiscardSelection);
   els.playCardActionButton?.addEventListener("click", cancelPlayCardSelection);
+  els.handScanCancel?.addEventListener("click", cancelHandScanSelection);
+  els.movePaymentConfirm?.addEventListener("click", confirmMovePayment);
+  els.movePaymentCancel?.addEventListener("click", cancelMovePaymentSelection);
   els.playerHandFan?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-hand-index]");
-    if (!button) return;
+    if (!button || button.disabled) return;
     if (isDiscardSelectionActive()) {
       handleHandCardDiscard(Number(button.dataset.handIndex));
+      return;
+    }
+    if (isMovePaymentSelectionActive()) {
+      handleHandCardMovePayment(Number(button.dataset.handIndex));
+      return;
+    }
+    if (isHandScanSelectionActive()) {
+      handleHandScanCardClick(Number(button.dataset.handIndex));
       return;
     }
     if (isPlayCardSelectionActive()) {
@@ -2529,26 +3599,6 @@
     }
   });
   syncTechRenderContext();
-  data.bindDataTokenDragging(els.playerBoardDataLayer, {
-    onPositionChange(payload) {
-      rocketState.statusNote = payload.message;
-      console.info("[数据校准]", payload.message);
-      renderStateReadout();
-    },
-  });
-  data.bindNebulaDataDragging({
-    onPositionChange(payload) {
-      data.updateNebulaTokenPosition(
-        nebulaDataState,
-        payload.nebulaId,
-        payload.slotIndex,
-        payload,
-      );
-      rocketState.statusNote = payload.message;
-      console.info("[星云数据校准]", payload.message);
-      renderStateReadout();
-    },
-  });
   tech.bindSupplyTileClicks(techGameState, techRenderContext, els.techTiles, {
     onTileClick: handleSupplyTechTileClick,
   });
@@ -2556,13 +3606,10 @@
     setLogOpen(els.appWrap.classList.contains("log-collapsed"));
   });
   window.addEventListener("resize", resize);
-  window.addEventListener("pointermove", handleRocketPointerMove);
-  window.addEventListener("pointerup", handleRocketPointerUp);
-  window.addEventListener("pointercancel", handleRocketPointerUp);
-
   setTokenAssetSizes();
   setLogOpen(false);
   initializeCardGame(10);
+  renderDebugPlayerSwitch();
   renderPublicCards();
   seedDefaultReferenceRockets();
   renderRotateStateToken();
@@ -2586,6 +3633,11 @@
     executeIncomeForCurrentPlayer,
     addDebugData,
     fillDebugNebulaData,
+    beginSectorScan,
+    beginPublicDeckScan,
+    beginHandScan,
+    replaceNebulaDataForCurrentPlayer,
+    switchCurrentPlayerColor,
     getNebulaSlotLayoutOverrides: () => structuredClone(data.listNebulaSlotLayoutOverrides()),
     placeDataToComputer: runPlaceDataToComputer,
     analyzeDataForCurrentPlayer,

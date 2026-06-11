@@ -18,6 +18,7 @@
       rocketAsset: "../assets/tokens/rocket-blue.png",
       satelliteAsset: "../assets/tokens/satellite-blue.png",
       landdingAsset: "../assets/tokens/landding-blue.png",
+      normalTokenAsset: "../assets/tokens/normal_token-blue.png",
       uiColor: "#4da3ff",
       glowColor: "rgba(77, 163, 255, 0.72)",
     }),
@@ -27,6 +28,7 @@
       rocketAsset: "../assets/tokens/rocket-green.png",
       satelliteAsset: "../assets/tokens/satellite-green.png",
       landdingAsset: "../assets/tokens/landding-green.png",
+      normalTokenAsset: "../assets/tokens/normal_token-green.png",
       uiColor: "#56d37a",
       glowColor: "rgba(86, 211, 122, 0.72)",
     }),
@@ -36,6 +38,7 @@
       rocketAsset: "../assets/tokens/rocket-brown.png",
       satelliteAsset: "../assets/tokens/satellite-brown.png",
       landdingAsset: "../assets/tokens/landding-brown.png",
+      normalTokenAsset: "../assets/tokens/normal_token-brown.png",
       uiColor: "#b2845a",
       glowColor: "rgba(178, 132, 90, 0.7)",
     }),
@@ -45,6 +48,7 @@
       rocketAsset: "../assets/tokens/rocket-white.png",
       satelliteAsset: "../assets/tokens/satellite-white.png",
       landdingAsset: "../assets/tokens/landding-white.png",
+      normalTokenAsset: "../assets/tokens/normal_token-white.png",
       uiColor: "#f3f5ef",
       glowColor: "rgba(243, 245, 239, 0.74)",
     }),
@@ -324,11 +328,19 @@
 
   function createPlayerState(input) {
     const source = input || {};
-    const player = createPlayer(source.currentPlayer || source.player || { color: DEFAULT_PLAYER_COLOR });
+    const sourcePlayers = Array.isArray(source.players) && source.players.length
+      ? source.players
+      : [source.currentPlayer || source.player || { color: DEFAULT_PLAYER_COLOR }];
+    const normalizedPlayers = sourcePlayers.map(createPlayer);
+    const requestedCurrentPlayerId = source.currentPlayerId
+      || normalizedPlayers.find((player) => player.color === normalizePlayerColor(source.currentPlayerColor))?.id
+      || normalizedPlayers[0].id;
+    const currentPlayer = normalizedPlayers.find((player) => player.id === requestedCurrentPlayerId)
+      || normalizedPlayers[0];
 
     return {
-      players: [player],
-      currentPlayerId: player.id,
+      players: normalizedPlayers,
+      currentPlayerId: currentPlayer.id,
     };
   }
 

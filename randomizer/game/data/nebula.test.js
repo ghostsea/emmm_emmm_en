@@ -72,6 +72,40 @@ const readout = data.getNebulaReadoutLines(nebulaDataState);
 assert.ok(readout.some((line) => line.includes("[天狼星A] 6/6")));
 assert.ok(readout.some((line) => line.includes("序号") && line.includes("局部坐标")));
 
+const scanState = data.createDefaultNebulaDataState();
+data.fillNebulaData(scanState, "sector-1-a", { source: "debug" });
+const scanPlayer = {
+  id: "player-blue",
+  color: "blue",
+  colorLabel: "蓝色",
+  resources: { availableData: 0 },
+};
+const firstReplace = data.replaceNextNebulaDataToken(scanState, "sector-1-a", scanPlayer, {
+  playerTokenSrc: "../assets/tokens/normal_token-blue.png",
+});
+assert.equal(firstReplace.ok, true);
+assert.equal(firstReplace.slotIndex, 1);
+assert.equal(firstReplace.secondSlotScore, 0);
+assert.equal(firstReplace.token.replacedByPlayerColor, "blue");
+assert.equal(firstReplace.token.playerTokenSrc, "../assets/tokens/normal_token-blue.png");
+assert.equal(data.getNebulaSecondSlotScoreReward(1), 0);
+assert.equal(data.getNebulaSecondSlotScoreReward(2), data.NEBULA_SECOND_SLOT_SCORE);
+assert.equal(data.NEBULA_SECOND_SLOT_SCORE, 2);
+
+const secondReplace = data.replaceNextNebulaDataToken(scanState, "sector-1-a", scanPlayer, {
+  playerTokenSrc: "../assets/tokens/normal_token-blue.png",
+});
+assert.equal(secondReplace.ok, true);
+assert.equal(secondReplace.slotIndex, 2);
+assert.equal(secondReplace.secondSlotScore, 2);
+
+const replacementStats = data.getNebulaReplacementStats(scanState, "sector-1-a");
+assert.equal(replacementStats.playerTokenCounts.blue, 2);
+assert.equal(replacementStats.lastReplacedPlayerColor, "blue");
+assert.ok(
+  data.getNebulaReadoutLines(scanState).some((line) => line.includes("token=blue:2")),
+);
+
 data.updateNebulaTokenPosition(nebulaDataState, "sector-2-a", 1, {
   percentX: 12.34,
   percentY: 56.78,

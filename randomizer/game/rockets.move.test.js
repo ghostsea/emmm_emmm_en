@@ -12,6 +12,12 @@ rockets.launchRocketAtSector(rocketState, { x: 5, y: 1 }, {
   color: "white",
 });
 
+const blockedMove = rockets.canMoveRocket(rocketState, 2, 0, -1);
+assert.equal(blockedMove.ok, false);
+
+const allowedMove = rockets.canMoveRocket(rocketState, 2, 1, 0);
+assert.equal(allowedMove.ok, true);
+
 const moved = rockets.moveRocket(rocketState, 2, 1, 0);
 assert.equal(moved.ok, true);
 assert.equal(moved.rocket.id, 2);

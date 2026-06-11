@@ -18,18 +18,60 @@
   "use strict";
 
   let nebulaTokenSequence = 0;
+  const NEBULA_SECOND_SLOT_INDEX = 2;
+  const NEBULA_SECOND_SLOT_SCORE = 2;
+
+  function getNebulaSecondSlotScoreReward(slotIndex) {
+    return Number(slotIndex) === NEBULA_SECOND_SLOT_INDEX ? NEBULA_SECOND_SLOT_SCORE : 0;
+  }
 
   function createDefaultNebulaDataState() {
     return { nebulae: {} };
   }
 
+  function createEmptyPlayerTokenCounts() {
+    return {};
+  }
+
+  function getTokenOwnerColor(token) {
+    return token?.replacedByPlayerColor || token?.playerColor || null;
+  }
+
+  function rebuildNebulaStats(bucket) {
+    const counts = createEmptyPlayerTokenCounts();
+    let lastReplacedPlayerId = null;
+    let lastReplacedPlayerColor = null;
+    let lastReplacedPlayerLabel = null;
+
+    for (const token of bucket.tokens || []) {
+      const color = getTokenOwnerColor(token);
+      if (!color) continue;
+      counts[color] = (counts[color] || 0) + 1;
+      lastReplacedPlayerId = token.replacedByPlayerId || token.playerId || null;
+      lastReplacedPlayerColor = color;
+      lastReplacedPlayerLabel = token.replacedByPlayerLabel || token.playerLabel || null;
+    }
+
+    bucket.playerTokenCounts = counts;
+    bucket.lastReplacedPlayerId = lastReplacedPlayerId;
+    bucket.lastReplacedPlayerColor = lastReplacedPlayerColor;
+    bucket.lastReplacedPlayerLabel = lastReplacedPlayerLabel;
+    return bucket;
+  }
+
   function ensureNebulaBucket(state, nebulaId) {
     if (!state.nebulae[nebulaId]) {
-      state.nebulae[nebulaId] = { tokens: [] };
+      state.nebulae[nebulaId] = {
+        tokens: [],
+        playerTokenCounts: createEmptyPlayerTokenCounts(),
+        lastReplacedPlayerId: null,
+        lastReplacedPlayerColor: null,
+        lastReplacedPlayerLabel: null,
+      };
     } else if (!Array.isArray(state.nebulae[nebulaId].tokens)) {
       state.nebulae[nebulaId].tokens = [];
     }
-    return state.nebulae[nebulaId];
+    return rebuildNebulaStats(state.nebulae[nebulaId]);
   }
 
   function normalizeNebulaToken(token, nebulaId, index) {
@@ -42,6 +84,11 @@
       slotIndex,
       percentX: token?.percentX ?? layout?.percentX ?? null,
       percentY: token?.percentY ?? layout?.percentY ?? null,
+      replacedByPlayerId: token?.replacedByPlayerId || token?.playerId || null,
+      replacedByPlayerColor: token?.replacedByPlayerColor || token?.playerColor || null,
+      replacedByPlayerLabel: token?.replacedByPlayerLabel || token?.playerLabel || null,
+      playerTokenSrc: token?.playerTokenSrc || token?.tokenSrc || null,
+      replacedAt: token?.replacedAt || null,
     };
   }
 
@@ -52,9 +99,9 @@
       const bucket = sourceNebulae[nebulaId];
       if (!bucket) continue;
       const tokens = Array.isArray(bucket.tokens) ? bucket.tokens : [];
-      nebulae[nebulaId] = {
+      nebulae[nebulaId] = rebuildNebulaStats({
         tokens: tokens.map((token, index) => normalizeNebulaToken(token, nebulaId, index)),
-      };
+      });
     }
     return { nebulae };
   }
@@ -114,6 +161,8 @@
       added.push({ token, layout });
     }
 
+    rebuildNebulaStats(bucket);
+
     if (!added.length) {
       return {
         ok: false,
@@ -122,7 +171,11 @@
     }
 
     const label = nebulaPlacement.getNebulaLabel(nebulaId);
-    const sourceLabel = options.source === "debug" ? "调试填充" : "填充";
+    const sourceLabel = options.source === "debug"
+      ? "调试填充"
+      : options.source === "setup"
+        ? "设置填充"
+        : "填充";
     const coordLines = added.map(({ token, layout }) =>
       `序号${token.index} 槽位${token.slotIndex} (${layout.percentX}%,${layout.percentY}%)`,
     );
@@ -147,11 +200,12 @@
     }
 
     const totalAdded = results.reduce((sum, result) => sum + result.added.length, 0);
+    const batchLabel = options.source === "setup" ? "设置填充" : "调试填充";
     return {
       ok: true,
       results,
       totalAdded,
-      message: `调试填充星云数据共 ${totalAdded} 个`,
+      message: `${batchLabel}星云数据共 ${totalAdded} 个`,
     };
   }
 
@@ -159,6 +213,7 @@
     if (nebulaId) {
       if (state.nebulae[nebulaId]) {
         state.nebulae[nebulaId].tokens = [];
+        rebuildNebulaStats(state.nebulae[nebulaId]);
       }
       return;
     }
@@ -174,7 +229,87 @@
     return token;
   }
 
+  function getNebulaReplacementStats(state, nebulaId) {
+    const bucket = state?.nebulae?.[nebulaId];
+    if (!bucket) {
+      return {
+        playerTokenCounts: createEmptyPlayerTokenCounts(),
+        lastReplacedPlayerId: null,
+        lastReplacedPlayerColor: null,
+        lastReplacedPlayerLabel: null,
+      };
+    }
+    rebuildNebulaStats(bucket);
+    return {
+      playerTokenCounts: { ...(bucket.playerTokenCounts || {}) },
+      lastReplacedPlayerId: bucket.lastReplacedPlayerId || null,
+      lastReplacedPlayerColor: bucket.lastReplacedPlayerColor || null,
+      lastReplacedPlayerLabel: bucket.lastReplacedPlayerLabel || null,
+    };
+  }
+
+  function getNextReplaceableNebulaToken(state, nebulaId) {
+    return listNebulaTokens(state, nebulaId)
+      .filter((token) => !getTokenOwnerColor(token))
+      .sort((a, b) => a.slotIndex - b.slotIndex || a.index - b.index)[0] || null;
+  }
+
+  function replaceNextNebulaDataToken(state, nebulaId, player, options = {}) {
+    const capacity = nebulaPlacement.getNebulaCapacity(nebulaId);
+    if (!capacity) {
+      return { ok: false, message: `未知星云 ${nebulaId}` };
+    }
+
+    if (!player) {
+      return { ok: false, message: "没有当前玩家" };
+    }
+
+    const bucket = ensureNebulaBucket(state, nebulaId);
+    if (!bucket.tokens.length) {
+      return {
+        ok: false,
+        message: `${nebulaPlacement.getNebulaLabel(nebulaId)} 没有可替换的数据`,
+      };
+    }
+
+    const next = getNextReplaceableNebulaToken(state, nebulaId);
+    if (!next) {
+      return {
+        ok: false,
+        message: `${nebulaPlacement.getNebulaLabel(nebulaId)} 已没有未替换的数据`,
+      };
+    }
+
+    const token = bucket.tokens.find((item) => item.id === next.id);
+    const playerColor = options.playerColor || player.color || null;
+    const playerLabel = options.playerLabel || player.colorLabel || player.name || playerColor || "玩家";
+    const tokenSrc = options.playerTokenSrc || options.tokenSrc || null;
+    token.replacedByPlayerId = player.id || null;
+    token.replacedByPlayerColor = playerColor;
+    token.replacedByPlayerLabel = playerLabel;
+    token.playerTokenSrc = tokenSrc;
+    token.replacedAt = options.replacedAt || new Date().toISOString();
+    rebuildNebulaStats(bucket);
+
+    const label = nebulaPlacement.getNebulaLabel(nebulaId);
+    const secondSlotScore = getNebulaSecondSlotScoreReward(token.slotIndex);
+    return {
+      ok: true,
+      nebulaId,
+      token,
+      slotIndex: token.slotIndex,
+      secondSlotScore,
+      player,
+      stats: getNebulaReplacementStats(state, nebulaId),
+      message: `${label} 槽位${token.slotIndex} 数据已替换为${playerLabel}token`
+        + (secondSlotScore ? `；第二格 +${secondSlotScore}分` : ""),
+    };
+  }
+
   return Object.freeze({
+    NEBULA_SECOND_SLOT_INDEX,
+    NEBULA_SECOND_SLOT_SCORE,
+    getNebulaSecondSlotScoreReward,
     createDefaultNebulaDataState,
     normalizeNebulaDataState,
     listNebulaTokens,
@@ -183,5 +318,8 @@
     fillAllNebulaData,
     clearNebulaData,
     updateNebulaTokenPosition,
+    getNebulaReplacementStats,
+    getNextReplaceableNebulaToken,
+    replaceNextNebulaDataToken,
   });
 });

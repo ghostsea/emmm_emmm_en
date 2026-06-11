@@ -38,6 +38,16 @@ assert.equal(players.getPlayerColorDefinition("green").rocketAsset, "../assets/t
 assert.equal(players.getPlayerColorDefinition("green").satelliteAsset, "../assets/tokens/satellite-green.png");
 assert.equal(players.getPlayerColorDefinition("green").landdingAsset, "../assets/tokens/landding-green.png");
 
+const multiPlayerState = players.createPlayerState({
+  players: players.PLAYER_COLOR_IDS.map((color) => ({ color })),
+  currentPlayerColor: "green",
+});
+assert.equal(multiPlayerState.players.length, 4);
+assert.equal(multiPlayerState.currentPlayerId, "player-green");
+assert.equal(players.getCurrentPlayer(multiPlayerState).color, "green");
+multiPlayerState.currentPlayerId = "player-blue";
+assert.equal(players.getCurrentPlayer(multiPlayerState).color, "blue");
+
 const spender = players.createPlayer({ resources: { credits: 5, energy: 4 } });
 assert.equal(players.canAfford(spender, { credits: 2, energy: 1 }), true);
 const spent = players.spendResources(spender, { credits: 2, energy: 1 });

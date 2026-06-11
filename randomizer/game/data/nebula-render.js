@@ -234,8 +234,9 @@
       element.className = "data-token nebula-data-token nebula-data-token-positioned";
       element.draggable = false;
       element.dataset.dataKind = "nebula";
-      element.src = state.DATA_TOKEN_SRC;
       tokenElements.set(key, element);
+      layer.appendChild(element);
+    } else if (element.parentElement !== layer) {
       layer.appendChild(element);
     }
 
@@ -246,13 +247,24 @@
 
     applyNebulaTokenStyle(element, layout);
     const label = nebulaPlacement.getNebulaLabel(nebulaId);
-    element.alt = `${label} 数据 ${token.index}`;
+    const ownerLabel = token.replacedByPlayerLabel || token.replacedByPlayerColor || "";
+    element.src = token.playerTokenSrc || state.DATA_TOKEN_SRC;
+    element.alt = ownerLabel
+      ? `${label} ${ownerLabel}扫描标记 ${token.index}`
+      : `${label} 数据 ${token.index}`;
     element.dataset.dataTokenId = token.id;
     element.dataset.dataIndex = String(token.index);
     element.dataset.nebulaId = nebulaId;
     element.dataset.nebulaSlotIndex = String(token.slotIndex);
+    if (token.replacedByPlayerColor) {
+      element.dataset.replacedByPlayerColor = token.replacedByPlayerColor;
+    } else {
+      delete element.dataset.replacedByPlayerColor;
+    }
     element.title =
-      `${label} 序号${token.index} @槽位${token.slotIndex} 局部(${layout.percentX}%,${layout.percentY}%)`;
+      `${label} 序号${token.index} @槽位${token.slotIndex}`
+      + `${ownerLabel ? ` 已替换为${ownerLabel}token` : ""}`
+      + ` 局部(${layout.percentX}%,${layout.percentY}%)`;
   }
 
   function renderSectorNebulaData(sectorId, sectorElement, nebulaDataState) {
