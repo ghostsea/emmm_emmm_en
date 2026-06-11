@@ -31,6 +31,7 @@ assert.equal(currentPlayer.resources.handSize, 5);
 assert.equal(currentPlayer.hand.length, 5);
 assert.equal(currentPlayer.hand[0].src, players.CARD_BACK_SRC);
 assert.equal(currentPlayer.resources.score, 12);
+assert.deepEqual(currentPlayer.income, players.DEFAULT_INCOME);
 assert.equal(currentPlayer.orbitCount, 0);
 assert.equal(players.getPlayerColorDefinition("green").rocketAsset, "../assets/tokens/rocket-green.png");
 assert.equal(players.getPlayerColorDefinition("green").satelliteAsset, "../assets/tokens/satellite-green.png");
@@ -66,5 +67,14 @@ const handSpend = players.spendResources(handPlayer, { handSize: 1 });
 assert.equal(handSpend.ok, true);
 assert.equal(handPlayer.resources.handSize, 1);
 assert.equal(handPlayer.hand.length, 1);
+
+players.gainIncome(handPlayer, { credits: 1, energy: 2, handSize: 3, publicity: 4, availableData: 5 });
+assert.deepEqual(handPlayer.income, {
+  credits: 1,
+  energy: 2,
+  handSize: 3,
+  publicity: 4,
+  availableData: 5,
+});
 
 console.log("player tests passed");

@@ -1,11 +1,9 @@
 const assert = require("node:assert/strict");
 require("../card-catalog");
 require("../cards/deck");
-require("../basic-cards");
 require("../players");
 require("./quick-trades");
 
-const basicCards = require("../basic-cards");
 const players = require("../players");
 const quickTrades = require("./quick-trades");
 
@@ -17,9 +15,10 @@ function createContext(overrides = {}) {
         resources: { credits: 10, energy: 1, handSize: 4 },
       },
     }),
-    blindDrawCard(player) {
-      const target = player || players.getCurrentPlayer(context.playerState);
-      return basicCards.drawRandomBasicCardToHand(target.hand);
+    selectionRequests: [],
+    beginCardSelection(pending) {
+      context.selectionRequests.push(pending);
+      return { ok: true, message: "精选：从公共牌区选一张牌" };
     },
     beginDiscardSelection(count, pending) {
       const player = pending.player || players.getCurrentPlayer(context.playerState);
@@ -43,17 +42,24 @@ assert.equal(players.getCurrentPlayer(context.playerState).resources.energy, 2);
 
 const cardTrade = quickTrades.executeTrade("credits-for-card", context);
 assert.equal(cardTrade.ok, true);
-assert.equal(players.getCurrentPlayer(context.playerState).resources.handSize, 5);
+assert.equal(cardTrade.awaitingCardSelection, true);
+assert.equal(players.getCurrentPlayer(context.playerState).resources.credits, 6);
+assert.equal(players.getCurrentPlayer(context.playerState).resources.handSize, 4);
+assert.equal(context.selectionRequests.at(-1).tradeId, "credits-for-card");
+assert.equal(context.selectionRequests.at(-1).allowBlindDraw, false);
 
 const creditTrade = quickTrades.executeTrade("cards-for-credit", context);
 assert.equal(creditTrade.ok, true);
 assert.equal(players.getCurrentPlayer(context.playerState).resources.credits, 7);
-assert.equal(players.getCurrentPlayer(context.playerState).resources.handSize, 3);
+assert.equal(players.getCurrentPlayer(context.playerState).resources.handSize, 2);
 
 const energyForCard = quickTrades.executeTrade("energy-for-card", context);
 assert.equal(energyForCard.ok, true);
+assert.equal(energyForCard.awaitingCardSelection, true);
 assert.equal(players.getCurrentPlayer(context.playerState).resources.energy, 0);
-assert.equal(players.getCurrentPlayer(context.playerState).resources.handSize, 4);
+assert.equal(players.getCurrentPlayer(context.playerState).resources.handSize, 2);
+assert.equal(context.selectionRequests.at(-1).tradeId, "energy-for-card");
+assert.equal(context.selectionRequests.at(-1).allowBlindDraw, false);
 
 const energyCreditContext = createContext({
   playerState: players.createPlayerState({

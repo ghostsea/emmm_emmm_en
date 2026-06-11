@@ -99,6 +99,7 @@
       firstTake: takeBoardResult.firstTake,
       remainingForSlot: takeBoardResult.remainingForSlot,
       remainingForType: takeBoardResult.remainingForType,
+      awaitingCardSelection: Boolean(bonusResult.awaitingCardSelection),
       layout: structuredClone(layout),
       rewards: {
         bonus: bonusResult.rewards,

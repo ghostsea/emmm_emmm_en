@@ -67,6 +67,15 @@
     <div class="card-selection-backdrop" id="card-selection-backdrop" hidden aria-hidden="true"></div>
     <div class="discard-selection-backdrop" id="discard-selection-backdrop" hidden aria-hidden="true"></div>
 
+    <div class="data-place-overlay" id="data-place-overlay" hidden>
+      <div class="data-place-dialog" role="dialog" aria-modal="true" aria-labelledby="data-place-title">
+        <p class="data-place-title" id="data-place-title">选择数据放置位置</p>
+        <p class="data-place-subtitle" id="data-place-subtitle"></p>
+        <div class="data-place-actions" id="data-place-actions"></div>
+        <button class="data-place-cancel" type="button" id="data-place-cancel">取消</button>
+      </div>
+    </div>
+
     <div class="land-target-overlay" id="land-target-overlay" hidden>
       <div class="land-target-dialog" role="dialog" aria-modal="true" aria-labelledby="land-target-title">
         <p class="land-target-title" id="land-target-title">选择登陆目标</p>
@@ -83,25 +92,75 @@
       <section class="player-command" id="player-command" aria-label="当前玩家">
         <div class="player-stats" id="player-stats" aria-live="polite"></div>
         <div class="action-bar" id="action-bar" aria-label="行动">
-          <button class="action-button action-button-primary" type="button" id="action-launch-button">发射</button>
-          <button class="action-button" type="button" id="action-orbit-button">环绕</button>
-          <button class="action-button" type="button" id="action-land-button">登陆</button>
-          <button class="action-button" type="button" disabled>扫描</button>
-          <button class="action-button" type="button" disabled>分析</button>
-          <button class="action-button" type="button" disabled>打牌</button>
-          <button class="action-button" type="button" id="action-research-tech-button">科技</button>
+          <button class="action-button action-button-primary" type="button" id="action-launch-button" aria-label="发射">
+            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c02.webp" alt="" aria-hidden="true">
+          </button>
+          <button class="action-button" type="button" id="action-orbit-button" aria-label="环绕">
+            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c04.webp" alt="" aria-hidden="true">
+          </button>
+          <button class="action-button" type="button" id="action-land-button" aria-label="登陆">
+            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c01.webp" alt="" aria-hidden="true">
+          </button>
+          <button class="action-button" type="button" disabled aria-label="扫描">
+            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c03.webp" alt="" aria-hidden="true">
+          </button>
+          <button class="action-button" type="button" id="action-analyze-button" aria-label="分析">
+            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c00.webp" alt="" aria-hidden="true">
+          </button>
+          <button class="action-button" type="button" disabled aria-label="打牌">
+            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/play_card.png" alt="" aria-hidden="true">
+          </button>
+          <button class="action-button" type="button" id="action-research-tech-button" aria-label="科技">
+            <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r05_c03.webp" alt="" aria-hidden="true">
+          </button>
           <button class="action-button" type="button" id="action-quick-button" aria-expanded="false" aria-controls="quick-actions-panel">快速</button>
         </div>
         <div class="quick-actions-panel" id="quick-actions-panel" hidden aria-label="快速行动">
           <div class="quick-actions-row">
             <span class="quick-actions-label">兑换</span>
             <div class="quick-actions-trades" id="quick-actions-trades">
-              <button class="quick-trade-button" type="button" data-quick-trade="credits-for-energy">2信用点 → 1能量</button>
-              <button class="quick-trade-button" type="button" data-quick-trade="credits-for-card">2信用点 → 1张牌</button>
-              <button class="quick-trade-button" type="button" data-quick-trade="cards-for-credit">2张牌 → 1信用点</button>
-              <button class="quick-trade-button" type="button" data-quick-trade="cards-for-energy">2张牌 → 1能量</button>
-              <button class="quick-trade-button" type="button" data-quick-trade="energy-for-card">2能量 → 1张牌</button>
-              <button class="quick-trade-button" type="button" data-quick-trade="energy-for-credit">2能量 → 1信用点</button>
+              <button class="quick-trade-button" type="button" data-quick-trade="credits-for-energy" aria-label="2信用点换1能量">
+                <span class="quick-trade-count">2</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c00.webp" alt="" aria-hidden="true">
+                <span class="quick-trade-arrow" aria-hidden="true">-&gt;</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c01.webp" alt="" aria-hidden="true">
+              </button>
+              <button class="quick-trade-button" type="button" data-quick-trade="credits-for-card" aria-label="2信用点换1张牌">
+                <span class="quick-trade-count">2</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c00.webp" alt="" aria-hidden="true">
+                <span class="quick-trade-arrow" aria-hidden="true">-&gt;</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c03.webp" alt="" aria-hidden="true">
+              </button>
+              <button class="quick-trade-button" type="button" data-quick-trade="cards-for-credit" aria-label="2张牌换1信用点">
+                <span class="quick-trade-count">2</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c03.webp" alt="" aria-hidden="true">
+                <span class="quick-trade-arrow" aria-hidden="true">-&gt;</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c00.webp" alt="" aria-hidden="true">
+              </button>
+              <button class="quick-trade-button" type="button" data-quick-trade="cards-for-energy" aria-label="2张牌换1能量">
+                <span class="quick-trade-count">2</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c03.webp" alt="" aria-hidden="true">
+                <span class="quick-trade-arrow" aria-hidden="true">-&gt;</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c01.webp" alt="" aria-hidden="true">
+              </button>
+              <button class="quick-trade-button" type="button" data-quick-trade="energy-for-card" aria-label="2能量换1张牌">
+                <span class="quick-trade-count">2</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c01.webp" alt="" aria-hidden="true">
+                <span class="quick-trade-arrow" aria-hidden="true">-&gt;</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c03.webp" alt="" aria-hidden="true">
+              </button>
+              <button class="quick-trade-button" type="button" data-quick-trade="energy-for-credit" aria-label="2能量换1信用点">
+                <span class="quick-trade-count">2</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c01.webp" alt="" aria-hidden="true">
+                <span class="quick-trade-arrow" aria-hidden="true">-&gt;</span>
+                <img class="quick-trade-icon" src="../assets/symbol/split/seti-icons/seti-icons_r00_c00.webp" alt="" aria-hidden="true">
+              </button>
+            </div>
+          </div>
+          <div class="quick-actions-row">
+            <span class="quick-actions-label">数据</span>
+            <div class="quick-actions-data" id="quick-actions-data">
+              <button class="quick-trade-button" type="button" id="quick-place-data-button">放置数据</button>
             </div>
           </div>
           <div class="quick-actions-row">
@@ -119,6 +178,7 @@
           <div class="player-board-stage" id="player-board-stage">
             <img class="player-board-image" src="../assets/core/player_board.png" alt="玩家版图" width="960" height="329" decoding="async">
             <div class="player-board-tech-layer" id="player-board-tech-layer" aria-hidden="true"></div>
+            <div class="player-board-data-layer" id="player-board-data-layer" aria-hidden="true"></div>
           </div>
         </div>
         <section class="table-panel player-hand-panel" id="player-hand-panel" aria-label="玩家手牌区">
@@ -316,8 +376,11 @@
         <div class="debug-actions">
           <button class="debug-action-button" type="button" id="debug-rotate-button">旋转</button>
           <button class="debug-action-button" type="button" id="debug-income-button">收入</button>
+          <button class="debug-action-button" type="button" id="debug-income-effect-button">收入效果</button>
+          <button class="debug-action-button" type="button" id="debug-resolve-income-button">执行收入</button>
           <button class="debug-action-button" type="button" id="debug-pick-card-button">精选</button>
           <button class="debug-action-button" type="button" id="debug-discard-card-button">弃牌</button>
+          <button class="debug-action-button" type="button" id="debug-gain-data-button">获取数据</button>
           <button class="debug-action-button" type="button" id="debug-cheat-button" aria-pressed="false">作弊</button>
         </div>
       </div>
@@ -332,9 +395,9 @@
   <script src="./solar-system/layout.js?v=player-actions-4"></script>
   <script src="./solar-system/core.js?v=player-actions-4"></script>
   <script src="./game/card-catalog.js?v=card-deck-1"></script>
-  <script src="./game/cards/deck.js?v=card-deck-1"></script>
+  <script src="./game/cards/deck.js?v=income-effect-2"></script>
   <script src="./game/basic-cards.js?v=card-deck-1"></script>
-  <script src="./game/players.js?v=player-hand-1"></script>
+  <script src="./game/players.js?v=income-effect-1"></script>
   <script src="./game/rockets.js?v=planet-tokens-11"></script>
   <script src="./game/planet-reference-layout.js?v=planet-tokens-11"></script>
   <script src="./game/planet-stats.js?v=planet-tokens-11"></script>
@@ -350,9 +413,13 @@
   <script src="./game/tech/resolver.js?v=tech-module-1"></script>
   <script src="./game/tech/render.js?v=tech-module-1"></script>
   <script src="./game/tech/index.js?v=tech-module-1"></script>
+  <script src="./game/data/placement.js?v=data-module-1"></script>
+  <script src="./game/data/state.js?v=data-module-1"></script>
+  <script src="./game/data/render.js?v=data-module-1"></script>
+  <script src="./game/data/index.js?v=data-module-1"></script>
   <script src="./game/actions/research-tech.js?v=tech-module-1"></script>
   <script src="./game/actions/index.js?v=tech-module-1"></script>
-  <script src="./game/actions/quick-trades.js?v=planet-tokens-11"></script>
-  <script src="./app.js?v=card-deck-1"></script>
+  <script src="./game/actions/quick-trades.js?v=income-effect-1"></script>
+  <script src="./app.js?v=income-debug-1"></script>
 </body>
 </html>

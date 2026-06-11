@@ -21,6 +21,20 @@ cards.initializeDeck(cardState, playerState, {
 
 assert.equal(cardState.publicCards.filter(Boolean).length, cards.PUBLIC_CARD_COUNT);
 assert.equal(player.hand.length, 5);
+assert.equal(player.hand[0].incomeCode, cards.CARD_CATALOG[0].income_code);
+assert.equal(cards.getIncomeCodeForCard(player.hand[0]), cards.CARD_CATALOG[0].income_code);
+assert.deepEqual(
+  cards.getIncomeGainForCard(cards.createCardInstance(cards.CARD_CATALOG.find((entry) => entry.income_code === 0), 0)),
+  { credits: 1 },
+);
+assert.deepEqual(
+  cards.getIncomeGainForCard(cards.createCardInstance(cards.CARD_CATALOG.find((entry) => entry.income_code === 1), 1)),
+  { energy: 1 },
+);
+assert.deepEqual(
+  cards.getIncomeGainForCard(cards.createCardInstance(cards.CARD_CATALOG.find((entry) => entry.income_code === 2), 2)),
+  { handSize: 1 },
+);
 
 const claimed = cards.collectClaimedCardIds(cardState, playerState);
 assert.equal(claimed.size, cards.PUBLIC_CARD_COUNT + 5);
@@ -59,6 +73,7 @@ const indexedDiscardPlayer = {
 };
 const indexedDiscard = cards.discardFromHandAtIndex(indexedDiscardPlayer, 0);
 assert.equal(indexedDiscard.ok, true);
+assert.equal(indexedDiscard.card.incomeCode, cards.CARD_CATALOG[0].income_code);
 assert.equal(indexedDiscardPlayer.hand.length, 1);
 assert.equal(indexedDiscardPlayer.hand[0].cardId, cards.CARD_CATALOG[1].card_id);
 

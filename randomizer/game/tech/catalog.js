@@ -41,14 +41,14 @@
     bonus_3f: "3 分",
     bonus_1p: "1 能量",
     bonus_1m: "1 宣传",
-    bonus_1c: "1 张手牌",
+    bonus_1c: "精选 1 张牌",
   });
 
   const BONUS_EFFECTS = Object.freeze({
     bonus_3f: Object.freeze({ score: 3 }),
     bonus_1p: Object.freeze({ energy: 1 }),
     bonus_1m: Object.freeze({ publicity: 1 }),
-    bonus_1c: Object.freeze({ drawCard: 1 }),
+    bonus_1c: Object.freeze({ cardSelection: 1 }),
   });
 
   const FIRST_TAKE_TYPE_SCORE = 2;

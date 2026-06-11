@@ -47,6 +47,17 @@
       Object.assign(rewards, resourceGain);
     }
 
+    if (effect.cardSelection) {
+      const selectionCount = Math.max(0, Math.round(effect.cardSelection));
+      rewards.cardSelection = selectionCount;
+      return {
+        ok: true,
+        message: catalog.BONUS_LABELS[bonusId] || bonusId,
+        rewards,
+        awaitingCardSelection: selectionCount > 0,
+      };
+    }
+
     if (effect.drawCard) {
       const drawCount = Math.max(0, Math.round(effect.drawCard));
       for (let index = 0; index < drawCount; index += 1) {

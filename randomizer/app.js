@@ -11,6 +11,7 @@
   const basicCards = window.SetiBasicCards;
   const cards = window.SetiCards;
   const tech = window.SetiTech;
+  const data = window.SetiData;
 
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
@@ -18,6 +19,23 @@
   const ROCKET_IMAGE_SCALE = 0.104;
   const REFERENCE_ORBIT_IMAGE_SCALE = 0.0286;
   const REFERENCE_LANDDING_IMAGE_SCALE = 0.0338;
+  const RESOURCE_ICON_SRC = Object.freeze({
+    score: "../assets/symbol/split/seti-icons/seti-icons_r03_c04.webp",
+    credits: "../assets/symbol/split/seti-icons/seti-icons_r00_c00.webp",
+    energy: "../assets/symbol/split/seti-icons/seti-icons_r00_c01.webp",
+    card: "../assets/symbol/split/seti-icons/seti-icons_r00_c03.webp",
+    publicity: "../assets/symbol/split/seti-icons/seti-icons_r00_c04.webp",
+    data: "../assets/symbol/split/seti-icons/seti-icons_r01_c00.webp",
+    income: "../assets/symbol/split/seti-icons/seti-icons_r06_c04.webp",
+    incomeCard: "../assets/symbol/split/seti-icons/seti-icons_r06_c01.webp",
+  });
+  const INCOME_GAIN_LABELS = Object.freeze({
+    credits: "信用点",
+    energy: "能量",
+    handSize: "手牌",
+    publicity: "宣传",
+    availableData: "数据",
+  });
   const tokenWidths = {
     rocket: null,
     orbit: null,
@@ -44,6 +62,7 @@
   const techGameState = tech.createState();
   const cardState = cards.createCardState();
   let pendingDiscardAction = null;
+  let pendingCardSelectionAction = null;
   const techRenderContext = {
     supplyStage: null,
     supplySlots: {},
@@ -60,10 +79,16 @@
     actionLaunchButton: document.getElementById("action-launch-button"),
     actionOrbitButton: document.getElementById("action-orbit-button"),
     actionLandButton: document.getElementById("action-land-button"),
+    actionAnalyzeButton: document.getElementById("action-analyze-button"),
     actionResearchTechButton: document.getElementById("action-research-tech-button"),
     actionQuickButton: document.getElementById("action-quick-button"),
     quickActionsPanel: document.getElementById("quick-actions-panel"),
     quickActionsTrades: document.getElementById("quick-actions-trades"),
+    quickPlaceDataButton: document.getElementById("quick-place-data-button"),
+    dataPlaceOverlay: document.getElementById("data-place-overlay"),
+    dataPlaceSubtitle: document.getElementById("data-place-subtitle"),
+    dataPlaceActions: document.getElementById("data-place-actions"),
+    dataPlaceCancel: document.getElementById("data-place-cancel"),
     quickMoveRocketSelect: document.getElementById("quick-move-rocket-select"),
     quickMovePad: document.getElementById("quick-move-pad"),
     alienPanels: document.querySelectorAll(".alien-panel"),
@@ -91,14 +116,18 @@
     debugToggle: document.getElementById("debug-toggle"),
     debugRotateButton: document.getElementById("debug-rotate-button"),
     debugIncomeButton: document.getElementById("debug-income-button"),
+    debugIncomeEffectButton: document.getElementById("debug-income-effect-button"),
+    debugResolveIncomeButton: document.getElementById("debug-resolve-income-button"),
     debugPickCardButton: document.getElementById("debug-pick-card-button"),
     debugDiscardCardButton: document.getElementById("debug-discard-card-button"),
+    debugGainDataButton: document.getElementById("debug-gain-data-button"),
     debugCheatButton: document.getElementById("debug-cheat-button"),
     techPanel: document.getElementById("tech-panel"),
     techStage: document.getElementById("tech-stage"),
     techSelectionBackdrop: document.getElementById("tech-selection-backdrop"),
     techSelectionCancel: document.getElementById("tech-selection-cancel"),
     playerBoardTechLayer: document.getElementById("player-board-tech-layer"),
+    playerBoardDataLayer: document.getElementById("player-board-data-layer"),
     techTiles: [...document.querySelectorAll(".tech-tile[data-tech-id]")],
     techBlueSlotOverlay: document.getElementById("tech-blue-slot-overlay"),
     techBlueSlotSubtitle: document.getElementById("tech-blue-slot-subtitle"),
@@ -160,6 +189,10 @@
 
   function isDiscardSelectionActive() {
     return cards.isDiscardSelectionActive(cardState);
+  }
+
+  function allowsBlindDrawInSelection() {
+    return pendingCardSelectionAction?.allowBlindDraw !== false;
   }
 
   function syncCardSelectionChrome() {
@@ -225,7 +258,9 @@
       discarded: [],
     };
     cards.setDiscardSelectionActive(cardState, true, discardCount);
-    rocketState.statusNote = `弃牌：请选择 ${discardCount} 张手牌`;
+    rocketState.statusNote = pendingAction?.type === "income"
+      ? `收入：请选择 ${discardCount} 张手牌弃掉`
+      : `弃牌：请选择 ${discardCount} 张手牌`;
     syncDiscardSelectionChrome();
     updateActionButtons();
     renderStateReadout();
@@ -235,9 +270,10 @@
   function cancelDiscardSelection() {
     if (!isDiscardSelectionActive()) return;
 
+    const pending = pendingDiscardAction;
     pendingDiscardAction = null;
     cards.setDiscardSelectionActive(cardState, false, 0);
-    rocketState.statusNote = "已取消弃牌";
+    rocketState.statusNote = pending?.type === "income" ? "已取消收入" : "已取消弃牌";
     syncDiscardSelectionChrome();
     updateActionButtons();
     renderStateReadout();
@@ -264,6 +300,22 @@
       updateActionButtons();
       renderStateReadout();
       return tradeResult;
+    }
+
+    if (pending?.type === "income") {
+      const incomeResult = applyIncomeFromCard(
+        pending.player || getCurrentPlayer(),
+        discardedCards[0],
+      );
+      rocketState.statusNote = incomeResult.ok
+        ? incomeResult.message
+        : (incomeResult.message || "收入失败");
+      renderPlayerStats();
+      renderPublicCards();
+      updatePublicCardControls();
+      updateActionButtons();
+      renderStateReadout();
+      return incomeResult;
     }
 
     if (discardedCards.length) {
@@ -308,7 +360,7 @@
     return { ok: true, card: discardResult.card, remaining };
   }
 
-  function beginCardSelection() {
+  function beginCardSelection(pendingAction = null) {
     if (isTechActionSelectionActive()) {
       return { ok: false, message: "请先完成科技选择" };
     }
@@ -316,18 +368,68 @@
       return { ok: false, message: "请先完成弃牌" };
     }
 
+    pendingCardSelectionAction = pendingAction;
     cards.setSelectionActive(cardState, true);
-    rocketState.statusNote = "精选：从公共牌区选一张牌，或点击盲抽";
+    rocketState.statusNote = allowsBlindDrawInSelection()
+      ? "精选：从公共牌区选一张牌，或点击盲抽"
+      : "精选：从公共牌区选一张牌";
     syncCardSelectionChrome();
     updateActionButtons();
     renderStateReadout();
     return { ok: true, message: rocketState.statusNote };
   }
 
+  function formatIncomeGain(gain) {
+    return Object.entries(gain || {})
+      .filter(([, value]) => value)
+      .map(([key, value]) => `${INCOME_GAIN_LABELS[key] || key}+${value}`)
+      .join("、");
+  }
+
+  function applyIncomeFromCard(player, card) {
+    if (!player) {
+      return { ok: false, message: "没有当前玩家" };
+    }
+
+    const incomeCode = cards.getIncomeCodeForCard(card);
+    const gain = cards.getIncomeGainForCard(card);
+    if (!gain) {
+      return {
+        ok: false,
+        message: `无法识别卡牌收入：${cards.getCardLabel(card) || "未知卡牌"}`,
+      };
+    }
+
+    players.gainIncome(player, gain);
+    return {
+      ok: true,
+      incomeCode,
+      gain,
+      message: `收入：弃掉 ${cards.getCardLabel(card)}，${formatIncomeGain(gain)}`,
+    };
+  }
+
+  function beginIncomeForCurrentPlayer(options = {}) {
+    const currentPlayer = getCurrentPlayer();
+    return beginDiscardSelection(1, {
+      type: "income",
+      player: currentPlayer,
+      source: options.source || null,
+    });
+  }
+
   function cancelCardSelection() {
+    const pending = pendingCardSelectionAction;
+    pendingCardSelectionAction = null;
     cards.setSelectionActive(cardState, false);
-    rocketState.statusNote = "";
+    if (pending?.type === "trade" && pending.player && pending.refundCost) {
+      players.gainResources(pending.player, pending.refundCost);
+      rocketState.statusNote = `已取消精选，已退回 ${players.formatResourceCost(pending.refundCost)}`;
+    } else {
+      rocketState.statusNote = "";
+    }
     syncCardSelectionChrome();
+    renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
   }
@@ -340,7 +442,11 @@
     }
 
     cards.setSelectionActive(cardState, false);
-    rocketState.statusNote = `获得卡牌：${cards.getCardLabel(result.card)}`;
+    const pending = pendingCardSelectionAction;
+    pendingCardSelectionAction = null;
+    rocketState.statusNote = pending?.type === "trade"
+      ? `快速交易精选：${cards.getCardLabel(result.card)}`
+      : `获得卡牌：${cards.getCardLabel(result.card)}`;
     if (result.replenished) {
       rocketState.statusNote += `，公共区已补牌：${cards.getCardLabel(result.replenished)}`;
     }
@@ -411,13 +517,16 @@
     if (!els.publicBlindDrawButton) return;
 
     const selectionActive = isCardSelectionActive();
+    const allowsBlindDraw = allowsBlindDrawInSelection();
     const canDraw = canBlindDraw();
-    const enabled = selectionActive && canDraw;
+    const enabled = selectionActive && allowsBlindDraw && canDraw;
     els.publicBlindDrawButton.disabled = !enabled;
     els.publicBlindDrawButton.classList.toggle("is-selectable", enabled);
     els.publicBlindDrawButton.title = !selectionActive
       ? "请先进入精选"
-      : canDraw
+      : !allowsBlindDraw
+        ? "本次精选不能盲抽"
+        : canDraw
         ? "盲抽一张牌加入手牌"
         : "牌库已空";
   }
@@ -481,6 +590,11 @@
 
   function handlePublicBlindDrawClick() {
     if (!isCardSelectionActive()) return;
+    if (!allowsBlindDrawInSelection()) {
+      rocketState.statusNote = "本次精选不能盲抽，请从公共牌区选择";
+      renderStateReadout();
+      return;
+    }
     drawCardForCurrentPlayer({ fromSelection: true });
   }
 
@@ -621,6 +735,14 @@
     renderPlayerStats();
     renderTechBoard();
     updateActionButtons();
+
+    if (result.awaitingCardSelection) {
+      const selectionResult = beginCardSelection();
+      rocketState.statusNote = selectionResult.ok
+        ? `${result.message}；${selectionResult.message}`
+        : (selectionResult.message || result.message);
+    }
+
     renderStateReadout();
     return result;
   }
@@ -1076,12 +1198,72 @@
     return item;
   }
 
+  function createStatIcon(label, value, iconSrc) {
+    const item = document.createElement("span");
+    const icon = document.createElement("img");
+    const valueEl = document.createElement("span");
+
+    item.className = "player-stat player-stat-with-icon";
+    item.setAttribute("aria-label", `${label} ${value}`);
+    icon.className = "player-stat-icon";
+    icon.src = iconSrc;
+    icon.alt = "";
+    icon.width = 296;
+    icon.height = 296;
+    icon.decoding = "async";
+    icon.setAttribute("aria-hidden", "true");
+    valueEl.className = "player-stat-value";
+    valueEl.textContent = value;
+
+    item.append(icon, valueEl);
+    return item;
+  }
+
+  function createStatIconMarker(label, iconSrc) {
+    const item = document.createElement("span");
+    const icon = document.createElement("img");
+
+    item.className = "player-stat player-stat-icon-marker";
+    item.setAttribute("aria-label", label);
+    icon.className = "player-stat-icon player-stat-marker-icon";
+    icon.src = iconSrc;
+    icon.alt = "";
+    icon.width = 296;
+    icon.height = 296;
+    icon.decoding = "async";
+    icon.setAttribute("aria-hidden", "true");
+
+    item.append(icon);
+    return item;
+  }
+
+  function createInlineIconValue(label, value, iconSrc, className) {
+    const item = document.createElement("span");
+    const icon = document.createElement("img");
+    const valueEl = document.createElement("span");
+
+    item.className = className;
+    item.setAttribute("aria-label", `${label} ${value}`);
+    icon.className = "player-stat-icon";
+    icon.src = iconSrc;
+    icon.alt = "";
+    icon.width = 296;
+    icon.height = 296;
+    icon.decoding = "async";
+    icon.setAttribute("aria-hidden", "true");
+    valueEl.className = "player-stat-value";
+    valueEl.textContent = value;
+
+    item.append(icon, valueEl);
+    return item;
+  }
+
   function createPlayerNameStat(player, score) {
     const color = players.getPlayerColorDefinition(player.color);
     const item = document.createElement("span");
     const marker = document.createElement("span");
     const name = document.createElement("span");
-    const scoreEl = document.createElement("span");
+    const scoreEl = createInlineIconValue("分数", score, RESOURCE_ICON_SRC.score, "player-stat-score");
 
     item.className = "player-stat player-stat-current";
     item.style.setProperty("--player-color", color.uiColor);
@@ -1089,8 +1271,6 @@
     marker.setAttribute("aria-hidden", "true");
     name.className = "player-stat-value";
     name.textContent = player.name;
-    scoreEl.className = "player-stat-score";
-    scoreEl.textContent = `分数 ${score}`;
 
     item.append(marker, name, scoreEl);
     return item;
@@ -1183,32 +1363,48 @@
     }));
   }
 
+  function renderPlayerDataBoard() {
+    const currentPlayer = getCurrentPlayer();
+    data.renderPlayerDataTokens(currentPlayer, els.playerBoardDataLayer);
+  }
+
   function renderPlayerStats() {
     const currentPlayer = getCurrentPlayer();
     const resources = currentPlayer.resources;
+    const income = currentPlayer.income || players.DEFAULT_INCOME;
     const limits = players.RESOURCE_LIMITS;
     const stats = [
       createPlayerNameStat(currentPlayer, resources.score),
       createStatSeparator(),
-      createStatText("信用点", resources.credits),
-      createStatText("能量", resources.energy),
-      createStatText("宣传", `${resources.publicity}/${limits.publicity}`),
-      createStatText("可用数据", `${resources.availableData}/${limits.availableData}`),
-      createStatText("手牌", resources.handSize),
+      createStatIcon("信用点", resources.credits, RESOURCE_ICON_SRC.credits),
+      createStatIcon("能量", resources.energy, RESOURCE_ICON_SRC.energy),
+      createStatIcon("宣传", `${resources.publicity}/${limits.publicity}`, RESOURCE_ICON_SRC.publicity),
+      createStatIcon("可用数据", `${resources.availableData}/${limits.availableData}`, RESOURCE_ICON_SRC.data),
+      createStatIcon("手牌", resources.handSize, RESOURCE_ICON_SRC.card),
+      createStatSeparator(),
+      createStatIconMarker("收入", RESOURCE_ICON_SRC.income),
+      createStatIcon("收入信用点", income.credits || 0, RESOURCE_ICON_SRC.credits),
+      createStatIcon("收入能量", income.energy || 0, RESOURCE_ICON_SRC.energy),
+      createStatIcon("收入手牌", income.handSize || 0, RESOURCE_ICON_SRC.incomeCard),
+      createStatIcon("收入宣传", income.publicity || 0, RESOURCE_ICON_SRC.publicity),
+      createStatIcon("收入数据", income.availableData || 0, RESOURCE_ICON_SRC.data),
     ];
 
     els.playerStats.replaceChildren(...stats);
     renderPlayerHand();
+    renderPlayerDataBoard();
   }
 
   function getPlayerReadoutLines() {
     const currentPlayer = getCurrentPlayer();
     const resources = currentPlayer.resources;
+    const income = currentPlayer.income || players.DEFAULT_INCOME;
     const limits = players.RESOURCE_LIMITS;
 
     return [
       "玩家状态",
       `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 手牌=${resources.handSize} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
+      `收入 信用点=${income.credits || 0} 能量=${income.energy || 0} 手牌=${income.handSize || 0} 宣传=${income.publicity || 0} 数据=${income.availableData || 0}`,
     ];
   }
 
@@ -1235,8 +1431,9 @@
       drawBasicCardToPlayer: (player) => drawBasicCardToPlayer(player),
       drawBasicCard: () => drawCardForCurrentPlayer(),
       blindDrawCard: (player) => blindDrawCardForPlayer(player),
-      beginCardSelection: () => beginCardSelection(),
+      beginCardSelection: (pendingAction) => beginCardSelection(pendingAction),
       beginDiscardSelection: (count, pendingAction) => beginDiscardSelection(count, pendingAction),
+      beginIncome: (options) => beginIncomeForCurrentPlayer(options),
       ensurePlayerTechState: (player) => {
         if (!player.techState) {
           player.techState = players.normalizePlayerTechState(null);
@@ -1257,6 +1454,12 @@
     button.setAttribute("aria-disabled", String(!enabled));
   }
 
+  function setQuickActionButtonEnabled(enabled, reason) {
+    els.actionQuickButton.disabled = !enabled;
+    els.actionQuickButton.title = enabled ? "" : (reason || "当前无法执行此行动");
+    els.actionQuickButton.setAttribute("aria-disabled", String(!enabled));
+  }
+
   function updateActionButtons() {
     const context = createActionContext();
     const techSelectionLocked = isTechActionSelectionActive();
@@ -1272,8 +1475,9 @@
       setActionButtonState(els.actionLaunchButton, false, selectionBlockReason);
       setActionButtonState(els.actionOrbitButton, false, selectionBlockReason);
       setActionButtonState(els.actionLandButton, false, selectionBlockReason);
+      setActionButtonState(els.actionAnalyzeButton, false, selectionBlockReason);
       setActionButtonState(els.actionResearchTechButton, false, selectionBlockReason);
-      setActionButtonState(els.actionQuickButton, false, selectionBlockReason);
+      setQuickActionButtonEnabled(false, selectionBlockReason);
       renderQuickMoveRocketOptions();
       updateQuickMoveControls();
       updateQuickPanel();
@@ -1284,11 +1488,14 @@
     const orbitCheck = actions.canExecute("orbit", context);
     const landCheck = actions.canExecute("land", context);
     const researchTechCheck = actions.canExecute("researchTech", context);
+    const analyzeCheck = data.canAnalyzeData(getCurrentPlayer());
 
     setActionButtonState(els.actionLaunchButton, launchCheck.ok, launchCheck.message);
     setActionButtonState(els.actionOrbitButton, orbitCheck.ok, orbitCheck.message);
     setActionButtonState(els.actionLandButton, landCheck.ok, landCheck.message);
+    setActionButtonState(els.actionAnalyzeButton, analyzeCheck.ok, analyzeCheck.message);
     setActionButtonState(els.actionResearchTechButton, researchTechCheck.ok, researchTechCheck.message);
+    setQuickActionButtonEnabled(true);
     renderQuickMoveRocketOptions();
     updateQuickMoveControls();
     updateQuickPanel();
@@ -1355,6 +1562,68 @@
     });
   }
 
+  function updateQuickPlaceDataButton() {
+    if (!els.quickPlaceDataButton) return;
+    const check = data.canPlaceAnyData(getCurrentPlayer());
+    els.quickPlaceDataButton.disabled = !check.ok;
+    els.quickPlaceDataButton.title = check.ok ? "" : (check.message || "当前无法放置数据");
+  }
+
+  function closeDataPlacePicker() {
+    if (!els.dataPlaceOverlay) return;
+    els.dataPlaceOverlay.hidden = true;
+  }
+
+  function openDataPlacePicker() {
+    if (!els.dataPlaceOverlay || !els.dataPlaceActions) return;
+
+    const player = getCurrentPlayer();
+    const check = data.canPlaceAnyData(player);
+    if (!check.ok) {
+      rocketState.statusNote = check.message;
+      renderStateReadout();
+      return;
+    }
+
+    const choices = check.choices || data.listPlaceDataChoices(player);
+    if (choices.length === 1) {
+      const [choice] = choices;
+      confirmDataPlacement(choice.target, choice.blueSlot);
+      return;
+    }
+
+    if (els.dataPlaceSubtitle) {
+      els.dataPlaceSubtitle.textContent = "请选择将数据放入第一排，或放入满足条件的蓝色科技下方。";
+    }
+
+    els.dataPlaceActions.replaceChildren(...choices.map((choice) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "data-place-option-button";
+      button.dataset.placeTarget = choice.target;
+      if (choice.blueSlot != null) {
+        button.dataset.blueSlot = String(choice.blueSlot);
+      }
+      button.innerHTML = `${choice.label}<small>${choice.description}</small>`;
+      return button;
+    }));
+
+    els.dataPlaceOverlay.hidden = false;
+  }
+
+  function confirmDataPlacement(target, blueSlot) {
+    closeDataPlacePicker();
+    const options = target === data.PLACEMENT_KIND_BLUE_BONUS
+      ? { target, blueSlot: Number(blueSlot) }
+      : { target: data.PLACEMENT_KIND_COMPUTER };
+    const result = data.placeDataToComputer(getCurrentPlayer(), options);
+    rocketState.statusNote = result.message;
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return result;
+  }
+
   function updateQuickMoveControls() {
     renderQuickMoveRocketOptions();
     const hasRocket = getSelectedQuickMoveRocketId() != null;
@@ -1366,7 +1635,21 @@
   function updateQuickPanel() {
     if (!isQuickPanelOpen()) return;
     updateQuickTradeButtons();
+    updateQuickPlaceDataButton();
     updateQuickMoveControls();
+  }
+
+  function runPlaceDataToComputer() {
+    openDataPlacePicker();
+  }
+
+  function analyzeDataForCurrentPlayer() {
+    const result = data.analyzeData(getCurrentPlayer());
+    rocketState.statusNote = result.message;
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return result;
   }
 
   function runQuickTrade(tradeId) {
@@ -1616,13 +1899,74 @@
       credits: 100,
       energy: 100,
       publicity: 10,
-      availableData: 6,
     });
+    for (let index = 0; index < players.RESOURCE_LIMITS.availableData; index += 1) {
+      data.gainData(currentPlayer, { source: "debug" });
+    }
     rocketState.statusNote = "调试收入 +100信用点 +100能量 +10宣传 +6数据";
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
     return { ok: true, player: currentPlayer, message: rocketState.statusNote };
+  }
+
+  function executeIncomeForCurrentPlayer() {
+    const currentPlayer = getCurrentPlayer();
+    const income = currentPlayer.income || players.DEFAULT_INCOME;
+    const resourceIncome = {
+      credits: income.credits || 0,
+      energy: income.energy || 0,
+      publicity: income.publicity || 0,
+      availableData: income.availableData || 0,
+    };
+    const cardCount = Math.max(0, Math.round(income.handSize || 0));
+    const drawnCards = [];
+    let drawError = null;
+
+    players.gainResources(currentPlayer, resourceIncome);
+
+    for (let index = 0; index < cardCount; index += 1) {
+      const drawResult = blindDrawCardForPlayer(currentPlayer);
+      if (!drawResult.ok) {
+        drawError = drawResult.message || "收入抽牌失败";
+        break;
+      }
+      drawnCards.push(drawResult.card);
+    }
+
+    const summary = [
+      `信用点+${resourceIncome.credits}`,
+      `能量+${resourceIncome.energy}`,
+      `手牌+${drawnCards.length}${drawError ? `/${cardCount}` : ""}`,
+      `宣传+${resourceIncome.publicity}`,
+      `数据+${resourceIncome.availableData}`,
+    ].join("、");
+
+    rocketState.statusNote = drawError
+      ? `执行收入：${summary}，${drawError}`
+      : `执行收入：${summary}`;
+    renderPlayerStats();
+    renderPublicCards();
+    updatePublicCardControls();
+    updateActionButtons();
+    renderStateReadout();
+
+    return {
+      ok: !drawError,
+      income: { ...income },
+      drawnCards,
+      message: rocketState.statusNote,
+    };
+  }
+
+  function addDebugData() {
+    const currentPlayer = getCurrentPlayer();
+    const result = data.gainData(currentPlayer, { source: "debug" });
+    rocketState.statusNote = result.message;
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return result;
   }
 
   function moveRocket(deltaX, deltaY, rocketId) {
@@ -1765,6 +2109,8 @@
       ...getRocketCoordinateReadoutLines(),
       "",
       ...tech.getReadoutLines(techGameState, playerState),
+      "",
+      ...data.getReadoutLines(playerState),
     ].join("\n");
   }
 
@@ -1858,6 +2204,7 @@
   els.actionLaunchButton.addEventListener("click", launchRocketForCurrentPlayer);
   els.actionOrbitButton.addEventListener("click", orbitForCurrentPlayer);
   els.actionLandButton.addEventListener("click", landForCurrentPlayer);
+  els.actionAnalyzeButton?.addEventListener("click", analyzeDataForCurrentPlayer);
   els.actionResearchTechButton?.addEventListener("click", researchTechForCurrentPlayer);
   els.techSelectionCancel?.addEventListener("click", cancelTechSelection);
   els.landTargetConfirm?.addEventListener("click", confirmLandTargetPicker);
@@ -1870,6 +2217,21 @@
     const button = event.target.closest("[data-quick-trade]");
     if (!button || button.disabled) return;
     runQuickTrade(button.dataset.quickTrade);
+  });
+  els.quickPlaceDataButton?.addEventListener("click", () => {
+    if (els.quickPlaceDataButton.disabled) return;
+    runPlaceDataToComputer();
+  });
+  els.dataPlaceActions?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-place-target]");
+    if (!button) return;
+    confirmDataPlacement(button.dataset.placeTarget, button.dataset.blueSlot);
+  });
+  els.dataPlaceCancel?.addEventListener("click", closeDataPlacePicker);
+  els.dataPlaceOverlay?.addEventListener("click", (event) => {
+    if (event.target === els.dataPlaceOverlay) {
+      closeDataPlacePicker();
+    }
   });
   els.quickMovePad.addEventListener("click", (event) => {
     const button = event.target.closest("[data-move-x]");
@@ -1889,6 +2251,9 @@
     rotateSolarOrbit(1);
   });
   els.debugIncomeButton.addEventListener("click", addDebugIncome);
+  els.debugIncomeEffectButton?.addEventListener("click", () => beginIncomeForCurrentPlayer({ source: "debug" }));
+  els.debugResolveIncomeButton?.addEventListener("click", executeIncomeForCurrentPlayer);
+  els.debugGainDataButton?.addEventListener("click", addDebugData);
   els.debugPickCardButton?.addEventListener("click", beginCardSelection);
   els.publicBlindDrawButton?.addEventListener("click", handlePublicBlindDrawClick);
   els.publicCardRow?.addEventListener("click", (event) => {
@@ -1923,6 +2288,13 @@
     }
   });
   syncTechRenderContext();
+  data.bindDataTokenDragging(els.playerBoardDataLayer, {
+    onPositionChange(payload) {
+      rocketState.statusNote = payload.message;
+      console.info("[数据校准]", payload.message);
+      renderStateReadout();
+    },
+  });
   tech.bindSupplyTileClicks(techGameState, techRenderContext, els.techTiles, {
     onTileClick: handleSupplyTechTileClick,
   });
@@ -1957,10 +2329,16 @@
     orbitRocket: orbitForCurrentPlayer,
     landRocket: landForCurrentPlayer,
     addDebugIncome,
+    executeIncomeForCurrentPlayer,
+    addDebugData,
+    placeDataToComputer: runPlaceDataToComputer,
+    analyzeDataForCurrentPlayer,
+    getDataSlotLayoutOverrides: () => structuredClone(data.listSlotLayoutOverrides()),
     drawCardForCurrentPlayer,
     blindDrawCardForPlayer,
     beginCardSelection,
     beginDiscardSelection,
+    beginIncomeForCurrentPlayer,
     cancelCardSelection,
     cancelDiscardSelection,
     pickPublicCardForCurrentPlayer,

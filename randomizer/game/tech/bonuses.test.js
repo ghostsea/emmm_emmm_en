@@ -50,17 +50,8 @@ assert.equal(publicityPlayer.resources.publicity, 9);
 const cardPlayer = createPlayer();
 const cardResult = bonuses.applyBonusReward(cardPlayer, "bonus_1c", createDrawHelper());
 assert.equal(cardResult.ok, true);
-assert.equal(cardPlayer.hand.length, 1);
-assert.equal(cardPlayer.resources.handSize, 1);
-assert.ok(Number.isInteger(cardPlayer.hand[0].cardIndex));
-assert.match(cardPlayer.hand[0].src, /b_\d+\.webp$/);
-
-const duplicateGuardPlayer = createPlayer({
-  hand: [basicCards.createBasicHandCard(12, 0)],
-});
-const duplicateResult = bonuses.applyBonusReward(duplicateGuardPlayer, "bonus_1c", createDrawHelper());
-assert.equal(duplicateResult.ok, true);
-assert.equal(duplicateGuardPlayer.hand.length, 2);
-assert.notEqual(duplicateGuardPlayer.hand[1].cardIndex, 12);
+assert.equal(cardResult.awaitingCardSelection, true);
+assert.equal(cardResult.rewards.cardSelection, 1);
+assert.equal(cardPlayer.hand.length, 0);
 
 console.log("bonuses.test.js passed");

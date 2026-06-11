@@ -724,9 +724,38 @@ body {
   font-weight: 700;
 }
 
+.player-stat-with-icon,
 .player-stat-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   color: rgba(255, 255, 255, 0.86);
   font-weight: 700;
+}
+
+.player-stat-icon {
+  flex: 0 0 auto;
+  display: block;
+  width: 19px;
+  height: 19px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.42));
+}
+
+.player-stat-score .player-stat-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.player-stat-icon-marker {
+  gap: 0;
+}
+
+.player-stat-marker-icon {
+  width: 21px;
+  height: 21px;
 }
 
 .player-stat-separator {
@@ -769,10 +798,114 @@ body {
   object-fit: contain;
 }
 
-.player-board-tech-layer {
+.player-board-tech-layer,
+.player-board-data-layer {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+.player-board-data-layer .data-token.data-token-positioned {
+  position: absolute;
+  width: 8.5%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  z-index: 4;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.42));
+}
+
+.player-board-data-layer .data-token.data-token-positioned.is-dragging {
+  cursor: grabbing;
+  z-index: 12;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+}
+
+.player-board-data-layer .data-token.data-token-placed {
+  cursor: default;
+  z-index: 5;
+}
+
+.data-place-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 10, 18, 0.62);
+  backdrop-filter: blur(2px);
+}
+
+.data-place-overlay[hidden] {
+  display: none;
+}
+
+.data-place-dialog {
+  width: min(420px, 100%);
+  padding: 20px 22px;
+  border: 1px solid rgba(120, 170, 255, 0.35);
+  border-radius: 14px;
+  background: rgba(14, 22, 36, 0.88);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+  color: #e8eef8;
+}
+
+.data-place-title {
+  margin: 0 0 8px;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.data-place-subtitle {
+  margin: 0 0 16px;
+  font-size: 0.92rem;
+  color: rgba(232, 238, 248, 0.78);
+}
+
+.data-place-actions {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.data-place-option-button {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid rgba(120, 170, 255, 0.35);
+  border-radius: 8px;
+  background: rgba(24, 48, 72, 0.82);
+  color: #e8eef8;
+  cursor: pointer;
+  text-align: left;
+  font: 600 13px/1.35 "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.data-place-option-button:hover {
+  border-color: rgba(154, 218, 255, 0.72);
+  background: rgba(36, 88, 126, 0.88);
+}
+
+.data-place-option-button small {
+  display: block;
+  margin-top: 2px;
+  color: rgba(232, 238, 248, 0.68);
+  font: 500 11px/1.3 "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.data-place-cancel {
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid rgba(224, 231, 220, 0.24);
+  border-radius: 8px;
+  background: rgba(8, 14, 22, 0.72);
+  color: rgba(255, 255, 255, 0.82);
+  cursor: pointer;
+  font: 600 13px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
 .tech-blue-slot-overlay {
@@ -993,9 +1126,12 @@ body {
 
 
 .action-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-width: 0;
-  min-height: 34px;
-  padding: 0 8px;
+  min-height: 42px;
+  padding: 4px;
   border: 1px solid rgba(224, 231, 220, 0.26);
   border-radius: 6px;
   background: rgba(20, 38, 54, 0.78);
@@ -1007,6 +1143,16 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.action-button-icon {
+  display: block;
+  width: min(30px, 100%);
+  height: min(30px, 100%);
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
 }
 
 .action-button:hover:not(:disabled) {
@@ -1026,6 +1172,12 @@ body {
   border-color: rgba(255, 255, 255, 0.12);
   box-shadow: none;
   transform: none;
+}
+
+.action-button:disabled .action-button-icon,
+.action-button[aria-disabled="true"] .action-button-icon {
+  opacity: 0.38;
+  filter: grayscale(0.65) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.32));
 }
 
 .action-button-primary {
@@ -1077,7 +1229,8 @@ body {
   letter-spacing: 0.04em;
 }
 
-.quick-actions-trades {
+.quick-actions-trades,
+.quick-actions-data {
   display: flex;
   flex: 1 1 auto;
   gap: 6px;
@@ -1085,10 +1238,14 @@ body {
 }
 
 .quick-trade-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex: 1 1 0;
   min-width: 0;
-  min-height: 32px;
-  padding: 0 6px;
+  min-height: 34px;
+  gap: 3px;
+  padding: 3px 5px;
   border: 1px solid rgba(224, 231, 220, 0.24);
   border-radius: 6px;
   background: rgba(20, 38, 54, 0.82);
@@ -1096,6 +1253,30 @@ body {
   cursor: pointer;
   font: 600 12px/1.2 "Microsoft YaHei", "PingFang SC", sans-serif;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.quick-trade-count {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.94);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.quick-trade-icon {
+  flex: 0 0 auto;
+  display: block;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.42));
+}
+
+.quick-trade-arrow {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.54);
+  font: 800 10px/1 Arial, sans-serif;
 }
 
 .quick-trade-button:hover:not(:disabled) {
@@ -1112,6 +1293,12 @@ body {
   cursor: not-allowed;
   background: rgba(10, 18, 26, 0.58);
   border-color: rgba(255, 255, 255, 0.12);
+}
+
+.quick-trade-button:disabled .quick-trade-icon,
+.quick-trade-button:disabled .quick-trade-count,
+.quick-trade-button:disabled .quick-trade-arrow {
+  opacity: 0.42;
 }
 
 .quick-move-select {

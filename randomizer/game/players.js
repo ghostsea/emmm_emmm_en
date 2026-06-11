@@ -63,6 +63,13 @@
     handSize: 0,
     score: 0,
   });
+  const DEFAULT_INCOME = Object.freeze({
+    credits: 0,
+    energy: 0,
+    handSize: 0,
+    publicity: 0,
+    availableData: 0,
+  });
   const CARD_BACK_SRC = "../assets/cards/card_back.png";
   let handCardSequence = 0;
 
@@ -99,6 +106,9 @@
     if (source.cardId) normalized.cardId = source.cardId;
     if (source.set) normalized.set = source.set;
     if (source.cardName) normalized.cardName = source.cardName;
+    if (Number.isInteger(source.discardActionCode)) normalized.discardActionCode = source.discardActionCode;
+    if (Number.isInteger(source.scanActionCode)) normalized.scanActionCode = source.scanActionCode;
+    if (Number.isInteger(source.incomeCode)) normalized.incomeCode = source.incomeCode;
     if (Number.isInteger(source.cardIndex)) {
       normalized.cardIndex = source.cardIndex;
     }
@@ -129,6 +139,18 @@
 
     result.publicity = clamp(result.publicity, 0, RESOURCE_LIMITS.publicity);
     result.availableData = clamp(result.availableData, 0, RESOURCE_LIMITS.availableData);
+
+    return result;
+  }
+
+  function normalizeIncome(income) {
+    const source = income || {};
+    const result = {};
+
+    for (const [key, fallback] of Object.entries(DEFAULT_INCOME)) {
+      const value = normalizeNumber(source[key], fallback);
+      result[key] = Math.max(0, Number.isInteger(value) ? value : Math.round(value * 100) / 100);
+    }
 
     return result;
   }
@@ -176,6 +198,7 @@
     const definition = PLAYER_COLORS[color];
     const orbitCount = normalizeNumber(source.orbitCount, 0);
     const resources = normalizeResources(source.resources);
+    const income = normalizeIncome(source.income);
     const hand = normalizeHand(source.hand, resources.handSize);
 
     resources.handSize = hand.length;
@@ -186,6 +209,7 @@
       colorLabel: definition.label,
       name: source.name || `${definition.label}玩家`,
       resources,
+      income,
       hand,
       techState: normalizePlayerTechState(source.techState),
       orbitCount: Number.isInteger(orbitCount) ? orbitCount : Math.round(orbitCount),
@@ -270,6 +294,21 @@
     return player;
   }
 
+  function gainIncome(player, gain) {
+    if (!player) return null;
+    if (!player.income) player.income = normalizeIncome(null);
+    const reward = gain || {};
+
+    for (const key of Object.keys(DEFAULT_INCOME)) {
+      if (reward[key] != null) {
+        const value = normalizeNumber(reward[key], 0);
+        player.income[key] = Math.max(0, (player.income[key] || 0) + value);
+      }
+    }
+
+    return player.income;
+  }
+
   function incrementPlayerOrbitCount(playerState, playerId) {
     const player = playerState.players.find((item) => item.id === playerId);
     if (!player) return false;
@@ -304,9 +343,11 @@
     DEFAULT_PLAYER_COLOR,
     RESOURCE_LIMITS,
     DEFAULT_RESOURCES,
+    DEFAULT_INCOME,
     CARD_BACK_SRC,
     normalizePlayerColor,
     normalizeResources,
+    normalizeIncome,
     createPlayer,
     createPlayerState,
     getCurrentPlayer,
@@ -317,6 +358,7 @@
     canAfford,
     spendResources,
     gainResources,
+    gainIncome,
     incrementPlayerOrbitCount,
   });
 });

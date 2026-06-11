@@ -23,6 +23,11 @@
 
   const PUBLIC_CARD_COUNT = 3;
   const CARD_BASE_PATH = "../assets/cards";
+  const INCOME_CODE_GAINS = Object.freeze({
+    0: Object.freeze({ credits: 1 }),
+    1: Object.freeze({ energy: 1 }),
+    2: Object.freeze({ handSize: 1 }),
+  });
 
   let cardInstanceSequence = 0;
 
@@ -41,7 +46,29 @@
       faceUp: true,
       price: entry.price,
       cardTypeCode: entry.card_type_code,
+      discardActionCode: entry.discard_action_code,
+      scanActionCode: entry.scan_action_code,
+      incomeCode: entry.income_code,
     };
+  }
+
+  function getCatalogEntryForCard(card) {
+    if (!card) return null;
+    const cardId = card.cardId || (Number.isInteger(card.cardIndex) ? `b_${card.cardIndex}.webp` : null);
+    if (!cardId) return null;
+    return CARD_CATALOG.find((entry) => entry.card_id === cardId) || null;
+  }
+
+  function getIncomeCodeForCard(card) {
+    if (Number.isInteger(card?.incomeCode)) return card.incomeCode;
+    const entry = getCatalogEntryForCard(card);
+    return Number.isInteger(entry?.income_code) ? entry.income_code : null;
+  }
+
+  function getIncomeGainForCard(card) {
+    const incomeCode = getIncomeCodeForCard(card);
+    const gain = INCOME_CODE_GAINS[incomeCode];
+    return gain ? { ...gain } : null;
   }
 
   function createCardState() {
@@ -280,8 +307,12 @@
     CARD_CATALOG,
     PUBLIC_CARD_COUNT,
     CARD_BASE_PATH,
+    INCOME_CODE_GAINS,
     getCardSrc,
     createCardInstance,
+    getCatalogEntryForCard,
+    getIncomeCodeForCard,
+    getIncomeGainForCard,
     createCardState,
     collectClaimedCardIds,
     getAvailablePool,

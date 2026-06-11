@@ -62,6 +62,9 @@ function createContext(overrides) {
     drawBasicCardToPlayer(player) {
       return basicCards.drawRandomBasicCardToHand(player.hand);
     },
+    beginCardSelection() {
+      return { ok: true, message: "精选：从公共牌区选一张牌，或点击盲抽" };
+    },
     ensurePlayerTechState(player) {
       if (!player.techState) player.techState = players.normalizePlayerTechState(null);
     },
@@ -179,7 +182,8 @@ if (researchTake.bonusId === "bonus_1p") {
   assert.equal(researchPlayer.resources.energy, 10 + 1);
 }
 if (researchTake.bonusId === "bonus_1c") {
-  assert.equal(researchPlayer.hand.length, 1);
+  assert.equal(researchTake.awaitingCardSelection, true);
+  assert.equal(researchPlayer.hand.length, 0);
 }
 
 console.log("action tests passed");

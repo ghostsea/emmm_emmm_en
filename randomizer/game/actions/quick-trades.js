@@ -70,6 +70,12 @@
     return resourceCost;
   }
 
+  function getResourceGain(gain) {
+    const resourceGain = { ...(gain || {}) };
+    delete resourceGain.handSize;
+    return resourceGain;
+  }
+
   function canExecuteTrade(tradeId, context) {
     const trade = getTradeAction(tradeId);
     if (!trade) return { ok: false, message: `未知快速交易: ${tradeId}` };
@@ -88,27 +94,37 @@
 
   function applyTradeGains(trade, context, player) {
     const cardDrawCount = Math.max(0, Math.round(trade.gain?.handSize || 0));
-    const resourceGain = { ...trade.gain };
-    if (cardDrawCount > 0) {
-      delete resourceGain.handSize;
-    }
+    const resourceGain = getResourceGain(trade.gain);
 
     if (Object.keys(resourceGain).length) {
       players.gainResources(player, resourceGain);
     }
 
     if (cardDrawCount > 0) {
-      if (typeof context.blindDrawCard !== "function") {
-        return { ok: false, message: "当前无法从牌库发牌" };
+      if (typeof context.beginCardSelection !== "function") {
+        return { ok: false, message: "当前无法精选卡牌" };
       }
 
-      for (let index = 0; index < cardDrawCount; index += 1) {
-        const drawResult = context.blindDrawCard(player);
-        if (!drawResult?.ok) {
-          return { ok: false, message: drawResult?.message || "发牌失败" };
-        }
-        player.resources.handSize = player.hand.length;
+      if (cardDrawCount !== 1) {
+        return { ok: false, message: "当前仅支持精选 1 张牌" };
       }
+
+      const selectionResult = context.beginCardSelection({
+        type: "trade",
+        tradeId: trade.id,
+        player,
+        refundCost: getResourceCost(trade.cost),
+        allowBlindDraw: false,
+      });
+      if (!selectionResult?.ok) {
+        return { ok: false, message: selectionResult?.message || "精选失败" };
+      }
+
+      return {
+        ok: true,
+        awaitingCardSelection: true,
+        message: selectionResult.message,
+      };
     }
 
     return { ok: true, message: null };
@@ -134,7 +150,10 @@
     return {
       ok: true,
       tradeId,
-      message: `快速交易：${trade.label}`,
+      awaitingCardSelection: Boolean(gainResult.awaitingCardSelection),
+      message: gainResult.awaitingCardSelection
+        ? `快速交易：${trade.label}；${gainResult.message}`
+        : `快速交易：${trade.label}`,
       trade,
     };
   }
@@ -183,7 +202,10 @@
     return {
       ok: true,
       tradeId,
-      message: `快速交易：${check.trade.label}`,
+      awaitingCardSelection: Boolean(gainResult.awaitingCardSelection),
+      message: gainResult.awaitingCardSelection
+        ? `快速交易：${check.trade.label}；${gainResult.message}`
+        : `快速交易：${check.trade.label}`,
       trade: check.trade,
     };
   }
