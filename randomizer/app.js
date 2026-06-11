@@ -7,6 +7,7 @@
   const planetStats = window.SetiPlanetStats;
   const planetReferenceLayout = window.SetiPlanetReferenceLayout;
   const actions = window.SetiActions;
+  const scanEffects = window.SetiScanEffects;
   const quickTrades = window.SetiQuickTrades;
   const basicCards = window.SetiBasicCards;
   const cards = window.SetiCards;
@@ -81,6 +82,7 @@
   let pendingScanTargetAction = null;
   let pendingHandScanAction = null;
   let pendingActionExecuted = false;
+  let pendingActionEffectFlow = null;
   let moveHighlightRocketId = null;
   let pendingMovePayment = null;
   const MOVE_DISCARD_ACTION_CODE = 2;
@@ -103,6 +105,7 @@
     actionLaunchButton: document.getElementById("action-launch-button"),
     actionOrbitButton: document.getElementById("action-orbit-button"),
     actionLandButton: document.getElementById("action-land-button"),
+    actionScanButton: document.getElementById("action-scan-button"),
     actionAnalyzeButton: document.getElementById("action-analyze-button"),
     actionPlayCardButton: document.getElementById("action-play-card-button"),
     actionResearchTechButton: document.getElementById("action-research-tech-button"),
@@ -110,6 +113,9 @@
     actionPassButton: document.getElementById("action-pass-button"),
     actionConfirmButton: document.getElementById("action-confirm-button"),
     actionUndoButton: document.getElementById("action-undo-button"),
+    actionEffectBar: document.getElementById("action-effect-bar"),
+    actionEffectList: document.getElementById("action-effect-list"),
+    actionEffectSkipButton: document.getElementById("action-effect-skip-button"),
     quickActionsPanel: document.getElementById("quick-actions-panel"),
     quickActionsTrades: document.getElementById("quick-actions-trades"),
     dataPlaceOverlay: document.getElementById("data-place-overlay"),
@@ -121,6 +127,10 @@
     scanTargetSubtitle: document.getElementById("scan-target-subtitle"),
     scanTargetActions: document.getElementById("scan-target-actions"),
     scanTargetCancel: document.getElementById("scan-target-cancel"),
+    scanAction4Overlay: document.getElementById("scan-action-4-overlay"),
+    scanAction4Subtitle: document.getElementById("scan-action-4-subtitle"),
+    scanAction4Actions: document.getElementById("scan-action-4-actions"),
+    scanAction4Cancel: document.getElementById("scan-action-4-cancel"),
     moveArrowLayer: document.getElementById("move-arrow-layer"),
     alienPanels: document.querySelectorAll(".alien-panel"),
     finalScoreTiles: document.querySelectorAll(".final-score-tile"),
@@ -1204,28 +1214,35 @@
   function confirmScanTarget(nebulaId, sectorX) {
     const pending = pendingScanTargetAction;
     closeScanTargetPicker();
+    const scanSource = pending?.fromEffectFlow || isActionEffectFlowActive() ? "scan" : "debug";
 
     if (pending?.type === "sector_scan") {
-      return replaceNebulaDataForCurrentPlayer(nebulaId, {
+      const result = replaceNebulaDataForCurrentPlayer(nebulaId, {
         prefix: `扇区${sectorX}扫描`,
-        source: "debug",
+        source: scanSource,
       });
+      maybeCompleteActionEffectFromScan(result);
+      return result;
     }
 
     if (pending?.type === "public_scan") {
       const scanResult = replaceNebulaDataForCurrentPlayer(nebulaId, {
         prefix: `公共牌区扫描 ${cards.getCardLabel(pending.card)}`,
-        source: "debug",
+        source: scanSource,
       });
-      return finalizeScanSourceCard(pending, scanResult);
+      const result = finalizeScanSourceCard(pending, scanResult);
+      maybeCompleteActionEffectFromScan(result);
+      return result;
     }
 
     if (pending?.type === "hand_scan") {
       const scanResult = replaceNebulaDataForCurrentPlayer(nebulaId, {
         prefix: `手牌扫描 ${cards.getCardLabel(pending.card)}`,
-        source: "debug",
+        source: scanSource,
       });
-      return finalizeScanSourceCard(pending, scanResult);
+      const result = finalizeScanSourceCard(pending, scanResult);
+      maybeCompleteActionEffectFromScan(result);
+      return result;
     }
 
     return { ok: false, message: "没有待确认的扫描目标" };
@@ -1317,6 +1334,7 @@
       card,
       publicSlotIndex: index,
       scanCode: scanChoices.scanCode,
+      fromEffectFlow: Boolean(pendingActionEffectFlow),
       title: "公共牌区扫描",
       subtitle: `${cards.getCardLabel(card)}：${scanChoices.scanLabel}，请选择 2 选 1 星云。`,
       choices: scanChoices.choices,
@@ -1394,10 +1412,490 @@
       handIndex: index,
       player: currentPlayer,
       scanCode: scanChoices.scanCode,
+      fromEffectFlow: Boolean(pendingHandScanAction?.fromEffectFlow || pendingActionEffectFlow),
       title: "手牌扫描",
       subtitle: `${cards.getCardLabel(card)}：${scanChoices.scanLabel}，请选择 2 选 1 星云。确认后弃除这张手牌。`,
       choices: scanChoices.choices,
     });
+  }
+
+  function isActionEffectFlowActive() {
+    return pendingActionEffectFlow != null;
+  }
+
+  function getCurrentActionEffect() {
+    if (!pendingActionEffectFlow) return null;
+    return pendingActionEffectFlow.effects[pendingActionEffectFlow.currentIndex] || null;
+  }
+
+  function getPlanetSectorCoordinate(planetId) {
+    const snapshot = solar.createSolarSnapshot(solarState);
+    const planet = snapshot.planetLocations.find((item) => item.planetId === planetId);
+    if (!planet) {
+      throw new Error(`${planetId} position was not found in the current solar snapshot`);
+    }
+    return { x: planet.x, y: planet.y };
+  }
+
+  function buildSectorScanChoicesForXs(sectorXs) {
+    return sectorXs.map((x) => {
+      const nebula = solar.getNebulaAtCoordinate(x, 5, solarState.sectorBySlot);
+      if (!nebula) {
+        return {
+          nebulaId: "",
+          sectorX: x,
+          label: `扇区 ${x}`,
+          description: "当前没有星云",
+          disabled: true,
+        };
+      }
+      return buildNebulaScanChoice(nebula.id, {
+        sectorX: x,
+        label: `扇区 ${x}：${nebula.label}`,
+      });
+    });
+  }
+
+  function clearActionEffectFlow() {
+    pendingActionEffectFlow = null;
+    closeScanAction4Picker();
+    renderActionEffectBar();
+    els.appWrap?.classList.toggle("action-effect-flow-active", false);
+  }
+
+  function cancelActiveEffectSubFlows() {
+    closeScanTargetPicker();
+    closeScanAction4Picker();
+
+    if (isHandScanSelectionActive()) {
+      pendingHandScanAction = null;
+      syncHandScanSelectionChrome();
+    }
+
+    if (isCardSelectionActive() && pendingActionEffectFlow) {
+      pendingCardSelectionAction = null;
+      cards.setSelectionActive(cardState, false);
+      syncCardSelectionChrome();
+    }
+
+    if (pendingActionEffectFlow?.freeMoveMode) {
+      pendingActionEffectFlow.freeMoveMode = false;
+      deactivateMoveMode();
+    }
+  }
+
+  function skipCurrentActionEffect() {
+    if (!pendingActionEffectFlow) return;
+
+    const current = getCurrentActionEffect();
+    if (!current || current.status !== "active") return;
+
+    cancelActiveEffectSubFlows();
+    rocketState.statusNote = `已跳过：${current.label}`;
+    completeCurrentActionEffect("skipped");
+  }
+
+  function renderActionEffectBar() {
+    if (!els.actionEffectBar || !els.actionEffectList) return;
+
+    if (!pendingActionEffectFlow) {
+      els.actionEffectBar.hidden = true;
+      els.actionEffectList.replaceChildren();
+      if (els.actionEffectSkipButton) els.actionEffectSkipButton.hidden = true;
+      return;
+    }
+
+    const current = getCurrentActionEffect();
+    const canSkip = current?.status === "active";
+    if (els.actionEffectSkipButton) {
+      els.actionEffectSkipButton.hidden = !canSkip;
+      els.actionEffectSkipButton.disabled = !canSkip;
+    }
+
+    els.actionEffectBar.hidden = false;
+    els.actionEffectList.replaceChildren(...pendingActionEffectFlow.effects.map((effect, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "action-effect-button";
+      button.dataset.effectIndex = String(index);
+      button.title = effect.label;
+      button.setAttribute("aria-label", effect.label);
+      button.disabled = effect.status !== "active";
+      button.classList.toggle("is-active", effect.status === "active");
+      button.classList.toggle("is-completed", effect.status === "completed");
+      button.classList.toggle("is-skipped", effect.status === "skipped");
+
+      const image = document.createElement("img");
+      image.src = scanEffects.EFFECT_ICONS[effect.icon] || "";
+      image.alt = "";
+      image.setAttribute("aria-hidden", "true");
+      button.append(image);
+      return button;
+    }));
+  }
+
+  function activateNextActionEffect() {
+    if (!pendingActionEffectFlow) return;
+
+    const { effects } = pendingActionEffectFlow;
+    let nextIndex = effects.findIndex((effect) => effect.status === "pending");
+    if (nextIndex < 0) {
+      finishActionEffectFlow();
+      return;
+    }
+
+    effects.forEach((effect, index) => {
+      if (effect.status === "pending" && index !== nextIndex) return;
+      if (index === nextIndex) {
+        effect.status = "active";
+      }
+    });
+    pendingActionEffectFlow.currentIndex = nextIndex;
+    renderActionEffectBar();
+    updateActionButtons();
+    renderStateReadout();
+  }
+
+  function completeCurrentActionEffect(status = "completed") {
+    if (!pendingActionEffectFlow) return;
+
+    const current = getCurrentActionEffect();
+    if (!current || current.status !== "active") return;
+
+    cancelActiveEffectSubFlows();
+    current.status = status;
+    renderActionEffectBar();
+
+    const hasPending = pendingActionEffectFlow.effects.some((effect) => effect.status === "pending");
+    if (hasPending) {
+      activateNextActionEffect();
+      return;
+    }
+
+    finishActionEffectFlow();
+  }
+
+  function finishActionEffectFlow() {
+    if (!pendingActionEffectFlow) return;
+
+    const actionType = pendingActionEffectFlow.actionType;
+    clearActionEffectFlow();
+    rocketState.statusNote = actionType === "scan" ? "扫描效果已全部处理，请确认行动" : "效果已全部处理，请确认行动";
+    markActionPending();
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+  }
+
+  function maybeCompleteActionEffectFromScan(result) {
+    if (!result?.ok || !isActionEffectFlowActive()) return;
+    completeCurrentActionEffect();
+  }
+
+  function closeScanAction4Picker() {
+    if (!els.scanAction4Overlay) return;
+    els.scanAction4Overlay.hidden = true;
+    if (els.scanAction4Actions) els.scanAction4Actions.replaceChildren();
+  }
+
+  function openScanAction4Picker() {
+    if (!els.scanAction4Overlay || !els.scanAction4Actions) {
+      return { ok: false, message: "无法打开发射/移动选择" };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    const rocketsForPlayer = rocketActions.getRocketsForPlayer(rocketState, currentPlayer?.id);
+    const hasRocket = rocketsForPlayer.length > 0;
+    const canLaunch = players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
+    const choices = [];
+
+    if (canLaunch) {
+      choices.push({
+        id: "launch",
+        label: "发射",
+        description: "消耗 1 能量，在地球扇区发射火箭",
+      });
+    } else {
+      choices.push({
+        id: "launch",
+        label: "发射",
+        description: "能量不足，无法发射",
+        disabled: true,
+      });
+    }
+
+    if (hasRocket) {
+      choices.push({
+        id: "move",
+        label: "移动",
+        description: "选择飞船并移动，不消耗能量或手牌",
+      });
+    }
+
+    if (els.scanAction4Subtitle) {
+      els.scanAction4Subtitle.textContent = hasRocket
+        ? "选择发射、移动，或取消跳过此效果。"
+        : "没有飞船时只能选择发射或取消。";
+    }
+
+    els.scanAction4Actions.replaceChildren(...choices.map((choice) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.scanAction4Choice = choice.id;
+      button.disabled = Boolean(choice.disabled);
+      button.innerHTML = `${choice.label}<small>${choice.description || ""}</small>`;
+      return button;
+    }));
+
+    els.scanAction4Overlay.hidden = false;
+    return { ok: true };
+  }
+
+  function launchRocketForScanAction4() {
+    const currentPlayer = getCurrentPlayer();
+    if (!players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY })) {
+      return { ok: false, message: "能量不足，发射需要 1 能量" };
+    }
+
+    const earthSector = getEarthSectorCoordinate();
+    const launchResult = rocketActions.launchRocketAtSector(rocketState, earthSector, {
+      playerId: currentPlayer.id,
+      color: currentPlayer.color,
+    });
+    if (!launchResult.ok) return launchResult;
+
+    const spendResult = players.spendResources(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
+    if (!spendResult.ok) {
+      rocketActions.removeRocket(rocketState, launchResult.rocket.id);
+      return spendResult;
+    }
+
+    renderRocketElement(launchResult.rocket);
+    return {
+      ok: true,
+      rocket: launchResult.rocket,
+      message: `${launchResult.message}，消耗 1 能量`,
+    };
+  }
+
+  function beginScanAction4FreeMove() {
+    const currentPlayer = getCurrentPlayer();
+    const rocketsForPlayer = rocketActions.getRocketsForPlayer(rocketState, currentPlayer?.id);
+    if (!rocketsForPlayer.length) {
+      rocketState.statusNote = "没有可移动的飞船";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    pendingActionEffectFlow.freeMoveMode = true;
+    rocketState.statusNote = rocketsForPlayer.length > 1
+      ? "扫描效果：请点击要移动的飞船"
+      : "扫描效果：使用方向键移动飞船";
+    if (rocketsForPlayer.length === 1) {
+      activateMoveMode(rocketsForPlayer[0].id);
+    } else {
+      selectDefaultRocketForCurrentPlayer();
+    }
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function executeFreeMoveForScanAction4(deltaX, deltaY, rocketId) {
+    const moveCheck = rocketActions.canMoveRocket(rocketState, rocketId, deltaX, deltaY);
+    if (!moveCheck.ok) {
+      rocketState.statusNote = moveCheck.message;
+      renderStateReadout();
+      return moveCheck;
+    }
+
+    const result = rocketActions.moveRocket(rocketState, rocketId, deltaX, deltaY);
+    if (result.rocket) renderRocketElement(result.rocket);
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+
+    pendingActionEffectFlow.freeMoveMode = false;
+    deactivateMoveMode();
+    rocketState.statusNote = `扫描效果：${result.message}`;
+    renderPlayerStats();
+    completeCurrentActionEffect();
+    renderStateReadout();
+    return result;
+  }
+
+  function executeSectorScanAtPlanet(planetId, prefixLabel) {
+    const sector = getPlanetSectorCoordinate(planetId);
+    const nebula = solar.getNebulaAtCoordinate(sector.x, 5, solarState.sectorBySlot);
+    if (!nebula) {
+      const planetName = planetId === "earth" ? "地球" : planetId === "mercury" ? "水星" : planetId;
+      rocketState.statusNote = `${planetName}所在扇区没有可扫描星云`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const result = replaceNebulaDataForCurrentPlayer(nebula.id, {
+      prefix: prefixLabel || `扇区${sector.x}扫描`,
+      source: "scan",
+    });
+    maybeCompleteActionEffectFromScan(result);
+    return result;
+  }
+
+  function executeImprovedEarthSectorScanEffect() {
+    const earth = getEarthSectorCoordinate();
+    const sectorXs = [(earth.x + 7) % 8, earth.x, (earth.x + 1) % 8];
+    const choices = buildSectorScanChoicesForXs(sectorXs);
+    rocketState.statusNote = "扇区扫描：请选择地球及相邻扇区之一";
+    renderStateReadout();
+    return openScanTargetPicker({
+      type: "sector_scan",
+      fromEffectFlow: true,
+      title: "扇区扫描",
+      subtitle: "地球及左右相邻扇区三选一，按槽位顺序替换未替换的数据。",
+      choices,
+    });
+  }
+
+  function handleScanAction4Choice(choiceId) {
+    closeScanAction4Picker();
+
+    if (choiceId === "launch") {
+      const result = launchRocketForScanAction4();
+      rocketState.statusNote = result.ok ? result.message : result.message;
+      if (result.ok) {
+        renderPlayerStats();
+        completeCurrentActionEffect();
+      }
+      renderStateReadout();
+      return result;
+    }
+
+    if (choiceId === "move") {
+      return beginScanAction4FreeMove();
+    }
+
+    return { ok: false, message: "未知选择" };
+  }
+
+  function executeActionEffect(effect) {
+    if (!effect || effect.status !== "active") return { ok: false, message: "当前效果不可执行" };
+
+    switch (effect.type) {
+      case scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN:
+        return executeSectorScanAtPlanet("earth");
+      case scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN:
+        return executeImprovedEarthSectorScanEffect();
+      case scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN:
+        return executeSectorScanAtPlanet("mercury");
+      case scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN:
+        rocketState.statusNote = "公共牌区扫描：请选择一张公共牌";
+        renderStateReadout();
+        return beginCardSelection({
+          type: "public_scan",
+          player: getCurrentPlayer(),
+          allowBlindDraw: false,
+          fromEffectFlow: true,
+        });
+      case scanEffects.EFFECT_TYPES.HAND_SCAN: {
+        const currentPlayer = getCurrentPlayer();
+        if (!currentPlayer?.hand?.length) {
+          rocketState.statusNote = "没有手牌可用于扫描";
+          renderStateReadout();
+          return { ok: false, message: rocketState.statusNote };
+        }
+        pendingHandScanAction = { type: "hand_scan", player: currentPlayer, fromEffectFlow: true };
+        rocketState.statusNote = "手牌扫描：请选择一张手牌弃除并扫描";
+        syncHandScanSelectionChrome();
+        updateActionButtons();
+        renderStateReadout();
+        return { ok: true, message: rocketState.statusNote };
+      }
+      case scanEffects.EFFECT_TYPES.SCAN_ACTION_4:
+        return openScanAction4Picker();
+      default:
+        return { ok: false, message: `未知效果类型: ${effect.type}` };
+    }
+  }
+
+  function handleActionEffectButtonClick(effectIndex) {
+    if (!pendingActionEffectFlow) return;
+    if (Number(effectIndex) !== pendingActionEffectFlow.currentIndex) return;
+
+    const effect = getCurrentActionEffect();
+    executeActionEffect(effect);
+  }
+
+  function beginScanAction() {
+    if (isActionEffectFlowActive()) {
+      return { ok: false, message: "请先完成当前行动的效果" };
+    }
+    if (isTechActionSelectionActive()) {
+      rocketState.statusNote = "请先完成科技选择";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isCardSelectionActive()) {
+      rocketState.statusNote = "请先完成精选";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isDiscardSelectionActive()) {
+      rocketState.statusNote = "请先完成弃牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isPlayCardSelectionActive()) {
+      rocketState.statusNote = "请先完成打牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isMovePaymentSelectionActive()) {
+      rocketState.statusNote = "请先完成移动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (isHandScanSelectionActive()) {
+      rocketState.statusNote = "请先完成手牌扫描";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (pendingActionExecuted) {
+      rocketState.statusNote = "请先确认或撤销当前行动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    const check = scanEffects.canExecuteScan(currentPlayer);
+    if (!check.ok) {
+      rocketState.statusNote = check.message;
+      renderStateReadout();
+      return check;
+    }
+
+    const spendResult = players.spendResources(currentPlayer, scanEffects.SCAN_COST);
+    if (!spendResult.ok) {
+      rocketState.statusNote = spendResult.message;
+      renderStateReadout();
+      return spendResult;
+    }
+
+    pendingActionEffectFlow = {
+      actionType: "scan",
+      playerId: currentPlayer.id,
+      effects: scanEffects.buildScanEffectQueue(currentPlayer),
+      currentIndex: 0,
+      freeMoveMode: false,
+    };
+
+    els.appWrap?.classList.toggle("action-effect-flow-active", true);
+    rocketState.statusNote = "扫描：已消耗 1 信用点 + 2 能量，请依次点击效果";
+    renderPlayerStats();
+    activateNextActionEffect();
+    return { ok: true, message: rocketState.statusNote };
   }
 
   function resize() {
@@ -1530,9 +2028,7 @@
   function finalizeTechTakeResult(result) {
     if (!result?.ok || result.needsBlueSlotChoice) return result;
 
-    if (!result.awaitingCardSelection) {
-      markActionPending();
-    }
+    markActionPending();
 
     tech.setTechSelectionActive(techGameState, false);
     closeTechBlueSlotPicker();
@@ -1665,7 +2161,9 @@
     closeTechBlueSlotPicker();
     closeDataPlacePicker();
     closeScanTargetPicker();
+    closeScanAction4Picker();
     closeLandTargetPicker();
+    clearActionEffectFlow();
     clearActionPending();
   }
 
@@ -2448,7 +2946,8 @@
   }
 
   function resolvePendingAction() {
-    if (!pendingActionExecuted) return;
+    if (!pendingActionExecuted && !isActionEffectFlowActive()) return;
+    clearActionEffectFlow();
     clearActionPending();
     updateActionButtons();
     renderStateReadout();
@@ -2670,6 +3169,14 @@
 
   function updateTurnActionButtons() {
     const pendingBlockedReason = "请先确认或撤销当前行动";
+    const effectBlockedReason = "请先完成当前行动的效果";
+
+    if (isActionEffectFlowActive()) {
+      setTurnActionButtonState(els.actionPassButton, false);
+      setTurnActionButtonState(els.actionConfirmButton, false);
+      setTurnActionButtonState(els.actionUndoButton, true, false);
+      return effectBlockedReason;
+    }
 
     if (pendingActionExecuted) {
       setTurnActionButtonState(els.actionPassButton, false);
@@ -2692,6 +3199,7 @@
     const playCardSelectionLocked = isPlayCardSelectionActive();
     const movePaymentLocked = isMovePaymentSelectionActive();
     const handScanLocked = isHandScanSelectionActive();
+    const effectFlowLocked = isActionEffectFlowActive();
     const selectionBlockReason = techSelectionLocked
       ? "请先拿取科技或点击取消"
       : handScanLocked
@@ -2705,16 +3213,33 @@
               : "请先完成精选或点击取消";
 
     const pendingBlockedReason = updateTurnActionButtons();
+    const effectBlockedReason = effectFlowLocked ? "请先完成当前行动的效果" : pendingBlockedReason;
 
-    if (techSelectionLocked || cardSelectionLocked || discardSelectionLocked || playCardSelectionLocked || movePaymentLocked || handScanLocked) {
+    if (techSelectionLocked || discardSelectionLocked || playCardSelectionLocked || movePaymentLocked) {
       setActionButtonState(els.actionLaunchButton, false, selectionBlockReason);
       setActionButtonState(els.actionOrbitButton, false, selectionBlockReason);
       setActionButtonState(els.actionLandButton, false, selectionBlockReason);
+      setActionButtonState(els.actionScanButton, false, selectionBlockReason);
       setActionButtonState(els.actionAnalyzeButton, false, selectionBlockReason);
       setActionButtonState(els.actionPlayCardButton, false, selectionBlockReason);
       setActionButtonState(els.actionResearchTechButton, false, selectionBlockReason);
       setQuickActionButtonEnabled(false, selectionBlockReason);
       updateQuickPanel();
+      renderActionEffectBar();
+      return;
+    }
+
+    if (effectFlowLocked || cardSelectionLocked || handScanLocked) {
+      setActionButtonState(els.actionLaunchButton, false, effectBlockedReason || selectionBlockReason);
+      setActionButtonState(els.actionOrbitButton, false, effectBlockedReason || selectionBlockReason);
+      setActionButtonState(els.actionLandButton, false, effectBlockedReason || selectionBlockReason);
+      setActionButtonState(els.actionScanButton, false, effectBlockedReason || selectionBlockReason);
+      setActionButtonState(els.actionAnalyzeButton, false, effectBlockedReason || selectionBlockReason);
+      setActionButtonState(els.actionPlayCardButton, false, effectBlockedReason || selectionBlockReason);
+      setActionButtonState(els.actionResearchTechButton, false, effectBlockedReason || selectionBlockReason);
+      setQuickActionButtonEnabled(false, effectBlockedReason || selectionBlockReason);
+      updateQuickPanel();
+      renderActionEffectBar();
       return;
     }
 
@@ -2722,11 +3247,13 @@
       setActionButtonState(els.actionLaunchButton, false, pendingBlockedReason);
       setActionButtonState(els.actionOrbitButton, false, pendingBlockedReason);
       setActionButtonState(els.actionLandButton, false, pendingBlockedReason);
+      setActionButtonState(els.actionScanButton, false, pendingBlockedReason);
       setActionButtonState(els.actionAnalyzeButton, false, pendingBlockedReason);
       setActionButtonState(els.actionPlayCardButton, false, pendingBlockedReason);
       setActionButtonState(els.actionResearchTechButton, false, pendingBlockedReason);
       setQuickActionButtonEnabled(true);
       updateQuickPanel();
+      renderActionEffectBar();
       return;
     }
 
@@ -2735,17 +3262,20 @@
     const landCheck = actions.canExecute("land", context);
     const researchTechCheck = actions.canExecute("researchTech", context);
     const analyzeCheck = data.canAnalyzeData(getCurrentPlayer());
+    const scanCheck = scanEffects.canExecuteScan(getCurrentPlayer());
     const currentPlayer = getCurrentPlayer();
     const canPlayCard = Boolean(currentPlayer?.hand?.length);
 
     setActionButtonState(els.actionLaunchButton, launchCheck.ok, launchCheck.message);
     setActionButtonState(els.actionOrbitButton, orbitCheck.ok, orbitCheck.message);
     setActionButtonState(els.actionLandButton, landCheck.ok, landCheck.message);
+    setActionButtonState(els.actionScanButton, scanCheck.ok, scanCheck.message);
     setActionButtonState(els.actionAnalyzeButton, analyzeCheck.ok, analyzeCheck.message);
     setActionButtonState(els.actionPlayCardButton, canPlayCard, canPlayCard ? "" : "没有手牌可打出");
     setActionButtonState(els.actionResearchTechButton, researchTechCheck.ok, researchTechCheck.message);
     setQuickActionButtonEnabled(true);
     updateQuickPanel();
+    renderActionEffectBar();
   }
 
   function isQuickPanelOpen() {
@@ -3292,6 +3822,7 @@
     if (event.button !== 0) return;
     if (event.target.closest(".rocket-token") || event.target.closest(".move-arrow-button")) return;
     if (moveHighlightRocketId == null) return;
+    if (pendingActionEffectFlow?.freeMoveMode) return;
     deactivateMoveMode();
     renderStateReadout();
   }
@@ -3459,6 +3990,7 @@
   els.actionLaunchButton.addEventListener("click", launchRocketForCurrentPlayer);
   els.actionOrbitButton.addEventListener("click", orbitForCurrentPlayer);
   els.actionLandButton.addEventListener("click", landForCurrentPlayer);
+  els.actionScanButton?.addEventListener("click", beginScanAction);
   els.actionAnalyzeButton?.addEventListener("click", analyzeDataForCurrentPlayer);
   els.actionPlayCardButton?.addEventListener("click", beginPlayCardSelection);
   els.actionResearchTechButton?.addEventListener("click", researchTechForCurrentPlayer);
@@ -3512,6 +4044,23 @@
       closeScanTargetPicker();
     }
   });
+  els.scanAction4Actions?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-scan-action4-choice]");
+    if (!button || button.disabled) return;
+    handleScanAction4Choice(button.dataset.scanAction4Choice);
+  });
+  els.scanAction4Cancel?.addEventListener("click", closeScanAction4Picker);
+  els.scanAction4Overlay?.addEventListener("click", (event) => {
+    if (event.target === els.scanAction4Overlay) {
+      closeScanAction4Picker();
+    }
+  });
+  els.actionEffectList?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-effect-index]");
+    if (!button || button.disabled) return;
+    handleActionEffectButtonClick(Number(button.dataset.effectIndex));
+  });
+  els.actionEffectSkipButton?.addEventListener("click", skipCurrentActionEffect);
   els.tokenLayer?.addEventListener("click", (event) => {
     if (event.target.closest(".rocket-token")) {
       event.stopPropagation();
@@ -3522,6 +4071,14 @@
     if (!button || moveHighlightRocketId == null) return;
     event.stopPropagation();
     event.preventDefault();
+    if (pendingActionEffectFlow?.freeMoveMode) {
+      executeFreeMoveForScanAction4(
+        Number(button.dataset.moveX),
+        Number(button.dataset.moveY),
+        moveHighlightRocketId,
+      );
+      return;
+    }
     moveRocket(Number(button.dataset.moveX), Number(button.dataset.moveY), moveHighlightRocketId);
   });
   els.wheelWrap.addEventListener("pointerdown", handleBoardPointerDown);
@@ -3618,6 +4175,7 @@
   resize();
   renderWheels();
   renderSectors();
+  fillNebulaDataBoard({ source: "setup", replace: true });
   randomizeFinalScores();
   renderStateReadout();
   renderRockets();

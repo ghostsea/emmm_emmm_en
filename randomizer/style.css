@@ -813,6 +813,126 @@ body {
   min-width: 108px;
 }
 
+.action-effect-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 6px 8px;
+  border: 1px solid rgba(180, 140, 255, 0.32);
+  border-radius: 8px;
+  background: rgba(18, 12, 32, 0.72);
+  box-shadow: 0 0 14px rgba(160, 120, 255, 0.12);
+}
+
+.action-effect-bar[hidden] {
+  display: none;
+}
+
+.action-effect-list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.action-effect-skip-button {
+  flex: 0 0 auto;
+  min-width: 52px;
+  height: 40px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 8px;
+  background: rgba(8, 12, 20, 0.82);
+  color: rgba(255, 255, 255, 0.72);
+  cursor: pointer;
+  font: 600 13px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.action-effect-skip-button[hidden] {
+  display: none;
+}
+
+.action-effect-skip-button:hover {
+  border-color: rgba(255, 200, 160, 0.72);
+  background: rgba(48, 28, 20, 0.88);
+  color: rgba(255, 220, 180, 0.95);
+}
+
+.action-effect-button {
+  position: relative;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  padding: 3px;
+  border: 2px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(8, 12, 20, 0.72);
+  cursor: default;
+  opacity: 0.42;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+}
+
+.action-effect-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.action-effect-button.is-active {
+  opacity: 1;
+  border-color: rgba(200, 160, 255, 0.92);
+  box-shadow: 0 0 12px rgba(180, 140, 255, 0.55);
+  cursor: pointer;
+  transform: translateY(-1px);
+}
+
+.action-effect-button.is-active:hover {
+  border-color: rgba(230, 200, 255, 1);
+  box-shadow: 0 0 16px rgba(200, 160, 255, 0.72);
+}
+
+.action-effect-button.is-completed {
+  opacity: 0.88;
+  border-color: rgba(120, 220, 160, 0.72);
+  box-shadow: 0 0 8px rgba(100, 200, 140, 0.28);
+}
+
+.action-effect-button.is-completed::after {
+  content: "";
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(90, 210, 140, 0.95);
+  box-shadow: 0 0 6px rgba(90, 210, 140, 0.6);
+}
+
+.action-effect-button.is-skipped {
+  opacity: 0.42;
+  border-color: rgba(255, 180, 140, 0.28);
+}
+
+.action-effect-button.is-skipped::after {
+  content: "—";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 180, 140, 0.88);
+  font: 700 18px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+}
+
 .player-board-panel {
   display: flex;
   align-items: center;
@@ -893,8 +1013,21 @@ body {
 }
 
 .data-place-overlay[hidden],
-.scan-target-overlay[hidden] {
+.scan-target-overlay[hidden],
+.scan-action-4-overlay[hidden] {
   display: none;
+}
+
+.scan-action-4-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 10, 18, 0.62);
+  backdrop-filter: blur(2px);
 }
 
 .data-place-dialog,

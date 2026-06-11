@@ -85,6 +85,15 @@
       </div>
     </div>
 
+    <div class="scan-action-4-overlay" id="scan-action-4-overlay" hidden>
+      <div class="scan-target-dialog" role="dialog" aria-modal="true" aria-labelledby="scan-action-4-title">
+        <p class="scan-target-title" id="scan-action-4-title">紫4扫描效果</p>
+        <p class="scan-target-subtitle" id="scan-action-4-subtitle">选择发射或移动，或取消跳过此效果。</p>
+        <div class="scan-target-actions" id="scan-action-4-actions"></div>
+        <button class="scan-target-cancel" type="button" id="scan-action-4-cancel">取消</button>
+      </div>
+    </div>
+
     <div class="land-target-overlay" id="land-target-overlay" hidden>
       <div class="land-target-dialog" role="dialog" aria-modal="true" aria-labelledby="land-target-title">
         <p class="land-target-title" id="land-target-title">选择登陆目标</p>
@@ -111,7 +120,7 @@
             <button class="action-button action-button-compact" type="button" id="action-land-button" aria-label="登陆">
               <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c01.webp" alt="" aria-hidden="true">
             </button>
-            <button class="action-button action-button-compact" type="button" disabled aria-label="扫描">
+            <button class="action-button action-button-compact" type="button" id="action-scan-button" aria-label="扫描">
               <img class="action-button-icon" src="../assets/symbol/split/seti-icons/seti-icons_r04_c03.webp" alt="" aria-hidden="true">
             </button>
             <button class="action-button action-button-compact" type="button" id="action-analyze-button" aria-label="分析">
@@ -130,6 +139,10 @@
             <button class="action-button action-button-text" type="button" id="action-confirm-button" disabled aria-label="确认行动">确认</button>
             <button class="action-button action-button-text" type="button" id="action-undo-button" disabled aria-label="撤销行动">撤销</button>
           </div>
+        </div>
+        <div class="action-effect-bar" id="action-effect-bar" hidden aria-label="效果触发">
+          <div class="action-effect-list" id="action-effect-list"></div>
+          <button class="action-effect-skip-button" type="button" id="action-effect-skip-button" hidden aria-label="跳过当前效果">跳过</button>
         </div>
         <div class="quick-actions-panel" id="quick-actions-panel" hidden aria-label="快速行动">
           <div class="quick-actions-row">
@@ -440,6 +453,7 @@
   <script src="./game/actions/research-tech.js?v=tech-module-1"></script>
   <script src="./game/actions/index.js?v=tech-module-1"></script>
   <script src="./game/actions/quick-trades.js?v=income-effect-1"></script>
-  <script src="./app.js?v=scan-effects-2"></script>
+  <script src="./game/actions/scan-effects.js?v=scan-effects-1"></script>
+  <script src="./app.js?v=scan-effects-3"></script>
 </body>
 </html>
