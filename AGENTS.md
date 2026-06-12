@@ -8,8 +8,8 @@
 
 玩家由 `randomizer/game/players.js` 管理：
 
-- `resources`：`credits`、`energy`、`publicity`、`availableData`、`handSize`、`score`。
-- `income`：每轮收入记录，字段与部分资源同名。
+- `resources`：`credits`、`energy`、`publicity`、`availableData`、`additionalPublicScan`、`handSize`、`score`。
+- `income`：每轮收入记录，字段与部分资源同名（含 `additionalPublicScan`）。
 - `hand` / `reservedCards`：手牌与保留牌。`handSize` 始终同步为 `hand.length`。
 - `techState`：玩家已拥有科技 `ownedTiles`，以及蓝色科技放置位 `blueBoardSlots`。
 - `dataState`：由数据模块懒初始化，包含 `poolTokens`、`placedTokens`、`discardedCount`。
@@ -101,6 +101,7 @@
 扫描队列由 `randomizer/game/actions/scan-effects.js` 构建：
 
 - 无紫色科技：地球所在扇区扫描 + 公共牌区扫描。
+- 公共牌区扫描默认弃 1 张选 2 选 1 星云；玩家每有 1 个 `additionalPublicScan` 可多选 1 张公共牌（最多 2 个，即最多弃 3 张），弃牌后按张数依次弹出多组 2 选 1 星云（可重复）。
 - 紫1：地球扇区扫描升级为“地球及相邻扇区三选一”。
 - 紫2：额外增加水星所在扇区扫描。
 - 紫3：额外增加手牌扫描。
@@ -195,11 +196,14 @@
 - 扇区扫描：`scanSector(context, { nebulaId })` 或 `scanSector(context, { sectorX })`。
 - 公共/手牌扫描：UI 先选择牌和目标星云，再调用 `scanPublicCard` / `scanHandCard`，之后由 UI 负责弃牌命令。
 
+## 卡牌模型
+
+- 卡牌源数据保持 CSV，方便手工校对和继续补内容。使用层通过中间构建把 `assets/cards/card_model.csv` 转成 `assets/cards/card_model.json` 和 `randomizer/game/card-catalog.js`，卡牌只声明能力 id、参数和费用覆盖。
+
 ## 后续改造方向
 
 - 将普通 `orbit`、`land`、`analyze`、`playCard`、`researchTech` 拆成能力函数，并让卡牌/科技通过 `cost` 参数触发低费或免费版本。
 - 将扫描第二格 +2 分、扇区完成、赢家/第二名、推广和扇区奖励做成 `onSignalMarked` / `onSectorCompleted` 事件能力。
-- 卡牌源数据保持 CSV，方便手工校对和继续补内容。使用层通过中间构建把 `assets/cards/card_model.csv` 转成 `assets/cards/card_model.json` 和 `randomizer/game/card-catalog.js`，卡牌只声明能力 id、参数和费用覆盖。
 - 将 UI 的 overlay 选择与底层 ability 彻底分离，使能力函数可被测试、AI agent 和模拟器复用。
 
 ## 验证命令

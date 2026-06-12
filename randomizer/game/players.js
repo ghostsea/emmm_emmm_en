@@ -64,6 +64,7 @@
     energy: 10,
     publicity: 0,
     availableData: 0,
+    additionalPublicScan: 0,
     handSize: 0,
     score: 0,
   });
@@ -73,6 +74,7 @@
     handSize: 0,
     publicity: 0,
     availableData: 0,
+    additionalPublicScan: 0,
   });
   const CARD_BACK_SRC = "../assets/cards/card_back.png";
   let handCardSequence = 0;
@@ -231,6 +233,7 @@
     if (cost.credits != null) parts.push(`${cost.credits}信用点`);
     if (cost.energy != null) parts.push(`${cost.energy}能量`);
     if (cost.publicity != null) parts.push(`${cost.publicity}宣传`);
+    if (cost.additionalPublicScan != null) parts.push(`${cost.additionalPublicScan}额外公共扫描`);
     if (cost.handSize != null) parts.push(`${cost.handSize}张牌`);
     return parts.join(" + ");
   }
@@ -243,6 +246,9 @@
     if (required.credits != null && resources.credits < required.credits) return false;
     if (required.energy != null && resources.energy < required.energy) return false;
     if (required.publicity != null && resources.publicity < required.publicity) return false;
+    if (required.additionalPublicScan != null && resources.additionalPublicScan < required.additionalPublicScan) {
+      return false;
+    }
     if (required.handSize != null && resources.handSize < required.handSize) return false;
 
     return true;
@@ -264,6 +270,12 @@
         player.resources.publicity - required.publicity,
         0,
         RESOURCE_LIMITS.publicity,
+      );
+    }
+    if (required.additionalPublicScan != null) {
+      player.resources.additionalPublicScan = Math.max(
+        0,
+        (player.resources.additionalPublicScan || 0) - required.additionalPublicScan,
       );
     }
     if (required.handSize != null) {
@@ -292,6 +304,12 @@
         player.resources.availableData + reward.availableData,
         0,
         RESOURCE_LIMITS.availableData,
+      );
+    }
+    if (reward.additionalPublicScan != null) {
+      player.resources.additionalPublicScan = Math.max(
+        0,
+        (player.resources.additionalPublicScan || 0) + reward.additionalPublicScan,
       );
     }
     if (reward.handSize != null) {

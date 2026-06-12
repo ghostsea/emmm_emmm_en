@@ -32,6 +32,7 @@
     data: "../assets/symbol/split/seti-icons/seti-icons_r01_c00.webp",
     income: "../assets/symbol/split/seti-icons/seti-icons_r06_c04.webp",
     incomeCard: "../assets/symbol/split/seti-icons/seti-icons_r06_c01.webp",
+    additionalPublicScan: "../assets/tokens/additional_public_scan.webp",
   });
   const INCOME_GAIN_LABELS = Object.freeze({
     credits: "信用点",
@@ -39,7 +40,9 @@
     handSize: "手牌",
     publicity: "宣传",
     availableData: "数据",
+    additionalPublicScan: "额外公共扫描",
   });
+  const PUBLIC_SCAN_MAX_BONUS_CARDS = 2;
   const PUBLIC_SCAN_TARGETS_BY_CODE = Object.freeze({
     0: Object.freeze(["sector-4-a", "sector-3-a"]),
     1: Object.freeze(["sector-2-b", "sector-3-b"]),
@@ -83,6 +86,7 @@
   let pendingDiscardAction = null;
   let pendingCardSelectionAction = null;
   let pendingScanTargetAction = null;
+  let pendingPublicScanQueue = null;
   let pendingHandScanAction = null;
   let pendingActionExecuted = false;
   let pendingActionEffectFlow = null;
@@ -202,6 +206,7 @@
     publicBlindDrawButton: document.getElementById("public-blind-draw-button"),
     cardSelectionBackdrop: document.getElementById("card-selection-backdrop"),
     cardSelectionCancel: document.getElementById("card-selection-cancel"),
+    publicScanConfirm: document.getElementById("public-scan-confirm"),
     discardSelectionBackdrop: document.getElementById("discard-selection-backdrop"),
     discardSelectionCancel: document.getElementById("discard-selection-cancel"),
     playCardActionButton: document.getElementById("play-card-action-button"),
@@ -262,6 +267,34 @@
     return pendingCardSelectionAction?.allowBlindDraw !== false;
   }
 
+  function getPublicScanBonusSelectableCount(player) {
+    return Math.min(
+      Math.max(0, player?.resources?.additionalPublicScan || 0),
+      PUBLIC_SCAN_MAX_BONUS_CARDS,
+    );
+  }
+
+  function getPublicScanMaxSelectable(player) {
+    const filledSlots = cardState.publicCards.filter(Boolean).length;
+    return Math.min(1 + getPublicScanBonusSelectableCount(player), 3, filledSlots);
+  }
+
+  function isPublicScanMultiSelectActive() {
+    return isCardSelectionActive()
+      && pendingCardSelectionAction?.type === "public_scan"
+      && (pendingCardSelectionAction.maxSelectable ?? 1) > 1;
+  }
+
+  function syncPublicScanConfirmButton() {
+    if (!els.publicScanConfirm) return;
+    const multi = isPublicScanMultiSelectActive();
+    els.publicScanConfirm.hidden = !multi;
+    if (!multi) return;
+    const count = pendingCardSelectionAction?.selectedSlots?.length || 0;
+    els.publicScanConfirm.disabled = count < 1;
+    els.publicScanConfirm.textContent = count > 0 ? `确认扫描（${count}张）` : "确认扫描";
+  }
+
   function syncCardSelectionChrome() {
     const active = isCardSelectionActive();
     els.appWrap?.classList.toggle("card-selection-active", active);
@@ -274,6 +307,7 @@
     if (els.cardSelectionCancel) {
       els.cardSelectionCancel.hidden = !active;
     }
+    syncPublicScanConfirmButton();
     if (active) setQuickPanelOpen(false);
     renderPublicCards();
     updatePublicCardControls();
@@ -839,7 +873,9 @@
     pendingCardSelectionAction = pendingAction;
     cards.setSelectionActive(cardState, true);
     rocketState.statusNote = pendingAction?.type === "public_scan"
-      ? "公共牌区扫描：请选择一张亮明的公共牌（不能盲抽）"
+      ? (pendingAction.maxSelectable ?? 1) > 1
+        ? `公共牌区扫描：最多选择 ${pendingAction.maxSelectable} 张公共牌，确认后依次扫描`
+        : "公共牌区扫描：请选择一张亮明的公共牌（不能盲抽）"
       : allowsBlindDrawInSelection()
       ? "精选：从公共牌区选一张牌，或点击盲抽"
       : "精选：从公共牌区选一张牌";
@@ -1016,6 +1052,8 @@
     cards.ensurePublicCardsFilled(cardState, playerState);
 
     const selectionActive = isCardSelectionActive();
+    const publicScanMulti = isPublicScanMultiSelectActive();
+    const selectedPublicSlots = pendingCardSelectionAction?.selectedSlots || [];
     els.publicCardRow.replaceChildren(...cardState.publicCards.map((card, index) => {
       const slot = document.createElement("div");
       slot.className = "public-card-slot";
@@ -1034,6 +1072,9 @@
         button.className = "public-card";
         button.dataset.publicSlot = String(index);
         button.classList.add("is-selectable");
+        if (publicScanMulti && selectedPublicSlots.includes(index)) {
+          button.classList.add("is-selected");
+        }
         button.setAttribute("aria-label", label);
 
         const image = document.createElement("img");
@@ -1207,8 +1248,16 @@
 
   function closeScanTargetPicker() {
     if (!els.scanTargetOverlay) return;
+    if (pendingPublicScanQueue) {
+      rocketState.statusNote = "公共牌区扫描：请完成全部星云选择";
+      renderStateReadout();
+      return;
+    }
     pendingScanTargetAction = null;
     els.scanTargetOverlay.hidden = true;
+    if (els.scanTargetCancel) {
+      els.scanTargetCancel.hidden = false;
+    }
   }
 
   function buildNebulaScanChoice(nebulaId, extra = {}) {
@@ -1252,6 +1301,9 @@
       return button;
     }));
 
+    if (els.scanTargetCancel) {
+      els.scanTargetCancel.hidden = Boolean(config.queueMode);
+    }
     els.scanTargetOverlay.hidden = false;
     return { ok: true, message: config.subtitle || "" };
   }
@@ -1275,6 +1327,34 @@
         prefix: `公共牌区扫描 ${cards.getCardLabel(pending.card)}`,
         source: scanSource,
       });
+      if (pending.queueMode && pendingPublicScanQueue) {
+        if (!scanResult.ok) {
+          rocketState.statusNote = scanResult.message;
+          renderSectors();
+          renderStateReadout();
+          return scanResult;
+        }
+        const queue = pendingPublicScanQueue;
+        queue.currentIndex += 1;
+        if (queue.currentIndex < queue.items.length) {
+          rocketState.statusNote = scanResult.message;
+          renderSectors();
+          renderPlayerStats();
+          updateActionButtons();
+          renderStateReadout();
+          openPublicScanNebulaPickerForCurrentQueueItem();
+          return scanResult;
+        }
+        pendingPublicScanQueue = null;
+        closeScanTargetPicker();
+        rocketState.statusNote = scanResult.message;
+        renderSectors();
+        renderPlayerStats();
+        updateActionButtons();
+        renderStateReadout();
+        maybeCompleteActionEffectFromScan(scanResult);
+        return scanResult;
+      }
       const result = finalizeScanSourceCard(pending, scanResult);
       maybeCompleteActionEffectFromScan(result);
       return result;
@@ -1345,23 +1425,23 @@
     };
   }
 
-  function beginPublicDeckScan() {
-    return beginCardSelection({
+  function createPublicScanPendingAction(player, fromEffectFlow = false) {
+    const maxSelectable = getPublicScanMaxSelectable(player);
+    return {
       type: "public_scan",
-      player: getCurrentPlayer(),
+      player,
       allowBlindDraw: false,
-    });
+      fromEffectFlow,
+      maxSelectable,
+      selectedSlots: [],
+    };
   }
 
-  function handlePublicScanCardClick(slotIndex) {
-    const index = Number(slotIndex);
-    const card = cardState.publicCards[index];
-    if (!card) {
-      rocketState.statusNote = "该公共牌位没有卡牌";
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
-    }
+  function beginPublicDeckScan() {
+    return beginCardSelection(createPublicScanPendingAction(getCurrentPlayer()));
+  }
 
+  function beginPublicScanForSingleCard(index, card, fromEffectFlow = false) {
     const scanChoices = getPublicScanChoicesForCard(card);
     if (!scanChoices.ok) {
       rocketState.statusNote = scanChoices.message;
@@ -1379,11 +1459,157 @@
       card,
       publicSlotIndex: index,
       scanCode: scanChoices.scanCode,
-      fromEffectFlow: Boolean(pendingActionEffectFlow),
+      fromEffectFlow,
       title: "公共牌区扫描",
       subtitle: `${cards.getCardLabel(card)}：${scanChoices.scanLabel}，请选择 2 选 1 星云。`,
       choices: scanChoices.choices,
     });
+  }
+
+  function openPublicScanNebulaPickerForCurrentQueueItem() {
+    const queue = pendingPublicScanQueue;
+    if (!queue) return { ok: false, message: "没有待扫描的公共牌" };
+    const item = queue.items[queue.currentIndex];
+    if (!item) return { ok: false, message: "没有待扫描的公共牌" };
+
+    const { card, scanChoices, publicSlotIndex } = item;
+    const total = queue.items.length;
+    const current = queue.currentIndex + 1;
+    return openScanTargetPicker({
+      type: "public_scan",
+      card,
+      publicSlotIndex,
+      scanCode: scanChoices.scanCode,
+      fromEffectFlow: queue.fromEffectFlow,
+      queueMode: true,
+      title: "公共牌区扫描",
+      subtitle: total > 1
+        ? `第 ${current}/${total} 张：${cards.getCardLabel(card)}，${scanChoices.scanLabel}，请选择 2 选 1 星云。`
+        : `${cards.getCardLabel(card)}：${scanChoices.scanLabel}，请选择 2 选 1 星云。`,
+      choices: scanChoices.choices,
+    });
+  }
+
+  function confirmPublicScanSelection() {
+    const pending = pendingCardSelectionAction;
+    if (pending?.type !== "public_scan") {
+      return { ok: false, message: "当前不是公共牌区扫描" };
+    }
+
+    const selectedSlots = [...(pending.selectedSlots || [])].sort((a, b) => a - b);
+    if (!selectedSlots.length) {
+      return { ok: false, message: "请至少选择一张公共牌" };
+    }
+
+    const items = [];
+    for (const slotIndex of selectedSlots) {
+      const card = cardState.publicCards[slotIndex];
+      if (!card) {
+        rocketState.statusNote = "所选公共牌已不可用";
+        renderStateReadout();
+        return { ok: false, message: rocketState.statusNote };
+      }
+      const scanChoices = getPublicScanChoicesForCard(card);
+      if (!scanChoices.ok) {
+        rocketState.statusNote = scanChoices.message;
+        renderStateReadout();
+        return scanChoices;
+      }
+      items.push({ card, publicSlotIndex: slotIndex, scanChoices });
+    }
+
+    const player = pending.player || getCurrentPlayer();
+    const extraUsed = selectedSlots.length - 1;
+    if (extraUsed > 0 && !players.canAfford(player, { additionalPublicScan: extraUsed })) {
+      rocketState.statusNote = `额外公共扫描不足，需要 ${extraUsed} 个`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const fromEffectFlow = Boolean(pending.fromEffectFlow || pendingActionEffectFlow);
+    pendingCardSelectionAction = null;
+    cards.setSelectionActive(cardState, false);
+    syncCardSelectionChrome();
+
+    if (fromEffectFlow) {
+      beginEffectHistoryStep("公共牌区扫描");
+    }
+
+    if (extraUsed > 0) {
+      players.spendResources(player, { additionalPublicScan: extraUsed });
+      recordHistoryCommand(historyCommands.createResourceSpendCommand(
+        player,
+        { additionalPublicScan: extraUsed },
+        `消耗 ${extraUsed} 额外公共扫描`,
+      ));
+      renderPlayerStats();
+    }
+
+    const discardOrder = [...selectedSlots].sort((a, b) => b - a);
+    for (const slotIndex of discardOrder) {
+      const item = items.find((entry) => entry.publicSlotIndex === slotIndex);
+      if (!item) continue;
+      discardPublicScanCard({ card: item.card, publicSlotIndex: slotIndex });
+    }
+
+    pendingPublicScanQueue = {
+      items,
+      currentIndex: 0,
+      fromEffectFlow,
+    };
+    rocketState.statusNote = `公共牌区扫描：已弃除 ${items.length} 张牌，请依次选择星云`;
+    renderPlayerStats();
+    renderPublicCards();
+    updatePublicCardControls();
+    updateActionButtons();
+    renderStateReadout();
+    return openPublicScanNebulaPickerForCurrentQueueItem();
+  }
+
+  function handlePublicScanCardClick(slotIndex) {
+    const index = Number(slotIndex);
+    const card = cardState.publicCards[index];
+    if (!card) {
+      rocketState.statusNote = "该公共牌位没有卡牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const pending = pendingCardSelectionAction;
+    const maxSelectable = pending?.maxSelectable ?? 1;
+    const fromEffectFlow = Boolean(pending?.fromEffectFlow || pendingActionEffectFlow);
+
+    if (maxSelectable <= 1) {
+      return beginPublicScanForSingleCard(index, card, fromEffectFlow);
+    }
+
+    const selectedSlots = pending.selectedSlots || [];
+    const existingIndex = selectedSlots.indexOf(index);
+    if (existingIndex >= 0) {
+      selectedSlots.splice(existingIndex, 1);
+    } else if (selectedSlots.length >= maxSelectable) {
+      rocketState.statusNote = `最多选择 ${maxSelectable} 张公共牌`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    } else {
+      const scanChoices = getPublicScanChoicesForCard(card);
+      if (!scanChoices.ok) {
+        rocketState.statusNote = scanChoices.message;
+        renderStateReadout();
+        return scanChoices;
+      }
+      selectedSlots.push(index);
+    }
+
+    pending.selectedSlots = selectedSlots;
+    const count = selectedSlots.length;
+    rocketState.statusNote = count > 0
+      ? `公共牌区扫描：已选 ${count}/${maxSelectable} 张，点击确认开始扫描`
+      : `公共牌区扫描：最多选择 ${maxSelectable} 张公共牌`;
+    syncPublicScanConfirmButton();
+    renderPublicCards();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
   }
 
   function beginHandScan() {
@@ -1657,6 +1883,7 @@
   function hasActiveEffectSubFlow() {
     return Boolean(
       pendingScanTargetAction
+      || pendingPublicScanQueue
       || pendingHandScanAction
       || (isCardSelectionActive() && pendingCardSelectionAction?.type === "public_scan")
       || (els.scanAction4Overlay && !els.scanAction4Overlay.hidden)
@@ -1728,8 +1955,11 @@
   }
 
   function cancelActiveEffectSubFlows() {
-    closeScanTargetPicker();
+    if (!pendingPublicScanQueue) {
+      closeScanTargetPicker();
+    }
     closeScanAction4Picker();
+    pendingPublicScanQueue = null;
 
     if (isHandScanSelectionActive()) {
       pendingHandScanAction = null;
@@ -2064,15 +2294,15 @@
         return executeImprovedEarthSectorScanEffect();
       case scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN:
         return executeSectorScanAtPlanet("mercury");
-      case scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN:
-        rocketState.statusNote = "公共牌区扫描：请选择一张公共牌";
+      case scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN: {
+        const scanPlayer = getCurrentPlayer();
+        const maxSelectable = getPublicScanMaxSelectable(scanPlayer);
+        rocketState.statusNote = maxSelectable > 1
+          ? `公共牌区扫描：最多选择 ${maxSelectable} 张公共牌`
+          : "公共牌区扫描：请选择一张公共牌";
         renderStateReadout();
-        return beginCardSelection({
-          type: "public_scan",
-          player: getCurrentPlayer(),
-          allowBlindDraw: false,
-          fromEffectFlow: true,
-        });
+        return beginCardSelection(createPublicScanPendingAction(scanPlayer, true));
+      }
       case scanEffects.EFFECT_TYPES.HAND_SCAN: {
         const currentPlayer = getCurrentPlayer();
         if (!currentPlayer?.hand?.length) {
@@ -3149,6 +3379,7 @@
       createStatIcon("能量", resources.energy, RESOURCE_ICON_SRC.energy),
       createStatIcon("宣传", `${resources.publicity}/${limits.publicity}`, RESOURCE_ICON_SRC.publicity),
       createStatIcon("可用数据", `${resources.availableData}/${limits.availableData}`, RESOURCE_ICON_SRC.data),
+      createStatIcon("额外公共扫描", resources.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
       createStatIcon("手牌", resources.handSize, RESOURCE_ICON_SRC.card),
       createStatSeparator(),
       createStatIconMarker("收入", RESOURCE_ICON_SRC.income),
@@ -3157,6 +3388,7 @@
       createStatIcon("收入手牌", income.handSize || 0, RESOURCE_ICON_SRC.incomeCard),
       createStatIcon("收入宣传", income.publicity || 0, RESOURCE_ICON_SRC.publicity),
       createStatIcon("收入数据", income.availableData || 0, RESOURCE_ICON_SRC.data),
+      createStatIcon("收入额外公共扫描", income.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
     ];
 
     els.playerStats.replaceChildren(...stats);
@@ -3174,7 +3406,7 @@
 
     return [
       "玩家状态",
-      `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 手牌=${resources.handSize} 保留=${reservedCount} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
+      `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 额外公共扫描=${resources.additionalPublicScan || 0} 手牌=${resources.handSize} 保留=${reservedCount} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
       `收入 信用点=${income.credits || 0} 能量=${income.energy || 0} 手牌=${income.handSize || 0} 宣传=${income.publicity || 0} 数据=${income.availableData || 0}`,
     ];
   }
@@ -4050,11 +4282,12 @@
       credits: 100,
       energy: 100,
       publicity: 10,
+      additionalPublicScan: 2,
     });
     for (let index = 0; index < players.RESOURCE_LIMITS.availableData; index += 1) {
       data.gainData(currentPlayer, { source: "debug" });
     }
-    rocketState.statusNote = "调试收入 +100信用点 +100能量 +10宣传 +6数据";
+    rocketState.statusNote = "调试收入 +100信用点 +100能量 +10宣传 +2额外公共扫描 +6数据";
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
@@ -4069,6 +4302,7 @@
       energy: income.energy || 0,
       publicity: income.publicity || 0,
       availableData: income.availableData || 0,
+      additionalPublicScan: income.additionalPublicScan || 0,
     };
     const cardCount = Math.max(0, Math.round(income.handSize || 0));
     const drawnCards = [];
@@ -4091,6 +4325,7 @@
       `手牌+${drawnCards.length}${drawError ? `/${cardCount}` : ""}`,
       `宣传+${resourceIncome.publicity}`,
       `数据+${resourceIncome.availableData}`,
+      `额外公共扫描+${resourceIncome.additionalPublicScan}`,
     ].join("、");
 
     rocketState.statusNote = drawError
@@ -4507,6 +4742,7 @@
   });
   els.cardSelectionCancel?.addEventListener("click", cancelCardSelection);
   els.cardSelectionBackdrop?.addEventListener("click", cancelCardSelection);
+  els.publicScanConfirm?.addEventListener("click", confirmPublicScanSelection);
   els.discardSelectionCancel?.addEventListener("click", cancelDiscardSelection);
   els.discardSelectionBackdrop?.addEventListener("click", cancelDiscardSelection);
   els.playCardActionButton?.addEventListener("click", cancelPlayCardSelection);

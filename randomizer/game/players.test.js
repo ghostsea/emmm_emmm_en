@@ -93,6 +93,7 @@ assert.deepEqual(handPlayer.income, {
   handSize: 3,
   publicity: 4,
   availableData: 5,
+  additionalPublicScan: 0,
 });
 
 console.log("player tests passed");

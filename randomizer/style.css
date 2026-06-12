@@ -339,6 +339,57 @@ body {
     drop-shadow(0 5px 8px rgba(0, 0, 0, 0.36));
 }
 
+.public-card-panel.card-selection-active .public-card.is-selectable.is-selected {
+  outline: 4px solid rgba(255, 196, 48, 0.98);
+  outline-offset: 3px;
+  animation: none;
+  box-shadow:
+    0 0 0 1px rgba(255, 220, 120, 0.55),
+    0 0 18px rgba(255, 196, 48, 0.62);
+  filter:
+    drop-shadow(0 0 14px rgba(255, 196, 48, 0.78))
+    drop-shadow(0 5px 8px rgba(0, 0, 0, 0.36));
+}
+
+.public-card-panel.card-selection-active .public-card.is-selectable.is-selected:hover {
+  outline: 4px solid rgba(255, 214, 98, 1);
+  outline-color: rgba(255, 214, 98, 1);
+  box-shadow:
+    0 0 0 1px rgba(255, 232, 160, 0.65),
+    0 0 22px rgba(255, 210, 80, 0.78);
+  filter:
+    drop-shadow(0 0 18px rgba(255, 210, 80, 0.88))
+    drop-shadow(0 5px 8px rgba(0, 0, 0, 0.36));
+}
+
+.public-scan-confirm {
+  flex: 0 0 auto;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border: 1px solid rgba(255, 214, 98, 0.52);
+  border-radius: 6px;
+  background: rgba(48, 38, 18, 0.92);
+  color: rgba(255, 244, 220, 0.94);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.public-scan-confirm:hover:not(:disabled) {
+  border-color: rgba(255, 214, 98, 0.78);
+  background: rgba(62, 48, 22, 0.96);
+}
+
+.public-scan-confirm:disabled {
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+.public-scan-confirm[hidden] {
+  display: none;
+}
+
 .public-card-panel.card-selection-active .public-blind-draw-button.is-selectable:not(:disabled) {
   border-color: rgba(98, 219, 255, 0.94);
   color: #e8f8ff;
