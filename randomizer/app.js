@@ -16,6 +16,7 @@
   const cards = window.SetiCards;
   const tech = window.SetiTech;
   const data = window.SetiData;
+  const aliens = window.SetiAliens;
 
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
@@ -74,6 +75,7 @@
   ]);
   const solarState = solar.createBaselineState();
   const nebulaDataState = data.createDefaultNebulaDataState();
+  const alienGameState = aliens.createDefaultAlienState();
   const sectorElements = {};
   const playerState = players.createPlayerState({
     players: players.PLAYER_COLOR_IDS.map((color) => ({ color })),
@@ -146,6 +148,7 @@
     scanAction4Cancel: document.getElementById("scan-action-4-cancel"),
     moveArrowLayer: document.getElementById("move-arrow-layer"),
     alienPanels: document.querySelectorAll(".alien-panel"),
+    alienTraceLayers: document.querySelectorAll(".alien-trace-layer"),
     finalScoreTiles: document.querySelectorAll(".final-score-tile"),
     reportDock: document.getElementById("report-dock"),
     wheelWrap: document.getElementById("wheel-wrap"),
@@ -181,7 +184,12 @@
     debugSectorScanButton: document.getElementById("debug-sector-scan-button"),
     debugPublicScanButton: document.getElementById("debug-public-scan-button"),
     debugHandScanButton: document.getElementById("debug-hand-scan-button"),
+    debugAlienTraceButton: document.getElementById("debug-alien-trace-button"),
     debugCheatButton: document.getElementById("debug-cheat-button"),
+    alienTraceOverlay: document.getElementById("alien-trace-overlay"),
+    alienTraceSubtitle: document.getElementById("alien-trace-subtitle"),
+    alienTraceActions: document.getElementById("alien-trace-actions"),
+    alienTraceCancel: document.getElementById("alien-trace-cancel"),
     techPanel: document.getElementById("tech-panel"),
     techStage: document.getElementById("tech-stage"),
     techSelectionBackdrop: document.getElementById("tech-selection-backdrop"),
@@ -2498,6 +2506,7 @@
     els.buttonWrap.style.width = `${boardSize}px`;
     layoutPlayerHandFan();
     alignAlienPanelsToPlanets();
+    renderAlienPanels();
     renderTechBoard();
     if (moveHighlightRocketId != null) scheduleRenderMoveArrows();
   }
@@ -2511,6 +2520,106 @@
         slot,
       ]),
     );
+  }
+
+  function getAlienTraceLayer(alienSlotId) {
+    return [...els.alienTraceLayers].find(
+      (layer) => Number(layer.dataset.alienSlot) === alienSlotId,
+    ) || null;
+  }
+
+  function renderAlienPanels() {
+    aliens.renderAllAlienTraceMarkers(getAlienTraceLayer, alienGameState, {
+      tokenSrc: aliens.ALIEN_TRACE_TOKEN_SRC,
+      getPlayerTokenAsset: (playerColor) => (
+        players.getPlayerColorDefinition(playerColor)?.normalTokenAsset
+        || aliens.ALIEN_TRACE_TOKEN_SRC
+      ),
+      getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
+    });
+  }
+
+  function closeAlienTracePicker() {
+    if (!els.alienTraceOverlay) return;
+    els.alienTraceOverlay.hidden = true;
+  }
+
+  function buildAlienTracePickerChoice(alienSlotId, traceType) {
+    const alienSlot = aliens.getAlienSlot(alienGameState, alienSlotId);
+    const traceSlot = alienSlot?.traces?.[traceType];
+    const firstLayout = aliens.getAlienTraceMarkerLayout(alienSlotId, traceType);
+    const extraLayout = aliens.getAlienExtraTraceMarkerLayout(alienSlotId, traceType);
+    const slotLabel = aliens.getAlienSlotLabel(alienSlotId);
+    const traceLabel = aliens.getTraceTypeLabel(traceType);
+    const extraCount = traceSlot?.extraCount || 0;
+
+    let description;
+    if (!traceSlot?.firstPlaced) {
+      description = firstLayout
+        ? `放置首标记 ${firstLayout.percentX}%, ${firstLayout.percentY}%`
+        : "放置首标记";
+    } else {
+      description = extraLayout
+        ? `放置额外痕迹 ${extraLayout.percentX}%, ${extraLayout.percentY}%`
+        : "放置额外痕迹";
+      if (extraCount > 0) {
+        description += `（已有 ${extraCount} 个额外）`;
+      }
+    }
+
+    return {
+      alienSlotId,
+      traceType,
+      label: `${slotLabel} ${traceLabel}`,
+      description,
+      disabled: Boolean(alienSlot?.revealed),
+      title: alienSlot?.revealed ? "该外星人已揭示" : "",
+    };
+  }
+
+  function openAlienTracePicker() {
+    if (!els.alienTraceOverlay || !els.alienTraceActions) {
+      return { ok: false, message: "无法打开外星人标记选择" };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    if (els.alienTraceSubtitle) {
+      els.alienTraceSubtitle.textContent = `当前玩家：${currentPlayer.colorLabel}。未放置首标记时放在首标记位，已放置则放在额外痕迹位。`;
+    }
+
+    const choices = aliens.ALIEN_SLOT_IDS.flatMap((alienSlotId) => (
+      aliens.TRACE_TYPES.map((traceType) => buildAlienTracePickerChoice(alienSlotId, traceType))
+    ));
+
+    els.alienTraceActions.replaceChildren(...choices.map((choice) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.alienSlot = String(choice.alienSlotId);
+      button.dataset.traceType = choice.traceType;
+      button.disabled = Boolean(choice.disabled);
+      button.title = choice.title || "";
+      button.innerHTML = `${choice.label}<small>${choice.description}</small>`;
+      return button;
+    }));
+
+    els.alienTraceOverlay.hidden = false;
+    return { ok: true, message: "请选择外星人痕迹位置" };
+  }
+
+  function confirmAlienTracePlacement(alienSlotId, traceType) {
+    const currentPlayer = getCurrentPlayer();
+    const result = aliens.placeFirstTrace(
+      alienGameState,
+      alienSlotId,
+      traceType,
+      currentPlayer.color,
+    );
+    closeAlienTracePicker();
+    rocketState.statusNote = result.message;
+    renderAlienPanels();
+    renderStateReadout();
+    return result;
   }
 
   function alignAlienPanelsToPlanets() {
@@ -4653,6 +4762,8 @@
       ...data.getReadoutLines(playerState),
       "",
       ...data.getNebulaReadoutLines(nebulaDataState),
+      "",
+      ...aliens.getReadoutLines(alienGameState),
       ...(actionHistory.hasSession() ? ["", "行动指令栈", ...actionHistory.getTrace()] : []),
       ...(quickActionHistory.hasSession() ? ["", "快速行动指令栈", ...quickActionHistory.getTrace()] : []),
     ].join("\n");
@@ -4803,6 +4914,17 @@
       closeScanTargetPicker();
     }
   });
+  els.alienTraceActions?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-alien-slot][data-trace-type]");
+    if (!button || button.disabled) return;
+    confirmAlienTracePlacement(Number(button.dataset.alienSlot), button.dataset.traceType);
+  });
+  els.alienTraceCancel?.addEventListener("click", closeAlienTracePicker);
+  els.alienTraceOverlay?.addEventListener("click", (event) => {
+    if (event.target === els.alienTraceOverlay) {
+      closeAlienTracePicker();
+    }
+  });
   els.scanAction4Actions?.addEventListener("click", (event) => {
     const button = event.target.closest("[data-scan-action4-choice]");
     if (!button || button.disabled) return;
@@ -4863,6 +4985,7 @@
   els.debugSectorScanButton?.addEventListener("click", beginSectorScan);
   els.debugPublicScanButton?.addEventListener("click", beginPublicDeckScan);
   els.debugHandScanButton?.addEventListener("click", beginHandScan);
+  els.debugAlienTraceButton?.addEventListener("click", openAlienTracePicker);
   els.debugPickCardButton?.addEventListener("click", beginCardSelection);
   els.publicBlindDrawButton?.addEventListener("click", handlePublicBlindDrawClick);
   els.publicCardRow?.addEventListener("click", (event) => {
@@ -4915,6 +5038,13 @@
       renderStateReadout();
     }
   });
+  aliens.bindAlienTraceDragging({
+    onPositionChange: (payload) => {
+      console.info("[外星人痕迹坐标]", payload.message);
+      renderStateReadout();
+    },
+  });
+
   syncTechRenderContext();
   tech.bindSupplyTileClicks(techGameState, techRenderContext, els.techTiles, {
     onTileClick: handleSupplyTechTileClick,
@@ -4940,6 +5070,7 @@
   renderStateReadout();
   renderRockets();
   renderTechBoard();
+  renderAlienPanels();
 
   window.SetiRandomizer = {
     randomize: randomizeAll,
@@ -4960,6 +5091,32 @@
     placeDataToComputer: runPlaceDataToComputer,
     analyzeDataForCurrentPlayer,
     getDataSlotLayoutOverrides: () => structuredClone(data.listSlotLayoutOverrides()),
+    getAlienTraceLayoutOverrides: () => structuredClone(aliens.listTraceMarkerLayoutOverrides()),
+    getAlienExtraTraceLayoutOverrides: () => structuredClone(aliens.listExtraTraceMarkerLayoutOverrides()),
+    getAlienState: () => structuredClone(alienGameState),
+    openAlienTracePicker,
+    placeAlienFirstTrace: (alienSlotId, traceType, playerColor) => {
+      const result = aliens.placeFirstTrace(
+        alienGameState,
+        alienSlotId,
+        traceType,
+        playerColor || getCurrentPlayer().color,
+      );
+      renderAlienPanels();
+      renderStateReadout();
+      return result;
+    },
+    placeAlienExtraTrace: (alienSlotId, traceType) => {
+      const result = aliens.addExtraTrace(alienGameState, alienSlotId, traceType);
+      renderAlienPanels();
+      renderStateReadout();
+      return result;
+    },
+    revealAlien: (alienSlotId, alienId) => {
+      const result = aliens.revealAlien(alienGameState, alienSlotId, alienId);
+      renderStateReadout();
+      return result;
+    },
     drawCardForCurrentPlayer,
     blindDrawCardForPlayer,
     beginCardSelection,

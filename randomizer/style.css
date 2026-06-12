@@ -517,8 +517,70 @@ body {
   filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.42));
 }
 
+.alien-state-wrap {
+  position: relative;
+  width: 100%;
+}
+
 .alien-state {
+  display: block;
+  width: 100%;
+  height: auto;
   border-radius: 4px;
+}
+
+.alien-trace-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.alien-trace-layer .alien-trace-token.alien-trace-token-positioned {
+  position: absolute;
+  width: 14%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  z-index: 4;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.42));
+}
+
+.alien-trace-layer .alien-trace-token.alien-trace-token-positioned.is-dragging {
+  cursor: grabbing;
+  z-index: 12;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+}
+
+.alien-trace-layer .alien-trace-token[data-trace-type="yellow"] {
+  outline: 2px solid rgba(232, 196, 72, 0.55);
+  outline-offset: 1px;
+  border-radius: 50%;
+}
+
+.alien-trace-layer .alien-trace-token[data-trace-type="pink"] {
+  outline: 2px solid rgba(232, 120, 168, 0.55);
+  outline-offset: 1px;
+  border-radius: 50%;
+}
+
+.alien-trace-layer .alien-trace-token[data-trace-type="blue"] {
+  outline: 2px solid rgba(88, 156, 232, 0.55);
+  outline-offset: 1px;
+  border-radius: 50%;
+}
+
+.alien-trace-layer .alien-trace-token.alien-trace-token-first.is-first-trace-placed {
+  outline: none;
+}
+
+.alien-trace-layer .alien-trace-token.alien-trace-token-extra {
+  z-index: 5;
+  outline: 1px dashed rgba(232, 238, 248, 0.45);
+  outline-offset: 1px;
+  border-radius: 50%;
 }
 
 .tech-panel {

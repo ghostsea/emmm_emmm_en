@@ -44,6 +44,24 @@
 - `addPlanetOrbitMarker` / `addPlanetLandingMarker` / `addSatelliteLandingMarker` 会生成玩家颜色标记。
 - 登陆主星消耗基础 3 能量；若该星球已有任意环绕标记，则消耗降为 2 能量。
 
+### 外星人痕迹状态
+
+外星人由 `randomizer/game/aliens/` 管理，当前有两个未揭示槽位（外星人 1 / 外星人 2）：
+
+- 每种外星人需要三种首标记：`yellow`（黄色痕迹）、`pink`（粉色痕迹）、`blue`（蓝色痕迹）。
+- `traces[traceType].firstPlaced` / `ownerPlayerColor` 记录该颜色第一个标记是否已放置及归属玩家。
+- 同颜色后续标记只累加 `extraCount`，不再产生新的版图标记。
+- 三种首标记都放置后，`isAlienReadyToReveal` 为真；`revealAlien` 才会翻开对应外星人。
+
+UI 校准：
+
+- 两个外星人状态图（`state1.png` / `state2.png`）上各有 3 个可拖动 `normal_token.png` 标记，分别对应粉/黄/蓝痕迹框。
+- 拖动结束后会在浏览器控制台输出 `[外星人痕迹坐标]`，并写入状态日志的「外星人痕迹」区段。
+- 默认坐标在 `randomizer/game/aliens/placement.js` 的 `ALIEN_TRACE_MARKER_SLOTS`，拖动结果保存在渲染层 override 中，供后续固化。
+- 首标记仅在 `firstPlaced` 后显示玩家 token（已校准坐标，`ALIEN_TRACE_TOKEN_DISPLAY_SCALE` 当前为 7），无默认参考图标。
+- 非首标记数量不限；网格锚点为 `ALIEN_EXTRA_TRACE_MARKER_SLOTS`（第二行第二列中心，可拖动），从锚点与 token 尺寸反推第一格中心，再按每行 3 个向右、向下排布；`ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE` 当前为 5。
+- 调试「获取外星人标记」：未放置首标记时放首标记，已放置则追加非首标记。
+
 ### 扇区与星云状态
 
 太阳系布局由 `randomizer/solar-system/layout.js` 和 `core.js` 定义：
@@ -245,6 +263,8 @@ node randomizer/game/rockets.move.test.js
 node randomizer/game/data/nebula.test.js
 node randomizer/game/data/data.test.js
 node randomizer/game/tech/tech.test.js
+node randomizer/game/aliens/state.test.js
+node randomizer/game/aliens/placement.test.js
 ```
 
 卡牌源数据转换：

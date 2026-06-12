@@ -39,17 +39,23 @@
         </div>
       </section>
 
-      <section class="table-panel alien-panel" aria-label="外星人 1">
+      <section class="table-panel alien-panel" aria-label="外星人 1" data-alien-slot="1">
         <div class="alien-stack">
           <img class="alien-back" src="../assets/aliens/back.png" alt="外星人 1 牌背" width="777" height="1415" decoding="async">
-          <img class="alien-state" src="../assets/aliens/state1.png" alt="外星人 1 状态" width="443" height="208" decoding="async">
+          <div class="alien-state-wrap">
+            <img class="alien-state" src="../assets/aliens/state1.png" alt="外星人 1 状态" width="443" height="208" decoding="async">
+            <div class="alien-trace-layer" data-alien-slot="1" aria-hidden="true"></div>
+          </div>
         </div>
       </section>
 
-      <section class="table-panel alien-panel" aria-label="外星人 2">
+      <section class="table-panel alien-panel" aria-label="外星人 2" data-alien-slot="2">
         <div class="alien-stack">
           <img class="alien-back" src="../assets/aliens/back.png" alt="外星人 2 牌背" width="777" height="1415" decoding="async">
-          <img class="alien-state" src="../assets/aliens/state2.png" alt="外星人 2 状态" width="443" height="208" decoding="async">
+          <div class="alien-state-wrap">
+            <img class="alien-state" src="../assets/aliens/state2.png" alt="外星人 2 状态" width="443" height="208" decoding="async">
+            <div class="alien-trace-layer" data-alien-slot="2" aria-hidden="true"></div>
+          </div>
         </div>
       </section>
     </aside>
@@ -82,6 +88,15 @@
         <p class="scan-target-subtitle" id="scan-target-subtitle"></p>
         <div class="scan-target-actions" id="scan-target-actions"></div>
         <button class="scan-target-cancel" type="button" id="scan-target-cancel">取消</button>
+      </div>
+    </div>
+
+    <div class="scan-target-overlay" id="alien-trace-overlay" hidden>
+      <div class="scan-target-dialog" role="dialog" aria-modal="true" aria-labelledby="alien-trace-title">
+        <p class="scan-target-title" id="alien-trace-title">获取外星人标记</p>
+        <p class="scan-target-subtitle" id="alien-trace-subtitle">选择要放置的痕迹位置，标记将出现在对应外星人状态图上。</p>
+        <div class="scan-target-actions" id="alien-trace-actions"></div>
+        <button class="scan-target-cancel" type="button" id="alien-trace-cancel">取消</button>
       </div>
     </div>
 
@@ -412,6 +427,7 @@
           <button class="debug-action-button" type="button" id="debug-sector-scan-button">扇区扫描</button>
           <button class="debug-action-button" type="button" id="debug-public-scan-button">公共牌区扫描</button>
           <button class="debug-action-button" type="button" id="debug-hand-scan-button">手牌扫描</button>
+          <button class="debug-action-button" type="button" id="debug-alien-trace-button">获取外星人标记</button>
           <button class="debug-action-button" type="button" id="debug-cheat-button" aria-pressed="false">作弊</button>
         </div>
       </div>
@@ -464,6 +480,10 @@
   <script src="./game/abilities/tech.js?v=abilities-2"></script>
   <script src="./game/abilities/chain.js?v=abilities-2"></script>
   <script src="./game/abilities/index.js?v=abilities-2"></script>
+  <script src="./game/aliens/placement.js?v=aliens-1"></script>
+  <script src="./game/aliens/state.js?v=aliens-1"></script>
+  <script src="./game/aliens/render.js?v=aliens-1"></script>
+  <script src="./game/aliens/index.js?v=aliens-1"></script>
   <script src="./app.js?v=ability-chain-1"></script>
 </body>
 </html>
