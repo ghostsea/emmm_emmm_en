@@ -632,6 +632,7 @@
     pendingDiscardAction = {
       ...(pendingAction || {}),
       discarded: [],
+      selectedIndexes: [],
     };
     cards.setDiscardSelectionActive(cardState, true, discardCount);
     rocketState.statusNote = pendingAction?.type === "income"
@@ -713,32 +714,68 @@
     return { ok: true, cards: discardedCards, message: rocketState.statusNote };
   }
 
+  function finalizePendingDiscardSelection() {
+    const pending = pendingDiscardAction;
+    const currentPlayer = getCurrentPlayer();
+    const selected = [...(pending?.selectedIndexes || [])].sort((a, b) => b - a);
+    const discarded = [...(pending?.discarded || [])];
+
+    for (const index of selected) {
+      const discardResult = cards.discardFromHandAtIndex(currentPlayer, index);
+      if (!discardResult.ok) {
+        rocketState.statusNote = discardResult.message;
+        renderPlayerHand();
+        renderStateReadout();
+        return discardResult;
+      }
+      cards.addToDiscardPile(cardState, discardResult.card);
+      discarded.push(discardResult.card);
+    }
+
+    if (pending) pending.selectedIndexes = [];
+    cards.setDiscardSelectionActive(cardState, false, 0);
+    return completeDiscardSelection(discarded);
+  }
+
   function handleHandCardDiscard(handIndex) {
     if (!isDiscardSelectionActive()) return;
 
-    const currentPlayer = getCurrentPlayer();
-    const discardResult = cards.discardFromHandAtIndex(currentPlayer, handIndex);
-    if (!discardResult.ok) {
-      rocketState.statusNote = discardResult.message;
+    const index = Math.round(handIndex);
+    const needed = cards.getDiscardRemaining(cardState);
+    if (!pendingDiscardAction) return;
+
+    if (!Array.isArray(pendingDiscardAction.selectedIndexes)) {
+      pendingDiscardAction.selectedIndexes = [];
+    }
+    const selected = pendingDiscardAction.selectedIndexes;
+    const existingIndex = selected.indexOf(index);
+    if (existingIndex >= 0) {
+      selected.splice(existingIndex, 1);
+      renderPlayerHand();
+      rocketState.statusNote = selected.length > 0
+        ? `弃牌：已选 ${selected.length}/${needed} 张`
+        : (pendingDiscardAction.type === "income"
+          ? "收入：请选择手牌弃掉"
+          : `弃牌：请选择 ${needed} 张手牌`);
       renderStateReadout();
-      return discardResult;
+      return { ok: true };
     }
 
-    cards.addToDiscardPile(cardState, discardResult.card);
-    if (pendingDiscardAction) {
-      pendingDiscardAction.discarded.push(discardResult.card);
+    if (selected.length >= needed) {
+      rocketState.statusNote = `最多选择 ${needed} 张手牌`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
     }
 
-    const remaining = cards.decrementDiscardRemaining(cardState);
-    if (remaining <= 0) {
-      const discarded = pendingDiscardAction?.discarded || [discardResult.card];
-      return completeDiscardSelection(discarded);
+    selected.push(index);
+    renderPlayerHand();
+    if (selected.length < needed) {
+      rocketState.statusNote = `弃牌：已选 ${selected.length}/${needed} 张`;
+      renderStateReadout();
+      return { ok: true };
     }
 
-    rocketState.statusNote = `弃牌：还需选择 ${remaining} 张手牌`;
-    syncDiscardSelectionChrome();
-    renderStateReadout();
-    return { ok: true, card: discardResult.card, remaining };
+    return finalizePendingDiscardSelection();
   }
 
   function getCardPrice(card) {
@@ -1259,6 +1296,7 @@
     if (els.scanTargetCancel) {
       els.scanTargetCancel.hidden = false;
     }
+    renderPlayerHand();
   }
 
   function buildNebulaScanChoice(nebulaId, extra = {}) {
@@ -1306,6 +1344,7 @@
       els.scanTargetCancel.hidden = Boolean(config.queueMode);
     }
     els.scanTargetOverlay.hidden = false;
+    renderPlayerHand();
     return { ok: true, message: config.subtitle || "" };
   }
 
@@ -3331,6 +3370,11 @@
     const playActive = isPlayCardSelectionActive();
     const movePaymentActive = isMovePaymentSelectionActive();
     const handScanActive = isHandScanSelectionActive();
+    const handScanPickIndex = pendingScanTargetAction?.type === "hand_scan"
+      && Number.isInteger(Number(pendingScanTargetAction.handIndex))
+      ? Number(pendingScanTargetAction.handIndex)
+      : null;
+    const handPickActive = discardActive || playActive || movePaymentActive || handScanActive || handScanPickIndex != null;
     const currentCredits = Number(currentPlayer.resources?.credits) || 0;
 
     els.playerHandPanel.classList.toggle("is-empty", hand.length === 0);
@@ -3338,7 +3382,7 @@
     els.playerHandFan.replaceChildren(...hand.map((card, index) => {
       const label = card.cardName || (card.faceUp ? `手牌 ${index + 1}` : `手牌背面 ${index + 1}`);
 
-      if (discardActive || playActive || movePaymentActive || handScanActive) {
+      if (handPickActive && !(handScanPickIndex != null && index !== handScanPickIndex)) {
         const price = getCardPrice(card);
         const affordable = currentCredits >= price;
         const button = document.createElement("button");
@@ -3348,6 +3392,9 @@
         button.dataset.handIndex = String(index);
         if (discardActive) {
           button.classList.add("is-selectable");
+          if (pendingDiscardAction?.selectedIndexes?.includes(index)) {
+            button.classList.add("is-selected");
+          }
           button.setAttribute("aria-label", label);
         } else if (handScanActive) {
           const scanChoices = getPublicScanChoicesForCard(card);
@@ -3361,6 +3408,10 @@
             button.setAttribute("aria-label", label);
             button.title = scanChoices.message;
           }
+        } else if (handScanPickIndex != null) {
+          button.classList.add("is-scan-card", "is-selected");
+          button.disabled = true;
+          button.setAttribute("aria-label", `${label}（扫描中）`);
         } else if (movePaymentActive) {
           if (isMovePaymentCard(card)) {
             button.classList.add("is-move-card");
