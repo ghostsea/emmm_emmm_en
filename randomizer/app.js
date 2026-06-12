@@ -359,6 +359,7 @@
   function cancelHandScanSelection() {
     if (!isHandScanSelectionActive()) return;
 
+    const fromEffectFlow = Boolean(pendingHandScanAction?.fromEffectFlow || pendingActionEffectFlow);
     pendingHandScanAction = null;
     rocketState.statusNote = "已取消手牌扫描";
     syncHandScanSelectionChrome();
@@ -1323,11 +1324,11 @@
     }
 
     if (pending?.type === "public_scan") {
-      const scanResult = replaceNebulaDataForCurrentPlayer(nebulaId, {
-        prefix: `公共牌区扫描 ${cards.getCardLabel(pending.card)}`,
-        source: scanSource,
-      });
       if (pending.queueMode && pendingPublicScanQueue) {
+        const scanResult = replaceNebulaDataForCurrentPlayer(nebulaId, {
+          prefix: `公共牌区扫描 ${cards.getCardLabel(pending.card)}`,
+          source: scanSource,
+        });
         if (!scanResult.ok) {
           rocketState.statusNote = scanResult.message;
           renderSectors();
@@ -1355,17 +1356,57 @@
         maybeCompleteActionEffectFromScan(scanResult);
         return scanResult;
       }
-      const result = finalizeScanSourceCard(pending, scanResult);
+
+      beginEffectHistoryStep(`公共牌区扫描 ${cards.getCardLabel(pending.card)}`);
+      const result = abilities.executeAbility("scanPublicCard", createActionContext(), {
+        nebulaId,
+        prefix: `公共牌区扫描 ${cards.getCardLabel(pending.card)}`,
+        source: scanSource,
+        card: pending.card,
+        publicSlotIndex: pending.publicSlotIndex,
+      });
+      if (!result.ok) {
+        endEffectHistoryStep();
+        rocketState.statusNote = result.message;
+        renderSectors();
+        renderStateReadout();
+        return result;
+      }
+      recordAbilityCommands(result);
+      rocketState.statusNote = result.message;
+      renderSectors();
+      renderPlayerStats();
+      renderPublicCards();
+      updatePublicCardControls();
+      updateActionButtons();
       maybeCompleteActionEffectFromScan(result);
       return result;
     }
 
     if (pending?.type === "hand_scan") {
-      const scanResult = replaceNebulaDataForCurrentPlayer(nebulaId, {
+      beginEffectHistoryStep(`手牌扫描 ${cards.getCardLabel(pending.card)}`);
+      const result = abilities.executeAbility("scanHandCard", createActionContext(), {
+        nebulaId,
         prefix: `手牌扫描 ${cards.getCardLabel(pending.card)}`,
         source: scanSource,
+        card: pending.card,
+        handIndex: pending.handIndex,
+        player: pending.player,
       });
-      const result = finalizeScanSourceCard(pending, scanResult);
+      if (!result.ok) {
+        endEffectHistoryStep();
+        rocketState.statusNote = result.message;
+        renderSectors();
+        renderStateReadout();
+        return result;
+      }
+      recordAbilityCommands(result);
+      rocketState.statusNote = result.message;
+      renderSectors();
+      renderPlayerStats();
+      renderPublicCards();
+      updatePublicCardControls();
+      updateActionButtons();
       maybeCompleteActionEffectFromScan(result);
       return result;
     }
@@ -1683,7 +1724,7 @@
       handIndex: index,
       player: currentPlayer,
       scanCode: scanChoices.scanCode,
-      fromEffectFlow: Boolean(pendingHandScanAction?.fromEffectFlow || pendingActionEffectFlow),
+      fromEffectFlow,
       title: "手牌扫描",
       subtitle: `${cards.getCardLabel(card)}：${scanChoices.scanLabel}，请选择 2 选 1 星云。确认后弃除这张手牌。`,
       choices: scanChoices.choices,
@@ -1787,23 +1828,9 @@
     return null;
   }
 
-  function recordLaunchActionHistory(result) {
-    startPendingActionSession("launch", "发射");
+  function recordAtomicActionHistory(actionType, label, result) {
+    startPendingActionSession(actionType, label);
     recordAbilityCommands(result);
-    completePendingActionStep();
-  }
-
-  function recordAnalyzeActionHistory(player, placedTokensSnapshot, energyCost) {
-    startPendingActionSession("analyze", "分析数据");
-    recordHistoryCommand(historyCommands.createResourceSpendCommand(
-      player,
-      { energy: energyCost },
-      `分析消耗 ${energyCost} 能量`,
-    ));
-    recordHistoryCommand(historyCommands.createAnalyzeDataCommand(
-      player,
-      placedTokensSnapshot,
-    ));
     completePendingActionStep();
   }
 
@@ -1915,8 +1942,7 @@
   }
 
   function getCurrentActionEffect() {
-    if (!pendingActionEffectFlow) return null;
-    return pendingActionEffectFlow.effects[pendingActionEffectFlow.currentIndex] || null;
+    return abilities.chain.getCurrentChainNode(pendingActionEffectFlow);
   }
 
   function getPlanetSectorCoordinate(planetId) {
@@ -2020,6 +2046,10 @@
       button.classList.toggle("is-active", effect.status === "active");
       button.classList.toggle("is-completed", effect.status === "completed");
       button.classList.toggle("is-skipped", effect.status === "skipped");
+      button.classList.toggle("is-undoable", effect.status === "completed" && effect.undoable !== false);
+      if (effect.status === "completed" && effect.undoable !== false) {
+        button.title = `${effect.label}（可撤销）`;
+      }
 
       const image = document.createElement("img");
       image.src = scanEffects.EFFECT_ICONS[effect.icon] || "";
@@ -2033,20 +2063,13 @@
   function activateNextActionEffect() {
     if (!pendingActionEffectFlow) return;
 
-    const { effects } = pendingActionEffectFlow;
-    let nextIndex = effects.findIndex((effect) => effect.status === "pending");
-    if (nextIndex < 0) {
+    const next = abilities.chain.activateNext
+      ? abilities.chain.activateNext(pendingActionEffectFlow)
+      : null;
+    if (!next) {
       finishActionEffectFlow();
       return;
     }
-
-    effects.forEach((effect, index) => {
-      if (effect.status === "pending" && index !== nextIndex) return;
-      if (index === nextIndex) {
-        effect.status = "active";
-      }
-    });
-    pendingActionEffectFlow.currentIndex = nextIndex;
     renderActionEffectBar();
     updateActionButtons();
     renderStateReadout();
@@ -2060,16 +2083,20 @@
 
     cancelActiveEffectSubFlows();
     endEffectHistoryStep();
-    current.status = status;
+    if (status === "skipped") {
+      abilities.chain.skipCurrentChainNode(pendingActionEffectFlow);
+    } else {
+      abilities.chain.resolveCurrentChainNode(pendingActionEffectFlow, current.result || {});
+    }
     renderActionEffectBar();
 
-    const hasPending = pendingActionEffectFlow.effects.some((effect) => effect.status === "pending");
-    if (hasPending) {
-      activateNextActionEffect();
-      return;
+    if (pendingActionEffectFlow.completed) {
+      finishActionEffectFlow();
+    } else {
+      renderActionEffectBar();
+      updateActionButtons();
+      renderStateReadout();
     }
-
-    finishActionEffectFlow();
   }
 
   function finishActionEffectFlow() {
@@ -2086,6 +2113,8 @@
 
   function maybeCompleteActionEffectFromScan(result) {
     if (!result?.ok || !isActionEffectFlowActive()) return;
+    const current = getCurrentActionEffect();
+    if (current) current.result = result;
     completeCurrentActionEffect();
   }
 
@@ -2169,6 +2198,8 @@
     recordAbilityCommands(result);
 
     renderRocketElement(result.rocket);
+    const current = getCurrentActionEffect();
+    if (current) current.result = result;
     return result;
   }
 
@@ -2223,6 +2254,8 @@
 
     pendingActionEffectFlow.freeMoveMode = false;
     deactivateMoveMode();
+    const current = getCurrentActionEffect();
+    if (current) current.result = result;
     rocketState.statusNote = `扫描效果：${result.message}`;
     renderPlayerStats();
     completeCurrentActionEffect();
@@ -2288,6 +2321,25 @@
     if (!effect || effect.status !== "active") return { ok: false, message: "当前效果不可执行" };
 
     switch (effect.type) {
+      case scanEffects.EFFECT_TYPES.PAY_SCAN_COST: {
+        beginEffectHistoryStep(effect.label);
+        const result = abilities.executeAbility("payScanCost", createActionContext(), {
+          cost: scanEffects.SCAN_COST,
+        });
+        if (!result.ok) {
+          endEffectHistoryStep();
+          rocketState.statusNote = result.message;
+          renderStateReadout();
+          return result;
+        }
+        recordAbilityCommands(result);
+        effect.result = result;
+        rocketState.statusNote = result.message;
+        renderPlayerStats();
+        completeCurrentActionEffect();
+        renderStateReadout();
+        return result;
+      }
       case scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN:
         return executeSectorScanAtPlanet("earth");
       case scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN:
@@ -2380,36 +2432,16 @@
       return check;
     }
 
-    const spendResult = players.spendResources(currentPlayer, scanEffects.SCAN_COST);
-    if (!spendResult.ok) {
-      rocketState.statusNote = spendResult.message;
-      renderStateReadout();
-      return spendResult;
-    }
-
     actionHistory.beginSession("scan", "扫描行动");
-    actionHistory.beginStep({
-      type: "action_start",
-      label: "扫描消耗",
-      effectIndex: -1,
-    });
-    recordHistoryCommand(historyCommands.createResourceSpendCommand(
-      currentPlayer,
-      scanEffects.SCAN_COST,
-      "扫描消耗 1 信用点 + 2 能量",
-    ));
-    actionHistory.endStep();
-
-    pendingActionEffectFlow = {
-      actionType: "scan",
-      playerId: currentPlayer.id,
-      effects: scanEffects.buildScanEffectQueue(currentPlayer),
-      currentIndex: 0,
-      freeMoveMode: false,
-    };
+    pendingActionEffectFlow = abilities.chain.startAbilityChain(
+      "scan",
+      "扫描行动",
+      scanEffects.buildScanEffectQueue(currentPlayer),
+    );
+    pendingActionEffectFlow.playerId = currentPlayer.id;
 
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
-    rocketState.statusNote = "扫描：已消耗 1 信用点 + 2 能量，请依次点击效果";
+    rocketState.statusNote = "扫描：请依次点击能力效果";
     renderPlayerStats();
     activateNextActionEffect();
     return { ok: true, message: rocketState.statusNote };
@@ -2493,6 +2525,8 @@
   function cancelTechSelection() {
     tech.setTechSelectionActive(techGameState, false);
     tech.cancelPendingTake(techGameState);
+    techGameState.ui.selectedTileId = null;
+    techGameState.ui.selectedBlueSlot = null;
     closeTechBlueSlotPicker();
     techGameState.ui.statusNote = "";
     rocketState.statusNote = "";
@@ -2518,7 +2552,6 @@
 
   function closeTechBlueSlotPicker() {
     if (!els.techBlueSlotOverlay) return;
-    tech.cancelPendingTake(techGameState);
     els.techBlueSlotOverlay.hidden = true;
     delete els.techBlueSlotOverlay.dataset.tileId;
     renderTechBoard();
@@ -2545,8 +2578,6 @@
   function finalizeTechTakeResult(result) {
     if (!result?.ok || result.needsBlueSlotChoice) return result;
 
-    markActionPending();
-
     tech.setTechSelectionActive(techGameState, false);
     closeTechBlueSlotPicker();
     syncTechSelectionChrome();
@@ -2571,8 +2602,13 @@
     const tileId = els.techBlueSlotOverlay?.dataset.tileId;
     if (!tileId) return { ok: false, message: "没有待放置的蓝色科技" };
 
-    const result = tech.confirmBlueSlotChoice(createActionContext(), techGameState, tileId, blueSlot);
-    return finalizeTechTakeResult(result);
+    closeTechBlueSlotPicker();
+    const result = abilities.executeAbility("researchTechSelect", createActionContext(), { tileId, blueSlot });
+    rocketState.statusNote = result.message;
+    renderTechBoard();
+    updateActionButtons();
+    renderStateReadout();
+    return result;
   }
 
   function handleSupplyTechTileClick(tileId) {
@@ -2593,7 +2629,7 @@
       }
     }
 
-    const result = tech.requestTakeTech(createActionContext(), techGameState, tileId);
+    const result = abilities.executeAbility("researchTechSelect", createActionContext(), { tileId });
     if (result.needsBlueSlotChoice) {
       techGameState.ui.pendingTileId = tileId;
       openTechBlueSlotPicker(result);
@@ -2610,13 +2646,17 @@
     }
 
     rocketState.statusNote = result.message;
-    return finalizeTechTakeResult(result);
+    renderTechBoard();
+    updateActionButtons();
+    renderStateReadout();
+    return result;
   }
 
   function setCheatModeOpen(open) {
     tech.setCheatModeEnabled(techGameState, open);
     els.debugCheatButton?.setAttribute("aria-pressed", String(open));
     rocketState.statusNote = open ? "作弊模式：研究科技不消耗宣传" : "";
+    updateActionButtons();
     renderStateReadout();
   }
 
@@ -2626,6 +2666,29 @@
 
   function researchTechForCurrentPlayer() {
     return runAction("researchTech");
+  }
+
+  function commitSelectedResearchTech() {
+    if (!isTechActionSelectionActive() || !techGameState.ui.selectedTileId) {
+      return { ok: false, message: "没有已选择的科技" };
+    }
+
+    const result = abilities.executeAbility("researchTechCommit", createActionContext(), {
+      tileId: techGameState.ui.selectedTileId,
+      blueSlot: techGameState.ui.selectedBlueSlot,
+    });
+
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderTechBoard();
+      updateActionButtons();
+      renderStateReadout();
+      return result;
+    }
+
+    rocketState.statusNote = result.message;
+    finalizeTechTakeResult(result);
+    return result;
   }
 
   function getCurrentPlayer() {
@@ -3436,6 +3499,7 @@
       drawBasicCardToPlayer: (player) => drawBasicCardToPlayer(player),
       drawBasicCard: () => drawCardForCurrentPlayer(),
       blindDrawCard: (player) => blindDrawCardForPlayer(player),
+      replenishPublicSlot: (slotIndex) => cards.replenishPublicSlot(cardState, playerState, slotIndex),
       beginCardSelection: (pendingAction) => beginCardSelection(pendingAction),
       beginDiscardSelection: (count, pendingAction) => beginDiscardSelection(count, pendingAction),
       beginIncome: (options) => beginIncomeForCurrentPlayer(options),
@@ -3476,6 +3540,10 @@
   }
 
   function confirmPendingAction() {
+    if (isTechActionSelectionActive()) {
+      commitSelectedResearchTech();
+      return;
+    }
     if (!pendingActionExecuted && !isActionEffectFlowActive()) return;
     endEffectHistoryStep();
     actionHistory.commitSession();
@@ -3488,6 +3556,10 @@
   }
 
   function undoPendingAction() {
+    if (isTechActionSelectionActive()) {
+      cancelTechSelection();
+      return;
+    }
     if (
       !pendingActionExecuted
       && !isActionEffectFlowActive()
@@ -3761,6 +3833,14 @@
     const pendingBlockedReason = "请先确认或撤销当前行动";
     const effectBlockedReason = "请先完成当前行动的效果";
 
+    if (isTechActionSelectionActive()) {
+      const hasSelection = Boolean(techGameState.ui.selectedTileId && !techGameState.ui.pendingTileId);
+      setTurnActionButtonState(els.actionPassButton, false);
+      setTurnActionButtonState(els.actionConfirmButton, hasSelection, hasSelection);
+      setTurnActionButtonState(els.actionUndoButton, true, false);
+      return hasSelection ? "请确认或取消科技选择" : "请先选择科技或点击取消";
+    }
+
     if (isActionEffectFlowActive()) {
       setTurnActionButtonState(els.actionPassButton, false);
       setTurnActionButtonState(els.actionConfirmButton, false);
@@ -3994,17 +4074,7 @@
   }
 
   function analyzeDataForCurrentPlayer() {
-    const player = getCurrentPlayer();
-    const placedTokensSnapshot = (player?.dataState?.placedTokens || []).map((token) => ({ ...token }));
-    const result = data.analyzeData(player);
-    rocketState.statusNote = result.message;
-    if (result.ok) {
-      recordAnalyzeActionHistory(player, placedTokensSnapshot, data.ANALYZE_ENERGY_COST);
-    }
-    renderPlayerStats();
-    updateActionButtons();
-    renderStateReadout();
-    return result;
+    return runAction("analyze");
   }
 
   function runQuickTrade(tradeId) {
@@ -4051,9 +4121,18 @@
   }
 
   function runAction(actionId, actionOptions) {
-    const result = actionId === "launch"
-      ? abilities.executeAbility("launchProbe", createActionContext(), actionOptions)
-      : actions.execute(actionId, createActionContext(), actionOptions);
+    const abilityByAction = {
+      launch: "launchProbe",
+      orbit: "orbitProbe",
+      land: "landProbe",
+      analyze: "analyzeData",
+    };
+    const abilityId = abilityByAction[actionId];
+    const result = abilityId
+      ? abilities.executeAbility(abilityId, createActionContext(), actionOptions)
+      : actionId === "researchTech"
+        ? abilities.executeAbility("researchTechPrepare", createActionContext(), actionOptions)
+        : actions.execute(actionId, createActionContext(), actionOptions);
 
     if (result.ok && result.markerKind) {
       if (result.removedRocketId != null) removeRocketElement(result.removedRocketId);
@@ -4077,8 +4156,8 @@
     }
 
     if (result.ok && !result.awaitingTileSelection) {
-      if (actionId === "launch") {
-        recordLaunchActionHistory(result);
+      if (abilityId && result.undoable !== false) {
+        recordAtomicActionHistory(actionId, result.message || actionId, result);
       } else {
         markActionPending();
       }

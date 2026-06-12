@@ -3,13 +3,21 @@
 
   let rocketAbility = root.SetiAbilityRocket;
   let scanAbility = root.SetiAbilityScan;
+  let planetAbility = root.SetiAbilityPlanet;
+  let dataAbility = root.SetiAbilityData;
+  let techAbility = root.SetiAbilityTech;
+  let chain = root.SetiAbilityChain;
 
-  if ((!rocketAbility || !scanAbility) && typeof require === "function") {
+  if ((!rocketAbility || !scanAbility || !planetAbility || !dataAbility || !techAbility || !chain) && typeof require === "function") {
     rocketAbility = rocketAbility || require("./rocket");
     scanAbility = scanAbility || require("./scan");
+    planetAbility = planetAbility || require("./planet");
+    dataAbility = dataAbility || require("./data");
+    techAbility = techAbility || require("./tech");
+    chain = chain || require("./chain");
   }
 
-  const api = factory(rocketAbility, scanAbility);
+  const api = factory(rocketAbility, scanAbility, planetAbility, dataAbility, techAbility, chain);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
@@ -19,12 +27,23 @@
 })(typeof globalThis !== "undefined" ? globalThis : window, function (
   rocketAbility,
   scanAbility,
+  planetAbility,
+  dataAbility,
+  techAbility,
+  chain,
 ) {
   "use strict";
 
   const ABILITIES = Object.freeze({
     launchProbe: rocketAbility.launchProbe,
     moveProbe: rocketAbility.moveProbe,
+    orbitProbe: planetAbility.orbitProbe,
+    landProbe: planetAbility.landProbe,
+    analyzeData: dataAbility.analyzeData,
+    researchTechPrepare: techAbility.researchTechPrepare,
+    researchTechSelect: techAbility.researchTechSelect,
+    researchTechCommit: techAbility.researchTechCommit,
+    payScanCost: scanAbility.payScanCost,
     scanSector: scanAbility.scanSector,
     scanNebula: scanAbility.scanNebula,
     scanPublicCard: scanAbility.scanPublicCard,
@@ -55,5 +74,9 @@
     listAbilities,
     rocket: rocketAbility,
     scan: scanAbility,
+    planet: planetAbility,
+    data: dataAbility,
+    tech: techAbility,
+    chain,
   });
 });

@@ -135,7 +135,7 @@ body {
   z-index: 1200;
   background: rgba(4, 8, 14, 0.58);
   backdrop-filter: blur(1px);
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .tech-selection-backdrop[hidden] {
@@ -633,9 +633,12 @@ body {
   cursor: not-allowed;
 }
 
-.tech-stage.tech-selection-active .tech-tile.is-pending-blue {
-  outline: 2px solid rgba(255, 214, 102, 0.92);
-  outline-offset: 2px;
+.tech-stage.tech-selection-active .tech-tile.is-selected-tech {
+  outline: 3px solid rgba(255, 214, 102, 0.98);
+  outline-offset: 4px;
+  filter:
+    drop-shadow(0 0 18px rgba(255, 214, 102, 0.78))
+    drop-shadow(0 5px 8px rgba(0, 0, 0, 0.36));
 }
 
 @keyframes tech-tile-highlight-pulse {

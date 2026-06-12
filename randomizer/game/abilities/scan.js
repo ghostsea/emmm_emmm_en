@@ -32,6 +32,7 @@
   "use strict";
 
   const SCAN_ACTION_4_LAUNCH_COST = Object.freeze({ energy: 1 });
+  const SCAN_COST = Object.freeze({ credits: 1, energy: 2 });
 
   function getCurrentPlayer(context) {
     return players.getCurrentPlayer(context.playerState);
@@ -110,6 +111,7 @@
       ok: true,
       abilityId: "scanNebula",
       message,
+      undoable: true,
       commands,
       cost: {},
       payload: {
@@ -118,6 +120,12 @@
         gainedData: gainResult,
         card: options.card || null,
       },
+      events: [{
+        type: "signalMarked",
+        nebulaId,
+        slotIndex: replaceResult.slotIndex,
+        playerId: currentPlayer.id,
+      }],
       nebulaId,
       replaced: replaceResult,
       gainedData: gainResult,
@@ -134,6 +142,42 @@
 
   function scanPublicCard(context, options = {}) {
     const result = scanNebula(context, options);
+    if (!result.ok) {
+      return {
+        ...result,
+        abilityId: "scanPublicCard",
+      };
+    }
+
+    const slotIndex = Number(options.publicSlotIndex);
+    const cardState = context.cardState;
+    const card = options.card || cardState?.publicCards?.[slotIndex] || null;
+    if (cardState && card && Number.isInteger(slotIndex)) {
+      const publicCardsSnapshot = cardState.publicCards.slice();
+      const discardPileSnapshot = (cardState.discardPile || []).slice();
+
+      if (!Array.isArray(cardState.discardPile)) cardState.discardPile = [];
+      cardState.discardPile.push(card);
+      let replenished = null;
+      if (cardState.publicCards?.[slotIndex]?.id === card.id) {
+        cardState.publicCards[slotIndex] = null;
+        if (typeof context.replenishPublicSlot === "function") {
+          replenished = context.replenishPublicSlot(slotIndex);
+        }
+      }
+
+      result.commands.push(historyCommands.createRestorePublicCardsCommand(
+        cardState,
+        publicCardsSnapshot,
+        discardPileSnapshot,
+      ));
+      result.payload.card = card;
+      result.payload.replenished = replenished;
+      result.message += replenished
+        ? `；弃除 ${card.cardName || card.cardId || card.id}，公共区补牌`
+        : `；弃除 ${card.cardName || card.cardId || card.id}`;
+    }
+
     return {
       ...result,
       abilityId: "scanPublicCard",
@@ -142,6 +186,36 @@
 
   function scanHandCard(context, options = {}) {
     const result = scanNebula(context, options);
+    if (!result.ok) {
+      return {
+        ...result,
+        abilityId: "scanHandCard",
+      };
+    }
+
+    const player = options.player || getCurrentPlayer(context);
+    const handIndex = Number(options.handIndex);
+    const card = options.card || player?.hand?.[handIndex] || null;
+    if (context.cardState && player && card && Number.isInteger(handIndex)) {
+      const discardIndex = player.hand?.findIndex((item) => item.id === card.id);
+      const resolvedIndex = discardIndex >= 0 ? discardIndex : handIndex;
+      const handSnapshot = player.hand.slice();
+      const discardPileSnapshot = (context.cardState.discardPile || []).slice();
+      const discarded = player.hand.splice(resolvedIndex, 1)[0];
+      player.resources.handSize = player.hand.length;
+      if (!Array.isArray(context.cardState.discardPile)) context.cardState.discardPile = [];
+      context.cardState.discardPile.push(discarded);
+
+      result.commands.push(historyCommands.createDiscardHandCardCommand(
+        context.cardState,
+        player,
+        handSnapshot,
+        discardPileSnapshot,
+      ));
+      result.payload.card = discarded;
+      result.message += `；弃除手牌 ${discarded.cardName || discarded.cardId || discarded.id}`;
+    }
+
     return {
       ...result,
       abilityId: "scanHandCard",
@@ -157,6 +231,7 @@
           historyLabel: options.historyLabel || "发射/移动：发射消耗 1 能量",
         }),
         abilityId: "scanAction4",
+        undoable: true,
       };
     }
 
@@ -168,14 +243,48 @@
           historyLabel: options.historyLabel || "发射/移动：移动",
         }),
         abilityId: "scanAction4",
+        undoable: true,
       };
     }
 
     return { ok: false, abilityId: "scanAction4", message: "未知发射/移动选择" };
   }
 
+  function payScanCost(context, options = {}) {
+    const currentPlayer = getCurrentPlayer(context);
+    const cost = options.skipCost ? {} : { ...(options.cost || SCAN_COST) };
+    if (!currentPlayer) return { ok: false, abilityId: "payScanCost", message: "没有当前玩家" };
+    if (Object.keys(cost).length && !players.canAfford(currentPlayer, cost)) {
+      return {
+        ok: false,
+        abilityId: "payScanCost",
+        message: `资源不足，需要 ${players.formatResourceCost(cost)}`,
+      };
+    }
+    const spend = Object.keys(cost).length ? players.spendResources(currentPlayer, cost) : { ok: true };
+    if (!spend.ok) return { ok: false, abilityId: "payScanCost", message: spend.message };
+
+    const message = Object.keys(cost).length
+      ? `扫描消耗 ${players.formatResourceCost(cost)}`
+      : "扫描免费";
+    return {
+      ok: true,
+      abilityId: "payScanCost",
+      message,
+      undoable: true,
+      commands: Object.keys(cost).length
+        ? [historyCommands.createResourceSpendCommand(currentPlayer, cost, message)]
+        : [],
+      cost,
+      payload: {},
+      events: [],
+    };
+  }
+
   return Object.freeze({
     SCAN_ACTION_4_LAUNCH_COST,
+    SCAN_COST,
+    payScanCost,
     scanSector,
     scanNebula,
     scanPublicCard,

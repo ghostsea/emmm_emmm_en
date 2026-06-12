@@ -126,11 +126,13 @@
       ok: true,
       abilityId: "launchProbe",
       message,
+      undoable: true,
       commands,
       cost,
       payload: {
         rocket: launchResult.rocket,
       },
+      events: [],
       rocket: launchResult.rocket,
     };
   }
@@ -206,6 +208,7 @@
       ok: true,
       abilityId: "moveProbe",
       message,
+      undoable: true,
       commands,
       cost,
       payload: {
@@ -214,6 +217,7 @@
         deltaX,
         deltaY,
       },
+      events: [],
       rocket: moveResult.rocket,
     };
   }

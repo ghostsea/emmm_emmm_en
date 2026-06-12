@@ -43,7 +43,7 @@
     element.style.removeProperty("transform");
     element.style.removeProperty("z-index");
     element.style.removeProperty("--tech-scale");
-    element.classList.remove("tech-tile-positioned", "is-takable", "is-pending-blue", "is-muted");
+    element.classList.remove("tech-tile-positioned", "is-takable", "is-selected-tech", "is-muted");
     element.removeAttribute("data-tech-scale");
     element.removeAttribute("title");
     element.hidden = false;
@@ -191,8 +191,8 @@
         if (canTake) {
           element.classList.add("is-takable");
           element.title = `点击研究 ${tileId}`;
-          if (ui.pendingTileId === tileId) {
-            element.classList.add("is-pending-blue");
+          if (ui.selectedTileId === tileId) {
+            element.classList.add("is-selected-tech");
           }
         } else if (ui.techSelectionActive) {
           element.classList.add("is-muted");

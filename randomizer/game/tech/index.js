@@ -42,6 +42,8 @@
       cheatModeEnabled: Boolean(source.cheatModeEnabled ?? source.takeTechDebugEnabled),
       techSelectionActive: false,
       pendingTileId: null,
+      selectedTileId: source.selectedTileId || null,
+      selectedBlueSlot: source.selectedBlueSlot || null,
       statusNote: "",
     };
   }
@@ -67,12 +69,18 @@
 
   function setTechSelectionActive(gameState, active) {
     gameState.ui.techSelectionActive = active;
-    if (!active) gameState.ui.pendingTileId = null;
+    if (!active) {
+      gameState.ui.pendingTileId = null;
+      gameState.ui.selectedTileId = null;
+      gameState.ui.selectedBlueSlot = null;
+    }
     return active;
   }
 
   function cancelPendingTake(gameState) {
     gameState.ui.pendingTileId = null;
+    gameState.ui.selectedTileId = null;
+    gameState.ui.selectedBlueSlot = null;
     return { ok: true };
   }
 

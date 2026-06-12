@@ -79,7 +79,7 @@
 - `scan`：扫描，默认消耗 1 信用点 + 2 能量，生成扫描效果队列。
 - `analyze`：分析数据，消耗 1 能量并清空已放置数据。
 - `playCard`：打牌，打开手牌选择/打出流程。
-- `researchTech`：研究科技，默认消耗 6 宣传，先太阳系公转，再拿取科技板块及奖励。
+- `researchTech`：研究科技，先进入科技选择；玩家点击“确认”后默认消耗 6 宣传，太阳系公转，拿取科技板块及奖励，确认结算不可撤销。
 
 主行动锁定规则：
 
@@ -87,6 +87,8 @@
 - 主行动执行中、效果队列处理中或主行动待确认时，其他主行动按钮全部禁用。
 - “确认”只确认当前主行动会话，不会提交或清除快速行动历史。
 - “撤销”按最近完成的主/快速步骤回滚；主行动整体仍可通过回滚会话撤销。
+- 行动可以由能力事件链组成；链上每个节点是一个原子能力，能力返回 `undoable` 决定是否进入撤销历史。
+- 科技行动采用确认流：先选择科技并金色高亮，不旋转、不拿取、不结算奖励；点击“确认”后才执行不可撤销结算。
 
 快速行动不属于主行动确认门槛：
 
@@ -98,16 +100,17 @@
 
 ### 扫描效果队列
 
-扫描队列由 `randomizer/game/actions/scan-effects.js` 构建：
+扫描队列由 `randomizer/game/actions/scan-effects.js` 构建，并由 `randomizer/game/abilities/chain.js` 管理为能力事件链：
 
-- 无紫色科技：地球所在扇区扫描 + 公共牌区扫描。
+- 第一个节点始终是 `payScanCost`，点击后才支付 1 信用点 + 2 能量，可撤销。
+- 无紫色科技：支付扫描费用 + 地球所在扇区扫描 + 公共牌区扫描。
 - 公共牌区扫描默认弃 1 张选 2 选 1 星云；玩家每有 1 个 `additionalPublicScan` 可多选 1 张公共牌（最多 2 个，即最多弃 3 张），弃牌后按张数依次弹出多组 2 选 1 星云（可重复）。
 - 紫1：地球扇区扫描升级为“地球及相邻扇区三选一”。
 - 紫2：额外增加水星所在扇区扫描。
 - 紫3：额外增加手牌扫描。
 - 紫4：额外增加“发射/移动”效果；发射消耗 1 能量，移动免费。
 
-每个效果在 UI 中是 `pendingActionEffectFlow.effects[]` 的一个条目。效果可以完成或跳过；全部处理完后，主行动进入“待确认/待撤销”状态。在效果队列之间允许执行快速行动；快速行动撤销后，扫描队列仍停留在原来的主行动流程中。
+每个效果在 UI 中是 `pendingActionEffectFlow.effects[]` 的一个能力链节点。节点可以完成或跳过；可撤销节点完成后会写入 `actionHistory`，撤销会回到该节点重新等待触发。全部处理完后，主行动进入“待确认/待撤销”状态。在效果队列之间允许执行快速行动；快速行动撤销后，扫描队列仍停留在原来的主行动流程中。
 
 ## 撤销机制
 
@@ -138,8 +141,10 @@
 - 发射撤销：移除火箭并恢复 `nextRocketId` / `activeRocketId`。
 - 移动撤销：恢复火箭移动前快照。
 - 交易、分析、放置数据撤销：恢复对应快照。
+- 通用快照撤销：恢复玩家、火箭状态、星球状态等对象快照，用于原子能力的复合副作用。
 
 新增能力函数必须只返回 `commands`，不直接写入 `actionHistory`。调用方负责在当前 session/step 中记录这些命令。
+能力必须显式返回 `undoable`；`undoable: false` 的能力成功后不写入 `actionHistory`，失败时必须自行恢复到执行前状态。
 
 移动撤销细节：
 
@@ -151,10 +156,27 @@
 
 新增能力层位于 `randomizer/game/abilities/`：
 
+- `chain.js`：
+  - `startAbilityChain(chainId, label, nodes)`
+  - `getCurrentChainNode(chain)`
+  - `resolveCurrentChainNode(chain, result)`
+  - `skipCurrentChainNode(chain)`
+  - `undoLastChainStep(chain)`
+  - `finishAbilityChain(chain)`
 - `rocket.js`：
   - `launchProbe(context, options)`
   - `moveProbe(context, options)`
+- `planet.js`：
+  - `orbitProbe(context, options)`
+  - `landProbe(context, options)`
+- `data.js`：
+  - `analyzeData(context, options)`
+- `tech.js`：
+  - `researchTechPrepare(context, options)`
+  - `researchTechSelect(context, options)`
+  - `researchTechCommit(context, options)`
 - `scan.js`：
+  - `payScanCost(context, options)`
   - `scanSector(context, options)`
   - `scanNebula(context, options)`
   - `scanPublicCard(context, options)`
@@ -172,9 +194,11 @@
   ok: true,
   abilityId: "scanSector",
   message: "...",
+  undoable: true,
   commands: [],
   cost: {},
-  payload: {}
+  payload: {},
+  events: []
 }
 ```
 
@@ -194,7 +218,8 @@
 - 正常快速移动：`moveProbe(context, { cost: { energy: 1 }, rocketId, deltaX, deltaY })`。
 - 弃移动牌/紫4扫描移动：`moveProbe(context, { cost: {}, rocketId, deltaX, deltaY })`。
 - 扇区扫描：`scanSector(context, { nebulaId })` 或 `scanSector(context, { sectorX })`。
-- 公共/手牌扫描：UI 先选择牌和目标星云，再调用 `scanPublicCard` / `scanHandCard`，之后由 UI 负责弃牌命令。
+- 公共/手牌扫描：UI 先选择牌和目标星云，再调用 `scanPublicCard` / `scanHandCard`；能力原子化结算“星云替换 + 获得数据 + 弃除来源牌/补公共牌”，并返回同一组撤销命令。
+- 科技选择：`researchTechPrepare` 进入选择，`researchTechSelect` 只记录选中的科技/蓝色槽位并显示金色高亮，`researchTechCommit` 点击确认后执行旋转、拿科技和奖励；该提交能力 `undoable: false`。
 
 ## 卡牌模型
 
@@ -202,7 +227,7 @@
 
 ## 后续改造方向
 
-- 将普通 `orbit`、`land`、`analyze`、`playCard`、`researchTech` 拆成能力函数，并让卡牌/科技通过 `cost` 参数触发低费或免费版本。
+- `orbit`、`land`、`analyze`、`researchTech` 已拆成能力函数；后续继续处理 `playCard`，并让卡牌/科技通过 `cost` 参数触发低费或免费版本。
 - 将扫描第二格 +2 分、扇区完成、赢家/第二名、推广和扇区奖励做成 `onSignalMarked` / `onSectorCompleted` 事件能力。
 - 将 UI 的 overlay 选择与底层 ability 彻底分离，使能力函数可被测试、AI agent 和模拟器复用。
 
@@ -212,6 +237,7 @@
 
 ```powershell
 node randomizer/game/abilities/abilities.test.js
+node randomizer/game/abilities/chain.test.js
 node randomizer/game/actions/scan-effects.test.js
 node randomizer/game/history/action-history.test.js
 node randomizer/game/history/commands.test.js
@@ -226,4 +252,3 @@ node randomizer/game/tech/tech.test.js
 ```powershell
 python tools/build_card_catalog_js.py
 ```
-

@@ -208,6 +208,33 @@
     };
   }
 
+  function createRestoreObjectCommand(target, snapshot, label) {
+    const saved = structuredClone(snapshot);
+    return {
+      label: label || "状态恢复",
+      describe: label || "恢复状态快照",
+      undo() {
+        if (!target || !saved) return;
+        for (const key of Object.keys(target)) {
+          delete target[key];
+        }
+        Object.assign(target, structuredClone(saved));
+      },
+    };
+  }
+
+  function createRestorePlayerCommand(player, snapshot, label) {
+    return createRestoreObjectCommand(player, snapshot, label || "玩家状态恢复");
+  }
+
+  function createRestoreRocketStateCommand(rocketState, snapshot, label) {
+    return createRestoreObjectCommand(rocketState, snapshot, label || "火箭状态恢复");
+  }
+
+  function createRestorePlanetStatsCommand(planetStatsState, snapshot, label) {
+    return createRestoreObjectCommand(planetStatsState, snapshot, label || "星球状态恢复");
+  }
+
   return Object.freeze({
     snapshotNebulaToken,
     createResourceSpendCommand,
@@ -218,6 +245,10 @@
     createRemoveRocketCommand,
     createLaunchRocketCommand,
     createMoveRocketCommand,
+    createRestoreObjectCommand,
+    createRestorePlayerCommand,
+    createRestoreRocketStateCommand,
+    createRestorePlanetStatsCommand,
     captureTradeState,
     createRestoreTradeStateCommand,
     createAnalyzeDataCommand,
