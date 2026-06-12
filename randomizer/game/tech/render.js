@@ -199,7 +199,7 @@
           element.title = "当前不可研究";
         } else if (ui.selectedTileId === tileId) {
           element.classList.add("is-selected-tech");
-          element.title = `已选择 ${tileId}，点击确认后结算`;
+          element.title = `已选择 ${tileId}`;
         }
         continue;
       }

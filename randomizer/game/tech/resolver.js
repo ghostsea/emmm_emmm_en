@@ -110,12 +110,11 @@
     };
   }
 
-  function executeTakeTech(context, options = {}) {
+  function selectTechTile(context, options = {}) {
     const {
       tileId,
       blueSlot = null,
       skipCost = false,
-      skipRotation = false,
     } = options;
 
     const board = context.techBoardState;
@@ -160,17 +159,9 @@
       }
     }
 
-    if (!skipRotation && typeof context.rotateSolarOrbit !== "function") {
-      return { ok: false, message: "无法执行研究科技前的太阳系旋转" };
-    }
-
     if (!skipCost) {
       const spend = players.spendResources(currentPlayer, { publicity: catalog.RESEARCH_PUBLICITY_COST });
       if (!spend.ok) return spend;
-    }
-
-    if (!skipRotation) {
-      context.rotateSolarOrbit(1);
     }
 
     const takeBoardResult = boardState.consumeFromSupplySlot(
@@ -188,36 +179,148 @@
     );
     if (!record.ok) return record;
 
-    const bonusResult = bonuses.applyBonusReward(currentPlayer, takeBoardResult.takenBonusId, {
-      drawBasicCardToPlayer: context.drawBasicCardToPlayer,
-      drawCard: context.drawBasicCard,
-    });
-    if (!bonusResult.ok) return bonusResult;
-
-    let firstTakeResult = null;
-    if (takeBoardResult.firstTake) {
-      firstTakeResult = bonuses.applyFirstTakeTypeReward(currentPlayer);
-    }
-
     if (context.techUiState) {
       context.techUiState.pendingTileId = null;
-      context.techUiState.statusNote = buildTakeResult(
-        board,
-        currentPlayer,
-        currentPlayer.techState,
-        takeBoardResult,
-        bonusResult,
-        firstTakeResult,
-      ).message;
+      context.techUiState.selectedTileId = tileId;
+      context.techUiState.selectedBlueSlot = resolvedBlueSlot;
+      context.techUiState.statusNote = `已选择科技：${tileId}`;
+    }
+
+    return {
+      ok: true,
+      tileId,
+      techType: takeBoardResult.techType,
+      bonusId: takeBoardResult.takenBonusId,
+      blueSlot: resolvedBlueSlot,
+      firstTake: takeBoardResult.firstTake,
+      remainingForSlot: takeBoardResult.remainingForSlot,
+      remainingForType: takeBoardResult.remainingForType,
+      awaitingCardSelection: false,
+      layout: structuredClone(placement.getPlacementLayout(tileId, resolvedBlueSlot)),
+      rewards: {
+        bonus: {},
+        firstTakeScore: 0,
+      },
+      message: `选择科技：${tileId}`,
+      playerTech: structuredClone(currentPlayer.techState),
+    };
+  }
+
+  function rotateForResearch(context, count = 1) {
+    if (typeof context.rotateSolarOrbit !== "function") {
+      return { ok: false, message: "无法执行研究科技的太阳系旋转" };
+    }
+    context.rotateSolarOrbit(count);
+    return { ok: true, message: "太阳系旋转" };
+  }
+
+  function applyTechBonus(context, options = {}) {
+    const {
+      bonusId,
+      firstTake = false,
+      skipCardSelection = false,
+    } = options;
+    const currentPlayer = players.getCurrentPlayer(context.playerState);
+    if (!currentPlayer) return { ok: false, message: "没有当前玩家" };
+
+    const bonusEffect = catalog.BONUS_EFFECTS[bonusId];
+    if (!bonusEffect) return { ok: false, message: `未知奖励 ${bonusId}` };
+
+    const firstTakeResult = firstTake ? bonuses.applyFirstTakeTypeReward(currentPlayer) : null;
+    let bonusResult = { ok: true, message: catalog.BONUS_LABELS[bonusId] || bonusId, rewards: {} };
+
+    if (bonusEffect.cardSelection && skipCardSelection) {
+      bonusResult = {
+        ok: true,
+        message: catalog.BONUS_LABELS[bonusId] || bonusId,
+        rewards: { cardSelection: Math.max(0, Math.round(bonusEffect.cardSelection)) },
+        awaitingCardSelection: true,
+      };
+    } else {
+      bonusResult = bonuses.applyBonusReward(currentPlayer, bonusId, {
+        drawBasicCardToPlayer: context.drawBasicCardToPlayer,
+        drawCard: context.drawBasicCard,
+      });
+      if (!bonusResult.ok) return bonusResult;
+    }
+
+    return {
+      ok: true,
+      bonusId,
+      firstTake,
+      awaitingCardSelection: Boolean(bonusResult.awaitingCardSelection),
+      rewards: {
+        bonus: bonusResult.rewards,
+        firstTakeScore: firstTakeResult?.score || 0,
+      },
+      message: `获取奖励：${catalog.BONUS_LABELS[bonusId] || bonusId}${firstTake ? `，首拿 +${catalog.FIRST_TAKE_TYPE_SCORE} 分` : ""}`,
+    };
+  }
+
+  function executeTakeTech(context, options = {}) {
+    const currentPlayerBefore = players.getCurrentPlayer(context.playerState);
+    const snapshots = {
+      player: currentPlayerBefore ? structuredClone(currentPlayerBefore) : null,
+      board: context.techBoardState ? structuredClone(context.techBoardState) : null,
+      ui: context.techUiState ? structuredClone(context.techUiState) : null,
+      solarState: context.solarState ? structuredClone(context.solarState) : null,
+    };
+    function restoreSnapshots() {
+      const currentPlayer = players.getCurrentPlayer(context.playerState);
+      if (currentPlayer && snapshots.player) {
+        for (const key of Object.keys(currentPlayer)) delete currentPlayer[key];
+        Object.assign(currentPlayer, structuredClone(snapshots.player));
+      }
+      for (const [target, snapshot] of [
+        [context.techBoardState, snapshots.board],
+        [context.techUiState, snapshots.ui],
+        [context.solarState, snapshots.solarState],
+      ]) {
+        if (!target || !snapshot) continue;
+        for (const key of Object.keys(target)) delete target[key];
+        Object.assign(target, structuredClone(snapshot));
+      }
+    }
+
+    const selectResult = selectTechTile(context, options);
+    if (!selectResult.ok || selectResult.needsBlueSlotChoice) return selectResult;
+
+    if (!options.skipRotation) {
+      const rotateResult = rotateForResearch(context, 1);
+      if (!rotateResult.ok) {
+        restoreSnapshots();
+        return rotateResult;
+      }
+    }
+
+    const bonusResult = applyTechBonus(context, {
+      bonusId: selectResult.bonusId,
+      firstTake: selectResult.firstTake,
+    });
+    if (!bonusResult.ok) {
+      restoreSnapshots();
+      return bonusResult;
     }
 
     return buildTakeResult(
-      board,
-      currentPlayer,
-      currentPlayer.techState,
-      takeBoardResult,
-      bonusResult,
-      firstTakeResult,
+      context.techBoardState,
+      players.getCurrentPlayer(context.playerState),
+      players.getCurrentPlayer(context.playerState).techState,
+      {
+        tileId: selectResult.tileId,
+        techType: selectResult.techType,
+        takenBonusId: selectResult.bonusId,
+        blueSlot: selectResult.blueSlot,
+        firstTake: selectResult.firstTake,
+        remainingForSlot: selectResult.remainingForSlot,
+        remainingForType: selectResult.remainingForType,
+      },
+      {
+        ok: true,
+        rewards: bonusResult.rewards.bonus,
+        awaitingCardSelection: bonusResult.awaitingCardSelection,
+      },
+      { score: bonusResult.rewards.firstTakeScore },
     );
   }
 
@@ -235,6 +338,9 @@
   return Object.freeze({
     getAvailableBlueSlots,
     canTakeTile,
+    selectTechTile,
+    rotateForResearch,
+    applyTechBonus,
     executeTakeTech,
     listTakeableTiles,
     listAvailableTypes,

@@ -54,6 +54,12 @@
       cost: Object.freeze({ energy: 2 }),
       gain: Object.freeze({ credits: 1 }),
     }),
+    Object.freeze({
+      id: "publicity-for-card",
+      label: "3宣传 → 精选1张牌",
+      cost: Object.freeze({ publicity: 3 }),
+      gain: Object.freeze({ handSize: 1 }),
+    }),
   ]);
 
   function getTradeAction(tradeId) {

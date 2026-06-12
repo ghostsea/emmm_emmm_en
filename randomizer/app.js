@@ -36,6 +36,14 @@
     incomeCard: "../assets/symbol/effect/income_card.webp",
     additionalPublicScan: "../assets/tokens/additional_public_scan.webp",
   });
+  const TECH_EFFECT_ICONS = Object.freeze({
+    research_tech: "../assets/symbol/effect/research_tech.webp",
+    rotate: "../assets/core/rotate.png",
+    bonus_3f: "../assets/symbol/effect/score.webp",
+    bonus_1p: "../assets/symbol/effect/energy.webp",
+    bonus_1m: "../assets/symbol/effect/publicity.webp",
+    bonus_1c: "../assets/symbol/effect/choose_card.webp",
+  });
   const INCOME_GAIN_LABELS = Object.freeze({
     credits: "信用点",
     energy: "能量",
@@ -899,6 +907,11 @@
   }
 
   function beginPlayCardSelection() {
+    if (!canStartMainAction()) {
+      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     if (isTechTilePickingActive()) {
       return { ok: false, message: "请先完成科技选择" };
     }
@@ -1026,6 +1039,8 @@
         : "公共牌区扫描：请选择一张亮明的公共牌（不能盲抽）"
       : pendingAction?.type === "place_data_choose_card"
         ? "放置数据：精选一张公共牌，或点击盲抽"
+      : pendingAction?.type === "tech_bonus_pick_card"
+        ? "科技奖励：精选一张公共牌"
       : allowsBlindDrawInSelection()
       ? "精选：从公共牌区选一张牌，或点击盲抽"
       : "精选：从公共牌区选一张牌";
@@ -1086,6 +1101,8 @@
     } else if (pending?.type === "place_data_choose_card") {
       completeQuickActionStep();
       rocketState.statusNote = "已取消放置数据精选";
+    } else if (pending?.type === "tech_bonus_pick_card") {
+      rocketState.statusNote = "已取消科技奖励精选";
     } else {
       rocketState.statusNote = "";
     }
@@ -1112,11 +1129,8 @@
       rocketState.statusNote += `，公共区已补牌：${cards.getCardLabel(result.replenished)}`;
     }
     if (pending?.type === "trade" && pending.beforeTradeState) {
-      recordQuickTradeCompletion(
-        pending.tradeId,
-        pending.player || getCurrentPlayer(),
-        pending.beforeTradeState,
-      );
+      clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+      if (quickActionHistory.hasSession()) quickActionHistory.commitSession();
     }
     if (pending?.type === "planet_reward_pick_card") {
       pendingActionHasIrreversibleCardGain = true;
@@ -1130,18 +1144,31 @@
       }
       completeCurrentActionEffect();
     }
+    if (pending?.type === "tech_bonus_pick_card") {
+      pendingActionHasIrreversibleCardGain = true;
+      const bonusResult = abilities.executeAbility("researchTechBonus", createActionContext(), {
+        bonusId: pending.bonusId,
+        firstTake: Boolean(pending.firstTake),
+        skipCardSelection: true,
+      });
+      if (getCurrentActionEffect()) {
+        getCurrentActionEffect().result = {
+          ok: true,
+          undoable: false,
+          message: `${rocketState.statusNote}${bonusResult?.message ? `；${bonusResult.message}` : ""}`,
+          payload: {
+            card: result.card,
+            replenished: result.replenished || null,
+            bonus: bonusResult?.payload || bonusResult || null,
+          },
+        };
+      }
+      if (bonusResult?.message) rocketState.statusNote += `；${bonusResult.message}`;
+      completeCurrentActionEffect();
+    }
     if (pending?.type === "place_data_choose_card") {
-      recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
-        pending.player || getCurrentPlayer(),
-        pending.beforePlayerState,
-        "恢复放置数据精选奖励前玩家状态",
-      ));
-      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
-        cardState,
-        pending.beforeCardState,
-        "恢复放置数据精选奖励前牌区",
-      ));
-      completeQuickActionStep();
+      clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+      if (quickActionHistory.hasSession()) quickActionHistory.commitSession();
     }
     cards.ensurePublicCardsFilled(cardState, playerState);
     syncCardSelectionChrome();
@@ -2042,6 +2069,32 @@
     return true;
   }
 
+  function startResearchTechEffectFlow(result) {
+    if (!result?.ok || !result.awaitingTileSelection) return false;
+
+    actionHistory.beginSession("researchTech", "科技行动");
+    pendingActionEffectFlow = abilities.chain.startAbilityChain(
+      "researchTech",
+      "科技行动",
+      [{
+        id: "research-tech-select",
+        type: "research_tech_select",
+        abilityId: "researchTechSelect",
+        icon: "research_tech",
+        label: "选择科技片",
+        status: "pending",
+        undoable: true,
+      }],
+    );
+    pendingActionEffectFlow.actionType = "researchTech";
+    pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
+
+    els.appWrap?.classList.toggle("action-effect-flow-active", true);
+    rocketState.statusNote = "科技：请选择要研究的科技片";
+    activateNextActionEffect();
+    return true;
+  }
+
   function isIncomeDiscardActionType(type) {
     return type === "income" || type === "planet_reward_income" || type === "place_data_income";
   }
@@ -2272,6 +2325,7 @@
   function getActionEffectIconSrc(iconId) {
     return scanEffects.EFFECT_ICONS[iconId]
       || planetRewards?.EFFECT_ICONS?.[iconId]
+      || TECH_EFFECT_ICONS[iconId]
       || "";
   }
 
@@ -2423,6 +2477,9 @@
     if (status === "skipped") {
       abilities.chain.skipCurrentChainNode(pendingActionEffectFlow);
     } else {
+      if (current.undoable === false || current.result?.undoable === false) {
+        pendingActionHasIrreversibleCardGain = true;
+      }
       abilities.chain.resolveCurrentChainNode(pendingActionEffectFlow, current.result || {});
     }
     renderActionEffectBar();
@@ -2441,7 +2498,9 @@
 
     const actionType = pendingActionEffectFlow.actionType;
     clearActionEffectFlow();
-    rocketState.statusNote = actionType === "scan" ? "扫描效果已全部处理，请确认行动" : "效果已全部处理，请确认行动";
+    rocketState.statusNote = actionType === "scan"
+      ? "扫描效果已全部处理，可继续执行次要行动或回合结束"
+      : "效果已全部处理，可继续执行次要行动或回合结束";
     markActionPending();
     renderPlayerStats();
     updateActionButtons();
@@ -2754,6 +2813,25 @@
     return result;
   }
 
+  function openTechBonusPickCardEffect(effect) {
+    const selection = getResearchTechSelectionPayload();
+    const currentPlayer = getCurrentPlayer();
+    const result = beginCardSelection({
+      type: "tech_bonus_pick_card",
+      player: currentPlayer,
+      effectLabel: effect.label,
+      bonusId: effect.options?.bonusId || selection?.bonusId,
+      firstTake: Boolean(effect.options?.firstTake ?? selection?.firstTake),
+      selection,
+      allowBlindDraw: false,
+    });
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+    }
+    return result;
+  }
+
   function openIncomeRewardEffect(effect) {
     const currentPlayer = getCurrentPlayer();
     const result = beginDiscardSelection(1, {
@@ -2819,8 +2897,70 @@
     }
   }
 
+  function executeResearchTechEffect(effect) {
+    if (!effect || pendingActionEffectFlow?.actionType !== "researchTech") return null;
+
+    switch (effect.type) {
+      case "research_tech_select":
+        rocketState.statusNote = "科技：请选择要研究的科技片";
+        renderStateReadout();
+        return { ok: true, message: rocketState.statusNote };
+      case "research_tech_rotate": {
+        const result = abilities.executeAbility("researchTechRotate", createActionContext());
+        if (!result.ok) {
+          rocketState.statusNote = result.message;
+          renderStateReadout();
+          return result;
+        }
+        effect.result = result;
+        rocketState.statusNote = result.message;
+        renderWheels();
+        renderRotateStateToken();
+        completeCurrentActionEffect();
+        renderStateReadout();
+        return result;
+      }
+      case "research_tech_tile_effect": {
+        const selection = getResearchTechSelectionPayload();
+        const result = abilities.executeAbility("researchTechTileEffect", createActionContext(), {
+          tileId: effect.options?.tileId || selection?.tileId,
+        });
+        if (result.rocket) renderRocketElement(result.rocket);
+        effect.result = result;
+        rocketState.statusNote = result.message;
+        renderPlayerStats();
+        completeCurrentActionEffect();
+        renderStateReadout();
+        return result;
+      }
+      case "research_tech_bonus": {
+        const selection = getResearchTechSelectionPayload();
+        const bonusId = effect.options?.bonusId || selection?.bonusId;
+        const bonusEffect = tech.BONUS_EFFECTS[bonusId];
+        if (bonusEffect?.cardSelection) {
+          return openTechBonusPickCardEffect(effect);
+        }
+        const result = abilities.executeAbility("researchTechBonus", createActionContext(), {
+          bonusId,
+          firstTake: Boolean(effect.options?.firstTake ?? selection?.firstTake),
+        });
+        effect.result = result;
+        rocketState.statusNote = result.message;
+        renderPlayerStats();
+        completeCurrentActionEffect();
+        renderStateReadout();
+        return result;
+      }
+      default:
+        return null;
+    }
+  }
+
   function executeActionEffect(effect) {
     if (!effect || effect.status !== "active") return { ok: false, message: "当前效果不可执行" };
+
+    const techResult = executeResearchTechEffect(effect);
+    if (techResult) return techResult;
 
     const rewardResult = planetRewards?.EFFECT_TYPES ? executePlanetRewardEffect(effect) : null;
     if (rewardResult) return rewardResult;
@@ -2890,6 +3030,11 @@
   }
 
   function beginScanAction() {
+    if (!canStartMainAction()) {
+      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     if (isActionEffectFlowActive()) {
       return { ok: false, message: "请先完成当前行动的效果" };
     }
@@ -2923,12 +3068,6 @@
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
-    if (pendingActionExecuted) {
-      rocketState.statusNote = "请先确认或撤销当前行动";
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
-    }
-
     const currentPlayer = getCurrentPlayer();
     const check = scanEffects.canExecuteScan(currentPlayer);
     if (!check.ok) {
@@ -3234,14 +3373,77 @@
   }
 
   function isTechAwaitingConfirm() {
-    const ui = techGameState.ui;
-    return Boolean(ui.techSelectionActive && ui.selectedTileId && !ui.pendingTileId);
+    return false;
   }
 
-  function onTechTileSelected() {
-    markActionPending();
+  function getResearchTechSelectionEffect() {
+    if (!pendingActionEffectFlow || pendingActionEffectFlow.actionType !== "researchTech") return null;
+    return pendingActionEffectFlow.effects.find((effect) => effect.type === "research_tech_select") || null;
+  }
+
+  function getResearchTechSelectionPayload() {
+    const result = getResearchTechSelectionEffect()?.result;
+    return result?.payload || result || null;
+  }
+
+  function appendResearchTechFollowupEffects(selectResult) {
+    if (!pendingActionEffectFlow || pendingActionEffectFlow.actionType !== "researchTech") return;
+
+    const selectIndex = pendingActionEffectFlow.effects.findIndex((effect) => effect.type === "research_tech_select");
+    if (selectIndex >= 0) {
+      pendingActionEffectFlow.effects.splice(selectIndex + 1);
+    }
+
+    const bonusId = selectResult.bonusId;
+    const bonusLabel = tech.BONUS_LABELS[bonusId] || bonusId || "奖励";
+    const followups = [
+      {
+        id: "research-tech-rotate",
+        type: "research_tech_rotate",
+        abilityId: "researchTechRotate",
+        icon: "rotate",
+        label: "旋转",
+        status: "pending",
+        undoable: false,
+      },
+    ];
+
+    if (selectResult.tileId === "orange1") {
+      followups.push({
+        id: "research-tech-tile-effect",
+        type: "research_tech_tile_effect",
+        abilityId: "researchTechTileEffect",
+        icon: "research_tech",
+        label: "橙色1：免费发射",
+        status: "pending",
+        undoable: false,
+        options: { tileId: selectResult.tileId },
+      });
+    }
+
+    followups.push({
+      id: "research-tech-bonus",
+      type: "research_tech_bonus",
+      abilityId: "researchTechBonus",
+      icon: bonusId,
+      label: `获取${bonusLabel}`,
+      status: "pending",
+      undoable: false,
+      options: {
+        tileId: selectResult.tileId,
+        bonusId,
+        firstTake: Boolean(selectResult.firstTake),
+      },
+    });
+
+    pendingActionEffectFlow.effects.push(...followups);
+  }
+
+  function onTechTileSelected(result) {
+    appendResearchTechFollowupEffects(result);
     syncTechSelectionChrome();
     renderTechBoard();
+    renderActionEffectBar();
     updateActionButtons();
   }
 
@@ -3269,6 +3471,12 @@
     closeTechBlueSlotPicker();
     techGameState.ui.statusNote = "";
     rocketState.statusNote = "";
+    if (pendingActionEffectFlow?.actionType === "researchTech") {
+      actionHistory.rollbackSession();
+      clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+      effectStepActive = false;
+      clearActionEffectFlow();
+    }
     clearActionPending();
     syncTechSelectionChrome();
     renderTechBoard();
@@ -3347,7 +3555,12 @@
     const result = abilities.executeAbility("researchTechSelect", createActionContext(), { tileId, blueSlot });
     rocketState.statusNote = result.message;
     if (result.ok && !result.needsBlueSlotChoice) {
-      onTechTileSelected();
+      beginEffectHistoryStep(result.message || "选择科技片", { effectType: "research_tech_select" });
+      recordAbilityCommands(result);
+      const current = getCurrentActionEffect();
+      if (current) current.result = result;
+      onTechTileSelected(result);
+      completeCurrentActionEffect();
     } else {
       renderTechBoard();
       updateActionButtons();
@@ -3391,7 +3604,12 @@
     }
 
     rocketState.statusNote = result.message;
-    onTechTileSelected();
+    beginEffectHistoryStep(result.message || "选择科技片", { effectType: "research_tech_select" });
+    recordAbilityCommands(result);
+    const current = getCurrentActionEffect();
+    if (current) current.result = result;
+    onTechTileSelected(result);
+    completeCurrentActionEffect();
     renderStateReadout();
     return result;
   }
@@ -3413,31 +3631,7 @@
   }
 
   function commitSelectedResearchTech() {
-    if (!isTechActionSelectionActive() || !techGameState.ui.selectedTileId) {
-      return { ok: false, message: "没有已选择的科技" };
-    }
-
-    const result = abilities.executeAbility("researchTechCommit", createActionContext(), {
-      tileId: techGameState.ui.selectedTileId,
-      blueSlot: techGameState.ui.selectedBlueSlot,
-    });
-
-    if (!result.ok) {
-      rocketState.statusNote = result.message;
-      renderTechBoard();
-      updateActionButtons();
-      renderStateReadout();
-      return result;
-    }
-
-    rocketState.statusNote = result.message;
-    finalizeTechTakeResult(result);
-    clearActionPending();
-    if (actionHistory.hasSession()) {
-      actionHistory.commitSession();
-      clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
-    }
-    return result;
+    return { ok: false, message: "科技行动已改为效果链结算" };
   }
 
   function getCurrentPlayer() {
@@ -4331,18 +4525,25 @@
     return Boolean(pendingActionExecuted || isActionEffectFlowActive() || actionHistory.hasUndoableStep());
   }
 
-  function confirmPendingAction() {
-    if (isTechAwaitingConfirm()) {
-      commitSelectedResearchTech();
-      return;
-    }
-    if (!pendingActionExecuted && !isActionEffectFlowActive()) return;
+  function canStartMainAction() {
+    return !pendingActionExecuted
+      && !isActionEffectFlowActive()
+      && !actionHistory.hasSession()
+      && !hasActivePendingSubFlow();
+  }
+
+  function endCurrentTurn() {
+    if (!pendingActionExecuted || isActionEffectFlowActive() || hasActivePendingSubFlow()) return;
     endEffectHistoryStep();
     actionHistory.commitSession();
     clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+    if (quickActionHistory.hasSession()) {
+      quickActionHistory.commitSession();
+      clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+    }
     clearActionEffectFlow();
     clearActionPending();
-    rocketState.statusNote = "行动已确认";
+    rocketState.statusNote = "回合已结束，当前玩家开始新的回合";
     updateActionButtons();
     renderStateReadout();
   }
@@ -4629,7 +4830,7 @@
   }
 
   function updateTurnActionButtons() {
-    const pendingBlockedReason = "请先确认或撤销当前行动";
+    const pendingBlockedReason = "请先回合结束或撤销当前行动";
     const effectBlockedReason = "请先完成当前行动的效果";
 
     if (isTechTilePickingActive()) {
@@ -4938,6 +5139,12 @@
   }
 
   function runAction(actionId, actionOptions) {
+    if (!canStartMainAction()) {
+      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
     const abilityByAction = {
       launch: "launchProbe",
       orbit: "orbitProbe",
@@ -4962,6 +5169,7 @@
     } else if (actionId === "researchTech") {
       if (result.awaitingTileSelection) {
         rocketState.statusNote = result.message;
+        startResearchTechEffectFlow(result);
         syncTechSelectionChrome();
         renderTechBoard();
         updateActionButtons();
@@ -5150,6 +5358,11 @@
   }
 
   function landForCurrentPlayer() {
+    if (!canStartMainAction()) {
+      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     const context = createActionContext();
     const check = actions.canExecute("land", context);
     if (!check.ok) {
@@ -5539,7 +5752,7 @@
   });
   els.actionConfirmButton?.addEventListener("click", () => {
     if (els.actionConfirmButton.disabled) return;
-    confirmPendingAction();
+    endCurrentTurn();
   });
   els.actionUndoButton?.addEventListener("click", () => {
     if (els.actionUndoButton.disabled) return;
@@ -5817,7 +6030,7 @@
     cardState,
     actionHistory,
     undoPendingAction,
-    confirmPendingAction,
+    endCurrentTurn,
     runAction,
     runQuickTrade,
     toggleQuickPanel,

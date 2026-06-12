@@ -206,15 +206,24 @@ function launchToPlanet(context, planetId) {
   assert.equal(prepare.ok, true);
   const select = abilities.executeAbility("researchTechSelect", context, { tileId: "purple1" });
   assert.equal(select.ok, true);
-  assert.equal(player.resources.publicity, 10);
+  assert.equal(select.undoable, true);
+  assert.equal(player.resources.publicity, 4);
   assert.equal(context.solarState.rotation.rotationCount, beforeRotation);
-  assert.equal(context.techBoardState.stacks.purple1.remaining, 4);
+  assert.equal(context.techBoardState.stacks.purple1.remaining, 3);
+  assert.equal(player.techState.ownedTiles.purple1, true);
 
-  const commit = abilities.executeAbility("researchTechCommit", context);
-  assert.equal(commit.ok, true);
-  assert.equal(commit.undoable, false);
-  assert.equal(commit.commands.length, 0);
+  const rotate = abilities.executeAbility("researchTechRotate", context);
+  assert.equal(rotate.ok, true);
+  assert.equal(rotate.undoable, false);
   assert.equal(context.solarState.rotation.rotationCount, beforeRotation + 1);
+
+  const bonus = abilities.executeAbility("researchTechBonus", context, {
+    bonusId: select.bonusId,
+    firstTake: select.firstTake,
+    skipCardSelection: true,
+  });
+  assert.equal(bonus.ok, true);
+  assert.equal(bonus.undoable, false);
   assert.equal(context.techBoardState.stacks.purple1.remaining, 3);
 }
 
@@ -224,11 +233,13 @@ function launchToPlanet(context, planetId) {
   assert.equal(prepare.ok, true);
   const select = abilities.executeAbility("researchTechSelect", context, { tileId: "orange1" });
   assert.equal(select.ok, true);
-  const commit = abilities.executeAbility("researchTechCommit", context);
-  assert.equal(commit.ok, true);
-  assert.equal(commit.freeLaunch.ok, true);
+  assert.equal(context.rocketState.rockets.length, 0);
+  const tileEffect = abilities.executeAbility("researchTechTileEffect", context, { tileId: select.tileId });
+  assert.equal(tileEffect.ok, true);
+  assert.equal(tileEffect.undoable, false);
+  assert.equal(tileEffect.freeLaunch.ok, true);
   assert.equal(context.rocketState.rockets.length, 1);
-  assert.equal(commit.rocket.id, context.rocketState.rockets[0].id);
+  assert.equal(tileEffect.rocket.id, context.rocketState.rockets[0].id);
 }
 
 {

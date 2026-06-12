@@ -6,7 +6,7 @@ const chain = require("./chain");
 const flow = chain.startAbilityChain("scan", "扫描", [
   { abilityId: "payScanCost", label: "支付", undoable: true },
   { abilityId: "scanSector", label: "扫描", undoable: true },
-  { abilityId: "researchTechCommit", label: "不可撤销", undoable: false },
+  { abilityId: "researchTechRotate", label: "不可撤销", undoable: false },
 ]);
 
 assert.equal(flow.effects.length, 3);
@@ -30,7 +30,7 @@ chain.resolveCurrentChainNode(flow, { ok: true, undoable: true });
 assert.equal(chain.getCurrentChainNode(flow).abilityId, "scanSector");
 chain.skipCurrentChainNode(flow);
 assert.equal(flow.effects[1].status, "skipped");
-assert.equal(chain.getCurrentChainNode(flow).abilityId, "researchTechCommit");
+assert.equal(chain.getCurrentChainNode(flow).abilityId, "researchTechRotate");
 
 chain.resolveCurrentChainNode(flow, { ok: true, undoable: false });
 assert.equal(flow.completed, true);

@@ -124,89 +124,56 @@
       blueSlot = availableSlots[0] ?? null;
     }
 
-    if (context.techUiState) {
-      context.techUiState.selectedTileId = tileId;
-      context.techUiState.selectedBlueSlot = blueSlot;
-      context.techUiState.pendingTileId = null;
-      context.techUiState.statusNote = `已选择 ${tileId}，点击确认后结算科技`;
-    }
-
-    return {
-      ok: true,
-      abilityId: "researchTechSelect",
-      message: `已选择 ${tileId}，点击确认后结算科技`,
-      undoable: true,
-      commands: [],
-      cost: {},
-      payload: { tileId, blueSlot },
-      events: [],
-      tileId,
-      blueSlot,
-    };
-  }
-
-  function researchTechCommit(context, options = {}) {
-    const tileId = options.tileId || context.techUiState?.selectedTileId;
-    const blueSlot = options.blueSlot ?? context.techUiState?.selectedBlueSlot ?? null;
-    if (!tileId) return { ok: false, abilityId: "researchTechCommit", message: "没有已选择的科技" };
-
-    const currentPlayer = players.getCurrentPlayer(context.playerState);
     const snapshots = {
-      player: currentPlayer ? structuredClone(currentPlayer) : null,
+      player: structuredClone(playerResult.currentPlayer),
       board: structuredClone(context.techBoardState),
       ui: structuredClone(context.techUiState),
-      solarState: context.solarState ? structuredClone(context.solarState) : null,
-      cardState: context.cardState ? structuredClone(context.cardState) : null,
     };
-
+    if (snapshots.ui) {
+      snapshots.ui.techSelectionActive = true;
+      snapshots.ui.pendingTileId = null;
+      snapshots.ui.selectedTileId = null;
+      snapshots.ui.selectedBlueSlot = null;
+      snapshots.ui.statusNote = "请选择要研究的科技板块";
+    }
     const skipCost = Boolean(context.techUiState?.cheatModeEnabled || options.skipCost);
-    const result = tech.resolver.executeTakeTech(context, {
-      tileId,
-      blueSlot,
-      skipCost,
-      skipRotation: Boolean(options.skipRotation),
-    });
-
+    const result = tech.resolver.selectTechTile(context, { tileId, blueSlot, skipCost });
     if (!result.ok || result.needsBlueSlotChoice) {
-      if (currentPlayer && snapshots.player) restoreObject(currentPlayer, snapshots.player);
+      restoreObject(playerResult.currentPlayer, snapshots.player);
       restoreObject(context.techBoardState, snapshots.board);
       restoreObject(context.techUiState, snapshots.ui);
-      if (context.solarState && snapshots.solarState) restoreObject(context.solarState, snapshots.solarState);
-      if (context.cardState && snapshots.cardState) restoreObject(context.cardState, snapshots.cardState);
       return {
         ok: false,
-        abilityId: "researchTechCommit",
-        message: result.message || "科技结算失败",
+        abilityId: "researchTechSelect",
+        message: result.message || "科技选择失败",
       };
     }
 
     if (context.techUiState) {
       context.techUiState.techSelectionActive = false;
+      context.techUiState.selectedTileId = result.tileId;
+      context.techUiState.selectedBlueSlot = result.blueSlot;
       context.techUiState.pendingTileId = null;
-      context.techUiState.selectedTileId = null;
-      context.techUiState.selectedBlueSlot = null;
       context.techUiState.statusNote = result.message;
-    }
-
-    let freeLaunch = null;
-    if (result.tileId === "orange1") {
-      freeLaunch = rocketAbility.launchProbe(context, {
-        skipCost: true,
-        source: "tech",
-        historyLabel: "橙色1：免费发射",
-      });
-      const freeLaunchNote = freeLaunch.ok
-        ? `；橙色1：${freeLaunch.message}`
-        : `；橙色1免费发射未执行：${freeLaunch.message}`;
-      result.message += freeLaunchNote;
-      if (context.techUiState) context.techUiState.statusNote = result.message;
     }
 
     return {
       ...result,
-      abilityId: "researchTechCommit",
-      undoable: false,
-      commands: [],
+      ok: true,
+      abilityId: "researchTechSelect",
+      message: result.message,
+      undoable: true,
+      commands: [
+        {
+          label: "选择科技片",
+          describe: "恢复选择科技片前状态",
+          undo() {
+            restoreObject(playerResult.currentPlayer, snapshots.player);
+            restoreObject(context.techBoardState, snapshots.board);
+            restoreObject(context.techUiState, snapshots.ui);
+          },
+        },
+      ],
       cost: skipCost ? {} : { publicity: tech.RESEARCH_PUBLICITY_COST },
       payload: {
         tileId: result.tileId,
@@ -214,7 +181,49 @@
         bonusId: result.bonusId,
         blueSlot: result.blueSlot,
         firstTake: result.firstTake,
-        rewards: result.rewards,
+      },
+      events: [],
+    };
+  }
+
+  function researchTechRotate(context) {
+    const result = tech.resolver.rotateForResearch(context, 1);
+    return {
+      ok: result.ok,
+      abilityId: "researchTechRotate",
+      message: result.message,
+      undoable: false,
+      commands: [],
+      cost: {},
+      payload: {},
+      events: [],
+    };
+  }
+
+  function researchTechTileEffect(context, options = {}) {
+    const tileId = options.tileId || context.techUiState?.selectedTileId;
+    let freeLaunch = null;
+    let message = `${tileId || "科技"}：无即时效果`;
+    if (tileId === "orange1") {
+      freeLaunch = rocketAbility.launchProbe(context, {
+        skipCost: true,
+        source: "tech",
+        historyLabel: "橙色1：免费发射",
+      });
+      message = freeLaunch.ok
+        ? `橙色1：${freeLaunch.message}`
+        : `橙色1免费发射未执行：${freeLaunch.message}`;
+    }
+
+    return {
+      ok: true,
+      abilityId: "researchTechTileEffect",
+      message,
+      undoable: false,
+      commands: [],
+      cost: {},
+      payload: {
+        tileId,
         freeLaunch,
       },
       events: [],
@@ -223,9 +232,32 @@
     };
   }
 
+  function researchTechBonus(context, options = {}) {
+    const result = tech.resolver.applyTechBonus(context, {
+      bonusId: options.bonusId,
+      firstTake: Boolean(options.firstTake),
+      skipCardSelection: Boolean(options.skipCardSelection),
+    });
+    return {
+      ...result,
+      abilityId: "researchTechBonus",
+      undoable: false,
+      commands: [],
+      cost: {},
+      payload: {
+        bonusId: options.bonusId,
+        firstTake: Boolean(options.firstTake),
+        rewards: result.rewards || {},
+      },
+      events: [],
+    };
+  }
+
   return Object.freeze({
     researchTechPrepare,
     researchTechSelect,
-    researchTechCommit,
+    researchTechRotate,
+    researchTechTileEffect,
+    researchTechBonus,
   });
 });

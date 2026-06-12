@@ -12,7 +12,7 @@ function createContext(overrides = {}) {
     playerState: players.createPlayerState({
       currentPlayer: {
         color: "white",
-        resources: { credits: 10, energy: 1, handSize: 4 },
+        resources: { credits: 10, energy: 1, publicity: 3, handSize: 4 },
       },
     }),
     selectionRequests: [],
@@ -59,6 +59,13 @@ assert.equal(energyForCard.awaitingCardSelection, true);
 assert.equal(players.getCurrentPlayer(context.playerState).resources.energy, 0);
 assert.equal(players.getCurrentPlayer(context.playerState).resources.handSize, 2);
 assert.equal(context.selectionRequests.at(-1).tradeId, "energy-for-card");
+assert.equal(context.selectionRequests.at(-1).allowBlindDraw, false);
+
+const publicityForCard = quickTrades.executeTrade("publicity-for-card", context);
+assert.equal(publicityForCard.ok, true);
+assert.equal(publicityForCard.awaitingCardSelection, true);
+assert.equal(players.getCurrentPlayer(context.playerState).resources.publicity, 0);
+assert.equal(context.selectionRequests.at(-1).tradeId, "publicity-for-card");
 assert.equal(context.selectionRequests.at(-1).allowBlindDraw, false);
 
 const energyCreditContext = createContext({

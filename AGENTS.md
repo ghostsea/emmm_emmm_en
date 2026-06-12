@@ -108,16 +108,23 @@ UI 校准：
 - `scan`：扫描，默认消耗 1 信用点 + 2 能量，生成扫描效果队列。
 - `analyze`：分析数据，消耗 1 能量并清空已放置数据。
 - `playCard`：打牌，打开手牌选择/打出流程。
-- `researchTech`：研究科技，先进入科技选择；玩家点击“确认”后默认消耗 6 宣传，太阳系公转，拿取科技板块及奖励，确认结算不可撤销。
+- `researchTech`：研究科技，生成科技效果链：选择科技片、旋转、科技自身效果（如橙1）、获取 bonus。
+
+回合与轮次：
+
+- 回合：一名玩家从可以执行主要行动开始，到点击“回合结束”为止。
+- 轮次：所有玩家各自执行若干回合，直到所有玩家都 PASS 后结束；当前代码暂不实现 PASS 和轮次结束。
 
 主行动锁定规则：
 
-- 每个主行动触发的动作和效果全部处理完后，才允许点击“确认”。
-- 主行动执行中、效果队列处理中或主行动待确认时，其他主行动按钮全部禁用。
-- “确认”只确认当前主行动会话，不会提交或清除快速行动历史。
+- 每个回合只能开始一次主要行动。
+- 主行动执行中、效果队列处理中或主行动已完成但未回合结束时，其他主行动按钮全部禁用。
+- 每个主行动触发的动作和效果全部处理完后，才允许点击“回合结束”。
+- “回合结束”会提交并清空当前主行动与快速行动历史；当前没有顺位机制，结束后仍由当前玩家开始新回合。
 - “撤销”按最近完成的主/快速步骤回滚；主行动整体仍可通过回滚会话撤销。
 - 行动可以由能力事件链组成；链上每个节点是一个原子能力，能力返回 `undoable` 决定是否进入撤销历史。
-- 科技行动采用确认流：先选择科技并金色高亮，不旋转、不拿取、不结算奖励；点击“确认”后才执行不可撤销结算。
+- 任意不可撤销效果结算后，当前主要行动不能再撤销；仍可撤销之后发生的可撤销快速行动。
+- 科技行动采用效果链：选择科技片可撤销；旋转、科技自身效果和科技 bonus 均不可撤销。
 
 ### 橙色科技效果
 
@@ -139,29 +146,30 @@ UI 校准：
 
 - `orbitProbe` / `landProbe` 仍只负责支付成本、移除火箭、放置环绕/登陆/卫星标记，并返回可撤销命令。
 - `app.js` 在环绕/登陆成功后，先把标记动作作为 `action_start` 步骤写入 `actionHistory`，再启动奖励效果链。
-- 奖励效果链逐个点击执行；全部完成后才进入主行动“待确认”。
+- 奖励效果链逐个点击执行；全部完成后才允许继续快速行动或点击“回合结束”。
 - 自动奖励（分数、能量、宣传、数据、盲抽）直接结算并写入撤销命令。
 - 选择型奖励复用现有 UI：精选卡牌、收入弃牌、星云二选一、外星人痕迹选择；选择完成后推进当前奖励节点。
-- 盲抽/精选等获取卡牌的奖励一旦完成，当前主行动不可再撤销，只能继续完成效果并最终确认。
+- 盲抽/精选等获取卡牌的奖励一旦完成，当前主行动不可再撤销，只能继续完成效果并最终回合结束。
 - 黄色外星人标记限制为 `yellow` 痕迹；任意外星人标记允许 `yellow` / `pink` / `blue`。
 
 当前解释约定：
 
 - “收入”按现有收入效果处理：玩家弃 1 张手牌，按该牌收入角标增加收入。
-- “精选”按现有精选处理：从公共牌区拿 1 张牌，且当前仍允许使用盲抽按钮。
+- “精选”按现有精选处理：从公共牌区拿 1 张牌；是否允许盲抽由触发来源决定，快速交易、3 宣传精选和科技 bonus 精选不允许盲抽。
 - 盲抽奖励使用 `assets/symbol/effect/blind_card.webp`。
 - 奖励效果和通用资源效果图标统一从 `assets/symbol/effect/` 读取；缺少的资源图标从 `assets/symbol/split/seti-icons/` 复制为语义化文件名后再引用。
 - 固定星球扇区扫描使用 `assets/symbol/effect/normal_scan.webp`，并在效果按钮上显示星球名角标；天王星/海王星的织女一/绘架座β二选一扫描使用 `black_scan.webp`；红/蓝/黄星云扫描分别使用 `red_scan.webp`、`blue_scan.webp`、`yellow_scan.webp`。
 - 外星人标记使用 `assets/symbol/effect/alien_*.webp` 素材；代码 icon key 与文件名保持一致。
 
-快速行动不属于主行动确认门槛：
+快速行动不属于主要行动次数限制：
 
 - 快速交易：通过 `quick-trades.js` 改变资源/手牌/牌区。
+- 3 宣传精选：通过 `quick-trades.js` 消耗 3 宣传并从公共牌区精选 1 张牌；确认拿牌后不可撤销。
 - 放置数据：从数据池放入计算机或蓝色科技附加位。
 - 移动：点击已有火箭后选择方向，确认时按所需移动力支付；1 点移动力可消耗 1 能量或弃 1 张移动牌。没有橙色 2 时，从小行星移出需要 2 点移动力，可用 2 能量、2 张移动牌、或 1 张移动牌 + 1 能量支付。紫4扫描移动提供 1 点免费移动力。
 - 火箭移动到非地球行星时，该玩家获得 1 宣传；拥有橙色 2 时，移动进入小行星也获得 1 宣传。
 
-快速行动可以在主行动之前、主行动待确认之后，以及主行动效果队列的不同效果之间使用。快速行动会记录可撤销步骤，但不会让“确认”按钮变为可用，也不会改变主行动是否已经完成。
+快速行动可以在主行动之前、主行动完成之后，以及主行动效果队列的不同效果之间使用。快速行动会记录可撤销步骤，但不会消耗本回合的主要行动次数，也不会改变主行动是否已经完成。确认精选拿牌后，该精选动作不可撤销。
 
 ### 扫描效果队列
 
@@ -175,13 +183,13 @@ UI 校准：
 - 紫3：额外增加手牌扫描。
 - 紫4：额外增加“发射/移动”效果；发射消耗 1 能量，移动免费。
 
-每个效果在 UI 中是 `pendingActionEffectFlow.effects[]` 的一个能力链节点。节点可以完成或跳过；可撤销节点完成后会写入 `actionHistory`，撤销会回到该节点重新等待触发。全部处理完后，主行动进入“待确认/待撤销”状态。在效果队列之间允许执行快速行动；快速行动撤销后，扫描队列仍停留在原来的主行动流程中。
+每个效果在 UI 中是 `pendingActionEffectFlow.effects[]` 的一个能力链节点。节点可以完成或跳过；可撤销节点完成后会写入 `actionHistory`，撤销会回到该节点重新等待触发。全部处理完后，主行动进入“可回合结束/可快速行动”状态。在效果队列之间允许执行快速行动；快速行动撤销后，扫描队列仍停留在原来的主行动流程中。
 
 ## 撤销机制
 
 撤销由 `randomizer/game/history/action-history.js` 实现。当前有两条并行的事务历史：
 
-- `actionHistory`：主行动会话，控制主行动确认/撤销。
+- `actionHistory`：主行动会话，控制主行动撤销与回合结束提交。
 - `quickActionHistory`：快速行动会话，记录快速交易、放置数据、移动等快速步骤。
 - `historyStepOrder`：`app.js` 中的轻量顺序栈，用于在主/快速行动交错时按最近完成步骤撤销。
 
@@ -195,7 +203,7 @@ UI 校准：
 - `rollbackSession()`：撤销整个当前行动。
 - `commitSession()`：确认或结束会话，清空当前会话。
 
-主行动确认只会 `commitSession()` 主行动的 `actionHistory`。快速行动没有确认按钮；当快速行动步骤都被撤销后，`quickActionHistory` 会自动提交清空。
+回合结束会 `commitSession()` 主行动的 `actionHistory`，并清空快速行动历史。快速行动没有确认按钮；当快速行动步骤都被撤销后，`quickActionHistory` 会自动提交清空。精选确认拿牌后不再写入可撤销历史。
 
 具体撤销命令在 `randomizer/game/history/commands.js`：
 
@@ -239,7 +247,9 @@ UI 校准：
 - `tech.js`：
   - `researchTechPrepare(context, options)`
   - `researchTechSelect(context, options)`
-  - `researchTechCommit(context, options)`
+  - `researchTechRotate(context, options)`
+  - `researchTechTileEffect(context, options)`
+  - `researchTechBonus(context, options)`
 - `scan.js`：
   - `payScanCost(context, options)`
   - `scanSector(context, options)`
@@ -286,11 +296,12 @@ UI 校准：
 - 弃移动牌/紫4扫描移动：`moveProbe(context, { cost: {}, movementPoints, rocketId, deltaX, deltaY })`。
 - 扇区扫描：`scanSector(context, { nebulaId })` 或 `scanSector(context, { sectorX })`。
 - 公共/手牌扫描：UI 先选择牌和目标星云，再调用 `scanPublicCard` / `scanHandCard`；能力原子化结算“星云替换 + 获得数据 + 弃除来源牌/补公共牌”，并返回同一组撤销命令。
-- 科技选择：`researchTechPrepare` 进入选择，`researchTechSelect` 只记录选中的科技/蓝色槽位并显示金色高亮，`researchTechCommit` 点击确认后执行旋转、拿科技和奖励；该提交能力 `undoable: false`。
+- 科技行动：`researchTechPrepare` 进入选择效果链；`researchTechSelect` 支付 6 宣传、拿取并放置科技片，且 `undoable: true`；`researchTechRotate` 执行太阳系旋转，`undoable: false`；`researchTechTileEffect` 结算科技自身即时效果（当前主要是橙1免费发射），`undoable: false`；`researchTechBonus` 结算 bonus 与首拿 +2 分，`undoable: false`。
 
 ## 卡牌模型
 
 - 卡牌源数据保持 CSV，方便手工校对和继续补内容。使用层通过中间构建把 `assets/cards/card_model.csv` 转成 `assets/cards/card_model.json` 和 `randomizer/game/card-catalog.js`，卡牌只声明能力 id、参数和费用覆盖。
+- 外星人卡牌分析由 `tools/analyze_alien_cards.py` 在每个外星人目录下分别生成 `card_analysis.csv`、`card_model.csv` 和 `card_model.json`；默认排除 `半人马`、`九折`、`方舟`，左上角有两个符号时按第二个标准符号判定弃牌收益。
 
 ## 后续改造方向
 
@@ -307,6 +318,7 @@ node randomizer/game/abilities/abilities.test.js
 node randomizer/game/abilities/chain.test.js
 node randomizer/game/actions/scan-effects.test.js
 node randomizer/game/actions/planet-rewards.test.js
+node randomizer/game/actions/quick-trades.test.js
 node randomizer/game/history/action-history.test.js
 node randomizer/game/history/commands.test.js
 node randomizer/game/rockets.move.test.js
@@ -322,4 +334,10 @@ node randomizer/game/aliens/randomizer.test.js
 
 ```powershell
 python tools/build_card_catalog_js.py
+```
+
+外星人卡牌源数据分析：
+
+```powershell
+python tools/analyze_alien_cards.py
 ```
