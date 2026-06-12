@@ -8,6 +8,8 @@
   const planetReferenceLayout = window.SetiPlanetReferenceLayout;
   const actions = window.SetiActions;
   const scanEffects = window.SetiScanEffects;
+  const actionHistoryModule = window.SetiActionHistory;
+  const historyCommands = window.SetiHistoryCommands;
   const quickTrades = window.SetiQuickTrades;
   const basicCards = window.SetiBasicCards;
   const cards = window.SetiCards;
@@ -83,10 +85,13 @@
   let pendingHandScanAction = null;
   let pendingActionExecuted = false;
   let pendingActionEffectFlow = null;
+  const actionHistory = actionHistoryModule.createActionHistory();
+  let effectStepActive = false;
   let moveHighlightRocketId = null;
   let pendingMovePayment = null;
   const MOVE_DISCARD_ACTION_CODE = 2;
   const MOVE_ENERGY_COST = 1;
+  const INCREMENTAL_QUICK_ACTION_TYPES = Object.freeze(["place-data", "quick-trade"]);
   const techRenderContext = {
     supplyStage: null,
     supplySlots: {},
@@ -453,7 +458,6 @@
     const currentPlayer = getCurrentPlayer();
     const { deltaX, deltaY, rocketId, selectedHandIndex } = pendingMovePayment;
     let paymentNote = "";
-
     if (selectedHandIndex != null) {
       const card = currentPlayer.hand[selectedHandIndex];
       if (!isMovePaymentCard(card)) {
@@ -508,7 +512,6 @@
     );
     if (moveResult.rocket) renderRocketElement(moveResult.rocket);
     if (moveResult.ok) {
-      markActionPending();
       activateMoveMode(pending.rocketId);
       rocketState.statusNote = `${paymentNote}，${moveResult.message}`;
     } else {
@@ -601,15 +604,19 @@
     syncDiscardSelectionChrome();
 
     if (pending?.type === "trade") {
+      const tradePlayer = pending.player || getCurrentPlayer();
+      const beforeState = pending.beforeTradeState;
       const tradeResult = quickTrades.finalizeTradeAfterDiscard(
         pending.tradeId,
         createActionContext(),
-        pending.player || getCurrentPlayer(),
+        tradePlayer,
       );
       rocketState.statusNote = tradeResult.ok
         ? tradeResult.message
         : (tradeResult.message || "交易失败");
-      if (tradeResult.ok) markActionPending();
+      if (tradeResult.ok && !tradeResult.awaitingCardSelection && beforeState) {
+        recordQuickTradeCompletion(pending.tradeId, tradePlayer, beforeState);
+      }
       renderPlayerStats();
       renderPublicCards();
       updatePublicCardControls();
@@ -892,6 +899,13 @@
     if (result.replenished) {
       rocketState.statusNote += `，公共区已补牌：${cards.getCardLabel(result.replenished)}`;
     }
+    if (pending?.type === "trade" && pending.beforeTradeState) {
+      recordQuickTradeCompletion(
+        pending.tradeId,
+        pending.player || getCurrentPlayer(),
+        pending.beforeTradeState,
+      );
+    }
     cards.ensurePublicCardsFilled(cardState, playerState);
     syncCardSelectionChrome();
     renderPublicCards();
@@ -1052,6 +1066,11 @@
   function replaceNebulaDataForCurrentPlayer(nebulaId, options = {}) {
     const currentPlayer = getCurrentPlayer();
     const color = players.getPlayerColorDefinition(currentPlayer?.color);
+    const nextToken = data.getNextReplaceableNebulaToken(nebulaDataState, nebulaId);
+    const tokenBefore = historyCommands.snapshotNebulaToken(nextToken);
+
+    beginEffectHistoryStep(options.prefix || "星云扫描");
+
     const replaceResult = data.replaceNextNebulaDataToken(nebulaDataState, nebulaId, currentPlayer, {
       playerColor: currentPlayer?.color,
       playerLabel: currentPlayer?.colorLabel,
@@ -1059,13 +1078,22 @@
     });
 
     if (!replaceResult.ok) {
+      endEffectHistoryStep();
       rocketState.statusNote = replaceResult.message;
       renderSectors();
       renderStateReadout();
       return replaceResult;
     }
 
+    recordHistoryCommand(historyCommands.createNebulaReplaceCommand(
+      nebulaDataState,
+      nebulaId,
+      replaceResult.token.id,
+      tokenBefore,
+    ));
+
     const gainResult = data.gainData(currentPlayer, { source: options.source || "scan" });
+    recordHistoryCommand(historyCommands.createGainDataCommand(currentPlayer, gainResult));
     const label = data.getNebulaLabel(nebulaId);
     const playerLabel = color?.label || currentPlayer?.colorLabel || "当前玩家";
     rocketState.statusNote = `${options.prefix || "扫描"}：${label} 槽位${replaceResult.slotIndex}`
@@ -1091,12 +1119,21 @@
       return { ok: false, message: "没有可弃除的公共牌" };
     }
 
+    const publicCardsSnapshot = cardState.publicCards.slice();
+    const discardPileSnapshot = (cardState.discardPile || []).slice();
+
     cards.addToDiscardPile(cardState, card);
     let replenished = null;
     if (cardState.publicCards?.[slotIndex]?.id === card.id) {
       cardState.publicCards[slotIndex] = null;
       replenished = cards.replenishPublicSlot(cardState, playerState, slotIndex);
     }
+
+    recordHistoryCommand(historyCommands.createRestorePublicCardsCommand(
+      cardState,
+      publicCardsSnapshot,
+      discardPileSnapshot,
+    ));
 
     renderPublicCards();
     updatePublicCardControls();
@@ -1120,10 +1157,18 @@
 
     const currentIndex = player.hand?.findIndex((item) => item.id === card.id);
     const discardIndex = currentIndex >= 0 ? currentIndex : handIndex;
+    const handSnapshot = player.hand.slice();
+    const discardPileSnapshot = (cardState.discardPile || []).slice();
     const discardResult = cards.discardFromHandAtIndex(player, discardIndex);
     if (!discardResult.ok) return discardResult;
 
     cards.addToDiscardPile(cardState, discardResult.card);
+    recordHistoryCommand(historyCommands.createDiscardHandCardCommand(
+      cardState,
+      player,
+      handSnapshot,
+      discardPileSnapshot,
+    ));
     renderPlayerStats();
     return {
       ok: true,
@@ -1423,6 +1468,199 @@
     return pendingActionEffectFlow != null;
   }
 
+  function recordHistoryCommand(command) {
+    if (!actionHistory.hasSession()) return;
+    actionHistory.record(command);
+  }
+
+  function startPendingActionSession(actionType, label) {
+    if (actionHistory.hasSession()) {
+      actionHistory.rollbackSession();
+      effectStepActive = false;
+    }
+    actionHistory.beginSession(actionType, label);
+    actionHistory.beginStep({ type: "action", label });
+    effectStepActive = true;
+  }
+
+  function beginIncrementalPendingStep(actionType, label) {
+    const sessionInfo = actionHistory.getSessionInfo();
+    if (sessionInfo) {
+      if (sessionInfo.actionType === actionType) {
+        actionHistory.beginStep({ type: "action", label });
+        effectStepActive = true;
+        return;
+      }
+      actionHistory.rollbackSession();
+      effectStepActive = false;
+      clearActionPending();
+    }
+    actionHistory.beginSession(actionType, label);
+    actionHistory.beginStep({ type: "action", label });
+    effectStepActive = true;
+  }
+
+  function canRunIncrementalQuickAction(actionType) {
+    if (!pendingActionExecuted) return true;
+    const sessionInfo = actionHistory.getSessionInfo();
+    if (!sessionInfo) return false;
+    return sessionInfo.actionType === actionType;
+  }
+
+  function completePendingActionStep() {
+    endEffectHistoryStep();
+    markActionPending();
+  }
+
+  function recordQuickTradeCompletion(tradeId, player, beforeState) {
+    const trade = quickTrades.getTradeAction(tradeId);
+    if (!trade || !beforeState) return;
+    beginIncrementalPendingStep("quick-trade", `快速交易：${trade.label}`);
+    recordHistoryCommand(historyCommands.createRestoreTradeStateCommand(player, cardState, beforeState));
+    completePendingActionStep();
+  }
+
+  function blockIncompatiblePendingQuickAction(actionType) {
+    if (canRunIncrementalQuickAction(actionType)) return null;
+    const message = "请先确认或撤销当前行动";
+    rocketState.statusNote = message;
+    renderStateReadout();
+    return { ok: false, message };
+  }
+
+  function recordLaunchActionHistory(result, preLaunchSnapshot) {
+    const player = getCurrentPlayer();
+    startPendingActionSession("launch", "发射");
+    if (result.cost) {
+      recordHistoryCommand(historyCommands.createResourceSpendCommand(
+        player,
+        result.cost,
+        `发射消耗 ${players.formatResourceCost(result.cost)}`,
+      ));
+    }
+    if (result.rocket) {
+      recordHistoryCommand(historyCommands.createRemoveRocketCommand(
+        rocketActions,
+        rocketState,
+        result.rocket.id,
+        player,
+        null,
+        preLaunchSnapshot,
+      ));
+    }
+    completePendingActionStep();
+  }
+
+  function recordAnalyzeActionHistory(player, placedTokensSnapshot, energyCost) {
+    startPendingActionSession("analyze", "分析数据");
+    recordHistoryCommand(historyCommands.createResourceSpendCommand(
+      player,
+      { energy: energyCost },
+      `分析消耗 ${energyCost} 能量`,
+    ));
+    recordHistoryCommand(historyCommands.createAnalyzeDataCommand(
+      player,
+      placedTokensSnapshot,
+    ));
+    completePendingActionStep();
+  }
+
+  function recordPlaceDataActionHistory(player, placeResult) {
+    beginIncrementalPendingStep("place-data", "放置数据");
+    recordHistoryCommand(historyCommands.createPlaceDataCommand(player, placeResult));
+    completePendingActionStep();
+  }
+
+  function beginEffectHistoryStep(label, meta = {}) {
+    if (!actionHistory.hasSession() || effectStepActive) return;
+    const current = getCurrentActionEffect();
+    actionHistory.beginStep({
+      type: "effect",
+      label: label || current?.label || "效果",
+      effectIndex: meta.effectIndex ?? pendingActionEffectFlow?.currentIndex ?? null,
+      effectType: meta.effectType ?? current?.type ?? null,
+      ...meta,
+    });
+    effectStepActive = true;
+  }
+
+  function endEffectHistoryStep() {
+    if (!effectStepActive) return;
+    actionHistory.endStep();
+    effectStepActive = false;
+  }
+
+  function refreshAfterHistoryChange(message) {
+    renderSectorNebulaDataBoard();
+    renderRockets();
+    syncPlanetOrbitLandMarkers();
+    renderPublicCards();
+    updatePublicCardControls();
+    renderPlayerStats();
+    updateActionButtons();
+    renderActionEffectBar();
+    if (message) rocketState.statusNote = message;
+    renderStateReadout();
+  }
+
+  function revertEffectFlowAfterUndo(step) {
+    if (!pendingActionEffectFlow || !step) return;
+
+    if (step.type === "action_start" || step.effectIndex === -1) {
+      clearActionEffectFlow();
+      return;
+    }
+
+    if (!Number.isInteger(step.effectIndex)) return;
+
+    const { effects } = pendingActionEffectFlow;
+    const effect = effects[step.effectIndex];
+    if (!effect) return;
+
+    effect.status = "active";
+    pendingActionEffectFlow.currentIndex = step.effectIndex;
+    for (let index = step.effectIndex + 1; index < effects.length; index += 1) {
+      if (effects[index].status !== "pending") {
+        effects[index].status = "pending";
+      }
+    }
+    cancelActiveEffectSubFlows();
+    els.appWrap?.classList.toggle("action-effect-flow-active", true);
+  }
+
+  function hasActiveEffectSubFlow() {
+    return Boolean(
+      pendingScanTargetAction
+      || pendingHandScanAction
+      || (isCardSelectionActive() && pendingCardSelectionAction?.type === "public_scan")
+      || (els.scanAction4Overlay && !els.scanAction4Overlay.hidden)
+      || pendingActionEffectFlow?.freeMoveMode,
+    );
+  }
+
+  function hasActivePendingSubFlow() {
+    return hasActiveEffectSubFlow()
+      || isMovePaymentSelectionActive()
+      || (els.dataPlaceOverlay && !els.dataPlaceOverlay.hidden);
+  }
+
+  function cancelActivePendingSubFlows() {
+    if (hasActiveEffectSubFlow()) {
+      cancelActiveEffectSubFlows();
+      return true;
+    }
+    if (isMovePaymentSelectionActive()) {
+      cancelMovePaymentSelection();
+      return true;
+    }
+    if (els.dataPlaceOverlay && !els.dataPlaceOverlay.hidden) {
+      closeDataPlacePicker();
+      rocketState.statusNote = "已取消放置数据";
+      return true;
+    }
+    return false;
+  }
+
   function getCurrentActionEffect() {
     if (!pendingActionEffectFlow) return null;
     return pendingActionEffectFlow.effects[pendingActionEffectFlow.currentIndex] || null;
@@ -1491,6 +1729,8 @@
     if (!current || current.status !== "active") return;
 
     cancelActiveEffectSubFlows();
+    beginEffectHistoryStep(current.label);
+    endEffectHistoryStep();
     rocketState.statusNote = `已跳过：${current.label}`;
     completeCurrentActionEffect("skipped");
   }
@@ -1563,6 +1803,7 @@
     if (!current || current.status !== "active") return;
 
     cancelActiveEffectSubFlows();
+    endEffectHistoryStep();
     current.status = status;
     renderActionEffectBar();
 
@@ -1658,18 +1899,32 @@
       return { ok: false, message: "能量不足，发射需要 1 能量" };
     }
 
+    beginEffectHistoryStep("发射/移动");
+
     const earthSector = getEarthSectorCoordinate();
     const launchResult = rocketActions.launchRocketAtSector(rocketState, earthSector, {
       playerId: currentPlayer.id,
       color: currentPlayer.color,
     });
-    if (!launchResult.ok) return launchResult;
+    if (!launchResult.ok) {
+      endEffectHistoryStep();
+      return launchResult;
+    }
 
     const spendResult = players.spendResources(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
     if (!spendResult.ok) {
       rocketActions.removeRocket(rocketState, launchResult.rocket.id);
+      endEffectHistoryStep();
       return spendResult;
     }
+
+    recordHistoryCommand(historyCommands.createLaunchRocketCommand(
+      rocketActions,
+      rocketState,
+      launchResult.rocket.id,
+      currentPlayer,
+      scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY,
+    ));
 
     renderRocketElement(launchResult.rocket);
     return {
@@ -1709,12 +1964,24 @@
       return moveCheck;
     }
 
+    const rocketBefore = structuredClone(rocketState.rockets.find((item) => item.id === rocketId));
+    beginEffectHistoryStep("发射/移动");
+
     const result = rocketActions.moveRocket(rocketState, rocketId, deltaX, deltaY);
     if (result.rocket) renderRocketElement(result.rocket);
     if (!result.ok) {
+      endEffectHistoryStep();
       rocketState.statusNote = result.message;
       renderStateReadout();
       return result;
+    }
+
+    if (rocketBefore) {
+      recordHistoryCommand(historyCommands.createMoveRocketCommand(
+        rocketState,
+        rocketId,
+        rocketBefore,
+      ));
     }
 
     pendingActionEffectFlow.freeMoveMode = false;
@@ -1882,6 +2149,19 @@
       renderStateReadout();
       return spendResult;
     }
+
+    actionHistory.beginSession("scan", "扫描行动");
+    actionHistory.beginStep({
+      type: "action_start",
+      label: "扫描消耗",
+      effectIndex: -1,
+    });
+    recordHistoryCommand(historyCommands.createResourceSpendCommand(
+      currentPlayer,
+      scanEffects.SCAN_COST,
+      "扫描消耗 1 信用点 + 2 能量",
+    ));
+    actionHistory.endStep();
 
     pendingActionEffectFlow = {
       actionType: "scan",
@@ -2587,6 +2867,15 @@
   }
 
   function renderRockets() {
+    const activeIds = new Set(rocketState.rockets.map((rocket) => rocket.id));
+    els.tokenLayer?.querySelectorAll(".rocket-token").forEach((element) => {
+      const rocketId = Number(element.dataset.rocketId);
+      if (!activeIds.has(rocketId)) element.remove();
+    });
+    els.planetsTokenLayer?.querySelectorAll(".rocket-token").forEach((element) => {
+      const rocketId = Number(element.dataset.rocketId);
+      if (!activeIds.has(rocketId)) element.remove();
+    });
     rocketState.rockets.forEach(renderRocketElement);
   }
 
@@ -2945,12 +3234,65 @@
     pendingActionExecuted = false;
   }
 
-  function resolvePendingAction() {
+  function confirmPendingAction() {
     if (!pendingActionExecuted && !isActionEffectFlowActive()) return;
+    endEffectHistoryStep();
+    actionHistory.commitSession();
     clearActionEffectFlow();
     clearActionPending();
+    rocketState.statusNote = "行动已确认";
     updateActionButtons();
     renderStateReadout();
+  }
+
+  function undoPendingAction() {
+    if (!pendingActionExecuted && !isActionEffectFlowActive()) return;
+
+    if (hasActivePendingSubFlow()) {
+      cancelActivePendingSubFlows();
+      refreshAfterHistoryChange();
+      return;
+    }
+
+    if (isActionEffectFlowActive()) {
+
+      if (actionHistory.hasUndoableStep()) {
+        const result = actionHistory.undoLastStep();
+        if (result.ok) {
+          revertEffectFlowAfterUndo(result.step);
+          refreshAfterHistoryChange(result.message);
+          if (!isActionEffectFlowActive()) {
+            actionHistory.commitSession();
+            clearActionPending();
+          }
+          return;
+        }
+      }
+    }
+
+    if (pendingActionExecuted || actionHistory.hasSession()) {
+      const sessionInfo = actionHistory.getSessionInfo();
+      if (
+        INCREMENTAL_QUICK_ACTION_TYPES.includes(sessionInfo?.actionType)
+        && sessionInfo.stepCount > 1
+      ) {
+        const result = actionHistory.undoLastStep();
+        if (result.ok) {
+          refreshAfterHistoryChange(result.message);
+          if (!actionHistory.hasUndoableStep()) {
+            actionHistory.commitSession();
+            clearActionPending();
+          }
+          return;
+        }
+      }
+
+      const result = actionHistory.rollbackSession();
+      effectStepActive = false;
+      clearActionEffectFlow();
+      clearActionPending();
+      refreshAfterHistoryChange(result.ok ? result.message : "已撤销当前行动");
+    }
   }
 
   let moveArrowRenderFrame = 0;
@@ -3347,12 +3689,17 @@
 
   function confirmDataPlacement(target, blueSlot) {
     closeDataPlacePicker();
+    const blocked = blockIncompatiblePendingQuickAction("place-data");
+    if (blocked) return blocked;
+    const player = getCurrentPlayer();
     const options = target === data.PLACEMENT_KIND_BLUE_BONUS
       ? { target, blueSlot: Number(blueSlot) }
       : { target: data.PLACEMENT_KIND_COMPUTER };
-    const result = data.placeDataToComputer(getCurrentPlayer(), options);
+    const result = data.placeDataToComputer(player, options);
     rocketState.statusNote = result.message;
-    if (result.ok) markActionPending();
+    if (result.ok) {
+      recordPlaceDataActionHistory(player, result);
+    }
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
@@ -3365,6 +3712,9 @@
   }
 
   function runPlaceDataToComputer() {
+    const blocked = blockIncompatiblePendingQuickAction("place-data");
+    if (blocked) return blocked;
+
     if (isTechActionSelectionActive()) {
       rocketState.statusNote = "请先完成科技选择";
       renderStateReadout();
@@ -3396,9 +3746,13 @@
   }
 
   function analyzeDataForCurrentPlayer() {
-    const result = data.analyzeData(getCurrentPlayer());
+    const player = getCurrentPlayer();
+    const placedTokensSnapshot = (player?.dataState?.placedTokens || []).map((token) => ({ ...token }));
+    const result = data.analyzeData(player);
     rocketState.statusNote = result.message;
-    if (result.ok) markActionPending();
+    if (result.ok) {
+      recordAnalyzeActionHistory(player, placedTokensSnapshot, data.ANALYZE_ENERGY_COST);
+    }
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
@@ -3406,6 +3760,11 @@
   }
 
   function runQuickTrade(tradeId) {
+    const blocked = blockIncompatiblePendingQuickAction("quick-trade");
+    if (blocked) return blocked;
+
+    const player = getCurrentPlayer();
+    const beforeState = historyCommands.captureTradeState(player, cardState);
     const result = quickTrades.executeTrade(tradeId, createActionContext());
     if (!result.ok) {
       rocketState.statusNote = result.message;
@@ -3416,13 +3775,25 @@
     }
 
     if (result.awaitingDiscard) {
+      if (pendingDiscardAction) {
+        pendingDiscardAction.beforeTradeState = beforeState;
+      }
       rocketState.statusNote = result.message;
       renderStateReadout();
       return result;
     }
 
+    if (result.awaitingCardSelection) {
+      if (pendingCardSelectionAction) {
+        pendingCardSelectionAction.beforeTradeState = beforeState;
+      }
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+
+    recordQuickTradeCompletion(tradeId, player, beforeState);
     rocketState.statusNote = result.message;
-    if (result.ok) markActionPending();
     renderPlayerStats();
     renderPublicCards();
     updatePublicCardControls();
@@ -3432,6 +3803,12 @@
   }
 
   function runAction(actionId, actionOptions) {
+    const preLaunchSnapshot = actionId === "launch"
+      ? {
+        nextRocketId: rocketState.nextRocketId,
+        activeRocketId: rocketState.activeRocketId,
+      }
+      : null;
     const result = actions.execute(actionId, createActionContext(), actionOptions);
 
     if (result.ok && result.markerKind) {
@@ -3456,7 +3833,11 @@
     }
 
     if (result.ok && !result.awaitingTileSelection) {
-      markActionPending();
+      if (actionId === "launch") {
+        recordLaunchActionHistory(result, preLaunchSnapshot);
+      } else {
+        markActionPending();
+      }
     }
 
     renderPlayerStats();
@@ -3787,7 +4168,6 @@
     const result = rocketActions.moveRocket(rocketState, selectedRocketId, deltaX, deltaY);
     if (result.rocket) renderRocketElement(result.rocket);
     if (result.ok) {
-      markActionPending();
       activateMoveMode(selectedRocketId);
     }
     updateActionButtons();
@@ -3896,6 +4276,7 @@
       ...data.getReadoutLines(playerState),
       "",
       ...data.getNebulaReadoutLines(nebulaDataState),
+      ...(actionHistory.hasSession() ? ["", "行动指令栈", ...actionHistory.getTrace()] : []),
     ].join("\n");
   }
 
@@ -4006,11 +4387,11 @@
   });
   els.actionConfirmButton?.addEventListener("click", () => {
     if (els.actionConfirmButton.disabled) return;
-    resolvePendingAction();
+    confirmPendingAction();
   });
   els.actionUndoButton?.addEventListener("click", () => {
     if (els.actionUndoButton.disabled) return;
-    resolvePendingAction();
+    undoPendingAction();
   });
   els.quickActionsTrades.addEventListener("click", (event) => {
     const button = event.target.closest("[data-quick-trade]");
@@ -4214,6 +4595,9 @@
     discardCardFromCurrentPlayer,
     playerState,
     cardState,
+    actionHistory,
+    undoPendingAction,
+    confirmPendingAction,
     runAction,
     runQuickTrade,
     toggleQuickPanel,

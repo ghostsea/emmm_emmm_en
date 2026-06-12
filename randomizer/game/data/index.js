@@ -235,6 +235,7 @@
     getNebulaSecondSlotScoreReward: nebulaState.getNebulaSecondSlotScoreReward,
     getNebulaReplacementStats: nebulaState.getNebulaReplacementStats,
     getNextReplaceableNebulaToken: nebulaState.getNextReplaceableNebulaToken,
+    revertNebulaTokenReplacement: nebulaState.revertNebulaTokenReplacement,
     replaceNextNebulaDataToken: nebulaState.replaceNextNebulaDataToken,
     bindNebulaDataDragging: nebulaRender.bindNebulaDataDragging,
     renderSectorNebulaData: nebulaRender.renderSectorNebulaData,

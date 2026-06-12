@@ -254,6 +254,23 @@
       .sort((a, b) => a.slotIndex - b.slotIndex || a.index - b.index)[0] || null;
   }
 
+  function revertNebulaTokenReplacement(state, nebulaId, tokenId, before = {}) {
+    const bucket = state?.nebulae?.[nebulaId];
+    if (!bucket) return { ok: false, message: `未知星云 ${nebulaId}` };
+
+    const token = bucket.tokens.find((item) => item.id === tokenId);
+    if (!token) return { ok: false, message: `未找到星云数据 ${tokenId}` };
+
+    token.replacedByPlayerId = before.replacedByPlayerId ?? null;
+    token.replacedByPlayerColor = before.replacedByPlayerColor ?? null;
+    token.replacedByPlayerLabel = before.replacedByPlayerLabel ?? null;
+    token.playerTokenSrc = before.playerTokenSrc ?? null;
+    token.replacedAt = before.replacedAt ?? null;
+    rebuildNebulaStats(bucket);
+
+    return { ok: true, nebulaId, tokenId, token };
+  }
+
   function replaceNextNebulaDataToken(state, nebulaId, player, options = {}) {
     const capacity = nebulaPlacement.getNebulaCapacity(nebulaId);
     if (!capacity) {
@@ -320,6 +337,7 @@
     updateNebulaTokenPosition,
     getNebulaReplacementStats,
     getNextReplaceableNebulaToken,
+    revertNebulaTokenReplacement,
     replaceNextNebulaDataToken,
   });
 });
