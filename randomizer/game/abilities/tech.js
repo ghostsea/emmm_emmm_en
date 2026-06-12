@@ -3,13 +3,15 @@
 
   let players = root.SetiPlayers;
   let tech = root.SetiTech;
+  let rocketAbility = root.SetiAbilityRocket;
 
-  if ((!players || !tech) && typeof require === "function") {
+  if ((!players || !tech || !rocketAbility) && typeof require === "function") {
     players = players || require("../players");
     tech = tech || require("../tech");
+    rocketAbility = rocketAbility || require("./rocket");
   }
 
-  const api = factory(players, tech);
+  const api = factory(players, tech, rocketAbility);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
@@ -19,6 +21,7 @@
 })(typeof globalThis !== "undefined" ? globalThis : window, function (
   players,
   tech,
+  rocketAbility,
 ) {
   "use strict";
 
@@ -185,6 +188,20 @@
       context.techUiState.statusNote = result.message;
     }
 
+    let freeLaunch = null;
+    if (result.tileId === "orange1") {
+      freeLaunch = rocketAbility.launchProbe(context, {
+        skipCost: true,
+        source: "tech",
+        historyLabel: "橙色1：免费发射",
+      });
+      const freeLaunchNote = freeLaunch.ok
+        ? `；橙色1：${freeLaunch.message}`
+        : `；橙色1免费发射未执行：${freeLaunch.message}`;
+      result.message += freeLaunchNote;
+      if (context.techUiState) context.techUiState.statusNote = result.message;
+    }
+
     return {
       ...result,
       abilityId: "researchTechCommit",
@@ -198,8 +215,11 @@
         blueSlot: result.blueSlot,
         firstTake: result.firstTake,
         rewards: result.rewards,
+        freeLaunch,
       },
       events: [],
+      freeLaunch,
+      rocket: freeLaunch?.ok ? freeLaunch.rocket : null,
     };
   }
 

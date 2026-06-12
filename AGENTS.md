@@ -36,6 +36,8 @@
 
 主盘火箭使用扇区坐标 `{ x: 0..7, y: 1..4 }` 和 `slotIndex` 表示位置。每个扇区有 9 个发射/停靠槽，放置优先级为中心、四角、四边。
 
+玩家默认最多拥有 1 枚主盘可控火箭；拥有橙色 1 号科技后上限提高到 2 枚。环绕、登陆等移除火箭的行动会释放该数量占用。
+
 移动 UI 由 `moveHighlightRocketId` 控制当前高亮火箭和移动箭头。确认移动成功后，`app.js` 会清空高亮、隐藏箭头层并清空 `activeRocketId`，回到默认未选中状态。
 
 环绕/登陆判定不再硬性依赖 `activeRocketId`。若当前玩家没有有效选中火箭，`shared.getRocketPlanet` 会自动查找当前玩家停在非地球星球格上的第一枚火箭，用于启用并执行环绕/登陆行动。
@@ -47,7 +49,8 @@
 - 每个星球记录 `orbits`、`landings`、`orbitMarkers`、`landingMarkers`、`satelliteLandings`。
 - `canAddOrbitMarker` / `canAddLandingMarker` 根据行星参考图槽位判断是否可放置。
 - `addPlanetOrbitMarker` / `addPlanetLandingMarker` / `addSatelliteLandingMarker` 会生成玩家颜色标记。
-- 登陆主星消耗基础 3 能量；若该星球已有任意环绕标记，则消耗降为 2 能量。
+- 登陆主星消耗基础 3 能量；若该星球已有任意环绕标记，则消耗降为 2 能量；拥有橙色 3 号科技时再减少 1 能量。
+- 默认不能登陆卫星；拥有橙色 4 号科技后，登陆行动才会把可用卫星加入目标选择。
 
 ### 外星人痕迹状态
 
@@ -98,9 +101,9 @@ UI 校准：
 
 当前主行动包括：
 
-- `launch`：发射，默认消耗 2 信用点，在地球所在扇区放置火箭。
+- `launch`：发射，默认消耗 2 信用点，在地球所在扇区放置火箭；若玩家已达到火箭数量上限则不可执行。
 - `orbit`：环绕，要求当前火箭在非地球星球格，消耗 1 信用点 + 1 能量，移除火箭并放置环绕标记。
-- `land`：登陆，要求当前火箭在非地球星球格，消耗 2 或 3 能量，移除火箭并放置主星/卫星登陆标记。
+- `land`：登陆，要求当前火箭在非地球星球格，消耗 1/2/3 能量，移除火箭并放置主星/卫星登陆标记；卫星登陆需要橙色 4 号科技。
 - `scan`：扫描，默认消耗 1 信用点 + 2 能量，生成扫描效果队列。
 - `analyze`：分析数据，消耗 1 能量并清空已放置数据。
 - `playCard`：打牌，打开手牌选择/打出流程。
@@ -114,6 +117,13 @@ UI 校准：
 - “撤销”按最近完成的主/快速步骤回滚；主行动整体仍可通过回滚会话撤销。
 - 行动可以由能力事件链组成；链上每个节点是一个原子能力，能力返回 `undoable` 决定是否进入撤销历史。
 - 科技行动采用确认流：先选择科技并金色高亮，不旋转、不拿取、不结算奖励；点击“确认”后才执行不可撤销结算。
+
+### 橙色科技效果
+
+- 橙色 1：获得时立刻执行一次免费发射（不消耗信用点）；同时玩家火箭上限从 1 提高到 2。
+- 橙色 2：火箭通过移动进入小行星时获得 1 宣传；从小行星移出只需要 1 点移动力。没有橙色 2 时，从小行星移出需要 2 点移动力。
+- 橙色 3：基础行动登陆能量消耗减少 1，因此无环绕为 2 能量，有环绕为 1 能量。
+- 橙色 4：解锁卫星登陆；没有该科技时登陆目标列表只包含主星。
 
 ### 环绕 / 登陆奖励效果流
 
@@ -147,7 +157,8 @@ UI 校准：
 
 - 快速交易：通过 `quick-trades.js` 改变资源/手牌/牌区。
 - 放置数据：从数据池放入计算机或蓝色科技附加位。
-- 移动：点击已有火箭后选择方向，确认时消耗 1 能量或弃移动牌；紫4扫描移动可免费触发同一能力。
+- 移动：点击已有火箭后选择方向，确认时按所需移动力支付；1 点移动力可消耗 1 能量或弃 1 张移动牌。没有橙色 2 时，从小行星移出需要 2 点移动力，可用 2 能量、2 张移动牌、或 1 张移动牌 + 1 能量支付。紫4扫描移动提供 1 点免费移动力。
+- 火箭移动到非地球行星时，该玩家获得 1 宣传；拥有橙色 2 时，移动进入小行星也获得 1 宣传。
 
 快速行动可以在主行动之前、主行动待确认之后，以及主行动效果队列的不同效果之间使用。快速行动会记录可撤销步骤，但不会让“确认”按钮变为可用，也不会改变主行动是否已经完成。
 
@@ -201,8 +212,8 @@ UI 校准：
 
 移动撤销细节：
 
-- 正常移动通过 `moveProbe(context, { cost: { energy: 1 } })` 结算，撤销命令同时退回能量并恢复火箭快照。
-- 弃移动牌支付时，先记录手牌/弃牌堆快照，再用 `moveProbe(context, { cost: {} })` 移动。
+- 正常移动通过 `moveProbe(context, { cost: { energy: 1 }, movementPoints: 1 })` 结算，撤销命令同时恢复玩家资源/奖励与火箭快照。
+- 弃移动牌支付时，先记录手牌/弃牌堆快照，再用 `moveProbe(context, { cost: {}, movementPoints })` 移动；小行星移出可传入 `movementPoints: 2`。
 - 移动成功后 UI 立即清除高亮和箭头；撤销只恢复火箭位置和资源/牌区，不重新进入移动选中状态。
 
 ## 能力函数层
@@ -260,6 +271,7 @@ UI 校准：
 - `context` 复用 `app.js` 的状态上下文，不引入新状态副本。
 - `options.cost` 覆盖默认支付成本。
 - `options.skipCost === true` 表示免费触发。
+- `options.movementPoints` 表示本次移动实际提供的移动力；未传时按能量成本推导，免费移动默认为 1。
 - `options.source` 标识来源，例如 `scan`、`card`、`tech`、`debug`。
 - `options.historyLabel` 用于生成撤销命令文案。
 - 需要玩家选择的流程由 UI 打开 overlay，能力函数只结算已经确定的目标。
@@ -267,9 +279,10 @@ UI 校准：
 行动可以被视为特殊能力编排器：
 
 - 正常发射：`launchProbe(context, { cost: { credits: 2 } })`。
+- 橙色 1 免费发射：`launchProbe(context, { skipCost: true, source: "tech" })`。
 - 紫4扫描发射：`launchProbe(context, { cost: { energy: 1 } })`。
-- 正常快速移动：`moveProbe(context, { cost: { energy: 1 }, rocketId, deltaX, deltaY })`。
-- 弃移动牌/紫4扫描移动：`moveProbe(context, { cost: {}, rocketId, deltaX, deltaY })`。
+- 正常快速移动：`moveProbe(context, { cost: { energy: 1 }, movementPoints: 1, rocketId, deltaX, deltaY })`。
+- 弃移动牌/紫4扫描移动：`moveProbe(context, { cost: {}, movementPoints, rocketId, deltaX, deltaY })`。
 - 扇区扫描：`scanSector(context, { nebulaId })` 或 `scanSector(context, { sectorX })`。
 - 公共/手牌扫描：UI 先选择牌和目标星云，再调用 `scanPublicCard` / `scanHandCard`；能力原子化结算“星云替换 + 获得数据 + 弃除来源牌/补公共牌”，并返回同一组撤销命令。
 - 科技选择：`researchTechPrepare` 进入选择，`researchTechSelect` 只记录选中的科技/蓝色槽位并显示金色高亮，`researchTechCommit` 点击确认后执行旋转、拿科技和奖励；该提交能力 `undoable: false`。

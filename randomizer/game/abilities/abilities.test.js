@@ -6,6 +6,7 @@ const rockets = require("../rockets");
 const planetStats = require("../planet-stats");
 const data = require("../data");
 const tech = require("../tech");
+const playerTech = require("../tech/player-tech");
 const basicCards = require("../basic-cards");
 require("../history/commands");
 const abilities = require("./index");
@@ -72,6 +73,20 @@ function currentPlayer(context) {
   assert.equal(context.rocketState.nextRocketId, 1);
 }
 
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
+  const first = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  assert.equal(first.ok, true);
+  const blocked = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  assert.equal(blocked.ok, false);
+  assert.match(blocked.message, /火箭数量已达上限/);
+
+  currentPlayer(context).techState.ownedTiles.orange1 = true;
+  const second = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  assert.equal(second.ok, true);
+  assert.equal(context.rocketState.rockets.length, 2);
+}
+
 function launchToPlanet(context, planetId) {
   const launch = abilities.executeAbility("launchProbe", context, { skipCost: true });
   assert.equal(launch.ok, true);
@@ -126,6 +141,47 @@ function launchToPlanet(context, planetId) {
 
 {
   const context = createContext({ resources: { credits: 10, energy: 10 } });
+  currentPlayer(context).techState.ownedTiles.orange3 = true;
+  launchToPlanet(context, "venus");
+  const result = abilities.executeAbility("landProbe", context, { target: { type: "planet" } });
+  assert.equal(result.ok, true);
+  assert.equal(result.cost.energy, 2);
+  assert.equal(currentPlayer(context).resources.energy, 8);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
+  const player = currentPlayer(context);
+  player.techState = playerTech.createPlayerTechState();
+  playerTech.recordPlayerTake(player.techState, "blue1", 2);
+  for (let index = 0; index < 3; index += 1) {
+    data.gainData(player, { source: "test" });
+    data.placeDataToComputer(player);
+  }
+  data.gainData(player, { source: "test" });
+
+  const pending = abilities.executeAbility("placeData", context);
+  assert.equal(pending.ok, true);
+  assert.equal(pending.awaitingPlacementChoice, true);
+  assert.ok(pending.choices.some((choice) => choice.target === data.PLACEMENT_KIND_BLUE_BONUS));
+
+  const bluePlace = abilities.executeAbility("placeData", context, {
+    target: data.PLACEMENT_KIND_BLUE_BONUS,
+    blueSlot: 2,
+  });
+  assert.equal(bluePlace.ok, true);
+  assert.equal(bluePlace.placementKind, data.PLACEMENT_KIND_BLUE_BONUS);
+  assert.equal(bluePlace.blueSlot, 2);
+  assert.deepEqual(bluePlace.slotBonus, { type: "credits", credits: 1 });
+  assert.equal(data.listBlueBonusPlacedTokens(player).length, 1);
+
+  bluePlace.commands[0].undo();
+  assert.equal(data.listBlueBonusPlacedTokens(player).length, 0);
+  assert.equal(data.listPoolTokens(player).length, 1);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
   const player = currentPlayer(context);
   data.ensurePlayerDataState(player);
   for (let index = 0; index < 6; index += 1) {
@@ -160,6 +216,19 @@ function launchToPlanet(context, planetId) {
   assert.equal(commit.commands.length, 0);
   assert.equal(context.solarState.rotation.rotationCount, beforeRotation + 1);
   assert.equal(context.techBoardState.stacks.purple1.remaining, 3);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10, publicity: 10 } });
+  const prepare = abilities.executeAbility("researchTechPrepare", context);
+  assert.equal(prepare.ok, true);
+  const select = abilities.executeAbility("researchTechSelect", context, { tileId: "orange1" });
+  assert.equal(select.ok, true);
+  const commit = abilities.executeAbility("researchTechCommit", context);
+  assert.equal(commit.ok, true);
+  assert.equal(commit.freeLaunch.ok, true);
+  assert.equal(context.rocketState.rockets.length, 1);
+  assert.equal(commit.rocket.id, context.rocketState.rockets[0].id);
 }
 
 {
@@ -248,6 +317,82 @@ function launchToPlanet(context, planetId) {
 
   move.commands[0].undo();
   assert.deepEqual(rockets.getRocketSectorCoordinate(move.rocket), before);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
+  const rocket = launchToPlanet(context, "mars");
+  const beforePublicity = currentPlayer(context).resources.publicity;
+  const move = abilities.executeAbility("moveProbe", context, {
+    rocketId: rocket.id,
+    deltaX: 1,
+    deltaY: 0,
+    cost: { energy: 1 },
+  });
+  assert.equal(move.ok, true);
+  assert.equal(currentPlayer(context).resources.publicity, beforePublicity);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
+  const launch = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  assert.equal(launch.ok, true);
+  const mercury = context.getPlanetLocations().find((planet) => planet.planetId === "mercury");
+  const move = abilities.executeAbility("moveProbe", context, {
+    rocketId: launch.rocket.id,
+    deltaX: mercury.x - launch.rocket.sectorX,
+    deltaY: mercury.y - launch.rocket.sectorY,
+    cost: { energy: 1 },
+  });
+  assert.equal(move.ok, true, move.message);
+  assert.equal(currentPlayer(context).resources.publicity, 1);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
+  const launch = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  assert.equal(launch.ok, true);
+  const asteroid = solar.collectVisibleCoordinateGroups(context.solarState).asteroids[0];
+  const placed = rockets.moveRocket(
+    context.rocketState,
+    launch.rocket.id,
+    asteroid.x - launch.rocket.sectorX,
+    asteroid.y - launch.rocket.sectorY,
+  );
+  assert.equal(placed.ok, true, placed.message);
+  const blocked = abilities.executeAbility("moveProbe", context, {
+    rocketId: launch.rocket.id,
+    deltaX: 1,
+    deltaY: 0,
+    cost: { energy: 1 },
+    movementPoints: 1,
+  });
+  assert.equal(blocked.ok, false);
+  assert.match(blocked.message, /移动力不足/);
+  const moved = abilities.executeAbility("moveProbe", context, {
+    rocketId: launch.rocket.id,
+    deltaX: 1,
+    deltaY: 0,
+    cost: { energy: 2 },
+    movementPoints: 2,
+  });
+  assert.equal(moved.ok, true, moved.message);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
+  currentPlayer(context).techState.ownedTiles.orange2 = true;
+  const launch = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  assert.equal(launch.ok, true);
+  const asteroid = solar.collectVisibleCoordinateGroups(context.solarState).asteroids[0];
+  const move = abilities.executeAbility("moveProbe", context, {
+    rocketId: launch.rocket.id,
+    deltaX: asteroid.x - launch.rocket.sectorX,
+    deltaY: asteroid.y - launch.rocket.sectorY,
+    cost: { energy: 1 },
+  });
+  assert.equal(move.ok, true, move.message);
+  assert.equal(currentPlayer(context).resources.publicity, 1);
 }
 
 console.log("abilities.test.js: all tests passed");

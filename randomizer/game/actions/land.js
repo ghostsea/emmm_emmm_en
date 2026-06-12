@@ -24,10 +24,18 @@
   const ACTION_ID = "land";
   const ACTION_LABEL = "登陆";
   const BASE_ENERGY_COST = 3;
+  const ORANGE3_LAND_DISCOUNT = 1;
 
   function getEnergyCost(context, planetId) {
+    const currentPlayer = players.getCurrentPlayer(context.playerState);
     const hasOrbit = planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
-    return hasOrbit ? BASE_ENERGY_COST - 1 : BASE_ENERGY_COST;
+    const orbitDiscount = hasOrbit ? 1 : 0;
+    const techDiscount = players.playerOwnsTech(currentPlayer, "orange3") ? ORANGE3_LAND_DISCOUNT : 0;
+    return Math.max(0, BASE_ENERGY_COST - orbitDiscount - techDiscount);
+  }
+
+  function canLandOnSatellites(player) {
+    return players.playerOwnsTech(player, "orange4");
   }
 
   function normalizeLandTarget(target) {
@@ -51,8 +59,10 @@
       targets.push({ type: "planet" });
     }
 
-    for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
-      targets.push({ type: "satellite", satelliteId: satellite.satelliteId });
+    if (canLandOnSatellites(placement.currentPlayer)) {
+      for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
+        targets.push({ type: "satellite", satelliteId: satellite.satelliteId });
+      }
     }
 
     if (!targets.length) {
@@ -87,11 +97,13 @@
       });
     }
 
-    for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
-      choices.push({
-        target: { type: "satellite", satelliteId: satellite.satelliteId },
-        label: `登陆${satellite.satelliteName}`,
-      });
+    if (canLandOnSatellites(placement.currentPlayer)) {
+      for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
+        choices.push({
+          target: { type: "satellite", satelliteId: satellite.satelliteId },
+          label: `登陆${satellite.satelliteName}`,
+        });
+      }
     }
 
     return choices;
@@ -178,6 +190,11 @@
       context.rocketState.statusNote = message;
       return { ok: false, actionId: ACTION_ID, message };
     }
+    if (target.type === "satellite" && !canLandOnSatellites(currentPlayer)) {
+      const message = "需要橙色4号科技才能登陆卫星";
+      context.rocketState.statusNote = message;
+      return { ok: false, actionId: ACTION_ID, message };
+    }
 
     const spendResult = players.spendResources(currentPlayer, { energy: energyCost });
     if (!spendResult.ok) {
@@ -224,7 +241,10 @@
       return { ok: false, actionId: ACTION_ID, message: markerResult.message };
     }
 
-    const discountNote = energyCost < BASE_ENERGY_COST ? "（有环绕，消耗-1）" : "";
+    const discountParts = [];
+    if (planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0) discountParts.push("有环绕，消耗-1");
+    if (players.playerOwnsTech(currentPlayer, "orange3")) discountParts.push("橙色3，消耗-1");
+    const discountNote = discountParts.length ? `（${discountParts.join("；")}）` : "";
     const markerNote = markerKind === "satellite"
       ? `显示卫星登陆标记 ${targetLabel}`
       : `显示登陆标记#${markerSequence}`;
@@ -248,6 +268,7 @@
     id: ACTION_ID,
     label: ACTION_LABEL,
     baseEnergyCost: BASE_ENERGY_COST,
+    orange3LandDiscount: ORANGE3_LAND_DISCOUNT,
     getEnergyCost,
     getLandOptions,
     canExecute,

@@ -90,6 +90,15 @@ const launchResult = actions.execute("launch", context);
 assert.equal(launchResult.ok, true);
 assert.equal(launchResult.rocket.playerSequence, 1);
 assert.equal(players.getCurrentPlayer(context.playerState).resources.credits, 8);
+const blockedSecondLaunch = actions.execute("launch", context);
+assert.equal(blockedSecondLaunch.ok, false);
+assert.match(blockedSecondLaunch.message, /火箭数量已达上限/);
+
+const orange1LaunchContext = createContext();
+players.getCurrentPlayer(orange1LaunchContext.playerState).techState.ownedTiles.orange1 = true;
+assert.equal(actions.execute("launch", orange1LaunchContext).ok, true);
+assert.equal(actions.execute("launch", orange1LaunchContext).ok, true);
+assert.equal(orange1LaunchContext.rocketState.rockets.length, 2);
 
 const noRocketContext = createContext();
 const blockedOrbit = actions.execute("orbit", noRocketContext);
@@ -153,6 +162,7 @@ assert.equal(discountedLand.cost.energy, 2);
 assert.equal(planetStats.getPlanetLandingCount(discountedLandContext.planetStatsState, "jupiter"), 1);
 
 const marsSatelliteContext = createContext();
+players.getCurrentPlayer(marsSatelliteContext.playerState).techState.ownedTiles.orange4 = true;
 launchToPlanet(marsSatelliteContext, "mars");
 const marsSatelliteLand = actions.execute("land", marsSatelliteContext, {
   target: { type: "satellite", satelliteId: "phobos-deimos" },
@@ -165,7 +175,11 @@ assert.equal(marsSatelliteContext.rocketState.rockets.length, 0);
 const orbitReuseContext = createContext();
 actions.execute("launch", orbitReuseContext);
 const firstRocketSequence = orbitReuseContext.rocketState.rockets[0].playerSequence;
-launchToPlanet(orbitReuseContext, "venus");
+rockets.moveActiveRocket(
+  orbitReuseContext.rocketState,
+  orbitReuseContext.getPlanetLocations().find((item) => item.planetId === "venus").x - orbitReuseContext.rocketState.rockets[0].sectorX,
+  orbitReuseContext.getPlanetLocations().find((item) => item.planetId === "venus").y - orbitReuseContext.rocketState.rockets[0].sectorY,
+);
 actions.execute("orbit", orbitReuseContext);
 actions.execute("launch", orbitReuseContext);
 assert.equal(orbitReuseContext.rocketState.rockets[0].playerSequence, firstRocketSequence);

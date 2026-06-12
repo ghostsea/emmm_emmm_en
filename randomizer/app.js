@@ -390,11 +390,35 @@
     return (player?.hand || []).some((card) => isMovePaymentCard(card));
   }
 
-  function canPayForMove(player) {
+  function getMovePaymentCardCount(player) {
+    return (player?.hand || []).filter((card) => isMovePaymentCard(card)).length;
+  }
+
+  function getSectorContentForMove(coordinate) {
+    if (!coordinate) return null;
+    return solar.resolveVisibleContent(coordinate.x, coordinate.y, solarState)?.content || null;
+  }
+
+  function isAsteroidContent(content) {
+    return content?.kind === solar.layout.CONTENT_KIND.ASTEROID;
+  }
+
+  function getRequiredMovePointsForUi(player, rocketId, deltaX, deltaY) {
+    const rocket = rocketState.rockets.find((item) => item.id === rocketId);
+    const from = rocketActions.getRocketSectorCoordinate(rocket);
+    if (!from) return 1;
+    const fromContent = getSectorContentForMove(from);
+    if (isAsteroidContent(fromContent) && !players.playerOwnsTech(player, "orange2")) {
+      return 2;
+    }
+    return 1;
+  }
+
+  function canPayForMove(player, requiredMovePoints = MOVE_ENERGY_COST) {
     const energy = Number(player?.resources?.energy) || 0;
-    if (energy >= MOVE_ENERGY_COST) return { ok: true };
-    if (playerHasMovePaymentCard(player)) return { ok: true };
-    return { ok: false, message: "能量不足，也没有可弃置的移动牌" };
+    const movementCards = getMovePaymentCardCount(player);
+    if (energy + movementCards >= requiredMovePoints) return { ok: true };
+    return { ok: false, message: `移动力不足，需要 ${requiredMovePoints} 点移动力` };
   }
 
   function syncMovePaymentChrome() {
@@ -410,7 +434,10 @@
       els.movePaymentCancel.hidden = !active;
     }
     if (els.playerHandPanelTitle && active) {
-      els.playerHandPanelTitle.textContent = "玩家手牌区（可选移动牌弃置，或直接确认消耗 1 能量）";
+      const required = pendingMovePayment?.requiredMovePoints || MOVE_ENERGY_COST;
+      els.playerHandPanelTitle.textContent = required > 1
+        ? `玩家手牌区（需 ${required} 点移动力：可选移动牌，剩余用能量补齐）`
+        : "玩家手牌区（可选移动牌弃置，或直接确认消耗 1 能量）";
     } else if (
       els.playerHandPanelTitle
       && !isDiscardSelectionActive()
@@ -463,7 +490,8 @@
     }
 
     const currentPlayer = getCurrentPlayer();
-    const payCheck = canPayForMove(currentPlayer);
+    const requiredMovePoints = getRequiredMovePointsForUi(currentPlayer, rocketId, deltaX, deltaY);
+    const payCheck = canPayForMove(currentPlayer, requiredMovePoints);
     if (!payCheck.ok) {
       rocketState.statusNote = payCheck.message;
       renderStateReadout();
@@ -481,9 +509,12 @@
       deltaX,
       deltaY,
       rocketId,
-      selectedHandIndex: null,
+      requiredMovePoints,
+      selectedHandIndices: [],
     };
-    rocketState.statusNote = "移动：选择移动牌弃置，或直接确认消耗 1 能量";
+    rocketState.statusNote = requiredMovePoints > 1
+      ? `移动：需要 ${requiredMovePoints} 点移动力，可选择移动牌，剩余用能量补齐`
+      : "移动：选择移动牌弃置，或直接确认消耗 1 能量";
     syncMovePaymentChrome();
     scrollToPlayerHandPanel();
     updateActionButtons();
@@ -499,9 +530,12 @@
     const card = currentPlayer?.hand?.[index];
     if (!isMovePaymentCard(card)) return;
 
-    pendingMovePayment.selectedHandIndex = pendingMovePayment.selectedHandIndex === index
-      ? null
-      : index;
+    const selected = pendingMovePayment.selectedHandIndices || [];
+    if (selected.includes(index)) {
+      pendingMovePayment.selectedHandIndices = selected.filter((item) => item !== index);
+    } else if (selected.length < (pendingMovePayment.requiredMovePoints || MOVE_ENERGY_COST)) {
+      pendingMovePayment.selectedHandIndices = [...selected, index];
+    }
     renderPlayerHand();
   }
 
@@ -509,51 +543,69 @@
     if (!isMovePaymentSelectionActive()) return;
 
     const currentPlayer = getCurrentPlayer();
-    const { deltaX, deltaY, rocketId, selectedHandIndex } = pendingMovePayment;
+    const { requiredMovePoints = MOVE_ENERGY_COST } = pendingMovePayment;
+    const selectedHandIndices = [...(pendingMovePayment.selectedHandIndices || [])].sort((left, right) => left - right);
     let paymentNote = "";
     let handSnapshot = null;
     let discardPileSnapshot = null;
     let discardCommand = null;
-    let moveOptions = null;
-    if (selectedHandIndex != null) {
-      const card = currentPlayer.hand[selectedHandIndex];
-      if (!isMovePaymentCard(card)) {
-        rocketState.statusNote = "请选择可弃置的移动牌";
-        renderStateReadout();
-        return;
-      }
+    const selectedMoveCards = selectedHandIndices
+      .map((index) => currentPlayer?.hand?.[index])
+      .filter(Boolean);
 
+    if (selectedMoveCards.length !== selectedHandIndices.length
+      || selectedMoveCards.some((card) => !isMovePaymentCard(card))) {
+      rocketState.statusNote = "请选择可弃置的移动牌";
+      renderStateReadout();
+      return;
+    }
+
+    const energyCost = Math.max(0, requiredMovePoints - selectedMoveCards.length);
+    if (!players.canAfford(currentPlayer, { energy: energyCost })) {
+      rocketState.statusNote = selectedMoveCards.length
+        ? `能量不足，仍需 ${energyCost} 能量补齐移动力`
+        : playerHasMovePaymentCard(currentPlayer)
+          ? "能量不足，请选择移动牌弃置"
+          : "能量不足，无法移动";
+      renderStateReadout();
+      return;
+    }
+
+    if (selectedHandIndices.length) {
       handSnapshot = currentPlayer.hand.slice();
       discardPileSnapshot = (cardState.discardPile || []).slice();
-      const discardResult = cards.discardFromHandAtIndex(currentPlayer, selectedHandIndex);
-      if (!discardResult.ok) {
-        rocketState.statusNote = discardResult.message;
-        renderStateReadout();
-        return;
+      const discardedCards = [];
+      for (const index of [...selectedHandIndices].sort((left, right) => right - left)) {
+        const discardResult = cards.discardFromHandAtIndex(currentPlayer, index);
+        if (!discardResult.ok) {
+          currentPlayer.hand = handSnapshot.slice();
+          currentPlayer.resources.handSize = currentPlayer.hand.length;
+          cardState.discardPile = discardPileSnapshot.slice();
+          rocketState.statusNote = discardResult.message;
+          renderStateReadout();
+          return;
+        }
+        cards.addToDiscardPile(cardState, discardResult.card);
+        discardedCards.push(discardResult.card);
       }
-
-      cards.addToDiscardPile(cardState, discardResult.card);
       discardCommand = historyCommands.createDiscardHandCardCommand(
         cardState,
         currentPlayer,
         handSnapshot,
         discardPileSnapshot,
       );
-      paymentNote = `弃掉 ${cards.getCardLabel(discardResult.card)}`;
-      moveOptions = { cost: {} };
-    } else if (!players.canAfford(currentPlayer, { energy: MOVE_ENERGY_COST })) {
-      rocketState.statusNote = playerHasMovePaymentCard(currentPlayer)
-        ? "能量不足，请选择移动牌弃置"
-        : "能量不足，无法移动";
-      renderStateReadout();
-      return;
-    } else {
-      paymentNote = "消耗 1 能量";
-      moveOptions = {
-        cost: { energy: MOVE_ENERGY_COST },
-        historyLabel: `移动消耗 ${MOVE_ENERGY_COST} 能量`,
-      };
+      paymentNote = `弃掉 ${discardedCards.reverse().map((card) => cards.getCardLabel(card)).join("、")}`;
     }
+    if (energyCost > 0) {
+      paymentNote = paymentNote
+        ? `${paymentNote}，消耗 ${energyCost} 能量`
+        : `消耗 ${energyCost} 能量`;
+    }
+    const moveOptions = {
+      cost: energyCost > 0 ? { energy: energyCost } : {},
+      movementPoints: selectedMoveCards.length + energyCost,
+      historyLabel: `移动消耗 ${selectedMoveCards.length ? `${selectedMoveCards.length} 张移动牌` : ""}${selectedMoveCards.length && energyCost ? " + " : ""}${energyCost ? `${energyCost} 能量` : ""}`,
+    };
 
     const pending = pendingMovePayment;
     pendingMovePayment = null;
@@ -3027,6 +3079,7 @@
     syncTechSelectionChrome();
     renderWheels();
     renderRotateStateToken();
+    if (result.freeLaunch?.rocket) renderRocketElement(result.freeLaunch.rocket);
     renderPlayerStats();
     renderTechBoard();
     updateActionButtons();
@@ -3820,7 +3873,7 @@
         } else if (movePaymentActive) {
           if (isMovePaymentCard(card)) {
             button.classList.add("is-move-card");
-            if (pendingMovePayment?.selectedHandIndex === index) {
+            if ((pendingMovePayment?.selectedHandIndices || []).includes(index)) {
               button.classList.add("is-selected");
             }
             button.setAttribute("aria-label", `${label}（移动牌，点击选择弃置）`);

@@ -344,6 +344,10 @@
     return true;
   }
 
+  function playerOwnsTech(player, tileId) {
+    return Boolean(player?.techState?.ownedTiles?.[tileId]);
+  }
+
   function createPlayerState(input) {
     const source = input || {};
     const sourcePlayers = Array.isArray(source.players) && source.players.length
@@ -396,5 +400,6 @@
     gainResources,
     gainIncome,
     incrementPlayerOrbitCount,
+    playerOwnsTech,
   });
 });
