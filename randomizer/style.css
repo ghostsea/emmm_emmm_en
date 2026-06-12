@@ -1003,6 +1003,22 @@ body {
   pointer-events: none;
 }
 
+.action-effect-badge {
+  position: absolute;
+  left: 2px;
+  right: 2px;
+  bottom: 1px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: rgba(3, 8, 16, 0.78);
+  color: rgba(255, 255, 255, 0.94);
+  font: 700 10px/1.2 "Microsoft YaHei", "PingFang SC", sans-serif;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
 .action-effect-button.is-active {
   opacity: 1;
   border-color: rgba(200, 160, 255, 0.92);

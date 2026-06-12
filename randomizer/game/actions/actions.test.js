@@ -118,12 +118,30 @@ assert.equal(players.getCurrentPlayer(marsContext.playerState).orbitCount, 1);
 assert.equal(players.getCurrentPlayer(marsContext.playerState).resources.credits, 7);
 assert.equal(players.getCurrentPlayer(marsContext.playerState).resources.energy, 9);
 
+const inactiveOrbitContext = createContext();
+launchToPlanet(inactiveOrbitContext, "mars");
+inactiveOrbitContext.rocketState.activeRocketId = null;
+const inactiveOrbitCheck = actions.canExecute("orbit", inactiveOrbitContext);
+assert.equal(inactiveOrbitCheck.ok, true);
+const inactiveOrbitResult = actions.execute("orbit", inactiveOrbitContext);
+assert.equal(inactiveOrbitResult.ok, true);
+assert.equal(planetStats.getPlanetOrbitCount(inactiveOrbitContext.planetStatsState, "mars"), 1);
+
 const landContext = createContext();
 launchToPlanet(landContext, "venus");
 const landWithoutOrbit = actions.execute("land", landContext);
 assert.equal(landWithoutOrbit.ok, true);
 assert.equal(planetStats.getPlanetLandingCount(landContext.planetStatsState, "venus"), 1);
 assert.equal(players.getCurrentPlayer(landContext.playerState).resources.energy, 7);
+
+const inactiveLandContext = createContext();
+launchToPlanet(inactiveLandContext, "venus");
+inactiveLandContext.rocketState.activeRocketId = null;
+const inactiveLandCheck = actions.canExecute("land", inactiveLandContext);
+assert.equal(inactiveLandCheck.ok, true);
+const inactiveLandResult = actions.execute("land", inactiveLandContext);
+assert.equal(inactiveLandResult.ok, true);
+assert.equal(planetStats.getPlanetLandingCount(inactiveLandContext.planetStatsState, "venus"), 1);
 
 const discountedLandContext = createContext();
 launchToPlanet(discountedLandContext, "jupiter");

@@ -35,6 +35,8 @@
 
 移动 UI 由 `moveHighlightRocketId` 控制当前高亮火箭和移动箭头。确认移动成功后，`app.js` 会清空高亮、隐藏箭头层并清空 `activeRocketId`，回到默认未选中状态。
 
+环绕/登陆判定不再硬性依赖 `activeRocketId`。若当前玩家没有有效选中火箭，`shared.getRocketPlanet` 会自动查找当前玩家停在非地球星球格上的第一枚火箭，用于启用并执行环绕/登陆行动。
+
 ### 星球状态
 
 星球统计由 `randomizer/game/planet-stats.js` 管理：
@@ -109,6 +111,33 @@ UI 校准：
 - “撤销”按最近完成的主/快速步骤回滚；主行动整体仍可通过回滚会话撤销。
 - 行动可以由能力事件链组成；链上每个节点是一个原子能力，能力返回 `undoable` 决定是否进入撤销历史。
 - 科技行动采用确认流：先选择科技并金色高亮，不旋转、不拿取、不结算奖励；点击“确认”后才执行不可撤销结算。
+
+### 环绕 / 登陆奖励效果流
+
+环绕、登陆主星、登陆卫星的奖励表由 `randomizer/game/actions/planet-rewards.js` 管理：
+
+- `buildOrbitRewardEffects(planetId, markerSequence)`：环绕奖励。若 `markerSequence === 1`，先插入“首次环绕 +3 分”，再按星球固定奖励顺序生成效果节点。
+- `buildPlanetLandRewardEffects(planetId, markerSequence)`：主星登陆奖励。除火星外，只有首次登陆额外获得数据；火星第 1 次额外 2 数据，第 2 次额外 1 数据。
+- `buildSatelliteLandRewardEffects(satelliteId)`：卫星登陆奖励。
+- `buildRewardEffectsForAction(actionId, result)`：`app.js` 在 `orbitProbe` / `landProbe` 成功后调用，生成奖励效果链。
+
+执行流：
+
+- `orbitProbe` / `landProbe` 仍只负责支付成本、移除火箭、放置环绕/登陆/卫星标记，并返回可撤销命令。
+- `app.js` 在环绕/登陆成功后，先把标记动作作为 `action_start` 步骤写入 `actionHistory`，再启动奖励效果链。
+- 奖励效果链逐个点击执行；全部完成后才进入主行动“待确认”。
+- 自动奖励（分数、能量、宣传、数据、盲抽）直接结算并写入撤销命令。
+- 选择型奖励复用现有 UI：精选卡牌、收入弃牌、星云二选一、外星人痕迹选择；选择完成后推进当前奖励节点。
+- 盲抽/精选等获取卡牌的奖励一旦完成，当前主行动不可再撤销，只能继续完成效果并最终确认。
+- 黄色外星人标记限制为 `yellow` 痕迹；任意外星人标记允许 `yellow` / `pink` / `blue`。
+
+当前解释约定：
+
+- “收入”按现有收入效果处理：玩家弃 1 张手牌，按该牌收入角标增加收入。
+- “精选”按现有精选处理：从公共牌区拿 1 张牌，且当前仍允许使用盲抽按钮。
+- 盲抽奖励使用 `assets/symbol/effect/blind_card.webp`。
+- 固定星球扇区扫描使用 `assets/symbol/effect/normal_scan.webp`，并在效果按钮上显示星球名角标；天王星/海王星的织女一/绘架座β二选一扫描使用 `black_scan.webp`。
+- 外星人标记使用 `assets/symbol/effect/alien_*.webp` 素材；代码 icon key 与文件名保持一致。
 
 快速行动不属于主行动确认门槛：
 
@@ -259,6 +288,7 @@ UI 校准：
 node randomizer/game/abilities/abilities.test.js
 node randomizer/game/abilities/chain.test.js
 node randomizer/game/actions/scan-effects.test.js
+node randomizer/game/actions/planet-rewards.test.js
 node randomizer/game/history/action-history.test.js
 node randomizer/game/history/commands.test.js
 node randomizer/game/rockets.move.test.js

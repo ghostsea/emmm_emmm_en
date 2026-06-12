@@ -50,9 +50,33 @@
     return { ok: true, rocket, message: null, currentPlayer };
   }
 
+  function findPlayerRocketOnPlanet(context, currentPlayer) {
+    if (!currentPlayer) return null;
+    const planetLocations = context.getPlanetLocations();
+    for (const rocket of rockets.getRocketsForPlayer(context.rocketState, currentPlayer.id)) {
+      const sectorCoordinate = rockets.getRocketSectorCoordinate(rocket);
+      const planet = findPlanetAtSector(planetLocations, sectorCoordinate);
+      if (!planet || planet.planetId === "earth") continue;
+      return { rocket, planet, sectorCoordinate };
+    }
+    return null;
+  }
+
   function getRocketPlanet(context) {
     const active = getActiveRocketForPlayer(context);
-    if (!active.ok) return active;
+    if (!active.ok) {
+      const currentPlayer = players.getCurrentPlayer(context.playerState);
+      const fallback = findPlayerRocketOnPlanet(context, currentPlayer);
+      if (!fallback) return active;
+      return {
+        ok: true,
+        rocket: fallback.rocket,
+        currentPlayer,
+        planet: fallback.planet,
+        sectorCoordinate: fallback.sectorCoordinate,
+        message: null,
+      };
+    }
 
     const sectorCoordinate = rockets.getRocketSectorCoordinate(active.rocket);
     const planetLocations = context.getPlanetLocations();
