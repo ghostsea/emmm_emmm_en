@@ -2,6 +2,9 @@
 
 这份文档给后续 agent / 工程师一个当前代码底层机制的入口。仓库当前是一个无构建步骤的浏览器原型，核心逻辑在 `randomizer/game/**`，入口 UI 在 `randomizer/app.js`。每次代码和框架修改后记得检查和补齐本文档。
 
+## 效果术语表
+当需要查看某个具体效果术语的效果时参考：docs\effect-glossary.md
+
 ## 当前状态模型
 
 ### 玩家状态
@@ -136,7 +139,8 @@ UI 校准：
 - “收入”按现有收入效果处理：玩家弃 1 张手牌，按该牌收入角标增加收入。
 - “精选”按现有精选处理：从公共牌区拿 1 张牌，且当前仍允许使用盲抽按钮。
 - 盲抽奖励使用 `assets/symbol/effect/blind_card.webp`。
-- 固定星球扇区扫描使用 `assets/symbol/effect/normal_scan.webp`，并在效果按钮上显示星球名角标；天王星/海王星的织女一/绘架座β二选一扫描使用 `black_scan.webp`。
+- 奖励效果和通用资源效果图标统一从 `assets/symbol/effect/` 读取；缺少的资源图标从 `assets/symbol/split/seti-icons/` 复制为语义化文件名后再引用。
+- 固定星球扇区扫描使用 `assets/symbol/effect/normal_scan.webp`，并在效果按钮上显示星球名角标；天王星/海王星的织女一/绘架座β二选一扫描使用 `black_scan.webp`；红/蓝/黄星云扫描分别使用 `red_scan.webp`、`blue_scan.webp`、`yellow_scan.webp`。
 - 外星人标记使用 `assets/symbol/effect/alien_*.webp` 素材；代码 icon key 与文件名保持一致。
 
 快速行动不属于主行动确认门槛：

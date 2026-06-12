@@ -24,17 +24,21 @@
   });
 
   const EFFECT_ICONS = Object.freeze({
-    score: "../assets/symbol/split/seti-icons/seti-icons_r03_c04.webp",
-    credits: "../assets/symbol/split/seti-icons/seti-icons_r00_c00.webp",
-    energy: "../assets/symbol/split/seti-icons/seti-icons_r00_c01.webp",
-    card: "../assets/symbol/split/seti-icons/seti-icons_r00_c03.webp",
+    score: "../assets/symbol/effect/score.webp",
+    credits: "../assets/symbol/effect/credits.webp",
+    energy: "../assets/symbol/effect/energy.webp",
+    card: "../assets/symbol/effect/card.webp",
     blind_card: "../assets/symbol/effect/blind_card.webp",
-    pick_card: "../assets/symbol/split/seti-icons/seti-icons_r00_c03.webp",
-    publicity: "../assets/symbol/split/seti-icons/seti-icons_r00_c04.webp",
-    data: "../assets/symbol/split/seti-icons/seti-icons_r01_c00.webp",
-    income: "../assets/symbol/split/seti-icons/seti-icons_r06_c04.webp",
+    pick_card: "../assets/symbol/effect/choose_card.webp",
+    publicity: "../assets/symbol/effect/publicity.webp",
+    data: "../assets/symbol/effect/data.webp",
+    income: "../assets/symbol/effect/income.webp",
     scan: "../assets/symbol/effect/normal_scan.webp",
     black_scan: "../assets/symbol/effect/black_scan.webp",
+    red_scan: "../assets/symbol/effect/red_scan.webp",
+    blue_scan: "../assets/symbol/effect/blue_scan.webp",
+    yellow_scan: "../assets/symbol/effect/yellow_scan.webp",
+    discard: "../assets/symbol/effect/discard.jpg",
     alien_any: "../assets/symbol/effect/alien_any.webp",
     alien_blue: "../assets/symbol/effect/alien_blue.webp",
     alien_pink: "../assets/symbol/effect/alien_pink.webp",
@@ -150,7 +154,7 @@
     return {
       type: EFFECT_TYPES.CHOOSE_COLORED_NEBULA_SCAN,
       label,
-      icon: "black_scan",
+      icon: `${color}_scan`,
       needsUserChoice: true,
       options: { color, nebulaIds: [...(NEBULA_CHOICES[color] || [])] },
     };

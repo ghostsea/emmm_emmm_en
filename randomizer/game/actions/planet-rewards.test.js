@@ -42,6 +42,7 @@ const rewards = require("./planet-rewards");
   assert.equal(enceladus.length, 4);
   assert.equal(enceladus[0].options.gain.score, 13);
   assert.deepEqual(enceladus.slice(1).map((effect) => effect.options.color), ["red", "blue", "yellow"]);
+  assert.deepEqual(enceladus.slice(1).map((effect) => effect.icon), ["red_scan", "blue_scan", "yellow_scan"]);
 }
 
 {

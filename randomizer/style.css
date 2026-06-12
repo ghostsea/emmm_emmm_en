@@ -1327,6 +1327,11 @@ body {
   padding-right: 12px;
 }
 
+.player-hand-panel.move-payment-selection-active .player-hand-panel-header {
+  position: relative;
+  z-index: 1010;
+}
+
 .player-hand-panel-header .panel-title,
 .reserved-card-panel-header .panel-title {
   flex: 1 1 auto;

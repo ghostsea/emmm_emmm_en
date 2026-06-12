@@ -26,14 +26,14 @@
   const REFERENCE_ORBIT_IMAGE_SCALE = 0.0286;
   const REFERENCE_LANDDING_IMAGE_SCALE = 0.0338;
   const RESOURCE_ICON_SRC = Object.freeze({
-    score: "../assets/symbol/split/seti-icons/seti-icons_r03_c04.webp",
-    credits: "../assets/symbol/split/seti-icons/seti-icons_r00_c00.webp",
-    energy: "../assets/symbol/split/seti-icons/seti-icons_r00_c01.webp",
-    card: "../assets/symbol/split/seti-icons/seti-icons_r00_c03.webp",
-    publicity: "../assets/symbol/split/seti-icons/seti-icons_r00_c04.webp",
-    data: "../assets/symbol/split/seti-icons/seti-icons_r01_c00.webp",
-    income: "../assets/symbol/split/seti-icons/seti-icons_r06_c04.webp",
-    incomeCard: "../assets/symbol/split/seti-icons/seti-icons_r06_c01.webp",
+    score: "../assets/symbol/effect/score.webp",
+    credits: "../assets/symbol/effect/credits.webp",
+    energy: "../assets/symbol/effect/energy.webp",
+    card: "../assets/symbol/effect/card.webp",
+    publicity: "../assets/symbol/effect/publicity.webp",
+    data: "../assets/symbol/effect/data.webp",
+    income: "../assets/symbol/effect/income.webp",
+    incomeCard: "../assets/symbol/effect/income_card.webp",
     additionalPublicScan: "../assets/tokens/additional_public_scan.webp",
   });
   const INCOME_GAIN_LABELS = Object.freeze({
