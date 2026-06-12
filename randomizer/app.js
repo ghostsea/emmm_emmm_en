@@ -10,6 +10,7 @@
   const scanEffects = window.SetiScanEffects;
   const actionHistoryModule = window.SetiActionHistory;
   const historyCommands = window.SetiHistoryCommands;
+  const abilities = window.SetiAbilities;
   const quickTrades = window.SetiQuickTrades;
   const basicCards = window.SetiBasicCards;
   const cards = window.SetiCards;
@@ -86,12 +87,15 @@
   let pendingActionExecuted = false;
   let pendingActionEffectFlow = null;
   const actionHistory = actionHistoryModule.createActionHistory();
+  const quickActionHistory = actionHistoryModule.createActionHistory();
+  const HISTORY_SOURCE_MAIN = "main";
+  const HISTORY_SOURCE_QUICK = "quick";
+  const historyStepOrder = [];
   let effectStepActive = false;
   let moveHighlightRocketId = null;
   let pendingMovePayment = null;
   const MOVE_DISCARD_ACTION_CODE = 2;
   const MOVE_ENERGY_COST = 1;
-  const INCREMENTAL_QUICK_ACTION_TYPES = Object.freeze(["place-data", "quick-trade"]);
   const techRenderContext = {
     supplyStage: null,
     supplySlots: {},
@@ -396,6 +400,9 @@
   }
 
   function beginMovePaymentSelection(deltaX, deltaY, rocketId) {
+    const blocked = blockIncompatiblePendingQuickAction("move");
+    if (blocked) return blocked;
+
     if (isTechActionSelectionActive()) {
       return { ok: false, message: "请先完成科技选择" };
     }
@@ -458,6 +465,10 @@
     const currentPlayer = getCurrentPlayer();
     const { deltaX, deltaY, rocketId, selectedHandIndex } = pendingMovePayment;
     let paymentNote = "";
+    let handSnapshot = null;
+    let discardPileSnapshot = null;
+    let discardCommand = null;
+    let moveOptions = null;
     if (selectedHandIndex != null) {
       const card = currentPlayer.hand[selectedHandIndex];
       if (!isMovePaymentCard(card)) {
@@ -466,6 +477,8 @@
         return;
       }
 
+      handSnapshot = currentPlayer.hand.slice();
+      discardPileSnapshot = (cardState.discardPile || []).slice();
       const discardResult = cards.discardFromHandAtIndex(currentPlayer, selectedHandIndex);
       if (!discardResult.ok) {
         rocketState.statusNote = discardResult.message;
@@ -474,7 +487,14 @@
       }
 
       cards.addToDiscardPile(cardState, discardResult.card);
+      discardCommand = historyCommands.createDiscardHandCardCommand(
+        cardState,
+        currentPlayer,
+        handSnapshot,
+        discardPileSnapshot,
+      );
       paymentNote = `弃掉 ${cards.getCardLabel(discardResult.card)}`;
+      moveOptions = { cost: {} };
     } else if (!players.canAfford(currentPlayer, { energy: MOVE_ENERGY_COST })) {
       rocketState.statusNote = playerHasMovePaymentCard(currentPlayer)
         ? "能量不足，请选择移动牌弃置"
@@ -482,13 +502,11 @@
       renderStateReadout();
       return;
     } else {
-      const spendResult = players.spendResources(currentPlayer, { energy: MOVE_ENERGY_COST });
-      if (!spendResult.ok) {
-        rocketState.statusNote = spendResult.message;
-        renderStateReadout();
-        return;
-      }
       paymentNote = "消耗 1 能量";
+      moveOptions = {
+        cost: { energy: MOVE_ENERGY_COST },
+        historyLabel: `移动消耗 ${MOVE_ENERGY_COST} 能量`,
+      };
     }
 
     const pending = pendingMovePayment;
@@ -504,16 +522,21 @@
       return moveCheck;
     }
 
-    const moveResult = rocketActions.moveRocket(
-      rocketState,
-      pending.rocketId,
-      pending.deltaX,
-      pending.deltaY,
-    );
+    const moveResult = abilities.executeAbility("moveProbe", createActionContext(), {
+      ...moveOptions,
+      rocketId: pending.rocketId,
+      deltaX: pending.deltaX,
+      deltaY: pending.deltaY,
+    });
+    if (!moveResult.ok && discardCommand) {
+      discardCommand.undo();
+    }
     if (moveResult.rocket) renderRocketElement(moveResult.rocket);
     if (moveResult.ok) {
-      activateMoveMode(pending.rocketId);
+      rocketState.activeRocketId = null;
+      clearMoveRocketHighlight();
       rocketState.statusNote = `${paymentNote}，${moveResult.message}`;
+      recordMoveActionHistory(moveResult, discardCommand);
     } else {
       rocketState.statusNote = moveResult.message;
     }
@@ -1064,52 +1087,29 @@
   }
 
   function replaceNebulaDataForCurrentPlayer(nebulaId, options = {}) {
-    const currentPlayer = getCurrentPlayer();
-    const color = players.getPlayerColorDefinition(currentPlayer?.color);
-    const nextToken = data.getNextReplaceableNebulaToken(nebulaDataState, nebulaId);
-    const tokenBefore = historyCommands.snapshotNebulaToken(nextToken);
-
     beginEffectHistoryStep(options.prefix || "星云扫描");
 
-    const replaceResult = data.replaceNextNebulaDataToken(nebulaDataState, nebulaId, currentPlayer, {
-      playerColor: currentPlayer?.color,
-      playerLabel: currentPlayer?.colorLabel,
-      playerTokenSrc: getNormalTokenAssetForPlayer(currentPlayer),
+    const result = abilities.executeAbility("scanSector", createActionContext(), {
+      ...options,
+      nebulaId,
     });
 
-    if (!replaceResult.ok) {
+    if (!result.ok) {
       endEffectHistoryStep();
-      rocketState.statusNote = replaceResult.message;
+      rocketState.statusNote = result.message;
       renderSectors();
       renderStateReadout();
-      return replaceResult;
+      return result;
     }
 
-    recordHistoryCommand(historyCommands.createNebulaReplaceCommand(
-      nebulaDataState,
-      nebulaId,
-      replaceResult.token.id,
-      tokenBefore,
-    ));
-
-    const gainResult = data.gainData(currentPlayer, { source: options.source || "scan" });
-    recordHistoryCommand(historyCommands.createGainDataCommand(currentPlayer, gainResult));
-    const label = data.getNebulaLabel(nebulaId);
-    const playerLabel = color?.label || currentPlayer?.colorLabel || "当前玩家";
-    rocketState.statusNote = `${options.prefix || "扫描"}：${label} 槽位${replaceResult.slotIndex}`
-      + ` 替换为${playerLabel}token；${gainResult.ok ? "获得数据" : gainResult.message}`;
+    recordAbilityCommands(result);
+    rocketState.statusNote = result.message;
 
     renderSectors();
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
-    return {
-      ok: true,
-      nebulaId,
-      replaced: replaceResult,
-      gainedData: gainResult,
-      message: rocketState.statusNote,
-    };
+    return result;
   }
 
   function discardPublicScanCard(pending) {
@@ -1473,9 +1473,26 @@
     actionHistory.record(command);
   }
 
+  function recordQuickHistoryCommand(command) {
+    if (!quickActionHistory.hasSession()) return;
+    quickActionHistory.record(command);
+  }
+
+  function recordAbilityCommands(result, history = actionHistory) {
+    if (!result?.commands?.length) return;
+    for (const command of result.commands) {
+      if (history === quickActionHistory) {
+        recordQuickHistoryCommand(command);
+      } else {
+        recordHistoryCommand(command);
+      }
+    }
+  }
+
   function startPendingActionSession(actionType, label) {
     if (actionHistory.hasSession()) {
       actionHistory.rollbackSession();
+      clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
       effectStepActive = false;
     }
     actionHistory.beginSession(actionType, label);
@@ -1483,28 +1500,11 @@
     effectStepActive = true;
   }
 
-  function beginIncrementalPendingStep(actionType, label) {
-    const sessionInfo = actionHistory.getSessionInfo();
-    if (sessionInfo) {
-      if (sessionInfo.actionType === actionType) {
-        actionHistory.beginStep({ type: "action", label });
-        effectStepActive = true;
-        return;
-      }
-      actionHistory.rollbackSession();
-      effectStepActive = false;
-      clearActionPending();
+  function beginQuickActionStep(actionType, label) {
+    if (!quickActionHistory.hasSession()) {
+      quickActionHistory.beginSession("quick", "快速行动");
     }
-    actionHistory.beginSession(actionType, label);
-    actionHistory.beginStep({ type: "action", label });
-    effectStepActive = true;
-  }
-
-  function canRunIncrementalQuickAction(actionType) {
-    if (!pendingActionExecuted) return true;
-    const sessionInfo = actionHistory.getSessionInfo();
-    if (!sessionInfo) return false;
-    return sessionInfo.actionType === actionType;
+    quickActionHistory.beginStep({ type: actionType, label });
   }
 
   function completePendingActionStep() {
@@ -1512,42 +1512,58 @@
     markActionPending();
   }
 
+  function completeQuickActionStep() {
+    const step = quickActionHistory.endStep();
+    if (step) rememberHistoryStep(HISTORY_SOURCE_QUICK);
+  }
+
+  function rememberHistoryStep(source) {
+    historyStepOrder.push(source);
+  }
+
+  function forgetLastHistoryStep(source) {
+    for (let index = historyStepOrder.length - 1; index >= 0; index -= 1) {
+      if (historyStepOrder[index] === source) {
+        historyStepOrder.splice(index, 1);
+        return;
+      }
+    }
+  }
+
+  function clearHistoryStepOrderForSource(source) {
+    for (let index = historyStepOrder.length - 1; index >= 0; index -= 1) {
+      if (historyStepOrder[index] === source) {
+        historyStepOrder.splice(index, 1);
+      }
+    }
+  }
+
+  function getLatestUndoSource() {
+    for (let index = historyStepOrder.length - 1; index >= 0; index -= 1) {
+      const source = historyStepOrder[index];
+      if (source === HISTORY_SOURCE_QUICK && quickActionHistory.hasUndoableStep()) return source;
+      if (source === HISTORY_SOURCE_MAIN && actionHistory.hasUndoableStep()) return source;
+    }
+    if (quickActionHistory.hasUndoableStep()) return HISTORY_SOURCE_QUICK;
+    if (actionHistory.hasUndoableStep()) return HISTORY_SOURCE_MAIN;
+    return null;
+  }
+
   function recordQuickTradeCompletion(tradeId, player, beforeState) {
     const trade = quickTrades.getTradeAction(tradeId);
     if (!trade || !beforeState) return;
-    beginIncrementalPendingStep("quick-trade", `快速交易：${trade.label}`);
-    recordHistoryCommand(historyCommands.createRestoreTradeStateCommand(player, cardState, beforeState));
-    completePendingActionStep();
+    beginQuickActionStep("quick-trade", `快速交易：${trade.label}`);
+    recordQuickHistoryCommand(historyCommands.createRestoreTradeStateCommand(player, cardState, beforeState));
+    completeQuickActionStep();
   }
 
   function blockIncompatiblePendingQuickAction(actionType) {
-    if (canRunIncrementalQuickAction(actionType)) return null;
-    const message = "请先确认或撤销当前行动";
-    rocketState.statusNote = message;
-    renderStateReadout();
-    return { ok: false, message };
+    return null;
   }
 
-  function recordLaunchActionHistory(result, preLaunchSnapshot) {
-    const player = getCurrentPlayer();
+  function recordLaunchActionHistory(result) {
     startPendingActionSession("launch", "发射");
-    if (result.cost) {
-      recordHistoryCommand(historyCommands.createResourceSpendCommand(
-        player,
-        result.cost,
-        `发射消耗 ${players.formatResourceCost(result.cost)}`,
-      ));
-    }
-    if (result.rocket) {
-      recordHistoryCommand(historyCommands.createRemoveRocketCommand(
-        rocketActions,
-        rocketState,
-        result.rocket.id,
-        player,
-        null,
-        preLaunchSnapshot,
-      ));
-    }
+    recordAbilityCommands(result);
     completePendingActionStep();
   }
 
@@ -1566,9 +1582,18 @@
   }
 
   function recordPlaceDataActionHistory(player, placeResult) {
-    beginIncrementalPendingStep("place-data", "放置数据");
-    recordHistoryCommand(historyCommands.createPlaceDataCommand(player, placeResult));
-    completePendingActionStep();
+    beginQuickActionStep("place-data", "放置数据");
+    recordQuickHistoryCommand(historyCommands.createPlaceDataCommand(player, placeResult));
+    completeQuickActionStep();
+  }
+
+  function recordMoveActionHistory(moveResult, paymentCommand = null) {
+    beginQuickActionStep("move", "移动");
+    if (paymentCommand) {
+      recordQuickHistoryCommand(paymentCommand);
+    }
+    recordAbilityCommands(moveResult, quickActionHistory);
+    completeQuickActionStep();
   }
 
   function beginEffectHistoryStep(label, meta = {}) {
@@ -1586,7 +1611,8 @@
 
   function endEffectHistoryStep() {
     if (!effectStepActive) return;
-    actionHistory.endStep();
+    const step = actionHistory.endStep();
+    if (step) rememberHistoryStep(HISTORY_SOURCE_MAIN);
     effectStepActive = false;
   }
 
@@ -1901,37 +1927,19 @@
 
     beginEffectHistoryStep("发射/移动");
 
-    const earthSector = getEarthSectorCoordinate();
-    const launchResult = rocketActions.launchRocketAtSector(rocketState, earthSector, {
-      playerId: currentPlayer.id,
-      color: currentPlayer.color,
+    const result = abilities.executeAbility("scanAction4", createActionContext(), {
+      choice: "launch",
+      cost: { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY },
     });
-    if (!launchResult.ok) {
+    if (!result.ok) {
       endEffectHistoryStep();
-      return launchResult;
+      return result;
     }
 
-    const spendResult = players.spendResources(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
-    if (!spendResult.ok) {
-      rocketActions.removeRocket(rocketState, launchResult.rocket.id);
-      endEffectHistoryStep();
-      return spendResult;
-    }
+    recordAbilityCommands(result);
 
-    recordHistoryCommand(historyCommands.createLaunchRocketCommand(
-      rocketActions,
-      rocketState,
-      launchResult.rocket.id,
-      currentPlayer,
-      scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY,
-    ));
-
-    renderRocketElement(launchResult.rocket);
-    return {
-      ok: true,
-      rocket: launchResult.rocket,
-      message: `${launchResult.message}，消耗 1 能量`,
-    };
+    renderRocketElement(result.rocket);
+    return result;
   }
 
   function beginScanAction4FreeMove() {
@@ -1964,10 +1972,15 @@
       return moveCheck;
     }
 
-    const rocketBefore = structuredClone(rocketState.rockets.find((item) => item.id === rocketId));
     beginEffectHistoryStep("发射/移动");
 
-    const result = rocketActions.moveRocket(rocketState, rocketId, deltaX, deltaY);
+    const result = abilities.executeAbility("scanAction4", createActionContext(), {
+      choice: "move",
+      cost: {},
+      rocketId,
+      deltaX,
+      deltaY,
+    });
     if (result.rocket) renderRocketElement(result.rocket);
     if (!result.ok) {
       endEffectHistoryStep();
@@ -1976,13 +1989,7 @@
       return result;
     }
 
-    if (rocketBefore) {
-      recordHistoryCommand(historyCommands.createMoveRocketCommand(
-        rocketState,
-        rocketId,
-        rocketBefore,
-      ));
-    }
+    recordAbilityCommands(result);
 
     pendingActionEffectFlow.freeMoveMode = false;
     deactivateMoveMode();
@@ -3185,10 +3192,12 @@
       playerState,
       cardState,
       rocketState,
+      nebulaDataState,
       planetStatsState,
       techBoardState: techGameState.board,
       techUiState: techGameState.ui,
       techGameState,
+      getPlayerTokenSrc: (player) => getNormalTokenAssetForPlayer(player),
       getEarthSectorCoordinate,
       getPlanetLocations: () => solar.createSolarSnapshot(solarState).planetLocations,
       rotateSolarOrbit: (count) => rotateSolarOrbit(count),
@@ -3238,6 +3247,7 @@
     if (!pendingActionExecuted && !isActionEffectFlowActive()) return;
     endEffectHistoryStep();
     actionHistory.commitSession();
+    clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
     clearActionEffectFlow();
     clearActionPending();
     rocketState.statusNote = "行动已确认";
@@ -3246,11 +3256,30 @@
   }
 
   function undoPendingAction() {
-    if (!pendingActionExecuted && !isActionEffectFlowActive()) return;
+    if (
+      !pendingActionExecuted
+      && !isActionEffectFlowActive()
+      && !quickActionHistory.hasUndoableStep()
+    ) return;
 
     if (hasActivePendingSubFlow()) {
       cancelActivePendingSubFlows();
       refreshAfterHistoryChange();
+      return;
+    }
+
+    const latestUndoSource = getLatestUndoSource();
+
+    if (latestUndoSource === HISTORY_SOURCE_QUICK) {
+      const result = quickActionHistory.undoLastStep();
+      if (result.ok) {
+        forgetLastHistoryStep(HISTORY_SOURCE_QUICK);
+      }
+      if (result.ok && !quickActionHistory.hasUndoableStep()) {
+        quickActionHistory.commitSession();
+        clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+      }
+      refreshAfterHistoryChange(result.ok ? result.message : "已撤销快速行动");
       return;
     }
 
@@ -3259,10 +3288,12 @@
       if (actionHistory.hasUndoableStep()) {
         const result = actionHistory.undoLastStep();
         if (result.ok) {
+          forgetLastHistoryStep(HISTORY_SOURCE_MAIN);
           revertEffectFlowAfterUndo(result.step);
           refreshAfterHistoryChange(result.message);
           if (!isActionEffectFlowActive()) {
             actionHistory.commitSession();
+            clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
             clearActionPending();
           }
           return;
@@ -3271,24 +3302,9 @@
     }
 
     if (pendingActionExecuted || actionHistory.hasSession()) {
-      const sessionInfo = actionHistory.getSessionInfo();
-      if (
-        INCREMENTAL_QUICK_ACTION_TYPES.includes(sessionInfo?.actionType)
-        && sessionInfo.stepCount > 1
-      ) {
-        const result = actionHistory.undoLastStep();
-        if (result.ok) {
-          refreshAfterHistoryChange(result.message);
-          if (!actionHistory.hasUndoableStep()) {
-            actionHistory.commitSession();
-            clearActionPending();
-          }
-          return;
-        }
-      }
-
       const result = actionHistory.rollbackSession();
       effectStepActive = false;
+      clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
       clearActionEffectFlow();
       clearActionPending();
       refreshAfterHistoryChange(result.ok ? result.message : "已撤销当前行动");
@@ -3529,7 +3545,7 @@
 
     setTurnActionButtonState(els.actionPassButton, false);
     setTurnActionButtonState(els.actionConfirmButton, false);
-    setTurnActionButtonState(els.actionUndoButton, false);
+    setTurnActionButtonState(els.actionUndoButton, quickActionHistory.hasUndoableStep());
     return null;
   }
 
@@ -3571,7 +3587,7 @@
       return;
     }
 
-    if (effectFlowLocked || cardSelectionLocked || handScanLocked) {
+    if (cardSelectionLocked || handScanLocked) {
       setActionButtonState(els.actionLaunchButton, false, effectBlockedReason || selectionBlockReason);
       setActionButtonState(els.actionOrbitButton, false, effectBlockedReason || selectionBlockReason);
       setActionButtonState(els.actionLandButton, false, effectBlockedReason || selectionBlockReason);
@@ -3585,7 +3601,7 @@
       return;
     }
 
-    if (pendingActionExecuted) {
+    if (effectFlowLocked || pendingActionExecuted) {
       setActionButtonState(els.actionLaunchButton, false, pendingBlockedReason);
       setActionButtonState(els.actionOrbitButton, false, pendingBlockedReason);
       setActionButtonState(els.actionLandButton, false, pendingBlockedReason);
@@ -3803,13 +3819,9 @@
   }
 
   function runAction(actionId, actionOptions) {
-    const preLaunchSnapshot = actionId === "launch"
-      ? {
-        nextRocketId: rocketState.nextRocketId,
-        activeRocketId: rocketState.activeRocketId,
-      }
-      : null;
-    const result = actions.execute(actionId, createActionContext(), actionOptions);
+    const result = actionId === "launch"
+      ? abilities.executeAbility("launchProbe", createActionContext(), actionOptions)
+      : actions.execute(actionId, createActionContext(), actionOptions);
 
     if (result.ok && result.markerKind) {
       if (result.removedRocketId != null) removeRocketElement(result.removedRocketId);
@@ -3834,7 +3846,7 @@
 
     if (result.ok && !result.awaitingTileSelection) {
       if (actionId === "launch") {
-        recordLaunchActionHistory(result, preLaunchSnapshot);
+        recordLaunchActionHistory(result);
       } else {
         markActionPending();
       }
@@ -4277,6 +4289,7 @@
       "",
       ...data.getNebulaReadoutLines(nebulaDataState),
       ...(actionHistory.hasSession() ? ["", "行动指令栈", ...actionHistory.getTrace()] : []),
+      ...(quickActionHistory.hasSession() ? ["", "快速行动指令栈", ...quickActionHistory.getTrace()] : []),
     ].join("\n");
   }
 
