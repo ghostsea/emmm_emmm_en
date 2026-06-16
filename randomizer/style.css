@@ -1571,7 +1571,8 @@ body {
 }
 
 .player-hand-card:first-child,
-.player-hand-card-button:first-child {
+.player-hand-card-button:first-child,
+.reserved-card-button:first-child {
   margin-left: 0;
 }
 
@@ -1580,6 +1581,79 @@ body {
   z-index: 1000;
   transform: translateY(-18px) scale(1.3);
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
+}
+
+.reserved-card-button {
+  position: relative;
+  flex: 0 0 var(--card-width);
+  width: var(--card-width);
+  height: var(--card-height);
+  margin: 0;
+  margin-left: calc(var(--card-step) - var(--card-width));
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  z-index: var(--card-index, 1);
+  cursor: default;
+}
+
+.reserved-card-button .reserved-card {
+  width: 100%;
+  height: 100%;
+  margin-left: 0;
+}
+
+.reserved-card-button.is-task-ready {
+  cursor: pointer;
+  filter: drop-shadow(0 0 12px rgba(87, 192, 255, 0.72));
+}
+
+.reserved-card-button.is-task-ready .reserved-card {
+  outline: 3px solid rgba(92, 203, 255, 0.96);
+  outline-offset: 3px;
+}
+
+.reserved-card-button:hover,
+.reserved-card-button:focus-visible {
+  z-index: 1000;
+}
+
+.reserved-card-button:hover .reserved-card,
+.reserved-card-button:focus-visible .reserved-card {
+  transform: translateY(-18px) scale(1.3);
+  filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
+}
+
+.reserved-card-task-badge,
+.reserved-card-trigger-badge {
+  position: absolute;
+  left: 50%;
+  z-index: 1002;
+  min-width: 54px;
+  max-width: calc(100% + 30px);
+  padding: 3px 7px;
+  border-radius: 6px;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.96);
+  font: 700 11px/1.15 "Microsoft YaHei", "PingFang SC", sans-serif;
+  letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.reserved-card-task-badge {
+  top: -14px;
+  border: 1px solid rgba(149, 224, 255, 0.9);
+  background: rgba(18, 93, 144, 0.96);
+  box-shadow: 0 0 12px rgba(87, 192, 255, 0.42);
+}
+
+.reserved-card-trigger-badge {
+  bottom: -10px;
+  border: 1px solid rgba(255, 215, 124, 0.72);
+  background: rgba(93, 70, 24, 0.94);
 }
 
 .player-hand-fan,

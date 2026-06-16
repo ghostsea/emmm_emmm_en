@@ -328,6 +328,7 @@
     createCardState,
     collectClaimedCardIds,
     getAvailablePool,
+    addCardToHand,
     blindDraw,
     pickFromPublic,
     replenishPublicSlot,

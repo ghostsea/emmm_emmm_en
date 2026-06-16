@@ -282,13 +282,27 @@
       ));
     }
     const rewardNotes = [];
+    const events = [];
     if (isNonEarthPlanetContent(geometry.toContent)) {
       players.gainResources(currentPlayer, { publicity: 1 });
       rewardNotes.push("移动到行星，宣传+1");
+      events.push({
+        type: "visitPlanet",
+        planetId: geometry.toContent.planetId,
+        rocketId,
+        playerId: currentPlayer.id,
+      });
     }
     if (isAsteroidContent(geometry.toContent) && players.playerOwnsTech(currentPlayer, "orange2")) {
       players.gainResources(currentPlayer, { publicity: 1 });
       rewardNotes.push("橙色2：进入小行星，宣传+1");
+    }
+    if (isAsteroidContent(geometry.toContent)) {
+      events.push({
+        type: "visitAsteroid",
+        rocketId,
+        playerId: currentPlayer.id,
+      });
     }
     commands.push(historyCommands.createRestorePlayerCommand(
       currentPlayer,
@@ -318,7 +332,7 @@
         providedMovePoints,
         rewards: rewardNotes,
       },
-      events: [],
+      events,
       rocket: moveResult.rocket,
     };
   }

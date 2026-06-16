@@ -235,6 +235,25 @@ function launchToPlanet(context, planetId) {
 }
 
 {
+  const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
+  const player = currentPlayer(context);
+  const prepare = abilities.executeAbility("researchTechPrepare", context, {
+    techType: "blue",
+    skipCost: true,
+    source: "card",
+  });
+  assert.equal(prepare.ok, true);
+  assert.deepEqual(prepare.allowedTechTypes, ["blue"]);
+  const select = abilities.executeAbility("researchTechSelect", context, {
+    tileId: "blue1",
+    skipCost: true,
+  });
+  assert.equal(select.ok, true);
+  assert.deepEqual(select.cost, {});
+  assert.equal(player.resources.publicity, 0);
+}
+
+{
   const context = createContext({ resources: { credits: 10, energy: 10, publicity: 10 } });
   const prepare = abilities.executeAbility("researchTechPrepare", context, { techType: "purple" });
   assert.equal(prepare.ok, true);

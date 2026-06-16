@@ -314,7 +314,15 @@ UI 校准：
 
 ## 卡牌模型
 
+- 人工卡牌描述转可执行 DSL 的规范参考：`docs\card-modeling-dsl-spec.md`。后续新增卡牌模型时，先按该文档约束人工描述和 agent 转换，尤其要明确效果节点 `kind`、费用策略、任务类型和队列结束结算时机。
 - 卡牌源数据保持 CSV，方便手工校对和继续补内容。使用层通过中间构建把 `assets/cards/card_model.csv` 转成 `assets/cards/card_model.json` 和 `randomizer/game/card-catalog.js`，卡牌只声明能力 id、参数和费用覆盖。
+- 前几张基础牌的可执行效果样例位于 `randomizer/game/cards/effects.js`，这是从人工识图表临时转成程序模型的第一层：
+  - 0 型卡：打出后展开为 `play_effect` 效果队列，复用现有扫描、公共牌扫描、盲抽、科技等效果执行器。
+  - 1 型卡：打出后进入保留牌区，并在移动等事件完成瞬间检查触发条件；若多个触发槽同时满足，会弹出触发选择，只结算 1 个，也可以取消。已结算的触发槽会在牌面标记序号；全部触发槽结算后，完成任务数 +1 并移除该牌。
+  - 2 型卡：打出后进入保留牌区，并注册长期任务；状态条件满足后不自动结算，而是在任务区蓝色高亮。玩家点击该牌确认完成后，完成任务数 +1、移除该牌，并启动任务奖励队列。
+  - 临时任务：如“本卡效果期间若完成 1 个扇区”，绑定在本次卡牌效果队列上，只在该队列结束后的扇区结算结果中检查。
+- 打牌是主要行动，只支付卡牌模型里的信用点费用；卡牌效果队列内复用扫描、科技、移动等能力时，不再重复支付这些主要行动的基础费用。
+- 当前已建模样例包括 `b_1.webp` 到 `b_10.webp`，白色玩家起手固定为这 10 张流程样例牌。其中 `b_5.webp` / `b_6.webp` 的“完成扇区”按本次卡牌效果链结束后的扇区结算判断；`b_9.webp` 的“扫描行动”按卡牌效果解释为不重复支付扫描行动基础费用，只展开扫描行动的后续效果。
 - 外星人卡牌分析由 `tools/analyze_alien_cards.py` 在每个外星人目录下分别生成 `card_analysis.csv`、`card_model.csv` 和 `card_model.json`；默认排除 `半人马`、`九折`、`方舟`，左上角有两个符号时按第二个标准符号判定弃牌收益。
 
 ## 后续改造方向
@@ -333,6 +341,9 @@ node randomizer/game/abilities/chain.test.js
 node randomizer/game/actions/scan-effects.test.js
 node randomizer/game/actions/planet-rewards.test.js
 node randomizer/game/actions/quick-trades.test.js
+node randomizer/game/cards/deck.test.js
+node randomizer/game/cards/effects.test.js
+node randomizer/game/basic-cards.test.js
 node randomizer/game/history/action-history.test.js
 node randomizer/game/history/commands.test.js
 node randomizer/game/rockets.move.test.js

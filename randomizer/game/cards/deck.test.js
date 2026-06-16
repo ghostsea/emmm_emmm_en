@@ -1,4 +1,5 @@
 const assert = require("node:assert/strict");
+require("../card-catalog");
 const cards = require("./deck");
 
 const cardState = cards.createCardState();

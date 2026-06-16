@@ -55,8 +55,8 @@
     const board = context.techBoardState;
     if (!board) return { ok: false, abilityId: "researchTechPrepare", message: "科技版图状态未初始化" };
 
-    const cheatMode = Boolean(context.techUiState?.cheatModeEnabled);
-    if (!cheatMode && !players.canAfford(playerResult.currentPlayer, { publicity: tech.RESEARCH_PUBLICITY_COST })) {
+    const skipCost = Boolean(context.techUiState?.cheatModeEnabled || options.skipCost);
+    if (!skipCost && !players.canAfford(playerResult.currentPlayer, { publicity: tech.RESEARCH_PUBLICITY_COST })) {
       const message = `宣传不足，研究科技需要 ${tech.RESEARCH_PUBLICITY_COST} 宣传`;
       if (context.techUiState) context.techUiState.statusNote = message;
       return { ok: false, abilityId: "researchTechPrepare", message };
