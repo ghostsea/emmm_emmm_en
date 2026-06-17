@@ -55,6 +55,7 @@ function initialCard(number) {
 
   assert.equal(result.ok, true);
   assert.equal(result.cardNumber, 1);
+  assert.equal(player.resources.score, 2);
   assert.equal(data.listPoolTokens(player).length, 2);
   assert.equal(player.resources.availableData, 2);
   assert.equal(

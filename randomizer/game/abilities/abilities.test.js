@@ -395,6 +395,36 @@ function launchToPlanet(context, planetId) {
 }
 
 {
+  const context = createContext({ resources: { credits: 10, energy: 10, score: 0 } });
+  const player = currentPlayer(context);
+  data.fillNebulaData(context.nebulaDataState, "sector-2-a", { source: "test" });
+
+  const first = abilities.executeAbility("scanSector", context, { nebulaId: "sector-2-a" });
+  assert.equal(first.ok, true);
+  assert.equal(player.resources.score, 0);
+
+  const second = abilities.executeAbility("scanSector", context, { nebulaId: "sector-2-a" });
+  assert.equal(second.ok, true);
+  assert.equal(second.replaced.slotIndex, 2);
+  assert.equal(second.replaced.scoreAwarded, 2);
+  assert.equal(player.resources.score, 2);
+  assert.match(second.message, /第二格 \+2分/);
+
+  for (let index = second.commands.length - 1; index >= 0; index -= 1) {
+    second.commands[index].undo();
+  }
+
+  assert.equal(player.resources.score, 0);
+  assert.equal(data.listPoolTokens(player).length, 1);
+  assert.equal(
+    data.listNebulaTokens(context.nebulaDataState, "sector-2-a")
+      .filter((token) => token.replacedByPlayerId === player.id)
+      .length,
+    1,
+  );
+}
+
+{
   const context = createContext({ resources: { credits: 10, energy: 10 } });
   const launch = abilities.executeAbility("launchProbe", context, { skipCost: true });
   const rocketId = launch.rocket.id;

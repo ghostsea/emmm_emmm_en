@@ -674,12 +674,17 @@
 
     const label = nebulaPlacement.getNebulaLabel(nebulaId);
     const secondSlotScore = getNebulaSecondSlotScoreReward(token.slotIndex);
+    if (secondSlotScore && options.awardSecondSlotScore !== false) {
+      if (!player.resources) player.resources = {};
+      player.resources.score = (Number(player.resources.score) || 0) + secondSlotScore;
+    }
     return {
       ok: true,
       nebulaId,
       token,
       slotIndex: token.slotIndex,
       secondSlotScore,
+      scoreAwarded: options.awardSecondSlotScore === false ? 0 : secondSlotScore,
       player,
       stats: getNebulaReplacementStats(state, nebulaId),
       message: `${label} 槽位${token.slotIndex} 数据已替换为${playerLabel}token`

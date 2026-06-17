@@ -101,6 +101,13 @@
         tokenBefore,
       ),
     ];
+    if (replaceResult.scoreAwarded) {
+      commands.push(historyCommands.createResourceGainCommand(
+        currentPlayer,
+        { score: replaceResult.scoreAwarded },
+        `扫描第二格 +${replaceResult.scoreAwarded}分`,
+      ));
+    }
     if (shouldGainData) {
       commands.push(historyCommands.createGainDataCommand(currentPlayer, gainResult));
     }
@@ -112,8 +119,11 @@
     const dataMessage = shouldGainData
       ? (gainResult.ok ? "获得数据" : gainResult.message)
       : "不获得数据";
+    const scoreMessage = replaceResult.scoreAwarded
+      ? `；第二格 +${replaceResult.scoreAwarded}分`
+      : "";
     const message = `${prefix}：${label} 槽位${replaceResult.slotIndex}`
-      + ` 替换为${playerLabel}token；${dataMessage}`;
+      + ` 替换为${playerLabel}token${scoreMessage}；${dataMessage}`;
 
     return {
       ok: true,

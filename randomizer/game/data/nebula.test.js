@@ -78,7 +78,7 @@ const scanPlayer = {
   id: "player-blue",
   color: "blue",
   colorLabel: "蓝色",
-  resources: { availableData: 0 },
+  resources: { availableData: 0, score: 0 },
 };
 const firstReplace = data.replaceNextNebulaDataToken(scanState, "sector-1-a", scanPlayer, {
   playerTokenSrc: "../assets/tokens/normal_token-blue.png",
@@ -86,6 +86,8 @@ const firstReplace = data.replaceNextNebulaDataToken(scanState, "sector-1-a", sc
 assert.equal(firstReplace.ok, true);
 assert.equal(firstReplace.slotIndex, 1);
 assert.equal(firstReplace.secondSlotScore, 0);
+assert.equal(firstReplace.scoreAwarded, 0);
+assert.equal(scanPlayer.resources.score, 0);
 assert.equal(firstReplace.token.replacedByPlayerColor, "blue");
 assert.equal(firstReplace.token.playerTokenSrc, "../assets/tokens/normal_token-blue.png");
 assert.equal(data.getNebulaSecondSlotScoreReward(1), 0);
@@ -98,6 +100,8 @@ const secondReplace = data.replaceNextNebulaDataToken(scanState, "sector-1-a", s
 assert.equal(secondReplace.ok, true);
 assert.equal(secondReplace.slotIndex, 2);
 assert.equal(secondReplace.secondSlotScore, 2);
+assert.equal(secondReplace.scoreAwarded, 2);
+assert.equal(scanPlayer.resources.score, 2);
 
 const replacementStats = data.getNebulaReplacementStats(scanState, "sector-1-a");
 assert.equal(replacementStats.playerTokenCounts.blue, 2);

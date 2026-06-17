@@ -49,6 +49,35 @@
     };
   }
 
+  function createResourceGainCommand(player, gain, label) {
+    const awarded = { ...gain };
+    return {
+      label: label || "资源获得",
+      describe: label || "撤销资源获得",
+      undo() {
+        if (!player?.resources) return;
+        if (awarded.score != null) {
+          player.resources.score = (Number(player.resources.score) || 0) - awarded.score;
+        }
+        if (awarded.credits != null) {
+          player.resources.credits = (Number(player.resources.credits) || 0) - awarded.credits;
+        }
+        if (awarded.energy != null) {
+          player.resources.energy = (Number(player.resources.energy) || 0) - awarded.energy;
+        }
+        if (awarded.publicity != null) {
+          player.resources.publicity = Math.max(0, (Number(player.resources.publicity) || 0) - awarded.publicity);
+        }
+        if (awarded.additionalPublicScan != null) {
+          player.resources.additionalPublicScan = Math.max(
+            0,
+            (Number(player.resources.additionalPublicScan) || 0) - awarded.additionalPublicScan,
+          );
+        }
+      },
+    };
+  }
+
   function createNebulaReplaceCommand(nebulaDataState, nebulaId, tokenId, before) {
     return {
       label: `星云 ${nebulaId} 数据替换`,
@@ -239,6 +268,7 @@
   return Object.freeze({
     snapshotNebulaToken,
     createResourceSpendCommand,
+    createResourceGainCommand,
     createNebulaReplaceCommand,
     createGainDataCommand,
     createRestorePublicCardsCommand,
