@@ -229,7 +229,11 @@
         </div>
         <section class="table-panel player-hand-panel" id="player-hand-panel" aria-label="玩家手牌区">
           <div class="player-hand-panel-header">
-            <div class="panel-title" id="player-hand-panel-title">玩家手牌区</div>
+            <div class="panel-title player-hand-panel-title" id="player-hand-panel-title">
+              <span class="player-hand-panel-title-label">玩家手牌区</span>
+              <span class="player-hand-panel-title-count" id="player-hand-panel-hand-count" aria-label="当前手牌数"></span>
+              <span class="player-hand-panel-title-hint" id="player-hand-panel-title-hint"></span>
+            </div>
             <button class="play-card-action-button" type="button" id="play-card-action-button" hidden>打出</button>
             <button class="move-payment-confirm" type="button" id="move-payment-confirm" hidden>确认移动</button>
             <button class="hand-scan-cancel" type="button" id="hand-scan-cancel" hidden>取消扫描</button>
@@ -508,6 +512,7 @@
   <script src="./game/aliens/randomizer.js?v=aliens-2"></script>
   <script src="./game/aliens/render.js?v=aliens-2"></script>
   <script src="./game/aliens/index.js?v=aliens-2"></script>
+  <script src="./game/initial-cards.js?v=initial-cards-1"></script>
   <script src="./app.js?v=final-scoring-1"></script>
 </body>
 </html>

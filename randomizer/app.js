@@ -20,6 +20,7 @@
   const tech = window.SetiTech;
   const data = window.SetiData;
   const aliens = window.SetiAliens;
+  const initialCards = window.SetiInitialCards;
 
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
@@ -115,13 +116,13 @@
     "异屋实验室.png",
     "宇宙战略集团.jpg",
   ]);
-  const INITIAL_CARD_COUNT = 21;
+  const INITIAL_CARD_COUNT = initialCards?.INITIAL_CARD_COUNT || 21;
   const INITIAL_SELECTION_REQUIRED = Object.freeze({
     industry: 1,
     initial: 2,
   });
   const INITIAL_SELECTION_CARD_SIZE = Object.freeze({
-    industry: Object.freeze({ width: 747, height: 1040 }),
+    industry: Object.freeze({ width: 1382, height: 1054 }),
     initial: Object.freeze({ width: 744, height: 1039 }),
   });
   const solarState = solar.createBaselineState();
@@ -299,7 +300,47 @@
     movePaymentCancel: document.getElementById("move-payment-cancel"),
     handScanCancel: document.getElementById("hand-scan-cancel"),
     playerHandPanelTitle: document.getElementById("player-hand-panel-title"),
+    playerHandPanelHandCount: document.getElementById("player-hand-panel-hand-count"),
+    playerHandPanelTitleHint: document.getElementById("player-hand-panel-title-hint"),
   };
+
+  function getPlayerHandPanelTitleHint() {
+    if (isDiscardSelectionActive()) {
+      const remaining = cards.getDiscardRemaining(cardState);
+      return `（请选择 ${remaining} 张弃牌）`;
+    }
+    if (isHandScanSelectionActive()) {
+      return "（请选择一张牌进行扫描）";
+    }
+    if (isMovePaymentSelectionActive()) {
+      const required = pendingMovePayment?.requiredMovePoints || MOVE_ENERGY_COST;
+      return required > 1
+        ? `（需 ${required} 点移动力：可选移动牌，剩余用能量补齐）`
+        : "（可选移动牌弃置，或直接确认消耗 1 能量）";
+    }
+    if (isPlayCardSelectionActive()) {
+      return "（点击要打出的牌）";
+    }
+    return "";
+  }
+
+  function updatePlayerHandPanelTitle() {
+    if (!els.playerHandPanelTitle) return;
+
+    const player = getCurrentPlayer();
+    const count = Array.isArray(player?.hand)
+      ? player.hand.length
+      : Math.max(0, Math.round(Number(player?.resources?.handSize) || 0));
+
+    if (els.playerHandPanelHandCount) {
+      els.playerHandPanelHandCount.textContent = String(count);
+      els.playerHandPanelHandCount.classList.toggle("is-over-limit", count > 4);
+      els.playerHandPanelHandCount.setAttribute("aria-label", `当前手牌 ${count} 张`);
+    }
+    if (els.playerHandPanelTitleHint) {
+      els.playerHandPanelTitleHint.textContent = getPlayerHandPanelTitleHint();
+    }
+  }
 
   function getPublicCardHeight() {
     const row = els.publicCardRow;
@@ -515,15 +556,50 @@
       setupSelectionState.phase = "complete";
       setupSelectionState.currentPlayerId = null;
       playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
-      rocketState.statusNote = "所有玩家已完成初始选择，游戏开始。";
+      const initialResult = resolveInitialSelectionEffects();
+      rocketState.statusNote = initialResult?.message
+        ? `所有玩家已完成初始选择，${initialResult.message}，游戏开始。`
+        : "所有玩家已完成初始选择，游戏开始。";
     }
 
     renderDebugPlayerSwitch();
     renderPlayerStats();
     renderTechBoard();
+    renderSectorNebulaDataBoard();
+    syncPlanetOrbitLandMarkers();
+    renderAlienPanels();
+    renderPublicCards();
+    renderPlayerHand();
     renderRockets();
     updateActionButtons();
     renderStateReadout();
+  }
+
+  function resolveInitialSelectionEffects() {
+    if (!initialCards?.resolveInitialSelections) return null;
+
+    const context = {
+      ...createActionContext(),
+      alienGameState,
+    };
+    const result = initialCards.resolveInitialSelections(context, {
+      playerIds: getInitialSelectionPlayerIds(),
+    });
+    const hasSignalMarked = (result.events || []).some((event) => event?.type === "signalMarked");
+    const settleResult = hasSignalMarked
+      ? resolveCompletedSectorSettlements("initialSelection", {
+        markMainActionIrreversible: false,
+      })
+      : null;
+
+    if (settleResult?.ok) {
+      return {
+        ...result,
+        settlement: settleResult,
+        message: `${result.message}；${settleResult.message}；参与结算玩家各获得1宣传`,
+      };
+    }
+    return result;
   }
 
   function getCurrentInitialSelectionCards(player = getCurrentPlayer()) {
@@ -788,7 +864,6 @@
 
   function syncDiscardSelectionChrome() {
     const active = isDiscardSelectionActive();
-    const remaining = cards.getDiscardRemaining(cardState);
     els.appWrap?.classList.toggle("discard-selection-active", active);
     els.playerHandPanel?.classList.toggle("discard-selection-active", active);
     els.playerHandPanel?.classList.toggle("player-hand-panel-focused", active);
@@ -799,11 +874,7 @@
     if (els.discardSelectionCancel) {
       els.discardSelectionCancel.hidden = !active;
     }
-    if (els.playerHandPanelTitle) {
-      els.playerHandPanelTitle.textContent = active
-        ? `玩家手牌区（请选择 ${remaining} 张弃牌）`
-        : "玩家手牌区";
-    }
+    updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
   }
@@ -820,11 +891,7 @@
     if (els.handScanCancel) {
       els.handScanCancel.hidden = !active;
     }
-    if (els.playerHandPanelTitle) {
-      els.playerHandPanelTitle.textContent = active
-        ? "玩家手牌区（请选择一张牌进行扫描）"
-        : "玩家手牌区";
-    }
+    updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
   }
@@ -895,18 +962,7 @@
     if (els.movePaymentCancel) {
       els.movePaymentCancel.hidden = !active;
     }
-    if (els.playerHandPanelTitle && active) {
-      const required = pendingMovePayment?.requiredMovePoints || MOVE_ENERGY_COST;
-      els.playerHandPanelTitle.textContent = required > 1
-        ? `玩家手牌区（需 ${required} 点移动力：可选移动牌，剩余用能量补齐）`
-        : "玩家手牌区（可选移动牌弃置，或直接确认消耗 1 能量）";
-    } else if (
-      els.playerHandPanelTitle
-      && !isDiscardSelectionActive()
-      && !isPlayCardSelectionActive()
-    ) {
-      els.playerHandPanelTitle.textContent = "玩家手牌区";
-    }
+    updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
   }
@@ -1118,11 +1174,7 @@
       els.playCardActionButton.disabled = !active;
       els.playCardActionButton.title = active ? "点击卡牌打出，或点击此处取消" : "";
     }
-    if (els.playerHandPanelTitle && !isDiscardSelectionActive()) {
-      els.playerHandPanelTitle.textContent = active
-        ? "玩家手牌区（点击要打出的牌）"
-        : "玩家手牌区";
-    }
+    updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
   }
@@ -4466,6 +4518,7 @@
       els.buttonWrap.style.width = `${boardSize}px`;
     }
     layoutPlayerHandFan();
+    layoutReservedCardRows();
     alignAlienPanelsToPlanets();
     renderAlienPanels();
     renderTechBoard();
@@ -5662,6 +5715,13 @@
     layoutCardFan(els.reservedCardFan, cardCount);
   }
 
+  function layoutReservedCardRows() {
+    if (!els.reservedCardFan) return;
+    els.reservedCardFan.querySelectorAll(".reserved-card-row").forEach((row) => {
+      layoutCardFan(row);
+    });
+  }
+
   function renderPlayerHand() {
     if (!els.playerHandFan || !els.playerHandPanel) return;
 
@@ -5779,50 +5839,80 @@
     );
 
     if (isInitialSelectionActive()) {
-      layoutReservedCardFan(0);
       els.reservedCardFan.replaceChildren();
       return;
     }
 
-    layoutReservedCardFan(reservedCards.length);
-    els.reservedCardFan.replaceChildren(...reservedCards.map((card, index) => {
-      const ready = readyByCardId.get(card.id);
-      const completedTriggerIndexes = cardEffects.getConsumedTriggerIndexes(card);
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "reserved-card-button";
-      button.dataset.reservedIndex = String(index);
-      button.disabled = !ready;
-      button.style.setProperty("--card-index", String(index + 1));
-      button.classList.toggle("is-task-ready", Boolean(ready));
-      button.title = ready ? "任务已满足，点击确认完成" : "";
-
-      const image = document.createElement("img");
-      image.className = "player-hand-card reserved-card";
-      image.src = card.src || players.CARD_BACK_SRC;
-      image.alt = card.cardName || `保留牌 ${index + 1}`;
-      image.width = 747;
-      image.height = 1040;
-      image.decoding = "async";
-      image.setAttribute("aria-hidden", "true");
-      button.append(image);
-
-      if (completedTriggerIndexes.length) {
-        const badge = document.createElement("span");
-        badge.className = "reserved-card-trigger-badge";
-        badge.textContent = `已完成 ${completedTriggerIndexes.join("/")}`;
-        button.append(badge);
+    const taskCards = [];
+    const finalTaskCards = [];
+    reservedCards.forEach((card, index) => {
+      const entry = { card, index };
+      if (getCardTypeCode(card) === 3) {
+        finalTaskCards.push(entry);
+      } else {
+        taskCards.push(entry);
       }
+    });
 
-      if (ready) {
-        const badge = document.createElement("span");
-        badge.className = "reserved-card-task-badge";
-        badge.textContent = "完成任务";
-        button.append(badge);
-      }
+    const taskRow = createReservedCardRow("task", "1、2型任务牌");
+    taskRow.replaceChildren(...taskCards.map((entry, rowIndex) => (
+      createReservedCardButton(entry.card, entry.index, rowIndex, readyByCardId)
+    )));
 
-      return button;
-    }));
+    const finalRow = createReservedCardRow("final", "3型终局计分牌");
+    finalRow.replaceChildren(...finalTaskCards.map((entry, rowIndex) => (
+      createReservedCardButton(entry.card, entry.index, rowIndex, readyByCardId)
+    )));
+
+    els.reservedCardFan.replaceChildren(taskRow, finalRow);
+    layoutReservedCardRows();
+  }
+
+  function createReservedCardRow(rowType, label) {
+    const row = document.createElement("div");
+    row.className = `reserved-card-row reserved-card-row-${rowType}`;
+    row.dataset.reservedRow = rowType;
+    row.setAttribute("aria-label", label);
+    return row;
+  }
+
+  function createReservedCardButton(card, originalIndex, rowIndex, readyByCardId) {
+    const ready = readyByCardId.get(card.id);
+    const completedTriggerIndexes = cardEffects.getConsumedTriggerIndexes(card);
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "reserved-card-button";
+    button.dataset.reservedIndex = String(originalIndex);
+    button.disabled = !ready;
+    button.style.setProperty("--card-index", String(rowIndex + 1));
+    button.classList.toggle("is-task-ready", Boolean(ready));
+    button.title = ready ? "任务已满足，点击确认完成" : "";
+
+    const image = document.createElement("img");
+    image.className = "player-hand-card reserved-card";
+    image.src = card.src || players.CARD_BACK_SRC;
+    image.alt = card.cardName || `保留牌 ${originalIndex + 1}`;
+    image.width = 747;
+    image.height = 1040;
+    image.decoding = "async";
+    image.setAttribute("aria-hidden", "true");
+    button.append(image);
+
+    if (completedTriggerIndexes.length) {
+      const badge = document.createElement("span");
+      badge.className = "reserved-card-trigger-badge";
+      badge.textContent = `已完成 ${completedTriggerIndexes.join("/")}`;
+      button.append(badge);
+    }
+
+    if (ready) {
+      const badge = document.createElement("span");
+      badge.className = "reserved-card-task-badge";
+      badge.textContent = "完成任务";
+      button.append(badge);
+    }
+
+    return button;
   }
 
   function renderInitialSelectionArea() {
@@ -5998,7 +6088,6 @@
       createStatIcon("宣传", `${resources.publicity}/${limits.publicity}`, RESOURCE_ICON_SRC.publicity),
       createStatIcon("可用数据", `${resources.availableData}/${limits.availableData}`, RESOURCE_ICON_SRC.data),
       createStatIcon("额外公共扫描", resources.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
-      createStatIcon("手牌", resources.handSize, RESOURCE_ICON_SRC.card),
       createStatSeparator(),
       createStatIconMarker("收入", RESOURCE_ICON_SRC.income),
       createStatIcon("收入信用点", income.credits || 0, RESOURCE_ICON_SRC.credits),
@@ -6010,6 +6099,7 @@
     ];
 
     els.playerStats.replaceChildren(...stats);
+    updatePlayerHandPanelTitle();
     renderPlayerHand();
     renderReservedCards();
     renderPlayerDataBoard();
@@ -6080,6 +6170,7 @@
       rocketState,
       nebulaDataState,
       planetStatsState,
+      alienGameState,
       techBoardState: techGameState.board,
       techUiState: techGameState.ui,
       techGameState,

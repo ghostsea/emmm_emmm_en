@@ -1421,6 +1421,27 @@ body {
   min-width: 0;
 }
 
+.player-hand-panel-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 6px;
+}
+
+.player-hand-panel-title-count {
+  font-weight: 700;
+}
+
+.player-hand-panel-title-count.is-over-limit {
+  color: #ff6b6b;
+  font-weight: 800;
+}
+
+.player-hand-panel-title-hint {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .discard-selection-cancel,
 .play-card-action-button,
 .move-payment-confirm,
@@ -1708,7 +1729,7 @@ body {
 
 .reserved-card-content {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: center;
   gap: 12px;
   min-width: 0;
@@ -1719,7 +1740,7 @@ body {
 }
 
 .player-hand-fan,
-.reserved-card-fan {
+.reserved-card-row {
   display: flex;
   align-items: flex-end;
   justify-content: center;
@@ -1732,11 +1753,20 @@ body {
 .reserved-card-fan {
   flex: 1 1 auto;
   min-width: 0;
-  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 2px 12px 8px 0;
+  overflow: visible;
+}
+
+.reserved-card-row {
+  width: 100%;
+  padding: 0;
 }
 
 .player-hand-fan.is-spread,
-.reserved-card-fan.is-spread {
+.reserved-card-row.is-spread {
   justify-content: flex-start;
 }
 
@@ -1767,25 +1797,27 @@ body {
 }
 
 .reserved-card-panel.is-initial-selection-active .initial-selection-area {
-  padding: 4px 10px 8px;
+  padding: 0 8px 4px;
 }
 
 .initial-selection-picker {
   display: grid;
   grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
-  gap: 14px;
+  column-gap: 10px;
+  row-gap: 2px;
   align-items: start;
 }
 
 .initial-selection-section {
   min-width: 0;
+  align-self: start;
 }
 
 .initial-selection-section-title,
 .initial-selection-summary-title {
-  margin: 0 0 6px;
+  margin: 0 0 2px;
   color: rgba(232, 244, 255, 0.86);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0;
 }
@@ -1795,18 +1827,23 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
 }
 
 .initial-selection-section-industry .initial-selection-card-row {
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  align-self: start;
+  gap: 2px;
 }
 
 .initial-selection-section-initial .initial-selection-card-row {
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+  align-self: start;
 }
 
 .initial-selection-card-button {
@@ -1825,6 +1862,7 @@ body {
 
 .initial-selection-section-industry .initial-selection-card-button {
   width: 331px;
+  aspect-ratio: 1382 / 1054;
 }
 
 .initial-selection-section-initial .initial-selection-card-button {
@@ -1867,8 +1905,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: 10px;
-  min-height: 34px;
+  gap: 8px;
+  min-height: 24px;
 }
 
 .initial-selection-status {
@@ -1904,14 +1942,16 @@ body {
 
 .initial-selection-card-summary {
   width: calc(var(--card-width) * 2.3);
-  height: calc(var(--card-height) * 2.3);
+  height: auto;
+  aspect-ratio: 1382 / 1054;
   max-height: none;
   filter: drop-shadow(0 5px 8px rgba(0, 0, 0, 0.34));
 }
 
 .initial-selection-company-slot {
   width: calc(var(--card-width) * 2.3);
-  height: calc(var(--card-height) * 2.3);
+  height: auto;
+  aspect-ratio: 1382 / 1054;
   flex: 0 0 calc(var(--card-width) * 2.3);
   position: relative;
   z-index: 1004;
