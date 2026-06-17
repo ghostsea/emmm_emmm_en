@@ -95,5 +95,10 @@ assert.deepEqual(handPlayer.income, {
   availableData: 5,
   additionalPublicScan: 0,
 });
+assert.equal(handPlayer.resources.credits, players.DEFAULT_RESOURCES.credits + 1);
+assert.equal(handPlayer.resources.energy, players.DEFAULT_RESOURCES.energy + 2);
+assert.equal(handPlayer.hand.length, 4);
+assert.equal(handPlayer.resources.publicity, 4);
+assert.equal(handPlayer.resources.availableData, 5);
 
 console.log("player tests passed");

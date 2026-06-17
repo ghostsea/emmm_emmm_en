@@ -159,9 +159,16 @@
     });
   }
 
-  function applyIncome(player, gain, results) {
+  function applyIncome(context, player, gain, results) {
     if (!gain || !Object.keys(gain).length) return;
-    players.gainIncome(player, gain);
+    players.gainIncome(player, gain, {
+      blindDraw: (targetPlayer) => (
+        typeof context?.blindDrawCard === "function"
+          ? context.blindDrawCard(targetPlayer)
+          : cards.blindDraw(context.cardState, context.playerState, targetPlayer)
+      ),
+      gainData: (targetPlayer) => data.gainData(targetPlayer, { source: "initial_card" }),
+    });
     const labels = {
       credits: "信用点",
       energy: "能量",
@@ -313,7 +320,7 @@
     }
 
     applyResources(player, effect.resources, results);
-    applyIncome(player, effect.income, results);
+    applyIncome(context, player, effect.income, results);
     applyDataGain(player, effect.dataGain, results);
     applyBlindDraw(context, player, effect.blindDraw, results);
     applySectorScan(context, player, effect.scan, results, events);

@@ -85,10 +85,23 @@ function initialCard(number) {
   const context = createContext();
   const player = currentPlayer(context);
 
+  const incomeResult = initialCards.resolveInitialCardEffect(context, player, initialCard(7));
+
+  assert.equal(incomeResult.ok, true);
+  assert.equal(player.income.availableData, 1);
+  assert.equal(data.listPoolTokens(player).length, 1);
+  assert.equal(planetStats.getPlanetOrbitCount(context.planetStatsState, "uranus"), 1);
+}
+
+{
+  const context = createContext();
+  const player = currentPlayer(context);
+
   const incomeResult = initialCards.resolveInitialCardEffect(context, player, initialCard(9));
 
   assert.equal(incomeResult.ok, true);
   assert.equal(player.income.handSize, 1);
+  assert.equal(player.hand.length, 1);
   assert.equal(planetStats.getPlanetOrbitCount(context.planetStatsState, "neptune"), 1);
 
   const traceResult = initialCards.resolveInitialCardEffect(context, player, initialCard(10));

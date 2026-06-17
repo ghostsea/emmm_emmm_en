@@ -71,6 +71,23 @@
     availableData: "数据",
     additionalPublicScan: "额外公共扫描",
   });
+  const ACTION_LOG_SOURCE_LABELS = Object.freeze({
+    main: "主要行动",
+    quick: "快速行动",
+    setup: "初始选择",
+  });
+  const ACTION_LOG_DEFAULT_LABELS = Object.freeze({
+    launch: "发射行动",
+    orbit: "环绕行动",
+    land: "登陆行动",
+    scan: "扫描行动",
+    analyze: "分析数据",
+    playCard: "打牌行动",
+    researchTech: "科技行动",
+    pass: "PASS",
+    initialSelection: "初始选择",
+    quick: "快速行动",
+  });
   const PUBLIC_SCAN_MAX_BONUS_CARDS = 2;
   const DEBUG_QUICK_SECTOR_SCAN_EXTRA_LIMIT = 10;
   const PUBLIC_SCAN_TARGETS_BY_CODE = Object.freeze({
@@ -103,6 +120,7 @@
     Object.freeze({ id: "right-middle", percentX: 76.68, percentY: 49.96 }),
   ]);
   const DEFAULT_ACTIVE_PLAYER_COUNT = 1;
+  const DEFAULT_INITIAL_PLAYER_COLOR = players.DEFAULT_PLAYER_COLOR;
   const INDUSTRY_CARD_FILES = Object.freeze([
     "层云核心.jpg",
     "芬威克研究中心.jpg",
@@ -160,7 +178,14 @@
   const quickActionHistory = actionHistoryModule.createActionHistory();
   const HISTORY_SOURCE_MAIN = "main";
   const HISTORY_SOURCE_QUICK = "quick";
+  const HISTORY_SOURCE_SETUP = "setup";
   const historyStepOrder = [];
+  const actionLogState = {
+    entries: [],
+    draft: null,
+    nextEntryId: 1,
+    activeReportTab: "state",
+  };
   let effectStepActive = false;
   let moveHighlightRocketId = null;
   let pendingMovePayment = null;
@@ -278,7 +303,10 @@
     techBlueSlotActions: document.getElementById("tech-blue-slot-actions"),
     techBlueSlotCancel: document.getElementById("tech-blue-slot-cancel"),
     logToggle: document.getElementById("log-toggle"),
+    stateLogTab: document.getElementById("state-log-tab"),
+    actionLogTab: document.getElementById("action-log-tab"),
     stateReadout: document.getElementById("state-readout"),
+    actionLogReadout: document.getElementById("action-log-readout"),
     landTargetOverlay: document.getElementById("land-target-overlay"),
     landTargetTitle: document.getElementById("land-target-title"),
     landTargetSelect: document.getElementById("land-target-select"),
@@ -519,6 +547,36 @@
     renderStateReadout();
   }
 
+  function recordInitialSelectionActionLog(player, selectedIndustry, selectedInitialCards, initialResult = null) {
+    const initialLabels = selectedInitialCards.map((card) => card.label).filter(Boolean);
+    const steps = [];
+    if (selectedIndustry?.label) {
+      steps.push({
+        source: HISTORY_SOURCE_SETUP,
+        text: `选择公司：${selectedIndustry.label}`,
+      });
+    }
+    if (initialLabels.length) {
+      steps.push({
+        source: HISTORY_SOURCE_SETUP,
+        text: `移出初始牌：${initialLabels.join("、")}`,
+      });
+    }
+    if (initialResult?.message) {
+      steps.push({
+        source: HISTORY_SOURCE_SETUP,
+        text: `结算初始牌：${initialResult.message}`,
+      });
+    }
+    appendConfirmedActionLogEntry({
+      title: "初始选择",
+      player,
+      actionType: "initialSelection",
+      actionLabel: "初始选择",
+      steps,
+    });
+  }
+
   function confirmInitialSelectionForCurrentPlayer() {
     if (!isInitialSelectionActive()) return;
 
@@ -549,6 +607,7 @@
     const remainingPlayerId = getInitialSelectionPlayerIds()
       .find((playerId) => !isInitialSelectionConfirmed(playerId));
     if (remainingPlayerId) {
+      recordInitialSelectionActionLog(player, selectedIndustry, selectedInitialCards);
       setupSelectionState.currentPlayerId = remainingPlayerId;
       playerState.currentPlayerId = remainingPlayerId;
       rocketState.statusNote = `已确认 ${player.colorLabel}玩家，轮到 ${getPlayerLabelById(remainingPlayerId)} 初始选择。`;
@@ -557,6 +616,7 @@
       setupSelectionState.currentPlayerId = null;
       playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
       const initialResult = resolveInitialSelectionEffects();
+      recordInitialSelectionActionLog(player, selectedIndustry, selectedInitialCards, initialResult);
       rocketState.statusNote = initialResult?.message
         ? `所有玩家已完成初始选择，${initialResult.message}，游戏开始。`
         : "所有玩家已完成初始选择，游戏开始。";
@@ -668,6 +728,270 @@
     return player ? player.colorLabel || player.name || player.id : playerId;
   }
 
+  function getActionLogActionLabel(actionType, label) {
+    return label || ACTION_LOG_DEFAULT_LABELS[actionType] || actionType || "本回合行动";
+  }
+
+  function normalizeActionLogText(text) {
+    return String(text || "")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function composeActionLogStepText(label, detail) {
+    const cleanLabel = normalizeActionLogText(label);
+    const cleanDetail = normalizeActionLogText(detail);
+    if (!cleanDetail || cleanDetail === cleanLabel) return cleanLabel || "行动效果";
+    if (cleanDetail.startsWith(`${cleanLabel}：`) || cleanDetail.startsWith(`${cleanLabel}:`)) {
+      return cleanDetail;
+    }
+    if (!cleanLabel) return cleanDetail;
+    return `${cleanLabel}：${cleanDetail}`;
+  }
+
+  function ensureActionLogDraft(options = {}) {
+    const player = options.player || getCurrentPlayer();
+    const playerId = options.playerId || player?.id || playerState.currentPlayerId || null;
+    const playerLabel = options.playerLabel || getPlayerLabelById(playerId);
+    const isSameTurnDraft = actionLogState.draft
+      && actionLogState.draft.roundNumber === turnState.roundNumber
+      && actionLogState.draft.turnNumber === turnState.turnNumber
+      && actionLogState.draft.playerId === playerId;
+
+    if (!isSameTurnDraft) {
+      actionLogState.draft = {
+        roundNumber: turnState.roundNumber,
+        turnNumber: turnState.turnNumber,
+        playerId,
+        playerLabel,
+        actionType: null,
+        actionLabel: "本回合行动",
+        steps: [],
+      };
+    }
+
+    if (options.actionType) {
+      const draft = actionLogState.draft;
+      const shouldReplaceAction = options.source !== HISTORY_SOURCE_QUICK
+        || !draft.actionType
+        || draft.actionType === "quick";
+      if (shouldReplaceAction) {
+        draft.actionType = options.actionType;
+        draft.actionLabel = getActionLogActionLabel(options.actionType, options.label);
+      }
+    } else if (!actionLogState.draft.actionType && options.source === HISTORY_SOURCE_QUICK) {
+      actionLogState.draft.actionType = "quick";
+      actionLogState.draft.actionLabel = ACTION_LOG_DEFAULT_LABELS.quick;
+    }
+
+    return actionLogState.draft;
+  }
+
+  function startActionLogDraft(actionType, label, options = {}) {
+    return ensureActionLogDraft({
+      ...options,
+      actionType,
+      label: getActionLogActionLabel(actionType, label),
+    });
+  }
+
+  function appendActionLogStep(source, label, detail = null, options = {}) {
+    const draft = ensureActionLogDraft({
+      source,
+      actionType: options.actionType,
+      label: options.actionLabel,
+      player: options.player,
+    });
+    const text = composeActionLogStepText(label, detail);
+    if (!text) return null;
+    const step = {
+      source,
+      text,
+      label: normalizeActionLogText(label),
+      detail: normalizeActionLogText(detail),
+    };
+    draft.steps.push(step);
+    renderActionLog();
+    return step;
+  }
+
+  function removeLastActionLogStep(source) {
+    const draft = actionLogState.draft;
+    if (!draft?.steps?.length) return null;
+    for (let index = draft.steps.length - 1; index >= 0; index -= 1) {
+      if (!source || draft.steps[index].source === source) {
+        const [removed] = draft.steps.splice(index, 1);
+        pruneEmptyActionLogDraft();
+        renderActionLog();
+        return removed;
+      }
+    }
+    return null;
+  }
+
+  function removeActionLogStepsBySource(source) {
+    const draft = actionLogState.draft;
+    if (!draft?.steps?.length) {
+      pruneEmptyActionLogDraft();
+      renderActionLog();
+      return;
+    }
+    draft.steps = draft.steps.filter((step) => step.source !== source);
+    pruneEmptyActionLogDraft();
+    renderActionLog();
+  }
+
+  function pruneEmptyActionLogDraft() {
+    const draft = actionLogState.draft;
+    if (!draft) return;
+    if (!draft.steps.length && !actionHistory.hasSession() && !quickActionHistory.hasSession() && !pendingActionExecuted) {
+      actionLogState.draft = null;
+    }
+  }
+
+  function resetActionLog() {
+    actionLogState.entries = [];
+    actionLogState.draft = null;
+    actionLogState.nextEntryId = 1;
+    renderActionLog();
+  }
+
+  function commitActionLogDraft(options = {}) {
+    const draft = actionLogState.draft;
+    if (!draft) return null;
+    const hasSteps = draft.steps.length > 0;
+    const shouldCommit = hasSteps || options.force;
+    if (!shouldCommit) {
+      actionLogState.draft = null;
+      renderActionLog();
+      return null;
+    }
+
+    const entry = {
+      id: actionLogState.nextEntryId,
+      roundNumber: draft.roundNumber,
+      turnNumber: draft.turnNumber,
+      playerId: draft.playerId,
+      playerLabel: draft.playerLabel,
+      actionType: draft.actionType || options.actionType || "turn",
+      actionLabel: draft.actionLabel || getActionLogActionLabel(options.actionType, options.actionLabel),
+      passed: Boolean(options.passed),
+      steps: draft.steps.map((step) => ({ ...step })),
+    };
+    actionLogState.nextEntryId += 1;
+    actionLogState.entries.push(entry);
+    actionLogState.draft = null;
+    renderActionLog();
+    return entry;
+  }
+
+  function appendConfirmedActionLogEntry(entryInput) {
+    const player = entryInput.player || getCurrentPlayer();
+    const playerId = entryInput.playerId || player?.id || null;
+    const entry = {
+      id: actionLogState.nextEntryId,
+      roundNumber: entryInput.roundNumber ?? turnState.roundNumber,
+      turnNumber: entryInput.turnNumber ?? turnState.turnNumber,
+      title: entryInput.title || null,
+      playerId,
+      playerLabel: entryInput.playerLabel || getPlayerLabelById(playerId),
+      actionType: entryInput.actionType || "turn",
+      actionLabel: getActionLogActionLabel(entryInput.actionType, entryInput.actionLabel),
+      passed: Boolean(entryInput.passed),
+      steps: (entryInput.steps || []).map((step) => ({
+        source: step.source || HISTORY_SOURCE_MAIN,
+        text: normalizeActionLogText(step.text || composeActionLogStepText(step.label, step.detail)),
+        label: normalizeActionLogText(step.label),
+        detail: normalizeActionLogText(step.detail),
+      })).filter((step) => step.text),
+    };
+    actionLogState.nextEntryId += 1;
+    actionLogState.entries.push(entry);
+    renderActionLog();
+    return entry;
+  }
+
+  function getActionLogEntryTitle(entry) {
+    return entry.title || `第${entry.roundNumber}轮 第${entry.turnNumber}回合`;
+  }
+
+  function createActionLogEntryElement(entry) {
+    const article = document.createElement("article");
+    article.className = "action-log-entry";
+    article.dataset.actionLogId = String(entry.id);
+
+    const header = document.createElement("div");
+    header.className = "action-log-entry-header";
+
+    const title = document.createElement("div");
+    title.className = "action-log-entry-title";
+    title.textContent = getActionLogEntryTitle(entry);
+
+    const sequence = document.createElement("div");
+    sequence.className = "action-log-entry-sequence";
+    sequence.textContent = `#${entry.id}`;
+
+    const meta = document.createElement("div");
+    meta.className = "action-log-entry-meta";
+    meta.textContent = `${entry.playerLabel || "未知玩家"} · ${entry.actionLabel || "本回合行动"}`;
+
+    header.append(title, sequence, meta);
+
+    const list = document.createElement("ol");
+    list.className = "action-log-effects";
+    entry.steps.forEach((step, index) => {
+      const item = document.createElement("li");
+      item.className = `action-log-effect action-log-effect-${step.source || "main"}`;
+
+      const indexNode = document.createElement("span");
+      indexNode.className = "action-log-effect-index";
+      indexNode.textContent = String(index + 1);
+
+      const text = document.createElement("span");
+      text.className = "action-log-effect-text";
+      const sourceLabel = ACTION_LOG_SOURCE_LABELS[step.source] || "行动";
+      text.textContent = `${sourceLabel}：${step.text}`;
+
+      item.append(indexNode, text);
+      list.append(item);
+    });
+
+    article.append(header, list);
+    return article;
+  }
+
+  function renderActionLog() {
+    if (!els.actionLogReadout) return;
+    const entries = actionLogState.entries;
+    if (!entries.length) {
+      const empty = document.createElement("p");
+      empty.className = "action-log-empty";
+      empty.textContent = "暂无已确认的行动。";
+      els.actionLogReadout.replaceChildren(empty);
+      return;
+    }
+
+    const list = document.createElement("div");
+    list.className = "action-log-list";
+    for (const entry of entries.slice().reverse()) {
+      list.append(createActionLogEntryElement(entry));
+    }
+    els.actionLogReadout.replaceChildren(list);
+  }
+
+  function setReportTab(tab) {
+    const nextTab = tab === "action" ? "action" : "state";
+    actionLogState.activeReportTab = nextTab;
+    const stateActive = nextTab === "state";
+    els.stateLogTab?.classList.toggle("is-active", stateActive);
+    els.actionLogTab?.classList.toggle("is-active", !stateActive);
+    els.stateLogTab?.setAttribute("aria-selected", String(stateActive));
+    els.actionLogTab?.setAttribute("aria-selected", String(!stateActive));
+    if (els.stateReadout) els.stateReadout.hidden = !stateActive;
+    if (els.actionLogReadout) els.actionLogReadout.hidden = stateActive;
+    if (!stateActive) renderActionLog();
+  }
+
   function setTurnStatePlayerOrder(playerIds, options = {}) {
     const validPlayerIds = playerIds.filter((playerId) => getPlayerById(playerId));
     if (!validPlayerIds.length) return;
@@ -690,7 +1014,10 @@
 
   function randomizePlayerTurnOrder() {
     const playerIds = playerState.players.map((player) => player.id);
-    setTurnStatePlayerOrder(shufflePlayerIds(playerIds), {
+    const defaultPlayerId = playerState.players.find((player) => player.color === DEFAULT_INITIAL_PLAYER_COLOR)?.id;
+    const shuffledIds = shufflePlayerIds(playerIds.filter((playerId) => playerId !== defaultPlayerId));
+    const orderedIds = defaultPlayerId ? [defaultPlayerId, ...shuffledIds] : shufflePlayerIds(playerIds);
+    setTurnStatePlayerOrder(orderedIds, {
       activePlayerCount: turnState.activePlayerCount || DEFAULT_ACTIVE_PLAYER_COUNT,
     });
   }
@@ -1594,12 +1921,15 @@
       };
     }
 
-    players.gainIncome(player, gain);
+    players.gainIncome(player, gain, {
+      blindDraw: (targetPlayer) => blindDrawCardForPlayer(targetPlayer),
+      gainData: (targetPlayer) => data.gainData(targetPlayer, { source: "income" }),
+    });
     return {
       ok: true,
       incomeCode,
       gain,
-      message: `收入：弃掉 ${cards.getCardLabel(card)}，${formatIncomeGain(gain)}`,
+      message: `收入：弃掉 ${cards.getCardLabel(card)}，${formatIncomeGain(gain)}（已即时获得）`,
     };
   }
 
@@ -1652,6 +1982,12 @@
       rocketState.statusNote += `，公共区已补牌：${cards.getCardLabel(result.replenished)}`;
     }
     if (pending?.type === "trade" && pending.beforeTradeState) {
+      const trade = quickTrades.getTradeAction(pending.tradeId);
+      appendActionLogStep(
+        HISTORY_SOURCE_QUICK,
+        trade ? `快速交易：${trade.label}` : "快速交易精选",
+        rocketState.statusNote,
+      );
       clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
       if (quickActionHistory.hasSession()) quickActionHistory.commitSession();
     }
@@ -1690,6 +2026,7 @@
       completeCurrentActionEffect();
     }
     if (pending?.type === "place_data_choose_card") {
+      appendActionLogStep(HISTORY_SOURCE_QUICK, "放置数据", rocketState.statusNote);
       clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
       if (quickActionHistory.hasSession()) quickActionHistory.commitSession();
     }
@@ -2780,14 +3117,21 @@
     if (actionHistory.hasSession()) {
       actionHistory.rollbackSession();
       clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+      removeActionLogStepsBySource(HISTORY_SOURCE_MAIN);
       effectStepActive = false;
     }
+    startActionLogDraft(actionType, label, { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession(actionType, label);
     actionHistory.beginStep({ type: "action", label });
     effectStepActive = true;
   }
 
   function beginQuickActionStep(actionType, label) {
+    ensureActionLogDraft({
+      source: HISTORY_SOURCE_QUICK,
+      actionType: actionLogState.draft?.actionType || "quick",
+      label: actionLogState.draft?.actionType ? actionLogState.draft.actionLabel : ACTION_LOG_DEFAULT_LABELS.quick,
+    });
     if (!quickActionHistory.hasSession()) {
       quickActionHistory.beginSession("quick", "快速行动");
     }
@@ -2801,7 +3145,10 @@
 
   function completeQuickActionStep() {
     const step = quickActionHistory.endStep();
-    if (step) rememberHistoryStep(HISTORY_SOURCE_QUICK);
+    if (step) {
+      rememberHistoryStep(HISTORY_SOURCE_QUICK);
+      appendActionLogStep(HISTORY_SOURCE_QUICK, step.label);
+    }
   }
 
   function rememberHistoryStep(source) {
@@ -2870,6 +3217,7 @@
   }
 
   function recordPlayCardStart(player, card, beforePlayer, beforeCardState) {
+    startActionLogDraft("playCard", "打牌行动", { source: HISTORY_SOURCE_MAIN, player });
     actionHistory.beginSession("playCard", "打牌行动");
     actionHistory.beginStep({
       type: "action_start",
@@ -3211,6 +3559,7 @@
     if (!rewardEffects.length) return false;
 
     const actionLabel = actionType === "orbit" ? "环绕" : "登陆";
+    startActionLogDraft(actionType, `${actionLabel}行动`, { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession(actionType, `${actionLabel}行动`);
     actionHistory.beginStep({
       type: "action_start",
@@ -3238,6 +3587,7 @@
   function startResearchTechEffectFlow(result) {
     if (!result?.ok || !result.awaitingTileSelection) return false;
 
+    startActionLogDraft("researchTech", "科技行动", { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession("researchTech", "科技行动");
     pendingActionEffectFlow = abilities.chain.startAbilityChain(
       "researchTech",
@@ -3405,10 +3755,15 @@
   }
 
   function endEffectHistoryStep() {
-    if (!effectStepActive) return;
+    if (!effectStepActive) return null;
+    const currentEffect = getCurrentActionEffect();
     const step = actionHistory.endStep();
-    if (step) rememberHistoryStep(HISTORY_SOURCE_MAIN);
+    if (step) {
+      rememberHistoryStep(HISTORY_SOURCE_MAIN);
+      appendActionLogStep(HISTORY_SOURCE_MAIN, step.label, currentEffect?.result?.message || null);
+    }
     effectStepActive = false;
+    return step;
   }
 
   function refreshAfterHistoryChange(message) {
@@ -3569,7 +3924,7 @@
     if (!current || current.status !== "active") return;
 
     cancelActiveEffectSubFlows();
-    beginEffectHistoryStep(current.label);
+    beginEffectHistoryStep(`跳过：${current.label}`);
     endEffectHistoryStep();
     rocketState.statusNote = `已跳过：${current.label}`;
     completeCurrentActionEffect("skipped");
@@ -3646,7 +4001,11 @@
     if (!current || current.status !== "active") return;
 
     cancelActiveEffectSubFlows();
+    const hadHistoryStep = effectStepActive;
     endEffectHistoryStep();
+    if (!hadHistoryStep && status !== "skipped") {
+      appendActionLogStep(HISTORY_SOURCE_MAIN, current.label, current.result?.message || null);
+    }
     if (status === "skipped") {
       abilities.chain.skipCurrentChainNode(pendingActionEffectFlow);
     } else {
@@ -4490,6 +4849,7 @@
       return check;
     }
 
+    startActionLogDraft("scan", "扫描行动", { source: HISTORY_SOURCE_MAIN, player: currentPlayer });
     actionHistory.beginSession("scan", "扫描行动");
     pendingActionEffectFlow = abilities.chain.startAbilityChain(
       "scan",
@@ -4911,6 +5271,7 @@
     if (pendingActionEffectFlow?.actionType === "researchTech") {
       actionHistory.rollbackSession();
       clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+      removeActionLogStepsBySource(HISTORY_SOURCE_MAIN);
       effectStepActive = false;
       clearActionEffectFlow();
     }
@@ -6248,6 +6609,7 @@
     }
 
     pendingPassPlayerId = currentPlayer.id;
+    startActionLogDraft("pass", "PASS", { source: HISTORY_SOURCE_MAIN, player: currentPlayer });
     actionHistory.beginSession("pass", "PASS");
     actionHistory.beginStep({
       type: "action_start",
@@ -6270,6 +6632,11 @@
     const didPass = pendingPassPlayerId === endingPlayerId;
 
     endEffectHistoryStep();
+    commitActionLogDraft({
+      passed: didPass,
+      actionType: didPass ? "pass" : actionHistory.getSessionInfo()?.actionType,
+      actionLabel: didPass ? "PASS" : actionHistory.getSessionInfo()?.label,
+    });
     actionHistory.commitSession();
     clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
     if (quickActionHistory.hasSession()) {
@@ -6320,6 +6687,7 @@
       const result = quickActionHistory.undoLastStep();
       if (result.ok) {
         forgetLastHistoryStep(HISTORY_SOURCE_QUICK);
+        removeLastActionLogStep(HISTORY_SOURCE_QUICK);
       }
       if (result.ok && !quickActionHistory.hasUndoableStep()) {
         quickActionHistory.commitSession();
@@ -6342,6 +6710,7 @@
         const result = actionHistory.undoLastStep();
         if (result.ok) {
           forgetLastHistoryStep(HISTORY_SOURCE_MAIN);
+          removeLastActionLogStep(HISTORY_SOURCE_MAIN);
           revertEffectFlowAfterUndo(result.step);
           refreshAfterHistoryChange(result.message);
           if (!isActionEffectFlowActive()) {
@@ -6358,6 +6727,7 @@
       const result = actionHistory.rollbackSession();
       effectStepActive = false;
       clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+      removeActionLogStepsBySource(HISTORY_SOURCE_MAIN);
       clearActionEffectFlow();
       clearActionPending();
       refreshAfterHistoryChange(result.ok ? result.message : "已撤销当前行动");
@@ -7210,8 +7580,8 @@
     ].join("、");
 
     rocketState.statusNote = drawError
-      ? `执行收入：${summary}，${drawError}`
-      : `执行收入：${summary}`;
+      ? `执行收入（调试，可能重复发放）：${summary}，${drawError}`
+      : `执行收入（调试，可能重复发放）：${summary}`;
     renderPlayerStats();
     renderPublicCards();
     updatePublicCardControls();
@@ -7480,6 +7850,7 @@
 
   function randomizeAll() {
     els.spinButton?.classList.remove("pulsin");
+    resetActionLog();
     randomizePlayerTurnOrder();
     randomizeWheels();
     randomizeSectors();
@@ -7805,8 +8176,15 @@
   els.logToggle.addEventListener("click", () => {
     setLogOpen(els.appWrap.classList.contains("log-collapsed"));
   });
+  els.stateLogTab?.addEventListener("click", () => {
+    setReportTab("state");
+  });
+  els.actionLogTab?.addEventListener("click", () => {
+    setReportTab("action");
+  });
   window.addEventListener("resize", resize);
   setTokenAssetSizes();
+  setReportTab("state");
   setLogOpen(false);
   initializeCardGame(10);
   seedDefaultReferenceRockets();
@@ -7967,6 +8345,7 @@
       roundOrderPlayerIds: getRoundOrderPlayerIds(),
       currentPlayerId: playerState.currentPlayerId,
     }),
+    getActionLog: () => structuredClone(actionLogState.entries),
     getPlanetStatsState: () => structuredClone(planetStatsState),
     getCurrentPlayer: () => structuredClone(getCurrentPlayer()),
     getState: () => structuredClone({

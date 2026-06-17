@@ -457,8 +457,15 @@
     </aside>
 
     <aside class="report-dock" id="report-dock">
-      <button class="log-toggle" type="button" id="log-toggle" aria-controls="state-readout" aria-expanded="false">日志</button>
-      <output class="state-readout" id="state-readout" aria-live="polite"></output>
+      <button class="log-toggle" type="button" id="log-toggle" aria-controls="report-panel" aria-expanded="false">日志</button>
+      <div class="report-panel" id="report-panel">
+        <div class="report-tabs" role="tablist" aria-label="日志类型">
+          <button class="report-tab is-active" type="button" id="state-log-tab" data-report-tab="state" role="tab" aria-selected="true" aria-controls="state-readout">状态日志</button>
+          <button class="report-tab" type="button" id="action-log-tab" data-report-tab="action" role="tab" aria-selected="false" aria-controls="action-log-readout">行动日志</button>
+        </div>
+        <output class="state-readout" id="state-readout" role="tabpanel" aria-labelledby="state-log-tab" aria-live="polite"></output>
+        <div class="action-log-readout" id="action-log-readout" role="tabpanel" aria-labelledby="action-log-tab" hidden></div>
+      </div>
     </aside>
   </div>
 

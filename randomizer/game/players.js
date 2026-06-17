@@ -322,17 +322,66 @@
     return player;
   }
 
-  function gainIncome(player, gain) {
+  const IMMEDIATE_INCOME_RESOURCE_KEYS = Object.freeze([
+    "credits",
+    "energy",
+    "publicity",
+    "additionalPublicScan",
+  ]);
+
+  function applyImmediateIncomeReward(player, gain, options = {}) {
+    const reward = gain || {};
+    const directResourceGain = {};
+
+    for (const key of IMMEDIATE_INCOME_RESOURCE_KEYS) {
+      if (reward[key] != null) {
+        directResourceGain[key] = normalizeNumber(reward[key], 0);
+      }
+    }
+
+    if (Object.keys(directResourceGain).length) {
+      gainResources(player, directResourceGain);
+    }
+
+    const dataCount = Math.max(0, Math.round(normalizeNumber(reward.availableData, 0)));
+    if (dataCount > 0) {
+      if (typeof options.gainData === "function") {
+        for (let index = 0; index < dataCount; index += 1) {
+          options.gainData(player);
+        }
+      } else {
+        gainResources(player, { availableData: dataCount });
+      }
+    }
+
+    const handCount = Math.max(0, Math.round(normalizeNumber(reward.handSize, 0)));
+    if (handCount > 0) {
+      if (typeof options.blindDraw === "function") {
+        for (let index = 0; index < handCount; index += 1) {
+          options.blindDraw(player);
+        }
+      } else {
+        gainResources(player, { handSize: handCount });
+      }
+    }
+  }
+
+  function gainIncome(player, gain, options = {}) {
     if (!player) return null;
     if (!player.income) player.income = normalizeIncome(null);
     const reward = gain || {};
+    const normalizedGain = {};
 
     for (const key of Object.keys(DEFAULT_INCOME)) {
       if (reward[key] != null) {
         const value = normalizeNumber(reward[key], 0);
+        if (value <= 0) continue;
+        normalizedGain[key] = value;
         player.income[key] = Math.max(0, (player.income[key] || 0) + value);
       }
     }
+
+    applyImmediateIncomeReward(player, normalizedGain, options);
 
     return player.income;
   }
