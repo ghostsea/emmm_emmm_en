@@ -39,7 +39,8 @@
 - 公司候选牌约以 3.45 倍普通保留牌宽度竖向排列，选中的公司牌会显示加粗金色边框；初始牌候选以普通保留牌尺寸的 1.3 倍竖向排列；初始选择区左右分栏为公司:初始牌 = 2:1。
 - 3 选 2 初始牌在确认前始终保留显示，已选初始牌显示加粗金色边框；确认按钮要求已选择 1 张公司和 2 张初始牌，确认后这 2 张初始牌移出游戏且不再显示。
 - 玩家确认后，选择结果写入该玩家 `initialSelection`；全部启用玩家确认后，`randomizer/game/initial-cards.js` 会按所有玩家选定的公司牌和初始牌统一结算，之后初始选择阶段结束并解锁正常行动。
-- 初始选择结束后，任务/保留牌区最左侧固定显示当前玩家已选公司牌，公司牌为普通保留牌尺寸的 2.3 倍，初始牌不再显示。
+- 初始选择结束后，任务/保留牌区最左侧固定显示当前玩家已选公司牌左半幅（可见宽约普通保留牌 1.38 倍，即半幅基准 1.15 倍再放大 20%），初始牌不再显示。
+- 除异星实验室外，公司牌左下角「1x」圆标位置由 `randomizer/game/industry/placement.js` 的 `INDUSTRY_ACTION_MARKER_SLOTS` 定义（百分比坐标）；未放置标记时公司牌外框蓝色高亮，放置后取消高亮。玩家可在该区域点击放置 `normal_token` 标记，每轮每玩家仅可触发一次，状态写入 `player.industryRoundMarkRound` 并与 `turnState.roundNumber` 比较；放置作为快速行动记录，可通过撤销按钮撤回。
 - 选择公司后，保留牌区右侧分两行显示：第一行放 1 / 2 型任务牌，并按手牌区方式在牌多时部分覆盖；第二行暂时只放 3 型终局计分牌。
 
 初始效果结算：
@@ -375,6 +376,7 @@ UI 校准：
 - 人工卡牌描述转可执行 DSL 的规范参考：`docs\card-modeling-dsl-spec.md`。后续新增卡牌模型时，先按该文档约束人工描述和 agent 转换，尤其要明确效果节点 `kind`、费用策略、任务类型和队列结束结算时机。
 - 卡牌源数据保持 CSV，方便手工校对和继续补内容。当前 `assets/cards/card_model.csv` 主要承载本仓库资产编号、费用、角标和切图元数据；效果语义按 `D:\code\ender_seti\seti` 参考实现迁移到 `randomizer/game/cards/effects.js`。
 - `randomizer/game/cards/effects.js` 维护 `CARD_REFERENCE_MAP`、`MODELS` 和 `DEFERRED_CARD_MODELS`：`CARD_REFERENCE_MAP` 固化 `b_N.webp -> ender_seti` 基础卡 ID；`MODELS` 是已可执行或部分可执行模型；`DEFERRED_CARD_MODELS` 记录当前原型缺能力而遗留的卡牌、参考类和缺失能力。打牌时通过 `getRuntimeCardTypeCode(card, fallback)` 优先使用模型类型，避免 CSV 类型与参考实现冲突导致误入任务区。
+- `randomizer/game/cards/task-state.js` 维护 1 / 2 型任务统一状态：`refreshTaskState` 汇总当前玩家 2 型可完成任务与 1 型保留牌触发进度；`collectType1TriggerMatches` 聚合事件触发的 1 型匹配。`app.js` 在每次主行动效果结算（`completeCurrentActionEffect`）及快速行动/调试等状态变更后调用 `settleCardTasksAfterEffect`：先刷新 2 型高亮，再按 events 处理 1 型触发（同条件多槽仍只选 1 个）。
 - 当前基础牌 `b_1.webp` 到 `b_70.webp` 已全部建立参考映射：29 张 `implemented`、6 张 `partial`、35 张 `deferred`。详细状态见 `docs\card-ability-migration-plan.md`。已迁移模型遵循：
   - 0 型卡：打出后展开为 `play_effect` 效果队列，复用现有扫描、公共牌扫描、盲抽、科技、发射、卡牌内免费移动等效果执行器。
   - 1 型卡：打出后进入保留牌区，并在移动等事件完成瞬间检查触发条件；若多个触发槽同时满足，会弹出触发选择，只结算 1 个，也可以取消。已结算的触发槽会在牌面标记序号；全部触发槽结算后，完成任务数 +1 并移除该牌。
@@ -406,8 +408,10 @@ node randomizer/game/actions/planet-rewards.test.js
 node randomizer/game/actions/quick-trades.test.js
 node randomizer/game/cards/deck.test.js
 node randomizer/game/cards/effects.test.js
+node randomizer/game/cards/task-state.test.js
 node randomizer/game/basic-cards.test.js
 node randomizer/game/initial-cards.test.js
+node randomizer/game/industry/industry.test.js
 node randomizer/game/history/action-history.test.js
 node randomizer/game/history/commands.test.js
 node randomizer/game/rockets.move.test.js

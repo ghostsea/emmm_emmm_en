@@ -18,10 +18,13 @@
   const basicCards = window.SetiBasicCards;
   const cards = window.SetiCards;
   const cardEffects = window.SetiCardEffects;
+  const cardTaskStateModule = window.SetiCardTaskState;
   const tech = window.SetiTech;
   const data = window.SetiData;
   const aliens = window.SetiAliens;
   const initialCards = window.SetiInitialCards;
+  const industryPlacement = window.SetiIndustryPlacement;
+  const industryState = window.SetiIndustryState;
 
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
@@ -171,6 +174,7 @@
   let pendingCardTriggerAction = null;
   let pendingCardTriggerFreeMove = null;
   let pendingCardTaskCompletion = null;
+  const cardTaskState = cardTaskStateModule.createTaskState();
   let alienTracePickerState = null;
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
@@ -1552,7 +1556,7 @@
       clearMoveRocketHighlight();
       rocketState.statusNote = `${paymentNote}，${moveResult.message}`;
       recordMoveActionHistory(moveResult, discardCommand);
-      handleCardTriggerEvents(moveResult.events);
+      settleCardTasksAfterEffect({ events: moveResult.events, render: false });
     } else {
       rocketState.statusNote = moveResult.message;
     }
@@ -3618,14 +3622,110 @@
   function getReadyCardTasks() {
     const currentPlayer = getCurrentPlayer();
     if (!currentPlayer) return [];
-    return cardEffects.collectReadyTasks(
+    cardTaskStateModule.refreshTaskState(
+      cardTaskState,
       currentPlayer,
       buildCardTaskContext(),
+      cardEffects,
     );
+    return cardTaskStateModule.getReadyType2Tasks(cardTaskState);
+  }
+
+  function refreshCardTaskState(options = {}) {
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer) {
+      cardTaskStateModule.refreshTaskState(cardTaskState, null, buildCardTaskContext(), cardEffects);
+      return cardTaskState;
+    }
+    cardTaskStateModule.refreshTaskState(
+      cardTaskState,
+      currentPlayer,
+      buildCardTaskContext(),
+      cardEffects,
+    );
+    if (options.render !== false) {
+      renderReservedCardsFromTaskState();
+    }
+    return cardTaskState;
+  }
+
+  function renderReservedCardsFromTaskState() {
+    if (!els.reservedCardFan || !els.reservedCardPanel) return;
+
+    const currentPlayer = getCurrentPlayer();
+    const reservedCards = Array.isArray(currentPlayer?.reservedCards) ? currentPlayer.reservedCards : [];
+    cardTaskStateModule.refreshTaskState(
+      cardTaskState,
+      currentPlayer,
+      buildCardTaskContext(),
+      cardEffects,
+    );
+    const readyByCardId = cardTaskState.readyType2ByCardId;
+    const title = els.reservedCardPanel.querySelector(".panel-title");
+    if (title) {
+      title.textContent = isInitialSelectionActive()
+        ? `初始选择 · ${currentPlayer.colorLabel}玩家`
+        : `保留牌区 · 完成任务 ${currentPlayer.completedTaskCount || 0}`;
+    }
+    els.reservedCardPanel.classList.toggle("is-initial-selection-active", isInitialSelectionActive());
+    renderInitialSelectionArea();
+    els.reservedCardPanel.classList.toggle(
+      "is-empty",
+      !isInitialSelectionActive()
+        && reservedCards.length === 0
+        && getCurrentInitialSelectionCards(currentPlayer).length === 0,
+    );
+
+    if (isInitialSelectionActive()) {
+      els.reservedCardFan.replaceChildren();
+      return;
+    }
+
+    const taskCards = [];
+    const finalTaskCards = [];
+    reservedCards.forEach((card, index) => {
+      const entry = { card, index };
+      if (getCardTypeCode(card) === 3) {
+        finalTaskCards.push(entry);
+      } else {
+        taskCards.push(entry);
+      }
+    });
+
+    const taskRow = createReservedCardRow("task", "1、2型任务牌");
+    taskRow.replaceChildren(...taskCards.map((entry, rowIndex) => (
+      createReservedCardButton(entry.card, entry.index, rowIndex, readyByCardId)
+    )));
+
+    const finalRow = createReservedCardRow("final", "3型终局计分牌");
+    finalRow.replaceChildren(...finalTaskCards.map((entry, rowIndex) => (
+      createReservedCardButton(entry.card, entry.index, rowIndex, readyByCardId)
+    )));
+
+    els.reservedCardFan.replaceChildren(taskRow, finalRow);
+    layoutReservedCardRows();
+  }
+
+  function applyType1TriggerMatches(events) {
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer || !events?.length) return null;
+    if (pendingCardTriggerAction || pendingCardTriggerFreeMove || pendingCardCornerFreeMove) return null;
+
+    const matches = cardTaskStateModule.collectType1TriggerMatches(currentPlayer, events, cardEffects);
+    if (!matches.length) return null;
+    return matches.length === 1 ? applyCardTriggerMatch(matches[0]) : openCardTriggerPicker(matches);
+  }
+
+  function settleCardTasksAfterEffect(options = {}) {
+    const { events, skipType1 = false, render = true } = options;
+    refreshCardTaskState({ render });
+    if (skipType1 || !events?.length) return null;
+    return applyType1TriggerMatches(events);
   }
 
   function getReadyTaskForReservedCard(card) {
-    return getReadyCardTasks().find((ready) => ready.card?.id === card?.id) || null;
+    refreshCardTaskState({ render: false });
+    return cardTaskStateModule.getReadyType2ForCard(cardTaskState, card?.id) || null;
   }
 
   function incrementCompletedTaskCount(player) {
@@ -3846,17 +3946,6 @@
     return applyCardTriggerMatch(match);
   }
 
-  function handleCardTriggerEvents(events) {
-    const currentPlayer = getCurrentPlayer();
-    if (!currentPlayer || pendingCardTriggerAction || pendingCardTriggerFreeMove || pendingCardCornerFreeMove) return null;
-    const matches = [];
-    for (const event of events || []) {
-      matches.push(...cardEffects.collectMatchingTriggers(currentPlayer, event));
-    }
-    if (!matches.length) return null;
-    return matches.length === 1 ? applyCardTriggerMatch(matches[0]) : openCardTriggerPicker(matches);
-  }
-
   function executeFreeMoveForCardTrigger(deltaX, deltaY, rocketId) {
     const pending = pendingCardTriggerFreeMove;
     if (!pending) return { ok: false, message: "没有待结算的卡牌免费移动" };
@@ -3909,7 +3998,7 @@
     renderPlayerHand();
     updateActionButtons();
     renderStateReadout();
-    handleCardTriggerEvents(result.events);
+    settleCardTasksAfterEffect({ events: result.events, render: false });
     return result;
   }
 
@@ -3954,7 +4043,7 @@
     renderPlayerHand();
     updateActionButtons();
     renderStateReadout();
-    handleCardTriggerEvents(result.events);
+    settleCardTasksAfterEffect({ events: result.events, render: false });
     return result;
   }
 
@@ -4180,6 +4269,7 @@
     renderPublicCards();
     updatePublicCardControls();
     renderPlayerStats();
+    renderReservedCards();
     updateActionButtons();
     renderActionEffectBar();
     if (message) rocketState.statusNote = message;
@@ -4416,6 +4506,7 @@
 
     cancelActiveEffectSubFlows();
     const hadHistoryStep = effectStepActive;
+    const effectEvents = status !== "skipped" ? (current.result?.events || []) : [];
     endEffectHistoryStep();
     if (!hadHistoryStep && status !== "skipped") {
       appendActionLogStep(HISTORY_SOURCE_MAIN, current.label, current.result?.message || null);
@@ -4430,13 +4521,16 @@
     }
     renderActionEffectBar();
 
-    if (pendingActionEffectFlow.completed) {
+    const flowCompleted = pendingActionEffectFlow?.completed;
+    if (flowCompleted) {
+      settleCardTasksAfterEffect({ events: effectEvents, render: false });
       finishActionEffectFlow();
-    } else {
-      renderActionEffectBar();
-      updateActionButtons();
-      renderStateReadout();
+      return;
     }
+    settleCardTasksAfterEffect({ events: effectEvents, render: true });
+    renderActionEffectBar();
+    updateActionButtons();
+    renderStateReadout();
   }
 
   function resolveCompletedSectorSettlements(actionType, options = {}) {
@@ -4522,7 +4616,6 @@
     const current = getCurrentActionEffect();
     if (current) current.result = result;
     completeCurrentActionEffect();
-    handleCardTriggerEvents(result.events);
   }
 
   function closeScanAction4Picker() {
@@ -4666,7 +4759,6 @@
     rocketState.statusNote = `扫描效果：${result.message}`;
     renderPlayerStats();
     completeCurrentActionEffect();
-    handleCardTriggerEvents(result.events);
     renderStateReadout();
     return result;
   }
@@ -4794,7 +4886,6 @@
     rocketState.statusNote = `${effect.label}：${effect.result.message}`;
     renderPlayerStats();
     completeCurrentActionEffect();
-    handleCardTriggerEvents(result.events);
     renderStateReadout();
     return effect.result;
   }
@@ -4841,7 +4932,6 @@
       if (result.ok) {
         renderPlayerStats();
         completeCurrentActionEffect();
-        handleCardTriggerEvents(result.events);
       }
       renderStateReadout();
       return result;
@@ -4937,7 +5027,6 @@
       undoable: true,
       message: `${effect.label}：${result.message}`,
     }, [renderRockets]);
-    handleCardTriggerEvents(result.events);
     return finished;
   }
 
@@ -5376,7 +5465,6 @@
         renderRotateStateToken();
         renderPlayerStats();
         completeCurrentActionEffect();
-        handleCardTriggerEvents(result.events);
         renderStateReadout();
         return result;
       }
@@ -5785,6 +5873,8 @@
         };
       }
       completeCurrentActionEffect();
+    } else if (result.ok) {
+      settleCardTasksAfterEffect({ skipType1: true, render: true });
     }
     renderAlienPanels();
     renderStateReadout();
@@ -6885,54 +6975,7 @@
   }
 
   function renderReservedCards() {
-    if (!els.reservedCardFan || !els.reservedCardPanel) return;
-
-    const currentPlayer = getCurrentPlayer();
-    const reservedCards = Array.isArray(currentPlayer.reservedCards) ? currentPlayer.reservedCards : [];
-    const readyByCardId = new Map(getReadyCardTasks().map((ready) => [ready.card?.id, ready]));
-    const title = els.reservedCardPanel.querySelector(".panel-title");
-    if (title) {
-      title.textContent = isInitialSelectionActive()
-        ? `初始选择 · ${currentPlayer.colorLabel}玩家`
-        : `保留牌区 · 完成任务 ${currentPlayer.completedTaskCount || 0}`;
-    }
-    els.reservedCardPanel.classList.toggle("is-initial-selection-active", isInitialSelectionActive());
-    renderInitialSelectionArea();
-    els.reservedCardPanel.classList.toggle(
-      "is-empty",
-      !isInitialSelectionActive()
-        && reservedCards.length === 0
-        && getCurrentInitialSelectionCards(currentPlayer).length === 0,
-    );
-
-    if (isInitialSelectionActive()) {
-      els.reservedCardFan.replaceChildren();
-      return;
-    }
-
-    const taskCards = [];
-    const finalTaskCards = [];
-    reservedCards.forEach((card, index) => {
-      const entry = { card, index };
-      if (getCardTypeCode(card) === 3) {
-        finalTaskCards.push(entry);
-      } else {
-        taskCards.push(entry);
-      }
-    });
-
-    const taskRow = createReservedCardRow("task", "1、2型任务牌");
-    taskRow.replaceChildren(...taskCards.map((entry, rowIndex) => (
-      createReservedCardButton(entry.card, entry.index, rowIndex, readyByCardId)
-    )));
-
-    const finalRow = createReservedCardRow("final", "3型终局计分牌");
-    finalRow.replaceChildren(...finalTaskCards.map((entry, rowIndex) => (
-      createReservedCardButton(entry.card, entry.index, rowIndex, readyByCardId)
-    )));
-
-    els.reservedCardFan.replaceChildren(taskRow, finalRow);
-    layoutReservedCardRows();
+    renderReservedCardsFromTaskState();
   }
 
   function createReservedCardRow(rowType, label) {
@@ -6944,7 +6987,9 @@
   }
 
   function createReservedCardButton(card, originalIndex, rowIndex, readyByCardId) {
-    const ready = readyByCardId.get(card.id);
+    const ready = readyByCardId instanceof Map
+      ? readyByCardId.get(card.id)
+      : readyByCardId?.[card.id];
     const completedTriggerIndexes = cardEffects.getConsumedTriggerIndexes(card);
     const button = document.createElement("button");
     button.type = "button";
@@ -7004,8 +7049,109 @@
     const summary = document.createElement("div");
     summary.className = "initial-selection-company-slot";
     const [companyCard] = selectedCards;
-    summary.replaceChildren(createInitialSelectionImage(companyCard, "summary"));
+    summary.replaceChildren(createCompanyCardSummary(companyCard, currentPlayer));
     els.initialSelectionArea.replaceChildren(summary);
+  }
+
+  function createCompanyCardSummary(companyCard, player) {
+    const wrap = document.createElement("div");
+    wrap.className = "company-card-summary";
+    wrap.append(createInitialSelectionImage(companyCard, "summary"));
+
+    const layout = industryPlacement?.getIndustryActionMarkerLayout?.(companyCard);
+    if (!layout || !player) return wrap;
+
+    const marked = industryState?.isIndustryActionMarkedThisRound?.(player, turnState.roundNumber);
+    const canMark = !marked
+      && industryState?.canMarkIndustryAction?.(player, turnState.roundNumber, {
+        hasMarker: true,
+        industryCard: companyCard,
+      })?.ok;
+
+    if (!marked && canMark) {
+      wrap.classList.add("is-action-marker-pending");
+    }
+
+    if (marked) {
+      const token = document.createElement("img");
+      token.className = "company-action-marker-token";
+      token.src = getNormalTokenAssetForPlayer(player);
+      token.alt = "";
+      token.decoding = "async";
+      token.setAttribute("aria-hidden", "true");
+      token.style.left = `${layout.percentX}%`;
+      token.style.top = `${layout.percentY}%`;
+      token.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
+      wrap.append(token);
+      return wrap;
+    }
+
+    const hitArea = document.createElement("button");
+    hitArea.type = "button";
+    hitArea.className = "company-action-marker-hit";
+    hitArea.dataset.companyLabel = companyCard.label || "";
+    hitArea.disabled = !canMark;
+    hitArea.setAttribute(
+      "aria-label",
+      canMark
+        ? `放置公司 1x 行动标记：${companyCard.label || "公司牌"}`
+        : `公司 1x 行动标记不可用：${companyCard.label || "公司牌"}`,
+    );
+    hitArea.title = canMark
+      ? "点击在 1x 区域放置行动标记（每轮一次，可撤销）"
+      : "本轮已放置公司行动标记";
+    hitArea.style.left = `${layout.percentX}%`;
+    hitArea.style.top = `${layout.percentY}%`;
+    hitArea.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
+    if (canMark) {
+      hitArea.addEventListener("click", () => {
+        handleCompanyActionMarkerClick(companyCard);
+      });
+    }
+    wrap.append(hitArea);
+    return wrap;
+  }
+
+  function handleCompanyActionMarkerClick(companyCard) {
+    if (isInitialSelectionActive()) return;
+
+    const player = getCurrentPlayer();
+    const layout = industryPlacement?.getIndustryActionMarkerLayout?.(companyCard);
+    const check = industryState?.canMarkIndustryAction?.(player, turnState.roundNumber, {
+      hasMarker: Boolean(layout),
+      industryCard: companyCard,
+    });
+    if (!check?.ok) {
+      rocketState.statusNote = check?.message || "无法放置公司行动标记";
+      renderStateReadout();
+      return;
+    }
+
+    const previousRoundMark = player.industryRoundMarkRound ?? 0;
+    const companyLabel = companyCard.label || "公司牌";
+    beginQuickActionStep("industry-mark", `公司行动标记：${companyLabel}`);
+    const result = industryState.markIndustryAction(player, turnState.roundNumber);
+    if (!result.ok) {
+      quickActionHistory.undoLastStep();
+      if (!quickActionHistory.hasUndoableStep()) {
+        quickActionHistory.commitSession();
+        clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+      }
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return;
+    }
+
+    recordQuickHistoryCommand(industryState.createIndustryMarkUndoCommand(
+      player,
+      previousRoundMark,
+      `撤销公司行动标记：${companyLabel}`,
+    ));
+    completeQuickActionStep();
+
+    rocketState.statusNote = `${player.colorLabel}：已在公司牌 1x 区域放置行动标记（第 ${turnState.roundNumber} 轮，可撤销）`;
+    renderInitialSelectionArea();
+    renderStateReadout();
   }
 
   function createInitialSelectionPicker(offer) {
@@ -7392,6 +7538,7 @@
     renderTechBoard();
     renderRockets();
     renderPublicCards();
+    renderReservedCards();
     updatePublicCardControls();
     updateActionButtons();
     renderStateReadout();
@@ -8062,7 +8209,7 @@
       } else {
         markActionPending();
       }
-      handleCardTriggerEvents(result.events);
+      settleCardTasksAfterEffect({ events: result.events, render: false });
     }
 
     renderPlayerStats();
@@ -8592,6 +8739,7 @@
   function randomizeAll() {
     els.spinButton?.classList.remove("pulsin");
     resetActionLog();
+    industryState?.resetAllIndustryActionMarks?.(playerState.players);
     randomizePlayerTurnOrder();
     randomizeWheels();
     randomizeSectors();
@@ -8847,7 +8995,7 @@
   });
   els.debugRotateButton.addEventListener("click", () => {
     const result = rotateSolarOrbit(1);
-    handleCardTriggerEvents(result.events);
+    settleCardTasksAfterEffect({ events: result.events, render: true });
   });
   els.debugIncomeButton.addEventListener("click", addDebugIncome);
   els.debugIncomeEffectButton?.addEventListener("click", () => beginIncomeForCurrentPlayer({ source: "debug" }));
