@@ -260,6 +260,48 @@
     };
   }
 
+  function placeDirectMarkAtSlot(state, tileId, player, slotIndex, options = {}) {
+    const normalizedTileId = normalizeTileId(tileId);
+    ensureFinalScoringState(state, [normalizedTileId]);
+
+    const tile = state.tiles[normalizedTileId];
+    const playerId = getPlayerId(player);
+    if (!tile) return { ok: false, message: "未找到终局计分板块" };
+    if (!playerId) return { ok: false, message: "未找到玩家" };
+
+    const slot = Math.max(1, Math.min(3, Math.round(Number(slotIndex) || 3)));
+    if (slot < 3 && tile.marks.some((mark) => Number(mark.slotIndex) === slot)) {
+      return { ok: false, message: `终局板块 ${normalizedTileId.toUpperCase()} 的第 ${slot} 位已被占用` };
+    }
+
+    const slot3Order = slot === 3
+      ? tile.marks.filter((mark) => Number(mark.slotIndex) === 3).length + 1
+      : null;
+
+    markSequence += 1;
+    const mark = {
+      id: `final-mark-${markSequence}`,
+      tileId: normalizedTileId,
+      playerId,
+      playerColor: player.color || null,
+      playerLabel: player.colorLabel || player.name || playerId,
+      tokenSrc: options.tokenSrc || options.playerTokenSrc || null,
+      threshold: Number(options.threshold) || 0,
+      slotIndex: slot,
+      slot3Order,
+      placedAt: options.placedAt || new Date().toISOString(),
+      source: options.source || "direct",
+    };
+
+    tile.marks.push(mark);
+    return {
+      ok: true,
+      mark,
+      tile,
+      message: `${mark.playerLabel}玩家在终局板块 ${normalizedTileId.toUpperCase()} 第 ${slot} 位放置标记`,
+    };
+  }
+
   function getReadoutLines(state) {
     ensureFinalScoringState(state);
     const lines = ["终局计分"];
@@ -295,6 +337,7 @@
     hasPlayerMarkedTile,
     canMarkTile,
     markTile,
+    placeDirectMarkAtSlot,
     listMarks,
     getReadoutLines,
     normalizeTileVariant,

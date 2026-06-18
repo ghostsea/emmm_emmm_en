@@ -420,6 +420,26 @@
     };
   }
 
+  function analyzeDataWithoutEnergy(player) {
+    if (!isAnalyzeReady(player)) {
+      return {
+        ok: false,
+        message: `需在计算机第 ${ANALYZE_REQUIRED_COMPUTER_SLOT} 放置位放置数据`,
+      };
+    }
+
+    const dataState = ensurePlayerDataState(player);
+    const clearedCount = dataState.placedTokens.length;
+    dataState.placedTokens = [];
+    syncAvailableDataCount(player);
+
+    return {
+      ok: true,
+      clearedCount,
+      message: `分析数据：清除 ${clearedCount} 个已放置数据（免能）`,
+    };
+  }
+
   function placeDataToComputer(player, options = {}) {
     const target = options.target === PLACEMENT_KIND_BLUE_BONUS
       ? PLACEMENT_KIND_BLUE_BONUS
@@ -548,6 +568,7 @@
     isAnalyzeReady,
     canAnalyzeData,
     analyzeData,
+    analyzeDataWithoutEnergy,
     placeDataToComputer,
   });
 });

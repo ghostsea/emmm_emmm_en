@@ -638,7 +638,7 @@
     "b_46.webp": deferredCard("b_46.webp", "任务要求红色痕迹数量，当前只有简化的两外星人首痕迹条件。", ["trace_count_condition"]),
     "b_47.webp": deferredCard("b_47.webp", "按已塞入收入牌统计并把本卡移入收入区，当前没有本卡转收入区流程。", ["tucked_income_count", "move_played_card_to_income"]),
     "b_48.webp": deferredCard("b_48.webp", "盲抽后需要展示并立刻获得该牌左上角角标奖励。", ["reveal_drawn_card", "apply_corner_reward"]),
-    "b_49.webp": deferredCard("b_49.webp", "移动期间把一次行星访问宣传转换为移动，当前没有可选本回合移动事件钩子。", ["card_turn_effects", "optional_visit_replacement"]),
+    "b_49.webp": deferredCard("b_49.webp", "移动期间把一次行星访问宣传转换为移动，当前没有可选本轮移动事件钩子。", ["card_turn_effects", "optional_visit_replacement"]),
     "b_50.webp": deferredCard("b_50.webp", "按最多三个探测器所在扇区放置信号，当前没有探测器扇区扫描选择。", ["probe_sector_scan"]),
     "b_51.webp": deferredCard("b_51.webp", "扫描行动可表达，但任务要求宣传不少于 8，当前没有宣传阈值任务条件。", ["resource_threshold_condition"]),
     "b_52.webp": deferredCard("b_52.webp", "要求探测器在小行星上才放黄色痕迹，当前没有探测器位置条件。", ["probe_location_condition"]),

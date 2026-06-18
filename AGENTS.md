@@ -16,7 +16,7 @@
 玩家由 `randomizer/game/players.js` 管理：
 
 - `resources`：`credits`、`energy`、`publicity`、`availableData`、`additionalPublicScan`、`handSize`、`score`。
-- `income`：每轮收入记录，字段与部分资源同名（含 `additionalPublicScan`）。
+- `income`：收入等级记录，字段与部分资源同名（含 `additionalPublicScan`）。
 - `hand` / `reservedCards`：手牌与保留牌。`handSize` 始终同步为 `hand.length`。
 - `techState`：玩家已拥有科技 `ownedTiles`，以及蓝色科技放置位 `blueBoardSlots`。
 - `dataState`：由数据模块懒初始化，包含 `poolTokens`、`placedTokens`、`discardedCount`。
@@ -40,14 +40,27 @@
 - 3 选 2 初始牌在确认前始终保留显示，已选初始牌显示加粗金色边框；确认按钮要求已选择 1 张公司和 2 张初始牌，确认后这 2 张初始牌移出游戏且不再显示。
 - 玩家确认后，选择结果写入该玩家 `initialSelection`；全部启用玩家确认后，`randomizer/game/initial-cards.js` 会按所有玩家选定的公司牌和初始牌统一结算，之后初始选择阶段结束并解锁正常行动。
 - 初始选择结束后，任务/保留牌区最左侧固定显示当前玩家已选公司牌左半幅（可见宽约普通保留牌 1.38 倍，即半幅基准 1.15 倍再放大 20%），初始牌不再显示。
-- 除异星实验室外，公司牌左下角「1x」圆标位置由 `randomizer/game/industry/placement.js` 的 `INDUSTRY_ACTION_MARKER_SLOTS` 定义（百分比坐标）；未放置标记时公司牌外框蓝色高亮，放置后取消高亮。玩家可在该区域点击放置 `normal_token` 标记，每轮每玩家仅可触发一次，状态写入 `player.industryRoundMarkRound` 并与 `turnState.roundNumber` 比较；放置作为快速行动记录，可通过撤销按钮撤回。
+- 除异星实验室与未来跨度研究所外，公司牌左下角「1x」圆标位置由 `randomizer/game/industry/placement.js` 的 `INDUSTRY_ACTION_MARKER_SLOTS` 定义（百分比坐标）；未放置标记时公司牌外框蓝色高亮，放置后取消高亮。玩家可在该区域点击放置 `normal_token` 标记，每轮（`turnState.roundNumber` 轮号）每玩家仅可触发一次，状态写入 `player.industryRoundMarkRound`；`player.industryRoundMarkTurn` 只记录标记发生的回合号，不参与刷新判定。放置作为快速行动记录，可通过撤销按钮撤回。放置成功后立即启动该公司对应的 1x 主动能力流程。
+- 公司 1x 主动/被动能力由 `randomizer/game/industry/` 管理（`catalog.js` 定义、`abilities.js` 构建流程、`passives.js` 钩子、`index.js` 聚合为 `SetiIndustry`）；设计与建模详见 `docs/industry-abilities.md`。
+  - 层云核心：点击公共牌逐张结算弃牌角标（不弃牌、不移除公共牌），最多 3 张；每次点击与标记均可撤销。
+  - 图灵系统：借用一项供应区科技本轮效果（不获得板块/bonus）；被动：获取蓝色科技 +1 宣传。
+  - 哨兵探测网络：1x 标记后武装本轮；打牌时（标记可在打牌前或后）在打牌效果队列末尾追加 `industry_sentinel_corner` 节点，点击后结算打出牌左上角弃牌角标（非外星人，可撤销）；若打牌后才标记且本轮已打牌，会补开哨兵效果队列。被动：发射后扫描地球扇区。
+  - 寰宇动力：至多 2 枚火箭各免费移动 1 次；被动：火箭上限 +1。
+  - 赫利昂联合体：移除一项非蓝科技 + 1 次收入。
+  - 任务中继站：2 宣传精选 + 收入资源；被动：打 1/2 型卡 +1 宣传，开局在终局 c 板块 3 号位标记。
+  - 芬威克研究中心：2 宣传精选 + 弃牌角标（不弃牌）；被动：研究科技 5 宣传。
+  - 深空探测：手牌与公共牌交换；被动：分析不耗能量。
+  - 宇宙战略集团：精选 1 张牌。
+- 玩家运行时字段：`industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn`（图灵借用，Round 判定本轮有效，Turn 仅记录发生回合）、`industrySentinelArmedRound` / `industrySentinelArmedTurn`（哨兵武装）、`industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds`（寰宇免费移动）、`industryPlayedCardThisRound` / `industryLastPlayedCardThisRound`（本轮已打牌快照）。新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等轮内状态，不重置 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记）。
+- 公司 1x 标记与能力撤销：除涉及精选并拿走/刷新公共牌的能力（任务中继站、芬威克、宇宙战略）外，标记与层云核心、图灵借用、寰宇移动、赫利昂移除+收入、深空交换等步骤写入 `quickActionHistory` 可撤销；层云核心只结算弃牌角标不弃牌、不移除公共牌。任务中继站、芬威克、宇宙战略确认拿牌后会提交快速行动历史，之前的快速行动也不再可撤销。撤销标记会 `resetRoundIndustryRuntimeState` 并取消进行中的公司能力流。
+- 交互聚焦：`app.js` 的 `syncInteractionFocusChrome()` 根据进行中的流程在 `#app-wrap` 上设置 `data-interaction-focus`（`public-cards` / `hand-cards` / `tech-panel` / `board-rockets`）；`style.css` 会暗化非目标区域。`hand-cards` 聚焦时不能暗化或禁用 `.player-command` 父容器，需只暗化手牌区的兄弟控件，保证收入弃牌、打牌选牌、移动弃牌支付、手牌扫描等流程中手牌区保持高亮可点。公司牌 1x 可放置时仅用牌面蓝色高亮（`is-action-marker-pending`），不自动进入全屏聚焦以免遮挡行动按钮。
 - 选择公司后，保留牌区右侧分两行显示：第一行放 1 / 2 型任务牌，并按手牌区方式在牌多时部分覆盖；第二行暂时只放 3 型终局计分牌。
 
 初始效果结算：
 
 - 公司牌和初始牌效果由 `randomizer/game/initial-cards.js` 管理，入口为 `resolveInitialSelections(context, { playerIds })`；`app.js` 在所有启用玩家确认后调用它。
 - 公司牌会重设该玩家的初始资源和初始收入水平，取代玩家模型默认资源；初始收入水平只写入 `player.income`，不会在游戏开始时自动获得资源或抽牌。
-- 公司牌的盲抽、数据和发射效果会先结算；所有玩家的公司牌和初始牌都结算完成后，再按公司牌记录的“收入增加”次数在效果栏依次排队展示，玩家每次点击 1 个收入效果后弃 1 张手牌并按该牌收入角标结算。每次收入增加立即按当前收入水平结算，因此盲抽收入增加拿到的新牌可用于后续收入增加选择。
+- 公司牌的盲抽、数据和发射效果会先结算；所有玩家的公司牌和初始牌都结算完成后，再按公司牌记录的“收入增加”次数在效果栏依次排队展示，玩家每次点击 1 个收入效果后弃 1 张手牌并按该牌收入角标结算。每次收入增加立即按当前收入水平结算，因此盲抽收入增加拿到的新牌可用于后续收入增加选择。**初始收入队列未全部完成前**，主要行动、公司 1x、快速交易、放置数据、移动、手牌角标快速行动等均锁定。
 - 寰宇动力的 2 次初始发射直接在地球扇区放置火箭，不消耗资源，也不受普通发射行动的火箭数量上限限制。
 - 扫描类初始牌会替换指定星云的下一个数据 token 并获得数据；若本批初始牌扫描导致扇区完成，所有初始牌结算完后再统一触发扇区结算。
 - 额外环绕器只写入 `planetStatsState` 并同步行星参考图标记，不触发环绕奖励；同时计入玩家 `orbitCount`。
@@ -166,11 +179,11 @@ UI 校准：
 - `playCard`：打牌，打开手牌选择/打出流程。
 - `researchTech`：研究科技，生成科技效果链：选择科技片、旋转、即时奖励（如橙1发射、紫1数据）、获取 bonus。
 
-回合与轮次：
+轮与回合：
 
-- 回合：一名玩家从可以执行主要行动开始，到点击“回合结束”为止。
-- 轮次：所有玩家各自执行若干回合，直到所有玩家都 PASS 后结束。所有玩家在同一回合号下各行动一次后，进入下一回合；全部 PASS 后进入下一轮第 1 回合。
-- `turnState` 位于 `randomizer/app.js`，记录 `roundNumber`、`turnNumber`、基础顺位 `turnOrderPlayerIds`、本轮起始玩家 `startPlayerId`、启用玩家 `activePlayerIds`、本轮已 PASS 与本回合已行动玩家。
+- 轮：所有玩家各自执行若干回合，直到所有玩家都 PASS 后结束；全部 PASS 后进入下一轮第 1 回合。
+- 回合：一名玩家从可以执行主要行动开始，到点击“回合结束”为止；每次玩家行动确认结束后，回合号递增。
+- `turnState` 位于 `randomizer/app.js`，记录 `roundNumber`（轮号）、`turnNumber`（回合号）、基础顺位 `turnOrderPlayerIds`、本轮起始玩家 `startPlayerId`、启用玩家 `activePlayerIds`、本轮已 PASS 玩家与当前行动圈已行动玩家。
 - 页面加载时会自动执行原 `set-button` 设置流程：白色玩家固定为初始首位，其余颜色玩家随机洗牌，并重置为第 1 轮第 1 回合。当前仍按单人测试运行，`activePlayerCount` 默认为 1，默认启用白色玩家。
 - 新轮开始时，起始玩家按基础顺位顺延到上一轮第二顺位玩家。
 
@@ -178,8 +191,8 @@ UI 校准：
 
 行动日志由 `randomizer/app.js` 内的 `actionLogState` 管理，并显示在右侧日志抽屉的「行动日志」页签：
 
-- 日志按「轮次 / 回合 / 玩家 / 行动」生成一条记录；记录内按完成顺序列出主要行动效果与穿插的快速行动。
-- 初始选择确认后也会写入正式日志，标题前缀固定显示为「初始选择」而不是轮次/回合；内容记录玩家选择的公司、移出游戏的初始牌，最后一名玩家还会记录统一初始牌结算结果。
+- 日志按「轮 / 回合 / 玩家 / 行动」生成一条记录；记录内按完成顺序列出主要行动效果与穿插的快速行动。
+- 初始选择确认后也会写入正式日志，标题前缀固定显示为「初始选择」而不是轮/回合；内容记录玩家选择的公司、移出游戏的初始牌，最后一名玩家还会记录统一初始牌结算结果。
 - 当前回合执行中先写入 `actionLogState.draft`，不直接显示到正式日志；玩家点击「回合结束」后，draft 才会固化进 `actionLogState.entries`。
 - 主行动效果完成时通过 `endEffectHistoryStep` 或不可撤销效果的补充记录写入 draft；快速行动完成时通过 `completeQuickActionStep` 写入 draft。
 - 撤销快速行动会删除 draft 中最近的快速行动记录；撤销主要行动效果会删除最近的主要行动记录；回滚整个主要行动会删除 draft 中所有主要行动记录但保留尚未撤销的快速行动记录。
@@ -191,7 +204,7 @@ UI 校准：
 - 每个回合只能开始一次主要行动。
 - 主行动执行中、效果队列处理中或主行动已完成但未回合结束时，其他主行动按钮全部禁用。
 - 每个主行动触发的动作和效果全部处理完后，才允许点击“回合结束”。
-- “回合结束”会提交并清空当前主行动与快速行动历史，并按本轮顺位切换到下一名未 PASS 玩家；若当前回合所有未 PASS 玩家都已行动，则进入下一回合。
+- “回合结束”会提交并清空当前主行动与快速行动历史，并按本轮顺位切换到下一名未 PASS 玩家；所有未 PASS 玩家在当前行动圈都行动后，会继续本轮的下一回合；若所有玩家都 PASS，则进入下一轮。
 - `PASS` 当前也是主要行动：点击后进入“待回合结束”状态，可撤销；确认回合结束后，该玩家本轮不再获得行动机会。
 - “撤销”按最近完成的主/快速步骤回滚；主行动整体仍可通过回滚会话撤销。
 - 行动可以由能力事件链组成；链上每个节点是一个原子能力，能力返回 `undoable` 决定是否进入撤销历史。

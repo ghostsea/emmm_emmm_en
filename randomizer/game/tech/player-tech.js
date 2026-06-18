@@ -136,12 +136,31 @@
     return catalog.TECH_TILE_IDS.filter((tileId) => playerOwnsTile(playerTech, tileId));
   }
 
+  function removePlayerTile(playerTech, tileId) {
+    if (!catalog.TECH_TILE_IDS.includes(tileId)) {
+      return { ok: false, message: `未知科技板块 ${tileId}` };
+    }
+    if (!playerOwnsTile(playerTech, tileId)) {
+      return { ok: false, message: `未拥有 ${tileId}` };
+    }
+    const techType = catalog.getTechType(tileId);
+    if (techType === "blue") {
+      return { ok: false, message: "不能移除蓝色科技" };
+    }
+    delete playerTech.ownedTiles[tileId];
+    if (playerTech.blueBoardSlots?.[tileId]) {
+      delete playerTech.blueBoardSlots[tileId];
+    }
+    return { ok: true, tileId, techType };
+  }
+
   return Object.freeze({
     createPlayerTechState,
     normalizePlayerTechState,
     playerOwnsTile,
     canPlayerTakeTile,
     recordPlayerTake,
+    removePlayerTile,
     listOwnedTileIds,
     getAvailableBlueSlots,
     getBlueBoardSlot,

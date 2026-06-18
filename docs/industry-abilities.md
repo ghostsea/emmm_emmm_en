@@ -1,0 +1,141 @@
+# 公司能力设计与建模
+
+本文档描述 SETI 随机器原型中**公司牌（Industry）**的 1x 主动能力与被动能力：规则语义、代码模块、运行时状态、UI 流程与撤销约定。人工规则摘要见 `assets/industry/能力介绍.md`。
+
+## 模块结构
+
+| 文件 | 职责 |
+|------|------|
+| `randomizer/game/industry/catalog.js` | 公司目录：`activeAbilityId`、`passiveIds`、是否已实现 1x |
+| `randomizer/game/industry/abilities.js` | 主动能力：`buildActiveAbilityFlow`、角标/收入结算、哨兵效果节点 |
+| `randomizer/game/industry/passives.js` | 被动钩子查询（火箭上限、研究费用、分析免能等） |
+| `randomizer/game/industry/state.js` | 每轮 1x 标记、`industryRoundMarkRound` / `industryRoundMarkTurn`、轮内运行时字段重置 |
+| `randomizer/game/industry/placement.js` | 公司牌左下角「1x」圆标百分比坐标 |
+| `randomizer/game/industry/index.js` | 聚合为 `window.SetiIndustry` |
+| `randomizer/app.js` | UI：标记点击、能力流、被动触发、交互聚焦、撤销 |
+
+测试：`node randomizer/game/industry/industry.test.js`
+
+## 生命周期
+
+### 1. 初始选择（Setup）
+
+- 每位启用玩家：公司 2 选 1（`assets/industry`）、初始牌 3 选 2。
+- 结果写入 `player.initialSelection`（`industry` + `removedInitialCards`）。
+- 全部确认后 `initial-cards.js` → `resolveInitialSelections` 结算公司/初始牌即时效果。
+- 若公司有「收入增加」次数，进入 **初始收入增加** 效果队列（`actionType: initialIncome`）。
+- **在初始收入全部结算完成前**：主要行动、公司 1x、其它快速行动、手牌角标快速行动均不可用；仅可依次点击效果栏中的收入节点。
+
+### 2. 正常对局（每轮一次 1x）
+
+- 除 **异星实验室**、**未来跨度研究所** 外，公司牌左下角有 1x 圆标（`placement.js`）。
+- 每**轮**（`turnState.roundNumber` 轮号）每玩家最多放置 1 次 `normal_token`；`player.industryRoundMarkRound === turnState.roundNumber` 表示本轮已用。`player.industryRoundMarkTurn` 只记录标记发生的回合号，不参与刷新判定。
+- 未放置时牌面蓝色高亮（`is-action-marker-pending`）；放置后启动该公司 `buildActiveAbilityFlow`。
+- 新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等，**不**清零 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记）。
+
+## 运行时状态字段
+
+| 字段 | 含义 |
+|------|------|
+| `industryRoundMarkRound` / `industryRoundMarkTurn` | 已放置 1x 标记的轮号与发生回合号（刷新只看轮号） |
+| `industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn` | 图灵系统：本轮借用的科技片 id；Turn 只记录发生回合 |
+| `industrySentinelArmedRound` / `industrySentinelArmedTurn` | 哨兵：本轮已武装「打牌后弃牌角标」；Turn 只记录发生回合 |
+| `industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds` | 寰宇：免费移动所在轮、发生回合、剩余次数、已移动火箭 |
+| `industryPlayedCardThisRound` / `industryLastPlayedCardThisRound` | 本轮是否已打牌及牌快照（哨兵补注入队） |
+
+撤销 1x 标记时调用 `resetRoundIndustryRuntimeState` 并 `cancelIndustryAbilityFlow`。
+
+## 主动能力（1x）建模
+
+`catalog.js` 中 `activeAbilityId` → `abilities.js` 中 `buildActiveAbilityFlow` 返回 `flowType`，由 `app.js` 的 `startIndustryAbilityFlow` 分发 UI。
+
+| 公司 | activeAbilityId | flowType | 规则摘要 |
+|------|-----------------|----------|----------|
+| 层云核心 | `stratus_public_corners` | `stratus_public_corners` | 点击公共牌最多 3 张，逐张结算**左上角弃牌角标**（不弃牌、不移除公共牌） |
+| 图灵系统 | `turing_borrow_tech` | `turing_borrow_tech` | 选择供应区一项科技，**本轮**借用其效果（不获得板块/bonus） |
+| 哨兵探测网络 | `sentinel_arm_play_corner` | `sentinel_arm_play_corner` | 武装本轮；**打牌效果队列末尾**追加 `industry_sentinel_corner` 结算打出牌弃牌角标（非外星人） |
+| 寰宇动力 | `huanyu_free_moves` | `huanyu_free_moves` | 至多 2 枚火箭各免费移动 1 次 |
+| 赫利昂联合体 | `helios_remove_tech_income` | `helios_remove_tech` → 弃牌收入 | 移除一项非蓝科技 + 1 次收入（弃 1 张手牌按收入角标） |
+| 任务中继站 | `mission_publicity_pick_income` | `mission_publicity_pick` | 消耗 2 宣传精选 1 张牌，获得其**收入角标**资源（不支持盲抽收入） |
+| 芬威克研究中心 | `fenwick_publicity_pick_corner` | `fenwick_publicity_pick` | 消耗 2 宣传精选 1 张牌，获得**弃牌角标**（不弃牌） |
+| 深空探测 | `deepspace_swap_cards` | `deepspace_swap` | 选手牌 1 张再选公共牌 1 张交换 |
+| 宇宙战略集团 | `strategy_pick_card` | `strategy_pick` | 精选 1 张公共牌（无额外资源） |
+| 未来跨度研究所 | — | — | **暂不处理，无 1x 圆标**（`EXCLUDED_INDUSTRY_LABELS` / `SKIPPED_ACTIVE_LABELS`） |
+| 异星实验室 | — | — | **无 1x 圆标**（`EXCLUDED_INDUSTRY_LABELS`） |
+
+### 共享能力函数（`abilities.js`）
+
+- `getCornerReward(cards, card)`：读左上角弃牌角标 → `{ kind: "resource" \| "move", gain, dataCount?, movementPoints? }`
+- `applyCornerReward(players, data, player, reward)`：结算资源/数据；移动类返回 `pendingFreeMove`
+- `applyIncomeResourcesFromCard`：任务中继站精选后的收入角标（拒绝 `handSize` 盲抽收入）
+- `buildSentinelPlayCornerEffectNodes`：生成打牌队列节点 `type: "industry_sentinel_corner"`
+
+### 哨兵特殊流程
+
+1. 放置 1x → `industrySentinelArmedRound = round`
+2. 打牌时若已标记且已武装 → 队列追加 `industry_sentinel_corner`
+3. 若先打牌后标记 → `tryInjectSentinelPlayCornerEffectAfterArm` 补开或追加队列
+4. 节点执行：`executeIndustrySentinelCornerEffect`；移动角标再插入 `CARD_MOVE` 子效果
+
+## 被动能力建模
+
+`catalog.js` 的 `passiveIds` → `passives.js` 查询 → 在 `app.js` 或其它模块钩子处生效。
+
+| passiveId | 公司 | 行为 | 钩子位置 |
+|-----------|------|------|----------|
+| `turing_blue_tech_publicity` | 图灵系统 | 获取蓝色科技 +1 宣传 | `app.js` 科技放置后 |
+| `sentinel_launch_scan_earth` | 哨兵探测网络 | 发射后免费扫描地球扇区 | `maybeApplyIndustryLaunchScan` |
+| `huanyu_rocket_limit` | 寰宇动力 | 火箭数量上限 +1 | `launch.js` / `rocket.js` |
+| `mission_play_type_publicity` | 任务中继站 | 打出 1/2 型卡 +1 宣传 | `applyIndustryPlayCardPassives` |
+| `mission_startup_final_mark` | 任务中继站 | 开局终局 c 板块 3 号位标记 | `applyIndustryStartupPassives` |
+| `fenwick_research_cost` | 芬威克研究中心 | 研究科技宣传 5（默认 6） | `tech/resolver.js`、`abilities/tech.js` |
+| `deepspace_free_analyze` | 深空探测 | 分析数据不耗能量 | `abilities/data.js` |
+
+图灵借用：`players.playerOwnsTech` 在拥有板块之外，若 `industryBorrowedTechTileId === tileId` 且借用轮有效，也视为拥有；新轮开始会清空借用运行时状态。
+
+## UI 与 `flowType` 映射（`app.js`）
+
+| flowType | UI 行为 |
+|----------|---------|
+| `stratus_public_corners` | `beginCardSelection(industry_stratus_corner)`，点击公共牌结算 |
+| `turing_borrow_tech` | 科技板借用模式 `industryBorrowMode` |
+| `sentinel_arm_play_corner` | 即时武装；可能补注入队 |
+| `huanyu_free_moves` | `industryFreeMoveState`，棋盘免费移动 |
+| `helios_remove_tech` | 扫描式科技选择 → 弃牌收入 `industry_helios_income` |
+| `mission_publicity_pick` / `fenwick_publicity_pick` | 消耗宣传 + 公共牌精选 |
+| `deepspace_swap` | 手牌选择 → 公共牌选择交换 |
+| `strategy_pick` | 公共牌精选 |
+
+交互聚焦（`data-interaction-focus`）：仅在**进行中**的精选/手牌/科技/移动流程时暗化其它区域；公司 1x 可放置时**不**自动全屏聚焦，仅用牌面高亮。
+
+## 撤销约定
+
+| 类型 | 可撤销 | 说明 |
+|------|--------|------|
+| 1x 标记 | 是 | `quickActionHistory`；撤销时重置轮内状态并取消能力流 |
+| 层云核心 | 是 | 每次点击公共牌单独一步；不弃牌 |
+| 图灵借用 | 是 | 记录借用前玩家快照 |
+| 寰宇移动 | 是 | 每次免费移动一步 |
+| 赫利昂 | 是 | 移除科技 + 收入各记录撤销 |
+| 深空交换 | 是 | 交换手牌与公共牌快照 |
+| 哨兵打牌角标 | 是 | 主行动效果队列内 `industry_sentinel_corner` |
+| 任务中继站 / 芬威克 / 宇宙战略 | 否 | 精选并拿走/刷新公共牌；确认拿牌后提交快速行动历史，之前的快速行动也不再可撤销 |
+
+`isIndustryIrreversibleFlow`：`mission_publicity_pick`、`fenwick_publicity_pick`、`strategy_pick`。
+
+## 与初始牌/公司开局效果的关系
+
+- **公司牌即时效果**（资源重设、盲抽、发射、扫描等）：`initial-cards.js` 在 `resolveInitialSelections` 中一次性结算。
+- **收入增加**：不即时给资源，而是生成 `pendingIncomeIncreases`，由 `startInitialIncomeEffectFlow` 排队；玩家弃 1 张手牌按该牌**收入角标**提升 `player.income` 并立即按新收入结算资源。
+- 任务中继站被动终局标记在 `applyIndustryStartupPassives` 中调用 `finalScoring.placeDirectMarkAtSlot(..., "c", ..., 3)`。
+
+## 扩展新公司检查清单
+
+1. 在 `assets/industry/` 增加资产与 `能力介绍.md` 行
+2. `placement.js` 校准 1x 圆标（若无则加入 `EXCLUDED` / `SKIPPED`）
+3. `catalog.js`：`activeAbilityId`、`passiveIds`
+4. `abilities.js`：`armAbilityState`、`buildActiveAbilityFlow` 分支
+5. `app.js`：`startIndustryAbilityFlow` 分支与确认/取消处理
+6. 被动：在 `passives.js` 增加 id 并在对应游戏逻辑处钩子
+7. 撤销：判断是否 `isIndustryIrreversibleFlow`；可撤销步骤写入 `quickActionHistory`
+8. 测试与更新 `AGENTS.md`、本文档

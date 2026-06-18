@@ -162,7 +162,7 @@
             <button class="action-button action-button-compact action-button-text" type="button" id="action-quick-button" aria-expanded="false" aria-controls="quick-actions-panel">快速</button>
           </div>
           <div class="action-bar-turn" id="action-bar-turn">
-            <button class="action-button action-button-text" type="button" id="action-pass-button" disabled aria-label="结束回合">PASS</button>
+            <button class="action-button action-button-text" type="button" id="action-pass-button" disabled aria-label="本回合 PASS">PASS</button>
             <button class="action-button action-button-text" type="button" id="action-confirm-button" disabled aria-label="回合结束">回合结束</button>
             <button class="action-button action-button-text" type="button" id="action-undo-button" disabled aria-label="撤销行动">撤销</button>
           </div>
@@ -235,6 +235,7 @@
               <span class="player-hand-panel-title-hint" id="player-hand-panel-title-hint"></span>
             </div>
             <button class="play-card-action-button" type="button" id="play-card-action-button" hidden>打出</button>
+            <button class="play-card-selection-cancel" type="button" id="play-card-selection-cancel" hidden>取消</button>
             <button class="card-corner-action-button" type="button" id="card-corner-action-button" hidden>弃牌换资源</button>
             <button class="move-payment-confirm" type="button" id="move-payment-confirm" hidden>确认移动</button>
             <button class="hand-scan-cancel" type="button" id="hand-scan-cancel" hidden>取消扫描</button>
@@ -423,12 +424,7 @@
 
       <section class="table-panel opponents-panel" aria-label="玩家信息统计">
         <div class="panel-title">玩家信息统计</div>
-        <div class="opponent-stat-grid">
-          <div class="opponent-stat-slot">玩家 1 状态</div>
-          <div class="opponent-stat-slot">玩家 2 状态</div>
-          <div class="opponent-stat-slot">玩家 3 状态</div>
-          <div class="opponent-stat-slot">玩家 4 状态</div>
-        </div>
+        <div class="opponent-stat-grid" id="opponent-stat-grid"></div>
       </section>
     </aside>
 
@@ -523,8 +519,12 @@
   <script src="./game/aliens/render.js?v=aliens-2"></script>
   <script src="./game/aliens/index.js?v=aliens-2"></script>
   <script src="./game/initial-cards.js?v=initial-cards-1"></script>
-  <script src="./game/industry/placement.js?v=industry-marker-1"></script>
-  <script src="./game/industry/state.js?v=industry-marker-1"></script>
+  <script src="./game/industry/placement.js?v=industry-ability-1"></script>
+  <script src="./game/industry/state.js?v=industry-ability-1"></script>
+  <script src="./game/industry/catalog.js?v=industry-ability-1"></script>
+  <script src="./game/industry/passives.js?v=industry-ability-1"></script>
+  <script src="./game/industry/abilities.js?v=industry-ability-1"></script>
+  <script src="./game/industry/index.js?v=industry-ability-1"></script>
   <script src="./app.js?v=final-scoring-1"></script>
 </body>
 </html>

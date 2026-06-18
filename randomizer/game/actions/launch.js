@@ -3,20 +3,22 @@
 
   let players = root.SetiPlayers;
   let rockets = root.SetiRocketActions;
+  let industryPassives = root.SetiIndustryPassives;
 
   if ((!players || !rockets) && typeof require === "function") {
     players = players || require("../players");
     rockets = rockets || require("../rockets");
+    industryPassives = industryPassives || require("../industry/passives");
   }
 
-  const api = factory(players, rockets);
+  const api = factory(players, rockets, industryPassives);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiActionLaunch = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (players, rockets) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (players, rockets, industryPassives) {
   "use strict";
 
   const ACTION_ID = "launch";
@@ -26,7 +28,9 @@
   const ORANGE1_ROCKET_LIMIT = 2;
 
   function getRocketLimitForPlayer(player) {
-    return players.playerOwnsTech(player, "orange1") ? ORANGE1_ROCKET_LIMIT : BASE_ROCKET_LIMIT;
+    const baseLimit = players.playerOwnsTech(player, "orange1") ? ORANGE1_ROCKET_LIMIT : BASE_ROCKET_LIMIT;
+    const bonus = industryPassives?.getRocketLimitBonus?.(player) || 0;
+    return baseLimit + bonus;
   }
 
   function canExecute(context) {

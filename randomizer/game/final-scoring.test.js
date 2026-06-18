@@ -61,4 +61,9 @@ white.resources.score = 40;
 finalScoring.syncPendingMarks(state, [white, blue, green, brown]);
 assert.equal(finalScoring.getPendingMarksForPlayer(state, white.id).length, 0);
 
+const startup = finalScoring.placeDirectMarkAtSlot(state, "c", white, 3, { tokenSrc: "white.png" });
+assert.equal(startup.ok, true);
+assert.equal(startup.mark.slotIndex, 3);
+assert.equal(startup.mark.source, "direct");
+
 console.log("final-scoring tests passed");

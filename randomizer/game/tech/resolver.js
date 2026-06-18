@@ -7,6 +7,7 @@
   let bonuses = root.SetiTechBonuses;
   let placement = root.SetiTechPlacement;
   let players = root.SetiPlayers;
+  let industryPassives = root.SetiIndustryPassives;
 
   if (typeof require === "function") {
     catalog = catalog || require("./catalog");
@@ -15,9 +16,10 @@
     bonuses = bonuses || require("./bonuses");
     placement = placement || require("./placement");
     players = players || require("../players");
+    industryPassives = industryPassives || require("../industry/passives");
   }
 
-  const api = factory(catalog, boardState, playerTech, bonuses, placement, players);
+  const api = factory(catalog, boardState, playerTech, bonuses, placement, players, industryPassives);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
@@ -31,8 +33,14 @@
   bonuses,
   placement,
   players,
+  industryPassives,
 ) {
   "use strict";
+
+  function getResearchPublicityCost(player) {
+    return industryPassives?.getResearchPublicityCost?.(player, catalog.RESEARCH_PUBLICITY_COST)
+      ?? catalog.RESEARCH_PUBLICITY_COST;
+  }
 
   function getAvailableBlueSlots(playerTechState) {
     return playerTech.getAvailableBlueSlots(playerTechState);
@@ -194,17 +202,19 @@
     }
 
     if (!skipCost) {
-      const afford = players.canAfford(currentPlayer, { publicity: catalog.RESEARCH_PUBLICITY_COST });
+      const researchCost = getResearchPublicityCost(currentPlayer);
+      const afford = players.canAfford(currentPlayer, { publicity: researchCost });
       if (!afford) {
         return {
           ok: false,
-          message: `宣传不足，研究科技需要 ${catalog.RESEARCH_PUBLICITY_COST} 宣传`,
+          message: `宣传不足，研究科技需要 ${researchCost} 宣传`,
         };
       }
     }
 
     if (!skipCost) {
-      const spend = players.spendResources(currentPlayer, { publicity: catalog.RESEARCH_PUBLICITY_COST });
+      const researchCost = getResearchPublicityCost(currentPlayer);
+      const spend = players.spendResources(currentPlayer, { publicity: researchCost });
       if (!spend.ok) return spend;
     }
 
@@ -389,6 +399,7 @@
   return Object.freeze({
     getAvailableBlueSlots,
     normalizeTechTypeFilter,
+    getResearchPublicityCost,
     canTakeTile,
     selectTechTile,
     rotateForResearch,

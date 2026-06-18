@@ -23,8 +23,7 @@
   const data = window.SetiData;
   const aliens = window.SetiAliens;
   const initialCards = window.SetiInitialCards;
-  const industryPlacement = window.SetiIndustryPlacement;
-  const industryState = window.SetiIndustryState;
+  const industry = window.SetiIndustry;
 
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
@@ -48,7 +47,26 @@
     income: "../assets/symbol/effect/income.webp",
     incomeCard: "../assets/symbol/effect/income_card.webp",
     additionalPublicScan: "../assets/tokens/additional_public_scan.webp",
+    orbitOrLand: "../assets/symbol/effect/orbit or land.webp",
+    yellowFinishScan: "../assets/symbol/effect/yellow_finish_scan.webp",
+    redFinishScan: "../assets/symbol/effect/red_finish_scan.webp",
+    blueFinishScan: "../assets/symbol/effect/blue_finish_scan.webp",
+    blackFinishScan: "../assets/symbol/effect/black_finish_scan.webp",
+    alienYellow: "../assets/symbol/effect/alien_yellow.webp",
+    alienPink: "../assets/symbol/effect/alien_pink.webp",
+    alienBlue: "../assets/symbol/effect/alien_blue.webp",
   });
+  const OPPONENT_SECTOR_WIN_STATS = Object.freeze([
+    Object.freeze({ color: "yellow", label: "黄色完成扇区", iconKey: "yellowFinishScan" }),
+    Object.freeze({ color: "red", label: "红色完成扇区", iconKey: "redFinishScan" }),
+    Object.freeze({ color: "blue", label: "蓝色完成扇区", iconKey: "blueFinishScan" }),
+    Object.freeze({ color: "black", label: "黑色完成扇区", iconKey: "blackFinishScan" }),
+  ]);
+  const OPPONENT_TECH_TYPES = Object.freeze([
+    Object.freeze({ type: "orange", prefix: "橙", color: "#f59e42" }),
+    Object.freeze({ type: "purple", prefix: "紫", color: "#b886ff" }),
+    Object.freeze({ type: "blue", prefix: "蓝", color: "#4da3ff" }),
+  ]);
   const TECH_EFFECT_ICONS = Object.freeze({
     research_tech: "../assets/symbol/effect/research_tech.webp",
     rotate: "../assets/tokens/rotate_state.png",
@@ -195,8 +213,11 @@
   let effectStepActive = false;
   let moveHighlightRocketId = null;
   let pendingMovePayment = null;
+  let pendingPlayCardSelection = null;
   let pendingCardCornerQuickAction = null;
   let pendingCardCornerFreeMove = null;
+  let pendingIndustryAbility = null;
+  let industryFreeMoveState = null;
   let stateReadoutRenderFrame = 0;
   const setupSelectionState = {
     phase: "selecting",
@@ -217,6 +238,7 @@
     boardShell: document.getElementById("board-shell"),
     playerCommand: document.getElementById("player-command"),
     playerStats: document.getElementById("player-stats"),
+    opponentStatGrid: document.getElementById("opponent-stat-grid"),
     playerHandPanel: document.getElementById("player-hand-panel"),
     playerHandFan: document.getElementById("player-hand-fan"),
     reservedCardPanel: document.getElementById("reserved-card-panel"),
@@ -332,6 +354,7 @@
     discardSelectionBackdrop: document.getElementById("discard-selection-backdrop"),
     discardSelectionCancel: document.getElementById("discard-selection-cancel"),
     playCardActionButton: document.getElementById("play-card-action-button"),
+    playCardSelectionCancel: document.getElementById("play-card-selection-cancel"),
     cardCornerActionButton: document.getElementById("card-corner-action-button"),
     movePaymentConfirm: document.getElementById("move-payment-confirm"),
     movePaymentCancel: document.getElementById("move-payment-cancel"),
@@ -356,7 +379,10 @@
         : "（可选移动牌弃置，或直接确认消耗 1 能量）";
     }
     if (isPlayCardSelectionActive()) {
-      return "（点击要打出的牌）";
+      const pending = getPendingPlayCardSelection();
+      return pending
+        ? `（已选择 ${cards.getCardLabel(pending.card)}）`
+        : "（请选择要打出的牌）";
     }
     const cornerAction = getPendingCardCornerQuickAction();
     if (cornerAction) {
@@ -631,6 +657,7 @@
       const initialResult = resolveInitialSelectionEffects();
       recordInitialSelectionActionLog(player, selectedIndustry, selectedInitialCards, initialResult);
       const incomeStarted = startInitialIncomeEffectFlow(initialResult?.pendingIncomeIncreases || []);
+      applyIndustryStartupPassives();
       if (!incomeStarted) {
         rocketState.statusNote = initialResult?.message
           ? `所有玩家已完成初始选择，${initialResult.message}，游戏开始。`
@@ -647,6 +674,7 @@
     renderPublicCards();
     renderPlayerHand();
     renderRockets();
+    syncInteractionFocusChrome();
     updateActionButtons();
     renderStateReadout();
   }
@@ -1137,6 +1165,7 @@
   }
 
   function beginNextRound() {
+    industry?.resetAllRoundIndustryRuntimeState?.(playerState.players);
     turnState.roundNumber += 1;
     turnState.turnNumber = 1;
     turnState.passedPlayerIds = [];
@@ -1163,7 +1192,8 @@
     const nextPlayerId = getNextEligiblePlayerId(playerId);
     if (nextPlayerId) {
       playerState.currentPlayerId = nextPlayerId;
-      return { roundAdvanced: false, turnAdvanced: false, nextPlayerId };
+      turnState.turnNumber += 1;
+      return { roundAdvanced: false, turnAdvanced: true, nextPlayerId };
     }
 
     turnState.turnNumber += 1;
@@ -1194,7 +1224,7 @@
       `基础顺位 ${orderLabels || "无"}`,
       `本轮顺位 ${roundOrderLabels || "无"}`,
       `本轮已 PASS ${passedLabels}`,
-      `本回合已行动 ${completedLabels}`,
+      `当前行动圈已行动 ${completedLabels}`,
     ];
   }
 
@@ -1259,6 +1289,87 @@
     if (active) setQuickPanelOpen(false);
     renderPublicCards();
     updatePublicCardControls();
+    syncInteractionFocusChrome();
+  }
+
+  const INTERACTION_FOCUS = Object.freeze({
+    PUBLIC_CARDS: "public-cards",
+    HAND_CARDS: "hand-cards",
+    TECH_PANEL: "tech-panel",
+    BOARD_ROCKETS: "board-rockets",
+    COMPANY_MARKER: "company-marker",
+  });
+
+  function isBoardRocketInteractionActive() {
+    return moveHighlightRocketId != null
+      || isIndustryFreeMoveActive()
+      || Boolean(pendingCardTriggerFreeMove)
+      || Boolean(pendingCardCornerFreeMove)
+      || Boolean(pendingActionEffectFlow?.freeMoveMode)
+      || Boolean(pendingActionEffectFlow?.cardMoveEffect);
+  }
+
+  function getInteractionFocusMode() {
+    if (isIndustryHandSelectionActive()) return INTERACTION_FOCUS.HAND_CARDS;
+    if (isDiscardSelectionActive()
+      || isPlayCardSelectionActive()
+      || isMovePaymentSelectionActive()
+      || isHandScanSelectionActive()) {
+      return INTERACTION_FOCUS.HAND_CARDS;
+    }
+    if (isCardSelectionActive()) return INTERACTION_FOCUS.PUBLIC_CARDS;
+    if (isTechTilePickingActive() || techGameState?.ui?.industryBorrowMode) {
+      return INTERACTION_FOCUS.TECH_PANEL;
+    }
+    if (isBoardRocketInteractionActive()) return INTERACTION_FOCUS.BOARD_ROCKETS;
+    if (canUseCardCornerQuickAction() && getPendingCardCornerQuickAction()) {
+      return INTERACTION_FOCUS.HAND_CARDS;
+    }
+    return null;
+  }
+
+  function syncInteractionFocusChrome() {
+    const mode = getInteractionFocusMode();
+    if (!els.appWrap) return;
+    els.appWrap.dataset.interactionFocus = mode || "";
+    els.boardShell?.classList.toggle("board-shell-focused", mode === INTERACTION_FOCUS.BOARD_ROCKETS);
+  }
+
+  function syncIndustryHandSelectionChrome() {
+    const active = isIndustryHandSelectionActive();
+    if (active) cancelCardCornerQuickAction({ silent: true });
+    els.appWrap?.classList.toggle("industry-hand-selection-active", active);
+    els.playerHandPanel?.classList.toggle("industry-hand-selection-active", active);
+    els.playerHandPanel?.classList.toggle("player-hand-panel-focused", active);
+    if (active) {
+      setQuickPanelOpen(false);
+      scrollToPlayerHandPanel();
+    }
+    updatePlayerHandPanelTitle();
+    renderPlayerHand();
+    syncInteractionFocusChrome();
+  }
+
+  function canSelectRocketForMoveInteraction(rocket) {
+    const player = getCurrentPlayer();
+    if (rocket.playerId !== player?.id) return false;
+    if (!rocketActions.isControllablePlayerRocket(rocket)) return false;
+    if (isRocketOnPlanetsReference(rocket)) return false;
+    if (industryFreeMoveState?.movedRocketIds?.includes(rocket.id)) return false;
+    return true;
+  }
+
+  function isRocketMoveCandidate(rocket) {
+    if (!isBoardRocketInteractionActive()) return false;
+    if (moveHighlightRocketId != null) return rocket.id === moveHighlightRocketId;
+    return canSelectRocketForMoveInteraction(rocket);
+  }
+
+  function isRocketMoveMuted(rocket) {
+    if (!isBoardRocketInteractionActive()) return false;
+    if (isRocketMoveCandidate(rocket)) return false;
+    if (isRocketOnPlanetsReference(rocket)) return false;
+    return true;
   }
 
   function syncDiscardSelectionChrome() {
@@ -1277,6 +1388,7 @@
     updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
+    syncInteractionFocusChrome();
   }
 
   function isHandScanSelectionActive() {
@@ -1295,6 +1407,7 @@
     updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
+    syncInteractionFocusChrome();
   }
 
   function cancelHandScanSelection() {
@@ -1368,6 +1481,7 @@
     updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
+    syncInteractionFocusChrome();
   }
 
   function scrollToPlayerHandPanel() {
@@ -1396,6 +1510,11 @@
   function beginMovePaymentSelection(deltaX, deltaY, rocketId) {
     const blocked = blockIncompatiblePendingQuickAction("move");
     if (blocked) return blocked;
+
+    const gameplayLockReason = getGameplayLockReason();
+    if (gameplayLockReason) {
+      return { ok: false, message: gameplayLockReason };
+    }
 
     if (isTechTilePickingActive()) {
       return { ok: false, message: "请先完成科技选择" };
@@ -1570,17 +1689,90 @@
   function syncPlayCardSelectionChrome() {
     const active = isPlayCardSelectionActive();
     if (active) cancelCardCornerQuickAction({ silent: true });
+    const pending = active ? getPendingPlayCardSelection() : null;
     els.appWrap?.classList.toggle("play-card-selection-active", active);
     els.playerHandPanel?.classList.toggle("play-card-selection-active", active);
     els.playerHandPanel?.classList.toggle("player-hand-panel-focused", active);
     if (els.playCardActionButton) {
-      els.playCardActionButton.hidden = !active;
-      els.playCardActionButton.disabled = !active;
-      els.playCardActionButton.title = active ? "点击卡牌打出，或点击此处取消" : "";
+      els.playCardActionButton.hidden = !pending;
+      els.playCardActionButton.disabled = !pending;
+      els.playCardActionButton.title = pending
+        ? `打出 ${cards.getCardLabel(pending.card)}`
+        : "";
+    }
+    if (els.playCardSelectionCancel) {
+      els.playCardSelectionCancel.hidden = !active;
     }
     updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
+    syncInteractionFocusChrome();
+  }
+
+  function getPendingPlayCardSelection() {
+    if (!pendingPlayCardSelection || !isPlayCardSelectionActive()) return null;
+
+    const currentPlayer = getCurrentPlayer();
+    const hand = Array.isArray(currentPlayer?.hand) ? currentPlayer.hand : [];
+    let handIndex = Number(pendingPlayCardSelection.handIndex);
+    let card = Number.isInteger(handIndex) ? hand[handIndex] : null;
+
+    if (!card || card.id !== pendingPlayCardSelection.cardId) {
+      handIndex = hand.findIndex((item) => item.id === pendingPlayCardSelection.cardId);
+      card = handIndex >= 0 ? hand[handIndex] : null;
+    }
+
+    if (!card) {
+      pendingPlayCardSelection = null;
+      return null;
+    }
+
+    pendingPlayCardSelection = { handIndex, cardId: card.id };
+    return { handIndex, card };
+  }
+
+  function handlePlayCardSelect(handIndex) {
+    if (!isPlayCardSelectionActive()) return;
+
+    const currentPlayer = getCurrentPlayer();
+    const index = Math.round(handIndex);
+    const card = currentPlayer?.hand?.[index];
+    if (!card) {
+      rocketState.statusNote = "无效的手牌位置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const price = getCardPrice(card);
+    if ((currentPlayer.resources?.credits || 0) < price) {
+      rocketState.statusNote = `信用点不足：${cards.getCardLabel(card)} 需要 ${price} 信用点`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const current = getPendingPlayCardSelection();
+    if (current?.handIndex === index) {
+      pendingPlayCardSelection = null;
+      rocketState.statusNote = "打牌：请选择一张手牌";
+    } else {
+      pendingPlayCardSelection = { handIndex: index, cardId: card.id };
+      rocketState.statusNote = `打牌：已选择 ${cards.getCardLabel(card)}，点击「打出」确认`;
+    }
+
+    syncPlayCardSelectionChrome();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function confirmPlayCardSelection() {
+    const pending = getPendingPlayCardSelection();
+    if (!pending) {
+      rocketState.statusNote = "请先选择要打出的手牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    return handleHandCardPlay(pending.handIndex);
   }
 
   function getPendingCardCornerQuickAction() {
@@ -1633,13 +1825,15 @@
   }
 
   function canUseCardCornerQuickAction() {
-    return !isInitialSelectionActive()
+    return !getGameplayLockReason()
       && !isTechTilePickingActive()
       && !isCardSelectionActive()
       && !isDiscardSelectionActive()
       && !isPlayCardSelectionActive()
       && !isHandScanSelectionActive()
       && !isMovePaymentSelectionActive()
+      && !pendingIndustryAbility
+      && !isIndustryHandSelectionActive()
       && !pendingCardCornerFreeMove
       && !hasActivePendingSubFlow();
   }
@@ -1661,6 +1855,7 @@
     }
     updatePlayerHandPanelTitle();
     renderPlayerHand();
+    syncInteractionFocusChrome();
   }
 
   function cancelCardCornerQuickAction(options = {}) {
@@ -1989,6 +2184,26 @@
         rocketState.statusNote = incomeResult.ok
           ? incomeResult.message
           : (incomeResult.message || "收入失败");
+      } else if (pending.type === "industry_helios_income") {
+        rocketState.statusNote = incomeResult.ok
+          ? `赫利昂联合体：移除 ${pending.removedTileId || "科技"}，${incomeResult.message}`
+          : (incomeResult.message || "收入失败");
+        if (incomeResult.ok) {
+          recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+            pending.player || getCurrentPlayer(),
+            pending.beforePlayer,
+            "恢复赫利昂收入结算前玩家状态",
+          ));
+          if (pending.beforeCardState) {
+            recordQuickHistoryCommand(historyCommands.createRestorePublicCardsCommand(
+              cardState,
+              pending.beforeCardState.publicCards,
+              pending.beforeCardState.discardPile,
+            ));
+          }
+          completeQuickActionStep();
+          finishIndustryAbilityFlow(rocketState.statusNote);
+        }
       } else {
         rocketState.statusNote = incomeResult.ok
           ? incomeResult.message
@@ -2124,6 +2339,7 @@
     }
 
     cards.setPlayCardSelectionActive(cardState, true);
+    pendingPlayCardSelection = null;
     rocketState.statusNote = "打牌：请选择一张手牌";
     syncPlayCardSelectionChrome();
     updateActionButtons();
@@ -2134,6 +2350,7 @@
   function cancelPlayCardSelection() {
     if (!isPlayCardSelectionActive()) return;
 
+    pendingPlayCardSelection = null;
     cards.setPlayCardSelectionActive(cardState, false);
     rocketState.statusNote = "已取消打牌";
     syncPlayCardSelectionChrome();
@@ -2185,6 +2402,14 @@
     const shouldReserve = [1, 2, 3].includes(typeCode);
     const playEffects = cardEffects.buildPlayEffects(playedCard);
     const temporaryTasks = cardEffects.getTemporaryTasks(playedCard);
+    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
+      cards,
+      currentPlayer,
+      turnState.roundNumber,
+      turnState.turnNumber,
+      playedCard,
+    ) || [];
+    const allPlayEffects = [...playEffects, ...sentinelEffects];
     if (shouldReserve) {
       if (!Array.isArray(currentPlayer.reservedCards)) currentPlayer.reservedCards = [];
       cardEffects.ensureCardEffectState(playedCard);
@@ -2194,17 +2419,20 @@
     }
 
     cards.setPlayCardSelectionActive(cardState, false);
+    pendingPlayCardSelection = null;
     rocketState.statusNote = shouldReserve
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${price} 信用点，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${price} 信用点，已弃掉`;
+    applyIndustryPlayCardPassives(playedCard, typeCode);
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState);
-    if (playEffects.length) {
-      startCardEffectFlow("play-card-effects", `打出 ${cards.getCardLabel(playedCard)}`, playEffects, {
+    if (allPlayEffects.length) {
+      startCardEffectFlow("play-card-effects", `打出 ${cards.getCardLabel(playedCard)}`, allPlayEffects, {
         actionType: "playCard",
         card: playedCard,
         temporaryTasks,
+        industryPlayedCard: playedCard,
       });
     } else {
       markActionPending();
@@ -2246,6 +2474,16 @@
         ? "放置数据：精选一张公共牌，或点击盲抽"
       : pendingAction?.type === "tech_bonus_pick_card"
         ? "科技奖励：精选一张公共牌"
+      : pendingAction?.type === "industry_stratus_corner"
+        ? `层云核心：请点击公共牌结算弃牌角标（剩余 ${pendingAction.remaining ?? 0} 张）`
+      : pendingAction?.type === "industry_mission_pick"
+        ? "任务中继站：精选 1 张公共牌并获得收入资源"
+      : pendingAction?.type === "industry_fenwick_pick"
+        ? "芬威克研究中心：精选 1 张公共牌并获得弃牌角标"
+      : pendingAction?.type === "industry_strategy_pick"
+        ? "宇宙战略集团：精选 1 张公共牌"
+      : pendingAction?.type === "industry_deepspace_public"
+        ? "深空探测：请选择 1 张公共牌完成交换"
       : allowsBlindDrawInSelection()
       ? "精选：从公共牌区选一张牌，或点击盲抽"
       : "精选：从公共牌区选一张牌";
@@ -2311,6 +2549,12 @@
       rocketState.statusNote = "已取消放置数据精选";
     } else if (pending?.type === "tech_bonus_pick_card") {
       rocketState.statusNote = "已取消科技奖励精选";
+    } else if (pending?.type?.startsWith?.("industry_")) {
+      if (pending.refundCost && pending.player) {
+        players.gainResources(pending.player, pending.refundCost);
+      }
+      cancelIndustryAbilityFlow({ silent: true });
+      rocketState.statusNote = "已取消公司 1x 行动";
     } else {
       rocketState.statusNote = "";
     }
@@ -2384,6 +2628,58 @@
       appendActionLogStep(HISTORY_SOURCE_QUICK, "放置数据", rocketState.statusNote);
       clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
       if (quickActionHistory.hasSession()) quickActionHistory.commitSession();
+    }
+    if (pending?.type === "industry_mission_pick") {
+      const player = pending.player || getCurrentPlayer();
+      const incomeResult = industry.applyIncomeResourcesFromCard(cards, players, data, player, result.card);
+      rocketState.statusNote = incomeResult.ok
+        ? `任务中继站：精选 ${cards.getCardLabel(result.card)}，${incomeResult.message}`
+        : incomeResult.message;
+      finishIndustryAbilityFlow(rocketState.statusNote);
+      commitIrreversibleIndustryQuickAction("任务中继站：精选", rocketState.statusNote);
+    }
+    if (pending?.type === "industry_fenwick_pick") {
+      const player = pending.player || getCurrentPlayer();
+      const reward = industry.getCornerReward(cards, result.card);
+      const applied = reward
+        ? industry.applyCornerReward(players, data, player, reward)
+        : { ok: false, message: "该牌没有弃牌角标奖励" };
+      rocketState.statusNote = applied.ok
+        ? `芬威克研究中心：精选 ${cards.getCardLabel(result.card)}，${applied.message}`
+        : applied.message;
+      if (applied.ok && applied.pendingFreeMove) {
+        const moveCheck = canStartCardCornerFreeMove();
+        if (moveCheck.ok) {
+          pendingCardCornerFreeMove = {
+            action: {
+              label: "芬威克研究中心：免费移动",
+              movementPoints: applied.pendingFreeMove.movementPoints || 1,
+            },
+            discardedCardLabel: cards.getCardLabel(result.card),
+            finishIndustryFlowAfterMove: true,
+            irreversibleIndustryFlow: true,
+            industryLogLabel: "芬威克研究中心：精选",
+            afterMoveStatus: rocketState.statusNote,
+          };
+          if (moveCheck.rocketsForPlayer.length === 1) {
+            activateMoveMode(moveCheck.rocketsForPlayer[0].id);
+          } else {
+            selectDefaultRocketForCurrentPlayer();
+          }
+        } else {
+          rocketState.statusNote = `${rocketState.statusNote}；${moveCheck.message}`;
+          finishIndustryAbilityFlow(rocketState.statusNote);
+          commitIrreversibleIndustryQuickAction("芬威克研究中心：精选", rocketState.statusNote);
+        }
+      } else {
+        finishIndustryAbilityFlow(rocketState.statusNote);
+        commitIrreversibleIndustryQuickAction("芬威克研究中心：精选", rocketState.statusNote);
+      }
+    }
+    if (pending?.type === "industry_strategy_pick") {
+      rocketState.statusNote = `宇宙战略集团：精选 ${cards.getCardLabel(result.card)}`;
+      finishIndustryAbilityFlow(rocketState.statusNote);
+      commitIrreversibleIndustryQuickAction("宇宙战略集团：精选", rocketState.statusNote);
     }
     cards.ensurePublicCardsFilled(cardState, playerState);
     syncCardSelectionChrome();
@@ -2527,6 +2823,14 @@
     if (!isCardSelectionActive()) return;
     if (pendingCardSelectionAction?.type === "public_scan") {
       handlePublicScanCardClick(slotIndex);
+      return;
+    }
+    if (pendingCardSelectionAction?.type === "industry_stratus_corner") {
+      handleIndustryStratusPublicClick(slotIndex);
+      return;
+    }
+    if (pendingCardSelectionAction?.type === "industry_deepspace_public") {
+      finalizeIndustryDeepspaceSwap(slotIndex);
       return;
     }
     pickPublicCardForCurrentPlayer(slotIndex);
@@ -2760,6 +3064,7 @@
       els.scanTargetCancel.hidden = false;
     }
     renderPlayerHand();
+    syncInteractionFocusChrome();
   }
 
   function buildNebulaScanChoice(nebulaId, extra = {}) {
@@ -2814,6 +3119,11 @@
   function confirmScanTarget(nebulaId, sectorX) {
     const pending = pendingScanTargetAction;
     closeScanTargetPicker();
+
+    if (pending?.type === "industry_remove_tech") {
+      return confirmIndustryHeliosRemoveTech(nebulaId);
+    }
+
     const scanSource = pending?.fromEffectFlow || isActionEffectFlowActive() ? "scan" : "debug";
 
     if (pending?.type === "sector_scan") {
@@ -3451,6 +3761,32 @@
     return pendingActionEffectFlow != null;
   }
 
+  function isInitialIncomeFlowActive() {
+    return pendingActionEffectFlow?.actionType === "initialIncome";
+  }
+
+  function getGameplayLockReason() {
+    if (isInitialSelectionActive()) return "请先完成初始选择";
+    if (isInitialIncomeFlowActive()) return "请先完成初始收入增加";
+    return null;
+  }
+
+  function lockAllActionButtons(reason) {
+    setTurnActionButtonState(els.actionPassButton, false);
+    setTurnActionButtonState(els.actionConfirmButton, false);
+    setTurnActionButtonState(els.actionUndoButton, false);
+    setActionButtonState(els.actionLaunchButton, false, reason);
+    setActionButtonState(els.actionOrbitButton, false, reason);
+    setActionButtonState(els.actionLandButton, false, reason);
+    setActionButtonState(els.actionScanButton, false, reason);
+    setActionButtonState(els.actionAnalyzeButton, false, reason);
+    setActionButtonState(els.actionPlayCardButton, false, reason);
+    setActionButtonState(els.actionResearchTechButton, false, reason);
+    setQuickActionButtonEnabled(false, reason);
+    updateQuickPanel();
+    renderActionEffectBar();
+  }
+
   function recordHistoryCommand(command) {
     if (!actionHistory.hasSession()) return;
     actionHistory.record(command);
@@ -3554,6 +3890,13 @@
     if (actionType !== "card-corner" && pendingCardCornerQuickAction) {
       cancelCardCornerQuickAction({ silent: true });
     }
+    if (hasActivePendingSubFlow()) {
+      rocketState.statusNote = pendingIndustryAbility || industryFreeMoveState || isIndustryHandSelectionActive()
+        ? "请先完成或取消公司 1x 行动"
+        : "请先完成或取消当前流程";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     return null;
   }
 
@@ -3571,6 +3914,7 @@
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
     pendingActionEffectFlow.card = options.card || null;
     pendingActionEffectFlow.cardTemporaryTasks = options.temporaryTasks || [];
+    pendingActionEffectFlow.industryPlayedCard = options.industryPlayedCard || options.card || null;
 
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
     rocketState.statusNote = `${label}：请依次点击效果`;
@@ -4015,7 +4359,7 @@
 
     const result = abilities.executeAbility("moveProbe", createActionContext(), {
       cost: {},
-      movementPoints: pending.action.moveReward?.movementPoints || 1,
+      movementPoints: pending.action.moveReward?.movementPoints || pending.action.movementPoints || 1,
       rocketId,
       deltaX,
       deltaY,
@@ -4038,12 +4382,21 @@
     clearMoveRocketHighlight();
     deactivateMoveMode();
     rocketState.statusNote = `卡牌快速行动：${pending.discardedCardLabel} ${pending.action.label}，${result.message}`;
+    const finishIndustryAfterMove = Boolean(pending.finishIndustryFlowAfterMove);
+    const industryFinishMessage = pending.afterMoveStatus || rocketState.statusNote;
+    settleCardTasksAfterEffect({ events: result.events, render: false });
+    if (finishIndustryAfterMove) {
+      finishIndustryAbilityFlow(industryFinishMessage);
+      if (pending.irreversibleIndustryFlow) {
+        commitIrreversibleIndustryQuickAction(pending.industryLogLabel || pending.action.label, industryFinishMessage);
+      }
+      return result;
+    }
     renderPlayerStats();
     renderRockets();
     renderPlayerHand();
     updateActionButtons();
     renderStateReadout();
-    settleCardTasksAfterEffect({ events: result.events, render: false });
     return result;
   }
 
@@ -4108,7 +4461,8 @@
     return type === "income"
       || type === "planet_reward_income"
       || type === "place_data_income"
-      || type === "initial_income";
+      || type === "initial_income"
+      || type === "industry_helios_income";
   }
 
   function getPlaceDataSlotBonuses(placeResult) {
@@ -4270,8 +4624,10 @@
     updatePublicCardControls();
     renderPlayerStats();
     renderReservedCards();
+    renderInitialSelectionArea();
     updateActionButtons();
     renderActionEffectBar();
+    syncInteractionFocusChrome();
     if (message) rocketState.statusNote = message;
     renderStateReadout();
   }
@@ -4321,7 +4677,10 @@
   function hasActivePendingSubFlow() {
     return hasActiveEffectSubFlow()
       || isMovePaymentSelectionActive()
-      || (els.dataPlaceOverlay && !els.dataPlaceOverlay.hidden);
+      || (els.dataPlaceOverlay && !els.dataPlaceOverlay.hidden)
+      || Boolean(pendingIndustryAbility)
+      || Boolean(industryFreeMoveState)
+      || isIndustryHandSelectionActive();
   }
 
   function cancelActivePendingSubFlows() {
@@ -4336,6 +4695,11 @@
     if (els.dataPlaceOverlay && !els.dataPlaceOverlay.hidden) {
       closeDataPlacePicker();
       rocketState.statusNote = "已取消放置数据";
+      return true;
+    }
+    if (pendingIndustryAbility || industryFreeMoveState || isIndustryHandSelectionActive()) {
+      cancelIndustryAbilityFlow();
+      rocketState.statusNote = "已取消公司 1x 行动";
       return true;
     }
     return false;
@@ -4589,6 +4953,7 @@
       renderDebugPlayerSwitch();
       renderPlayerStats();
       renderPlayerHand();
+      syncInteractionFocusChrome();
       updateActionButtons();
       renderStateReadout();
       return;
@@ -5504,6 +5869,8 @@
     if (rewardResult) return rewardResult;
 
     switch (effect.type) {
+      case "industry_sentinel_corner":
+        return executeIndustrySentinelCornerEffect(effect);
       case "initial_income":
         return openInitialIncomeEffect(effect);
       case scanEffects.EFFECT_TYPES.PAY_SCAN_COST: {
@@ -6005,6 +6372,10 @@
   }
 
   function onTechTileSelected(result) {
+    const player = getCurrentPlayer();
+    if (industry?.shouldApplyTuringBlueTechPublicity?.(player, result.tileId)) {
+      players.gainResources(player, { publicity: industry.getTuringBlueTechPublicityGain() });
+    }
     appendResearchTechFollowupEffects(result);
     syncTechSelectionChrome();
     renderTechBoard();
@@ -6013,7 +6384,7 @@
   }
 
   function syncTechSelectionChrome() {
-    const active = isTechTilePickingActive();
+    const active = isTechTilePickingActive() || Boolean(techGameState?.ui?.industryBorrowMode);
     els.appWrap?.classList.toggle("tech-selection-active", active);
     if (els.techSelectionBackdrop) {
       els.techSelectionBackdrop.hidden = !active;
@@ -6026,9 +6397,20 @@
       els.techPanel.classList.toggle("tech-panel-focused", active);
     }
     if (active) setQuickPanelOpen(false);
+    syncInteractionFocusChrome();
   }
 
   function cancelTechSelection() {
+    if (techGameState.ui.industryBorrowMode) {
+      techGameState.ui.industryBorrowMode = false;
+      tech.setTechSelectionActive(techGameState, false);
+      techGameState.ui.statusNote = "";
+      cancelIndustryAbilityFlow();
+      rocketState.statusNote = "已取消图灵系统科技借用";
+      syncTechSelectionChrome();
+      renderStateReadout();
+      return;
+    }
     tech.setTechSelectionActive(techGameState, false);
     tech.cancelPendingTake(techGameState);
     techGameState.ui.selectedTileId = null;
@@ -6146,6 +6528,9 @@
   }
 
   function handleSupplyTechTileClick(tileId) {
+    if (techGameState.ui.industryBorrowMode) {
+      return confirmIndustryTuringBorrow(tileId);
+    }
     if (!tech.isSupplySelectionActive(techGameState.ui)) return;
 
     const currentPlayer = getCurrentPlayer();
@@ -6256,6 +6641,7 @@
     pendingDiscardAction = null;
     pendingCardSelectionAction = null;
     pendingHandScanAction = null;
+    pendingPlayCardSelection = null;
     cards.setSelectionActive(cardState, false);
     cards.setDiscardSelectionActive(cardState, false, 0);
     cards.setPlayCardSelectionActive(cardState, false);
@@ -6662,6 +7048,8 @@
     element.classList.toggle("is-reference-satellite", referencePlacement?.kind === "satellite");
     element.classList.toggle("is-planet-marker", Boolean(referencePlacement?.isPlanetMarker));
     element.classList.toggle("is-move-target", rocket.id === moveHighlightRocketId);
+    element.classList.toggle("is-move-candidate", isRocketMoveCandidate(rocket));
+    element.classList.toggle("is-move-muted", isRocketMoveMuted(rocket));
     element.classList.toggle(
       "is-move-selectable",
       rocket.playerId === getCurrentPlayer().id
@@ -6810,6 +7198,184 @@
     return item;
   }
 
+  function buildPlayerResourceStatNodes(player, options = {}) {
+    const resources = player.resources || players.DEFAULT_RESOURCES;
+    const limits = players.RESOURCE_LIMITS;
+    const nodes = [
+      createStatIcon("信用点", resources.credits, RESOURCE_ICON_SRC.credits),
+      createStatIcon("能量", resources.energy, RESOURCE_ICON_SRC.energy),
+      createStatIcon("宣传", `${resources.publicity}/${limits.publicity}`, RESOURCE_ICON_SRC.publicity),
+      createStatIcon("可用数据", `${resources.availableData}/${limits.availableData}`, RESOURCE_ICON_SRC.data),
+      createStatIcon("额外公共扫描", resources.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
+    ];
+
+    if (options.includeHandSize) {
+      const handCount = Array.isArray(player.hand) ? player.hand.length : (resources.handSize || 0);
+      nodes.push(createStatIcon("手牌", handCount, RESOURCE_ICON_SRC.card));
+    }
+
+    return nodes;
+  }
+
+  function buildPlayerIncomeStatNodes(player) {
+    const income = player.income || players.DEFAULT_INCOME;
+    return [
+      createStatIconMarker("收入", RESOURCE_ICON_SRC.income),
+      createStatIcon("收入信用点", income.credits || 0, RESOURCE_ICON_SRC.credits),
+      createStatIcon("收入能量", income.energy || 0, RESOURCE_ICON_SRC.energy),
+      createStatIcon("收入手牌", income.handSize || 0, RESOURCE_ICON_SRC.incomeCard),
+      createStatIcon("收入宣传", income.publicity || 0, RESOURCE_ICON_SRC.publicity),
+      createStatIcon("收入数据", income.availableData || 0, RESOURCE_ICON_SRC.data),
+      createStatIcon("收入额外公共扫描", income.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
+    ];
+  }
+
+  function computePlayerFinalScoreBreakdown(player) {
+    return endGameScoring?.computePlayerFinalScore
+      ? endGameScoring.computePlayerFinalScore({
+        currentPlayer: player,
+        finalScoringState,
+        nebulaDataState,
+        alienGameState,
+        planetStatsState,
+        cardEffects,
+        getCardTypeCode,
+      })
+      : { totalScore: player.resources?.score || 0 };
+  }
+
+  function createOpponentStatRow(className) {
+    const row = document.createElement("div");
+    row.className = `opponent-stat-row ${className}`;
+    return row;
+  }
+
+  function createOpponentTechRow(player, techType, prefix, techColor) {
+    const row = createOpponentStatRow("opponent-stat-row-tech");
+    const ownedTiles = player.techState?.ownedTiles || {};
+
+    for (let index = 1; index <= 4; index += 1) {
+      const tileId = `${techType}${index}`;
+      const item = document.createElement("span");
+      item.className = "opponent-tech-item";
+      item.textContent = `${prefix}${index}`;
+      if (ownedTiles[tileId]) {
+        item.classList.add("is-owned");
+        item.style.setProperty("--opponent-tech-color", techColor);
+      } else {
+        item.classList.add("is-missing");
+      }
+      row.append(item);
+    }
+
+    return row;
+  }
+
+  function createOpponentPlayerHeaderRow(player, score, finalTotalScore) {
+    const color = players.getPlayerColorDefinition(player.color);
+    const row = createOpponentStatRow("opponent-stat-row-header");
+
+    const idEl = document.createElement("span");
+    idEl.className = "opponent-stat-id player-stat-value";
+    idEl.textContent = player.colorLabel || color.label;
+
+    const marker = document.createElement("span");
+    marker.className = "player-color-marker";
+    marker.style.setProperty("--player-color", color.uiColor);
+    marker.setAttribute("aria-label", color.label);
+
+    row.append(
+      idEl,
+      marker,
+      createInlineIconValue("分数", score, RESOURCE_ICON_SRC.score, "player-stat-score"),
+      createInlineIconValue("终局总分", finalTotalScore, RESOURCE_ICON_SRC.finalScore, "player-stat-final-score"),
+    );
+    return row;
+  }
+
+  function createOpponentSummaryRow(player) {
+    const row = createOpponentStatRow("opponent-stat-row-summary");
+    const orbitLandCount = endGameScoring?.countOrbitOrLandMarkers
+      ? endGameScoring.countOrbitOrLandMarkers(player, planetStatsState)
+      : 0;
+
+    row.append(createStatIcon("环绕登陆", orbitLandCount, RESOURCE_ICON_SRC.orbitOrLand));
+
+    for (const { color, label, iconKey } of OPPONENT_SECTOR_WIN_STATS) {
+      const count = endGameScoring?.countSectorWinsByColor
+        ? endGameScoring.countSectorWinsByColor(player, nebulaDataState, color)
+        : 0;
+      row.append(createStatIcon(label, count, RESOURCE_ICON_SRC[iconKey]));
+    }
+
+    return row;
+  }
+
+  function createOpponentAlienTraceRow(player) {
+    const row = createOpponentStatRow("opponent-stat-row-alien-traces");
+    row.append(
+      createStatIcon(
+        "黄色外星人痕迹",
+        endGameScoring?.countTraceMarkers
+          ? endGameScoring.countTraceMarkers(player, alienGameState, "yellow")
+          : 0,
+        RESOURCE_ICON_SRC.alienYellow,
+      ),
+      createStatIcon(
+        "粉色外星人痕迹",
+        endGameScoring?.countTraceMarkers
+          ? endGameScoring.countTraceMarkers(player, alienGameState, "pink")
+          : 0,
+        RESOURCE_ICON_SRC.alienPink,
+      ),
+      createStatIcon(
+        "蓝色外星人痕迹",
+        endGameScoring?.countTraceMarkers
+          ? endGameScoring.countTraceMarkers(player, alienGameState, "blue")
+          : 0,
+        RESOURCE_ICON_SRC.alienBlue,
+      ),
+    );
+    return row;
+  }
+
+  function renderOpponentStats() {
+    if (!els.opponentStatGrid) return;
+
+    const currentPlayerId = playerState.currentPlayerId;
+    const cards = playerState.players.map((player) => {
+      const color = players.getPlayerColorDefinition(player.color);
+      const finalScoreBreakdown = computePlayerFinalScoreBreakdown(player);
+      const card = document.createElement("article");
+      card.className = "opponent-stat-card";
+      card.dataset.playerId = player.id;
+      if (player.id === currentPlayerId) {
+        card.classList.add("is-current");
+      }
+      card.style.setProperty("--player-color", color.uiColor);
+
+      const resourcesRow = createOpponentStatRow("opponent-stat-row-resources");
+      resourcesRow.append(...buildPlayerResourceStatNodes(player, { includeHandSize: true }));
+
+      const incomeRow = createOpponentStatRow("opponent-stat-row-income");
+      incomeRow.append(...buildPlayerIncomeStatNodes(player));
+
+      card.append(
+        createOpponentPlayerHeaderRow(player, player.resources.score, finalScoreBreakdown.totalScore),
+        resourcesRow,
+        incomeRow,
+        ...OPPONENT_TECH_TYPES.map(({ type, prefix, color: techColor }) => (
+          createOpponentTechRow(player, type, prefix, techColor)
+        )),
+        createOpponentSummaryRow(player),
+        createOpponentAlienTraceRow(player),
+      );
+      return card;
+    });
+
+    els.opponentStatGrid.replaceChildren(...cards);
+  }
+
   function layoutCardFan(fan, cardCount) {
     if (!fan) return;
 
@@ -6877,6 +7443,7 @@
       || playActive
       || movePaymentActive
       || handScanActive
+      || isIndustryHandSelectionActive()
       || handScanPickIndex != null
       || cardCornerActionEnabled;
     const currentCredits = Number(currentPlayer.resources?.credits) || 0;
@@ -6917,6 +7484,10 @@
           button.classList.add("is-scan-card", "is-selected");
           button.disabled = true;
           button.setAttribute("aria-label", `${label}（扫描中）`);
+        } else if (isIndustryHandSelectionActive()) {
+          button.classList.add("is-industry-hand-card");
+          button.setAttribute("aria-label", `${label}（深空探测：选择交换手牌）`);
+          button.title = "深空探测：点击选择要交换的手牌";
         } else if (movePaymentActive) {
           if (isMovePaymentCard(card)) {
             button.classList.add("is-move-card");
@@ -6943,12 +7514,18 @@
             button.setAttribute("aria-label", label);
             button.title = "这张牌没有可用的左上角快速行动";
           }
-        } else {
+        } else if (playActive) {
+          const selected = getPendingPlayCardSelection()?.handIndex === index;
           button.classList.add(affordable ? "is-playable" : "is-unaffordable");
+          if (selected) button.classList.add("is-selected");
           button.setAttribute("aria-label", `${label}，费用 ${price} 信用点`);
           button.title = affordable
-            ? `打出 ${label}，支付 ${price} 信用点`
+            ? selected
+              ? `已选择 ${label}，点击上方「打出」确认，或再次点击取消选择`
+              : `选择 ${label}，费用 ${price} 信用点`
             : `信用点不足，需要 ${price}`;
+        } else {
+          button.setAttribute("aria-label", label);
         }
 
         const image = document.createElement("img");
@@ -7035,6 +7612,7 @@
       const offer = getInitialSelectionOffer(currentPlayer?.id);
       els.initialSelectionArea.hidden = false;
       els.initialSelectionArea.replaceChildren(createInitialSelectionPicker(offer));
+      syncInteractionFocusChrome();
       return;
     }
 
@@ -7042,6 +7620,7 @@
     if (!selectedCards.length) {
       els.initialSelectionArea.hidden = true;
       els.initialSelectionArea.replaceChildren();
+      syncInteractionFocusChrome();
       return;
     }
 
@@ -7051,6 +7630,684 @@
     const [companyCard] = selectedCards;
     summary.replaceChildren(createCompanyCardSummary(companyCard, currentPlayer));
     els.initialSelectionArea.replaceChildren(summary);
+    syncInteractionFocusChrome();
+  }
+
+  function applyIndustryStartupPassives() {
+    for (const player of playerState.players) {
+      if (!industry?.shouldPlaceMissionStartupFinalMark?.(player)) continue;
+      const markResult = finalScoring.placeDirectMarkAtSlot(finalScoringState, "c", player, 3, {
+        tokenSrc: getNormalTokenAssetForPlayer(player),
+        source: "mission_relay_startup",
+      });
+      if (!markResult.ok) {
+        rocketState.statusNote = markResult.message;
+      }
+    }
+    renderFinalScoreBoard();
+  }
+
+  function isIndustryHandSelectionActive() {
+    return pendingCardSelectionAction?.type === "industry_deepspace_hand";
+  }
+
+  function isIndustryFreeMoveActive() {
+    return Boolean(industryFreeMoveState);
+  }
+
+  function cancelIndustryAbilityFlow(options = {}) {
+    if (techGameState?.ui?.industryBorrowMode) {
+      techGameState.ui.industryBorrowMode = false;
+      tech.setTechSelectionActive(techGameState, false);
+      syncTechSelectionChrome();
+    }
+    if (pendingCardSelectionAction?.type?.startsWith?.("industry_")) {
+      if (pendingCardSelectionAction.refundCost && pendingCardSelectionAction.player) {
+        players.gainResources(pendingCardSelectionAction.player, pendingCardSelectionAction.refundCost);
+      }
+      pendingCardSelectionAction = null;
+      cards.setSelectionActive(cardState, false);
+      syncCardSelectionChrome();
+    }
+    pendingIndustryAbility = null;
+    industryFreeMoveState = null;
+    if (moveHighlightRocketId != null) {
+      deactivateMoveMode();
+    }
+    if (!options.silent) {
+      renderPlayerHand();
+      renderPublicCards();
+      renderInitialSelectionArea();
+      updateActionButtons();
+    }
+    syncIndustryHandSelectionChrome();
+    syncInteractionFocusChrome();
+  }
+
+  function finishIndustryAbilityFlow(message) {
+    const flowType = pendingIndustryAbility?.flowType;
+    pendingIndustryAbility = null;
+    industryFreeMoveState = null;
+    cards.setSelectionActive(cardState, false);
+    pendingCardSelectionAction = null;
+    syncCardSelectionChrome();
+    if (message) rocketState.statusNote = message;
+    renderPlayerStats();
+    renderPublicCards();
+    renderPlayerHand();
+    renderInitialSelectionArea();
+    updateActionButtons();
+    renderStateReadout();
+    syncIndustryHandSelectionChrome();
+    syncInteractionFocusChrome();
+    if (flowType && !isIndustryIrreversibleFlow(flowType)) {
+      completeIndustryAbilityQuickStep();
+    }
+  }
+
+  function startIndustryAbilityFlow(flow) {
+    if (!flow?.ok) {
+      rocketState.statusNote = flow?.message || "公司 1x 行动无法启动";
+      renderStateReadout();
+      return false;
+    }
+
+    pendingIndustryAbility = { ...flow };
+    switch (flow.flowType) {
+      case "stratus_public_corners":
+        beginCardSelection({
+          type: "industry_stratus_corner",
+          player: getCurrentPlayer(),
+          allowBlindDraw: false,
+          remaining: flow.remaining ?? industry.STRATUS_PUBLIC_CARD_LIMIT,
+        });
+        rocketState.statusNote = flow.message;
+        renderStateReadout();
+        return true;
+      case "turing_borrow_tech":
+        return beginIndustryTuringBorrow(flow);
+      case "sentinel_arm_play_corner": {
+        const injected = tryInjectSentinelPlayCornerEffectAfterArm();
+        finishIndustryAbilityFlow(injected
+          ? `${flow.message}；已加入打牌效果队列`
+          : flow.message);
+        return true;
+      }
+      case "huanyu_free_moves":
+        return beginIndustryHuanyuFreeMoves(flow);
+      case "helios_remove_tech":
+        return openIndustryHeliosTechPicker(flow);
+      case "mission_publicity_pick":
+        return startIndustryPublicityPick(flow, "industry_mission_pick");
+      case "fenwick_publicity_pick":
+        return startIndustryPublicityPick(flow, "industry_fenwick_pick");
+      case "deepspace_swap":
+        pendingCardSelectionAction = {
+          type: "industry_deepspace_hand",
+          player: getCurrentPlayer(),
+          allowBlindDraw: false,
+        };
+        rocketState.statusNote = flow.message;
+        syncIndustryHandSelectionChrome();
+        renderStateReadout();
+        return true;
+      case "strategy_pick":
+        beginCardSelection({
+          type: "industry_strategy_pick",
+          player: getCurrentPlayer(),
+          allowBlindDraw: false,
+        });
+        rocketState.statusNote = flow.message;
+        renderStateReadout();
+        return true;
+      default:
+        cancelIndustryAbilityFlow({ silent: true });
+        rocketState.statusNote = flow.message || "未实现的公司 1x 行动";
+        renderStateReadout();
+        return false;
+    }
+  }
+
+  function startIndustryPublicityPick(flow, pendingType) {
+    const player = getCurrentPlayer();
+    const cost = flow.publicityCost ?? industry.PUBLICITY_PICK_COST;
+    if (!players.canAfford(player, { publicity: cost })) {
+      rocketState.statusNote = `宣传不足，需要 ${cost} 宣传`;
+      renderStateReadout();
+      return false;
+    }
+    players.spendResources(player, { publicity: cost });
+    beginCardSelection({
+      type: pendingType,
+      player,
+      allowBlindDraw: false,
+      refundCost: { publicity: cost },
+      flowLabel: flow.label,
+    });
+    rocketState.statusNote = flow.message;
+    renderStateReadout();
+    return true;
+  }
+
+  function beginIndustryTuringBorrow(flow) {
+    tech.setTechSelectionActive(techGameState, true);
+    techGameState.ui.industryBorrowMode = true;
+    techGameState.ui.selectedTileId = null;
+    techGameState.ui.pendingTileId = null;
+    techGameState.ui.allowedTechTypes = null;
+    techGameState.ui.statusNote = flow.message;
+    rocketState.statusNote = flow.message;
+    syncTechSelectionChrome();
+    renderTechBoard();
+    renderStateReadout();
+    return true;
+  }
+
+  function confirmIndustryTuringBorrow(tileId) {
+    const player = getCurrentPlayer();
+    const beforePlayer = structuredClone(player);
+    player.industryBorrowedTechTileId = tileId;
+    player.industryBorrowedTechRound = turnState.roundNumber;
+    player.industryBorrowedTechTurn = turnState.turnNumber;
+    tech.setTechSelectionActive(techGameState, false);
+    techGameState.ui.industryBorrowMode = false;
+    syncTechSelectionChrome();
+    beginQuickActionStep("industry-turing-borrow", `图灵系统：借用 ${tileId}`);
+    recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      beforePlayer,
+      "恢复图灵借用前玩家状态",
+    ));
+    finishIndustryAbilityFlow(`图灵系统：本轮借用 ${tileId} 效果`);
+    return { ok: true, tileId };
+  }
+
+  function openIndustryHeliosTechPicker(flow) {
+    const player = getCurrentPlayer();
+    const removable = (tech.playerTech?.listOwnedTileIds?.(player.techState) || [])
+      .filter((tileId) => !String(tileId).startsWith("blue"));
+    if (!removable.length) {
+      finishIndustryAbilityFlow("赫利昂联合体：没有可移除的非蓝色科技");
+      return false;
+    }
+    return openScanTargetPicker({
+      type: "industry_remove_tech",
+      title: flow.label || "赫利昂联合体",
+      subtitle: "选择要移除的科技（不可选蓝色），随后增加 1 次收入",
+      choices: removable.map((tileId) => ({
+        nebulaId: tileId,
+        label: tileId,
+        description: "移除后不再具备该科技效果",
+      })),
+    });
+  }
+
+  function confirmIndustryHeliosRemoveTech(tileId) {
+    const player = getCurrentPlayer();
+    const beforePlayer = structuredClone(player);
+    const beforeCardState = {
+      publicCards: cardState.publicCards.slice(),
+      discardPile: (cardState.discardPile || []).slice(),
+    };
+    const removeResult = tech.playerTech.removePlayerTile(player.techState, tileId);
+    if (!removeResult.ok) {
+      rocketState.statusNote = removeResult.message;
+      renderStateReadout();
+      return removeResult;
+    }
+    renderTechBoard();
+    pendingIndustryAbility = { flowType: "helios_remove_tech", removedTileId: tileId };
+    beginQuickActionStep("industry-helios", `赫利昂联合体：移除 ${tileId}`);
+    recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      beforePlayer,
+      "恢复赫利昂移除科技前玩家状态",
+    ));
+    const incomeStart = beginDiscardSelection(1, {
+      type: "industry_helios_income",
+      player,
+      beforePlayer,
+      beforeCardState,
+      removedTileId: tileId,
+    });
+    if (!incomeStart.ok) {
+      Object.assign(player, beforePlayer);
+      renderTechBoard();
+      completeIndustryAbilityQuickStep();
+    }
+    rocketState.statusNote = incomeStart.ok
+      ? `赫利昂联合体：已移除 ${tileId}，请选择 1 张手牌增加收入`
+      : incomeStart.message;
+    renderPlayerStats();
+    renderStateReadout();
+    return removeResult;
+  }
+
+  function beginIndustryHuanyuFreeMoves(flow) {
+    const player = getCurrentPlayer();
+    industryFreeMoveState = {
+      movesLeft: flow.movesLeft ?? 2,
+      movedRocketIds: [],
+      beforePlayer: structuredClone(player),
+      label: flow.label || "寰宇动力",
+    };
+    player.industryHuanyuFreeMovesLeft = industryFreeMoveState.movesLeft;
+    player.industryHuanyuFreeMoveTurn = turnState.turnNumber;
+    const rocketsForPlayer = rocketActions.getRocketsForPlayer(rocketState, player.id);
+    rocketState.statusNote = rocketsForPlayer.length
+      ? `${flow.message}（剩余 ${industryFreeMoveState.movesLeft} 次）`
+      : `${flow.message}：当前没有可移动火箭`;
+    syncInteractionFocusChrome();
+    renderRockets();
+    if (rocketsForPlayer.length === 1) {
+      activateMoveMode(rocketsForPlayer[0].id);
+    } else if (rocketsForPlayer.length > 1) {
+      selectDefaultRocketForCurrentPlayer();
+    } else {
+      finishIndustryAbilityFlow(rocketState.statusNote);
+      return false;
+    }
+    renderStateReadout();
+    return true;
+  }
+
+  function executeIndustryFreeMove(deltaX, deltaY, rocketId) {
+    const state = industryFreeMoveState;
+    if (!state) return { ok: false, message: "没有待结算的公司免费移动" };
+    if (state.movedRocketIds.includes(rocketId)) {
+      rocketState.statusNote = "该火箭本轮已免费移动过";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const moveCheck = rocketActions.canMoveRocket(rocketState, rocketId, deltaX, deltaY);
+    if (!moveCheck.ok) {
+      rocketState.statusNote = moveCheck.message;
+      renderStateReadout();
+      return moveCheck;
+    }
+
+    const playerBeforeMove = structuredClone(getCurrentPlayer());
+    const freeMoveStateBefore = {
+      movesLeft: state.movesLeft,
+      movedRocketIds: [...state.movedRocketIds],
+      label: state.label,
+    };
+    const result = abilities.executeAbility("moveProbe", createActionContext(), {
+      cost: {},
+      movementPoints: 1,
+      rocketId,
+      deltaX,
+      deltaY,
+      historyLabel: `${state.label}：免费移动`,
+      source: "industry",
+    });
+    if (result.rocket) renderRocketElement(result.rocket);
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+
+    beginQuickActionStep("industry-free-move", `${state.label}：免费移动`);
+    state.movedRocketIds.push(rocketId);
+    state.movesLeft -= 1;
+    const player = getCurrentPlayer();
+    player.industryHuanyuMovedRocketIds = [...state.movedRocketIds];
+    player.industryHuanyuFreeMovesLeft = Math.max(0, state.movesLeft);
+    recordQuickHistoryCommand({
+      label: "恢复寰宇免费移动次数",
+      undo() {
+        if (!industryFreeMoveState) {
+          industryFreeMoveState = {
+            movesLeft: freeMoveStateBefore.movesLeft,
+            movedRocketIds: [...freeMoveStateBefore.movedRocketIds],
+            label: freeMoveStateBefore.label,
+          };
+          pendingIndustryAbility = {
+            flowType: "huanyu_free_moves",
+            label: freeMoveStateBefore.label,
+          };
+        } else {
+          industryFreeMoveState.movesLeft = freeMoveStateBefore.movesLeft;
+          industryFreeMoveState.movedRocketIds = [...freeMoveStateBefore.movedRocketIds];
+          industryFreeMoveState.label = freeMoveStateBefore.label;
+        }
+      },
+    });
+    recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      playerBeforeMove,
+      "恢复公司免费移动前玩家状态",
+    ));
+    recordAbilityCommands(result, quickActionHistory);
+    completeQuickActionStep();
+
+    if (state.movesLeft <= 0) {
+      finishIndustryAbilityFlow(`${state.label}：免费移动已完成`);
+      return result;
+    }
+
+    rocketState.statusNote = `${state.label}：还可免费移动 ${state.movesLeft} 枚火箭`;
+    deactivateMoveMode();
+    renderRockets();
+    renderStateReadout();
+    return result;
+  }
+
+  function handleIndustryStratusPublicClick(slotIndex) {
+    const pending = pendingCardSelectionAction;
+    const player = getCurrentPlayer();
+    const card = cardState.publicCards[slotIndex];
+    if (!card) {
+      rocketState.statusNote = "无效的公共牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const reward = industry.getCornerReward(cards, card);
+    if (!reward) {
+      rocketState.statusNote = `${cards.getCardLabel(card)} 没有弃牌角标奖励`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const beforePlayer = structuredClone(player);
+    const applied = industry.applyCornerReward(players, data, player, reward);
+    if (!applied.ok) {
+      rocketState.statusNote = applied.message;
+      renderStateReadout();
+      return applied;
+    }
+
+    beginQuickActionStep("industry-stratus-corner", `层云核心：${cards.getCardLabel(card)}`);
+    recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      beforePlayer,
+      "恢复层云核心角标结算前状态",
+    ));
+    completeQuickActionStep();
+
+    pending.remaining = Math.max(0, (pending.remaining ?? 1) - 1);
+    rocketState.statusNote = `${applied.message}（剩余 ${pending.remaining} 张）`;
+
+    let waitingForFreeMove = false;
+    if (applied.pendingFreeMove) {
+      const moveCheck = canStartCardCornerFreeMove();
+      if (moveCheck.ok) {
+        waitingForFreeMove = true;
+        pendingCardCornerFreeMove = {
+          action: {
+            label: "层云核心：免费移动",
+            movementPoints: applied.pendingFreeMove.movementPoints || 1,
+          },
+          discardedCardLabel: cards.getCardLabel(card),
+          finishIndustryFlowAfterMove: pending.remaining <= 0,
+          afterMoveStatus: rocketState.statusNote,
+        };
+        rocketState.statusNote = moveCheck.rocketsForPlayer.length > 1
+          ? "层云核心：请点击要免费移动的飞船"
+          : "层云核心：使用方向键免费移动飞船";
+        if (moveCheck.rocketsForPlayer.length === 1) {
+          activateMoveMode(moveCheck.rocketsForPlayer[0].id);
+        } else {
+          selectDefaultRocketForCurrentPlayer();
+        }
+      }
+    }
+
+    if (pending.remaining <= 0 && !waitingForFreeMove) {
+      cards.setSelectionActive(cardState, false);
+      pendingCardSelectionAction = null;
+      syncCardSelectionChrome();
+      finishIndustryAbilityFlow(rocketState.statusNote);
+    } else {
+      renderPlayerStats();
+      renderPublicCards();
+      renderStateReadout();
+    }
+    return applied;
+  }
+
+  function handleIndustryDeepspaceHandClick(handIndex) {
+    if (!isIndustryHandSelectionActive()) return;
+    const player = getCurrentPlayer();
+    const index = Math.round(handIndex);
+    const card = player?.hand?.[index];
+    if (!card) {
+      rocketState.statusNote = "无效的手牌位置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    pendingCardSelectionAction = {
+      type: "industry_deepspace_public",
+      player,
+      handIndex: index,
+      handCard: card,
+      allowBlindDraw: false,
+    };
+    cards.setSelectionActive(cardState, true);
+    rocketState.statusNote = `深空探测：已选手牌 ${cards.getCardLabel(card)}，请选择 1 张公共牌交换`;
+    syncCardSelectionChrome();
+    renderPlayerHand();
+    renderPublicCards();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function finalizeIndustryDeepspaceSwap(publicSlotIndex) {
+    const pending = pendingCardSelectionAction;
+    const player = pending?.player || getCurrentPlayer();
+    const handIndex = Number(pending?.handIndex);
+    const slotIndex = Math.round(Number(publicSlotIndex));
+    const publicCard = cardState.publicCards?.[slotIndex];
+    const handCard = Number.isInteger(handIndex) ? player?.hand?.[handIndex] : pending?.handCard;
+    if (!handCard || !publicCard) {
+      rocketState.statusNote = "交换失败：卡牌无效";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const beforePlayer = structuredClone(player);
+    const beforePublicCards = cardState.publicCards.slice();
+    const beforeDiscard = (cardState.discardPile || []).slice();
+
+    player.hand[handIndex] = publicCard;
+    player.resources.handSize = player.hand.length;
+    cardState.publicCards[slotIndex] = handCard;
+
+    beginQuickActionStep("industry-deepspace-swap", "深空探测：交换手牌与公共牌");
+    recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      beforePlayer,
+      "恢复深空探测交换前玩家状态",
+    ));
+    recordQuickHistoryCommand(historyCommands.createRestorePublicCardsCommand(
+      cardState,
+      beforePublicCards,
+      beforeDiscard,
+    ));
+    completeQuickActionStep();
+
+    pendingCardSelectionAction = null;
+    cards.setSelectionActive(cardState, false);
+    syncCardSelectionChrome();
+    finishIndustryAbilityFlow(`深空探测：${cards.getCardLabel(handCard)} 与 ${cards.getCardLabel(publicCard)} 已交换`);
+    renderPlayerHand();
+    renderPublicCards();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function maybeApplyIndustryLaunchScan(result) {
+    const player = getCurrentPlayer();
+    if (!result?.ok || !industry?.shouldScanEarthOnLaunch?.(player)) return result;
+    const earth = getEarthSectorCoordinate();
+    const scanResult = abilities.executeAbility("scanSector", createActionContext(), {
+      sectorX: earth.x,
+      skipCost: true,
+      source: "industry",
+      historyLabel: "哨兵探测网络：发射扫描地球扇区",
+    });
+    if (scanResult.ok) {
+      result.commands = [...(result.commands || []), ...(scanResult.commands || [])];
+      result.message = `${result.message}；${scanResult.message}`;
+      renderSectors();
+    }
+    return result;
+  }
+
+  function applyIndustryPlayCardPassives(playedCard, typeCode) {
+    const player = getCurrentPlayer();
+    if (!player || !playedCard) return;
+    player.industryPlayedCardThisRound = true;
+    player.industryLastPlayedCardThisRound = {
+      id: playedCard.id,
+      src: playedCard.src,
+      cardId: playedCard.cardId,
+      discardActionCode: playedCard.discardActionCode,
+      incomeActionCode: playedCard.incomeActionCode,
+    };
+    if (industry?.shouldGainPublicityOnType12Play?.(player) && [1, 2].includes(typeCode)) {
+      players.gainResources(player, { publicity: industry.getMissionPlayPublicityGain() });
+    }
+  }
+
+  function isIndustryIrreversibleFlow(flowType) {
+    return flowType === "mission_publicity_pick"
+      || flowType === "fenwick_publicity_pick"
+      || flowType === "strategy_pick";
+  }
+
+  function completeIndustryAbilityQuickStep() {
+    if (quickActionHistory.hasUndoableStep()) {
+      completeQuickActionStep();
+    }
+  }
+
+  function commitIrreversibleIndustryQuickAction(label, message) {
+    appendActionLogStep(HISTORY_SOURCE_QUICK, label || "公司 1x 行动", message || null);
+    clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+    if (quickActionHistory.hasSession()) {
+      quickActionHistory.commitSession();
+    }
+  }
+
+  function appendSentinelPlayCornerEffectsToFlow(nodes) {
+    if (!pendingActionEffectFlow || !nodes?.length) return false;
+    if (pendingActionEffectFlow.effects.some((effect) => effect.type === "industry_sentinel_corner")) {
+      return false;
+    }
+    pendingActionEffectFlow.effects.push(...nodes.map((node) => ({
+      ...node,
+      status: "pending",
+    })));
+    pendingActionEffectFlow.completed = false;
+    const hasActiveEffect = pendingActionEffectFlow.effects.some((effect) => effect.status === "active");
+    if (!hasActiveEffect) {
+      els.appWrap?.classList.toggle("action-effect-flow-active", true);
+      activateNextActionEffect();
+    }
+    return true;
+  }
+
+  function tryInjectSentinelPlayCornerEffectAfterArm() {
+    const player = getCurrentPlayer();
+    const playedCard = player?.industryLastPlayedCardThisRound;
+    if (!playedCard) return false;
+
+    const nodes = industry?.buildSentinelPlayCornerEffectNodes?.(
+      cards,
+      player,
+      turnState.roundNumber,
+      turnState.turnNumber,
+      playedCard,
+    ) || [];
+    if (!nodes.length) return false;
+
+    if (isActionEffectFlowActive() && pendingActionEffectFlow.actionType === "playCard") {
+      return appendSentinelPlayCornerEffectsToFlow(nodes);
+    }
+
+    if (!player.industryPlayedCardThisRound || !pendingActionExecuted) return false;
+
+    return startCardEffectFlow(
+      "industry-sentinel-corner",
+      "哨兵探测网络",
+      nodes,
+      { actionType: "playCard", industryPlayedCard: playedCard },
+    );
+  }
+
+  function executeIndustrySentinelCornerEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const playedCard = effect.options?.playedCard;
+    if (!currentPlayer || !playedCard) {
+      rocketState.statusNote = "哨兵探测网络：无效卡牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (industry?.isAlienCard?.(playedCard)) {
+      effect.result = { ok: false, undoable: true, message: "外星人卡牌不能触发哨兵弃牌角标" };
+      completeCurrentActionEffect("skipped");
+      renderStateReadout();
+      return effect.result;
+    }
+
+    const reward = industry.getCornerReward(cards, playedCard);
+    if (!reward) {
+      effect.result = { ok: false, undoable: true, message: "该牌没有弃牌角标奖励" };
+      completeCurrentActionEffect("skipped");
+      renderStateReadout();
+      return effect.result;
+    }
+
+    const beforePlayer = structuredClone(currentPlayer);
+    beginEffectHistoryStep(effect.label);
+    const dataResults = [];
+    if (reward.kind === "resource") {
+      if (reward.gain && Object.keys(reward.gain).length) {
+        players.gainResources(currentPlayer, reward.gain);
+      }
+      const dataCount = Math.max(0, Math.round(Number(reward.dataCount) || 0));
+      for (let index = 0; index < dataCount; index += 1) {
+        const gainResult = data.gainData(currentPlayer, { source: "industry_sentinel" });
+        dataResults.push(gainResult);
+        recordHistoryCommand(historyCommands.createGainDataCommand(currentPlayer, gainResult));
+      }
+    } else if (reward.kind === "move" && reward.gain && Object.keys(reward.gain).length) {
+      players.gainResources(currentPlayer, reward.gain);
+    }
+
+    if (reward.kind === "move") {
+      insertActionEffectsAfterCurrent([{
+        id: `${effect.id || "sentinel-corner"}-move`,
+        type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+        label: `${cards.getCardLabel(playedCard)}：${reward.label}`,
+        icon: "movement",
+        options: {
+          movementPoints: reward.movementPoints || 1,
+          historyLabel: reward.label,
+        },
+      }]);
+    }
+
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      currentPlayer,
+      beforePlayer,
+      "恢复哨兵弃牌角标结算前玩家状态",
+    ));
+
+    const rewardText = reward.kind === "resource"
+      ? formatCardCornerRewardMessage(reward, dataResults)
+      : `${formatPlanetRewardGain(reward.gain || {})}${reward.gain?.score ? "，" : ""}${reward.label}`;
+
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: `${effect.label}：${rewardText}`,
+      payload: { playedCard, reward, dataResults },
+    });
   }
 
   function createCompanyCardSummary(companyCard, player) {
@@ -7058,12 +8315,18 @@
     wrap.className = "company-card-summary";
     wrap.append(createInitialSelectionImage(companyCard, "summary"));
 
-    const layout = industryPlacement?.getIndustryActionMarkerLayout?.(companyCard);
+    const layout = industry?.getIndustryActionMarkerLayout?.(companyCard);
     if (!layout || !player) return wrap;
 
-    const marked = industryState?.isIndustryActionMarkedThisRound?.(player, turnState.roundNumber);
+    const marked = industry?.isIndustryActionMarkedThisRound?.(
+      player,
+      turnState.roundNumber,
+      turnState.turnNumber,
+    );
     const canMark = !marked
-      && industryState?.canMarkIndustryAction?.(player, turnState.roundNumber, {
+      && !isInitialIncomeFlowActive()
+      && industry?.canMarkIndustryAction?.(player, turnState.roundNumber, {
+        turnNumber: turnState.turnNumber,
         hasMarker: true,
         industryCard: companyCard,
       })?.ok;
@@ -7113,11 +8376,12 @@
   }
 
   function handleCompanyActionMarkerClick(companyCard) {
-    if (isInitialSelectionActive()) return;
+    if (getGameplayLockReason()) return;
 
     const player = getCurrentPlayer();
-    const layout = industryPlacement?.getIndustryActionMarkerLayout?.(companyCard);
-    const check = industryState?.canMarkIndustryAction?.(player, turnState.roundNumber, {
+    const layout = industry?.getIndustryActionMarkerLayout?.(companyCard);
+    const check = industry?.canMarkIndustryAction?.(player, turnState.roundNumber, {
+      turnNumber: turnState.turnNumber,
       hasMarker: Boolean(layout),
       industryCard: companyCard,
     });
@@ -7128,10 +8392,30 @@
     }
 
     const previousRoundMark = player.industryRoundMarkRound ?? 0;
+    const previousTurnMark = player.industryRoundMarkTurn ?? 0;
     const companyLabel = companyCard.label || "公司牌";
+    const abilityFlow = industry.buildActiveAbilityFlow(
+      player,
+      companyLabel,
+      turnState.roundNumber,
+      turnState.turnNumber,
+    );
+    if (!abilityFlow?.ok) {
+      if (abilityFlow?.message && industry.hasImplementedActiveAbility?.(companyCard)) {
+        rocketState.statusNote = abilityFlow.message;
+      } else {
+        rocketState.statusNote = "该公司 1x 行动暂未处理";
+      }
+      renderStateReadout();
+      return;
+    }
+
     beginQuickActionStep("industry-mark", `公司行动标记：${companyLabel}`);
-    const result = industryState.markIndustryAction(player, turnState.roundNumber);
+    const result = industry.markIndustryAction(player, turnState.roundNumber, {
+      turnNumber: turnState.turnNumber,
+    });
     if (!result.ok) {
+      industry.resetRoundIndustryRuntimeState(player);
       quickActionHistory.undoLastStep();
       if (!quickActionHistory.hasUndoableStep()) {
         quickActionHistory.commitSession();
@@ -7142,14 +8426,20 @@
       return;
     }
 
-    recordQuickHistoryCommand(industryState.createIndustryMarkUndoCommand(
-      player,
-      previousRoundMark,
-      `撤销公司行动标记：${companyLabel}`,
-    ));
+    recordQuickHistoryCommand({
+      label: `撤销公司行动标记：${companyLabel}`,
+      undo() {
+        player.industryRoundMarkRound = previousRoundMark;
+        player.industryRoundMarkTurn = previousTurnMark;
+        industry.resetRoundIndustryRuntimeState(player);
+        cancelIndustryAbilityFlow({ silent: true });
+        renderInitialSelectionArea();
+      },
+    });
     completeQuickActionStep();
 
-    rocketState.statusNote = `${player.colorLabel}：已在公司牌 1x 区域放置行动标记（第 ${turnState.roundNumber} 轮，可撤销）`;
+    startIndustryAbilityFlow(abilityFlow);
+    rocketState.statusNote = abilityFlow.message || rocketState.statusNote;
     renderInitialSelectionArea();
     renderStateReadout();
   }
@@ -7287,19 +8577,7 @@
   function renderPlayerStats() {
     const currentPlayer = getCurrentPlayer();
     const resources = currentPlayer.resources;
-    const income = currentPlayer.income || players.DEFAULT_INCOME;
-    const limits = players.RESOURCE_LIMITS;
-    const finalScoreBreakdown = endGameScoring?.computePlayerFinalScore
-      ? endGameScoring.computePlayerFinalScore({
-        currentPlayer,
-        finalScoringState,
-        nebulaDataState,
-        alienGameState,
-        planetStatsState,
-        cardEffects,
-        getCardTypeCode,
-      })
-      : { totalScore: resources.score };
+    const finalScoreBreakdown = computePlayerFinalScoreBreakdown(currentPlayer);
 
     syncFinalScorePendingMarks();
     renderFinalScoreBoard();
@@ -7307,22 +8585,13 @@
     const stats = [
       createPlayerNameStat(currentPlayer, resources.score, finalScoreBreakdown.totalScore),
       createStatSeparator(),
-      createStatIcon("信用点", resources.credits, RESOURCE_ICON_SRC.credits),
-      createStatIcon("能量", resources.energy, RESOURCE_ICON_SRC.energy),
-      createStatIcon("宣传", `${resources.publicity}/${limits.publicity}`, RESOURCE_ICON_SRC.publicity),
-      createStatIcon("可用数据", `${resources.availableData}/${limits.availableData}`, RESOURCE_ICON_SRC.data),
-      createStatIcon("额外公共扫描", resources.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
+      ...buildPlayerResourceStatNodes(currentPlayer),
       createStatSeparator(),
-      createStatIconMarker("收入", RESOURCE_ICON_SRC.income),
-      createStatIcon("收入信用点", income.credits || 0, RESOURCE_ICON_SRC.credits),
-      createStatIcon("收入能量", income.energy || 0, RESOURCE_ICON_SRC.energy),
-      createStatIcon("收入手牌", income.handSize || 0, RESOURCE_ICON_SRC.incomeCard),
-      createStatIcon("收入宣传", income.publicity || 0, RESOURCE_ICON_SRC.publicity),
-      createStatIcon("收入数据", income.availableData || 0, RESOURCE_ICON_SRC.data),
-      createStatIcon("收入额外公共扫描", income.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
+      ...buildPlayerIncomeStatNodes(currentPlayer),
     ];
 
     els.playerStats.replaceChildren(...stats);
+    renderOpponentStats();
     updatePlayerHandPanelTitle();
     renderPlayerHand();
     renderReservedCards();
@@ -7469,7 +8738,8 @@
   }
 
   function canStartMainAction() {
-    return !pendingActionExecuted
+    return !getGameplayLockReason()
+      && !pendingActionExecuted
       && !isActionEffectFlowActive()
       && !actionHistory.hasSession()
       && !hasActivePendingSubFlow();
@@ -7776,6 +9046,8 @@
 
   function syncMoveModeChrome() {
     els.appWrap?.classList.toggle("move-mode-active", moveHighlightRocketId != null);
+    syncInteractionFocusChrome();
+    renderRockets();
   }
 
   function updateMoveRocketHighlight(rocketId) {
@@ -7869,21 +9141,9 @@
 
   function updateActionButtons() {
     const context = createActionContext();
-    if (isInitialSelectionActive()) {
-      const reason = "请先完成初始选择";
-      setTurnActionButtonState(els.actionPassButton, false);
-      setTurnActionButtonState(els.actionConfirmButton, false);
-      setTurnActionButtonState(els.actionUndoButton, false);
-      setActionButtonState(els.actionLaunchButton, false, reason);
-      setActionButtonState(els.actionOrbitButton, false, reason);
-      setActionButtonState(els.actionLandButton, false, reason);
-      setActionButtonState(els.actionScanButton, false, reason);
-      setActionButtonState(els.actionAnalyzeButton, false, reason);
-      setActionButtonState(els.actionPlayCardButton, false, reason);
-      setActionButtonState(els.actionResearchTechButton, false, reason);
-      setQuickActionButtonEnabled(false, reason);
-      updateQuickPanel();
-      renderActionEffectBar();
+    const gameplayLockReason = getGameplayLockReason();
+    if (gameplayLockReason) {
+      lockAllActionButtons(gameplayLockReason);
       return;
     }
 
@@ -7894,6 +9154,7 @@
     const movePaymentLocked = isMovePaymentSelectionActive();
     const handScanLocked = isHandScanSelectionActive();
     const effectFlowLocked = isActionEffectFlowActive();
+    const pendingSubFlowLocked = hasActivePendingSubFlow();
     const selectionBlockReason = techSelectionLocked
       ? "请先选择科技或点击取消"
       : handScanLocked
@@ -7901,7 +9162,7 @@
         : movePaymentLocked
           ? "请先确认或取消移动"
           : playCardSelectionLocked
-            ? "请先完成打牌或点击打出取消"
+            ? "请先打出或点击取消"
             : discardSelectionLocked
               ? "请先完成弃牌或点击取消"
               : "请先完成精选或点击取消";
@@ -7937,6 +9198,21 @@
       return;
     }
 
+    if (pendingSubFlowLocked) {
+      const subFlowReason = "请先完成或取消当前流程";
+      setActionButtonState(els.actionLaunchButton, false, subFlowReason);
+      setActionButtonState(els.actionOrbitButton, false, subFlowReason);
+      setActionButtonState(els.actionLandButton, false, subFlowReason);
+      setActionButtonState(els.actionScanButton, false, subFlowReason);
+      setActionButtonState(els.actionAnalyzeButton, false, subFlowReason);
+      setActionButtonState(els.actionPlayCardButton, false, subFlowReason);
+      setActionButtonState(els.actionResearchTechButton, false, subFlowReason);
+      setQuickActionButtonEnabled(false, subFlowReason);
+      updateQuickPanel();
+      renderActionEffectBar();
+      return;
+    }
+
     if (effectFlowLocked || pendingActionExecuted) {
       setActionButtonState(els.actionLaunchButton, false, pendingBlockedReason);
       setActionButtonState(els.actionOrbitButton, false, pendingBlockedReason);
@@ -7945,7 +9221,7 @@
       setActionButtonState(els.actionAnalyzeButton, false, pendingBlockedReason);
       setActionButtonState(els.actionPlayCardButton, false, pendingBlockedReason);
       setActionButtonState(els.actionResearchTechButton, false, pendingBlockedReason);
-      setQuickActionButtonEnabled(true);
+      setQuickActionButtonEnabled(!isInitialIncomeFlowActive(), pendingBlockedReason);
       updateQuickPanel();
       renderActionEffectBar();
       return;
@@ -7977,6 +9253,7 @@
   }
 
   function setQuickPanelOpen(open) {
+    if (open && getGameplayLockReason()) return;
     if (open) cancelCardCornerQuickAction({ silent: true });
     els.quickActionsPanel.hidden = !open;
     els.actionQuickButton.setAttribute("aria-expanded", String(open));
@@ -8079,6 +9356,13 @@
     const blocked = blockIncompatiblePendingQuickAction("place-data");
     if (blocked) return blocked;
 
+    const gameplayLockReason = getGameplayLockReason();
+    if (gameplayLockReason) {
+      rocketState.statusNote = gameplayLockReason;
+      renderStateReadout();
+      return { ok: false, message: gameplayLockReason };
+    }
+
     if (isTechTilePickingActive()) {
       rocketState.statusNote = "请先完成科技选择";
       renderStateReadout();
@@ -8116,6 +9400,13 @@
   function runQuickTrade(tradeId) {
     const blocked = blockIncompatiblePendingQuickAction("quick-trade");
     if (blocked) return blocked;
+
+    const gameplayLockReason = getGameplayLockReason();
+    if (gameplayLockReason) {
+      rocketState.statusNote = gameplayLockReason;
+      renderStateReadout();
+      return { ok: false, message: gameplayLockReason };
+    }
 
     const player = getCurrentPlayer();
     const beforeState = historyCommands.captureTradeState(player, cardState);
@@ -8204,6 +9495,9 @@
     }
 
     if (result.ok && !result.awaitingTileSelection && !startedRewardFlow) {
+      if (actionId === "launch") {
+        maybeApplyIndustryLaunchScan(result);
+      }
       if (abilityId && result.undoable !== false) {
         recordAtomicActionHistory(actionId, result.message || actionId, result);
       } else {
@@ -8594,6 +9888,7 @@
     if (moveHighlightRocketId == null) return;
     if (
       pendingCardTriggerFreeMove
+      || industryFreeMoveState
       || pendingCardCornerFreeMove
       || pendingActionEffectFlow?.freeMoveMode
       || pendingActionEffectFlow?.cardMoveEffect
@@ -8739,7 +10034,8 @@
   function randomizeAll() {
     els.spinButton?.classList.remove("pulsin");
     resetActionLog();
-    industryState?.resetAllIndustryActionMarks?.(playerState.players);
+    industry?.resetAllIndustryActionMarks?.(playerState.players);
+    cancelIndustryAbilityFlow({ silent: true });
     randomizePlayerTurnOrder();
     randomizeWheels();
     randomizeSectors();
@@ -8950,6 +10246,14 @@
       );
       return;
     }
+    if (industryFreeMoveState) {
+      executeIndustryFreeMove(
+        Number(button.dataset.moveX),
+        Number(button.dataset.moveY),
+        moveHighlightRocketId,
+      );
+      return;
+    }
     if (pendingCardCornerFreeMove) {
       executeFreeMoveForCardCorner(
         Number(button.dataset.moveX),
@@ -9020,7 +10324,8 @@
   els.publicScanConfirm?.addEventListener("click", confirmPublicScanSelection);
   els.discardSelectionCancel?.addEventListener("click", cancelDiscardSelection);
   els.discardSelectionBackdrop?.addEventListener("click", cancelDiscardSelection);
-  els.playCardActionButton?.addEventListener("click", cancelPlayCardSelection);
+  els.playCardActionButton?.addEventListener("click", confirmPlayCardSelection);
+  els.playCardSelectionCancel?.addEventListener("click", cancelPlayCardSelection);
   els.cardCornerActionButton?.addEventListener("click", confirmCardCornerQuickAction);
   els.handScanCancel?.addEventListener("click", cancelHandScanSelection);
   els.reservedCardFan?.addEventListener("click", (event) => {
@@ -9047,8 +10352,12 @@
       handleHandScanCardClick(Number(button.dataset.handIndex));
       return;
     }
+    if (isIndustryHandSelectionActive()) {
+      handleIndustryDeepspaceHandClick(Number(button.dataset.handIndex));
+      return;
+    }
     if (isPlayCardSelectionActive()) {
-      handleHandCardPlay(Number(button.dataset.handIndex));
+      handlePlayCardSelect(Number(button.dataset.handIndex));
       return;
     }
     handleHandCardCornerQuickAction(Number(button.dataset.handIndex));

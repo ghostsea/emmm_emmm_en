@@ -4,14 +4,16 @@
   let players = root.SetiPlayers;
   let data = root.SetiData;
   let historyCommands = root.SetiHistoryCommands;
+  let industryPassives = root.SetiIndustryPassives;
 
   if ((!players || !data || !historyCommands) && typeof require === "function") {
     players = players || require("../players");
     data = data || require("../data");
     historyCommands = historyCommands || require("../history/commands");
+    industryPassives = industryPassives || require("../industry/passives");
   }
 
-  const api = factory(players, data, historyCommands);
+  const api = factory(players, data, historyCommands, industryPassives);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
@@ -22,6 +24,7 @@
   players,
   data,
   historyCommands,
+  industryPassives,
 ) {
   "use strict";
 
@@ -126,11 +129,18 @@
     const player = players.getCurrentPlayer(context.playerState);
     if (!player) return { ok: false, abilityId: "analyzeData", message: "没有当前玩家" };
 
-    const check = data.canAnalyzeData(player);
+    const freeEnergy = Boolean(options.skipCost) || Boolean(industryPassives?.canAnalyzeWithoutEnergy?.(player));
+    const check = freeEnergy
+      ? (data.isAnalyzeReady(player)
+        ? { ok: true, message: null }
+        : data.canAnalyzeData(player))
+      : data.canAnalyzeData(player);
     if (!check.ok) return { ok: false, abilityId: "analyzeData", message: check.message };
 
     const snapshot = structuredClone(player);
-    const result = data.analyzeData(player);
+    const result = freeEnergy
+      ? data.analyzeDataWithoutEnergy?.(player) || data.analyzeData(player)
+      : data.analyzeData(player);
     if (!result.ok) return { ok: false, abilityId: "analyzeData", message: result.message };
 
     const message = options.message || result.message;
@@ -142,7 +152,7 @@
       commands: [
         historyCommands.createRestorePlayerCommand(player, snapshot, "恢复分析前玩家状态"),
       ],
-      cost: { energy: data.ANALYZE_ENERGY_COST },
+      cost: freeEnergy ? {} : { energy: data.ANALYZE_ENERGY_COST },
       payload: {
         clearedCount: result.clearedCount,
       },

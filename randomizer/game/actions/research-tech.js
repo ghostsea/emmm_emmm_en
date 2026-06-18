@@ -52,10 +52,12 @@
     if (!board) return { ok: false, message: "科技版图状态未初始化" };
 
     const cheatMode = Boolean(context.techUiState?.cheatModeEnabled);
-    if (!cheatMode && !players.canAfford(playerResult.currentPlayer, { publicity: catalog.RESEARCH_PUBLICITY_COST })) {
+    const researchCost = resolver.getResearchPublicityCost?.(playerResult.currentPlayer)
+      ?? catalog.RESEARCH_PUBLICITY_COST;
+    if (!cheatMode && !players.canAfford(playerResult.currentPlayer, { publicity: researchCost })) {
       return {
         ok: false,
-        message: `宣传不足，研究科技需要 ${catalog.RESEARCH_PUBLICITY_COST} 宣传`,
+        message: `宣传不足，研究科技需要 ${researchCost} 宣传`,
       };
     }
 

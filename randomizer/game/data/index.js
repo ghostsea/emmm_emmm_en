@@ -195,6 +195,7 @@
     listPlaceDataChoices: state.listPlaceDataChoices,
     canAnalyzeData: state.canAnalyzeData,
     analyzeData: state.analyzeData,
+    analyzeDataWithoutEnergy: state.analyzeDataWithoutEnergy,
     canPlaceDataToComputer: state.canPlaceDataToComputer,
     canPlaceDataToBlueBonus: state.canPlaceDataToBlueBonus,
     placeDataToComputer: state.placeDataToComputer,

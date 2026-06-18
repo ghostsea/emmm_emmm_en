@@ -309,7 +309,9 @@ body {
 .app-wrap.discard-selection-active .board-column,
 .app-wrap.play-card-selection-active .board-column,
 .app-wrap.move-payment-selection-active .board-column,
-.app-wrap.hand-scan-selection-active .board-column {
+.app-wrap.hand-scan-selection-active .board-column,
+.app-wrap.industry-hand-selection-active .board-column,
+.app-wrap.card-corner-action-active .board-column {
   position: relative;
   z-index: 1250;
 }
@@ -317,13 +319,148 @@ body {
 .app-wrap.discard-selection-active .player-hand-panel.player-hand-panel-focused,
 .app-wrap.play-card-selection-active .player-hand-panel.player-hand-panel-focused,
 .app-wrap.move-payment-selection-active .player-hand-panel.player-hand-panel-focused,
-.app-wrap.hand-scan-selection-active .player-hand-panel.player-hand-panel-focused {
+.app-wrap.hand-scan-selection-active .player-hand-panel.player-hand-panel-focused,
+.app-wrap.industry-hand-selection-active .player-hand-panel.player-hand-panel-focused,
+.app-wrap.card-corner-action-active .player-hand-panel.player-hand-panel-focused {
   position: relative;
   z-index: 1260;
   border-color: rgba(120, 210, 255, 0.58);
   box-shadow:
     0 0 0 1px rgba(120, 210, 255, 0.28),
     0 18px 42px rgba(0, 0, 0, 0.48);
+}
+
+/* 交互聚焦：高亮目标区域，暗化不可操作区域 */
+.app-wrap[data-interaction-focus] .table-column-left,
+.app-wrap[data-interaction-focus] .board-column,
+.app-wrap[data-interaction-focus] .table-column-right {
+  transition: opacity 0.22s ease, filter 0.22s ease;
+}
+
+.app-wrap[data-interaction-focus="public-cards"] .table-column-left,
+.app-wrap[data-interaction-focus="public-cards"] .board-column,
+.app-wrap[data-interaction-focus="public-cards"] .tech-panel {
+  opacity: 0.34;
+  filter: saturate(0.7) brightness(0.86);
+  pointer-events: none;
+}
+
+.app-wrap[data-interaction-focus="public-cards"] .public-card-panel {
+  position: relative;
+  z-index: 1260;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  border-color: rgba(120, 210, 255, 0.58);
+  box-shadow:
+    0 0 0 1px rgba(120, 210, 255, 0.28),
+    0 18px 42px rgba(0, 0, 0, 0.48);
+}
+
+.app-wrap[data-interaction-focus="hand-cards"] .table-column-left,
+.app-wrap[data-interaction-focus="hand-cards"] .table-column-right,
+.app-wrap[data-interaction-focus="hand-cards"] .reserved-card-panel,
+.app-wrap[data-interaction-focus="hand-cards"] .board-shell,
+.app-wrap[data-interaction-focus="hand-cards"] .planets-reference {
+  opacity: 0.34;
+  filter: saturate(0.7) brightness(0.86);
+  pointer-events: none;
+}
+
+.app-wrap[data-interaction-focus="hand-cards"] .player-stats,
+.app-wrap[data-interaction-focus="hand-cards"] .action-bar,
+.app-wrap[data-interaction-focus="hand-cards"] .action-effect-bar,
+.app-wrap[data-interaction-focus="hand-cards"] .quick-actions-panel,
+.app-wrap[data-interaction-focus="hand-cards"] .player-board-panel {
+  opacity: 0.34;
+  filter: saturate(0.7) brightness(0.86);
+  pointer-events: none;
+}
+
+.app-wrap[data-interaction-focus="hand-cards"] .player-hand-panel {
+  position: relative;
+  z-index: 1260;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+}
+
+.app-wrap[data-interaction-focus="tech-panel"] .table-column-left,
+.app-wrap[data-interaction-focus="tech-panel"] .board-column,
+.app-wrap[data-interaction-focus="tech-panel"] .public-card-panel {
+  opacity: 0.34;
+  filter: saturate(0.7) brightness(0.86);
+  pointer-events: none;
+}
+
+.app-wrap[data-interaction-focus="tech-panel"] .tech-panel {
+  position: relative;
+  z-index: 1260;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+}
+
+.app-wrap[data-interaction-focus="board-rockets"] .table-column-left,
+.app-wrap[data-interaction-focus="board-rockets"] .table-column-right,
+.app-wrap[data-interaction-focus="board-rockets"] .player-command,
+.app-wrap[data-interaction-focus="board-rockets"] .player-hand-panel,
+.app-wrap[data-interaction-focus="board-rockets"] .reserved-card-panel,
+.app-wrap[data-interaction-focus="board-rockets"] .planets-reference {
+  opacity: 0.34;
+  filter: saturate(0.7) brightness(0.86);
+  pointer-events: none;
+}
+
+.app-wrap[data-interaction-focus="board-rockets"] .board-shell,
+.app-wrap[data-interaction-focus="board-rockets"] .board-shell.board-shell-focused {
+  position: relative;
+  z-index: 1260;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+}
+
+.app-wrap[data-interaction-focus="company-marker"] .table-column-left,
+.app-wrap[data-interaction-focus="company-marker"] .table-column-right,
+.app-wrap[data-interaction-focus="company-marker"] .player-command,
+.app-wrap[data-interaction-focus="company-marker"] .player-hand-panel,
+.app-wrap[data-interaction-focus="company-marker"] .board-shell,
+.app-wrap[data-interaction-focus="company-marker"] .planets-reference {
+  opacity: 0.34;
+  filter: saturate(0.7) brightness(0.86);
+  pointer-events: none;
+}
+
+.app-wrap[data-interaction-focus="company-marker"] .reserved-card-panel {
+  position: relative;
+  z-index: 1260;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  border-color: rgba(120, 210, 255, 0.45);
+  box-shadow:
+    0 0 0 1px rgba(120, 210, 255, 0.22),
+    0 12px 32px rgba(0, 0, 0, 0.42);
+}
+
+.app-wrap[data-interaction-focus="board-rockets"] .rocket-token.is-move-candidate:not(.is-move-target) {
+  z-index: 470;
+  cursor: pointer;
+  outline: 2px solid rgba(98, 219, 255, 0.92);
+  outline-offset: 2px;
+  animation: tech-tile-highlight-pulse 1.8s ease-in-out infinite;
+}
+
+.app-wrap[data-interaction-focus="board-rockets"] .rocket-token.is-move-muted {
+  opacity: 0.26;
+  filter: grayscale(0.5) brightness(0.72);
+  pointer-events: none;
+}
+
+.app-wrap[data-interaction-focus="board-rockets"] .move-arrow-layer {
+  z-index: 500;
+  pointer-events: auto;
 }
 
 .public-card-panel.card-selection-active .public-card.is-selectable {
@@ -819,30 +956,69 @@ body {
 }
 
 .opponent-stat-grid {
-  height: clamp(520px, 58vh, 820px);
-  display: grid;
-  grid-template-rows: repeat(4, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
   margin: 8px var(--right-panel-row-padding-x, 6px) 12px;
+}
+
+.opponent-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 10px 12px;
   border: 1px solid rgba(224, 231, 220, 0.24);
   border-radius: 6px;
-  overflow: hidden;
+  background: rgba(2, 8, 14, 0.42);
 }
 
-.opponent-stat-slot {
+.opponent-stat-card.is-current {
+  border-color: color-mix(in srgb, var(--player-color, #fff) 62%, rgba(224, 231, 220, 0.24));
+  box-shadow: 0 0 12px color-mix(in srgb, var(--player-color, #fff) 28%, transparent);
+}
+
+.opponent-stat-row {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  min-height: 0;
-  padding: 12px;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  background: rgba(2, 8, 14, 0.36);
+  gap: 8px 14px;
+  min-width: 0;
 }
 
-.opponent-stat-slot + .opponent-stat-slot {
-  border-top: 1px solid rgba(224, 231, 220, 0.24);
+.opponent-stat-row-header {
+  gap: 8px 14px;
+}
+
+.opponent-stat-id {
+  min-width: 0;
+}
+
+.opponent-stat-row .player-stat {
+  gap: 7px;
+}
+
+.opponent-stat-row .player-stat-with-icon,
+.opponent-stat-row .player-stat-score,
+.opponent-stat-row .player-stat-final-score {
+  gap: 6px;
+}
+
+.opponent-stat-row-tech {
+  gap: 16px;
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.opponent-tech-item.is-owned {
+  color: var(--opponent-tech-color, rgba(255, 255, 255, 0.94));
+  font-weight: 700;
+}
+
+.opponent-tech-item.is-missing {
+  color: rgba(255, 255, 255, 0.34);
+  font-weight: 500;
 }
 
 .board-column {
@@ -1445,6 +1621,7 @@ body {
 }
 
 .discard-selection-cancel,
+.play-card-selection-cancel,
 .play-card-action-button,
 .card-corner-action-button,
 .move-payment-confirm,
@@ -1464,6 +1641,7 @@ body {
 }
 
 .discard-selection-cancel:hover,
+.play-card-selection-cancel:hover,
 .play-card-action-button:hover:not(:disabled),
 .card-corner-action-button:hover:not(:disabled),
 .move-payment-confirm:hover:not(:disabled),
@@ -1481,6 +1659,7 @@ body {
 }
 
 .discard-selection-cancel[hidden],
+.play-card-selection-cancel[hidden],
 .play-card-action-button[hidden],
 .card-corner-action-button[hidden],
 .move-payment-confirm[hidden],
@@ -1598,6 +1777,24 @@ body {
   outline-color: rgba(190, 255, 222, 0.98);
   filter:
     drop-shadow(0 0 16px rgba(110, 236, 169, 0.62))
+    drop-shadow(0 5px 8px rgba(0, 0, 0, 0.36));
+}
+
+.player-hand-panel.industry-hand-selection-active .player-hand-card-button.is-industry-hand-card {
+  cursor: pointer;
+  outline: 2px solid rgba(98, 219, 255, 0.94);
+  outline-offset: 3px;
+  filter:
+    drop-shadow(0 0 12px rgba(98, 219, 255, 0.58))
+    drop-shadow(0 5px 8px rgba(0, 0, 0, 0.36));
+  animation: tech-tile-highlight-pulse 1.8s ease-in-out infinite;
+}
+
+.player-hand-panel.industry-hand-selection-active .player-hand-card-button.is-industry-hand-card:hover,
+.player-hand-panel.industry-hand-selection-active .player-hand-card-button.is-industry-hand-card:focus-visible {
+  outline-color: rgba(180, 236, 255, 0.98);
+  filter:
+    drop-shadow(0 0 16px rgba(120, 230, 255, 0.72))
     drop-shadow(0 5px 8px rgba(0, 0, 0, 0.36));
 }
 
@@ -3130,7 +3327,7 @@ button.spin-button:hover {
   }
 
   .opponent-stat-grid {
-    height: 480px;
+    gap: 10px;
   }
 }
 

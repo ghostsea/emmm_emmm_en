@@ -4,14 +4,16 @@
   let players = root.SetiPlayers;
   let tech = root.SetiTech;
   let rocketAbility = root.SetiAbilityRocket;
+  let industryPassives = root.SetiIndustryPassives;
 
   if ((!players || !tech || !rocketAbility) && typeof require === "function") {
     players = players || require("../players");
     tech = tech || require("../tech");
     rocketAbility = rocketAbility || require("./rocket");
+    industryPassives = industryPassives || require("../industry/passives");
   }
 
-  const api = factory(players, tech, rocketAbility);
+  const api = factory(players, tech, rocketAbility, industryPassives);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
@@ -22,6 +24,7 @@
   players,
   tech,
   rocketAbility,
+  industryPassives,
 ) {
   "use strict";
 
@@ -59,8 +62,12 @@
     if (!board) return { ok: false, abilityId: "researchTechPrepare", message: "科技版图状态未初始化" };
 
     const skipCost = Boolean(context.techUiState?.cheatModeEnabled || options.skipCost);
-    if (!skipCost && !players.canAfford(playerResult.currentPlayer, { publicity: tech.RESEARCH_PUBLICITY_COST })) {
-      const message = `宣传不足，研究科技需要 ${tech.RESEARCH_PUBLICITY_COST} 宣传`;
+    const researchCost = industryPassives?.getResearchPublicityCost?.(
+      playerResult.currentPlayer,
+      tech.RESEARCH_PUBLICITY_COST,
+    ) ?? tech.RESEARCH_PUBLICITY_COST;
+    if (!skipCost && !players.canAfford(playerResult.currentPlayer, { publicity: researchCost })) {
+      const message = `宣传不足，研究科技需要 ${researchCost} 宣传`;
       if (context.techUiState) context.techUiState.statusNote = message;
       return { ok: false, abilityId: "researchTechPrepare", message };
     }
@@ -151,6 +158,10 @@
       snapshots.ui.statusNote = "请选择要研究的科技板块";
     }
     const skipCost = Boolean(context.techUiState?.cheatModeEnabled || options.skipCost);
+    const researchCost = industryPassives?.getResearchPublicityCost?.(
+      playerResult.currentPlayer,
+      tech.RESEARCH_PUBLICITY_COST,
+    ) ?? tech.RESEARCH_PUBLICITY_COST;
     const result = tech.resolver.selectTechTile(context, { tileId, blueSlot, skipCost, ...techTypeOptions });
     if (!result.ok || result.needsBlueSlotChoice) {
       restoreObject(playerResult.currentPlayer, snapshots.player);
@@ -189,7 +200,7 @@
           },
         },
       ],
-      cost: skipCost ? {} : { publicity: tech.RESEARCH_PUBLICITY_COST },
+      cost: skipCost ? {} : { publicity: researchCost },
       payload: {
         tileId: result.tileId,
         techType: result.techType,

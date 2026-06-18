@@ -394,7 +394,10 @@
   }
 
   function playerOwnsTech(player, tileId) {
-    return Boolean(player?.techState?.ownedTiles?.[tileId]);
+    if (Boolean(player?.techState?.ownedTiles?.[tileId])) return true;
+    return player?.industryBorrowedTechTileId === tileId
+      && (player?.industryBorrowedTechRound || 0) > 0
+      && (player?.industryBorrowedTechTurn || 0) > 0;
   }
 
   function createPlayerState(input) {

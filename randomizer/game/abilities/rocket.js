@@ -5,15 +5,17 @@
   let rockets = root.SetiRocketActions;
   let historyCommands = root.SetiHistoryCommands;
   let solar = root.SetiSolarSystem;
+  let industryPassives = root.SetiIndustryPassives;
 
   if ((!players || !rockets || !historyCommands || !solar) && typeof require === "function") {
     players = players || require("../players");
     rockets = rockets || require("../rockets");
     historyCommands = historyCommands || require("../history/commands");
     solar = solar || require("../../solar-system/core");
+    industryPassives = industryPassives || require("../industry/passives");
   }
 
-  const api = factory(players, rockets, historyCommands, solar);
+  const api = factory(players, rockets, historyCommands, solar, industryPassives);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
@@ -25,6 +27,7 @@
   rockets,
   historyCommands,
   solar,
+  industryPassives,
 ) {
   "use strict";
 
@@ -64,7 +67,9 @@
   }
 
   function getRocketLimitForPlayer(player) {
-    return players.playerOwnsTech(player, "orange1") ? ORANGE1_ROCKET_LIMIT : BASE_ROCKET_LIMIT;
+    const baseLimit = players.playerOwnsTech(player, "orange1") ? ORANGE1_ROCKET_LIMIT : BASE_ROCKET_LIMIT;
+    const bonus = industryPassives?.getRocketLimitBonus?.(player) || 0;
+    return baseLimit + bonus;
   }
 
   function getActiveRocketCountForPlayer(rocketState, playerId) {
