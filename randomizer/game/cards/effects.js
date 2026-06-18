@@ -40,6 +40,25 @@
     black: Object.freeze(["sector-1-b", "sector-4-b"]),
   });
 
+  let endGameScoringModule = null;
+
+  function getEndGameScoring() {
+    if (endGameScoringModule) return endGameScoringModule;
+    if (typeof globalThis !== "undefined" && globalThis.SetiEndGameScoring) {
+      endGameScoringModule = globalThis.SetiEndGameScoring;
+      return endGameScoringModule;
+    }
+    if (typeof require === "function") {
+      try {
+        endGameScoringModule = require("../end-game-scoring");
+        return endGameScoringModule;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
   function source(referenceId, referenceName, className, sourceKind = "bespoke") {
     return Object.freeze({ referenceId, referenceName, className, sourceKind });
   }
@@ -170,12 +189,23 @@
 
   function withSource(cardId, model) {
     const deferredParts = model.deferredParts ? Object.freeze([...model.deferredParts]) : undefined;
+    const endGameScoring = model.endGameScoring ? Object.freeze({ ...model.endGameScoring }) : undefined;
     return Object.freeze({
       ...model,
       source: CARD_REFERENCE_MAP[cardId] || null,
       ...(deferredParts ? { deferredParts } : {}),
+      ...(endGameScoring ? { endGameScoring } : {}),
     });
   }
+
+  const END_GAME_SCORING = Object.freeze({
+    RED_SECTOR_WINS: Object.freeze({ kind: "sectorWinsByColor", color: "red", scorePer: 3 }),
+    YELLOW_SECTOR_WINS: Object.freeze({ kind: "sectorWinsByColor", color: "yellow", scorePer: 3 }),
+    BLUE_TRACES: Object.freeze({ kind: "traceCount", traceType: "blue", scorePer: 2 }),
+    BLUE_TECH: Object.freeze({ kind: "techCount", techType: "blue", scorePer: 2 }),
+    SIGNAL_SECTORS: Object.freeze({ kind: "distinctSignalSectors", scorePer: 1 }),
+    JUPITER_ORBIT_OR_LAND: Object.freeze({ kind: "planetOrbitOrLand", planetId: "jupiter", scorePer: 3 }),
+  });
 
   const MODELS = Object.freeze({
     "b_1.webp": withSource("b_1.webp", {
@@ -340,7 +370,7 @@
           repeat: 2,
         }),
       ]),
-      deferredParts: Object.freeze(["end_game_scoring"]),
+      endGameScoring: END_GAME_SCORING.RED_SECTOR_WINS,
     }),
     "b_15.webp": withSource("b_15.webp", {
       cardType: 2,
@@ -495,7 +525,7 @@
       playEffects: Object.freeze([
         researchTechEffect("b30-blue-tech", "科技（只能选择蓝色）", ["blue"]),
       ]),
-      deferredParts: Object.freeze(["end_game_scoring"]),
+      endGameScoring: END_GAME_SCORING.BLUE_TRACES,
     }),
     "b_31.webp": withSource("b_31.webp", {
       cardType: 0,
@@ -509,7 +539,7 @@
       playEffects: Object.freeze([
         researchTechEffect("b33-orange-or-purple-tech", "科技（橙色或紫色）", ["orange", "purple"]),
       ]),
-      deferredParts: Object.freeze(["end_game_scoring"]),
+      endGameScoring: END_GAME_SCORING.BLUE_TECH,
     }),
     "b_38.webp": withSource("b_38.webp", {
       cardType: 0,
@@ -530,7 +560,7 @@
       playEffects: Object.freeze([
         effect("b45-public-scan", EFFECT_TYPES.PUBLIC_SCAN, "公共牌区扫描", "public_card_scan"),
       ]),
-      deferredParts: Object.freeze(["end_game_scoring"]),
+      endGameScoring: END_GAME_SCORING.SIGNAL_SECTORS,
     }),
     "b_56.webp": withSource("b_56.webp", {
       cardType: 0,
@@ -548,7 +578,7 @@
           repeat: 2,
         }),
       ]),
-      deferredParts: Object.freeze(["end_game_scoring"]),
+      endGameScoring: END_GAME_SCORING.YELLOW_SECTOR_WINS,
     }),
     "b_65.webp": withSource("b_65.webp", {
       cardType: 0,
@@ -572,13 +602,14 @@
     }),
   });
 
-  function deferredCard(cardId, reason, missingAbilities, deferredParts = []) {
+  function deferredCard(cardId, reason, missingAbilities, deferredParts = [], options = {}) {
     return Object.freeze({
       cardId,
       source: CARD_REFERENCE_MAP[cardId] || null,
       reason,
       missingAbilities: Object.freeze([...missingAbilities]),
       deferredParts: Object.freeze([...deferredParts]),
+      ...(options.endGameScoring ? { endGameScoring: Object.freeze({ ...options.endGameScoring }) } : {}),
     });
   }
 
@@ -589,7 +620,13 @@
     "b_28.webp": deferredCard("b_28.webp", "扫描行动后按黄色信号计分，当前没有扫描结果后置计分钩子。", ["scan_result_bonus"]),
     "b_29.webp": deferredCard("b_29.webp", "卡牌内登陆且允许重复占位，当前没有登陆作为卡牌效果节点。", ["card_land_effect", "duplicate_landing_override"]),
     "b_32.webp": deferredCard("b_32.webp", "痕迹必须放在已有同色痕迹的外星人上，当前痕迹选择器没有该限制。", ["restricted_alien_trace_target"]),
-    "b_34.webp": deferredCard("b_34.webp", "卡牌内登陆与终局计分都缺独立能力。", ["card_land_effect", "end_game_scoring"], ["end_game_scoring"]),
+    "b_34.webp": deferredCard(
+      "b_34.webp",
+      "卡牌内登陆仍缺独立能力。",
+      ["card_land_effect"],
+      [],
+      { endGameScoring: END_GAME_SCORING.JUPITER_ORBIT_OR_LAND },
+    ),
     "b_35.webp": deferredCard("b_35.webp", "痕迹必须放在已有同色痕迹的外星人上，当前痕迹选择器没有该限制。", ["restricted_alien_trace_target"]),
     "b_36.webp": deferredCard("b_36.webp", "任意痕迹后按该颜色痕迹数计分，当前没有痕迹结果后置计分。", ["alien_trace_result_bonus"]),
     "b_37.webp": deferredCard("b_37.webp", "需要连续发射两次并临时忽略探测器上限。", ["multi_launch", "temporary_probe_limit_override"]),
@@ -755,18 +792,9 @@
   }
 
   function countSectorWinsByColor(player, nebulaDataState, color) {
-    const sectorIds = color === "any"
-      ? Object.values(NEBULA_IDS_BY_COLOR).flat()
-      : (NEBULA_IDS_BY_COLOR[color] || []);
-    const playerKeys = new Set([player?.id, player?.color].filter(Boolean));
-    const wins = nebulaDataState?.sectorSettlements?.winsByPlayerId || {};
-    let count = 0;
-    for (const key of playerKeys) {
-      for (const win of wins[key] || []) {
-        if (sectorIds.includes(win.sectorId)) count += 1;
-      }
-    }
-    return count;
+    const mod = getEndGameScoring();
+    if (mod) return mod.countSectorWinsByColor(player, nebulaDataState, color);
+    return 0;
   }
 
   function getNebulaColor(nebulaId) {
@@ -777,65 +805,33 @@
   }
 
   function getPlayerKeys(player) {
+    const mod = getEndGameScoring();
+    if (mod) return mod.getPlayerKeys(player);
     return new Set([player?.id, player?.color].filter(Boolean));
   }
 
   function countTraceMarkers(player, alienGameState, traceType) {
-    const playerKeys = getPlayerKeys(player);
-    let count = 0;
-    for (const slot of Object.values(alienGameState?.aliens || {})) {
-      const traceSlot = slot?.traces?.[traceType];
-      if (!traceSlot?.firstPlaced || !playerKeys.has(traceSlot.ownerPlayerColor)) continue;
-      count += 1 + Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
-    }
-    return count;
+    const mod = getEndGameScoring();
+    if (mod) return mod.countTraceMarkers(player, alienGameState, traceType);
+    return 0;
   }
 
   function countOwnedTech(player, techType) {
-    const ownedTiles = player?.techState?.ownedTiles || {};
-    return Object.keys(ownedTiles)
-      .filter((tileId) => ownedTiles[tileId] && String(tileId).startsWith(techType))
-      .length;
+    const mod = getEndGameScoring();
+    if (mod) return mod.countOwnedTech(player, techType);
+    return 0;
   }
 
   function playerHasPlanetOrbitOrLand(player, planetStatsState, planetId) {
-    const record = planetStatsState?.planets?.[planetId];
-    if (!record) return false;
-    const playerKeys = getPlayerKeys(player);
-    const hasOrbit = (record.orbitMarkers || []).some((marker) => (
-      playerKeys.has(marker.playerId) || playerKeys.has(marker.color)
-    ));
-    const hasLanding = (record.landingMarkers || []).some((marker) => (
-      playerKeys.has(marker.playerId) || playerKeys.has(marker.color)
-    ));
-    const hasSatelliteLanding = (record.satelliteLandings || []).some((marker) => (
-      playerKeys.has(marker.playerId) || playerKeys.has(marker.color)
-    ));
-    return hasOrbit || hasLanding || hasSatelliteLanding;
+    const mod = getEndGameScoring();
+    if (mod) return mod.countPlanetOrbitOrLand(player, planetStatsState, planetId) > 0;
+    return false;
   }
 
   function countDistinctSignalSectors(player, nebulaDataState) {
-    const playerKeys = getPlayerKeys(player);
-    const sectorIds = new Set();
-    for (const [nebulaId, bucket] of Object.entries(nebulaDataState?.nebulae || {})) {
-      const hasToken = (bucket?.tokens || []).some((token) => (
-        playerKeys.has(token.replacedByPlayerId)
-        || playerKeys.has(token.playerId)
-        || playerKeys.has(token.replacedByPlayerColor)
-        || playerKeys.has(token.playerColor)
-      ));
-      if (hasToken) sectorIds.add(nebulaId);
-    }
-    for (const [sectorId, marks] of Object.entries(nebulaDataState?.sectorExtraMarks || {})) {
-      const hasExtra = (marks || []).some((mark) => (
-        playerKeys.has(mark.replacedByPlayerId)
-        || playerKeys.has(mark.playerId)
-        || playerKeys.has(mark.replacedByPlayerColor)
-        || playerKeys.has(mark.playerColor)
-      ));
-      if (hasExtra) sectorIds.add(sectorId);
-    }
-    return sectorIds.size;
+    const mod = getEndGameScoring();
+    if (mod) return mod.countDistinctSignalSectors(player, nebulaDataState);
+    return 0;
   }
 
   function allAliensHaveTrace(alienGameState, traceType) {

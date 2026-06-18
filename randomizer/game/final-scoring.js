@@ -26,11 +26,27 @@
     };
   }
 
+  function normalizeTileVariant(variant) {
+    const value = Math.round(Number(variant));
+    return value === 2 ? 2 : 1;
+  }
+
+  function createDefaultTileVariants(tileIds = DEFAULT_TILE_IDS) {
+    const variants = {};
+    for (const tileId of tileIds) {
+      const normalized = normalizeTileId(tileId);
+      if (!normalized) continue;
+      variants[normalized] = 1;
+    }
+    return variants;
+  }
+
   function createFinalScoringState(tileIds = DEFAULT_TILE_IDS) {
     const state = {
       thresholds: [...FINAL_SCORE_THRESHOLDS],
       tiles: {},
       pendingMarks: [],
+      tileVariants: createDefaultTileVariants(tileIds),
     };
     ensureFinalScoringState(state, tileIds);
     return state;
@@ -40,6 +56,9 @@
     if (!state.tiles || typeof state.tiles !== "object") state.tiles = {};
     if (!Array.isArray(state.pendingMarks)) state.pendingMarks = [];
     if (!Array.isArray(state.thresholds)) state.thresholds = [...FINAL_SCORE_THRESHOLDS];
+    if (!state.tileVariants || typeof state.tileVariants !== "object") {
+      state.tileVariants = createDefaultTileVariants(tileIds);
+    }
 
     for (const tileId of tileIds) {
       const normalized = normalizeTileId(tileId);
@@ -49,9 +68,43 @@
       } else if (!Array.isArray(state.tiles[normalized].marks)) {
         state.tiles[normalized].marks = [];
       }
+      if (!state.tileVariants[normalized]) {
+        state.tileVariants[normalized] = 1;
+      } else {
+        state.tileVariants[normalized] = normalizeTileVariant(state.tileVariants[normalized]);
+      }
     }
 
     return state;
+  }
+
+  function setTileVariants(state, variants = {}, tileIds = DEFAULT_TILE_IDS) {
+    ensureFinalScoringState(state, tileIds);
+    for (const tileId of tileIds) {
+      const normalized = normalizeTileId(tileId);
+      if (!normalized) continue;
+      if (variants[normalized] != null || variants[tileId] != null) {
+        state.tileVariants[normalized] = normalizeTileVariant(
+          variants[normalized] ?? variants[tileId],
+        );
+      }
+    }
+    return state.tileVariants;
+  }
+
+  function getTileVariant(state, tileId) {
+    ensureFinalScoringState(state, [tileId]);
+    return normalizeTileVariant(state.tileVariants?.[normalizeTileId(tileId)]);
+  }
+
+  function randomizeTileVariants(state, tileIds = DEFAULT_TILE_IDS, randomFn = Math.random) {
+    const variants = {};
+    for (const tileId of tileIds) {
+      const normalized = normalizeTileId(tileId);
+      if (!normalized) continue;
+      variants[normalized] = randomFn() < 0.5 ? 1 : 2;
+    }
+    return setTileVariants(state, variants, tileIds);
   }
 
   function getPlayerId(player) {
@@ -212,12 +265,13 @@
     const lines = ["终局计分"];
 
     for (const tile of Object.values(state.tiles)) {
+      const variant = getTileVariant(state, tile.id);
       const markText = (tile.marks || []).length
         ? tile.marks
           .map((mark) => `${mark.playerLabel || mark.playerColor || mark.playerId}@${mark.slotIndex}(${mark.threshold})`)
           .join("、")
         : "无";
-      lines.push(`${tile.id.toUpperCase()}：${markText}`);
+      lines.push(`${tile.id.toUpperCase()}${variant}：${markText}`);
     }
 
     const pending = (state.pendingMarks || []).length
@@ -243,5 +297,10 @@
     markTile,
     listMarks,
     getReadoutLines,
+    normalizeTileVariant,
+    createDefaultTileVariants,
+    setTileVariants,
+    getTileVariant,
+    randomizeTileVariants,
   });
 });

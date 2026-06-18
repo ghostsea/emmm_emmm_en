@@ -123,7 +123,8 @@ for (let index = 1; index <= 70; index += 1) {
 }
 
 assert.equal(cardEffects.getCardMigrationStatus("b_11.webp"), "implemented");
-assert.equal(cardEffects.getCardMigrationStatus("b_30.webp"), "partial");
+assert.equal(cardEffects.getCardMigrationStatus("b_30.webp"), "implemented");
+assert.equal(cardEffects.getCardModel("b_30.webp").endGameScoring.kind, "traceCount");
 assert.equal(cardEffects.getCardMigrationStatus("b_31.webp"), "implemented");
 assert.equal(cardEffects.getRuntimeCardTypeCode({ cardId: "b_31.webp", cardTypeCode: 2 }, 2), 0);
 

@@ -48,6 +48,10 @@ assert.equal(fourth.ok, true);
 assert.equal(fourth.mark.slotIndex, 3);
 assert.equal(fourth.mark.slot3Order, 2);
 
+assert.equal(finalScoring.getTileVariant(state, "a"), 1);
+finalScoring.setTileVariants(state, { a: 2, b: 1 });
+assert.equal(finalScoring.getTileVariant(state, "a"), 2);
+
 const whiteSecondTile = finalScoring.markTile(state, "b", white, { tokenSrc: "white.png" });
 assert.equal(whiteSecondTile.ok, true);
 assert.equal(whiteSecondTile.mark.threshold, 50);

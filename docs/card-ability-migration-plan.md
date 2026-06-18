@@ -126,6 +126,8 @@
 
 本轮还把任务条件扩展到：`completedSectorsByColor` 支持 `yellow`、`red`、`blue`、`black` 和 `any`；`traceCount` 支持外星人痕迹数量；`techCount` 支持按科技颜色统计；`planetOrbitOrLand` 支持指定星球环绕/登陆；`distinctSignalSectors` 支持统计玩家已有信号的不同具名扇区。`b_23.webp` 当前按 `assets/cards/cards.md` 的描述实现为“盲抽3次并结算抽到牌左上角角标”，与参考类 `CleanSpaceInitiativeCard` 的公共牌行处理存在刻意差异。
 
+左上角 `discard_action_code` 的手牌快速行动支持 0 / 1 / 2 / 3 / 4 / 5：资源角标直接弃牌结算资源/数据/分数，移动角标先弃牌结算，再进入一次免费移动选择。默认手牌不做“可用/不可用”高亮，只在玩家点击选中某张牌后显示手牌区上方确认按钮并高亮该牌。
+
 ## 4. 遗留能力归类
 
 优先补这些能力可以释放最多 deferred 卡牌：

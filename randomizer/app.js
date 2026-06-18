@@ -10,6 +10,7 @@
   const scanEffects = window.SetiScanEffects;
   const planetRewards = window.SetiPlanetRewards;
   const finalScoring = window.SetiFinalScoring;
+  const endGameScoring = window.SetiEndGameScoring;
   const actionHistoryModule = window.SetiActionHistory;
   const historyCommands = window.SetiHistoryCommands;
   const abilities = window.SetiAbilities;
@@ -35,6 +36,7 @@
   const REFERENCE_LANDDING_IMAGE_SCALE = 0.0338;
   const RESOURCE_ICON_SRC = Object.freeze({
     score: "../assets/symbol/effect/score.webp",
+    finalScore: "../assets/symbol/effect/final_score.webp",
     credits: "../assets/symbol/effect/credits.webp",
     energy: "../assets/symbol/effect/energy.webp",
     card: "../assets/symbol/effect/card.webp",
@@ -169,7 +171,6 @@
   let pendingCardTriggerAction = null;
   let pendingCardTriggerFreeMove = null;
   let pendingCardTaskCompletion = null;
-  let pendingInitialIncomeQueue = null;
   let alienTracePickerState = null;
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
@@ -191,6 +192,7 @@
   let moveHighlightRocketId = null;
   let pendingMovePayment = null;
   let pendingCardCornerQuickAction = null;
+  let pendingCardCornerFreeMove = null;
   let stateReadoutRenderFrame = 0;
   const setupSelectionState = {
     phase: "selecting",
@@ -624,7 +626,7 @@
       playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
       const initialResult = resolveInitialSelectionEffects();
       recordInitialSelectionActionLog(player, selectedIndustry, selectedInitialCards, initialResult);
-      const incomeStarted = startInitialIncomeQueue(initialResult?.pendingIncomeIncreases || []);
+      const incomeStarted = startInitialIncomeEffectFlow(initialResult?.pendingIncomeIncreases || []);
       if (!incomeStarted) {
         rocketState.statusNote = initialResult?.message
           ? `所有玩家已完成初始选择，${initialResult.message}，游戏开始。`
@@ -672,58 +674,55 @@
     return result;
   }
 
-  function startInitialIncomeQueue(entries = []) {
-    const queue = [];
+  function buildInitialIncomeEffectNodes(entries = []) {
+    const effects = [];
     for (const entry of entries) {
-      const count = Math.max(0, Math.round(Number(entry?.count) || 0));
-      if (!entry?.playerId || count <= 0) continue;
-      queue.push({
-        playerId: entry.playerId,
-        label: entry.label || "公司牌",
-        remaining: count,
-        total: count,
-      });
+      const total = Math.max(0, Math.round(Number(entry?.count) || 0));
+      if (!entry?.playerId || total <= 0) continue;
+      const companyLabel = entry.label || "公司牌";
+      for (let sequence = 1; sequence <= total; sequence += 1) {
+        effects.push({
+          id: `initial-income-${entry.playerId}-${sequence}`,
+          type: "initial_income",
+          icon: "income",
+          label: `${companyLabel}：收入增加 ${sequence}/${total}`,
+          status: "pending",
+          undoable: false,
+          options: {
+            playerId: entry.playerId,
+            companyLabel,
+            sequence,
+            total,
+          },
+        });
+      }
     }
-    pendingInitialIncomeQueue = queue.length ? queue : null;
-    return advanceInitialIncomeQueue();
+    return effects;
   }
 
-  function advanceInitialIncomeQueue(previousMessage = "") {
-    while (pendingInitialIncomeQueue?.length && pendingInitialIncomeQueue[0].remaining <= 0) {
-      pendingInitialIncomeQueue.shift();
-    }
-    if (!pendingInitialIncomeQueue?.length) {
-      pendingInitialIncomeQueue = null;
-      playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
-      rocketState.statusNote = previousMessage
-        ? `${previousMessage}；初始收入增加完成，游戏开始。`
-        : "初始收入增加完成，游戏开始。";
-      return false;
+  function startInitialIncomeEffectFlow(entries = []) {
+    const effects = buildInitialIncomeEffectNodes(entries);
+    if (!effects.length) return false;
+
+    pendingActionEffectFlow = abilities.chain.startAbilityChain(
+      "initialIncome",
+      "初始收入增加",
+      effects,
+    );
+    pendingActionEffectFlow.actionType = "initialIncome";
+    pendingActionEffectFlow.playerId = effects[0]?.options?.playerId || null;
+
+    const firstPlayer = getPlayerById(pendingActionEffectFlow.playerId);
+    if (firstPlayer) {
+      playerState.currentPlayerId = firstPlayer.id;
     }
 
-    const current = pendingInitialIncomeQueue[0];
-    const incomePlayer = getPlayerById(current.playerId);
-    if (!incomePlayer) {
-      current.remaining = 0;
-      return advanceInitialIncomeQueue(previousMessage);
-    }
-
-    playerState.currentPlayerId = incomePlayer.id;
-    const completed = current.total - current.remaining + 1;
-    const incomeStart = beginDiscardSelection(1, {
-      type: "initial_income",
-      player: incomePlayer,
-      source: "initialSelection",
-      incomeQueueEntry: current,
-    });
-    if (!incomeStart.ok) {
-      current.remaining = 0;
-      return advanceInitialIncomeQueue(
-        `${previousMessage ? `${previousMessage}；` : ""}${incomePlayer.colorLabel}玩家${current.label}收入增加跳过：${incomeStart.message}`,
-      );
-    }
-
-    rocketState.statusNote = `${incomePlayer.colorLabel}玩家 ${current.label} 初始收入增加 ${completed}/${current.total}：请选择 1 张手牌弃掉。`;
+    els.appWrap?.classList.toggle("action-effect-flow-active", true);
+    rocketState.statusNote = "初始收入增加：请依次点击收入效果";
+    renderDebugPlayerSwitch();
+    renderPlayerStats();
+    renderPlayerHand();
+    activateNextActionEffect();
     return true;
   }
 
@@ -1593,8 +1592,8 @@
       card = handIndex >= 0 ? hand[handIndex] : null;
     }
 
-    const reward = cards.getDiscardActionRewardForCard(card);
-    if (!card || !reward) {
+    const action = getCardCornerQuickActionForCard(card);
+    if (!card || !action) {
       pendingCardCornerQuickAction = null;
       return null;
     }
@@ -1602,9 +1601,31 @@
     pendingCardCornerQuickAction = {
       handIndex,
       cardId: card.id,
-      reward,
+      ...action,
     };
     return { ...pendingCardCornerQuickAction, card };
+  }
+
+  function getCardCornerQuickActionForCard(card) {
+    const resourceReward = cards.getDiscardActionRewardForCard(card);
+    if (resourceReward) {
+      return {
+        actionKind: "resource",
+        label: resourceReward.label,
+        reward: resourceReward,
+      };
+    }
+
+    const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
+    if (moveReward) {
+      return {
+        actionKind: "move",
+        label: moveReward.label,
+        moveReward,
+      };
+    }
+
+    return null;
   }
 
   function canUseCardCornerQuickAction() {
@@ -1615,6 +1636,7 @@
       && !isPlayCardSelectionActive()
       && !isHandScanSelectionActive()
       && !isMovePaymentSelectionActive()
+      && !pendingCardCornerFreeMove
       && !hasActivePendingSubFlow();
   }
 
@@ -1628,9 +1650,9 @@
     if (els.cardCornerActionButton) {
       els.cardCornerActionButton.hidden = !active;
       els.cardCornerActionButton.disabled = !active;
-      els.cardCornerActionButton.textContent = action?.reward?.label || "弃牌换资源";
+      els.cardCornerActionButton.textContent = action?.label || "弃牌快速行动";
       els.cardCornerActionButton.title = active
-        ? `${action.reward.label}：弃除 ${cards.getCardLabel(action.card)}`
+        ? `${action.label}：弃除 ${cards.getCardLabel(action.card)}`
         : "";
     }
     updatePlayerHandPanelTitle();
@@ -1653,11 +1675,9 @@
     const currentPlayer = getCurrentPlayer();
     const index = Math.round(handIndex);
     const card = currentPlayer?.hand?.[index];
-    const reward = cards.getDiscardActionRewardForCard(card);
-    if (!card || !reward) {
-      rocketState.statusNote = card && isMovePaymentCard(card)
-        ? "移动牌只能用于移动支付，不能直接弃除换资源"
-        : "这张牌没有可用的弃牌资源角标";
+    const action = getCardCornerQuickActionForCard(card);
+    if (!card || !action) {
+      rocketState.statusNote = "这张牌没有可用的左上角快速行动";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
@@ -1671,10 +1691,10 @@
     pendingCardCornerQuickAction = {
       handIndex: index,
       cardId: card.id,
-      reward,
+      ...action,
     };
     setQuickPanelOpen(false);
-    rocketState.statusNote = `${reward.label}：点击手牌区上方按钮确认弃除 ${cards.getCardLabel(card)}`;
+    rocketState.statusNote = `${action.label}：点击手牌区上方按钮确认弃除 ${cards.getCardLabel(card)}`;
     syncCardCornerQuickActionChrome();
     updateActionButtons();
     renderStateReadout();
@@ -1694,6 +1714,38 @@
     return parts.join("、");
   }
 
+  function canStartCardCornerFreeMove() {
+    const currentPlayer = getCurrentPlayer();
+    const rocketsForPlayer = rocketActions.getRocketsForPlayer(rocketState, currentPlayer?.id);
+    if (rocketsForPlayer.length > 0) return { ok: true, rocketsForPlayer };
+    return { ok: false, rocketsForPlayer, message: "没有可移动的飞船" };
+  }
+
+  function beginCardCornerFreeMove(action, discardedCard) {
+    const check = canStartCardCornerFreeMove();
+    if (!check.ok) {
+      rocketState.statusNote = check.message;
+      renderStateReadout();
+      return check;
+    }
+
+    pendingCardCornerFreeMove = {
+      action,
+      discardedCardLabel: cards.getCardLabel(discardedCard),
+    };
+    rocketState.statusNote = check.rocketsForPlayer.length > 1
+      ? `${action.label}：请点击要免费移动的飞船`
+      : `${action.label}：使用方向键免费移动飞船`;
+    if (check.rocketsForPlayer.length === 1) {
+      activateMoveMode(check.rocketsForPlayer[0].id);
+    } else {
+      selectDefaultRocketForCurrentPlayer();
+    }
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
   function confirmCardCornerQuickAction() {
     if (!canUseCardCornerQuickAction()) {
       return { ok: false, message: "当前无法使用卡牌快速行动" };
@@ -1707,13 +1759,22 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
+    if (action.actionKind === "move") {
+      const moveCheck = canStartCardCornerFreeMove();
+      if (!moveCheck.ok) {
+        rocketState.statusNote = moveCheck.message;
+        renderStateReadout();
+        return moveCheck;
+      }
+    }
+
     const beforePlayer = structuredClone(currentPlayer);
     const beforeCardState = {
       publicCards: cardState.publicCards.slice(),
       discardPile: (cardState.discardPile || []).slice(),
     };
 
-    beginQuickActionStep("card-corner", `卡牌快速行动：${action.reward.label}`);
+    beginQuickActionStep("card-corner", `卡牌快速行动：${action.label}`);
     const discardResult = cards.discardFromHandAtIndex(currentPlayer, action.handIndex);
     if (!discardResult.ok) {
       quickActionHistory.undoLastStep();
@@ -1728,11 +1789,14 @@
     }
 
     cards.addToDiscardPile(cardState, discardResult.card);
-    if (Object.keys(action.reward.gain || {}).length) {
+    if (Object.keys(action.reward?.gain || {}).length) {
       players.gainResources(currentPlayer, action.reward.gain);
     }
+    if (Object.keys(action.moveReward?.gain || {}).length) {
+      players.gainResources(currentPlayer, action.moveReward.gain);
+    }
     const dataResults = [];
-    const dataCount = Math.max(0, Math.round(action.reward.dataCount || 0));
+    const dataCount = Math.max(0, Math.round(action.reward?.dataCount || 0));
     for (let index = 0; index < dataCount; index += 1) {
       dataResults.push(data.gainData(currentPlayer, { source: "card_corner" }));
     }
@@ -1750,17 +1814,27 @@
     completeQuickActionStep();
 
     pendingCardCornerQuickAction = null;
-    const rewardText = formatCardCornerRewardMessage(action.reward, dataResults);
+    syncCardCornerQuickActionChrome();
+    const rewardText = action.actionKind === "move"
+      ? [formatPlanetRewardGain(action.moveReward?.gain || {}), `${action.moveReward?.movementPoints || 1}移动`]
+        .filter(Boolean)
+        .join("、")
+      : formatCardCornerRewardMessage(action.reward, dataResults);
     rocketState.statusNote = `卡牌快速行动：弃除 ${cards.getCardLabel(discardResult.card)}，${rewardText}`;
     renderPlayerStats();
+    renderPlayerHand();
     renderPublicCards();
     updatePublicCardControls();
     updateActionButtons();
     renderStateReadout();
+    if (action.actionKind === "move") {
+      beginCardCornerFreeMove(action, discardResult.card);
+    }
     return {
       ok: true,
       card: discardResult.card,
       reward: action.reward,
+      moveReward: action.moveReward,
       dataResults,
       message: rocketState.statusNote,
     };
@@ -1899,15 +1973,18 @@
           ? incomeResult.message
           : (incomeResult.message || "收入失败");
       } else if (pending.type === "initial_income") {
-        if (incomeResult.ok && pending.incomeQueueEntry) {
-          pending.incomeQueueEntry.remaining = Math.max(0, (pending.incomeQueueEntry.remaining || 0) - 1);
-          advanceInitialIncomeQueue(incomeResult.message);
-        } else {
-          pendingInitialIncomeQueue = null;
-          rocketState.statusNote = incomeResult.ok
-            ? incomeResult.message
-            : (incomeResult.message || "收入失败");
+        if (incomeResult.ok && pending.fromEffectFlow && getCurrentActionEffect()) {
+          getCurrentActionEffect().result = {
+            ok: true,
+            undoable: false,
+            message: incomeResult.message,
+            payload: { gain: incomeResult.gain, card: discardedCards[0] },
+          };
+          completeCurrentActionEffect();
         }
+        rocketState.statusNote = incomeResult.ok
+          ? incomeResult.message
+          : (incomeResult.message || "收入失败");
       } else {
         rocketState.statusNote = incomeResult.ok
           ? incomeResult.message
@@ -3771,7 +3848,7 @@
 
   function handleCardTriggerEvents(events) {
     const currentPlayer = getCurrentPlayer();
-    if (!currentPlayer || pendingCardTriggerAction || pendingCardTriggerFreeMove) return null;
+    if (!currentPlayer || pendingCardTriggerAction || pendingCardTriggerFreeMove || pendingCardCornerFreeMove) return null;
     const matches = [];
     for (const event of events || []) {
       matches.push(...cardEffects.collectMatchingTriggers(currentPlayer, event));
@@ -3829,6 +3906,51 @@
     rocketState.statusNote = `卡牌触发：${result.message}`;
     renderPlayerStats();
     renderPublicCards();
+    renderPlayerHand();
+    updateActionButtons();
+    renderStateReadout();
+    handleCardTriggerEvents(result.events);
+    return result;
+  }
+
+  function executeFreeMoveForCardCorner(deltaX, deltaY, rocketId) {
+    const pending = pendingCardCornerFreeMove;
+    if (!pending) return { ok: false, message: "没有待结算的弃牌移动" };
+
+    const moveCheck = rocketActions.canMoveRocket(rocketState, rocketId, deltaX, deltaY);
+    if (!moveCheck.ok) {
+      rocketState.statusNote = moveCheck.message;
+      renderStateReadout();
+      return moveCheck;
+    }
+
+    const result = abilities.executeAbility("moveProbe", createActionContext(), {
+      cost: {},
+      movementPoints: pending.action.moveReward?.movementPoints || 1,
+      rocketId,
+      deltaX,
+      deltaY,
+      source: "card_corner",
+      historyLabel: `卡牌快速行动：${pending.action.label}`,
+    });
+    if (result.rocket) renderRocketElement(result.rocket);
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+
+    beginQuickActionStep("card-corner-move", `卡牌快速行动：${pending.action.label}`);
+    recordAbilityCommands(result, quickActionHistory);
+    completeQuickActionStep();
+
+    pendingCardCornerFreeMove = null;
+    rocketState.activeRocketId = null;
+    clearMoveRocketHighlight();
+    deactivateMoveMode();
+    rocketState.statusNote = `卡牌快速行动：${pending.discardedCardLabel} ${pending.action.label}，${result.message}`;
+    renderPlayerStats();
+    renderRockets();
     renderPlayerHand();
     updateActionButtons();
     renderStateReadout();
@@ -4098,6 +4220,7 @@
       || pendingCardTriggerAction
       || pendingCardTaskCompletion
       || pendingCardTriggerFreeMove
+      || pendingCardCornerFreeMove
       || (els.scanAction4Overlay && !els.scanAction4Overlay.hidden)
       || (els.alienTraceOverlay && !els.alienTraceOverlay.hidden)
       || pendingActionEffectFlow?.cardMoveEffect
@@ -4205,6 +4328,7 @@
     pendingCardTriggerAction = null;
     pendingCardTaskCompletion = null;
     pendingCardTriggerFreeMove = null;
+    pendingCardCornerFreeMove = null;
   }
 
   function skipCurrentActionEffect() {
@@ -4365,6 +4489,16 @@
     const finishedFlow = pendingActionEffectFlow;
     const actionType = finishedFlow.actionType;
     clearActionEffectFlow();
+    if (actionType === "initialIncome") {
+      playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
+      rocketState.statusNote = "初始收入增加完成，游戏开始。";
+      renderDebugPlayerSwitch();
+      renderPlayerStats();
+      renderPlayerHand();
+      updateActionButtons();
+      renderStateReadout();
+      return;
+    }
     const settleResult = shouldCheckCompletedSectorsAfterFlow(finishedFlow)
       ? resolveCompletedSectorSettlements(actionType)
       : null;
@@ -5128,6 +5262,31 @@
     return result;
   }
 
+  function openInitialIncomeEffect(effect) {
+    const playerId = effect?.options?.playerId;
+    const incomePlayer = getPlayerById(playerId) || getCurrentPlayer();
+    if (playerId && incomePlayer && playerState.currentPlayerId !== incomePlayer.id) {
+      playerState.currentPlayerId = incomePlayer.id;
+      renderDebugPlayerSwitch();
+      renderPlayerStats();
+      renderPlayerHand();
+    }
+
+    const result = beginDiscardSelection(1, {
+      type: "initial_income",
+      player: incomePlayer,
+      fromEffectFlow: true,
+      effectLabel: effect.label,
+    });
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      effect.result = { ok: false, undoable: false, message: result.message };
+      completeCurrentActionEffect("skipped");
+    }
+    return result;
+  }
+
   function openIncomeRewardEffect(effect) {
     const currentPlayer = getCurrentPlayer();
     const result = beginDiscardSelection(1, {
@@ -5257,6 +5416,8 @@
     if (rewardResult) return rewardResult;
 
     switch (effect.type) {
+      case "initial_income":
+        return openInitialIncomeEffect(effect);
       case scanEffects.EFFECT_TYPES.PAY_SCAN_COST: {
         beginEffectHistoryStep(effect.label);
         const result = abilities.executeAbility("payScanCost", createActionContext(), {
@@ -6527,12 +6688,18 @@
     return item;
   }
 
-  function createPlayerNameStat(player, score) {
+  function createPlayerNameStat(player, score, finalTotalScore) {
     const color = players.getPlayerColorDefinition(player.color);
     const item = document.createElement("span");
     const marker = document.createElement("span");
     const name = document.createElement("span");
     const scoreEl = createInlineIconValue("分数", score, RESOURCE_ICON_SRC.score, "player-stat-score");
+    const finalScoreEl = createInlineIconValue(
+      "终局总分",
+      finalTotalScore,
+      RESOURCE_ICON_SRC.finalScore,
+      "player-stat-final-score",
+    );
 
     item.className = "player-stat player-stat-current";
     item.style.setProperty("--player-color", color.uiColor);
@@ -6541,7 +6708,7 @@
     name.className = "player-stat-value";
     name.textContent = player.name;
 
-    item.append(marker, name, scoreEl);
+    item.append(marker, name, scoreEl, finalScoreEl);
     return item;
   }
 
@@ -6625,7 +6792,7 @@
     const currentCredits = Number(currentPlayer.resources?.credits) || 0;
 
     els.playerHandPanel.classList.toggle("is-empty", hand.length === 0);
-    els.playerHandPanel.classList.toggle("card-corner-action-ready", cardCornerActionEnabled);
+    els.playerHandPanel.classList.toggle("card-corner-action-ready", Boolean(cardCornerAction));
     layoutPlayerHandFan(hand.length);
     els.playerHandFan.replaceChildren(...hand.map((card, index) => {
       const label = card.cardName || (card.faceUp ? `手牌 ${index + 1}` : `手牌背面 ${index + 1}`);
@@ -6674,22 +6841,17 @@
             button.setAttribute("aria-label", label);
           }
         } else if (cardCornerActionEnabled) {
-          const reward = cards.getDiscardActionRewardForCard(card);
+          const action = getCardCornerQuickActionForCard(card);
           const selected = cardCornerAction?.card?.id === card.id;
-          if (reward) {
-            button.classList.add("is-corner-action-card");
+          if (action) {
             if (selected) button.classList.add("is-selected");
-            button.setAttribute("aria-label", `${label}（${reward.label}）`);
+            button.setAttribute("aria-label", `${label}（${action.label}）`);
             button.title = selected
-              ? `${reward.label}：点击上方按钮确认，或再次点击取消`
-              : `${reward.label}：点击选择`;
+              ? `${action.label}：点击上方按钮确认，或再次点击取消`
+              : `${action.label}：点击选择`;
           } else {
-            button.classList.add("is-corner-action-card-muted");
-            button.disabled = true;
             button.setAttribute("aria-label", label);
-            button.title = isMovePaymentCard(card)
-              ? "移动牌用于移动支付，不能直接弃除换资源"
-              : "这张牌没有可用的弃牌资源角标";
+            button.title = "这张牌没有可用的左上角快速行动";
           }
         } else {
           button.classList.add(affordable ? "is-playable" : "is-unaffordable");
@@ -6981,12 +7143,23 @@
     const resources = currentPlayer.resources;
     const income = currentPlayer.income || players.DEFAULT_INCOME;
     const limits = players.RESOURCE_LIMITS;
+    const finalScoreBreakdown = endGameScoring?.computePlayerFinalScore
+      ? endGameScoring.computePlayerFinalScore({
+        currentPlayer,
+        finalScoringState,
+        nebulaDataState,
+        alienGameState,
+        planetStatsState,
+        cardEffects,
+        getCardTypeCode,
+      })
+      : { totalScore: resources.score };
 
     syncFinalScorePendingMarks();
     renderFinalScoreBoard();
 
     const stats = [
-      createPlayerNameStat(currentPlayer, resources.score),
+      createPlayerNameStat(currentPlayer, resources.score, finalScoreBreakdown.totalScore),
       createStatSeparator(),
       createStatIcon("信用点", resources.credits, RESOURCE_ICON_SRC.credits),
       createStatIcon("能量", resources.energy, RESOURCE_ICON_SRC.energy),
@@ -7016,10 +7189,22 @@
     const income = currentPlayer.income || players.DEFAULT_INCOME;
     const limits = players.RESOURCE_LIMITS;
     const reservedCount = Array.isArray(currentPlayer.reservedCards) ? currentPlayer.reservedCards.length : 0;
+    const finalScoreBreakdown = endGameScoring?.computePlayerFinalScore
+      ? endGameScoring.computePlayerFinalScore({
+        currentPlayer,
+        finalScoringState,
+        nebulaDataState,
+        alienGameState,
+        planetStatsState,
+        cardEffects,
+        getCardTypeCode,
+      })
+      : { totalScore: resources.score, tileScore: 0, cardScore: 0 };
 
     return [
       "玩家状态",
       `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 额外公共扫描=${resources.additionalPublicScan || 0} 手牌=${resources.handSize} 保留=${reservedCount} 完成任务=${currentPlayer.completedTaskCount || 0} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
+      `终局总分=${finalScoreBreakdown.totalScore}（板块=${finalScoreBreakdown.tileScore || 0} 卡牌=${finalScoreBreakdown.cardScore || 0}）`,
       `收入 信用点=${income.credits || 0} 能量=${income.energy || 0} 手牌=${income.handSize || 0} 宣传=${income.publicity || 0} 数据=${income.availableData || 0}`,
     ];
   }
@@ -8260,7 +8445,12 @@
     if (event.button !== 0) return;
     if (event.target.closest(".rocket-token") || event.target.closest(".move-arrow-button")) return;
     if (moveHighlightRocketId == null) return;
-    if (pendingActionEffectFlow?.freeMoveMode || pendingActionEffectFlow?.cardMoveEffect) return;
+    if (
+      pendingCardTriggerFreeMove
+      || pendingCardCornerFreeMove
+      || pendingActionEffectFlow?.freeMoveMode
+      || pendingActionEffectFlow?.cardMoveEffect
+    ) return;
     deactivateMoveMode();
     renderStateReadout();
   }
@@ -8389,10 +8579,11 @@
 
   /** 终局计分：a/b/c/d 各自独立随机 1 或 2 */
   function randomizeFinalScores() {
+    finalScoring.randomizeTileVariants(finalScoringState, FINAL_SCORE_IDS);
     els.finalScoreTiles.forEach((img) => {
       const id = img.dataset.finalId;
       if (!id) return;
-      const variant = Math.random() < 0.5 ? 1 : 2;
+      const variant = finalScoring.getTileVariant(finalScoringState, id);
       img.src = `../assets/final/final_${id}${variant}.png`;
       img.alt = `终局计分 ${id.toUpperCase()}${variant}`;
     });
@@ -8605,6 +8796,14 @@
     event.preventDefault();
     if (pendingCardTriggerFreeMove) {
       executeFreeMoveForCardTrigger(
+        Number(button.dataset.moveX),
+        Number(button.dataset.moveY),
+        moveHighlightRocketId,
+      );
+      return;
+    }
+    if (pendingCardCornerFreeMove) {
+      executeFreeMoveForCardCorner(
         Number(button.dataset.moveX),
         Number(button.dataset.moveY),
         moveHighlightRocketId,

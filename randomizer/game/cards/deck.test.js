@@ -72,13 +72,13 @@ assert.equal(cards.getDiscardActionRewardForCard(cardWithDiscardActionCode(2)), 
 assert.equal(cards.getDiscardActionRewardForCard(cardWithDiscardActionCode(5)), null);
 assert.deepEqual(cards.getDiscardActionMoveRewardForCard(cardWithDiscardActionCode(2)), {
   code: 2,
-  label: "弃牌移动1",
+  label: "弃牌换1移动",
   movementPoints: 1,
   gain: {},
 });
 assert.deepEqual(cards.getDiscardActionMoveRewardForCard(cardWithDiscardActionCode(5)), {
   code: 5,
-  label: "弃牌移动1+1分",
+  label: "弃牌换1移动+1分",
   movementPoints: 1,
   gain: { score: 1 },
 });
