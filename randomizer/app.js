@@ -169,6 +169,7 @@
   let pendingCardTriggerAction = null;
   let pendingCardTriggerFreeMove = null;
   let pendingCardTaskCompletion = null;
+  let pendingInitialIncomeQueue = null;
   let alienTracePickerState = null;
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
@@ -565,7 +566,7 @@
     if (initialResult?.message) {
       steps.push({
         source: HISTORY_SOURCE_SETUP,
-        text: `结算初始牌：${initialResult.message}`,
+        text: `结算初始效果：${initialResult.message}`,
       });
     }
     appendConfirmedActionLogEntry({
@@ -617,9 +618,12 @@
       playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
       const initialResult = resolveInitialSelectionEffects();
       recordInitialSelectionActionLog(player, selectedIndustry, selectedInitialCards, initialResult);
-      rocketState.statusNote = initialResult?.message
-        ? `所有玩家已完成初始选择，${initialResult.message}，游戏开始。`
-        : "所有玩家已完成初始选择，游戏开始。";
+      const incomeStarted = startInitialIncomeQueue(initialResult?.pendingIncomeIncreases || []);
+      if (!incomeStarted) {
+        rocketState.statusNote = initialResult?.message
+          ? `所有玩家已完成初始选择，${initialResult.message}，游戏开始。`
+          : "所有玩家已完成初始选择，游戏开始。";
+      }
     }
 
     renderDebugPlayerSwitch();
@@ -660,6 +664,61 @@
       };
     }
     return result;
+  }
+
+  function startInitialIncomeQueue(entries = []) {
+    const queue = [];
+    for (const entry of entries) {
+      const count = Math.max(0, Math.round(Number(entry?.count) || 0));
+      if (!entry?.playerId || count <= 0) continue;
+      queue.push({
+        playerId: entry.playerId,
+        label: entry.label || "公司牌",
+        remaining: count,
+        total: count,
+      });
+    }
+    pendingInitialIncomeQueue = queue.length ? queue : null;
+    return advanceInitialIncomeQueue();
+  }
+
+  function advanceInitialIncomeQueue(previousMessage = "") {
+    while (pendingInitialIncomeQueue?.length && pendingInitialIncomeQueue[0].remaining <= 0) {
+      pendingInitialIncomeQueue.shift();
+    }
+    if (!pendingInitialIncomeQueue?.length) {
+      pendingInitialIncomeQueue = null;
+      playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
+      rocketState.statusNote = previousMessage
+        ? `${previousMessage}；初始收入增加完成，游戏开始。`
+        : "初始收入增加完成，游戏开始。";
+      return false;
+    }
+
+    const current = pendingInitialIncomeQueue[0];
+    const incomePlayer = getPlayerById(current.playerId);
+    if (!incomePlayer) {
+      current.remaining = 0;
+      return advanceInitialIncomeQueue(previousMessage);
+    }
+
+    playerState.currentPlayerId = incomePlayer.id;
+    const completed = current.total - current.remaining + 1;
+    const incomeStart = beginDiscardSelection(1, {
+      type: "initial_income",
+      player: incomePlayer,
+      source: "initialSelection",
+      incomeQueueEntry: current,
+    });
+    if (!incomeStart.ok) {
+      current.remaining = 0;
+      return advanceInitialIncomeQueue(
+        `${previousMessage ? `${previousMessage}；` : ""}${incomePlayer.colorLabel}玩家${current.label}收入增加跳过：${incomeStart.message}`,
+      );
+    }
+
+    rocketState.statusNote = `${incomePlayer.colorLabel}玩家 ${current.label} 初始收入增加 ${completed}/${current.total}：请选择 1 张手牌弃掉。`;
+    return true;
   }
 
   function getCurrentInitialSelectionCards(player = getCurrentPlayer()) {
@@ -1638,6 +1697,16 @@
         rocketState.statusNote = incomeResult.ok
           ? incomeResult.message
           : (incomeResult.message || "收入失败");
+      } else if (pending.type === "initial_income") {
+        if (incomeResult.ok && pending.incomeQueueEntry) {
+          pending.incomeQueueEntry.remaining = Math.max(0, (pending.incomeQueueEntry.remaining || 0) - 1);
+          advanceInitialIncomeQueue(incomeResult.message);
+        } else {
+          pendingInitialIncomeQueue = null;
+          rocketState.statusNote = incomeResult.ok
+            ? incomeResult.message
+            : (incomeResult.message || "收入失败");
+        }
       } else {
         rocketState.statusNote = incomeResult.ok
           ? incomeResult.message
@@ -1645,6 +1714,7 @@
       }
       renderPlayerStats();
       renderPublicCards();
+      renderPlayerHand();
       updatePublicCardControls();
       updateActionButtons();
       renderStateReadout();
@@ -3612,7 +3682,10 @@
   }
 
   function isIncomeDiscardActionType(type) {
-    return type === "income" || type === "planet_reward_income" || type === "place_data_income";
+    return type === "income"
+      || type === "planet_reward_income"
+      || type === "place_data_income"
+      || type === "initial_income";
   }
 
   function getPlaceDataSlotBonuses(placeResult) {
@@ -6542,6 +6615,10 @@
       drawBasicCardToPlayer: (player) => drawBasicCardToPlayer(player),
       drawBasicCard: () => drawCardForCurrentPlayer(),
       blindDrawCard: (player) => blindDrawCardForPlayer(player),
+      launchRocketAtEarth: (player) => rocketActions.launchRocketAtSector(rocketState, getEarthSectorCoordinate(), {
+        playerId: player.id,
+        color: player.color,
+      }),
       replenishPublicSlot: (slotIndex) => cards.replenishPublicSlot(cardState, playerState, slotIndex),
       beginCardSelection: (pendingAction) => beginCardSelection(pendingAction),
       beginDiscardSelection: (count, pendingAction) => beginDiscardSelection(count, pendingAction),

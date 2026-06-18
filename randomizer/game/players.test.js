@@ -101,4 +101,22 @@ assert.equal(handPlayer.hand.length, 4);
 assert.equal(handPlayer.resources.publicity, 4);
 assert.equal(handPlayer.resources.availableData, 5);
 
+const callbackIncomePlayer = players.createPlayer({ resources: { handSize: 0 } });
+let immediateBlindDraws = 0;
+players.gainIncome(callbackIncomePlayer, { handSize: 1 }, {
+  blindDraw: (targetPlayer) => {
+    immediateBlindDraws += 1;
+    targetPlayer.hand.push({
+      id: `income-draw-${immediateBlindDraws}`,
+      src: players.CARD_BACK_SRC,
+      faceUp: false,
+    });
+    targetPlayer.resources.handSize = targetPlayer.hand.length;
+  },
+});
+assert.equal(callbackIncomePlayer.income.handSize, 1);
+assert.equal(immediateBlindDraws, 1);
+assert.equal(callbackIncomePlayer.hand.length, 1);
+assert.equal(callbackIncomePlayer.resources.handSize, 1);
+
 console.log("player tests passed");

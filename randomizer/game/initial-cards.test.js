@@ -18,6 +18,7 @@ function createContext(playerInputs = [{ color: "blue" }]) {
     nebulaDataState: data.createDefaultNebulaDataState(),
     planetStatsState: planetStats.createPlanetStatsState(),
     alienGameState: aliens.createDefaultAlienState(),
+    launches: [],
     getPlayerTokenSrc(player) {
       return players.getPlayerColorDefinition(player?.color)?.normalTokenAsset || null;
     },
@@ -29,6 +30,11 @@ function createContext(playerInputs = [{ color: "blue" }]) {
       };
       cards.addCardToHand(player, card);
       return { ok: true, card, message: null };
+    },
+    launchRocketAtEarth(player) {
+      const rocket = { id: this.launches.length + 1, playerId: player.id, color: player.color };
+      this.launches.push(rocket);
+      return { ok: true, rocket, message: `测试发射 R${rocket.id}` };
     },
   };
 }
@@ -65,6 +71,58 @@ function initialCard(number) {
     2,
   );
   assert.equal(result.events.filter((event) => event.type === "signalMarked").length, 2);
+}
+
+{
+  const context = createContext();
+  const player = currentPlayer(context);
+  player.resources.credits = 99;
+  player.resources.energy = 99;
+  player.resources.publicity = 9;
+
+  const result = initialCards.resolveIndustryEffect(context, player, { label: "层云核心" });
+
+  assert.equal(result.ok, true);
+  assert.equal(player.resources.credits, 4);
+  assert.equal(player.resources.energy, 2);
+  assert.equal(player.resources.publicity, 3);
+  assert.equal(player.resources.handSize, 1);
+  assert.deepEqual(player.income, {
+    credits: 2,
+    energy: 1,
+    handSize: 1,
+    publicity: 0,
+    availableData: 0,
+    additionalPublicScan: 0,
+  });
+  assert.equal(result.incomeIncreaseCount, 3);
+}
+
+{
+  const context = createContext();
+  const player = currentPlayer(context);
+
+  const result = initialCards.resolveIndustryEffect(context, player, { label: "图灵系统" });
+
+  assert.equal(result.ok, true);
+  assert.equal(player.resources.credits, 4);
+  assert.equal(player.resources.energy, 2);
+  assert.equal(player.resources.publicity, 2);
+  assert.equal(player.resources.availableData, 0, "base income data should not resolve immediately");
+  assert.equal(player.income.availableData, 1);
+  assert.equal(player.resources.handSize, 1);
+  assert.equal(result.incomeIncreaseCount, 2);
+}
+
+{
+  const context = createContext();
+  const player = currentPlayer(context);
+
+  const result = initialCards.resolveIndustryEffect(context, player, { label: "寰宇动力" });
+
+  assert.equal(result.ok, true);
+  assert.equal(context.launches.length, 2);
+  assert.equal(result.incomeIncreaseCount, 2);
 }
 
 {
@@ -115,7 +173,11 @@ function initialCard(number) {
   data.fillNebulaData(context.nebulaDataState, "sector-1-a", { source: "test" });
   const [blue, white] = context.playerState.players;
   blue.initialSelection = { removedInitialCards: [initialCard(16)] };
-  white.initialSelection = { removedInitialCards: [initialCard(18)] };
+  blue.initialSelection.industry = { label: "芬威克研究中心" };
+  white.initialSelection = {
+    industry: { label: "宇宙战略集团" },
+    removedInitialCards: [initialCard(18)],
+  };
 
   const result = initialCards.resolveInitialSelections(context, {
     playerIds: [blue.id, white.id],
@@ -123,9 +185,13 @@ function initialCard(number) {
 
   assert.equal(result.ok, true);
   assert.equal(blue.resources.score, 3);
-  assert.equal(blue.resources.publicity, 3);
+  assert.equal(blue.resources.publicity, 7);
   assert.equal(data.listPoolTokens(white).length, 2);
-  assert.equal(result.results.length, 2);
+  assert.equal(result.results.length, 4);
+  assert.deepEqual(result.pendingIncomeIncreases, [
+    { playerId: blue.id, count: 3, label: "芬威克研究中心" },
+    { playerId: white.id, count: 2, label: "宇宙战略集团" },
+  ]);
   assert.equal(result.events.filter((event) => event.type === "signalMarked").length, 2);
 }
 
