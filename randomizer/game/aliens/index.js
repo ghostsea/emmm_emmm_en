@@ -8,6 +8,8 @@
   let render = root.SetiAlienRender;
   let jiuzhe = root.SetiAlienJiuzhe;
   let yichangdian = root.SetiAlienYichangdian;
+  let fangzhou = root.SetiAlienFangzhou;
+  let fangzhouCard1Queue = root.SetiFangzhouCard1Queue;
 
   if (typeof require === "function") {
     catalog = catalog || require("./catalog");
@@ -15,18 +17,20 @@
     state = state || require("./state");
     jiuzhe = jiuzhe || require("./jiuzhe");
     yichangdian = yichangdian || require("./yichangdian");
+    fangzhou = fangzhou || require("./fangzhou");
+    fangzhouCard1Queue = fangzhouCard1Queue || require("./fangzhou-card1-queue");
     randomizer = randomizer || require("./randomizer");
     render = render || require("./render");
   }
 
-  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian);
+  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, fangzhouCard1Queue);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAliens = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, fangzhouCard1Queue) {
   "use strict";
 
   function getReadoutLines(alienState) {
@@ -164,6 +168,51 @@
       }
     }
 
+    if (fangzhou?.ensureFangzhouState) {
+      const fState = fangzhou.ensureFangzhouState(source);
+      lines.push("[方舟]");
+      lines.push(
+        `揭示槽位=${fState.revealedSlotId || "无"} `
+        + `展示牌=${fState.displayedCard1Index ?? "无"} `
+        + `牌堆剩余=${fState.card1Deck?.length ?? 0} `
+        + `已翻开=${fState.card1Revealed?.length ?? 0}`,
+      );
+      const grid = fState.revealedSlotId
+        ? fangzhou.getTraceGrid(source, fState.revealedSlotId)
+        : null;
+      if (grid) {
+        for (const traceType of fangzhou.TRACE_TYPES) {
+          for (const position of fangzhou.TRACE_POSITIONS) {
+            const entries = fangzhou.getTraceEntries(grid, traceType, position);
+            const layout = render.getEffectiveFangzhouTraceMarkerLayout?.(
+              fState.revealedSlotId,
+              traceType,
+              position,
+              0,
+            );
+            const ownerText = entries.length
+              ? entries.map((entry) => entry.playerColor || entry.playerId || "已放置").join("/")
+              : "空";
+            lines.push(
+              `  ${fangzhou.formatTraceLabel(traceType, position)} `
+              + `${ownerText}${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+            );
+          }
+        }
+      }
+
+      const fOverrides = render.listFangzhouTraceMarkerLayoutOverrides?.() || [];
+      if (fOverrides.length) {
+        lines.push("[方舟痕迹拖动校准]");
+        for (const item of fOverrides) {
+          lines.push(
+            `${placement.getAlienSlotLabel(item.alienSlotId)} ${placement.getTraceTypeLabel(item.traceType)}`
+            + ` ${item.position}号位 → ${item.percentX}%,${item.percentY}%`,
+          );
+        }
+      }
+    }
+
     return lines;
   }
 
@@ -182,11 +231,15 @@
     EXTRA_TRACE_GRID_COLUMNS: placement.EXTRA_TRACE_GRID_COLUMNS,
     jiuzhe,
     yichangdian,
+    fangzhou,
+    fangzhouCard1Queue,
     JIUZHE_ALIEN_ID: jiuzhe?.ALIEN_ID || "九折",
     JIUZHE_CARD_BACK_SRC: jiuzhe?.CARD_BACK_SRC,
     JIUZHE_THREAT_ICON_SRC: jiuzhe?.THREAT_ICON_SRC,
     YICHANGDIAN_ALIEN_ID: yichangdian?.ALIEN_ID || "异常点",
     YICHANGDIAN_CARD_BACK_SRC: yichangdian?.CARD_BACK_SRC,
+    FANGZHOU_ALIEN_ID: fangzhou?.ALIEN_ID || "方舟",
+    FANGZHOU_CARD1_BACK_SRC: fangzhou?.CARD1_BACK_SRC,
     createDefaultAlienState: state.createDefaultAlienState,
     randomizeAlienAssignments: randomizer.randomizeAlienAssignments,
     getAlienType: catalog.getAlienType,
@@ -214,6 +267,8 @@
     listJiuzheTraceMarkerLayoutOverrides: render.listJiuzheTraceMarkerLayoutOverrides,
     getEffectiveYichangdianTraceMarkerLayout: render.getEffectiveYichangdianTraceMarkerLayout,
     listYichangdianTraceMarkerLayoutOverrides: render.listYichangdianTraceMarkerLayoutOverrides,
+    getEffectiveFangzhouTraceMarkerLayout: render.getEffectiveFangzhouTraceMarkerLayout,
+    listFangzhouTraceMarkerLayoutOverrides: render.listFangzhouTraceMarkerLayoutOverrides,
     bindAlienTraceDragging: render.bindAlienTraceDragging,
     renderAlienTraceMarkers: render.renderAlienTraceMarkers,
     renderAllAlienTraceMarkers: render.renderAllAlienTraceMarkers,
@@ -221,6 +276,8 @@
     renderAllJiuzheTraceMarkers: render.renderAllJiuzheTraceMarkers,
     renderYichangdianTraceMarkers: render.renderYichangdianTraceMarkers,
     renderAllYichangdianTraceMarkers: render.renderAllYichangdianTraceMarkers,
+    renderFangzhouTraceMarkers: render.renderFangzhouTraceMarkers,
+    renderAllFangzhouTraceMarkers: render.renderAllFangzhouTraceMarkers,
     renderAlienBackImage: render.renderAlienBackImage,
     renderAllAlienBackImages: render.renderAllAlienBackImages,
     resetAlienTraceTokens: render.resetAlienTraceTokens,

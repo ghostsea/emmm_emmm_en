@@ -784,9 +784,7 @@ body {
   aspect-ratio: 1;
   object-fit: contain;
   z-index: 4;
-  pointer-events: auto;
-  cursor: grab;
-  touch-action: none;
+  pointer-events: none;
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.42));
 }
 
@@ -831,7 +829,9 @@ body {
 }
 
 .alien-jiuzhe-slot,
-.alien-yichangdian-slot {
+.alien-yichangdian-slot,
+.alien-fangzhou-slot,
+.alien-state-trace-slot {
   position: absolute;
   width: 14%;
   aspect-ratio: 1;
@@ -847,25 +847,33 @@ body {
 }
 
 .alien-jiuzhe-slot[data-trace-type="pink"],
-.alien-yichangdian-slot[data-trace-type="pink"] {
+.alien-yichangdian-slot[data-trace-type="pink"],
+.alien-fangzhou-slot[data-trace-type="pink"],
+.alien-state-trace-slot[data-trace-type="pink"] {
   border-color: rgba(232, 120, 168, 0.75);
   box-shadow: 0 0 14px rgba(232, 120, 168, 0.2);
 }
 
 .alien-jiuzhe-slot[data-trace-type="yellow"],
-.alien-yichangdian-slot[data-trace-type="yellow"] {
+.alien-yichangdian-slot[data-trace-type="yellow"],
+.alien-fangzhou-slot[data-trace-type="yellow"],
+.alien-state-trace-slot[data-trace-type="yellow"] {
   border-color: rgba(232, 196, 72, 0.78);
   box-shadow: 0 0 14px rgba(232, 196, 72, 0.2);
 }
 
 .alien-jiuzhe-slot[data-trace-type="blue"],
-.alien-yichangdian-slot[data-trace-type="blue"] {
+.alien-yichangdian-slot[data-trace-type="blue"],
+.alien-fangzhou-slot[data-trace-type="blue"],
+.alien-state-trace-slot[data-trace-type="blue"] {
   border-color: rgba(88, 190, 232, 0.78);
   box-shadow: 0 0 14px rgba(88, 190, 232, 0.2);
 }
 
 .alien-jiuzhe-slot:not(.is-placeable),
-.alien-yichangdian-slot:not(.is-placeable) {
+.alien-yichangdian-slot:not(.is-placeable),
+.alien-fangzhou-slot:not(.is-placeable),
+.alien-state-trace-slot:not(.is-placeable) {
   cursor: default;
   opacity: 0.42;
 }
@@ -873,13 +881,18 @@ body {
 .alien-jiuzhe-slot.is-placeable:hover,
 .alien-jiuzhe-slot.is-placeable:focus-visible,
 .alien-yichangdian-slot.is-placeable:hover,
-.alien-yichangdian-slot.is-placeable:focus-visible {
+.alien-yichangdian-slot.is-placeable:focus-visible,
+.alien-fangzhou-slot.is-placeable:hover,
+.alien-fangzhou-slot.is-placeable:focus-visible,
+.alien-state-trace-slot.is-placeable:hover,
+.alien-state-trace-slot.is-placeable:focus-visible {
   background: rgba(255, 246, 177, 0.16);
   outline: 2px solid rgba(255, 246, 177, 0.75);
   outline-offset: 2px;
 }
 
-.alien-yichangdian-slot-stack-hotzone {
+.alien-yichangdian-slot-stack-hotzone,
+.alien-fangzhou-slot-stack-hotzone {
   border-radius: 999px;
   background: rgba(8, 23, 34, 0.04);
 }
@@ -890,13 +903,15 @@ body {
   outline-offset: 1px;
 }
 
-.alien-trace-token-yichangdian {
+.alien-trace-token-yichangdian,
+.alien-trace-token-fangzhou {
   border-radius: 50%;
   outline: 2px solid rgba(126, 229, 255, 0.46);
   outline-offset: 1px;
 }
 
-.alien-yichangdian-card-area {
+.alien-yichangdian-card-area,
+.alien-fangzhou-card-area {
   display: grid;
   justify-items: center;
   gap: 6px;
@@ -907,16 +922,19 @@ body {
   background: rgba(7, 18, 32, 0.48);
 }
 
-.alien-yichangdian-card-area[hidden] {
+.alien-yichangdian-card-area[hidden],
+.alien-fangzhou-card-area[hidden] {
   display: none;
 }
 
-.alien-yichangdian-card-title {
+.alien-yichangdian-card-title,
+.alien-fangzhou-card-title {
   color: rgba(222, 246, 255, 0.86);
   font: 700 12px/1.2 "Microsoft YaHei", "PingFang SC", sans-serif;
 }
 
-.alien-yichangdian-card-image {
+.alien-yichangdian-card-image,
+.alien-fangzhou-card-image {
   display: block;
   width: 100%;
   height: auto;
@@ -2901,9 +2919,7 @@ body {
   transform: translate(-50%, -50%);
   transform-origin: center center;
   z-index: 430;
-  pointer-events: auto;
-  cursor: grab;
-  touch-action: none;
+  pointer-events: none;
   user-select: none;
   filter: drop-shadow(0 0 8px rgba(126, 229, 255, 0.7)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
 }
@@ -3477,6 +3493,17 @@ button.spin-button:hover {
 
 .debug-action-button:active {
   transform: scale(0.97);
+}
+
+.reserved-card-button-fangzhou.is-fangzhou-unlock-pending {
+  cursor: pointer;
+  filter: drop-shadow(0 0 10px rgba(255, 215, 98, 0.45));
+}
+
+.reserved-card-button-fangzhou.is-fangzhou-unlock-pending:hover,
+.reserved-card-button-fangzhou.is-fangzhou-unlock-pending:focus-visible {
+  outline: 2px solid rgba(255, 215, 98, 0.88);
+  outline-offset: 3px;
 }
 
 .debug-player-menu {

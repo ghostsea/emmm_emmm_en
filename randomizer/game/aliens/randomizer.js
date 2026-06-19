@@ -6,6 +6,7 @@
   let state = root.SetiAlienState;
   let jiuzhe = root.SetiAlienJiuzhe;
   let yichangdian = root.SetiAlienYichangdian;
+  let fangzhou = root.SetiAlienFangzhou;
 
   if (typeof require === "function") {
     catalog = catalog || require("./catalog");
@@ -13,21 +14,22 @@
     state = state || require("./state");
     jiuzhe = jiuzhe || require("./jiuzhe");
     yichangdian = yichangdian || require("./yichangdian");
+    fangzhou = fangzhou || require("./fangzhou");
   }
 
-  const api = factory(catalog, placement, state, jiuzhe, yichangdian);
+  const api = factory(catalog, placement, state, jiuzhe, yichangdian, fangzhou);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAlienRandomizer = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, jiuzhe, yichangdian) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, jiuzhe, yichangdian, fangzhou) {
   "use strict";
 
   function randomizeAlienAssignments(alienState, random = Math.random) {
     const fixedFirstAlienId = jiuzhe?.ALIEN_ID || "九折";
-    const fixedSecondAlienId = yichangdian?.ALIEN_ID || "异常点";
+    const fixedSecondAlienId = fangzhou?.ALIEN_ID || "方舟";
     const fixedAssignments = Object.freeze({
       [placement.ALIEN_SLOT_IDS[0]]: fixedFirstAlienId,
       [placement.ALIEN_SLOT_IDS[1]]: fixedSecondAlienId,
@@ -53,6 +55,9 @@
     }
     if (yichangdian?.createYichangdianState) {
       alienState.yichangdian = yichangdian.createYichangdianState();
+    }
+    if (fangzhou?.createFangzhouState) {
+      alienState.fangzhou = fangzhou.createFangzhouState();
     }
 
     return {

@@ -314,7 +314,7 @@
     const cost = resolveCost(options, DEFAULT_LAUNCH_COST);
     const rocketLimit = getRocketLimitForPlayer(currentPlayer);
     const activeRocketCount = getActiveRocketCountForPlayer(context.rocketState, currentPlayer.id);
-    if (activeRocketCount >= rocketLimit) {
+    if (!options.ignoreRocketLimit && activeRocketCount >= rocketLimit) {
       return {
         ok: false,
         abilityId: "launchProbe",

@@ -29,6 +29,8 @@
   const ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE = 5;
   const JIUZHE_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
   const YICHANGDIAN_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
+  const FANGZHOU_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
+  const FANGZHOU_POSITION1_STACK_STEP_Y = 14.5;
   const YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT = 6.5;
   const YICHANGDIAN_ANOMALY_EDGE_RADIAL_FRACTION = 0.92;
   const YICHANGDIAN_ANOMALY_EDGE_ANGULAR_FRACTIONS = Object.freeze({
@@ -56,7 +58,7 @@
     }),
   });
 
-  /** 非首标记网格锚点（第二行第二列中心），可拖动校准 */
+  /** 非首标记网格锚点（第二行第二列中心） */
   const ALIEN_EXTRA_TRACE_MARKER_SLOTS = Object.freeze({
     1: Object.freeze({
       pink: Object.freeze({ percentX: 16.5, percentY: 72, scalePercent: 14 }),
@@ -115,6 +117,49 @@
         3: Object.freeze({ percentX: 81.14, percentY: 59.99, scalePercent: 62 }),
         4: Object.freeze({ percentX: 81.14, percentY: 73.3, scalePercent: 62 }),
         5: Object.freeze({ percentX: 81.14, percentY: 84, scalePercent: 62 }),
+      }),
+    }),
+  });
+
+  const FANGZHOU_TRACE_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 18.43, percentY: 36.19, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 18.43, percentY: 50.94, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 18.43, percentY: 64.13, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 18.43, percentY: 78.0, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.74, percentY: 40.12, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.74, percentY: 54.92, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.74, percentY: 68.0, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 49.74, percentY: 82.0, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 81.14, percentY: 36.19, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 81.14, percentY: 51.51, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 81.14, percentY: 65.0, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 81.14, percentY: 79.0, scalePercent: 62 }),
+      }),
+    }),
+    2: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 20.69, percentY: 39.8, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 20.69, percentY: 53.93, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 20.69, percentY: 67.88, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 20.69, percentY: 83.07, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 50.44, percentY: 43.84, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 50.44, percentY: 57.88, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 50.44, percentY: 72.5, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 50.44, percentY: 87.11, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 79.51, percentY: 39.42, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 79.51, percentY: 54.04, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 79.51, percentY: 67.69, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 79.51, percentY: 83.07, scalePercent: 62 }),
       }),
     }),
   });
@@ -194,6 +239,47 @@
 
   function getYichangdianTraceMarkerLayout(alienSlotId, traceType, position) {
     return YICHANGDIAN_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getFangzhouTraceMarkerLayout(alienSlotId, traceType, position) {
+    return FANGZHOU_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getFangzhouTraceTokenSize(layout) {
+    if (!layout) return null;
+    const visualScale = getTraceTokenVisualScale(layout, FANGZHOU_TRACE_TOKEN_DISPLAY_SCALE);
+    const widthPercent = ALIEN_TRACE_TOKEN_BASE_WIDTH_PERCENT * visualScale;
+    const heightPercent = widthPercent * (ALIEN_STATE_REFERENCE_WIDTH / ALIEN_STATE_REFERENCE_HEIGHT);
+    return {
+      widthPercent: roundPercent(widthPercent),
+      heightPercent: roundPercent(heightPercent),
+      radiusXPercent: roundPercent(widthPercent / 2),
+      radiusYPercent: roundPercent(heightPercent / 2),
+    };
+  }
+
+  function getFangzhouStackStepY(layout) {
+    return getFangzhouTraceTokenSize(layout)?.radiusXPercent || FANGZHOU_POSITION1_STACK_STEP_Y;
+  }
+
+  function getFangzhouStackTraceMarkerLayout(baseLayout, stackIndex = 0) {
+    if (!baseLayout) return null;
+    const index = Math.max(0, Math.round(Number(stackIndex) || 0));
+    const stepY = getFangzhouStackStepY(baseLayout);
+    return {
+      ...baseLayout,
+      percentY: roundPercent(baseLayout.percentY - index * stepY),
+    };
+  }
+
+  function getFangzhouBaseFromStackTraceMarkerLayout(stackLayout, stackIndex = 0) {
+    if (!stackLayout) return null;
+    const index = Math.max(0, Math.round(Number(stackIndex) || 0));
+    const stepY = getFangzhouStackStepY(stackLayout);
+    return {
+      percentX: roundPercent(stackLayout.percentX),
+      percentY: roundPercent(stackLayout.percentY + index * stepY),
+    };
   }
 
   function getYichangdianTraceTokenSize(layout) {
@@ -321,6 +407,8 @@
     ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE,
     JIUZHE_TRACE_TOKEN_DISPLAY_SCALE,
     YICHANGDIAN_TRACE_TOKEN_DISPLAY_SCALE,
+    FANGZHOU_TRACE_TOKEN_DISPLAY_SCALE,
+    FANGZHOU_POSITION1_STACK_STEP_Y,
     YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT,
     YICHANGDIAN_POSITION1_STACK_STEP_Y,
     EXTRA_TRACE_GRID_COLUMNS,
@@ -329,12 +417,18 @@
     ALIEN_TRACE_MARKER_SLOTS,
     ALIEN_EXTRA_TRACE_MARKER_SLOTS,
     JIUZHE_TRACE_MARKER_SLOTS,
+    FANGZHOU_TRACE_MARKER_SLOTS,
     YICHANGDIAN_TRACE_MARKER_SLOTS,
     getAlienSlotLabel,
     getTraceTypeLabel,
     getAlienTraceMarkerLayout,
     getAlienExtraTraceMarkerLayout,
     getJiuzheTraceMarkerLayout,
+    getFangzhouTraceMarkerLayout,
+    getFangzhouTraceTokenSize,
+    getFangzhouStackStepY,
+    getFangzhouStackTraceMarkerLayout,
+    getFangzhouBaseFromStackTraceMarkerLayout,
     getYichangdianTraceMarkerLayout,
     getYichangdianTraceTokenSize,
     getYichangdianStackStepY,

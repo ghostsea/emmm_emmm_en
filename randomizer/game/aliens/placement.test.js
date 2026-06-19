@@ -55,4 +55,18 @@ const rebuiltYBase = placement.getYichangdianBaseFromStackTraceMarkerLayout(ySta
 assert(rebuiltYBase.percentY === yBase.percentY,
   "dragging a stacked Yichangdian marker should rebuild the base coordinate");
 
+for (const traceType of ["pink", "yellow", "blue"]) {
+  for (let position = 1; position <= 4; position += 1) {
+    const layout = placement.getFangzhouTraceMarkerLayout(2, traceType, position);
+    assert(layout && Number.isFinite(layout.percentX) && Number.isFinite(layout.percentY),
+      `Fangzhou ${traceType} ${position} should have a layout`);
+  }
+}
+assert(placement.getFangzhouTraceMarkerLayout(2, "pink", 1).percentX === 20.69,
+  "Fangzhou pink column should use aligned X");
+assert(placement.getFangzhouTraceMarkerLayout(2, "yellow", 2).percentX === 50.44,
+  "Fangzhou yellow column should use aligned X");
+assert(placement.getFangzhouTraceMarkerLayout(2, "blue", 4).percentX === 79.51,
+  "Fangzhou blue column should use aligned X");
+
 console.log("aliens/placement.test.js ok");

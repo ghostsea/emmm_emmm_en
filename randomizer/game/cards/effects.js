@@ -198,8 +198,9 @@
   }
 
   function cardMoveEffect(id, label, options = {}) {
+    const movementPoints = Math.max(1, Math.round(Number(options.movementPoints || 1)));
     const normalizedOptions = {
-      movementPoints: Math.max(1, Math.round(Number(options.movementPoints || 1))),
+      movementPoints,
     };
     if (options.historyLabel) normalizedOptions.historyLabel = options.historyLabel;
     if (options.suppressArrivalRewards) normalizedOptions.suppressArrivalRewards = true;
@@ -210,7 +211,59 @@
         effect: reward.effect,
       })));
     }
-    return effect(id, EFFECT_TYPES.CARD_MOVE, label || "移动", "movement", normalizedOptions);
+    const moveLabel = label || (movementPoints > 1 ? `${movementPoints}移动` : "移动");
+    return effect(id, EFFECT_TYPES.CARD_MOVE, moveLabel, "movement", normalizedOptions);
+  }
+
+  function isMoveEffectType(type) {
+    return type === EFFECT_TYPES.CARD_MOVE || type === EFFECT_TYPES.FREE_MOVE;
+  }
+
+  function consolidateCardMoveEffects(effects) {
+    if (!Array.isArray(effects) || !effects.length) return [];
+
+    const result = [];
+    let index = 0;
+    while (index < effects.length) {
+      const current = effects[index];
+      if (!isMoveEffectType(current.type)) {
+        result.push(current);
+        index += 1;
+        continue;
+      }
+
+      let movementPoints = Math.max(1, Math.round(Number(current.options?.movementPoints || 1)));
+      const mergedOptions = { ...(current.options || {}) };
+      let afterEventRewards = mergedOptions.afterEventRewards || null;
+      let nextIndex = index + 1;
+      while (nextIndex < effects.length && isMoveEffectType(effects[nextIndex].type)) {
+        const next = effects[nextIndex];
+        movementPoints += Math.max(1, Math.round(Number(next.options?.movementPoints || 1)));
+        if (!afterEventRewards && next.options?.afterEventRewards?.length) {
+          afterEventRewards = next.options.afterEventRewards;
+        }
+        if (next.options?.suppressArrivalRewards) {
+          mergedOptions.suppressArrivalRewards = true;
+        }
+        if (next.options?.historyLabel && !mergedOptions.historyLabel) {
+          mergedOptions.historyLabel = next.options.historyLabel;
+        }
+        nextIndex += 1;
+      }
+
+      mergedOptions.movementPoints = movementPoints;
+      if (afterEventRewards) mergedOptions.afterEventRewards = afterEventRewards;
+
+      result.push(effect(
+        current.id,
+        EFFECT_TYPES.CARD_MOVE,
+        movementPoints > 1 ? `${movementPoints}移动` : (current.label || "移动"),
+        current.icon || "movement",
+        mergedOptions,
+      ));
+      index = nextIndex;
+    }
+    return result;
   }
 
   function withSource(cardId, model) {
@@ -610,14 +663,8 @@
     "b_24.webp": withSource("b_24.webp", {
       cardType: 0,
       playEffects: Object.freeze([
-        cardMoveEffect("b24-move-1", "2移动 1/2；若访问彗星获得4分", {
-          afterEventRewards: Object.freeze([{
-            eventType: "visitComet",
-            onceKey: "b24-comet-score",
-            effect: gainResourcesEffect("b24-comet-score", "彗星遭遇：访问彗星获得4分", { score: 4 }),
-          }]),
-        }),
-        cardMoveEffect("b24-move-2", "2移动 2/2；若访问彗星获得4分", {
+        cardMoveEffect("b24-move", "2移动；若访问彗星获得4分", {
+          movementPoints: 2,
           afterEventRewards: Object.freeze([{
             eventType: "visitComet",
             onceKey: "b24-comet-score",
@@ -1059,6 +1106,7 @@
     collectMatchingTriggers,
     collectReadyTasks,
     collectTemporaryTaskRewards,
+    consolidateCardMoveEffects,
     areAllTriggersConsumed,
     getConsumedTriggerIndexes,
   });

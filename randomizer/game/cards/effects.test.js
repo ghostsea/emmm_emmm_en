@@ -231,9 +231,17 @@ assert.equal(b23Effects.length, 3);
 assert.equal(b23Effects.every((effect) => effect.type === cardEffects.EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION), true);
 
 const b24Effects = cardEffects.buildPlayEffects({ cardId: "b_24.webp" });
-assert.equal(b24Effects.length, 2);
-assert.equal(b24Effects.every((effect) => effect.type === cardEffects.EFFECT_TYPES.CARD_MOVE), true);
+assert.equal(b24Effects.length, 1);
+assert.equal(b24Effects[0].type, cardEffects.EFFECT_TYPES.CARD_MOVE);
+assert.equal(b24Effects[0].options.movementPoints, 2);
 assert.equal(b24Effects[0].options.afterEventRewards[0].onceKey, "b24-comet-score");
+
+const mergedMoves = cardEffects.consolidateCardMoveEffects([
+  cardEffects.buildPlayEffects({ cardId: "b_24.webp" })[0],
+  cardEffects.buildPlayEffects({ cardId: "b_11.webp" })[0],
+]);
+assert.equal(mergedMoves.length, 1);
+assert.equal(mergedMoves[0].options.movementPoints, 3);
 
 const b25 = { id: "card-b25", cardId: "b_25.webp" };
 const signalTriggerPlayer = { id: "p1", color: "red", reservedCards: [b25] };

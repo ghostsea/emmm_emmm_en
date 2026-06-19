@@ -6,6 +6,7 @@
   let state = root.SetiAlienState;
   let jiuzhe = root.SetiAlienJiuzhe;
   let yichangdian = root.SetiAlienYichangdian;
+  let fangzhou = root.SetiAlienFangzhou;
 
   if (typeof require === "function") {
     catalog = catalog || require("./catalog");
@@ -13,31 +14,36 @@
     state = state || require("./state");
     jiuzhe = jiuzhe || require("./jiuzhe");
     yichangdian = yichangdian || require("./yichangdian");
+    fangzhou = fangzhou || require("./fangzhou");
   }
 
-  const api = factory(catalog, placement, state, jiuzhe, yichangdian);
+  const api = factory(catalog, placement, state, jiuzhe, yichangdian, fangzhou);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAlienRender = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, jiuzhe, yichangdian) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, jiuzhe, yichangdian, fangzhou) {
   "use strict";
 
   const TRACE_KIND_FIRST = "first";
   const TRACE_KIND_EXTRA = "extra";
   const TRACE_KIND_JIUZHE = "jiuzhe";
   const TRACE_KIND_YICHANGDIAN = "yichangdian";
+  const TRACE_KIND_FANGZHOU = "fangzhou";
   const YICHANGDIAN_SLOT_DISPLAY_SCALE = 0.5;
 
   const tokenElements = new Map();
+  const stateTraceSlotElements = new Map();
   const jiuzheSlotElements = new Map();
   const yichangdianSlotElements = new Map();
+  const fangzhouSlotElements = new Map();
   const firstLayoutOverrides = new Map();
   const extraLayoutOverrides = new Map();
   const jiuzheLayoutOverrides = new Map();
   const yichangdianLayoutOverrides = new Map();
+  const fangzhouLayoutOverrides = new Map();
   let dragState = null;
   let dragHandlers = {};
   let dragListenersBound = false;
@@ -60,6 +66,10 @@
 
   function getYichangdianOverrideKey(alienSlotId, traceType, position) {
     return `yichangdian:${alienSlotId}:${traceType}:${position}`;
+  }
+
+  function getFangzhouOverrideKey(alienSlotId, traceType, position) {
+    return `fangzhou:${alienSlotId}:${traceType}:${position}`;
   }
 
   function getEffectiveTraceMarkerLayout(alienSlotId, traceType) {
@@ -118,6 +128,18 @@
     return placement.getYichangdianStackTraceMarkerLayout?.(effectiveBase, stackIndex) || effectiveBase;
   }
 
+  function getEffectiveFangzhouTraceMarkerLayout(alienSlotId, traceType, position, stackIndex = 0) {
+    const base = placement.getFangzhouTraceMarkerLayout?.(alienSlotId, traceType, position);
+    if (!base) return null;
+
+    const override = fangzhouLayoutOverrides.get(getFangzhouOverrideKey(alienSlotId, traceType, position));
+    return {
+      ...base,
+      percentX: override?.percentX ?? base.percentX,
+      percentY: override?.percentY ?? base.percentY,
+    };
+  }
+
   function clientToAlienStatePercent(wrap, clientX, clientY) {
     const rect = wrap.getBoundingClientRect();
     const localX = clientX - rect.left;
@@ -145,7 +167,12 @@
   }
 
   function getTokenElementKey(traceKind, alienSlotId, traceType, extraIndex = 0) {
-    if (traceKind === TRACE_KIND_EXTRA || traceKind === TRACE_KIND_JIUZHE || traceKind === TRACE_KIND_YICHANGDIAN) {
+    if (
+      traceKind === TRACE_KIND_EXTRA
+      || traceKind === TRACE_KIND_JIUZHE
+      || traceKind === TRACE_KIND_YICHANGDIAN
+      || traceKind === TRACE_KIND_FANGZHOU
+    ) {
       return `${traceKind}:${alienSlotId}:${traceType}:${extraIndex}`;
     }
     return `${traceKind}:${alienSlotId}:${traceType}`;
@@ -178,6 +205,8 @@
       jiuzhePosition: Number(element.dataset.jiuzhePosition || 0),
       yichangdianPosition: Number(element.dataset.yichangdianPosition || 0),
       yichangdianStackIndex: Number(element.dataset.yichangdianStackIndex || 0),
+      fangzhouPosition: Number(element.dataset.fangzhouPosition || 0),
+      fangzhouStackIndex: Number(element.dataset.fangzhouStackIndex || 0),
       pointerId: event.pointerId,
     };
 
@@ -227,6 +256,12 @@
           getYichangdianOverrideKey(alienSlotId, traceType, positionIndex),
           basePosition,
         );
+      } else if (traceKind === TRACE_KIND_FANGZHOU) {
+        const positionIndex = Number(element.dataset.fangzhouPosition || 0);
+        fangzhouLayoutOverrides.set(
+          getFangzhouOverrideKey(alienSlotId, traceType, positionIndex),
+          position,
+        );
       } else if (traceKind === TRACE_KIND_EXTRA) {
         const anchorLayout = getEffectiveExtraTraceAnchorLayout(alienSlotId, traceType);
         const extraIndex = Number(element.dataset.extraIndex || 0);
@@ -245,6 +280,8 @@
       ? `九折${Number(element.dataset.jiuzhePosition || 0)}号位`
       : traceKind === TRACE_KIND_YICHANGDIAN
         ? `异常点${Number(element.dataset.yichangdianPosition || 0)}号位`
+      : traceKind === TRACE_KIND_FANGZHOU
+        ? `方舟${Number(element.dataset.fangzhouPosition || 0)}号位`
       : traceKind === TRACE_KIND_EXTRA
         ? "非首标记网格锚点"
         : "首标记";
@@ -256,6 +293,8 @@
       jiuzhePosition: traceKind === TRACE_KIND_JIUZHE ? Number(element.dataset.jiuzhePosition || 0) : null,
       yichangdianPosition: traceKind === TRACE_KIND_YICHANGDIAN ? Number(element.dataset.yichangdianPosition || 0) : null,
       yichangdianStackIndex: traceKind === TRACE_KIND_YICHANGDIAN ? Number(element.dataset.yichangdianStackIndex || 0) : null,
+      fangzhouPosition: traceKind === TRACE_KIND_FANGZHOU ? Number(element.dataset.fangzhouPosition || 0) : null,
+      fangzhouStackIndex: traceKind === TRACE_KIND_FANGZHOU ? Number(element.dataset.fangzhouStackIndex || 0) : null,
       percentX: position.percentX,
       percentY: position.percentY,
       message: traceKind === TRACE_KIND_EXTRA
@@ -265,6 +304,9 @@
         : traceKind === TRACE_KIND_YICHANGDIAN
           ? `${label} ${traceLabel} 异常点${Number(element.dataset.yichangdianPosition || 0)}号位`
             + `${Number(element.dataset.yichangdianPosition || 0) === 1 ? `#${Number(element.dataset.yichangdianStackIndex || 0) + 1}` : ""}`
+            + ` 拖动至 ${position.percentX}%,${position.percentY}%`
+        : traceKind === TRACE_KIND_FANGZHOU
+          ? `${label} ${traceLabel} 方舟${Number(element.dataset.fangzhouPosition || 0)}号位`
             + ` 拖动至 ${position.percentX}%,${position.percentY}%`
         : `${label} ${traceLabel} ${kindLabel} 拖动至 ${position.percentX}%,${position.percentY}%`,
     };
@@ -335,6 +377,63 @@
     } @(${layout.percentX}%,${layout.percentY}%)`;
   }
 
+  function getStateTraceSlotKey(alienSlotId, traceType, kind) {
+    return `state-slot:${alienSlotId}:${traceType}:${kind}`;
+  }
+
+  function mountStateTracePlacementSlot(alienSlotId, traceType, kind, layout, layer, options, activeKeys) {
+    const key = getStateTraceSlotKey(alienSlotId, traceType, kind);
+    activeKeys.add(key);
+
+    let slot = stateTraceSlotElements.get(key);
+    if (!slot) {
+      slot = document.createElement("button");
+      slot.type = "button";
+      slot.className = "alien-state-trace-slot alien-trace-token-positioned";
+      slot.dataset.stateTraceSlot = "true";
+      stateTraceSlotElements.set(key, slot);
+      layer.appendChild(slot);
+    }
+
+    const displayScale = kind === "first"
+      ? placement.ALIEN_TRACE_TOKEN_DISPLAY_SCALE
+      : placement.ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE;
+    applyTraceTokenStyle(slot, layout, displayScale);
+    slot.dataset.alienSlot = String(alienSlotId);
+    slot.dataset.traceType = traceType;
+    slot.dataset.stateTraceKind = kind;
+    const canPlace = options.canPlaceStateTrace?.(alienSlotId, traceType, kind) !== false;
+    slot.classList.toggle("is-placeable", canPlace);
+    const kindLabel = kind === "first" ? "首标记" : "额外痕迹";
+    slot.title = `${placement.getTraceTypeLabel(traceType)} ${kindLabel} @(${layout.percentX}%,${layout.percentY}%)`;
+    slot.setAttribute("aria-label", `${placement.getAlienSlotLabel(alienSlotId)} ${slot.title}`);
+  }
+
+  function renderStateTracePlacementSlots(alienSlotId, layer, alienState, options, activeKeys) {
+    if (!options.showStateTraceSlots) return;
+
+    const alienSlot = state.getAlienSlot(alienState, alienSlotId);
+    if (!alienSlot || alienSlot.revealed) return;
+
+    const allowedTraceTypes = options.allowedTraceTypes || placement.TRACE_TYPES;
+    for (const traceType of allowedTraceTypes) {
+      const traceSlot = alienSlot.traces?.[traceType];
+      if (!traceSlot) continue;
+
+      if (!traceSlot.firstPlaced) {
+        const layout = getEffectiveTraceMarkerLayout(alienSlotId, traceType);
+        if (!layout) continue;
+        mountStateTracePlacementSlot(alienSlotId, traceType, "first", layout, layer, options, activeKeys);
+        continue;
+      }
+
+      const extraIndex = traceSlot.extraCount || 0;
+      const layout = getEffectiveExtraTraceGridLayout(alienSlotId, traceType, extraIndex);
+      if (!layout) continue;
+      mountStateTracePlacementSlot(alienSlotId, traceType, "extra", layout, layer, options, activeKeys);
+    }
+  }
+
   function mountExtraTraceToken(alienSlotId, traceType, extraIndex, layer, alienSlot, options, activeKeys) {
     const traceSlot = alienSlot?.traces?.[traceType];
     if (!traceSlot?.firstPlaced || extraIndex >= traceSlot.extraCount) {
@@ -391,12 +490,21 @@
       }
     }
 
+    renderStateTracePlacementSlots(alienSlotId, layer, alienState, options, activeKeys);
+
     for (const [key, element] of tokenElements.entries()) {
       const parts = key.split(":");
       const slotId = Number(parts[1]);
       if (slotId !== alienSlotId || activeKeys.has(key)) continue;
       element.remove();
       tokenElements.delete(key);
+    }
+    for (const [key, element] of stateTraceSlotElements.entries()) {
+      const parts = key.split(":");
+      const slotId = Number(parts[1]);
+      if (slotId !== alienSlotId || activeKeys.has(key)) continue;
+      element.remove();
+      stateTraceSlotElements.delete(key);
     }
   }
 
@@ -422,7 +530,6 @@
     if (!layout) return;
 
     const visible = Boolean(entry)
-      || Boolean(options.showJiuzheSlots)
       || Boolean(jiuzhe?.isJiuzheRevealedSlot?.(alienState, alienSlotId));
     if (!visible) {
       const existingSlot = jiuzheSlotElements.get(key);
@@ -627,7 +734,6 @@
     const entries = getYichangdianTraceEntries(grid, traceType, position);
     const slotKey = getYichangdianSlotElementKey(alienSlotId, traceType, position);
     const visible = Boolean(entries.length)
-      || Boolean(options.showYichangdianSlots)
       || Boolean(yichangdian?.isYichangdianRevealedSlot?.(alienState, alienSlotId));
     if (!visible) {
       const existingSlot = yichangdianSlotElements.get(slotKey);
@@ -643,7 +749,7 @@
     });
 
     const canPlace = options.canPlaceYichangdianTrace?.(alienSlotId, traceType, position) !== false;
-    const shouldShowSlot = !entries.length || Number(position) === 1 || Boolean(options.showYichangdianSlots);
+    const shouldShowSlot = !entries.length || Number(position) === 1;
     if (!shouldShowSlot) {
       const existingSlot = yichangdianSlotElements.get(slotKey);
       if (existingSlot) {
@@ -707,6 +813,151 @@
     for (const alienSlotId of placement.ALIEN_SLOT_IDS) {
       const layer = getLayerForSlot(alienSlotId);
       if (layer) renderYichangdianTraceMarkers(alienSlotId, layer, alienState, options);
+    }
+  }
+
+  function getFangzhouSlotElementKey(alienSlotId, traceType, position) {
+    return `fangzhou-slot:${alienSlotId}:${traceType}:${position}`;
+  }
+
+  function getFangzhouTokenKey(alienSlotId, traceType, position, stackIndex = 0) {
+    return getTokenElementKey(
+      TRACE_KIND_FANGZHOU,
+      alienSlotId,
+      traceType,
+      position,
+    );
+  }
+
+  function applyFangzhouTraceSlotStyle(slot, layout) {
+    applyTraceTokenStyle(slot, layout, placement.FANGZHOU_TRACE_TOKEN_DISPLAY_SCALE || 1);
+    slot.classList.remove("alien-fangzhou-slot-stack-hotzone");
+    slot.style.removeProperty("width");
+    slot.style.removeProperty("height");
+    slot.style.removeProperty("aspect-ratio");
+    slot.style.removeProperty("border-radius");
+    delete slot.dataset.hotzoneTopPercent;
+    delete slot.dataset.hotzoneBottomPercent;
+  }
+
+  function mountFangzhouTraceToken(alienSlotId, traceType, position, stackIndex, entry, layer, options, activeKeys) {
+    const key = getFangzhouTokenKey(alienSlotId, traceType, position, stackIndex);
+    activeKeys.add(key);
+
+    let element = tokenElements.get(key);
+    if (!element) {
+      element = document.createElement("img");
+      element.className = "alien-trace-token alien-trace-token-positioned alien-trace-token-fangzhou";
+      element.draggable = false;
+      tokenElements.set(key, element);
+      layer.appendChild(element);
+    }
+
+    const layout = getEffectiveFangzhouTraceMarkerLayout(alienSlotId, traceType, position, stackIndex);
+    if (!layout || dragState?.element === element) return;
+
+    applyTraceTokenStyle(element, layout, placement.FANGZHOU_TRACE_TOKEN_DISPLAY_SCALE || 1);
+    element.src = resolvePlayerTokenAsset(entry.playerColor, options);
+    element.alt = `${fangzhou?.formatTraceLabel?.(traceType, position, stackIndex) || traceType}`;
+    element.dataset.alienSlot = String(alienSlotId);
+    element.dataset.traceType = traceType;
+    element.dataset.traceKind = TRACE_KIND_FANGZHOU;
+    element.dataset.fangzhouPosition = String(position);
+    element.dataset.fangzhouStackIndex = String(stackIndex);
+    element.classList.remove("is-placeable");
+    delete element.dataset.fangzhouTraceSlot;
+    delete element.dataset.extraIndex;
+    delete element.dataset.jiuzhePosition;
+    delete element.dataset.yichangdianPosition;
+    element.title = `${placement.getAlienSlotLabel(alienSlotId)} ${fangzhou?.formatTraceLabel?.(traceType, position, stackIndex) || traceType}`
+      + ` ${options.getPlayerLabel?.(entry.playerColor) || entry.playerColor || "未知"}`
+      + ` @(${layout.percentX}%,${layout.percentY}%)`;
+  }
+
+  function mountFangzhouTraceSlot(alienSlotId, traceType, position, layer, alienState, options, activeKeys) {
+    const grid = fangzhou?.getTraceGrid?.(alienState, alienSlotId);
+    const entries = fangzhou?.getTraceEntries?.(grid, traceType, position) || [];
+    const slotKey = getFangzhouSlotElementKey(alienSlotId, traceType, position);
+    const visible = Boolean(entries.length)
+      || Boolean(fangzhou?.isFangzhouRevealedSlot?.(alienState, alienSlotId));
+    if (!visible) {
+      const existingSlot = fangzhouSlotElements.get(slotKey);
+      if (existingSlot) {
+        existingSlot.remove();
+        fangzhouSlotElements.delete(slotKey);
+      }
+      return;
+    }
+
+    entries.forEach((entry, stackIndex) => {
+      mountFangzhouTraceToken(alienSlotId, traceType, position, stackIndex, entry, layer, options, activeKeys);
+    });
+
+    const canPlace = options.canPlaceFangzhouTrace?.(alienSlotId, traceType, position) !== false;
+    const shouldShowSlot = !entries.length;
+    if (!shouldShowSlot) {
+      const existingSlot = fangzhouSlotElements.get(slotKey);
+      if (existingSlot) {
+        existingSlot.remove();
+        fangzhouSlotElements.delete(slotKey);
+      }
+      return;
+    }
+
+    activeKeys.add(slotKey);
+    let slot = fangzhouSlotElements.get(slotKey);
+    if (!slot) {
+      slot = document.createElement("button");
+      slot.type = "button";
+      slot.className = "alien-fangzhou-slot alien-trace-token-positioned";
+      fangzhouSlotElements.set(slotKey, slot);
+      layer.appendChild(slot);
+    }
+
+    const layout = getEffectiveFangzhouTraceMarkerLayout(alienSlotId, traceType, position, 0);
+    if (!layout) return;
+    applyFangzhouTraceSlotStyle(slot, layout);
+    slot.dataset.alienSlot = String(alienSlotId);
+    slot.dataset.traceType = traceType;
+    slot.dataset.fangzhouPosition = String(position);
+    slot.dataset.fangzhouTraceSlot = "true";
+    slot.classList.toggle("is-placeable", canPlace);
+    slot.title = `${fangzhou?.formatTraceLabel?.(traceType, position) || traceType} @(${layout.percentX}%,${layout.percentY}%)`;
+    slot.setAttribute("aria-label", `${placement.getAlienSlotLabel(alienSlotId)} ${slot.title}`);
+  }
+
+  function renderFangzhouTraceMarkers(alienSlotId, layer, alienState, options = {}) {
+    if (!layer || !fangzhou) return;
+    const activeKeys = new Set();
+
+    for (const traceType of fangzhou.TRACE_TYPES) {
+      for (const position of fangzhou.TRACE_POSITIONS) {
+        mountFangzhouTraceSlot(alienSlotId, traceType, position, layer, alienState, options, activeKeys);
+      }
+    }
+
+    for (const [key, element] of tokenElements.entries()) {
+      const parts = key.split(":");
+      if (parts[0] !== TRACE_KIND_FANGZHOU) continue;
+      const slotId = Number(parts[1]);
+      if (slotId !== alienSlotId || activeKeys.has(key)) continue;
+      element.remove();
+      tokenElements.delete(key);
+    }
+    for (const [key, element] of fangzhouSlotElements.entries()) {
+      const parts = key.split(":");
+      const slotId = Number(parts[1]);
+      if (slotId !== alienSlotId || activeKeys.has(key)) continue;
+      element.remove();
+      fangzhouSlotElements.delete(key);
+    }
+  }
+
+  function renderAllFangzhouTraceMarkers(getLayerForSlot, alienState, options = {}) {
+    if (!fangzhou) return;
+    for (const alienSlotId of placement.ALIEN_SLOT_IDS) {
+      const layer = getLayerForSlot(alienSlotId);
+      if (layer) renderFangzhouTraceMarkers(alienSlotId, layer, alienState, options);
     }
   }
 
@@ -819,8 +1070,33 @@
       });
   }
 
+  function listFangzhouTraceMarkerLayoutOverrides() {
+    return [...fangzhouLayoutOverrides.entries()]
+      .map(([key, position]) => {
+        const [, alienSlotId, traceType, tracePosition] = key.split(":");
+        return {
+          traceKind: TRACE_KIND_FANGZHOU,
+          alienSlotId: Number(alienSlotId),
+          traceType,
+          position: Number(tracePosition),
+          percentX: position.percentX,
+          percentY: position.percentY,
+        };
+      })
+      .sort((a, b) => {
+        if (a.alienSlotId !== b.alienSlotId) return a.alienSlotId - b.alienSlotId;
+        const typeDiff = (fangzhou?.TRACE_TYPES || placement.TRACE_TYPES).indexOf(a.traceType)
+          - (fangzhou?.TRACE_TYPES || placement.TRACE_TYPES).indexOf(b.traceType);
+        if (typeDiff !== 0) return typeDiff;
+        return a.position - b.position;
+      });
+  }
+
   function resetAlienTraceTokens() {
     for (const element of tokenElements.values()) {
+      element.remove();
+    }
+    for (const element of stateTraceSlotElements.values()) {
       element.remove();
     }
     for (const element of jiuzheSlotElements.values()) {
@@ -829,13 +1105,19 @@
     for (const element of yichangdianSlotElements.values()) {
       element.remove();
     }
+    for (const element of fangzhouSlotElements.values()) {
+      element.remove();
+    }
     tokenElements.clear();
+    stateTraceSlotElements.clear();
     jiuzheSlotElements.clear();
     yichangdianSlotElements.clear();
+    fangzhouSlotElements.clear();
     firstLayoutOverrides.clear();
     extraLayoutOverrides.clear();
     jiuzheLayoutOverrides.clear();
     yichangdianLayoutOverrides.clear();
+    fangzhouLayoutOverrides.clear();
     dragState = null;
   }
 
@@ -847,16 +1129,20 @@
     getEffectiveExtraTraceGridLayout,
     getEffectiveJiuzheTraceMarkerLayout,
     getEffectiveYichangdianTraceMarkerLayout,
+    getEffectiveFangzhouTraceMarkerLayout,
     listTraceMarkerLayoutOverrides,
     listExtraTraceMarkerLayoutOverrides,
     listJiuzheTraceMarkerLayoutOverrides,
     listYichangdianTraceMarkerLayoutOverrides,
+    listFangzhouTraceMarkerLayoutOverrides,
     renderAlienTraceMarkers,
     renderAllAlienTraceMarkers,
     renderJiuzheTraceMarkers,
     renderAllJiuzheTraceMarkers,
     renderYichangdianTraceMarkers,
     renderAllYichangdianTraceMarkers,
+    renderFangzhouTraceMarkers,
+    renderAllFangzhouTraceMarkers,
     renderAlienBackImage,
     renderAllAlienBackImages,
     resetAlienTraceTokens,
