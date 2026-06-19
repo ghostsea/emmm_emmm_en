@@ -830,7 +830,8 @@ body {
   border-radius: 50%;
 }
 
-.alien-jiuzhe-slot {
+.alien-jiuzhe-slot,
+.alien-yichangdian-slot {
   position: absolute;
   width: 14%;
   aspect-ratio: 1;
@@ -845,37 +846,82 @@ body {
   z-index: 6;
 }
 
-.alien-jiuzhe-slot[data-trace-type="pink"] {
+.alien-jiuzhe-slot[data-trace-type="pink"],
+.alien-yichangdian-slot[data-trace-type="pink"] {
   border-color: rgba(232, 120, 168, 0.75);
   box-shadow: 0 0 14px rgba(232, 120, 168, 0.2);
 }
 
-.alien-jiuzhe-slot[data-trace-type="yellow"] {
+.alien-jiuzhe-slot[data-trace-type="yellow"],
+.alien-yichangdian-slot[data-trace-type="yellow"] {
   border-color: rgba(232, 196, 72, 0.78);
   box-shadow: 0 0 14px rgba(232, 196, 72, 0.2);
 }
 
-.alien-jiuzhe-slot[data-trace-type="blue"] {
+.alien-jiuzhe-slot[data-trace-type="blue"],
+.alien-yichangdian-slot[data-trace-type="blue"] {
   border-color: rgba(88, 190, 232, 0.78);
   box-shadow: 0 0 14px rgba(88, 190, 232, 0.2);
 }
 
-.alien-jiuzhe-slot:not(.is-placeable) {
+.alien-jiuzhe-slot:not(.is-placeable),
+.alien-yichangdian-slot:not(.is-placeable) {
   cursor: default;
   opacity: 0.42;
 }
 
 .alien-jiuzhe-slot.is-placeable:hover,
-.alien-jiuzhe-slot.is-placeable:focus-visible {
+.alien-jiuzhe-slot.is-placeable:focus-visible,
+.alien-yichangdian-slot.is-placeable:hover,
+.alien-yichangdian-slot.is-placeable:focus-visible {
   background: rgba(255, 246, 177, 0.16);
   outline: 2px solid rgba(255, 246, 177, 0.75);
   outline-offset: 2px;
+}
+
+.alien-yichangdian-slot-stack-hotzone {
+  border-radius: 999px;
+  background: rgba(8, 23, 34, 0.04);
 }
 
 .alien-trace-token-jiuzhe {
   border-radius: 50%;
   outline: 2px solid rgba(255, 246, 177, 0.42);
   outline-offset: 1px;
+}
+
+.alien-trace-token-yichangdian {
+  border-radius: 50%;
+  outline: 2px solid rgba(126, 229, 255, 0.46);
+  outline-offset: 1px;
+}
+
+.alien-yichangdian-card-area {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: min(58%, 170px);
+  padding: 7px;
+  border: 1px solid rgba(126, 229, 255, 0.28);
+  border-radius: 10px;
+  background: rgba(7, 18, 32, 0.48);
+}
+
+.alien-yichangdian-card-area[hidden] {
+  display: none;
+}
+
+.alien-yichangdian-card-title {
+  color: rgba(222, 246, 255, 0.86);
+  font: 700 12px/1.2 "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.alien-yichangdian-card-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.4);
 }
 
 .tech-panel {
@@ -1687,6 +1733,11 @@ body {
   padding-bottom: 8px;
 }
 
+.player-hand-panel {
+  /* scale(1.3) + translateY(-18px)，transform-origin 为底部，向上预留放大空间 */
+  --card-hover-lift: calc(var(--card-height) * 0.3 + 22px);
+}
+
 .player-hand-panel-header,
 .reserved-card-panel-header {
   display: flex;
@@ -2084,6 +2135,10 @@ body {
   gap: 0;
   padding: 2px 12px 8px;
   overflow: visible;
+}
+
+.player-hand-fan {
+  padding-top: var(--card-hover-lift);
 }
 
 .reserved-card-fan {
@@ -2746,6 +2801,26 @@ body {
   touch-action: auto;
   user-select: none;
   filter: drop-shadow(0 0 5px var(--rocket-glow, rgba(77, 209, 255, 0.7)));
+}
+
+.yichangdian-anomaly-marker {
+  position: absolute;
+  width: 6.5%;
+  height: auto;
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  z-index: 430;
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  filter: drop-shadow(0 0 8px rgba(126, 229, 255, 0.7)) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
+}
+
+.yichangdian-anomaly-marker.is-dragging {
+  z-index: 520;
+  cursor: grabbing;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 16px rgba(126, 229, 255, 0.9));
 }
 
 .rocket-token.is-move-selectable {

@@ -23,6 +23,7 @@
   const data = window.SetiData;
   const aliens = window.SetiAliens;
   const jiuzhe = aliens.jiuzhe;
+  const yichangdian = aliens.yichangdian;
   const initialCards = window.SetiInitialCards;
   const industry = window.SetiIndustry;
 
@@ -60,6 +61,7 @@
     jiuzheThreat: aliens.JIUZHE_THREAT_ICON_SRC || "../assets/aliens/九折/Threat.webp",
     jiuzheTimeFree: "../assets/aliens/九折/time_1.png",
     jiuzheTimePaid: "../assets/aliens/九折/time_2.png",
+    yichangdianCard: aliens.YICHANGDIAN_CARD_BACK_SRC || "../assets/aliens/异常点/cards/back.png",
   });
   const OPPONENT_SECTOR_WIN_STATS = Object.freeze([
     Object.freeze({ color: "yellow", label: "黄色完成扇区", iconKey: "yellowFinishScan" }),
@@ -200,6 +202,11 @@
   let pendingJiuzheCardPlay = null;
   let pendingJiuzheOpportunityOpen = false;
   let jiuzheOpportunityQueue = [];
+  let pendingYichangdianCardGain = null;
+  let pendingYichangdianCornerAction = null;
+  let yichangdianAnomalyDragState = null;
+  const yichangdianAnomalyMarkerElements = new Map();
+  const yichangdianAnomalyMarkerOverrides = new Map();
   const cardTaskState = cardTaskStateModule.createTaskState();
   let alienTracePickerState = null;
   let pendingActionExecuted = false;
@@ -286,6 +293,7 @@
     alienTraceLayers: document.querySelectorAll(".alien-trace-layer"),
     alienJiuzheTraceLayers: document.querySelectorAll(".alien-jiuzhe-trace-layer"),
     alienJiuzheThresholds: document.querySelectorAll(".alien-jiuzhe-thresholds"),
+    alienYichangdianCardAreas: document.querySelectorAll(".alien-yichangdian-card-area"),
     finalScoreGrid: document.getElementById("final-score-grid"),
     finalScoreTileWraps: document.querySelectorAll(".final-score-tile-wrap"),
     finalScoreTiles: document.querySelectorAll(".final-score-tile"),
@@ -327,6 +335,7 @@
     debugHandScanButton: document.getElementById("debug-hand-scan-button"),
     debugAlienTraceButton: document.getElementById("debug-alien-trace-button"),
     debugJiuzheButton: document.getElementById("debug-jiuzhe-button"),
+    debugYichangdianButton: document.getElementById("debug-yichangdian-button"),
     debugCheatButton: document.getElementById("debug-cheat-button"),
     alienTraceOverlay: document.getElementById("alien-trace-overlay"),
     alienTraceSubtitle: document.getElementById("alien-trace-subtitle"),
@@ -2492,6 +2501,10 @@
         ? "科技奖励：精选一张公共牌"
       : pendingAction?.type === "jiuzhe_trace_pick"
         ? "九折痕迹：精选一张公共牌"
+      : pendingAction?.type === "yichangdian_anomaly_pick"
+        ? "异常奖励：精选一张公共牌，或点击盲抽"
+      : pendingAction?.type === "card_trigger_pick"
+        ? "卡牌触发：精选一张公共牌，或点击盲抽"
       : pendingAction?.type === "industry_stratus_corner"
         ? `层云核心：请点击公共牌结算弃牌角标（剩余 ${pendingAction.remaining ?? 0} 张）`
       : pendingAction?.type === "industry_mission_pick"
@@ -2577,6 +2590,18 @@
         };
         completeCurrentActionEffect();
       }
+    } else if (pending?.type === "yichangdian_anomaly_pick") {
+      rocketState.statusNote = "已取消异常奖励精选";
+      if (pending.fromEffectFlow && getCurrentActionEffect()) {
+        getCurrentActionEffect().result = {
+          ok: true,
+          undoable: true,
+          message: rocketState.statusNote,
+        };
+        completeCurrentActionEffect();
+      }
+    } else if (pending?.type === "card_trigger_pick") {
+      rocketState.statusNote = "已取消卡牌触发精选";
     } else if (pending?.type?.startsWith?.("industry_")) {
       if (pending.refundCost && pending.player) {
         players.gainResources(pending.player, pending.refundCost);
@@ -2642,6 +2667,12 @@
           ok: true,
           undoable: false,
           message: `${rocketState.statusNote}${bonusResult?.message ? `；${bonusResult.message}` : ""}`,
+          events: [{
+            type: "researchTech",
+            playerId: pending.player?.id || getCurrentPlayer()?.id || null,
+            playerColor: pending.player?.color || getCurrentPlayer()?.color || null,
+            source: pendingActionEffectFlow?.actionType || "tech",
+          }],
           payload: {
             card: result.card,
             replenished: result.replenished || null,
@@ -2671,6 +2702,29 @@
         }
         completeCurrentActionEffect();
       }
+    }
+    if (pending?.type === "yichangdian_anomaly_pick") {
+      rocketState.statusNote = `异常奖励精选：${cards.getCardLabel(result.card)}`;
+      if (pending.fromEffectFlow) {
+        pendingActionHasIrreversibleCardGain = true;
+        if (getCurrentActionEffect()) {
+          getCurrentActionEffect().result = {
+            ok: true,
+            undoable: false,
+            message: rocketState.statusNote,
+            payload: { card: result.card, replenished: result.replenished || null },
+          };
+        }
+        completeCurrentActionEffect();
+      }
+    }
+    if (pending?.type === "card_trigger_pick") {
+      const match = pending.triggerMatch;
+      if (match?.card && match?.trigger) {
+        cardEffects.consumeTrigger(match.card, match.trigger.id);
+        discardReservedCardIfFinished(pending.player || getCurrentPlayer(), match.card);
+      }
+      rocketState.statusNote = `卡牌触发精选：${cards.getCardLabel(result.card)}`;
     }
     if (pending?.type === "industry_mission_pick") {
       const player = pending.player || getCurrentPlayer();
@@ -4324,6 +4378,15 @@
   }
 
   function applyCardTriggerMatch(match) {
+    if (match?.effect?.type === "pick_card") {
+      closeCardTriggerPicker();
+      return beginCardSelection({
+        type: "card_trigger_pick",
+        player: getCurrentPlayer(),
+        allowBlindDraw: true,
+        triggerMatch: match,
+      });
+    }
     if (match?.effect?.type === cardEffects.EFFECT_TYPES.FREE_MOVE) {
       return beginCardTriggerFreeMove(match);
     }
@@ -4831,6 +4894,7 @@
     pendingCardTaskCompletion = null;
     pendingCardTriggerFreeMove = null;
     pendingCardCornerFreeMove = null;
+    pendingYichangdianCornerAction = null;
   }
 
   function skipCurrentActionEffect() {
@@ -5272,6 +5336,7 @@
       deltaY,
       source: "card",
       historyLabel: effect.options?.historyLabel || effect.label,
+      suppressArrivalRewards: Boolean(effect.options?.suppressArrivalRewards),
     });
     if (result.rocket) renderRocketElement(result.rocket);
     if (!result.ok) {
@@ -5703,6 +5768,295 @@
     }, [renderPlayerHand]);
   }
 
+  function countYichangdianAnomalySignals() {
+    if (!yichangdian) return 0;
+    let total = 0;
+    for (const anomaly of alienGameState.yichangdian?.anomalies || []) {
+      const nebula = solar.getNebulaAtCoordinate(anomaly.sectorX, 5, solarState.sectorBySlot);
+      if (!nebula) continue;
+      const tokens = nebulaDataState.nebulae?.[nebula.id]?.tokens || [];
+      total += tokens.filter((token) => token.replacedByPlayerColor || token.playerColor).length;
+    }
+    return total;
+  }
+
+  function executeYichangdianAnomalySignalScoreEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const score = countYichangdianAnomalySignals();
+    beginEffectHistoryStep(effect.label);
+    const beforePlayer = structuredClone(currentPlayer);
+    if (score > 0) players.gainResources(currentPlayer, { score });
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      currentPlayer,
+      beforePlayer,
+      "恢复异常点信号得分前玩家状态",
+    ));
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: `异常扇区共有 ${score} 个信号，获得 ${score} 分`,
+      payload: { score },
+    }, [renderPlayerStats]);
+  }
+
+  function executeYichangdianNextAnomalyRewardEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const nextSectorX = alienGameState.yichangdian?.nextAnomalySectorX;
+    const anomaly = nextSectorX == null ? null : yichangdian?.getAnomalyBySectorX?.(alienGameState, nextSectorX);
+    const reward = anomaly ? yichangdian.getAnomalyReward(anomaly.markerId) : null;
+    if (!currentPlayer || !anomaly || !reward) {
+      rocketState.statusNote = "没有可结算的即将触发异常奖励";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    beginEffectHistoryStep(effect.label);
+    const beforePlayerState = structuredClone(playerState);
+    const rewardResult = applyYichangdianRewardToPlayer(currentPlayer, reward, `异常点牌 ${anomaly.markerId}`);
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      playerState,
+      beforePlayerState,
+      "恢复异常点牌奖励前玩家状态",
+    ));
+    if (getCurrentActionEffect()) {
+      getCurrentActionEffect().result = {
+        ok: true,
+        undoable: true,
+        message: rewardResult.message,
+        payload: { anomaly, reward },
+      };
+    }
+    if (reward.pickCard) {
+      beginCardSelection({
+        type: "yichangdian_anomaly_pick",
+        player: currentPlayer,
+        allowBlindDraw: true,
+        fromEffectFlow: true,
+      });
+      return { ok: true, message: rewardResult.message };
+    }
+    completeCurrentActionEffect();
+    renderPlayerStats();
+    renderStateReadout();
+    return { ok: true, message: rewardResult.message };
+  }
+
+  function executeYichangdianPublicAllEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    beginEffectHistoryStep(effect.label);
+    const beforePlayerState = structuredClone(playerState);
+    const beforeCardState = structuredClone(cardState);
+    const picked = [];
+    for (let slotIndex = 0; slotIndex < cards.PUBLIC_CARD_COUNT; slotIndex += 1) {
+      const result = cards.pickFromPublic(cardState, playerState, currentPlayer, slotIndex);
+      if (result.ok) picked.push(result.card);
+    }
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      playerState,
+      beforePlayerState,
+      "恢复异常点拿公共牌前玩家状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      cardState,
+      beforeCardState,
+      "恢复异常点拿公共牌前牌区状态",
+    ));
+    pendingActionHasIrreversibleCardGain = true;
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: false,
+      message: `获得公共牌区 ${picked.length} 张牌${picked.length ? `：${picked.map((card) => cards.getCardLabel(card)).join("、")}` : ""}`,
+      payload: { cards: picked },
+    }, [renderPublicCards, renderPlayerHand, renderPlayerStats]);
+  }
+
+  function executeYichangdianAlienTraceEffect(effect) {
+    return openAlienTraceRewardEffect({
+      ...effect,
+      options: { ...(effect.options || {}) },
+    });
+  }
+
+  function executeYichangdianNextAnomalyScanEffect(effect) {
+    const nextSectorX = alienGameState.yichangdian?.nextAnomalySectorX;
+    if (nextSectorX == null) {
+      rocketState.statusNote = "没有即将触发的异常扇区";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const nebula = solar.getNebulaAtCoordinate(nextSectorX, 5, solarState.sectorBySlot);
+    if (!nebula) {
+      rocketState.statusNote = `异常扇区 ${nextSectorX} 没有星云`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    return replaceNebulaDataForCurrentPlayer(nebula.id, {
+      prefix: effect.label,
+      source: "card",
+      gainData: true,
+    });
+  }
+
+  function applyYichangdianDiscardActionReward(card, messageParts) {
+    const currentPlayer = getCurrentPlayer();
+    const reward = cards.getDiscardActionRewardForCard(card);
+    const moveReward = cards.getDiscardActionMoveRewardForCard(card);
+    if (reward?.gain && Object.keys(reward.gain).length) {
+      players.gainResources(currentPlayer, reward.gain);
+      messageParts.push(`${cards.getCardLabel(card)} 左上角：${players.formatResourceCost(reward.gain)}`);
+    }
+    if (reward?.dataCount) {
+      for (let index = 0; index < reward.dataCount; index += 1) {
+        data.gainData(currentPlayer, { source: "yichangdian_card" });
+      }
+      messageParts.push(`${cards.getCardLabel(card)} 左上角：${reward.dataCount}数据`);
+    }
+    if (moveReward) {
+      insertActionEffectsAfterCurrent([{
+        id: `yichangdian-corner-move-${card.id}`,
+        type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+        label: `${cards.getCardLabel(card)}：${moveReward.label}`,
+        icon: "movement",
+        status: "pending",
+        options: { movementPoints: moveReward.movementPoints || 1 },
+      }]);
+      messageParts.push(`${cards.getCardLabel(card)} 左上角：${moveReward.label}`);
+    }
+  }
+
+  function executeYichangdianDrawThenTwoCornersEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    beginEffectHistoryStep(effect.label);
+    const beforePlayerState = structuredClone(playerState);
+    const beforeCardState = structuredClone(cardState);
+    const drawn = [];
+    for (let index = 0; index < 3; index += 1) {
+      const drawResult = blindDrawCardForPlayer(currentPlayer);
+      if (drawResult.ok) drawn.push(drawResult.card);
+    }
+    pendingActionHasIrreversibleCardGain = true;
+    pendingYichangdianCornerAction = {
+      effect,
+      playerId: currentPlayer.id,
+      phase: "discard",
+      drawnCardIds: drawn.map((card) => card.id),
+      selectedDiscardCard: null,
+      beforePlayerState,
+      beforeCardState,
+      messageParts: [`盲抽 ${drawn.length} 张`],
+    };
+    renderPlayerHand();
+    renderPlayerStats();
+    return openYichangdianCornerPicker();
+  }
+
+  function getPendingYichangdianCornerCards() {
+    const pending = pendingYichangdianCornerAction;
+    const player = pending ? getPlayerById(pending.playerId) : null;
+    if (!pending || !player) return [];
+    const usedIds = new Set([pending.selectedDiscardCard?.id].filter(Boolean));
+    return pending.drawnCardIds
+      .map((id) => player.hand.find((card) => card.id === id))
+      .filter((card) => card && !usedIds.has(card.id));
+  }
+
+  function openYichangdianCornerPicker() {
+    const pending = pendingYichangdianCornerAction;
+    if (!pending || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开异常点角标选择" };
+    }
+    const choices = getPendingYichangdianCornerCards();
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "异常点 8 号牌";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = pending.phase === "discard"
+        ? "请选择 1 张抽到的牌弃掉并结算左上角弃牌奖励。"
+        : "请选择 1 张剩余抽到的牌弃掉并结算右下角收入奖励。";
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = true;
+    els.scanTargetActions.replaceChildren(...choices.map((card) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.yichangdianCornerCardId = card.id;
+      button.innerHTML = `${cards.getCardLabel(card)}<small>${pending.phase === "discard" ? "结算左上角" : "结算收入角标"}</small>`;
+      return button;
+    }));
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = pending.phase === "discard" ? "异常点：请选择左上角奖励牌" : "异常点：请选择收入奖励牌";
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function handleYichangdianCornerChoice(cardId) {
+    const pending = pendingYichangdianCornerAction;
+    const player = pending ? getPlayerById(pending.playerId) : null;
+    if (!pending || !player) return { ok: false, message: "没有异常点角标选择流程" };
+    const card = player.hand.find((item) => item.id === cardId);
+    if (!card) return { ok: false, message: "选择的卡牌不在手牌中" };
+    const handIndex = player.hand.findIndex((item) => item.id === card.id);
+    const discardResult = cards.discardFromHandAtIndex(player, handIndex);
+    if (!discardResult.ok) return discardResult;
+    cards.addToDiscardPile(cardState, discardResult.card);
+
+    if (pending.phase === "discard") {
+      pending.selectedDiscardCard = discardResult.card;
+      applyYichangdianDiscardActionReward(discardResult.card, pending.messageParts);
+      pending.phase = "income";
+      renderPlayerHand();
+      renderPlayerStats();
+      return openYichangdianCornerPicker();
+    }
+
+    const incomeResult = applyIncomeFromCard(player, discardResult.card);
+    pending.messageParts.push(incomeResult.message);
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      playerState,
+      pending.beforePlayerState,
+      "恢复异常点盲抽角标前玩家状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      cardState,
+      pending.beforeCardState,
+      "恢复异常点盲抽角标前牌区状态",
+    ));
+    pendingYichangdianCornerAction = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+    return finishAutomaticRewardEffect(pending.effect, {
+      ok: true,
+      undoable: false,
+      message: pending.messageParts.join("；"),
+      payload: {
+        discardCard: pending.selectedDiscardCard,
+        incomeCard: discardResult.card,
+      },
+    }, [renderPlayerHand, renderPlayerStats]);
+  }
+
+  function executeYichangdianLaunchAnomalyMoveEffect(effect) {
+    const earth = getEarthSectorCoordinate();
+    const anomaly = yichangdian?.getAnomalyBySectorX?.(alienGameState, earth.x);
+    if (!anomaly) {
+      return finishAutomaticRewardEffect(effect, {
+        ok: true,
+        undoable: true,
+        message: "发射不在异常扇区，不获得移动",
+      });
+    }
+    insertActionEffectsAfterCurrent([{
+      id: "yichangdian-launch-free-move",
+      type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+      label: "异常扇区发射：1移动",
+      icon: "movement",
+      status: "pending",
+      options: { movementPoints: 1 },
+    }]);
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: "发射在异常扇区，获得1移动",
+    });
+  }
+
   function executeCardEffect(effect) {
     const types = cardEffects.EFFECT_TYPES;
     switch (effect.type) {
@@ -5724,6 +6078,20 @@
         return openCardDrawThenScanEffect(effect);
       case types.DRAW_THEN_DISCARD_ACTION:
         return executeCardDrawThenDiscardActionEffect(effect);
+      case types.YICHANGDIAN_NEXT_ANOMALY_REWARD:
+        return executeYichangdianNextAnomalyRewardEffect(effect);
+      case types.YICHANGDIAN_ANOMALY_SIGNAL_SCORE:
+        return executeYichangdianAnomalySignalScoreEffect(effect);
+      case types.YICHANGDIAN_ALIEN_TRACE:
+        return executeYichangdianAlienTraceEffect(effect);
+      case types.YICHANGDIAN_PUBLIC_ALL:
+        return executeYichangdianPublicAllEffect(effect);
+      case types.YICHANGDIAN_DRAW_THEN_TWO_CORNERS:
+        return executeYichangdianDrawThenTwoCornersEffect(effect);
+      case types.YICHANGDIAN_NEXT_ANOMALY_SCAN:
+        return executeYichangdianNextAnomalyScanEffect(effect);
+      case types.YICHANGDIAN_LAUNCH_ANOMALY_MOVE:
+        return executeYichangdianLaunchAnomalyMoveEffect(effect);
       default:
         return null;
     }
@@ -5893,6 +6261,17 @@
           bonusId,
           firstTake: Boolean(effect.options?.firstTake ?? selection?.firstTake),
         });
+        if (result.ok) {
+          result.events = [
+            ...(result.events || []),
+            {
+              type: "researchTech",
+              playerId: getCurrentPlayer()?.id || null,
+              playerColor: getCurrentPlayer()?.color || null,
+              source: pendingActionEffectFlow?.actionType || "tech",
+            },
+          ];
+        }
         effect.result = result;
         rocketState.statusNote = result.message;
         renderPlayerStats();
@@ -6091,6 +6470,12 @@
     ) || null;
   }
 
+  function getAlienYichangdianCardArea(alienSlotId) {
+    return [...els.alienYichangdianCardAreas].find(
+      (element) => Number(element.dataset.alienSlot) === alienSlotId,
+    ) || null;
+  }
+
   function getAlienJiuzheThresholdElement(alienSlotId) {
     return [...els.alienJiuzheThresholds].find(
       (element) => Number(element.dataset.alienSlot) === alienSlotId,
@@ -6150,6 +6535,11 @@
       && Number.isInteger(Number(alienTracePickerState.selectedAlienSlotId));
   }
 
+  function isYichangdianTracePlacementMode() {
+    return alienTracePickerState?.mode === "yichangdian-grid"
+      && Number.isInteger(Number(alienTracePickerState.selectedAlienSlotId));
+  }
+
   function canPlaceJiuzheTrace(alienSlotId, traceType, position) {
     if (!isJiuzheTracePlacementMode()) return false;
     if (Number(alienTracePickerState.selectedAlienSlotId) !== Number(alienSlotId)) return false;
@@ -6157,6 +6547,43 @@
     if (!allowedTraceTypes.includes(traceType)) return false;
     const grid = jiuzhe?.getTraceGrid?.(alienGameState, alienSlotId);
     return !grid?.[traceType]?.[position];
+  }
+
+  function canPlaceYichangdianTrace(alienSlotId, traceType, position) {
+    if (!isYichangdianTracePlacementMode()) return false;
+    if (Number(alienTracePickerState.selectedAlienSlotId) !== Number(alienSlotId)) return false;
+    const allowedTraceTypes = alienTracePickerState.allowedTraceTypes || aliens.TRACE_TYPES;
+    if (!allowedTraceTypes.includes(traceType)) return false;
+    const grid = yichangdian?.getTraceGrid?.(alienGameState, alienSlotId);
+    return Number(position) === 1 || !grid?.[traceType]?.[position];
+  }
+
+  function renderYichangdianCardDisplays() {
+    for (const alienSlotId of aliens.ALIEN_SLOT_IDS) {
+      const area = getAlienYichangdianCardArea(alienSlotId);
+      if (!area) continue;
+      const visible = Boolean(yichangdian?.isYichangdianRevealedSlot?.(alienGameState, alienSlotId));
+      const state = alienGameState.yichangdian || {};
+      const cardIndex = state.displayedCardIndex;
+      if (!visible || cardIndex == null) {
+        area.hidden = true;
+        area.replaceChildren();
+        continue;
+      }
+      area.hidden = false;
+      const title = document.createElement("div");
+      title.className = "alien-yichangdian-card-title";
+      title.textContent = "异常点展示牌";
+
+      const image = document.createElement("img");
+      image.className = "alien-yichangdian-card-image";
+      image.src = yichangdian.getCardSrc(cardIndex);
+      image.alt = `异常点牌 ${cardIndex}`;
+      image.width = 747;
+      image.height = 1040;
+      image.decoding = "async";
+      area.replaceChildren(title, image);
+    }
   }
 
   function renderAlienPanels() {
@@ -6179,13 +6606,30 @@
       ),
       getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
     });
+    aliens.renderAllYichangdianTraceMarkers?.(getAlienJiuzheTraceLayer, alienGameState, {
+      tokenSrc: aliens.ALIEN_TRACE_TOKEN_SRC,
+      showYichangdianSlots: false,
+      canPlaceYichangdianTrace,
+      getPlayerTokenAsset: (playerColor) => (
+        players.getPlayerColorDefinition(playerColor)?.normalTokenAsset
+        || aliens.ALIEN_TRACE_TOKEN_SRC
+      ),
+      getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
+    });
     renderJiuzheThresholds();
+    renderYichangdianCardDisplays();
   }
 
   function randomizeAliens() {
     const result = aliens.randomizeAlienAssignments(alienGameState);
     aliens.resetAlienTraceTokens();
+    yichangdianAnomalyMarkerOverrides.clear();
+    for (const element of yichangdianAnomalyMarkerElements.values()) {
+      element.remove();
+    }
+    yichangdianAnomalyMarkerElements.clear();
     renderAlienPanels();
+    renderRockets();
     return result;
   }
 
@@ -6355,6 +6799,26 @@
     return { ok: true, message: rocketState.statusNote };
   }
 
+  function beginYichangdianTraceGridPlacement(alienSlotId) {
+    const allowedTraceTypes = alienTracePickerState?.allowedTraceTypes?.length
+      ? alienTracePickerState.allowedTraceTypes
+      : aliens.TRACE_TYPES;
+    alienTracePickerState = {
+      ...alienTracePickerState,
+      mode: "yichangdian-grid",
+      selectedAlienSlotId: Number(alienSlotId),
+      allowedTraceTypes,
+    };
+    if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = true;
+    const traceLabel = allowedTraceTypes.length === 1
+      ? aliens.getTraceTypeLabel(allowedTraceTypes[0])
+      : "对应颜色";
+    rocketState.statusNote = `异常点：请在正面牌图点击可放置的${traceLabel}痕迹位`;
+    renderAlienPanels();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
   function findPlayerForJiuzheEntry(entry) {
     if (!entry) return null;
     return getPlayerById(entry.playerId)
@@ -6388,6 +6852,155 @@
       ok: true,
       message: `${label}：${messages.join("、") || "无奖励"}`,
     };
+  }
+
+  function findPlayerForYichangdianEntry(entry) {
+    if (!entry) return null;
+    return getPlayerById(entry.playerId)
+      || getPlayerByColor(entry.playerColor)
+      || null;
+  }
+
+  function applyYichangdianRewardToPlayer(player, reward, label = "异常点奖励") {
+    if (!player || !reward) return { ok: false, message: "没有可结算的异常点奖励" };
+    const messages = [];
+    if (Object.keys(reward.gain || {}).length) {
+      players.gainResources(player, reward.gain);
+      messages.push(players.formatResourceCost(reward.gain));
+    }
+    const dataCount = Math.max(0, Math.round(Number(reward.dataCount) || 0));
+    if (dataCount > 0) {
+      let gained = 0;
+      for (let index = 0; index < dataCount; index += 1) {
+        const result = data.gainData(player, { source: "yichangdian" });
+        if (result.ok) gained += 1;
+      }
+      messages.push(`${gained}/${dataCount}数据`);
+    }
+    if (reward.pickAlienCard) messages.push("外星人牌");
+    if (reward.pickCard) messages.push("精选1张牌");
+    return {
+      ok: true,
+      message: `${label}：${messages.join("、") || "无奖励"}`,
+    };
+  }
+
+  function closeYichangdianCardGainDialog() {
+    pendingYichangdianCardGain = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+  }
+
+  function openYichangdianCardGainDialog(options = {}) {
+    if (!yichangdian || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开异常点牌窗口" };
+    }
+    const player = options.player || getCurrentPlayer();
+    if (!player) return { ok: false, message: "没有当前玩家" };
+    pendingYichangdianCardGain = {
+      playerId: player.id,
+      fromEffectFlow: Boolean(options.fromEffectFlow),
+      effectLabel: options.effectLabel || "异常点外星人牌",
+      beforePlayerState: options.beforePlayerState || null,
+      beforeAlienState: options.beforeAlienState || null,
+    };
+
+    const displayedIndex = alienGameState.yichangdian?.displayedCardIndex;
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "异常点外星人牌";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = `${player.colorLabel}玩家可以拿取当前展示牌、盲抽一张异常点牌，或取消。`;
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = true;
+
+    const nodes = [];
+    const displayed = document.createElement("button");
+    displayed.type = "button";
+    displayed.className = "scan-target-option-button jiuzhe-card-option yichangdian-card-option";
+    displayed.dataset.yichangdianCardGain = "displayed";
+    displayed.disabled = displayedIndex == null;
+    displayed.innerHTML = displayedIndex == null
+      ? "确认<small>当前没有展示牌</small>"
+      : `<img class="jiuzhe-card-option-image" src="${yichangdian.getCardSrc(displayedIndex)}" alt="" aria-hidden="true"><small>确认拿取展示牌</small>`;
+    nodes.push(displayed);
+
+    const blind = document.createElement("button");
+    blind.type = "button";
+    blind.className = "scan-target-option-button";
+    blind.dataset.yichangdianCardGain = "blind";
+    blind.innerHTML = "盲抽<small>从异常点牌堆随机获得 1 张</small>";
+    nodes.push(blind);
+
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "scan-target-option-button";
+    cancel.dataset.yichangdianCardGain = "cancel";
+    cancel.innerHTML = "取消<small>不获得外星人牌</small>";
+    nodes.push(cancel);
+
+    els.scanTargetActions.replaceChildren(...nodes);
+    els.scanTargetOverlay.hidden = false;
+    return { ok: true, message: "异常点牌窗口已打开" };
+  }
+
+  function finishYichangdianCardGain(message, result = null) {
+    const pending = pendingYichangdianCardGain;
+    closeYichangdianCardGainDialog();
+    rocketState.statusNote = message;
+    if (pending?.fromEffectFlow && getCurrentActionEffect()) {
+      getCurrentActionEffect().result = {
+        ok: true,
+        undoable: true,
+        message,
+        payload: { yichangdianCard: result?.card || null },
+      };
+      completeCurrentActionEffect();
+    }
+    renderAlienPanels();
+    renderRockets();
+    renderPlayerStats();
+    renderPlayerHand();
+    updateActionButtons();
+    renderStateReadout();
+    return result || { ok: true, message };
+  }
+
+  function handleYichangdianCardGainChoice(choice) {
+    if (!pendingYichangdianCardGain) return { ok: false, message: "没有异常点牌获取流程" };
+    const pending = pendingYichangdianCardGain;
+    const player = getPlayerById(pending.playerId) || getCurrentPlayer();
+    if (!player) return { ok: false, message: "找不到异常点牌玩家" };
+
+    if (choice === "cancel") {
+      return finishYichangdianCardGain("已取消异常点外星人牌");
+    }
+
+    const beforePlayerState = pending.beforePlayerState || structuredClone(playerState);
+    const beforeAlienState = pending.beforeAlienState || structuredClone(alienGameState);
+    const result = choice === "blind"
+      ? yichangdian.blindDrawCard(alienGameState)
+      : yichangdian.takeDisplayedCard(alienGameState);
+    if (!result.ok || !result.card) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+
+    player.hand.push(result.card);
+    player.resources.handSize = player.hand.length;
+    if (!pending.fromEffectFlow) {
+      beginQuickActionStep("yichangdian-card", pending.effectLabel || "异常点外星人牌");
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复异常点拿牌前玩家状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复异常点拿牌前外星人状态",
+      ));
+      completeQuickActionStep();
+    }
+    return finishYichangdianCardGain(result.message, result);
   }
 
   function enqueueJiuzheOpportunity(player, opportunity) {
@@ -6595,6 +7208,74 @@
     };
   }
 
+  function handleYichangdianRevealSideEffects(alienSlotId, revealResult, triggerPlayer) {
+    if (!yichangdian || !revealResult?.ok || revealResult.alienId !== yichangdian.ALIEN_ID) return null;
+    const earth = getEarthSectorCoordinate();
+    const initResult = yichangdian.initializeYichangdianReveal(
+      alienGameState,
+      alienSlotId,
+      triggerPlayer,
+      earth.x,
+    );
+    return {
+      ...initResult,
+      rewardMessages: [],
+      message: initResult.message,
+    };
+  }
+
+  function triggerYichangdianAnomalyForEarthX(earthX) {
+    if (!yichangdian || !alienGameState.yichangdian?.revealInitialized) return null;
+    const yState = alienGameState.yichangdian;
+    const anomaly = yichangdian.getAnomalyBySectorX(alienGameState, earthX);
+    yichangdian.updateNextAnomaly(alienGameState, earthX);
+    if (!anomaly || !yState.revealedSlotId) return null;
+
+    anomaly.triggeredCount = (Number(anomaly.triggeredCount) || 0) + 1;
+    const reward = yichangdian.getAnomalyReward(anomaly.markerId);
+    const topEntry = reward?.traceType
+      ? yichangdian.getTopTraceEntry(alienGameState, yState.revealedSlotId, reward.traceType)
+      : null;
+    const player = findPlayerForYichangdianEntry(topEntry);
+    if (!player) {
+      return {
+        ok: true,
+        anomaly,
+        reward,
+        player: null,
+        events: [{ type: "yichangdianAnomalyTriggered", markerId: anomaly.markerId, sectorX: anomaly.sectorX }],
+        message: `异常触发：${yichangdian.formatAnomalyLabel(anomaly)}，对应颜色没有痕迹`,
+      };
+    }
+
+    const rewardResult = applyYichangdianRewardToPlayer(
+      player,
+      reward,
+      `异常触发 ${anomaly.markerId}`,
+    );
+    if (reward?.pickCard) {
+      beginCardSelection({
+        type: "yichangdian_anomaly_pick",
+        player,
+        allowBlindDraw: true,
+      });
+    }
+    return {
+      ok: true,
+      anomaly,
+      reward,
+      player,
+      events: [{
+        type: "yichangdianAnomalyTriggered",
+        markerId: anomaly.markerId,
+        sectorX: anomaly.sectorX,
+        playerId: player.id,
+        playerColor: player.color,
+      }],
+      message: `${rewardResult.message}${reward?.pickCard ? "，请选择公共牌" : ""}`,
+    };
+  }
+
   function confirmAlienTracePlacement(alienSlotId, traceType) {
     const currentPlayer = getCurrentPlayer();
     const pending = pendingAlienTraceAction;
@@ -6609,7 +7290,8 @@
     );
     closeAlienTracePicker();
     const revealResult = maybeRevealAlienAfterTrace(alienSlotId, result);
-    const revealSideEffect = handleJiuzheRevealSideEffects(alienSlotId, revealResult, currentPlayer);
+    const revealSideEffect = handleJiuzheRevealSideEffects(alienSlotId, revealResult, currentPlayer)
+      || handleYichangdianRevealSideEffects(alienSlotId, revealResult, currentPlayer);
     rocketState.statusNote = revealSideEffect?.message || revealResult?.message || result.message;
     if (pending?.type === "planet_reward_alien_trace" && result.ok) {
       beginEffectHistoryStep(pending.effectLabel || "外星人标记奖励");
@@ -6640,6 +7322,95 @@
     maybeOpenQueuedJiuzheOpportunity();
     renderStateReadout();
     return revealResult || result;
+  }
+
+  function confirmYichangdianTracePlacement(alienSlotId, traceType, position) {
+    if (!yichangdian || !isYichangdianTracePlacementMode()) {
+      rocketState.statusNote = "请先通过获取外星人标记进入异常点放置模式";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (!canPlaceYichangdianTrace(alienSlotId, traceType, position)) {
+      rocketState.statusNote = "该异常点痕迹位不可放置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    const pending = pendingAlienTraceAction;
+    const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
+    const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
+    pendingAlienTraceAction = null;
+    alienTracePickerState = null;
+
+    const result = yichangdian.placeYichangdianTrace(
+      alienGameState,
+      alienSlotId,
+      traceType,
+      position,
+      currentPlayer,
+    );
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderAlienPanels();
+      renderStateReadout();
+      return result;
+    }
+
+    const rewardResult = applyYichangdianRewardToPlayer(
+      currentPlayer,
+      result.reward,
+      `异常点${yichangdian.formatTraceLabel(traceType, Number(position))}`,
+    );
+    rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+
+    if (pending?.type === "planet_reward_alien_trace") {
+      beginEffectHistoryStep(pending.effectLabel || "异常点痕迹奖励");
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复异常点痕迹奖励前外星人状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复异常点痕迹奖励前玩家状态",
+      ));
+      if (getCurrentActionEffect()) {
+        getCurrentActionEffect().result = {
+          ok: true,
+          undoable: true,
+          message: rocketState.statusNote,
+          payload: { alienSlotId, traceType, position, reward: result.reward || null },
+        };
+      }
+    } else {
+      settleCardTasksAfterEffect({ skipType1: true, render: false });
+    }
+
+    renderAlienPanels();
+    renderPlayerStats();
+
+    if (result.reward?.pickAlienCard) {
+      const openResult = openYichangdianCardGainDialog({
+        player: currentPlayer,
+        fromEffectFlow: pending?.type === "planet_reward_alien_trace",
+        effectLabel: pending?.effectLabel || "异常点外星人牌",
+        beforeAlienState,
+        beforePlayerState,
+      });
+      if (!openResult.ok && pending?.type === "planet_reward_alien_trace") {
+        completeCurrentActionEffect();
+      }
+      return result;
+    }
+
+    if (pending?.type === "planet_reward_alien_trace") {
+      completeCurrentActionEffect();
+    }
+    updateActionButtons();
+    renderStateReadout();
+    return result;
   }
 
   function confirmJiuzheTracePlacement(alienSlotId, traceType, position) {
@@ -7578,6 +8349,130 @@
       if (!activeIds.has(rocketId)) element.remove();
     });
     rocketState.rockets.forEach(renderRocketElement);
+    renderYichangdianAnomalyMarkers();
+  }
+
+  function getYichangdianAnomalyKey(anomaly) {
+    return `${anomaly.markerId}:${anomaly.sectorX}:${anomaly.y || 4}`;
+  }
+
+  function getYichangdianAnomalyBoardPoint(anomaly) {
+    const key = getYichangdianAnomalyKey(anomaly);
+    const override = yichangdianAnomalyMarkerOverrides.get(key);
+    if (override) return override;
+    return aliens.getYichangdianAnomalyMarkerBoardPoint?.(solar, anomaly)
+      || solar.solarGridToGlobalPoint(anomaly.sectorX, anomaly.y || 4);
+  }
+
+  function renderYichangdianAnomalyMarkers() {
+    if (!els.tokenLayer || !yichangdian) return;
+    const anomalies = alienGameState.yichangdian?.anomalies || [];
+    const activeKeys = new Set();
+
+    for (const anomaly of anomalies) {
+      const key = getYichangdianAnomalyKey(anomaly);
+      activeKeys.add(key);
+      let element = yichangdianAnomalyMarkerElements.get(key);
+      if (!element) {
+        element = document.createElement("img");
+        element.className = "yichangdian-anomaly-marker";
+        element.draggable = false;
+        element.addEventListener("pointerdown", handleYichangdianAnomalyPointerDown);
+        yichangdianAnomalyMarkerElements.set(key, element);
+        els.tokenLayer.appendChild(element);
+      }
+      if (element.parentElement !== els.tokenLayer) els.tokenLayer.appendChild(element);
+      const point = getYichangdianAnomalyBoardPoint(anomaly);
+      if (yichangdianAnomalyDragState?.element !== element) {
+        element.style.left = `${point.x / 10}%`;
+        element.style.top = `${point.y / 10}%`;
+        element.dataset.boardX = String(point.x);
+        element.dataset.boardY = String(point.y);
+      }
+      element.src = anomaly.src || yichangdian.getAnomalyMarkerSrc(anomaly.markerId);
+      element.alt = `异常 ${anomaly.markerId}`;
+      element.dataset.anomalyKey = key;
+      element.dataset.markerId = anomaly.markerId;
+      element.dataset.sectorX = String(anomaly.sectorX);
+      element.dataset.sectorY = String(anomaly.y || 4);
+      element.title = `${yichangdian.formatAnomalyLabel(anomaly)} @ [${point.x.toFixed(2)},${point.y.toFixed(2)}]`;
+    }
+
+    for (const [key, element] of yichangdianAnomalyMarkerElements.entries()) {
+      if (activeKeys.has(key)) continue;
+      element.remove();
+      yichangdianAnomalyMarkerElements.delete(key);
+      yichangdianAnomalyMarkerOverrides.delete(key);
+    }
+  }
+
+  function handleYichangdianAnomalyPointerDown(event) {
+    if (event.button !== 0) return;
+    const element = event.currentTarget;
+    event.preventDefault();
+    event.stopPropagation();
+    yichangdianAnomalyDragState = {
+      element,
+      key: element.dataset.anomalyKey,
+      pointerId: event.pointerId,
+    };
+    element.classList.add("is-dragging");
+    if (element.setPointerCapture) {
+      element.setPointerCapture(event.pointerId);
+    }
+  }
+
+  function handleYichangdianAnomalyPointerMove(event) {
+    if (!yichangdianAnomalyDragState || event.pointerId !== yichangdianAnomalyDragState.pointerId) return;
+    const point = getBoardPointFromClientPosition(event.clientX, event.clientY);
+    const { element } = yichangdianAnomalyDragState;
+    element.style.left = `${point.x / 10}%`;
+    element.style.top = `${point.y / 10}%`;
+    element.dataset.boardX = String(point.x);
+    element.dataset.boardY = String(point.y);
+  }
+
+  function handleYichangdianAnomalyPointerUp(event) {
+    if (!yichangdianAnomalyDragState || event.pointerId !== yichangdianAnomalyDragState.pointerId) return;
+    const { element, key } = yichangdianAnomalyDragState;
+    const point = getBoardPointFromClientPosition(event.clientX, event.clientY);
+    if (element.releasePointerCapture) {
+      try {
+        element.releasePointerCapture(event.pointerId);
+      } catch {
+        // ignore stale capture
+      }
+    }
+    element.classList.remove("is-dragging");
+    yichangdianAnomalyMarkerOverrides.set(key, point);
+    const message = `${element.dataset.markerId} 扇区${element.dataset.sectorX} 拖动至 [${point.x.toFixed(2)},${point.y.toFixed(2)}]`;
+    console.info("[异常点异常坐标]", message);
+    yichangdianAnomalyDragState = null;
+    renderStateReadout();
+  }
+
+  function listYichangdianAnomalyLayoutOverrides() {
+    return [...yichangdianAnomalyMarkerOverrides.entries()].map(([key, point]) => {
+      const [markerId, sectorX, sectorY] = key.split(":");
+      return {
+        markerId,
+        sectorX: Number(sectorX),
+        sectorY: Number(sectorY),
+        boardX: point.x,
+        boardY: point.y,
+      };
+    }).sort((a, b) => a.sectorX - b.sectorX || a.markerId.localeCompare(b.markerId));
+  }
+
+  function getYichangdianAnomalyReadoutLines() {
+    const overrides = listYichangdianAnomalyLayoutOverrides();
+    if (!overrides.length) return [];
+    return [
+      "[异常点异常标记拖动校准]",
+      ...overrides.map((item) => (
+        `${item.markerId} 扇区${item.sectorX},${item.sectorY} → board [${item.boardX.toFixed(2)},${item.boardY.toFixed(2)}]`
+      )),
+    ];
   }
 
   function createStatText(label, value) {
@@ -10359,6 +11254,38 @@
     return { ok: true, message: rocketState.statusNote };
   }
 
+  function revealYichangdianForDebug() {
+    if (!yichangdian) return { ok: false, message: "异常点模块未加载" };
+    const currentPlayer = getCurrentPlayer();
+    const alienSlotId = 2;
+    const slot = aliens.getAlienSlot(alienGameState, alienSlotId);
+    if (!slot) return { ok: false, message: "找不到外星人 2" };
+
+    slot.assignedAlienId = yichangdian.ALIEN_ID;
+    slot.alienId = yichangdian.ALIEN_ID;
+    slot.revealed = true;
+    alienGameState.yichangdian = yichangdian.createYichangdianState();
+    const earth = getEarthSectorCoordinate();
+    yichangdian.initializeYichangdianReveal(alienGameState, alienSlotId, currentPlayer, earth.x);
+    yichangdian.seedDebugTraceGrid(alienGameState, alienSlotId, currentPlayer);
+    yichangdianAnomalyMarkerOverrides.clear();
+
+    rocketState.statusNote = "异常点调试：已展示异常点、生成异常标记并铺满当前玩家 token（不结算奖励）";
+    renderAlienPanels();
+    renderRockets();
+    renderPlayerStats();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function focusYichangdianDebugCalibration(alienSlotId = 2) {
+    setDebugOpen(false);
+    window.requestAnimationFrame(() => {
+      const target = els.alienPanels?.[alienSlotId - 1] || getAlienJiuzheTraceLayer(alienSlotId);
+      target?.scrollIntoView?.({ behavior: "smooth", block: "center", inline: "nearest" });
+    });
+  }
+
   function fillNebulaDataBoard(options = {}) {
     const { replace = false, source = "debug", log = false } = options;
     if (replace) {
@@ -10543,6 +11470,7 @@
       ...data.getSectorSettlementReadoutLines(nebulaDataState),
       "",
       ...aliens.getReadoutLines(alienGameState),
+      ...getYichangdianAnomalyReadoutLines(),
       ...(actionHistory.hasSession() ? ["", "行动指令栈", ...actionHistory.getTrace()] : []),
       ...(quickActionHistory.hasSession() ? ["", "快速行动指令栈", ...quickActionHistory.getTrace()] : []),
     ].join("\n");
@@ -10644,6 +11572,7 @@
   function rotateSolarOrbit(count) {
     const iterations = Math.max(1, Math.round(Number(count || 1)));
     const rotationSettlements = [];
+    const anomalyTriggers = [];
     const events = [];
 
     for (let index = 0; index < iterations; index += 1) {
@@ -10659,9 +11588,16 @@
         rotationSettlements.push(settlement);
         events.push(...(settlement.events || []));
       }
+      const earth = getEarthSectorCoordinate();
+      const anomalyResult = triggerYichangdianAnomalyForEarthX(earth.x);
+      if (anomalyResult) {
+        anomalyTriggers.push(anomalyResult);
+        events.push(...(anomalyResult.events || []));
+      }
     }
 
     const lastSettlement = rotationSettlements[rotationSettlements.length - 1];
+    const lastAnomaly = anomalyTriggers[anomalyTriggers.length - 1];
     renderWheels();
     renderRockets();
     renderRotateStateToken();
@@ -10670,8 +11606,8 @@
     renderStateReadout();
     return {
       ok: true,
-      message: lastSettlement?.message || "太阳系旋转",
-      payload: { rotationSettlements },
+      message: lastAnomaly?.message || lastSettlement?.message || "太阳系旋转",
+      payload: { rotationSettlements, anomalyTriggers },
       events,
     };
   }
@@ -10743,6 +11679,18 @@
       return;
     }
 
+    const yichangdianGain = event.target.closest("[data-yichangdian-card-gain]");
+    if (yichangdianGain && !yichangdianGain.disabled) {
+      handleYichangdianCardGainChoice(yichangdianGain.dataset.yichangdianCardGain);
+      return;
+    }
+
+    const yichangdianCorner = event.target.closest("[data-yichangdian-corner-card-id]");
+    if (yichangdianCorner && !yichangdianCorner.disabled) {
+      handleYichangdianCornerChoice(yichangdianCorner.dataset.yichangdianCornerCardId);
+      return;
+    }
+
     const cardTriggerButton = event.target.closest("[data-card-trigger-choice]");
     if (cardTriggerButton && !cardTriggerButton.disabled) {
       handleCardTriggerChoice(cardTriggerButton.dataset.cardTriggerChoice);
@@ -10760,6 +11708,10 @@
     confirmScanTarget(button.dataset.nebulaId, button.dataset.sectorX);
   });
   els.scanTargetCancel?.addEventListener("click", () => {
+    if (pendingYichangdianCardGain) {
+      handleYichangdianCardGainChoice("cancel");
+      return;
+    }
     if (pendingJiuzheCardPlay?.reason === "view") {
       closeJiuzheCardDialog();
       return;
@@ -10768,6 +11720,10 @@
   });
   els.scanTargetOverlay?.addEventListener("click", (event) => {
     if (event.target === els.scanTargetOverlay) {
+      if (pendingYichangdianCardGain) {
+        handleYichangdianCardGainChoice("cancel");
+        return;
+      }
       if (pendingJiuzheCardPlay?.reason === "view") {
         closeJiuzheCardDialog();
         return;
@@ -10785,10 +11741,16 @@
     const alienSlot = aliens.getAlienSlot(alienGameState, alienSlotId);
     const useJiuzheGrid = jiuzhe?.isJiuzheRevealedSlot?.(alienGameState, alienSlotId)
       || (alienSlot?.revealed && alienSlot.alienId === aliens.JIUZHE_ALIEN_ID);
+    const useYichangdianGrid = yichangdian?.isYichangdianRevealedSlot?.(alienGameState, alienSlotId)
+      || (alienSlot?.revealed && alienSlot.alienId === aliens.YICHANGDIAN_ALIEN_ID);
 
     if (pickerStep === "alien") {
       if (useJiuzheGrid) {
         beginJiuzheTraceGridPlacement(alienSlotId);
+        return;
+      }
+      if (useYichangdianGrid) {
+        beginYichangdianTraceGridPlacement(alienSlotId);
         return;
       }
       if (allowedTraceTypes.length === 1) {
@@ -10812,6 +11774,15 @@
   });
   els.alienJiuzheTraceLayers?.forEach((layer) => {
     layer.addEventListener("click", (event) => {
+      const yichangdianButton = event.target.closest("[data-yichangdian-trace-slot]");
+      if (yichangdianButton && !yichangdianButton.disabled && yichangdianButton.classList.contains("is-placeable")) {
+        confirmYichangdianTracePlacement(
+          Number(yichangdianButton.dataset.alienSlot),
+          yichangdianButton.dataset.traceType,
+          Number(yichangdianButton.dataset.yichangdianPosition),
+        );
+        return;
+      }
       const button = event.target.closest("[data-jiuzhe-trace-slot]");
       if (!button || button.disabled || !button.classList.contains("is-placeable")) return;
       confirmJiuzheTracePlacement(
@@ -10926,6 +11897,10 @@
     const result = revealJiuzheForDebug();
     if (result?.ok) focusJiuzheDebugCalibration(1);
   });
+  els.debugYichangdianButton?.addEventListener("click", () => {
+    const result = revealYichangdianForDebug();
+    if (result?.ok) focusYichangdianDebugCalibration(2);
+  });
   els.debugPickCardButton?.addEventListener("click", beginCardSelection);
   els.publicBlindDrawButton?.addEventListener("click", handlePublicBlindDrawClick);
   els.publicCardRow?.addEventListener("click", (event) => {
@@ -11004,6 +11979,9 @@
       renderStateReadout();
     },
   });
+  window.addEventListener("pointermove", handleYichangdianAnomalyPointerMove);
+  window.addEventListener("pointerup", handleYichangdianAnomalyPointerUp);
+  window.addEventListener("pointercancel", handleYichangdianAnomalyPointerUp);
 
   syncTechRenderContext();
   tech.bindSupplyTileClicks(techGameState, techRenderContext, els.techTiles, {
@@ -11053,8 +12031,11 @@
     getAlienTraceLayoutOverrides: () => structuredClone(aliens.listTraceMarkerLayoutOverrides()),
     getAlienExtraTraceLayoutOverrides: () => structuredClone(aliens.listExtraTraceMarkerLayoutOverrides()),
     getJiuzheTraceLayoutOverrides: () => structuredClone(aliens.listJiuzheTraceMarkerLayoutOverrides?.() || []),
+    getYichangdianTraceLayoutOverrides: () => structuredClone(aliens.listYichangdianTraceMarkerLayoutOverrides?.() || []),
+    getYichangdianAnomalyLayoutOverrides: () => structuredClone(listYichangdianAnomalyLayoutOverrides()),
     getAlienState: () => structuredClone(alienGameState),
     revealJiuzheForDebug,
+    revealYichangdianForDebug,
     getFinalScoringState: () => structuredClone(finalScoringState),
     markFinalScoreTile: handleFinalScoreTileClick,
     openAlienTracePicker,
@@ -11066,11 +12047,13 @@
         playerColor || getCurrentPlayer().color,
       );
       const revealResult = maybeRevealAlienAfterTrace(alienSlotId, result);
-      const sideEffect = handleJiuzheRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer());
+      const sideEffect = handleJiuzheRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
+        || handleYichangdianRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer());
       if (sideEffect?.message) {
         rocketState.statusNote = sideEffect.message;
       }
       renderAlienPanels();
+      renderRockets();
       renderPlayerStats();
       renderStateReadout();
       return revealResult || result;
@@ -11083,9 +12066,11 @@
     },
     revealAlien: (alienSlotId, alienId) => {
       const result = aliens.revealAlien(alienGameState, alienSlotId, alienId);
-      const sideEffect = handleJiuzheRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer());
+      const sideEffect = handleJiuzheRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
+        || handleYichangdianRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer());
       if (sideEffect?.message) result.message = sideEffect.message;
       renderAlienPanels();
+      renderRockets();
       renderPlayerStats();
       renderStateReadout();
       return result;

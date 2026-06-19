@@ -27,7 +27,16 @@
 
   const ALIEN_TRACE_TOKEN_DISPLAY_SCALE = 7;
   const ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE = 5;
-  const JIUZHE_TRACE_TOKEN_DISPLAY_SCALE = 1.8;
+  const JIUZHE_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
+  const YICHANGDIAN_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
+  const YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT = 6.5;
+  const YICHANGDIAN_ANOMALY_EDGE_RADIAL_FRACTION = 0.92;
+  const YICHANGDIAN_ANOMALY_EDGE_ANGULAR_FRACTIONS = Object.freeze({
+    a: 0.22,
+    b: 0.5,
+    c: 0.78,
+  });
+  const YICHANGDIAN_POSITION1_STACK_STEP_Y = 14.5;
 
   /** 非首标记网格：每行 3 个；校准锚点为第二行第二列（0-based: row=1, col=1） */
   const EXTRA_TRACE_GRID_COLUMNS = 3;
@@ -110,6 +119,55 @@
     }),
   });
 
+  const YICHANGDIAN_TRACE_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 18.43, percentY: 34.44, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 18.43, percentY: 46.24, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 18.43, percentY: 58.04, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 18.43, percentY: 70.18, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 18.43, percentY: 82.3, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.74, percentY: 34.44, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.74, percentY: 46.24, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.74, percentY: 58.04, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 49.74, percentY: 70.18, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 49.74, percentY: 82.3, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 81.14, percentY: 34.44, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 81.14, percentY: 46.24, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 81.14, percentY: 58.04, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 81.14, percentY: 70.18, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 81.14, percentY: 82.3, scalePercent: 62 }),
+      }),
+    }),
+    2: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 18.4, percentY: 35.95, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 18.4, percentY: 50.94, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 18.4, percentY: 61.95, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 18.4, percentY: 73.33, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 18.4, percentY: 84.15, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.34, percentY: 41.45, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.34, percentY: 54.92, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.34, percentY: 66.31, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 49.34, percentY: 76.75, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 49.34, percentY: 89.65, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 80.62, percentY: 36.52, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 80.62, percentY: 51.51, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 80.62, percentY: 62.33, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 80.62, percentY: 73.33, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 80.62, percentY: 83.77, scalePercent: 62 }),
+      }),
+    }),
+  });
+
   function roundPercent(value) {
     return Math.round(value * 100) / 100;
   }
@@ -132,6 +190,59 @@
 
   function getJiuzheTraceMarkerLayout(alienSlotId, traceType, position) {
     return JIUZHE_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getYichangdianTraceMarkerLayout(alienSlotId, traceType, position) {
+    return YICHANGDIAN_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getYichangdianTraceTokenSize(layout) {
+    if (!layout) return null;
+    const visualScale = getTraceTokenVisualScale(layout, YICHANGDIAN_TRACE_TOKEN_DISPLAY_SCALE);
+    const widthPercent = ALIEN_TRACE_TOKEN_BASE_WIDTH_PERCENT * visualScale;
+    const heightPercent = widthPercent * (ALIEN_STATE_REFERENCE_WIDTH / ALIEN_STATE_REFERENCE_HEIGHT);
+    return {
+      widthPercent: roundPercent(widthPercent),
+      heightPercent: roundPercent(heightPercent),
+      radiusXPercent: roundPercent(widthPercent / 2),
+      radiusYPercent: roundPercent(heightPercent / 2),
+    };
+  }
+
+  function getYichangdianStackStepY(layout) {
+    return getYichangdianTraceTokenSize(layout)?.radiusXPercent || YICHANGDIAN_POSITION1_STACK_STEP_Y;
+  }
+
+  function getYichangdianStackTraceMarkerLayout(baseLayout, stackIndex = 0) {
+    if (!baseLayout) return null;
+    const index = Math.max(0, Math.round(Number(stackIndex) || 0));
+    const stepY = getYichangdianStackStepY(baseLayout);
+    return {
+      ...baseLayout,
+      percentY: roundPercent(baseLayout.percentY - index * stepY),
+    };
+  }
+
+  function getYichangdianBaseFromStackTraceMarkerLayout(stackLayout, stackIndex = 0) {
+    if (!stackLayout) return null;
+    const index = Math.max(0, Math.round(Number(stackIndex) || 0));
+    const stepY = getYichangdianStackStepY(stackLayout);
+    return {
+      percentX: roundPercent(stackLayout.percentX),
+      percentY: roundPercent(stackLayout.percentY + index * stepY),
+    };
+  }
+
+  function getYichangdianAnomalyMarkerBoardPoint(solarApi, anomaly) {
+    if (!solarApi || !anomaly) return null;
+    const boundary = solarApi.getSectorCoordinateBoundary(anomaly.sectorX, anomaly.y || 4);
+    const radialSpan = boundary.polarBoundary.outerRadius - boundary.polarBoundary.innerRadius;
+    const angleSpan = boundary.polarBoundary.endAngleDegrees - boundary.polarBoundary.startAngleDegrees;
+    const prefix = String(anomaly.prefix || anomaly.markerId || "").charAt(0);
+    const angularFraction = YICHANGDIAN_ANOMALY_EDGE_ANGULAR_FRACTIONS[prefix] ?? 0.5;
+    const radius = boundary.polarBoundary.innerRadius + radialSpan * YICHANGDIAN_ANOMALY_EDGE_RADIAL_FRACTION;
+    const angleDegrees = boundary.polarBoundary.startAngleDegrees + angleSpan * angularFraction;
+    return solarApi.polarToGlobalPoint(radius, angleDegrees);
   }
 
   function getTraceTokenVisualScale(layout, displayScale) {
@@ -209,17 +320,27 @@
     ALIEN_TRACE_TOKEN_DISPLAY_SCALE,
     ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE,
     JIUZHE_TRACE_TOKEN_DISPLAY_SCALE,
+    YICHANGDIAN_TRACE_TOKEN_DISPLAY_SCALE,
+    YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT,
+    YICHANGDIAN_POSITION1_STACK_STEP_Y,
     EXTRA_TRACE_GRID_COLUMNS,
     EXTRA_TRACE_GRID_ANCHOR_ROW,
     EXTRA_TRACE_GRID_ANCHOR_COL,
     ALIEN_TRACE_MARKER_SLOTS,
     ALIEN_EXTRA_TRACE_MARKER_SLOTS,
     JIUZHE_TRACE_MARKER_SLOTS,
+    YICHANGDIAN_TRACE_MARKER_SLOTS,
     getAlienSlotLabel,
     getTraceTypeLabel,
     getAlienTraceMarkerLayout,
     getAlienExtraTraceMarkerLayout,
     getJiuzheTraceMarkerLayout,
+    getYichangdianTraceMarkerLayout,
+    getYichangdianTraceTokenSize,
+    getYichangdianStackStepY,
+    getYichangdianStackTraceMarkerLayout,
+    getYichangdianBaseFromStackTraceMarkerLayout,
+    getYichangdianAnomalyMarkerBoardPoint,
     getExtraTraceCellSize,
     getExtraTraceGridOriginCenter,
     getExtraTraceGridCenter,

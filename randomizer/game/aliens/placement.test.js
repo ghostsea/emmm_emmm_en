@@ -31,13 +31,28 @@ for (const traceType of ["pink", "yellow", "blue"]) {
   }
 }
 
-assert(placement.JIUZHE_TRACE_TOKEN_DISPLAY_SCALE === 1.8,
-  "Jiuzhe token scale should be 1.8x");
+assert(placement.JIUZHE_TRACE_TOKEN_DISPLAY_SCALE === placement.YICHANGDIAN_TRACE_TOKEN_DISPLAY_SCALE,
+  "Jiuzhe token scale should match Yichangdian");
 assert(placement.getJiuzheTraceMarkerLayout(1, "pink", 1).percentX === 18.43,
   "Jiuzhe pink column should use aligned X");
 assert(placement.getJiuzheTraceMarkerLayout(1, "yellow", 5).percentY === 89.46,
   "Jiuzhe yellow fifth marker should use calibrated Y");
 assert(placement.getJiuzheTraceMarkerLayout(1, "blue", 4).percentX === 81.14,
   "Jiuzhe blue column should use aligned X");
+
+for (const traceType of ["pink", "yellow", "blue"]) {
+  for (let position = 1; position <= 5; position += 1) {
+    const layout = placement.getYichangdianTraceMarkerLayout(2, traceType, position);
+    assert(layout && Number.isFinite(layout.percentX) && Number.isFinite(layout.percentY),
+      `Yichangdian ${traceType} ${position} should have a layout`);
+  }
+}
+
+const yBase = placement.getYichangdianTraceMarkerLayout(1, "pink", 1);
+const yStacked = placement.getYichangdianStackTraceMarkerLayout(yBase, 2);
+assert(yStacked.percentY < yBase.percentY, "Yichangdian position 1 stack should move upward");
+const rebuiltYBase = placement.getYichangdianBaseFromStackTraceMarkerLayout(yStacked, 2);
+assert(rebuiltYBase.percentY === yBase.percentY,
+  "dragging a stacked Yichangdian marker should rebuild the base coordinate");
 
 console.log("aliens/placement.test.js ok");

@@ -117,7 +117,7 @@
 外星人由 `randomizer/game/aliens/` 管理，当前有两个未揭示槽位（外星人 1 / 外星人 2）：
 
 - 牌库共 8 种外星人（见 `catalog.js`：`九折`、`半人马`、`奥陌陌`、`异常点`、`方舟`、`符文族`、`虫`、`阿米巴`）。
-- 开局或点击随机化时，`randomizeAlienAssignments` 会从 8 种中无放回抽取 2 种，分别写入两个槽位的 `assignedAlienId`（未揭示前不显示正面）。
+- 开局或点击随机化时，`randomizeAlienAssignments` 固定外星人 1 的揭示结果为 `九折`、外星人 2 的揭示结果为 `异常点`，分别写入两个槽位的 `assignedAlienId`（未揭示前不显示正面）。
 - 每种外星人需要三种首标记：`yellow`（黄色痕迹）、`pink`（粉色痕迹）、`blue`（蓝色痕迹）。
 - `traces[traceType].firstPlaced` / `ownerPlayerColor` 记录该颜色第一个标记是否已放置及归属玩家。
 - 同颜色后续标记只累加 `extraCount`，不再产生新的版图标记。
@@ -131,6 +131,15 @@ UI 校准：
 - 首标记仅在 `firstPlaced` 后显示玩家 token（已校准坐标，`ALIEN_TRACE_TOKEN_DISPLAY_SCALE` 当前为 7），无默认参考图标。
 - 非首标记数量不限；网格锚点为 `ALIEN_EXTRA_TRACE_MARKER_SLOTS`（第二行第二列中心，可拖动），从锚点与 token 尺寸反推第一格中心，再按每行 3 个向右、向下排布；`ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE` 当前为 5。
 - 调试「获取外星人标记」：未放置首标记时放首标记，已放置则追加非首标记；外星人揭示后仍可继续追加非首标记，但不能再补首标记。
+
+异常点专属机制：
+
+- `randomizer/game/aliens/yichangdian.js` 管理异常点状态，挂在 `alienGameState.yichangdian`。字段包括 `revealedSlotId`、`revealEarthX`、`anomalies[]`、`nextAnomalySectorX`、`traceSlotsByAlienSlotId`、`displayedCardIndex`、`cardDeck`。
+- 异常点揭示时读取当前地球 `x` 为 `m`，在 `m`、`m-3`、`m+3` 的 `y=4` 扇区生成 a/b/c 三个异常标记，各随机 1/2 面；太阳系旋转后若地球 `x` 命中异常扇区，按该异常颜色取异常点正面痕迹中最靠上的玩家结算奖励。
+- 揭示后的异常点不再使用普通三色首标记正面迁移，而是切到正面 3×5 痕迹格。2-5 号位单占用；1 号位是数组，可无限追加，后追加 token 按当前异常点 token 的宽度半径向上推算并视为更靠上；1 号位放置热区会向上扩展，避免追加时需要精确点击已放 token。
+- 调试按钮「异常点调试」会强制在外星人 2 展示异常点，生成三个异常标记，且在 3×5 正面格铺满当前玩家 token（每色 1 号位只放 1 个，不结算奖励）。
+- 异常点正面痕迹 token 可拖动，控制台输出 `[外星人痕迹坐标]`，状态日志显示「异常点」和「异常点痕迹拖动校准」；主盘异常标记也可拖动，控制台输出 `[异常点异常坐标]`，状态日志显示「异常点异常标记拖动校准」。
+- 异常点揭示后面板下方展示一张异常点牌；痕迹奖励产生“外星人牌”时可确认拿展示牌、盲抽异常点牌或取消。异常点牌进入手牌并保留 `price`、`cardTypeCode`、`discardActionCode`、`scanActionCode`、`incomeCode`，打牌效果由 `randomizer/game/cards/effects.js` 中 `yichangdian_0.webp` 到 `yichangdian_9.webp` 模型驱动。
 
 ### 扇区与星云状态
 
@@ -432,6 +441,7 @@ node randomizer/game/data/nebula.test.js
 node randomizer/game/data/data.test.js
 node randomizer/game/tech/tech.test.js
 node randomizer/game/aliens/state.test.js
+node randomizer/game/aliens/yichangdian.test.js
 node randomizer/game/aliens/placement.test.js
 node randomizer/game/aliens/randomizer.test.js
 ```

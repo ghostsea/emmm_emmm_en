@@ -3,19 +3,21 @@
 
   let finalScoringModule = root.SetiFinalScoring;
   let jiuzheModule = root.SetiAlienJiuzhe;
+  let yichangdianModule = root.SetiAlienYichangdian;
   if (typeof require === "function") {
     finalScoringModule = finalScoringModule || require("./final-scoring");
     jiuzheModule = jiuzheModule || require("./aliens/jiuzhe");
+    yichangdianModule = yichangdianModule || require("./aliens/yichangdian");
   }
 
-  const api = factory(finalScoringModule, jiuzheModule);
+  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiEndGameScoring = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian) {
   "use strict";
 
   const NEBULA_IDS_BY_COLOR = Object.freeze({
@@ -55,6 +57,23 @@
       try {
         jiuzhe = require("./aliens/jiuzhe");
         return jiuzhe;
+      } catch (_error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  function getYichangdianModule() {
+    if (yichangdian) return yichangdian;
+    if (typeof globalThis !== "undefined" && globalThis.SetiAlienYichangdian) {
+      yichangdian = globalThis.SetiAlienYichangdian;
+      return yichangdian;
+    }
+    if (typeof require === "function") {
+      try {
+        yichangdian = require("./aliens/yichangdian");
+        return yichangdian;
       } catch (_error) {
         return null;
       }
@@ -104,6 +123,8 @@
     let count = 0;
     const jiuzheModule = getJiuzheModule();
     const jiuzheSlotId = alienGameState?.jiuzhe?.revealedSlotId;
+    const yichangdianModule = getYichangdianModule();
+    const yichangdianSlotId = alienGameState?.yichangdian?.revealedSlotId;
     for (const [slotId, slot] of Object.entries(alienGameState?.aliens || {})) {
       if (jiuzheModule && jiuzheSlotId != null && Number(slotId) === Number(jiuzheSlotId)) {
         const grid = jiuzheModule.getTraceGrid(alienGameState, jiuzheSlotId);
@@ -111,6 +132,11 @@
           const entry = grid?.[traceType]?.[position];
           if (entry && markerBelongsToPlayer(entry, playerKeys)) count += 1;
         }
+        continue;
+      }
+      if (yichangdianModule && yichangdianSlotId != null && Number(slotId) === Number(yichangdianSlotId)) {
+        const entries = yichangdianModule.listTraceEntries(alienGameState, yichangdianSlotId, traceType);
+        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
       const traceSlot = slot?.traces?.[traceType];

@@ -22,6 +22,13 @@
     CARD_MOVE: "card_move",
     DRAW_THEN_SCAN: "card_draw_then_scan",
     DRAW_THEN_DISCARD_ACTION: "card_draw_then_discard_action",
+    YICHANGDIAN_NEXT_ANOMALY_REWARD: "yichangdian_next_anomaly_reward",
+    YICHANGDIAN_ANOMALY_SIGNAL_SCORE: "yichangdian_anomaly_signal_score",
+    YICHANGDIAN_ALIEN_TRACE: "yichangdian_alien_trace",
+    YICHANGDIAN_PUBLIC_ALL: "yichangdian_public_all",
+    YICHANGDIAN_DRAW_THEN_TWO_CORNERS: "yichangdian_draw_then_two_corners",
+    YICHANGDIAN_NEXT_ANOMALY_SCAN: "yichangdian_next_anomaly_scan",
+    YICHANGDIAN_LAUNCH_ANOMALY_MOVE: "yichangdian_launch_anomaly_move",
   });
 
   const REWARD_TYPES = Object.freeze({
@@ -41,6 +48,7 @@
   });
 
   let endGameScoringModule = null;
+  let yichangdianModule = null;
 
   function getEndGameScoring() {
     if (endGameScoringModule) return endGameScoringModule;
@@ -52,6 +60,23 @@
       try {
         endGameScoringModule = require("../end-game-scoring");
         return endGameScoringModule;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  function getYichangdian() {
+    if (yichangdianModule) return yichangdianModule;
+    if (typeof globalThis !== "undefined" && globalThis.SetiAlienYichangdian) {
+      yichangdianModule = globalThis.SetiAlienYichangdian;
+      return yichangdianModule;
+    }
+    if (typeof require === "function") {
+      try {
+        yichangdianModule = require("../aliens/yichangdian");
+        return yichangdianModule;
       } catch (error) {
         return null;
       }
@@ -177,6 +202,7 @@
       movementPoints: Math.max(1, Math.round(Number(options.movementPoints || 1))),
     };
     if (options.historyLabel) normalizedOptions.historyLabel = options.historyLabel;
+    if (options.suppressArrivalRewards) normalizedOptions.suppressArrivalRewards = true;
     if (options.afterEventRewards?.length) {
       normalizedOptions.afterEventRewards = Object.freeze(options.afterEventRewards.map((reward) => Object.freeze({
         eventType: reward.eventType,
@@ -208,6 +234,100 @@
   });
 
   const MODELS = Object.freeze({
+    "yichangdian_0.webp": withSource("yichangdian_0.webp", {
+      cardType: 1,
+      playEffects: Object.freeze([
+        effect("y0-any-sector-scan", EFFECT_TYPES.ANY_SECTOR_SCAN, "扫描任意扇区", "scan", { gainData: true }),
+        effect("y0-anomaly-score", EFFECT_TYPES.YICHANGDIAN_ANOMALY_SIGNAL_SCORE, "异常扇区信号得分", "score"),
+      ]),
+    }),
+    "yichangdian_1.webp": withSource("yichangdian_1.webp", {
+      cardType: 2,
+      playEffects: Object.freeze([
+        effect("y1-next-anomaly-reward", EFFECT_TYPES.YICHANGDIAN_NEXT_ANOMALY_REWARD, "获得即将触发异常奖励", "publicity"),
+      ]),
+      tasks: Object.freeze([{
+        id: "y1-all-trace-types",
+        condition: Object.freeze({ type: "yichangdianAllTraceTypes" }),
+        rewards: Object.freeze([
+          gainResourcesEffect("y1-all-trace-types-reward", "异常点三色痕迹：3分2宣传", {
+            score: 3,
+            publicity: 2,
+          }),
+        ]),
+      }]),
+    }),
+    "yichangdian_2.webp": withSource("yichangdian_2.webp", {
+      cardType: 0,
+      playEffects: Object.freeze([
+        cardMoveEffect("y2-move", "5移动（不获得访问宣传）", {
+          movementPoints: 5,
+          suppressArrivalRewards: true,
+          historyLabel: "近距离观察：5移动",
+        }),
+      ]),
+    }),
+    "yichangdian_3.webp": withSource("yichangdian_3.webp", {
+      cardType: 1,
+      playEffects: Object.freeze([
+        gainResourcesEffect("y3-publicity", "吃瓜群众：1宣传", { publicity: 1 }),
+      ]),
+      triggers: Object.freeze([
+        {
+          id: "y3-tech-energy",
+          event: Object.freeze({ type: "researchTech" }),
+          effect: gainResourcesEffect("y3-energy", "吃瓜群众：获得科技，1能量", { energy: 1 }),
+        },
+        {
+          id: "y3-tech-pick",
+          event: Object.freeze({ type: "researchTech" }),
+          effect: pickCardEffect("y3-pick", "吃瓜群众：获得科技，精选1张牌"),
+        },
+        {
+          id: "y3-tech-score",
+          event: Object.freeze({ type: "researchTech" }),
+          effect: gainResourcesEffect("y3-score", "吃瓜群众：获得科技，3分", { score: 3 }),
+        },
+      ]),
+    }),
+    "yichangdian_4.webp": withSource("yichangdian_4.webp", {
+      cardType: 0,
+      playEffects: Object.freeze([
+        effect("y4-public-all", EFFECT_TYPES.YICHANGDIAN_PUBLIC_ALL, "获得公共牌区全部3张牌", "pick_card"),
+      ]),
+    }),
+    "yichangdian_5.webp": withSource("yichangdian_5.webp", {
+      cardType: 0,
+      playEffects: Object.freeze([
+        effect("y5-scan-action", EFFECT_TYPES.SCAN_ACTION, "扫描行动", "scan_action", { skipCost: true }),
+        effect("y5-next-anomaly-scan", EFFECT_TYPES.YICHANGDIAN_NEXT_ANOMALY_SCAN, "即将触发异常扇区额外扫描", "scan"),
+      ]),
+    }),
+    "yichangdian_6.webp": withSource("yichangdian_6.webp", {
+      cardType: 0,
+      playEffects: Object.freeze([
+        researchTechEffect("y6-tech", "科技行动"),
+      ]),
+    }),
+    "yichangdian_7.webp": withSource("yichangdian_7.webp", {
+      cardType: 0,
+      playEffects: Object.freeze([
+        effect("y7-alien-trace", EFFECT_TYPES.YICHANGDIAN_ALIEN_TRACE, "获得任意外星人痕迹", "alien_trace"),
+      ]),
+    }),
+    "yichangdian_8.webp": withSource("yichangdian_8.webp", {
+      cardType: 0,
+      playEffects: Object.freeze([
+        effect("y8-draw-corners", EFFECT_TYPES.YICHANGDIAN_DRAW_THEN_TWO_CORNERS, "盲抽3张并结算两张角标", "blind_card"),
+      ]),
+    }),
+    "yichangdian_9.webp": withSource("yichangdian_9.webp", {
+      cardType: 0,
+      playEffects: Object.freeze([
+        launchEffect("y9-launch", "发射", { skipCost: true, source: "card" }),
+        effect("y9-anomaly-move", EFFECT_TYPES.YICHANGDIAN_LAUNCH_ANOMALY_MOVE, "若在异常扇区获得1移动", "movement"),
+      ]),
+    }),
     "b_1.webp": withSource("b_1.webp", {
       cardType: 2,
       playEffects: Object.freeze([
@@ -839,6 +959,12 @@
     return slots.length > 0 && slots.every((slot) => slot?.traces?.[traceType]?.firstPlaced);
   }
 
+  function playerHasYichangdianAllTraceTypes(player, alienGameState) {
+    const yichangdian = getYichangdian();
+    if (!yichangdian?.playerHasAllTraceTypes) return false;
+    return yichangdian.playerHasAllTraceTypes(alienGameState, player);
+  }
+
   function taskConditionMet(task, player, context) {
     const condition = task?.condition;
     if (!condition) return false;
@@ -860,6 +986,9 @@
     }
     if (condition.type === "distinctSignalSectors") {
       return countDistinctSignalSectors(player, context.nebulaDataState) >= Number(condition.count || 1);
+    }
+    if (condition.type === "yichangdianAllTraceTypes") {
+      return playerHasYichangdianAllTraceTypes(player, context.alienGameState);
     }
     return false;
   }

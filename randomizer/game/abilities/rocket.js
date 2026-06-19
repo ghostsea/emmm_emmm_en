@@ -468,13 +468,15 @@
         beforeRocket,
       ));
     }
-    const { rewardNotes, events } = applyArrivalRewards(
-      context,
-      currentPlayer,
-      moveResult.rocket,
-      geometry.toContent,
-      { prefix: "移动到", source: options.source || "move" },
-    );
+    const { rewardNotes, events } = options.suppressArrivalRewards
+      ? { rewardNotes: [], events: [] }
+      : applyArrivalRewards(
+        context,
+        currentPlayer,
+        moveResult.rocket,
+        geometry.toContent,
+        { prefix: "移动到", source: options.source || "move" },
+      );
     commands.push(historyCommands.createRestorePlayerCommand(
       currentPlayer,
       beforePlayer,

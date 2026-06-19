@@ -7,24 +7,26 @@
   let randomizer = root.SetiAlienRandomizer;
   let render = root.SetiAlienRender;
   let jiuzhe = root.SetiAlienJiuzhe;
+  let yichangdian = root.SetiAlienYichangdian;
 
   if (typeof require === "function") {
     catalog = catalog || require("./catalog");
     placement = placement || require("./placement");
     state = state || require("./state");
     jiuzhe = jiuzhe || require("./jiuzhe");
+    yichangdian = yichangdian || require("./yichangdian");
     randomizer = randomizer || require("./randomizer");
     render = render || require("./render");
   }
 
-  const api = factory(catalog, placement, state, randomizer, render, jiuzhe);
+  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAliens = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian) {
   "use strict";
 
   function getReadoutLines(alienState) {
@@ -112,6 +114,56 @@
       }
     }
 
+    if (yichangdian?.ensureYichangdianState) {
+      const yState = yichangdian.ensureYichangdianState(source);
+      lines.push("[异常点]");
+      lines.push(
+        `揭示槽位=${yState.revealedSlotId || "无"} `
+        + `揭示地球x=${yState.revealEarthX ?? "无"} `
+        + `下个异常扇区=${yState.nextAnomalySectorX ?? "无"} `
+        + `展示牌=${yState.displayedCardIndex ?? "无"}`,
+      );
+      for (const anomaly of yState.anomalies || []) {
+        lines.push(`  异常 ${yichangdian.formatAnomalyLabel(anomaly)}`);
+      }
+      const grid = yState.revealedSlotId
+        ? yichangdian.getTraceGrid(source, yState.revealedSlotId)
+        : null;
+      if (grid) {
+        for (const traceType of yichangdian.TRACE_TYPES) {
+          for (const position of yichangdian.TRACE_POSITIONS) {
+            const entries = position === 1
+              ? (Array.isArray(grid?.[traceType]?.[position]) ? grid[traceType][position] : [])
+              : (grid?.[traceType]?.[position] ? [grid[traceType][position]] : []);
+            const layout = render.getEffectiveYichangdianTraceMarkerLayout?.(
+              yState.revealedSlotId,
+              traceType,
+              position,
+              0,
+            );
+            const ownerText = entries.length
+              ? entries.map((entry) => entry.playerColor || entry.playerId || "已放置").join("/")
+              : "空";
+            lines.push(
+              `  ${yichangdian.formatTraceLabel(traceType, position)} `
+              + `${ownerText}${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+            );
+          }
+        }
+      }
+
+      const yOverrides = render.listYichangdianTraceMarkerLayoutOverrides?.() || [];
+      if (yOverrides.length) {
+        lines.push("[异常点痕迹拖动校准]");
+        for (const item of yOverrides) {
+          lines.push(
+            `${placement.getAlienSlotLabel(item.alienSlotId)} ${placement.getTraceTypeLabel(item.traceType)}`
+            + ` ${item.position}号位 → ${item.percentX}%,${item.percentY}%`,
+          );
+        }
+      }
+    }
+
     return lines;
   }
 
@@ -125,11 +177,16 @@
     ALIEN_TRACE_TOKEN_SRC: placement.ALIEN_TRACE_TOKEN_SRC,
     ALIEN_TRACE_TOKEN_DISPLAY_SCALE: placement.ALIEN_TRACE_TOKEN_DISPLAY_SCALE,
     ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE: placement.ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE,
+    YICHANGDIAN_TRACE_TOKEN_DISPLAY_SCALE: placement.YICHANGDIAN_TRACE_TOKEN_DISPLAY_SCALE,
+    YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT: placement.YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT,
     EXTRA_TRACE_GRID_COLUMNS: placement.EXTRA_TRACE_GRID_COLUMNS,
     jiuzhe,
+    yichangdian,
     JIUZHE_ALIEN_ID: jiuzhe?.ALIEN_ID || "九折",
     JIUZHE_CARD_BACK_SRC: jiuzhe?.CARD_BACK_SRC,
     JIUZHE_THREAT_ICON_SRC: jiuzhe?.THREAT_ICON_SRC,
+    YICHANGDIAN_ALIEN_ID: yichangdian?.ALIEN_ID || "异常点",
+    YICHANGDIAN_CARD_BACK_SRC: yichangdian?.CARD_BACK_SRC,
     createDefaultAlienState: state.createDefaultAlienState,
     randomizeAlienAssignments: randomizer.randomizeAlienAssignments,
     getAlienType: catalog.getAlienType,
@@ -145,6 +202,7 @@
     getTraceTypeLabel: placement.getTraceTypeLabel,
     getAlienTraceMarkerLayout: placement.getAlienTraceMarkerLayout,
     getAlienExtraTraceMarkerLayout: placement.getAlienExtraTraceMarkerLayout,
+    getYichangdianAnomalyMarkerBoardPoint: placement.getYichangdianAnomalyMarkerBoardPoint,
     getExtraTraceGridOriginCenter: placement.getExtraTraceGridOriginCenter,
     getExtraTraceGridCenter: placement.getExtraTraceGridCenter,
     getEffectiveTraceMarkerLayout: render.getEffectiveTraceMarkerLayout,
@@ -154,11 +212,15 @@
     listExtraTraceMarkerLayoutOverrides: render.listExtraTraceMarkerLayoutOverrides,
     getEffectiveJiuzheTraceMarkerLayout: render.getEffectiveJiuzheTraceMarkerLayout,
     listJiuzheTraceMarkerLayoutOverrides: render.listJiuzheTraceMarkerLayoutOverrides,
+    getEffectiveYichangdianTraceMarkerLayout: render.getEffectiveYichangdianTraceMarkerLayout,
+    listYichangdianTraceMarkerLayoutOverrides: render.listYichangdianTraceMarkerLayoutOverrides,
     bindAlienTraceDragging: render.bindAlienTraceDragging,
     renderAlienTraceMarkers: render.renderAlienTraceMarkers,
     renderAllAlienTraceMarkers: render.renderAllAlienTraceMarkers,
     renderJiuzheTraceMarkers: render.renderJiuzheTraceMarkers,
     renderAllJiuzheTraceMarkers: render.renderAllJiuzheTraceMarkers,
+    renderYichangdianTraceMarkers: render.renderYichangdianTraceMarkers,
+    renderAllYichangdianTraceMarkers: render.renderAllYichangdianTraceMarkers,
     renderAlienBackImage: render.renderAlienBackImage,
     renderAllAlienBackImages: render.renderAllAlienBackImages,
     resetAlienTraceTokens: render.resetAlienTraceTokens,
