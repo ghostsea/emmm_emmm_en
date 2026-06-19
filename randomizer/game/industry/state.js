@@ -19,7 +19,56 @@
     if (!Number.isInteger(player.industryRoundMarkTurn)) {
       player.industryRoundMarkTurn = 0;
     }
+    if (!player.industryStrategyPassiveSlots) {
+      player.industryStrategyPassiveSlots = {
+        yellow: false,
+        red: false,
+        blue: false,
+      };
+    }
     return player;
+  }
+
+  function initializeStrategyPassiveMarkers(player) {
+    const state = ensurePlayerIndustryState(player);
+    if (!state) {
+      return { ok: false, message: "没有玩家" };
+    }
+    state.industryStrategyPassiveInitialized = true;
+    return {
+      ok: true,
+      player: state,
+      message: "已初始化宇宙战略集团被动标记槽位",
+    };
+  }
+
+  function canPlaceStrategyPassiveSlot(player, slotId) {
+    const state = ensurePlayerIndustryState(player);
+    if (!state) {
+      return { ok: false, message: "没有玩家" };
+    }
+    if (!state.industryStrategyPassiveSlots[slotId]) {
+      return { ok: true, message: "可以放置被动标记" };
+    }
+    return { ok: false, message: "该槽位已有标记" };
+  }
+
+  function placeStrategyPassiveSlot(player, slotId) {
+    const check = canPlaceStrategyPassiveSlot(player, slotId);
+    if (!check.ok) return { ...check, player };
+
+    const state = ensurePlayerIndustryState(player);
+    state.industryStrategyPassiveSlots[slotId] = true;
+    return {
+      ok: true,
+      player: state,
+      slotId,
+      message: "已放置宇宙战略集团被动标记",
+    };
+  }
+
+  function isStrategyPassiveSlotMarked(player, slotId) {
+    return Boolean(ensurePlayerIndustryState(player)?.industryStrategyPassiveSlots?.[slotId]);
   }
 
   function normalizeRoundNumber(roundNumber) {
@@ -106,6 +155,10 @@
     player.industryHuanyuMovedRocketIds = [];
     player.industryPlayedCardThisRound = false;
     player.industryLastPlayedCardThisRound = null;
+    // 仅清除「打牌触发的虚线交互」；industryStrategyPassiveSlots 跨轮保留，直到 1x 清槽
+    player.industryStrategyPlayInteractionRound = 0;
+    player.industryStrategyPlayScanCode = null;
+    player.industryStrategyPlayInteractionPending = false;
     return player;
   }
 
@@ -136,5 +189,9 @@
     resetRoundIndustryRuntimeState,
     resetAllRoundIndustryRuntimeState,
     createIndustryMarkUndoCommand,
+    initializeStrategyPassiveMarkers,
+    canPlaceStrategyPassiveSlot,
+    placeStrategyPassiveSlot,
+    isStrategyPassiveSlotMarked,
   });
 });

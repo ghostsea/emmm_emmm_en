@@ -663,6 +663,13 @@
       removedInitialCards: selectedInitialCards.map((card) => ({ ...card })),
     };
 
+    if (industry?.shouldInitializeStrategyPassiveMarkers?.(player)) {
+      industry.initializeStrategyPassiveMarkers(player);
+    }
+    if (industry?.shouldInitializeHeliosPassiveMarkers?.(player)) {
+      industry.initializeHeliosPassiveMarkers(player);
+    }
+
     const remainingPlayerId = getInitialSelectionPlayerIds()
       .find((playerId) => !isInitialSelectionConfirmed(playerId));
     if (remainingPlayerId) {
@@ -4825,6 +4832,7 @@
       || planetRewards?.EFFECT_ICONS?.[iconId]
       || TECH_EFFECT_ICONS[iconId]
       || CARD_EFFECT_ICONS[iconId]
+      || RESOURCE_ICON_SRC[iconId]
       || "";
   }
 
@@ -6299,6 +6307,8 @@
     switch (effect.type) {
       case "industry_sentinel_corner":
         return executeIndustrySentinelCornerEffect(effect);
+      case "industry_helios_passive_reward":
+        return executeIndustryHeliosPassiveRewardEffect(effect);
       case "initial_income":
         return openInitialIncomeEffect(effect);
       case scanEffects.EFFECT_TYPES.PAY_SCAN_COST: {
@@ -7629,6 +7639,16 @@
       });
     }
 
+    const techType = selectResult.techType || selectResult.payload?.techType;
+    const heliosEffect = industry?.buildHeliosPassiveRewardEffect?.(
+      getCurrentPlayer(),
+      techType,
+      selectResult.tileId || selectResult.payload?.tileId,
+    );
+    if (heliosEffect) {
+      followups.push(heliosEffect);
+    }
+
     pendingActionEffectFlow.effects.push(...followups);
   }
 
@@ -8648,6 +8668,9 @@
       if (ownedTiles[tileId]) {
         item.classList.add("is-owned");
         item.style.setProperty("--opponent-tech-color", techColor);
+        if (player.techState?.disabledTiles?.[tileId]) {
+          item.classList.add("is-disabled");
+        }
       } else {
         item.classList.add("is-missing");
       }
@@ -9066,6 +9089,12 @@
 
   function applyIndustryStartupPassives() {
     for (const player of playerState.players) {
+      if (industry?.shouldInitializeStrategyPassiveMarkers?.(player)) {
+        industry.initializeStrategyPassiveMarkers(player);
+      }
+      if (industry?.shouldInitializeHeliosPassiveMarkers?.(player)) {
+        industry.initializeHeliosPassiveMarkers(player);
+      }
       if (!industry?.shouldPlaceMissionStartupFinalMark?.(player)) continue;
       const markResult = finalScoring.placeDirectMarkAtSlot(finalScoringState, "c", player, 3, {
         tokenSrc: getNormalTokenAssetForPlayer(player),
@@ -9167,6 +9196,8 @@
       case "huanyu_free_moves":
         return beginIndustryHuanyuFreeMoves(flow);
       case "helios_remove_tech":
+        industry?.clearHeliosPassiveSlots?.(getCurrentPlayer());
+        renderInitialSelectionArea();
         return openIndustryHeliosTechPicker(flow);
       case "mission_publicity_pick":
         return startIndustryPublicityPick(flow, "industry_mission_pick");
@@ -9183,6 +9214,8 @@
         renderStateReadout();
         return true;
       case "strategy_pick":
+        industry?.clearStrategyPassiveSlots?.(getCurrentPlayer());
+        renderInitialSelectionArea();
         beginCardSelection({
           type: "industry_strategy_pick",
           player: getCurrentPlayer(),
@@ -9255,7 +9288,7 @@
 
   function openIndustryHeliosTechPicker(flow) {
     const player = getCurrentPlayer();
-    const removable = (tech.playerTech?.listOwnedTileIds?.(player.techState) || [])
+    const removable = (tech.playerTech?.listActiveOwnedTileIds?.(player.techState) || [])
       .filter((tileId) => !String(tileId).startsWith("blue"));
     if (!removable.length) {
       finishIndustryAbilityFlow("赫利昂联合体：没有可移除的非蓝色科技");
@@ -9598,9 +9631,18 @@
       cardId: playedCard.cardId,
       discardActionCode: playedCard.discardActionCode,
       incomeActionCode: playedCard.incomeActionCode,
+      scanActionCode: playedCard.scanActionCode,
     };
     if (industry?.shouldGainPublicityOnType12Play?.(player) && [1, 2].includes(typeCode)) {
       players.gainResources(player, { publicity: industry.getMissionPlayPublicityGain() });
+    }
+    const strategyActivation = industry?.activateStrategyPlayInteraction?.(
+      player,
+      playedCard,
+      turnState.roundNumber,
+    );
+    if (strategyActivation?.ok) {
+      renderInitialSelectionArea();
     }
   }
 
@@ -9747,63 +9789,204 @@
     wrap.append(createInitialSelectionImage(companyCard, "summary"));
 
     const layout = industry?.getIndustryActionMarkerLayout?.(companyCard);
-    if (!layout || !player) return wrap;
+    if (layout && player) {
+      const marked = industry?.isIndustryActionMarkedThisRound?.(
+        player,
+        turnState.roundNumber,
+        turnState.turnNumber,
+      );
+      const canMark = !marked
+        && !isInitialIncomeFlowActive()
+        && industry?.canMarkIndustryAction?.(player, turnState.roundNumber, {
+          turnNumber: turnState.turnNumber,
+          hasMarker: true,
+          industryCard: companyCard,
+        })?.ok;
 
-    const marked = industry?.isIndustryActionMarkedThisRound?.(
-      player,
-      turnState.roundNumber,
-      turnState.turnNumber,
-    );
-    const canMark = !marked
-      && !isInitialIncomeFlowActive()
-      && industry?.canMarkIndustryAction?.(player, turnState.roundNumber, {
-        turnNumber: turnState.turnNumber,
-        hasMarker: true,
-        industryCard: companyCard,
-      })?.ok;
+      if (!marked && canMark) {
+        wrap.classList.add("is-action-marker-pending");
+      }
 
-    if (!marked && canMark) {
-      wrap.classList.add("is-action-marker-pending");
+      if (marked) {
+        const token = document.createElement("img");
+        token.className = "company-action-marker-token";
+        token.src = getNormalTokenAssetForPlayer(player);
+        token.alt = "";
+        token.decoding = "async";
+        token.setAttribute("aria-hidden", "true");
+        token.style.left = `${layout.percentX}%`;
+        token.style.top = `${layout.percentY}%`;
+        token.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
+        wrap.append(token);
+      } else {
+        const hitArea = document.createElement("button");
+        hitArea.type = "button";
+        hitArea.className = "company-action-marker-hit";
+        hitArea.dataset.companyLabel = companyCard.label || "";
+        hitArea.disabled = !canMark;
+        hitArea.setAttribute(
+          "aria-label",
+          canMark
+            ? `放置公司 1x 行动标记：${companyCard.label || "公司牌"}`
+            : `公司 1x 行动标记不可用：${companyCard.label || "公司牌"}`,
+        );
+        hitArea.title = canMark
+          ? "点击在 1x 区域放置行动标记（每轮一次，可撤销）"
+          : "本轮已放置公司行动标记";
+        hitArea.style.left = `${layout.percentX}%`;
+        hitArea.style.top = `${layout.percentY}%`;
+        hitArea.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
+        if (canMark) {
+          hitArea.addEventListener("click", () => {
+            handleCompanyActionMarkerClick(companyCard);
+          });
+        }
+        wrap.append(hitArea);
+      }
     }
 
-    if (marked) {
-      const token = document.createElement("img");
-      token.className = "company-action-marker-token";
-      token.src = getNormalTokenAssetForPlayer(player);
-      token.alt = "";
-      token.decoding = "async";
-      token.setAttribute("aria-hidden", "true");
-      token.style.left = `${layout.percentX}%`;
-      token.style.top = `${layout.percentY}%`;
-      token.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
-      wrap.append(token);
-      return wrap;
-    }
-
-    const hitArea = document.createElement("button");
-    hitArea.type = "button";
-    hitArea.className = "company-action-marker-hit";
-    hitArea.dataset.companyLabel = companyCard.label || "";
-    hitArea.disabled = !canMark;
-    hitArea.setAttribute(
-      "aria-label",
-      canMark
-        ? `放置公司 1x 行动标记：${companyCard.label || "公司牌"}`
-        : `公司 1x 行动标记不可用：${companyCard.label || "公司牌"}`,
-    );
-    hitArea.title = canMark
-      ? "点击在 1x 区域放置行动标记（每轮一次，可撤销）"
-      : "本轮已放置公司行动标记";
-    hitArea.style.left = `${layout.percentX}%`;
-    hitArea.style.top = `${layout.percentY}%`;
-    hitArea.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
-    if (canMark) {
-      hitArea.addEventListener("click", () => {
-        handleCompanyActionMarkerClick(companyCard);
+    if (player && industry?.shouldShowStrategyPassiveMarkers?.(player)) {
+      industry.mountStrategyPassiveLayer(wrap, player, {
+        getPlayerTokenAsset: getNormalTokenAssetForPlayer,
+        isInteractionActive: (targetPlayer) => industry.isStrategyPlayInteractionActive?.(
+          targetPlayer,
+          turnState.roundNumber,
+        ),
+        getEligibleSlotIds: (targetPlayer) => industry.getStrategyPlayEligibleSlotIds?.(
+          targetPlayer,
+          turnState.roundNumber,
+        ) || [],
+        onSlotClick: (slotId) => {
+          handleStrategyPassiveSlotClick(slotId);
+        },
       });
     }
-    wrap.append(hitArea);
+
+    if (player && industry?.shouldShowHeliosPassiveMarkers?.(player)) {
+      industry.mountHeliosPassiveLayer(wrap, player, {
+        getPlayerTokenAsset: getNormalTokenAssetForPlayer,
+      });
+    }
+
     return wrap;
+  }
+
+  function executeIndustryHeliosPassiveRewardEffect(effect) {
+    const player = getCurrentPlayer();
+    const slotId = effect.options?.slotId;
+    if (!player || !slotId) {
+      rocketState.statusNote = "赫利昂联合体：无效奖励";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const check = industry?.canPlaceHeliosPassiveSlot?.(player, slotId);
+    if (!check?.ok) {
+      effect.result = { ok: false, undoable: true, message: check?.message || "无法领取奖励" };
+      completeCurrentActionEffect("skipped");
+      renderStateReadout();
+      return effect.result;
+    }
+
+    const slotLabel = industry.getHeliosPassiveSlotLabel?.(slotId) || slotId;
+    const reward = industry.getHeliosSlotReward?.(slotId);
+    const rewardLabel = industry.getHeliosSlotRewardLabel?.(slotId) || "";
+    const beforePlayer = structuredClone(player);
+
+    beginEffectHistoryStep(effect.label);
+    const placeResult = industry.placeHeliosPassiveSlot(player, slotId);
+    if (!placeResult?.ok) {
+      endEffectHistoryStep();
+      rocketState.statusNote = placeResult?.message || "无法放置标记";
+      renderStateReadout();
+      return placeResult;
+    }
+
+    const dataResults = [];
+    if (reward?.energy || reward?.additionalPublicScan) {
+      players.gainResources(player, {
+        energy: reward.energy || 0,
+        additionalPublicScan: reward.additionalPublicScan || 0,
+      });
+    }
+    if (reward?.data) {
+      const gainResult = data.gainData(player, { source: "industry_helios_passive" });
+      dataResults.push(gainResult);
+      recordHistoryCommand(historyCommands.createGainDataCommand(player, gainResult));
+    }
+
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      beforePlayer,
+      `撤销赫利昂联合体：${slotLabel}奖励`,
+    ));
+
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: `${effect.label}：+${rewardLabel}`,
+      payload: { slotId, reward, dataResults },
+    }, [renderInitialSelectionArea]);
+  }
+
+  function handleStrategyPassiveSlotClick(slotId) {
+    if (getGameplayLockReason()) return;
+
+    const player = getCurrentPlayer();
+    const check = industry?.canInteractStrategyPlaySlot?.(player, slotId, turnState.roundNumber);
+    if (!check?.ok) {
+      rocketState.statusNote = check?.message || "无法放置被动标记";
+      renderStateReadout();
+      return;
+    }
+
+    const slotLabel = industry.getStrategyPassiveSlotLabel?.(slotId) || slotId;
+    const reward = industry.getStrategySlotReward?.(slotId);
+    const rewardLabel = industry.getStrategySlotRewardLabel?.(slotId) || "";
+    const beforePlayer = structuredClone(player);
+
+    beginQuickActionStep("strategy-passive-mark", `宇宙战略集团：${slotLabel}奖励槽`);
+    const placeResult = industry.placeStrategyPassiveSlot(player, slotId);
+    if (!placeResult?.ok) {
+      quickActionHistory.undoLastStep();
+      if (!quickActionHistory.hasUndoableStep()) {
+        quickActionHistory.commitSession();
+        clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+      }
+      rocketState.statusNote = placeResult?.message || "无法放置被动标记";
+      renderStateReadout();
+      return;
+    }
+
+    industry.completeStrategyPlayInteraction(player);
+    const dataResults = [];
+    if (reward?.credits || reward?.publicity) {
+      players.gainResources(player, {
+        credits: reward.credits || 0,
+        publicity: reward.publicity || 0,
+      });
+    }
+    if (reward?.data) {
+      const gainResult = data.gainData(player, { source: "industry_strategy_passive" });
+      dataResults.push(gainResult);
+    }
+
+    recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      beforePlayer,
+      `撤销宇宙战略集团：${slotLabel}奖励槽`,
+    ));
+    for (const gainResult of dataResults) {
+      if (gainResult?.ok) {
+        recordQuickHistoryCommand(historyCommands.createGainDataCommand(player, gainResult));
+      }
+    }
+    completeQuickActionStep();
+
+    rocketState.statusNote = `宇宙战略集团：${slotLabel}奖励槽 +${rewardLabel}`;
+    renderInitialSelectionArea();
+    renderPlayerStats();
+    renderStateReadout();
   }
 
   function handleCompanyActionMarkerClick(companyCard) {
@@ -10215,6 +10398,10 @@
     const endingPlayer = getCurrentPlayer();
     const endingPlayerId = endingPlayer?.id || null;
     const didPass = pendingPassPlayerId === endingPlayerId;
+
+    if (industry?.expireStrategyPlayInteractionOnTurnEnd?.(endingPlayer, turnState.roundNumber)?.cleared) {
+      renderInitialSelectionArea();
+    }
 
     endEffectHistoryStep();
     commitActionLogDraft({
@@ -11471,6 +11658,8 @@
       "",
       ...aliens.getReadoutLines(alienGameState),
       ...getYichangdianAnomalyReadoutLines(),
+      "",
+      ...(industry.getReadoutLines?.(getCurrentPlayer(), turnState.roundNumber) || []),
       ...(actionHistory.hasSession() ? ["", "行动指令栈", ...actionHistory.getTrace()] : []),
       ...(quickActionHistory.hasSession() ? ["", "快速行动指令栈", ...quickActionHistory.getTrace()] : []),
     ].join("\n");

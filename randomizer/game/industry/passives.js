@@ -64,6 +64,26 @@
     return playerHasPassive(player, "mission_startup_final_mark");
   }
 
+  function shouldShowStrategyPassiveMarkers(player) {
+    if (!playerHasPassive(player, "strategy_passive_reward_slots")) return false;
+    return Boolean(player?.initialSelection?.industry);
+  }
+
+  function shouldInitializeStrategyPassiveMarkers(player) {
+    if (!shouldShowStrategyPassiveMarkers(player)) return false;
+    return !player?.industryStrategyPassiveInitialized;
+  }
+
+  function shouldShowHeliosPassiveMarkers(player) {
+    if (!playerHasPassive(player, "helios_passive_reward_slots")) return false;
+    return Boolean(player?.initialSelection?.industry);
+  }
+
+  function shouldInitializeHeliosPassiveMarkers(player) {
+    if (!shouldShowHeliosPassiveMarkers(player)) return false;
+    return !player?.industryHeliosPassiveInitialized;
+  }
+
   function normalizeRoundNumber(roundNumber) {
     return Math.max(0, Math.round(Number(roundNumber) || 0));
   }
@@ -83,7 +103,7 @@
 
   function playerHasTechEffect(player, tileId, roundNumber, turnNumber = 1) {
     if (!tileId) return false;
-    if (player?.techState?.ownedTiles?.[tileId]) return true;
+    if (player?.techState?.ownedTiles?.[tileId] && !player?.techState?.disabledTiles?.[tileId]) return true;
     return getBorrowedTechTileId(player, roundNumber, turnNumber) === tileId;
   }
 
@@ -106,6 +126,10 @@
     getTuringBlueTechPublicityGain,
     getMissionPlayPublicityGain,
     shouldPlaceMissionStartupFinalMark,
+    shouldShowStrategyPassiveMarkers,
+    shouldInitializeStrategyPassiveMarkers,
+    shouldShowHeliosPassiveMarkers,
+    shouldInitializeHeliosPassiveMarkers,
     isSentinelCornerArmed,
     getBorrowedTechTileId,
     playerHasTechEffect,

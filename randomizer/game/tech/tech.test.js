@@ -173,4 +173,30 @@ assert.equal(takeOrange2.ok, true);
 assert.equal(takeOrange2.firstTake, true);
 assert.equal(context4.techGameState.board.stacks.orange2.firstTakeClaimedBy, playerB.id);
 
+const disableContext = createContext(10);
+const disablePlayer = players.getCurrentPlayer(disableContext.playerState);
+disableContext.ensurePlayerTechState(disablePlayer);
+const takeOrange1ForDisable = tech.resolver.executeTakeTech(disableContext, {
+  tileId: "orange1",
+  skipCost: true,
+  skipRotation: true,
+});
+assert.equal(takeOrange1ForDisable.ok, true);
+const disableOrange1 = tech.playerTech.removePlayerTile(disablePlayer.techState, "orange1");
+assert.equal(disableOrange1.ok, true);
+assert.equal(disableOrange1.disabled, true);
+assert.equal(tech.playerTech.isTileDisabled(disablePlayer.techState, "orange1"), true);
+assert.equal(tech.playerTech.playerHasActiveTile(disablePlayer.techState, "orange1"), false);
+assert.equal(tech.playerTech.listOwnedTileIds(disablePlayer.techState).includes("orange1"), true);
+assert.equal(tech.playerTech.canPlayerTakeTile(disablePlayer.techState, "orange1"), false);
+assert.equal(
+  tech.resolver.canTakeTile(disableContext.techGameState.board, disablePlayer.techState, "orange1").ok,
+  false,
+);
+assert.equal(tech.playerTech.canPlayerTakeTile(disablePlayer.techState, "orange2"), true);
+assert.equal(
+  tech.resolver.canTakeTile(disableContext.techGameState.board, disablePlayer.techState, "orange2").ok,
+  true,
+);
+
 console.log("tech.test.js passed");

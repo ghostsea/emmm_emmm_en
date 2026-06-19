@@ -43,7 +43,7 @@
   });
 
   function playerOwnsPurpleTech(player, level) {
-    return playerTech.playerOwnsTile(player?.techState, `purple${level}`);
+    return playerTech.playerHasActiveTile(player?.techState, `purple${level}`);
   }
 
   function canExecuteScan(player) {

@@ -6,6 +6,9 @@
   let catalog = root.SetiIndustryCatalog;
   let passives = root.SetiIndustryPassives;
   let abilities = root.SetiIndustryAbilities;
+  let render = root.SetiIndustryRender;
+  let strategyPassive = root.SetiIndustryStrategyPassive;
+  let heliosPassive = root.SetiIndustryHeliosPassive;
 
   if (typeof require === "function") {
     placement = placement || require("./placement");
@@ -13,9 +16,12 @@
     catalog = catalog || require("./catalog");
     passives = passives || require("./passives");
     abilities = abilities || require("./abilities");
+    render = render || require("./render");
+    strategyPassive = strategyPassive || require("./strategy-passive");
+    heliosPassive = heliosPassive || require("./helios-passive");
   }
 
-  const api = factory(placement, state, catalog, passives, abilities);
+  const api = factory(placement, state, catalog, passives, abilities, render, strategyPassive, heliosPassive);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
@@ -28,8 +34,18 @@
   catalog,
   passives,
   abilities,
+  render,
+  strategyPassive,
+  heliosPassive,
 ) {
   "use strict";
+
+  function getReadoutLines(player, roundNumber) {
+    return [
+      ...strategyPassive.getReadoutLines(player, roundNumber),
+      ...heliosPassive.getReadoutLines(player),
+    ];
+  }
 
   return Object.freeze({
     ...placement,
@@ -37,5 +53,9 @@
     ...catalog,
     ...passives,
     ...abilities,
+    ...render,
+    ...strategyPassive,
+    ...heliosPassive,
+    getReadoutLines,
   });
 });

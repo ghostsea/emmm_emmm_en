@@ -123,7 +123,10 @@
 
     if (!playerTech.canPlayerTakeTile(playerTechState, tileId)) {
       if (playerTech.playerOwnsTile(playerTechState, tileId)) {
-        return { ok: false, message: `已拥有 ${tileId}` };
+        const message = playerTech.isTileDisabled(playerTechState, tileId)
+          ? `${tileId} 已在版图（已失效）`
+          : `已拥有 ${tileId}`;
+        return { ok: false, message };
       }
       if (stack.techType === "blue") {
         return { ok: false, message: "蓝色科技位置已满" };

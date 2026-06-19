@@ -37,7 +37,7 @@
     "赫利昂联合体": Object.freeze({
       label: "赫利昂联合体",
       activeAbilityId: "helios_remove_tech_income",
-      passiveIds: Object.freeze([]),
+      passiveIds: Object.freeze(["helios_passive_reward_slots"]),
     }),
     "任务中继站": Object.freeze({
       label: "任务中继站",
@@ -57,7 +57,7 @@
     "宇宙战略集团": Object.freeze({
       label: "宇宙战略集团",
       activeAbilityId: "strategy_pick_card",
-      passiveIds: Object.freeze([]),
+      passiveIds: Object.freeze(["strategy_passive_reward_slots"]),
     }),
   });
 

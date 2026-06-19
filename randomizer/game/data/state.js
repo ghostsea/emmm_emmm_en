@@ -158,7 +158,7 @@
     const techState = ensurePlayerTechState(player);
     const slot = Number(blueSlot);
     for (const tileId of catalog.TILE_IDS_BY_TYPE.blue) {
-      if (!playerTech.playerOwnsTile(techState, tileId)) continue;
+      if (!playerTech.playerHasActiveTile(techState, tileId)) continue;
       if (playerTech.getBlueBoardSlot(techState, tileId) === slot) return tileId;
     }
     return null;

@@ -46,11 +46,11 @@
   - 图灵系统：借用一项供应区科技本轮效果（不获得板块/bonus）；被动：获取蓝色科技 +1 宣传。
   - 哨兵探测网络：1x 标记后武装本轮；打牌时（标记可在打牌前或后）在打牌效果队列末尾追加 `industry_sentinel_corner` 节点，点击后结算打出牌左上角弃牌角标（非外星人，可撤销）；若打牌后才标记且本轮已打牌，会补开哨兵效果队列。被动：发射后扫描地球扇区。
   - 寰宇动力：至多 2 枚火箭各免费移动 1 次；被动：火箭上限 +1。
-  - 赫利昂联合体：移除一项非蓝科技 + 1 次收入。
+  - 赫利昂联合体：移除一项非蓝科技 + 1 次收入；1x 开始时清除左上 3 个被动奖励槽 token。移除后该科技片保留在玩家版图并灰显（`disabledTiles`），不再提供能力，且不能再次从供应区拿取同编号板块；仍可研究同色其他编号板块。被动：拿取橙/粉紫/蓝科技后，在科技效果队列末尾追加 `industry_helios_passive_reward` 节点，点击后在对应槽放置 token 并领取奖励（橙=1 能量，粉紫=1 公共牌弃牌扫描标记，蓝=1 数据，可撤销）；槽位坐标在 `placement.js` 的 `HELIOS_PASSIVE_MARKER_SLOTS`。
   - 任务中继站：2 宣传精选 + 收入资源；被动：打 1/2 型卡 +1 宣传，开局在终局 c 板块 3 号位标记。
   - 芬威克研究中心：2 宣传精选 + 弃牌角标（不弃牌）；被动：研究科技 5 宣传。
   - 深空探测：手牌与公共牌交换；被动：分析不耗能量。
-  - 宇宙战略集团：精选 1 张牌。
+  - 宇宙战略集团：精选 1 张牌；1x 开始时清除左上黄/红/蓝 3 个被动奖励槽 token。被动：打牌后按扫描角标在公司牌虚线圆交互放置 token 并领奖（黄=1 信用点，红=1 宣传，蓝=1 数据，可撤销）；若回合结束前未完成交互，点击「回合结束」会取消本次虚线交互（已放置 token 保留，下次打牌可再次触发）。
 - 玩家运行时字段：`industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn`（图灵借用，Round 判定本轮有效，Turn 仅记录发生回合）、`industrySentinelArmedRound` / `industrySentinelArmedTurn`（哨兵武装）、`industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds`（寰宇免费移动）、`industryPlayedCardThisRound` / `industryLastPlayedCardThisRound`（本轮已打牌快照）。新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等轮内状态，不重置 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记）。
 - 公司 1x 标记与能力撤销：除涉及精选并拿走/刷新公共牌的能力（任务中继站、芬威克、宇宙战略）外，标记与层云核心、图灵借用、寰宇移动、赫利昂移除+收入、深空交换等步骤写入 `quickActionHistory` 可撤销；层云核心只结算弃牌角标不弃牌、不移除公共牌。任务中继站、芬威克、宇宙战略确认拿牌后会提交快速行动历史，之前的快速行动也不再可撤销。撤销标记会 `resetRoundIndustryRuntimeState` 并取消进行中的公司能力流。
 - 交互聚焦：`app.js` 的 `syncInteractionFocusChrome()` 根据进行中的流程在 `#app-wrap` 上设置 `data-interaction-focus`（`public-cards` / `hand-cards` / `tech-panel` / `board-rockets`）；`style.css` 会暗化非目标区域。`hand-cards` 聚焦时不能暗化或禁用 `.player-command` 父容器，需只暗化手牌区的兄弟控件，保证收入弃牌、打牌选牌、移动弃牌支付、手牌扫描等流程中手牌区保持高亮可点。公司牌 1x 可放置时仅用牌面蓝色高亮（`is-action-marker-pending`），不自动进入全屏聚焦以免遮挡行动按钮。

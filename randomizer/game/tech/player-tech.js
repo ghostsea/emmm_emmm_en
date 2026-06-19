@@ -41,6 +41,20 @@
     return ownedTiles;
   }
 
+  function migrateDisabledTiles(source = {}, ownedTiles = {}) {
+    const disabledTiles = {};
+
+    if (source.disabledTiles && typeof source.disabledTiles === "object") {
+      for (const tileId of catalog.TECH_TILE_IDS) {
+        if (ownedTiles[tileId] && source.disabledTiles[tileId]) {
+          disabledTiles[tileId] = true;
+        }
+      }
+    }
+
+    return disabledTiles;
+  }
+
   function migrateBlueBoardSlots(source = {}, ownedTiles = {}) {
     const blueBoardSlots = {};
 
@@ -64,6 +78,7 @@
     const ownedTiles = migrateOwnedTiles(source);
     return {
       ownedTiles,
+      disabledTiles: migrateDisabledTiles(source, ownedTiles),
       blueBoardSlots: migrateBlueBoardSlots(source, ownedTiles),
     };
   }
@@ -76,10 +91,18 @@
     return Boolean(playerTech?.ownedTiles?.[tileId]);
   }
 
+  function isTileDisabled(playerTech, tileId) {
+    return Boolean(playerTech?.disabledTiles?.[tileId]);
+  }
+
+  function playerHasActiveTile(playerTech, tileId) {
+    return playerOwnsTile(playerTech, tileId) && !isTileDisabled(playerTech, tileId);
+  }
+
   function getOccupiedBlueSlots(playerTech) {
     const occupied = new Set();
     for (const tileId of catalog.TILE_IDS_BY_TYPE.blue) {
-      if (!playerOwnsTile(playerTech, tileId)) continue;
+      if (!playerHasActiveTile(playerTech, tileId)) continue;
       const slot = Number(playerTech?.blueBoardSlots?.[tileId]);
       if (BLUE_BOARD_SLOTS.includes(slot)) occupied.add(slot);
     }
@@ -112,7 +135,10 @@
       return { ok: false, message: `未知科技板块 ${tileId}` };
     }
     if (playerOwnsTile(playerTech, tileId)) {
-      return { ok: false, message: `已拥有 ${tileId}` };
+      return {
+        ok: false,
+        message: isTileDisabled(playerTech, tileId) ? `${tileId} 已在版图（已失效）` : `已拥有 ${tileId}`,
+      };
     }
 
     const techType = catalog.getTechType(tileId);
@@ -128,12 +154,17 @@
       playerTech.blueBoardSlots[tileId] = resolvedBlueSlot;
     }
 
+    if (!playerTech.ownedTiles) playerTech.ownedTiles = {};
     playerTech.ownedTiles[tileId] = true;
     return { ok: true, tileId, techType, blueSlot: resolvedBlueSlot };
   }
 
   function listOwnedTileIds(playerTech) {
     return catalog.TECH_TILE_IDS.filter((tileId) => playerOwnsTile(playerTech, tileId));
+  }
+
+  function listActiveOwnedTileIds(playerTech) {
+    return catalog.TECH_TILE_IDS.filter((tileId) => playerHasActiveTile(playerTech, tileId));
   }
 
   function removePlayerTile(playerTech, tileId) {
@@ -143,25 +174,29 @@
     if (!playerOwnsTile(playerTech, tileId)) {
       return { ok: false, message: `未拥有 ${tileId}` };
     }
+    if (isTileDisabled(playerTech, tileId)) {
+      return { ok: false, message: `${tileId} 已失效` };
+    }
     const techType = catalog.getTechType(tileId);
     if (techType === "blue") {
       return { ok: false, message: "不能移除蓝色科技" };
     }
-    delete playerTech.ownedTiles[tileId];
-    if (playerTech.blueBoardSlots?.[tileId]) {
-      delete playerTech.blueBoardSlots[tileId];
-    }
-    return { ok: true, tileId, techType };
+    if (!playerTech.disabledTiles) playerTech.disabledTiles = {};
+    playerTech.disabledTiles[tileId] = true;
+    return { ok: true, tileId, techType, disabled: true };
   }
 
   return Object.freeze({
     createPlayerTechState,
     normalizePlayerTechState,
     playerOwnsTile,
+    playerHasActiveTile,
+    isTileDisabled,
     canPlayerTakeTile,
     recordPlayerTake,
     removePlayerTile,
     listOwnedTileIds,
+    listActiveOwnedTileIds,
     getAvailableBlueSlots,
     getBlueBoardSlot,
   });

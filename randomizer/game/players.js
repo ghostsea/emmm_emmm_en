@@ -164,11 +164,12 @@
   }
 
   function createDefaultPlayerTechState() {
-    return { ownedTiles: {}, blueBoardSlots: {} };
+    return { ownedTiles: {}, disabledTiles: {}, blueBoardSlots: {} };
   }
 
   function normalizePlayerTechState(source) {
     const ownedTiles = {};
+    const disabledTiles = {};
     const blueBoardSlots = {};
 
     if (source?.ownedTiles && typeof source.ownedTiles === "object") {
@@ -181,6 +182,12 @@
     if (legacy && typeof legacy === "object") {
       for (const tileId of [legacy.blue, legacy.orange, legacy.purple]) {
         if (tileId) ownedTiles[tileId] = true;
+      }
+    }
+
+    if (source?.disabledTiles && typeof source.disabledTiles === "object") {
+      for (const [tileId, disabled] of Object.entries(source.disabledTiles)) {
+        if (disabled && ownedTiles[tileId]) disabledTiles[tileId] = true;
       }
     }
 
@@ -197,7 +204,7 @@
       blueBoardSlots.blue = source.blueBoardSlot;
     }
 
-    return { ownedTiles, blueBoardSlots };
+    return { ownedTiles, disabledTiles, blueBoardSlots };
   }
 
   function createPlayer(input) {

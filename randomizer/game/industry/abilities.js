@@ -198,7 +198,7 @@
           abilityId,
           flowType: "helios_remove_tech",
           label: prepared.label,
-          message: `${prepared.label}：请选择要移除的科技（不可选蓝色），随后增加 1 次收入`,
+          message: `${prepared.label}：请选择要移除的科技（不可选蓝色），清除 3 个奖励槽标记并增加 1 次收入`,
         };
       case "mission_publicity_pick_income": {
         if (!player?.resources || player.resources.publicity < PUBLICITY_PICK_COST) {
@@ -240,7 +240,7 @@
           abilityId,
           flowType: "strategy_pick",
           label: prepared.label,
-          message: `${prepared.label}：请精选 1 张公共牌`,
+          message: `${prepared.label}：请精选 1 张公共牌，并清除当前 3 个奖励槽标记`,
         };
       default:
         return { ok: false, message: `未实现的公司 1x 行动：${abilityId}` };

@@ -137,6 +137,7 @@
     for (const tileId of ownedTileIds) {
       const key = getPlayerBoardElementKey(player?.id || "player", tileId);
       let element = playerBoardTileElements.get(key);
+      const disabled = playerTech.isTileDisabled(player.techState, tileId);
 
       if (!element) {
         element = document.createElement("img");
@@ -146,6 +147,8 @@
         playerBoardTileElements.set(key, element);
         layer.appendChild(element);
       }
+
+      element.classList.toggle("is-disabled", disabled);
 
       const sourceElement = tileElements.find((item) => item.dataset.techId === tileId);
       element.src = sourceElement?.getAttribute("src")
@@ -160,7 +163,9 @@
 
       applyPlayerBoardTileStyle(element, layout);
       const slotLabel = blueSlot ? ` 槽位${blueSlot}` : "";
-      element.title = `${tileId} @玩家版图${slotLabel}`;
+      element.title = disabled
+        ? `${tileId}（已失效）@玩家版图${slotLabel}`
+        : `${tileId} @玩家版图${slotLabel}`;
     }
   }
 

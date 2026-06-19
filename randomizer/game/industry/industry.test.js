@@ -47,6 +47,26 @@ assert.equal(catalog.hasImplementedActiveAbility("未来跨度研究所"), false
 assert.equal(passives.getRocketLimitBonus({ initialSelection: { industry: { label: "寰宇动力" } } }), 1);
 assert.equal(passives.getResearchPublicityCost({ initialSelection: { industry: { label: "芬威克研究中心" } } }), 5);
 
+const strategyPlayer = {
+  id: "white",
+  initialSelection: { industry: { label: "宇宙战略集团" } },
+};
+assert.equal(passives.shouldShowStrategyPassiveMarkers(strategyPlayer), true);
+assert.equal(passives.shouldInitializeStrategyPassiveMarkers(strategyPlayer), true);
+const strategyInit = state.initializeStrategyPassiveMarkers(strategyPlayer);
+assert.equal(strategyInit.ok, true);
+assert.equal(strategyPlayer.industryStrategyPassiveSlots.yellow, false);
+assert.equal(strategyPlayer.industryStrategyPassiveSlots.red, false);
+assert.equal(strategyPlayer.industryStrategyPassiveSlots.blue, false);
+assert.equal(passives.shouldInitializeStrategyPassiveMarkers(strategyPlayer), false);
+assert.equal(placement.hasStrategyPassiveMarkerSlots("宇宙战略集团"), true);
+assert.equal(placement.getStrategyPassiveMarkerLayout("yellow").percentX, 9.71);
+assert.equal(placement.getStrategyPassiveMarkerLayout("red").percentY, 51.86);
+const yellowPlace = state.placeStrategyPassiveSlot(strategyPlayer, "yellow");
+assert.equal(yellowPlace.ok, true);
+assert.equal(state.isStrategyPassiveSlotMarked(strategyPlayer, "yellow"), true);
+assert.equal(state.placeStrategyPassiveSlot(strategyPlayer, "yellow").ok, false);
+
 const missionPlayer = {
   id: "white",
   resources: { publicity: 3 },
