@@ -32,6 +32,8 @@
   const FANGZHOU_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
   const BANRENMA_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
   const CHONG_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
+  const AMIBA_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
+  const AMIBA_SYMBOL_DISPLAY_SCALE = 3.0;
   const BANRENMA_BONUS_TOKEN_DISPLAY_SCALE = 3.0;
   const FANGZHOU_POSITION1_STACK_STEP_Y = 14.5;
   const BANRENMA_POSITION1_STACK_STEP_Y = 14.5;
@@ -285,6 +287,74 @@
     }),
   });
 
+  const AMIBA_TRACE_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 19.9, percentY: 56.03, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 19.9, percentY: 65.12, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 19.9, percentY: 74.34, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 19.9, percentY: 83.3, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.4, percentY: 60.2, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.4, percentY: 69.79, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.4, percentY: 79.39, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 49.4, percentY: 88.23, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 80.0, percentY: 56.03, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 80.0, percentY: 64.99, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 80.0, percentY: 74.34, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 80.0, percentY: 83.93, scalePercent: 62 }),
+      }),
+    }),
+    2: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 19.9, percentY: 56.03, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 19.9, percentY: 65.12, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 19.9, percentY: 74.34, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 19.9, percentY: 83.3, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.4, percentY: 60.2, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.4, percentY: 69.79, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.4, percentY: 79.39, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 49.4, percentY: 88.23, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 80.0, percentY: 56.03, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 80.0, percentY: 64.99, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 80.0, percentY: 74.34, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 80.0, percentY: 83.93, scalePercent: 62 }),
+      }),
+    }),
+  });
+
+  const AMIBA_SYMBOL_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      orange_1: Object.freeze({ percentX: 39.7, percentY: 14.2, scalePercent: 50 }),
+      orange_2: Object.freeze({ percentX: 61.3, percentY: 14.2, scalePercent: 50 }),
+      blue_1: Object.freeze({ percentX: 83.1, percentY: 34.2, scalePercent: 50 }),
+      blue_2: Object.freeze({ percentX: 73.1, percentY: 45.0, scalePercent: 50 }),
+      red_1: Object.freeze({ percentX: 29.3, percentY: 44.8, scalePercent: 50 }),
+      red_2: Object.freeze({ percentX: 18.8, percentY: 34.2, scalePercent: 50 }),
+      orange_3: Object.freeze({ percentX: 50.6, percentY: 24.6, scalePercent: 46 }),
+      blue_3: Object.freeze({ percentX: 62.1, percentY: 34.1, scalePercent: 46 }),
+      red_3: Object.freeze({ percentX: 40.1, percentY: 34.2, scalePercent: 46 }),
+    }),
+    2: Object.freeze({
+      orange_1: Object.freeze({ percentX: 39.7, percentY: 14.2, scalePercent: 50 }),
+      orange_2: Object.freeze({ percentX: 61.3, percentY: 14.2, scalePercent: 50 }),
+      blue_1: Object.freeze({ percentX: 83.1, percentY: 34.2, scalePercent: 50 }),
+      blue_2: Object.freeze({ percentX: 73.1, percentY: 45.0, scalePercent: 50 }),
+      red_1: Object.freeze({ percentX: 29.3, percentY: 44.8, scalePercent: 50 }),
+      red_2: Object.freeze({ percentX: 18.8, percentY: 34.2, scalePercent: 50 }),
+      orange_3: Object.freeze({ percentX: 50.6, percentY: 24.6, scalePercent: 46 }),
+      blue_3: Object.freeze({ percentX: 62.1, percentY: 34.1, scalePercent: 46 }),
+      red_3: Object.freeze({ percentX: 40.1, percentY: 34.2, scalePercent: 46 }),
+    }),
+  });
+
   const YICHANGDIAN_TRACE_MARKER_SLOTS = Object.freeze({
     1: Object.freeze({
       pink: Object.freeze({
@@ -376,6 +446,14 @@
 
   function getChongTraceMarkerLayout(alienSlotId, traceType, position) {
     return CHONG_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getAmibaTraceMarkerLayout(alienSlotId, traceType, position) {
+    return AMIBA_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getAmibaSymbolMarkerLayout(alienSlotId, slotId) {
+    return AMIBA_SYMBOL_MARKER_SLOTS[alienSlotId]?.[slotId] || null;
   }
 
   function getBanrenmaTraceTokenSize(layout) {
@@ -580,6 +658,8 @@
     FANGZHOU_TRACE_TOKEN_DISPLAY_SCALE,
     BANRENMA_TRACE_TOKEN_DISPLAY_SCALE,
     CHONG_TRACE_TOKEN_DISPLAY_SCALE,
+    AMIBA_TRACE_TOKEN_DISPLAY_SCALE,
+    AMIBA_SYMBOL_DISPLAY_SCALE,
     BANRENMA_BONUS_TOKEN_DISPLAY_SCALE,
     FANGZHOU_POSITION1_STACK_STEP_Y,
     BANRENMA_POSITION1_STACK_STEP_Y,
@@ -595,6 +675,8 @@
     BANRENMA_TRACE_MARKER_SLOTS,
     BANRENMA_BONUS_MARKER_SLOTS,
     CHONG_TRACE_MARKER_SLOTS,
+    AMIBA_TRACE_MARKER_SLOTS,
+    AMIBA_SYMBOL_MARKER_SLOTS,
     YICHANGDIAN_TRACE_MARKER_SLOTS,
     getAlienSlotLabel,
     getTraceTypeLabel,
@@ -605,6 +687,8 @@
     getBanrenmaTraceMarkerLayout,
     getBanrenmaBonusMarkerLayout,
     getChongTraceMarkerLayout,
+    getAmibaTraceMarkerLayout,
+    getAmibaSymbolMarkerLayout,
     getBanrenmaTraceTokenSize,
     getBanrenmaStackStepY,
     getBanrenmaStackTraceMarkerLayout,

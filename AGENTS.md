@@ -169,6 +169,15 @@ UI 布局：
 - 查看或选择木星/土星化石时，选择弹窗使用对应化石正面图标展示，不用 `fossil_0x` 文字作为主要展示。
 - 调试按钮「虫族调试」会强制在外星人 1 展示虫族，按正式揭示流程随机化虫族牌与化石（木星 3、土星 3、面板 1），不预放痕迹 token、不额外填满面板化石位，并自动开启「获取外星人标记」；正面放置按正式规则结算奖励并限制无化石的蓝色 1–6 号位。
 
+阿米巴专属机制：
+
+- `randomizer/game/aliens/amiba.js` 管理阿米巴状态，挂在 `alienGameState.amiba`。字段包括 `revealedSlotId`、`traceSlotsByAlienSlotId`、`symbolSlots` / `symbolsById`、阿米巴牌 `cardDeck` / `displayedCardIndex`。
+- 阿米巴揭示后使用正面 3×4 痕迹格（粉/黄/蓝各 1–4 号位，均单占用）。粉色痕迹结算红色区域，黄色痕迹结算橙色区域，蓝色痕迹结算蓝色区域；2/4 号位额外得 1 分，3/4 号位额外获得 1 张阿米巴牌。
+- 上方面板有 9 个 symbol 位：外圈按顺时针命名为 `orange_1`（橙1）/ `orange_2`（橙2）/ `blue_1`（蓝1）/ `blue_2`（蓝2）/ `red_1`（红1）/ `red_2`（红2），内圈按顺时针命名为 `orange_3`（橙3）/ `blue_3`（蓝3）/ `red_3`（红3）。揭示时 5 个 symbol 随机放在 `orange_1`、`orange_2`、`blue_3`、`red_1`、`red_2`；结算某个 symbol 后，外圈顺时针、内圈逆时针移动到下一个空位。
+- `symbol_1` 奖励为 1 宣传，`symbol_2` 为 1 数据，`symbol_3` 为 4 分，`symbol_4` 为 1 盲抽，`symbol_5` 为 2 分。区域奖励会按区域内已占用 symbol 的顺序逐个结算并移动 symbol。
+- 阿米巴牌由 `amiba.js` 根据 `assets/aliens/阿米巴/card_model.csv` 建模，图片为 `assets/aliens/阿米巴/cards/0.webp`–`9.webp`。0/3/4/5/6/7/8/9 号牌效果进入效果队列；1 型任务通过打出科技或外星人痕迹事件触发；5/6/7 号 3 型牌分别按粉/黄/蓝阿米巴痕迹实时终局计分；8 号 2 型牌要求玩家已有粉/黄/蓝各至少 1 个阿米巴痕迹，完成后按阿米巴空痕迹位数量得分。
+- 调试按钮「阿米巴调试」会强制在外星人 1 展示阿米巴，按揭示阶段默认放置 5 个 symbol，不预放痕迹 token，并自动开启「获取外星人标记」。调试信息会输出每个痕迹位和 symbol 位的当前坐标；坐标覆盖读取入口保留为 `window.SetiRandomizer.getAmibaTraceLayoutOverrides()` / `window.SetiRandomizer.getAmibaSymbolLayoutOverrides()`，但默认不再开启拖动校准。默认坐标定义在 `AMIBA_TRACE_MARKER_SLOTS` 与 `AMIBA_SYMBOL_MARKER_SLOTS`，symbol 默认显示倍率为 `AMIBA_SYMBOL_DISPLAY_SCALE`。
+
 ### 扇区与星云状态
 
 太阳系布局由 `randomizer/solar-system/layout.js` 和 `core.js` 定义：

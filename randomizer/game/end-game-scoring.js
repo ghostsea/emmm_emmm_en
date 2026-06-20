@@ -5,21 +5,23 @@
   let jiuzheModule = root.SetiAlienJiuzhe;
   let yichangdianModule = root.SetiAlienYichangdian;
   let chongModule = root.SetiAlienChong;
+  let amibaModule = root.SetiAlienAmiba;
   if (typeof require === "function") {
     finalScoringModule = finalScoringModule || require("./final-scoring");
     jiuzheModule = jiuzheModule || require("./aliens/jiuzhe");
     yichangdianModule = yichangdianModule || require("./aliens/yichangdian");
     chongModule = chongModule || require("./aliens/chong");
+    amibaModule = amibaModule || require("./aliens/amiba");
   }
 
-  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, chongModule);
+  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, chongModule, amibaModule);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiEndGameScoring = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, chong) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, chong, amiba) {
   "use strict";
 
   const NEBULA_IDS_BY_COLOR = Object.freeze({
@@ -100,6 +102,23 @@
     return null;
   }
 
+  function getAmibaModule() {
+    if (amiba) return amiba;
+    if (typeof globalThis !== "undefined" && globalThis.SetiAlienAmiba) {
+      amiba = globalThis.SetiAlienAmiba;
+      return amiba;
+    }
+    if (typeof require === "function") {
+      try {
+        amiba = require("./aliens/amiba");
+        return amiba;
+      } catch (_error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
   function getPlayerKeys(player) {
     return new Set([player?.id, player?.color].filter(Boolean));
   }
@@ -146,6 +165,8 @@
     const yichangdianSlotId = alienGameState?.yichangdian?.revealedSlotId;
     const chongModule = getChongModule();
     const chongSlotId = alienGameState?.chong?.revealedSlotId;
+    const amibaModule = getAmibaModule();
+    const amibaSlotId = alienGameState?.amiba?.revealedSlotId;
     for (const [slotId, slot] of Object.entries(alienGameState?.aliens || {})) {
       if (jiuzheModule && jiuzheSlotId != null && Number(slotId) === Number(jiuzheSlotId)) {
         const grid = jiuzheModule.getTraceGrid(alienGameState, jiuzheSlotId);
@@ -162,6 +183,11 @@
       }
       if (chongModule && chongSlotId != null && Number(slotId) === Number(chongSlotId)) {
         const entries = chongModule.listTraceEntries(alienGameState, chongSlotId, traceType);
+        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
+        continue;
+      }
+      if (amibaModule && amibaSlotId != null && Number(slotId) === Number(amibaSlotId)) {
+        const entries = amibaModule.listTraceEntries(alienGameState, amibaSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
@@ -317,11 +343,24 @@
     );
   }
 
+  function isAmibaFinalTraceCard(card) {
+    if (!card?.amibaCard && card?.set !== "alien:阿米巴" && !String(card?.cardId || "").startsWith("amiba_")) {
+      return null;
+    }
+    const amibaModule = getAmibaModule();
+    if (!amibaModule?.getFinalTraceTypeForCard) return null;
+    return amibaModule.getFinalTraceTypeForCard(card);
+  }
+
   function resolveCardEndGameRule(card, cardEffects) {
     const cardId = getCardId(card);
     if (!cardId) return null;
     if (isChongEcosystemStudyCard(card)) {
       return { kind: "chongTraceCount", scorePer: 1 };
+    }
+    const amibaTraceType = isAmibaFinalTraceCard(card);
+    if (amibaTraceType) {
+      return { kind: "amibaTraceCount", traceType: amibaTraceType, scorePer: 2 };
     }
     const model = cardEffects?.getCardModel?.(card);
     if (model?.endGameScoring) return model.endGameScoring;
@@ -350,6 +389,11 @@
         const chongModule = getChongModule();
         if (!chongModule || !context.alienGameState) return 0;
         return scorePer * chongModule.countTraceMarkers(context.alienGameState, player, null);
+      }
+      case "amibaTraceCount": {
+        const amibaModule = getAmibaModule();
+        if (!amibaModule || !context.alienGameState) return 0;
+        return scorePer * amibaModule.countTraceMarkers(context.alienGameState, player, rule.traceType);
       }
       default:
         return 0;

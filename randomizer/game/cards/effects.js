@@ -381,6 +381,77 @@
         effect("y9-anomaly-move", EFFECT_TYPES.YICHANGDIAN_LAUNCH_ANOMALY_MOVE, "若在异常扇区获得1移动", "movement"),
       ]),
     }),
+    "amiba_0.webp": withSource("amiba_0.webp", {
+      cardType: 1,
+      triggers: Object.freeze([
+        {
+          id: "amiba0-pink-data",
+          event: Object.freeze({ type: "alienTrace", traceType: "pink" }),
+          effect: gainDataEffect("amiba0-pink-data", "自动分析：获得粉色外星人痕迹，1数据", 1),
+        },
+        {
+          id: "amiba0-yellow-data",
+          event: Object.freeze({ type: "alienTrace", traceType: "yellow" }),
+          effect: gainDataEffect("amiba0-yellow-data", "自动分析：获得黄色外星人痕迹，1数据", 1),
+        },
+      ]),
+    }),
+    "amiba_1.webp": withSource("amiba_1.webp", {
+      cardType: 1,
+      triggers: Object.freeze([
+        {
+          id: "amiba1-orange-tech",
+          event: Object.freeze({ type: "researchTech", techType: "orange" }),
+          effect: effect("amiba1-orange-symbol", "amiba_choose_symbol_reward", "安全协议：橙色科技，橙色区域 symbol 奖励", "alien_trace", { region: "orange" }),
+        },
+        {
+          id: "amiba1-purple-tech",
+          event: Object.freeze({ type: "researchTech", techType: "purple" }),
+          effect: effect("amiba1-red-symbol", "amiba_choose_symbol_reward", "安全协议：粉紫科技，红色区域 symbol 奖励", "alien_trace", { region: "red" }),
+        },
+        {
+          id: "amiba1-blue-tech",
+          event: Object.freeze({ type: "researchTech", techType: "blue" }),
+          effect: effect("amiba1-blue-symbol", "amiba_choose_symbol_reward", "安全协议：蓝色科技，蓝色区域 symbol 奖励", "alien_trace", { region: "blue" }),
+        },
+      ]),
+    }),
+    "amiba_2.webp": withSource("amiba_2.webp", {
+      cardType: 1,
+      triggers: Object.freeze([
+        {
+          id: "amiba2-trace-publicity-1",
+          event: Object.freeze({ type: "alienTrace", alienId: "阿米巴" }),
+          effect: gainResourcesEffect("amiba2-publicity-1", "科学论文：本物种痕迹，1宣传", { publicity: 1 }),
+        },
+        {
+          id: "amiba2-trace-publicity-2",
+          event: Object.freeze({ type: "alienTrace", alienId: "阿米巴" }),
+          effect: gainResourcesEffect("amiba2-publicity-2", "科学论文：本物种痕迹，1宣传", { publicity: 1 }),
+        },
+      ]),
+    }),
+    "amiba_3.webp": withSource("amiba_3.webp", { cardType: 0 }),
+    "amiba_4.webp": withSource("amiba_4.webp", { cardType: 0 }),
+    "amiba_5.webp": withSource("amiba_5.webp", { cardType: 3 }),
+    "amiba_6.webp": withSource("amiba_6.webp", { cardType: 3 }),
+    "amiba_7.webp": withSource("amiba_7.webp", { cardType: 3 }),
+    "amiba_8.webp": withSource("amiba_8.webp", { cardType: 2 }),
+    "amiba_9.webp": withSource("amiba_9.webp", {
+      cardType: 1,
+      triggers: Object.freeze([
+        {
+          id: "amiba9-blue-data-1",
+          event: Object.freeze({ type: "alienTrace", traceType: "blue" }),
+          effect: gainDataEffect("amiba9-blue-data-1", "低重力研究：获得蓝色外星人痕迹，1数据", 1),
+        },
+        {
+          id: "amiba9-blue-data-2",
+          event: Object.freeze({ type: "alienTrace", traceType: "blue" }),
+          effect: gainDataEffect("amiba9-blue-data-2", "低重力研究：获得蓝色外星人痕迹，1数据", 1),
+        },
+      ]),
+    }),
     "b_1.webp": withSource("b_1.webp", {
       cardType: 2,
       playEffects: Object.freeze([
@@ -939,6 +1010,15 @@
     if (event.type === "signalMarked") {
       if (!trigger.event.color) return true;
       return getNebulaColor(event.nebulaId) === trigger.event.color;
+    }
+    if (event.type === "researchTech") {
+      if (trigger.event.techType && trigger.event.techType !== event.techType) return false;
+      return true;
+    }
+    if (event.type === "alienTrace") {
+      if (trigger.event.traceType && trigger.event.traceType !== event.traceType) return false;
+      if (trigger.event.alienId && trigger.event.alienId !== event.alienId) return false;
+      return true;
     }
     return true;
   }

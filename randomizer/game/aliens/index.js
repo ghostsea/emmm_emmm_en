@@ -11,6 +11,7 @@
   let fangzhou = root.SetiAlienFangzhou;
   let banrenma = root.SetiAlienBanrenma;
   let chong = root.SetiAlienChong;
+  let amiba = root.SetiAlienAmiba;
   let fangzhouCard1Queue = root.SetiFangzhouCard1Queue;
 
   if (typeof require === "function") {
@@ -22,19 +23,20 @@
     fangzhou = fangzhou || require("./fangzhou");
     banrenma = banrenma || require("./banrenma");
     chong = chong || require("./chong");
+    amiba = amiba || require("./amiba");
     fangzhouCard1Queue = fangzhouCard1Queue || require("./fangzhou-card1-queue");
     randomizer = randomizer || require("./randomizer");
     render = render || require("./render");
   }
 
-  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, fangzhouCard1Queue);
+  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, fangzhouCard1Queue);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAliens = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, fangzhouCard1Queue) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, fangzhouCard1Queue) {
   "use strict";
 
   function getReadoutLines(alienState) {
@@ -338,6 +340,69 @@
       }
     }
 
+    if (amiba?.ensureAmibaState) {
+      const aState = amiba.ensureAmibaState(source);
+      lines.push("[阿米巴]");
+      lines.push(
+        `揭示槽位=${aState.revealedSlotId || "无"} `
+        + `展示牌=${aState.displayedCardIndex ?? "无"} `
+        + `牌堆剩余=${aState.cardDeck?.length ?? 0}`,
+      );
+      for (const symbol of amiba.listSymbols(source) || []) {
+        const layout = aState.revealedSlotId
+          ? render.getEffectiveAmibaSymbolMarkerLayout?.(aState.revealedSlotId, symbol.slotId)
+          : null;
+        lines.push(
+          `  ${symbol.symbolId} @ ${amiba.formatSymbolSlotLabel?.(symbol.slotId) || symbol.slotId}`
+          + `${layout ? ` (${layout.percentX}%,${layout.percentY}%)` : ""}`,
+        );
+      }
+      const grid = aState.revealedSlotId
+        ? amiba.getTraceGrid(source, aState.revealedSlotId)
+        : null;
+      if (grid) {
+        for (const traceType of amiba.TRACE_TYPES) {
+          for (const position of amiba.TRACE_POSITIONS) {
+            const entries = amiba.getTraceEntries(grid, traceType, position);
+            const layout = render.getEffectiveAmibaTraceMarkerLayout?.(
+              aState.revealedSlotId,
+              traceType,
+              position,
+            );
+            const ownerText = entries.length
+              ? entries.map((entry) => entry.playerColor || entry.playerId || "已放置").join("/")
+              : "空";
+            lines.push(
+              `  ${amiba.formatTraceLabel(traceType, position)} `
+              + `${ownerText}${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+            );
+          }
+        }
+      }
+
+      const aOverrides = render.listAmibaTraceMarkerLayoutOverrides?.() || [];
+      if (aOverrides.length) {
+        lines.push("[阿米巴痕迹拖动校准]");
+        for (const item of aOverrides) {
+          lines.push(
+            `${placement.getAlienSlotLabel(item.alienSlotId)} ${placement.getTraceTypeLabel(item.traceType)}`
+            + ` ${item.position}号位 → ${item.percentX}%,${item.percentY}%`,
+          );
+        }
+      }
+
+      const aSymbolOverrides = render.listAmibaSymbolMarkerLayoutOverrides?.() || [];
+      if (aSymbolOverrides.length) {
+        lines.push("[阿米巴symbol拖动校准]");
+        for (const item of aSymbolOverrides) {
+          lines.push(
+            `${placement.getAlienSlotLabel(item.alienSlotId)} ${amiba.formatSymbolSlotLabel?.(item.slotId) || item.slotId}`
+            + ` → ${item.percentX}%,${item.percentY}%`,
+          );
+        }
+      }
+    }
+
     return lines;
   }
 
@@ -359,6 +424,7 @@
     fangzhou,
     banrenma,
     chong,
+    amiba,
     fangzhouCard1Queue,
     JIUZHE_ALIEN_ID: jiuzhe?.ALIEN_ID || "九折",
     JIUZHE_CARD_BACK_SRC: jiuzhe?.CARD_BACK_SRC,
@@ -373,6 +439,8 @@
     CHONG_ALIEN_ID: chong?.ALIEN_ID || "虫",
     CHONG_CARD_BACK_SRC: chong?.CARD_BACK_SRC,
     CHONG_FOSSIL_BACK_SRC: chong?.FOSSIL_BACK_SRC,
+    AMIBA_ALIEN_ID: amiba?.ALIEN_ID || "阿米巴",
+    AMIBA_CARD_BACK_SRC: amiba?.CARD_BACK_SRC,
     createDefaultAlienState: state.createDefaultAlienState,
     randomizeAlienAssignments: randomizer.randomizeAlienAssignments,
     getAlienType: catalog.getAlienType,
@@ -406,6 +474,10 @@
     listBanrenmaTraceMarkerLayoutOverrides: render.listBanrenmaTraceMarkerLayoutOverrides,
     getEffectiveChongTraceMarkerLayout: render.getEffectiveChongTraceMarkerLayout,
     listChongTraceMarkerLayoutOverrides: render.listChongTraceMarkerLayoutOverrides,
+    getEffectiveAmibaTraceMarkerLayout: render.getEffectiveAmibaTraceMarkerLayout,
+    getEffectiveAmibaSymbolMarkerLayout: render.getEffectiveAmibaSymbolMarkerLayout,
+    listAmibaTraceMarkerLayoutOverrides: render.listAmibaTraceMarkerLayoutOverrides,
+    listAmibaSymbolMarkerLayoutOverrides: render.listAmibaSymbolMarkerLayoutOverrides,
     bindAlienTraceDragging: render.bindAlienTraceDragging,
     renderAlienTraceMarkers: render.renderAlienTraceMarkers,
     renderAllAlienTraceMarkers: render.renderAllAlienTraceMarkers,
@@ -419,6 +491,8 @@
     renderAllBanrenmaTraceMarkers: render.renderAllBanrenmaTraceMarkers,
     renderChongTraceMarkers: render.renderChongTraceMarkers,
     renderAllChongTraceMarkers: render.renderAllChongTraceMarkers,
+    renderAmibaTraceMarkers: render.renderAmibaTraceMarkers,
+    renderAllAmibaTraceMarkers: render.renderAllAmibaTraceMarkers,
     renderAlienBackImage: render.renderAlienBackImage,
     renderAllAlienBackImages: render.renderAllAlienBackImages,
     resetAlienTraceTokens: render.resetAlienTraceTokens,

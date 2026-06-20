@@ -27,6 +27,7 @@
   const fangzhou = aliens.fangzhou;
   const banrenma = aliens.banrenma;
   const chong = aliens.chong;
+  const amiba = aliens.amiba;
   const initialCards = window.SetiInitialCards;
   const industry = window.SetiIndustry;
 
@@ -69,6 +70,7 @@
     banrenmaToken: aliens.BANRENMA_TOKEN_SRC || "../assets/aliens/半人马/token.webp",
     chongCard: aliens.CHONG_CARD_BACK_SRC || "../assets/aliens/虫/cards/back.png",
     chongFossil: aliens.CHONG_FOSSIL_BACK_SRC || "../assets/aliens/虫/fossil_back.webp",
+    amibaCard: aliens.AMIBA_CARD_BACK_SRC || "../assets/aliens/阿米巴/cards/back.jpg",
   });
   const OPPONENT_SECTOR_WIN_STATS = Object.freeze([
     Object.freeze({ color: "yellow", label: "黄色完成扇区", iconKey: "yellowFinishScan" }),
@@ -237,6 +239,9 @@
   let pendingChongCardGain = null;
   let pendingChongFossilChoice = null;
   let pendingChongTaskCompletion = null;
+  let pendingAmibaCardGain = null;
+  let pendingAmibaSymbolChoice = null;
+  let pendingAmibaTraceRemoval = null;
   const yichangdianAnomalyMarkerElements = new Map();
   const chongPlanetFossilMarkerElements = new Map();
   const chongFossilOwnerTokenElements = new Map();
@@ -332,6 +337,7 @@
     alienFangzhouCardAreas: document.querySelectorAll(".alien-fangzhou-card-area"),
     alienBanrenmaCardAreas: document.querySelectorAll(".alien-banrenma-card-area"),
     alienChongCardAreas: document.querySelectorAll(".alien-chong-card-area"),
+    alienAmibaCardAreas: document.querySelectorAll(".alien-amiba-card-area"),
     alienBanrenmaScoremarks: document.querySelectorAll(".alien-banrenma-scoremarks"),
     finalScoreGrid: document.getElementById("final-score-grid"),
     finalScoreTileWraps: document.querySelectorAll(".final-score-tile-wrap"),
@@ -378,6 +384,7 @@
     debugFangzhouButton: document.getElementById("debug-fangzhou-button"),
     debugBanrenmaButton: document.getElementById("debug-banrenma-button"),
     debugChongButton: document.getElementById("debug-chong-button"),
+    debugAmibaButton: document.getElementById("debug-amiba-button"),
     debugCheatButton: document.getElementById("debug-cheat-button"),
     alienTraceOverlay: document.getElementById("alien-trace-overlay"),
     alienTraceSubtitle: document.getElementById("alien-trace-subtitle"),
@@ -2697,6 +2704,9 @@
     if (chong?.isChongCard?.(card)) {
       return handleChongCardPlay(removeIndex);
     }
+    if (amiba?.isAmibaCard?.(card)) {
+      return handleAmibaCardPlay(removeIndex);
+    }
 
     const price = getCardPrice(card);
     const cost = getCardPlayCost(card);
@@ -2856,6 +2866,98 @@
       ok: true,
       card: playedCard,
       reserved: true,
+      message: rocketState.statusNote,
+    };
+  }
+
+  function handleAmibaCardPlay(handIndex) {
+    if (!amiba) return { ok: false, message: "阿米巴模块未加载" };
+    const currentPlayer = getCurrentPlayer();
+    const removeIndex = Math.round(handIndex);
+    const card = currentPlayer?.hand?.[removeIndex];
+    if (!card) {
+      rocketState.statusNote = "无效的手牌位置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const cost = getCardPlayCost(card);
+    if (!players.canAfford(currentPlayer, cost)) {
+      rocketState.statusNote = `资源不足：${cards.getCardLabel(card)} 需要 ${formatCardPlayCost(cost)}`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const beforePlayer = structuredClone(currentPlayer);
+    const beforeAlienState = structuredClone(alienGameState);
+    const beforeCardState = {
+      publicCards: cardState.publicCards.slice(),
+      discardPile: (cardState.discardPile || []).slice(),
+    };
+    const spendResult = players.spendResources(currentPlayer, cost);
+    if (!spendResult.ok) {
+      rocketState.statusNote = spendResult.message;
+      renderStateReadout();
+      return spendResult;
+    }
+
+    const removeResult = cards.discardFromHandAtIndex(currentPlayer, removeIndex);
+    if (!removeResult.ok) {
+      players.gainResources(currentPlayer, cost);
+      rocketState.statusNote = removeResult.message;
+      renderStateReadout();
+      return removeResult;
+    }
+
+    const playedCard = removeResult.card;
+    playedCard.amibaCard = true;
+    playedCard.amibaTask = playedCard.amibaTask || amiba.getCardTask(playedCard);
+    const typeCode = getCardTypeCode(playedCard);
+    const shouldReserve = [1, 2, 3].includes(typeCode);
+    if (shouldReserve) {
+      if (!Array.isArray(currentPlayer.reservedCards)) currentPlayer.reservedCards = [];
+      cardEffects.ensureCardEffectState(playedCard);
+      currentPlayer.reservedCards.push(playedCard);
+    } else {
+      cards.addToDiscardPile(cardState, playedCard);
+    }
+
+    const playEffects = amiba.buildImmediateEffects(playedCard);
+    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
+      cards,
+      currentPlayer,
+      turnState.roundNumber,
+      turnState.turnNumber,
+      playedCard,
+    ) || [];
+    const allPlayEffects = [...playEffects, ...sentinelEffects];
+
+    cards.setPlayCardSelectionActive(cardState, false);
+    pendingPlayCardSelection = null;
+    rocketState.statusNote = shouldReserve
+      ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
+      : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
+    applyIndustryPlayCardPassives(playedCard, typeCode);
+    syncPlayCardSelectionChrome();
+    renderPlayerStats();
+    renderReservedCardsFromTaskState();
+    recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState, beforeAlienState);
+    if (allPlayEffects.length) {
+      startCardEffectFlow("amiba-play-card-effects", `打出 ${cards.getCardLabel(playedCard)}`, allPlayEffects, {
+        actionType: "playCard",
+        card: playedCard,
+        temporaryTasks: [],
+        industryPlayedCard: playedCard,
+      });
+    } else {
+      markActionPending();
+      updateActionButtons();
+      renderStateReadout();
+    }
+    return {
+      ok: true,
+      card: playedCard,
+      reserved: shouldReserve,
       message: rocketState.statusNote,
     };
   }
@@ -3088,6 +3190,16 @@
         };
         completeCurrentActionEffect();
       }
+    } else if (pending?.type === "amiba_pick_card") {
+      rocketState.statusNote = "已取消阿米巴奖励精选";
+      if (pending.fromEffectFlow && getCurrentActionEffect()) {
+        getCurrentActionEffect().result = {
+          ok: true,
+          undoable: true,
+          message: rocketState.statusNote,
+        };
+        completeCurrentActionEffect();
+      }
     } else if (pending?.type === "card_trigger_pick") {
       rocketState.statusNote = "已取消卡牌触发精选";
     } else if (pending?.type?.startsWith?.("industry_")) {
@@ -3159,6 +3271,8 @@
             type: "researchTech",
             playerId: pending.player?.id || getCurrentPlayer()?.id || null,
             playerColor: pending.player?.color || getCurrentPlayer()?.color || null,
+            techType: pending.selection?.techType || null,
+            tileId: pending.selection?.tileId || null,
             source: pendingActionEffectFlow?.actionType || "tech",
           }],
           payload: {
@@ -3208,6 +3322,21 @@
     }
     if (pending?.type === "chong_pick_card") {
       rocketState.statusNote = `虫族奖励精选：${cards.getCardLabel(result.card)}`;
+      if (pending.fromEffectFlow) {
+        pendingActionHasIrreversibleCardGain = true;
+        if (getCurrentActionEffect()) {
+          getCurrentActionEffect().result = {
+            ok: true,
+            undoable: false,
+            message: rocketState.statusNote,
+            payload: { card: result.card, replenished: result.replenished || null },
+          };
+        }
+        completeCurrentActionEffect();
+      }
+    }
+    if (pending?.type === "amiba_pick_card") {
+      rocketState.statusNote = `阿米巴奖励精选：${cards.getCardLabel(result.card)}`;
       if (pending.fromEffectFlow) {
         pendingActionHasIrreversibleCardGain = true;
         if (getCurrentActionEffect()) {
@@ -3659,6 +3788,9 @@
     pendingCardTriggerAction = null;
     pendingCardTaskCompletion = null;
     pendingChongTaskCompletion = null;
+    pendingAmibaCardGain = null;
+    pendingAmibaSymbolChoice = null;
+    pendingAmibaTraceRemoval = null;
     pendingScanTargetAction = null;
     els.scanTargetOverlay.hidden = true;
     if (els.scanTargetCancel) {
@@ -4618,6 +4750,8 @@
     for (const card of reservedCards) {
       const readyChongTask = getReadyChongTaskForReservedCard(card, currentPlayer);
       if (readyChongTask) effectiveReadyByCardId[card.id] = readyChongTask;
+      const readyAmibaTask = getReadyAmibaTaskForReservedCard(card, currentPlayer);
+      if (readyAmibaTask) effectiveReadyByCardId[card.id] = readyAmibaTask;
     }
     const title = els.reservedCardPanel.querySelector(".panel-title");
     if (title) {
@@ -4694,6 +4828,19 @@
     return matches.length === 1 ? applyCardTriggerMatch(matches[0]) : openCardTriggerPicker(matches);
   }
 
+  function buildAlienTraceEvent(alienSlotId, traceType, player, alienIdOverride = null) {
+    const slot = aliens.getAlienSlot(alienGameState, Number(alienSlotId));
+    return {
+      type: "alienTrace",
+      alienSlotId: Number(alienSlotId),
+      alienId: alienIdOverride || slot?.alienId || slot?.assignedAlienId || null,
+      traceType,
+      playerId: player?.id || null,
+      playerColor: player?.color || null,
+      source: "alien_trace",
+    };
+  }
+
   function processChongTransportArrivalEvents(events = []) {
     if (!chong || !events?.length) return [];
     const delivered = [];
@@ -4757,6 +4904,8 @@
 
   function getReadyTaskForReservedCard(card) {
     refreshCardTaskState({ render: false });
+    const readyAmibaTask = getReadyAmibaTaskForReservedCard(card, getCurrentPlayer());
+    if (readyAmibaTask) return readyAmibaTask;
     return cardTaskStateModule.getReadyType2ForCard(cardTaskState, card?.id) || null;
   }
 
@@ -4783,6 +4932,22 @@
       card,
       task,
       effects: [],
+    };
+  }
+
+  function getReadyAmibaTaskForReservedCard(card, player = getCurrentPlayer()) {
+    if (!amiba?.isAmibaCard?.(card)) return null;
+    if (card?.amibaTaskCompleted) return null;
+    const task = card.amibaTask || amiba.getCardTask(card);
+    if (!task || task.kind !== "three-traces-empty-slots") return null;
+    if (!amiba.isTheoryTaskReady(alienGameState, player)) return null;
+    const reward = amiba.getTheoryTaskReward(alienGameState);
+    return {
+      amibaTask: true,
+      card,
+      task,
+      effects: reward.effects || [],
+      emptyCount: reward.emptyCount || 0,
     };
   }
 
@@ -4990,6 +5155,18 @@
   }
 
   function applyCardTriggerMatch(match) {
+    if (match?.effect?.type === amiba?.EFFECT_TYPES?.CHOOSE_SYMBOL_REWARD) {
+      closeCardTriggerPicker();
+      return openAmibaSymbolChoiceDialog({
+        region: match.effect.options?.region,
+        player: getCurrentPlayer(),
+        triggerMatch: match,
+        effectLabel: match.effect.label,
+        beforeAlienState: structuredClone(alienGameState),
+        beforePlayerState: structuredClone(playerState),
+        beforeCardState: structuredClone(cardState),
+      });
+    }
     if (match?.effect?.type === "pick_card") {
       closeCardTriggerPicker();
       return beginCardSelection({
@@ -5389,6 +5566,9 @@
       || pendingCardTriggerAction
       || pendingCardTaskCompletion
       || pendingChongTaskCompletion
+      || pendingAmibaCardGain
+      || pendingAmibaSymbolChoice
+      || pendingAmibaTraceRemoval
       || pendingCardTriggerFreeMove
       || pendingCardCornerFreeMove
       || (els.scanAction4Overlay && !els.scanAction4Overlay.hidden)
@@ -5517,6 +5697,9 @@
     pendingChongCardGain = null;
     pendingChongFossilChoice = null;
     pendingChongTaskCompletion = null;
+    pendingAmibaCardGain = null;
+    pendingAmibaSymbolChoice = null;
+    pendingAmibaTraceRemoval = null;
   }
 
   function skipCurrentActionEffect() {
@@ -6916,6 +7099,18 @@
         return executeChongProbePlanetFossilRewardEffect(effect);
       case chong?.EFFECT_TYPES?.CHONG_CHOOSE_PLANET_FOSSIL_REWARD:
         return executeChongChoosePlanetFossilRewardEffect(effect);
+      case amiba?.EFFECT_TYPES?.CHOOSE_SYMBOL_REWARD:
+        return openAmibaSymbolChoiceDialog({
+          effect,
+          region: effect.options?.region,
+          player: getCurrentPlayer(),
+          fromEffectFlow: true,
+          beforeAlienState: structuredClone(alienGameState),
+          beforePlayerState: structuredClone(playerState),
+          beforeCardState: structuredClone(cardState),
+        });
+      case amiba?.EFFECT_TYPES?.REMOVE_TRACE_FOR_REGION_REWARD:
+        return openAmibaTraceRemovalDialog(effect);
       default:
         return null;
     }
@@ -7118,6 +7313,8 @@
               type: "researchTech",
               playerId: getCurrentPlayer()?.id || null,
               playerColor: getCurrentPlayer()?.color || null,
+              techType: selection?.techType || null,
+              tileId: selection?.tileId || null,
               source: pendingActionEffectFlow?.actionType || "tech",
             },
           ];
@@ -7391,6 +7588,12 @@
     ) || null;
   }
 
+  function getAlienAmibaCardArea(alienSlotId) {
+    return [...els.alienAmibaCardAreas].find(
+      (element) => Number(element.dataset.alienSlot) === alienSlotId,
+    ) || null;
+  }
+
   function getAlienJiuzheThresholdElement(alienSlotId) {
     return [...els.alienJiuzheThresholds].find(
       (element) => Number(element.dataset.alienSlot) === alienSlotId,
@@ -7520,6 +7723,12 @@
         && Number.isInteger(Number(alienTracePickerState.selectedAlienSlotId)));
   }
 
+  function isAmibaTracePlacementMode() {
+    return isDebugAlienTraceMode()
+      || (alienTracePickerState?.mode === "amiba-grid"
+        && Number.isInteger(Number(alienTracePickerState.selectedAlienSlotId)));
+  }
+
   function canPlaceJiuzheTrace(alienSlotId, traceType, position) {
     if (!isJiuzheTracePlacementMode()) return false;
     if (!isDebugAlienTraceMode()
@@ -7579,6 +7788,23 @@
     if (!chong?.isChongRevealedSlot?.(alienGameState, alienSlotId)) return false;
     const currentPlayer = getCurrentPlayer();
     return chong?.canPlaceChongTrace?.(
+      alienGameState,
+      alienSlotId,
+      traceType,
+      position,
+      currentPlayer,
+    )?.ok;
+  }
+
+  function canPlaceAmibaTrace(alienSlotId, traceType, position) {
+    if (!isAmibaTracePlacementMode()) return false;
+    if (!isDebugAlienTraceMode()
+      && Number(alienTracePickerState.selectedAlienSlotId) !== Number(alienSlotId)) return false;
+    const allowedTraceTypes = alienTracePickerState?.allowedTraceTypes || aliens.TRACE_TYPES;
+    if (!allowedTraceTypes.includes(traceType)) return false;
+    if (!amiba?.isAmibaRevealedSlot?.(alienGameState, alienSlotId)) return false;
+    const currentPlayer = getCurrentPlayer();
+    return amiba?.canPlaceAmibaTrace?.(
       alienGameState,
       alienSlotId,
       traceType,
@@ -7718,6 +7944,34 @@
     }
   }
 
+  function renderAmibaCardDisplays() {
+    for (const alienSlotId of aliens.ALIEN_SLOT_IDS) {
+      const area = getAlienAmibaCardArea(alienSlotId);
+      if (!area) continue;
+      const visible = Boolean(amiba?.isAmibaRevealedSlot?.(alienGameState, alienSlotId));
+      const state = alienGameState.amiba || {};
+      const cardIndex = state.displayedCardIndex;
+      if (!visible) {
+        area.hidden = true;
+        area.replaceChildren();
+        continue;
+      }
+      area.hidden = false;
+      const title = document.createElement("div");
+      title.className = "alien-amiba-card-title";
+      title.textContent = "阿米巴展示牌";
+      const image = document.createElement("img");
+      image.className = "alien-amiba-card-image";
+      image.src = cardIndex == null ? amiba.CARD_BACK_SRC : amiba.getCardSrc(cardIndex);
+      image.alt = cardIndex == null ? "阿米巴牌背" : `阿米巴牌 ${cardIndex}`;
+      image.width = 747;
+      image.height = 1040;
+      image.decoding = "async";
+
+      area.replaceChildren(title, image);
+    }
+  }
+
   function renderBanrenmaBonusMarkers() {
     const activeKeys = new Set();
     const state = banrenma?.ensureBanrenmaState?.(alienGameState);
@@ -7817,12 +8071,22 @@
       ),
       getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
     });
+    aliens.renderAllAmibaTraceMarkers?.(getAlienJiuzheTraceLayer, alienGameState, {
+      tokenSrc: aliens.ALIEN_TRACE_TOKEN_SRC,
+      canPlaceAmibaTrace,
+      getPlayerTokenAsset: (playerColor) => (
+        players.getPlayerColorDefinition(playerColor)?.normalTokenAsset
+        || aliens.ALIEN_TRACE_TOKEN_SRC
+      ),
+      getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
+    });
     renderJiuzheThresholds();
     renderBanrenmaScoremarks();
     renderYichangdianCardDisplays();
     renderFangzhouCardDisplays();
     renderBanrenmaCardDisplays();
     renderChongCardDisplays();
+    renderAmibaCardDisplays();
     renderBanrenmaBonusMarkers();
   }
 
@@ -8086,6 +8350,26 @@
       ? aliens.getTraceTypeLabel(allowedTraceTypes[0])
       : "对应颜色";
     rocketState.statusNote = `虫族：请在正面牌图点击可放置的${traceLabel}痕迹位`;
+    renderAlienPanels();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function beginAmibaTraceGridPlacement(alienSlotId) {
+    const allowedTraceTypes = alienTracePickerState?.allowedTraceTypes?.length
+      ? alienTracePickerState.allowedTraceTypes
+      : aliens.TRACE_TYPES;
+    alienTracePickerState = {
+      ...alienTracePickerState,
+      mode: "amiba-grid",
+      selectedAlienSlotId: Number(alienSlotId),
+      allowedTraceTypes,
+    };
+    if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = true;
+    const traceLabel = allowedTraceTypes.length === 1
+      ? aliens.getTraceTypeLabel(allowedTraceTypes[0])
+      : "对应颜色";
+    rocketState.statusNote = `阿米巴：请在正面牌图点击可放置的${traceLabel}痕迹位`;
     renderAlienPanels();
     renderStateReadout();
     return { ok: true, message: rocketState.statusNote };
@@ -8777,6 +9061,407 @@
       ok: true,
       message: `${label}：${messages.join("、") || "无奖励"}`,
     };
+  }
+
+  function applyAmibaRewardToPlayer(player, reward, label = "阿米巴奖励") {
+    if (!player || !reward) return { ok: false, message: "没有可结算的阿米巴奖励" };
+    const messages = [];
+    if (Object.keys(reward.gain || {}).length) {
+      players.gainResources(player, reward.gain);
+      messages.push(formatChongGain(reward.gain));
+    }
+    const dataCount = Math.max(0, Math.round(Number(reward.dataCount) || 0));
+    if (dataCount > 0) {
+      let gained = 0;
+      for (let index = 0; index < dataCount; index += 1) {
+        const result = data.gainData(player, { source: "amiba" });
+        if (result.ok) gained += 1;
+      }
+      messages.push(`${gained}/${dataCount}数据`);
+    }
+    const drawCount = Math.max(0, Math.round(Number(reward.drawCards) || 0));
+    if (drawCount > 0) {
+      let drawn = 0;
+      for (let index = 0; index < drawCount; index += 1) {
+        const result = blindDrawCardForPlayer(player);
+        if (result.ok) drawn += 1;
+      }
+      messages.push(`${drawn}/${drawCount}盲抽`);
+    }
+    if (reward.region) {
+      const regionResult = amiba?.resolveRegionReward?.(alienGameState, reward.region);
+      for (const symbolResult of regionResult?.results || []) {
+        const symbolRewardResult = applyAmibaRewardToPlayer(
+          player,
+          symbolResult.reward,
+          `${amiba.formatRegionLabel(reward.region)}区域 ${symbolResult.symbolId}`,
+        );
+        if (symbolRewardResult.message) messages.push(symbolRewardResult.message);
+      }
+      if (!regionResult?.results?.length) messages.push(`${amiba?.formatRegionLabel?.(reward.region) || reward.region}区域无 symbol`);
+    }
+    if (reward.pickAlienCard) messages.push("外星人牌");
+    if (reward.pickCard) messages.push("精选1张牌");
+    return {
+      ok: true,
+      message: `${label}：${messages.join("、") || "无奖励"}`,
+    };
+  }
+
+  function closeAmibaCardGainDialog() {
+    pendingAmibaCardGain = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+  }
+
+  function openAmibaCardGainDialog(options = {}) {
+    if (!amiba || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开阿米巴牌获取窗口" };
+    }
+    const state = amiba.ensureAmibaState(alienGameState);
+    if (state.displayedCardIndex == null) amiba.drawDisplayedCardIndex(alienGameState);
+    pendingAmibaCardGain = {
+      playerId: options.player?.id || getCurrentPlayer()?.id || null,
+      fromEffectFlow: Boolean(options.fromEffectFlow),
+      effectLabel: options.effectLabel || "阿米巴外星人牌",
+      beforeAlienState: options.beforeAlienState || structuredClone(alienGameState),
+      beforePlayerState: options.beforePlayerState || structuredClone(playerState),
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "获得阿米巴牌";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = "选择当前展示牌、盲抽阿米巴牌，或取消。";
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+
+    const cardIndex = alienGameState.amiba?.displayedCardIndex;
+    const confirm = document.createElement("button");
+    confirm.type = "button";
+    confirm.className = "scan-target-option-button";
+    confirm.dataset.amibaCardGain = "displayed";
+    confirm.innerHTML = cardIndex == null
+      ? "确认<small>当前没有展示牌</small>"
+      : `<img class="jiuzhe-card-option-image" src="${amiba.getCardSrc(cardIndex)}" alt="" aria-hidden="true"><small>确认拿取展示牌 ${cardIndex}</small>`;
+    confirm.disabled = cardIndex == null;
+
+    const blind = document.createElement("button");
+    blind.type = "button";
+    blind.className = "scan-target-option-button";
+    blind.dataset.amibaCardGain = "blind";
+    blind.innerHTML = "盲抽<small>从阿米巴牌堆随机获得 1 张</small>";
+
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "scan-target-option-button";
+    cancel.dataset.amibaCardGain = "cancel";
+    cancel.innerHTML = "取消<small>不获得阿米巴牌</small>";
+
+    els.scanTargetActions.replaceChildren(confirm, blind, cancel);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "阿米巴牌：请选择获取方式";
+    renderStateReadout();
+    return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
+  function finishAmibaCardGain(message, result = null) {
+    const pending = pendingAmibaCardGain;
+    closeAmibaCardGainDialog();
+    if (pending?.fromEffectFlow && getCurrentActionEffect()) {
+      const existingResult = getCurrentActionEffect().result || {};
+      if (!effectStepActive) beginEffectHistoryStep(pending.effectLabel);
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        pending.beforeAlienState,
+        "恢复阿米巴牌获取前外星人状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        pending.beforePlayerState,
+        "恢复阿米巴牌获取前玩家状态",
+      ));
+      getCurrentActionEffect().result = {
+        ok: true,
+        undoable: false,
+        message,
+        events: existingResult.events || [],
+        payload: result,
+      };
+      rocketState.statusNote = message;
+      renderAlienPanels();
+      renderPlayerHand();
+      renderPlayerStats();
+      completeCurrentActionEffect();
+      renderStateReadout();
+      return getCurrentActionEffect()?.result || { ok: true, message };
+    }
+    rocketState.statusNote = message;
+    renderAlienPanels();
+    renderPlayerHand();
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message, result };
+  }
+
+  function handleAmibaCardGainChoice(choice) {
+    if (!pendingAmibaCardGain) return { ok: false, message: "没有阿米巴牌获取流程" };
+    const pending = pendingAmibaCardGain;
+    const player = getPlayerById(pending.playerId) || getCurrentPlayer();
+    if (!player) return { ok: false, message: "找不到阿米巴牌获取玩家" };
+    if (choice === "cancel") {
+      return finishAmibaCardGain("已取消阿米巴外星人牌");
+    }
+    const result = choice === "blind"
+      ? amiba.blindDrawCard(alienGameState)
+      : amiba.takeDisplayedCard(alienGameState);
+    if (!result.ok || !result.card) {
+      return finishAmibaCardGain(result.message || "阿米巴牌获取失败", result);
+    }
+    player.hand.push(result.card);
+    player.resources.handSize = player.hand.length;
+    return finishAmibaCardGain(result.message, result);
+  }
+
+  function closeAmibaSymbolChoiceDialog() {
+    pendingAmibaSymbolChoice = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+  }
+
+  function openAmibaSymbolChoiceDialog(options = {}) {
+    if (!amiba || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开阿米巴 symbol 选择窗口" };
+    }
+    const player = options.player || getCurrentPlayer();
+    if (!player) return { ok: false, message: "没有当前玩家" };
+    const region = options.region || options.effect?.options?.region || null;
+    const symbols = amiba.listSymbolsInRegion(alienGameState, region);
+    pendingAmibaSymbolChoice = {
+      region,
+      playerId: player.id,
+      fromEffectFlow: Boolean(options.fromEffectFlow),
+      triggerMatch: options.triggerMatch || null,
+      effectLabel: options.effectLabel || options.effect?.label || "阿米巴 symbol 奖励",
+      beforeAlienState: options.beforeAlienState || structuredClone(alienGameState),
+      beforePlayerState: options.beforePlayerState || structuredClone(playerState),
+      beforeCardState: options.beforeCardState || structuredClone(cardState),
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "阿米巴 symbol";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = `选择一个${amiba.formatRegionLabel(region)}区域内的 symbol 结算奖励。`;
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+
+    const nodes = symbols.map((symbol) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.amibaSymbolChoice = symbol.slotId;
+      button.innerHTML = `<img class="jiuzhe-card-option-image" src="${amiba.getSymbolSrc(symbol.symbolId)}" alt="" aria-hidden="true"><small>${symbol.symbolId}：${amiba.formatSymbolReward(symbol.symbolId)}；${amiba.formatSymbolSlotLabel?.(symbol.slotId) || symbol.slotId}</small>`;
+      return button;
+    });
+    if (!nodes.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "该区域当前没有 symbol。";
+      nodes.push(empty);
+    }
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "scan-target-option-button";
+    cancel.dataset.amibaSymbolChoice = "cancel";
+    cancel.innerHTML = "取消<small>不结算 symbol</small>";
+    nodes.push(cancel);
+
+    els.scanTargetActions.replaceChildren(...nodes);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "阿米巴 symbol：请选择一个 symbol";
+    renderStateReadout();
+    return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
+  function finishAmibaSymbolChoice(message, payload = {}, options = {}) {
+    const pending = pendingAmibaSymbolChoice;
+    closeAmibaSymbolChoiceDialog();
+    if (pending?.triggerMatch?.card && pending?.triggerMatch?.trigger && options.consumeTrigger !== false) {
+      cardEffects.consumeTrigger(pending.triggerMatch.card, pending.triggerMatch.trigger.id);
+      discardReservedCardIfFinished(getPlayerById(pending.playerId) || getCurrentPlayer(), pending.triggerMatch.card);
+    }
+    if (pending?.fromEffectFlow && getCurrentActionEffect()) {
+      getCurrentActionEffect().result = {
+        ok: true,
+        undoable: options.undoable !== false,
+        message,
+        payload,
+      };
+      rocketState.statusNote = message;
+      renderAlienPanels();
+      renderPlayerStats();
+      renderPlayerHand();
+      renderReservedCardsFromTaskState();
+      completeCurrentActionEffect();
+      renderStateReadout();
+      return { ok: true, message, payload };
+    }
+    rocketState.statusNote = message;
+    renderAlienPanels();
+    renderPlayerStats();
+    renderPlayerHand();
+    renderReservedCardsFromTaskState();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message, payload };
+  }
+
+  function handleAmibaSymbolChoice(choice) {
+    if (!pendingAmibaSymbolChoice) return { ok: false, message: "没有阿米巴 symbol 选择流程" };
+    const pending = pendingAmibaSymbolChoice;
+    const player = getPlayerById(pending.playerId) || getCurrentPlayer();
+    if (!player) return { ok: false, message: "找不到阿米巴 symbol 玩家" };
+    if (choice === "cancel") {
+      return finishAmibaSymbolChoice("已取消阿米巴 symbol 奖励", { cancelled: true }, { consumeTrigger: false });
+    }
+    const beforeAlienState = pending.beforeAlienState;
+    const beforePlayerState = pending.beforePlayerState;
+    const beforeCardState = pending.beforeCardState;
+    const slotId = String(choice || "");
+    const result = amiba.resolveSymbolAtSlot(alienGameState, slotId);
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+    const rewardResult = applyAmibaRewardToPlayer(player, result.reward, `${pending.effectLabel} ${result.symbolId}`);
+    const message = `${rewardResult.message}；${result.message}`;
+
+    if (pending.fromEffectFlow) {
+      if (!effectStepActive) beginEffectHistoryStep(pending.effectLabel);
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复阿米巴 symbol 前外星人状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复阿米巴 symbol 前玩家状态",
+      ));
+    } else {
+      beginQuickActionStep("amiba-symbol", pending.effectLabel);
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复阿米巴 symbol 前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复阿米巴 symbol 前玩家状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        cardState,
+        beforeCardState,
+        "恢复阿米巴 symbol 前牌区状态",
+      ));
+      completeQuickActionStep(message);
+    }
+    return finishAmibaSymbolChoice(message, { symbol: result }, { undoable: true });
+  }
+
+  function closeAmibaTraceRemovalDialog() {
+    pendingAmibaTraceRemoval = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+  }
+
+  function openAmibaTraceRemovalDialog(effect) {
+    if (!amiba || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开阿米巴痕迹移除窗口" };
+    }
+    const player = getCurrentPlayer();
+    const alienSlotId = alienGameState.amiba?.revealedSlotId;
+    const options = amiba.listPlayerTraceOptions(alienGameState, alienSlotId, player);
+    pendingAmibaTraceRemoval = {
+      playerId: player.id,
+      alienSlotId,
+      effectLabel: effect.label,
+      beforeAlienState: structuredClone(alienGameState),
+      beforePlayerState: structuredClone(playerState),
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "移除阿米巴痕迹";
+    if (els.scanTargetSubtitle) els.scanTargetSubtitle.textContent = "选择一个自己的阿米巴痕迹，按被移除的颜色结算对应区域奖励。";
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    const nodes = options.map((option) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.amibaTraceRemove = `${option.traceType}:${option.position}`;
+      button.innerHTML = `${option.label}<small>${amiba.formatRegionLabel(option.region)}区域奖励</small>`;
+      return button;
+    });
+    if (!nodes.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "你没有可移除的阿米巴痕迹。";
+      nodes.push(empty);
+    }
+    els.scanTargetActions.replaceChildren(...nodes);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "阿米巴：请选择要移除的痕迹";
+    renderStateReadout();
+    return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
+  function handleAmibaTraceRemovalChoice(choice) {
+    if (!pendingAmibaTraceRemoval) return { ok: false, message: "没有阿米巴痕迹移除流程" };
+    const pending = pendingAmibaTraceRemoval;
+    const player = getPlayerById(pending.playerId) || getCurrentPlayer();
+    if (!player) return { ok: false, message: "找不到阿米巴痕迹玩家" };
+    if (choice === "cancel") {
+      closeAmibaTraceRemovalDialog();
+      rocketState.statusNote = "已取消阿米巴痕迹移除";
+      if (getCurrentActionEffect()) {
+        getCurrentActionEffect().result = { ok: true, undoable: true, message: rocketState.statusNote };
+        completeCurrentActionEffect();
+      }
+      renderStateReadout();
+      return { ok: true, message: rocketState.statusNote };
+    }
+    const [traceType, positionText] = String(choice || "").split(":");
+    beginEffectHistoryStep(pending.effectLabel || "阿米巴痕迹移除");
+    const removeResult = amiba.removePlayerTrace(alienGameState, pending.alienSlotId, traceType, Number(positionText), player);
+    if (!removeResult.ok) {
+      endEffectHistoryStep();
+      rocketState.statusNote = removeResult.message;
+      renderStateReadout();
+      return removeResult;
+    }
+    const rewardResult = applyAmibaRewardToPlayer(player, removeResult.reward, removeResult.message);
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      alienGameState,
+      pending.beforeAlienState,
+      "恢复阿米巴移除痕迹前外星人状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      playerState,
+      pending.beforePlayerState,
+      "恢复阿米巴移除痕迹前玩家状态",
+    ));
+    closeAmibaTraceRemovalDialog();
+    const message = rewardResult.message;
+    if (getCurrentActionEffect()) {
+      getCurrentActionEffect().result = {
+        ok: true,
+        undoable: true,
+        message,
+        payload: { removed: removeResult },
+      };
+      rocketState.statusNote = message;
+      renderAlienPanels();
+      renderPlayerStats();
+      completeCurrentActionEffect();
+      renderStateReadout();
+      return { ok: true, message };
+    }
+    rocketState.statusNote = message;
+    renderAlienPanels();
+    renderPlayerStats();
+    renderStateReadout();
+    return { ok: true, message };
   }
 
   function applyChongFossilRewardToPlayer(player, fossilId, label = "虫族化石", repeat = 1) {
@@ -10105,6 +10790,20 @@
     };
   }
 
+  function handleAmibaRevealSideEffects(alienSlotId, revealResult, triggerPlayer) {
+    if (!amiba || !revealResult?.ok || revealResult.alienId !== amiba.ALIEN_ID) return null;
+    const initResult = amiba.initializeAmibaReveal(
+      alienGameState,
+      alienSlotId,
+      triggerPlayer,
+    );
+    return {
+      ...initResult,
+      rewardMessages: [],
+      message: initResult.message,
+    };
+  }
+
   function triggerYichangdianAnomalyForEarthX(earthX) {
     if (!yichangdian || !alienGameState.yichangdian?.revealInitialized) return null;
     const yState = alienGameState.yichangdian;
@@ -10178,8 +10877,12 @@
       || handleYichangdianRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleFangzhouRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleBanrenmaRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleChongRevealSideEffects(alienSlotId, revealResult, currentPlayer);
+      || handleChongRevealSideEffects(alienSlotId, revealResult, currentPlayer)
+      || handleAmibaRevealSideEffects(alienSlotId, revealResult, currentPlayer);
     rocketState.statusNote = revealSideEffect?.message || revealResult?.message || result.message;
+    const traceEvents = result.ok && !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, revealResult?.alienId || null)]
+      : [];
     if (pending?.type === "planet_reward_alien_trace" && result.ok) {
       beginEffectHistoryStep(pending.effectLabel || "外星人标记奖励");
       recordHistoryCommand(historyCommands.createRestoreObjectCommand(
@@ -10197,6 +10900,7 @@
           ok: true,
           undoable: true,
           message: rocketState.statusNote,
+          events: traceEvents,
           payload: { alienSlotId, traceType, revealed: revealResult || null },
         };
       }
@@ -10214,8 +10918,9 @@
         "恢复半人马痕迹奖励前玩家状态",
       ));
       completeQuickActionStep();
+      settleCardTasksAfterEffect({ events: traceEvents, render: true });
     } else if (result.ok) {
-      settleCardTasksAfterEffect({ skipType1: true, render: true });
+      settleCardTasksAfterEffect({ events: traceEvents, render: true });
     }
     renderAlienPanels();
     if (revealResult?.alienId === chong?.ALIEN_ID) {
@@ -10272,6 +10977,9 @@
       `异常点${yichangdian.formatTraceLabel(traceType, Number(position))}`,
     );
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, yichangdian.ALIEN_ID)]
+      : [];
 
     if (pending?.type === "planet_reward_alien_trace") {
       beginEffectHistoryStep(pending.effectLabel || "异常点痕迹奖励");
@@ -10290,11 +10998,12 @@
           ok: true,
           undoable: true,
           message: rocketState.statusNote,
+          events: traceEvents,
           payload: { alienSlotId, traceType, position, reward: result.reward || null },
         };
       }
     } else {
-      settleCardTasksAfterEffect({ skipType1: true, render: false });
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
     renderAlienPanels();
@@ -10367,6 +11076,9 @@
     );
 
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, fangzhou.ALIEN_ID)]
+      : [];
 
     if (pending?.type === "planet_reward_alien_trace") {
       beginEffectHistoryStep(pending.effectLabel || "方舟痕迹奖励");
@@ -10385,6 +11097,7 @@
           ok: true,
           undoable: true,
           message: rocketState.statusNote,
+          events: traceEvents,
           payload: { alienSlotId, traceType, position, reward: result.reward || null },
         };
       }
@@ -10401,7 +11114,7 @@
         "恢复方舟痕迹放置前玩家状态",
       ));
       completeQuickActionStep();
-      settleCardTasksAfterEffect({ skipType1: true, render: false });
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
     renderAlienPanels();
@@ -10468,6 +11181,9 @@
       `半人马${banrenma.formatTraceLabel(traceType, Number(position))}`,
     );
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, banrenma.ALIEN_ID)]
+      : [];
 
     if (pending?.type === "planet_reward_alien_trace") {
       beginEffectHistoryStep(pending.effectLabel || "半人马痕迹奖励");
@@ -10486,6 +11202,7 @@
           ok: true,
           undoable: true,
           message: rocketState.statusNote,
+          events: traceEvents,
           payload: { alienSlotId, traceType, position, reward: result.reward || null },
         };
       }
@@ -10502,6 +11219,7 @@
         "恢复半人马痕迹奖励前玩家状态",
       ));
       completeQuickActionStep();
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
     } else {
       beginQuickActionStep("banrenma-trace", rocketState.statusNote);
       recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
@@ -10515,7 +11233,7 @@
         "恢复半人马痕迹放置前玩家状态",
       ));
       completeQuickActionStep();
-      settleCardTasksAfterEffect({ skipType1: true, render: false });
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
     renderAlienPanels();
@@ -10553,6 +11271,30 @@
         player: currentPlayer,
         fromEffectFlow: pending?.type === "planet_reward_alien_trace",
         effectLabel: pending?.effectLabel || "虫族外星人牌",
+        beforeAlienState,
+        beforePlayerState,
+      });
+      return Boolean(openResult.ok);
+    }
+    if (result.reward.pickCard) {
+      beginCardSelection({
+        type: "amiba_pick_card",
+        player: currentPlayer,
+        allowBlindDraw: true,
+        fromEffectFlow: pending?.type === "planet_reward_alien_trace",
+      });
+      return true;
+    }
+    return false;
+  }
+
+  function openAmibaRewardFollowUps(result, currentPlayer, pending, beforeAlienState, beforePlayerState) {
+    if (!result?.reward) return false;
+    if (result.reward.pickAlienCard) {
+      const openResult = openAmibaCardGainDialog({
+        player: currentPlayer,
+        fromEffectFlow: pending?.type === "planet_reward_alien_trace",
+        effectLabel: pending?.effectLabel || "阿米巴外星人牌",
         beforeAlienState,
         beforePlayerState,
       });
@@ -10614,6 +11356,9 @@
       `虫族${chong.formatTraceLabel(traceType, Number(position))}`,
     );
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, chong.ALIEN_ID)]
+      : [];
 
     if (pending?.type === "planet_reward_alien_trace") {
       beginEffectHistoryStep(pending.effectLabel || "虫族痕迹奖励");
@@ -10632,6 +11377,7 @@
           ok: true,
           undoable: true,
           message: rocketState.statusNote,
+          events: traceEvents,
           payload: { alienSlotId, traceType, position, reward: result.reward || null },
         };
       }
@@ -10648,7 +11394,7 @@
         "恢复虫族痕迹放置前玩家状态",
       ));
       completeQuickActionStep();
-      settleCardTasksAfterEffect({ skipType1: true, render: false });
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
     renderAlienPanels();
@@ -10657,6 +11403,111 @@
     renderReservedCardsFromTaskState();
 
     const openedFollowUp = openChongRewardFollowUps(
+      result,
+      currentPlayer,
+      pending,
+      beforeAlienState,
+      beforePlayerState,
+    );
+    if (!openedFollowUp && pending?.type === "planet_reward_alien_trace") {
+      completeCurrentActionEffect();
+    }
+    updateActionButtons();
+    renderStateReadout();
+    return result;
+  }
+
+  function confirmAmibaTracePlacement(alienSlotId, traceType, position) {
+    const inDebugMode = isDebugAlienTraceMode();
+    if (!amiba || (!isAmibaTracePlacementMode() && !inDebugMode)) {
+      rocketState.statusNote = "请先通过获取外星人标记进入阿米巴放置模式";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (!canPlaceAmibaTrace(alienSlotId, traceType, position)) {
+      rocketState.statusNote = "该阿米巴痕迹位不可放置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    const pending = pendingAlienTraceAction;
+    const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
+    const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
+    if (!inDebugMode) {
+      pendingAlienTraceAction = null;
+      if (alienTracePickerState?.mode === "amiba-grid") {
+        alienTracePickerState = null;
+      }
+    }
+
+    const result = amiba.placeAmibaTrace(
+      alienGameState,
+      alienSlotId,
+      traceType,
+      position,
+      currentPlayer,
+    );
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderAlienPanels();
+      renderStateReadout();
+      return result;
+    }
+
+    const rewardResult = applyAmibaRewardToPlayer(
+      currentPlayer,
+      result.reward,
+      `阿米巴${amiba.formatTraceLabel(traceType, Number(position))}`,
+    );
+    rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, amiba.ALIEN_ID)]
+      : [];
+
+    if (pending?.type === "planet_reward_alien_trace") {
+      beginEffectHistoryStep(pending.effectLabel || "阿米巴痕迹奖励");
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复阿米巴痕迹奖励前外星人状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复阿米巴痕迹奖励前玩家状态",
+      ));
+      if (getCurrentActionEffect()) {
+        getCurrentActionEffect().result = {
+          ok: true,
+          undoable: true,
+          message: rocketState.statusNote,
+          events: traceEvents,
+          payload: { alienSlotId, traceType, position, reward: result.reward || null },
+        };
+      }
+    } else if (!inDebugMode) {
+      beginQuickActionStep("amiba-trace", rocketState.statusNote);
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复阿米巴痕迹放置前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复阿米巴痕迹放置前玩家状态",
+      ));
+      completeQuickActionStep();
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
+    }
+
+    renderAlienPanels();
+    renderPlayerStats();
+    renderPlayerHand();
+    renderReservedCardsFromTaskState();
+
+    const openedFollowUp = openAmibaRewardFollowUps(
       result,
       currentPlayer,
       pending,
@@ -10715,6 +11566,9 @@
       `九折${jiuzhe.formatTraceLabel(traceType, Number(position))}`,
     );
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, jiuzhe.ALIEN_ID)]
+      : [];
 
     if (pending?.type === "planet_reward_alien_trace") {
       beginEffectHistoryStep(pending.effectLabel || "九折痕迹奖励");
@@ -10733,11 +11587,12 @@
           ok: true,
           undoable: true,
           message: rocketState.statusNote,
+          events: traceEvents,
           payload: { alienSlotId, traceType, position, reward: result.reward || null },
         };
       }
     } else {
-      settleCardTasksAfterEffect({ skipType1: true, render: false });
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
     renderAlienPanels();
@@ -14914,6 +15769,32 @@
     return { ok: true, message: rocketState.statusNote };
   }
 
+  function revealAmibaForDebug() {
+    if (!amiba) return { ok: false, message: "阿米巴模块未加载" };
+    const currentPlayer = getCurrentPlayer();
+    const alienSlotId = 1;
+    const slot = aliens.getAlienSlot(alienGameState, alienSlotId);
+    if (!slot) return { ok: false, message: "找不到外星人 1" };
+
+    slot.assignedAlienId = amiba.ALIEN_ID;
+    slot.alienId = amiba.ALIEN_ID;
+    slot.revealed = true;
+    alienGameState.amiba = amiba.createAmibaState();
+    amiba.initializeAmibaReveal(
+      alienGameState,
+      alienSlotId,
+      currentPlayer,
+    );
+
+    const symbolCount = Object.keys(alienGameState.amiba?.symbolsById || {}).length;
+    enableDebugAlienTraceModeForReveal(`阿米巴调试：已在外星人 1 揭示阿米巴并默认放置 ${symbolCount} 个 symbol（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励`);
+    renderAlienPanels();
+    renderPlayerStats();
+    renderReservedCardsFromTaskState();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
   function focusFangzhouDebugCalibration(alienSlotId = 1) {
     setDebugOpen(false);
     window.requestAnimationFrame(() => {
@@ -14939,6 +15820,14 @@
   }
 
   function focusChongDebugCalibration(alienSlotId = 1) {
+    setDebugOpen(false);
+    window.requestAnimationFrame(() => {
+      const target = els.alienPanels?.[alienSlotId - 1] || getAlienJiuzheTraceLayer(alienSlotId);
+      target?.scrollIntoView?.({ behavior: "smooth", block: "center", inline: "nearest" });
+    });
+  }
+
+  function focusAmibaDebugCalibration(alienSlotId = 1) {
     setDebugOpen(false);
     window.requestAnimationFrame(() => {
       const target = els.alienPanels?.[alienSlotId - 1] || getAlienJiuzheTraceLayer(alienSlotId);
@@ -15373,6 +16262,24 @@
       return;
     }
 
+    const amibaGain = event.target.closest("[data-amiba-card-gain]");
+    if (amibaGain && !amibaGain.disabled) {
+      handleAmibaCardGainChoice(amibaGain.dataset.amibaCardGain);
+      return;
+    }
+
+    const amibaSymbol = event.target.closest("[data-amiba-symbol-choice]");
+    if (amibaSymbol && !amibaSymbol.disabled) {
+      handleAmibaSymbolChoice(amibaSymbol.dataset.amibaSymbolChoice);
+      return;
+    }
+
+    const amibaTraceRemove = event.target.closest("[data-amiba-trace-remove]");
+    if (amibaTraceRemove && !amibaTraceRemove.disabled) {
+      handleAmibaTraceRemovalChoice(amibaTraceRemove.dataset.amibaTraceRemove);
+      return;
+    }
+
     const banrenmaBonus = event.target.closest("[data-banrenma-bonus-choice]");
     if (banrenmaBonus && !banrenmaBonus.disabled) {
       handleBanrenmaBonusChoice(banrenmaBonus.dataset.banrenmaBonusChoice);
@@ -15420,6 +16327,18 @@
       handleChongCardGainChoice("cancel");
       return;
     }
+    if (pendingAmibaTraceRemoval) {
+      handleAmibaTraceRemovalChoice("cancel");
+      return;
+    }
+    if (pendingAmibaSymbolChoice) {
+      handleAmibaSymbolChoice("cancel");
+      return;
+    }
+    if (pendingAmibaCardGain) {
+      handleAmibaCardGainChoice("cancel");
+      return;
+    }
     if (pendingBanrenmaCardGain) {
       handleBanrenmaCardGainChoice("cancel");
       return;
@@ -15450,6 +16369,18 @@
       }
       if (pendingChongCardGain) {
         handleChongCardGainChoice("cancel");
+        return;
+      }
+      if (pendingAmibaTraceRemoval) {
+        handleAmibaTraceRemovalChoice("cancel");
+        return;
+      }
+      if (pendingAmibaSymbolChoice) {
+        handleAmibaSymbolChoice("cancel");
+        return;
+      }
+      if (pendingAmibaCardGain) {
+        handleAmibaCardGainChoice("cancel");
         return;
       }
       if (pendingBanrenmaCardGain) {
@@ -15489,6 +16420,8 @@
       || (alienSlot?.revealed && alienSlot.alienId === aliens.BANRENMA_ALIEN_ID);
     const useChongGrid = chong?.isChongRevealedSlot?.(alienGameState, alienSlotId)
       || (alienSlot?.revealed && alienSlot.alienId === aliens.CHONG_ALIEN_ID);
+    const useAmibaGrid = amiba?.isAmibaRevealedSlot?.(alienGameState, alienSlotId)
+      || (alienSlot?.revealed && alienSlot.alienId === aliens.AMIBA_ALIEN_ID);
 
     if (pickerStep === "alien") {
       if (useJiuzheGrid) {
@@ -15505,6 +16438,10 @@
       }
       if (useChongGrid) {
         beginChongTraceGridPlacement(alienSlotId);
+        return;
+      }
+      if (useAmibaGrid) {
+        beginAmibaTraceGridPlacement(alienSlotId);
         return;
       }
       if (useYichangdianGrid) {
@@ -15589,6 +16526,15 @@
           Number(chongButton.dataset.alienSlot),
           chongButton.dataset.traceType,
           Number(chongButton.dataset.chongPosition),
+        );
+        return;
+      }
+      const amibaButton = event.target.closest("[data-amiba-trace-slot]");
+      if (amibaButton && !amibaButton.disabled && amibaButton.classList.contains("is-placeable")) {
+        confirmAmibaTracePlacement(
+          Number(amibaButton.dataset.alienSlot),
+          amibaButton.dataset.traceType,
+          Number(amibaButton.dataset.amibaPosition),
         );
         return;
       }
@@ -15729,6 +16675,10 @@
     const result = revealChongForDebug();
     if (result?.ok) focusChongDebugCalibration(1);
   });
+  els.debugAmibaButton?.addEventListener("click", () => {
+    const result = revealAmibaForDebug();
+    if (result?.ok) focusAmibaDebugCalibration(1);
+  });
   document.addEventListener("click", (event) => {
     const viewButton = event.target.closest("[data-fangzhou-card-view]");
     if (!viewButton) return;
@@ -15863,12 +16813,15 @@
     getYichangdianTraceLayoutOverrides: () => structuredClone(aliens.listYichangdianTraceMarkerLayoutOverrides?.() || []),
     getFangzhouTraceLayoutOverrides: () => structuredClone(aliens.listFangzhouTraceMarkerLayoutOverrides?.() || []),
     getChongTraceLayoutOverrides: () => structuredClone(aliens.listChongTraceMarkerLayoutOverrides?.() || []),
+    getAmibaTraceLayoutOverrides: () => structuredClone(aliens.listAmibaTraceMarkerLayoutOverrides?.() || []),
+    getAmibaSymbolLayoutOverrides: () => structuredClone(aliens.listAmibaSymbolMarkerLayoutOverrides?.() || []),
     getAlienState: () => structuredClone(alienGameState),
     revealJiuzheForDebug,
     revealYichangdianForDebug,
     revealFangzhouForDebug,
     revealBanrenmaForDebug,
     revealChongForDebug,
+    revealAmibaForDebug,
     getFinalScoringState: () => structuredClone(finalScoringState),
     markFinalScoreTile: handleFinalScoreTileClick,
     openAlienTracePicker,
@@ -15884,7 +16837,8 @@
         || handleYichangdianRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
         || handleFangzhouRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
         || handleBanrenmaRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
-        || handleChongRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer());
+        || handleChongRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
+        || handleAmibaRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer());
       if (sideEffect?.message) {
         rocketState.statusNote = sideEffect.message;
       }
@@ -15906,7 +16860,8 @@
         || handleYichangdianRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
         || handleFangzhouRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
         || handleBanrenmaRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
-        || handleChongRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer());
+        || handleChongRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
+        || handleAmibaRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer());
       if (sideEffect?.message) result.message = sideEffect.message;
       renderAlienPanels();
       renderRockets();

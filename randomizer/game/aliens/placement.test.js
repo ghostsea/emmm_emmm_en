@@ -83,4 +83,43 @@ for (let position = 1; position <= 9; position += 1) {
 }
 assert(placement.CHONG_TRACE_TOKEN_DISPLAY_SCALE > 0, "Chong token scale should be positive");
 
+for (const traceType of ["pink", "yellow", "blue"]) {
+  for (let position = 1; position <= 4; position += 1) {
+    const layout = placement.getAmibaTraceMarkerLayout(1, traceType, position);
+    assert(layout && Number.isFinite(layout.percentX) && Number.isFinite(layout.percentY),
+      `Amiba ${traceType} ${position} should have a layout`);
+  }
+}
+for (const slotId of [
+  "orange_1",
+  "orange_2",
+  "blue_1",
+  "blue_2",
+  "red_1",
+  "red_2",
+  "orange_3",
+  "blue_3",
+  "red_3",
+]) {
+  const layout = placement.getAmibaSymbolMarkerLayout(1, slotId);
+  assert(layout && Number.isFinite(layout.percentX) && Number.isFinite(layout.percentY),
+    `Amiba symbol slot ${slotId} should have a layout`);
+}
+assert(placement.AMIBA_SYMBOL_DISPLAY_SCALE === 3.0,
+  "Amiba symbol display scale should be enlarged for calibration");
+assert(placement.getAmibaSymbolMarkerLayout(1, "blue_1").percentX > 80,
+  "Amiba outer blue slot should align with the right blue circle");
+assert(placement.getAmibaSymbolMarkerLayout(1, "orange_3").percentY < 30,
+  "Amiba inner orange slot should align with the upper-center orange circle");
+assert(placement.getAmibaTraceMarkerLayout(1, "pink", 1).percentY > 55,
+  "Amiba trace marker defaults should sit lower on the face art");
+assert(placement.getAmibaTraceMarkerLayout(1, "yellow", 4).percentY > 88,
+  "Amiba yellow lower trace marker should align with the bottom column");
+assert(placement.getAmibaTraceMarkerLayout(1, "pink", 1).percentX === 19.9,
+  "Amiba pink trace markers should be vertically aligned");
+assert(placement.getAmibaTraceMarkerLayout(1, "yellow", 2).percentX === 49.4,
+  "Amiba yellow trace markers should be vertically aligned");
+assert(placement.getAmibaTraceMarkerLayout(1, "blue", 3).percentX === 80.0,
+  "Amiba blue trace markers should be vertically aligned");
+
 console.log("aliens/placement.test.js ok");
