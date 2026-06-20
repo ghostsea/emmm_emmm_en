@@ -131,52 +131,17 @@ UI 布局：
 - 非首标记数量不限；网格锚点为 `ALIEN_EXTRA_TRACE_MARKER_SLOTS`（第二行第二列中心），从锚点与 token 尺寸反推第一格中心，再按每行 3 个向右、向下排布；`ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE` 当前为 5。
 - 调试「获取外星人标记」：切换直接点击模式（无弹窗）。未揭示时只能在 state 面板点击首标记/额外痕迹位放置；已揭示后可在正面牌图点击痕迹位，方舟保留区未解锁牌可点击消耗痕迹解锁；再次点击调试按钮退出。各外星人专属调试按钮揭示后会自动进入该模式。
 
-异常点专属机制：
+物种专属机制文档：
 
-- `randomizer/game/aliens/yichangdian.js` 管理异常点状态，挂在 `alienGameState.yichangdian`。字段包括 `revealedSlotId`、`revealEarthX`、`anomalies[]`、`nextAnomalySectorX`、`traceSlotsByAlienSlotId`、`displayedCardIndex`、`cardDeck`。
-- 异常点揭示时读取当前地球 `x` 为 `m`，在 `m`、`m-3`、`m+3` 的 `y=4` 扇区生成 a/b/c 三个异常标记，各随机 1/2 面；太阳系旋转后若地球 `x` 命中异常扇区，按该异常颜色取异常点正面痕迹中最靠上的玩家结算奖励。
-- 揭示后的异常点不再使用普通三色首标记正面迁移，而是切到正面 3×5 痕迹格。2-5 号位单占用；1 号位是数组，可无限追加，后追加 token 按当前异常点 token 的宽度半径向上推算并视为更靠上；1 号位放置热区会向上扩展，避免追加时需要精确点击已放 token。
-- 调试按钮「异常点调试」会强制在外星人 1 展示异常点并生成三个异常标记，不预放痕迹 token，并自动开启「获取外星人标记」；正面痕迹放置按正式规则结算奖励。
-- 异常点揭示后面板下方展示一张异常点牌；痕迹奖励产生“外星人牌”时可确认拿展示牌、盲抽异常点牌或取消。异常点牌进入手牌并保留 `price`、`cardTypeCode`、`discardActionCode`、`scanActionCode`、`incomeCode`，打牌效果由 `randomizer/game/cards/effects.js` 中 `yichangdian_0.webp` 到 `yichangdian_9.webp` 模型驱动。
-
-半人马专属机制：
-
-- `randomizer/game/aliens/banrenma.js` 管理半人马状态，挂在 `alienGameState.banrenma`。字段包括 `revealedSlotId`、`traceSlotsByAlienSlotId`、`displayedCardIndex`、`cardDeck`、`scoreMarks`、`bonusSlots`。
-- 半人马揭示后使用正面 3×5 痕迹格（粉/黄/蓝各 1–5 号位）。1 号位是数组，可无限向上追加；2–5 号位单占用。痕迹坐标在 `placement.js` 的 `BANRENMA_TRACE_MARKER_SLOTS`，1 号位叠放偏移由 `BANRENMA_POSITION1_STACK_STEP_Y` 推算。
-- 痕迹奖励见 `assets/aliens/半人马/face_detail.md`：1 号位失去 1 数据得 6 分，2 号位失去 3 数据得 15 分，3 号位 5 分，4 号位 3 分 + 1 外星人牌，5 号位 5 分 + 1 外星人牌。外星人牌可拿当前展示牌、盲抽或取消。
-- 半人马揭示时，在外星人面板上方为每名启用玩家记录 1 个分数标记，阈值为该玩家当前分数 +15。玩家达到阈值后可选择一个尚未使用的顶部奖励位：1 任意外星人痕迹，2 外星人牌 +1 能量，3 得 3 宣传，4 得 8 分；奖励位会放置对应玩家颜色的半人马 `mark_*.png` 并全局占用，显示尺寸由 `BANRENMA_BONUS_TOKEN_DISPLAY_SCALE` 控制。
-- 半人马牌打出消耗能量而不是信用点，打出后进入保留区第二排，不视为 1/2 型任务牌。每张打出的半人马牌会额外记录一个当前分数 +15 的阈值；玩家达到阈值时可任选一张已达成的半人马保留牌，弃掉该牌并结算其条件效果。
-- 半人马卡牌模型由 `banrenma.js` 定义，使用 `assets/aliens/半人马/cards/0.webp`–`9.webp`。立即效果包括盲抽、资源、科技、精选、双扇区扫描和发射；条件效果包括指定/任意外星人痕迹、资源和收入增加。
-- 调试按钮「半人马调试」会强制在外星人 1 展示半人马、初始化展示牌和分数标记，不预放痕迹 token，并自动开启「获取外星人标记」；正面痕迹放置按正式规则结算奖励，1/2 号位仍要求并支付数据。当前半人马痕迹坐标已固化在 `BANRENMA_TRACE_MARKER_SLOTS`，奖励位坐标已固化在 `BANRENMA_BONUS_MARKER_SLOTS`；痕迹 token 和奖励 mark 均不再开启可拖动校准。
-
-方舟专属机制：
-
-- `randomizer/game/aliens/fangzhou.js` 管理方舟状态，挂在 `alienGameState.fangzhou`。揭示后使用正面 3×4 痕迹格（粉/黄/蓝各 1–4 号位）；1 号位单占用，2–4 号位需玩家 `unlockCount` 达到 1/2/3 才可放置。
-- 揭示时每名启用玩家随机获得 3 张 card2 解锁牌（粉/黄/蓝各 1）放入保留区第二排；获取外星人痕迹时可选择放置到方舟正面或消耗痕迹解锁对应 card2（二选一，解锁后卡牌进入手牌并从保留区移除），`unlockCount++`。
-- card1 为 9 张奖励牌堆（`assets/aliens/方舟/cards/0.webp`–`8.webp`）；基础/高级奖励翻牌后全部进入效果队列依次结算；高级奖励由打出已解锁 card2（2 信用点主行动）或弃掉 card2 快速行动触发；已翻开 5 张后仍保留展示，下次获得奖励时先洗混 9 张再翻出新牌。
-- 揭示时，在 state 面板拥有首痕迹的玩家按首痕迹数量各获得 1 次基础奖励。
-- 痕迹放置奖励见 `assets/aliens/方舟/face_detail.md`：1 号位 2 分+1 基础奖励，2 号位 2 基础奖励，3 号位 5 分+1 基础奖励，4 号位 7 分+1 基础奖励。
-- 调试按钮「方舟调试」会强制在外星人 1 展示方舟并初始化解锁牌，不预放痕迹 token，并自动开启「获取外星人标记」；正面痕迹放置和保留区解锁按正式规则结算奖励。默认坐标在 `placement.js` 的 `FANGZHOU_TRACE_MARKER_SLOTS`。
-
-虫族专属机制：
-
-- `randomizer/game/aliens/chong.js` 管理虫族状态，挂在 `alienGameState.chong`。字段包括 `revealedSlotId`、`traceSlotsByAlienSlotId`、虫族牌 `cardDeck`/`displayedCardIndex`、`fossilsById`、木星/土星化石 `planetFossilIds`、面板化石位 `panelFossilSlots`、已解锁蓝色位 `unlockedBluePositions`、搬运任务 `transportTasksByRocketId` 与 `completedTransports`。
-- 虫族揭示后使用正面痕迹格：粉/黄各 4 格，蓝 9 格。蓝色 7/8/9 号位初始可放；蓝色 1–6 号位初始锁定且必须已有面板化石才可放置，化石搬运完成后从 1 号位起逐个解锁并放入对应化石。坐标在 `placement.js` 的 `CHONG_TRACE_MARKER_SLOTS`，调试坐标覆盖可通过 `window.SetiRandomizer.getChongTraceLayoutOverrides()` 读取。
-- 揭示时洗混 `fossil_01`–`fossil_07`：3 枚放木星、3 枚放土星；显示层面木星/土星各只显示 1 个 `fossil_back.webp` 反面标记，偏放在当前星球扇区右下侧。另有 1 枚放到虫族面板初始化石位（蓝色 7 号视觉位，对应文档的蓝 1 化石框）。化石奖励：01=3 宣传，02=7 分，03=3 分+精选，04=盲抽 2，05=2 数据，06=2 能量，07=2 信用点。
-- 粉/黄痕迹奖励：1 号 4 分，2 号 5 分，3 号 3 分+虫族牌，4 号 5 分+虫族牌。蓝色 7 号结算面板化石奖励；8 号 3 分+虫族牌；9 号 5 分+虫族牌；解锁后的蓝色 1–6 号结算对应化石奖励。
-- 虫族牌由 `assets/aliens/虫/card_model.csv` 建模，图片为 `assets/aliens/虫/cards/0.webp`–`9.webp`。获得虫族牌时可拿展示牌、盲抽或取消。打出虫族牌按信用点支付并进入保留区；需要“登陆/环绕并拾取化石”的牌拆成效果队列节点：先结算登陆或环绕/登陆（图标分别为 `land.webp` / `orbit or land.webp`），再结算“拾取化石”（图标 `assets/aliens/虫/fossil_back.webp`）。获取/结算化石奖励的虫族效果节点默认使用 `assets/aliens/虫/fossil_ok.webp`。标记为可登陆卫星的虫族牌在登陆前弹出主星/卫星选择，并在本次登陆中临时等同拥有橙色 4 号科技。`生态系统研究` 是 3 型终局牌，按虫族板块上该玩家每枚痕迹 +1 分。
-- 虫族化石搬运会在太阳系主盘生成 `ROCKET_KIND.CHONG_FOSSIL` 可移动棋子；棋子显示化石反面图标，并在上方叠加所属玩家的 `normal_token` 小标记，二者显示尺寸均比原始搬运显示放大 20%。它可点击进入移动箭头流程、随旋转推动、访问星球/彗星/橙 2 小行星时获得同类宣传奖励，但不计入玩家普通火箭上限，不能执行普通环绕/登陆。进入地球也会产生访问星球事件（不获得宣传），用于地球目的地任务判定。到达任务目的地后只标记为已送达并锁定移动；玩家需要像常规 2 型任务牌一样点击对应虫族保留牌并确认完成，之后才移除太阳系棋子、将任务牌移入弃牌堆、解锁虫族上方 1–6 号空白蓝色化石位，将该化石正面放到面板，并结算化石奖励/任务奖励。该完成步骤会在行动日志中记录触发的奖励摘要。
-- 查看或选择木星/土星化石时，选择弹窗使用对应化石正面图标展示，不用 `fossil_0x` 文字作为主要展示。
-- 调试按钮「虫族调试」会强制在外星人 1 展示虫族，按正式揭示流程随机化虫族牌与化石（木星 3、土星 3、面板 1），不预放痕迹 token、不额外填满面板化石位，并自动开启「获取外星人标记」；正面放置按正式规则结算奖励并限制无化石的蓝色 1–6 号位。
-
-阿米巴专属机制：
-
-- `randomizer/game/aliens/amiba.js` 管理阿米巴状态，挂在 `alienGameState.amiba`。字段包括 `revealedSlotId`、`traceSlotsByAlienSlotId`、`symbolSlots` / `symbolsById`、阿米巴牌 `cardDeck` / `displayedCardIndex`。
-- 阿米巴揭示后使用正面 3×4 痕迹格（粉/黄/蓝各 1–4 号位，均单占用）。粉色痕迹结算红色区域，黄色痕迹结算橙色区域，蓝色痕迹结算蓝色区域；2/4 号位额外得 1 分，3/4 号位额外获得 1 张阿米巴牌。
-- 上方面板有 9 个 symbol 位：外圈按顺时针命名为 `orange_1`（橙1）/ `orange_2`（橙2）/ `blue_1`（蓝1）/ `blue_2`（蓝2）/ `red_1`（红1）/ `red_2`（红2），内圈按顺时针命名为 `orange_3`（橙3）/ `blue_3`（蓝3）/ `red_3`（红3）。揭示时 5 个 symbol 随机放在 `orange_1`、`orange_2`、`blue_3`、`red_1`、`red_2`；结算某个 symbol 后，外圈顺时针、内圈逆时针移动到下一个空位。
-- `symbol_1` 奖励为 1 宣传，`symbol_2` 为 1 数据，`symbol_3` 为 4 分，`symbol_4` 为 1 盲抽，`symbol_5` 为 2 分。区域奖励会按区域内已占用 symbol 的顺序逐个结算并移动 symbol。
-- 阿米巴牌由 `amiba.js` 根据 `assets/aliens/阿米巴/card_model.csv` 建模，图片为 `assets/aliens/阿米巴/cards/0.webp`–`9.webp`。0/3/4/5/6/7/8/9 号牌效果进入效果队列；1 型任务通过打出科技或外星人痕迹事件触发；5/6/7 号 3 型牌分别按粉/黄/蓝阿米巴痕迹实时终局计分；8 号 2 型牌要求玩家已有粉/黄/蓝各至少 1 个阿米巴痕迹，完成后按阿米巴空痕迹位数量得分。
-- 调试按钮「阿米巴调试」会强制在外星人 1 展示阿米巴，按揭示阶段默认放置 5 个 symbol，不预放痕迹 token，并自动开启「获取外星人标记」。调试信息会输出每个痕迹位和 symbol 位的当前坐标；坐标覆盖读取入口保留为 `window.SetiRandomizer.getAmibaTraceLayoutOverrides()` / `window.SetiRandomizer.getAmibaSymbolLayoutOverrides()`，但默认不再开启拖动校准。默认坐标定义在 `AMIBA_TRACE_MARKER_SLOTS` 与 `AMIBA_SYMBOL_MARKER_SLOTS`，symbol 默认显示倍率为 `AMIBA_SYMBOL_DISPLAY_SCALE`。
+- 通用设计总结与新增外星人检查清单：`docs/alien-design.md`。
+- 九折：`assets/aliens/九折/implementation.md`。
+- 异常点：`assets/aliens/异常点/implementation.md`。
+- 半人马：`assets/aliens/半人马/implementation.md`。
+- 方舟：`assets/aliens/方舟/implementation.md`。
+- 虫：`assets/aliens/虫/implementation.md`。
+- 阿米巴：`assets/aliens/阿米巴/implementation.md`。
+- 奥陌陌：`assets/aliens/奥陌陌/implementation.md`。
+- 符文族：`assets/aliens/符文族/implementation.md`。
 
 ### 扇区与星云状态
 
@@ -200,7 +165,7 @@ UI 布局：
 - `sectorExtraMarks[sectorId][]` 记录单个具名扇区数据槽已满后的额外玩家标记；额外标记不占用数据槽、不产生数据，但计入扇区排名和结算平局判定。
 - `settleCompletedSectors` 会检查 8 个具名扇区：若某扇区自身数据槽都已填满且全部数据均被玩家 token 替换，则结算该扇区。
 - 扇区结算时，标记数最多的玩家获胜；标记数相同则比较该玩家在本扇区的最近标记顺序，后标记者获胜。
-- 扇区结算发生在主要行动效果队列全部完成后，结算本身不可撤销；参与本次结算且有标记的玩家各获得 1 宣传。
+- 扇区结算发生在主要行动效果队列全部完成后；结算本身不随机，会以 `nebulaDataState + playerState` 快照写入可撤销步骤，参与本次结算且有标记的玩家各获得 1 宣传。若后续奖励产生翻牌/盲抽等新信息，再由后续步骤写入不可撤销屏障。
 - 若存在第二名，第二名会在该具名扇区的 1 号数据槽保留 1 枚标记；随后清空并重新填满该扇区其余数据槽。
 - 调试按钮「快速扫描扇区」会依次选择玩家颜色、具名扇区和替换数量，批量把该扇区未替换数据改成对应玩家 token；若替换数量超过剩余未替换数据，超出部分会写入 `sectorExtraMarks`。该调试动作不获得数据、不写撤销历史，但会立即触发已完成扇区结算。
 - 每个具名星云的 2 号数据槽被玩家扫描标记时，玩家立即获得 2 分；可撤销扫描会同步回滚这 2 分。
@@ -241,8 +206,10 @@ UI 布局：
 - 初始选择确认后也会写入正式日志，标题前缀固定显示为「初始选择」而不是轮/回合；内容记录玩家选择的公司、移出游戏的初始牌，最后一名玩家还会记录统一初始牌结算结果。
 - 当前回合执行中先写入 `actionLogState.draft`，不直接显示到正式日志；玩家点击「回合结束」后，draft 才会固化进 `actionLogState.entries`。
 - 主行动效果完成时通过 `endEffectHistoryStep` 或不可撤销效果的补充记录写入 draft；快速行动完成时通过 `completeQuickActionStep` 写入 draft。
-- 撤销快速行动会删除 draft 中最近的快速行动记录；撤销主要行动效果会删除最近的主要行动记录；回滚整个主要行动会删除 draft 中所有主要行动记录但保留尚未撤销的快速行动记录。
-- 确认后不可撤销的精选/拿牌效果不会进入撤销栈，因此由对应确认分支直接补一条行动日志记录。
+- 日志 step 会记录 `stepId`、`source`、`undoable`、`irreversibleReason`；撤销时按 `stepId` 精确删除 draft 中对应记录，避免主/快速行动交错时删错日志。
+- 撤销快速行动会删除 draft 中最近的快速行动记录；撤销主要行动效果会删除最近的主要行动记录；回滚整个主要行动会删除 draft 中所有主要行动记录但保留尚未撤销的快速行动记录。若最近步骤是不可撤销屏障，只提示原因，不会越过屏障撤销更早步骤。
+- 确认后不可撤销的精选/拿牌效果会写入不可撤销屏障，并在日志中显示原因；公司 1x 中任务中继站、芬威克、宇宙战略等公共牌精选补牌能力也按 quick 日志记录 `不可撤销：公共牌补牌翻出新牌`。
+- 每条已确认的稳定行动日志 entry 会附带 `recoverySnapshot`，保存该日志确认后的完整游戏状态切片（含隐藏牌序、外星人状态、火箭、科技、星云、玩家、任务状态等，不递归保存日志本身）。最后一名玩家确认初始选择后若进入“初始收入增加”效果流，该条日志会暂时不暴露恢复快照，直到初始收入全部完成后刷新为稳定恢复点。`window.SetiRandomizer.getActionLogRecoveryPackage()` 可导出含恢复快照的日志包；`window.SetiRandomizer.recoverFromActionLog(logOrPackage, { entryId/index })` 会取对应日志快照恢复局面，并清空所有进行中的 overlay/选择流程。恢复点定位为“某条已确认日志之后”的稳定局面；调试入口仍不保证完整日志语义。
 - `randomizeAll()` 会清空行动日志，避免新开局混入上一局流程；调试入口 `window.SetiRandomizer.getActionLog()` 返回已确认日志快照。
 
 主行动锁定规则：
@@ -254,7 +221,7 @@ UI 布局：
 - `PASS` 当前也是主要行动：点击后进入“待回合结束”状态，可撤销；确认回合结束后，该玩家本轮不再获得行动机会。
 - “撤销”按最近完成的主/快速步骤回滚；主行动整体仍可通过回滚会话撤销。
 - 行动可以由能力事件链组成；链上每个节点是一个原子能力，能力返回 `undoable` 决定是否进入撤销历史。
-- 任意不可撤销效果结算后，当前主要行动不能再撤销；仍可撤销之后发生的可撤销快速行动。
+- 不可撤销效果结算后会作为历史屏障记录：屏障本身和屏障之前的步骤不可撤销，但屏障之后新发生的可撤销步骤仍可单独撤销；若最近屏障来自快速行动，也不能越过它撤销更早的主行动。
 - 科技行动采用效果链：选择科技片可撤销；旋转与科技 bonus 不可撤销；橙1免费发射与紫1获得数据分别按标准「发射」「数据」效果处理且可撤销。
 
 ### 橙色科技效果
@@ -280,7 +247,7 @@ UI 布局：
 - 奖励效果链逐个点击执行；全部完成后才允许继续快速行动或点击“回合结束”。
 - 自动奖励（分数、能量、宣传、数据、盲抽）直接结算并写入撤销命令。
 - 选择型奖励复用现有 UI：精选卡牌、收入弃牌、星云二选一、外星人痕迹选择；选择完成后推进当前奖励节点。
-- 盲抽/精选等获取卡牌的奖励一旦完成，当前主行动不可再撤销，只能继续完成效果并最终回合结束。
+- 盲抽、公共牌补牌、外星人展示牌翻新、方舟奖励牌翻开/洗牌、外星人揭示随机初始化等新信息边界会写入不可撤销屏障；纯资源、数据、移动、痕迹、任务移牌等确定性结算优先写入可撤销快照。
 - 黄色外星人标记限制为 `yellow` 痕迹；任意外星人标记允许 `yellow` / `pink` / `blue`。
 
 当前解释约定：
@@ -322,33 +289,34 @@ UI 布局：
 
 - `actionHistory`：主行动会话，控制主行动撤销与回合结束提交。
 - `quickActionHistory`：快速行动会话，记录快速交易、放置数据、移动等快速步骤。
-- `historyStepOrder`：`app.js` 中的轻量顺序栈，用于在主/快速行动交错时按最近完成步骤撤销。
+- `historyStepOrder`：`app.js` 中的轻量顺序栈，记录 `{ source, stepId }`，用于在主/快速行动交错时按最近完成步骤撤销。
+- `randomizer/game/history/transactions.js`：历史辅助层，提供能力结果记录、不可撤销屏障标记、组合状态快照恢复等工具；新增复杂机制优先复用它或同等语义，而不是直接操作两套 history。
 
 `createActionHistory()` 提供的会话 API：
 
 - `beginSession(actionType, label)`：开始一个行动会话。
-- `beginStep(meta)`：开始一个可撤销步骤。
+- `beginStep(meta)`：开始一个步骤，支持 `source`、`undoable: false`、`irreversibleCode`、`irreversibleReason`。
 - `record(command)`：记录命令，命令必须有 `undo()`。
 - `endStep()`：结束当前步骤。
 - `undoLastStep()`：撤销当前会话最后一步。
 - `rollbackSession()`：撤销整个当前行动。
 - `commitSession()`：确认或结束会话，清空当前会话。
 
-回合结束会 `commitSession()` 主行动的 `actionHistory`，并清空快速行动历史。快速行动没有确认按钮；当快速行动步骤都被撤销后，`quickActionHistory` 会自动提交清空。精选确认拿牌后不再写入可撤销历史。
+回合结束会 `commitSession()` 主行动的 `actionHistory`，并清空快速行动历史。快速行动没有确认按钮；当快速行动步骤都被撤销后，`quickActionHistory` 会自动提交清空。精选/盲抽/补牌等确认产生新信息后写入不可撤销屏障。
 
 具体撤销命令在 `randomizer/game/history/commands.js`：
 
 - 资源支付撤销：退回资源。
 - 星云替换撤销：恢复 token 原 owner。
 - 获得数据撤销：移除数据池 token，或回退弃置计数。
-- 公共牌/手牌扫描撤销：恢复牌区、手牌、弃牌堆。
+- 公共牌/手牌扫描撤销：恢复牌区、手牌、弃牌堆；若公共牌扫描弃牌后补出新公共牌，能力结果标记为 `hidden_card_reveal` 不可撤销屏障。手牌扫描弃牌不翻新牌，仍可撤销。
 - 发射撤销：移除火箭并恢复 `nextRocketId` / `activeRocketId`。
 - 移动撤销：恢复火箭移动前快照。
 - 交易、分析、放置数据撤销：恢复对应快照。
 - 通用快照撤销：恢复玩家、火箭状态、星球状态等对象快照，用于原子能力的复合副作用。
 
 新增能力函数必须只返回 `commands`，不直接写入 `actionHistory`。调用方负责在当前 session/step 中记录这些命令。
-能力必须显式返回 `undoable`；`undoable: false` 的能力成功后不写入 `actionHistory`，失败时必须自行恢复到执行前状态。
+能力必须显式返回 `undoable`；`undoable: false` 或带 `irreversible` 的能力成功后写入不可撤销屏障，失败时必须自行恢复到执行前状态。
 
 移动撤销细节：
 
@@ -456,6 +424,18 @@ UI 布局：
 ## 验证命令
 
 当前无 package.json，测试以 Node 脚本运行：
+
+推荐完整回归：
+
+```powershell
+node --check randomizer/app.js
+node --check randomizer/game/history/action-history.js
+node --check randomizer/game/history/transactions.js
+node --check randomizer/game/abilities/scan.js
+$tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort-Object; foreach ($test in $tests) { node $test; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }
+```
+
+常用拆分命令：
 
 ```powershell
 node randomizer/game/abilities/abilities.test.js

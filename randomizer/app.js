@@ -13,6 +13,7 @@
   const endGameScoring = window.SetiEndGameScoring;
   const actionHistoryModule = window.SetiActionHistory;
   const historyCommands = window.SetiHistoryCommands;
+  const historyTransactions = window.SetiHistoryTransactions;
   const abilities = window.SetiAbilities;
   const quickTrades = window.SetiQuickTrades;
   const basicCards = window.SetiBasicCards;
@@ -146,6 +147,7 @@
     initialSelection: "初始选择",
     quick: "快速行动",
   });
+  const GAME_RECOVERY_VERSION = 1;
   const PUBLIC_SCAN_MAX_BONUS_CARDS = 2;
   const DEBUG_QUICK_SECTOR_SCAN_EXTRA_LIMIT = 10;
   const PUBLIC_SCAN_TARGETS_BY_CODE = Object.freeze({
@@ -252,7 +254,8 @@
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
   let pendingActionEffectFlow = null;
-  let pendingActionHasIrreversibleCardGain = false;
+  let pendingActionHasIrreversibleBarrier = false;
+  let pendingActionIrreversibleReason = null;
   const actionHistory = actionHistoryModule.createActionHistory();
   const quickActionHistory = actionHistoryModule.createActionHistory();
   const HISTORY_SOURCE_MAIN = "main";
@@ -753,6 +756,13 @@
     syncInteractionFocusChrome();
     updateActionButtons();
     renderStateReadout();
+    if (isInitialIncomeFlowActive()) {
+      const latestEntry = actionLogState.entries[actionLogState.entries.length - 1];
+      if (latestEntry) delete latestEntry.recoverySnapshot;
+      renderActionLog();
+    } else {
+      refreshLatestActionLogRecoverySnapshot("初始选择后状态");
+    }
   }
 
   function resolveInitialSelectionEffects() {
@@ -926,6 +936,30 @@
     return `${cleanLabel}：${cleanDetail}`;
   }
 
+  function normalizeActionLogStep(source, label, detail = null, options = {}) {
+    const text = composeActionLogStepText(label, detail);
+    if (!text) return null;
+    return {
+      stepId: options.stepId || options.id || null,
+      source,
+      text,
+      label: normalizeActionLogText(label),
+      detail: normalizeActionLogText(detail),
+      undoable: options.undoable !== false,
+      irreversibleCode: options.irreversibleCode || null,
+      irreversibleReason: normalizeActionLogText(options.irreversibleReason),
+    };
+  }
+
+  function actionLogOptionsFromHistoryStep(step = {}) {
+    return {
+      stepId: step.id || null,
+      undoable: step.undoable !== false,
+      irreversibleCode: step.irreversibleCode || null,
+      irreversibleReason: step.irreversibleReason || null,
+    };
+  }
+
   function ensureActionLogDraft(options = {}) {
     const player = options.player || getCurrentPlayer();
     const playerId = options.playerId || player?.id || playerState.currentPlayerId || null;
@@ -982,24 +1016,21 @@
       label: options.actionLabel,
       player: options.player,
     });
-    const text = composeActionLogStepText(label, detail);
-    if (!text) return null;
-    const step = {
-      source,
-      text,
-      label: normalizeActionLogText(label),
-      detail: normalizeActionLogText(detail),
-    };
+    const step = normalizeActionLogStep(source, label, detail, options);
+    if (!step) return null;
     draft.steps.push(step);
     renderActionLog();
     return step;
   }
 
-  function removeLastActionLogStep(source) {
+  function removeLastActionLogStep(source, stepId = null) {
     const draft = actionLogState.draft;
     if (!draft?.steps?.length) return null;
     for (let index = draft.steps.length - 1; index >= 0; index -= 1) {
-      if (!source || draft.steps[index].source === source) {
+      const step = draft.steps[index];
+      const sourceMatches = !source || step.source === source;
+      const idMatches = !stepId || step.stepId === stepId;
+      if (sourceMatches && idMatches) {
         const [removed] = draft.steps.splice(index, 1);
         pruneEmptyActionLogDraft();
         renderActionLog();
@@ -1036,6 +1067,264 @@
     renderActionLog();
   }
 
+  function createGameRecoverySnapshot(meta = {}) {
+    return {
+      version: GAME_RECOVERY_VERSION,
+      meta: {
+        roundNumber: turnState.roundNumber,
+        turnNumber: turnState.turnNumber,
+        currentPlayerId: playerState.currentPlayerId,
+        entryId: meta.entryId ?? null,
+        label: meta.label || null,
+      },
+      state: {
+        solarState: structuredClone(solarState),
+        nebulaDataState: structuredClone(nebulaDataState),
+        alienGameState: structuredClone(alienGameState),
+        finalScoringState: structuredClone(finalScoringState),
+        playerState: structuredClone(playerState),
+        turnState: structuredClone(turnState),
+        rocketState: structuredClone(rocketState),
+        planetStatsState: structuredClone(planetStatsState),
+        techGameState: structuredClone(techGameState),
+        cardState: structuredClone(cardState),
+        cardTaskState: structuredClone(cardTaskState),
+        setupSelectionState: structuredClone(setupSelectionState),
+      },
+    };
+  }
+
+  function attachRecoverySnapshotToActionLogEntry(entry, label = null) {
+    if (!entry) return null;
+    entry.recoverySnapshot = createGameRecoverySnapshot({
+      entryId: entry.id,
+      label: label || entry.actionLabel || entry.title || null,
+    });
+    return entry.recoverySnapshot;
+  }
+
+  function refreshLatestActionLogRecoverySnapshot(label = null) {
+    const entry = actionLogState.entries[actionLogState.entries.length - 1] || null;
+    if (!entry) return null;
+    attachRecoverySnapshotToActionLogEntry(entry, label);
+    renderActionLog();
+    return entry.recoverySnapshot;
+  }
+
+  function normalizeRecoverableActionLogEntry(entry, options = {}) {
+    const includeRecovery = options.includeRecovery !== false;
+    const clone = structuredClone(entry);
+    if (!includeRecovery) {
+      delete clone.recoverySnapshot;
+    }
+    return clone;
+  }
+
+  function getRecoverableActionLog(options = {}) {
+    return actionLogState.entries.map((entry) => normalizeRecoverableActionLogEntry(entry, options));
+  }
+
+  function createActionLogRecoveryPackage(options = {}) {
+    return {
+      version: GAME_RECOVERY_VERSION,
+      latestSnapshot: createGameRecoverySnapshot({ label: "当前局面" }),
+      entries: getRecoverableActionLog({ includeRecovery: options.includeRecovery !== false }),
+    };
+  }
+
+  function getRecoveryEntriesFromInput(logOrPackage) {
+    if (Array.isArray(logOrPackage)) return logOrPackage;
+    if (Array.isArray(logOrPackage?.entries)) return logOrPackage.entries;
+    return [];
+  }
+
+  function getRecoverySnapshotFromLog(logOrPackage, options = {}) {
+    const entries = getRecoveryEntriesFromInput(logOrPackage);
+    if (!entries.length) {
+      return logOrPackage?.latestSnapshot || logOrPackage?.baseSnapshot || null;
+    }
+    if (options.entryId != null) {
+      const match = entries.find((entry) => entry.id === options.entryId || String(entry.id) === String(options.entryId));
+      return match?.recoverySnapshot || null;
+    }
+    const index = Number.isInteger(options.index)
+      ? options.index
+      : entries.length - 1;
+    const entry = entries[Math.max(0, Math.min(entries.length - 1, index))];
+    return entry?.recoverySnapshot || null;
+  }
+
+  function clearTransientStateForRecovery() {
+    pendingDiscardAction = null;
+    pendingCardSelectionAction = null;
+    pendingScanTargetAction = null;
+    pendingPublicScanQueue = null;
+    pendingHandScanAction = null;
+    pendingAlienTraceAction = null;
+    pendingLandTargetAction = null;
+    pendingCardTriggerAction = null;
+    pendingCardTriggerFreeMove = null;
+    pendingCardTaskCompletion = null;
+    pendingJiuzheCardPlay = null;
+    pendingJiuzheOpportunityOpen = false;
+    jiuzheOpportunityQueue = [];
+    pendingYichangdianCardGain = null;
+    pendingYichangdianCornerAction = null;
+    pendingBanrenmaCardGain = null;
+    pendingBanrenmaOpportunity = null;
+    banrenmaOpportunityQueue = [];
+    pendingChongCardGain = null;
+    pendingChongFossilChoice = null;
+    pendingChongTaskCompletion = null;
+    pendingAmibaCardGain = null;
+    pendingAmibaSymbolChoice = null;
+    pendingAmibaTraceRemoval = null;
+    alienTracePickerState = null;
+    debugAlienTraceModeActive = false;
+    pendingActionExecuted = false;
+    pendingPassPlayerId = null;
+    pendingActionEffectFlow = null;
+    pendingActionHasIrreversibleBarrier = false;
+    pendingActionIrreversibleReason = null;
+    effectStepActive = false;
+    moveHighlightRocketId = null;
+    pendingMovePayment = null;
+    pendingPlayCardSelection = null;
+    pendingCardCornerQuickAction = null;
+    pendingCardCornerFreeMove = null;
+    pendingIndustryAbility = null;
+    industryFreeMoveState = null;
+    historyStepOrder.length = 0;
+    actionHistory.commitSession();
+    quickActionHistory.commitSession();
+    cards.setSelectionActive(cardState, false);
+    cards.setPlayCardSelectionActive(cardState, false);
+    cards.setDiscardSelectionActive(cardState, false, 0);
+    if (techGameState?.ui) {
+      techGameState.ui.industryBorrowMode = false;
+    }
+    tech.setTechSelectionActive(techGameState, false);
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+    if (els.landTargetOverlay) els.landTargetOverlay.hidden = true;
+    if (els.dataPlaceOverlay) els.dataPlaceOverlay.hidden = true;
+    if (els.actionEffectBar) els.actionEffectBar.hidden = true;
+    els.appWrap?.classList.remove(
+      "action-effect-flow-active",
+      "move-mode-active",
+      "card-selection-active",
+      "play-card-selection-active",
+      "discard-selection-active",
+      "hand-scan-selection-active",
+      "industry-hand-selection-active",
+    );
+  }
+
+  function refreshAfterGameRecovery(message = "已从行动日志恢复局面") {
+    setTokenAssetSizes();
+    renderWheels();
+    renderSectors();
+    renderRotateStateToken();
+    renderFinalScoreBoard();
+    syncPlanetOrbitLandMarkers();
+    renderTechBoard();
+    renderAlienPanels();
+    renderRockets();
+    renderPublicCards();
+    updatePublicCardControls();
+    renderReservedCards();
+    renderInitialSelectionArea();
+    renderPlayerHand();
+    renderPlayerStats();
+    renderRoundStatus();
+    renderDebugPlayerSwitch();
+    renderActionEffectBar();
+    syncCardSelectionChrome();
+    syncDiscardSelectionChrome();
+    syncHandScanSelectionChrome();
+    syncPlayCardSelectionChrome();
+    syncTechSelectionChrome();
+    syncIndustryHandSelectionChrome();
+    syncInteractionFocusChrome();
+    updateQuickPanel();
+    updateActionButtons();
+    rocketState.statusNote = message;
+    renderStateReadout();
+    renderActionLog();
+  }
+
+  function applyGameRecoverySnapshot(snapshot, options = {}) {
+    const state = snapshot?.state || snapshot;
+    if (!state) {
+      return { ok: false, message: "行动日志中没有可恢复快照" };
+    }
+    const slices = {
+      solarState,
+      nebulaDataState,
+      alienGameState,
+      finalScoringState,
+      playerState,
+      turnState,
+      rocketState,
+      planetStatsState,
+      techGameState,
+      cardState,
+      cardTaskState,
+      setupSelectionState,
+    };
+    for (const [key, target] of Object.entries(slices)) {
+      if (state[key] != null) {
+        restoreMutableObject(target, state[key]);
+      }
+    }
+    clearTransientStateForRecovery();
+    refreshAfterGameRecovery(options.message || "已从行动日志恢复局面");
+    return {
+      ok: true,
+      snapshotVersion: snapshot.version || null,
+      message: rocketState.statusNote,
+    };
+  }
+
+  function importActionLogEntries(entries, options = {}) {
+    const normalizedEntries = (entries || [])
+      .map((entry) => structuredClone(entry))
+      .filter((entry) => entry && entry.id != null);
+    if (options.truncateToEntryId != null) {
+      const index = normalizedEntries.findIndex((entry) => (
+        entry.id === options.truncateToEntryId || String(entry.id) === String(options.truncateToEntryId)
+      ));
+      actionLogState.entries = index >= 0
+        ? normalizedEntries.slice(0, index + 1)
+        : normalizedEntries;
+    } else if (Number.isInteger(options.truncateToIndex)) {
+      actionLogState.entries = normalizedEntries.slice(0, options.truncateToIndex + 1);
+    } else {
+      actionLogState.entries = normalizedEntries;
+    }
+    actionLogState.nextEntryId = actionLogState.entries.reduce(
+      (max, entry) => Math.max(max, Math.round(Number(entry.id)) || 0),
+      0,
+    ) + 1;
+    actionLogState.draft = null;
+  }
+
+  function recoverFromActionLog(logOrPackage, options = {}) {
+    const entries = getRecoveryEntriesFromInput(logOrPackage);
+    const snapshot = getRecoverySnapshotFromLog(logOrPackage, options);
+    if (!snapshot) {
+      return { ok: false, message: "行动日志中没有可恢复快照" };
+    }
+    if (entries.length && options.restoreLog !== false) {
+      importActionLogEntries(entries, {
+        truncateToEntryId: options.entryId,
+        truncateToIndex: Number.isInteger(options.index) ? options.index : null,
+      });
+    }
+    return applyGameRecoverySnapshot(snapshot, {
+      message: options.message || "已根据行动日志恢复局面",
+    });
+  }
+
   function commitActionLogDraft(options = {}) {
     const draft = actionLogState.draft;
     if (!draft) return null;
@@ -1058,6 +1347,7 @@
       passed: Boolean(options.passed),
       steps: draft.steps.map((step) => ({ ...step })),
     };
+    attachRecoverySnapshotToActionLogEntry(entry, "行动提交后状态");
     actionLogState.nextEntryId += 1;
     actionLogState.entries.push(entry);
     actionLogState.draft = null;
@@ -1079,12 +1369,17 @@
       actionLabel: getActionLogActionLabel(entryInput.actionType, entryInput.actionLabel),
       passed: Boolean(entryInput.passed),
       steps: (entryInput.steps || []).map((step) => ({
+        stepId: step.stepId || null,
         source: step.source || HISTORY_SOURCE_MAIN,
         text: normalizeActionLogText(step.text || composeActionLogStepText(step.label, step.detail)),
         label: normalizeActionLogText(step.label),
         detail: normalizeActionLogText(step.detail),
+        undoable: step.undoable !== false,
+        irreversibleCode: step.irreversibleCode || null,
+        irreversibleReason: normalizeActionLogText(step.irreversibleReason),
       })).filter((step) => step.text),
     };
+    attachRecoverySnapshotToActionLogEntry(entry, entry.title || "已确认日志后状态");
     actionLogState.nextEntryId += 1;
     actionLogState.entries.push(entry);
     renderActionLog();
@@ -1130,7 +1425,9 @@
       const text = document.createElement("span");
       text.className = "action-log-effect-text";
       const sourceLabel = ACTION_LOG_SOURCE_LABELS[step.source] || "行动";
-      text.textContent = `${sourceLabel}：${step.text}`;
+      text.textContent = `${sourceLabel}：${step.text}${
+        step.irreversibleReason ? `（不可撤销：${step.irreversibleReason}）` : ""
+      }`;
 
       item.append(indexNode, text);
       list.append(item);
@@ -3244,11 +3541,12 @@
       if (quickActionHistory.hasSession()) quickActionHistory.commitSession();
     }
     if (pending?.type === "planet_reward_pick_card") {
-      pendingActionHasIrreversibleCardGain = true;
+      markCurrentActionIrreversible("公共牌补牌翻出新牌", "hidden_card_reveal");
       if (getCurrentActionEffect()) {
         getCurrentActionEffect().result = {
           ok: true,
           undoable: false,
+          irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
           message: rocketState.statusNote,
           payload: { card: result.card, replenished: result.replenished || null },
         };
@@ -3256,7 +3554,7 @@
       completeCurrentActionEffect();
     }
     if (pending?.type === "tech_bonus_pick_card") {
-      pendingActionHasIrreversibleCardGain = true;
+      markCurrentActionIrreversible("公共牌补牌翻出新牌", "hidden_card_reveal");
       const bonusResult = abilities.executeAbility("researchTechBonus", createActionContext(), {
         bonusId: pending.bonusId,
         firstTake: Boolean(pending.firstTake),
@@ -3266,6 +3564,7 @@
         getCurrentActionEffect().result = {
           ok: true,
           undoable: false,
+          irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
           message: `${rocketState.statusNote}${bonusResult?.message ? `；${bonusResult.message}` : ""}`,
           events: [{
             type: "researchTech",
@@ -3293,11 +3592,12 @@
     if (pending?.type === "jiuzhe_trace_pick") {
       rocketState.statusNote = `九折痕迹精选：${cards.getCardLabel(result.card)}`;
       if (pending.fromEffectFlow) {
-        pendingActionHasIrreversibleCardGain = true;
+        markCurrentActionIrreversible("公共牌补牌翻出新牌", "hidden_card_reveal");
         if (getCurrentActionEffect()) {
           getCurrentActionEffect().result = {
             ok: true,
             undoable: false,
+            irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
             message: rocketState.statusNote,
             payload: { card: result.card, replenished: result.replenished || null },
           };
@@ -3308,11 +3608,12 @@
     if (pending?.type === "yichangdian_anomaly_pick") {
       rocketState.statusNote = `异常奖励精选：${cards.getCardLabel(result.card)}`;
       if (pending.fromEffectFlow) {
-        pendingActionHasIrreversibleCardGain = true;
+        markCurrentActionIrreversible("公共牌补牌翻出新牌", "hidden_card_reveal");
         if (getCurrentActionEffect()) {
           getCurrentActionEffect().result = {
             ok: true,
             undoable: false,
+            irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
             message: rocketState.statusNote,
             payload: { card: result.card, replenished: result.replenished || null },
           };
@@ -3323,11 +3624,12 @@
     if (pending?.type === "chong_pick_card") {
       rocketState.statusNote = `虫族奖励精选：${cards.getCardLabel(result.card)}`;
       if (pending.fromEffectFlow) {
-        pendingActionHasIrreversibleCardGain = true;
+        markCurrentActionIrreversible("公共牌补牌翻出新牌", "hidden_card_reveal");
         if (getCurrentActionEffect()) {
           getCurrentActionEffect().result = {
             ok: true,
             undoable: false,
+            irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
             message: rocketState.statusNote,
             payload: { card: result.card, replenished: result.replenished || null },
           };
@@ -3338,11 +3640,12 @@
     if (pending?.type === "amiba_pick_card") {
       rocketState.statusNote = `阿米巴奖励精选：${cards.getCardLabel(result.card)}`;
       if (pending.fromEffectFlow) {
-        pendingActionHasIrreversibleCardGain = true;
+        markCurrentActionIrreversible("公共牌补牌翻出新牌", "hidden_card_reveal");
         if (getCurrentActionEffect()) {
           getCurrentActionEffect().result = {
             ok: true,
             undoable: false,
+            irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
             message: rocketState.statusNote,
             payload: { card: result.card, replenished: result.replenished || null },
           };
@@ -3921,7 +4224,8 @@
       recordAbilityCommands(result);
       if (pending.irreversibleDraw) {
         result.undoable = false;
-        pendingActionHasIrreversibleCardGain = true;
+        result.irreversible = { code: "hidden_card_reveal", reason: "盲抽翻出新牌" };
+        markCurrentActionIrreversible(result.irreversible.reason, result.irreversible.code);
       }
       rocketState.statusNote = result.message;
       renderSectors();
@@ -3953,7 +4257,8 @@
       recordAbilityCommands(result);
       if (pending.irreversibleDraw) {
         result.undoable = false;
-        pendingActionHasIrreversibleCardGain = true;
+        result.irreversible = { code: "hidden_card_reveal", reason: "盲抽翻出新牌" };
+        markCurrentActionIrreversible(result.irreversible.reason, result.irreversible.code);
       }
       rocketState.statusNote = result.message;
       renderSectors();
@@ -4520,9 +4825,31 @@
     renderActionEffectBar();
   }
 
+  function getEffectHistorySource() {
+    return pendingActionEffectFlow?.historySource || HISTORY_SOURCE_MAIN;
+  }
+
+  function getHistoryForSource(source) {
+    return source === HISTORY_SOURCE_QUICK ? quickActionHistory : actionHistory;
+  }
+
+  function getActiveEffectHistory() {
+    if (effectStepActive) return getHistoryForSource(getEffectHistorySource());
+    return actionHistory;
+  }
+
+  function ensureEffectHistorySession(source, actionType, label) {
+    const history = getHistoryForSource(source);
+    if (!history.hasSession()) {
+      history.beginSession(source === HISTORY_SOURCE_QUICK ? "quick" : actionType, label || "效果");
+    }
+    return history;
+  }
+
   function recordHistoryCommand(command) {
-    if (!actionHistory.hasSession()) return;
-    actionHistory.record(command);
+    const history = getActiveEffectHistory();
+    if (!history.hasSession()) return;
+    history.record(command);
   }
 
   function recordQuickHistoryCommand(command) {
@@ -4550,7 +4877,7 @@
     }
     startActionLogDraft(actionType, label, { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession(actionType, label);
-    actionHistory.beginStep({ type: "action", label });
+    actionHistory.beginStep({ source: HISTORY_SOURCE_MAIN, type: "action", label });
     effectStepActive = true;
   }
 
@@ -4563,7 +4890,7 @@
     if (!quickActionHistory.hasSession()) {
       quickActionHistory.beginSession("quick", "快速行动");
     }
-    quickActionHistory.beginStep({ type: actionType, label });
+    quickActionHistory.beginStep({ source: HISTORY_SOURCE_QUICK, type: actionType, label });
   }
 
   function completePendingActionStep() {
@@ -4571,21 +4898,35 @@
     markActionPending();
   }
 
-  function completeQuickActionStep(detail = null) {
+  function completeQuickActionStep(detail = null, options = {}) {
     const step = quickActionHistory.endStep();
     if (step) {
-      rememberHistoryStep(HISTORY_SOURCE_QUICK);
-      appendActionLogStep(HISTORY_SOURCE_QUICK, step.label, detail);
+      if (options.irreversibleReason || options.undoable === false) {
+        step.undoable = false;
+        step.irreversibleCode = options.irreversibleCode || "irreversible_quick_action";
+        step.irreversibleReason = options.irreversibleReason || "该快速行动产生不可撤销影响";
+        markCurrentActionIrreversible(step.irreversibleReason, step.irreversibleCode);
+      }
+      rememberHistoryStep(HISTORY_SOURCE_QUICK, step.id);
+      appendActionLogStep(
+        HISTORY_SOURCE_QUICK,
+        step.label,
+        detail,
+        actionLogOptionsFromHistoryStep(step),
+      );
     }
   }
 
-  function rememberHistoryStep(source) {
-    historyStepOrder.push(source);
+  function rememberHistoryStep(source, stepId = null) {
+    historyStepOrder.push({ source, stepId });
   }
 
-  function forgetLastHistoryStep(source) {
+  function forgetLastHistoryStep(source, stepId = null) {
     for (let index = historyStepOrder.length - 1; index >= 0; index -= 1) {
-      if (historyStepOrder[index] === source) {
+      const entry = typeof historyStepOrder[index] === "string"
+        ? { source: historyStepOrder[index], stepId: null }
+        : historyStepOrder[index];
+      if (entry.source === source && (!stepId || entry.stepId === stepId)) {
         historyStepOrder.splice(index, 1);
         return;
       }
@@ -4594,7 +4935,10 @@
 
   function clearHistoryStepOrderForSource(source) {
     for (let index = historyStepOrder.length - 1; index >= 0; index -= 1) {
-      if (historyStepOrder[index] === source) {
+      const entry = typeof historyStepOrder[index] === "string"
+        ? { source: historyStepOrder[index], stepId: null }
+        : historyStepOrder[index];
+      if (entry.source === source) {
         historyStepOrder.splice(index, 1);
       }
     }
@@ -4602,9 +4946,16 @@
 
   function getLatestUndoSource() {
     for (let index = historyStepOrder.length - 1; index >= 0; index -= 1) {
-      const source = historyStepOrder[index];
-      if (source === HISTORY_SOURCE_QUICK && quickActionHistory.hasUndoableStep()) return source;
-      if (source === HISTORY_SOURCE_MAIN && actionHistory.hasUndoableStep()) return source;
+      const entry = typeof historyStepOrder[index] === "string"
+        ? { source: historyStepOrder[index], stepId: null }
+        : historyStepOrder[index];
+      const source = entry.source;
+      if (source === HISTORY_SOURCE_QUICK && quickActionHistory.hasSession()) {
+        return quickActionHistory.hasUndoableStep() ? source : null;
+      }
+      if (source === HISTORY_SOURCE_MAIN && actionHistory.hasSession()) {
+        return actionHistory.hasUndoableStep() ? source : null;
+      }
     }
     if (quickActionHistory.hasUndoableStep()) return HISTORY_SOURCE_QUICK;
     if (actionHistory.hasUndoableStep()) return HISTORY_SOURCE_MAIN;
@@ -4649,6 +5000,11 @@
     pendingActionEffectFlow.card = options.card || null;
     pendingActionEffectFlow.cardTemporaryTasks = options.temporaryTasks || [];
     pendingActionEffectFlow.industryPlayedCard = options.industryPlayedCard || options.card || null;
+    pendingActionEffectFlow.historySource = options.historySource || HISTORY_SOURCE_MAIN;
+    pendingActionEffectFlow.consumesMainAction = options.consumesMainAction !== false;
+    if (pendingActionEffectFlow.historySource === HISTORY_SOURCE_QUICK && !quickActionHistory.hasSession()) {
+      quickActionHistory.beginSession("quick", "快速行动");
+    }
 
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
     rocketState.statusNote = `${label}：请依次点击效果`;
@@ -4660,6 +5016,7 @@
     startActionLogDraft("playCard", "打牌行动", { source: HISTORY_SOURCE_MAIN, player });
     actionHistory.beginSession("playCard", "打牌行动");
     actionHistory.beginStep({
+      source: HISTORY_SOURCE_MAIN,
       type: "action_start",
       label: `打出：${cards.getCardLabel(card)}`,
       effectIndex: -1,
@@ -5016,23 +5373,18 @@
     removeReservedCardToDiscard(currentPlayer, ready.card);
     incrementCompletedTaskCount(currentPlayer);
 
-    actionHistory.beginStep({
-      type: "card_task_start",
-      label: `完成任务：${cards.getCardLabel(ready.card)}`,
-      effectIndex: -1,
-    });
-    effectStepActive = true;
-    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+    beginQuickActionStep("card-task", `完成任务：${cards.getCardLabel(ready.card)}`);
+    recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
       beforePlayer,
       "恢复卡牌任务结算前玩家状态",
     ));
-    recordHistoryCommand(historyCommands.createRestorePublicCardsCommand(
+    recordQuickHistoryCommand(historyCommands.createRestorePublicCardsCommand(
       cardState,
       beforeCardState.publicCards,
       beforeCardState.discardPile,
     ));
-    endEffectHistoryStep();
+    completeQuickActionStep();
 
     renderPlayerStats();
     renderPublicCards();
@@ -5042,7 +5394,11 @@
       "card-task-rewards",
       "卡牌任务奖励",
       ready.effects,
-      { actionType: "cardTask" },
+      {
+        actionType: "cardTask",
+        historySource: HISTORY_SOURCE_QUICK,
+        consumesMainAction: false,
+      },
     );
   }
 
@@ -5308,6 +5664,7 @@
     startActionLogDraft(actionType, `${actionLabel}行动`, { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession(actionType, `${actionLabel}行动`);
     actionHistory.beginStep({
+      source: HISTORY_SOURCE_MAIN,
       type: "action_start",
       label: result.message || `${actionLabel}标记`,
       effectIndex: -1,
@@ -5492,9 +5849,16 @@
   }
 
   function beginEffectHistoryStep(label, meta = {}) {
-    if (!actionHistory.hasSession() || effectStepActive) return;
+    const source = meta.source || getEffectHistorySource();
+    const history = ensureEffectHistorySession(
+      source,
+      pendingActionEffectFlow?.actionType || "effect",
+      pendingActionEffectFlow?.label || label || "效果",
+    );
+    if (!history.hasSession() || effectStepActive) return;
     const current = getCurrentActionEffect();
-    actionHistory.beginStep({
+    history.beginStep({
+      source,
       type: "effect",
       label: label || current?.label || "效果",
       effectIndex: meta.effectIndex ?? pendingActionEffectFlow?.currentIndex ?? null,
@@ -5507,12 +5871,64 @@
   function endEffectHistoryStep() {
     if (!effectStepActive) return null;
     const currentEffect = getCurrentActionEffect();
-    const step = actionHistory.endStep();
+    const source = getEffectHistorySource();
+    const history = getHistoryForSource(source);
+    const step = history.endStep();
     if (step) {
-      rememberHistoryStep(HISTORY_SOURCE_MAIN);
-      appendActionLogStep(HISTORY_SOURCE_MAIN, step.label, currentEffect?.result?.message || null);
+      const irreversibleReason = getIrreversibleReason(
+        currentEffect?.result,
+        currentEffect?.label || step.label,
+      ) || (currentEffect?.undoable === false ? (currentEffect?.label || step.label) : null);
+      if (irreversibleReason) {
+        step.undoable = false;
+        step.irreversibleCode = currentEffect?.result?.irreversible?.code || "irreversible_effect";
+        step.irreversibleReason = irreversibleReason;
+        markCurrentActionIrreversible(irreversibleReason, step.irreversibleCode);
+      }
+      rememberHistoryStep(source, step.id);
+      appendActionLogStep(
+        source,
+        step.label,
+        currentEffect?.result?.message || null,
+        actionLogOptionsFromHistoryStep(step),
+      );
     }
     effectStepActive = false;
+    return step;
+  }
+
+  function recordIrreversibleEffectStep(effect, reason, code = "irreversible_effect") {
+    const source = getEffectHistorySource();
+    const history = ensureEffectHistorySession(
+      source,
+      pendingActionEffectFlow?.actionType || "effect",
+      pendingActionEffectFlow?.label || effect?.label || "效果",
+    );
+    if (!history.hasSession()) {
+      markCurrentActionIrreversible(reason, code);
+      return null;
+    }
+    history.beginStep({
+      source,
+      type: "irreversible",
+      label: effect?.label || "不可撤销效果",
+      effectIndex: pendingActionEffectFlow?.currentIndex ?? null,
+      effectType: effect?.type || null,
+      undoable: false,
+      irreversibleCode: code,
+      irreversibleReason: reason || "该步骤产生不可撤销影响",
+    });
+    const step = history.endStep();
+    if (step) {
+      rememberHistoryStep(source, step.id);
+      appendActionLogStep(
+        source,
+        step.label,
+        effect?.result?.message || reason,
+        actionLogOptionsFromHistoryStep(step),
+      );
+    }
+    markCurrentActionIrreversible(reason, code);
     return step;
   }
 
@@ -5796,15 +6212,30 @@
     cancelActiveEffectSubFlows();
     const hadHistoryStep = effectStepActive;
     const effectEvents = status !== "skipped" ? (current.result?.events || []) : [];
+    const irreversibleReason = status !== "skipped"
+      ? (
+        getIrreversibleReason(current.result, current.label)
+        || (current.undoable === false ? current.label : null)
+      )
+      : null;
     endEffectHistoryStep();
-    if (!hadHistoryStep && status !== "skipped") {
-      appendActionLogStep(HISTORY_SOURCE_MAIN, current.label, current.result?.message || null);
+    if (!hadHistoryStep && irreversibleReason) {
+      recordIrreversibleEffectStep(
+        current,
+        irreversibleReason,
+        current.result?.irreversible?.code || "irreversible_effect",
+      );
+    } else if (!hadHistoryStep && status !== "skipped") {
+      appendActionLogStep(getEffectHistorySource(), current.label, current.result?.message || null);
     }
     if (status === "skipped") {
       abilities.chain.skipCurrentChainNode(pendingActionEffectFlow);
     } else {
-      if (current.undoable === false || current.result?.undoable === false) {
-        pendingActionHasIrreversibleCardGain = true;
+      if (irreversibleReason) {
+        markCurrentActionIrreversible(
+          irreversibleReason,
+          current.result?.irreversible?.code || "irreversible_effect",
+        );
       }
       abilities.chain.resolveCurrentChainNode(pendingActionEffectFlow, current.result || {});
     }
@@ -5825,6 +6256,8 @@
   function resolveCompletedSectorSettlements(actionType, options = {}) {
     if (typeof data.settleCompletedSectors !== "function") return null;
 
+    const beforeNebulaState = structuredClone(nebulaDataState);
+    const beforePlayerState = structuredClone(playerState);
     const settlementResult = data.settleCompletedSectors(nebulaDataState, {
       players: playerState.players,
       getPlayerTokenSrc: getNormalTokenAssetForPlayer,
@@ -5845,8 +6278,34 @@
       }
     }
 
-    if (options.markMainActionIrreversible !== false) {
-      pendingActionHasIrreversibleCardGain = true;
+    const source = options.historySource || HISTORY_SOURCE_MAIN;
+    const history = getHistoryForSource(source);
+    if (history.hasSession()) {
+      history.beginStep({
+        source,
+        type: "sector_settlement",
+        label: "扇区结算",
+      });
+      history.record(historyCommands.createRestoreObjectCommand(
+        nebulaDataState,
+        beforeNebulaState,
+        "恢复扇区结算前星云状态",
+      ));
+      history.record(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复扇区结算前玩家状态",
+      ));
+      const step = history.endStep();
+      if (step) {
+        rememberHistoryStep(source, step.id);
+        appendActionLogStep(
+          source,
+          step.label,
+          `${settlementResult.message}；参与结算玩家各获得1宣传`,
+          actionLogOptionsFromHistoryStep(step),
+        );
+      }
     }
     renderSectorNebulaDataBoard();
     renderPlayerStats();
@@ -5881,10 +6340,11 @@
       syncInteractionFocusChrome();
       updateActionButtons();
       renderStateReadout();
+      refreshLatestActionLogRecoverySnapshot("初始收入完成后状态");
       return;
     }
     const settleResult = shouldCheckCompletedSectorsAfterFlow(finishedFlow)
-      ? resolveCompletedSectorSettlements(actionType)
+      ? resolveCompletedSectorSettlements(actionType, { historySource: finishedFlow.historySource || HISTORY_SOURCE_MAIN })
       : null;
     if (startTemporaryCardTaskRewardFlow(finishedFlow.cardTemporaryTasks, settleResult)) {
       return;
@@ -5895,7 +6355,9 @@
     rocketState.statusNote = settleResult?.ok
       ? `${baseMessage}；${settleResult.message}；参与结算玩家各获得1宣传`
       : baseMessage;
-    markActionPending();
+    if (finishedFlow.consumesMainAction !== false) {
+      markActionPending();
+    }
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
@@ -6292,7 +6754,7 @@
     }
 
     const drawResult = cards.drawCardsToHand(cardState, playerState, currentPlayer, count);
-    pendingActionHasIrreversibleCardGain = true;
+    markCurrentActionIrreversible("盲抽翻出新牌", "hidden_card_reveal");
     const drawnCount = drawResult.cards?.length || 0;
     const message = drawResult.ok
       ? `${effect.label}：已抽 ${drawnCount} 张`
@@ -6300,6 +6762,7 @@
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: false,
+      irreversible: { code: "hidden_card_reveal", reason: "盲抽翻出新牌" },
       message,
       payload: { cards: drawResult.cards || [] },
     });
@@ -6419,7 +6882,7 @@
       return drawResult;
     }
 
-    pendingActionHasIrreversibleCardGain = true;
+    markCurrentActionIrreversible("盲抽翻出新牌", "hidden_card_reveal");
     const drawnCard = drawResult.card;
     const handIndex = currentPlayer.hand.findIndex((item) => item.id === drawnCard.id);
     const scanChoices = getPublicScanChoicesForCard(drawnCard);
@@ -6468,7 +6931,7 @@
       return drawResult;
     }
 
-    pendingActionHasIrreversibleCardGain = true;
+    markCurrentActionIrreversible("盲抽翻出新牌", "hidden_card_reveal");
     const drawnCard = drawResult.card;
     const drawnIndex = currentPlayer.hand.findIndex((item) => item.id === drawnCard.id);
     const discardResult = cards.discardFromHandAtIndex(currentPlayer, drawnIndex);
@@ -6531,6 +6994,7 @@
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: false,
+      irreversible: { code: "hidden_card_reveal", reason: "盲抽翻出新牌" },
       message: `${effect.label}：抽到并弃除 ${cards.getCardLabel(discardResult.card)}，${rewardText}`,
       payload: {
         card: discardResult.card,
@@ -6634,10 +7098,11 @@
       beforeCardState,
       "恢复异常点拿公共牌前牌区状态",
     ));
-    pendingActionHasIrreversibleCardGain = true;
+    markCurrentActionIrreversible("公共牌补牌翻出新牌", "hidden_card_reveal");
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: false,
+      irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
       message: `获得公共牌区 ${picked.length} 张牌${picked.length ? `：${picked.map((card) => cards.getCardLabel(card)).join("、")}` : ""}`,
       payload: { cards: picked },
     }, [renderPublicCards, renderPlayerHand, renderPlayerStats]);
@@ -6707,7 +7172,7 @@
       const drawResult = blindDrawCardForPlayer(currentPlayer);
       if (drawResult.ok) drawn.push(drawResult.card);
     }
-    pendingActionHasIrreversibleCardGain = true;
+    markCurrentActionIrreversible("盲抽翻出新牌", "hidden_card_reveal");
     pendingYichangdianCornerAction = {
       effect,
       playerId: currentPlayer.id,
@@ -6797,6 +7262,7 @@
     return finishAutomaticRewardEffect(pending.effect, {
       ok: true,
       undoable: false,
+      irreversible: { code: "hidden_card_reveal", reason: "盲抽翻出新牌" },
       message: pending.messageParts.join("；"),
       payload: {
         discardCard: pending.selectedDiscardCard,
@@ -8567,12 +9033,12 @@
       completeCurrentActionEffect();
     } else {
       beginQuickActionStep("fangzhou-unlock", rocketState.statusNote);
-      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
         alienGameState,
         beforeAlienState,
         "恢复方舟解锁卡牌前外星人状态",
       ));
-      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
         playerState,
         beforePlayerState,
         "恢复方舟解锁卡牌前玩家状态",
@@ -8726,6 +9192,7 @@
       messages.push(players.formatResourceCost(reward.gain));
     }
     const basicCount = Math.max(0, Math.round(Number(reward.basicRewardCount) || 0));
+    let irreversible = null;
     if (basicCount > 0) {
       const basicResults = queueFangzhouBasicRewards(player, basicCount, label, {
         insertIntoCurrentFlow: isActionEffectFlowActive(),
@@ -8733,9 +9200,15 @@
       for (const result of basicResults) {
         if (result.message) messages.push(result.message);
       }
+      irreversible = {
+        code: "fangzhou_card1_flip",
+        reason: "方舟奖励牌翻开新牌",
+      };
     }
     return {
       ok: true,
+      undoable: !irreversible,
+      irreversible,
       message: `${label}：${messages.join("；") || "无奖励"}`,
     };
   }
@@ -8875,7 +9348,7 @@
     syncPlayCardSelectionChrome();
 
     actionHistory.beginSession("playCard", "打出方舟解锁牌");
-    actionHistory.beginStep({ type: "fangzhou_card2_play", label: "打出方舟解锁牌" });
+    actionHistory.beginStep({ source: HISTORY_SOURCE_MAIN, type: "fangzhou_card2_play", label: "打出方舟解锁牌" });
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
       beforePlayer,
@@ -9024,6 +9497,7 @@
   function applyChongRewardToPlayer(player, reward, label = "虫族奖励") {
     if (!player || !reward) return { ok: false, message: "没有可结算的虫族奖励" };
     const messages = [];
+    let irreversible = null;
     if (Object.keys(reward.gain || {}).length) {
       players.gainResources(player, reward.gain);
       messages.push(formatChongGain(reward.gain));
@@ -9045,6 +9519,7 @@
         if (result.ok) drawn += 1;
       }
       messages.push(`${drawn}/${drawCount}盲抽`);
+      irreversible = { code: "hidden_card_reveal", reason: "盲抽翻出新牌" };
     }
     if (reward.pickAlienCard) messages.push("外星人牌");
     if (reward.pickCard) messages.push("精选1张牌");
@@ -9053,12 +9528,15 @@
       if (fossilReward) {
         const fossilResult = applyChongRewardToPlayer(player, fossilReward, `${label} ${reward.fossilId}`);
         if (fossilResult.message) messages.push(fossilResult.message);
+        if (fossilResult.irreversible) irreversible = fossilResult.irreversible;
       } else {
         messages.push(`化石 ${reward.fossilId}`);
       }
     }
     return {
       ok: true,
+      undoable: !irreversible,
+      irreversible,
       message: `${label}：${messages.join("、") || "无奖励"}`,
     };
   }
@@ -9066,6 +9544,7 @@
   function applyAmibaRewardToPlayer(player, reward, label = "阿米巴奖励") {
     if (!player || !reward) return { ok: false, message: "没有可结算的阿米巴奖励" };
     const messages = [];
+    let irreversible = null;
     if (Object.keys(reward.gain || {}).length) {
       players.gainResources(player, reward.gain);
       messages.push(formatChongGain(reward.gain));
@@ -9087,6 +9566,7 @@
         if (result.ok) drawn += 1;
       }
       messages.push(`${drawn}/${drawCount}盲抽`);
+      irreversible = { code: "hidden_card_reveal", reason: "盲抽翻出新牌" };
     }
     if (reward.region) {
       const regionResult = amiba?.resolveRegionReward?.(alienGameState, reward.region);
@@ -9097,6 +9577,7 @@
           `${amiba.formatRegionLabel(reward.region)}区域 ${symbolResult.symbolId}`,
         );
         if (symbolRewardResult.message) messages.push(symbolRewardResult.message);
+        if (symbolRewardResult.irreversible) irreversible = symbolRewardResult.irreversible;
       }
       if (!regionResult?.results?.length) messages.push(`${amiba?.formatRegionLabel?.(reward.region) || reward.region}区域无 symbol`);
     }
@@ -9104,6 +9585,8 @@
     if (reward.pickCard) messages.push("精选1张牌");
     return {
       ok: true,
+      undoable: !irreversible,
+      irreversible,
       message: `${label}：${messages.join("、") || "无奖励"}`,
     };
   }
@@ -9163,6 +9646,7 @@
 
   function finishAmibaCardGain(message, result = null) {
     const pending = pendingAmibaCardGain;
+    const irreversible = getAlienCardGainIrreversible(result);
     closeAmibaCardGainDialog();
     if (pending?.fromEffectFlow && getCurrentActionEffect()) {
       const existingResult = getCurrentActionEffect().result || {};
@@ -9179,7 +9663,8 @@
       ));
       getCurrentActionEffect().result = {
         ok: true,
-        undoable: false,
+        undoable: !irreversible,
+        irreversible,
         message,
         events: existingResult.events || [],
         payload: result,
@@ -9191,6 +9676,23 @@
       completeCurrentActionEffect();
       renderStateReadout();
       return getCurrentActionEffect()?.result || { ok: true, message };
+    }
+    if (irreversible && pending) {
+      beginQuickActionStep("amiba-card", pending.effectLabel || "阿米巴外星人牌");
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        pending.beforeAlienState,
+        "恢复阿米巴牌获取前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        pending.beforePlayerState,
+        "恢复阿米巴牌获取前玩家状态",
+      ));
+      completeQuickActionStep(message, {
+        irreversibleCode: irreversible.code,
+        irreversibleReason: irreversible.reason,
+      });
     }
     rocketState.statusNote = message;
     renderAlienPanels();
@@ -9359,9 +9861,14 @@
         beforeCardState,
         "恢复阿米巴 symbol 前牌区状态",
       ));
-      completeQuickActionStep(message);
+      completeQuickActionStep(message, rewardResult.irreversible ? {
+        irreversibleCode: rewardResult.irreversible.code,
+        irreversibleReason: rewardResult.irreversible.reason,
+      } : {});
     }
-    return finishAmibaSymbolChoice(message, { symbol: result }, { undoable: true });
+    return finishAmibaSymbolChoice(message, { symbol: result }, {
+      undoable: rewardResult.undoable !== false,
+    });
   }
 
   function closeAmibaTraceRemovalDialog() {
@@ -9469,13 +9976,17 @@
     const reward = chong?.getFossilReward?.(fossilId);
     if (!reward) return { ok: false, message: `找不到化石奖励 ${fossilId}` };
     const messages = [];
+    let irreversible = null;
     for (let index = 0; index < total; index += 1) {
       const result = applyChongRewardToPlayer(player, reward, `${label}${total > 1 ? ` ${index + 1}/${total}` : ""}`);
       if (result.message) messages.push(result.message);
+      if (result.irreversible) irreversible = result.irreversible;
     }
     return {
       ok: true,
       reward,
+      undoable: !irreversible,
+      irreversible,
       message: messages.join("；"),
     };
   }
@@ -9538,12 +10049,14 @@
 
   function finishYichangdianCardGain(message, result = null) {
     const pending = pendingYichangdianCardGain;
+    const irreversible = getAlienCardGainIrreversible(result);
     closeYichangdianCardGainDialog();
     rocketState.statusNote = message;
     if (pending?.fromEffectFlow && getCurrentActionEffect()) {
       getCurrentActionEffect().result = {
         ok: true,
-        undoable: true,
+        undoable: !irreversible,
+        irreversible,
         message,
         payload: { yichangdianCard: result?.card || null },
       };
@@ -9581,6 +10094,7 @@
 
     player.hand.push(result.card);
     player.resources.handSize = player.hand.length;
+    const irreversible = getAlienCardGainIrreversible(result);
     if (!pending.fromEffectFlow) {
       beginQuickActionStep("yichangdian-card", pending.effectLabel || "异常点外星人牌");
       recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
@@ -9593,7 +10107,10 @@
         beforeAlienState,
         "恢复异常点拿牌前外星人状态",
       ));
-      completeQuickActionStep();
+      completeQuickActionStep(null, irreversible ? {
+        irreversibleCode: irreversible.code,
+        irreversibleReason: irreversible.reason,
+      } : {});
     }
     return finishYichangdianCardGain(result.message, result);
   }
@@ -9652,12 +10169,14 @@
 
   function finishBanrenmaCardGain(message, result = null) {
     const pending = pendingBanrenmaCardGain;
+    const irreversible = getAlienCardGainIrreversible(result);
     closeBanrenmaCardGainDialog();
     rocketState.statusNote = message;
     if (pending?.fromEffectFlow && getCurrentActionEffect()) {
       getCurrentActionEffect().result = {
         ok: true,
-        undoable: true,
+        undoable: !irreversible,
+        irreversible,
         message,
         payload: { banrenmaCard: result?.card || null },
       };
@@ -9697,6 +10216,7 @@
 
     player.hand.push(result.card);
     player.resources.handSize = player.hand.length;
+    const irreversible = getAlienCardGainIrreversible(result);
     if (!pending.fromEffectFlow) {
       beginQuickActionStep("banrenma-card", pending.effectLabel || "半人马外星人牌");
       recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
@@ -9709,7 +10229,10 @@
         beforeAlienState,
         "恢复半人马拿牌前外星人状态",
       ));
-      completeQuickActionStep();
+      completeQuickActionStep(null, irreversible ? {
+        irreversibleCode: irreversible.code,
+        irreversibleReason: irreversible.reason,
+      } : {});
     }
     return finishBanrenmaCardGain(result.message, result);
   }
@@ -9766,6 +10289,7 @@
 
   function finishChongCardGain(message, result = null) {
     const pending = pendingChongCardGain;
+    const irreversible = getAlienCardGainIrreversible(result);
     closeChongCardGainDialog();
     if (pending?.fromEffectFlow && getCurrentActionEffect()) {
       if (!effectStepActive) beginEffectHistoryStep(pending.effectLabel);
@@ -9781,7 +10305,8 @@
       ));
       getCurrentActionEffect().result = {
         ok: true,
-        undoable: false,
+        undoable: !irreversible,
+        irreversible,
         message,
         payload: result,
       };
@@ -9792,6 +10317,23 @@
       completeCurrentActionEffect();
       renderStateReadout();
       return getCurrentActionEffect()?.result || { ok: true, message };
+    }
+    if (irreversible && pending) {
+      beginQuickActionStep("chong-card", pending.effectLabel || "虫族外星人牌");
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        pending.beforeAlienState,
+        "恢复虫族牌获取前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        pending.beforePlayerState,
+        "恢复虫族牌获取前玩家状态",
+      ));
+      completeQuickActionStep(message, {
+        irreversibleCode: irreversible.code,
+        irreversibleReason: irreversible.reason,
+      });
     }
     rocketState.statusNote = message;
     renderAlienPanels();
@@ -10032,7 +10574,10 @@
     ));
 
     const message = `${rewardResult.message || "虫族任务完成"}；${task?.traceType ? "按痕迹任务结算化石奖励" : ""}`;
-    completeQuickActionStep(message);
+    completeQuickActionStep(message, rewardResult.irreversible ? {
+      irreversibleCode: rewardResult.irreversible.code,
+      irreversibleReason: rewardResult.irreversible.reason,
+    } : {});
     closeChongFossilChoiceDialog();
     if (rewardResult.reward?.pickCard) {
       openChongPickCardFollowUp(player, false, `完成 ${cards.getCardLabel(card)}`);
@@ -10096,6 +10641,7 @@
 
     const messages = [result.message, `完成任务：${cards.getCardLabel(card)}`];
     let shouldOpenPickCard = Boolean(result.task?.pickCard);
+    let irreversible = null;
     if (result.task?.fossilRewardRepeat) {
       const fossilReward = applyChongFossilRewardToPlayer(
         player,
@@ -10105,11 +10651,16 @@
       );
       if (fossilReward.message) messages.push(fossilReward.message);
       if (fossilReward.reward?.pickCard) shouldOpenPickCard = true;
+      if (fossilReward.irreversible) irreversible = fossilReward.irreversible;
     }
     const taskReward = applyChongRewardToPlayer(player, result.task || {}, "虫族搬运任务");
     if (taskReward.message && !/无奖励$/.test(taskReward.message)) messages.push(taskReward.message);
+    if (taskReward.irreversible) irreversible = taskReward.irreversible;
     const message = messages.join("；");
-    completeQuickActionStep(message);
+    completeQuickActionStep(message, irreversible ? {
+      irreversibleCode: irreversible.code,
+      irreversibleReason: irreversible.reason,
+    } : {});
     closeChongTaskCompletionDialog();
 
     if (shouldOpenPickCard) {
@@ -10873,6 +11424,9 @@
       closeAlienTracePicker();
     }
     const revealResult = maybeRevealAlienAfterTrace(alienSlotId, result);
+    const revealIrreversibleReason = revealResult?.ok
+      ? "外星人揭示初始化随机内容"
+      : null;
     const revealSideEffect = handleJiuzheRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleYichangdianRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleFangzhouRevealSideEffects(alienSlotId, revealResult, currentPlayer)
@@ -10898,7 +11452,10 @@
       if (getCurrentActionEffect()) {
         getCurrentActionEffect().result = {
           ok: true,
-          undoable: true,
+          undoable: !revealIrreversibleReason,
+          irreversible: revealIrreversibleReason
+            ? { code: "alien_reveal_random_setup", reason: revealIrreversibleReason }
+            : null,
           message: rocketState.statusNote,
           events: traceEvents,
           payload: { alienSlotId, traceType, revealed: revealResult || null },
@@ -11095,7 +11652,8 @@
       if (getCurrentActionEffect()) {
         getCurrentActionEffect().result = {
           ok: true,
-          undoable: true,
+          undoable: rewardResult.undoable !== false,
+          irreversible: rewardResult.irreversible || null,
           message: rocketState.statusNote,
           events: traceEvents,
           payload: { alienSlotId, traceType, position, reward: result.reward || null },
@@ -11103,17 +11661,20 @@
       }
     } else {
       beginQuickActionStep("fangzhou-trace", rocketState.statusNote);
-      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
         alienGameState,
         beforeAlienState,
         "恢复方舟痕迹放置前外星人状态",
       ));
-      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
         playerState,
         beforePlayerState,
         "恢复方舟痕迹放置前玩家状态",
       ));
-      completeQuickActionStep();
+      completeQuickActionStep(null, rewardResult.irreversible ? {
+        irreversibleCode: rewardResult.irreversible.code,
+        irreversibleReason: rewardResult.irreversible.reason,
+      } : {});
       settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
@@ -11200,7 +11761,8 @@
       if (getCurrentActionEffect()) {
         getCurrentActionEffect().result = {
           ok: true,
-          undoable: true,
+          undoable: rewardResult.undoable !== false,
+          irreversible: rewardResult.irreversible || null,
           message: rocketState.statusNote,
           events: traceEvents,
           payload: { alienSlotId, traceType, position, reward: result.reward || null },
@@ -11375,7 +11937,8 @@
       if (getCurrentActionEffect()) {
         getCurrentActionEffect().result = {
           ok: true,
-          undoable: true,
+          undoable: rewardResult.undoable !== false,
+          irreversible: rewardResult.irreversible || null,
           message: rocketState.statusNote,
           events: traceEvents,
           payload: { alienSlotId, traceType, position, reward: result.reward || null },
@@ -11393,7 +11956,10 @@
         beforePlayerState,
         "恢复虫族痕迹放置前玩家状态",
       ));
-      completeQuickActionStep();
+      completeQuickActionStep(null, rewardResult.irreversible ? {
+        irreversibleCode: rewardResult.irreversible.code,
+        irreversibleReason: rewardResult.irreversible.reason,
+      } : {});
       settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
@@ -11498,7 +12064,10 @@
         beforePlayerState,
         "恢复阿米巴痕迹放置前玩家状态",
       ));
-      completeQuickActionStep();
+      completeQuickActionStep(null, rewardResult.irreversible ? {
+        irreversibleCode: rewardResult.irreversible.code,
+        irreversibleReason: rewardResult.irreversible.reason,
+      } : {});
       settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
@@ -13856,8 +14425,12 @@
     }
   }
 
-  function commitIrreversibleIndustryQuickAction(label, message) {
-    appendActionLogStep(HISTORY_SOURCE_QUICK, label || "公司 1x 行动", message || null);
+  function commitIrreversibleIndustryQuickAction(label, message, options = {}) {
+    appendActionLogStep(HISTORY_SOURCE_QUICK, label || "公司 1x 行动", message || null, {
+      undoable: false,
+      irreversibleCode: options.irreversibleCode || "hidden_card_reveal",
+      irreversibleReason: options.irreversibleReason || "公共牌补牌翻出新牌",
+    });
     clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
     if (quickActionHistory.hasSession()) {
       quickActionHistory.commitSession();
@@ -14550,15 +15123,50 @@
     pendingActionExecuted = true;
   }
 
+  function getIrreversibleReason(result, fallback = "该步骤产生不可撤销影响") {
+    if (result?.irreversible?.reason) return String(result.irreversible.reason);
+    if (result?.irreversibleReason) return String(result.irreversibleReason);
+    if (result?.undoable === false) return result.message || fallback;
+    return null;
+  }
+
+  function markCurrentActionIrreversible(reason, code = "irreversible") {
+    pendingActionHasIrreversibleBarrier = true;
+    pendingActionIrreversibleReason = reason || pendingActionIrreversibleReason || "该步骤产生不可撤销影响";
+    return {
+      code,
+      reason: pendingActionIrreversibleReason,
+    };
+  }
+
+  function markResultIrreversible(result, reason, code = "irreversible") {
+    if (!result) return result;
+    result.undoable = false;
+    result.irreversible = {
+      code,
+      reason: reason || result.irreversible?.reason || result.message || "该步骤产生不可撤销影响",
+    };
+    markCurrentActionIrreversible(result.irreversible.reason, result.irreversible.code);
+    return result;
+  }
+
+  function getAlienCardGainIrreversible(result) {
+    return result?.card
+      ? { code: "hidden_alien_card_reveal", reason: "外星人牌获取翻开新牌" }
+      : null;
+  }
+
   function clearActionPending() {
     pendingActionExecuted = false;
     pendingPassPlayerId = null;
-    pendingActionHasIrreversibleCardGain = false;
+    pendingActionHasIrreversibleBarrier = false;
+    pendingActionIrreversibleReason = null;
   }
 
   function canUndoCurrentMainAction() {
-    if (pendingActionHasIrreversibleCardGain) return false;
-    return Boolean(pendingActionExecuted || isActionEffectFlowActive() || actionHistory.hasUndoableStep());
+    if (actionHistory.hasUndoableStep()) return true;
+    if (pendingActionHasIrreversibleBarrier) return false;
+    return Boolean(pendingActionExecuted || isActionEffectFlowActive());
   }
 
   function canStartMainAction() {
@@ -14585,6 +15193,7 @@
     startActionLogDraft("pass", "PASS", { source: HISTORY_SOURCE_MAIN, player: currentPlayer });
     actionHistory.beginSession("pass", "PASS");
     actionHistory.beginStep({
+      source: HISTORY_SOURCE_MAIN,
       type: "action_start",
       label: `${currentPlayer.colorLabel}玩家 PASS`,
       effectIndex: -1,
@@ -14640,6 +15249,7 @@
     updatePublicCardControls();
     updateActionButtons();
     renderStateReadout();
+    refreshLatestActionLogRecoverySnapshot("回合结束后状态");
   }
 
   function undoPendingAction() {
@@ -14664,8 +15274,8 @@
     if (latestUndoSource === HISTORY_SOURCE_QUICK) {
       const result = quickActionHistory.undoLastStep();
       if (result.ok) {
-        forgetLastHistoryStep(HISTORY_SOURCE_QUICK);
-        removeLastActionLogStep(HISTORY_SOURCE_QUICK);
+        forgetLastHistoryStep(HISTORY_SOURCE_QUICK, result.step?.id || null);
+        removeLastActionLogStep(HISTORY_SOURCE_QUICK, result.step?.id || null);
       }
       if (result.ok && !quickActionHistory.hasUndoableStep()) {
         quickActionHistory.commitSession();
@@ -14675,10 +15285,36 @@
       return;
     }
 
-    if (pendingActionHasIrreversibleCardGain) {
-      rocketState.statusNote = "已获取卡牌，本行动不能撤销";
+    if (!latestUndoSource && pendingActionHasIrreversibleBarrier) {
+      rocketState.statusNote = pendingActionIrreversibleReason
+        ? `不可撤销：${pendingActionIrreversibleReason}`
+        : "当前行动已有不可撤销影响";
       updateActionButtons();
       renderStateReadout();
+      return;
+    }
+
+    if (pendingActionHasIrreversibleBarrier && !actionHistory.hasUndoableStep()) {
+      rocketState.statusNote = pendingActionIrreversibleReason
+        ? `不可撤销：${pendingActionIrreversibleReason}`
+        : "当前行动已有不可撤销影响";
+      updateActionButtons();
+      renderStateReadout();
+      return;
+    }
+
+    if (
+      latestUndoSource === HISTORY_SOURCE_MAIN
+      && pendingActionHasIrreversibleBarrier
+      && actionHistory.hasUndoableStep()
+    ) {
+      const result = actionHistory.undoLastStep();
+      if (result.ok) {
+        forgetLastHistoryStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
+        removeLastActionLogStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
+        revertEffectFlowAfterUndo(result.step);
+      }
+      refreshAfterHistoryChange(result.ok ? result.message : result.message || "当前行动不能撤销");
       return;
     }
 
@@ -14687,8 +15323,8 @@
       if (actionHistory.hasUndoableStep()) {
         const result = actionHistory.undoLastStep();
         if (result.ok) {
-          forgetLastHistoryStep(HISTORY_SOURCE_MAIN);
-          removeLastActionLogStep(HISTORY_SOURCE_MAIN);
+          forgetLastHistoryStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
+          removeLastActionLogStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
           revertEffectFlowAfterUndo(result.step);
           refreshAfterHistoryChange(result.message);
           if (!isActionEffectFlowActive()) {
@@ -14703,12 +15339,14 @@
 
     if (pendingActionExecuted || actionHistory.hasSession()) {
       const result = actionHistory.rollbackSession();
-      effectStepActive = false;
-      clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
-      removeActionLogStepsBySource(HISTORY_SOURCE_MAIN);
-      clearActionEffectFlow();
-      clearActionPending();
-      refreshAfterHistoryChange(result.ok ? result.message : "已撤销当前行动");
+      if (result.ok) {
+        effectStepActive = false;
+        clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+        removeActionLogStepsBySource(HISTORY_SOURCE_MAIN);
+        clearActionEffectFlow();
+        clearActionPending();
+      }
+      refreshAfterHistoryChange(result.ok ? result.message : result.message || "当前行动不能撤销");
     }
   }
 
@@ -14956,7 +15594,7 @@
       setTurnActionButtonState(
         els.actionUndoButton,
         quickActionHistory.hasUndoableStep() || canUndoCurrentMainAction(),
-        !pendingActionHasIrreversibleCardGain,
+        !pendingActionHasIrreversibleBarrier,
       );
       return pendingBlockedReason;
     }
@@ -16970,7 +17608,11 @@
       roundOrderPlayerIds: getRoundOrderPlayerIds(),
       currentPlayerId: playerState.currentPlayerId,
     }),
-    getActionLog: () => structuredClone(actionLogState.entries),
+    getActionLog: (options = {}) => getRecoverableActionLog(options),
+    getActionLogRecoveryPackage: createActionLogRecoveryPackage,
+    createRecoverySnapshot: createGameRecoverySnapshot,
+    restoreRecoverySnapshot: applyGameRecoverySnapshot,
+    recoverFromActionLog,
     getPlanetStatsState: () => structuredClone(planetStatsState),
     getCurrentPlayer: () => structuredClone(getCurrentPlayer()),
     getState: () => structuredClone({

@@ -195,6 +195,13 @@
       result.message += replenished
         ? `；弃除 ${card.cardName || card.cardId || card.id}，公共区补牌`
         : `；弃除 ${card.cardName || card.cardId || card.id}`;
+      if (replenished) {
+        result.undoable = false;
+        result.irreversible = {
+          code: "hidden_card_reveal",
+          reason: "公共牌补牌翻出新牌",
+        };
+      }
     }
 
     return {
