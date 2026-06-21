@@ -143,6 +143,7 @@
     mars: Object.freeze({ id: "mars", name: "火星", ring: 2, fixedAfterSetup: false }),
     saturn: Object.freeze({ id: "saturn", name: "土星", ring: 3, fixedAfterSetup: false }),
     jupiter: Object.freeze({ id: "jupiter", name: "木星", ring: 3, fixedAfterSetup: false }),
+    aomomo: Object.freeze({ id: "aomomo", name: "奥陌陌", ring: 3, fixedAfterSetup: false, requiresAomomoActive: true }),
     uranus: Object.freeze({ id: "uranus", name: "天王星", ring: 4, fixedAfterSetup: true }),
     neptune: Object.freeze({ id: "neptune", name: "海王星", ring: 4, fixedAfterSetup: true }),
   });
@@ -224,7 +225,14 @@
         c(2, 3, CONTENT_KIND.EMPTY_SPACE, { label: "巨行星圈空白" }),
         c(3, 3, CONTENT_KIND.PLANET, { planetId: "jupiter", label: "木星", tags: Object.freeze(["orbit_target", "landing_target"]) }),
         c(4, 3, CONTENT_KIND.EMPTY_SPACE, { label: "巨行星圈空白" }),
-        c(5, 3, CONTENT_KIND.HOLE, { label: "巨行星圈镂空" }),
+        c(5, 3, CONTENT_KIND.PLANET, {
+          planetId: "aomomo",
+          label: "奥陌陌",
+          tags: Object.freeze(["orbit_target", "landing_target", "aomomo_scan_sector"]),
+          requiresAomomoActive: true,
+          inactiveKind: CONTENT_KIND.HOLE,
+          inactiveLabel: "巨行星圈镂空",
+        }),
         c(6, 3, CONTENT_KIND.HOLE, { label: "巨行星圈镂空" }),
         c(7, 3, CONTENT_KIND.PLANET, { planetId: "saturn", label: "土星", tags: Object.freeze(["orbit_target", "landing_target"]) }),
       ]),

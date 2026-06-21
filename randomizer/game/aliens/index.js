@@ -12,6 +12,7 @@
   let banrenma = root.SetiAlienBanrenma;
   let chong = root.SetiAlienChong;
   let amiba = root.SetiAlienAmiba;
+  let aomomo = root.SetiAlienAomomo;
   let runezu = root.SetiAlienRunezu;
   let fangzhouCard1Queue = root.SetiFangzhouCard1Queue;
 
@@ -25,20 +26,21 @@
     banrenma = banrenma || require("./banrenma");
     chong = chong || require("./chong");
     amiba = amiba || require("./amiba");
+    aomomo = aomomo || require("./aomomo");
     runezu = runezu || require("./runezu");
     fangzhouCard1Queue = fangzhouCard1Queue || require("./fangzhou-card1-queue");
     randomizer = randomizer || require("./randomizer");
     render = render || require("./render");
   }
 
-  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, runezu, fangzhouCard1Queue);
+  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu, fangzhouCard1Queue);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAliens = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, runezu, fangzhouCard1Queue) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu, fangzhouCard1Queue) {
   "use strict";
 
   function getReadoutLines(alienState) {
@@ -405,6 +407,84 @@
       }
     }
 
+    if (aomomo?.ensureAomomoState) {
+      const oState = aomomo.ensureAomomoState(source);
+      lines.push("[奥陌陌]");
+      lines.push(
+        `揭示槽位=${oState.revealedSlotId || "无"} `
+        + `展示牌=${oState.displayedCardIndex ?? "无"} `
+        + `牌堆剩余=${oState.cardDeck?.length ?? 0} `
+        + `环绕=${oState.orbitMarkers?.length ?? 0}/${aomomo.ORBIT_CAPACITY || 1} `
+        + `登陆=${oState.landingMarkers?.length ?? 0}/${aomomo.LANDING_CAPACITY || 3}`,
+      );
+      if (oState.revealedSlotId) {
+        for (const marker of aomomo.listOrbitMarkers(source) || []) {
+          const layout = render.getEffectiveAomomoOrbitMarkerLayout?.(oState.revealedSlotId, marker.sequence || 1)
+            || render.getEffectiveAomomoOrbitMarkerLayout?.(oState.revealedSlotId, 1);
+          lines.push(
+            `  环绕 ${marker.playerColor || marker.playerId || "已放置"}`
+            + `${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+          );
+        }
+        for (const [index, marker] of (aomomo.listLandingMarkers(source) || []).entries()) {
+          const position = index + 1;
+          const layout = render.getEffectiveAomomoLandingMarkerLayout?.(oState.revealedSlotId, position);
+          lines.push(
+            `  登陆${position} ${marker.playerColor || marker.playerId || "已放置"}`
+            + `${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+          );
+        }
+      }
+      const grid = oState.revealedSlotId
+        ? aomomo.getTraceGrid(source, oState.revealedSlotId)
+        : null;
+      if (grid) {
+        for (const traceType of aomomo.TRACE_TYPES) {
+          for (const position of aomomo.TRACE_POSITIONS) {
+            const entries = aomomo.getTraceEntries(grid, traceType, position);
+            const layout = render.getEffectiveAomomoTraceMarkerLayout?.(
+              oState.revealedSlotId,
+              traceType,
+              position,
+              0,
+            );
+            const ownerText = entries.length
+              ? entries.map((entry) => entry.playerColor || entry.playerId || "已放置").join("/")
+              : "空";
+            lines.push(
+              `  ${aomomo.formatTraceLabel(traceType, position)} `
+              + `${ownerText}${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+            );
+          }
+        }
+      }
+
+      const oTraceOverrides = render.listAomomoTraceMarkerLayoutOverrides?.() || [];
+      if (oTraceOverrides.length) {
+        lines.push("[奥陌陌痕迹拖动校准]");
+        for (const item of oTraceOverrides) {
+          lines.push(
+            `${placement.getAlienSlotLabel(item.alienSlotId)} ${placement.getTraceTypeLabel(item.traceType)}`
+            + ` ${item.position}号位 → ${item.percentX}%,${item.percentY}%`,
+          );
+        }
+      }
+      const oOrbitOverrides = render.listAomomoOrbitMarkerLayoutOverrides?.() || [];
+      if (oOrbitOverrides.length) {
+        lines.push("[奥陌陌环绕拖动校准]");
+        for (const item of oOrbitOverrides) {
+          lines.push(`${placement.getAlienSlotLabel(item.alienSlotId)} 环绕${item.position} → ${item.percentX}%,${item.percentY}%`);
+        }
+      }
+      const oLandingOverrides = render.listAomomoLandingMarkerLayoutOverrides?.() || [];
+      if (oLandingOverrides.length) {
+        lines.push("[奥陌陌登陆拖动校准]");
+        for (const item of oLandingOverrides) {
+          lines.push(`${placement.getAlienSlotLabel(item.alienSlotId)} 登陆${item.position} → ${item.percentX}%,${item.percentY}%`);
+        }
+      }
+    }
+
     if (runezu?.ensureRunezuState) {
       const rState = runezu.ensureRunezuState(source);
       lines.push("[符文族]");
@@ -491,6 +571,7 @@
     banrenma,
     chong,
     amiba,
+    aomomo,
     runezu,
     fangzhouCard1Queue,
     JIUZHE_ALIEN_ID: jiuzhe?.ALIEN_ID || "九折",
@@ -508,6 +589,10 @@
     CHONG_FOSSIL_BACK_SRC: chong?.FOSSIL_BACK_SRC,
     AMIBA_ALIEN_ID: amiba?.ALIEN_ID || "阿米巴",
     AMIBA_CARD_BACK_SRC: amiba?.CARD_BACK_SRC,
+    AOMOMO_ALIEN_ID: aomomo?.ALIEN_ID || "奥陌陌",
+    AOMOMO_CARD_BACK_SRC: aomomo?.CARD_BACK_SRC,
+    AOMOMO_FOSSIL_SRC: aomomo?.FOSSIL_SRC,
+    AOMOMO_WHEEL3_AMM_SRC: aomomo?.WHEEL3_AMM_SRC,
     RUNEZU_ALIEN_ID: runezu?.ALIEN_ID || "符文族",
     RUNEZU_CARD_BACK_SRC: runezu?.CARD_BACK_SRC,
     createDefaultAlienState: state.createDefaultAlienState,
@@ -547,6 +632,12 @@
     getEffectiveAmibaSymbolMarkerLayout: render.getEffectiveAmibaSymbolMarkerLayout,
     listAmibaTraceMarkerLayoutOverrides: render.listAmibaTraceMarkerLayoutOverrides,
     listAmibaSymbolMarkerLayoutOverrides: render.listAmibaSymbolMarkerLayoutOverrides,
+    getEffectiveAomomoTraceMarkerLayout: render.getEffectiveAomomoTraceMarkerLayout,
+    getEffectiveAomomoOrbitMarkerLayout: render.getEffectiveAomomoOrbitMarkerLayout,
+    getEffectiveAomomoLandingMarkerLayout: render.getEffectiveAomomoLandingMarkerLayout,
+    listAomomoTraceMarkerLayoutOverrides: render.listAomomoTraceMarkerLayoutOverrides,
+    listAomomoOrbitMarkerLayoutOverrides: render.listAomomoOrbitMarkerLayoutOverrides,
+    listAomomoLandingMarkerLayoutOverrides: render.listAomomoLandingMarkerLayoutOverrides,
     getEffectiveRunezuTraceMarkerLayout: render.getEffectiveRunezuTraceMarkerLayout,
     getEffectiveRunezuPanelSymbolMarkerLayout: render.getEffectiveRunezuPanelSymbolMarkerLayout,
     getEffectiveRunezuFaceSymbolSlotMarkerLayout: render.getEffectiveRunezuFaceSymbolSlotMarkerLayout,
@@ -568,6 +659,8 @@
     renderAllChongTraceMarkers: render.renderAllChongTraceMarkers,
     renderAmibaTraceMarkers: render.renderAmibaTraceMarkers,
     renderAllAmibaTraceMarkers: render.renderAllAmibaTraceMarkers,
+    renderAomomoTraceMarkers: render.renderAomomoTraceMarkers,
+    renderAllAomomoTraceMarkers: render.renderAllAomomoTraceMarkers,
     renderRunezuTraceMarkers: render.renderRunezuTraceMarkers,
     renderAllRunezuTraceMarkers: render.renderAllRunezuTraceMarkers,
     renderAlienBackImage: render.renderAlienBackImage,

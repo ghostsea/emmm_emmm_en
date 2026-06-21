@@ -49,6 +49,7 @@
 
   let endGameScoringModule = null;
   let yichangdianModule = null;
+  let aomomoModule = null;
 
   function getEndGameScoring() {
     if (endGameScoringModule) return endGameScoringModule;
@@ -77,6 +78,23 @@
       try {
         yichangdianModule = require("../aliens/yichangdian");
         return yichangdianModule;
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  function getAomomo() {
+    if (aomomoModule) return aomomoModule;
+    if (typeof globalThis !== "undefined" && globalThis.SetiAlienAomomo) {
+      aomomoModule = globalThis.SetiAlienAomomo;
+      return aomomoModule;
+    }
+    if (typeof require === "function") {
+      try {
+        aomomoModule = require("../aliens/aomomo");
+        return aomomoModule;
       } catch (error) {
         return null;
       }
@@ -287,6 +305,74 @@
   });
 
   const MODELS = Object.freeze({
+    "aomomo_0.webp": withSource("aomomo_0.webp", {
+      cardType: 2,
+      tasks: Object.freeze([{
+        id: "aomomo0-land",
+        condition: Object.freeze({ type: "aomomoLanding" }),
+        rewards: Object.freeze([
+          gainResourcesEffect("aomomo0-land-score", "登陆奥陌陌：4分", { score: 4 }),
+        ]),
+      }]),
+    }),
+    "aomomo_1.webp": withSource("aomomo_1.webp", {
+      cardType: 1,
+      triggers: Object.freeze([
+        {
+          id: "aomomo1-trace-data",
+          event: Object.freeze({ type: "alienTrace" }),
+          effect: gainDataEffect("aomomo1-data", "奥陌陌1：获得外星人痕迹，1数据", 1),
+        },
+        {
+          id: "aomomo1-trace-publicity",
+          event: Object.freeze({ type: "alienTrace" }),
+          effect: gainResourcesEffect("aomomo1-publicity", "奥陌陌1：获得外星人痕迹，1宣传", { publicity: 1 }),
+        },
+        {
+          id: "aomomo1-trace-score",
+          event: Object.freeze({ type: "alienTrace" }),
+          effect: gainResourcesEffect("aomomo1-score", "奥陌陌1：获得外星人痕迹，3分", { score: 3 }),
+        },
+      ]),
+    }),
+    "aomomo_2.webp": withSource("aomomo_2.webp", {
+      cardType: 2,
+      tasks: Object.freeze([{
+        id: "aomomo2-fossils-score",
+        condition: Object.freeze({ type: "aomomoFossils", count: 3 }),
+        rewards: Object.freeze([
+          effect("aomomo2-spend-fossils", "aomomo_spend_fossils_gain_score", "拥有3化石：移除2化石得11分", "aomomoFossil", { cost: 2, score: 11 }),
+        ]),
+      }]),
+    }),
+    "aomomo_3.webp": withSource("aomomo_3.webp", {
+      cardType: 2,
+      tasks: Object.freeze([{
+        id: "aomomo3-all-trace-types",
+        condition: Object.freeze({ type: "aomomoAllTraceTypes" }),
+        rewards: Object.freeze([
+          gainResourcesEffect("aomomo3-fossil", "奥陌陌三色痕迹：1化石", { aomomoFossils: 1 }),
+        ]),
+      }]),
+    }),
+    "aomomo_5.webp": withSource("aomomo_5.webp", {
+      cardType: 0,
+      playEffects: Object.freeze([]),
+    }),
+    "aomomo_8.webp": withSource("aomomo_8.webp", {
+      cardType: 3,
+      endGameScoring: Object.freeze({ kind: "aomomoTraceCount", scorePer: 1 }),
+    }),
+    "aomomo_9.webp": withSource("aomomo_9.webp", {
+      cardType: 2,
+      tasks: Object.freeze([{
+        id: "aomomo9-fossil-spending-trace",
+        condition: Object.freeze({ type: "aomomoFossilSpendingTrace" }),
+        rewards: Object.freeze([
+          gainDataEffect("aomomo9-data", "占据奥陌陌化石支付痕迹位：1数据", 1),
+        ]),
+      }]),
+    }),
     "yichangdian_0.webp": withSource("yichangdian_0.webp", {
       cardType: 1,
       playEffects: Object.freeze([
@@ -1092,6 +1178,30 @@
     return yichangdian.playerHasAllTraceTypes(alienGameState, player);
   }
 
+  function playerHasAomomoLanding(player, alienGameState) {
+    const aomomo = getAomomo();
+    if (!aomomo?.listLandingMarkers || !aomomo?.markerBelongsToPlayer) return false;
+    const keys = aomomo.getPlayerKeys ? aomomo.getPlayerKeys(player) : getPlayerKeys(player);
+    return aomomo.listLandingMarkers(alienGameState)
+      .some((marker) => aomomo.markerBelongsToPlayer(marker, keys));
+  }
+
+  function playerHasAomomoFossils(player, count) {
+    return (Number(player?.resources?.aomomoFossils) || 0) >= Number(count || 1);
+  }
+
+  function playerHasAomomoAllTraceTypes(player, alienGameState) {
+    const aomomo = getAomomo();
+    if (!aomomo?.playerHasAllTraceTypes) return false;
+    return aomomo.playerHasAllTraceTypes(alienGameState, player);
+  }
+
+  function playerHasAomomoFossilSpendingTrace(player, alienGameState) {
+    const aomomo = getAomomo();
+    if (!aomomo?.playerHasFossilSpendingTrace) return false;
+    return aomomo.playerHasFossilSpendingTrace(alienGameState, player);
+  }
+
   function taskConditionMet(task, player, context) {
     const condition = task?.condition;
     if (!condition) return false;
@@ -1116,6 +1226,18 @@
     }
     if (condition.type === "yichangdianAllTraceTypes") {
       return playerHasYichangdianAllTraceTypes(player, context.alienGameState);
+    }
+    if (condition.type === "aomomoLanding") {
+      return playerHasAomomoLanding(player, context.alienGameState);
+    }
+    if (condition.type === "aomomoFossils") {
+      return playerHasAomomoFossils(player, condition.count);
+    }
+    if (condition.type === "aomomoAllTraceTypes") {
+      return playerHasAomomoAllTraceTypes(player, context.alienGameState);
+    }
+    if (condition.type === "aomomoFossilSpendingTrace") {
+      return playerHasAomomoFossilSpendingTrace(player, context.alienGameState);
     }
     return false;
   }

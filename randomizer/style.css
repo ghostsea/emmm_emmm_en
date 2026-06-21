@@ -1009,6 +1009,7 @@ body {
 .alien-banrenma-card-area,
 .alien-chong-card-area,
 .alien-amiba-card-area,
+.alien-aomomo-card-area,
 .alien-runezu-card-area {
   display: grid;
   justify-items: center;
@@ -1025,6 +1026,7 @@ body {
 .alien-banrenma-card-area[hidden],
 .alien-chong-card-area[hidden],
 .alien-amiba-card-area[hidden],
+.alien-aomomo-card-area[hidden],
 .alien-runezu-card-area[hidden] {
   display: none;
 }
@@ -1034,6 +1036,7 @@ body {
 .alien-banrenma-card-title,
 .alien-chong-card-title,
 .alien-amiba-card-title,
+.alien-aomomo-card-title,
 .alien-runezu-card-title {
   color: rgba(222, 246, 255, 0.86);
   font: 700 12px/1.2 "Microsoft YaHei", "PingFang SC", sans-serif;
@@ -1044,6 +1047,7 @@ body {
 .alien-banrenma-card-image,
 .alien-chong-card-image,
 .alien-amiba-card-image,
+.alien-aomomo-card-image,
 .alien-runezu-card-image {
   display: block;
   width: 100%;
@@ -3457,6 +3461,23 @@ button.spin-button:hover {
 .nebula-data-layer .nebula-data-token.nebula-data-token-positioned.is-dragging {
   cursor: grabbing;
   z-index: 12;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+}
+
+.aomomo-nebula-data-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.aomomo-nebula-data-layer .aomomo-nebula-data-token.nebula-data-token-positioned {
+  cursor: grab;
+  touch-action: none;
+}
+
+.aomomo-nebula-data-layer .aomomo-nebula-data-token.nebula-data-token-positioned.is-dragging {
+  cursor: grabbing;
+  z-index: 480;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
 }
 

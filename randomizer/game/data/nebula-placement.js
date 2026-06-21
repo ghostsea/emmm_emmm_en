@@ -21,6 +21,7 @@
     "sector-3-b": 6,
     "sector-4-a": 6,
     "sector-4-b": 5,
+    aomomo: 3,
   });
 
   const NEBULA_LABELS = Object.freeze({
@@ -32,6 +33,7 @@
     "sector-3-b": "比邻星",
     "sector-4-a": "室女座61",
     "sector-4-b": "绘架座β",
+    aomomo: "奥陌陌",
   });
 
   /** 版图外边槽位对应 sector-wrap 的 CSS 旋转角度 */
@@ -113,6 +115,11 @@
       Object.freeze({ slotIndex: 3, percentX: 34.18, percentY: 47.21, scalePercent: 11.8 }),
       Object.freeze({ slotIndex: 4, percentX: 41.62, percentY: 51.07, scalePercent: 11.8 }),
       Object.freeze({ slotIndex: 5, percentX: 48.56, percentY: 55.57, scalePercent: 11.8 }),
+    ]),
+    aomomo: Object.freeze([
+      Object.freeze({ slotIndex: 1, percentX: 63.91, percentY: 69.21, scalePercent: 7.6, radialFraction: 0.6379, angularFraction: 0.202 }),
+      Object.freeze({ slotIndex: 2, percentX: 61.38, percentY: 70.65, scalePercent: 7.6, radialFraction: 0.6177, angularFraction: 0.3587 }),
+      Object.freeze({ slotIndex: 3, percentX: 58.73, percentY: 71.86, scalePercent: 7.6, radialFraction: 0.6121, angularFraction: 0.5162 }),
     ]),
   });
 

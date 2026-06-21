@@ -4,21 +4,23 @@
   let players = root.SetiPlayers;
   let planetStats = root.SetiPlanetStats;
   let shared = root.SetiActionShared;
+  let aomomo = root.SetiAlienAomomo;
 
-  if ((!players || !planetStats || !shared) && typeof require === "function") {
+  if ((!players || !planetStats || !shared || !aomomo) && typeof require === "function") {
     players = players || require("../players");
     planetStats = planetStats || require("../planet-stats");
     shared = shared || require("./shared");
+    aomomo = aomomo || require("../aliens/aomomo");
   }
 
-  const api = factory(players, planetStats, shared);
+  const api = factory(players, planetStats, shared, aomomo);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiActionLand = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (players, planetStats, shared) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (players, planetStats, shared, aomomo) {
   "use strict";
 
   const ACTION_ID = "land";
@@ -28,7 +30,9 @@
 
   function getEnergyCost(context, planetId) {
     const currentPlayer = players.getCurrentPlayer(context.playerState);
-    const hasOrbit = planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
+    const hasOrbit = planetId === aomomo?.PLANET_ID
+      ? aomomo.countOrbitMarkers(context.alienGameState) > 0
+      : planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
     const orbitDiscount = hasOrbit ? 1 : 0;
     const techDiscount = players.playerOwnsTech(currentPlayer, "orange3") ? ORANGE3_LAND_DISCOUNT : 0;
     return Math.max(0, BASE_ENERGY_COST - orbitDiscount - techDiscount);
@@ -55,11 +59,15 @@
     const planetId = placement.planet.planetId;
     const targets = [];
 
-    if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
+    if (planetId === aomomo?.PLANET_ID) {
+      if (aomomo?.canAddLandingMarker?.(context.alienGameState)) {
+        targets.push({ type: "planet" });
+      }
+    } else if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       targets.push({ type: "planet" });
     }
 
-    if (canLandOnSatellites(placement.currentPlayer)) {
+    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer)) {
       for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
         targets.push({ type: "satellite", satelliteId: satellite.satelliteId });
       }
@@ -90,14 +98,21 @@
     const planetId = placement.planet.planetId;
     const choices = [];
 
-    if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
+    if (planetId === aomomo?.PLANET_ID) {
+      if (aomomo?.canAddLandingMarker?.(context.alienGameState)) {
+        choices.push({
+          target: { type: "planet" },
+          label: `登陆${placement.planet.name}`,
+        });
+      }
+    } else if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       choices.push({
         target: { type: "planet" },
         label: `登陆${placement.planet.name}（主星）`,
       });
     }
 
-    if (canLandOnSatellites(placement.currentPlayer)) {
+    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer)) {
       for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
         choices.push({
           target: { type: "satellite", satelliteId: satellite.satelliteId },
@@ -179,7 +194,14 @@
     const planetId = placement.planet.planetId;
     const energyCost = check.energyCost;
 
-    if (target.type === "planet" && !planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
+    const isAomomoPlanet = planetId === aomomo?.PLANET_ID;
+    if (target.type === "planet" && isAomomoPlanet && !aomomo?.canAddLandingMarker?.(context.alienGameState)) {
+      const message = `${placement.planet.name} 登陆槽位已满`;
+      context.rocketState.statusNote = message;
+      return { ok: false, actionId: ACTION_ID, message };
+    }
+
+    if (target.type === "planet" && !isAomomoPlanet && !planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       const message = `${placement.planet.name} 主星登陆槽位已满`;
       context.rocketState.statusNote = message;
       return { ok: false, actionId: ACTION_ID, message };
@@ -224,6 +246,11 @@
       markerKind = "satellite";
       satelliteId = target.satelliteId;
       targetLabel = markerResult.marker?.satelliteName || target.satelliteId;
+    } else if (isAomomoPlanet) {
+      markerResult = aomomo.addLandingMarker(context.alienGameState, currentPlayer);
+      markerKind = "aomomo-land";
+      markerSequence = markerResult.marker?.sequence || null;
+      targetLabel = placement.planet.name;
     } else {
       markerResult = planetStats.addPlanetLandingMarker(
         context.planetStatsState,
@@ -242,7 +269,10 @@
     }
 
     const discountParts = [];
-    if (planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0) discountParts.push("有环绕，消耗-1");
+    const hasOrbit = isAomomoPlanet
+      ? aomomo.countOrbitMarkers(context.alienGameState) > 0
+      : planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
+    if (hasOrbit) discountParts.push("有环绕，消耗-1");
     if (players.playerOwnsTech(currentPlayer, "orange3")) discountParts.push("橙色3，消耗-1");
     const discountNote = discountParts.length ? `（${discountParts.join("；")}）` : "";
     const markerNote = markerKind === "satellite"

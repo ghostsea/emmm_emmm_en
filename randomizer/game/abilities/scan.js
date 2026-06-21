@@ -120,7 +120,7 @@
       ? (gainResult.ok ? "获得数据" : gainResult.message)
       : "不获得数据";
     const scoreMessage = replaceResult.scoreAwarded
-      ? `；第二格 +${replaceResult.scoreAwarded}分`
+      ? `；槽位${replaceResult.slotIndex} +${replaceResult.scoreAwarded}分`
       : "";
     const message = `${prefix}：${label} 槽位${replaceResult.slotIndex}`
       + ` 替换为${playerLabel}token${scoreMessage}；${dataMessage}`;

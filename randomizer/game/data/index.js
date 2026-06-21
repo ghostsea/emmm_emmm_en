@@ -75,9 +75,16 @@
       lines.push("[星云拖动校准]");
       for (const item of overrides) {
         const label = nebulaPlacement.getNebulaLabel(item.nebulaId);
-        lines.push(
-          `${label} 槽位${item.slotIndex} → 局部${item.percentX}%,${item.percentY}%`,
-        );
+        if (item.nebulaId === "aomomo") {
+          lines.push(
+            `${label} 槽位${item.slotIndex} → 盘面${item.percentX}%,${item.percentY}%`
+            + ` radial=${item.radialFraction} angular=${item.angularFraction}`,
+          );
+        } else {
+          lines.push(
+            `${label} 槽位${item.slotIndex} → 局部${item.percentX}%,${item.percentY}%`,
+          );
+        }
       }
     }
 
@@ -253,6 +260,8 @@
     NEBULA_SECOND_SLOT_INDEX: nebulaState.NEBULA_SECOND_SLOT_INDEX,
     NEBULA_SECOND_SLOT_SCORE: nebulaState.NEBULA_SECOND_SLOT_SCORE,
     getNebulaSecondSlotScoreReward: nebulaState.getNebulaSecondSlotScoreReward,
+    AOMOMO_NEBULA_ID: nebulaState.AOMOMO_NEBULA_ID,
+    getNebulaSlotScoreReward: nebulaState.getNebulaSlotScoreReward,
     getNebulaReplacementStats: nebulaState.getNebulaReplacementStats,
     getNextReplaceableNebulaToken: nebulaState.getNextReplaceableNebulaToken,
     revertNebulaTokenReplacement: nebulaState.revertNebulaTokenReplacement,
@@ -260,6 +269,9 @@
     bindNebulaDataDragging: nebulaRender.bindNebulaDataDragging,
     renderSectorNebulaData: nebulaRender.renderSectorNebulaData,
     renderAllSectorNebulaData: nebulaRender.renderAllSectorNebulaData,
+    renderAomomoNebulaData: nebulaRender.renderAomomoNebulaData,
+    getEffectiveAomomoBoardSlotLayout: nebulaRender.getEffectiveAomomoBoardSlotLayout,
+    getAomomoRelativePositionFromBoard: nebulaRender.getAomomoRelativePositionFromBoard,
     getEffectiveNebulaSlotLayout: nebulaRender.getEffectiveNebulaSlotLayout,
     listNebulaSlotLayoutOverrides: nebulaRender.listNebulaSlotLayoutOverrides,
     resetNebulaDataTokens: nebulaRender.resetNebulaDataTokens,

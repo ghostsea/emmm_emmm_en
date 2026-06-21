@@ -9,6 +9,7 @@
   let fangzhou = root.SetiAlienFangzhou;
   let banrenma = root.SetiAlienBanrenma;
   let amiba = root.SetiAlienAmiba;
+  let aomomo = root.SetiAlienAomomo;
 
   if (typeof require === "function") {
     catalog = catalog || require("./catalog");
@@ -19,16 +20,17 @@
     fangzhou = fangzhou || require("./fangzhou");
     banrenma = banrenma || require("./banrenma");
     amiba = amiba || require("./amiba");
+    aomomo = aomomo || require("./aomomo");
   }
 
-  const api = factory(catalog, placement, state, jiuzhe, yichangdian, fangzhou, banrenma, amiba);
+  const api = factory(catalog, placement, state, jiuzhe, yichangdian, fangzhou, banrenma, amiba, aomomo);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAlienRandomizer = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, jiuzhe, yichangdian, fangzhou, banrenma, amiba) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, jiuzhe, yichangdian, fangzhou, banrenma, amiba, aomomo) {
   "use strict";
 
   function randomizeAlienAssignments(alienState, random = Math.random) {
@@ -68,6 +70,9 @@
     }
     if (amiba?.createAmibaState) {
       alienState.amiba = amiba.createAmibaState();
+    }
+    if (aomomo?.createAomomoState) {
+      alienState.aomomo = aomomo.createAomomoState();
     }
 
     return {

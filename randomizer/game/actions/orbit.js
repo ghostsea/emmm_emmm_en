@@ -4,21 +4,23 @@
   let players = root.SetiPlayers;
   let planetStats = root.SetiPlanetStats;
   let shared = root.SetiActionShared;
+  let aomomo = root.SetiAlienAomomo;
 
-  if ((!players || !planetStats || !shared) && typeof require === "function") {
+  if ((!players || !planetStats || !shared || !aomomo) && typeof require === "function") {
     players = players || require("../players");
     planetStats = planetStats || require("../planet-stats");
     shared = shared || require("./shared");
+    aomomo = aomomo || require("../aliens/aomomo");
   }
 
-  const api = factory(players, planetStats, shared);
+  const api = factory(players, planetStats, shared, aomomo);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiActionOrbit = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (players, planetStats, shared) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (players, planetStats, shared, aomomo) {
   "use strict";
 
   const ACTION_ID = "orbit";
@@ -38,7 +40,8 @@
       };
     }
 
-    if (!planetStats.canAddOrbitMarker(context.planetStatsState, placement.planet.planetId)) {
+    const isAomomoPlanet = placement.planet.planetId === aomomo?.PLANET_ID;
+    if (isAomomoPlanet ? !aomomo?.canAddOrbitMarker?.(context.alienGameState) : !planetStats.canAddOrbitMarker(context.planetStatsState, placement.planet.planetId)) {
       return {
         ok: false,
         message: `${placement.planet.name} 环绕槽位已满`,
@@ -73,11 +76,14 @@
       return { ok: false, actionId: ACTION_ID, message: removed.message };
     }
 
-    const markerResult = planetStats.addPlanetOrbitMarker(
-      context.planetStatsState,
-      placement.planet.planetId,
-      currentPlayer,
-    );
+    const isAomomoPlanet = placement.planet.planetId === aomomo?.PLANET_ID;
+    const markerResult = isAomomoPlanet
+      ? aomomo.addOrbitMarker(context.alienGameState, currentPlayer)
+      : planetStats.addPlanetOrbitMarker(
+        context.planetStatsState,
+        placement.planet.planetId,
+        currentPlayer,
+      );
     if (!markerResult.ok) {
       currentPlayer.resources.credits += CREDIT_COST;
       currentPlayer.resources.energy += ENERGY_COST;
@@ -95,7 +101,7 @@
       message,
       removedRocketId: placement.rocket.id,
       planetId: placement.planet.planetId,
-      markerKind: "orbit",
+      markerKind: isAomomoPlanet ? "aomomo-orbit" : "orbit",
       markerSequence: markerResult.marker.sequence,
       cost: { credits: CREDIT_COST, energy: ENERGY_COST },
     };

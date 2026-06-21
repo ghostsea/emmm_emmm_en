@@ -6,6 +6,7 @@
   let yichangdianModule = root.SetiAlienYichangdian;
   let chongModule = root.SetiAlienChong;
   let amibaModule = root.SetiAlienAmiba;
+  let aomomoModule = root.SetiAlienAomomo;
   let runezuModule = root.SetiAlienRunezu;
   if (typeof require === "function") {
     finalScoringModule = finalScoringModule || require("./final-scoring");
@@ -13,17 +14,18 @@
     yichangdianModule = yichangdianModule || require("./aliens/yichangdian");
     chongModule = chongModule || require("./aliens/chong");
     amibaModule = amibaModule || require("./aliens/amiba");
+    aomomoModule = aomomoModule || require("./aliens/aomomo");
     runezuModule = runezuModule || require("./aliens/runezu");
   }
 
-  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, chongModule, amibaModule, runezuModule);
+  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, chongModule, amibaModule, aomomoModule, runezuModule);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiEndGameScoring = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, chong, amiba, runezu) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, chong, amiba, aomomo, runezu) {
   "use strict";
 
   const NEBULA_IDS_BY_COLOR = Object.freeze({
@@ -121,6 +123,23 @@
     return null;
   }
 
+  function getAomomoModule() {
+    if (aomomo) return aomomo;
+    if (typeof globalThis !== "undefined" && globalThis.SetiAlienAomomo) {
+      aomomo = globalThis.SetiAlienAomomo;
+      return aomomo;
+    }
+    if (typeof require === "function") {
+      try {
+        aomomo = require("./aliens/aomomo");
+        return aomomo;
+      } catch (_error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
   function getRunezuModule() {
     if (runezu) return runezu;
     if (typeof globalThis !== "undefined" && globalThis.SetiAlienRunezu) {
@@ -186,6 +205,8 @@
     const chongSlotId = alienGameState?.chong?.revealedSlotId;
     const amibaModule = getAmibaModule();
     const amibaSlotId = alienGameState?.amiba?.revealedSlotId;
+    const aomomoModule = getAomomoModule();
+    const aomomoSlotId = alienGameState?.aomomo?.revealedSlotId;
     const runezuModule = getRunezuModule();
     const runezuSlotId = alienGameState?.runezu?.revealedSlotId;
     for (const [slotId, slot] of Object.entries(alienGameState?.aliens || {})) {
@@ -209,6 +230,11 @@
       }
       if (amibaModule && amibaSlotId != null && Number(slotId) === Number(amibaSlotId)) {
         const entries = amibaModule.listTraceEntries(alienGameState, amibaSlotId, traceType);
+        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
+        continue;
+      }
+      if (aomomoModule && aomomoSlotId != null && Number(slotId) === Number(aomomoSlotId)) {
+        const entries = aomomoModule.listTraceEntries(alienGameState, aomomoSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
@@ -437,6 +463,12 @@
         const amibaModule = getAmibaModule();
         if (!amibaModule || !context.alienGameState) return 0;
         return scorePer * amibaModule.countTraceMarkers(context.alienGameState, player, rule.traceType);
+      }
+      case "aomomoTraceCount": {
+        if (!scorePer) return 0;
+        const aomomoModule = getAomomoModule();
+        if (!aomomoModule || !context.alienGameState) return 0;
+        return scorePer * aomomoModule.countTraceMarkers(context.alienGameState, player, null);
       }
       case "runezuMaxSameSymbolCount": {
         const runezuModule = getRunezuModule();

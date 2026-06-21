@@ -19,11 +19,21 @@
 
   let nebulaTokenSequence = 0;
   let nebulaReplacementSequence = 0;
+  const AOMOMO_NEBULA_ID = "aomomo";
   const NEBULA_SECOND_SLOT_INDEX = 2;
   const NEBULA_SECOND_SLOT_SCORE = 2;
 
   function getNebulaSecondSlotScoreReward(slotIndex) {
     return Number(slotIndex) === NEBULA_SECOND_SLOT_INDEX ? NEBULA_SECOND_SLOT_SCORE : 0;
+  }
+
+  function getNebulaSlotScoreReward(nebulaId, slotIndex) {
+    if (nebulaId === AOMOMO_NEBULA_ID) {
+      if (Number(slotIndex) === 1) return 1;
+      if (Number(slotIndex) === 3) return 2;
+      return 0;
+    }
+    return getNebulaSecondSlotScoreReward(slotIndex);
   }
 
   function createDefaultNebulaDataState() {
@@ -673,29 +683,31 @@
     rebuildNebulaStats(bucket);
 
     const label = nebulaPlacement.getNebulaLabel(nebulaId);
-    const secondSlotScore = getNebulaSecondSlotScoreReward(token.slotIndex);
-    if (secondSlotScore && options.awardSecondSlotScore !== false) {
+    const scoreReward = getNebulaSlotScoreReward(nebulaId, token.slotIndex);
+    if (scoreReward && options.awardSecondSlotScore !== false) {
       if (!player.resources) player.resources = {};
-      player.resources.score = (Number(player.resources.score) || 0) + secondSlotScore;
+      player.resources.score = (Number(player.resources.score) || 0) + scoreReward;
     }
     return {
       ok: true,
       nebulaId,
       token,
       slotIndex: token.slotIndex,
-      secondSlotScore,
-      scoreAwarded: options.awardSecondSlotScore === false ? 0 : secondSlotScore,
+      secondSlotScore: scoreReward,
+      scoreAwarded: options.awardSecondSlotScore === false ? 0 : scoreReward,
       player,
       stats: getNebulaReplacementStats(state, nebulaId),
       message: `${label} 槽位${token.slotIndex} 数据已替换为${playerLabel}token`
-        + (secondSlotScore ? `；第二格 +${secondSlotScore}分` : ""),
+        + (scoreReward ? `；槽位${token.slotIndex} +${scoreReward}分` : ""),
     };
   }
 
   return Object.freeze({
+    AOMOMO_NEBULA_ID,
     NEBULA_SECOND_SLOT_INDEX,
     NEBULA_SECOND_SLOT_SCORE,
     getNebulaSecondSlotScoreReward,
+    getNebulaSlotScoreReward,
     createDefaultNebulaDataState,
     createDefaultSectorSettlementState,
     normalizeNebulaDataState,

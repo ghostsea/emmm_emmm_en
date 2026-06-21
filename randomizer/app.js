@@ -29,6 +29,7 @@
   const banrenma = aliens.banrenma;
   const chong = aliens.chong;
   const amiba = aliens.amiba;
+  const aomomo = aliens.aomomo;
   const runezu = aliens.runezu;
   const initialCards = window.SetiInitialCards;
   const industry = window.SetiIndustry;
@@ -73,6 +74,8 @@
     chongCard: aliens.CHONG_CARD_BACK_SRC || "../assets/aliens/虫/cards/back.png",
     chongFossil: aliens.CHONG_FOSSIL_BACK_SRC || "../assets/aliens/虫/fossil_back.webp",
     amibaCard: aliens.AMIBA_CARD_BACK_SRC || "../assets/aliens/阿米巴/cards/back.jpg",
+    aomomoCard: aliens.AOMOMO_CARD_BACK_SRC || "../assets/aliens/奥陌陌/cards/back.png",
+    aomomoFossil: aliens.AOMOMO_FOSSIL_SRC || "../assets/aliens/奥陌陌/fossil.webp",
     runezuCard: aliens.RUNEZU_CARD_BACK_SRC || "../assets/aliens/符文族/cards/back.jpg",
   });
   const OPPONENT_SECTOR_WIN_STATS = Object.freeze([
@@ -123,6 +126,7 @@
     orbitOrLand: "../assets/symbol/effect/orbit or land.webp",
     chongFossilBack: "../assets/aliens/虫/fossil_back.webp",
     chongFossilOk: "../assets/aliens/虫/fossil_ok.webp",
+    aomomoFossil: aliens.AOMOMO_FOSSIL_SRC || "../assets/aliens/奥陌陌/fossil.webp",
   });
   const INCOME_GAIN_LABELS = Object.freeze({
     credits: "信用点",
@@ -130,6 +134,7 @@
     handSize: "手牌",
     publicity: "宣传",
     availableData: "数据",
+    aomomoFossils: "奥陌陌化石",
     additionalPublicScan: "额外公共扫描",
   });
   const ACTION_LOG_SOURCE_LABELS = Object.freeze({
@@ -246,6 +251,7 @@
   let pendingAmibaCardGain = null;
   let pendingAmibaSymbolChoice = null;
   let pendingAmibaTraceRemoval = null;
+  let pendingAomomoCardGain = null;
   let pendingRunezuCardGain = null;
   let pendingRunezuSymbolBranch = null;
   let pendingRunezuFaceSymbolPlacement = null;
@@ -347,6 +353,7 @@
     alienBanrenmaCardAreas: document.querySelectorAll(".alien-banrenma-card-area"),
     alienChongCardAreas: document.querySelectorAll(".alien-chong-card-area"),
     alienAmibaCardAreas: document.querySelectorAll(".alien-amiba-card-area"),
+    alienAomomoCardAreas: document.querySelectorAll(".alien-aomomo-card-area"),
     alienRunezuCardAreas: document.querySelectorAll(".alien-runezu-card-area"),
     alienBanrenmaScoremarks: document.querySelectorAll(".alien-banrenma-scoremarks"),
     finalScoreGrid: document.getElementById("final-score-grid"),
@@ -395,6 +402,7 @@
     debugBanrenmaButton: document.getElementById("debug-banrenma-button"),
     debugChongButton: document.getElementById("debug-chong-button"),
     debugAmibaButton: document.getElementById("debug-amiba-button"),
+    debugAomomoButton: document.getElementById("debug-aomomo-button"),
     debugRunezuButton: document.getElementById("debug-runezu-button"),
     debugCheatButton: document.getElementById("debug-cheat-button"),
     alienTraceOverlay: document.getElementById("alien-trace-overlay"),
@@ -794,7 +802,7 @@
       return {
         ...result,
         settlement: settleResult,
-        message: `${result.message}；${settleResult.message}；参与结算玩家各获得1宣传`,
+        message: `${result.message}；${settleResult.message}；${settleResult.participantAwardMessage || "参与结算玩家各获得1宣传"}`,
       };
     }
     return result;
@@ -1187,6 +1195,7 @@
     pendingAmibaCardGain = null;
     pendingAmibaSymbolChoice = null;
     pendingAmibaTraceRemoval = null;
+    pendingAomomoCardGain = null;
     pendingRunezuCardGain = null;
     pendingRunezuSymbolBranch = null;
     pendingRunezuFaceSymbolPlacement = null;
@@ -3079,6 +3088,9 @@
     if (amiba?.isAmibaCard?.(card)) {
       return handleAmibaCardPlay(removeIndex);
     }
+    if (aomomo?.isAomomoCard?.(card)) {
+      return handleAomomoCardPlay(removeIndex);
+    }
     if (runezu?.isRunezuCard?.(card)) {
       return handleRunezuCardPlay(removeIndex);
     }
@@ -3319,6 +3331,97 @@
     recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState, beforeAlienState);
     if (allPlayEffects.length) {
       startCardEffectFlow("amiba-play-card-effects", `打出 ${cards.getCardLabel(playedCard)}`, allPlayEffects, {
+        actionType: "playCard",
+        card: playedCard,
+        temporaryTasks: [],
+        industryPlayedCard: playedCard,
+      });
+    } else {
+      markActionPending();
+      updateActionButtons();
+      renderStateReadout();
+    }
+    return {
+      ok: true,
+      card: playedCard,
+      reserved: shouldReserve,
+      message: rocketState.statusNote,
+    };
+  }
+
+  function handleAomomoCardPlay(handIndex) {
+    if (!aomomo) return { ok: false, message: "奥陌陌模块未加载" };
+    const currentPlayer = getCurrentPlayer();
+    const removeIndex = Math.round(handIndex);
+    const card = currentPlayer?.hand?.[removeIndex];
+    if (!card) {
+      rocketState.statusNote = "无效的手牌位置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const cost = getCardPlayCost(card);
+    if (!players.canAfford(currentPlayer, cost)) {
+      rocketState.statusNote = `资源不足：${cards.getCardLabel(card)} 需要 ${formatCardPlayCost(cost)}`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const beforePlayer = structuredClone(currentPlayer);
+    const beforeAlienState = structuredClone(alienGameState);
+    const beforeCardState = {
+      publicCards: cardState.publicCards.slice(),
+      discardPile: (cardState.discardPile || []).slice(),
+    };
+    const spendResult = players.spendResources(currentPlayer, cost);
+    if (!spendResult.ok) {
+      rocketState.statusNote = spendResult.message;
+      renderStateReadout();
+      return spendResult;
+    }
+
+    const removeResult = cards.discardFromHandAtIndex(currentPlayer, removeIndex);
+    if (!removeResult.ok) {
+      players.gainResources(currentPlayer, cost);
+      rocketState.statusNote = removeResult.message;
+      renderStateReadout();
+      return removeResult;
+    }
+
+    const playedCard = removeResult.card;
+    playedCard.aomomoCard = true;
+    const typeCode = getCardTypeCode(playedCard);
+    const shouldReserve = [1, 2, 3].includes(typeCode);
+    if (shouldReserve) {
+      if (!Array.isArray(currentPlayer.reservedCards)) currentPlayer.reservedCards = [];
+      cardEffects.ensureCardEffectState(playedCard);
+      currentPlayer.reservedCards.push(playedCard);
+    } else {
+      cards.addToDiscardPile(cardState, playedCard);
+    }
+
+    const playEffects = aomomo.buildImmediateEffects(playedCard);
+    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
+      cards,
+      currentPlayer,
+      turnState.roundNumber,
+      turnState.turnNumber,
+      playedCard,
+    ) || [];
+    const allPlayEffects = [...playEffects, ...sentinelEffects];
+
+    cards.setPlayCardSelectionActive(cardState, false);
+    pendingPlayCardSelection = null;
+    rocketState.statusNote = shouldReserve
+      ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
+      : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
+    applyIndustryPlayCardPassives(playedCard, typeCode);
+    syncPlayCardSelectionChrome();
+    renderPlayerStats();
+    renderReservedCardsFromTaskState();
+    recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState, beforeAlienState);
+    if (allPlayEffects.length) {
+      startCardEffectFlow("aomomo-play-card-effects", `打出 ${cards.getCardLabel(playedCard)}`, allPlayEffects, {
         actionType: "playCard",
         card: playedCard,
         temporaryTasks: [],
@@ -4264,6 +4367,7 @@
     pendingAmibaCardGain = null;
     pendingAmibaSymbolChoice = null;
     pendingAmibaTraceRemoval = null;
+    pendingAomomoCardGain = null;
     pendingRunezuCardGain = null;
     pendingRunezuSymbolBranch = null;
     pendingRunezuFaceSymbolPlacement = null;
@@ -4292,6 +4396,87 @@
       title: nextToken ? "" : "需要先填充星云数据，且仍有未替换数据",
       ...extra,
     };
+  }
+
+  function isAomomoActive() {
+    return Boolean(solarState.aomomoActive && aomomo?.isAomomoRevealedSlot?.(
+      alienGameState,
+      alienGameState.aomomo?.revealedSlotId,
+    ));
+  }
+
+  function getAomomoPlanetLocation() {
+    if (!solarState.aomomoActive) return null;
+    return solar.createSolarSnapshot(solarState).planetLocations
+      .find((planet) => planet.planetId === aomomo?.PLANET_ID) || null;
+  }
+
+  function getAomomoCurrentX() {
+    const location = getAomomoPlanetLocation();
+    return location ? solar.mod8(location.x) : null;
+  }
+
+  function getNebulaCurrentX(nebulaId) {
+    const found = solar.getNebulaLocations(solarState.sectorBySlot)
+      .find((nebula) => nebula.id === nebulaId);
+    return found ? solar.mod8(found.x) : null;
+  }
+
+  function buildAomomoScanChoiceForX(sectorX, extra = {}) {
+    return buildNebulaScanChoice(aomomo.NEBULA_ID, {
+      sectorX,
+      label: extra.label || `扇区 ${sectorX}：奥陌陌`,
+      descriptionPrefix: extra.descriptionPrefix,
+      ...extra,
+    });
+  }
+
+  function hasAomomoScanAtX(sectorX) {
+    const currentX = getAomomoCurrentX();
+    return isAomomoActive() && currentX != null && solar.mod8(sectorX) === currentX;
+  }
+
+  function buildSectorScanChoicesForX(sectorX) {
+    const x = solar.mod8(sectorX);
+    const choices = [];
+    const nebula = solar.getNebulaAtCoordinate(x, 5, solarState.sectorBySlot);
+    if (nebula) {
+      choices.push(buildNebulaScanChoice(nebula.id, {
+        sectorX: x,
+        label: `扇区 ${x}：${nebula.label}`,
+      }));
+    }
+    if (hasAomomoScanAtX(x)) {
+      choices.push(buildAomomoScanChoiceForX(x));
+    }
+    if (!choices.length) {
+      choices.push({
+        nebulaId: "",
+        sectorX: x,
+        label: `扇区 ${x}`,
+        description: "当前没有星云",
+        disabled: true,
+      });
+    }
+    return choices;
+  }
+
+  function expandScanChoicesWithAomomoTargets(choices) {
+    if (!isAomomoActive()) return choices;
+    const next = [];
+    const seenAomomo = new Set();
+    for (const choice of choices || []) {
+      next.push(choice);
+      const sectorX = choice?.sectorX != null
+        ? Number(choice.sectorX)
+        : getNebulaCurrentX(choice?.nebulaId);
+      if (sectorX == null || !hasAomomoScanAtX(sectorX)) continue;
+      const key = solar.mod8(sectorX);
+      if (seenAomomo.has(key) || choice.nebulaId === aomomo.NEBULA_ID) continue;
+      seenAomomo.add(key);
+      next.push(buildAomomoScanChoiceForX(key));
+    }
+    return next;
   }
 
   function openScanTargetPicker(config) {
@@ -4336,11 +4521,12 @@
     const scanSource = pending?.fromEffectFlow || isActionEffectFlowActive() ? "scan" : "debug";
 
     if (pending?.type === "sector_scan") {
-      const result = replaceNebulaDataForCurrentPlayer(nebulaId, {
+      let result = replaceNebulaDataForCurrentPlayer(nebulaId, {
         prefix: pending.title || (sectorX != null ? `扇区${sectorX}扫描` : "星云扫描"),
         source: scanSource,
         gainData: pending.gainData,
       });
+      result = applyAomomoScanCostAndBonus(pending, result);
       maybeCompleteActionEffectFromScan(result);
       return result;
     }
@@ -4453,22 +4639,7 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const choices = Array.from({ length: 8 }, (_, x) => {
-      const nebula = solar.getNebulaAtCoordinate(x, 5, solarState.sectorBySlot);
-      if (!nebula) {
-        return {
-          nebulaId: "",
-          sectorX: x,
-          label: `扇区 ${x}`,
-          description: "当前没有星云",
-          disabled: true,
-        };
-      }
-      return buildNebulaScanChoice(nebula.id, {
-        sectorX: x,
-        label: `扇区 ${x}：${nebula.label}`,
-      });
-    });
+    const choices = Array.from({ length: 8 }, (_item, x) => buildSectorScanChoicesForX(x)).flat();
 
     rocketState.statusNote = "扇区扫描：请选择 0-7 号扇区";
     renderStateReadout();
@@ -4640,7 +4811,7 @@
     const replacedText = `快速扫描扇区：${player.colorLabel}玩家在${getSectorNebulaLabelText(sectorId)}`
       + `标记 ${results.length}/${replaceCount} 次（数据${dataCount}，额外${extraCount}）`;
     rocketState.statusNote = settleResult?.ok
-      ? `${replacedText}；${settleResult.message}；参与结算玩家各获得1宣传`
+      ? `${replacedText}；${settleResult.message}；${settleResult.participantAwardMessage || "参与结算玩家各获得1宣传"}`
       : replacedText;
     renderSectors();
     renderPlayerStats();
@@ -4698,7 +4869,7 @@
       ok: true,
       scanCode,
       scanLabel: PUBLIC_SCAN_CODE_LABELS[scanCode] || `扫描${scanCode}`,
-      choices: nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId)),
+      choices: expandScanChoicesWithAomomoTargets(nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId))),
     };
   }
 
@@ -6240,6 +6411,7 @@
       || pendingAmibaCardGain
       || pendingAmibaSymbolChoice
       || pendingAmibaTraceRemoval
+      || pendingAomomoCardGain
       || pendingRunezuCardGain
       || pendingRunezuSymbolBranch
       || pendingRunezuFaceSymbolPlacement
@@ -6307,22 +6479,7 @@
   }
 
   function buildSectorScanChoicesForXs(sectorXs) {
-    return sectorXs.map((x) => {
-      const nebula = solar.getNebulaAtCoordinate(x, 5, solarState.sectorBySlot);
-      if (!nebula) {
-        return {
-          nebulaId: "",
-          sectorX: x,
-          label: `扇区 ${x}`,
-          description: "当前没有星云",
-          disabled: true,
-        };
-      }
-      return buildNebulaScanChoice(nebula.id, {
-        sectorX: x,
-        label: `扇区 ${x}：${nebula.label}`,
-      });
-    });
+    return (sectorXs || []).flatMap((x) => buildSectorScanChoicesForX(x));
   }
 
   function clearActionEffectFlow() {
@@ -6374,6 +6531,7 @@
     pendingAmibaCardGain = null;
     pendingAmibaSymbolChoice = null;
     pendingAmibaTraceRemoval = null;
+    pendingAomomoCardGain = null;
     pendingRunezuCardGain = null;
     pendingRunezuSymbolBranch = null;
     pendingRunezuFaceSymbolPlacement = null;
@@ -6528,7 +6686,9 @@
     if (!settlementResult.ok) return null;
 
     const awarded = new Set();
+    const participantAwardLabels = new Set();
     for (const settlement of settlementResult.settlements || []) {
+      const isAomomoSettlement = settlement.sectorId === aomomo?.NEBULA_ID;
       for (const participant of settlement.participants || []) {
         const player = playerState.players.find((item) => item.id === participant.playerId)
           || playerState.players.find((item) => item.color === participant.playerColor);
@@ -6536,7 +6696,13 @@
         const awardKey = `${settlement.sectorId}:${player.id}`;
         if (awarded.has(awardKey)) continue;
         awarded.add(awardKey);
-        players.gainResources(player, { publicity: 1 });
+        if (isAomomoSettlement) {
+          players.gainResources(player, { aomomoFossils: 1 });
+          participantAwardLabels.add("奥陌陌参与结算玩家各获得1化石");
+        } else {
+          players.gainResources(player, { publicity: 1 });
+          participantAwardLabels.add("参与结算玩家各获得1宣传");
+        }
       }
       const winner = playerState.players.find((item) => item.id === settlement.winner?.playerId)
         || playerState.players.find((item) => item.color === settlement.winner?.playerColor);
@@ -6553,6 +6719,7 @@
         });
       }
     }
+    settlementResult.participantAwardMessage = [...participantAwardLabels].join("；") || "无参与奖励";
 
     const source = options.historySource || HISTORY_SOURCE_MAIN;
     const history = getHistoryForSource(source);
@@ -6583,7 +6750,7 @@
         appendActionLogStep(
           source,
           step.label,
-          `${settlementResult.message}；参与结算玩家各获得1宣传`
+          `${settlementResult.message}；${settlementResult.participantAwardMessage}`
             + `${settlementResult.runezuSymbolClaims?.length ? `；符文族symbol ${settlementResult.runezuSymbolClaims.length}个` : ""}`,
           actionLogOptionsFromHistoryStep(step),
         );
@@ -6636,7 +6803,7 @@
       ? "扫描效果已全部处理，可继续执行次要行动或回合结束"
       : "效果已全部处理，可继续执行次要行动或回合结束";
     rocketState.statusNote = settleResult?.ok
-      ? `${baseMessage}；${settleResult.message}；参与结算玩家各获得1宣传`
+      ? `${baseMessage}；${settleResult.message}；${settleResult.participantAwardMessage || "参与结算玩家各获得1宣传"}`
       : baseMessage;
     if (finishedFlow.consumesMainAction !== false) {
       markActionPending();
@@ -6887,16 +7054,41 @@
   }
 
   function executeSectorScanAtPlanet(planetId, prefixLabel) {
+    if (planetId === aomomo?.PLANET_ID) {
+      if (getAomomoCurrentX() == null) {
+        rocketState.statusNote = "奥陌陌星球尚未启用，无法扫描奥陌陌";
+        renderStateReadout();
+        return { ok: false, message: rocketState.statusNote };
+      }
+      const result = replaceNebulaDataForCurrentPlayer(aomomo.NEBULA_ID, {
+        prefix: prefixLabel || "扫描奥陌陌",
+        source: "scan",
+      });
+      maybeCompleteActionEffectFromScan(result);
+      return result;
+    }
+
     const sector = getPlanetSectorCoordinate(planetId);
-    const nebula = solar.getNebulaAtCoordinate(sector.x, 5, solarState.sectorBySlot);
-    if (!nebula) {
+    const choices = buildSectorScanChoicesForX(sector.x).filter((choice) => choice.nebulaId);
+    if (!choices.length || choices.every((choice) => choice.disabled)) {
       const planetName = planetId === "earth" ? "地球" : planetId === "mercury" ? "水星" : planetId;
       rocketState.statusNote = `${planetName}所在扇区没有可扫描星云`;
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
+    if (choices.length > 1) {
+      rocketState.statusNote = `${prefixLabel || "扇区扫描"}：请选择要扫描的星云`;
+      renderStateReadout();
+      return openScanTargetPicker({
+        type: "sector_scan",
+        fromEffectFlow: isActionEffectFlowActive(),
+        title: prefixLabel || "扇区扫描",
+        subtitle: "该 x 坐标同时存在外圈星云与奥陌陌，选择一个目标。",
+        choices,
+      });
+    }
 
-    const result = replaceNebulaDataForCurrentPlayer(nebula.id, {
+    const result = replaceNebulaDataForCurrentPlayer(choices[0].nebulaId, {
       prefix: prefixLabel || `扇区${sector.x}扫描`,
       source: "scan",
     });
@@ -7086,7 +7278,7 @@
       title: effect.label,
       subtitle: "按槽位顺序替换未替换的数据。",
       gainData: effect.options?.gainData,
-      choices: nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId)),
+      choices: expandScanChoicesWithAomomoTargets(nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId))),
     });
   }
 
@@ -7803,6 +7995,257 @@
     });
   }
 
+  function applyAomomoScanCostAndBonus(pending, result) {
+    if (!pending || !result?.ok) return result;
+    const currentPlayer = getCurrentPlayer();
+    const beforePlayer = structuredClone(currentPlayer);
+    const messages = [];
+    const fossilCost = Math.max(0, Math.round(Number(pending.aomomoFossilCost) || 0));
+    if (fossilCost > 0) {
+      const cost = { aomomoFossils: fossilCost };
+      if (!players.canAfford(currentPlayer, cost)) {
+        Object.assign(currentPlayer, beforePlayer);
+        rocketState.statusNote = `化石不足：需要 ${fossilCost} 化石`;
+        renderPlayerStats();
+        renderStateReadout();
+        return { ok: false, message: rocketState.statusNote };
+      }
+      const spend = players.spendResources(currentPlayer, cost);
+      if (!spend.ok) return spend;
+      messages.push(`支付${fossilCost}化石`);
+    }
+    const isAomomoScan = result.nebulaId === aomomo?.NEBULA_ID;
+    if (isAomomoScan && pending.aomomoScanBonus?.gainFossil) {
+      players.gainResources(currentPlayer, { aomomoFossils: 1 });
+      messages.push("奥陌陌扫描+1化石");
+    }
+    if (isAomomoScan && pending.aomomoScanBonus?.score) {
+      const score = Math.max(0, Math.round(Number(pending.aomomoScanBonus.score) || 0));
+      if (score > 0) {
+        players.gainResources(currentPlayer, { score });
+        messages.push(`奥陌陌扫描+${score}分`);
+      }
+    }
+    if (messages.length) {
+      recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+        currentPlayer,
+        beforePlayer,
+        "恢复奥陌陌扫描附加奖励前玩家状态",
+      ));
+      result.message = `${result.message}；${messages.join("；")}`;
+      rocketState.statusNote = result.message;
+    }
+    return result;
+  }
+
+  function openAomomoCurrentXScanEffect(effect) {
+    const currentX = getAomomoCurrentX();
+    if (currentX == null) {
+      rocketState.statusNote = "奥陌陌星球尚未启用，无法扫描奥陌陌所在扇区";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const bonus = {};
+    if (effect.type === aomomo.EFFECT_SCAN_AOMOMO_X_GAIN_FOSSIL) bonus.gainFossil = true;
+    if (effect.type === aomomo.EFFECT_SCAN_AOMOMO_X_SCORE) bonus.score = effect.options?.score || 2;
+    rocketState.statusNote = `${effect.label}：请选择奥陌陌当前 x=${currentX} 的扫描目标`;
+    renderStateReadout();
+    return openScanTargetPicker({
+      type: "sector_scan",
+      fromEffectFlow: true,
+      title: effect.label,
+      subtitle: "选择外圈星云或奥陌陌星球，按槽位顺序替换未替换的数据。",
+      gainData: effect.options?.gainData,
+      aomomoScanBonus: bonus,
+      choices: buildSectorScanChoicesForX(currentX),
+    });
+  }
+
+  function executeAomomoGainFossilsEffect(effect) {
+    const count = Math.max(0, Math.round(Number(effect.options?.count) || 0));
+    return executeGainResourcesRewardEffect({
+      ...effect,
+      options: { gain: { aomomoFossils: count } },
+    });
+  }
+
+  function executeAomomoFossilForDataEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const cost = Math.max(1, Math.round(Number(effect.options?.cost) || 1));
+    if (!players.canAfford(currentPlayer, { aomomoFossils: cost })) {
+      if (effect.options?.optional) {
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          undoable: true,
+          message: `${effect.label}：没有足够化石，已跳过`,
+        });
+      }
+      rocketState.statusNote = `化石不足：需要 ${cost} 化石`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const beforePlayer = structuredClone(currentPlayer);
+    beginEffectHistoryStep(effect.label);
+    players.spendResources(currentPlayer, { aomomoFossils: cost });
+    const dataCount = Math.max(0, Math.round(Number(effect.options?.dataCount) || 1));
+    const results = [];
+    for (let index = 0; index < dataCount; index += 1) {
+      results.push(data.gainData(currentPlayer, { source: "aomomo_card" }));
+    }
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      currentPlayer,
+      beforePlayer,
+      "恢复奥陌陌化石换数据前玩家状态",
+    ));
+    const gained = results.filter((item) => item.ok).length;
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: `${effect.label}：支付${cost}化石，获得${gained}/${dataCount}数据`,
+      payload: { results },
+    }, [renderPlayerHand]);
+  }
+
+  function openAomomoFossilAnyScanEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const cost = Math.max(1, Math.round(Number(effect.options?.cost) || 1));
+    if (!players.canAfford(currentPlayer, { aomomoFossils: cost })) {
+      if (effect.options?.optional) {
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          undoable: true,
+          message: `${effect.label}：没有足够化石，已跳过`,
+        });
+      }
+      rocketState.statusNote = `化石不足：需要 ${cost} 化石`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    rocketState.statusNote = `${effect.label}：请选择 0-7 号扇区之一`;
+    renderStateReadout();
+    return openScanTargetPicker({
+      type: "sector_scan",
+      fromEffectFlow: true,
+      title: effect.label,
+      subtitle: "支付化石后扫描任意扇区。",
+      gainData: effect.options?.gainData,
+      aomomoFossilCost: cost,
+      choices: buildSectorScanChoicesForXs(Array.from({ length: 8 }, (_item, x) => x)),
+    });
+  }
+
+  function executeAomomoLandEffect(effect, options = {}) {
+    beginEffectHistoryStep(effect.label);
+    const beforePlayer = structuredClone(getCurrentPlayer());
+    const result = abilities.executeAbility("landProbe", createActionContext(), {
+      skipCost: true,
+      target: { type: "planet" },
+    });
+    if (!result.ok) {
+      endEffectHistoryStep();
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+    recordAbilityCommands(result);
+    const score = result.planetId === aomomo?.PLANET_ID
+      ? Math.max(0, Math.round(Number(options.scoreIfAomomo ?? effect.options?.score) || 0))
+      : 0;
+    if (score > 0) {
+      players.gainResources(getCurrentPlayer(), { score });
+      recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+        getCurrentPlayer(),
+        beforePlayer,
+        "恢复奥陌陌登陆得分前玩家状态",
+      ));
+      result.message = `${result.message}；奥陌陌登陆+${score}分`;
+    }
+    effect.result = result;
+    rocketState.statusNote = result.message;
+    renderRockets();
+    renderAlienPanels();
+    renderPlayerStats();
+    completeCurrentActionEffect();
+    renderStateReadout();
+    return result;
+  }
+
+  function executeAomomoFossilMoveAndLandEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const cost = Math.max(1, Math.round(Number(effect.options?.cost) || 1));
+    if (!players.canAfford(currentPlayer, { aomomoFossils: cost })) {
+      if (effect.options?.optional !== false) {
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          undoable: true,
+          message: `${effect.label}：没有足够化石，已跳过`,
+        });
+      }
+      rocketState.statusNote = `化石不足：需要 ${cost} 化石`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const beforePlayer = structuredClone(currentPlayer);
+    beginEffectHistoryStep(effect.label);
+    players.spendResources(currentPlayer, { aomomoFossils: cost });
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      currentPlayer,
+      beforePlayer,
+      "恢复奥陌陌移动登陆前玩家状态",
+    ));
+    insertActionEffectsAfterCurrent([
+      {
+        id: `${effect.id || "aomomo"}-move`,
+        type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+        label: "奥陌陌：2移动",
+        icon: "movement",
+        options: { movementPoints: Math.max(1, Math.round(Number(effect.options?.movement) || 2)) },
+      },
+      {
+        id: `${effect.id || "aomomo"}-land`,
+        type: "aomomo_land_only",
+        label: "奥陌陌：登陆",
+        icon: "land",
+        options: {},
+      },
+    ]);
+    effect.result = {
+      ok: true,
+      undoable: true,
+      message: `${effect.label}：支付${cost}化石，追加2移动与登陆`,
+    };
+    rocketState.statusNote = effect.result.message;
+    renderPlayerStats();
+    completeCurrentActionEffect();
+    renderStateReadout();
+    return effect.result;
+  }
+
+  function executeAomomoSpendFossilsScoreEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const cost = Math.max(0, Math.round(Number(effect.options?.cost) || 0));
+    const score = Math.max(0, Math.round(Number(effect.options?.score) || 0));
+    if (!players.canAfford(currentPlayer, { aomomoFossils: cost })) {
+      rocketState.statusNote = `化石不足：需要 ${cost} 化石`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const beforePlayer = structuredClone(currentPlayer);
+    beginEffectHistoryStep(effect.label);
+    if (cost > 0) players.spendResources(currentPlayer, { aomomoFossils: cost });
+    if (score > 0) players.gainResources(currentPlayer, { score });
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      currentPlayer,
+      beforePlayer,
+      "恢复奥陌陌化石得分前玩家状态",
+    ));
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: `${effect.label}：支付${cost}化石，获得${score}分`,
+    });
+  }
+
   function executeCardEffect(effect) {
     const types = cardEffects.EFFECT_TYPES;
     switch (effect.type) {
@@ -7864,6 +8307,24 @@
         return executeRunezuSymbolRewardEffect(effect);
       case runezu?.EFFECT_TYPES?.SYMBOL_BRANCH:
         return openRunezuSymbolBranchDialog(effect);
+      case aomomo?.EFFECT_GAIN_FOSSILS:
+        return executeAomomoGainFossilsEffect(effect);
+      case aomomo?.EFFECT_SCAN_AOMOMO_X:
+      case aomomo?.EFFECT_SCAN_AOMOMO_X_GAIN_FOSSIL:
+      case aomomo?.EFFECT_SCAN_AOMOMO_X_SCORE:
+        return openAomomoCurrentXScanEffect(effect);
+      case aomomo?.EFFECT_LAND_SCORE_IF_AOMOMO:
+        return executeAomomoLandEffect(effect);
+      case aomomo?.EFFECT_FOSSIL_FOR_DATA:
+        return executeAomomoFossilForDataEffect(effect);
+      case aomomo?.EFFECT_FOSSIL_FOR_MOVE_AND_LAND:
+        return executeAomomoFossilMoveAndLandEffect(effect);
+      case aomomo?.EFFECT_FOSSIL_FOR_ANY_SCAN:
+        return openAomomoFossilAnyScanEffect(effect);
+      case aomomo?.EFFECT_SPEND_FOSSILS_GAIN_SCORE:
+        return executeAomomoSpendFossilsScoreEffect(effect);
+      case "aomomo_land_only":
+        return executeAomomoLandEffect(effect);
       default:
         return null;
     }
@@ -7980,7 +8441,7 @@
       fromEffectFlow: true,
       title: effect.label,
       subtitle: "按槽位顺序替换未替换的数据。",
-      choices: nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId)),
+      choices: expandScanChoicesWithAomomoTargets(nebulaIds.map((nebulaId) => buildNebulaScanChoice(nebulaId))),
     });
   }
 
@@ -8347,6 +8808,12 @@
     ) || null;
   }
 
+  function getAlienAomomoCardArea(alienSlotId) {
+    return [...els.alienAomomoCardAreas].find(
+      (element) => Number(element.dataset.alienSlot) === alienSlotId,
+    ) || null;
+  }
+
   function getAlienRunezuCardArea(alienSlotId) {
     return [...els.alienRunezuCardAreas].find(
       (element) => Number(element.dataset.alienSlot) === alienSlotId,
@@ -8488,6 +8955,12 @@
         && Number.isInteger(Number(alienTracePickerState.selectedAlienSlotId)));
   }
 
+  function isAomomoTracePlacementMode() {
+    return isDebugAlienTraceMode()
+      || (alienTracePickerState?.mode === "aomomo-grid"
+        && Number.isInteger(Number(alienTracePickerState.selectedAlienSlotId)));
+  }
+
   function isRunezuTracePlacementMode() {
     return isDebugAlienTraceMode()
       || (alienTracePickerState?.mode === "runezu-grid"
@@ -8570,6 +9043,23 @@
     if (!amiba?.isAmibaRevealedSlot?.(alienGameState, alienSlotId)) return false;
     const currentPlayer = getCurrentPlayer();
     return amiba?.canPlaceAmibaTrace?.(
+      alienGameState,
+      alienSlotId,
+      traceType,
+      position,
+      currentPlayer,
+    )?.ok;
+  }
+
+  function canPlaceAomomoTrace(alienSlotId, traceType, position) {
+    if (!isAomomoTracePlacementMode()) return false;
+    if (!isDebugAlienTraceMode()
+      && Number(alienTracePickerState.selectedAlienSlotId) !== Number(alienSlotId)) return false;
+    const allowedTraceTypes = alienTracePickerState?.allowedTraceTypes || aliens.TRACE_TYPES;
+    if (!allowedTraceTypes.includes(traceType)) return false;
+    if (!aomomo?.isAomomoRevealedSlot?.(alienGameState, alienSlotId)) return false;
+    const currentPlayer = getCurrentPlayer();
+    return aomomo?.canPlaceAomomoTrace?.(
       alienGameState,
       alienSlotId,
       traceType,
@@ -8761,6 +9251,34 @@
     }
   }
 
+  function renderAomomoCardDisplays() {
+    for (const alienSlotId of aliens.ALIEN_SLOT_IDS) {
+      const area = getAlienAomomoCardArea(alienSlotId);
+      if (!area) continue;
+      const visible = Boolean(aomomo?.isAomomoRevealedSlot?.(alienGameState, alienSlotId));
+      const state = alienGameState.aomomo || {};
+      const cardIndex = state.displayedCardIndex;
+      if (!visible) {
+        area.hidden = true;
+        area.replaceChildren();
+        continue;
+      }
+      area.hidden = false;
+      const title = document.createElement("div");
+      title.className = "alien-aomomo-card-title";
+      title.textContent = "奥陌陌展示牌";
+      const image = document.createElement("img");
+      image.className = "alien-aomomo-card-image";
+      image.src = cardIndex == null ? aomomo.CARD_BACK_SRC : aomomo.getCardSrc(cardIndex);
+      image.alt = cardIndex == null ? "奥陌陌牌背" : `奥陌陌牌 ${cardIndex}`;
+      image.width = 747;
+      image.height = 1040;
+      image.decoding = "async";
+
+      area.replaceChildren(title, image);
+    }
+  }
+
   function renderRunezuCardDisplays() {
     for (const alienSlotId of aliens.ALIEN_SLOT_IDS) {
       const area = getAlienRunezuCardArea(alienSlotId);
@@ -8897,6 +9415,25 @@
       ),
       getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
     });
+    aliens.renderAllAomomoTraceMarkers?.(getAlienJiuzheTraceLayer, alienGameState, {
+      tokenSrc: aliens.ALIEN_TRACE_TOKEN_SRC,
+      canPlaceAomomoTrace,
+      getPlayerTokenAsset: (playerColor) => (
+        players.getPlayerColorDefinition(playerColor)?.normalTokenAsset
+        || aliens.ALIEN_TRACE_TOKEN_SRC
+      ),
+      getPlayerOrbitAsset: (playerColor) => (
+        players.getPlayerColorDefinition(playerColor)?.satelliteAsset
+        || players.getPlayerColorDefinition(playerColor)?.normalTokenAsset
+        || aliens.ALIEN_TRACE_TOKEN_SRC
+      ),
+      getPlayerLandingAsset: (playerColor) => (
+        players.getPlayerColorDefinition(playerColor)?.landdingAsset
+        || players.getPlayerColorDefinition(playerColor)?.normalTokenAsset
+        || aliens.ALIEN_TRACE_TOKEN_SRC
+      ),
+      getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
+    });
     aliens.renderAllRunezuTraceMarkers?.(getAlienJiuzheTraceLayer, alienGameState, {
       tokenSrc: aliens.ALIEN_TRACE_TOKEN_SRC,
       canPlaceRunezuTrace,
@@ -8915,6 +9452,7 @@
     renderBanrenmaCardDisplays();
     renderChongCardDisplays();
     renderAmibaCardDisplays();
+    renderAomomoCardDisplays();
     renderRunezuCardDisplays();
     renderBanrenmaBonusMarkers();
     renderRunezuBoardSymbols();
@@ -9160,6 +9698,26 @@
       ? aliens.getTraceTypeLabel(allowedTraceTypes[0])
       : "对应颜色";
     rocketState.statusNote = `半人马：请在正面牌图点击可放置的${traceLabel}痕迹位`;
+    renderAlienPanels();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function beginAomomoTraceGridPlacement(alienSlotId) {
+    const allowedTraceTypes = alienTracePickerState?.allowedTraceTypes?.length
+      ? alienTracePickerState.allowedTraceTypes
+      : aliens.TRACE_TYPES;
+    alienTracePickerState = {
+      ...alienTracePickerState,
+      mode: "aomomo-grid",
+      selectedAlienSlotId: Number(alienSlotId),
+      allowedTraceTypes,
+    };
+    if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = true;
+    const traceLabel = allowedTraceTypes.length === 1
+      ? aliens.getTraceTypeLabel(allowedTraceTypes[0])
+      : "对应颜色";
+    rocketState.statusNote = `奥陌陌：请在正面牌图点击可放置的${traceLabel}痕迹位`;
     renderAlienPanels();
     renderStateReadout();
     return { ok: true, message: rocketState.statusNote };
@@ -9878,6 +10436,38 @@
     };
   }
 
+  function applyAomomoRewardToPlayer(player, reward, label = "奥陌陌奖励") {
+    if (!player || !reward) return { ok: false, message: "没有可结算的奥陌陌奖励" };
+    const messages = [];
+    if (reward.payFossils) {
+      const cost = { aomomoFossils: reward.payFossils };
+      if (!players.canAfford(player, cost)) {
+        return { ok: false, message: `化石不足：需要 ${reward.payFossils} 化石` };
+      }
+      const spend = players.spendResources(player, cost);
+      if (!spend.ok) return spend;
+      messages.push(`支付${reward.payFossils}化石`);
+    }
+    if (Object.keys(reward.gain || {}).length) {
+      players.gainResources(player, reward.gain);
+      messages.push(players.formatResourceCost(reward.gain));
+    }
+    const dataCount = Math.max(0, Math.round(Number(reward.dataCount) || 0));
+    if (dataCount > 0) {
+      let gained = 0;
+      for (let index = 0; index < dataCount; index += 1) {
+        const result = data.gainData(player, { source: "aomomo" });
+        if (result.ok) gained += 1;
+      }
+      messages.push(`${gained}/${dataCount}数据`);
+    }
+    if (reward.pickAlienCard) messages.push("外星人牌");
+    return {
+      ok: true,
+      message: `${label}：${messages.join("、") || "无奖励"}`,
+    };
+  }
+
   function applyChongRewardToPlayer(player, reward, label = "虫族奖励") {
     if (!player || !reward) return { ok: false, message: "没有可结算的虫族奖励" };
     const messages = [];
@@ -10333,6 +10923,137 @@
     player.hand.push(result.card);
     player.resources.handSize = player.hand.length;
     return finishAmibaCardGain(result.message, result);
+  }
+
+  function closeAomomoCardGainDialog() {
+    pendingAomomoCardGain = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+  }
+
+  function openAomomoCardGainDialog(options = {}) {
+    if (!aomomo || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开奥陌陌牌获取窗口" };
+    }
+    const state = aomomo.ensureAomomoState(alienGameState);
+    if (state.displayedCardIndex == null) aomomo.drawDisplayedCardIndex(alienGameState);
+    pendingAomomoCardGain = {
+      playerId: options.player?.id || getCurrentPlayer()?.id || null,
+      fromEffectFlow: Boolean(options.fromEffectFlow),
+      effectLabel: options.effectLabel || "奥陌陌外星人牌",
+      beforeAlienState: options.beforeAlienState || structuredClone(alienGameState),
+      beforePlayerState: options.beforePlayerState || structuredClone(playerState),
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "获得奥陌陌牌";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = "选择当前展示牌、盲抽奥陌陌牌，或取消。";
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+
+    const cardIndex = alienGameState.aomomo?.displayedCardIndex;
+    const confirm = document.createElement("button");
+    confirm.type = "button";
+    confirm.className = "scan-target-option-button";
+    confirm.dataset.aomomoCardGain = "displayed";
+    confirm.innerHTML = cardIndex == null
+      ? "确认<small>当前没有展示牌</small>"
+      : `<img class="jiuzhe-card-option-image" src="${aomomo.getCardSrc(cardIndex)}" alt="" aria-hidden="true"><small>确认拿取展示牌 ${cardIndex}</small>`;
+    confirm.disabled = cardIndex == null;
+
+    const blind = document.createElement("button");
+    blind.type = "button";
+    blind.className = "scan-target-option-button";
+    blind.dataset.aomomoCardGain = "blind";
+    blind.innerHTML = "盲抽<small>从奥陌陌牌堆随机获得 1 张</small>";
+
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "scan-target-option-button";
+    cancel.dataset.aomomoCardGain = "cancel";
+    cancel.innerHTML = "取消<small>不获得奥陌陌牌</small>";
+
+    els.scanTargetActions.replaceChildren(confirm, blind, cancel);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "奥陌陌牌：请选择获取方式";
+    renderStateReadout();
+    return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
+  function finishAomomoCardGain(message, result = null) {
+    const pending = pendingAomomoCardGain;
+    const irreversible = getAlienCardGainIrreversible(result);
+    closeAomomoCardGainDialog();
+    if (pending?.fromEffectFlow && getCurrentActionEffect()) {
+      const existingResult = getCurrentActionEffect().result || {};
+      if (!effectStepActive) beginEffectHistoryStep(pending.effectLabel);
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        pending.beforeAlienState,
+        "恢复奥陌陌牌获取前外星人状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        pending.beforePlayerState,
+        "恢复奥陌陌牌获取前玩家状态",
+      ));
+      getCurrentActionEffect().result = {
+        ok: true,
+        undoable: !irreversible,
+        irreversible,
+        message,
+        events: existingResult.events || [],
+        payload: result,
+      };
+      rocketState.statusNote = message;
+      renderAlienPanels();
+      renderPlayerHand();
+      renderPlayerStats();
+      completeCurrentActionEffect();
+      renderStateReadout();
+      return getCurrentActionEffect()?.result || { ok: true, message };
+    }
+    if (irreversible && pending) {
+      beginQuickActionStep("aomomo-card", pending.effectLabel || "奥陌陌外星人牌");
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        pending.beforeAlienState,
+        "恢复奥陌陌牌获取前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        pending.beforePlayerState,
+        "恢复奥陌陌牌获取前玩家状态",
+      ));
+      completeQuickActionStep(message, {
+        irreversibleCode: irreversible.code,
+        irreversibleReason: irreversible.reason,
+      });
+    }
+    rocketState.statusNote = message;
+    renderAlienPanels();
+    renderPlayerHand();
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message, result };
+  }
+
+  function handleAomomoCardGainChoice(choice) {
+    if (!pendingAomomoCardGain) return { ok: false, message: "没有奥陌陌牌获取流程" };
+    const pending = pendingAomomoCardGain;
+    const player = getPlayerById(pending.playerId) || getCurrentPlayer();
+    if (!player) return { ok: false, message: "找不到奥陌陌牌获取玩家" };
+    if (choice === "cancel") {
+      return finishAomomoCardGain("已取消奥陌陌外星人牌");
+    }
+    const result = choice === "blind"
+      ? aomomo.blindDrawCard(alienGameState)
+      : aomomo.takeDisplayedCard(alienGameState);
+    if (!result.ok || !result.card) {
+      return finishAomomoCardGain(result.message || "奥陌陌牌获取失败", result);
+    }
+    player.hand.push(result.card);
+    player.resources.handSize = player.hand.length;
+    return finishAomomoCardGain(result.message, result);
   }
 
   function closeAmibaSymbolChoiceDialog() {
@@ -11968,6 +12689,39 @@
     };
   }
 
+  function activateAomomoBoard(options = {}) {
+    solarState.aomomoActive = true;
+    const existingTokens = data.listNebulaTokens(nebulaDataState, aomomo.NEBULA_ID);
+    let fillResult = null;
+    if (options.replaceData || !existingTokens.length) {
+      if (options.replaceData) data.clearNebulaData(nebulaDataState, aomomo.NEBULA_ID);
+      fillResult = data.fillNebulaData(nebulaDataState, aomomo.NEBULA_ID, {
+        source: options.source || "aomomo_reveal",
+      });
+    }
+    renderWheels();
+    renderSectorNebulaDataBoard();
+    renderRockets();
+    return fillResult;
+  }
+
+  function handleAomomoRevealSideEffects(alienSlotId, revealResult, triggerPlayer) {
+    if (!aomomo || !revealResult?.ok || revealResult.alienId !== aomomo.ALIEN_ID) return null;
+    const initResult = aomomo.initializeAomomoReveal(
+      alienGameState,
+      alienSlotId,
+      triggerPlayer,
+    );
+    const fillResult = activateAomomoBoard({ source: "aomomo_reveal" });
+    const fillMessage = fillResult?.ok ? `；${fillResult.message}` : "";
+    return {
+      ...initResult,
+      rewardMessages: [],
+      fillResult,
+      message: `${initResult.message}${fillMessage}`,
+    };
+  }
+
   function handleRunezuRevealSideEffects(alienSlotId, revealResult, triggerPlayer) {
     if (!runezu || !revealResult?.ok || revealResult.alienId !== runezu.ALIEN_ID) return null;
     const initResult = runezu.initializeRunezuReveal(
@@ -12061,6 +12815,7 @@
       || handleBanrenmaRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleChongRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleAmibaRevealSideEffects(alienSlotId, revealResult, currentPlayer)
+      || handleAomomoRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleRunezuRevealSideEffects(alienSlotId, revealResult, currentPlayer);
     rocketState.statusNote = revealSideEffect?.message || revealResult?.message || result.message;
     const traceEvents = result.ok && !inDebugMode
@@ -12109,7 +12864,7 @@
       settleCardTasksAfterEffect({ events: traceEvents, render: true });
     }
     renderAlienPanels();
-    if (revealResult?.alienId === chong?.ALIEN_ID) {
+    if (revealResult?.alienId === chong?.ALIEN_ID || revealResult?.alienId === aomomo?.ALIEN_ID) {
       renderRockets();
     }
     renderPlayerStats();
@@ -12451,6 +13206,125 @@
     }
     updateActionButtons();
     maybeOpenQueuedBanrenmaOpportunity();
+    renderStateReadout();
+    return result;
+  }
+
+  function confirmAomomoTracePlacement(alienSlotId, traceType, position) {
+    const inDebugMode = isDebugAlienTraceMode();
+    if (!aomomo || (!isAomomoTracePlacementMode() && !inDebugMode)) {
+      rocketState.statusNote = "请先通过获取外星人标记进入奥陌陌放置模式";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (!canPlaceAomomoTrace(alienSlotId, traceType, position)) {
+      rocketState.statusNote = "该奥陌陌痕迹位不可放置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    const rewardPreview = aomomo.getTraceReward(traceType, Number(position));
+    if (rewardPreview?.payFossils && !players.canAfford(currentPlayer, { aomomoFossils: rewardPreview.payFossils })) {
+      rocketState.statusNote = `化石不足：该位置需要 ${rewardPreview.payFossils} 化石`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const pending = pendingAlienTraceAction;
+    const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
+    const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
+    if (!inDebugMode) {
+      pendingAlienTraceAction = null;
+      if (alienTracePickerState?.mode === "aomomo-grid") {
+        alienTracePickerState = null;
+      }
+    }
+
+    const result = aomomo.placeAomomoTrace(
+      alienGameState,
+      alienSlotId,
+      traceType,
+      position,
+      currentPlayer,
+    );
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderAlienPanels();
+      renderStateReadout();
+      return result;
+    }
+
+    const rewardResult = applyAomomoRewardToPlayer(
+      currentPlayer,
+      result.reward,
+      `奥陌陌${aomomo.formatTraceLabel(traceType, Number(position))}`,
+    );
+    rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, aomomo.ALIEN_ID)]
+      : [];
+
+    if (pending?.type === "planet_reward_alien_trace") {
+      beginEffectHistoryStep(pending.effectLabel || "奥陌陌痕迹奖励");
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复奥陌陌痕迹奖励前外星人状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复奥陌陌痕迹奖励前玩家状态",
+      ));
+      if (getCurrentActionEffect()) {
+        getCurrentActionEffect().result = {
+          ok: true,
+          undoable: true,
+          message: rocketState.statusNote,
+          events: traceEvents,
+          payload: { alienSlotId, traceType, position, reward: result.reward || null },
+        };
+      }
+    } else {
+      beginQuickActionStep("aomomo-trace", rocketState.statusNote);
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复奥陌陌痕迹放置前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复奥陌陌痕迹放置前玩家状态",
+      ));
+      completeQuickActionStep();
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
+    }
+
+    renderAlienPanels();
+    renderPlayerStats();
+    renderPlayerHand();
+    renderReservedCardsFromTaskState();
+
+    if (result.reward?.pickAlienCard) {
+      const openResult = openAomomoCardGainDialog({
+        player: currentPlayer,
+        fromEffectFlow: pending?.type === "planet_reward_alien_trace",
+        effectLabel: pending?.effectLabel || "奥陌陌外星人牌",
+        beforeAlienState,
+        beforePlayerState,
+      });
+      if (!openResult.ok && pending?.type === "planet_reward_alien_trace") {
+        completeCurrentActionEffect();
+      }
+      return result;
+    }
+
+    if (pending?.type === "planet_reward_alien_trace") {
+      completeCurrentActionEffect();
+    }
+    updateActionButtons();
     renderStateReadout();
     return result;
   }
@@ -14450,6 +15324,15 @@
     return row;
   }
 
+  function shouldShowAomomoFossils(player) {
+    return Boolean(
+      aomomo
+      && (solarState.aomomoActive
+        || alienGameState.aomomo?.revealInitialized
+        || Number(player?.resources?.aomomoFossils) > 0),
+    );
+  }
+
   function buildPlayerResourceStatNodes(player, options = {}) {
     const resources = player.resources || players.DEFAULT_RESOURCES;
     const limits = players.RESOURCE_LIMITS;
@@ -14460,6 +15343,9 @@
       createStatIcon("可用数据", `${resources.availableData}/${limits.availableData}`, RESOURCE_ICON_SRC.data),
       createStatIcon("额外公共扫描", resources.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
     ];
+    if (shouldShowAomomoFossils(player)) {
+      nodes.push(createStatIcon("奥陌陌化石", resources.aomomoFossils || 0, RESOURCE_ICON_SRC.aomomoFossil));
+    }
 
     if (options.includeHandSize) {
       const handCount = Array.isArray(player.hand) ? player.hand.length : (resources.handSize || 0);
@@ -16164,7 +17050,7 @@
 
     return [
       "玩家状态",
-      `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 额外公共扫描=${resources.additionalPublicScan || 0} 手牌=${resources.handSize} 保留=${reservedCount} 完成任务=${currentPlayer.completedTaskCount || 0} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
+      `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 奥陌陌化石=${resources.aomomoFossils || 0} 额外公共扫描=${resources.additionalPublicScan || 0} 手牌=${resources.handSize} 保留=${reservedCount} 完成任务=${currentPlayer.completedTaskCount || 0} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
       `终局总分=${finalScoreBreakdown.totalScore}（板块=${finalScoreBreakdown.tileScore || 0} 卡牌=${finalScoreBreakdown.cardScore || 0} 九折=${finalScoreBreakdown.jiuzheCardScore || 0} 符文族=${finalScoreBreakdown.runezuSymbolScore || 0} 威胁=${finalScoreBreakdown.jiuzheThreat || 0}${finalScoreBreakdown.jiuzhePenaltyApplied ? " 已0.9修正" : ""}）`,
       `符文族symbol ${runezu?.getPlayerSymbolSummary?.(currentPlayer) || "无"}`,
       `收入 信用点=${income.credits || 0} 能量=${income.energy || 0} 手牌=${income.handSize || 0} 宣传=${income.publicity || 0} 数据=${income.availableData || 0}`,
@@ -17093,6 +17979,7 @@
     if (result.ok && result.markerKind) {
       if (result.removedRocketId != null) removeRocketElement(result.removedRocketId);
       syncPlanetOrbitLandMarkers();
+      renderAlienPanels();
       if (actionId === "orbit" || actionId === "land") {
         startedRewardFlow = startPlanetRewardEffectFlow(actionId, result);
       }
@@ -17588,6 +18475,50 @@
     return { ok: true, message: rocketState.statusNote };
   }
 
+  function logAomomoDebugCoordinates(alienSlotId = alienGameState.aomomo?.revealedSlotId || 1) {
+    if (!aomomo) return;
+    const lines = [];
+    for (const token of data.listNebulaTokens(nebulaDataState, aomomo.NEBULA_ID)) {
+      const layout = data.getEffectiveAomomoBoardSlotLayout?.(token.slotIndex, token, solarState, solar);
+      if (!layout) continue;
+      const boardX = layout.boardPercentX ?? layout.percentX;
+      const boardY = layout.boardPercentY ?? layout.percentY;
+      const radial = layout.radialFraction ?? "n/a";
+      const angular = layout.angularFraction ?? "n/a";
+      lines.push(`数据槽 ${token.slotIndex} = 盘面(${boardX}%, ${boardY}%) radial=${radial} angular=${angular}`);
+    }
+    for (const line of lines) {
+      console.info("[奥陌陌调试坐标]", line);
+    }
+  }
+
+  function revealAomomoForDebug() {
+    if (!aomomo) return { ok: false, message: "奥陌陌模块未加载" };
+    const currentPlayer = getCurrentPlayer();
+    const alienSlotId = 1;
+    const slot = aliens.getAlienSlot(alienGameState, alienSlotId);
+    if (!slot) return { ok: false, message: "找不到外星人 1" };
+
+    slot.assignedAlienId = aomomo.ALIEN_ID;
+    slot.alienId = aomomo.ALIEN_ID;
+    slot.revealed = true;
+    alienGameState.aomomo = aomomo.createAomomoState();
+    aomomo.initializeAomomoReveal(alienGameState, alienSlotId, currentPlayer);
+    activateAomomoBoard({ source: "aomomo_debug", replaceData: true });
+
+    enableDebugAlienTraceModeForReveal(
+      "奥陌陌调试：已揭示奥陌陌、替换第3轮盘并启用奥陌陌星球；星球弧形槽位放入3个数据token，可拖动校准；外星人面板不预放痕迹/环绕/登陆token",
+    );
+    renderWheels();
+    renderSectorNebulaDataBoard();
+    renderAlienPanels();
+    renderRockets();
+    renderPlayerStats();
+    renderStateReadout();
+    logAomomoDebugCoordinates(alienSlotId);
+    return { ok: true, message: rocketState.statusNote };
+  }
+
   function revealRunezuForDebug() {
     if (!runezu) return { ok: false, message: "符文族模块未加载" };
     const currentPlayer = getCurrentPlayer();
@@ -17659,6 +18590,14 @@
     });
   }
 
+  function focusAomomoDebugCalibration(alienSlotId = 1) {
+    setDebugOpen(false);
+    window.requestAnimationFrame(() => {
+      const target = els.alienPanels?.[alienSlotId - 1] || getAlienJiuzheTraceLayer(alienSlotId);
+      target?.scrollIntoView?.({ behavior: "smooth", block: "center", inline: "nearest" });
+    });
+  }
+
 
   function fillNebulaDataBoard(options = {}) {
     const { replace = false, source = "debug", log = false } = options;
@@ -17702,6 +18641,10 @@
         data.renderSectorNebulaData(sectorId, sectorElement, nebulaDataState);
       }
     }
+    data.renderAomomoNebulaData?.(els.tokenLayer, nebulaDataState, solarState, {
+      solarApi: solar,
+      forceVisible: Boolean(solarState.aomomoActive),
+    });
   }
 
   function moveRocket(deltaX, deltaY, rocketId) {
@@ -17773,6 +18716,11 @@
   function renderWheels() {
     for (let w = 1; w <= 4; w += 1) {
       els.wheels[w].style.transform = stepsToTransform(solarState.wheelSteps[w]);
+    }
+    if (els.wheels[3]) {
+      els.wheels[3].style.backgroundImage = solarState.aomomoActive && aomomo?.WHEEL3_AMM_SRC
+        ? `url("${aomomo.WHEEL3_AMM_SRC}")`
+        : "";
     }
   }
 
@@ -17910,6 +18858,7 @@
     pendingBanrenmaCardGain = null;
     pendingBanrenmaOpportunity = null;
     banrenmaOpportunityQueue = [];
+    pendingAomomoCardGain = null;
     pendingRunezuCardGain = null;
     pendingRunezuSymbolBranch = null;
     pendingRunezuFaceSymbolPlacement = null;
@@ -17919,6 +18868,10 @@
     randomizeWheels();
     randomizeSectors();
     fillNebulaDataBoard({ source: "setup", replace: true });
+    solarState.aomomoActive = false;
+    if (aomomo?.NEBULA_ID) data.clearNebulaData(nebulaDataState, aomomo.NEBULA_ID);
+    renderWheels();
+    renderSectorNebulaDataBoard();
     randomizeFinalScores();
     randomizeAliens();
     tech.setupBoardBonuses(techGameState);
@@ -18096,6 +19049,12 @@
       return;
     }
 
+    const aomomoGain = event.target.closest("[data-aomomo-card-gain]");
+    if (aomomoGain && !aomomoGain.disabled) {
+      handleAomomoCardGainChoice(aomomoGain.dataset.aomomoCardGain);
+      return;
+    }
+
     const amibaSymbol = event.target.closest("[data-amiba-symbol-choice]");
     if (amibaSymbol && !amibaSymbol.disabled) {
       handleAmibaSymbolChoice(amibaSymbol.dataset.amibaSymbolChoice);
@@ -18185,6 +19144,10 @@
       handleAmibaCardGainChoice("cancel");
       return;
     }
+    if (pendingAomomoCardGain) {
+      handleAomomoCardGainChoice("cancel");
+      return;
+    }
     if (pendingRunezuFaceSymbolPlacement) {
       handleRunezuFaceSymbolChoice("cancel");
       return;
@@ -18241,6 +19204,10 @@
         handleAmibaCardGainChoice("cancel");
         return;
       }
+      if (pendingAomomoCardGain) {
+        handleAomomoCardGainChoice("cancel");
+        return;
+      }
       if (pendingRunezuFaceSymbolPlacement) {
         handleRunezuFaceSymbolChoice("cancel");
         return;
@@ -18292,6 +19259,8 @@
       || (alienSlot?.revealed && alienSlot.alienId === aliens.CHONG_ALIEN_ID);
     const useAmibaGrid = amiba?.isAmibaRevealedSlot?.(alienGameState, alienSlotId)
       || (alienSlot?.revealed && alienSlot.alienId === aliens.AMIBA_ALIEN_ID);
+    const useAomomoGrid = aomomo?.isAomomoRevealedSlot?.(alienGameState, alienSlotId)
+      || (alienSlot?.revealed && alienSlot.alienId === aliens.AOMOMO_ALIEN_ID);
     const useRunezuGrid = runezu?.isRunezuRevealedSlot?.(alienGameState, alienSlotId)
       || (alienSlot?.revealed && alienSlot.alienId === aliens.RUNEZU_ALIEN_ID);
 
@@ -18314,6 +19283,10 @@
       }
       if (useAmibaGrid) {
         beginAmibaTraceGridPlacement(alienSlotId);
+        return;
+      }
+      if (useAomomoGrid) {
+        beginAomomoTraceGridPlacement(alienSlotId);
         return;
       }
       if (useRunezuGrid) {
@@ -18411,6 +19384,15 @@
           Number(amibaButton.dataset.alienSlot),
           amibaButton.dataset.traceType,
           Number(amibaButton.dataset.amibaPosition),
+        );
+        return;
+      }
+      const aomomoButton = event.target.closest("[data-aomomo-trace-slot]");
+      if (aomomoButton && !aomomoButton.disabled && aomomoButton.classList.contains("is-placeable")) {
+        confirmAomomoTracePlacement(
+          Number(aomomoButton.dataset.alienSlot),
+          aomomoButton.dataset.traceType,
+          Number(aomomoButton.dataset.aomomoPosition),
         );
         return;
       }
@@ -18572,6 +19554,10 @@
     const result = revealAmibaForDebug();
     if (result?.ok) focusAmibaDebugCalibration(1);
   });
+  els.debugAomomoButton?.addEventListener("click", () => {
+    const result = revealAomomoForDebug();
+    if (result?.ok) focusAomomoDebugCalibration(1);
+  });
   els.debugRunezuButton?.addEventListener("click", () => {
     revealRunezuForDebug();
   });
@@ -18679,6 +19665,22 @@
       renderStateReadout();
     },
   });
+  data.bindNebulaDataDragging?.({
+    onPositionChange: (payload) => {
+      rocketState.statusNote = payload?.message || "星云数据坐标已更新";
+      if (payload?.message) console.info("[星云数据坐标拖动]", payload.message, payload);
+      if (payload?.nebulaId === aomomo?.NEBULA_ID) {
+        console.info(
+          "[奥陌陌调试坐标]",
+          `数据槽 ${payload.slotIndex} = 盘面(${payload.percentX}%, ${payload.percentY}%)`
+          + ` radial=${payload.radialFraction} angular=${payload.angularFraction}`,
+        );
+        logAomomoDebugCoordinates();
+      }
+      renderSectorNebulaDataBoard();
+      renderStateReadout();
+    },
+  });
   window.addEventListener("resize", resize);
   setTokenAssetSizes();
   setReportTab("state");
@@ -18719,6 +19721,9 @@
     getChongTraceLayoutOverrides: () => structuredClone(aliens.listChongTraceMarkerLayoutOverrides?.() || []),
     getAmibaTraceLayoutOverrides: () => structuredClone(aliens.listAmibaTraceMarkerLayoutOverrides?.() || []),
     getAmibaSymbolLayoutOverrides: () => structuredClone(aliens.listAmibaSymbolMarkerLayoutOverrides?.() || []),
+    getAomomoTraceLayoutOverrides: () => structuredClone(aliens.listAomomoTraceMarkerLayoutOverrides?.() || []),
+    getAomomoOrbitLayoutOverrides: () => structuredClone(aliens.listAomomoOrbitMarkerLayoutOverrides?.() || []),
+    getAomomoLandingLayoutOverrides: () => structuredClone(aliens.listAomomoLandingMarkerLayoutOverrides?.() || []),
     getRunezuTraceLayoutOverrides: () => structuredClone(aliens.listRunezuTraceMarkerLayoutOverrides?.() || []),
     getRunezuPanelSymbolLayoutOverrides: () => structuredClone(aliens.listRunezuPanelSymbolMarkerLayoutOverrides?.() || []),
     getRunezuFaceSymbolLayoutOverrides: () => structuredClone(aliens.listRunezuFaceSymbolMarkerLayoutOverrides?.() || []),
@@ -18729,6 +19734,7 @@
     revealBanrenmaForDebug,
     revealChongForDebug,
     revealAmibaForDebug,
+    revealAomomoForDebug,
     revealRunezuForDebug,
     getFinalScoringState: () => structuredClone(finalScoringState),
     markFinalScoreTile: handleFinalScoreTileClick,
@@ -18747,6 +19753,7 @@
         || handleBanrenmaRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
         || handleChongRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
         || handleAmibaRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
+        || handleAomomoRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
         || handleRunezuRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer());
       if (sideEffect?.message) {
         rocketState.statusNote = sideEffect.message;
@@ -18771,6 +19778,7 @@
         || handleBanrenmaRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
         || handleChongRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
         || handleAmibaRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
+        || handleAomomoRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
         || handleRunezuRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer());
       if (sideEffect?.message) result.message = sideEffect.message;
       renderAlienPanels();

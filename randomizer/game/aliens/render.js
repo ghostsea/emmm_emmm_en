@@ -10,6 +10,7 @@
   let banrenma = root.SetiAlienBanrenma;
   let chong = root.SetiAlienChong;
   let amiba = root.SetiAlienAmiba;
+  let aomomo = root.SetiAlienAomomo;
   let runezu = root.SetiAlienRunezu;
 
   if (typeof require === "function") {
@@ -22,17 +23,18 @@
     banrenma = banrenma || require("./banrenma");
     chong = chong || require("./chong");
     amiba = amiba || require("./amiba");
+    aomomo = aomomo || require("./aomomo");
     runezu = runezu || require("./runezu");
   }
 
-  const api = factory(catalog, placement, state, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, runezu);
+  const api = factory(catalog, placement, state, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAlienRender = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, runezu) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu) {
   "use strict";
 
   const TRACE_KIND_FIRST = "first";
@@ -44,6 +46,9 @@
   const TRACE_KIND_CHONG = "chong";
   const TRACE_KIND_AMIBA = "amiba";
   const TRACE_KIND_AMIBA_SYMBOL = "amiba-symbol";
+  const TRACE_KIND_AOMOMO = "aomomo";
+  const TRACE_KIND_AOMOMO_ORBIT = "aomomo-orbit";
+  const TRACE_KIND_AOMOMO_LANDING = "aomomo-landing";
   const TRACE_KIND_RUNEZU = "runezu";
   const TRACE_KIND_RUNEZU_PANEL_SYMBOL = "runezu-panel-symbol";
   const TRACE_KIND_RUNEZU_FACE_SYMBOL = "runezu-face-symbol";
@@ -60,6 +65,7 @@
   const chongFossilElements = new Map();
   const amibaSlotElements = new Map();
   const amibaSymbolElements = new Map();
+  const aomomoSlotElements = new Map();
   const runezuSlotElements = new Map();
   const runezuPanelSymbolElements = new Map();
   const runezuFaceSymbolElements = new Map();
@@ -72,6 +78,9 @@
   const chongLayoutOverrides = new Map();
   const amibaLayoutOverrides = new Map();
   const amibaSymbolLayoutOverrides = new Map();
+  const aomomoLayoutOverrides = new Map();
+  const aomomoOrbitLayoutOverrides = new Map();
+  const aomomoLandingLayoutOverrides = new Map();
   const runezuLayoutOverrides = new Map();
   const runezuPanelSymbolLayoutOverrides = new Map();
   const runezuFaceSymbolLayoutOverrides = new Map();
@@ -117,6 +126,18 @@
 
   function getAmibaSymbolOverrideKey(alienSlotId, slotId) {
     return `amiba-symbol:${alienSlotId}:${slotId}`;
+  }
+
+  function getAomomoOverrideKey(alienSlotId, traceType, position) {
+    return `aomomo:${alienSlotId}:${traceType}:${position}`;
+  }
+
+  function getAomomoOrbitOverrideKey(alienSlotId, position) {
+    return `aomomo-orbit:${alienSlotId}:${position}`;
+  }
+
+  function getAomomoLandingOverrideKey(alienSlotId, position) {
+    return `aomomo-landing:${alienSlotId}:${position}`;
   }
 
   function getRunezuOverrideKey(alienSlotId, traceType, position) {
@@ -249,6 +270,44 @@
     };
   }
 
+  function getEffectiveAomomoTraceMarkerLayout(alienSlotId, traceType, position, stackIndex = 0) {
+    const base = placement.getAomomoTraceMarkerLayout?.(alienSlotId, traceType, position);
+    if (!base) return null;
+
+    const override = aomomoLayoutOverrides.get(getAomomoOverrideKey(alienSlotId, traceType, position));
+    const effectiveBase = {
+      ...base,
+      percentX: override?.percentX ?? base.percentX,
+      percentY: override?.percentY ?? base.percentY,
+    };
+    if (Number(position) !== 1) return effectiveBase;
+    return placement.getAomomoStackTraceMarkerLayout?.(effectiveBase, stackIndex) || effectiveBase;
+  }
+
+  function getEffectiveAomomoOrbitMarkerLayout(alienSlotId, position = 1) {
+    const base = placement.getAomomoOrbitMarkerLayout?.(alienSlotId, position);
+    if (!base) return null;
+
+    const override = aomomoOrbitLayoutOverrides.get(getAomomoOrbitOverrideKey(alienSlotId, position));
+    return {
+      ...base,
+      percentX: override?.percentX ?? base.percentX,
+      percentY: override?.percentY ?? base.percentY,
+    };
+  }
+
+  function getEffectiveAomomoLandingMarkerLayout(alienSlotId, position) {
+    const base = placement.getAomomoLandingMarkerLayout?.(alienSlotId, position);
+    if (!base) return null;
+
+    const override = aomomoLandingLayoutOverrides.get(getAomomoLandingOverrideKey(alienSlotId, position));
+    return {
+      ...base,
+      percentX: override?.percentX ?? base.percentX,
+      percentY: override?.percentY ?? base.percentY,
+    };
+  }
+
   function getEffectiveRunezuTraceMarkerLayout(alienSlotId, traceType, position, stackIndex = 0) {
     const base = placement.getRunezuTraceMarkerLayout?.(alienSlotId, traceType, position);
     if (!base) return null;
@@ -322,6 +381,9 @@
       || traceKind === TRACE_KIND_BANRENMA
       || traceKind === TRACE_KIND_CHONG
       || traceKind === TRACE_KIND_AMIBA
+      || traceKind === TRACE_KIND_AOMOMO
+      || traceKind === TRACE_KIND_AOMOMO_ORBIT
+      || traceKind === TRACE_KIND_AOMOMO_LANDING
       || traceKind === TRACE_KIND_RUNEZU
     ) {
       return `${traceKind}:${alienSlotId}:${traceType}:${extraIndex}`;
@@ -341,16 +403,27 @@
       || traceKind === TRACE_KIND_RUNEZU_FACE_SYMBOL;
   }
 
+  function isAomomoDragElement(element) {
+    const traceKind = element?.dataset?.traceKind;
+    return traceKind === TRACE_KIND_AOMOMO
+      || traceKind === TRACE_KIND_AOMOMO_ORBIT
+      || traceKind === TRACE_KIND_AOMOMO_LANDING;
+  }
+
+  function isBlockedDragElement(element) {
+    return isRunezuDragElement(element) || isAomomoDragElement(element);
+  }
+
   function findDraggableTraceElement(event) {
     const direct = event.target?.closest?.(".alien-trace-token.alien-trace-token-positioned") || null;
-    if (direct && !isRunezuDragElement(direct)) return direct;
+    if (direct && !isBlockedDragElement(direct)) return direct;
     const elements = typeof document.elementsFromPoint === "function"
       ? document.elementsFromPoint(event.clientX, event.clientY)
       : [];
     return elements.find((element) => (
       element?.classList?.contains("alien-trace-token")
       && element.classList.contains("alien-trace-token-positioned")
-      && !isRunezuDragElement(element)
+      && !isBlockedDragElement(element)
     )) || null;
   }
 
@@ -384,6 +457,10 @@
       chongPosition: Number(element.dataset.chongPosition || 0),
       amibaPosition: Number(element.dataset.amibaPosition || 0),
       amibaSymbolSlot: element.dataset.amibaSymbolSlot || null,
+      aomomoPosition: Number(element.dataset.aomomoPosition || 0),
+      aomomoStackIndex: Number(element.dataset.aomomoStackIndex || 0),
+      aomomoOrbitPosition: Number(element.dataset.aomomoOrbitPosition || 0),
+      aomomoLandingPosition: Number(element.dataset.aomomoLandingPosition || 0),
       runezuPosition: Number(element.dataset.runezuPosition || 0),
       runezuStackIndex: Number(element.dataset.runezuStackIndex || 0),
       runezuPanelSymbolSlot: element.dataset.runezuPanelSymbolSlot || null,
@@ -442,6 +519,16 @@
       if (facePosition) {
         runezuFaceSymbolLayoutOverrides.set(getRunezuFaceSymbolOverrideKey(alienSlotId, facePosition), position);
       }
+    } else if (alienSlotId && traceKind === TRACE_KIND_AOMOMO_ORBIT) {
+      const orbitPosition = Number(element.dataset.aomomoOrbitPosition || 0);
+      if (orbitPosition) {
+        aomomoOrbitLayoutOverrides.set(getAomomoOrbitOverrideKey(alienSlotId, orbitPosition), position);
+      }
+    } else if (alienSlotId && traceKind === TRACE_KIND_AOMOMO_LANDING) {
+      const landingPosition = Number(element.dataset.aomomoLandingPosition || 0);
+      if (landingPosition) {
+        aomomoLandingLayoutOverrides.set(getAomomoLandingOverrideKey(alienSlotId, landingPosition), position);
+      }
     } else if (alienSlotId && traceType) {
       if (traceKind === TRACE_KIND_JIUZHE) {
         const positionIndex = Number(element.dataset.jiuzhePosition || 0);
@@ -483,6 +570,16 @@
         amibaLayoutOverrides.set(
           getAmibaOverrideKey(alienSlotId, traceType, positionIndex),
           position,
+        );
+      } else if (traceKind === TRACE_KIND_AOMOMO) {
+        const positionIndex = Number(element.dataset.aomomoPosition || 0);
+        const stackIndex = Number(element.dataset.aomomoStackIndex || 0);
+        const basePosition = positionIndex === 1
+          ? placement.getAomomoBaseFromStackTraceMarkerLayout?.(position, stackIndex) || position
+          : position;
+        aomomoLayoutOverrides.set(
+          getAomomoOverrideKey(alienSlotId, traceType, positionIndex),
+          basePosition,
         );
       } else if (traceKind === TRACE_KIND_RUNEZU) {
         const positionIndex = Number(element.dataset.runezuPosition || 0);
@@ -548,6 +645,10 @@
       chongPosition: traceKind === TRACE_KIND_CHONG ? Number(element.dataset.chongPosition || 0) : null,
       amibaPosition: traceKind === TRACE_KIND_AMIBA ? Number(element.dataset.amibaPosition || 0) : null,
       amibaSymbolSlot: traceKind === TRACE_KIND_AMIBA_SYMBOL ? (element.dataset.amibaSymbolSlot || null) : null,
+      aomomoPosition: traceKind === TRACE_KIND_AOMOMO ? Number(element.dataset.aomomoPosition || 0) : null,
+      aomomoStackIndex: traceKind === TRACE_KIND_AOMOMO ? Number(element.dataset.aomomoStackIndex || 0) : null,
+      aomomoOrbitPosition: traceKind === TRACE_KIND_AOMOMO_ORBIT ? Number(element.dataset.aomomoOrbitPosition || 0) : null,
+      aomomoLandingPosition: traceKind === TRACE_KIND_AOMOMO_LANDING ? Number(element.dataset.aomomoLandingPosition || 0) : null,
       runezuPosition: traceKind === TRACE_KIND_RUNEZU ? Number(element.dataset.runezuPosition || 0) : null,
       runezuStackIndex: traceKind === TRACE_KIND_RUNEZU ? Number(element.dataset.runezuStackIndex || 0) : null,
       runezuPanelSymbolSlot: traceKind === TRACE_KIND_RUNEZU_PANEL_SYMBOL ? (element.dataset.runezuPanelSymbolSlot || null) : null,
@@ -583,10 +684,20 @@
         : traceKind === TRACE_KIND_CHONG
           ? `${label} ${traceLabel} 虫族${Number(element.dataset.chongPosition || 0)}号位`
             + ` 拖动至 ${position.percentX}%,${position.percentY}%`
-        : traceKind === TRACE_KIND_AMIBA
-          ? `${label} ${traceLabel} 阿米巴${Number(element.dataset.amibaPosition || 0)}号位`
-            + ` 拖动至 ${position.percentX}%,${position.percentY}%`
-        : traceKind === TRACE_KIND_RUNEZU
+      : traceKind === TRACE_KIND_AMIBA
+        ? `${label} ${traceLabel} 阿米巴${Number(element.dataset.amibaPosition || 0)}号位`
+          + ` 拖动至 ${position.percentX}%,${position.percentY}%`
+      : traceKind === TRACE_KIND_AOMOMO
+        ? `${label} ${traceLabel} 奥陌陌${Number(element.dataset.aomomoPosition || 0)}号位`
+          + `${Number(element.dataset.aomomoPosition || 0) === 1 ? `#${Number(element.dataset.aomomoStackIndex || 0) + 1}` : ""}`
+          + ` 拖动至 ${position.percentX}%,${position.percentY}%`
+      : traceKind === TRACE_KIND_AOMOMO_ORBIT
+        ? `${label} 奥陌陌环绕${Number(element.dataset.aomomoOrbitPosition || 0)}号位`
+          + ` 拖动至 ${position.percentX}%,${position.percentY}%`
+      : traceKind === TRACE_KIND_AOMOMO_LANDING
+        ? `${label} 奥陌陌登陆${Number(element.dataset.aomomoLandingPosition || 0)}号位`
+          + ` 拖动至 ${position.percentX}%,${position.percentY}%`
+      : traceKind === TRACE_KIND_RUNEZU
           ? `${label} ${traceLabel} 符文族${Number(element.dataset.runezuPosition || 0)}号位`
             + `${Number(element.dataset.runezuPosition || 0) === 1 ? `#${Number(element.dataset.runezuStackIndex || 0) + 1}` : ""}`
             + ` 拖动至 ${position.percentX}%,${position.percentY}%`
@@ -1785,6 +1896,218 @@
     }
   }
 
+  function getAomomoTraceTokenKey(alienSlotId, traceType, position, stackIndex = 0) {
+    return `${TRACE_KIND_AOMOMO}:${alienSlotId}:${traceType}:${position}:${stackIndex}`;
+  }
+
+  function getAomomoSlotElementKey(alienSlotId, traceType, position) {
+    return `aomomo-slot:${alienSlotId}:${traceType}:${position}`;
+  }
+
+  function getAomomoOrbitTokenKey(alienSlotId, marker) {
+    return `${TRACE_KIND_AOMOMO_ORBIT}:${alienSlotId}:${marker?.id || marker?.sequence || 1}`;
+  }
+
+  function getAomomoLandingTokenKey(alienSlotId, marker, position) {
+    return `${TRACE_KIND_AOMOMO_LANDING}:${alienSlotId}:${marker?.id || marker?.sequence || position}`;
+  }
+
+  function applyAomomoTraceSlotStyle(slot, layout, position) {
+    if (Number(position) !== 1) {
+      applyTraceTokenStyle(slot, layout, placement.AOMOMO_TRACE_TOKEN_DISPLAY_SCALE || 1);
+      slot.classList.remove("alien-aomomo-slot-stack-hotzone");
+      return;
+    }
+    applyTraceTokenStyle(slot, layout, placement.AOMOMO_TRACE_TOKEN_DISPLAY_SCALE || 1);
+    slot.classList.add("alien-aomomo-slot-stack-hotzone");
+  }
+
+  function resolvePlayerOrbitAsset(playerColor, options = {}) {
+    if (!playerColor || !options.getPlayerOrbitAsset) {
+      return resolvePlayerTokenAsset(playerColor, options);
+    }
+    return options.getPlayerOrbitAsset(playerColor) || resolvePlayerTokenAsset(playerColor, options);
+  }
+
+  function resolvePlayerLandingAsset(playerColor, options = {}) {
+    if (!playerColor || !options.getPlayerLandingAsset) {
+      return resolvePlayerTokenAsset(playerColor, options);
+    }
+    return options.getPlayerLandingAsset(playerColor) || resolvePlayerTokenAsset(playerColor, options);
+  }
+
+  function mountAomomoPanelMarker(alienSlotId, marker, kind, position, layer, options, activeKeys) {
+    const key = kind === "orbit"
+      ? getAomomoOrbitTokenKey(alienSlotId, marker)
+      : getAomomoLandingTokenKey(alienSlotId, marker, position);
+    activeKeys.add(key);
+    let element = tokenElements.get(key);
+    if (!element) {
+      element = document.createElement("img");
+      element.className = "alien-trace-token alien-trace-token-aomomo alien-trace-token-positioned alien-aomomo-panel-marker";
+      element.draggable = false;
+      tokenElements.set(key, element);
+      layer.appendChild(element);
+    } else if (element.parentElement !== layer) {
+      layer.appendChild(element);
+    }
+
+    const layout = kind === "orbit"
+      ? getEffectiveAomomoOrbitMarkerLayout(alienSlotId, position)
+      : getEffectiveAomomoLandingMarkerLayout(alienSlotId, position);
+    if (!layout || dragState?.element === element) return;
+
+    applyTraceTokenStyle(element, layout, placement.AOMOMO_PANEL_MARKER_DISPLAY_SCALE || 1);
+    element.src = kind === "orbit"
+      ? resolvePlayerOrbitAsset(marker.playerColor, options)
+      : resolvePlayerLandingAsset(marker.playerColor, options);
+    element.alt = kind === "orbit" ? "奥陌陌环绕标记" : "奥陌陌登陆标记";
+    element.dataset.alienSlot = String(alienSlotId);
+    element.dataset.traceKind = kind === "orbit" ? TRACE_KIND_AOMOMO_ORBIT : TRACE_KIND_AOMOMO_LANDING;
+    element.dataset.traceType = "";
+    if (kind === "orbit") {
+      element.dataset.aomomoOrbitPosition = String(position);
+      delete element.dataset.aomomoLandingPosition;
+    } else {
+      element.dataset.aomomoLandingPosition = String(position);
+      delete element.dataset.aomomoOrbitPosition;
+    }
+    element.title = `${placement.getAlienSlotLabel(alienSlotId)} ${element.alt}`
+      + ` ${options.getPlayerLabel?.(marker.playerColor) || marker.playerColor || "未知"}`
+      + ` @(${layout.percentX}%,${layout.percentY}%)`;
+  }
+
+  function mountAomomoTraceToken(alienSlotId, traceType, position, entry, stackIndex, layer, options, activeKeys) {
+    const key = getAomomoTraceTokenKey(alienSlotId, traceType, position, stackIndex);
+    activeKeys.add(key);
+    let element = tokenElements.get(key);
+    if (!element) {
+      element = document.createElement("img");
+      element.className = "alien-trace-token alien-trace-token-aomomo alien-trace-token-positioned";
+      element.draggable = false;
+      tokenElements.set(key, element);
+      layer.appendChild(element);
+    } else if (element.parentElement !== layer) {
+      layer.appendChild(element);
+    }
+
+    const layout = getEffectiveAomomoTraceMarkerLayout(alienSlotId, traceType, position, stackIndex);
+    if (!layout || dragState?.element === element) return;
+
+    applyTraceTokenStyle(element, layout, placement.AOMOMO_TRACE_TOKEN_DISPLAY_SCALE || 1);
+    element.src = resolvePlayerTokenAsset(entry.playerColor, options);
+    element.alt = `${aomomo?.formatTraceLabel?.(traceType, position, stackIndex) || traceType}`;
+    element.dataset.alienSlot = String(alienSlotId);
+    element.dataset.traceType = traceType;
+    element.dataset.traceKind = TRACE_KIND_AOMOMO;
+    element.dataset.aomomoPosition = String(position);
+    element.dataset.aomomoStackIndex = String(stackIndex);
+    element.classList.remove("is-placeable");
+    delete element.dataset.aomomoTraceSlot;
+    element.title = `${placement.getAlienSlotLabel(alienSlotId)} ${aomomo?.formatTraceLabel?.(traceType, position, stackIndex) || traceType}`
+      + ` ${options.getPlayerLabel?.(entry.playerColor) || entry.playerColor || "未知"}`
+      + ` @(${layout.percentX}%,${layout.percentY}%)`;
+  }
+
+  function mountAomomoTraceSlot(alienSlotId, traceType, position, layer, alienState, options, activeKeys) {
+    const grid = aomomo?.getTraceGrid?.(alienState, alienSlotId);
+    const entries = aomomo?.getTraceEntries?.(grid, traceType, position) || [];
+    const slotKey = getAomomoSlotElementKey(alienSlotId, traceType, position);
+    const visible = Boolean(entries.length)
+      || Boolean(aomomo?.isAomomoRevealedSlot?.(alienState, alienSlotId));
+    if (!visible) {
+      const existingSlot = aomomoSlotElements.get(slotKey);
+      if (existingSlot) {
+        existingSlot.remove();
+        aomomoSlotElements.delete(slotKey);
+      }
+      return;
+    }
+
+    entries.forEach((entry, stackIndex) => {
+      mountAomomoTraceToken(alienSlotId, traceType, position, entry, stackIndex, layer, options, activeKeys);
+    });
+
+    const canPlace = options.canPlaceAomomoTrace?.(alienSlotId, traceType, position) !== false;
+    const shouldShowSlot = Number(position) === 1 || !entries.length;
+    if (!shouldShowSlot) {
+      const existingSlot = aomomoSlotElements.get(slotKey);
+      if (existingSlot) {
+        existingSlot.remove();
+        aomomoSlotElements.delete(slotKey);
+      }
+      return;
+    }
+
+    activeKeys.add(slotKey);
+    let slot = aomomoSlotElements.get(slotKey);
+    if (!slot) {
+      slot = document.createElement("button");
+      slot.type = "button";
+      slot.className = "alien-banrenma-slot alien-aomomo-slot alien-trace-token-positioned";
+      aomomoSlotElements.set(slotKey, slot);
+      layer.appendChild(slot);
+    }
+
+    const layout = getEffectiveAomomoTraceMarkerLayout(alienSlotId, traceType, position, 0);
+    if (!layout) return;
+    applyAomomoTraceSlotStyle(slot, layout, position);
+    slot.dataset.alienSlot = String(alienSlotId);
+    slot.dataset.traceType = traceType;
+    slot.dataset.aomomoPosition = String(position);
+    slot.dataset.aomomoTraceSlot = "true";
+    slot.classList.toggle("is-placeable", canPlace);
+    slot.classList.toggle("is-stack-hotzone", Number(position) === 1 && entries.length > 0);
+    slot.title = `${aomomo?.formatTraceLabel?.(traceType, position) || traceType} @(${layout.percentX}%,${layout.percentY}%)`;
+    slot.setAttribute("aria-label", `${placement.getAlienSlotLabel(alienSlotId)} ${slot.title}`);
+  }
+
+  function renderAomomoTraceMarkers(alienSlotId, layer, alienState, options = {}) {
+    if (!layer || !aomomo) return;
+    const activeKeys = new Set();
+    const slot = state.getAlienSlot(alienState, alienSlotId);
+    if (slot?.revealed && slot.alienId === aomomo.ALIEN_ID) {
+      const orbitMarkers = aomomo.listOrbitMarkers?.(alienState) || [];
+      orbitMarkers.forEach((marker, index) => {
+        mountAomomoPanelMarker(alienSlotId, marker, "orbit", index + 1, layer, options, activeKeys);
+      });
+      const landingMarkers = aomomo.listLandingMarkers?.(alienState) || [];
+      landingMarkers.forEach((marker, index) => {
+        mountAomomoPanelMarker(alienSlotId, marker, "landing", index + 1, layer, options, activeKeys);
+      });
+      for (const traceType of aomomo.TRACE_TYPES) {
+        for (const position of aomomo.TRACE_POSITIONS) {
+          mountAomomoTraceSlot(alienSlotId, traceType, position, layer, alienState, options, activeKeys);
+        }
+      }
+    }
+
+    for (const [key, element] of tokenElements.entries()) {
+      const kind = key.split(":")[0];
+      if (kind !== TRACE_KIND_AOMOMO && kind !== TRACE_KIND_AOMOMO_ORBIT && kind !== TRACE_KIND_AOMOMO_LANDING) continue;
+      const parts = key.split(":");
+      const slotId = Number(parts[1]);
+      if (slotId !== alienSlotId || activeKeys.has(key)) continue;
+      element.remove();
+      tokenElements.delete(key);
+    }
+    for (const [key, element] of aomomoSlotElements.entries()) {
+      const parts = key.split(":");
+      const slotId = Number(parts[1]);
+      if (slotId !== alienSlotId || activeKeys.has(key)) continue;
+      element.remove();
+      aomomoSlotElements.delete(key);
+    }
+  }
+
+  function renderAllAomomoTraceMarkers(getLayerForSlot, alienState, options = {}) {
+    if (!aomomo) return;
+    for (const alienSlotId of placement.ALIEN_SLOT_IDS) {
+      const layer = getLayerForSlot(alienSlotId);
+      if (layer) renderAomomoTraceMarkers(alienSlotId, layer, alienState, options);
+    }
+  }
+
   function getRunezuSlotElementKey(alienSlotId, traceType, position) {
     return `runezu-slot:${alienSlotId}:${traceType}:${position}`;
   }
@@ -2271,6 +2594,58 @@
       });
   }
 
+  function listAomomoTraceMarkerLayoutOverrides() {
+    return [...aomomoLayoutOverrides.entries()]
+      .map(([key, position]) => {
+        const [, alienSlotId, traceType, tracePosition] = key.split(":");
+        return {
+          traceKind: TRACE_KIND_AOMOMO,
+          alienSlotId: Number(alienSlotId),
+          traceType,
+          position: Number(tracePosition),
+          percentX: position.percentX,
+          percentY: position.percentY,
+        };
+      })
+      .sort((a, b) => {
+        if (a.alienSlotId !== b.alienSlotId) return a.alienSlotId - b.alienSlotId;
+        const typeDiff = (aomomo?.TRACE_TYPES || placement.TRACE_TYPES).indexOf(a.traceType)
+          - (aomomo?.TRACE_TYPES || placement.TRACE_TYPES).indexOf(b.traceType);
+        if (typeDiff !== 0) return typeDiff;
+        return a.position - b.position;
+      });
+  }
+
+  function listAomomoOrbitMarkerLayoutOverrides() {
+    return [...aomomoOrbitLayoutOverrides.entries()]
+      .map(([key, position]) => {
+        const [, alienSlotId, markerPosition] = key.split(":");
+        return {
+          traceKind: TRACE_KIND_AOMOMO_ORBIT,
+          alienSlotId: Number(alienSlotId),
+          position: Number(markerPosition),
+          percentX: position.percentX,
+          percentY: position.percentY,
+        };
+      })
+      .sort((a, b) => a.alienSlotId - b.alienSlotId || a.position - b.position);
+  }
+
+  function listAomomoLandingMarkerLayoutOverrides() {
+    return [...aomomoLandingLayoutOverrides.entries()]
+      .map(([key, position]) => {
+        const [, alienSlotId, markerPosition] = key.split(":");
+        return {
+          traceKind: TRACE_KIND_AOMOMO_LANDING,
+          alienSlotId: Number(alienSlotId),
+          position: Number(markerPosition),
+          percentX: position.percentX,
+          percentY: position.percentY,
+        };
+      })
+      .sort((a, b) => a.alienSlotId - b.alienSlotId || a.position - b.position);
+  }
+
   function listRunezuTraceMarkerLayoutOverrides() {
     return [...runezuLayoutOverrides.entries()]
       .map(([key, position]) => {
@@ -2360,6 +2735,9 @@
     for (const element of amibaSymbolElements.values()) {
       element.remove();
     }
+    for (const element of aomomoSlotElements.values()) {
+      element.remove();
+    }
     for (const element of runezuSlotElements.values()) {
       element.remove();
     }
@@ -2379,6 +2757,7 @@
     chongFossilElements.clear();
     amibaSlotElements.clear();
     amibaSymbolElements.clear();
+    aomomoSlotElements.clear();
     runezuSlotElements.clear();
     runezuPanelSymbolElements.clear();
     runezuFaceSymbolElements.clear();
@@ -2391,6 +2770,9 @@
     chongLayoutOverrides.clear();
     amibaLayoutOverrides.clear();
     amibaSymbolLayoutOverrides.clear();
+    aomomoLayoutOverrides.clear();
+    aomomoOrbitLayoutOverrides.clear();
+    aomomoLandingLayoutOverrides.clear();
     runezuLayoutOverrides.clear();
     runezuPanelSymbolLayoutOverrides.clear();
     runezuFaceSymbolLayoutOverrides.clear();
@@ -2410,6 +2792,9 @@
     getEffectiveChongTraceMarkerLayout,
     getEffectiveAmibaTraceMarkerLayout,
     getEffectiveAmibaSymbolMarkerLayout,
+    getEffectiveAomomoTraceMarkerLayout,
+    getEffectiveAomomoOrbitMarkerLayout,
+    getEffectiveAomomoLandingMarkerLayout,
     getEffectiveRunezuTraceMarkerLayout,
     getEffectiveRunezuPanelSymbolMarkerLayout,
     getEffectiveRunezuFaceSymbolSlotMarkerLayout,
@@ -2422,6 +2807,9 @@
     listChongTraceMarkerLayoutOverrides,
     listAmibaTraceMarkerLayoutOverrides,
     listAmibaSymbolMarkerLayoutOverrides,
+    listAomomoTraceMarkerLayoutOverrides,
+    listAomomoOrbitMarkerLayoutOverrides,
+    listAomomoLandingMarkerLayoutOverrides,
     listRunezuTraceMarkerLayoutOverrides,
     listRunezuPanelSymbolMarkerLayoutOverrides,
     listRunezuFaceSymbolMarkerLayoutOverrides,
@@ -2439,6 +2827,8 @@
     renderAllChongTraceMarkers,
     renderAmibaTraceMarkers,
     renderAllAmibaTraceMarkers,
+    renderAomomoTraceMarkers,
+    renderAllAomomoTraceMarkers,
     renderRunezuTraceMarkers,
     renderAllRunezuTraceMarkers,
     renderAlienBackImage,

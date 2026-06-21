@@ -34,13 +34,17 @@
   const CHONG_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
   const AMIBA_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
   const AMIBA_SYMBOL_DISPLAY_SCALE = 3.0;
+  const AOMOMO_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
+  const AOMOMO_PANEL_MARKER_DISPLAY_SCALE = 1.9;
   const RUNEZU_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
   const RUNEZU_SYMBOL_DISPLAY_SCALE = 2.75;
   const BANRENMA_BONUS_TOKEN_DISPLAY_SCALE = 3.0;
   const FANGZHOU_POSITION1_STACK_STEP_Y = 14.5;
   const BANRENMA_POSITION1_STACK_STEP_Y = 14.5;
   const RUNEZU_POSITION1_STACK_STEP_Y = 14.5;
+  const AOMOMO_POSITION1_STACK_STEP_Y = 14.5;
   const RUNEZU_POSITION1_STACK_STEP_RATIO = 0.4;
+  const AOMOMO_POSITION1_STACK_STEP_RATIO = 0.5;
   const YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT = 6.5;
   const YICHANGDIAN_ANOMALY_EDGE_RADIAL_FRACTION = 0.92;
   const YICHANGDIAN_ANOMALY_EDGE_ANGULAR_FRACTIONS = Object.freeze({
@@ -491,6 +495,77 @@
     }),
   });
 
+  const AOMOMO_TRACE_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 18.8, percentY: 41.72, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 18.8, percentY: 54.44, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 18.8, percentY: 64.11, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 18.8, percentY: 73.98, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 18.8, percentY: 83.85, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.65, percentY: 46.85, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.65, percentY: 59.37, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.65, percentY: 69.05, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 49.65, percentY: 79.1, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 49.65, percentY: 88.78, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 80.75, percentY: 42.67, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 80.75, percentY: 54.44, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 80.75, percentY: 64.11, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 80.75, percentY: 74.17, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 80.75, percentY: 84.04, scalePercent: 62 }),
+      }),
+    }),
+    2: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 18.8, percentY: 41.72, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 18.8, percentY: 54.44, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 18.8, percentY: 64.11, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 18.8, percentY: 73.98, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 18.8, percentY: 83.85, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.65, percentY: 46.85, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.65, percentY: 59.37, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.65, percentY: 69.05, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 49.65, percentY: 79.1, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 49.65, percentY: 88.78, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 80.75, percentY: 42.67, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 80.75, percentY: 54.44, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 80.75, percentY: 64.11, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 80.75, percentY: 74.17, scalePercent: 62 }),
+        5: Object.freeze({ percentX: 80.75, percentY: 84.04, scalePercent: 62 }),
+      }),
+    }),
+  });
+
+  const AOMOMO_ORBIT_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      1: Object.freeze({ percentX: 16.53, percentY: 19.71, scalePercent: 46 }),
+    }),
+    2: Object.freeze({
+      1: Object.freeze({ percentX: 16.53, percentY: 19.71, scalePercent: 46 }),
+    }),
+  });
+
+  const AOMOMO_LANDING_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      1: Object.freeze({ percentX: 38.33, percentY: 18.57, scalePercent: 46 }),
+      2: Object.freeze({ percentX: 32.45, percentY: 25.21, scalePercent: 46 }),
+      3: Object.freeze({ percentX: 36.6, percentY: 32.23, scalePercent: 46 }),
+    }),
+    2: Object.freeze({
+      1: Object.freeze({ percentX: 38.33, percentY: 18.57, scalePercent: 46 }),
+      2: Object.freeze({ percentX: 32.45, percentY: 25.21, scalePercent: 46 }),
+      3: Object.freeze({ percentX: 36.6, percentY: 32.23, scalePercent: 46 }),
+    }),
+  });
+
   function roundPercent(value) {
     return Math.round(value * 100) / 100;
   }
@@ -517,6 +592,18 @@
 
   function getYichangdianTraceMarkerLayout(alienSlotId, traceType, position) {
     return YICHANGDIAN_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getAomomoTraceMarkerLayout(alienSlotId, traceType, position) {
+    return AOMOMO_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getAomomoOrbitMarkerLayout(alienSlotId, position) {
+    return AOMOMO_ORBIT_MARKER_SLOTS[alienSlotId]?.[position] || null;
+  }
+
+  function getAomomoLandingMarkerLayout(alienSlotId, position) {
+    return AOMOMO_LANDING_MARKER_SLOTS[alienSlotId]?.[position] || null;
   }
 
   function getFangzhouTraceMarkerLayout(alienSlotId, traceType, position) {
@@ -704,6 +791,44 @@
     };
   }
 
+  function getAomomoTraceTokenSize(layout) {
+    if (!layout) return null;
+    const visualScale = getTraceTokenVisualScale(layout, AOMOMO_TRACE_TOKEN_DISPLAY_SCALE);
+    const widthPercent = ALIEN_TRACE_TOKEN_BASE_WIDTH_PERCENT * visualScale;
+    const heightPercent = widthPercent * (ALIEN_STATE_REFERENCE_WIDTH / ALIEN_STATE_REFERENCE_HEIGHT);
+    return {
+      widthPercent: roundPercent(widthPercent),
+      heightPercent: roundPercent(heightPercent),
+      radiusXPercent: roundPercent(widthPercent / 2),
+      radiusYPercent: roundPercent(heightPercent / 2),
+    };
+  }
+
+  function getAomomoStackStepY(layout) {
+    const baseStep = getAomomoTraceTokenSize(layout)?.radiusXPercent || AOMOMO_POSITION1_STACK_STEP_Y;
+    return roundPercent(baseStep * AOMOMO_POSITION1_STACK_STEP_RATIO);
+  }
+
+  function getAomomoStackTraceMarkerLayout(baseLayout, stackIndex = 0) {
+    if (!baseLayout) return null;
+    const index = Math.max(0, Math.round(Number(stackIndex) || 0));
+    const stepY = getAomomoStackStepY(baseLayout);
+    return {
+      ...baseLayout,
+      percentY: roundPercent(baseLayout.percentY - index * stepY),
+    };
+  }
+
+  function getAomomoBaseFromStackTraceMarkerLayout(stackLayout, stackIndex = 0) {
+    if (!stackLayout) return null;
+    const index = Math.max(0, Math.round(Number(stackIndex) || 0));
+    const stepY = getAomomoStackStepY(stackLayout);
+    return {
+      percentX: roundPercent(stackLayout.percentX),
+      percentY: roundPercent(stackLayout.percentY + index * stepY),
+    };
+  }
+
   function getYichangdianAnomalyMarkerBoardPoint(solarApi, anomaly) {
     if (!solarApi || !anomaly) return null;
     const boundary = solarApi.getSectorCoordinateBoundary(anomaly.sectorX, anomaly.y || 4);
@@ -797,12 +922,16 @@
     CHONG_TRACE_TOKEN_DISPLAY_SCALE,
     AMIBA_TRACE_TOKEN_DISPLAY_SCALE,
     AMIBA_SYMBOL_DISPLAY_SCALE,
+    AOMOMO_TRACE_TOKEN_DISPLAY_SCALE,
+    AOMOMO_PANEL_MARKER_DISPLAY_SCALE,
     RUNEZU_TRACE_TOKEN_DISPLAY_SCALE,
     RUNEZU_SYMBOL_DISPLAY_SCALE,
     BANRENMA_BONUS_TOKEN_DISPLAY_SCALE,
     FANGZHOU_POSITION1_STACK_STEP_Y,
     BANRENMA_POSITION1_STACK_STEP_Y,
     RUNEZU_POSITION1_STACK_STEP_Y,
+    AOMOMO_POSITION1_STACK_STEP_Y,
+    AOMOMO_POSITION1_STACK_STEP_RATIO,
     YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT,
     YICHANGDIAN_POSITION1_STACK_STEP_Y,
     EXTRA_TRACE_GRID_COLUMNS,
@@ -817,6 +946,9 @@
     CHONG_TRACE_MARKER_SLOTS,
     AMIBA_TRACE_MARKER_SLOTS,
     AMIBA_SYMBOL_MARKER_SLOTS,
+    AOMOMO_TRACE_MARKER_SLOTS,
+    AOMOMO_ORBIT_MARKER_SLOTS,
+    AOMOMO_LANDING_MARKER_SLOTS,
     RUNEZU_TRACE_MARKER_SLOTS,
     RUNEZU_PANEL_SYMBOL_MARKER_SLOTS,
     RUNEZU_FACE_SYMBOL_SLOT_MARKER_SLOTS,
@@ -848,10 +980,17 @@
     getFangzhouStackTraceMarkerLayout,
     getFangzhouBaseFromStackTraceMarkerLayout,
     getYichangdianTraceMarkerLayout,
+    getAomomoTraceMarkerLayout,
+    getAomomoOrbitMarkerLayout,
+    getAomomoLandingMarkerLayout,
     getYichangdianTraceTokenSize,
     getYichangdianStackStepY,
     getYichangdianStackTraceMarkerLayout,
     getYichangdianBaseFromStackTraceMarkerLayout,
+    getAomomoTraceTokenSize,
+    getAomomoStackStepY,
+    getAomomoStackTraceMarkerLayout,
+    getAomomoBaseFromStackTraceMarkerLayout,
     getYichangdianAnomalyMarkerBoardPoint,
     getExtraTraceCellSize,
     getExtraTraceGridOriginCenter,

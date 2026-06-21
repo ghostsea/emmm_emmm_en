@@ -64,6 +64,7 @@
     energy: 10,
     publicity: 0,
     availableData: 0,
+    aomomoFossils: 0,
     additionalPublicScan: 0,
     handSize: 0,
     score: 0,
@@ -240,6 +241,7 @@
     if (cost.credits != null) parts.push(`${cost.credits}信用点`);
     if (cost.energy != null) parts.push(`${cost.energy}能量`);
     if (cost.publicity != null) parts.push(`${cost.publicity}宣传`);
+    if (cost.aomomoFossils != null) parts.push(`${cost.aomomoFossils}化石`);
     if (cost.additionalPublicScan != null) parts.push(`${cost.additionalPublicScan}额外公共扫描`);
     if (cost.handSize != null) parts.push(`${cost.handSize}张牌`);
     return parts.join(" + ");
@@ -253,6 +255,7 @@
     if (required.credits != null && resources.credits < required.credits) return false;
     if (required.energy != null && resources.energy < required.energy) return false;
     if (required.publicity != null && resources.publicity < required.publicity) return false;
+    if (required.aomomoFossils != null && (resources.aomomoFossils || 0) < required.aomomoFossils) return false;
     if (required.additionalPublicScan != null && resources.additionalPublicScan < required.additionalPublicScan) {
       return false;
     }
@@ -279,6 +282,12 @@
         RESOURCE_LIMITS.publicity,
       );
     }
+    if (required.aomomoFossils != null) {
+      player.resources.aomomoFossils = Math.max(
+        0,
+        (player.resources.aomomoFossils || 0) - required.aomomoFossils,
+      );
+    }
     if (required.additionalPublicScan != null) {
       player.resources.additionalPublicScan = Math.max(
         0,
@@ -299,6 +308,12 @@
     if (reward.credits != null) player.resources.credits += reward.credits;
     if (reward.energy != null) player.resources.energy += reward.energy;
     if (reward.score != null) player.resources.score += reward.score;
+    if (reward.aomomoFossils != null) {
+      player.resources.aomomoFossils = Math.max(
+        0,
+        (player.resources.aomomoFossils || 0) + reward.aomomoFossils,
+      );
+    }
     if (reward.publicity != null) {
       player.resources.publicity = clamp(
         player.resources.publicity + reward.publicity,

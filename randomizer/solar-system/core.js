@@ -171,6 +171,7 @@
         source.rotationCount,
       ),
       sectorBySlot: normalizeSectorBySlot(source.sectorBySlot || source.sectorAssignment),
+      aomomoActive: Boolean(source.aomomoActive),
     };
   }
 
@@ -486,7 +487,19 @@
     ];
   }
 
-  function getBaseWheelCell(wheelId, baseX, y) {
+  function asInactiveCell(cell) {
+    if (!cell?.requiresAomomoActive) return cell;
+    return {
+      ...cell,
+      kind: cell.inactiveKind || layout.CONTENT_KIND.HOLE,
+      label: cell.inactiveLabel || "未启用区域",
+      planetId: undefined,
+      tags: Object.freeze([]),
+      inactive: true,
+    };
+  }
+
+  function getBaseWheelCell(wheelId, baseX, y, input = null) {
     const wheel = layout.WHEELS[wheelId];
     if (!wheel) throw new Error(`Unknown wheel: ${wheelId}`);
 
@@ -499,18 +512,21 @@
       };
     }
 
-    return wheelCellIndexes[wheelId][`${baseX},${y}`] || {
+    const cell = wheelCellIndexes[wheelId][`${baseX},${y}`] || {
       x: baseX,
       y,
       kind: layout.CONTENT_KIND.HOLE,
       label: "未标注区域，按镂空处理",
       inferred: true,
     };
+    const solar = input ? normalizeSolarInput(input) : null;
+    if (cell.requiresAomomoActive && !solar?.aomomoActive) return asInactiveCell(cell);
+    return cell;
   }
 
-  function getWheelCellAtDisplayCoordinate(wheelId, displayX, y, rotation) {
+  function getWheelCellAtDisplayCoordinate(wheelId, displayX, y, rotation, input = null) {
     const baseX = toBaseX(displayX, wheelId, rotation);
-    const cell = getBaseWheelCell(wheelId, baseX, y);
+    const cell = getBaseWheelCell(wheelId, baseX, y, input);
     return {
       wheelId,
       displayX,
@@ -617,7 +633,7 @@
 
     const trace = [];
     for (const wheelId of VISIBLE_WHEEL_IDS) {
-      const wheelCell = getWheelCellAtDisplayCoordinate(wheelId, mod8(displayX), y, solar.rotation);
+      const wheelCell = getWheelCellAtDisplayCoordinate(wheelId, mod8(displayX), y, solar.rotation, solar);
       trace.push(wheelCell);
       if (!isPassThroughCell(wheelCell.cell)) {
         return {
@@ -677,6 +693,7 @@
             displayX,
             y,
             solar.rotation,
+            solar,
           ));
         }
       }
@@ -704,6 +721,7 @@
     for (const wheelId of WHEEL_IDS) {
       const wheel = layout.WHEELS[wheelId];
       for (const cell of wheel.cells) {
+        if (cell.requiresAomomoActive && !solar.aomomoActive) continue;
         if (cell.kind !== layout.CONTENT_KIND.PLANET) continue;
         const planet = layout.PLANETS[cell.planetId] || {};
         planets.push({
@@ -786,6 +804,7 @@
               displayX,
               y,
               solar.rotation,
+              solar,
             );
             return {
               x: displayX,
@@ -878,6 +897,7 @@
       wheelSteps: [0, 0, 0, 0, 0],
       rotation: normalizeRotationState([0, 0, 0, 0, 0], 0),
       sectorBySlot: normalizeSectorBySlot(layout.BASE_SECTOR_BY_SLOT),
+      aomomoActive: false,
     };
   }
 
@@ -908,6 +928,7 @@
         },
       },
       sectorBySlot: solar.sectorBySlot,
+      aomomoActive: solar.aomomoActive,
       sectorAssignment: toSectorAssignment(solar.sectorBySlot),
       staticWheelContents,
       currentWheelContents,

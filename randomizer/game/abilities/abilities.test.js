@@ -8,6 +8,7 @@ const data = require("../data");
 const tech = require("../tech");
 const playerTech = require("../tech/player-tech");
 const basicCards = require("../basic-cards");
+const aomomo = require("../aliens/aomomo");
 require("../history/commands");
 const abilities = require("./index");
 
@@ -25,6 +26,7 @@ function createContext(playerInput = {}) {
     playerState,
     rocketState,
     planetStatsState: planetStats.createPlanetStatsState(),
+    alienGameState: { aliens: {}, aomomo: aomomo.createAomomoState() },
     techGameState,
     techBoardState: techGameState.board,
     techUiState: techGameState.ui,
@@ -153,6 +155,25 @@ function launchToPlanet(context, planetId) {
 
 {
   const context = createContext({ resources: { credits: 10, energy: 10 } });
+  context.solarState.aomomoActive = true;
+  aomomo.initializeAomomoReveal(context.alienGameState, 1, currentPlayer(context));
+  launchToPlanet(context, aomomo.PLANET_ID);
+  const result = abilities.executeAbility("orbitProbe", context);
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerKind, "aomomo-orbit");
+  assert.equal(aomomo.countOrbitMarkers(context.alienGameState), 1);
+  assert.equal(planetStats.getPlanetOrbitCount(context.planetStatsState, aomomo.PLANET_ID), 0);
+
+  for (let index = result.commands.length - 1; index >= 0; index -= 1) {
+    result.commands[index].undo();
+  }
+
+  assert.equal(aomomo.countOrbitMarkers(context.alienGameState), 0);
+  assert.equal(context.rocketState.rockets.length, 1);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
   launchToPlanet(context, "venus");
   const result = abilities.executeAbility("landProbe", context, { target: { type: "planet" } });
   assert.equal(result.ok, true);
@@ -167,6 +188,25 @@ function launchToPlanet(context, planetId) {
   assert.equal(context.rocketState.rockets.length, 1);
   assert.equal(planetStats.getPlanetLandingCount(context.planetStatsState, "venus"), 0);
   assert.equal(currentPlayer(context).resources.energy, 10);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
+  context.solarState.aomomoActive = true;
+  aomomo.initializeAomomoReveal(context.alienGameState, 1, currentPlayer(context));
+  launchToPlanet(context, aomomo.PLANET_ID);
+  const result = abilities.executeAbility("landProbe", context, { target: { type: "planet" } });
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerKind, "aomomo-land");
+  assert.equal(aomomo.countLandingMarkers(context.alienGameState), 1);
+  assert.equal(planetStats.getPlanetLandingCount(context.planetStatsState, aomomo.PLANET_ID), 0);
+
+  for (let index = result.commands.length - 1; index >= 0; index -= 1) {
+    result.commands[index].undo();
+  }
+
+  assert.equal(aomomo.countLandingMarkers(context.alienGameState), 0);
+  assert.equal(context.rocketState.rockets.length, 1);
 }
 
 {
@@ -448,7 +488,7 @@ function launchToPlanet(context, planetId) {
   assert.equal(second.replaced.slotIndex, 2);
   assert.equal(second.replaced.scoreAwarded, 2);
   assert.equal(player.resources.score, 2);
-  assert.match(second.message, /第二格 \+2分/);
+  assert.match(second.message, /槽位2 \+2分/);
 
   for (let index = second.commands.length - 1; index >= 0; index -= 1) {
     second.commands[index].undo();
