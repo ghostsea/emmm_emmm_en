@@ -12,6 +12,7 @@
   let banrenma = root.SetiAlienBanrenma;
   let chong = root.SetiAlienChong;
   let amiba = root.SetiAlienAmiba;
+  let runezu = root.SetiAlienRunezu;
   let fangzhouCard1Queue = root.SetiFangzhouCard1Queue;
 
   if (typeof require === "function") {
@@ -24,19 +25,20 @@
     banrenma = banrenma || require("./banrenma");
     chong = chong || require("./chong");
     amiba = amiba || require("./amiba");
+    runezu = runezu || require("./runezu");
     fangzhouCard1Queue = fangzhouCard1Queue || require("./fangzhou-card1-queue");
     randomizer = randomizer || require("./randomizer");
     render = render || require("./render");
   }
 
-  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, fangzhouCard1Queue);
+  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, runezu, fangzhouCard1Queue);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAliens = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, fangzhouCard1Queue) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, runezu, fangzhouCard1Queue) {
   "use strict";
 
   function getReadoutLines(alienState) {
@@ -403,6 +405,70 @@
       }
     }
 
+    if (runezu?.ensureRunezuState) {
+      const rState = runezu.ensureRunezuState(source);
+      lines.push("[符文族]");
+      lines.push(
+        `揭示槽位=${rState.revealedSlotId || "无"} `
+        + `展示牌=${rState.displayedCardIndex ?? "无"} `
+        + `牌堆剩余=${rState.cardDeck?.length ?? 0} `
+        + `剩余symbol=${rState.availableSymbols?.length ?? 0}`,
+      );
+      if (rState.revealedSlotId) {
+        for (const symbol of runezu.listPanelSymbols(source) || []) {
+          const layout = render.getEffectiveRunezuPanelSymbolMarkerLayout?.(rState.revealedSlotId, symbol.slotId);
+          lines.push(
+            `  白框 ${runezu.formatPanelSymbolSlotLabel?.(symbol.slotId) || symbol.slotId}`
+            + ` ${runezu.formatSymbolLabel?.(symbol.symbolId) || symbol.symbolId}`
+            + `${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+          );
+        }
+        for (const position of runezu.FACE_SYMBOL_POSITIONS || []) {
+          const entry = (runezu.listFaceSymbolSlots(source) || []).find((slot) => Number(slot.position) === Number(position));
+          const layout = render.getEffectiveRunezuFaceSymbolSlotMarkerLayout?.(rState.revealedSlotId, position);
+          const symbolText = entry
+            ? (runezu.formatSymbolLabel?.(entry.symbolId) || entry.symbolId)
+            : "空";
+          lines.push(
+            `  黑圈 ${runezu.formatFaceSymbolSlotLabel?.(position) || position}`
+            + ` ${symbolText}`
+            + `${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+          );
+        }
+      }
+      for (const sourceSymbol of runezu.listSourceSymbols(source) || []) {
+        lines.push(
+          `  来源 ${sourceSymbol.sourceType}:${sourceSymbol.sourceId}`
+          + ` ${runezu.formatSymbolLabel?.(sourceSymbol.symbolId) || sourceSymbol.symbolId}`
+          + ` ${sourceSymbol.claimedByPlayerColor || sourceSymbol.claimedByPlayerId ? "已取" : "未取"}`,
+        );
+      }
+      const grid = rState.revealedSlotId
+        ? runezu.getTraceGrid(source, rState.revealedSlotId)
+        : null;
+      if (grid) {
+        for (const traceType of runezu.TRACE_TYPES) {
+          for (const position of runezu.TRACE_POSITIONS) {
+            const entries = runezu.getTraceEntries(grid, traceType, position);
+            const layout = render.getEffectiveRunezuTraceMarkerLayout?.(
+              rState.revealedSlotId,
+              traceType,
+              position,
+              0,
+            );
+            const ownerText = entries.length
+              ? entries.map((entry) => entry.playerColor || entry.playerId || "已放置").join("/")
+              : "空";
+            lines.push(
+              `  ${runezu.formatTraceLabel(traceType, position)} `
+              + `${ownerText}${layout ? ` @ ${layout.percentX}%,${layout.percentY}%` : ""}`,
+            );
+          }
+        }
+      }
+
+    }
+
     return lines;
   }
 
@@ -425,6 +491,7 @@
     banrenma,
     chong,
     amiba,
+    runezu,
     fangzhouCard1Queue,
     JIUZHE_ALIEN_ID: jiuzhe?.ALIEN_ID || "九折",
     JIUZHE_CARD_BACK_SRC: jiuzhe?.CARD_BACK_SRC,
@@ -441,6 +508,8 @@
     CHONG_FOSSIL_BACK_SRC: chong?.FOSSIL_BACK_SRC,
     AMIBA_ALIEN_ID: amiba?.ALIEN_ID || "阿米巴",
     AMIBA_CARD_BACK_SRC: amiba?.CARD_BACK_SRC,
+    RUNEZU_ALIEN_ID: runezu?.ALIEN_ID || "符文族",
+    RUNEZU_CARD_BACK_SRC: runezu?.CARD_BACK_SRC,
     createDefaultAlienState: state.createDefaultAlienState,
     randomizeAlienAssignments: randomizer.randomizeAlienAssignments,
     getAlienType: catalog.getAlienType,
@@ -478,6 +547,12 @@
     getEffectiveAmibaSymbolMarkerLayout: render.getEffectiveAmibaSymbolMarkerLayout,
     listAmibaTraceMarkerLayoutOverrides: render.listAmibaTraceMarkerLayoutOverrides,
     listAmibaSymbolMarkerLayoutOverrides: render.listAmibaSymbolMarkerLayoutOverrides,
+    getEffectiveRunezuTraceMarkerLayout: render.getEffectiveRunezuTraceMarkerLayout,
+    getEffectiveRunezuPanelSymbolMarkerLayout: render.getEffectiveRunezuPanelSymbolMarkerLayout,
+    getEffectiveRunezuFaceSymbolSlotMarkerLayout: render.getEffectiveRunezuFaceSymbolSlotMarkerLayout,
+    listRunezuTraceMarkerLayoutOverrides: render.listRunezuTraceMarkerLayoutOverrides,
+    listRunezuPanelSymbolMarkerLayoutOverrides: render.listRunezuPanelSymbolMarkerLayoutOverrides,
+    listRunezuFaceSymbolMarkerLayoutOverrides: render.listRunezuFaceSymbolMarkerLayoutOverrides,
     bindAlienTraceDragging: render.bindAlienTraceDragging,
     renderAlienTraceMarkers: render.renderAlienTraceMarkers,
     renderAllAlienTraceMarkers: render.renderAllAlienTraceMarkers,
@@ -493,6 +568,8 @@
     renderAllChongTraceMarkers: render.renderAllChongTraceMarkers,
     renderAmibaTraceMarkers: render.renderAmibaTraceMarkers,
     renderAllAmibaTraceMarkers: render.renderAllAmibaTraceMarkers,
+    renderRunezuTraceMarkers: render.renderRunezuTraceMarkers,
+    renderAllRunezuTraceMarkers: render.renderAllRunezuTraceMarkers,
     renderAlienBackImage: render.renderAlienBackImage,
     renderAllAlienBackImages: render.renderAllAlienBackImages,
     resetAlienTraceTokens: render.resetAlienTraceTokens,

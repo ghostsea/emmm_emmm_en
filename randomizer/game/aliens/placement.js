@@ -34,9 +34,13 @@
   const CHONG_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
   const AMIBA_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
   const AMIBA_SYMBOL_DISPLAY_SCALE = 3.0;
+  const RUNEZU_TRACE_TOKEN_DISPLAY_SCALE = 1.44;
+  const RUNEZU_SYMBOL_DISPLAY_SCALE = 2.75;
   const BANRENMA_BONUS_TOKEN_DISPLAY_SCALE = 3.0;
   const FANGZHOU_POSITION1_STACK_STEP_Y = 14.5;
   const BANRENMA_POSITION1_STACK_STEP_Y = 14.5;
+  const RUNEZU_POSITION1_STACK_STEP_Y = 14.5;
+  const RUNEZU_POSITION1_STACK_STEP_RATIO = 0.4;
   const YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT = 6.5;
   const YICHANGDIAN_ANOMALY_EDGE_RADIAL_FRACTION = 0.92;
   const YICHANGDIAN_ANOMALY_EDGE_ANGULAR_FRACTIONS = Object.freeze({
@@ -355,6 +359,89 @@
     }),
   });
 
+  const RUNEZU_TRACE_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 18.61, percentY: 56.17, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 17.92, percentY: 63.77, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 18.26, percentY: 72.35, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 18.96, percentY: 86.91, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.75, percentY: 59.89, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.75, percentY: 67.33, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.75, percentY: 75.42, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 50.44, percentY: 90.31, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 81.93, percentY: 55.68, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 82.62, percentY: 63.77, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 81.93, percentY: 72.03, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 81.93, percentY: 86.91, scalePercent: 62 }),
+      }),
+    }),
+    2: Object.freeze({
+      pink: Object.freeze({
+        1: Object.freeze({ percentX: 18.61, percentY: 56.17, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 17.92, percentY: 63.77, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 18.26, percentY: 72.35, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 18.96, percentY: 86.91, scalePercent: 62 }),
+      }),
+      yellow: Object.freeze({
+        1: Object.freeze({ percentX: 49.75, percentY: 59.89, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 49.75, percentY: 67.33, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 49.75, percentY: 75.42, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 50.44, percentY: 90.31, scalePercent: 62 }),
+      }),
+      blue: Object.freeze({
+        1: Object.freeze({ percentX: 81.93, percentY: 55.68, scalePercent: 62 }),
+        2: Object.freeze({ percentX: 82.62, percentY: 63.77, scalePercent: 62 }),
+        3: Object.freeze({ percentX: 81.93, percentY: 72.03, scalePercent: 62 }),
+        4: Object.freeze({ percentX: 81.93, percentY: 86.91, scalePercent: 62 }),
+      }),
+    }),
+  });
+
+  const RUNEZU_PANEL_SYMBOL_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      panel_1: Object.freeze({ percentX: 17.23, percentY: 46.14, scalePercent: 50 }),
+      panel_2: Object.freeze({ percentX: 50.1, percentY: 49.53, scalePercent: 50 }),
+      panel_3: Object.freeze({ percentX: 82.62, percentY: 46.14, scalePercent: 50 }),
+      panel_4: Object.freeze({ percentX: 18.61, percentY: 79.47, scalePercent: 50 }),
+      panel_5: Object.freeze({ percentX: 50.1, percentY: 83.19, scalePercent: 50 }),
+      panel_6: Object.freeze({ percentX: 82.28, percentY: 79.31, scalePercent: 50 }),
+    }),
+    2: Object.freeze({
+      panel_1: Object.freeze({ percentX: 17.23, percentY: 46.14, scalePercent: 50 }),
+      panel_2: Object.freeze({ percentX: 50.1, percentY: 49.53, scalePercent: 50 }),
+      panel_3: Object.freeze({ percentX: 82.62, percentY: 46.14, scalePercent: 50 }),
+      panel_4: Object.freeze({ percentX: 18.61, percentY: 79.47, scalePercent: 50 }),
+      panel_5: Object.freeze({ percentX: 50.1, percentY: 83.19, scalePercent: 50 }),
+      panel_6: Object.freeze({ percentX: 82.28, percentY: 79.31, scalePercent: 50 }),
+    }),
+  });
+
+  const RUNEZU_FACE_SYMBOL_SLOT_MARKER_SLOTS = Object.freeze({
+    1: Object.freeze({
+      1: Object.freeze({ percentX: 27.26, percentY: 10.38, scalePercent: 50 }),
+      2: Object.freeze({ percentX: 50.1, percentY: 10.38, scalePercent: 50 }),
+      3: Object.freeze({ percentX: 72.59, percentY: 10.38, scalePercent: 50 }),
+      4: Object.freeze({ percentX: 16.53, percentY: 26.88, scalePercent: 50 }),
+      5: Object.freeze({ percentX: 39.02, percentY: 26.72, scalePercent: 50 }),
+      6: Object.freeze({ percentX: 61.17, percentY: 27.04, scalePercent: 50 }),
+      7: Object.freeze({ percentX: 83.32, percentY: 27.04, scalePercent: 50 }),
+    }),
+    2: Object.freeze({
+      1: Object.freeze({ percentX: 27.26, percentY: 10.38, scalePercent: 50 }),
+      2: Object.freeze({ percentX: 50.1, percentY: 10.38, scalePercent: 50 }),
+      3: Object.freeze({ percentX: 72.59, percentY: 10.38, scalePercent: 50 }),
+      4: Object.freeze({ percentX: 16.53, percentY: 26.88, scalePercent: 50 }),
+      5: Object.freeze({ percentX: 39.02, percentY: 26.72, scalePercent: 50 }),
+      6: Object.freeze({ percentX: 61.17, percentY: 27.04, scalePercent: 50 }),
+      7: Object.freeze({ percentX: 83.32, percentY: 27.04, scalePercent: 50 }),
+    }),
+  });
+
   const YICHANGDIAN_TRACE_MARKER_SLOTS = Object.freeze({
     1: Object.freeze({
       pink: Object.freeze({
@@ -454,6 +541,56 @@
 
   function getAmibaSymbolMarkerLayout(alienSlotId, slotId) {
     return AMIBA_SYMBOL_MARKER_SLOTS[alienSlotId]?.[slotId] || null;
+  }
+
+  function getRunezuTraceMarkerLayout(alienSlotId, traceType, position) {
+    return RUNEZU_TRACE_MARKER_SLOTS[alienSlotId]?.[traceType]?.[position] || null;
+  }
+
+  function getRunezuPanelSymbolMarkerLayout(alienSlotId, slotId) {
+    return RUNEZU_PANEL_SYMBOL_MARKER_SLOTS[alienSlotId]?.[slotId] || null;
+  }
+
+  function getRunezuFaceSymbolSlotMarkerLayout(alienSlotId, position) {
+    return RUNEZU_FACE_SYMBOL_SLOT_MARKER_SLOTS[alienSlotId]?.[position] || null;
+  }
+
+  function getRunezuTraceTokenSize(layout) {
+    if (!layout) return null;
+    const visualScale = getTraceTokenVisualScale(layout, RUNEZU_TRACE_TOKEN_DISPLAY_SCALE);
+    const widthPercent = ALIEN_TRACE_TOKEN_BASE_WIDTH_PERCENT * visualScale;
+    const heightPercent = widthPercent * (ALIEN_STATE_REFERENCE_WIDTH / ALIEN_STATE_REFERENCE_HEIGHT);
+    return {
+      widthPercent: roundPercent(widthPercent),
+      heightPercent: roundPercent(heightPercent),
+      radiusXPercent: roundPercent(widthPercent / 2),
+      radiusYPercent: roundPercent(heightPercent / 2),
+    };
+  }
+
+  function getRunezuStackStepY(layout) {
+    const baseStep = getRunezuTraceTokenSize(layout)?.radiusXPercent || RUNEZU_POSITION1_STACK_STEP_Y;
+    return roundPercent(baseStep * RUNEZU_POSITION1_STACK_STEP_RATIO);
+  }
+
+  function getRunezuStackTraceMarkerLayout(baseLayout, stackIndex = 0) {
+    if (!baseLayout) return null;
+    const index = Math.max(0, Math.round(Number(stackIndex) || 0));
+    const stepY = getRunezuStackStepY(baseLayout);
+    return {
+      ...baseLayout,
+      percentY: roundPercent(baseLayout.percentY - index * stepY),
+    };
+  }
+
+  function getRunezuBaseFromStackTraceMarkerLayout(stackLayout, stackIndex = 0) {
+    if (!stackLayout) return null;
+    const index = Math.max(0, Math.round(Number(stackIndex) || 0));
+    const stepY = getRunezuStackStepY(stackLayout);
+    return {
+      percentX: roundPercent(stackLayout.percentX),
+      percentY: roundPercent(stackLayout.percentY + index * stepY),
+    };
   }
 
   function getBanrenmaTraceTokenSize(layout) {
@@ -660,9 +797,12 @@
     CHONG_TRACE_TOKEN_DISPLAY_SCALE,
     AMIBA_TRACE_TOKEN_DISPLAY_SCALE,
     AMIBA_SYMBOL_DISPLAY_SCALE,
+    RUNEZU_TRACE_TOKEN_DISPLAY_SCALE,
+    RUNEZU_SYMBOL_DISPLAY_SCALE,
     BANRENMA_BONUS_TOKEN_DISPLAY_SCALE,
     FANGZHOU_POSITION1_STACK_STEP_Y,
     BANRENMA_POSITION1_STACK_STEP_Y,
+    RUNEZU_POSITION1_STACK_STEP_Y,
     YICHANGDIAN_ANOMALY_MARKER_SCALE_PERCENT,
     YICHANGDIAN_POSITION1_STACK_STEP_Y,
     EXTRA_TRACE_GRID_COLUMNS,
@@ -677,6 +817,9 @@
     CHONG_TRACE_MARKER_SLOTS,
     AMIBA_TRACE_MARKER_SLOTS,
     AMIBA_SYMBOL_MARKER_SLOTS,
+    RUNEZU_TRACE_MARKER_SLOTS,
+    RUNEZU_PANEL_SYMBOL_MARKER_SLOTS,
+    RUNEZU_FACE_SYMBOL_SLOT_MARKER_SLOTS,
     YICHANGDIAN_TRACE_MARKER_SLOTS,
     getAlienSlotLabel,
     getTraceTypeLabel,
@@ -689,6 +832,13 @@
     getChongTraceMarkerLayout,
     getAmibaTraceMarkerLayout,
     getAmibaSymbolMarkerLayout,
+    getRunezuTraceMarkerLayout,
+    getRunezuPanelSymbolMarkerLayout,
+    getRunezuFaceSymbolSlotMarkerLayout,
+    getRunezuTraceTokenSize,
+    getRunezuStackStepY,
+    getRunezuStackTraceMarkerLayout,
+    getRunezuBaseFromStackTraceMarkerLayout,
     getBanrenmaTraceTokenSize,
     getBanrenmaStackStepY,
     getBanrenmaStackTraceMarkerLayout,

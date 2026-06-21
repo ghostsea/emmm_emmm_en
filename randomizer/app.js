@@ -29,6 +29,7 @@
   const banrenma = aliens.banrenma;
   const chong = aliens.chong;
   const amiba = aliens.amiba;
+  const runezu = aliens.runezu;
   const initialCards = window.SetiInitialCards;
   const industry = window.SetiIndustry;
 
@@ -72,6 +73,7 @@
     chongCard: aliens.CHONG_CARD_BACK_SRC || "../assets/aliens/虫/cards/back.png",
     chongFossil: aliens.CHONG_FOSSIL_BACK_SRC || "../assets/aliens/虫/fossil_back.webp",
     amibaCard: aliens.AMIBA_CARD_BACK_SRC || "../assets/aliens/阿米巴/cards/back.jpg",
+    runezuCard: aliens.RUNEZU_CARD_BACK_SRC || "../assets/aliens/符文族/cards/back.jpg",
   });
   const OPPONENT_SECTOR_WIN_STATS = Object.freeze([
     Object.freeze({ color: "yellow", label: "黄色完成扇区", iconKey: "yellowFinishScan" }),
@@ -244,10 +246,14 @@
   let pendingAmibaCardGain = null;
   let pendingAmibaSymbolChoice = null;
   let pendingAmibaTraceRemoval = null;
+  let pendingRunezuCardGain = null;
+  let pendingRunezuSymbolBranch = null;
+  let pendingRunezuFaceSymbolPlacement = null;
   const yichangdianAnomalyMarkerElements = new Map();
   const chongPlanetFossilMarkerElements = new Map();
   const chongFossilOwnerTokenElements = new Map();
   const banrenmaBonusMarkerElements = new Map();
+  const runezuBoardSymbolElements = new Map();
   const cardTaskState = cardTaskStateModule.createTaskState();
   let alienTracePickerState = null;
   let debugAlienTraceModeActive = false;
@@ -341,6 +347,7 @@
     alienBanrenmaCardAreas: document.querySelectorAll(".alien-banrenma-card-area"),
     alienChongCardAreas: document.querySelectorAll(".alien-chong-card-area"),
     alienAmibaCardAreas: document.querySelectorAll(".alien-amiba-card-area"),
+    alienRunezuCardAreas: document.querySelectorAll(".alien-runezu-card-area"),
     alienBanrenmaScoremarks: document.querySelectorAll(".alien-banrenma-scoremarks"),
     finalScoreGrid: document.getElementById("final-score-grid"),
     finalScoreTileWraps: document.querySelectorAll(".final-score-tile-wrap"),
@@ -388,6 +395,7 @@
     debugBanrenmaButton: document.getElementById("debug-banrenma-button"),
     debugChongButton: document.getElementById("debug-chong-button"),
     debugAmibaButton: document.getElementById("debug-amiba-button"),
+    debugRunezuButton: document.getElementById("debug-runezu-button"),
     debugCheatButton: document.getElementById("debug-cheat-button"),
     alienTraceOverlay: document.getElementById("alien-trace-overlay"),
     alienTraceSubtitle: document.getElementById("alien-trace-subtitle"),
@@ -1179,6 +1187,9 @@
     pendingAmibaCardGain = null;
     pendingAmibaSymbolChoice = null;
     pendingAmibaTraceRemoval = null;
+    pendingRunezuCardGain = null;
+    pendingRunezuSymbolBranch = null;
+    pendingRunezuFaceSymbolPlacement = null;
     alienTracePickerState = null;
     debugAlienTraceModeActive = false;
     pendingActionExecuted = false;
@@ -2369,6 +2380,16 @@
       };
     }
 
+    const runezuCornerMatch = String(card?.discardActionCode || "").match(/^s_([1-7])$/);
+    if (runezu?.isRunezuCard?.(card) && runezuCornerMatch) {
+      const symbolId = `symbol_${runezuCornerMatch[1]}`;
+      return {
+        actionKind: "runezu_symbol",
+        label: `符文族${runezu.formatSymbolLabel(symbolId)}奖励`,
+        symbolId,
+      };
+    }
+
     const resourceReward = cards.getDiscardActionRewardForCard(card);
     if (resourceReward) {
       return {
@@ -2573,6 +2594,60 @@
       updateActionButtons();
       renderStateReadout();
       if (rewardResult.followUps?.length) return rewardResult;
+      return rewardResult;
+    }
+
+    if (action.actionKind === "runezu_symbol") {
+      const beforePlayer = structuredClone(currentPlayer);
+      const beforeAlienState = structuredClone(alienGameState);
+      const beforeCardState = {
+        publicCards: cardState.publicCards.slice(),
+        discardPile: (cardState.discardPile || []).slice(),
+      };
+      beginQuickActionStep("card-corner", `卡牌快速行动：${action.label}`);
+      const discardResult = cards.discardFromHandAtIndex(currentPlayer, action.handIndex);
+      if (!discardResult.ok) {
+        quickActionHistory.undoLastStep();
+        if (!quickActionHistory.hasUndoableStep()) {
+          quickActionHistory.commitSession();
+          clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+        }
+        rocketState.statusNote = discardResult.message;
+        syncCardCornerQuickActionChrome();
+        renderStateReadout();
+        return discardResult;
+      }
+      cards.addToDiscardPile(cardState, discardResult.card);
+      const rewardResult = applyRunezuSymbolReward(currentPlayer, action.symbolId, action.label);
+      recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+        currentPlayer,
+        beforePlayer,
+        "恢复符文族弃牌快速行动前玩家状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复符文族弃牌快速行动前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestorePublicCardsCommand(
+        cardState,
+        beforeCardState.publicCards,
+        beforeCardState.discardPile,
+      ));
+      completeQuickActionStep(null, rewardResult.irreversible ? {
+        irreversibleCode: rewardResult.irreversible.code,
+        irreversibleReason: rewardResult.irreversible.reason,
+      } : {});
+      pendingCardCornerQuickAction = null;
+      syncCardCornerQuickActionChrome();
+      rocketState.statusNote = `卡牌快速行动：弃除 ${cards.getCardLabel(discardResult.card)}，${rewardResult.message}`;
+      renderPlayerStats();
+      renderPlayerHand();
+      renderAlienPanels();
+      renderPublicCards();
+      updatePublicCardControls();
+      updateActionButtons();
+      renderStateReadout();
       return rewardResult;
     }
 
@@ -3004,6 +3079,9 @@
     if (amiba?.isAmibaCard?.(card)) {
       return handleAmibaCardPlay(removeIndex);
     }
+    if (runezu?.isRunezuCard?.(card)) {
+      return handleRunezuCardPlay(removeIndex);
+    }
 
     const price = getCardPrice(card);
     const cost = getCardPlayCost(card);
@@ -3241,6 +3319,98 @@
     recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState, beforeAlienState);
     if (allPlayEffects.length) {
       startCardEffectFlow("amiba-play-card-effects", `打出 ${cards.getCardLabel(playedCard)}`, allPlayEffects, {
+        actionType: "playCard",
+        card: playedCard,
+        temporaryTasks: [],
+        industryPlayedCard: playedCard,
+      });
+    } else {
+      markActionPending();
+      updateActionButtons();
+      renderStateReadout();
+    }
+    return {
+      ok: true,
+      card: playedCard,
+      reserved: shouldReserve,
+      message: rocketState.statusNote,
+    };
+  }
+
+  function handleRunezuCardPlay(handIndex) {
+    if (!runezu) return { ok: false, message: "符文族模块未加载" };
+    const currentPlayer = getCurrentPlayer();
+    const removeIndex = Math.round(handIndex);
+    const card = currentPlayer?.hand?.[removeIndex];
+    if (!card) {
+      rocketState.statusNote = "无效的手牌位置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const cost = getCardPlayCost(card);
+    if (!players.canAfford(currentPlayer, cost)) {
+      rocketState.statusNote = `资源不足：${cards.getCardLabel(card)} 需要 ${formatCardPlayCost(cost)}`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const beforePlayer = structuredClone(currentPlayer);
+    const beforeAlienState = structuredClone(alienGameState);
+    const beforeCardState = {
+      publicCards: cardState.publicCards.slice(),
+      discardPile: (cardState.discardPile || []).slice(),
+    };
+    const spendResult = players.spendResources(currentPlayer, cost);
+    if (!spendResult.ok) {
+      rocketState.statusNote = spendResult.message;
+      renderStateReadout();
+      return spendResult;
+    }
+
+    const removeResult = cards.discardFromHandAtIndex(currentPlayer, removeIndex);
+    if (!removeResult.ok) {
+      players.gainResources(currentPlayer, cost);
+      rocketState.statusNote = removeResult.message;
+      renderStateReadout();
+      return removeResult;
+    }
+
+    const playedCard = removeResult.card;
+    playedCard.runezuCard = true;
+    playedCard.runezuTask = playedCard.runezuTask || runezu.getCardTask(playedCard);
+    const typeCode = getCardTypeCode(playedCard);
+    const shouldReserve = [1, 2, 3].includes(typeCode);
+    if (shouldReserve) {
+      if (!Array.isArray(currentPlayer.reservedCards)) currentPlayer.reservedCards = [];
+      cardEffects.ensureCardEffectState(playedCard);
+      currentPlayer.reservedCards.push(playedCard);
+    } else {
+      cards.addToDiscardPile(cardState, playedCard);
+    }
+
+    const playEffects = runezu.buildImmediateEffects(playedCard);
+    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
+      cards,
+      currentPlayer,
+      turnState.roundNumber,
+      turnState.turnNumber,
+      playedCard,
+    ) || [];
+    const allPlayEffects = [...playEffects, ...sentinelEffects];
+
+    cards.setPlayCardSelectionActive(cardState, false);
+    pendingPlayCardSelection = null;
+    rocketState.statusNote = shouldReserve
+      ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
+      : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
+    applyIndustryPlayCardPassives(playedCard, typeCode);
+    syncPlayCardSelectionChrome();
+    renderPlayerStats();
+    renderReservedCardsFromTaskState();
+    recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState, beforeAlienState);
+    if (allPlayEffects.length) {
+      startCardEffectFlow("runezu-play-card-effects", `打出 ${cards.getCardLabel(playedCard)}`, allPlayEffects, {
         actionType: "playCard",
         card: playedCard,
         temporaryTasks: [],
@@ -4094,6 +4264,9 @@
     pendingAmibaCardGain = null;
     pendingAmibaSymbolChoice = null;
     pendingAmibaTraceRemoval = null;
+    pendingRunezuCardGain = null;
+    pendingRunezuSymbolBranch = null;
+    pendingRunezuFaceSymbolPlacement = null;
     pendingScanTargetAction = null;
     els.scanTargetOverlay.hidden = true;
     if (els.scanTargetCancel) {
@@ -5109,6 +5282,8 @@
       if (readyChongTask) effectiveReadyByCardId[card.id] = readyChongTask;
       const readyAmibaTask = getReadyAmibaTaskForReservedCard(card, currentPlayer);
       if (readyAmibaTask) effectiveReadyByCardId[card.id] = readyAmibaTask;
+      const readyRunezuTask = getReadyRunezuTaskForReservedCard(card, currentPlayer);
+      if (readyRunezuTask) effectiveReadyByCardId[card.id] = readyRunezuTask;
     }
     const title = els.reservedCardPanel.querySelector(".panel-title");
     if (title) {
@@ -5248,13 +5423,73 @@
     return delivered;
   }
 
+  function processRunezuTaskEvents(events = []) {
+    if (!runezu || !events?.length) return [];
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer?.reservedCards?.length) return [];
+    const normalizedEvents = [...events];
+    if (events.some((event) => event?.type === "signalMarked")) {
+      normalizedEvents.push({ type: "scan" });
+    }
+    const results = [];
+    for (const card of [...currentPlayer.reservedCards]) {
+      if (!runezu.isRunezuCard?.(card)) continue;
+      const beforePlayer = structuredClone(currentPlayer);
+      const result = runezu.consumeTaskEvents?.(card, normalizedEvents);
+      if (!result?.ok || !result.effects?.length) continue;
+      if (result.completed) {
+        removeReservedCardToDiscard(currentPlayer, card);
+        incrementCompletedTaskCount(currentPlayer);
+      }
+      if (actionHistory.hasSession()) {
+        recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+          currentPlayer,
+          beforePlayer,
+          "恢复符文族任务进度前玩家状态",
+        ));
+      } else {
+        beginQuickActionStep("runezu-task-progress", `符文族任务：${cards.getCardLabel(card)}`);
+        recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+          currentPlayer,
+          beforePlayer,
+          "恢复符文族任务进度前玩家状态",
+        ));
+        completeQuickActionStep();
+      }
+      results.push(result);
+      if (pendingActionEffectFlow) {
+        insertActionEffectsAfterCurrent(result.effects);
+      } else {
+        startCardEffectFlow(
+          "runezu-task-rewards",
+          `符文族任务：${cards.getCardLabel(card)}`,
+          result.effects,
+          {
+            actionType: "cardTask",
+            historySource: HISTORY_SOURCE_QUICK,
+            consumesMainAction: false,
+          },
+        );
+      }
+      break;
+    }
+    if (results.length) {
+      renderReservedCardsFromTaskState();
+      renderPlayerStats();
+      renderStateReadout();
+    }
+    return results;
+  }
+
   function settleCardTasksAfterEffect(options = {}) {
     const { events, skipType1 = false, render = true } = options;
     const chongCompletions = processChongTransportArrivalEvents(events || []);
+    const runezuCompletions = processRunezuTaskEvents(events || []);
     refreshCardTaskState({ render });
     const type1Result = skipType1 || !events?.length ? null : applyType1TriggerMatches(events);
     return {
       chongCompletions,
+      runezuCompletions,
       type1Result,
     };
   }
@@ -5263,6 +5498,8 @@
     refreshCardTaskState({ render: false });
     const readyAmibaTask = getReadyAmibaTaskForReservedCard(card, getCurrentPlayer());
     if (readyAmibaTask) return readyAmibaTask;
+    const readyRunezuTask = getReadyRunezuTaskForReservedCard(card, getCurrentPlayer());
+    if (readyRunezuTask) return readyRunezuTask;
     return cardTaskStateModule.getReadyType2ForCard(cardTaskState, card?.id) || null;
   }
 
@@ -5306,6 +5543,11 @@
       effects: reward.effects || [],
       emptyCount: reward.emptyCount || 0,
     };
+  }
+
+  function getReadyRunezuTaskForReservedCard(card, player = getCurrentPlayer()) {
+    if (!runezu?.isRunezuCard?.(card)) return null;
+    return runezu.getReadyThreeTraceTask?.(card, alienGameState, player) || null;
   }
 
   function incrementCompletedTaskCount(player) {
@@ -5369,7 +5611,11 @@
       publicCards: cardState.publicCards.slice(),
       discardPile: (cardState.discardPile || []).slice(),
     };
-    cardEffects.completeTask(ready.card, ready.task.id);
+    if (ready.runezuTask) {
+      runezu?.completeRunezuTask?.(ready.card);
+    } else {
+      cardEffects.completeTask(ready.card, ready.task.id);
+    }
     removeReservedCardToDiscard(currentPlayer, ready.card);
     incrementCompletedTaskCount(currentPlayer);
 
@@ -5671,6 +5917,15 @@
     });
     effectStepActive = true;
     recordAbilityCommands(result);
+    const runezuClaim = claimRunezuSourceSymbolWithHistory(
+      "planet",
+      result.planetId,
+      getCurrentPlayer(),
+      `${actionLabel}获得符文族symbol`,
+    );
+    if (runezuClaim?.ok) {
+      result.message = `${result.message}；${runezuClaim.message}`;
+    }
     endEffectHistoryStep();
 
     pendingActionEffectFlow = abilities.chain.startAbilityChain(
@@ -5985,6 +6240,9 @@
       || pendingAmibaCardGain
       || pendingAmibaSymbolChoice
       || pendingAmibaTraceRemoval
+      || pendingRunezuCardGain
+      || pendingRunezuSymbolBranch
+      || pendingRunezuFaceSymbolPlacement
       || pendingCardTriggerFreeMove
       || pendingCardCornerFreeMove
       || (els.scanAction4Overlay && !els.scanAction4Overlay.hidden)
@@ -6116,6 +6374,9 @@
     pendingAmibaCardGain = null;
     pendingAmibaSymbolChoice = null;
     pendingAmibaTraceRemoval = null;
+    pendingRunezuCardGain = null;
+    pendingRunezuSymbolBranch = null;
+    pendingRunezuFaceSymbolPlacement = null;
   }
 
   function skipCurrentActionEffect() {
@@ -6258,6 +6519,7 @@
 
     const beforeNebulaState = structuredClone(nebulaDataState);
     const beforePlayerState = structuredClone(playerState);
+    const beforeAlienState = structuredClone(alienGameState);
     const settlementResult = data.settleCompletedSectors(nebulaDataState, {
       players: playerState.players,
       getPlayerTokenSrc: getNormalTokenAssetForPlayer,
@@ -6275,6 +6537,20 @@
         if (awarded.has(awardKey)) continue;
         awarded.add(awardKey);
         players.gainResources(player, { publicity: 1 });
+      }
+      const winner = playerState.players.find((item) => item.id === settlement.winner?.playerId)
+        || playerState.players.find((item) => item.color === settlement.winner?.playerColor);
+      const claim = winner
+        ? runezu?.claimSectorSymbol?.(alienGameState, settlement.sectorId, winner)
+        : null;
+      if (claim?.ok) {
+        if (!Array.isArray(settlementResult.runezuSymbolClaims)) settlementResult.runezuSymbolClaims = [];
+        settlementResult.runezuSymbolClaims.push({
+          sectorId: settlement.sectorId,
+          playerId: winner.id,
+          playerColor: winner.color,
+          symbolId: claim.symbolId,
+        });
       }
     }
 
@@ -6296,19 +6572,26 @@
         beforePlayerState,
         "恢复扇区结算前玩家状态",
       ));
+      history.record(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复扇区结算前外星人状态",
+      ));
       const step = history.endStep();
       if (step) {
         rememberHistoryStep(source, step.id);
         appendActionLogStep(
           source,
           step.label,
-          `${settlementResult.message}；参与结算玩家各获得1宣传`,
+          `${settlementResult.message}；参与结算玩家各获得1宣传`
+            + `${settlementResult.runezuSymbolClaims?.length ? `；符文族symbol ${settlementResult.runezuSymbolClaims.length}个` : ""}`,
           actionLogOptionsFromHistoryStep(step),
         );
       }
     }
     renderSectorNebulaDataBoard();
     renderPlayerStats();
+    renderAlienPanels();
     return settlementResult;
   }
 
@@ -7577,6 +7860,10 @@
         });
       case amiba?.EFFECT_TYPES?.REMOVE_TRACE_FOR_REGION_REWARD:
         return openAmibaTraceRemovalDialog(effect);
+      case runezu?.EFFECT_TYPES?.SYMBOL_REWARD:
+        return executeRunezuSymbolRewardEffect(effect);
+      case runezu?.EFFECT_TYPES?.SYMBOL_BRANCH:
+        return openRunezuSymbolBranchDialog(effect);
       default:
         return null;
     }
@@ -8060,6 +8347,12 @@
     ) || null;
   }
 
+  function getAlienRunezuCardArea(alienSlotId) {
+    return [...els.alienRunezuCardAreas].find(
+      (element) => Number(element.dataset.alienSlot) === alienSlotId,
+    ) || null;
+  }
+
   function getAlienJiuzheThresholdElement(alienSlotId) {
     return [...els.alienJiuzheThresholds].find(
       (element) => Number(element.dataset.alienSlot) === alienSlotId,
@@ -8195,6 +8488,12 @@
         && Number.isInteger(Number(alienTracePickerState.selectedAlienSlotId)));
   }
 
+  function isRunezuTracePlacementMode() {
+    return isDebugAlienTraceMode()
+      || (alienTracePickerState?.mode === "runezu-grid"
+        && Number.isInteger(Number(alienTracePickerState.selectedAlienSlotId)));
+  }
+
   function canPlaceJiuzheTrace(alienSlotId, traceType, position) {
     if (!isJiuzheTracePlacementMode()) return false;
     if (!isDebugAlienTraceMode()
@@ -8277,6 +8576,30 @@
       position,
       currentPlayer,
     )?.ok;
+  }
+
+  function canPlaceRunezuTrace(alienSlotId, traceType, position) {
+    if (!isRunezuTracePlacementMode()) return false;
+    if (!isDebugAlienTraceMode()
+      && Number(alienTracePickerState.selectedAlienSlotId) !== Number(alienSlotId)) return false;
+    const allowedTraceTypes = alienTracePickerState?.allowedTraceTypes || aliens.TRACE_TYPES;
+    if (!allowedTraceTypes.includes(traceType)) return false;
+    if (!runezu?.isRunezuRevealedSlot?.(alienGameState, alienSlotId)) return false;
+    const currentPlayer = getCurrentPlayer();
+    return runezu?.canPlaceRunezuTrace?.(
+      alienGameState,
+      alienSlotId,
+      traceType,
+      position,
+      currentPlayer,
+    )?.ok;
+  }
+
+  function canPlaceRunezuFaceSymbol(alienSlotId, position) {
+    if (!runezu?.isRunezuRevealedSlot?.(alienGameState, alienSlotId)) return false;
+    if (isActionEffectFlowActive() || isCardSelectionActive() || isDiscardSelectionActive()) return false;
+    const currentPlayer = getCurrentPlayer();
+    return runezu?.canPlaceFaceSymbol?.(alienGameState, position, currentPlayer)?.ok;
   }
 
   function canPlaceStateTrace(alienSlotId, traceType, kind) {
@@ -8438,6 +8761,34 @@
     }
   }
 
+  function renderRunezuCardDisplays() {
+    for (const alienSlotId of aliens.ALIEN_SLOT_IDS) {
+      const area = getAlienRunezuCardArea(alienSlotId);
+      if (!area) continue;
+      const visible = Boolean(runezu?.isRunezuRevealedSlot?.(alienGameState, alienSlotId));
+      const state = alienGameState.runezu || {};
+      const cardIndex = state.displayedCardIndex;
+      if (!visible) {
+        area.hidden = true;
+        area.replaceChildren();
+        continue;
+      }
+      area.hidden = false;
+      const title = document.createElement("div");
+      title.className = "alien-runezu-card-title";
+      title.textContent = "符文族展示牌";
+      const image = document.createElement("img");
+      image.className = "alien-runezu-card-image";
+      image.src = cardIndex == null ? runezu.CARD_BACK_SRC : runezu.getCardSrc(cardIndex);
+      image.alt = cardIndex == null ? "符文族牌背" : `符文族牌 ${cardIndex}`;
+      image.width = 747;
+      image.height = 1040;
+      image.decoding = "async";
+
+      area.replaceChildren(title, image);
+    }
+  }
+
   function renderBanrenmaBonusMarkers() {
     const activeKeys = new Set();
     const state = banrenma?.ensureBanrenmaState?.(alienGameState);
@@ -8546,6 +8897,17 @@
       ),
       getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
     });
+    aliens.renderAllRunezuTraceMarkers?.(getAlienJiuzheTraceLayer, alienGameState, {
+      tokenSrc: aliens.ALIEN_TRACE_TOKEN_SRC,
+      canPlaceRunezuTrace,
+      canPlaceRunezuFaceSymbol,
+
+      getPlayerTokenAsset: (playerColor) => (
+        players.getPlayerColorDefinition(playerColor)?.normalTokenAsset
+        || aliens.ALIEN_TRACE_TOKEN_SRC
+      ),
+      getPlayerLabel: (playerColor) => players.getPlayerColorDefinition(playerColor)?.label || playerColor,
+    });
     renderJiuzheThresholds();
     renderBanrenmaScoremarks();
     renderYichangdianCardDisplays();
@@ -8553,7 +8915,9 @@
     renderBanrenmaCardDisplays();
     renderChongCardDisplays();
     renderAmibaCardDisplays();
+    renderRunezuCardDisplays();
     renderBanrenmaBonusMarkers();
+    renderRunezuBoardSymbols();
   }
 
   function randomizeAliens() {
@@ -8836,6 +9200,26 @@
       ? aliens.getTraceTypeLabel(allowedTraceTypes[0])
       : "对应颜色";
     rocketState.statusNote = `阿米巴：请在正面牌图点击可放置的${traceLabel}痕迹位`;
+    renderAlienPanels();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
+  function beginRunezuTraceGridPlacement(alienSlotId) {
+    const allowedTraceTypes = alienTracePickerState?.allowedTraceTypes?.length
+      ? alienTracePickerState.allowedTraceTypes
+      : aliens.TRACE_TYPES;
+    alienTracePickerState = {
+      ...alienTracePickerState,
+      mode: "runezu-grid",
+      selectedAlienSlotId: Number(alienSlotId),
+      allowedTraceTypes,
+    };
+    if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = true;
+    const traceLabel = allowedTraceTypes.length === 1
+      ? aliens.getTraceTypeLabel(allowedTraceTypes[0])
+      : "对应颜色";
+    rocketState.statusNote = `符文族：请在正面牌图点击可放置的${traceLabel}痕迹位`;
     renderAlienPanels();
     renderStateReadout();
     return { ok: true, message: rocketState.statusNote };
@@ -9589,6 +9973,235 @@
       irreversible,
       message: `${label}：${messages.join("、") || "无奖励"}`,
     };
+  }
+
+  function applyRunezuRewardToPlayer(player, reward, label = "符文族奖励") {
+    if (!player || !reward) return { ok: false, message: "没有可结算的符文族奖励" };
+    const messages = [];
+    let irreversible = null;
+    if (Object.keys(reward.gain || {}).length) {
+      players.gainResources(player, reward.gain);
+      messages.push(formatChongGain(reward.gain));
+    }
+    const dataCount = Math.max(0, Math.round(Number(reward.dataCount) || 0));
+    if (dataCount > 0) {
+      let gained = 0;
+      for (let index = 0; index < dataCount; index += 1) {
+        const result = data.gainData(player, { source: "runezu" });
+        if (result.ok) gained += 1;
+      }
+      messages.push(`${gained}/${dataCount}数据`);
+    }
+    const drawCount = Math.max(0, Math.round(Number(reward.drawCards) || 0));
+    if (drawCount > 0) {
+      let drawn = 0;
+      for (let index = 0; index < drawCount; index += 1) {
+        const result = blindDrawCardForPlayer(player);
+        if (result.ok) drawn += 1;
+      }
+      messages.push(`${drawn}/${drawCount}盲抽`);
+      irreversible = { code: "hidden_card_reveal", reason: "盲抽翻出新牌" };
+    }
+    if (reward.panelSymbol && reward.panelSymbolSlotId) {
+      const symbolResult = runezu?.takePanelSymbol?.(alienGameState, reward.panelSymbolSlotId, player, {
+        refill: Boolean(reward.refillPanelSymbol),
+      });
+      if (symbolResult?.ok) {
+        messages.push(symbolResult.message);
+      } else {
+        messages.push(symbolResult?.message || "无白框symbol");
+      }
+    }
+    if (reward.symbolId) {
+      runezu?.gainPlayerSymbol?.(player, reward.symbolId);
+      messages.push(`获得${runezu?.formatSymbolLabel?.(reward.symbolId) || reward.symbolId}`);
+    }
+    if (reward.pickAlienCard) messages.push("外星人牌");
+    if (reward.pickCard) messages.push("精选1张牌");
+    return {
+      ok: true,
+      undoable: !irreversible,
+      irreversible,
+      message: `${label}：${messages.join("、") || "无奖励"}`,
+    };
+  }
+
+  function applyRunezuSymbolReward(player, symbolId, label = "符文族symbol奖励") {
+    const resolved = runezu?.getTraceFaceRewardForSymbol?.(alienGameState, symbolId);
+    if (!resolved?.ok) {
+      return {
+        ok: true,
+        undoable: true,
+        message: resolved?.message || `${runezu?.formatSymbolLabel?.(symbolId) || symbolId}无可结算黑圈奖励`,
+      };
+    }
+    const result = applyRunezuRewardToPlayer(
+      player,
+      resolved.reward,
+      `${label} ${runezu?.formatSymbolLabel?.(symbolId) || symbolId}(${runezu?.formatFaceSymbolSlotLabel?.(resolved.position) || resolved.position})`,
+    );
+    return {
+      ...result,
+      symbolId,
+      position: resolved.position,
+    };
+  }
+
+  function claimRunezuSourceSymbolWithHistory(sourceType, sourceId, player, historyLabel = "获得符文族symbol") {
+    if (!runezu || !alienGameState.runezu?.revealInitialized || !sourceType || !sourceId || !player) return null;
+    const beforeAlienState = structuredClone(alienGameState);
+    const beforePlayerState = structuredClone(playerState);
+    const result = runezu.claimSourceSymbol(alienGameState, sourceType, sourceId, player);
+    if (!result.ok) return result;
+    const alienRestore = historyCommands.createRestoreObjectCommand(
+      alienGameState,
+      beforeAlienState,
+      `恢复${historyLabel}前外星人状态`,
+    );
+    const playerRestore = historyCommands.createRestoreObjectCommand(
+      playerState,
+      beforePlayerState,
+      `恢复${historyLabel}前玩家状态`,
+    );
+    if (quickActionHistory.hasSession() && !actionHistory.hasSession()) {
+      recordQuickHistoryCommand(alienRestore);
+      recordQuickHistoryCommand(playerRestore);
+    } else if (actionHistory.hasSession() || effectStepActive) {
+      recordHistoryCommand(alienRestore);
+      recordHistoryCommand(playerRestore);
+    }
+    return result;
+  }
+
+  function closeRunezuCardGainDialog() {
+    pendingRunezuCardGain = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+  }
+
+  function openRunezuCardGainDialog(options = {}) {
+    if (!runezu || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开符文族牌获取窗口" };
+    }
+    const state = runezu.ensureRunezuState(alienGameState);
+    if (state.displayedCardIndex == null) runezu.drawDisplayedCardIndex?.(alienGameState);
+    pendingRunezuCardGain = {
+      playerId: options.player?.id || getCurrentPlayer()?.id || null,
+      fromEffectFlow: Boolean(options.fromEffectFlow),
+      effectLabel: options.effectLabel || "符文族外星人牌",
+      beforeAlienState: options.beforeAlienState || structuredClone(alienGameState),
+      beforePlayerState: options.beforePlayerState || structuredClone(playerState),
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "获得符文族牌";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = "选择当前展示牌、盲抽符文族牌，或取消。";
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+
+    const cardIndex = alienGameState.runezu?.displayedCardIndex;
+    const confirm = document.createElement("button");
+    confirm.type = "button";
+    confirm.className = "scan-target-option-button";
+    confirm.dataset.runezuCardGain = "displayed";
+    confirm.innerHTML = cardIndex == null
+      ? "确认<small>当前没有展示牌</small>"
+      : `<img class="jiuzhe-card-option-image" src="${runezu.getCardSrc(cardIndex)}" alt="" aria-hidden="true"><small>确认拿取展示牌 ${cardIndex}</small>`;
+    confirm.disabled = cardIndex == null;
+
+    const blind = document.createElement("button");
+    blind.type = "button";
+    blind.className = "scan-target-option-button";
+    blind.dataset.runezuCardGain = "blind";
+    blind.innerHTML = "盲抽<small>从符文族牌堆随机获得 1 张</small>";
+
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "scan-target-option-button";
+    cancel.dataset.runezuCardGain = "cancel";
+    cancel.innerHTML = "取消<small>不获得符文族牌</small>";
+
+    els.scanTargetActions.replaceChildren(confirm, blind, cancel);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "符文族牌：请选择获取方式";
+    renderStateReadout();
+    return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
+  function finishRunezuCardGain(message, result = null) {
+    const pending = pendingRunezuCardGain;
+    const irreversible = getAlienCardGainIrreversible(result);
+    closeRunezuCardGainDialog();
+    if (pending?.fromEffectFlow && getCurrentActionEffect()) {
+      const existingResult = getCurrentActionEffect().result || {};
+      if (!effectStepActive) beginEffectHistoryStep(pending.effectLabel);
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        pending.beforeAlienState,
+        "恢复符文族牌获取前外星人状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        pending.beforePlayerState,
+        "恢复符文族牌获取前玩家状态",
+      ));
+      getCurrentActionEffect().result = {
+        ok: true,
+        undoable: !irreversible,
+        irreversible,
+        message,
+        events: existingResult.events || [],
+        payload: result,
+      };
+      rocketState.statusNote = message;
+      renderAlienPanels();
+      renderPlayerHand();
+      renderPlayerStats();
+      completeCurrentActionEffect();
+      renderStateReadout();
+      return getCurrentActionEffect()?.result || { ok: true, message };
+    }
+    if (irreversible && pending) {
+      beginQuickActionStep("runezu-card", pending.effectLabel || "符文族外星人牌");
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        pending.beforeAlienState,
+        "恢复符文族牌获取前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        pending.beforePlayerState,
+        "恢复符文族牌获取前玩家状态",
+      ));
+      completeQuickActionStep(message, {
+        irreversibleCode: irreversible.code,
+        irreversibleReason: irreversible.reason,
+      });
+    }
+    rocketState.statusNote = message;
+    renderAlienPanels();
+    renderPlayerHand();
+    renderPlayerStats();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message, result };
+  }
+
+  function handleRunezuCardGainChoice(choice) {
+    if (!pendingRunezuCardGain) return { ok: false, message: "没有符文族牌获取流程" };
+    const pending = pendingRunezuCardGain;
+    const player = getPlayerById(pending.playerId) || getCurrentPlayer();
+    if (!player) return { ok: false, message: "找不到符文族牌获取玩家" };
+    if (choice === "cancel") {
+      return finishRunezuCardGain("已取消符文族外星人牌");
+    }
+    const result = choice === "blind"
+      ? runezu.blindDrawCard(alienGameState)
+      : runezu.takeDisplayedCard(alienGameState);
+    if (!result.ok || !result.card) {
+      return finishRunezuCardGain(result.message || "符文族牌获取失败", result);
+    }
+    player.hand.push(result.card);
+    player.resources.handSize = player.hand.length;
+    return finishRunezuCardGain(result.message, result);
   }
 
   function closeAmibaCardGainDialog() {
@@ -11355,6 +11968,21 @@
     };
   }
 
+  function handleRunezuRevealSideEffects(alienSlotId, revealResult, triggerPlayer) {
+    if (!runezu || !revealResult?.ok || revealResult.alienId !== runezu.ALIEN_ID) return null;
+    const initResult = runezu.initializeRunezuReveal(
+      alienGameState,
+      alienSlotId,
+      triggerPlayer,
+      { techBoardState: techGameState.board },
+    );
+    return {
+      ...initResult,
+      rewardMessages: [],
+      message: initResult.message,
+    };
+  }
+
   function triggerYichangdianAnomalyForEarthX(earthX) {
     if (!yichangdian || !alienGameState.yichangdian?.revealInitialized) return null;
     const yState = alienGameState.yichangdian;
@@ -11432,7 +12060,8 @@
       || handleFangzhouRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleBanrenmaRevealSideEffects(alienSlotId, revealResult, currentPlayer)
       || handleChongRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleAmibaRevealSideEffects(alienSlotId, revealResult, currentPlayer);
+      || handleAmibaRevealSideEffects(alienSlotId, revealResult, currentPlayer)
+      || handleRunezuRevealSideEffects(alienSlotId, revealResult, currentPlayer);
     rocketState.statusNote = revealSideEffect?.message || revealResult?.message || result.message;
     const traceEvents = result.ok && !inDebugMode
       ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, revealResult?.alienId || null)]
@@ -11874,6 +12503,249 @@
     return false;
   }
 
+  function openRunezuRewardFollowUps(result, currentPlayer, pending, beforeAlienState, beforePlayerState) {
+    if (!result?.reward) return false;
+    if (result.reward.pickAlienCard) {
+      const openResult = openRunezuCardGainDialog({
+        player: currentPlayer,
+        fromEffectFlow: pending?.type === "planet_reward_alien_trace",
+        effectLabel: pending?.effectLabel || "符文族外星人牌",
+        beforeAlienState,
+        beforePlayerState,
+      });
+      return Boolean(openResult.ok);
+    }
+    if (result.reward.pickCard) {
+      beginCardSelection({
+        type: "runezu_pick_card",
+        player: currentPlayer,
+        allowBlindDraw: true,
+        fromEffectFlow: pending?.type === "planet_reward_alien_trace",
+      });
+      return true;
+    }
+    return false;
+  }
+
+  function closeRunezuFaceSymbolPlacement() {
+    pendingRunezuFaceSymbolPlacement = null;
+    els.scanTargetActions?.classList.remove("runezu-face-symbol-choice-grid");
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+  }
+
+  function openRunezuFaceSymbolPlacement(alienSlotId, position) {
+    if (!runezu || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开符文族 symbol 放置窗口" };
+    }
+    const currentPlayer = getCurrentPlayer();
+    const check = runezu.canPlaceFaceSymbol(alienGameState, position, currentPlayer);
+    if (!check.ok) {
+      rocketState.statusNote = check.message;
+      renderStateReadout();
+      return check;
+    }
+    pendingRunezuFaceSymbolPlacement = {
+      alienSlotId: Number(alienSlotId),
+      position: check.position,
+      playerId: currentPlayer.id,
+      beforeAlienState: structuredClone(alienGameState),
+      beforePlayerState: structuredClone(playerState),
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "符文族黑圈";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = `选择 1 个 symbol 放入${runezu.formatFaceSymbolSlotLabel(check.position)}并结算奖励。`;
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    els.scanTargetActions.classList.add("runezu-face-symbol-choice-grid");
+    const nodes = check.choices.map((choice) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button runezu-face-symbol-choice-button";
+      button.dataset.runezuFaceSymbolChoice = choice.symbolId;
+      button.title = `${choice.label} x${choice.count}`;
+      button.setAttribute("aria-label", `${choice.label} x${choice.count}`);
+      button.innerHTML = `<img class="runezu-face-symbol-choice-image" src="${runezu.getSymbolSrc(choice.symbolId)}" alt="" aria-hidden="true">`;
+      return button;
+    });
+    els.scanTargetActions.replaceChildren(...nodes);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "符文族黑圈：请选择要放置的 symbol";
+    renderStateReadout();
+    return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
+  function handleRunezuFaceSymbolChoice(choice) {
+    const pending = pendingRunezuFaceSymbolPlacement;
+    if (!pending) return { ok: false, message: "没有符文族黑圈放置流程" };
+    if (choice === "cancel") {
+      closeRunezuFaceSymbolPlacement();
+      rocketState.statusNote = "已取消符文族黑圈放置";
+      renderStateReadout();
+      return { ok: true, cancelled: true, message: rocketState.statusNote };
+    }
+    const player = getPlayerById(pending.playerId) || getCurrentPlayer();
+    const result = runezu.placePlayerSymbolOnFace(alienGameState, pending.position, player, choice);
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+    const rewardResult = applyRunezuRewardToPlayer(
+      player,
+      result.reward,
+      `符文族${runezu.formatFaceSymbolSlotLabel(pending.position)}`,
+    );
+    closeRunezuFaceSymbolPlacement();
+    beginQuickActionStep("runezu-face-symbol", result.message);
+    recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+      alienGameState,
+      pending.beforeAlienState,
+      "恢复符文族黑圈放置前外星人状态",
+    ));
+    recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+      playerState,
+      pending.beforePlayerState,
+      "恢复符文族黑圈放置前玩家状态",
+    ));
+    completeQuickActionStep(null, rewardResult.irreversible ? {
+      irreversibleCode: rewardResult.irreversible.code,
+      irreversibleReason: rewardResult.irreversible.reason,
+    } : {});
+    rocketState.statusNote = `${result.message}；${rewardResult.message}`;
+    renderAlienPanels();
+    renderPlayerStats();
+    renderPlayerHand();
+    updateActionButtons();
+    renderStateReadout();
+    return { ...result, rewardResult, message: rocketState.statusNote };
+  }
+
+  function executeRunezuSymbolRewardEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const symbolId = effect.options?.symbolId;
+    const beforeAlienState = structuredClone(alienGameState);
+    const beforePlayerState = structuredClone(playerState);
+    beginEffectHistoryStep(effect.label);
+    const result = applyRunezuSymbolReward(currentPlayer, symbolId, effect.label);
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      alienGameState,
+      beforeAlienState,
+      "恢复符文族symbol奖励前外星人状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      playerState,
+      beforePlayerState,
+      "恢复符文族symbol奖励前玩家状态",
+    ));
+    if (result.irreversible) {
+      markCurrentActionIrreversible(result.irreversible.reason, result.irreversible.code);
+    }
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: result.undoable !== false,
+      irreversible: result.irreversible || null,
+      message: result.message,
+      payload: result,
+    }, [renderAlienPanels, renderPlayerHand]);
+  }
+
+  function closeRunezuSymbolBranchDialog() {
+    pendingRunezuSymbolBranch = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+  }
+
+  function openRunezuSymbolBranchDialog(effect) {
+    if (!runezu || !els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开符文族分支选择" };
+    }
+    const branches = effect.options?.branches || [];
+    pendingRunezuSymbolBranch = {
+      effect,
+      branches,
+      beforeAlienState: structuredClone(alienGameState),
+      beforePlayerState: structuredClone(playerState),
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "符文族符文奖励";
+    if (els.scanTargetSubtitle) els.scanTargetSubtitle.textContent = "选择一组 symbol，按黑圈映射依次结算奖励。";
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    const nodes = branches.map((branch, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.runezuSymbolBranch = String(index);
+      const icons = (branch.symbolIds || []).map((symbolId) => (
+        `<img class="jiuzhe-card-option-image" src="${runezu.getSymbolSrc(symbolId)}" alt="" aria-hidden="true">`
+      )).join("");
+      button.innerHTML = `${icons}<small>${branch.label || (branch.symbolIds || []).map(runezu.formatSymbolLabel).join("+")}</small>`;
+      return button;
+    });
+    const cancel = document.createElement("button");
+    cancel.type = "button";
+    cancel.className = "scan-target-option-button";
+    cancel.dataset.runezuSymbolBranch = "cancel";
+    cancel.innerHTML = "取消<small>不结算本次符文奖励</small>";
+    nodes.push(cancel);
+    els.scanTargetActions.replaceChildren(...nodes);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "符文族：请选择一组 symbol 奖励";
+    renderStateReadout();
+    return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
+  function handleRunezuSymbolBranchChoice(choice) {
+    const pending = pendingRunezuSymbolBranch;
+    if (!pending) return { ok: false, message: "没有待选择的符文族分支" };
+    const effect = pending.effect;
+    if (choice === "cancel") {
+      closeRunezuSymbolBranchDialog();
+      if (effect) {
+        effect.result = { ok: true, undoable: true, message: "已取消符文族分支奖励" };
+        rocketState.statusNote = effect.result.message;
+        completeCurrentActionEffect();
+      }
+      renderStateReadout();
+      return { ok: true, cancelled: true, message: rocketState.statusNote };
+    }
+    const branch = pending.branches[Number(choice)];
+    if (!branch) return { ok: false, message: "无效的符文族分支" };
+    const currentPlayer = getCurrentPlayer();
+    const messages = [];
+    let irreversible = null;
+    beginEffectHistoryStep(effect.label);
+    for (const symbolId of branch.symbolIds || []) {
+      const result = applyRunezuSymbolReward(currentPlayer, symbolId, effect.label);
+      messages.push(result.message);
+      if (result.irreversible) irreversible = result.irreversible;
+    }
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      alienGameState,
+      pending.beforeAlienState,
+      "恢复符文族分支奖励前外星人状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      playerState,
+      pending.beforePlayerState,
+      "恢复符文族分支奖励前玩家状态",
+    ));
+    if (irreversible) markCurrentActionIrreversible(irreversible.reason, irreversible.code);
+    closeRunezuSymbolBranchDialog();
+    if (effect) {
+      effect.result = {
+        ok: true,
+        undoable: !irreversible,
+        irreversible,
+        message: `${effect.label}：${messages.join("；") || "无奖励"}`,
+      };
+      rocketState.statusNote = effect.result.message;
+      renderAlienPanels();
+      renderPlayerStats();
+      renderPlayerHand();
+      completeCurrentActionEffect();
+    }
+    renderStateReadout();
+    return effect?.result || { ok: true, message: rocketState.statusNote };
+  }
+
   function confirmChongTracePlacement(alienSlotId, traceType, position) {
     const inDebugMode = isDebugAlienTraceMode();
     if (!chong || (!isChongTracePlacementMode() && !inDebugMode)) {
@@ -12077,6 +12949,115 @@
     renderReservedCardsFromTaskState();
 
     const openedFollowUp = openAmibaRewardFollowUps(
+      result,
+      currentPlayer,
+      pending,
+      beforeAlienState,
+      beforePlayerState,
+    );
+    if (!openedFollowUp && pending?.type === "planet_reward_alien_trace") {
+      completeCurrentActionEffect();
+    }
+    updateActionButtons();
+    renderStateReadout();
+    return result;
+  }
+
+  function confirmRunezuTracePlacement(alienSlotId, traceType, position) {
+    const inDebugMode = isDebugAlienTraceMode();
+    if (!runezu || (!isRunezuTracePlacementMode() && !inDebugMode)) {
+      rocketState.statusNote = "请先通过获取外星人标记进入符文族放置模式";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (!canPlaceRunezuTrace(alienSlotId, traceType, position)) {
+      rocketState.statusNote = "该符文族痕迹位不可放置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const currentPlayer = getCurrentPlayer();
+    const pending = pendingAlienTraceAction;
+    const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
+    const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
+    if (!inDebugMode) {
+      pendingAlienTraceAction = null;
+      if (alienTracePickerState?.mode === "runezu-grid") {
+        alienTracePickerState = null;
+      }
+    }
+
+    const result = runezu.placeRunezuTrace(
+      alienGameState,
+      alienSlotId,
+      traceType,
+      position,
+      currentPlayer,
+    );
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderAlienPanels();
+      renderStateReadout();
+      return result;
+    }
+
+    const rewardResult = applyRunezuRewardToPlayer(
+      currentPlayer,
+      result.reward,
+      `符文族${runezu.formatTraceLabel(traceType, Number(position))}`,
+    );
+    rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, runezu.ALIEN_ID)]
+      : [];
+
+    if (pending?.type === "planet_reward_alien_trace") {
+      beginEffectHistoryStep(pending.effectLabel || "符文族痕迹奖励");
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复符文族痕迹奖励前外星人状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复符文族痕迹奖励前玩家状态",
+      ));
+      if (getCurrentActionEffect()) {
+        getCurrentActionEffect().result = {
+          ok: true,
+          undoable: rewardResult.undoable !== false,
+          irreversible: rewardResult.irreversible || null,
+          message: rocketState.statusNote,
+          events: traceEvents,
+          payload: { alienSlotId, traceType, position, reward: result.reward || null },
+        };
+      }
+    } else if (!inDebugMode) {
+      beginQuickActionStep("runezu-trace", rocketState.statusNote);
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复符文族痕迹放置前外星人状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复符文族痕迹放置前玩家状态",
+      ));
+      completeQuickActionStep(null, rewardResult.irreversible ? {
+        irreversibleCode: rewardResult.irreversible.code,
+        irreversibleReason: rewardResult.irreversible.reason,
+      } : {});
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
+    }
+
+    renderAlienPanels();
+    renderPlayerStats();
+    renderPlayerHand();
+    renderReservedCardsFromTaskState();
+
+    const openedFollowUp = openRunezuRewardFollowUps(
       result,
       currentPlayer,
       pending,
@@ -12408,6 +13389,7 @@
       },
     });
     syncTechSelectionChrome();
+    renderRunezuBoardSymbols();
   }
 
   function closeTechBlueSlotPicker() {
@@ -12473,6 +13455,16 @@
     if (result.ok && !result.needsBlueSlotChoice) {
       beginEffectHistoryStep(result.message || "选择科技片", { effectType: "research_tech_select" });
       recordAbilityCommands(result);
+      if (result.firstTake) {
+        const claim = claimRunezuSourceSymbolWithHistory(
+          "tech",
+          result.tileId,
+          getCurrentPlayer(),
+          "研究科技获得符文族symbol",
+        );
+        if (claim?.ok) result.message = `${result.message}；${claim.message}`;
+      }
+      rocketState.statusNote = result.message;
       const current = getCurrentActionEffect();
       if (current) current.result = result;
       onTechTileSelected(result);
@@ -12529,6 +13521,16 @@
     rocketState.statusNote = result.message;
     beginEffectHistoryStep(result.message || "选择科技片", { effectType: "research_tech_select" });
     recordAbilityCommands(result);
+    if (result.firstTake) {
+      const claim = claimRunezuSourceSymbolWithHistory(
+        "tech",
+        result.tileId,
+        getCurrentPlayer(),
+        "研究科技获得符文族symbol",
+      );
+      if (claim?.ok) result.message = `${result.message}；${claim.message}`;
+    }
+    rocketState.statusNote = result.message;
     const current = getCurrentActionEffect();
     if (current) current.result = result;
     onTechTileSelected(result);
@@ -13110,6 +14112,7 @@
     renderYichangdianAnomalyMarkers();
     renderChongPlanetFossilMarkers();
     renderChongFossilOwnerTokens();
+    renderRunezuBoardSymbols();
   }
 
   function getYichangdianAnomalyKey(anomaly) {
@@ -13221,6 +14224,117 @@
     }
   }
 
+  function getRunezuBoardSymbolKey(sourceSymbol) {
+    return `${sourceSymbol.sourceType}:${sourceSymbol.sourceId}`;
+  }
+
+  function getRunezuSourceSymbolPoint(sourceSymbol) {
+    if (sourceSymbol.sourceType === "planet") {
+      const planetLocation = solar.createSolarSnapshot(solarState).planetLocations
+        .find((planet) => planet.planetId === sourceSymbol.sourceId);
+      if (!planetLocation) return null;
+      const boundary = solar.getSectorCoordinateBoundary(planetLocation.x, planetLocation.y);
+      const polar = boundary.polarBoundary || {};
+      if (
+        Number.isFinite(polar.innerRadius)
+        && Number.isFinite(polar.outerRadius)
+        && Number.isFinite(polar.startAngleDegrees)
+        && Number.isFinite(polar.endAngleDegrees)
+      ) {
+        const radius = polar.innerRadius + (polar.outerRadius - polar.innerRadius) * 0.72;
+        const angle = polar.startAngleDegrees + (polar.endAngleDegrees - polar.startAngleDegrees) * 0.72;
+        return solar.polarToGlobalPoint(radius, angle);
+      }
+      return boundary.boardCenter || solar.solarGridToGlobalPoint(planetLocation.x, planetLocation.y);
+    }
+    if (sourceSymbol.sourceType === "sector") {
+      for (let x = 0; x < 8; x += 1) {
+        const nebula = solar.getNebulaAtCoordinate(x, 5, solarState.sectorBySlot);
+        if (nebula?.id !== sourceSymbol.sourceId) continue;
+        const boundary = solar.getSectorCoordinateBoundary(x, 5);
+        const polar = boundary.polarBoundary || {};
+        if (
+          Number.isFinite(polar.innerRadius)
+          && Number.isFinite(polar.outerRadius)
+          && Number.isFinite(polar.startAngleDegrees)
+          && Number.isFinite(polar.endAngleDegrees)
+        ) {
+          const radius = polar.innerRadius + (polar.outerRadius - polar.innerRadius) * 0.38;
+          const angle = polar.startAngleDegrees + (polar.endAngleDegrees - polar.startAngleDegrees) * 0.72;
+          return solar.polarToGlobalPoint(radius, angle);
+        }
+        return boundary.boardCenter || solar.solarGridToGlobalPoint(x, 5);
+      }
+    }
+    return null;
+  }
+
+  function mountRunezuBoardLayerSymbol(sourceSymbol, activeKeys) {
+    if (!els.tokenLayer || !runezu || sourceSymbol.claimedByPlayerId || sourceSymbol.claimedByPlayerColor) return;
+    if (sourceSymbol.sourceType !== "planet" && sourceSymbol.sourceType !== "sector") return;
+    const point = getRunezuSourceSymbolPoint(sourceSymbol);
+    if (!point) return;
+    const key = getRunezuBoardSymbolKey(sourceSymbol);
+    activeKeys.add(key);
+    let element = runezuBoardSymbolElements.get(key);
+    if (!element) {
+      element = document.createElement("img");
+      element.className = "runezu-board-symbol-marker";
+      element.draggable = false;
+      runezuBoardSymbolElements.set(key, element);
+      els.tokenLayer.appendChild(element);
+    }
+    if (element.parentElement !== els.tokenLayer) els.tokenLayer.appendChild(element);
+    element.style.left = `${point.x / 10}%`;
+    element.style.top = `${point.y / 10}%`;
+    element.src = runezu.getSymbolSrc(sourceSymbol.symbolId);
+    element.alt = `符文族 ${sourceSymbol.symbolId}`;
+    element.dataset.runezuSourceType = sourceSymbol.sourceType;
+    element.dataset.runezuSourceId = sourceSymbol.sourceId;
+    element.title = `符文族 ${sourceSymbol.sourceType}:${sourceSymbol.sourceId} ${runezu.formatSymbolLabel(sourceSymbol.symbolId)}`;
+  }
+
+  function mountRunezuTechSymbol(sourceSymbol, activeKeys) {
+    if (!runezu || sourceSymbol.claimedByPlayerId || sourceSymbol.claimedByPlayerColor) return;
+    if (sourceSymbol.sourceType !== "tech") return;
+    const slot = techRenderContext.supplySlots?.[sourceSymbol.sourceId]
+      || document.querySelector(`.tech-slot[data-tech-slot="${sourceSymbol.sourceId}"]`);
+    if (!slot) return;
+    const key = getRunezuBoardSymbolKey(sourceSymbol);
+    activeKeys.add(key);
+    let element = runezuBoardSymbolElements.get(key);
+    if (!element) {
+      element = document.createElement("img");
+      element.className = "runezu-tech-symbol-marker";
+      element.draggable = false;
+      runezuBoardSymbolElements.set(key, element);
+    }
+    const mount = slot.querySelector(".tech-slot-stack") || slot;
+    if (element.parentElement !== mount) mount.appendChild(element);
+    element.src = runezu.getSymbolSrc(sourceSymbol.symbolId);
+    element.alt = `符文族 ${sourceSymbol.symbolId}`;
+    element.dataset.runezuSourceType = sourceSymbol.sourceType;
+    element.dataset.runezuSourceId = sourceSymbol.sourceId;
+    element.title = `符文族科技 ${sourceSymbol.sourceId} ${runezu.formatSymbolLabel(sourceSymbol.symbolId)}`;
+  }
+
+  function renderRunezuBoardSymbols() {
+    if (!runezu) return;
+    const activeKeys = new Set();
+    const sourceSymbols = alienGameState.runezu?.revealInitialized
+      ? runezu.listSourceSymbols(alienGameState)
+      : [];
+    for (const sourceSymbol of sourceSymbols) {
+      mountRunezuBoardLayerSymbol(sourceSymbol, activeKeys);
+      mountRunezuTechSymbol(sourceSymbol, activeKeys);
+    }
+    for (const [key, element] of runezuBoardSymbolElements.entries()) {
+      if (activeKeys.has(key)) continue;
+      element.remove();
+      runezuBoardSymbolElements.delete(key);
+    }
+  }
+
   function createStatText(label, value) {
     const item = document.createElement("span");
     item.className = "player-stat";
@@ -13329,6 +14443,13 @@
     return item;
   }
 
+  function createPlayerStatsRow(className, nodes) {
+    const row = document.createElement("div");
+    row.className = `player-stats-row ${className || ""}`.trim();
+    row.append(...nodes);
+    return row;
+  }
+
   function buildPlayerResourceStatNodes(player, options = {}) {
     const resources = player.resources || players.DEFAULT_RESOURCES;
     const limits = players.RESOURCE_LIMITS;
@@ -13359,6 +14480,18 @@
       createStatIcon("收入数据", income.availableData || 0, RESOURCE_ICON_SRC.data),
       createStatIcon("收入额外公共扫描", income.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
     ];
+  }
+
+  function buildPlayerRunezuStatNodes(player) {
+    if (!runezu || !alienGameState.runezu?.revealInitialized) return [];
+    const counts = runezu.getPlayerSymbolCounts(player);
+    const nodes = [];
+    for (const symbolId of runezu.SYMBOL_IDS || []) {
+      const count = counts[symbolId] || 0;
+      if (count <= 0) continue;
+      nodes.push(createStatIcon(runezu.formatSymbolLabel(symbolId), count, runezu.getSymbolSrc(symbolId)));
+    }
+    return nodes;
   }
 
   function computePlayerFinalScoreBreakdown(player) {
@@ -13474,6 +14607,14 @@
     return row;
   }
 
+  function createOpponentRunezuSymbolRow(player) {
+    const row = createOpponentStatRow("opponent-stat-row-runezu-symbols");
+    const nodes = buildPlayerRunezuStatNodes(player);
+    row.replaceChildren(...nodes);
+    row.hidden = !nodes.length;
+    return row;
+  }
+
   function createOpponentJiuzheRow(player) {
     const cardsForPlayer = jiuzhe?.getPlayerJiuzheCards?.(alienGameState, player) || [];
     const playedCount = jiuzhe?.countPlayedCards?.(alienGameState, player) || 0;
@@ -13510,12 +14651,14 @@
       const incomeRow = createOpponentStatRow("opponent-stat-row-income");
       incomeRow.append(...buildPlayerIncomeStatNodes(player));
       const jiuzheRow = createOpponentJiuzheRow(player);
+      const runezuRow = createOpponentRunezuSymbolRow(player);
 
       card.append(
         createOpponentPlayerHeaderRow(player, player.resources.score, finalScoreBreakdown.totalScore),
         resourcesRow,
         incomeRow,
         ...(jiuzheRow ? [jiuzheRow] : []),
+        ...(runezuRow && !runezuRow.hidden ? [runezuRow] : []),
         ...OPPONENT_TECH_TYPES.map(({ type, prefix, color: techColor }) => (
           createOpponentTechRow(player, type, prefix, techColor)
         )),
@@ -14967,15 +16110,26 @@
     syncFinalScorePendingMarks();
     renderFinalScoreBoard();
 
-    const stats = [
+    const mainStats = [
       createPlayerNameStat(currentPlayer, resources.score, finalScoreBreakdown.totalScore),
       createStatSeparator(),
       ...buildPlayerResourceStatNodes(currentPlayer),
       createStatSeparator(),
       ...buildPlayerIncomeStatNodes(currentPlayer),
     ];
+    const runezuStats = buildPlayerRunezuStatNodes(currentPlayer);
+    const statRows = [
+      createPlayerStatsRow("player-stats-main-row", mainStats),
+    ];
 
-    els.playerStats.replaceChildren(...stats);
+    if (runezuStats.length) {
+      const label = document.createElement("span");
+      label.className = "player-stat player-stat-runezu-label";
+      label.textContent = "符文族";
+      statRows.push(createPlayerStatsRow("player-stats-runezu-row", [label, ...runezuStats]));
+    }
+
+    els.playerStats.replaceChildren(...statRows);
     renderOpponentStats();
     updatePlayerHandPanelTitle();
     renderPlayerHand();
@@ -15011,7 +16165,8 @@
     return [
       "玩家状态",
       `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 额外公共扫描=${resources.additionalPublicScan || 0} 手牌=${resources.handSize} 保留=${reservedCount} 完成任务=${currentPlayer.completedTaskCount || 0} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
-      `终局总分=${finalScoreBreakdown.totalScore}（板块=${finalScoreBreakdown.tileScore || 0} 卡牌=${finalScoreBreakdown.cardScore || 0} 九折=${finalScoreBreakdown.jiuzheCardScore || 0} 威胁=${finalScoreBreakdown.jiuzheThreat || 0}${finalScoreBreakdown.jiuzhePenaltyApplied ? " 已0.9修正" : ""}）`,
+      `终局总分=${finalScoreBreakdown.totalScore}（板块=${finalScoreBreakdown.tileScore || 0} 卡牌=${finalScoreBreakdown.cardScore || 0} 九折=${finalScoreBreakdown.jiuzheCardScore || 0} 符文族=${finalScoreBreakdown.runezuSymbolScore || 0} 威胁=${finalScoreBreakdown.jiuzheThreat || 0}${finalScoreBreakdown.jiuzhePenaltyApplied ? " 已0.9修正" : ""}）`,
+      `符文族symbol ${runezu?.getPlayerSymbolSummary?.(currentPlayer) || "无"}`,
       `收入 信用点=${income.credits || 0} 能量=${income.energy || 0} 手牌=${income.handSize || 0} 宣传=${income.publicity || 0} 数据=${income.availableData || 0}`,
     ];
   }
@@ -16433,6 +17588,37 @@
     return { ok: true, message: rocketState.statusNote };
   }
 
+  function revealRunezuForDebug() {
+    if (!runezu) return { ok: false, message: "符文族模块未加载" };
+    const currentPlayer = getCurrentPlayer();
+    const alienSlotId = 1;
+    const slot = aliens.getAlienSlot(alienGameState, alienSlotId);
+    if (!slot) return { ok: false, message: "找不到外星人 1" };
+
+    slot.assignedAlienId = runezu.ALIEN_ID;
+    slot.alienId = runezu.ALIEN_ID;
+    slot.revealed = true;
+    alienGameState.runezu = runezu.createRunezuState();
+    runezu.initializeRunezuReveal(
+      alienGameState,
+      alienSlotId,
+      currentPlayer,
+      { techBoardState: techGameState.board },
+    );
+    const panelSymbols = runezu.listPanelSymbols(alienGameState);
+
+    enableDebugAlienTraceModeForReveal(
+      `符文族调试：已揭示符文族并按机制默认放置 ${panelSymbols.length} 个白框 symbol（未放置痕迹 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励`,
+    );
+    renderAlienPanels();
+    renderRockets();
+    renderTechBoard();
+    renderPlayerStats();
+    renderReservedCardsFromTaskState();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
+  }
+
   function focusFangzhouDebugCalibration(alienSlotId = 1) {
     setDebugOpen(false);
     window.requestAnimationFrame(() => {
@@ -16472,6 +17658,7 @@
       target?.scrollIntoView?.({ behavior: "smooth", block: "center", inline: "nearest" });
     });
   }
+
 
   function fillNebulaDataBoard(options = {}) {
     const { replace = false, source = "debug", log = false } = options;
@@ -16723,6 +17910,9 @@
     pendingBanrenmaCardGain = null;
     pendingBanrenmaOpportunity = null;
     banrenmaOpportunityQueue = [];
+    pendingRunezuCardGain = null;
+    pendingRunezuSymbolBranch = null;
+    pendingRunezuFaceSymbolPlacement = null;
     industry?.resetAllIndustryActionMarks?.(playerState.players);
     cancelIndustryAbilityFlow({ silent: true });
     randomizePlayerTurnOrder();
@@ -16918,6 +18108,24 @@
       return;
     }
 
+    const runezuGain = event.target.closest("[data-runezu-card-gain]");
+    if (runezuGain && !runezuGain.disabled) {
+      handleRunezuCardGainChoice(runezuGain.dataset.runezuCardGain);
+      return;
+    }
+
+    const runezuFaceSymbol = event.target.closest("[data-runezu-face-symbol-choice]");
+    if (runezuFaceSymbol && !runezuFaceSymbol.disabled) {
+      handleRunezuFaceSymbolChoice(runezuFaceSymbol.dataset.runezuFaceSymbolChoice);
+      return;
+    }
+
+    const runezuBranch = event.target.closest("[data-runezu-symbol-branch]");
+    if (runezuBranch && !runezuBranch.disabled) {
+      handleRunezuSymbolBranchChoice(runezuBranch.dataset.runezuSymbolBranch);
+      return;
+    }
+
     const banrenmaBonus = event.target.closest("[data-banrenma-bonus-choice]");
     if (banrenmaBonus && !banrenmaBonus.disabled) {
       handleBanrenmaBonusChoice(banrenmaBonus.dataset.banrenmaBonusChoice);
@@ -16977,6 +18185,18 @@
       handleAmibaCardGainChoice("cancel");
       return;
     }
+    if (pendingRunezuFaceSymbolPlacement) {
+      handleRunezuFaceSymbolChoice("cancel");
+      return;
+    }
+    if (pendingRunezuSymbolBranch) {
+      handleRunezuSymbolBranchChoice("cancel");
+      return;
+    }
+    if (pendingRunezuCardGain) {
+      handleRunezuCardGainChoice("cancel");
+      return;
+    }
     if (pendingBanrenmaCardGain) {
       handleBanrenmaCardGainChoice("cancel");
       return;
@@ -17021,6 +18241,18 @@
         handleAmibaCardGainChoice("cancel");
         return;
       }
+      if (pendingRunezuFaceSymbolPlacement) {
+        handleRunezuFaceSymbolChoice("cancel");
+        return;
+      }
+      if (pendingRunezuSymbolBranch) {
+        handleRunezuSymbolBranchChoice("cancel");
+        return;
+      }
+      if (pendingRunezuCardGain) {
+        handleRunezuCardGainChoice("cancel");
+        return;
+      }
       if (pendingBanrenmaCardGain) {
         handleBanrenmaCardGainChoice("cancel");
         return;
@@ -17060,6 +18292,8 @@
       || (alienSlot?.revealed && alienSlot.alienId === aliens.CHONG_ALIEN_ID);
     const useAmibaGrid = amiba?.isAmibaRevealedSlot?.(alienGameState, alienSlotId)
       || (alienSlot?.revealed && alienSlot.alienId === aliens.AMIBA_ALIEN_ID);
+    const useRunezuGrid = runezu?.isRunezuRevealedSlot?.(alienGameState, alienSlotId)
+      || (alienSlot?.revealed && alienSlot.alienId === aliens.RUNEZU_ALIEN_ID);
 
     if (pickerStep === "alien") {
       if (useJiuzheGrid) {
@@ -17080,6 +18314,10 @@
       }
       if (useAmibaGrid) {
         beginAmibaTraceGridPlacement(alienSlotId);
+        return;
+      }
+      if (useRunezuGrid) {
+        beginRunezuTraceGridPlacement(alienSlotId);
         return;
       }
       if (useYichangdianGrid) {
@@ -17173,6 +18411,23 @@
           Number(amibaButton.dataset.alienSlot),
           amibaButton.dataset.traceType,
           Number(amibaButton.dataset.amibaPosition),
+        );
+        return;
+      }
+      const runezuButton = event.target.closest("[data-runezu-trace-slot]");
+      if (runezuButton && !runezuButton.disabled && runezuButton.classList.contains("is-placeable")) {
+        confirmRunezuTracePlacement(
+          Number(runezuButton.dataset.alienSlot),
+          runezuButton.dataset.traceType,
+          Number(runezuButton.dataset.runezuPosition),
+        );
+        return;
+      }
+      const runezuFaceButton = event.target.closest("[data-runezu-face-symbol-slot]");
+      if (runezuFaceButton && !runezuFaceButton.disabled && runezuFaceButton.classList.contains("is-placeable")) {
+        openRunezuFaceSymbolPlacement(
+          Number(runezuFaceButton.dataset.alienSlot),
+          Number(runezuFaceButton.dataset.runezuFaceSymbolPosition),
         );
         return;
       }
@@ -17317,6 +18572,9 @@
     const result = revealAmibaForDebug();
     if (result?.ok) focusAmibaDebugCalibration(1);
   });
+  els.debugRunezuButton?.addEventListener("click", () => {
+    revealRunezuForDebug();
+  });
   document.addEventListener("click", (event) => {
     const viewButton = event.target.closest("[data-fangzhou-card-view]");
     if (!viewButton) return;
@@ -17413,6 +18671,14 @@
   els.actionLogTab?.addEventListener("click", () => {
     setReportTab("action");
   });
+  aliens.bindAlienTraceDragging?.({
+    onPositionChange: (payload) => {
+      rocketState.statusNote = payload?.message || "外星人坐标已更新";
+      if (payload?.message) console.info("[外星人坐标拖动]", payload.message, payload);
+      renderAlienPanels();
+      renderStateReadout();
+    },
+  });
   window.addEventListener("resize", resize);
   setTokenAssetSizes();
   setReportTab("state");
@@ -17453,6 +18719,9 @@
     getChongTraceLayoutOverrides: () => structuredClone(aliens.listChongTraceMarkerLayoutOverrides?.() || []),
     getAmibaTraceLayoutOverrides: () => structuredClone(aliens.listAmibaTraceMarkerLayoutOverrides?.() || []),
     getAmibaSymbolLayoutOverrides: () => structuredClone(aliens.listAmibaSymbolMarkerLayoutOverrides?.() || []),
+    getRunezuTraceLayoutOverrides: () => structuredClone(aliens.listRunezuTraceMarkerLayoutOverrides?.() || []),
+    getRunezuPanelSymbolLayoutOverrides: () => structuredClone(aliens.listRunezuPanelSymbolMarkerLayoutOverrides?.() || []),
+    getRunezuFaceSymbolLayoutOverrides: () => structuredClone(aliens.listRunezuFaceSymbolMarkerLayoutOverrides?.() || []),
     getAlienState: () => structuredClone(alienGameState),
     revealJiuzheForDebug,
     revealYichangdianForDebug,
@@ -17460,6 +18729,7 @@
     revealBanrenmaForDebug,
     revealChongForDebug,
     revealAmibaForDebug,
+    revealRunezuForDebug,
     getFinalScoringState: () => structuredClone(finalScoringState),
     markFinalScoreTile: handleFinalScoreTileClick,
     openAlienTracePicker,
@@ -17476,7 +18746,8 @@
         || handleFangzhouRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
         || handleBanrenmaRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
         || handleChongRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
-        || handleAmibaRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer());
+        || handleAmibaRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer())
+        || handleRunezuRevealSideEffects(Number(alienSlotId), revealResult, getCurrentPlayer());
       if (sideEffect?.message) {
         rocketState.statusNote = sideEffect.message;
       }
@@ -17499,7 +18770,8 @@
         || handleFangzhouRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
         || handleBanrenmaRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
         || handleChongRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
-        || handleAmibaRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer());
+        || handleAmibaRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer())
+        || handleRunezuRevealSideEffects(Number(alienSlotId), result, getCurrentPlayer());
       if (sideEffect?.message) result.message = sideEffect.message;
       renderAlienPanels();
       renderRockets();

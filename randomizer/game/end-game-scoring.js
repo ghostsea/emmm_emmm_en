@@ -6,22 +6,24 @@
   let yichangdianModule = root.SetiAlienYichangdian;
   let chongModule = root.SetiAlienChong;
   let amibaModule = root.SetiAlienAmiba;
+  let runezuModule = root.SetiAlienRunezu;
   if (typeof require === "function") {
     finalScoringModule = finalScoringModule || require("./final-scoring");
     jiuzheModule = jiuzheModule || require("./aliens/jiuzhe");
     yichangdianModule = yichangdianModule || require("./aliens/yichangdian");
     chongModule = chongModule || require("./aliens/chong");
     amibaModule = amibaModule || require("./aliens/amiba");
+    runezuModule = runezuModule || require("./aliens/runezu");
   }
 
-  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, chongModule, amibaModule);
+  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, chongModule, amibaModule, runezuModule);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiEndGameScoring = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, chong, amiba) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, chong, amiba, runezu) {
   "use strict";
 
   const NEBULA_IDS_BY_COLOR = Object.freeze({
@@ -119,6 +121,23 @@
     return null;
   }
 
+  function getRunezuModule() {
+    if (runezu) return runezu;
+    if (typeof globalThis !== "undefined" && globalThis.SetiAlienRunezu) {
+      runezu = globalThis.SetiAlienRunezu;
+      return runezu;
+    }
+    if (typeof require === "function") {
+      try {
+        runezu = require("./aliens/runezu");
+        return runezu;
+      } catch (_error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
   function getPlayerKeys(player) {
     return new Set([player?.id, player?.color].filter(Boolean));
   }
@@ -167,6 +186,8 @@
     const chongSlotId = alienGameState?.chong?.revealedSlotId;
     const amibaModule = getAmibaModule();
     const amibaSlotId = alienGameState?.amiba?.revealedSlotId;
+    const runezuModule = getRunezuModule();
+    const runezuSlotId = alienGameState?.runezu?.revealedSlotId;
     for (const [slotId, slot] of Object.entries(alienGameState?.aliens || {})) {
       if (jiuzheModule && jiuzheSlotId != null && Number(slotId) === Number(jiuzheSlotId)) {
         const grid = jiuzheModule.getTraceGrid(alienGameState, jiuzheSlotId);
@@ -188,6 +209,11 @@
       }
       if (amibaModule && amibaSlotId != null && Number(slotId) === Number(amibaSlotId)) {
         const entries = amibaModule.listTraceEntries(alienGameState, amibaSlotId, traceType);
+        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
+        continue;
+      }
+      if (runezuModule && runezuSlotId != null && Number(slotId) === Number(runezuSlotId)) {
+        const entries = runezuModule.listTraceEntries(alienGameState, runezuSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
@@ -352,6 +378,15 @@
     return amibaModule.getFinalTraceTypeForCard(card);
   }
 
+  function getRunezuFinalRule(card) {
+    if (!card?.runezuCard && card?.set !== "alien:符文族" && !String(card?.cardId || "").startsWith("runezu_")) {
+      return null;
+    }
+    const runezuModule = getRunezuModule();
+    if (!runezuModule?.getFinalCardRule) return null;
+    return runezuModule.getFinalCardRule(card);
+  }
+
   function resolveCardEndGameRule(card, cardEffects) {
     const cardId = getCardId(card);
     if (!cardId) return null;
@@ -362,6 +397,8 @@
     if (amibaTraceType) {
       return { kind: "amibaTraceCount", traceType: amibaTraceType, scorePer: 2 };
     }
+    const runezuRule = getRunezuFinalRule(card);
+    if (runezuRule) return { kind: runezuRule.type, multiplier: Number(runezuRule.multiplier) || 1 };
     const model = cardEffects?.getCardModel?.(card);
     if (model?.endGameScoring) return model.endGameScoring;
     const deferred = cardEffects?.getDeferredCardModel?.(card);
@@ -372,28 +409,44 @@
   function scoreCardEndGameRule(rule, player, context) {
     if (!rule) return 0;
     const scorePer = Number(rule.scorePer) || 0;
-    if (!scorePer) return 0;
 
     switch (rule.kind) {
       case "sectorWinsByColor":
+        if (!scorePer) return 0;
         return scorePer * countSectorWinsByColor(player, context.nebulaDataState, rule.color);
       case "traceCount":
+        if (!scorePer) return 0;
         return scorePer * countTraceMarkers(player, context.alienGameState, rule.traceType);
       case "techCount":
+        if (!scorePer) return 0;
         return scorePer * countOwnedTech(player, rule.techType);
       case "distinctSignalSectors":
+        if (!scorePer) return 0;
         return scorePer * countDistinctSignalSectors(player, context.nebulaDataState);
       case "planetOrbitOrLand":
+        if (!scorePer) return 0;
         return scorePer * countPlanetOrbitOrLand(player, context.planetStatsState, rule.planetId);
       case "chongTraceCount": {
+        if (!scorePer) return 0;
         const chongModule = getChongModule();
         if (!chongModule || !context.alienGameState) return 0;
         return scorePer * chongModule.countTraceMarkers(context.alienGameState, player, null);
       }
       case "amibaTraceCount": {
+        if (!scorePer) return 0;
         const amibaModule = getAmibaModule();
         if (!amibaModule || !context.alienGameState) return 0;
         return scorePer * amibaModule.countTraceMarkers(context.alienGameState, player, rule.traceType);
+      }
+      case "runezuMaxSameSymbolCount": {
+        const runezuModule = getRunezuModule();
+        if (!runezuModule) return 0;
+        return (Number(rule.multiplier) || 1) * runezuModule.getMaxSameSymbolCount(player);
+      }
+      case "runezuMaxSetSize": {
+        const runezuModule = getRunezuModule();
+        if (!runezuModule) return 0;
+        return (Number(rule.multiplier) || 1) * runezuModule.getMaxSetSize(player);
       }
       default:
         return 0;
@@ -466,6 +519,12 @@
     return jiuzheModule.scorePlayedCards(context.alienGameState, player, context);
   }
 
+  function computePlayerRunezuSymbolScore(player, context = {}) {
+    const runezuModule = getRunezuModule();
+    if (!runezuModule || !context.alienGameState?.runezu?.revealInitialized) return 0;
+    return runezuModule.scorePlayerSymbols(player);
+  }
+
   function shouldApplyJiuzheThreatPenalty(player, context = {}) {
     const jiuzheModule = getJiuzheModule();
     if (!jiuzheModule || !context.alienGameState) return false;
@@ -478,10 +537,11 @@
     const tileResult = computePlayerTileScore(context.finalScoringState, player, context);
     const cardResult = computePlayerCardScore(player, context);
     const jiuzheResult = computePlayerJiuzheScore(player, context);
+    const runezuSymbolScore = computePlayerRunezuSymbolScore(player, context);
     const tileScore = tileResult.total;
     const cardScore = cardResult.total;
     const jiuzheCardScore = jiuzheResult.total;
-    const prePenaltyTotalScore = baseScore + tileScore + cardScore + jiuzheCardScore;
+    const prePenaltyTotalScore = baseScore + tileScore + cardScore + jiuzheCardScore + runezuSymbolScore;
     const jiuzheModule = getJiuzheModule();
     const jiuzheThreat = jiuzheModule?.getThreat?.(context.alienGameState, player) || 0;
     const jiuzhePenaltyApplied = shouldApplyJiuzheThreatPenalty(player, context);
@@ -495,6 +555,7 @@
       tileScore,
       cardScore,
       jiuzheCardScore,
+      runezuSymbolScore,
       jiuzheThreat,
       jiuzhePenaltyApplied,
       prePenaltyTotalScore,
@@ -527,6 +588,7 @@
     computePlayerTileScore,
     computePlayerCardScore,
     computePlayerJiuzheScore,
+    computePlayerRunezuSymbolScore,
     shouldApplyJiuzheThreatPenalty,
     computePlayerFinalScore,
   });
