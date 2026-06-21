@@ -189,10 +189,11 @@
     const cardButton = document.createElement("button");
     cardButton.type = "button";
     cardButton.className = "company-future-span-card";
+    if (options.cardSelected) cardButton.classList.add("is-selected");
     cardButton.dataset.futureSpanCard = "true";
     cardButton.disabled = !ready || playing || !options.cardSelectable;
     cardButton.title = ready && !playing
-      ? `打出未来跨度目标牌：${getCardLabel(card)}`
+      ? `选择未来跨度目标牌：${getCardLabel(card)}`
       : `未来跨度目标：${Number.isFinite(Number(targetScore)) ? `${targetScore} 分` : "未设定"}`;
     cardButton.setAttribute("aria-label", cardButton.title);
 
@@ -204,15 +205,7 @@
     image.draggable = false;
     cardButton.append(image);
 
-    if (ready && !playing) {
-      const readyToken = document.createElement("img");
-      readyToken.className = "company-future-span-ready-token";
-      readyToken.src = options.futureSpanTokenSrc || FUTURE_SPAN_TOKEN_SRC;
-      readyToken.alt = "";
-      readyToken.decoding = "async";
-      readyToken.draggable = false;
-      cardButton.append(readyToken);
-    } else if (Number.isFinite(Number(targetScore)) && !playing) {
+    if (Number.isFinite(Number(targetScore)) && !playing) {
       const badge = document.createElement("span");
       badge.className = "company-future-span-target";
       badge.textContent = String(targetScore);

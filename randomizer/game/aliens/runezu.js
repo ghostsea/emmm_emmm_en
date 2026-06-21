@@ -295,11 +295,11 @@
   }
 
   function symbolRewardEffect(id, symbolId, label = null) {
-    return effect(id, EFFECT_TYPES.SYMBOL_REWARD, label || `${formatSymbolLabel(symbolId)}奖励`, "alien_trace", { symbolId });
+    return effect(id, EFFECT_TYPES.SYMBOL_REWARD, label || `${formatSymbolLabel(symbolId)}奖励`, symbolId, { symbolId });
   }
 
   function symbolBranchEffect(id, label, branches) {
-    return effect(id, EFFECT_TYPES.SYMBOL_BRANCH, label, "alien_trace", {
+    return effect(id, EFFECT_TYPES.SYMBOL_BRANCH, label, "runezuSymbolBack", {
       branches: branches.map((branch, index) => ({
         id: `${id}-branch-${index + 1}`,
         label: branch.map(formatSymbolLabel).join("+"),

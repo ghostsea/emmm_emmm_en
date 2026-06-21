@@ -391,6 +391,18 @@ body {
   pointer-events: auto;
 }
 
+.app-wrap[data-interaction-focus="hand-cards"].has-future-span-ready-card .reserved-card-panel {
+  position: relative;
+  z-index: 1260;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  border-color: rgba(120, 210, 255, 0.58);
+  box-shadow:
+    0 0 0 1px rgba(120, 210, 255, 0.28),
+    0 18px 42px rgba(0, 0, 0, 0.48);
+}
+
 .app-wrap[data-interaction-focus="tech-panel"] .table-column-left,
 .app-wrap[data-interaction-focus="tech-panel"] .board-column,
 .app-wrap[data-interaction-focus="tech-panel"] .public-card-panel {
@@ -988,8 +1000,6 @@ body {
 }
 
 .alien-runezu-slot.is-stack-hotzone {
-  aspect-ratio: auto;
-  height: 42%;
   border-radius: 999px;
 }
 
@@ -1457,6 +1467,8 @@ body {
 }
 
 .action-bar {
+  position: relative;
+  z-index: 1100;
   display: flex;
   align-items: stretch;
   gap: 6px;
@@ -1814,6 +1826,14 @@ body {
   gap: 10px;
 }
 
+.scan-target-actions.runezu-symbol-branch-choice-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
 .scan-target-option-button.runezu-face-symbol-choice-button {
   display: grid;
   place-items: center;
@@ -1821,6 +1841,19 @@ body {
   height: 48px;
   min-height: 0;
   padding: 4px;
+  border-radius: 999px;
+  text-align: center;
+}
+
+.scan-target-option-button.runezu-symbol-branch-button {
+  width: auto;
+  min-width: 48px;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 4px 6px;
   border-radius: 999px;
   text-align: center;
 }
@@ -1833,6 +1866,10 @@ body {
   border-radius: 50%;
   filter: drop-shadow(0 0 6px rgba(255, 246, 177, 0.45)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.42));
   pointer-events: none;
+}
+
+.runezu-symbol-branch-image {
+  flex: 0 0 auto;
 }
 
 .scan-target-option-button.chong-fossil-choice-button {
@@ -2611,6 +2648,14 @@ body {
   overflow: hidden;
 }
 
+.initial-selection-company-slot.has-company-below-card-markers {
+  aspect-ratio: 691 / 1320;
+}
+
+.initial-selection-company-slot.has-future-span-card-below {
+  aspect-ratio: 691 / 1625;
+}
+
 .company-card-summary {
   position: relative;
   width: calc(var(--card-width) * 2.3 * var(--company-card-display-scale, 1.2));
@@ -2629,7 +2674,7 @@ body {
 
 .company-action-marker-hit {
   position: absolute;
-  z-index: 2;
+  z-index: 12;
   width: calc(var(--company-action-radius, 4.9%) * 2);
   height: calc(var(--company-action-radius, 4.9%) * 2);
   padding: 0;
@@ -2642,12 +2687,29 @@ body {
   transition: background 0.15s ease, box-shadow 0.15s ease;
 }
 
+.company-action-marker-hit--future-span {
+  width: calc(var(--company-action-radius, 4.9%) * 3.2);
+  height: calc(var(--company-action-radius, 4.9%) * 3.2);
+}
+
+.company-action-marker-hit--used {
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+}
+
 .company-action-marker-hit:hover:not(:disabled),
 .company-action-marker-hit:focus-visible:not(:disabled) {
   background: rgba(255, 255, 255, 0.16);
   box-shadow:
     inset 0 0 0 1px rgba(255, 255, 255, 0.32),
     0 0 10px rgba(255, 255, 255, 0.18);
+}
+
+.company-action-marker-hit--used:hover:not(:disabled),
+.company-action-marker-hit--used:focus-visible:not(:disabled) {
+  background: transparent;
+  box-shadow: none;
 }
 
 .company-action-marker-hit:disabled {
@@ -2658,7 +2720,7 @@ body {
 
 .company-action-marker-token {
   position: absolute;
-  z-index: 3;
+  z-index: 13;
   width: calc(var(--company-action-radius, 4.9%) * 3.4 * 0.7);
   height: calc(var(--company-action-radius, 4.9%) * 3.4 * 0.7);
   transform: translate(-50%, -50%);
@@ -2754,11 +2816,11 @@ body {
 .company-alien-lab-panel-strip {
   position: absolute;
   left: 5.6%;
-  top: 30.2%;
+  top: calc(100% + 6px);
   z-index: 5;
   display: flex;
   gap: 1.6%;
-  width: 37.5%;
+  width: 43.125%;
   pointer-events: none;
 }
 
@@ -2773,18 +2835,22 @@ body {
 .company-future-span-layer {
   position: absolute;
   left: 4.8%;
-  top: 39%;
+  top: calc(100% + 6px);
   z-index: 6;
-  width: 37.5%;
-  height: 54%;
+  width: calc(var(--card-width) * 1.25);
+  height: 30%;
   pointer-events: none;
+}
+
+.company-future-span-layer.has-future-card {
+  height: var(--card-height);
 }
 
 .company-future-span-token-button {
   position: absolute;
   left: 5%;
-  bottom: 6%;
-  width: 18%;
+  bottom: 4%;
+  width: 36%;
   aspect-ratio: 1;
   padding: 0;
   border: 0;
@@ -2808,8 +2874,7 @@ body {
   box-shadow: 0 0 14px rgba(120, 210, 255, 0.42);
 }
 
-.company-future-span-token,
-.company-future-span-ready-token {
+.company-future-span-token {
   display: block;
   width: 100%;
   height: 100%;
@@ -2818,9 +2883,10 @@ body {
 
 .company-future-span-card {
   position: absolute;
-  left: 6%;
-  bottom: 5%;
-  width: 30%;
+  left: 0;
+  bottom: 0;
+  width: var(--card-width);
+  height: var(--card-height);
   aspect-ratio: 747 / 1040;
   padding: 0;
   border: 0;
@@ -2836,10 +2902,17 @@ body {
   pointer-events: none;
 }
 
-.company-future-span-layer.is-ready .company-future-span-card:not(:disabled) {
+.company-future-span-layer.is-ready .company-future-span-card {
   outline: 2px solid rgba(110, 236, 169, 0.94);
   outline-offset: 2px;
   animation: tech-tile-highlight-pulse 1.8s ease-in-out infinite;
+}
+
+.company-future-span-card.is-selected {
+  outline: 3px solid rgba(255, 246, 160, 0.98);
+  outline-offset: 4px;
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 0 16px rgba(255, 218, 96, 0.42);
 }
 
 .company-future-span-card-image {
@@ -2852,28 +2925,19 @@ body {
 
 .company-future-span-target {
   position: absolute;
-  right: -14%;
-  top: -8%;
+  right: -28%;
+  top: -16%;
   display: grid;
-  min-width: 22px;
-  height: 22px;
+  min-width: 44px;
+  height: 44px;
   place-items: center;
-  padding: 0 5px;
+  padding: 0 10px;
   border: 1px solid rgba(255, 246, 216, 0.82);
   border-radius: 999px;
   background: rgba(16, 24, 34, 0.92);
   color: rgba(255, 246, 216, 0.98);
-  font: 800 11px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.42);
-}
-
-.company-future-span-ready-token {
-  position: absolute;
-  right: -18%;
-  top: -12%;
-  width: 38%;
-  height: auto;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.52));
+  font: 800 22px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.42);
 }
 
 .initial-selection-empty {
@@ -2923,7 +2987,7 @@ body {
   letter-spacing: 0.02em;
 }
 
-.action-button-pending:not(:disabled) {
+.action-button-pending:not(:disabled):not([aria-disabled="true"]) {
   border-color: rgba(160, 210, 255, 0.62);
   background: rgba(36, 72, 98, 0.94);
   color: #fff;
@@ -2940,12 +3004,12 @@ body {
   filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45));
 }
 
-.action-button:hover:not(:disabled) {
+.action-button:hover:not(:disabled):not([aria-disabled="true"]) {
   border-color: rgba(255, 255, 255, 0.58);
   background: rgba(42, 74, 96, 0.88);
 }
 
-.action-button:active:not(:disabled) {
+.action-button:active:not(:disabled):not([aria-disabled="true"]) {
   transform: scale(0.97);
 }
 
@@ -2980,7 +3044,7 @@ body {
   box-shadow: none;
 }
 
-.action-button-ready:not(:disabled) {
+.action-button-ready:not(:disabled):not([aria-disabled="true"]) {
   border-color: rgba(160, 210, 255, 0.55);
   background: rgba(32, 58, 78, 0.92);
   color: #fff;

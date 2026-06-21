@@ -25,7 +25,7 @@
   const SCAN_ACTION_4_LAUNCH_ENERGY = 1;
 
   const EFFECT_ICONS = Object.freeze({
-    scan_cost: "../assets/symbol/action/scan/earth_scan.png",
+    scan_cost: "../assets/symbol/effect/cost.webp",
     earth_scan: "../assets/symbol/action/scan/earth_scan.png",
     earth_scan_improved: "../assets/symbol/action/scan/earth_scan_improved.png",
     public_card_scan: "../assets/symbol/action/scan/public_card_scan.webp",

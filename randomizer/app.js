@@ -46,6 +46,7 @@
   const REFERENCE_ORBIT_IMAGE_SCALE = 0.0286;
   const REFERENCE_LANDDING_IMAGE_SCALE = 0.0338;
   const RESOURCE_ICON_SRC = Object.freeze({
+    cost: "../assets/symbol/effect/cost.webp",
     score: "../assets/symbol/effect/score.webp",
     finalScore: "../assets/symbol/effect/final_score.webp",
     credits: "../assets/symbol/effect/credits.webp",
@@ -127,6 +128,7 @@
     chongFossilBack: "../assets/aliens/虫/fossil_back.webp",
     chongFossilOk: "../assets/aliens/虫/fossil_ok.webp",
     aomomoFossil: aliens.AOMOMO_FOSSIL_SRC || "../assets/aliens/奥陌陌/fossil.webp",
+    runezuSymbolBack: "../assets/aliens/符文族/symbol_back.png",
   });
   const INCOME_GAIN_LABELS = Object.freeze({
     credits: "信用点",
@@ -315,6 +317,7 @@
     reservedCardPanel: document.getElementById("reserved-card-panel"),
     reservedCardFan: document.getElementById("reserved-card-fan"),
     initialSelectionArea: document.getElementById("initial-selection-area"),
+    actionBarMain: document.getElementById("action-bar-main"),
     actionLaunchButton: document.getElementById("action-launch-button"),
     actionOrbitButton: document.getElementById("action-orbit-button"),
     actionLandButton: document.getElementById("action-land-button"),
@@ -747,12 +750,14 @@
 
     const remainingPlayerId = getInitialSelectionPlayerIds()
       .find((playerId) => !isInitialSelectionConfirmed(playerId));
+    let initialSelectionCompleted = false;
     if (remainingPlayerId) {
       recordInitialSelectionActionLog(player, selectedIndustry, selectedInitialCards);
       setupSelectionState.currentPlayerId = remainingPlayerId;
       playerState.currentPlayerId = remainingPlayerId;
       rocketState.statusNote = `已确认 ${player.colorLabel}玩家，轮到 ${getPlayerLabelById(remainingPlayerId)} 初始选择。`;
     } else {
+      initialSelectionCompleted = true;
       setupSelectionState.phase = "complete";
       setupSelectionState.currentPlayerId = null;
       playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
@@ -779,6 +784,9 @@
     syncInteractionFocusChrome();
     updateActionButtons();
     renderStateReadout();
+    if (initialSelectionCompleted) {
+      scrollToPlayerCommandPanel();
+    }
     if (isInitialIncomeFlowActive()) {
       const latestEntry = actionLogState.entries[actionLogState.entries.length - 1];
       if (latestEntry) delete latestEntry.recoverySnapshot;
@@ -1815,6 +1823,7 @@
     updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
     renderPlayerHand();
+    renderInitialSelectionArea();
     syncInteractionFocusChrome();
   }
 
@@ -1900,6 +1909,19 @@
       panel.scrollIntoView({
         behavior: "smooth",
         block: "center",
+        inline: "nearest",
+      });
+    });
+  }
+
+  function scrollToPlayerCommandPanel() {
+    const panel = els.playerCommand || els.actionEffectBar || els.actionLaunchButton;
+    if (!panel) return;
+
+    requestAnimationFrame(() => {
+      panel.scrollIntoView({
+        behavior: "auto",
+        block: "start",
         inline: "nearest",
       });
     });
@@ -3089,7 +3111,7 @@
 
   function beginPlayCardSelection() {
     if (!canStartMainAction()) {
-      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      rocketState.statusNote = getMainActionStartBlockReason() || "本回合已经开始或完成主要行动";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
@@ -4506,6 +4528,7 @@
     pendingRunezuCardGain = null;
     pendingRunezuSymbolBranch = null;
     pendingRunezuFaceSymbolPlacement = null;
+    els.scanTargetActions?.classList.remove("runezu-face-symbol-choice-grid", "runezu-symbol-branch-choice-grid");
     pendingScanTargetAction = null;
     els.scanTargetOverlay.hidden = true;
     if (els.scanTargetCancel) {
@@ -6299,6 +6322,9 @@
         abilityId: "researchTechSelect",
         icon: "research_tech",
         label: "选择科技片",
+        options: {
+          cost: result.cost || {},
+        },
         status: "pending",
         undoable: true,
       }],
@@ -6633,12 +6659,44 @@
   }
 
   function getActionEffectIconSrc(iconId) {
+    if (runezu?.SYMBOL_IDS?.includes(iconId)) {
+      return runezu.getSymbolSrc(iconId);
+    }
     return scanEffects.EFFECT_ICONS[iconId]
       || planetRewards?.EFFECT_ICONS?.[iconId]
       || TECH_EFFECT_ICONS[iconId]
       || CARD_EFFECT_ICONS[iconId]
       || RESOURCE_ICON_SRC[iconId]
       || "";
+  }
+
+  function getActionEffectCost(effect) {
+    const cost = effect?.options?.cost;
+    if (!cost || typeof cost !== "object" || Array.isArray(cost)) return null;
+    const normalized = Object.fromEntries(
+      Object.entries(cost)
+        .filter(([, value]) => Number.isFinite(Number(value)) && Number(value) > 0)
+        .map(([key, value]) => [key, Math.round(Number(value))]),
+    );
+    return Object.keys(normalized).length ? normalized : null;
+  }
+
+  function getActionEffectCostText(effect) {
+    const cost = getActionEffectCost(effect);
+    return cost ? players.formatResourceCost(cost) : "";
+  }
+
+  function getActionEffectTooltip(effect) {
+    const parts = [effect?.label || "效果"];
+    const costText = getActionEffectCostText(effect);
+    if (costText) parts.push(`消耗：${costText}`);
+    if (effect?.status === "completed" && effect.undoable !== false) parts.push("可撤销");
+    return parts.join("；");
+  }
+
+  function getActionEffectDisplayIconSrc(effect) {
+    const iconId = getActionEffectCostText(effect) ? "cost" : effect?.icon;
+    return getActionEffectIconSrc(iconId);
   }
 
   function getPlanetSectorCoordinate(planetId) {
@@ -6745,19 +6803,17 @@
       button.type = "button";
       button.className = "action-effect-button";
       button.dataset.effectIndex = String(index);
-      button.title = effect.label;
-      button.setAttribute("aria-label", effect.label);
+      const tooltip = getActionEffectTooltip(effect);
+      button.title = tooltip;
+      button.setAttribute("aria-label", tooltip);
       button.disabled = effect.status !== "active";
       button.classList.toggle("is-active", effect.status === "active");
       button.classList.toggle("is-completed", effect.status === "completed");
       button.classList.toggle("is-skipped", effect.status === "skipped");
       button.classList.toggle("is-undoable", effect.status === "completed" && effect.undoable !== false);
-      if (effect.status === "completed" && effect.undoable !== false) {
-        button.title = `${effect.label}（可撤销）`;
-      }
 
       const image = document.createElement("img");
-      image.src = getActionEffectIconSrc(effect.icon);
+      image.src = getActionEffectDisplayIconSrc(effect);
       image.alt = "";
       image.setAttribute("aria-hidden", "true");
       button.append(image);
@@ -6954,6 +7010,13 @@
     const actionType = finishedFlow.actionType;
     clearActionEffectFlow();
     if (actionType === "initialIncome") {
+      if (actionHistory.hasSession()) {
+        actionHistory.commitSession();
+      }
+      clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+      removeActionLogStepsBySource(HISTORY_SOURCE_MAIN);
+      clearActionPending();
+      effectStepActive = false;
       playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
       rocketState.statusNote = "初始收入增加完成，游戏开始。";
       renderDebugPlayerSwitch();
@@ -6963,6 +7026,7 @@
       updateActionButtons();
       renderStateReadout();
       refreshLatestActionLogRecoverySnapshot("初始收入完成后状态");
+      scrollToPlayerCommandPanel();
       return;
     }
     const settleResult = shouldCheckCompletedSectorsAfterFlow(finishedFlow)
@@ -8862,7 +8926,7 @@
 
   function beginScanAction() {
     if (!canStartMainAction()) {
-      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      rocketState.statusNote = getMainActionStartBlockReason() || "本回合已经开始或完成主要行动";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
@@ -9866,13 +9930,16 @@
   }
 
   function handleFutureSpanPlayCardSelect() {
-    if (!isPlayCardSelectionActive()) return;
     const currentPlayer = getCurrentPlayer();
     const card = industry?.getFutureSpanCard?.(currentPlayer);
     if (!card || !hasPlayableFutureSpanCard(currentPlayer)) {
       rocketState.statusNote = "未来跨度目标牌尚未达成";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
+    }
+    if (!isPlayCardSelectionActive()) {
+      const startResult = beginPlayCardSelection();
+      if (!startResult?.ok) return startResult;
     }
 
     const current = getPendingPlayCardSelection();
@@ -13660,6 +13727,7 @@
       els.scanTargetSubtitle.textContent = `选择 1 个 symbol 放入${runezu.formatFaceSymbolSlotLabel(check.position)}并结算奖励。`;
     }
     if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    els.scanTargetActions.classList.remove("runezu-symbol-branch-choice-grid");
     els.scanTargetActions.classList.add("runezu-face-symbol-choice-grid");
     const nodes = check.choices.map((choice) => {
       const button = document.createElement("button");
@@ -13755,6 +13823,7 @@
 
   function closeRunezuSymbolBranchDialog() {
     pendingRunezuSymbolBranch = null;
+    els.scanTargetActions?.classList.remove("runezu-symbol-branch-choice-grid");
     if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
   }
 
@@ -13772,15 +13841,19 @@
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = "符文族符文奖励";
     if (els.scanTargetSubtitle) els.scanTargetSubtitle.textContent = "选择一组 symbol，按黑圈映射依次结算奖励。";
     if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    els.scanTargetActions.classList.remove("runezu-face-symbol-choice-grid");
+    els.scanTargetActions.classList.add("runezu-symbol-branch-choice-grid");
     const nodes = branches.map((branch, index) => {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "scan-target-option-button";
+      button.className = "scan-target-option-button runezu-symbol-branch-button";
       button.dataset.runezuSymbolBranch = String(index);
+      button.title = branch.label || (branch.symbolIds || []).map(runezu.formatSymbolLabel).join("+");
+      button.setAttribute("aria-label", button.title);
       const icons = (branch.symbolIds || []).map((symbolId) => (
-        `<img class="jiuzhe-card-option-image" src="${runezu.getSymbolSrc(symbolId)}" alt="" aria-hidden="true">`
+        `<img class="runezu-face-symbol-choice-image runezu-symbol-branch-image" src="${runezu.getSymbolSrc(symbolId)}" alt="" aria-hidden="true">`
       )).join("");
-      button.innerHTML = `${icons}<small>${branch.label || (branch.symbolIds || []).map(runezu.formatSymbolLabel).join("+")}</small>`;
+      button.innerHTML = icons;
       return button;
     });
     const cancel = document.createElement("button");
@@ -16145,6 +16218,14 @@
     const summary = document.createElement("div");
     summary.className = "initial-selection-company-slot";
     const [companyCard] = selectedCards;
+    if (companyCard?.label === "未来跨度研究所") {
+      summary.classList.add("has-company-below-card-markers");
+      if (industry?.hasFutureSpanCard?.(currentPlayer)) {
+        summary.classList.add("has-future-span-card-below");
+      }
+    } else if (companyCard?.label === "异星实验室") {
+      summary.classList.add("has-company-below-card-markers");
+    }
     summary.replaceChildren(createCompanyCardSummary(companyCard, currentPlayer));
     els.initialSelectionArea.replaceChildren(summary);
     syncInteractionFocusChrome();
@@ -17021,24 +17102,55 @@
 
     const layout = industry?.getIndustryActionMarkerLayout?.(companyCard);
     if (layout && player) {
+      const companyLabel = companyCard.label || "公司牌";
       const marked = industry?.isIndustryActionMarkedThisRound?.(
         player,
         turnState.roundNumber,
         turnState.turnNumber,
       );
-      const canMark = !marked
-        && !isInitialIncomeFlowActive()
-        && industry?.canMarkIndustryAction?.(player, turnState.roundNumber, {
+      const markerCheck = !marked && !isInitialIncomeFlowActive()
+        ? industry?.canMarkIndustryAction?.(player, turnState.roundNumber, {
           turnNumber: turnState.turnNumber,
           hasMarker: true,
           industryCard: companyCard,
-        })?.ok;
+        })
+        : {
+          ok: false,
+          message: marked ? "本轮已使用过公司 1x 行动标记" : "请先完成初始收入增加",
+        };
+      const canMark = Boolean(markerCheck?.ok);
+      const abilityPreview = canMark
+        ? industry?.buildActiveAbilityFlow?.(
+          player,
+          companyLabel,
+          turnState.roundNumber,
+          turnState.turnNumber,
+        )
+        : null;
+      const canUseAction = canMark && Boolean(abilityPreview?.ok);
 
-      if (!marked && canMark) {
+      if (!marked && canUseAction) {
         wrap.classList.add("is-action-marker-pending");
       }
 
       if (marked) {
+        const usedHitArea = document.createElement("button");
+        usedHitArea.type = "button";
+        usedHitArea.className = "company-action-marker-hit company-action-marker-hit--used";
+        if (companyLabel === "未来跨度研究所") {
+          usedHitArea.classList.add("company-action-marker-hit--future-span");
+        }
+        usedHitArea.dataset.companyLabel = companyCard.label || "";
+        usedHitArea.setAttribute("aria-label", `公司 1x 行动标记已使用：${companyLabel}`);
+        usedHitArea.title = "本轮已使用过公司 1x 行动标记";
+        usedHitArea.style.left = `${layout.percentX}%`;
+        usedHitArea.style.top = `${layout.percentY}%`;
+        usedHitArea.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
+        usedHitArea.addEventListener("click", () => {
+          rocketState.statusNote = "本轮已使用过公司 1x 行动标记";
+          renderStateReadout();
+        });
+
         const token = document.createElement("img");
         token.className = "company-action-marker-token";
         token.src = getNormalTokenAssetForPlayer(player);
@@ -17048,26 +17160,33 @@
         token.style.left = `${layout.percentX}%`;
         token.style.top = `${layout.percentY}%`;
         token.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
+        wrap.append(usedHitArea);
         wrap.append(token);
       } else {
         const hitArea = document.createElement("button");
         hitArea.type = "button";
         hitArea.className = "company-action-marker-hit";
+        if (companyLabel === "未来跨度研究所") {
+          hitArea.classList.add("company-action-marker-hit--future-span");
+        }
         hitArea.dataset.companyLabel = companyCard.label || "";
-        hitArea.disabled = !canMark;
+        hitArea.disabled = isInitialIncomeFlowActive();
+        const disabledReason = markerCheck?.message
+          || abilityPreview?.message
+          || "公司 1x 行动标记不可用";
         hitArea.setAttribute(
           "aria-label",
-          canMark
+          canUseAction
             ? `放置公司 1x 行动标记：${companyCard.label || "公司牌"}`
-            : `公司 1x 行动标记不可用：${companyCard.label || "公司牌"}`,
+            : `公司 1x 行动标记不可用：${companyCard.label || "公司牌"}，${disabledReason}`,
         );
-        hitArea.title = canMark
+        hitArea.title = canUseAction
           ? "点击在 1x 区域放置行动标记（每轮一次，可撤销）"
-          : "本轮已放置公司行动标记";
+          : disabledReason;
         hitArea.style.left = `${layout.percentX}%`;
         hitArea.style.top = `${layout.percentY}%`;
         hitArea.style.setProperty("--company-action-radius", `${layout.radiusPercent}%`);
-        if (canMark) {
+        if (!isInitialIncomeFlowActive()) {
           hitArea.addEventListener("click", () => {
             handleCompanyActionMarkerClick(companyCard);
           });
@@ -17108,7 +17227,8 @@
       industry.mountFutureSpanLayer(wrap, player, {
         tokenEnabled: futureCheck.ok,
         tokenTitle: futureCheck.ok ? "点击扣下一张手牌并设置目标分" : futureCheck.message,
-        cardSelectable: isPlayCardSelectionActive(),
+        cardSelectable: isPlayCardSelectionActive() || canStartMainAction(),
+        cardSelected: getPendingPlayCardSelection()?.source === "future_span",
         onTokenClick: () => beginIndustryFutureSpanHandSelection(),
         onCardClick: () => handleFutureSpanPlayCardSelect(),
       });
@@ -17236,7 +17356,12 @@
   }
 
   function handleCompanyActionMarkerClick(companyCard) {
-    if (getGameplayLockReason()) return;
+    const gameplayLockReason = getGameplayLockReason();
+    if (gameplayLockReason) {
+      rocketState.statusNote = gameplayLockReason;
+      renderStateReadout();
+      return { ok: false, message: gameplayLockReason };
+    }
 
     const player = getCurrentPlayer();
     const layout = industry?.getIndustryActionMarkerLayout?.(companyCard);
@@ -17656,17 +17781,23 @@
     return Boolean(pendingActionExecuted || isActionEffectFlowActive());
   }
 
+  function getMainActionStartBlockReason() {
+    const gameplayLockReason = getGameplayLockReason();
+    if (gameplayLockReason) return gameplayLockReason;
+    if (pendingActionExecuted) return "请先回合结束或撤销当前行动";
+    if (isActionEffectFlowActive()) return "请先完成当前行动的效果";
+    if (actionHistory.hasSession()) return "请先回合结束或撤销当前行动";
+    if (hasActivePendingSubFlow()) return "请先完成或取消当前流程";
+    return null;
+  }
+
   function canStartMainAction() {
-    return !getGameplayLockReason()
-      && !pendingActionExecuted
-      && !isActionEffectFlowActive()
-      && !actionHistory.hasSession()
-      && !hasActivePendingSubFlow();
+    return !getMainActionStartBlockReason();
   }
 
   function passForCurrentPlayer() {
     if (!canStartMainAction()) {
-      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      rocketState.statusNote = getMainActionStartBlockReason() || "本回合已经开始或完成主要行动";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
@@ -18107,6 +18238,7 @@
     const movePaymentLocked = isMovePaymentSelectionActive();
     const handScanLocked = isHandScanSelectionActive();
     const effectFlowLocked = isActionEffectFlowActive();
+    const actionHistoryLocked = actionHistory.hasSession();
     const pendingSubFlowLocked = hasActivePendingSubFlow();
     const selectionBlockReason = techSelectionLocked
       ? "请先选择科技或点击取消"
@@ -18166,7 +18298,7 @@
       return;
     }
 
-    if (effectFlowLocked || pendingActionExecuted) {
+    if (effectFlowLocked || pendingActionExecuted || actionHistoryLocked) {
       setActionButtonState(els.actionLaunchButton, false, pendingBlockedReason);
       setActionButtonState(els.actionOrbitButton, false, pendingBlockedReason);
       setActionButtonState(els.actionLandButton, false, pendingBlockedReason);
@@ -18402,7 +18534,7 @@
 
   function runAction(actionId, actionOptions) {
     if (!canStartMainAction()) {
-      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      rocketState.statusNote = getMainActionStartBlockReason() || "本回合已经开始或完成主要行动";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
@@ -18653,7 +18785,7 @@
 
   function landForCurrentPlayer() {
     if (!canStartMainAction()) {
-      rocketState.statusNote = "本回合已经开始或完成主要行动";
+      rocketState.statusNote = getMainActionStartBlockReason() || "本回合已经开始或完成主要行动";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
@@ -19396,14 +19528,40 @@
     };
   }
 
+  function handleMainActionButtonClick(event) {
+    const button = event.target.closest("button");
+    if (!button || !els.actionBarMain?.contains(button)) return;
+    if (button === els.actionQuickButton) return;
+
+    switch (button.id) {
+      case "action-launch-button":
+        launchRocketForCurrentPlayer();
+        break;
+      case "action-orbit-button":
+        orbitForCurrentPlayer();
+        break;
+      case "action-land-button":
+        landForCurrentPlayer();
+        break;
+      case "action-scan-button":
+        beginScanAction();
+        break;
+      case "action-analyze-button":
+        analyzeDataForCurrentPlayer();
+        break;
+      case "action-play-card-button":
+        beginPlayCardSelection();
+        break;
+      case "action-research-tech-button":
+        researchTechForCurrentPlayer();
+        break;
+      default:
+        break;
+    }
+  }
+
   els.spinButton?.addEventListener("click", randomizeAll);
-  els.actionLaunchButton.addEventListener("click", launchRocketForCurrentPlayer);
-  els.actionOrbitButton.addEventListener("click", orbitForCurrentPlayer);
-  els.actionLandButton.addEventListener("click", landForCurrentPlayer);
-  els.actionScanButton?.addEventListener("click", beginScanAction);
-  els.actionAnalyzeButton?.addEventListener("click", analyzeDataForCurrentPlayer);
-  els.actionPlayCardButton?.addEventListener("click", beginPlayCardSelection);
-  els.actionResearchTechButton?.addEventListener("click", researchTechForCurrentPlayer);
+  els.actionBarMain?.addEventListener("click", handleMainActionButtonClick);
   els.techSelectionCancel?.addEventListener("click", cancelTechSelection);
   els.landTargetConfirm?.addEventListener("click", confirmLandTargetPicker);
   els.landTargetCancel?.addEventListener("click", cancelLandTargetPicker);

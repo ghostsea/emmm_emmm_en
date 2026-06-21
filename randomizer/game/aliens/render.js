@@ -2124,8 +2124,43 @@
     return `runezu-face-symbol:${alienSlotId}:${position}`;
   }
 
-  function applyRunezuTraceSlotStyle(slot, layout) {
-    applyTraceTokenStyle(slot, layout, placement.RUNEZU_TRACE_TOKEN_DISPLAY_SCALE || 1);
+  function applyRunezuTraceSlotStyle(slot, layout, position, hasStackEntries) {
+    if (Number(position) !== 1 || !hasStackEntries) {
+      applyTraceTokenStyle(slot, layout, placement.RUNEZU_TRACE_TOKEN_DISPLAY_SCALE || 1);
+      slot.classList.remove("is-stack-hotzone");
+      slot.style.removeProperty("width");
+      slot.style.removeProperty("height");
+      slot.style.removeProperty("aspect-ratio");
+      slot.style.removeProperty("border-radius");
+      delete slot.dataset.hotzoneTopPercent;
+      delete slot.dataset.hotzoneBottomPercent;
+      return;
+    }
+
+    const tokenSize = placement.getRunezuTraceTokenSize?.(layout);
+    if (!tokenSize) {
+      applyTraceTokenStyle(slot, layout, placement.RUNEZU_TRACE_TOKEN_DISPLAY_SCALE || 1);
+      return;
+    }
+
+    const stackStepY = placement.getRunezuStackStepY?.(layout) || tokenSize.radiusXPercent;
+    const hotzoneHeight = tokenSize.heightPercent + stackStepY * 4;
+    const hotzoneBottomY = layout.percentY + tokenSize.radiusYPercent;
+    const hotzoneCenterY = hotzoneBottomY - hotzoneHeight / 2;
+
+    slot.classList.add("is-stack-hotzone");
+    slot.style.position = "absolute";
+    slot.style.left = `${layout.percentX}%`;
+    slot.style.top = `${roundPercent(hotzoneCenterY)}%`;
+    slot.style.width = `${tokenSize.widthPercent}%`;
+    slot.style.height = `${roundPercent(hotzoneHeight)}%`;
+    slot.style.aspectRatio = "auto";
+    slot.style.transform = "translate(-50%, -50%)";
+    slot.style.transformOrigin = "center center";
+    slot.dataset.tracePercentX = String(layout.percentX);
+    slot.dataset.tracePercentY = String(layout.percentY);
+    slot.dataset.hotzoneTopPercent = String(roundPercent(hotzoneBottomY - hotzoneHeight));
+    slot.dataset.hotzoneBottomPercent = String(roundPercent(hotzoneBottomY));
   }
 
   function mountRunezuPanelSymbolMarker(alienSlotId, symbolEntry, layer, activeKeys) {
@@ -2316,13 +2351,12 @@
 
     const layout = getEffectiveRunezuTraceMarkerLayout(alienSlotId, traceType, position, 0);
     if (!layout) return;
-    applyRunezuTraceSlotStyle(slot, layout);
+    applyRunezuTraceSlotStyle(slot, layout, position, entries.length > 0);
     slot.dataset.alienSlot = String(alienSlotId);
     slot.dataset.traceType = traceType;
     slot.dataset.runezuPosition = String(position);
     slot.dataset.runezuTraceSlot = "true";
     slot.classList.toggle("is-placeable", canPlace);
-    slot.classList.toggle("is-stack-hotzone", Number(position) === 1 && entries.length > 0);
     slot.title = `${runezu?.formatTraceLabel?.(traceType, position) || traceType} @(${layout.percentX}%,${layout.percentY}%)`;
     slot.setAttribute("aria-label", `${placement.getAlienSlotLabel(alienSlotId)} ${slot.title}`);
   }

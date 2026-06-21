@@ -24,6 +24,8 @@
   const ALIEN_TRACE_TOKEN_BASE_WIDTH_PERCENT = 14;
   const ALIEN_STATE_REFERENCE_WIDTH = 443;
   const ALIEN_STATE_REFERENCE_HEIGHT = 208;
+  const RUNEZU_FACE_REFERENCE_WIDTH = 2672;
+  const RUNEZU_FACE_REFERENCE_HEIGHT = 5713;
 
   const ALIEN_TRACE_TOKEN_DISPLAY_SCALE = 7;
   const ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE = 5;
@@ -646,7 +648,7 @@
     if (!layout) return null;
     const visualScale = getTraceTokenVisualScale(layout, RUNEZU_TRACE_TOKEN_DISPLAY_SCALE);
     const widthPercent = ALIEN_TRACE_TOKEN_BASE_WIDTH_PERCENT * visualScale;
-    const heightPercent = widthPercent * (ALIEN_STATE_REFERENCE_WIDTH / ALIEN_STATE_REFERENCE_HEIGHT);
+    const heightPercent = widthPercent * (RUNEZU_FACE_REFERENCE_WIDTH / RUNEZU_FACE_REFERENCE_HEIGHT);
     return {
       widthPercent: roundPercent(widthPercent),
       heightPercent: roundPercent(heightPercent),

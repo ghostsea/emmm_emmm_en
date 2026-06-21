@@ -11,6 +11,8 @@ const noPurpleQueue = scanEffects.buildScanEffectQueue(basePlayer);
 assert.equal(noPurpleQueue.length, 3);
 assert.equal(noPurpleQueue[0].type, scanEffects.EFFECT_TYPES.PAY_SCAN_COST);
 assert.equal(noPurpleQueue[0].abilityId, "payScanCost");
+assert.equal(noPurpleQueue[0].icon, "scan_cost");
+assert.match(scanEffects.EFFECT_ICONS.scan_cost, /cost\.webp$/);
 assert.equal(noPurpleQueue[1].type, scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN);
 assert.equal(noPurpleQueue[1].icon, "earth_scan");
 assert.equal(noPurpleQueue[2].type, scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN);

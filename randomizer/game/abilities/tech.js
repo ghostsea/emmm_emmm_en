@@ -101,7 +101,7 @@
       message: "请选择要研究的科技板块",
       undoable: true,
       commands: [],
-      cost: {},
+      cost: skipCost ? {} : { publicity: researchCost },
       payload: { takeable, allowedTechTypes: techTypeOptions.techTypes || null },
       events: [],
       awaitingTileSelection: true,
