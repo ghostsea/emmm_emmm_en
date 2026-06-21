@@ -2821,15 +2821,49 @@ body {
   display: flex;
   gap: 1.6%;
   width: 43.125%;
-  pointer-events: none;
+  pointer-events: auto;
+}
+
+.company-alien-lab-panel-button {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  cursor: default;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.company-alien-lab-panel-button.is-face-up {
+  cursor: pointer;
+  border-color: rgba(120, 210, 255, 0.78);
+  box-shadow:
+    0 0 0 1px rgba(120, 210, 255, 0.18),
+    0 0 10px rgba(120, 210, 255, 0.28);
+}
+
+.company-alien-lab-panel-button.is-face-up:hover,
+.company-alien-lab-panel-button.is-face-up:focus-visible {
+  border-color: rgba(190, 238, 255, 0.96);
+  box-shadow:
+    0 0 0 1px rgba(190, 238, 255, 0.24),
+    0 0 14px rgba(120, 225, 255, 0.42);
+  transform: translateY(-2px);
+}
+
+.company-alien-lab-panel-button:disabled {
+  cursor: default;
+  opacity: 0.72;
 }
 
 .company-alien-lab-tile {
-  flex: 1 1 0;
-  min-width: 0;
+  display: block;
+  width: 100%;
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.44));
+  pointer-events: none;
 }
 
 .company-future-span-layer {

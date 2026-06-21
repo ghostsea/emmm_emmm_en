@@ -16876,6 +16876,38 @@
     scan: "yellow",
     researchTech: "pink",
   });
+  const ALIEN_LAB_PANEL_MAIN_ACTION = Object.freeze({
+    blue: "launch",
+    yellow: "scan",
+    pink: "researchTech",
+  });
+
+  function handleAlienLabPanelClick(panelId) {
+    const player = getCurrentPlayer();
+    if (!player || !industry?.shouldShowAlienLabPanels?.(player)) {
+      rocketState.statusNote = "当前玩家没有异星实验室";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    if (industry?.isAlienLabPanelFaceUp?.(player, panelId) !== true) {
+      rocketState.statusNote = "异星实验室板块已翻面，无法触发";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    switch (ALIEN_LAB_PANEL_MAIN_ACTION[panelId]) {
+      case "launch":
+        return launchRocketForCurrentPlayer();
+      case "scan":
+        return beginScanAction();
+      case "researchTech":
+        return researchTechForCurrentPlayer();
+      default:
+        rocketState.statusNote = `未知异星实验室板块：${panelId || "无"}`;
+        renderStateReadout();
+        return { ok: false, message: rocketState.statusNote };
+    }
+  }
 
   function createAlienLabRestoreCommand(player, snapshot, label) {
     return {
@@ -17227,7 +17259,9 @@
     }
 
     if (player && industry?.shouldShowAlienLabPanels?.(player)) {
-      industry.mountAlienLabLayer(wrap, player);
+      industry.mountAlienLabLayer(wrap, player, {
+        onPanelClick: handleAlienLabPanelClick,
+      });
     }
 
     if (player && industry?.shouldShowFutureSpanPanel?.(player)) {

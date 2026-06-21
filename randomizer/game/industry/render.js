@@ -144,15 +144,28 @@
       const asset = ALIEN_LAB_PANEL_ASSETS[panelId];
       if (!asset) continue;
       const faceUp = state.isAlienLabPanelFaceUp?.(player, panelId) !== false;
+      const panelButton = document.createElement("button");
+      panelButton.type = "button";
+      panelButton.className = `company-alien-lab-panel-button company-alien-lab-panel-button--${panelId}`;
+      panelButton.classList.toggle("is-face-up", faceUp);
+      panelButton.disabled = !faceUp;
+      panelButton.dataset.alienLabPanel = panelId;
+      panelButton.title = faceUp
+        ? `${asset.label}：点击执行对应主要行动`
+        : `${asset.label}：背面，获取对应颜色外星痕迹后恢复`;
+      panelButton.setAttribute("aria-label", panelButton.title);
+
       const panel = document.createElement("img");
       panel.className = `company-alien-lab-tile company-alien-lab-tile--${panelId}`;
       panel.src = faceUp ? asset.front : asset.back;
       panel.alt = "";
       panel.decoding = "async";
       panel.draggable = false;
-      panel.dataset.alienLabPanel = panelId;
-      panel.title = `${asset.label}：${faceUp ? "正面" : "背面"}`;
-      panelStrip.append(panel);
+      panelButton.append(panel);
+      if (faceUp && typeof options.onPanelClick === "function") {
+        panelButton.addEventListener("click", () => options.onPanelClick(panelId, player));
+      }
+      panelStrip.append(panelButton);
     }
 
     wrap.append(panelStrip);

@@ -100,7 +100,7 @@
 | `fenwick_research_cost` | 芬威克研究中心 | 研究科技宣传 5（默认 6） | `tech/resolver.js`、`abilities/tech.js` |
 | `deepspace_free_analyze` | 深空探测 | 分析数据不耗能量 | `abilities/data.js` |
 | `future_span_parking` | 未来跨度研究所 | 专属标记扣牌、目标分、达标后免费打出 | `app.js` 公司牌叠层与打牌流程 |
-| `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
+| `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；正面板块可点击并等同触发对应主要行动；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
 
 图灵借用：`players.playerOwnsTech` 在拥有板块之外，若 `industryBorrowedTechTileId === tileId` 且借用轮有效，也视为拥有；新轮开始会清空借用运行时状态。
 
