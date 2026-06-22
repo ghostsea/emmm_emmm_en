@@ -2537,6 +2537,14 @@ body {
   outline-offset: 3px;
 }
 
+.reserved-card-banrenma-ready-badge {
+  top: auto;
+  bottom: -10px;
+  border-color: rgba(169, 255, 176, 0.86);
+  background: rgba(24, 82, 42, 0.96);
+  box-shadow: 0 0 12px rgba(99, 230, 124, 0.36);
+}
+
 .reserved-card-content {
   display: flex;
   align-items: flex-start;

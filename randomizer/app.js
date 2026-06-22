@@ -16666,6 +16666,45 @@
     return effects.map((effect) => effect.label).join("；") || "无条件效果";
   }
 
+  function openBanrenmaCardConditionCompletionPicker(card) {
+    const player = getCurrentPlayer();
+    if (!banrenma || !player || !card || !banrenma.isBanrenmaCard(card)) {
+      return { ok: false, message: "没有可结算的半人马牌" };
+    }
+    if (!els.scanTargetOverlay || !els.scanTargetActions) {
+      return { ok: false, message: "无法打开半人马条件确认窗口" };
+    }
+    const ready = getReadyBanrenmaCards(player).find(({ card: item }) => item.id === card.id);
+    if (!ready) {
+      rocketState.statusNote = "这张半人马牌尚未达到阈值";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const mark = banrenma.getPlayerScoreMarks(alienGameState, player)
+      .find((item) => item.id === card.banrenmaScoreMarkId || item.cardInstanceId === card.id);
+    pendingBanrenmaOpportunity = {
+      playerId: player.id,
+      type: "card",
+      markId: mark?.id || card.banrenmaScoreMarkId || null,
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "半人马条件效果";
+    if (els.scanTargetSubtitle) {
+      const threshold = mark?.threshold ?? card.banrenmaThreshold ?? "阈值";
+      els.scanTargetSubtitle.textContent = `${cards.getCardLabel(card)} 已达到 ${threshold} 分，确认后弃掉该牌并结算条件效果。`;
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    const confirmButton = document.createElement("button");
+    confirmButton.type = "button";
+    confirmButton.className = "scan-target-option-button";
+    confirmButton.dataset.banrenmaCardChoice = card.id;
+    confirmButton.innerHTML = `确认结算条件<small>${getBanrenmaCardConditionLabel(card)}</small>`;
+    els.scanTargetActions.replaceChildren(confirmButton);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "半人马条件已达成：点击确认结算";
+    renderStateReadout();
+    return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
   function openBanrenmaOpportunityDialog(player, opportunity) {
     if (!banrenma || !player || !opportunity || !els.scanTargetOverlay || !els.scanTargetActions) {
       return { ok: false, message: "无法打开半人马奖励窗口" };
@@ -20292,6 +20331,12 @@
     badge.append(icon, value);
 
     button.append(image, badge);
+    if (ready) {
+      const readyBadge = document.createElement("span");
+      readyBadge.className = "reserved-card-task-badge reserved-card-banrenma-ready-badge";
+      readyBadge.textContent = "结算条件";
+      button.append(readyBadge);
+    }
     return button;
   }
 
@@ -25040,6 +25085,13 @@
     const jiuzheButton = event.target.closest("[data-jiuzhe-cards]");
     if (jiuzheButton) {
       openJiuzheCardDialog(getCurrentPlayer());
+      return;
+    }
+    const banrenmaButton = event.target.closest("[data-banrenma-reserved-index]");
+    if (banrenmaButton && !banrenmaButton.disabled) {
+      const currentPlayer = getCurrentPlayer();
+      const card = currentPlayer?.reservedCards?.[Number(banrenmaButton.dataset.banrenmaReservedIndex)];
+      if (card) openBanrenmaCardConditionCompletionPicker(card);
       return;
     }
     const button = event.target.closest("[data-reserved-index]");
