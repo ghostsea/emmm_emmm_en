@@ -49,6 +49,7 @@
 - `docs/card-modeling-dsl-spec.md`：卡牌描述转换为可执行 DSL 的规范。
 - `docs/card-ability-migration-plan.md`：基础卡能力迁移状态、已实现/部分实现/延后清单。
 - `docs/alien-design.md`：外星人通用设计总结与新增外星人检查清单。
+- `docs/ai-player-design.md`：电脑玩家（AI 自动机）的分层、接口契约（GameState/决策总线/PlayerAgent）与里程碑。
 - `assets/final/final_detail.md`：终局计分 a/b/c/d 板块的规则公式。
 - `assets/industry/industry-abilities.md`：公司牌主动/被动能力设计与建模说明。
 

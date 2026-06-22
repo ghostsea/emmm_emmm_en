@@ -33,6 +33,7 @@
   const runezu = aliens.runezu;
   const initialCards = window.SetiInitialCards;
   const industry = window.SetiIndustry;
+  const ai = window.SetiAI;
 
   /** 与官网 main.js 一致的每层转盘随机偏移基数 */
   const WHEEL_OFFSETS = [0, 0, 20, 11, 4];
@@ -331,6 +332,17 @@
     draft: null,
     nextEntryId: 1,
     activeReportTab: "state",
+  };
+  const aiAutoBattleState = {
+    enabled: false,
+    running: false,
+    playerIds: [],
+    logs: [],
+    bugs: [],
+    bugCounts: {},
+    maxBugRepeats: 3,
+    stepDelayMs: 0,
+    lastSummary: null,
   };
   let effectStepActive = false;
   let moveHighlightRocketId = null;
@@ -1002,6 +1014,392 @@
   function getPlayerLabelById(playerId) {
     const player = getPlayerById(playerId);
     return player ? player.colorLabel || player.name || player.id : playerId;
+  }
+
+  function createAiAutoBattleEntry(type, message, details = {}) {
+    const currentPlayer = getCurrentPlayer();
+    return {
+      id: aiAutoBattleState.logs.length + aiAutoBattleState.bugs.length + 1,
+      type,
+      roundNumber: turnState.roundNumber,
+      turnNumber: turnState.turnNumber,
+      playerId: currentPlayer?.id || playerState.currentPlayerId || null,
+      playerLabel: currentPlayer?.colorLabel || currentPlayer?.name || null,
+      message: String(message || ""),
+      details: structuredClone(details || {}),
+      createdAt: new Date().toISOString(),
+    };
+  }
+
+  function recordAiAutoBattleLog(type, message, details = {}) {
+    const entry = createAiAutoBattleEntry(type, message, details);
+    aiAutoBattleState.logs.push(entry);
+    return entry;
+  }
+
+  function recordAiAutoBattleBug(message, details = {}) {
+    const key = String(message || "unknown");
+    aiAutoBattleState.bugCounts[key] = (aiAutoBattleState.bugCounts[key] || 0) + 1;
+    const entry = createAiAutoBattleEntry("bug", key, {
+      ...details,
+      repeatCount: aiAutoBattleState.bugCounts[key],
+    });
+    aiAutoBattleState.bugs.push(entry);
+    return entry;
+  }
+
+  function getAiAutoBattleReport() {
+    return structuredClone({
+      enabled: aiAutoBattleState.enabled,
+      running: aiAutoBattleState.running,
+      playerIds: aiAutoBattleState.playerIds,
+      logs: aiAutoBattleState.logs,
+      bugs: aiAutoBattleState.bugs,
+      lastSummary: aiAutoBattleState.lastSummary,
+    });
+  }
+
+  function getAiAutoBattlePlayerIds() {
+    return aiAutoBattleState.playerIds.filter((playerId) => getPlayerById(playerId));
+  }
+
+  function isAiAutoBattlePlayer(playerId = playerState.currentPlayerId) {
+    return aiAutoBattleState.enabled
+      && getAiAutoBattlePlayerIds().includes(playerId);
+  }
+
+  function resolveAiAutoBattlePlayerIds(options = {}) {
+    const requested = Array.isArray(options.playerIds)
+      ? options.playerIds
+      : Array.isArray(options.colors)
+        ? options.colors
+        : [];
+    const resolved = requested
+      .map((reference) => (
+        getPlayerById(reference)
+        || getPlayerByColor(reference)
+        || null
+      ))
+      .filter(Boolean)
+      .map((player) => player.id);
+    if (resolved.length) return [...new Set(resolved)];
+
+    const requestedCount = Math.max(
+      1,
+      Math.round(Number(options.activePlayerCount) || turnState.activePlayerCount || DEFAULT_ACTIVE_PLAYER_COUNT),
+    );
+    return (turnState.activePlayerIds || [])
+      .filter((playerId) => getPlayerById(playerId))
+      .slice(0, requestedCount);
+  }
+
+  function setAiAutoBattlePlayers(options = {}) {
+    const playerIds = resolveAiAutoBattlePlayerIds(options);
+    if (!playerIds.length) {
+      return { ok: false, message: "没有可配置为电脑玩家的玩家" };
+    }
+    aiAutoBattleState.enabled = true;
+    aiAutoBattleState.playerIds = playerIds;
+    recordAiAutoBattleLog("config", `电脑玩家：${playerIds.map(getPlayerLabelById).join("、")}`, { playerIds });
+    return { ok: true, playerIds: [...playerIds], message: "电脑玩家已配置" };
+  }
+
+  function resetGameForAiAutoBattle(options = {}) {
+    const activePlayerCount = Math.min(
+      Math.max(1, Math.round(Number(options.activePlayerCount) || turnState.activePlayerCount || DEFAULT_ACTIVE_PLAYER_COUNT)),
+      players.PLAYER_COLOR_IDS.length,
+    );
+    if (options.clearLogs !== false) {
+      aiAutoBattleState.logs = [];
+      aiAutoBattleState.bugs = [];
+      aiAutoBattleState.bugCounts = {};
+      aiAutoBattleState.lastSummary = null;
+    }
+    clearTransientStateForRecovery();
+    restoreMutableObject(solarState, solar.createBaselineState());
+    restoreMutableObject(nebulaDataState, data.createDefaultNebulaDataState());
+    restoreMutableObject(alienGameState, aliens.createDefaultAlienState());
+    restoreMutableObject(finalScoringState, finalScoring.createFinalScoringState(FINAL_SCORE_IDS));
+    restoreMutableObject(playerState, players.createPlayerState({
+      players: players.PLAYER_COLOR_IDS.map((color) => ({ color })),
+      currentPlayerColor: DEFAULT_INITIAL_PLAYER_COLOR,
+    }));
+    restoreMutableObject(turnState, createTurnState(playerState.players, {
+      activePlayerCount,
+      currentPlayerId: playerState.currentPlayerId,
+    }));
+    restoreMutableObject(rocketState, rocketActions.createRocketState());
+    restoreMutableObject(planetStatsState, planetStats.createPlanetStatsState());
+    restoreMutableObject(techGameState, tech.createState());
+    restoreMutableObject(cardState, cards.createCardState());
+    restoreMutableObject(cardTaskState, cardTaskStateModule.createTaskState());
+    historyStepOrder.length = 0;
+    effectStepActive = false;
+    scanRunSequence = 0;
+    resetActionLog();
+    initializeCardGame(DEFAULT_INITIAL_HAND_COUNT);
+    randomizeAll();
+    startInitialSelection();
+    return {
+      ok: true,
+      activePlayerCount,
+      playerIds: [...turnState.activePlayerIds],
+      message: "AI 自动对战新局已重置",
+    };
+  }
+
+  function configureAiAutoBattle(options = {}) {
+    if (options.reset) {
+      const resetResult = resetGameForAiAutoBattle(options);
+      if (!resetResult.ok) return resetResult;
+    }
+    if (options.activePlayerCount && !options.reset) {
+      const playerIds = playerState.players.map((player) => player.id);
+      setTurnStatePlayerOrder(playerIds, { activePlayerCount: options.activePlayerCount });
+      startInitialSelection();
+    }
+    if (options.stepDelayMs != null) {
+      aiAutoBattleState.stepDelayMs = Math.max(0, Math.round(Number(options.stepDelayMs) || 0));
+    }
+    if (options.maxBugRepeats != null) {
+      aiAutoBattleState.maxBugRepeats = Math.max(1, Math.round(Number(options.maxBugRepeats) || 1));
+    }
+    const configResult = setAiAutoBattlePlayers(options);
+    updateActionButtons();
+    renderStateReadout();
+    return configResult;
+  }
+
+  function chooseInitialSelectionForAiPlayer() {
+    if (!isInitialSelectionActive()) return null;
+    const playerId = playerState.currentPlayerId;
+    if (!isAiAutoBattlePlayer(playerId)) {
+      return { ok: false, blocked: true, message: `${getPlayerLabelById(playerId)}不是电脑玩家，等待人类初始选择` };
+    }
+    const offer = getInitialSelectionOffer(playerId);
+    if (!offer || offer.confirmed) return { ok: false, message: "没有可用初始选择" };
+    const decision = ai?.policy?.chooseInitialSelection?.(offer, { roundNumber: turnState.roundNumber }) || {};
+    const industryCard = decision.industry || offer.industryOptions?.[0] || null;
+    const initialSelection = decision.initialCards?.length
+      ? decision.initialCards
+      : (offer.initialOptions || []).slice(0, INITIAL_SELECTION_REQUIRED.initial);
+    if (!industryCard || initialSelection.length < INITIAL_SELECTION_REQUIRED.initial) {
+      return { ok: false, message: "AI 初始选择候选不足" };
+    }
+    offer.selectedIndustryId = industryCard.id;
+    offer.selectedInitialIds = initialSelection
+      .slice(0, INITIAL_SELECTION_REQUIRED.initial)
+      .map((card) => card.id);
+    recordAiAutoBattleLog(
+      "initial-selection",
+      `${getPlayerLabelById(playerId)}选择 ${industryCard.label || industryCard.id}`,
+      { industryCard, initialCards: initialSelection },
+    );
+    confirmInitialSelectionForCurrentPlayer();
+    return { ok: true, progressed: true, message: "AI 初始选择完成" };
+  }
+
+  function runAiDiscardDecision() {
+    if (!isDiscardSelectionActive() || !pendingDiscardAction) return null;
+    const player = pendingDiscardAction.player || getCurrentPlayer();
+    if (!isAiAutoBattlePlayer(player?.id)) {
+      return { ok: false, blocked: true, message: `${player?.colorLabel || "当前玩家"}需要人工弃牌` };
+    }
+    const count = cards.getDiscardRemaining(cardState);
+    const selectedIndexes = ai?.policy?.chooseDiscardIndexes?.(player.hand || [], count)
+      || Array.from({ length: count }, (_item, index) => index);
+    pendingDiscardAction.selectedIndexes = selectedIndexes.slice(0, count);
+    recordAiAutoBattleLog("discard", `${player.colorLabel}AI 弃牌 ${pendingDiscardAction.selectedIndexes.length} 张`, {
+      selectedIndexes: pendingDiscardAction.selectedIndexes,
+      pendingType: pendingDiscardAction.type || null,
+    });
+    return finalizePendingDiscardSelection();
+  }
+
+  function runAiPassReserveDecision() {
+    if (!pendingPassReserveSelection) return null;
+    const player = getPlayerById(pendingPassReserveSelection.playerId) || getCurrentPlayer();
+    if (!isAiAutoBattlePlayer(player?.id)) {
+      return { ok: false, blocked: true, message: `${player?.colorLabel || "当前玩家"}需要人工选择 PASS 预留牌` };
+    }
+    const pile = getPassReserveSelectionCards();
+    const card = ai?.policy?.choosePassReserveCard?.(pile) || pile[0] || null;
+    if (!card) return { ok: false, message: "PASS 预留牌堆为空" };
+    selectPassReserveCard(card.id);
+    recordAiAutoBattleLog("pass-reserve", `${player.colorLabel}AI 选择 PASS 预留牌`, { card });
+    return confirmPassReserveSelection();
+  }
+
+  function enumerateAiTurnActions() {
+    const context = createActionContext();
+    const candidates = [];
+    if (pendingActionExecuted && !isActionEffectFlowActive() && !hasActivePendingSubFlow()) {
+      candidates.push({ id: "end-turn", kind: "end-turn", available: true });
+      return candidates;
+    }
+    if (!canStartMainAction()) return candidates;
+
+    const launchCheck = actions.canExecute("launch", context);
+    candidates.push({
+      id: "launch",
+      kind: "main",
+      available: launchCheck.ok,
+      reason: launchCheck.message || null,
+    });
+    candidates.push({
+      id: "pass",
+      kind: "pass",
+      available: true,
+      reason: null,
+    });
+    return candidates;
+  }
+
+  function runAiTurnActionDecision() {
+    const currentPlayer = getCurrentPlayer();
+    if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
+      return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}不是电脑玩家` };
+    }
+    const candidates = enumerateAiTurnActions();
+    const action = ai?.policy?.chooseTurnAction?.(candidates, {
+      playerState,
+      turnState,
+      currentPlayer,
+    }) || null;
+    if (!action) {
+      return { ok: false, blocked: true, message: "AI 没有可执行行动", candidates };
+    }
+    recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI 执行 ${action.id}`, { action, candidates });
+    if (action.id === "end-turn") {
+      endCurrentTurn();
+      return { ok: true, progressed: true, action };
+    }
+    if (action.id === "launch") {
+      return runAction("launch");
+    }
+    if (action.id === "pass") {
+      return passForCurrentPlayer();
+    }
+    return { ok: false, message: `AI 尚不支持行动 ${action.id}` };
+  }
+
+  function runAiActionEffectStep() {
+    if (!pendingActionEffectFlow) return null;
+    const playerId = pendingActionEffectFlow.playerId || playerState.currentPlayerId;
+    if (playerId && !isAiAutoBattlePlayer(playerId)) {
+      return { ok: false, blocked: true, message: `${getPlayerLabelById(playerId)}需要人工处理效果` };
+    }
+    const effect = getCurrentActionEffect();
+    if (!effect) return { ok: false, message: "没有当前效果" };
+    recordAiAutoBattleLog("effect", `AI 处理效果：${effect.label || effect.type}`, {
+      effectId: effect.id || null,
+      effectType: effect.type || null,
+    });
+    return executeActionEffect(effect);
+  }
+
+  function runAiAutomationStep() {
+    try {
+      if (!ai?.policy) return { ok: false, blocked: true, message: "SetiAI 未加载" };
+      if (isGameEnded()) return { ok: true, done: true, message: "游戏已结束" };
+
+      const initialResult = chooseInitialSelectionForAiPlayer();
+      if (initialResult) return initialResult;
+
+      const discardResult = runAiDiscardDecision();
+      if (discardResult) return discardResult;
+
+      const passReserveResult = runAiPassReserveDecision();
+      if (passReserveResult) return passReserveResult;
+
+      const effectResult = runAiActionEffectStep();
+      if (effectResult) return effectResult;
+
+      if (hasActivePendingSubFlow()) {
+        return { ok: false, blocked: true, message: "AI 遇到尚未收口的 pending 流程" };
+      }
+
+      return runAiTurnActionDecision();
+    } catch (error) {
+      const entry = recordAiAutoBattleBug(error?.message || String(error), {
+        stack: error?.stack || null,
+      });
+      return { ok: false, blocked: true, bug: entry, message: entry.message };
+    }
+  }
+
+  function waitAiAutoBattleDelay(delayMs) {
+    const delay = Math.max(0, Math.round(Number(delayMs) || 0));
+    if (!delay) return Promise.resolve();
+    return new Promise((resolve) => window.setTimeout(resolve, delay));
+  }
+
+  async function runAiAutoBattle(options = {}) {
+    if (aiAutoBattleState.running) {
+      return { ok: false, message: "AI 自动对战已经在运行" };
+    }
+    const configResult = configureAiAutoBattle({
+      ...options,
+      reset: options.reset === true,
+    });
+    if (!configResult.ok) return configResult;
+
+    const maxSteps = Math.max(1, Math.round(Number(options.maxSteps) || 200));
+    const delayMs = options.stepDelayMs ?? aiAutoBattleState.stepDelayMs;
+    aiAutoBattleState.running = true;
+    const summary = {
+      ok: true,
+      steps: 0,
+      stopped: false,
+      blocked: false,
+      gameEnded: false,
+      message: null,
+    };
+    recordAiAutoBattleLog("start", `AI 自动对战开始，最多 ${maxSteps} 步`, { maxSteps });
+
+    while (aiAutoBattleState.running && summary.steps < maxSteps) {
+      const beforeLogCount = aiAutoBattleState.logs.length;
+      const result = runAiAutomationStep();
+      summary.steps += 1;
+      if (result?.done || isGameEnded()) {
+        summary.gameEnded = true;
+        summary.message = result?.message || "游戏已结束";
+        break;
+      }
+      if (result?.blocked || result?.ok === false) {
+        const bug = recordAiAutoBattleBug(result.message || "AI 自动对战阻塞", { result });
+        summary.blocked = true;
+        summary.ok = false;
+        summary.message = bug.message;
+        if (bug.details?.repeatCount >= aiAutoBattleState.maxBugRepeats) {
+          break;
+        }
+      }
+      if (aiAutoBattleState.logs.length === beforeLogCount && !result?.progressed && result?.ok !== true) {
+        summary.blocked = true;
+        summary.ok = false;
+        summary.message = result?.message || "AI 没有推进游戏状态";
+        break;
+      }
+      await waitAiAutoBattleDelay(delayMs);
+    }
+
+    if (!aiAutoBattleState.running) {
+      summary.stopped = true;
+      summary.message = summary.message || "AI 自动对战已停止";
+    } else if (summary.steps >= maxSteps && !summary.message) {
+      summary.message = `达到最大步数 ${maxSteps}`;
+    }
+    aiAutoBattleState.running = false;
+    aiAutoBattleState.lastSummary = summary;
+    recordAiAutoBattleLog("finish", summary.message, summary);
+    return getAiAutoBattleReport();
+  }
+
+  function stopAiAutoBattle() {
+    aiAutoBattleState.running = false;
+    recordAiAutoBattleLog("stop", "AI 自动对战停止");
+    return getAiAutoBattleReport();
   }
 
   function getActionLogActionLabel(actionType, label) {
@@ -4109,6 +4507,67 @@
       incomeCode,
       gain,
       message: `收入：弃掉 ${cards.getCardLabel(card)}，${formatIncomeGain(gain)}（已即时获得）`,
+    };
+  }
+
+  function buildIncomeResourceGain(income) {
+    const source = income || players.DEFAULT_INCOME;
+    return {
+      credits: source.credits || 0,
+      energy: source.energy || 0,
+      publicity: source.publicity || 0,
+      availableData: source.availableData || 0,
+      additionalPublicScan: source.additionalPublicScan || 0,
+    };
+  }
+
+  function formatIncomeResourceSummary(resourceIncome, drawnCount, cardCount, drawError) {
+    return [
+      `信用点+${resourceIncome.credits || 0}`,
+      `能量+${resourceIncome.energy || 0}`,
+      `手牌+${drawnCount}${drawError ? `/${cardCount}` : ""}`,
+      `宣传+${resourceIncome.publicity || 0}`,
+      `数据+${resourceIncome.availableData || 0}`,
+      `额外公共扫描+${resourceIncome.additionalPublicScan || 0}`,
+    ].join("、");
+  }
+
+  function applyIncomeResourcesForPlayer(player, options = {}) {
+    if (!player) {
+      return { ok: false, message: "没有当前玩家" };
+    }
+
+    const income = player.income || players.DEFAULT_INCOME;
+    const resourceIncome = buildIncomeResourceGain(income);
+    const cardCount = Math.max(0, Math.round(income.handSize || 0));
+    const drawnCards = [];
+    let drawError = null;
+
+    players.gainResources(player, resourceIncome);
+
+    for (let index = 0; index < cardCount; index += 1) {
+      const drawResult = blindDrawCardForPlayer(player);
+      if (!drawResult.ok) {
+        drawError = drawResult.message || "收入抽牌失败";
+        break;
+      }
+      drawnCards.push(drawResult.card);
+    }
+
+    const label = options.label || "执行收入";
+    const summary = formatIncomeResourceSummary(resourceIncome, drawnCards.length, cardCount, drawError);
+    const message = drawError
+      ? `${label}：${summary}，${drawError}`
+      : `${label}：${summary}`;
+
+    return {
+      ok: !drawError,
+      income: { ...income },
+      resourceIncome,
+      drawnCards,
+      drawError,
+      summary,
+      message,
     };
   }
 
@@ -21889,6 +22348,18 @@
     return { ok: true, message: rocketState.statusNote };
   }
 
+  function applyPassTurnEndIncome(player) {
+    if (!player || isFinalRound()) return null;
+
+    const result = applyIncomeResourcesForPlayer(player, { label: "PASS 收入" });
+    appendActionLogStep(HISTORY_SOURCE_MAIN, "PASS 收入", result.message, {
+      player,
+      undoable: false,
+      irreversibleReason: "回合结束确认后结算",
+    });
+    return result;
+  }
+
   function endCurrentTurn() {
     if (!pendingActionExecuted || isActionEffectFlowActive() || hasActivePendingSubFlow()) return;
     const endingPlayer = getCurrentPlayer();
@@ -21901,6 +22372,7 @@
     industry?.clearTuringBorrowedTech?.(endingPlayer);
 
     endEffectHistoryStep();
+    const passIncomeResult = didPass ? applyPassTurnEndIncome(endingPlayer) : null;
     commitActionLogDraft({
       passed: didPass,
       actionType: didPass ? "pass" : actionHistory.getSessionInfo()?.actionType,
@@ -21919,13 +22391,16 @@
     selectDefaultRocketForCurrentPlayer();
     renderDebugPlayerSwitch();
     renderRoundStatus();
-    rocketState.statusNote = advanceResult.gameEnded
+    const turnAdvanceMessage = advanceResult.gameEnded
       ? `第 ${turnState.roundNumber} 轮所有玩家已 PASS，游戏结束，进行终局计分${advanceResult.finalScoreLines?.length ? `：${advanceResult.finalScoreLines.join("；")}` : ""}`
       : advanceResult.roundAdvanced
       ? `所有玩家已 PASS，进入第 ${turnState.roundNumber} 轮第 ${turnState.turnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`
       : advanceResult.turnAdvanced
         ? `进入第 ${turnState.roundNumber} 轮第 ${turnState.turnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`
         : `回合已结束，当前玩家：${nextPlayer?.colorLabel || ""}玩家`;
+    rocketState.statusNote = passIncomeResult?.message
+      ? `${turnAdvanceMessage}；${passIncomeResult.message}`
+      : turnAdvanceMessage;
     renderPlayerStats();
     renderTechBoard();
     renderRockets();
@@ -22946,53 +23421,16 @@
 
   function executeIncomeForCurrentPlayer() {
     const currentPlayer = getCurrentPlayer();
-    const income = currentPlayer.income || players.DEFAULT_INCOME;
-    const resourceIncome = {
-      credits: income.credits || 0,
-      energy: income.energy || 0,
-      publicity: income.publicity || 0,
-      availableData: income.availableData || 0,
-      additionalPublicScan: income.additionalPublicScan || 0,
-    };
-    const cardCount = Math.max(0, Math.round(income.handSize || 0));
-    const drawnCards = [];
-    let drawError = null;
-
-    players.gainResources(currentPlayer, resourceIncome);
-
-    for (let index = 0; index < cardCount; index += 1) {
-      const drawResult = blindDrawCardForPlayer(currentPlayer);
-      if (!drawResult.ok) {
-        drawError = drawResult.message || "收入抽牌失败";
-        break;
-      }
-      drawnCards.push(drawResult.card);
-    }
-
-    const summary = [
-      `信用点+${resourceIncome.credits}`,
-      `能量+${resourceIncome.energy}`,
-      `手牌+${drawnCards.length}${drawError ? `/${cardCount}` : ""}`,
-      `宣传+${resourceIncome.publicity}`,
-      `数据+${resourceIncome.availableData}`,
-      `额外公共扫描+${resourceIncome.additionalPublicScan}`,
-    ].join("、");
-
-    rocketState.statusNote = drawError
-      ? `执行收入（调试，可能重复发放）：${summary}，${drawError}`
-      : `执行收入（调试，可能重复发放）：${summary}`;
+    const result = applyIncomeResourcesForPlayer(currentPlayer, {
+      label: "执行收入（调试，可能重复发放）",
+    });
+    rocketState.statusNote = result.message;
     renderPlayerStats();
     renderPublicCards();
     updatePublicCardControls();
     updateActionButtons();
     renderStateReadout();
-
-    return {
-      ok: !drawError,
-      income: { ...income },
-      drawnCards,
-      message: rocketState.statusNote,
-    };
+    return result;
   }
 
   function addDebugData() {
@@ -24818,6 +25256,11 @@
     randomizeAliens,
     startInitialSelection,
     getInitialSelectionState: () => structuredClone(setupSelectionState),
+    configureAiAutoBattle,
+    startAiAutoBattle: runAiAutoBattle,
+    stopAiAutoBattle,
+    runAiAutoBattleStep: runAiAutomationStep,
+    getAiAutoBattleReport,
     drawCardForCurrentPlayer,
     blindDrawCardForPlayer,
     beginCardSelection,
