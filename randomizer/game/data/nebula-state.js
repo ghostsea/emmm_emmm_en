@@ -468,6 +468,22 @@
     return participant?.playerTokenSrc || player?.playerTokenSrc || null;
   }
 
+  function hasFirstWinCircle(sectorId) {
+    return nebulaPlacement.getSectorWinMarkerConfig?.(sectorId)?.firstKind === "circle";
+  }
+
+  function getSettlementWinMarkerSlot(sectorId, settlementNumber) {
+    const normalizedSectorId = normalizeSettlementSectorId(sectorId);
+    const index = Math.max(1, Math.round(Number(settlementNumber) || 1));
+    if (hasFirstWinCircle(normalizedSectorId) && index === 1) {
+      return { slotKind: "circle", markerIndex: 1 };
+    }
+    return {
+      slotKind: "bar",
+      markerIndex: hasFirstWinCircle(normalizedSectorId) ? Math.max(1, index - 1) : index,
+    };
+  }
+
   function createRetainedSectorToken(state, nebulaId, participant, options = {}) {
     const layout = nebulaPlacement.getNebulaDataSlotLayout(nebulaId, 1);
     if (!layout || !participant) return null;
@@ -569,12 +585,16 @@
     const sectorRecord = ensureSectorSettlementRecord(state, normalizedSectorId);
     sectorRecord.settlementCount += 1;
     const settlementNumber = sectorRecord.settlementCount;
+    const markerSlot = getSettlementWinMarkerSlot(normalizedSectorId, settlementNumber);
     const winnerRecord = {
       sectorId: normalizedSectorId,
       settlementNumber,
       playerId: winner.playerId,
       playerColor: winner.playerColor,
       playerLabel: winner.playerLabel,
+      playerTokenSrc: getSettlementPlayerTokenSrc(winner, options),
+      slotKind: markerSlot.slotKind,
+      markerIndex: markerSlot.markerIndex,
     };
     sectorRecord.winners.push(winnerRecord);
     sectorRecord.lastWinner = winnerRecord;
@@ -646,6 +666,12 @@
       }`);
     lines.push(`玩家胜利 ${playerLines.length ? playerLines.join("  ") : "无"}`);
     return lines;
+  }
+
+  function listSectorWinRecords(state, sectorId) {
+    const key = normalizeSettlementSectorId(sectorId);
+    const winners = state?.sectorSettlements?.sectors?.[key]?.winners;
+    return Array.isArray(winners) ? winners.map((winner) => ({ ...winner })) : [];
   }
 
   function revertNebulaTokenReplacement(state, nebulaId, tokenId, before = {}) {
@@ -746,6 +772,8 @@
     isSectorReadyToSettle,
     getSectorTokenStats,
     getSectorRanking,
+    getSettlementWinMarkerSlot,
+    listSectorWinRecords,
     settleSector,
     settleCompletedSectors,
     getSectorSettlementReadoutLines,

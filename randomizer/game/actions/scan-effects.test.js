@@ -17,6 +17,18 @@ assert.equal(noPurpleQueue[1].type, scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN);
 assert.equal(noPurpleQueue[1].icon, "earth_scan");
 assert.equal(noPurpleQueue[2].type, scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN);
 
+const fullNoPurpleQueue = scanEffects.buildScanEffectQueue(basePlayer, {
+  includeFinalize: true,
+  fullScanAction: true,
+  scanRunId: "scan-test",
+});
+assert.equal(fullNoPurpleQueue.length, 4);
+assert.equal(fullNoPurpleQueue.at(-1).type, scanEffects.EFFECT_TYPES.SCAN_ACTION_FINALIZE);
+assert.equal(fullNoPurpleQueue.at(-1).icon, "scan_action_finalize");
+assert.equal(fullNoPurpleQueue[2].options.scanRunId, "scan-test");
+assert.equal(fullNoPurpleQueue[2].options.fullScanAction, true);
+assert.equal(fullNoPurpleQueue[3].options.scanRunId, "scan-test");
+
 const purplePlayer = players.createPlayer({ color: "blue" });
 purplePlayer.techState = playerTech.createPlayerTechState({
   ownedTiles: { purple1: true, purple2: true, purple3: true, purple4: true },
@@ -29,6 +41,16 @@ assert.equal(fullPurpleQueue[2].type, scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN)
 assert.equal(fullPurpleQueue[3].type, scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN);
 assert.equal(fullPurpleQueue[4].type, scanEffects.EFFECT_TYPES.HAND_SCAN);
 assert.equal(fullPurpleQueue[5].type, scanEffects.EFFECT_TYPES.SCAN_ACTION_4);
+
+const completePurpleQueue = scanEffects.buildScanEffectQueue(purplePlayer, {
+  includeFinalize: true,
+  fullScanAction: true,
+  scanRunId: "purple-scan-test",
+});
+assert.equal(completePurpleQueue.length, 7);
+assert.equal(completePurpleQueue.at(-1).type, scanEffects.EFFECT_TYPES.SCAN_ACTION_FINALIZE);
+assert.equal(completePurpleQueue[2].options.scanRunId, "purple-scan-test");
+assert.equal(completePurpleQueue[5].options.fullScanAction, true);
 
 const brokePlayer = players.createPlayer({ color: "green" });
 brokePlayer.resources.credits = 0;

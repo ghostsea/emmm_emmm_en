@@ -171,6 +171,47 @@
     2: "蓝色扫描",
     3: "黑色扫描",
   });
+  const SECTOR_FINISH_ICON_BY_COLOR = Object.freeze({
+    yellow: "yellow_finish_scan",
+    red: "red_finish_scan",
+    blue: "blue_finish_scan",
+    black: "black_finish_scan",
+    aomomo: "sector_finish_scan",
+  });
+  const SECTOR_WIN_REWARDS = Object.freeze({
+    "sector-1-b": Object.freeze({
+      first: Object.freeze([{ resource: "score", amount: 2 }, { traceType: "pink" }]),
+      repeat: Object.freeze([{ resource: "score", amount: 5 }]),
+    }),
+    "sector-4-b": Object.freeze({
+      first: Object.freeze([{ resource: "score", amount: 3 }, { traceType: "pink" }]),
+      repeat: Object.freeze([{ traceType: "pink" }]),
+    }),
+    "sector-2-b": Object.freeze({
+      first: Object.freeze([{ traceType: "pink" }]),
+      repeat: Object.freeze([{ resource: "score", amount: 3 }]),
+    }),
+    "sector-3-a": Object.freeze({
+      first: Object.freeze([{ traceType: "pink" }]),
+      repeat: Object.freeze([{ resource: "score", amount: 3 }]),
+    }),
+    "sector-1-a": Object.freeze({
+      first: Object.freeze([{ traceType: "pink" }]),
+      repeat: Object.freeze([{ resource: "score", amount: 3 }]),
+    }),
+    "sector-4-a": Object.freeze({
+      first: Object.freeze([{ traceType: "pink" }]),
+      repeat: Object.freeze([{ traceType: "pink" }]),
+    }),
+    "sector-2-a": Object.freeze({
+      first: Object.freeze([{ traceType: "pink" }]),
+      repeat: Object.freeze([{ traceType: "pink" }]),
+    }),
+    "sector-3-b": Object.freeze({
+      first: Object.freeze([{ traceType: "pink" }]),
+      repeat: Object.freeze([{ traceType: "pink" }]),
+    }),
+  });
   const tokenWidths = {
     rocket: null,
     orbit: null,
@@ -233,6 +274,7 @@
   let pendingCardSelectionAction = null;
   let pendingScanTargetAction = null;
   let pendingPublicScanQueue = null;
+  let scanRunSequence = 0;
   let pendingHandScanAction = null;
   let pendingAlienTraceAction = null;
   let pendingLandTargetAction = null;
@@ -265,6 +307,7 @@
   const cardTaskState = cardTaskStateModule.createTaskState();
   let alienTracePickerState = null;
   let debugAlienTraceModeActive = false;
+  let sectorWinDebugActive = false;
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
   let pendingActionEffectFlow = null;
@@ -397,6 +440,7 @@
     debugFillNebulaDataButton: document.getElementById("debug-fill-nebula-data-button"),
     debugSectorScanButton: document.getElementById("debug-sector-scan-button"),
     debugQuickSectorScanButton: document.getElementById("debug-quick-sector-scan-button"),
+    debugSectorWinButton: document.getElementById("debug-sector-win-button"),
     debugPublicScanButton: document.getElementById("debug-public-scan-button"),
     debugHandScanButton: document.getElementById("debug-hand-scan-button"),
     debugAlienTraceButton: document.getElementById("debug-alien-trace-button"),
@@ -934,6 +978,17 @@
 
   function getPlayerById(playerId) {
     return playerState.players.find((player) => player.id === playerId) || null;
+  }
+
+  function resolvePlayerReference(reference = {}) {
+    return getPlayerById(reference.playerId)
+      || getPlayerByColor(reference.playerColor)
+      || null;
+  }
+
+  function createScanRunId(prefix = "scan") {
+    scanRunSequence += 1;
+    return `${prefix}-${scanRunSequence}`;
   }
 
   function getActivePlayers() {
@@ -4418,6 +4473,364 @@
     return result;
   }
 
+  function ensureDelayedPublicRefills(flow = pendingActionEffectFlow) {
+    if (!flow) return [];
+    if (!Array.isArray(flow.delayedPublicRefills)) {
+      flow.delayedPublicRefills = [];
+    }
+    return flow.delayedPublicRefills;
+  }
+
+  function registerDelayedPublicRefill(scanRunId, slotIndex, card) {
+    if (!scanRunId || !pendingActionEffectFlow) return null;
+    const index = Number(slotIndex);
+    if (!Number.isInteger(index)) return null;
+    const list = ensureDelayedPublicRefills(pendingActionEffectFlow);
+    const existing = list.find((item) => item.scanRunId === scanRunId && item.slotIndex === index);
+    if (existing) {
+      existing.card = card || existing.card || null;
+      existing.cardLabel = card ? cards.getCardLabel(card) : existing.cardLabel;
+      return existing;
+    }
+    const entry = {
+      scanRunId,
+      slotIndex: index,
+      card: card || null,
+      cardLabel: card ? cards.getCardLabel(card) : null,
+    };
+    list.push(entry);
+    return entry;
+  }
+
+  function getDelayedPublicRefillSlots(scanRunId, flow = pendingActionEffectFlow) {
+    return ensureDelayedPublicRefills(flow)
+      .filter((item) => !scanRunId || item.scanRunId === scanRunId)
+      .map((item) => ({ ...item }));
+  }
+
+  function clearDelayedPublicRefillSlots(scanRunId, flow = pendingActionEffectFlow) {
+    if (!flow || !Array.isArray(flow.delayedPublicRefills)) return;
+    flow.delayedPublicRefills = flow.delayedPublicRefills
+      .filter((item) => scanRunId && item.scanRunId !== scanRunId);
+  }
+
+  function getSectorFinishIcon(sectorId) {
+    return SECTOR_FINISH_ICON_BY_COLOR[data.getNebulaColor?.(sectorId)]
+      || "sector_finish_scan";
+  }
+
+  function buildReadySectorFinishEffects() {
+    return (data.NEBULA_IDS || [])
+      .filter((sectorId) => data.isSectorReadyToSettle(nebulaDataState, sectorId))
+      .map((sectorId) => ({
+        type: scanEffects.EFFECT_TYPES.SECTOR_FINISH_SCAN,
+        icon: getSectorFinishIcon(sectorId),
+        label: `完成扇区：${data.getNebulaLabel(sectorId)}`,
+        undoable: true,
+        options: { sectorId },
+      }));
+  }
+
+  function buildDelayedPublicRefillEffects(scanRunId) {
+    const slots = getDelayedPublicRefillSlots(scanRunId);
+    if (!slots.length) return [];
+    return [{
+      type: scanEffects.EFFECT_TYPES.SCAN_PUBLIC_REFILL,
+      icon: "scan_public_refill",
+      label: "补充公共牌区",
+      undoable: false,
+      options: { scanRunId, slots },
+    }];
+  }
+
+  function appendSectorSettlementResultToFlow(settlementResult) {
+    if (!pendingActionEffectFlow || !settlementResult?.ok) return;
+    if (!pendingActionEffectFlow.sectorSettlementResult) {
+      pendingActionEffectFlow.sectorSettlementResult = {
+        ok: true,
+        settlements: [],
+        message: "",
+      };
+    }
+    const aggregate = pendingActionEffectFlow.sectorSettlementResult;
+    aggregate.settlements.push(settlementResult);
+    aggregate.message = aggregate.settlements.map((item) => item.message).join("；");
+    aggregate.runezuSymbolClaims = [
+      ...(aggregate.runezuSymbolClaims || []),
+      ...(settlementResult.runezuSymbolClaims || []),
+    ];
+  }
+
+  function getSectorWinnerRewardKey(settlement) {
+    const config = data.getSectorWinMarkerConfig?.(settlement?.sectorId);
+    if (config?.firstKind === "circle" && Number(settlement?.settlementNumber) === 1) {
+      return "first";
+    }
+    if (config?.firstKind !== "circle") return "repeat";
+    return "repeat";
+  }
+
+  function createTargetResourceEffect(id, label, icon, target, gain) {
+    return {
+      id,
+      type: planetRewards.EFFECT_TYPES.GAIN_RESOURCES,
+      icon,
+      label,
+      options: {
+        gain,
+        targetPlayerId: target?.id || null,
+        targetPlayerColor: target?.color || null,
+      },
+    };
+  }
+
+  function createTargetPinkTraceEffect(id, label, target) {
+    return {
+      id,
+      type: planetRewards.EFFECT_TYPES.ALIEN_TRACE,
+      icon: "alien_pink",
+      label,
+      options: {
+        traceType: "pink",
+        targetPlayerId: target?.id || null,
+        targetPlayerColor: target?.color || null,
+      },
+    };
+  }
+
+  function buildSectorSettlementRewardEffects(settlement) {
+    if (!settlement?.ok) return [];
+    const sectorLabel = data.getNebulaLabel(settlement.sectorId);
+    const effects = [];
+    const participants = settlement.participants || [];
+
+    if (settlement.sectorId === aomomo?.NEBULA_ID) {
+      for (const participant of participants) {
+        const player = resolvePlayerReference(participant);
+        if (!player) continue;
+        effects.push(createTargetResourceEffect(
+          `sector-${settlement.sectorId}-fossil-${player.id}-${settlement.settlementNumber}`,
+          `${sectorLabel}参与奖励：${player.colorLabel || player.name} +1化石`,
+          "aomomoFossil",
+          player,
+          { aomomoFossils: 1 },
+        ));
+      }
+      return effects;
+    }
+
+    for (const participant of participants) {
+      const player = resolvePlayerReference(participant);
+      if (!player) continue;
+      effects.push(createTargetResourceEffect(
+        `sector-${settlement.sectorId}-publicity-${player.id}-${settlement.settlementNumber}`,
+        `${sectorLabel}参与奖励：${player.colorLabel || player.name} +1宣传`,
+        "publicity",
+        player,
+        { publicity: 1 },
+      ));
+    }
+
+    const winner = resolvePlayerReference(settlement.winner || {});
+    const rewardConfig = SECTOR_WIN_REWARDS[settlement.sectorId];
+    const rewards = rewardConfig?.[getSectorWinnerRewardKey(settlement)] || [];
+    for (const reward of rewards) {
+      if (!winner) continue;
+      if (reward.resource) {
+        effects.push(createTargetResourceEffect(
+          `sector-${settlement.sectorId}-winner-${reward.resource}-${settlement.settlementNumber}`,
+          `${sectorLabel}赢家奖励：${winner.colorLabel || winner.name} +${reward.amount}${reward.resource === "score" ? "分" : ""}`,
+          reward.resource === "score" ? "score" : reward.resource,
+          winner,
+          { [reward.resource]: reward.amount },
+        ));
+      } else if (reward.traceType === "pink") {
+        effects.push(createTargetPinkTraceEffect(
+          `sector-${settlement.sectorId}-winner-pink-trace-${settlement.settlementNumber}`,
+          `${sectorLabel}赢家奖励：粉色外星人痕迹`,
+          winner,
+        ));
+      }
+    }
+    return effects;
+  }
+
+  function buildScanFinalizeFollowupEffects(scanRunId) {
+    return [
+      ...buildReadySectorFinishEffects(),
+      ...buildDelayedPublicRefillEffects(scanRunId),
+    ];
+  }
+
+  function executeScanActionFinalizeEffect(effect) {
+    const scanRunId = effect.options?.scanRunId || pendingActionEffectFlow?.scanRunId || null;
+    const followups = buildScanFinalizeFollowupEffects(scanRunId);
+    if (followups.length) {
+      insertActionEffectsAfterCurrent(followups);
+    }
+    effect.result = {
+      ok: true,
+      undoable: true,
+      message: followups.length
+        ? `扫描收尾：追加 ${followups.length} 个后续效果`
+        : "扫描收尾：没有待处理的扇区或公共牌补牌",
+      payload: { inserted: followups.length, scanRunId },
+    };
+    rocketState.statusNote = effect.result.message;
+    completeCurrentActionEffect();
+    renderStateReadout();
+    return effect.result;
+  }
+
+  function executeSectorFinishScanEffect(effect) {
+    const sectorId = effect.options?.sectorId;
+    if (!sectorId) {
+      rocketState.statusNote = "完成扇区缺少扇区ID";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const beforeNebulaState = structuredClone(nebulaDataState);
+    const beforeAlienState = structuredClone(alienGameState);
+    beginEffectHistoryStep(effect.label, { effectType: scanEffects.EFFECT_TYPES.SECTOR_FINISH_SCAN });
+    const result = data.settleSector(nebulaDataState, sectorId, {
+      players: playerState.players,
+      getPlayerTokenSrc: getNormalTokenAssetForPlayer,
+      source: pendingActionEffectFlow?.actionType || "scan",
+    });
+    if (!result.ok) {
+      endEffectHistoryStep();
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+
+    const winner = resolvePlayerReference(result.winner || {});
+    const claim = winner
+      ? runezu?.claimSectorSymbol?.(alienGameState, result.sectorId, winner)
+      : null;
+    if (claim?.ok) {
+      result.runezuSymbolClaims = [{
+        sectorId: result.sectorId,
+        playerId: winner.id,
+        playerColor: winner.color,
+        symbolId: claim.symbolId,
+      }];
+      result.message = `${result.message}；${claim.message}`;
+    }
+
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      nebulaDataState,
+      beforeNebulaState,
+      "恢复完成扇区前星云状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      alienGameState,
+      beforeAlienState,
+      "恢复完成扇区前外星人状态",
+    ));
+
+    appendSectorSettlementResultToFlow(result);
+    const rewardEffects = buildSectorSettlementRewardEffects(result);
+    if (rewardEffects.length) {
+      insertActionEffectsAfterCurrent(rewardEffects);
+    }
+
+    effect.result = {
+      ok: true,
+      undoable: true,
+      message: rewardEffects.length
+        ? `${result.message}；追加 ${rewardEffects.length} 个奖励效果`
+        : result.message,
+      events: [{
+        type: "sectorCompleted",
+        sectorId: result.sectorId,
+        settlementNumber: result.settlementNumber,
+        winnerPlayerId: result.winner?.playerId || null,
+        winnerPlayerColor: result.winner?.playerColor || null,
+      }],
+      payload: { settlement: result, rewardCount: rewardEffects.length },
+    };
+    rocketState.statusNote = effect.result.message;
+    renderSectorNebulaDataBoard();
+    renderAlienPanels();
+    renderPlayerStats();
+    completeCurrentActionEffect();
+    renderStateReadout();
+    return effect.result;
+  }
+
+  function executeScanPublicRefillEffect(effect) {
+    const scanRunId = effect.options?.scanRunId || null;
+    const slots = (effect.options?.slots || [])
+      .map((item) => Number(item?.slotIndex))
+      .filter((slotIndex, index, list) => Number.isInteger(slotIndex) && list.indexOf(slotIndex) === index)
+      .sort((a, b) => a - b);
+    if (!slots.length) {
+      clearDelayedPublicRefillSlots(scanRunId);
+      effect.result = {
+        ok: true,
+        undoable: true,
+        message: "公共牌区没有待补牌位",
+      };
+      rocketState.statusNote = effect.result.message;
+      completeCurrentActionEffect();
+      renderStateReadout();
+      return effect.result;
+    }
+
+    const publicCardsSnapshot = cardState.publicCards.slice();
+    const discardPileSnapshot = (cardState.discardPile || []).slice();
+    beginEffectHistoryStep(effect.label, { effectType: scanEffects.EFFECT_TYPES.SCAN_PUBLIC_REFILL });
+    const replenished = [];
+    for (const slotIndex of slots) {
+      if (cardState.publicCards?.[slotIndex]) continue;
+      const card = cards.replenishPublicSlot(cardState, playerState, slotIndex);
+      if (card) replenished.push({ slotIndex, card });
+    }
+    recordHistoryCommand(historyCommands.createRestorePublicCardsCommand(
+      cardState,
+      publicCardsSnapshot,
+      discardPileSnapshot,
+    ));
+    clearDelayedPublicRefillSlots(scanRunId);
+
+    const labels = replenished
+      .map((item) => `${item.slotIndex + 1}:${cards.getCardLabel(item.card)}`)
+      .join("、");
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: false,
+      irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
+      message: labels ? `公共牌区补牌：${labels}` : "公共牌区补牌：没有空位需要补牌",
+      payload: { scanRunId, slots, replenished },
+    });
+  }
+
+  function shouldAppendQueuedSectorFinishEffects(flow) {
+    if (!flow?.completed || flow.endOfFlowSettlementScheduled) return false;
+    if (flow.actionType === "initialIncome") return false;
+    return effectFlowMarkedNebula(flow);
+  }
+
+  function appendEndOfFlowSectorFinishEffects(flow) {
+    if (!shouldAppendQueuedSectorFinishEffects(flow)) return false;
+    const effects = buildReadySectorFinishEffects();
+    if (!effects.length) return false;
+    flow.endOfFlowSettlementScheduled = true;
+    flow.completed = false;
+    for (const effect of effects) {
+      flow.effects.push({
+        ...effect,
+        id: effect.id || `end-flow-sector-finish-${flow.effects.length}`,
+        options: { ...(effect.options || {}) },
+        status: "pending",
+      });
+    }
+    activateNextActionEffect();
+    return true;
+  }
+
   function discardPublicScanCard(pending) {
     const slotIndex = Number(pending?.publicSlotIndex);
     const card = pending?.card;
@@ -4430,9 +4843,14 @@
 
     cards.addToDiscardPile(cardState, card);
     let replenished = null;
+    const deferPublicRefill = Boolean(pending?.deferPublicRefill && pending?.scanRunId);
     if (cardState.publicCards?.[slotIndex]?.id === card.id) {
       cardState.publicCards[slotIndex] = null;
-      replenished = cards.replenishPublicSlot(cardState, playerState, slotIndex);
+      if (deferPublicRefill) {
+        registerDelayedPublicRefill(pending.scanRunId, slotIndex, card);
+      } else {
+        replenished = cards.replenishPublicSlot(cardState, playerState, slotIndex);
+      }
     }
 
     recordHistoryCommand(historyCommands.createRestorePublicCardsCommand(
@@ -4447,7 +4865,10 @@
       ok: true,
       card,
       replenished,
-      message: replenished
+      delayedRefill: deferPublicRefill,
+      message: deferPublicRefill
+        ? `弃除 ${cards.getCardLabel(card)}，公共区留空待扫描结束补牌`
+        : replenished
         ? `弃除 ${cards.getCardLabel(card)}，公共区补牌：${cards.getCardLabel(replenished)}`
         : `弃除 ${cards.getCardLabel(card)}`,
     };
@@ -4719,6 +5140,28 @@
         renderPlayerStats();
         updateActionButtons();
         renderStateReadout();
+        maybeCompleteActionEffectFromScan(scanResult);
+        return scanResult;
+      }
+
+      if (pending.deferPublicRefill && pending.scanRunId) {
+        let scanResult = replaceNebulaDataForCurrentPlayer(nebulaId, {
+          prefix: `公共牌区扫描 ${cards.getCardLabel(pending.card)}`,
+          source: scanSource,
+        });
+        if (!scanResult.ok) {
+          rocketState.statusNote = scanResult.message;
+          renderSectors();
+          renderStateReadout();
+          return scanResult;
+        }
+        scanResult = finalizeScanSourceCard(pending, scanResult);
+        rocketState.statusNote = scanResult.message;
+        renderSectors();
+        renderPlayerStats();
+        renderPublicCards();
+        updatePublicCardControls();
+        updateActionButtons();
         maybeCompleteActionEffectFromScan(scanResult);
         return scanResult;
       }
@@ -5031,13 +5474,15 @@
     };
   }
 
-  function createPublicScanPendingAction(player, fromEffectFlow = false) {
+  function createPublicScanPendingAction(player, fromEffectFlow = false, options = {}) {
     const maxSelectable = getPublicScanMaxSelectable(player);
     return {
       type: "public_scan",
       player,
       allowBlindDraw: false,
       fromEffectFlow,
+      scanRunId: options.scanRunId || null,
+      deferPublicRefill: Boolean(options.deferPublicRefill),
       maxSelectable,
       selectedSlots: [],
     };
@@ -5047,7 +5492,10 @@
     return beginCardSelection(createPublicScanPendingAction(getCurrentPlayer()));
   }
 
-  function beginPublicScanForSingleCard(index, card, fromEffectFlow = false) {
+  function beginPublicScanForSingleCard(index, card, optionsOrFromEffectFlow = false) {
+    const options = typeof optionsOrFromEffectFlow === "object"
+      ? optionsOrFromEffectFlow
+      : { fromEffectFlow: Boolean(optionsOrFromEffectFlow) };
     const scanChoices = getPublicScanChoicesForCard(card);
     if (!scanChoices.ok) {
       rocketState.statusNote = scanChoices.message;
@@ -5065,7 +5513,9 @@
       card,
       publicSlotIndex: index,
       scanCode: scanChoices.scanCode,
-      fromEffectFlow,
+      fromEffectFlow: Boolean(options.fromEffectFlow),
+      scanRunId: options.scanRunId || null,
+      deferPublicRefill: Boolean(options.deferPublicRefill),
       title: "公共牌区扫描",
       subtitle: `${cards.getCardLabel(card)}：${scanChoices.scanLabel}，请选择 2 选 1 星云。`,
       choices: scanChoices.choices,
@@ -5088,6 +5538,8 @@
       scanCode: scanChoices.scanCode,
       fromEffectFlow: queue.fromEffectFlow,
       queueMode: true,
+      scanRunId: queue.scanRunId || null,
+      deferPublicRefill: Boolean(queue.deferPublicRefill),
       title: "公共牌区扫描",
       subtitle: total > 1
         ? `第 ${current}/${total} 张：${cards.getCardLabel(card)}，${scanChoices.scanLabel}，请选择 2 选 1 星云。`
@@ -5155,13 +5607,20 @@
     for (const slotIndex of discardOrder) {
       const item = items.find((entry) => entry.publicSlotIndex === slotIndex);
       if (!item) continue;
-      discardPublicScanCard({ card: item.card, publicSlotIndex: slotIndex });
+      discardPublicScanCard({
+        card: item.card,
+        publicSlotIndex: slotIndex,
+        scanRunId: pending.scanRunId || null,
+        deferPublicRefill: Boolean(pending.deferPublicRefill),
+      });
     }
 
     pendingPublicScanQueue = {
       items,
       currentIndex: 0,
       fromEffectFlow,
+      scanRunId: pending.scanRunId || null,
+      deferPublicRefill: Boolean(pending.deferPublicRefill),
     };
     rocketState.statusNote = `公共牌区扫描：已弃除 ${items.length} 张牌，请依次选择星云`;
     renderPlayerStats();
@@ -5186,7 +5645,11 @@
     const fromEffectFlow = Boolean(pending?.fromEffectFlow || pendingActionEffectFlow);
 
     if (maxSelectable <= 1) {
-      return beginPublicScanForSingleCard(index, card, fromEffectFlow);
+      return beginPublicScanForSingleCard(index, card, {
+        fromEffectFlow,
+        scanRunId: pending?.scanRunId || null,
+        deferPublicRefill: Boolean(pending?.deferPublicRefill),
+      });
     }
 
     const selectedSlots = pending.selectedSlots || [];
@@ -6998,15 +7461,13 @@
     return (flow?.effects || []).some((effect) => resultHasSignalMarkedEvent(effect.result));
   }
 
-  function shouldCheckCompletedSectorsAfterFlow(flow) {
-    if (!flow?.completed) return false;
-    return effectFlowMarkedNebula(flow);
-  }
-
   function finishActionEffectFlow() {
     if (!pendingActionEffectFlow) return;
 
     const finishedFlow = pendingActionEffectFlow;
+    if (appendEndOfFlowSectorFinishEffects(finishedFlow)) {
+      return;
+    }
     const actionType = finishedFlow.actionType;
     clearActionEffectFlow();
     if (actionType === "initialIncome") {
@@ -7029,9 +7490,7 @@
       scrollToPlayerCommandPanel();
       return;
     }
-    const settleResult = shouldCheckCompletedSectorsAfterFlow(finishedFlow)
-      ? resolveCompletedSectorSettlements(actionType, { historySource: finishedFlow.historySource || HISTORY_SOURCE_MAIN })
-      : null;
+    const settleResult = finishedFlow.sectorSettlementResult || null;
     if (startTemporaryCardTaskRewardFlow(finishedFlow.cardTemporaryTasks, settleResult, {
       futureSpanPlayedCard: finishedFlow.futureSpanPlayedCard,
     })) {
@@ -7393,8 +7852,15 @@
     return result;
   }
 
+  function getEffectTargetPlayer(effect) {
+    return resolvePlayerReference({
+      playerId: effect?.options?.targetPlayerId,
+      playerColor: effect?.options?.targetPlayerColor,
+    }) || getCurrentPlayer();
+  }
+
   function executeGainResourcesRewardEffect(effect) {
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getEffectTargetPlayer(effect);
     const gain = effect.options?.gain || {};
     const beforePlayer = structuredClone(currentPlayer);
     beginEffectHistoryStep(effect.label);
@@ -7407,7 +7873,7 @@
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: true,
-      message: `${effect.label}：${formatPlanetRewardGain(gain)}`,
+      message: `${effect.label}：${currentPlayer?.colorLabel || currentPlayer?.name || "玩家"} ${formatPlanetRewardGain(gain)}`,
       payload: { gain },
     });
   }
@@ -7493,6 +7959,7 @@
       options: { ...(effect.options || {}) },
       status: "pending",
     })));
+    pendingActionEffectFlow.completed = false;
   }
 
   function executeCardFixedNebulaScanEffect(effect) {
@@ -7550,7 +8017,12 @@
 
   function expandCardScanActionEffect(effect) {
     const currentPlayer = getCurrentPlayer();
-    const followups = scanEffects.buildScanEffectQueue(currentPlayer)
+    const scanRunId = createScanRunId(effect.id || "card-scan-action");
+    const followups = scanEffects.buildScanEffectQueue(currentPlayer, {
+      includeFinalize: true,
+      fullScanAction: true,
+      scanRunId,
+    })
       .filter((item) => effect.options?.skipCost ? item.type !== scanEffects.EFFECT_TYPES.PAY_SCAN_COST : true)
       .map((item, index) => ({
         ...item,
@@ -7562,7 +8034,7 @@
       ok: true,
       undoable: true,
       message: "扫描行动已展开",
-      payload: { inserted: followups.length },
+      payload: { inserted: followups.length, scanRunId },
     };
     rocketState.statusNote = "扫描行动已展开，请继续处理后续扫描效果";
     completeCurrentActionEffect();
@@ -8693,6 +9165,8 @@
       beforeAlienState: structuredClone(alienGameState),
       beforePlayerState: structuredClone(playerState),
       effectLabel: effect.label,
+      targetPlayerId: effect.options?.targetPlayerId || null,
+      targetPlayerColor: effect.options?.targetPlayerColor || null,
     };
     return openAlienTracePicker({
       allowedTraceTypes: traceType ? [traceType] : aliens.TRACE_TYPES,
@@ -8888,12 +9362,17 @@
         return executeSectorScanAtPlanet("mercury");
       case scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN: {
         const scanPlayer = getCurrentPlayer();
+        const scanRunId = effect.options?.scanRunId || null;
+        const deferPublicRefill = Boolean(scanRunId && effect.options?.fullScanAction);
         const maxSelectable = getPublicScanMaxSelectable(scanPlayer);
         rocketState.statusNote = maxSelectable > 1
           ? `公共牌区扫描：最多选择 ${maxSelectable} 张公共牌`
           : "公共牌区扫描：请选择一张公共牌";
         renderStateReadout();
-        return beginCardSelection(createPublicScanPendingAction(scanPlayer, true));
+        return beginCardSelection(createPublicScanPendingAction(scanPlayer, true, {
+          scanRunId,
+          deferPublicRefill,
+        }));
       }
       case scanEffects.EFFECT_TYPES.HAND_SCAN: {
         const currentPlayer = getCurrentPlayer();
@@ -8911,6 +9390,12 @@
       }
       case scanEffects.EFFECT_TYPES.SCAN_ACTION_4:
         return openScanAction4Picker();
+      case scanEffects.EFFECT_TYPES.SCAN_ACTION_FINALIZE:
+        return executeScanActionFinalizeEffect(effect);
+      case scanEffects.EFFECT_TYPES.SECTOR_FINISH_SCAN:
+        return executeSectorFinishScanEffect(effect);
+      case scanEffects.EFFECT_TYPES.SCAN_PUBLIC_REFILL:
+        return executeScanPublicRefillEffect(effect);
       default:
         return { ok: false, message: `未知效果类型: ${effect.type}` };
     }
@@ -8973,12 +9458,19 @@
 
     startActionLogDraft("scan", "扫描行动", { source: HISTORY_SOURCE_MAIN, player: currentPlayer });
     actionHistory.beginSession("scan", "扫描行动");
+    const scanRunId = createScanRunId("main-scan");
     pendingActionEffectFlow = abilities.chain.startAbilityChain(
       "scan",
       "扫描行动",
-      scanEffects.buildScanEffectQueue(currentPlayer, { standardAction: true }),
+      scanEffects.buildScanEffectQueue(currentPlayer, {
+        standardAction: true,
+        includeFinalize: true,
+        fullScanAction: true,
+        scanRunId,
+      }),
     );
     pendingActionEffectFlow.playerId = currentPlayer.id;
+    pendingActionEffectFlow.scanRunId = scanRunId;
 
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
     rocketState.statusNote = "扫描：请依次点击能力效果";
@@ -13071,10 +13563,17 @@
     };
   }
 
+  function getAlienTraceActionPlayer(pending) {
+    return resolvePlayerReference({
+      playerId: pending?.targetPlayerId,
+      playerColor: pending?.targetPlayerColor,
+    }) || getCurrentPlayer();
+  }
+
   function confirmAlienTracePlacement(alienSlotId, traceType) {
-    const currentPlayer = getCurrentPlayer();
     const inDebugMode = isDebugAlienTraceMode();
     const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     pendingAlienTraceAction = null;
@@ -13173,8 +13672,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const currentPlayer = getCurrentPlayer();
     const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     if (!inDebugMode) {
@@ -13275,8 +13774,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const currentPlayer = getCurrentPlayer();
     const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     if (!inDebugMode) {
@@ -13382,7 +13881,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const currentPlayer = getCurrentPlayer();
+    const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const rewardPreview = banrenma.getTraceReward(traceType, Number(position));
     if (rewardPreview?.payData && getAvailableDataTokenCount(currentPlayer) < rewardPreview.payData) {
       rocketState.statusNote = `数据不足：该位置需要 ${rewardPreview.payData} 数据`;
@@ -13390,7 +13890,6 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const pending = pendingAlienTraceAction;
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     if (!inDebugMode) {
@@ -13521,7 +14020,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const currentPlayer = getCurrentPlayer();
+    const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const rewardPreview = aomomo.getTraceReward(traceType, Number(position));
     if (rewardPreview?.payFossils && !players.canAfford(currentPlayer, { aomomoFossils: rewardPreview.payFossils })) {
       rocketState.statusNote = `化石不足：该位置需要 ${rewardPreview.payFossils} 化石`;
@@ -13529,7 +14029,6 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const pending = pendingAlienTraceAction;
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     if (!inDebugMode) {
@@ -13944,8 +14443,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const currentPlayer = getCurrentPlayer();
     const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     if (!inDebugMode) {
@@ -14057,8 +14556,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const currentPlayer = getCurrentPlayer();
     const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     if (!inDebugMode) {
@@ -14169,8 +14668,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const currentPlayer = getCurrentPlayer();
     const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     if (!inDebugMode) {
@@ -14282,8 +14781,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    const currentPlayer = getCurrentPlayer();
     const pending = pendingAlienTraceAction;
+    const currentPlayer = getAlienTraceActionPlayer(pending);
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
     if (!inDebugMode) {
@@ -19256,11 +19755,25 @@
     return fillNebulaDataBoard({ source: "debug", log: true });
   }
 
+  function toggleSectorWinDebug() {
+    sectorWinDebugActive = !sectorWinDebugActive;
+    els.appWrap?.classList.toggle("sector-win-debug-active", sectorWinDebugActive);
+    els.debugSectorWinButton?.setAttribute("aria-pressed", String(sectorWinDebugActive));
+    rocketState.statusNote = sectorWinDebugActive
+      ? "赢得扇区调试：已显示校准占位 token，可拖动记录坐标"
+      : "赢得扇区调试：已关闭";
+    renderSectorNebulaDataBoard();
+    renderStateReadout();
+    return { ok: true, active: sectorWinDebugActive, message: rocketState.statusNote };
+  }
+
   function renderSectorNebulaDataBoard() {
     for (const sectorId of [1, 2, 3, 4]) {
       const sectorElement = sectorElements[sectorId];
       if (sectorElement) {
-        data.renderSectorNebulaData(sectorId, sectorElement, nebulaDataState);
+        data.renderSectorNebulaData(sectorId, sectorElement, nebulaDataState, {
+          showDebugWinMarkers: sectorWinDebugActive,
+        });
       }
     }
     data.renderAomomoNebulaData?.(els.tokenLayer, nebulaDataState, solarState, {
@@ -20170,6 +20683,7 @@
   els.debugFillNebulaDataButton?.addEventListener("click", fillDebugNebulaData);
   els.debugSectorScanButton?.addEventListener("click", beginSectorScan);
   els.debugQuickSectorScanButton?.addEventListener("click", openDebugQuickSectorScanPicker);
+  els.debugSectorWinButton?.addEventListener("click", toggleSectorWinDebug);
   els.debugPublicScanButton?.addEventListener("click", beginPublicDeckScan);
   els.debugHandScanButton?.addEventListener("click", beginHandScan);
   els.debugAlienTraceButton?.addEventListener("click", toggleDebugAlienTraceMode);
@@ -20334,6 +20848,12 @@
       renderSectorNebulaDataBoard();
       renderStateReadout();
     },
+    onSectorWinPositionChange: (payload) => {
+      rocketState.statusNote = payload?.message || "扇区胜利坐标已更新";
+      if (payload?.message) console.info("[扇区胜利坐标]", payload.message, payload);
+      renderSectorNebulaDataBoard();
+      renderStateReadout();
+    },
   });
   window.addEventListener("resize", resize);
   setTokenAssetSizes();
@@ -20356,6 +20876,7 @@
     executeIncomeForCurrentPlayer,
     addDebugData,
     fillDebugNebulaData,
+    toggleSectorWinDebug,
     beginSectorScan,
     openDebugQuickSectorScanPicker,
     runDebugQuickSectorScan,
@@ -20364,6 +20885,7 @@
     replaceNebulaDataForCurrentPlayer,
     switchCurrentPlayerColor,
     getNebulaSlotLayoutOverrides: () => structuredClone(data.listNebulaSlotLayoutOverrides()),
+    getSectorWinMarkerLayoutOverrides: () => structuredClone(data.listSectorWinMarkerLayoutOverrides?.() || []),
     placeDataToComputer: runPlaceDataToComputer,
     analyzeDataForCurrentPlayer,
     getDataSlotLayoutOverrides: () => structuredClone(data.listSlotLayoutOverrides()),

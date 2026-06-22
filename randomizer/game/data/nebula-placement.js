@@ -36,6 +36,99 @@
     aomomo: "奥陌陌",
   });
 
+  const NEBULA_COLOR_BY_ID = Object.freeze({
+    "sector-4-a": "yellow",
+    "sector-3-a": "yellow",
+    "sector-2-b": "red",
+    "sector-3-b": "red",
+    "sector-2-a": "blue",
+    "sector-1-a": "blue",
+    "sector-1-b": "black",
+    "sector-4-b": "black",
+    aomomo: "aomomo",
+  });
+
+  const SECTOR_WIN_MARKER_SLOTS = Object.freeze({
+    "sector-1-a": Object.freeze({ firstKind: "circle" }),
+    "sector-1-b": Object.freeze({ firstKind: "circle" }),
+    "sector-2-a": Object.freeze({ firstKind: "bar" }),
+    "sector-2-b": Object.freeze({ firstKind: "circle" }),
+    "sector-3-a": Object.freeze({ firstKind: "circle" }),
+    "sector-3-b": Object.freeze({ firstKind: "bar" }),
+    "sector-4-a": Object.freeze({ firstKind: "bar" }),
+    "sector-4-b": Object.freeze({ firstKind: "circle" }),
+  });
+
+  const SECTOR_WIN_MARKER_CALIBRATION = Object.freeze({
+    "sector-1-a": Object.freeze({
+      circle: Object.freeze({
+        1: Object.freeze({ percentX: 29.63, percentY: 33.79 }),
+      }),
+      bar: Object.freeze({
+        1: Object.freeze({ percentX: 36.45, percentY: 27.68 }),
+      }),
+    }),
+    "sector-1-b": Object.freeze({
+      circle: Object.freeze({
+        1: Object.freeze({ percentX: 71.52, percentY: 35.39 }),
+      }),
+      bar: Object.freeze({
+        1: Object.freeze({ percentX: 77.3, percentY: 41.42 }),
+      }),
+    }),
+    "sector-2-a": Object.freeze({
+      bar: Object.freeze({
+        1: Object.freeze({ percentX: 30.03, percentY: 33.86 }),
+        2: Object.freeze({ percentX: 34.2, percentY: 30.25 }),
+      }),
+    }),
+    "sector-2-b": Object.freeze({
+      circle: Object.freeze({
+        1: Object.freeze({ percentX: 71.12, percentY: 35.07 }),
+      }),
+      bar: Object.freeze({
+        1: Object.freeze({ percentX: 77.7, percentY: 41.42 }),
+      }),
+    }),
+    "sector-3-a": Object.freeze({
+      circle: Object.freeze({
+        1: Object.freeze({ percentX: 29.71, percentY: 33.06 }),
+      }),
+      bar: Object.freeze({
+        1: Object.freeze({ percentX: 35.97, percentY: 27.84 }),
+      }),
+    }),
+    "sector-3-b": Object.freeze({
+      bar: Object.freeze({
+        1: Object.freeze({ percentX: 71.6, percentY: 35.47 }),
+        2: Object.freeze({ percentX: 75.29, percentY: 39.08 }),
+      }),
+    }),
+    "sector-4-a": Object.freeze({
+      bar: Object.freeze({
+        1: Object.freeze({ percentX: 29.71, percentY: 33.31 }),
+        2: Object.freeze({ percentX: 32.75, percentY: 30.9 }),
+      }),
+    }),
+    "sector-4-b": Object.freeze({
+      circle: Object.freeze({
+        1: Object.freeze({ percentX: 70.8, percentY: 34.51 }),
+      }),
+      bar: Object.freeze({
+        1: Object.freeze({ percentX: 76.9, percentY: 42.54 }),
+      }),
+    }),
+  });
+
+  const SECTOR_IMAGE_ASPECT_RATIO = 1672 / 941;
+  const NEBULA_DATA_TOKEN_WIDTH_PERCENT = 17;
+  const NEBULA_DATA_TOKEN_DISPLAY_SCALE = 3.5;
+  const SECTOR_WIN_TOKEN_SCALE_MULTIPLIER = 0.9;
+  const SECTOR_WIN_ANCHOR_SLOT_INDEX = 3;
+  const SECTOR_WIN_VERTICAL_DATA_SIZE_OFFSET = 2;
+  const DEFAULT_SECTOR_WIN_BAR_STEP = Object.freeze({ x: 3.8, y: 0 });
+  const DEFAULT_RIGHT_SECTOR_WIN_BAR_STEP = Object.freeze({ x: 3.8, y: 3.6 });
+
   /** 版图外边槽位对应 sector-wrap 的 CSS 旋转角度 */
   const BOARD_SLOT_ROTATION = Object.freeze({
     1: 0,
@@ -168,6 +261,10 @@
     return NEBULA_LABELS[nebulaId] || nebulaId;
   }
 
+  function getNebulaColor(nebulaId) {
+    return NEBULA_COLOR_BY_ID[nebulaId] || null;
+  }
+
   function getNebulaCapacity(nebulaId) {
     return NEBULA_DATA_CAPACITY[nebulaId] ?? 0;
   }
@@ -182,6 +279,168 @@
     return slots.find((slot) => slot.slotIndex === Number(slotIndex)) || null;
   }
 
+  function getSectorWinMarkerConfig(nebulaId) {
+    return SECTOR_WIN_MARKER_SLOTS[nebulaId] || null;
+  }
+
+  function getSectorWinMarkerCalibration(nebulaId) {
+    return SECTOR_WIN_MARKER_CALIBRATION[nebulaId] || null;
+  }
+
+  function clampPercent(value, min = 0, max = 100) {
+    return roundPercent(Math.min(max, Math.max(min, Number(value) || 0)));
+  }
+
+  function getSectorWinAnchorSlot(nebulaId) {
+    const slots = listNebulaSlotLayouts(nebulaId);
+    if (!slots.length) return null;
+    return getNebulaDataSlotLayout(nebulaId, SECTOR_WIN_ANCHOR_SLOT_INDEX)
+      || slots[Math.floor(slots.length / 2)]
+      || slots[0];
+  }
+
+  function getDataTokenSectorSize(nebulaId, slot) {
+    const region = getNebulaPanelRegion(nebulaId);
+    const scale = ((Number(slot?.scalePercent) || 11.8) / 100) * NEBULA_DATA_TOKEN_DISPLAY_SCALE;
+    const widthPercent = (NEBULA_DATA_TOKEN_WIDTH_PERCENT * scale * region.widthPercent) / 100;
+    return {
+      widthPercent: roundPercent(widthPercent),
+      heightPercent: roundPercent(widthPercent * SECTOR_IMAGE_ASPECT_RATIO),
+    };
+  }
+
+  function getSectorWinAnchorLayout(nebulaId) {
+    const anchorSlot = getSectorWinAnchorSlot(nebulaId);
+    if (!anchorSlot) return null;
+    const anchor = nebulaLocalToSectorImage(nebulaId, anchorSlot.percentX, anchorSlot.percentY);
+    const size = getDataTokenSectorSize(nebulaId, anchorSlot);
+    const region = getNebulaPanelRegion(nebulaId);
+    const nextSlot = getNebulaDataSlotLayout(nebulaId, Number(anchorSlot.slotIndex) + 1);
+    const next = nextSlot
+      ? nebulaLocalToSectorImage(nebulaId, nextSlot.percentX, nextSlot.percentY)
+      : null;
+    const observedStepX = next ? Math.abs(next.percentX - anchor.percentX) : 0;
+    const stepX = roundPercent(Math.max(observedStepX, size.widthPercent * 1.15, 3.5));
+    const minX = region.originX + size.widthPercent / 2;
+    const maxX = region.originX + region.widthPercent - size.widthPercent / 2;
+    return {
+      percentX: clampPercent(anchor.percentX, minX, maxX),
+      percentY: clampPercent(anchor.percentY - size.heightPercent * SECTOR_WIN_VERTICAL_DATA_SIZE_OFFSET, 2, 98),
+      scalePercent: roundPercent(Math.max(size.widthPercent * 1.1, 4.2) * SECTOR_WIN_TOKEN_SCALE_MULTIPLIER),
+      stepX,
+      stepY: 0,
+      minX,
+      maxX,
+    };
+  }
+
+  function getCalibratedBarStep(nebulaId, calibration) {
+    const bar = calibration?.bar;
+    if (bar?.[1] && bar?.[2]) {
+      return {
+        x: roundPercent(bar[2].percentX - bar[1].percentX),
+        y: roundPercent(bar[2].percentY - bar[1].percentY),
+      };
+    }
+    if (bar?.[1] && calibration?.circle?.[1]) {
+      return {
+        x: roundPercent((bar[1].percentX - calibration.circle[1].percentX) * 0.5),
+        y: roundPercent((bar[1].percentY - calibration.circle[1].percentY) * 0.5),
+      };
+    }
+    return isRightNebula(nebulaId)
+      ? { ...DEFAULT_RIGHT_SECTOR_WIN_BAR_STEP }
+      : { ...DEFAULT_SECTOR_WIN_BAR_STEP };
+  }
+
+  function getCalibratedSectorWinMarkerLayout(nebulaId, kind, markerIndex, scalePercent) {
+    const calibration = getSectorWinMarkerCalibration(nebulaId);
+    if (!calibration) return null;
+    const index = Math.max(1, Math.round(Number(markerIndex) || 1));
+    const group = calibration[kind];
+    const exact = group?.[kind === "circle" ? 1 : index];
+    if (exact) {
+      return {
+        percentX: exact.percentX,
+        percentY: exact.percentY,
+        scalePercent,
+        slotKind: kind,
+        markerIndex: kind === "circle" ? 1 : index,
+      };
+    }
+    if (kind !== "bar") return null;
+    if (!calibration.bar?.[1] && calibration.circle?.[1]) {
+      const step = getCalibratedBarStep(nebulaId, calibration);
+      const circle = calibration.circle[1];
+      return {
+        percentX: roundPercent(circle.percentX + index * step.x),
+        percentY: roundPercent(circle.percentY + index * step.y),
+        scalePercent,
+        stepX: step.x,
+        stepY: step.y,
+        slotKind: "bar",
+        markerIndex: index,
+      };
+    }
+    if (!calibration.bar?.[1]) return null;
+
+    const step = getCalibratedBarStep(nebulaId, calibration);
+    const first = calibration.bar[1];
+    return {
+      percentX: roundPercent(first.percentX + (index - 1) * step.x),
+      percentY: roundPercent(first.percentY + (index - 1) * step.y),
+      scalePercent,
+      stepX: step.x,
+      stepY: step.y,
+      slotKind: "bar",
+      markerIndex: index,
+    };
+  }
+
+  function getSectorWinMarkerLayout(nebulaId, slotKind = "bar", markerIndex = 1) {
+    const config = getSectorWinMarkerConfig(nebulaId);
+    if (!config) return null;
+    const anchor = getSectorWinAnchorLayout(nebulaId);
+    if (!anchor) return null;
+    const kind = slotKind === "circle" && config.firstKind === "circle" ? "circle" : "bar";
+    const index = Math.max(1, Math.round(Number(markerIndex) || 1));
+    const calibrated = getCalibratedSectorWinMarkerLayout(nebulaId, kind, index, anchor.scalePercent);
+    if (calibrated) return calibrated;
+    const sequenceIndex = kind === "circle"
+      ? 1
+      : (config.firstKind === "circle" ? index + 1 : index);
+    const percentX = clampPercent(
+      anchor.percentX + (sequenceIndex - 1) * anchor.stepX,
+      anchor.minX,
+      anchor.maxX,
+    );
+    const layout = {
+      percentX,
+      percentY: anchor.percentY,
+      scalePercent: anchor.scalePercent,
+      stepX: anchor.stepX,
+      stepY: anchor.stepY,
+      slotKind: kind,
+      markerIndex: kind === "circle" ? 1 : index,
+    };
+    return layout;
+  }
+
+  function listSectorWinDebugSlots(nebulaId) {
+    const config = getSectorWinMarkerConfig(nebulaId);
+    if (!config) return [];
+    if (config.firstKind === "circle") {
+      return [
+        { slotKind: "circle", markerIndex: 1, label: "首次圆形区域" },
+        { slotKind: "bar", markerIndex: 1, label: "后续条形区域" },
+      ];
+    }
+    return [
+      { slotKind: "bar", markerIndex: 1, label: "条形区域 1" },
+      { slotKind: "bar", markerIndex: 2, label: "条形区域 2" },
+    ];
+  }
+
   function listNebulaIdsForSector(sectorId) {
     return NEBULA_IDS_BY_SECTOR[Number(sectorId)] || [];
   }
@@ -189,7 +448,9 @@
   return Object.freeze({
     NEBULA_DATA_CAPACITY,
     NEBULA_LABELS,
+    NEBULA_COLOR_BY_ID,
     NEBULA_DATA_SLOTS,
+    SECTOR_WIN_MARKER_SLOTS,
     NEBULA_IDS,
     NEBULA_IDS_BY_SECTOR,
     BOARD_SLOT_ROTATION,
@@ -199,9 +460,13 @@
     sectorImageToNebulaLocal,
     nebulaLocalToSectorImage,
     getNebulaLabel,
+    getNebulaColor,
     getNebulaCapacity,
     listNebulaSlotLayouts,
     getNebulaDataSlotLayout,
+    getSectorWinMarkerConfig,
+    getSectorWinMarkerLayout,
+    listSectorWinDebugSlots,
     listNebulaIdsForSector,
   });
 });

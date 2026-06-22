@@ -3668,6 +3668,10 @@ button.spin-button:hover {
   transform-origin: center center;
 }
 
+.sector-win-debug-active .sector-wrap {
+  pointer-events: auto;
+}
+
 .nebula-panel {
   pointer-events: none;
 }
@@ -3697,6 +3701,56 @@ button.spin-button:hover {
   cursor: grabbing;
   z-index: 12;
   filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.55));
+}
+
+.sector-win-marker-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+
+.sector-win-token.sector-win-token-positioned {
+  position: absolute;
+  width: 8%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+  z-index: 8;
+  border-radius: 50%;
+  opacity: 1;
+  mix-blend-mode: normal;
+  pointer-events: none;
+  touch-action: auto;
+  transform: translate(-50%, -50%);
+  filter:
+    drop-shadow(0 2px 5px rgba(0, 0, 0, 0.5))
+    drop-shadow(0 0 5px rgba(255, 255, 255, 0.16));
+}
+
+.sector-win-token-owned {
+  opacity: 1;
+}
+
+.sector-win-token-debug {
+  opacity: 0.72;
+  outline: 2px solid rgba(126, 229, 255, 0.86);
+  outline-offset: 1px;
+}
+
+.sector-win-debug-active .sector-win-token-debug {
+  pointer-events: auto;
+  cursor: grab;
+  touch-action: none;
+}
+
+.sector-win-token.sector-win-token-positioned.is-dragging {
+  z-index: 14;
+  cursor: grabbing;
+  opacity: 0.95;
+  filter:
+    drop-shadow(0 6px 14px rgba(0, 0, 0, 0.58))
+    drop-shadow(0 0 8px rgba(126, 229, 255, 0.42));
 }
 
 .aomomo-nebula-data-layer {

@@ -18,7 +18,7 @@
 - `randomizer/solar-system/layout.js`：太阳系盘面坐标、扇区、星云与内容类型定义。
 - `randomizer/solar-system/core.js`：太阳系渲染与旋转相关核心逻辑。
 - `randomizer/game/players.js`：玩家资源、收入、手牌、保留牌、科技与初始选择状态。
-- `randomizer/game/rockets.js`：火箭状态、发射、移动、旋转推动与访问事件。
+- `randomizer/game/rockets.js`：火箭状态、发射、移动、旋转推动与访问事件。部分地方可能把火箭称为探测器，他们是同一个东西。
 - `randomizer/game/planet-stats.js`：星球环绕、登陆、卫星登陆和参考图标记统计。
 - `randomizer/game/initial-cards.js`：公司牌和初始牌的初始选择结算。
 - `randomizer/game/final-scoring.js`：终局计分板块标记流程。

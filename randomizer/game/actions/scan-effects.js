@@ -32,6 +32,13 @@
     mercury_scan: "../assets/symbol/action/scan/mercury_scan.png",
     private_card_scan: "../assets/symbol/action/scan/private_card_scan.webp",
     scan_action_4: "../assets/symbol/action/scan/scan_action_4.png",
+    scan_action_finalize: "../assets/symbol/effect/finish_scan.webp",
+    scan_public_refill: "../assets/symbol/action/scan/public_card_scan.webp",
+    sector_finish_scan: "../assets/symbol/effect/finish_scan.webp",
+    yellow_finish_scan: "../assets/symbol/effect/yellow_finish_scan.webp",
+    red_finish_scan: "../assets/symbol/effect/red_finish_scan.webp",
+    blue_finish_scan: "../assets/symbol/effect/blue_finish_scan.webp",
+    black_finish_scan: "../assets/symbol/effect/black_finish_scan.webp",
   });
 
   const EFFECT_TYPES = Object.freeze({
@@ -42,6 +49,9 @@
     MERCURY_SECTOR_SCAN: "mercury_sector_scan",
     HAND_SCAN: "hand_scan",
     SCAN_ACTION_4: "scan_action_4",
+    SCAN_ACTION_FINALIZE: "scan_action_finalize",
+    SCAN_PUBLIC_REFILL: "scan_public_refill",
+    SECTOR_FINISH_SCAN: "sector_finish_scan",
   });
 
   function playerOwnsPurpleTech(player, level) {
@@ -68,13 +78,16 @@
   function buildScanEffectQueue(player, options = {}) {
     const standardAction = options.standardAction !== false;
     const cost = options.cost || (standardAction ? getStandardScanCost(player) : SCAN_COST);
+    const scanRunId = options.scanRunId || null;
+    const fullScanAction = Boolean(options.fullScanAction || options.includeFinalize);
+    const sharedOptions = scanRunId ? { scanRunId, fullScanAction } : {};
     const effects = [{
       type: EFFECT_TYPES.PAY_SCAN_COST,
       abilityId: "payScanCost",
       icon: "scan_cost",
       label: "支付扫描费用",
       undoable: true,
-      options: { cost, standardAction },
+      options: { cost, standardAction, ...sharedOptions },
     }];
 
     if (playerOwnsPurpleTech(player, 1)) {
@@ -83,6 +96,7 @@
         abilityId: "scanSector",
         icon: "earth_scan_improved",
         label: "扇区扫描",
+        options: { ...sharedOptions },
       });
     } else {
       effects.push({
@@ -90,6 +104,7 @@
         abilityId: "scanSector",
         icon: "earth_scan",
         label: "扇区扫描",
+        options: { ...sharedOptions },
       });
     }
 
@@ -98,6 +113,7 @@
       abilityId: "scanPublicCard",
       icon: "public_card_scan",
       label: "公共牌区扫描",
+      options: { ...sharedOptions },
     });
 
     if (playerOwnsPurpleTech(player, 2)) {
@@ -106,6 +122,7 @@
         abilityId: "scanSector",
         icon: "mercury_scan",
         label: "扇区扫描",
+        options: { ...sharedOptions },
       });
     }
 
@@ -115,6 +132,7 @@
         abilityId: "scanHandCard",
         icon: "private_card_scan",
         label: "手牌扫描",
+        options: { ...sharedOptions },
       });
     }
 
@@ -124,6 +142,17 @@
         abilityId: "scanAction4",
         icon: "scan_action_4",
         label: "发射/移动",
+        options: { ...sharedOptions },
+      });
+    }
+
+    if (options.includeFinalize) {
+      effects.push({
+        type: EFFECT_TYPES.SCAN_ACTION_FINALIZE,
+        icon: "scan_action_finalize",
+        label: "扫描收尾",
+        undoable: true,
+        options: { ...sharedOptions },
       });
     }
 

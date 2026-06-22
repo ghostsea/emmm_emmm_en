@@ -34,6 +34,77 @@ const barnardSlot5 = data.getNebulaDataSlotLayout("sector-2-b", 5);
 assert.equal(barnardSlot5.percentX, 48.28);
 assert.equal(barnardSlot5.percentY, 54.35);
 
+const siriusSlot3Sector = data.nebulaLocalToSectorImage("sector-2-a", 56.38, 51.46);
+const siriusWinBar1 = data.getSectorWinMarkerLayout("sector-2-a", "bar", 1);
+const siriusWinBar2 = data.getSectorWinMarkerLayout("sector-2-a", "bar", 2);
+assert.equal(siriusWinBar1.slotKind, "bar");
+assert.equal(siriusWinBar1.markerIndex, 1);
+assert.equal(siriusWinBar1.percentX, 30.03);
+assert.equal(siriusWinBar1.percentY, 33.86);
+assert.equal(siriusWinBar1.scalePercent, 3.78);
+assert.equal(siriusWinBar2.percentX, 34.2);
+assert.equal(siriusWinBar2.percentY, 30.25);
+assert.ok(siriusWinBar1.percentX > 0 && siriusWinBar1.percentX < 50);
+assert.ok(siriusWinBar1.percentY < siriusSlot3Sector.percentY);
+assert.ok(siriusWinBar2.percentX > siriusWinBar1.percentX);
+
+const barnardWinCircle = data.getSectorWinMarkerLayout("sector-2-b", "circle", 1);
+const barnardWinBar = data.getSectorWinMarkerLayout("sector-2-b", "bar", 1);
+assert.equal(barnardWinCircle.percentX, 71.12);
+assert.equal(barnardWinCircle.percentY, 35.07);
+assert.equal(barnardWinBar.percentX, 77.7);
+assert.equal(barnardWinBar.percentY, 41.42);
+assert.ok(barnardWinBar.percentX > barnardWinCircle.percentX);
+assert.ok(barnardWinBar.percentY > barnardWinCircle.percentY);
+
+const vegaSlot3Sector = data.nebulaLocalToSectorImage("sector-1-b", 38.26, 49.83);
+const vegaWinCircle = data.getSectorWinMarkerLayout("sector-1-b", "circle", 1);
+const vegaWinBar = data.getSectorWinMarkerLayout("sector-1-b", "bar", 1);
+assert.equal(vegaWinCircle.slotKind, "circle");
+assert.equal(vegaWinBar.slotKind, "bar");
+assert.equal(vegaWinCircle.percentX, 71.52);
+assert.equal(vegaWinCircle.percentY, 35.39);
+assert.equal(vegaWinBar.percentX, 77.3);
+assert.equal(vegaWinBar.percentY, 41.42);
+assert.ok(vegaWinCircle.percentX > 50 && vegaWinCircle.percentX < 100);
+assert.ok(vegaWinCircle.percentY < vegaSlot3Sector.percentY);
+assert.ok(vegaWinBar.percentX > vegaWinCircle.percentX);
+
+const procyonWinCircle = data.getSectorWinMarkerLayout("sector-1-a", "circle", 1);
+const procyonWinBar = data.getSectorWinMarkerLayout("sector-1-a", "bar", 1);
+assert.equal(procyonWinCircle.percentX, 29.63);
+assert.equal(procyonWinCircle.percentY, 33.79);
+assert.equal(procyonWinBar.percentX, 36.45);
+assert.equal(procyonWinBar.percentY, 27.68);
+
+const keplerWinCircle = data.getSectorWinMarkerLayout("sector-3-a", "circle", 1);
+const keplerWinBar = data.getSectorWinMarkerLayout("sector-3-a", "bar", 1);
+assert.equal(keplerWinCircle.percentX, 29.71);
+assert.equal(keplerWinCircle.percentY, 33.06);
+assert.equal(keplerWinBar.percentX, 35.97);
+assert.equal(keplerWinBar.percentY, 27.84);
+
+const proximaWinBar1 = data.getSectorWinMarkerLayout("sector-3-b", "bar", 1);
+const proximaWinBar2 = data.getSectorWinMarkerLayout("sector-3-b", "bar", 2);
+assert.equal(proximaWinBar1.percentX, 71.6);
+assert.equal(proximaWinBar1.percentY, 35.47);
+assert.equal(proximaWinBar2.percentX, 75.29);
+assert.equal(proximaWinBar2.percentY, 39.08);
+
+const virgoWinBar1 = data.getSectorWinMarkerLayout("sector-4-a", "bar", 1);
+const virgoWinBar2 = data.getSectorWinMarkerLayout("sector-4-a", "bar", 2);
+assert.equal(virgoWinBar1.percentX, 29.71);
+assert.equal(virgoWinBar1.percentY, 33.31);
+assert.equal(virgoWinBar2.percentX, 32.75);
+assert.equal(virgoWinBar2.percentY, 30.9);
+
+const pictorWinCircle = data.getSectorWinMarkerLayout("sector-4-b", "circle", 1);
+const pictorWinBar = data.getSectorWinMarkerLayout("sector-4-b", "bar", 1);
+assert.equal(pictorWinCircle.percentX, 70.8);
+assert.equal(pictorWinCircle.percentY, 34.51);
+assert.equal(pictorWinBar.percentX, 76.9);
+assert.equal(pictorWinBar.percentY, 42.54);
+
 const aomomoArcSlot1 = data.getNebulaDataSlotLayout("aomomo", 1);
 const aomomoArcSlot2 = data.getNebulaDataSlotLayout("aomomo", 2);
 const aomomoArcSlot3 = data.getNebulaDataSlotLayout("aomomo", 3);
@@ -264,6 +335,10 @@ assert.equal(settleResult.winner.playerColor, "white");
 assert.equal(settleResult.second.playerColor, "blue");
 assert.equal(settleResult.participants.length, 3);
 assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"].settlementCount, 1);
+assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"].winners.length, 1);
+assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"].winners[0].slotKind, "circle");
+assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"].winners[0].markerIndex, 1);
+assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"].winners[0].playerTokenSrc, "token-white.png");
 assert.deepEqual(settlementState.sectorSettlements.winsByPlayerId["player-white"], [
   { sectorId: "sector-1-a", settlementNumber: 1 },
 ]);
@@ -274,6 +349,51 @@ const retained = data.listNebulaTokens(settlementState, "sector-1-a")
 assert.equal(retained.replacedByPlayerColor, "blue");
 assert.equal(retained.playerTokenSrc, "token-blue.png");
 assert.ok(data.getSectorSettlementReadoutLines(settlementState).some((line) => line.includes("南河三 结算1次")));
+
+[
+  settlementPlayers[1],
+  settlementPlayers[1],
+  settlementPlayers[1],
+  settlementPlayers[1],
+].forEach((player, index) => {
+  data.replaceNextNebulaDataToken(settlementState, "sector-1-a", player, {
+    replacementOrder: 10 + index,
+  });
+});
+assert.equal(data.isSectorReadyToSettle(settlementState, "sector-1-a"), true);
+const secondSettleResult = data.settleSector(settlementState, "sector-1-a", {
+  players: settlementPlayers,
+  getPlayerTokenSrc: (player) => `token-${player.color}.png`,
+});
+assert.equal(secondSettleResult.ok, true);
+assert.equal(secondSettleResult.settlementNumber, 2);
+assert.equal(secondSettleResult.winner.playerColor, "green");
+assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"].winners[1].slotKind, "bar");
+assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"].winners[1].markerIndex, 1);
+assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"].winners[1].playerTokenSrc, "token-green.png");
+
+const stripOnlyState = data.createDefaultNebulaDataState();
+data.fillNebulaData(stripOnlyState, "sector-2-a", { source: "test" });
+[
+  settlementPlayers[0],
+  settlementPlayers[0],
+  settlementPlayers[0],
+  settlementPlayers[1],
+  settlementPlayers[1],
+  settlementPlayers[2],
+].forEach((player, index) => {
+  data.replaceNextNebulaDataToken(stripOnlyState, "sector-2-a", player, {
+    replacementOrder: index + 1,
+  });
+});
+const stripOnlySettle = data.settleSector(stripOnlyState, "sector-2-a", {
+  players: settlementPlayers,
+  getPlayerTokenSrc: (player) => `token-${player.color}.png`,
+});
+assert.equal(stripOnlySettle.ok, true);
+assert.equal(stripOnlySettle.winner.playerColor, "blue");
+assert.equal(stripOnlyState.sectorSettlements.sectors["sector-2-a"].winners[0].slotKind, "bar");
+assert.equal(stripOnlyState.sectorSettlements.sectors["sector-2-a"].winners[0].markerIndex, 1);
 
 data.clearNebulaData(settlementState);
 assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"], undefined);

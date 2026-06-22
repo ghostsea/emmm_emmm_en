@@ -26,7 +26,11 @@
   "use strict";
 
   const tokenElements = new Map();
+  const sectorWinTokenElements = new Map();
   const slotLayoutOverrides = new Map();
+  const sectorWinLayoutOverrides = new Map();
+  const SECTOR_WIN_TOKEN_FALLBACK_SRC = "../assets/tokens/normal_token.png";
+  const SECTOR_WIN_DEBUG_TOKEN_SRC = "../assets/tokens/normal_token-white.png";
   let dragState = null;
   let dragHandlers = {};
   let dragListenersBound = false;
@@ -37,6 +41,10 @@
 
   function getOverrideKey(nebulaId, slotIndex) {
     return `${nebulaId}:${slotIndex}`;
+  }
+
+  function getSectorWinOverrideKey(nebulaId, slotKind, markerIndex) {
+    return `${nebulaId}:${slotKind}:${markerIndex}`;
   }
 
   function getEffectiveNebulaSlotLayout(nebulaId, slotIndex, token) {
@@ -51,6 +59,17 @@
       ...base,
       percentX,
       percentY,
+    };
+  }
+
+  function getEffectiveSectorWinMarkerLayout(nebulaId, slotKind = "bar", markerIndex = 1) {
+    const base = nebulaPlacement.getSectorWinMarkerLayout?.(nebulaId, slotKind, markerIndex);
+    if (!base) return null;
+    const override = sectorWinLayoutOverrides.get(getSectorWinOverrideKey(nebulaId, base.slotKind, base.markerIndex));
+    return {
+      ...base,
+      percentX: override?.percentX ?? base.percentX,
+      percentY: override?.percentY ?? base.percentY,
     };
   }
 
@@ -226,8 +245,35 @@
     element.classList.toggle("is-dragging", dragging);
   }
 
+  function handleSectorWinTokenPointerDown(event) {
+    if (event.button !== 0) return false;
+
+    const element = event.target.closest(".sector-win-token-positioned");
+    if (!element || element.dataset.debugSectorWin !== "true") return false;
+    const sectorElement = element.closest(".sector-wrap");
+    if (!sectorElement) return false;
+
+    event.preventDefault();
+    dragState = {
+      element,
+      sectorElement,
+      nebulaId: element.dataset.nebulaId,
+      slotKind: element.dataset.sectorWinSlotKind || "bar",
+      markerIndex: Number(element.dataset.sectorWinMarkerIndex) || 1,
+      debugSectorWin: true,
+      pointerId: event.pointerId,
+    };
+
+    setDraggingElement(element, true);
+    if (element.setPointerCapture) {
+      element.setPointerCapture(event.pointerId);
+    }
+    return true;
+  }
+
   function handleNebulaTokenPointerDown(event) {
     if (event.button !== 0) return;
+    if (handleSectorWinTokenPointerDown(event)) return;
 
     const element = event.target.closest(".nebula-data-token-positioned");
     if (!element) return;
@@ -257,6 +303,15 @@
   function handleNebulaTokenPointerMove(event) {
     if (!dragState || event.pointerId !== dragState.pointerId) return;
 
+    if (dragState.debugSectorWin) {
+      const position = clientToSectorImagePercent(dragState.sectorElement, event.clientX, event.clientY);
+      dragState.element.style.left = `${position.percentX}%`;
+      dragState.element.style.top = `${position.percentY}%`;
+      dragState.element.dataset.dataPercentX = String(position.percentX);
+      dragState.element.dataset.dataPercentY = String(position.percentY);
+      return;
+    }
+
     const position = clientToNebulaLocalPercent(dragState.layer, event.clientX, event.clientY);
     dragState.element.style.left = `${position.percentX}%`;
     dragState.element.style.top = `${position.percentY}%`;
@@ -266,6 +321,37 @@
 
   function handleNebulaTokenPointerUp(event) {
     if (!dragState || event.pointerId !== dragState.pointerId) return;
+
+    if (dragState.debugSectorWin) {
+      const { element, sectorElement, nebulaId, slotKind, markerIndex } = dragState;
+      const position = clientToSectorImagePercent(sectorElement, event.clientX, event.clientY);
+      if (element.releasePointerCapture) {
+        try {
+          element.releasePointerCapture(event.pointerId);
+        } catch {
+          // ignore stale capture
+        }
+      }
+      setDraggingElement(element, false);
+      sectorWinLayoutOverrides.set(
+        getSectorWinOverrideKey(nebulaId, slotKind, markerIndex),
+        position,
+      );
+      const label = nebulaPlacement.getNebulaLabel(nebulaId);
+      const payload = {
+        nebulaId,
+        slotKind,
+        markerIndex,
+        percentX: position.percentX,
+        percentY: position.percentY,
+        message: `扇区胜利标记 ${label} ${slotKind}${markerIndex} 拖动至 扇区${position.percentX}%,${position.percentY}%`,
+      };
+      dragState = null;
+      if (dragHandlers.onSectorWinPositionChange || dragHandlers.onPositionChange) {
+        (dragHandlers.onSectorWinPositionChange || dragHandlers.onPositionChange)(payload);
+      }
+      return;
+    }
 
     const { element, layer, nebulaId, slotIndex, tokenIndex, isAomomo, aomomoDisplayX } = dragState;
     const position = clientToNebulaLocalPercent(layer, event.clientX, event.clientY);
@@ -357,6 +443,16 @@
       panel.appendChild(layer);
     }
 
+    return layer;
+  }
+
+  function ensureSectorWinMarkerLayer(sectorElement) {
+    let layer = sectorElement.querySelector(".sector-win-marker-layer");
+    if (!layer) {
+      layer = document.createElement("div");
+      layer.className = "sector-win-marker-layer";
+      sectorElement.appendChild(layer);
+    }
     return layer;
   }
 
@@ -475,6 +571,130 @@
       + ` 盘面(${layout.percentX}%,${layout.percentY}%)`;
   }
 
+  function applySectorWinTokenStyle(element, layout) {
+    element.classList.add("sector-win-token-positioned");
+    element.style.position = "absolute";
+    element.style.left = `${layout.percentX}%`;
+    element.style.top = `${layout.percentY}%`;
+    element.style.width = `${layout.scalePercent || 9.4}%`;
+    element.style.height = "auto";
+    element.style.transform = "translate(-50%, -50%)";
+    element.style.transformOrigin = "center center";
+    element.dataset.dataPercentX = String(layout.percentX);
+    element.dataset.dataPercentY = String(layout.percentY);
+  }
+
+  function getWinRecordMarkerSlot(nebulaId, record) {
+    if (record?.slotKind && record?.markerIndex != null) {
+      return {
+        slotKind: record.slotKind,
+        markerIndex: Math.max(1, Math.round(Number(record.markerIndex) || 1)),
+      };
+    }
+    return nebulaState.getSettlementWinMarkerSlot?.(nebulaId, record?.settlementNumber) || {
+      slotKind: "bar",
+      markerIndex: Math.max(1, Math.round(Number(record?.settlementNumber) || 1)),
+    };
+  }
+
+  function mountSectorWinToken(nebulaId, record, layer, activeKeys) {
+    const markerSlot = getWinRecordMarkerSlot(nebulaId, record);
+    const key = `win:${nebulaId}:${record.settlementNumber || activeKeys.size + 1}`;
+    activeKeys.add(key);
+    let element = sectorWinTokenElements.get(key);
+    if (!element) {
+      element = document.createElement("img");
+      element.draggable = false;
+      sectorWinTokenElements.set(key, element);
+      layer.appendChild(element);
+    } else if (element.parentElement !== layer) {
+      layer.appendChild(element);
+    }
+    element.className = "sector-win-token sector-win-token-owned sector-win-token-positioned";
+    element.dataset.dataKind = "sector-win";
+    delete element.dataset.debugSectorWin;
+
+    const layout = getEffectiveSectorWinMarkerLayout(nebulaId, markerSlot.slotKind, markerSlot.markerIndex);
+    if (!layout) return;
+    if (dragState?.element === element) return;
+
+    applySectorWinTokenStyle(element, layout);
+    const label = nebulaPlacement.getNebulaLabel(nebulaId);
+    const ownerLabel = record.playerLabel || record.playerColor || "";
+    element.src = record.playerTokenSrc || SECTOR_WIN_TOKEN_FALLBACK_SRC;
+    element.alt = `${label} ${ownerLabel}胜利标记 ${record.settlementNumber || ""}`;
+    element.dataset.nebulaId = nebulaId;
+    element.dataset.sectorWinSlotKind = markerSlot.slotKind;
+    element.dataset.sectorWinMarkerIndex = String(markerSlot.markerIndex);
+    element.title =
+      `${label} 第${record.settlementNumber || "?"}次完成 ${ownerLabel}`
+      + ` ${markerSlot.slotKind}${markerSlot.markerIndex}`
+      + ` 扇区(${layout.percentX}%,${layout.percentY}%)`;
+  }
+
+  function mountSectorWinDebugToken(nebulaId, debugSlot, layer, activeKeys) {
+    const markerIndex = Math.max(1, Math.round(Number(debugSlot.markerIndex) || 1));
+    const slotKind = debugSlot.slotKind || "bar";
+    const key = `debug:${nebulaId}:${slotKind}:${markerIndex}`;
+    activeKeys.add(key);
+    let element = sectorWinTokenElements.get(key);
+    if (!element) {
+      element = document.createElement("img");
+      element.className = "sector-win-token sector-win-token-debug sector-win-token-positioned";
+      element.draggable = false;
+      element.dataset.dataKind = "sector-win-debug";
+      element.dataset.debugSectorWin = "true";
+      sectorWinTokenElements.set(key, element);
+      layer.appendChild(element);
+    } else if (element.parentElement !== layer) {
+      layer.appendChild(element);
+    }
+
+    const layout = getEffectiveSectorWinMarkerLayout(nebulaId, slotKind, markerIndex);
+    if (!layout) return;
+    if (dragState?.element === element) return;
+
+    applySectorWinTokenStyle(element, layout);
+    const label = nebulaPlacement.getNebulaLabel(nebulaId);
+    element.src = SECTOR_WIN_DEBUG_TOKEN_SRC;
+    element.alt = `${label} ${debugSlot.label || "胜利标记"}调试占位`;
+    element.dataset.nebulaId = nebulaId;
+    element.dataset.sectorWinSlotKind = slotKind;
+    element.dataset.sectorWinMarkerIndex = String(markerIndex);
+    element.dataset.debugSectorWin = "true";
+    element.title =
+      `${label} ${debugSlot.label || `${slotKind}${markerIndex}`}`
+      + ` 扇区(${layout.percentX}%,${layout.percentY}%)`;
+  }
+
+  function renderSectorWinMarkers(sectorId, sectorElement, nebulaDataState, options = {}) {
+    if (!sectorElement) return null;
+    const layer = ensureSectorWinMarkerLayer(sectorElement);
+    const activeKeys = new Set();
+    const nebulaIds = nebulaPlacement.listNebulaIdsForSector(sectorId);
+
+    for (const nebulaId of nebulaIds) {
+      for (const record of nebulaState.listSectorWinRecords?.(nebulaDataState, nebulaId) || []) {
+        mountSectorWinToken(nebulaId, record, layer, activeKeys);
+      }
+      if (options.showDebugWinMarkers) {
+        for (const debugSlot of nebulaPlacement.listSectorWinDebugSlots?.(nebulaId) || []) {
+          mountSectorWinDebugToken(nebulaId, debugSlot, layer, activeKeys);
+        }
+      }
+    }
+
+    for (const [key, element] of sectorWinTokenElements.entries()) {
+      const parts = key.split(":");
+      const nebulaId = parts[1];
+      if (!nebulaIds.includes(nebulaId) || activeKeys.has(key)) continue;
+      element.remove();
+      sectorWinTokenElements.delete(key);
+    }
+
+    return layer;
+  }
+
   function renderAomomoNebulaData(boardLayer, nebulaDataState, solarState = null, options = {}) {
     const layer = ensureAomomoDataLayer(boardLayer);
     if (!layer) return null;
@@ -496,7 +716,7 @@
     return layer;
   }
 
-  function renderSectorNebulaData(sectorId, sectorElement, nebulaDataState) {
+  function renderSectorNebulaData(sectorId, sectorElement, nebulaDataState, options = {}) {
     if (!sectorElement) return null;
 
     const nebulaIds = nebulaPlacement.listNebulaIdsForSector(sectorId);
@@ -517,14 +737,16 @@
       tokenElements.delete(key);
     }
 
+    renderSectorWinMarkers(sectorId, sectorElement, nebulaDataState, options);
+
     return sectorElement;
   }
 
-  function renderAllSectorNebulaData(getSectorElement, nebulaDataState) {
+  function renderAllSectorNebulaData(getSectorElement, nebulaDataState, options = {}) {
     for (const sectorId of [1, 2, 3, 4]) {
       const sectorElement = getSectorElement(sectorId);
       if (sectorElement) {
-        renderSectorNebulaData(sectorId, sectorElement, nebulaDataState);
+        renderSectorNebulaData(sectorId, sectorElement, nebulaDataState, options);
       }
     }
   }
@@ -550,18 +772,44 @@
       });
   }
 
+  function listSectorWinMarkerLayoutOverrides() {
+    return [...sectorWinLayoutOverrides.entries()]
+      .map(([key, position]) => {
+        const [, nebulaId, slotKind, markerIndex] = key.match(/^([^:]+):([^:]+):(.+)$/) || [];
+        return {
+          nebulaId,
+          slotKind,
+          markerIndex: Number(markerIndex),
+          percentX: position.percentX,
+          percentY: position.percentY,
+        };
+      })
+      .filter((item) => item.nebulaId)
+      .sort((a, b) => {
+        if (a.nebulaId !== b.nebulaId) return a.nebulaId.localeCompare(b.nebulaId);
+        if (a.slotKind !== b.slotKind) return a.slotKind.localeCompare(b.slotKind);
+        return a.markerIndex - b.markerIndex;
+      });
+  }
+
   function resetNebulaDataTokens() {
     for (const element of tokenElements.values()) {
       element.remove();
     }
+    for (const element of sectorWinTokenElements.values()) {
+      element.remove();
+    }
     tokenElements.clear();
+    sectorWinTokenElements.clear();
     slotLayoutOverrides.clear();
+    sectorWinLayoutOverrides.clear();
     dragState = null;
   }
 
   return Object.freeze({
     bindNebulaDataDragging,
     getEffectiveNebulaSlotLayout,
+    getEffectiveSectorWinMarkerLayout,
     getEffectiveAomomoBoardSlotLayout,
     getAomomoRelativePositionFromBoard,
     clientToSectorImagePercent,
@@ -570,7 +818,9 @@
     ensureNebulaDataLayer,
     renderSectorNebulaData,
     renderAllSectorNebulaData,
+    renderSectorWinMarkers,
     renderAomomoNebulaData,
     resetNebulaDataTokens,
+    listSectorWinMarkerLayoutOverrides,
   });
 });

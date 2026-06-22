@@ -88,6 +88,17 @@
       }
     }
 
+    const sectorWinOverrides = nebulaRender.listSectorWinMarkerLayoutOverrides?.() || [];
+    if (sectorWinOverrides.length) {
+      lines.push("[扇区胜利标记校准]");
+      for (const item of sectorWinOverrides) {
+        const label = nebulaPlacement.getNebulaLabel(item.nebulaId);
+        lines.push(
+          `${label} ${item.slotKind}${item.markerIndex} → 扇区${item.percentX}%,${item.percentY}%`,
+        );
+      }
+    }
+
     return lines;
   }
 
@@ -236,8 +247,12 @@
     clientToSectorImagePercent: nebulaRender.clientToSectorImagePercent,
     clientToNebulaLocalPercent: nebulaRender.clientToNebulaLocalPercent,
     getNebulaLabel: nebulaPlacement.getNebulaLabel,
+    getNebulaColor: nebulaPlacement.getNebulaColor,
     getNebulaCapacity: nebulaPlacement.getNebulaCapacity,
     getNebulaDataSlotLayout: nebulaPlacement.getNebulaDataSlotLayout,
+    getSectorWinMarkerConfig: nebulaPlacement.getSectorWinMarkerConfig,
+    getSectorWinMarkerLayout: nebulaPlacement.getSectorWinMarkerLayout,
+    listSectorWinDebugSlots: nebulaPlacement.listSectorWinDebugSlots,
     listNebulaIdsForSector: nebulaPlacement.listNebulaIdsForSector,
     createDefaultNebulaDataState: nebulaState.createDefaultNebulaDataState,
     createDefaultSectorSettlementState: nebulaState.createDefaultSectorSettlementState,
@@ -254,6 +269,8 @@
     isSectorReadyToSettle: nebulaState.isSectorReadyToSettle,
     getSectorTokenStats: nebulaState.getSectorTokenStats,
     getSectorRanking: nebulaState.getSectorRanking,
+    getSettlementWinMarkerSlot: nebulaState.getSettlementWinMarkerSlot,
+    listSectorWinRecords: nebulaState.listSectorWinRecords,
     settleSector: nebulaState.settleSector,
     settleCompletedSectors: nebulaState.settleCompletedSectors,
     getSectorSettlementReadoutLines: nebulaState.getSectorSettlementReadoutLines,
@@ -269,11 +286,14 @@
     bindNebulaDataDragging: nebulaRender.bindNebulaDataDragging,
     renderSectorNebulaData: nebulaRender.renderSectorNebulaData,
     renderAllSectorNebulaData: nebulaRender.renderAllSectorNebulaData,
+    renderSectorWinMarkers: nebulaRender.renderSectorWinMarkers,
     renderAomomoNebulaData: nebulaRender.renderAomomoNebulaData,
     getEffectiveAomomoBoardSlotLayout: nebulaRender.getEffectiveAomomoBoardSlotLayout,
     getAomomoRelativePositionFromBoard: nebulaRender.getAomomoRelativePositionFromBoard,
     getEffectiveNebulaSlotLayout: nebulaRender.getEffectiveNebulaSlotLayout,
+    getEffectiveSectorWinMarkerLayout: nebulaRender.getEffectiveSectorWinMarkerLayout,
     listNebulaSlotLayoutOverrides: nebulaRender.listNebulaSlotLayoutOverrides,
+    listSectorWinMarkerLayoutOverrides: nebulaRender.listSectorWinMarkerLayoutOverrides,
     resetNebulaDataTokens: nebulaRender.resetNebulaDataTokens,
     getNebulaReadoutLines,
     getReadoutLines,
