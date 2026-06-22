@@ -58,7 +58,7 @@
 - 玩家运行时字段：`industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn`（图灵借用，Round/Turn 共同判定当前回合有效）、`industrySentinelArmedRound` / `industrySentinelArmedTurn`（哨兵武装）、`industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds`（寰宇免费移动）、`industryPlayedCardThisRound` / `industryLastPlayedCardThisRound`（本轮已打牌快照）、`industryAlienLabPanels`（异星实验室三色板块）、`industryFutureSpan`（未来跨度扣下的牌、目标分与打出状态）。回合结束时会清空当前玩家的图灵借用；新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等轮内状态，不重置 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记），也不清空未来跨度目标牌或异星实验室板块。
 - 公司 1x 标记与能力撤销：除涉及精选并拿走/刷新公共牌的能力（任务中继站、芬威克、未来跨度普通 1x、宇宙战略）外，标记与层云核心、图灵借用、寰宇移动、赫利昂移除+收入、深空交换、未来跨度专属标记等步骤写入 `quickActionHistory` 可撤销；层云核心只结算弃牌角标不弃牌、不移除公共牌。任务中继站、芬威克、未来跨度普通 1x、宇宙战略确认拿牌后会提交快速行动历史，之前的快速行动也不再可撤销。撤销标记会 `resetRoundIndustryRuntimeState` 并取消进行中的公司能力流。
 - 交互聚焦：`app.js` 的 `syncInteractionFocusChrome()` 根据进行中的流程在 `#app-wrap` 上设置 `data-interaction-focus`（`public-cards` / `hand-cards` / `tech-panel` / `board-rockets`）；`style.css` 会暗化非目标区域。`hand-cards` 聚焦时不能暗化或禁用 `.player-command` 父容器，需只暗化手牌区的兄弟控件，保证收入弃牌、打牌选牌、移动弃牌支付、手牌扫描等流程中手牌区保持高亮可点。公司牌 1x 可放置时仅用牌面蓝色高亮（`is-action-marker-pending`），不自动进入全屏聚焦以免遮挡行动按钮。
-- 选择公司后，保留牌区右侧分两行显示：第一行放 1 / 2 型任务牌，并按手牌区方式在牌多时部分覆盖；第二行暂时只放 3 型终局计分牌。
+- 选择公司后，保留牌区右侧分两行显示：第一行放 1 / 2 型任务牌，并按手牌区方式在牌多时部分覆盖；第二行放 3 型终局计分牌以及声明 `displayRow: "bottom"` 的特殊保留牌（当前为 b139 冥王星）。
 
 初始效果结算：
 
@@ -82,7 +82,7 @@
 - 开局时 a/b/c/d 各自独立随机变体 1 或 2，结果写入 `finalScoringState.tileVariants` 并同步到 `assets/final/final_{id}{variant}.png`。
 - 板块计分规则见 `assets/final/final_detail.md`：a=收入、b=痕迹/环绕登陆扇区、c=任务、d=科技；变体 1/2 对应表中 a1/a2…d1/d2 公式，标记位决定倍率（3 号及之后使用第三档倍率）。
 - 仅统计当前玩家**已标记**的板块；实时板块分 = 各已标记板块的 `基础值 × 位次倍率`。
-- 3 型终局计分卡打出后进入保留区第二行；实时卡牌终局分只统计当前玩家保留区中的 3 型卡。当前基础牌规则：`b_14` 每完成 1 个红色扇区 3 分；`b_63` 每完成 1 个黄色扇区 3 分；`b_30` 每个蓝色外星人痕迹 2 分；`b_33` 每个蓝色科技 2 分；`b_45` 每个有信号的扇区 1 分；`b_34` 木星每个环绕/登陆（含卫星）3 分（打出效果仍 deferred）。
+- 3 型终局计分卡打出后进入保留区第二行；实时卡牌终局分只统计当前玩家保留区中的 3 型卡。当前基础牌规则：`b_14` 每完成 1 个红色扇区 3 分；`b_63` 每完成 1 个黄色扇区 3 分；`b_100` 每完成 1 个蓝色扇区 3 分；`b_128` 每完成 1 个黑色扇区 3 分；`b_30` 每个蓝色外星人痕迹 2 分；`b_86` 每个粉色外星人痕迹 2 分；`b_113` 每个黄色外星人痕迹 2 分；`b_33` 每个蓝色科技 2 分；`b_45` 每个有信号的扇区 1 分；`b_34` 木星每个环绕/登陆（含卫星）3 分；`b_74` 火星每个环绕/登陆（含卫星）4 分；`b_82` 若有探测器在小行星得 13 分；`b_115` 按当前玩家未标记终局板块的最右档分数合计。DLC 终局牌规则：`dlc_8` 每个剩余可用数据 3 分；`dlc_10` 每个剩余宣传 1 分；`dlc_31` 每个有至少 2 个己方主星登陆标记的行星 6 分；`dlc_39` 每个己方环绕、主星登陆、卫星登陆标记 2 分。
 - 玩家状态栏在正常分数后显示终局总分（图标 `assets/symbol/effect/final_score.webp`）= 当前 `resources.score` + 板块分 + 卡牌分；正常分数行不变。
 - 统一计分入口：`SetiEndGameScoring.computePlayerFinalScore(context)`，`context` 需包含 `currentPlayer`、`finalScoringState`、`nebulaDataState`、`alienGameState`、`planetStatsState`、`cardEffects`、`getCardTypeCode`。
 - 调试按钮「+20分」会给当前玩家增加 20 分，用于快速触发 25 / 50 / 70 分门槛标记流程。
@@ -113,8 +113,10 @@
 - 每个星球记录 `orbits`、`landings`、`orbitMarkers`、`landingMarkers`、`satelliteLandings`。
 - `canAddOrbitMarker` / `canAddLandingMarker` 根据行星参考图槽位判断是否可放置。
 - `addPlanetOrbitMarker` / `addPlanetLandingMarker` / `addSatelliteLandingMarker` 会生成玩家颜色标记。
+- `removePlanetOrbitMarker` / `removePlanetLandingMarker` / `removeSatelliteLandingMarker` 会移除指定标记；主星环绕/登陆标记移除后会重排序号，空出的槽位可再次环绕或登陆。
 - 登陆主星消耗基础 3 能量；若该星球已有任意环绕标记，则消耗降为 2 能量；拥有橙色 3 号科技时再减少 1 能量。
 - 默认不能登陆卫星；拥有橙色 4 号科技后，登陆行动才会把可用卫星加入目标选择。
+- `b_139.webp` 打出后作为特殊保留牌进入下排，不计为 3 型终局卡。当前玩家有 y=4 探测器时，可在普通环绕/登陆不可用但冥王星可用时通过对应主行动执行冥王星环绕或登陆；两者各限一次。冥王星行动支付常规环绕/登陆成本，登陆若已先环绕按常规降低 1 能量，橙3仍生效；行动移除探测器并产生 `planetId: "pluto"` 的 `orbit` / `land` 事件，但不写入普通星球参考图，也不计入普通星球终局计分。
 
 ### 外星人痕迹状态
 
@@ -201,7 +203,7 @@ UI 布局：
 - 数据池满时，额外获得的数据会增加 `discardedCount`，不进入数据池。
 - 放置数据会从数据池最左侧 token 移入计算机第一排，或满足条件时移入蓝色科技附加槽。
 - 计算机第一排 2 号位额外获得 1 宣传；4 号位额外触发 1 次收入（弃 1 张手牌并按该牌收入角标增加收入）。
-- 分析数据要求计算机第一排第 6 位已有数据，消耗 1 能量并清空已放置数据。
+- 分析数据要求计算机第一排第 6 位已有数据，消耗 1 能量并清空已放置数据，随后获得 1 个蓝色外星人痕迹。
 
 ## 行动机制
 
@@ -211,7 +213,7 @@ UI 布局：
 - `orbit`：环绕，要求当前火箭在非地球星球格，消耗 1 信用点 + 1 能量，移除火箭并放置环绕标记。
 - `land`：登陆，要求当前火箭在非地球星球格，消耗 1/2/3 能量，移除火箭并放置主星/卫星登陆标记；卫星登陆需要橙色 4 号科技。
 - `scan`：扫描，默认消耗 1 信用点 + 2 能量，生成扫描效果队列。异星实验室黄色板块正面时，标准扫描改为 2 能量并在支付成功后翻背。
-- `analyze`：分析数据，消耗 1 能量并清空已放置数据。
+- `analyze`：分析数据，消耗 1 能量并清空已放置数据，随后获得 1 个蓝色外星人痕迹。
 - `playCard`：打牌，打开手牌选择/打出流程。
 - `researchTech`：研究科技，生成科技效果链：选择科技片、旋转、即时奖励（如橙1发射、紫1数据）、获取 bonus。异星实验室粉色板块正面时，标准研究费用改为 4 宣传并在选择科技片成功后翻背。
 
@@ -429,16 +431,18 @@ UI 布局：
 
 - 人工卡牌描述转可执行 DSL 的规范参考：`docs\card-modeling-dsl-spec.md`。后续新增卡牌模型时，先按该文档约束人工描述和 agent 转换，尤其要明确效果节点 `kind`、费用策略、任务类型和队列结束结算时机。
 - 卡牌源数据保持 CSV，方便手工校对和继续补内容。当前 `assets/cards/card_model.csv` 主要承载本仓库资产编号、费用、角标和切图元数据；效果语义按 `D:\code\ender_seti\seti` 参考实现迁移到 `randomizer/game/cards/effects.js`。
-- `randomizer/game/cards/effects.js` 维护 `CARD_REFERENCE_MAP`、`MODELS` 和 `DEFERRED_CARD_MODELS`：`CARD_REFERENCE_MAP` 固化 `b_N.webp -> ender_seti` 基础卡 ID；`MODELS` 是已可执行或部分可执行模型；`DEFERRED_CARD_MODELS` 记录当前原型缺能力而遗留的卡牌、参考类和缺失能力。打牌时通过 `getRuntimeCardTypeCode(card, fallback)` 优先使用模型类型，避免 CSV 类型与参考实现冲突导致误入任务区。
+- `randomizer/game/cards/effects.js` 维护 `CARD_REFERENCE_MAP`、`MODELS` 和 `DEFERRED_CARD_MODELS`：`CARD_REFERENCE_MAP` 固化 `b_N.webp` 与 `dlc_N.png` 的来源资料；`b_1`-`b_70` 主要来自 ender_seti 参考实现，`b_71`-`b_140` 来自本仓库 `assets/cards/cards_71.md` / `card_model.csv`，`dlc_1`-`dlc_42` 来自 `assets/cards/dlc_cards.md` / `card_model.csv`；`MODELS` 是已可执行模型；`DEFERRED_CARD_MODELS` 记录当前原型缺能力而遗留的卡牌、参考类和缺失能力。打牌时通过 `getRuntimeCardTypeCode(card, fallback)` 优先使用模型类型，避免 CSV 类型与参考实现冲突导致误入任务区。
 - `randomizer/game/cards/task-state.js` 维护 1 / 2 型任务统一状态：`refreshTaskState` 汇总当前玩家 2 型可完成任务与 1 型保留牌触发进度；`collectType1TriggerMatches` 聚合事件触发的 1 型匹配。`app.js` 在每次主行动效果结算（`completeCurrentActionEffect`）及快速行动/调试等状态变更后调用 `settleCardTasksAfterEffect`：先刷新 2 型高亮，再按 events 处理 1 型触发（同条件多槽仍只选 1 个）。
-- 当前基础牌 `b_1.webp` 到 `b_70.webp` 已全部建立参考映射：29 张 `implemented`、6 张 `partial`、35 张 `deferred`。详细状态见 `docs\card-ability-migration-plan.md`。已迁移模型遵循：
+- 当前基础牌 `b_1.webp` 到 `b_70.webp` 已全部建立参考映射并建模为 `implemented`；实现状态以 `randomizer/game/cards/effects.js` 和 `effects.test.js` 为准。已迁移模型遵循：
   - 0 型卡：打出后展开为 `play_effect` 效果队列，复用现有扫描、公共牌扫描、盲抽、科技、发射、卡牌内免费移动等效果执行器。
   - 1 型卡：打出后进入保留牌区，并在移动等事件完成瞬间检查触发条件；若多个触发槽同时满足，会弹出触发选择，只结算 1 个，也可以取消。已结算的触发槽会在牌面标记序号；全部触发槽结算后，完成任务数 +1 并移除该牌。
   - 2 型卡：打出后进入保留牌区，并注册长期任务；状态条件满足后不自动结算，而是在任务区蓝色高亮。玩家点击该牌确认完成后，完成任务数 +1、移除该牌，并启动任务奖励队列。
-  - 3 型卡：打出后进入保留牌区第二行；终局计分由 `end-game-scoring.js` 按卡牌 `endGameScoring` 元数据实时结算。
+- 3 型卡：打出后进入保留牌区第二行；终局计分由 `end-game-scoring.js` 按卡牌 `endGameScoring` 元数据实时结算。
+- b71-b140 普通卡已接入扫描行动、打牌费用、研究科技、环绕/登陆、信号颜色、按扇区去重、探测器位置、冥王星特殊保留、移除登陆标记、按未标记终局板块计分等通用 DSL 能力。DLC 普通卡继续复用该框架，并新增本卡回手、条件扇区扫描、弃任意手牌按收入结算、支付信用可跳过奖励、移除己方环绕后放置探测器、PASS 触发、按剩余资源和全局星球标记终局计分等通用能力。粉色科技按紫色科技处理；公司默认收入按公司模型 `baseIncome` 作为“非默认收入”基准。
 - 临时任务：如“本卡效果期间若完成 1 个扇区”，绑定在本次卡牌效果队列上；显式 `sector_finish_scan` 效果执行后会把 settlement 结果累计到当前 flow，卡牌效果队列结束时再检查。
 - 打牌是主要行动，只支付卡牌模型里的信用点费用；卡牌效果队列内复用扫描、科技、移动等能力时，不再重复支付这些主要行动的基础费用。
 - 卡牌左上角 `discard_action_code` 可作为手牌快速行动：默认手牌不高亮可用性；玩家点击一张有左上角角标的手牌后，手牌区上方显示确认按钮。0 弃牌换 1 宣传，1 弃牌换 1 数据，2 弃牌换 1 移动，3 弃牌换 2 宣传，4 弃牌换 1 数据 + 1 分，5 弃牌换 1 移动 + 1 分。移动角标确认时先弃牌结算，再进入一次免费移动选择。卡牌效果内部也可读取移动角标，例如 `b_23.webp` 会盲抽后立刻结算抽到牌左上角角标，资源角标直接给资源，移动角标插入一次免费移动。
+- 调试按钮「获取卡牌」支持普通牌输入 `25`、`b_25`、`b_25.webp`，数字输入只映射普通 `b_N.webp`；DLC 牌必须显式输入 `dlc_1` 或 `dlc_1.png`，避免与普通牌编号冲突。调试获取会从 `CARD_CATALOG` 创建复制实例加入当前玩家手牌，不从牌库、公共区或弃牌堆移除原卡。
 - 重点语义：`b_5.webp` / `b_6.webp` 的“完成扇区”按本次卡牌效果链中显式完成的扇区 settlement 判断，不作为后续可触发任务；`b_7.webp` 是 3 次“盲抽 1 张并立刻按该牌扫描角标弃除扫描”，抽牌后该效果不可撤销；`b_9.webp` 的“扫描行动”按卡牌效果解释为不重复支付扫描行动基础费用，只展开扫描行动的后续效果，并使用完整扫描行动的延迟补牌/完成扇区调度；`b_11.webp`、`b_16.webp`、`b_17.webp`、`b_18.webp`、`b_24.webp` 使用 `card_move` 卡牌内移动节点；`b_20.webp` 监听发射事件，`b_25.webp` 监听黄色/红色/蓝色扇区扫描事件并奖励免费移动。
 - 外星人卡牌分析由 `tools/analyze_alien_cards.py` 在每个外星人目录下分别生成 `card_analysis.csv`、`card_model.csv` 和 `card_model.json`；默认排除 `半人马`、`九折`、`方舟`，左上角有两个符号时按第二个标准符号判定弃牌收益。
 

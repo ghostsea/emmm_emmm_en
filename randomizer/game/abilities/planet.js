@@ -122,10 +122,12 @@
         energyCost: getLandEnergyCost(context, planetId),
       };
     }
-    if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
+    if (options.allowDuplicateLanding || planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       choices.push({
         target: { type: "planet" },
-        label: `登陆${placement.planet.name}（主星）`,
+        label: options.allowDuplicateLanding
+          ? `登陆${placement.planet.name}（主星，可重复）`
+          : `登陆${placement.planet.name}（主星）`,
       });
     }
     if (canLandOnSatellites(placement.currentPlayer, { ...options, turnState: context.turnState, roundNumber: context.roundNumber, turnNumber: context.turnNumber })) {
@@ -220,7 +222,14 @@
         markerKind: isAomomoPlanet ? "aomomo-orbit" : "orbit",
         markerSequence: markerResult.marker.sequence,
       },
-      events: [],
+      events: [{
+        type: "orbit",
+        planetId: placement.planet.planetId,
+        markerKind: isAomomoPlanet ? "aomomo-orbit" : "orbit",
+        playerId: currentPlayer.id || null,
+        playerColor: currentPlayer.color || null,
+        source: options.source || "orbit",
+      }],
       removedRocketId: placement.rocket.id,
       planetId: placement.planet.planetId,
       markerKind: isAomomoPlanet ? "aomomo-orbit" : "orbit",
@@ -251,7 +260,10 @@
     if (target.type === "planet" && isAomomoPlanet && !aomomo?.canAddLandingMarker?.(context.alienGameState)) {
       return { ok: false, abilityId: "landProbe", message: `${placement.planet.name} 登陆槽位已满` };
     }
-    if (target.type === "planet" && !isAomomoPlanet && !planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
+    if (target.type === "planet"
+      && !isAomomoPlanet
+      && !options.allowDuplicateLanding
+      && !planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       return { ok: false, abilityId: "landProbe", message: `${placement.planet.name} 主星登陆槽位已满` };
     }
     if (target.type === "satellite" && !planetStats.canLandOnSatellite(context.planetStatsState, planetId, target.satelliteId)) {
@@ -301,7 +313,9 @@
       markerKind = "aomomo-land";
       markerSequence = markerResult.marker?.sequence || null;
     } else {
-      markerResult = planetStats.addPlanetLandingMarker(context.planetStatsState, planetId, currentPlayer);
+      markerResult = planetStats.addPlanetLandingMarker(context.planetStatsState, planetId, currentPlayer, {
+        allowDuplicate: Boolean(options.allowDuplicateLanding),
+      });
       markerKind = "land";
       markerSequence = markerResult.marker?.sequence || null;
     }
@@ -341,7 +355,15 @@
         markerSequence,
         satelliteId,
       },
-      events: [],
+      events: [{
+        type: "land",
+        planetId,
+        markerKind,
+        satelliteId,
+        playerId: currentPlayer.id || null,
+        playerColor: currentPlayer.color || null,
+        source: options.source || "land",
+      }],
       removedRocketId: placement.rocket.id,
       planetId,
       landTarget: target,

@@ -53,6 +53,17 @@
     "b_45.webp": Object.freeze({ kind: "distinctSignalSectors", scorePer: 1 }),
     "b_63.webp": Object.freeze({ kind: "sectorWinsByColor", color: "yellow", scorePer: 3 }),
     "b_34.webp": Object.freeze({ kind: "planetOrbitOrLand", planetId: "jupiter", scorePer: 3 }),
+    "b_74.webp": Object.freeze({ kind: "planetOrbitOrLand", planetId: "mars", scorePer: 4 }),
+    "b_82.webp": Object.freeze({ kind: "probeLocation", locationType: "asteroid", score: 13 }),
+    "b_86.webp": Object.freeze({ kind: "traceCount", traceType: "pink", scorePer: 2 }),
+    "b_100.webp": Object.freeze({ kind: "sectorWinsByColor", color: "blue", scorePer: 3 }),
+    "b_113.webp": Object.freeze({ kind: "traceCount", traceType: "yellow", scorePer: 2 }),
+    "b_115.webp": Object.freeze({ kind: "unmarkedFinalRightmost" }),
+    "b_128.webp": Object.freeze({ kind: "sectorWinsByColor", color: "black", scorePer: 3 }),
+    "dlc_8.png": Object.freeze({ kind: "remainingResource", resource: "availableData", scorePer: 3 }),
+    "dlc_10.png": Object.freeze({ kind: "remainingResource", resource: "publicity", scorePer: 1 }),
+    "dlc_31.png": Object.freeze({ kind: "planetLandingPairs", count: 2, scorePer: 6 }),
+    "dlc_39.png": Object.freeze({ kind: "allOrbitOrLand", scorePer: 2 }),
   });
 
   function getJiuzheModule() {
@@ -293,6 +304,20 @@
     ), 0);
   }
 
+  function countPlanetLandingPairs(player, planetStatsState, minCount = 2) {
+    const planets = planetStatsState?.planets || {};
+    const playerKeys = getPlayerKeys(player);
+    const required = Math.max(1, Math.round(Number(minCount) || 2));
+    let count = 0;
+    for (const record of Object.values(planets)) {
+      const landingCount = (record?.landingMarkers || []).filter((marker) => (
+        markerBelongsToPlayer(marker, playerKeys)
+      )).length;
+      if (landingCount >= required) count += 1;
+    }
+    return count;
+  }
+
   function countDistinctSignalSectors(player, nebulaDataState) {
     const playerKeys = getPlayerKeys(player);
     const sectorIds = new Set();
@@ -315,6 +340,37 @@
       if (hasExtra) sectorIds.add(sectorId);
     }
     return sectorIds.size;
+  }
+
+  function playerHasProbeLocation(player, context, locationType) {
+    const playerKeys = getPlayerKeys(player);
+    const locations = context?.probeLocations || {};
+    for (const key of playerKeys) {
+      if ((locations[key] || []).includes(locationType)) return true;
+    }
+    for (const detail of context?.probeLocationDetails || []) {
+      if (!playerKeys.has(detail.playerId) && !playerKeys.has(detail.color)) continue;
+      if (detail.locationType === locationType) return true;
+    }
+    return false;
+  }
+
+  function scoreUnmarkedFinalRightmost(player, context) {
+    if (!finalScoring || !context?.finalScoringState) return 0;
+    finalScoring.ensureFinalScoringState(context.finalScoringState);
+    const playerId = getPlayerId(player);
+    let total = 0;
+    for (const tile of Object.values(context.finalScoringState.tiles || {})) {
+      const marked = (tile.marks || []).some((entry) => entry.playerId === playerId);
+      if (marked) continue;
+      const variant = finalScoring.getTileVariant(context.finalScoringState, tile.id);
+      const formulaId = getFormulaId(tile.id, variant);
+      const baseValue = getFormulaBaseValue(formulaId, player, context, {
+        getCardTypeCode: context.getCardTypeCode,
+      });
+      total += baseValue * getSlotMultiplier(formulaId, 3);
+    }
+    return total;
   }
 
   function countType3Cards(player, getCardTypeCode) {
@@ -452,6 +508,19 @@
       case "planetOrbitOrLand":
         if (!scorePer) return 0;
         return scorePer * countPlanetOrbitOrLand(player, context.planetStatsState, rule.planetId);
+      case "remainingResource":
+        if (!scorePer) return 0;
+        return scorePer * Math.max(0, Math.round(Number(player?.resources?.[rule.resource]) || 0));
+      case "planetLandingPairs":
+        if (!scorePer) return 0;
+        return scorePer * countPlanetLandingPairs(player, context.planetStatsState, rule.count);
+      case "allOrbitOrLand":
+        if (!scorePer) return 0;
+        return scorePer * countOrbitOrLandMarkers(player, context.planetStatsState);
+      case "probeLocation":
+        return playerHasProbeLocation(player, context, rule.locationType) ? Number(rule.score) || 0 : 0;
+      case "unmarkedFinalRightmost":
+        return scoreUnmarkedFinalRightmost(player, context);
       case "chongTraceCount": {
         if (!scorePer) return 0;
         const chongModule = getChongModule();
@@ -610,6 +679,7 @@
     countTotalOwnedTech,
     countPlanetOrbitOrLand,
     countOrbitOrLandMarkers,
+    countPlanetLandingPairs,
     countDistinctSignalSectors,
     countType3Cards,
     getFormulaId,

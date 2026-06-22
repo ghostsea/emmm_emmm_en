@@ -181,7 +181,8 @@ assert.equal(randomized.b, 2);
 
 assert.equal(cardEffects.getCardMigrationStatus("b_14.webp"), "implemented");
 assert.equal(cardEffects.getCardModel("b_14.webp").endGameScoring.scorePer, 3);
-assert.equal(cardEffects.getDeferredCardModel("b_34.webp").endGameScoring.planetId, "jupiter");
+assert.equal(cardEffects.getCardMigrationStatus("b_34.webp"), "implemented");
+assert.equal(cardEffects.getCardModel("b_34.webp").endGameScoring.planetId, "jupiter");
 
 const chongState = {
   aliens: {
@@ -207,5 +208,119 @@ const chongScore = endGameScoring.computePlayerCardScore(chongPlayer, {
   getCardTypeCode: (card) => card.cardTypeCode,
 });
 assert.equal(chongScore.total, 3, "生态系统研究 should score 1 per owned Chong trace");
+
+const marsCardPlayer = player({
+  reservedCards: [{ cardId: "b_74.webp", cardTypeCode: 3 }],
+});
+assert.equal(endGameScoring.computePlayerCardScore(marsCardPlayer, {
+  ...tileContext,
+  currentPlayer: marsCardPlayer,
+  planetStatsState: {
+    planets: {
+      mars: {
+        orbitMarkers: [{ playerId: "player-white" }],
+        landingMarkers: [{ playerId: "player-white" }],
+        satelliteLandings: [{ playerId: "player-white" }],
+      },
+    },
+  },
+}).total, 12);
+
+const asteroidFinalPlayer = player({
+  reservedCards: [{ cardId: "b_82.webp", cardTypeCode: 3 }],
+});
+assert.equal(endGameScoring.computePlayerCardScore(asteroidFinalPlayer, {
+  ...tileContext,
+  currentPlayer: asteroidFinalPlayer,
+  probeLocations: { "player-white": ["asteroid"] },
+}).total, 13);
+
+const blueBlackPlayer = player({
+  reservedCards: [
+    { cardId: "b_100.webp", cardTypeCode: 3 },
+    { cardId: "b_128.webp", cardTypeCode: 3 },
+  ],
+});
+assert.equal(endGameScoring.computePlayerCardScore(blueBlackPlayer, {
+  ...tileContext,
+  currentPlayer: blueBlackPlayer,
+  nebulaDataState: {
+    sectorSettlements: {
+      winsByPlayerId: {
+        white: [{ sectorId: "sector-2-a" }, { sectorId: "sector-1-a" }, { sectorId: "sector-1-b" }],
+      },
+    },
+    nebulae: {},
+    sectorExtraMarks: {},
+  },
+}).total, 9);
+
+const unmarkedState = finalScoring.createFinalScoringState(["c"]);
+finalScoring.setTileVariants(unmarkedState, { c: 1 });
+const unmarkedPlayer = player({
+  completedTaskCount: 10,
+  reservedCards: [{ cardId: "b_115.webp", cardTypeCode: 3 }],
+});
+assert.equal(endGameScoring.computePlayerCardScore(unmarkedPlayer, {
+  ...tileContext,
+  currentPlayer: unmarkedPlayer,
+  finalScoringState: unmarkedState,
+}).total, 29);
+
+const dlcResourcePlayer = player({
+  resources: { score: 0, availableData: 4, publicity: 7 },
+  reservedCards: [
+    { cardId: "dlc_8.png", cardTypeCode: 3 },
+    { cardId: "dlc_10.png", cardTypeCode: 3 },
+  ],
+});
+assert.equal(endGameScoring.computePlayerCardScore(dlcResourcePlayer, {
+  ...tileContext,
+  currentPlayer: dlcResourcePlayer,
+}).total, 19);
+
+const dlcLandingPlayer = player({
+  reservedCards: [{ cardId: "dlc_31.png", cardTypeCode: 3 }],
+});
+assert.equal(endGameScoring.computePlayerCardScore(dlcLandingPlayer, {
+  ...tileContext,
+  currentPlayer: dlcLandingPlayer,
+  planetStatsState: {
+    planets: {
+      mars: {
+        orbitMarkers: [],
+        landingMarkers: [{ playerId: "player-white" }, { playerId: "player-white" }],
+        satelliteLandings: [{ playerId: "player-white" }],
+      },
+      venus: {
+        orbitMarkers: [],
+        landingMarkers: [{ playerId: "player-white" }],
+        satelliteLandings: [],
+      },
+    },
+  },
+}).total, 6);
+
+const dlcGrandTourPlayer = player({
+  reservedCards: [{ cardId: "dlc_39.png", cardTypeCode: 3 }],
+});
+assert.equal(endGameScoring.computePlayerCardScore(dlcGrandTourPlayer, {
+  ...tileContext,
+  currentPlayer: dlcGrandTourPlayer,
+  planetStatsState: {
+    planets: {
+      mars: {
+        orbitMarkers: [{ playerId: "player-white" }],
+        landingMarkers: [{ playerId: "player-white" }],
+        satelliteLandings: [{ playerId: "player-white" }],
+      },
+      jupiter: {
+        orbitMarkers: [{ color: "white" }],
+        landingMarkers: [],
+        satelliteLandings: [],
+      },
+    },
+  },
+}).total, 8);
 
 console.log("end-game-scoring tests passed");

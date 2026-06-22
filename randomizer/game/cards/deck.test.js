@@ -36,6 +36,62 @@ assert.deepEqual(
   cards.getIncomeGainForCard(cards.createCardInstance(cards.CARD_CATALOG.find((entry) => entry.income_code === 2), 2)),
   { handSize: 1 },
 );
+assert.equal(cards.normalizeBasicCardInput("25"), "b_25.webp");
+assert.equal(cards.normalizeBasicCardInput("b_25"), "b_25.webp");
+assert.equal(cards.normalizeBasicCardInput("b_25.webp"), "b_25.webp");
+assert.equal(cards.normalizeBasicCardInput("B25.WEBP"), "b_25.webp");
+assert.equal(cards.normalizeBasicCardInput("b_0"), null);
+assert.equal(cards.normalizeBasicCardInput("b_141"), null);
+assert.equal(cards.normalizeBasicCardInput("aomomo_1.webp"), null);
+assert.equal(cards.normalizeDlcCardInput("dlc_1"), "dlc_1.png");
+assert.equal(cards.normalizeDlcCardInput("dlc1"), "dlc_1.png");
+assert.equal(cards.normalizeDlcCardInput("dlc_1.png"), "dlc_1.png");
+assert.equal(cards.normalizeDlcCardInput("DLC42.PNG"), "dlc_42.png");
+assert.equal(cards.normalizeDlcCardInput("1"), null);
+assert.equal(cards.normalizeDlcCardInput("dlc_0"), null);
+assert.equal(cards.normalizeDlcCardInput("dlc_43"), null);
+assert.equal(cards.normalizeDebugCardInput("1"), "b_1.webp");
+assert.equal(cards.normalizeDebugCardInput("dlc_1"), "dlc_1.png");
+assert.deepEqual(cards.normalizeDebugCardInputRange("1"), [
+  "b_1.webp",
+  "b_2.webp",
+  "b_3.webp",
+  "b_4.webp",
+  "b_5.webp",
+]);
+assert.deepEqual(cards.normalizeDebugCardInputRange("b_138"), [
+  "b_138.webp",
+  "b_139.webp",
+  "b_140.webp",
+]);
+assert.deepEqual(cards.normalizeDebugCardInputRange("dlc_39"), [
+  "dlc_39.png",
+  "dlc_40.png",
+  "dlc_41.png",
+  "dlc_42.png",
+]);
+assert.deepEqual(cards.normalizeDebugCardInputRange("dlc_43"), []);
+assert.equal(cards.getBasicCatalogEntryByInput("25").card_id, "b_25.webp");
+assert.equal(cards.getBasicCatalogEntryByInput("b_25").set, "basic");
+assert.equal(cards.getBasicCatalogEntryByInput("b_141"), null);
+assert.equal(cards.getCatalogEntryByInput("1").card_id, "b_1.webp");
+assert.equal(cards.getCatalogEntryByInput("dlc_1").card_id, "dlc_1.png");
+assert.equal(cards.getCatalogEntryByInput("dlc_1.png").set, "space-agency");
+assert.equal(cards.getCatalogEntryByInput("dlc_43"), null);
+assert.deepEqual(cards.getCatalogEntriesByInputRange("b_1").map((entry) => entry.card_id), [
+  "b_1.webp",
+  "b_2.webp",
+  "b_3.webp",
+  "b_4.webp",
+  "b_5.webp",
+]);
+assert.deepEqual(cards.getCatalogEntriesByInputRange("dlc_1").map((entry) => entry.card_id), [
+  "dlc_1.png",
+  "dlc_2.png",
+  "dlc_3.png",
+  "dlc_4.png",
+  "dlc_5.png",
+]);
 
 function cardWithDiscardActionCode(code) {
   const entry = cards.CARD_CATALOG.find((item) => item.discard_action_code === code);

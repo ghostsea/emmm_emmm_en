@@ -60,6 +60,36 @@
     };
   }
 
+  function getOwnerKeys(ref = {}) {
+    const player = ref.player ? normalizePlayer(ref.player) : null;
+    return new Set([
+      ref.playerId,
+      ref.color,
+      ref.playerColor,
+      player?.id,
+      player?.color,
+    ].filter(Boolean));
+  }
+
+  function markerMatchesOwner(marker, ref = {}) {
+    const ownerKeys = getOwnerKeys(ref);
+    if (!ownerKeys.size) return true;
+    return ownerKeys.has(marker?.playerId)
+      || ownerKeys.has(marker?.color)
+      || ownerKeys.has(marker?.playerColor);
+  }
+
+  function markerMatchesSequence(marker, ref = {}) {
+    if (ref.sequence == null) return true;
+    return Number(marker?.sequence) === Number(ref.sequence);
+  }
+
+  function reindexMarkerSequences(markers) {
+    markers.forEach((marker, index) => {
+      marker.sequence = index + 1;
+    });
+  }
+
   function canAddOrbitMarker(state, planetId) {
     const record = getPlanetRecord(state, planetId);
     if (!record) return false;
@@ -91,8 +121,8 @@
     return { ok: true, marker, message: null };
   }
 
-  function addPlanetLandingMarker(state, planetId, player) {
-    if (!canAddLandingMarker(state, planetId)) {
+  function addPlanetLandingMarker(state, planetId, player, options = {}) {
+    if (!options.allowDuplicate && !canAddLandingMarker(state, planetId)) {
       return { ok: false, marker: null, message: "登陆槽位已满或星球不支持登陆标记" };
     }
 
@@ -106,6 +136,32 @@
     };
     record.landingMarkers.push(marker);
     return { ok: true, marker, message: null };
+  }
+
+  function removePlanetOrbitMarker(state, planetId, markerRef = {}) {
+    const record = getPlanetRecord(state, planetId);
+    if (!record) return { ok: false, marker: null, message: "星球不存在" };
+    const markerIndex = record.orbitMarkers.findIndex((marker) => (
+      markerMatchesSequence(marker, markerRef) && markerMatchesOwner(marker, markerRef)
+    ));
+    if (markerIndex < 0) return { ok: false, marker: null, message: "没有可移除的环绕标记" };
+    const [marker] = record.orbitMarkers.splice(markerIndex, 1);
+    reindexMarkerSequences(record.orbitMarkers);
+    record.orbits = record.orbitMarkers.length;
+    return { ok: true, marker, message: "已移除环绕标记" };
+  }
+
+  function removePlanetLandingMarker(state, planetId, markerRef = {}) {
+    const record = getPlanetRecord(state, planetId);
+    if (!record) return { ok: false, marker: null, message: "星球不存在" };
+    const markerIndex = record.landingMarkers.findIndex((marker) => (
+      markerMatchesSequence(marker, markerRef) && markerMatchesOwner(marker, markerRef)
+    ));
+    if (markerIndex < 0) return { ok: false, marker: null, message: "没有可移除的登陆标记" };
+    const [marker] = record.landingMarkers.splice(markerIndex, 1);
+    reindexMarkerSequences(record.landingMarkers);
+    record.landings = record.landingMarkers.length;
+    return { ok: true, marker, message: "已移除登陆标记" };
   }
 
   function incrementPlanetOrbits(state, planetId) {
@@ -173,6 +229,17 @@
     return { ok: true, marker, message: null };
   }
 
+  function removeSatelliteLandingMarker(state, planetId, satelliteId, markerRef = {}) {
+    const record = getPlanetRecord(state, planetId);
+    if (!record) return { ok: false, marker: null, message: "星球不存在" };
+    const markerIndex = record.satelliteLandings.findIndex((marker) => (
+      marker.satelliteId === satelliteId && markerMatchesOwner(marker, markerRef)
+    ));
+    if (markerIndex < 0) return { ok: false, marker: null, message: "没有可移除的卫星登陆标记" };
+    const [marker] = record.satelliteLandings.splice(markerIndex, 1);
+    return { ok: true, marker, message: "已移除卫星登陆标记" };
+  }
+
   function getSatelliteLandingMarkers(state, planetId) {
     return [...(getPlanetRecord(state, planetId)?.satelliteLandings || [])];
   }
@@ -196,6 +263,8 @@
     canAddLandingMarker,
     addPlanetOrbitMarker,
     addPlanetLandingMarker,
+    removePlanetOrbitMarker,
+    removePlanetLandingMarker,
     incrementPlanetOrbits,
     incrementPlanetLandings,
     getPlanetOrbitCount,
@@ -206,6 +275,7 @@
     getAvailableSatellitesForLanding,
     canLandOnSatellite,
     addSatelliteLandingMarker,
+    removeSatelliteLandingMarker,
     getSatelliteLandingMarkers,
     formatPlanetStatsLines,
   });

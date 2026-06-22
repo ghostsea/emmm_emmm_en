@@ -236,8 +236,13 @@
     if (!player || !content) return { rewardNotes, events };
 
     if (isPlanetContent(content)) {
+      let publicityGained = 0;
+      let publicityReward = 0;
       if (isNonEarthPlanetContent(content)) {
+        const beforePublicity = Number(player.resources?.publicity) || 0;
         players.gainResources(player, { publicity: 1 });
+        publicityReward = 1;
+        publicityGained = Math.max(0, (Number(player.resources?.publicity) || 0) - beforePublicity);
         rewardNotes.push(`${options.prefix || "到达"}${content.label || "行星"}，宣传+1`);
       }
       events.push({
@@ -248,11 +253,15 @@
         fossilId: rocket.fossilId || null,
         playerId: player.id,
         source: options.source || "move",
+        publicityReward,
+        publicityGained,
       });
     }
 
     if (isCometContent(content)) {
+      const beforePublicity = Number(player.resources?.publicity) || 0;
       players.gainResources(player, { publicity: 1 });
+      const publicityGained = Math.max(0, (Number(player.resources?.publicity) || 0) - beforePublicity);
       rewardNotes.push(`${options.prefix || "到达"}彗星，宣传+1`);
       events.push({
         type: "visitComet",
@@ -261,6 +270,8 @@
         fossilId: rocket.fossilId || null,
         playerId: player.id,
         source: options.source || "move",
+        publicityReward: 1,
+        publicityGained,
       });
     }
 
@@ -302,10 +313,10 @@
     };
   }
 
-  function getRequiredMovePoints(context, player, rocketId, deltaX, deltaY) {
+  function getRequiredMovePoints(context, player, rocketId, deltaX, deltaY, options = {}) {
     const geometry = resolveMoveGeometry(context, rocketId, deltaX, deltaY);
     const exitsAsteroid = isAsteroidContent(geometry.fromContent);
-    if (exitsAsteroid && !players.playerOwnsTech(player, "orange2", context)) {
+    if (!options.ignoreAsteroidRestriction && exitsAsteroid && !players.playerOwnsTech(player, "orange2", context)) {
       return ASTEROID_EXIT_MOVE_POINTS;
     }
     return 1;
@@ -444,7 +455,7 @@
       return { ok: false, abilityId: "moveProbe", message: moveCheck.message };
     }
 
-    const requiredMovePoints = getRequiredMovePoints(context, currentPlayer, rocketId, deltaX, deltaY);
+    const requiredMovePoints = getRequiredMovePoints(context, currentPlayer, rocketId, deltaX, deltaY, options);
     const providedMovePoints = resolveProvidedMovePoints(options, cost);
     if (providedMovePoints < requiredMovePoints) {
       return {
@@ -519,6 +530,8 @@
         rocketId,
         deltaX,
         deltaY,
+        from: geometry.from,
+        to: geometry.to,
         requiredMovePoints,
         providedMovePoints,
         rewards: rewardNotes,

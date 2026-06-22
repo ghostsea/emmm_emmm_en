@@ -75,6 +75,82 @@
     return `${CARD_BASE_PATH}/${entry.set}/split/${entry.card_id}`;
   }
 
+  function normalizeBasicCardInput(input) {
+    const text = String(input ?? "").trim().toLowerCase();
+    if (!text) return null;
+    const match = text.match(/^(?:b_?)?(\d{1,3})(?:\.webp)?$/);
+    if (!match) return null;
+    const index = Number(match[1]);
+    if (!Number.isInteger(index) || index < 1 || index > 140) return null;
+    return `b_${index}.webp`;
+  }
+
+  function normalizeDlcCardInput(input) {
+    const text = String(input ?? "").trim().toLowerCase();
+    if (!text) return null;
+    const match = text.match(/^dlc_?(\d{1,2})(?:\.png)?$/);
+    if (!match) return null;
+    const index = Number(match[1]);
+    if (!Number.isInteger(index) || index < 1 || index > 42) return null;
+    return `dlc_${index}.png`;
+  }
+
+  function normalizeDebugCardInput(input) {
+    return normalizeBasicCardInput(input) || normalizeDlcCardInput(input);
+  }
+
+  function parseDebugCardInput(input) {
+    const text = String(input ?? "").trim().toLowerCase();
+    if (!text) return null;
+
+    const basicMatch = text.match(/^(?:b_?)?(\d{1,3})(?:\.webp)?$/);
+    if (basicMatch) {
+      const index = Number(basicMatch[1]);
+      if (Number.isInteger(index) && index >= 1 && index <= 140) {
+        return { prefix: "b_", extension: ".webp", start: index, max: 140 };
+      }
+    }
+
+    const dlcMatch = text.match(/^dlc_?(\d{1,2})(?:\.png)?$/);
+    if (dlcMatch) {
+      const index = Number(dlcMatch[1]);
+      if (Number.isInteger(index) && index >= 1 && index <= 42) {
+        return { prefix: "dlc_", extension: ".png", start: index, max: 42 };
+      }
+    }
+
+    return null;
+  }
+
+  function normalizeDebugCardInputRange(input, count = 5) {
+    const parsed = parseDebugCardInput(input);
+    if (!parsed) return [];
+    const targetCount = Math.max(1, Math.round(Number(count) || 5));
+    const cardIds = [];
+    for (let index = parsed.start; index <= parsed.max && cardIds.length < targetCount; index += 1) {
+      cardIds.push(`${parsed.prefix}${index}${parsed.extension}`);
+    }
+    return cardIds;
+  }
+
+  function getBasicCatalogEntryByInput(input) {
+    const cardId = normalizeBasicCardInput(input);
+    if (!cardId) return null;
+    return CARD_CATALOG.find((entry) => entry.set === "basic" && entry.card_id === cardId) || null;
+  }
+
+  function getCatalogEntryByInput(input) {
+    const cardId = normalizeDebugCardInput(input);
+    if (!cardId) return null;
+    return CARD_CATALOG.find((entry) => entry.card_id === cardId) || null;
+  }
+
+  function getCatalogEntriesByInputRange(input, count = 5) {
+    return normalizeDebugCardInputRange(input, count)
+      .map((cardId) => CARD_CATALOG.find((entry) => entry.card_id === cardId) || null)
+      .filter(Boolean);
+  }
+
   function createCardInstance(entry, sequence) {
     cardInstanceSequence += 1;
     return {
@@ -404,6 +480,13 @@
     DISCARD_ACTION_REWARDS,
     DISCARD_ACTION_MOVE_REWARDS,
     getCardSrc,
+    normalizeBasicCardInput,
+    normalizeDlcCardInput,
+    normalizeDebugCardInput,
+    normalizeDebugCardInputRange,
+    getBasicCatalogEntryByInput,
+    getCatalogEntryByInput,
+    getCatalogEntriesByInputRange,
     createCardInstance,
     getCatalogEntryForCard,
     getIncomeCodeForCard,
