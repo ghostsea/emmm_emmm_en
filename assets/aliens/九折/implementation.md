@@ -34,7 +34,8 @@
 ## 调试校准
 
 - 调试按钮「九折调试」会直接揭示外星人 1 为九折，并用当前玩家 token 铺满 3x5 格。
-- 调试铺满不结算奖励、不发九折牌、不增加威胁度。
+- 调试会给当前玩家补齐全部 10 张九折牌，放入九折专属保留区；已存在的九折牌不重复发放。
+- 调试铺满不结算奖励、不增加威胁度。
 - 九折 token 可逐格拖动；控制台与状态日志会记录百分比坐标。
 - 运行时覆盖值可通过 `window.SetiRandomizer.getJiuzheTraceLayoutOverrides()` 读取。
 - 默认坐标定义在 `randomizer/game/aliens/placement.js` 的 `JIUZHE_TRACE_MARKER_SLOTS`。

@@ -231,6 +231,7 @@
   ]);
   const DEFAULT_ACTIVE_PLAYER_COUNT = 1;
   const DEFAULT_INITIAL_PLAYER_COLOR = players.DEFAULT_PLAYER_COLOR;
+  const DEFAULT_INITIAL_HAND_COUNT = 4;
   const INDUSTRY_CARD_FILES = Object.freeze([
     "层云核心.png",
     "芬威克研究中心.png",
@@ -561,7 +562,7 @@
     return height > 0 ? height : null;
   }
 
-  function initializeCardGame(handCount = 10) {
+  function initializeCardGame(handCount = DEFAULT_INITIAL_HAND_COUNT) {
     if (!Array.isArray(playerState.players) || !playerState.players.length) return;
 
     for (const player of playerState.players) {
@@ -576,14 +577,14 @@
     cards.setPlayCardSelectionActive(cardState, false);
     cards.setDiscardSelectionActive(cardState, false, 0);
     for (const player of playerState.players) {
-      if (player.color === "white" && dealModeledOpeningHand(player)) continue;
+      if (player.color === "white" && dealModeledOpeningHand(player, handCount)) continue;
       cards.drawCardsToHand(cardState, playerState, player, handCount);
     }
     ensurePublicCardsFilledRespectingDelayedRefills();
   }
 
-  function dealModeledOpeningHand(player) {
-    const modeledIds = Array.from({ length: 10 }, (_item, index) => `b_${index + 1}.webp`);
+  function dealModeledOpeningHand(player, handCount = DEFAULT_INITIAL_HAND_COUNT) {
+    const modeledIds = Array.from({ length: handCount }, (_item, index) => `b_${index + 1}.webp`);
     const entries = modeledIds
       .map((cardId) => cards.CARD_CATALOG.find((entry) => entry.card_id === cardId))
       .filter(Boolean);
@@ -19529,6 +19530,156 @@
     return { ok: true, player: currentPlayer, message: rocketState.statusNote };
   }
 
+  function ensureDebugPlayerCardZones(player) {
+    if (!player) return;
+    if (!player.resources || typeof player.resources !== "object") player.resources = {};
+    if (!Array.isArray(player.hand)) player.hand = [];
+    if (!Array.isArray(player.reservedCards)) player.reservedCards = [];
+    player.resources.handSize = player.hand.length;
+  }
+
+  function getDebugAlienCardKey(card) {
+    if (!card) return null;
+    if (card.set && card.cardId) return `${card.set}:${card.cardId}`;
+    if (card.cardId) return String(card.cardId);
+    if (card.set && card.alienCardId != null) return `${card.set}:${card.alienCardId}`;
+    return card.id ? String(card.id) : null;
+  }
+
+  function playerHasDebugAlienCard(player, card) {
+    const key = getDebugAlienCardKey(card);
+    if (!key) return false;
+    return [...(player?.hand || []), ...(player?.reservedCards || [])]
+      .some((existing) => getDebugAlienCardKey(existing) === key);
+  }
+
+  function createDebugAlienCardGrantSummary() {
+    return {
+      hand: 0,
+      reserved: 0,
+      specialReserved: 0,
+      skipped: 0,
+    };
+  }
+
+  function recordDebugAlienCardGrant(summary, result) {
+    if (!summary || !result) return summary;
+    if (result.duplicate) {
+      summary.skipped += 1;
+    } else if (result.location === "hand") {
+      summary.hand += 1;
+    } else if (result.location === "reserved") {
+      summary.reserved += 1;
+    } else if (result.location === "specialReserved") {
+      summary.specialReserved += 1;
+    }
+    return summary;
+  }
+
+  function addDebugAlienCardToPlayer(player, card) {
+    ensureDebugPlayerCardZones(player);
+    if (!player || !card) return { added: false };
+    if (playerHasDebugAlienCard(player, card)) {
+      return { added: false, duplicate: true };
+    }
+
+    cards.addCardToHand(player, card);
+    return { added: true, location: "hand" };
+  }
+
+  function getNextDebugAlienCardSequence(alienState, fallback) {
+    if (!alienState || typeof alienState !== "object") return fallback;
+    const sequence = Math.max(0, Math.round(Number(alienState.nextCardSequence) || 0));
+    alienState.nextCardSequence = sequence + 1;
+    return sequence;
+  }
+
+  function grantAllModuleAlienCardsForDebug(player, alienModule, alienState) {
+    const summary = createDebugAlienCardGrantSummary();
+    if (!alienModule?.CARD_DEFINITIONS?.length || !alienModule.createAlienCard) return summary;
+
+    let fallbackSequence = 0;
+    for (const definition of alienModule.CARD_DEFINITIONS) {
+      const sequence = alienState
+        ? getNextDebugAlienCardSequence(alienState, fallbackSequence)
+        : fallbackSequence;
+      fallbackSequence = sequence + 1;
+      const card = alienModule.createAlienCard(definition.index, sequence);
+      recordDebugAlienCardGrant(summary, addDebugAlienCardToPlayer(player, card));
+    }
+    return summary;
+  }
+
+  function createJiuzheDebugCard(definition) {
+    return {
+      index: definition.index,
+      id: `jiuzhe-card-${definition.index}`,
+      src: jiuzhe.getCardSrc(definition.index),
+      threat: definition.threat || 0,
+      score: definition.score || 0,
+      condition: definition.condition || null,
+      label: definition.label || `九折牌 ${definition.index}`,
+      played: false,
+    };
+  }
+
+  function grantAllJiuzheCardsForDebug(player) {
+    const summary = createDebugAlienCardGrantSummary();
+    if (!jiuzhe?.CARD_DEFINITIONS?.length || !player) return summary;
+
+    const jiuzheState = jiuzhe.ensureJiuzheState(alienGameState);
+    const playerJiuzheState = jiuzhe.getPlayerJiuzheState(alienGameState, player, true);
+    if (!playerJiuzheState) return summary;
+
+    if (!Array.isArray(playerJiuzheState.cards)) playerJiuzheState.cards = [];
+    const existing = new Set(playerJiuzheState.cards.map((card) => Number(card.index)));
+    for (const definition of jiuzhe.CARD_DEFINITIONS) {
+      if (existing.has(Number(definition.index))) {
+        summary.skipped += 1;
+        continue;
+      }
+      playerJiuzheState.cards.push(createJiuzheDebugCard(definition));
+      existing.add(Number(definition.index));
+      summary.specialReserved += 1;
+    }
+    playerJiuzheState.cards.sort((left, right) => Number(left.index) - Number(right.index));
+    jiuzheState.cardsDealt = true;
+    return summary;
+  }
+
+  function grantAllFangzhouCardsForDebug(player) {
+    const summary = createDebugAlienCardGrantSummary();
+    if (!fangzhou?.createCard2Definition || !player) return summary;
+
+    const playerKey = player.id || player.color || "player";
+    const traceTypes = fangzhou.TRACE_TYPES || aliens.TRACE_TYPES || ["pink", "yellow", "blue"];
+    for (const traceType of traceTypes) {
+      for (let variant = 1; variant <= 4; variant += 1) {
+        const card = {
+          ...fangzhou.createCard2Definition(traceType, variant),
+          id: `fangzhou-card2-debug-${playerKey}-${traceType}-${variant}`,
+          faceUp: true,
+          fangzhouCard2: true,
+          fangzhouTraceType: traceType,
+        };
+        recordDebugAlienCardGrant(summary, addDebugAlienCardToPlayer(player, card));
+      }
+    }
+    return summary;
+  }
+
+  function formatDebugAlienCardGrantSummary(summary) {
+    if (!summary) return "";
+    const parts = [];
+    if (summary.hand) parts.push(`手牌+${summary.hand}`);
+    if (summary.reserved) parts.push(`保留牌+${summary.reserved}`);
+    if (summary.specialReserved) parts.push(`专属保留+${summary.specialReserved}`);
+    if (summary.skipped) parts.push(`已存在${summary.skipped}`);
+    return parts.length
+      ? `；调试发牌：${parts.join("，")}`
+      : "；调试发牌：该外星人牌已齐";
+  }
+
   function revealJiuzheForDebug() {
     if (!jiuzhe) return { ok: false, message: "九折模块未加载" };
     const currentPlayer = getCurrentPlayer();
@@ -19546,10 +19697,13 @@
     alienGameState.jiuzhe.freeScoreThreshold = (Number(currentPlayer.resources?.score) || 0) + 20;
     alienGameState.jiuzhe.paidScoreThreshold = (Number(currentPlayer.resources?.score) || 0) + 40;
     delete alienGameState.jiuzhe.traceSlotsByAlienSlotId[String(alienSlotId)];
+    const grantSummary = grantAllJiuzheCardsForDebug(currentPlayer);
 
-    enableDebugAlienTraceModeForReveal("九折调试：已在外星人 1 揭示九折（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励");
+    enableDebugAlienTraceModeForReveal(`九折调试：已在外星人 1 揭示九折（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励${formatDebugAlienCardGrantSummary(grantSummary)}`);
     renderAlienPanels();
+    renderPlayerHand();
     renderPlayerStats();
+    renderReservedCardsFromTaskState();
     renderStateReadout();
     return { ok: true, message: rocketState.statusNote };
   }
@@ -19567,11 +19721,14 @@
     alienGameState.yichangdian = yichangdian.createYichangdianState();
     const earth = getEarthSectorCoordinate();
     yichangdian.initializeYichangdianReveal(alienGameState, alienSlotId, currentPlayer, earth.x);
+    const grantSummary = grantAllModuleAlienCardsForDebug(currentPlayer, yichangdian, alienGameState.yichangdian);
 
-    enableDebugAlienTraceModeForReveal("异常点调试：已在外星人 1 揭示异常点并生成异常标记（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励");
+    enableDebugAlienTraceModeForReveal(`异常点调试：已在外星人 1 揭示异常点并生成异常标记（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励${formatDebugAlienCardGrantSummary(grantSummary)}`);
     renderAlienPanels();
     renderRockets();
+    renderPlayerHand();
     renderPlayerStats();
+    renderReservedCardsFromTaskState();
     renderStateReadout();
     return { ok: true, message: rocketState.statusNote };
   }
@@ -19593,10 +19750,13 @@
       currentPlayer,
       getActivePlayers(),
     );
+    const grantSummary = grantAllFangzhouCardsForDebug(currentPlayer);
 
-    enableDebugAlienTraceModeForReveal("方舟调试：已在外星人 1 揭示方舟（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位或解锁牌会按正式规则结算奖励");
+    enableDebugAlienTraceModeForReveal(`方舟调试：已在外星人 1 揭示方舟（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位或解锁牌会按正式规则结算奖励${formatDebugAlienCardGrantSummary(grantSummary)}`);
     renderAlienPanels();
+    renderPlayerHand();
     renderPlayerStats();
+    renderReservedCardsFromTaskState();
     renderStateReadout();
     return { ok: true, message: rocketState.statusNote };
   }
@@ -19618,9 +19778,11 @@
       currentPlayer,
       getActivePlayers(),
     );
+    const grantSummary = grantAllModuleAlienCardsForDebug(currentPlayer, banrenma, alienGameState.banrenma);
 
-    enableDebugAlienTraceModeForReveal("半人马调试：已在外星人 1 揭示半人马（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励");
+    enableDebugAlienTraceModeForReveal(`半人马调试：已在外星人 1 揭示半人马（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励${formatDebugAlienCardGrantSummary(grantSummary)}`);
     renderAlienPanels();
+    renderPlayerHand();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
     renderStateReadout();
@@ -19643,10 +19805,12 @@
       alienSlotId,
       currentPlayer,
     );
+    const grantSummary = grantAllModuleAlienCardsForDebug(currentPlayer, chong, alienGameState.chong);
 
-    enableDebugAlienTraceModeForReveal("虫族调试：已在外星人 1 揭示虫族，按揭示阶段放置化石（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励");
+    enableDebugAlienTraceModeForReveal(`虫族调试：已在外星人 1 揭示虫族，按揭示阶段放置化石（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励${formatDebugAlienCardGrantSummary(grantSummary)}`);
     renderAlienPanels();
     renderRockets();
+    renderPlayerHand();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
     renderStateReadout();
@@ -19669,10 +19833,12 @@
       alienSlotId,
       currentPlayer,
     );
+    const grantSummary = grantAllModuleAlienCardsForDebug(currentPlayer, amiba, alienGameState.amiba);
 
     const symbolCount = Object.keys(alienGameState.amiba?.symbolsById || {}).length;
-    enableDebugAlienTraceModeForReveal(`阿米巴调试：已在外星人 1 揭示阿米巴并默认放置 ${symbolCount} 个 symbol（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励`);
+    enableDebugAlienTraceModeForReveal(`阿米巴调试：已在外星人 1 揭示阿米巴并默认放置 ${symbolCount} 个 symbol（未放置 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励${formatDebugAlienCardGrantSummary(grantSummary)}`);
     renderAlienPanels();
+    renderPlayerHand();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
     renderStateReadout();
@@ -19709,15 +19875,18 @@
     alienGameState.aomomo = aomomo.createAomomoState();
     aomomo.initializeAomomoReveal(alienGameState, alienSlotId, currentPlayer);
     activateAomomoBoard({ source: "aomomo_debug", replaceData: true });
+    const grantSummary = grantAllModuleAlienCardsForDebug(currentPlayer, aomomo, alienGameState.aomomo);
 
     enableDebugAlienTraceModeForReveal(
-      "奥陌陌调试：已揭示奥陌陌、替换第3轮盘并启用奥陌陌星球；星球弧形槽位放入3个数据token，随wheel3旋转；外星人面板不预放痕迹/环绕/登陆token",
+      `奥陌陌调试：已揭示奥陌陌、替换第3轮盘并启用奥陌陌星球；星球弧形槽位放入3个数据token，随wheel3旋转；外星人面板不预放痕迹/环绕/登陆token${formatDebugAlienCardGrantSummary(grantSummary)}`,
     );
     renderWheels();
     renderSectorNebulaDataBoard();
     renderAlienPanels();
     renderRockets();
+    renderPlayerHand();
     renderPlayerStats();
+    renderReservedCardsFromTaskState();
     renderStateReadout();
     logAomomoDebugCoordinates(alienSlotId);
     return { ok: true, message: rocketState.statusNote };
@@ -19741,13 +19910,15 @@
       { techBoardState: techGameState.board },
     );
     const panelSymbols = runezu.listPanelSymbols(alienGameState);
+    const grantSummary = grantAllModuleAlienCardsForDebug(currentPlayer, runezu, alienGameState.runezu);
 
     enableDebugAlienTraceModeForReveal(
-      `符文族调试：已揭示符文族并按机制默认放置 ${panelSymbols.length} 个白框 symbol（未放置痕迹 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励`,
+      `符文族调试：已揭示符文族并按机制默认放置 ${panelSymbols.length} 个白框 symbol（未放置痕迹 token）；已开启获取外星人标记模式，点击正面痕迹位会按正式规则结算奖励${formatDebugAlienCardGrantSummary(grantSummary)}`,
     );
     renderAlienPanels();
     renderRockets();
     renderTechBoard();
+    renderPlayerHand();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
     renderStateReadout();
@@ -20942,7 +21113,7 @@
   setTokenAssetSizes();
   setReportTab("state");
   setLogOpen(false);
-  initializeCardGame(10);
+  initializeCardGame(DEFAULT_INITIAL_HAND_COUNT);
   seedDefaultReferenceRockets();
   resize();
   randomizeAll();

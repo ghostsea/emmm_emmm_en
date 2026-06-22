@@ -45,6 +45,7 @@
 
 - 调试按钮「阿米巴调试」强制在外星人 1 展示阿米巴。
 - 调试按揭示阶段默认放置 5 个 symbol，不预放痕迹 token，并自动开启「获取外星人标记」。
+- 调试会给当前玩家补齐全部 10 张阿米巴牌到手牌；玩家仍需手动打出后触发效果或进入保留牌区，已存在的牌不重复发放。
 - 调试信息会输出每个痕迹位和 symbol 位的当前坐标。
 - 坐标覆盖读取入口：`window.SetiRandomizer.getAmibaTraceLayoutOverrides()` / `window.SetiRandomizer.getAmibaSymbolLayoutOverrides()`。
 - 默认不再开启拖动校准。
