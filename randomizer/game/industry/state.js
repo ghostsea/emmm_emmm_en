@@ -398,11 +398,20 @@
     (players || []).forEach(resetPlayerIndustryActionMark);
   }
 
-  function resetRoundIndustryRuntimeState(player) {
-    if (!player) return player;
+  function clearTuringBorrowedTech(player) {
+    if (!player) return { cleared: false };
+    const cleared = Boolean(player.industryBorrowedTechTileId)
+      || Boolean(player.industryBorrowedTechRound)
+      || Boolean(player.industryBorrowedTechTurn);
     player.industryBorrowedTechTileId = null;
     player.industryBorrowedTechRound = 0;
     player.industryBorrowedTechTurn = 0;
+    return { cleared };
+  }
+
+  function resetRoundIndustryRuntimeState(player) {
+    if (!player) return player;
+    clearTuringBorrowedTech(player);
     player.industrySentinelArmedRound = 0;
     player.industrySentinelArmedTurn = 0;
     player.industryHuanyuFreeMoveRound = 0;
@@ -450,6 +459,7 @@
     resetAllIndustryActionMarks,
     resetRoundIndustryRuntimeState,
     resetAllRoundIndustryRuntimeState,
+    clearTuringBorrowedTech,
     createIndustryMarkUndoCommand,
     initializeStrategyPassiveMarkers,
     canPlaceStrategyPassiveSlot,

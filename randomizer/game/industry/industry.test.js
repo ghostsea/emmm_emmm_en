@@ -47,6 +47,27 @@ assert.equal(catalog.hasImplementedActiveAbility("未来跨度研究所"), true)
 assert.equal(passives.getRocketLimitBonus({ initialSelection: { industry: { label: "寰宇动力" } } }), 1);
 assert.equal(passives.getResearchPublicityCost({ initialSelection: { industry: { label: "芬威克研究中心" } } }), 5);
 const alienLabPlayer = { initialSelection: { industry: { label: "异星实验室" } }, resources: { score: 0 } };
+const turingPlayer = {
+  id: "white",
+  initialSelection: { industry: { label: "图灵系统" } },
+  techState: { ownedTiles: {}, disabledTiles: {} },
+  industryBorrowedTechTileId: "orange2",
+  industryBorrowedTechRound: 2,
+  industryBorrowedTechTurn: 4,
+};
+assert.equal(passives.getBorrowedTechTileId(turingPlayer, 2, 4), "orange2");
+assert.equal(passives.getBorrowedTechTileId(turingPlayer, 2, 5), null);
+assert.equal(passives.getBorrowedTechTileId(turingPlayer, 3, 4), null);
+assert.equal(passives.getBorrowedTechTileId(turingPlayer, 2), null);
+assert.equal(passives.playerHasTechEffect(turingPlayer, "orange2", 2, 4), true);
+assert.equal(passives.playerHasTechEffect(turingPlayer, "orange2", 2, 5), false);
+const turingClear = state.clearTuringBorrowedTech(turingPlayer);
+assert.equal(turingClear.cleared, true);
+assert.equal(turingPlayer.industryBorrowedTechTileId, null);
+assert.equal(turingPlayer.industryBorrowedTechRound, 0);
+assert.equal(turingPlayer.industryBorrowedTechTurn, 0);
+assert.equal(state.clearTuringBorrowedTech(turingPlayer).cleared, false);
+
 assert.equal(passives.getStandardLaunchCost(alienLabPlayer).credits, 1);
 assert.equal(passives.getStandardScanCost(alienLabPlayer).energy, 2);
 assert.equal(passives.getStandardScanCost(alienLabPlayer).credits, undefined);

@@ -579,7 +579,7 @@
       if (player.color === "white" && dealModeledOpeningHand(player)) continue;
       cards.drawCardsToHand(cardState, playerState, player, handCount);
     }
-    cards.ensurePublicCardsFilled(cardState, playerState);
+    ensurePublicCardsFilledRespectingDelayedRefills();
   }
 
   function dealModeledOpeningHand(player) {
@@ -1924,7 +1924,7 @@
     const from = rocketActions.getRocketSectorCoordinate(rocket);
     if (!from) return 1;
     const fromContent = getSectorContentForMove(from);
-    if (isAsteroidContent(fromContent) && !players.playerOwnsTech(player, "orange2")) {
+    if (isAsteroidContent(fromContent) && !players.playerOwnsTech(player, "orange2", turnState)) {
       return 2;
     }
     return 1;
@@ -4198,7 +4198,7 @@
       finishIndustryAbilityFlow(rocketState.statusNote);
       commitIrreversibleIndustryQuickAction("未来跨度研究所：精选", rocketState.statusNote);
     }
-    cards.ensurePublicCardsFilled(cardState, playerState);
+    ensurePublicCardsFilledRespectingDelayedRefills();
     syncCardSelectionChrome();
     renderPublicCards();
     renderPlayerStats();
@@ -4279,10 +4279,22 @@
         : "牌库已空";
   }
 
+  function getDelayedPublicRefillSlotIndexes() {
+    return getDelayedPublicRefillSlots(null)
+      .map((item) => Number(item.slotIndex))
+      .filter((slotIndex) => Number.isInteger(slotIndex));
+  }
+
+  function ensurePublicCardsFilledRespectingDelayedRefills() {
+    return cards.ensurePublicCardsFilled(cardState, playerState, undefined, {
+      skipSlotIndexes: getDelayedPublicRefillSlotIndexes(),
+    });
+  }
+
   function renderPublicCards() {
     if (!els.publicCardRow) return;
 
-    cards.ensurePublicCardsFilled(cardState, playerState);
+    ensurePublicCardsFilledRespectingDelayedRefills();
 
     const selectionActive = isCardSelectionActive();
     const publicScanMulti = isPublicScanMultiSelectActive();
@@ -4519,8 +4531,12 @@
       || "sector_finish_scan";
   }
 
-  function buildReadySectorFinishEffects() {
+  function buildReadySectorFinishEffects(options = {}) {
+    const sectorFilter = options.nebulaIds
+      ? new Set([...options.nebulaIds].map((sectorId) => String(sectorId)))
+      : null;
     return (data.NEBULA_IDS || [])
+      .filter((sectorId) => (!sectorFilter || sectorFilter.has(String(sectorId))))
       .filter((sectorId) => data.isSectorReadyToSettle(nebulaDataState, sectorId))
       .map((sectorId) => ({
         type: scanEffects.EFFECT_TYPES.SECTOR_FINISH_SCAN,
@@ -4655,16 +4671,16 @@
     return effects;
   }
 
-  function buildScanFinalizeFollowupEffects(scanRunId) {
+  function buildScanFinalizeFollowupEffects(scanRunId, flow = pendingActionEffectFlow) {
     return [
-      ...buildReadySectorFinishEffects(),
+      ...buildReadySectorFinishEffects({ nebulaIds: getFlowMarkedNebulaIds(flow) }),
       ...buildDelayedPublicRefillEffects(scanRunId),
     ];
   }
 
   function executeScanActionFinalizeEffect(effect) {
     const scanRunId = effect.options?.scanRunId || pendingActionEffectFlow?.scanRunId || null;
-    const followups = buildScanFinalizeFollowupEffects(scanRunId);
+    const followups = buildScanFinalizeFollowupEffects(scanRunId, pendingActionEffectFlow);
     if (followups.length) {
       insertActionEffectsAfterCurrent(followups);
     }
@@ -4807,22 +4823,34 @@
     });
   }
 
+  function buildEndOfFlowFollowupEffects(flow) {
+    if (!flow || flow.actionType === "initialIncome") return [];
+    const effects = [];
+    const markedNebulaIds = getFlowMarkedNebulaIds(flow);
+    if (markedNebulaIds.size) {
+      effects.push(...buildReadySectorFinishEffects({ nebulaIds: markedNebulaIds }));
+    }
+    if (flow.scanRunId) {
+      effects.push(...buildDelayedPublicRefillEffects(flow.scanRunId));
+    }
+    return effects;
+  }
+
   function shouldAppendQueuedSectorFinishEffects(flow) {
     if (!flow?.completed || flow.endOfFlowSettlementScheduled) return false;
-    if (flow.actionType === "initialIncome") return false;
-    return effectFlowMarkedNebula(flow);
+    return buildEndOfFlowFollowupEffects(flow).length > 0;
   }
 
   function appendEndOfFlowSectorFinishEffects(flow) {
     if (!shouldAppendQueuedSectorFinishEffects(flow)) return false;
-    const effects = buildReadySectorFinishEffects();
+    const effects = buildEndOfFlowFollowupEffects(flow);
     if (!effects.length) return false;
     flow.endOfFlowSettlementScheduled = true;
     flow.completed = false;
     for (const effect of effects) {
       flow.effects.push({
         ...effect,
-        id: effect.id || `end-flow-sector-finish-${flow.effects.length}`,
+        id: effect.id || `end-flow-followup-${flow.effects.length}`,
         options: { ...(effect.options || {}) },
         status: "pending",
       });
@@ -7457,8 +7485,20 @@
     return (result?.events || []).some((event) => event?.type === "signalMarked");
   }
 
+  function getFlowMarkedNebulaIds(flow) {
+    const marked = new Set();
+    for (const effect of flow?.effects || []) {
+      for (const event of effect.result?.events || []) {
+        if (event?.type === "signalMarked" && event.nebulaId) {
+          marked.add(String(event.nebulaId));
+        }
+      }
+    }
+    return marked;
+  }
+
   function effectFlowMarkedNebula(flow) {
-    return (flow?.effects || []).some((effect) => resultHasSignalMarkedEvent(effect.result));
+    return getFlowMarkedNebulaIds(flow).size > 0;
   }
 
   function finishActionEffectFlow() {
@@ -8022,8 +8062,10 @@
       includeFinalize: true,
       fullScanAction: true,
       scanRunId,
+      turnState,
+      roundNumber: turnState.roundNumber,
+      turnNumber: turnState.turnNumber,
     })
-      .filter((item) => effect.options?.skipCost ? item.type !== scanEffects.EFFECT_TYPES.PAY_SCAN_COST : true)
       .map((item, index) => ({
         ...item,
         id: `${effect.id || "card-scan-action"}-${index}`,
@@ -9458,15 +9500,41 @@
 
     startActionLogDraft("scan", "扫描行动", { source: HISTORY_SOURCE_MAIN, player: currentPlayer });
     actionHistory.beginSession("scan", "扫描行动");
+    actionHistory.beginStep({ source: HISTORY_SOURCE_MAIN, type: "action-cost", label: "扫描费用" });
+    let costResult = abilities.executeAbility("payScanCost", createActionContext(), {
+      cost: scanEffects.getStandardScanCost(currentPlayer),
+    });
+    if (!costResult.ok) {
+      actionHistory.rollbackSession();
+      clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+      removeActionLogStepsBySource(HISTORY_SOURCE_MAIN);
+      rocketState.statusNote = costResult.message;
+      renderStateReadout();
+      return costResult;
+    }
+    costResult = maybeConsumeAlienLabPanelForMainAction("scan", costResult);
+    recordAbilityCommands(costResult);
+    const costStep = actionHistory.endStep();
+    if (costStep) {
+      rememberHistoryStep(HISTORY_SOURCE_MAIN, costStep.id);
+      appendActionLogStep(
+        HISTORY_SOURCE_MAIN,
+        costStep.label,
+        costResult.message,
+        actionLogOptionsFromHistoryStep(costStep),
+      );
+    }
     const scanRunId = createScanRunId("main-scan");
     pendingActionEffectFlow = abilities.chain.startAbilityChain(
       "scan",
       "扫描行动",
       scanEffects.buildScanEffectQueue(currentPlayer, {
-        standardAction: true,
         includeFinalize: true,
         fullScanAction: true,
         scanRunId,
+        turnState,
+        roundNumber: turnState.roundNumber,
+        turnNumber: turnState.turnNumber,
       }),
     );
     pendingActionEffectFlow.playerId = currentPlayer.id;
@@ -16725,12 +16793,14 @@
     const summary = document.createElement("div");
     summary.className = "initial-selection-company-slot";
     const [companyCard] = selectedCards;
+    const hasTuringBorrowedTech = companyCard?.label === "图灵系统"
+      && Boolean(industry?.getBorrowedTechTileId?.(currentPlayer, turnState.roundNumber, turnState.turnNumber));
     if (companyCard?.label === "未来跨度研究所") {
       summary.classList.add("has-company-below-card-markers");
       if (industry?.hasFutureSpanCard?.(currentPlayer)) {
         summary.classList.add("has-future-span-card-below");
       }
-    } else if (companyCard?.label === "异星实验室") {
+    } else if (companyCard?.label === "异星实验室" || hasTuringBorrowedTech) {
       summary.classList.add("has-company-below-card-markers");
     }
     summary.replaceChildren(createCompanyCardSummary(companyCard, currentPlayer));
@@ -16953,7 +17023,7 @@
       beforePlayer,
       "恢复图灵借用前玩家状态",
     ));
-    finishIndustryAbilityFlow(`图灵系统：本轮借用 ${tileId} 效果`);
+    finishIndustryAbilityFlow(`图灵系统：当前回合借用 ${tileId} 效果`);
     return { ok: true, tileId };
   }
 
@@ -17757,6 +17827,14 @@
       });
     }
 
+    if (player && companyCard?.label === "图灵系统") {
+      industry.mountTuringBorrowLayer?.(wrap, player, {
+        turnState,
+        roundNumber: turnState.roundNumber,
+        turnNumber: turnState.turnNumber,
+      });
+    }
+
     if (player && industry?.shouldShowAlienLabPanels?.(player)) {
       industry.mountAlienLabLayer(wrap, player, {
         onPanelClick: handleAlienLabPanelClick,
@@ -18224,6 +18302,9 @@
       techBoardState: techGameState.board,
       techUiState: techGameState.ui,
       techGameState,
+      turnState,
+      roundNumber: turnState.roundNumber,
+      turnNumber: turnState.turnNumber,
       getPlayerTokenSrc: (player) => getNormalTokenAssetForPlayer(player),
       getEarthSectorCoordinate,
       getPlanetLocations: () => solar.createSolarSnapshot(solarState).planetLocations,
@@ -18375,6 +18456,7 @@
     if (industry?.expireStrategyPlayInteractionOnTurnEnd?.(endingPlayer, turnState.roundNumber)?.cleared) {
       renderInitialSelectionArea();
     }
+    industry?.clearTuringBorrowedTech?.(endingPlayer);
 
     endEffectHistoryStep();
     commitActionLogDraft({
@@ -18405,6 +18487,7 @@
     renderRockets();
     renderPublicCards();
     renderReservedCards();
+    renderInitialSelectionArea();
     updatePublicCardControls();
     updateActionButtons();
     renderStateReadout();

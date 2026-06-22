@@ -173,7 +173,7 @@
           abilityId,
           flowType: "turing_borrow_tech",
           label: prepared.label,
-          message: `${prepared.label}：请选择一项科技借用本轮效果（不获得板块与 bonus）`,
+          message: `${prepared.label}：请选择一项科技借用当前回合效果（不获得板块与 bonus）`,
         };
       case "sentinel_arm_play_corner":
         return {

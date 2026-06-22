@@ -2813,6 +2813,25 @@ body {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
 }
 
+.company-turing-borrow-layer {
+  position: absolute;
+  left: 6.4%;
+  top: calc(100% + 7px);
+  z-index: 5;
+  width: 16%;
+  pointer-events: none;
+}
+
+.company-turing-borrow-tile {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 175 / 246;
+  object-fit: contain;
+  filter:
+    drop-shadow(0 3px 6px rgba(0, 0, 0, 0.48))
+    drop-shadow(0 0 8px rgba(120, 210, 255, 0.3));
+}
 .company-alien-lab-panel-strip {
   position: absolute;
   left: 5.6%;

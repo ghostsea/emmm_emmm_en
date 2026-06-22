@@ -54,8 +54,21 @@
     SECTOR_FINISH_SCAN: "sector_finish_scan",
   });
 
-  function playerOwnsPurpleTech(player, level) {
-    return playerTech.playerHasActiveTile(player?.techState, `purple${level}`);
+  function getTurnContext(options = {}) {
+    return {
+      roundNumber: options.roundNumber ?? options.turnState?.roundNumber,
+      turnNumber: options.turnNumber ?? options.turnState?.turnNumber,
+    };
+  }
+
+  function playerOwnsPurpleTech(player, level, options = {}) {
+    const tileId = `purple${level}`;
+    const passives = getIndustryPassives();
+    if (passives?.playerHasTechEffect) {
+      const { roundNumber, turnNumber } = getTurnContext(options);
+      return passives.playerHasTechEffect(player, tileId, roundNumber, turnNumber);
+    }
+    return playerTech.playerHasActiveTile(player?.techState, tileId);
   }
 
   function getIndustryPassives() {
@@ -76,21 +89,12 @@
   }
 
   function buildScanEffectQueue(player, options = {}) {
-    const standardAction = options.standardAction !== false;
-    const cost = options.cost || (standardAction ? getStandardScanCost(player) : SCAN_COST);
     const scanRunId = options.scanRunId || null;
     const fullScanAction = Boolean(options.fullScanAction || options.includeFinalize);
     const sharedOptions = scanRunId ? { scanRunId, fullScanAction } : {};
-    const effects = [{
-      type: EFFECT_TYPES.PAY_SCAN_COST,
-      abilityId: "payScanCost",
-      icon: "scan_cost",
-      label: "支付扫描费用",
-      undoable: true,
-      options: { cost, standardAction, ...sharedOptions },
-    }];
+    const effects = [];
 
-    if (playerOwnsPurpleTech(player, 1)) {
+    if (playerOwnsPurpleTech(player, 1, options)) {
       effects.push({
         type: EFFECT_TYPES.IMPROVED_SECTOR_SCAN,
         abilityId: "scanSector",
@@ -116,7 +120,7 @@
       options: { ...sharedOptions },
     });
 
-    if (playerOwnsPurpleTech(player, 2)) {
+    if (playerOwnsPurpleTech(player, 2, options)) {
       effects.push({
         type: EFFECT_TYPES.MERCURY_SECTOR_SCAN,
         abilityId: "scanSector",
@@ -126,7 +130,7 @@
       });
     }
 
-    if (playerOwnsPurpleTech(player, 3)) {
+    if (playerOwnsPurpleTech(player, 3, options)) {
       effects.push({
         type: EFFECT_TYPES.HAND_SCAN,
         abilityId: "scanHandCard",
@@ -136,7 +140,7 @@
       });
     }
 
-    if (playerOwnsPurpleTech(player, 4)) {
+    if (playerOwnsPurpleTech(player, 4, options)) {
       effects.push({
         type: EFFECT_TYPES.SCAN_ACTION_4,
         abilityId: "scanAction4",
@@ -146,15 +150,6 @@
       });
     }
 
-    if (options.includeFinalize) {
-      effects.push({
-        type: EFFECT_TYPES.SCAN_ACTION_FINALIZE,
-        icon: "scan_action_finalize",
-        label: "扫描收尾",
-        undoable: true,
-        options: { ...sharedOptions },
-      });
-    }
 
     return effects.map((effect, index) => ({
       ...effect,

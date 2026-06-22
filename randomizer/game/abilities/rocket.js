@@ -70,8 +70,8 @@
     );
   }
 
-  function getRocketLimitForPlayer(player) {
-    const baseLimit = players.playerOwnsTech(player, "orange1") ? ORANGE1_ROCKET_LIMIT : BASE_ROCKET_LIMIT;
+  function getRocketLimitForPlayer(player, options = {}) {
+    const baseLimit = players.playerOwnsTech(player, "orange1", options) ? ORANGE1_ROCKET_LIMIT : BASE_ROCKET_LIMIT;
     const bonus = getIndustryPassives()?.getRocketLimitBonus?.(player) || 0;
     return baseLimit + bonus;
   }
@@ -265,7 +265,7 @@
     }
 
     if (isAsteroidContent(content)) {
-      if (players.playerOwnsTech(player, "orange2")) {
+      if (players.playerOwnsTech(player, "orange2", context)) {
         players.gainResources(player, { publicity: 1 });
         rewardNotes.push("橙色2：进入小行星，宣传+1");
       }
@@ -305,7 +305,7 @@
   function getRequiredMovePoints(context, player, rocketId, deltaX, deltaY) {
     const geometry = resolveMoveGeometry(context, rocketId, deltaX, deltaY);
     const exitsAsteroid = isAsteroidContent(geometry.fromContent);
-    if (exitsAsteroid && !players.playerOwnsTech(player, "orange2")) {
+    if (exitsAsteroid && !players.playerOwnsTech(player, "orange2", context)) {
       return ASTEROID_EXIT_MOVE_POINTS;
     }
     return 1;
@@ -330,7 +330,7 @@
     const defaultLaunchCost = getIndustryPassives()?.getStandardLaunchCost?.(currentPlayer, DEFAULT_LAUNCH_COST)
       || DEFAULT_LAUNCH_COST;
     const cost = resolveCost(options, defaultLaunchCost);
-    const rocketLimit = getRocketLimitForPlayer(currentPlayer);
+    const rocketLimit = getRocketLimitForPlayer(currentPlayer, context);
     const activeRocketCount = getActiveRocketCountForPlayer(context.rocketState, currentPlayer.id);
     if (!options.ignoreRocketLimit && activeRocketCount >= rocketLimit) {
       return {

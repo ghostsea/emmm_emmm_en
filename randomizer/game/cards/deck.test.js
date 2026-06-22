@@ -114,6 +114,15 @@ assert.ok(pickResult.replenished);
 
 const uniqueIds = new Set(player.hand.map((card) => card.cardId));
 assert.equal(uniqueIds.size, player.hand.length);
+const delayedFillState = cards.createCardState();
+const delayedFillPlayer = { id: "player-blue", hand: [], resources: { handSize: 0 } };
+const delayedFillPlayerState = { players: [delayedFillPlayer], currentPlayerId: delayedFillPlayer.id };
+delayedFillState.publicCards = Array.from({ length: cards.PUBLIC_CARD_COUNT }, () => null);
+cards.ensurePublicCardsFilled(delayedFillState, delayedFillPlayerState, () => 0, { skipSlotIndexes: [1] });
+assert.ok(delayedFillState.publicCards[0]);
+assert.equal(delayedFillState.publicCards[1], null);
+assert.ok(delayedFillState.publicCards[2]);
+assert.equal(cards.countPublicCards(delayedFillState), cards.PUBLIC_CARD_COUNT - 1);
 
 cards.setDiscardSelectionActive(cardState, true, 1);
 assert.equal(cards.isDiscardSelectionActive(cardState), true);

@@ -38,6 +38,17 @@ assert.equal(players.getPlayerColorDefinition("green").rocketAsset, "../assets/t
 assert.equal(players.getPlayerColorDefinition("green").satelliteAsset, "../assets/tokens/satellite-green.png");
 assert.equal(players.getPlayerColorDefinition("green").landdingAsset, "../assets/tokens/landding-green.png");
 
+const borrowedTechPlayer = players.createPlayer({});
+borrowedTechPlayer.industryBorrowedTechTileId = "orange2";
+borrowedTechPlayer.industryBorrowedTechRound = 3;
+borrowedTechPlayer.industryBorrowedTechTurn = 2;
+assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange2"), false);
+assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange2", { roundNumber: 3, turnNumber: 2 }), true);
+assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange2", { roundNumber: 3, turnNumber: 3 }), false);
+assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange2", { roundNumber: 4, turnNumber: 2 }), false);
+borrowedTechPlayer.techState.ownedTiles.orange3 = true;
+assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange3"), true);
+
 const multiPlayerState = players.createPlayerState({
   players: players.PLAYER_COLOR_IDS.map((color) => ({ color })),
   currentPlayerColor: "green",

@@ -415,11 +415,27 @@
     return true;
   }
 
-  function playerOwnsTech(player, tileId) {
+  function normalizeTurnContext(options = {}) {
+    const source = options?.turnState && typeof options.turnState === "object"
+      ? options.turnState
+      : options;
+    const roundNumber = Math.max(0, Math.round(Number(source?.roundNumber) || 0));
+    const turnNumber = Math.max(0, Math.round(Number(source?.turnNumber) || 0));
+    return { roundNumber, turnNumber };
+  }
+
+  function isBorrowedTechActive(player, tileId, options = {}) {
+    if (!tileId || player?.industryBorrowedTechTileId !== tileId) return false;
+    const { roundNumber, turnNumber } = normalizeTurnContext(options);
+    return roundNumber > 0
+      && turnNumber > 0
+      && player?.industryBorrowedTechRound === roundNumber
+      && player?.industryBorrowedTechTurn === turnNumber;
+  }
+
+  function playerOwnsTech(player, tileId, options = {}) {
     if (Boolean(player?.techState?.ownedTiles?.[tileId])) return true;
-    return player?.industryBorrowedTechTileId === tileId
-      && (player?.industryBorrowedTechRound || 0) > 0
-      && (player?.industryBorrowedTechTurn || 0) > 0;
+    return isBorrowedTechActive(player, tileId, options);
   }
 
   function createPlayerState(input) {
@@ -474,6 +490,7 @@
     gainResources,
     gainIncome,
     incrementPlayerOrbitCount,
+    isBorrowedTechActive,
     playerOwnsTech,
   });
 });

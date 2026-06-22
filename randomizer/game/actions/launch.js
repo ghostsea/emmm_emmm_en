@@ -43,8 +43,8 @@
     return `资源不足，发射需要 ${players.formatResourceCost(cost)}`;
   }
 
-  function getRocketLimitForPlayer(player) {
-    const baseLimit = players.playerOwnsTech(player, "orange1") ? ORANGE1_ROCKET_LIMIT : BASE_ROCKET_LIMIT;
+  function getRocketLimitForPlayer(player, options = {}) {
+    const baseLimit = players.playerOwnsTech(player, "orange1", options) ? ORANGE1_ROCKET_LIMIT : BASE_ROCKET_LIMIT;
     const bonus = getIndustryPassives()?.getRocketLimitBonus?.(player) || 0;
     return baseLimit + bonus;
   }
@@ -52,7 +52,7 @@
   function canExecute(context) {
     const currentPlayer = players.getCurrentPlayer(context.playerState);
     if (!currentPlayer) return { ok: false, message: "没有当前玩家" };
-    const rocketLimit = getRocketLimitForPlayer(currentPlayer);
+    const rocketLimit = getRocketLimitForPlayer(currentPlayer, context);
     const activeRocketCount = rockets.getRocketsForPlayer(context.rocketState, currentPlayer.id).length;
     if (activeRocketCount >= rocketLimit) {
       return { ok: false, message: `火箭数量已达上限（${activeRocketCount}/${rocketLimit}）` };

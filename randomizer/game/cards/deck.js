@@ -264,8 +264,16 @@
     return cardState.publicCards.filter(Boolean).length;
   }
 
-  function fillPublicCards(cardState, playerState, random = Math.random) {
+  function normalizeSkipSlotIndexes(options = {}) {
+    return new Set((options.skipSlotIndexes || [])
+      .map((slotIndex) => Number(slotIndex))
+      .filter((slotIndex) => Number.isInteger(slotIndex)));
+  }
+
+  function fillPublicCards(cardState, playerState, random = Math.random, options = {}) {
+    const skipSlotIndexes = normalizeSkipSlotIndexes(options);
     for (let index = 0; index < PUBLIC_CARD_COUNT; index += 1) {
+      if (skipSlotIndexes.has(index)) continue;
       if (!cardState.publicCards[index]) {
         replenishPublicSlot(cardState, playerState, index, random);
       }
@@ -273,8 +281,8 @@
     return cardState.publicCards.slice();
   }
 
-  function ensurePublicCardsFilled(cardState, playerState, random = Math.random) {
-    return fillPublicCards(cardState, playerState, random);
+  function ensurePublicCardsFilled(cardState, playerState, random = Math.random, options = {}) {
+    return fillPublicCards(cardState, playerState, random, options);
   }
 
   function drawCardsToHand(cardState, playerState, player, count, random = Math.random) {

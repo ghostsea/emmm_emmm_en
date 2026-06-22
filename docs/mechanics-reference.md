@@ -45,7 +45,7 @@
 - 除异星实验室外，公司牌左下角「1x」圆标位置由 `randomizer/game/industry/placement.js` 的 `INDUSTRY_ACTION_MARKER_SLOTS` 定义（百分比坐标）；未放置标记时公司牌外框蓝色高亮，放置后取消高亮。玩家可在该区域点击放置 `normal_token` 标记，每轮（`turnState.roundNumber` 轮号）每玩家仅可触发一次，状态写入 `player.industryRoundMarkRound`；`player.industryRoundMarkTurn` 只记录标记发生的回合号，不参与刷新判定。放置作为快速行动记录，可通过撤销按钮撤回。放置成功后立即启动该公司对应的 1x 主动能力流程。
 - 公司 1x 主动/被动能力由 `randomizer/game/industry/` 管理（`catalog.js` 定义、`abilities.js` 构建流程、`passives.js` 钩子、`index.js` 聚合为 `SetiIndustry`）；设计与建模详见 `assets/industry/industry-abilities.md`。
   - 层云核心：点击公共牌逐张结算弃牌角标（不弃牌、不移除公共牌），最多 3 张；每次点击与标记均可撤销。
-  - 图灵系统：借用一项供应区科技本轮效果（不获得板块/bonus）；被动：获取蓝色科技 +1 宣传。
+  - 图灵系统：借用一项供应区科技当前回合效果（不获得板块/bonus；包含紫色科技对扫描行动队列的增强），并在公司牌下方只复制显示该科技图标，回合结束移除；被动：获取蓝色科技 +1 宣传。
   - 哨兵探测网络：1x 标记后武装本轮；打牌时（标记可在打牌前或后）在打牌效果队列末尾追加 `industry_sentinel_corner` 节点，点击后结算打出牌左上角弃牌角标（非外星人，可撤销）；若打牌后才标记且本轮已打牌，会补开哨兵效果队列。被动：发射后扫描地球扇区。
   - 寰宇动力：至多 2 枚火箭各免费移动 1 次；被动：火箭上限 +1。
   - 赫利昂联合体：移除一项非蓝科技 + 1 次收入；1x 开始时清除左上 3 个被动奖励槽 token。移除后该科技片保留在玩家版图并灰显（`disabledTiles`），不再提供能力，且不能再次从供应区拿取同编号板块；仍可研究同色其他编号板块。被动：拿取橙/粉紫/蓝科技后，在科技效果队列末尾追加 `industry_helios_passive_reward` 节点，点击后在对应槽放置 token 并领取奖励（橙=1 能量，粉紫=1 公共牌弃牌扫描标记，蓝=1 数据，可撤销）；槽位坐标在 `placement.js` 的 `HELIOS_PASSIVE_MARKER_SLOTS`。
@@ -55,7 +55,7 @@
   - 宇宙战略集团：精选 1 张牌；1x 开始时清除左上黄/红/蓝 3 个被动奖励槽 token。被动：打牌后按扫描角标在公司牌虚线圆交互放置 token 并领奖（黄=1 信用点，红=1 宣传，蓝=1 数据，可撤销）；若回合结束前未完成交互，点击「回合结束」会取消本次虚线交互（已放置 token 保留，下次打牌可再次触发）。
 - 未来跨度研究所：公司牌上额外显示 `wlkd_token` 专属标记。点击后作为快速行动选择一张费用为信用点的手牌（半人马等能量费用牌不可选），移到公司牌下方并设定目标分（当前分 + 15/25/35/45，对应费用 1/2/3/4）；达成目标分后目标牌高亮为可打出但不显示专属标记，可用标准“打牌”主行动免费打出，所有效果完成后专属标记回到公司且当轮可再次作为快速行动使用。底部普通 1x 只能在已有未达成目标牌时使用：精选 1 张公共牌并把目标分提高 3，确认补牌后不可撤销。
 - 异星实验室：公司牌上显示蓝/黄/粉三块专属板块。正面时分别把标准发射改为 1 信用点、标准扫描改为 2 能量、标准研究科技改为 4 宣传；正面板块高亮且可点击，点击等同触发对应主要行动。执行对应标准主行动后该板块翻背。获得同色外星痕迹时对应板块翻回正面。该公司没有普通 1x 圆标。
-- 玩家运行时字段：`industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn`（图灵借用，Round 判定本轮有效，Turn 仅记录发生回合）、`industrySentinelArmedRound` / `industrySentinelArmedTurn`（哨兵武装）、`industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds`（寰宇免费移动）、`industryPlayedCardThisRound` / `industryLastPlayedCardThisRound`（本轮已打牌快照）、`industryAlienLabPanels`（异星实验室三色板块）、`industryFutureSpan`（未来跨度扣下的牌、目标分与打出状态）。新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等轮内状态，不重置 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记），也不清空未来跨度目标牌或异星实验室板块。
+- 玩家运行时字段：`industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn`（图灵借用，Round/Turn 共同判定当前回合有效）、`industrySentinelArmedRound` / `industrySentinelArmedTurn`（哨兵武装）、`industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds`（寰宇免费移动）、`industryPlayedCardThisRound` / `industryLastPlayedCardThisRound`（本轮已打牌快照）、`industryAlienLabPanels`（异星实验室三色板块）、`industryFutureSpan`（未来跨度扣下的牌、目标分与打出状态）。回合结束时会清空当前玩家的图灵借用；新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等轮内状态，不重置 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记），也不清空未来跨度目标牌或异星实验室板块。
 - 公司 1x 标记与能力撤销：除涉及精选并拿走/刷新公共牌的能力（任务中继站、芬威克、未来跨度普通 1x、宇宙战略）外，标记与层云核心、图灵借用、寰宇移动、赫利昂移除+收入、深空交换、未来跨度专属标记等步骤写入 `quickActionHistory` 可撤销；层云核心只结算弃牌角标不弃牌、不移除公共牌。任务中继站、芬威克、未来跨度普通 1x、宇宙战略确认拿牌后会提交快速行动历史，之前的快速行动也不再可撤销。撤销标记会 `resetRoundIndustryRuntimeState` 并取消进行中的公司能力流。
 - 交互聚焦：`app.js` 的 `syncInteractionFocusChrome()` 根据进行中的流程在 `#app-wrap` 上设置 `data-interaction-focus`（`public-cards` / `hand-cards` / `tech-panel` / `board-rockets`）；`style.css` 会暗化非目标区域。`hand-cards` 聚焦时不能暗化或禁用 `.player-command` 父容器，需只暗化手牌区的兄弟控件，保证收入弃牌、打牌选牌、移动弃牌支付、手牌扫描等流程中手牌区保持高亮可点。公司牌 1x 可放置时仅用牌面蓝色高亮（`is-action-marker-pending`），不自动进入全屏聚焦以免遮挡行动按钮。
 - 选择公司后，保留牌区右侧分两行显示：第一行放 1 / 2 型任务牌，并按手牌区方式在牌多时部分覆盖；第二行暂时只放 3 型终局计分牌。
@@ -175,7 +175,7 @@ UI 布局：
 - `settleCompletedSectors` 会检查 8 个具名扇区：若某扇区自身数据槽都已填满且全部数据均被玩家 token 替换，则结算该扇区。
 - 扇区结算时，标记数最多的玩家获胜；标记数相同则比较该玩家在本扇区的最近标记顺序，后标记者获胜。
 - 奥陌陌 `aomomo` 扇区完成时不统计赢家、不写入玩家赢得扇区记录、不保留第二名标记；所有参与扫描的玩家各获得 1 化石奖励节点，然后重新填满 3 个奥陌陌数据槽。
-- 完整扫描行动（标准扫描主行动，或卡牌效果展开出的 `SCAN_ACTION`）会在扫描队列末尾追加 `scan_action_finalize`。该节点先插入所有已完成扇区的 `sector_finish_scan` 节点与奖励节点，最后才插入公共牌补牌节点。
+- 完整扫描行动（标准扫描主行动，或卡牌效果展开出的 `SCAN_ACTION`）不固定追加 `scan_action_finalize`。扫描 flow 完成后，仅当本次扫描标记过的星云已满足结算条件时，才追加对应 `sector_finish_scan` 节点与奖励节点；本次公共扫描留下的空公共牌位仍在最后追加 `scan_public_refill`。
 - 普通扇区完成时，`sector_finish_scan` 节点调用 `settleSector()`，写入赢家 token 记录，保留第二名标记，并重新填满该扇区数据槽；普通扇区参与本次结算且有标记的玩家各获得 1 宣传，作为资源奖励效果节点进入队列。
 - 奥陌陌 `aomomo` 扇区完成时不产生赢家、不写入赢家 token、不保留第二名标记；参与玩家各获得 1 化石，作为资源奖励效果节点进入队列。
 - 织女一、绘架座β、巴纳德、开普勒22、南河三第一次完成时把赢家 token 放在圆形区域，之后放在条形区域；室女座61、天狼星A、比邻星每次都放在条形区域。胜利 token 优先使用 `nebula-placement.js` 中的校准坐标；未校准位置从该星云第 3 个数据槽换算到 sector 贴图坐标，并向上偏移约 2 个数据 token 大小，后续 token 沿 x 方向紧凑排列，确保先落在所属外圈 `y=5` 扇区半区内。胜利 token 显示尺寸比初始默认值缩小 10%。调试按钮「赢得扇区调试」只显示可拖动玩家 token 占位，并把覆盖坐标输出到状态日志和 `console.info("[扇区胜利坐标]", ...)`，不写入真实胜利状态。
@@ -298,10 +298,10 @@ UI 布局：
 
 扫描队列由 `randomizer/game/actions/scan-effects.js` 构建，并由 `randomizer/game/abilities/chain.js` 管理为能力事件链：
 
-- 第一个节点始终是 `payScanCost`，点击后才支付 1 信用点 + 2 能量，可撤销。
-- 无紫色科技：支付扫描费用 + 地球所在扇区扫描 + 公共牌区扫描 + 扫描收尾。
+- 标准扫描主行动开始时先支付扫描费用（受公司/被动修正影响），费用是行动触发条件，不作为效果队列节点；该支付仍随行动历史可撤销。
+- 无紫色科技：地球所在扇区扫描 + 公共牌区扫描。
 - 公共牌区扫描默认弃 1 张选 2 选 1 星云；玩家每有 1 个 `additionalPublicScan` 可多选 1 张公共牌（最多 2 个，即最多弃 3 张），弃牌后按张数依次弹出多组 2 选 1 星云（可重复）。完整扫描行动内的公共牌区扫描只弃牌并留下空牌位，不立刻补牌。
-- `scan_action_finalize` 会插入已完成扇区节点、扇区奖励节点，并在最后插入 `scan_public_refill`。`scan_public_refill` 翻出新公共牌后标记为 `hidden_card_reveal` 不可撤销边界。
+- 扫描 flow 完成后会检查本次扫描标记过且已填满的扇区，并插入对应完成扇区节点、扇区奖励节点；`scan_public_refill` 始终排在这些后续节点最后。`scan_public_refill` 翻出新公共牌后标记为 `hidden_card_reveal` 不可撤销边界。
 - 普通卡牌公共扫描、调试公共扫描不带 `scanRunId`，仍按“弃牌 -> 扫描 -> 立即补牌”的旧路径结算。
 - 紫1：获得时立刻获得 2 数据；地球扇区扫描升级为“地球及相邻扇区三选一”。
 - 紫2：额外增加水星所在扇区扫描。
@@ -376,7 +376,7 @@ UI 布局：
   - `researchTechRotate(context, options)`
   - `researchTechBonus(context, options)`
 - `scan.js`：
-  - `payScanCost(context, options)`
+  - `payScanCost(context, options)`：内部费用结算能力；标准扫描行动开始时调用，不进入效果栏。
   - `scanSector(context, options)`
   - `scanNebula(context, options)`
   - `scanPublicCard(context, options)`
@@ -422,7 +422,7 @@ UI 布局：
 - 正常快速移动：`moveProbe(context, { cost: { energy: 1 }, movementPoints: 1, rocketId, deltaX, deltaY })`。
 - 弃移动牌/紫4扫描移动：`moveProbe(context, { cost: {}, movementPoints, rocketId, deltaX, deltaY })`。
 - 扇区扫描：`scanSector(context, { nebulaId })` 或 `scanSector(context, { sectorX })`。
-- 公共/手牌扫描：UI 先选择牌和目标星云，再调用扫描能力。完整扫描行动的公共扫描使用 `scanRunId` 延迟补公共牌，结算为“弃除来源牌 + 星云替换 + 可选获得数据”，补牌交给扫描收尾的 `scan_public_refill`；普通公共扫描仍调用 `scanPublicCard` 即时补牌。手牌扫描结算“星云替换 + 可选获得数据 + 弃除来源牌”。
+- 公共/手牌扫描：UI 先选择牌和目标星云，再调用扫描能力。完整扫描行动的公共扫描使用 `scanRunId` 延迟补公共牌，结算为“弃除来源牌 + 星云替换 + 可选获得数据”，补牌交给行动结束后的 `scan_public_refill`；普通公共扫描仍调用 `scanPublicCard` 即时补牌。手牌扫描结算“星云替换 + 可选获得数据 + 弃除来源牌”。
 - 科技行动：`researchTechPrepare` 进入选择效果链，默认允许全部颜色科技，也可传 `techType` / `techTypes` 限制颜色；`researchTechSelect` 支付 6 宣传、拿取并放置科技片，且 `undoable: true`；`researchTechRotate` 执行太阳系旋转并结算火箭随盘旋转/镂空推动，`undoable: false`；橙1/紫1分别追加标准「发射」「数据」效果节点；`researchTechBonus` 结算 bonus 与首拿 +2 分，`undoable: false`。
 
 ## 卡牌模型
@@ -439,7 +439,7 @@ UI 布局：
 - 临时任务：如“本卡效果期间若完成 1 个扇区”，绑定在本次卡牌效果队列上；显式 `sector_finish_scan` 效果执行后会把 settlement 结果累计到当前 flow，卡牌效果队列结束时再检查。
 - 打牌是主要行动，只支付卡牌模型里的信用点费用；卡牌效果队列内复用扫描、科技、移动等能力时，不再重复支付这些主要行动的基础费用。
 - 卡牌左上角 `discard_action_code` 可作为手牌快速行动：默认手牌不高亮可用性；玩家点击一张有左上角角标的手牌后，手牌区上方显示确认按钮。0 弃牌换 1 宣传，1 弃牌换 1 数据，2 弃牌换 1 移动，3 弃牌换 2 宣传，4 弃牌换 1 数据 + 1 分，5 弃牌换 1 移动 + 1 分。移动角标确认时先弃牌结算，再进入一次免费移动选择。卡牌效果内部也可读取移动角标，例如 `b_23.webp` 会盲抽后立刻结算抽到牌左上角角标，资源角标直接给资源，移动角标插入一次免费移动。
-- 重点语义：`b_5.webp` / `b_6.webp` 的“完成扇区”按本次卡牌效果链中显式完成的扇区 settlement 判断，不作为后续可触发任务；`b_7.webp` 是 3 次“盲抽 1 张并立刻按该牌扫描角标弃除扫描”，抽牌后该效果不可撤销；`b_9.webp` 的“扫描行动”按卡牌效果解释为不重复支付扫描行动基础费用，只展开扫描行动的后续效果并带扫描收尾；`b_11.webp`、`b_16.webp`、`b_17.webp`、`b_18.webp`、`b_24.webp` 使用 `card_move` 卡牌内移动节点；`b_20.webp` 监听发射事件，`b_25.webp` 监听黄色/红色/蓝色扇区扫描事件并奖励免费移动。
+- 重点语义：`b_5.webp` / `b_6.webp` 的“完成扇区”按本次卡牌效果链中显式完成的扇区 settlement 判断，不作为后续可触发任务；`b_7.webp` 是 3 次“盲抽 1 张并立刻按该牌扫描角标弃除扫描”，抽牌后该效果不可撤销；`b_9.webp` 的“扫描行动”按卡牌效果解释为不重复支付扫描行动基础费用，只展开扫描行动的后续效果，并使用完整扫描行动的延迟补牌/完成扇区调度；`b_11.webp`、`b_16.webp`、`b_17.webp`、`b_18.webp`、`b_24.webp` 使用 `card_move` 卡牌内移动节点；`b_20.webp` 监听发射事件，`b_25.webp` 监听黄色/红色/蓝色扇区扫描事件并奖励免费移动。
 - 外星人卡牌分析由 `tools/analyze_alien_cards.py` 在每个外星人目录下分别生成 `card_analysis.csv`、`card_model.csv` 和 `card_model.json`；默认排除 `半人马`、`九折`、`方舟`，左上角有两个符号时按第二个标准符号判定弃牌收益。
 
 ## 后续改造方向

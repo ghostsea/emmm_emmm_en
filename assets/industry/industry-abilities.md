@@ -31,14 +31,14 @@
 - 除 **异星实验室** 外，公司牌左下角有 1x 圆标（`placement.js`）；**未来跨度研究所** 既有普通每轮 1x 圆标，也有独立的 `wlkd_token` 专属快速行动标记。
 - 每**轮**（`turnState.roundNumber` 轮号）每玩家最多放置 1 次 `normal_token`；`player.industryRoundMarkRound === turnState.roundNumber` 表示本轮已用。`player.industryRoundMarkTurn` 只记录标记发生的回合号，不参与刷新判定。
 - 未放置时牌面蓝色高亮（`is-action-marker-pending`）；放置后启动该公司 `buildActiveAbilityFlow`。
-- 新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等，**不**清零 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记）。
+- 回合结束时清空当前玩家的图灵借用；新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等，**不**清零 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记）。
 
 ## 运行时状态字段
 
 | 字段 | 含义 |
 |------|------|
 | `industryRoundMarkRound` / `industryRoundMarkTurn` | 已放置 1x 标记的轮号与发生回合号（刷新只看轮号） |
-| `industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn` | 图灵系统：本轮借用的科技片 id；Turn 只记录发生回合 |
+| `industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn` | 图灵系统：当前回合借用的科技片 id；Round/Turn 共同判定有效期 |
 | `industrySentinelArmedRound` / `industrySentinelArmedTurn` | 哨兵：本轮已武装「打牌后弃牌角标」；Turn 只记录发生回合 |
 | `industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds` | 寰宇：免费移动所在轮、发生回合、剩余次数、已移动火箭 |
 | `industryPlayedCardThisRound` / `industryLastPlayedCardThisRound` | 本轮是否已打牌及牌快照（哨兵补注入队） |
@@ -54,7 +54,7 @@
 | 公司 | activeAbilityId | flowType | 规则摘要 |
 |------|-----------------|----------|----------|
 | 层云核心 | `stratus_public_corners` | `stratus_public_corners` | 点击公共牌最多 3 张，逐张结算**左上角弃牌角标**（不弃牌、不移除公共牌） |
-| 图灵系统 | `turing_borrow_tech` | `turing_borrow_tech` | 选择供应区一项科技，**本轮**借用其效果（不获得板块/bonus） |
+| 图灵系统 | `turing_borrow_tech` | `turing_borrow_tech` | 选择供应区一项科技，**当前回合**借用其效果（不获得板块/bonus）；公司牌下方只复制显示该科技图标 |
 | 哨兵探测网络 | `sentinel_arm_play_corner` | `sentinel_arm_play_corner` | 武装本轮；**打牌效果队列末尾**追加 `industry_sentinel_corner` 结算打出牌弃牌角标（非外星人） |
 | 寰宇动力 | `huanyu_free_moves` | `huanyu_free_moves` | 至多 2 枚火箭各免费移动 1 次 |
 | 赫利昂联合体 | `helios_remove_tech_income` | `helios_remove_tech` → 弃牌收入 | 移除一项非蓝科技 + 1 次收入（弃 1 张手牌按收入角标） |
@@ -102,7 +102,7 @@
 | `future_span_parking` | 未来跨度研究所 | 专属标记扣牌、目标分、达标后免费打出 | `app.js` 公司牌叠层与打牌流程 |
 | `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；正面板块可点击并等同触发对应主要行动；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
 
-图灵借用：`players.playerOwnsTech` 在拥有板块之外，若 `industryBorrowedTechTileId === tileId` 且借用轮有效，也视为拥有；新轮开始会清空借用运行时状态。
+图灵借用：科技效果查询在拥有板块之外，只有当 `industryBorrowedTechTileId === tileId` 且借用的 Round/Turn 都等于当前行动上下文时，才视为拥有；橙色科技经 `players.playerOwnsTech` 生效，紫色扫描科技经 `scan-effects.js` 的扫描队列构建生效。UI 会在公司牌下方复制显示对应科技图标用于提示，不从供应区拿走科技片，也不获得 bonus；回合结束会清空当前玩家借用状态并移除显示图标，新轮开始也会清空所有轮内借用状态。
 
 ## UI 与 `flowType` 映射（`app.js`）
 

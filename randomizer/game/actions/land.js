@@ -34,12 +34,12 @@
       ? aomomo.countOrbitMarkers(context.alienGameState) > 0
       : planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
     const orbitDiscount = hasOrbit ? 1 : 0;
-    const techDiscount = players.playerOwnsTech(currentPlayer, "orange3") ? ORANGE3_LAND_DISCOUNT : 0;
+    const techDiscount = players.playerOwnsTech(currentPlayer, "orange3", context) ? ORANGE3_LAND_DISCOUNT : 0;
     return Math.max(0, BASE_ENERGY_COST - orbitDiscount - techDiscount);
   }
 
-  function canLandOnSatellites(player) {
-    return players.playerOwnsTech(player, "orange4");
+  function canLandOnSatellites(player, options = {}) {
+    return players.playerOwnsTech(player, "orange4", options);
   }
 
   function normalizeLandTarget(target) {
@@ -67,7 +67,7 @@
       targets.push({ type: "planet" });
     }
 
-    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer)) {
+    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer, context)) {
       for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
         targets.push({ type: "satellite", satelliteId: satellite.satelliteId });
       }
@@ -112,7 +112,7 @@
       });
     }
 
-    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer)) {
+    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer, context)) {
       for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
         choices.push({
           target: { type: "satellite", satelliteId: satellite.satelliteId },
@@ -212,7 +212,7 @@
       context.rocketState.statusNote = message;
       return { ok: false, actionId: ACTION_ID, message };
     }
-    if (target.type === "satellite" && !canLandOnSatellites(currentPlayer)) {
+    if (target.type === "satellite" && !canLandOnSatellites(currentPlayer, context)) {
       const message = "需要橙色4号科技才能登陆卫星";
       context.rocketState.statusNote = message;
       return { ok: false, actionId: ACTION_ID, message };
@@ -273,7 +273,7 @@
       ? aomomo.countOrbitMarkers(context.alienGameState) > 0
       : planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
     if (hasOrbit) discountParts.push("有环绕，消耗-1");
-    if (players.playerOwnsTech(currentPlayer, "orange3")) discountParts.push("橙色3，消耗-1");
+    if (players.playerOwnsTech(currentPlayer, "orange3", context)) discountParts.push("橙色3，消耗-1");
     const discountNote = discountParts.length ? `（${discountParts.join("；")}）` : "";
     const markerNote = markerKind === "satellite"
       ? `显示卫星登陆标记 ${targetLabel}`

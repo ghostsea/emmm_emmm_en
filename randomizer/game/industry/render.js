@@ -40,6 +40,7 @@
   });
 
   const FUTURE_SPAN_TOKEN_SRC = "../assets/industry/wlkd_token.png";
+  const TECH_TILE_SRC_PREFIX = "../assets/tech_tile/";
 
   function getCardLabel(card) {
     return String(card?.label || card?.name || card?.title || card?.src || "卡牌")
@@ -131,6 +132,32 @@
         wrap.append(createHeliosPassiveToken(slotId, layout, player, options));
       }
     }
+  }
+
+  function getTuringBorrowedTechTileId(player, options = {}) {
+    const roundNumber = options.roundNumber ?? options.turnState?.roundNumber;
+    const turnNumber = options.turnNumber ?? options.turnState?.turnNumber;
+    return passives.getBorrowedTechTileId?.(player, roundNumber, turnNumber) || null;
+  }
+
+  function mountTuringBorrowLayer(wrap, player, options = {}) {
+    if (!wrap) return;
+    const tileId = getTuringBorrowedTechTileId(player, options);
+    if (!tileId) return;
+
+    const layer = document.createElement("div");
+    layer.className = "company-turing-borrow-layer";
+    layer.setAttribute("aria-label", `图灵系统当前回合借用科技 ${tileId}`);
+
+    const image = document.createElement("img");
+    image.className = "company-turing-borrow-tile";
+    image.src = options.getTechTileSrc?.(tileId) || `${TECH_TILE_SRC_PREFIX}${tileId}.png`;
+    image.alt = "";
+    image.decoding = "async";
+    image.draggable = false;
+    image.title = `图灵系统：当前回合借用 ${tileId}`;
+    layer.append(image);
+    wrap.append(layer);
   }
 
   function mountAlienLabLayer(wrap, player, options = {}) {
@@ -267,6 +294,7 @@
     FUTURE_SPAN_TOKEN_SRC,
     mountStrategyPassiveLayer,
     mountHeliosPassiveLayer,
+    mountTuringBorrowLayer,
     mountAlienLabLayer,
     mountFutureSpanLayer,
   });
