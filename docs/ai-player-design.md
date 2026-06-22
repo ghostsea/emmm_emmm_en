@@ -289,9 +289,18 @@ async function runAiTurn(playerId) { /* ... */ }
 
 - 新增 `randomizer/game/ai/evaluator.js`、`policy.js`、`index.js` 与 `ai.test.js`。
 - `window.SetiRandomizer` 暴露 `configureAiAutoBattle`、`startAiAutoBattle`、`stopAiAutoBattle`、`runAiAutoBattleStep`、`getAiAutoBattleReport`。
-- 已支持 AI 自动初始选择、初始收入弃牌、PASS 手牌上限弃牌、PASS 预留精选、效果链逐步执行、基础 `launch` / `pass` / `end-turn` 决策。
+- 默认浏览器开局为 2 名活跃玩家：白色为人类玩家，另 1 名电脑玩家从剩余颜色随机进入；状态面板和调试玩家切换菜单会标记“人类/电脑”。
+- 多电脑测试入口保留：`startAiAutoBattle({ reset: true, activePlayerCount: N, ... })` 会按玩家顺位配置 N 名电脑玩家，用于 smoke、自博弈和后续调参。
+- 已支持 AI 自动初始选择、初始收入弃牌、PASS 手牌上限弃牌、PASS 预留精选、效果链逐步执行、基础 `launch` / `orbit` / `land` / `researchTech` / `scan` / `playCard` / `move` / `pass` / `end-turn` 决策。
+- 科技行动已收口 `tech-placement`：AI 会从可研究科技片中按轻量启发式选片，并自动选择蓝色科技槽位；人类点击与 AI 自动选择复用同一段结算收口。
+- 移动已收口 `move-path` / `move-payment`：AI 会从可移动火箭中选择方向，按能量优先、能量不足时弃移动牌的方式确认支付；主行动移动、卡牌移动与免费移动都会走现有移动历史与抵达奖励结算。
+- 登陆目标已收口 `land-target`：遇到多目标登陆弹窗时 AI 自动选择第一个可用目标。
+- 扫描行动已收口基础链路：AI 会启动主扫描行动，自动支付成本，处理公共牌扫描选牌、可选手牌扫描、手牌扫描选牌，以及 `sector_scan` / `public_scan` / `hand_scan` 的目标选择，默认取第一个可用目标。
+- 打牌主行动已收口普通手牌：AI 会枚举资源可支付、非外星人专属且当前可自动结算的手牌，走 `beginPlayCardSelection()` -> `handlePlayCardSelect()` -> `confirmPlayCardSelection()`，复用人类路径的费用、历史、保留牌和效果队列结算；候选阶段会过滤当前必失败的发射/环绕/登陆/移动效果及尚未收口的复杂卡牌效果。
+- 基础 `alien-trace` 已接入：AI 会复用现有外星人痕迹 overlay 与牌图可放置槽位，自动选择第一个可用目标并记录日志。
+- 单张公共牌精选已收口，可覆盖科技奖励、星球奖励等基础 pick-card 子流程；公共牌扫描多选目前默认只选第一张可扫描公共牌。
 - `getAiAutoBattleReport()` 记录 AI 步骤日志与 bug/阻塞日志；重复阻塞会累计 `repeatCount`，便于后续定位和修复。
-- 当前策略仍是最小闭环：主动行动优先 `launch`，不可发射则 `PASS`；扫描、打牌、科技、移动、环绕/登陆、公司主动与外星人专属选择仍按后续里程碑收口。
+- 当前策略仍是最小闭环：主动行动优先 `launch`，如果已到星球且资源足够则 `orbit`/`land`，否则研究科技、普通手牌打牌、扫描、尝试一次移动，再 `PASS`；公司主动、未来跨度目标牌、外星人专属手牌与更复杂的外星人分支仍按后续里程碑收口。
 
 ---
 
@@ -303,11 +312,16 @@ node randomizer/game/ai/ai.test.js
 $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort-Object; foreach ($test in $tests) { node $test; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }
 ```
 
+浏览器 smoke：
+
+- 默认人机入口：刷新 `randomizer/index.html` 后，初始选择阶段为 `player-white` 人类 + 1 名随机颜色电脑，状态面板显示 `玩家代理 白色=人类、<随机色>=电脑`。
+- 多电脑入口：2 名 AI 玩家、`maxSteps=2500` 可跑完整局；当前记录为 183 step 结束、`bugCount=0`，覆盖到 `alien-trace`。
+
 ---
 
 ## 14. 风险与待确认
 
-- **多玩家轮次**：现状偏单活跃玩家，≥2 人在无 UI 干预下的回合切换需回归确认。
+- **多玩家轮次**：2 人 AI smoke 已跑通；后续仍需在 seeded RNG 完成后扩大到多种种子和更多玩家数。
 - **不可撤销步骤**：翻外星人牌、随机抽牌等被标记 `irreversible`，限制深搜回退；启发式 + 浅前瞻规避。
 - **外星人/公司牌分支**：子决策极多，是收口工作量主要来源（放在 M3）。
 - **卡牌迁移状态**：部分卡仍 `deferred`/`partial`（见 `docs/card-ability-migration-plan.md`），AI 估值需处理未完全实现的效果。
