@@ -2005,6 +2005,27 @@ body {
   flex: 0 0 auto;
 }
 
+.scan-target-option-button.amiba-symbol-choice-button {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+}
+
+.amiba-symbol-choice-image {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.scan-target-option-button.amiba-symbol-choice-button small {
+  margin-top: 0;
+  color: rgba(232, 238, 248, 0.82);
+}
+
 .scan-target-option-button.chong-fossil-choice-button {
   display: grid;
   grid-template-columns: 56px minmax(0, 1fr);

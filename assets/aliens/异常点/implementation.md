@@ -26,6 +26,7 @@
 ## 异常点牌
 
 - 揭示后面板下方展示一张异常点牌。
+- 揭示时，玩家在该外星人 state 面板拥有几个首痕迹，就自动从异常点牌堆获得几张异常点牌到手牌。
 - 痕迹奖励产生“外星人牌”时，可确认拿展示牌、盲抽异常点牌或取消。
 - 异常点牌进入手牌，并保留 `price`、`cardTypeCode`、`discardActionCode`、`scanActionCode`、`incomeCode`。
 - 打牌效果由 `randomizer/game/cards/effects.js` 中 `yichangdian_0.webp` 到 `yichangdian_9.webp` 模型驱动。

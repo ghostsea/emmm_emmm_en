@@ -32,6 +32,14 @@ const freshState = state.createDefaultAlienState();
 state.placeFirstTrace(freshState, 2, "yellow", "blue");
 state.placeFirstTrace(freshState, 2, "pink", "blue");
 state.placeFirstTrace(freshState, 2, "blue", "white");
+const traceCounts = state.countFirstTracesByPlayerOnSlot(freshState, 2, [
+  { id: "p-blue", color: "blue" },
+  { id: "p-white", color: "white" },
+  { id: "p-red", color: "red" },
+]);
+assert(traceCounts.length === 2, "only players with first traces should be listed");
+assert(traceCounts.find((entry) => entry.playerColor === "blue").count === 2, "blue should own two first traces");
+assert(traceCounts.find((entry) => entry.playerColor === "white").count === 1, "white should own one first trace");
 result = state.revealAlien(freshState, 2);
 assert(!result.ok, "reveal without assignment should fail");
 

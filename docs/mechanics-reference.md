@@ -128,7 +128,7 @@
 - 每种外星人需要三种首标记：`yellow`（黄色痕迹）、`pink`（粉色痕迹）、`blue`（蓝色痕迹）。
 - `traces[traceType].firstPlaced` / `ownerPlayerColor` 记录该颜色第一个标记是否已放置及归属玩家。
 - 同颜色后续标记只累加 `extraCount`，不再产生新的版图标记。
-- 三种首标记都放置后，`isAlienReadyToReveal` 为真；正式流程调用 `revealRandomAlien` 随机翻开对应外星人，并把 `.alien-back` 图片替换为 `assets/aliens/<id>/face.png`（宽度保持 100%，高度自适应）。调试按钮仍可直接指定物种揭示。
+- 三种首标记都放置后，`isAlienReadyToReveal` 为真；正式流程调用 `revealRandomAlien` 随机翻开对应外星人，并把 `.alien-back` 图片替换为 `assets/aliens/<id>/face.png`（宽度保持 100%，高度自适应）。异常点、半人马、虫、阿米巴、奥陌陌、符文族揭示时会按该槽位 state 首标记归属数量，自动给对应玩家发同数量外星人牌到手牌；九折/方舟使用各自专属揭示奖励。调试按钮仍可直接指定物种揭示。
 
 UI 布局：
 

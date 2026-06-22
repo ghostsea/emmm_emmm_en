@@ -15,6 +15,7 @@
   let aomomo = root.SetiAlienAomomo;
   let runezu = root.SetiAlienRunezu;
   let fangzhouCard1Queue = root.SetiFangzhouCard1Queue;
+  let revealCardGrants = root.SetiAlienRevealCardGrants;
 
   if (typeof require === "function") {
     catalog = catalog || require("./catalog");
@@ -29,18 +30,19 @@
     aomomo = aomomo || require("./aomomo");
     runezu = runezu || require("./runezu");
     fangzhouCard1Queue = fangzhouCard1Queue || require("./fangzhou-card1-queue");
+    revealCardGrants = revealCardGrants || require("./reveal-card-grants");
     randomizer = randomizer || require("./randomizer");
     render = render || require("./render");
   }
 
-  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu, fangzhouCard1Queue);
+  const api = factory(catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu, fangzhouCard1Queue, revealCardGrants);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAliens = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu, fangzhouCard1Queue) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (catalog, placement, state, randomizer, render, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu, fangzhouCard1Queue, revealCardGrants) {
   "use strict";
 
   function getReadoutLines(alienState) {
@@ -604,10 +606,13 @@
     getAlienFaceSrc: catalog.getAlienFaceSrc,
     getAlienSlot: state.getAlienSlot,
     countPlacedFirstTraces: state.countPlacedFirstTraces,
+    countFirstTracesForPlayerOnSlot: state.countFirstTracesForPlayerOnSlot,
+    countFirstTracesByPlayerOnSlot: state.countFirstTracesByPlayerOnSlot,
     isAlienReadyToReveal: state.isAlienReadyToReveal,
     placeFirstTrace: state.placeFirstTrace,
     addExtraTrace: state.addExtraTrace,
     revealAlien: state.revealAlien,
+    grantAlienCardsForFirstTraces: revealCardGrants?.grantAlienCardsForFirstTraces,
     getAlienSlotLabel: placement.getAlienSlotLabel,
     getTraceTypeLabel: placement.getTraceTypeLabel,
     getAlienTraceMarkerLayout: placement.getAlienTraceMarkerLayout,

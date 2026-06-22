@@ -8717,6 +8717,13 @@
     }
     const actionType = finishedFlow.actionType;
     clearActionEffectFlow();
+    if (actionType === "researchTech") {
+      tech.setTechSelectionActive(techGameState, false);
+      tech.cancelPendingTake(techGameState);
+      techGameState.ui.statusNote = "";
+      syncTechSelectionChrome();
+      renderTechBoard();
+    }
     if (actionType === "initialIncome") {
       if (actionHistory.hasSession()) {
         actionHistory.commitSession();
@@ -15344,9 +15351,9 @@
     const nodes = symbols.map((symbol) => {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = "scan-target-option-button";
+      button.className = "scan-target-option-button amiba-symbol-choice-button";
       button.dataset.amibaSymbolChoice = symbol.slotId;
-      button.innerHTML = `<img class="jiuzhe-card-option-image" src="${amiba.getSymbolSrc(symbol.symbolId)}" alt="" aria-hidden="true"><small>${symbol.symbolId}：${amiba.formatSymbolReward(symbol.symbolId)}；${amiba.formatSymbolSlotLabel?.(symbol.slotId) || symbol.slotId}</small>`;
+      button.innerHTML = `<img class="amiba-symbol-choice-image" src="${amiba.getSymbolSrc(symbol.symbolId)}" alt="" aria-hidden="true"><small>${symbol.symbolId}：${amiba.formatSymbolReward(symbol.symbolId)}；${amiba.formatSymbolSlotLabel?.(symbol.slotId) || symbol.slotId}</small>`;
       return button;
     });
     if (!nodes.length) {
@@ -16904,6 +16911,24 @@
     return { ok: true, card: removedCard, effects, message: rocketState.statusNote };
   }
 
+  function appendRevealCardGrantMessage(message, grantResult) {
+    if (!grantResult || grantResult.totalExpected <= 0) return message;
+    return `${message || ""}${message ? "；" : ""}${grantResult.message}`;
+  }
+
+  function grantRevealCardsForFirstTraces(alienModule, label, alienSlotId) {
+    if (!aliens.grantAlienCardsForFirstTraces) {
+      return { ok: false, totalExpected: 0, totalDrawn: 0, grants: [], message: "" };
+    }
+    return aliens.grantAlienCardsForFirstTraces(
+      alienGameState,
+      alienSlotId,
+      getActivePlayers(),
+      alienModule,
+      { label },
+    );
+  }
+
   function handleJiuzheRevealSideEffects(alienSlotId, revealResult, triggerPlayer) {
     if (!jiuzhe || !revealResult?.ok || revealResult.alienId !== jiuzhe.ALIEN_ID) return null;
     const initResult = jiuzhe.initializeJiuzheReveal(
@@ -16931,10 +16956,14 @@
       triggerPlayer,
       earth.x,
     );
+    const cardGrant = initResult.alreadyInitialized
+      ? null
+      : grantRevealCardsForFirstTraces(yichangdian, "异常点", alienSlotId);
     return {
       ...initResult,
+      cardGrant,
       rewardMessages: [],
-      message: initResult.message,
+      message: appendRevealCardGrantMessage(initResult.message, cardGrant),
     };
   }
 
@@ -16946,13 +16975,17 @@
       triggerPlayer,
       getActivePlayers(),
     );
+    const cardGrant = initResult.alreadyInitialized
+      ? null
+      : grantRevealCardsForFirstTraces(banrenma, "半人马", alienSlotId);
     for (const player of getActivePlayers()) {
       queueBanrenmaOpportunitiesForPlayer(player);
     }
     return {
       ...initResult,
+      cardGrant,
       rewardMessages: [],
-      message: initResult.message,
+      message: appendRevealCardGrantMessage(initResult.message, cardGrant),
     };
   }
 
@@ -16963,10 +16996,14 @@
       alienSlotId,
       triggerPlayer,
     );
+    const cardGrant = initResult.alreadyInitialized
+      ? null
+      : grantRevealCardsForFirstTraces(chong, "虫族", alienSlotId);
     return {
       ...initResult,
+      cardGrant,
       rewardMessages: [],
-      message: initResult.message,
+      message: appendRevealCardGrantMessage(initResult.message, cardGrant),
     };
   }
 
@@ -16977,10 +17014,14 @@
       alienSlotId,
       triggerPlayer,
     );
+    const cardGrant = initResult.alreadyInitialized
+      ? null
+      : grantRevealCardsForFirstTraces(amiba, "阿米巴", alienSlotId);
     return {
       ...initResult,
+      cardGrant,
       rewardMessages: [],
-      message: initResult.message,
+      message: appendRevealCardGrantMessage(initResult.message, cardGrant),
     };
   }
 
@@ -17007,13 +17048,18 @@
       alienSlotId,
       triggerPlayer,
     );
+    const cardGrant = initResult.alreadyInitialized
+      ? null
+      : grantRevealCardsForFirstTraces(aomomo, "奥陌陌", alienSlotId);
     const fillResult = activateAomomoBoard({ source: "aomomo_reveal" });
     const fillMessage = fillResult?.ok ? `；${fillResult.message}` : "";
+    const message = appendRevealCardGrantMessage(`${initResult.message}${fillMessage}`, cardGrant);
     return {
       ...initResult,
+      cardGrant,
       rewardMessages: [],
       fillResult,
-      message: `${initResult.message}${fillMessage}`,
+      message,
     };
   }
 
@@ -17025,10 +17071,14 @@
       triggerPlayer,
       { techBoardState: techGameState.board },
     );
+    const cardGrant = initResult.alreadyInitialized
+      ? null
+      : grantRevealCardsForFirstTraces(runezu, "符文族", alienSlotId);
     return {
       ...initResult,
+      cardGrant,
       rewardMessages: [],
-      message: initResult.message,
+      message: appendRevealCardGrantMessage(initResult.message, cardGrant),
     };
   }
 
@@ -17204,6 +17254,7 @@
       renderRockets();
     }
     renderPlayerStats();
+    renderPlayerHand();
     maybeOpenQueuedJiuzheOpportunity();
     maybeOpenQueuedBanrenmaOpportunity();
     renderStateReadout();
