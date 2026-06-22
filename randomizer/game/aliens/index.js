@@ -597,6 +597,8 @@
     RUNEZU_CARD_BACK_SRC: runezu?.CARD_BACK_SRC,
     createDefaultAlienState: state.createDefaultAlienState,
     randomizeAlienAssignments: randomizer.randomizeAlienAssignments,
+    pickRandomAlienIdForReveal: randomizer.pickRandomAlienIdForReveal,
+    revealRandomAlien: randomizer.revealRandomAlien,
     getAlienType: catalog.getAlienType,
     getAlienLabel: catalog.getAlienLabel,
     getAlienFaceSrc: catalog.getAlienFaceSrc,

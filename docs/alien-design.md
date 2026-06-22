@@ -11,9 +11,9 @@
 
 ## 通用生命周期
 
-1. 设置阶段写入两个未揭示槽位的 `assignedAlienId`。未揭示前 UI 只显示 `state1.png` / `state2.png` 和三色首痕迹区域。
+1. 设置阶段重置两个未揭示槽位，不预先写入外星人类型。未揭示前 UI 只显示 `state1.png` / `state2.png` 和三色首痕迹区域。
 2. 玩家获得外星人痕迹时，未揭示槽位先尝试放置三色首痕迹：`yellow`、`pink`、`blue`。同色首痕迹只记录第一位拥有者；后续同色痕迹增加 `extraCount`。
-3. 三种首痕迹都放置后触发揭示。揭示使用 `assignedAlienId`，并初始化该外星人的专属状态、牌库、标记或棋子。
+3. 三种首痕迹都放置后触发主动发现。主动发现会从全部外星人中随机翻开一个尚未翻开的物种，两个外星人槽位不能相同，并把结果写入当前槽位的 `assignedAlienId` / `alienId`，随后初始化该外星人的专属状态、牌库、标记或棋子。
 4. 揭示后的痕迹不再走普通首痕迹模型，而是进入该外星人的正面格位/专属交互。格位可为单占用、可叠放、需解锁、需支付资源、或绑定专属区域奖励。
 5. 痕迹奖励可能直接给资源/分数/数据，也可能打开后续选择：外星人牌、公共牌精选、盲抽、扇区扫描、移动、任务完成等。
 6. 外星人牌按物种自有规则进入手牌、保留区或专属区。打出后复用主行动效果队列、快速行动步骤、1/2/3 型任务、或物种自己的条件触发系统。
@@ -22,7 +22,7 @@
 
 - `randomizer/game/aliens/catalog.js`：登记外星人 ID、名称、素材目录。
 - `randomizer/game/aliens/state.js`：公共槽位、首痕迹、额外痕迹、揭示判定。
-- `randomizer/game/aliens/randomizer.js`：设置阶段分配 `assignedAlienId`。
+- `randomizer/game/aliens/randomizer.js`：设置阶段重置槽位，主动发现时随机选择不重复的外星人。
 - `randomizer/game/aliens/placement.js`：公共首痕迹坐标和各外星人正面格位坐标。
 - `randomizer/game/aliens/<alien>.js`：物种专属状态、揭示初始化、痕迹放置、奖励、卡牌模型。
 - `randomizer/app.js`：UI 流程、overlay 选择、效果队列、撤销/日志接入。

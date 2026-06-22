@@ -109,6 +109,20 @@
     <div class="card-selection-backdrop" id="card-selection-backdrop" hidden aria-hidden="true"></div>
     <div class="discard-selection-backdrop" id="discard-selection-backdrop" hidden aria-hidden="true"></div>
 
+    <div class="pass-reserve-selection-overlay" id="pass-reserve-selection-overlay" hidden aria-hidden="true">
+      <div class="pass-reserve-selection-dialog" role="dialog" aria-modal="true" aria-labelledby="pass-reserve-selection-title">
+        <div class="pass-reserve-selection-header">
+          <div class="pass-reserve-selection-title" id="pass-reserve-selection-title">PASS 精选</div>
+          <div class="pass-reserve-selection-subtitle" id="pass-reserve-selection-subtitle"></div>
+        </div>
+        <div class="pass-reserve-selection-grid" id="pass-reserve-selection-grid"></div>
+        <div class="pass-reserve-selection-footer">
+          <div class="pass-reserve-selection-status" id="pass-reserve-selection-status"></div>
+          <button class="pass-reserve-selection-confirm" type="button" id="pass-reserve-selection-confirm" disabled>确认选择</button>
+        </div>
+      </div>
+    </div>
+
     <div class="data-place-overlay" id="data-place-overlay" hidden>
       <div class="data-place-dialog" role="dialog" aria-modal="true" aria-labelledby="data-place-title">
         <p class="data-place-title" id="data-place-title">选择数据放置位置</p>
@@ -461,18 +475,8 @@
           <button class="debug-action-button" type="button" id="debug-score-button">+20分</button>
           <button class="debug-action-button" type="button" id="debug-rotate-button">旋转</button>
           <button class="debug-action-button" type="button" id="debug-income-button">收入</button>
-          <button class="debug-action-button" type="button" id="debug-income-effect-button">收入效果</button>
-          <button class="debug-action-button" type="button" id="debug-resolve-income-button">执行收入</button>
           <button class="debug-action-button" type="button" id="debug-gain-card-button">获取卡牌</button>
-          <button class="debug-action-button" type="button" id="debug-pick-card-button">精选</button>
-          <button class="debug-action-button" type="button" id="debug-discard-card-button">弃牌</button>
-          <button class="debug-action-button" type="button" id="debug-gain-data-button">获取数据</button>
-          <button class="debug-action-button" type="button" id="debug-fill-nebula-data-button">填充星云数据</button>
-          <button class="debug-action-button" type="button" id="debug-sector-scan-button">扇区扫描</button>
-          <button class="debug-action-button" type="button" id="debug-quick-sector-scan-button">快速扫描扇区</button>
           <button class="debug-action-button" type="button" id="debug-sector-win-button" aria-pressed="false">赢得扇区调试</button>
-          <button class="debug-action-button" type="button" id="debug-public-scan-button">公共牌区扫描</button>
-          <button class="debug-action-button" type="button" id="debug-hand-scan-button">手牌扫描</button>
           <button class="debug-action-button" type="button" id="debug-alien-trace-button">获取外星人标记</button>
           <button class="debug-action-button" type="button" id="debug-jiuzhe-button">九折调试</button>
           <button class="debug-action-button" type="button" id="debug-yichangdian-button">异常点调试</button>

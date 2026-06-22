@@ -221,6 +221,7 @@
     return {
       publicCards: Array.from({ length: PUBLIC_CARD_COUNT }, () => null),
       discardPile: [],
+      passReservePiles: {},
       ui: {
         selectionActive: false,
         discardSelectionActive: false,
@@ -250,6 +251,22 @@
     return ids;
   }
 
+  function collectPassReserveCardIds(cardState) {
+    const ids = new Set();
+    const piles = cardState?.passReservePiles;
+    if (!piles || typeof piles !== "object") return ids;
+
+    for (const pile of Object.values(piles)) {
+      if (!Array.isArray(pile)) continue;
+      for (const card of pile) {
+        if (card?.cardId) ids.add(card.cardId);
+        else if (Number.isInteger(card?.cardIndex)) ids.add(`b_${card.cardIndex}.webp`);
+      }
+    }
+
+    return ids;
+  }
+
   function collectClaimedCardIds(cardState, playerState) {
     const ids = collectPlayerCardIds(playerState);
 
@@ -263,6 +280,10 @@
       for (const card of cardState.discardPile) {
         if (card?.cardId) ids.add(card.cardId);
       }
+    }
+
+    for (const cardId of collectPassReserveCardIds(cardState)) {
+      ids.add(cardId);
     }
 
     return ids;
@@ -283,6 +304,99 @@
     player.hand.push(card);
     player.resources.handSize = player.hand.length;
     return card;
+  }
+
+  function normalizePassReserveRounds(rounds) {
+    const source = Array.isArray(rounds) && rounds.length ? rounds : [1, 2, 3];
+    return [...new Set(source
+      .map((round) => Math.round(Number(round)))
+      .filter((round) => Number.isInteger(round) && round > 0))]
+      .sort((a, b) => a - b);
+  }
+
+  function ensurePassReservePiles(cardState) {
+    if (!cardState.passReservePiles || typeof cardState.passReservePiles !== "object") {
+      cardState.passReservePiles = {};
+    }
+    return cardState.passReservePiles;
+  }
+
+  function preparePassReservePiles(cardState, playerState, options = {}) {
+    const rounds = normalizePassReserveRounds(options.rounds);
+    const activePlayerCount = Math.max(1, Math.round(Number(options.activePlayerCount) || 1));
+    const cardsPerPile = activePlayerCount + 1;
+    const random = options.random || Math.random;
+
+    cardState.passReservePiles = {};
+    const pool = getAvailablePool(cardState, playerState).slice();
+    const piles = ensurePassReservePiles(cardState);
+
+    for (const roundNumber of rounds) {
+      const pile = [];
+      for (let index = 0; index < cardsPerPile; index += 1) {
+        if (!pool.length) break;
+        const entryIndex = Math.floor(random() * pool.length);
+        const [entry] = pool.splice(entryIndex, 1);
+        if (entry) pile.push(createCardInstance(entry, `pass-${roundNumber}-${index + 1}`));
+      }
+      piles[String(roundNumber)] = pile;
+    }
+
+    return {
+      ok: true,
+      rounds,
+      cardsPerPile,
+      piles,
+    };
+  }
+
+  function getPassReservePile(cardState, roundNumber) {
+    const round = Math.round(Number(roundNumber));
+    if (!Number.isInteger(round) || round <= 0) return [];
+    const pile = cardState?.passReservePiles?.[String(round)];
+    return Array.isArray(pile) ? pile : [];
+  }
+
+  function pickPassReserveCard(cardState, player, roundNumber, cardId) {
+    if (!player) {
+      return { ok: false, message: "没有当前玩家", card: null };
+    }
+
+    const pile = getPassReservePile(cardState, roundNumber);
+    if (!pile.length) {
+      return { ok: false, message: "本轮没有可选 PASS 预留牌", card: null };
+    }
+
+    const targetId = String(cardId || "");
+    const index = pile.findIndex((card) => card?.id === targetId || card?.cardId === targetId);
+    if (index < 0) {
+      return { ok: false, message: "请选择一张本轮 PASS 预留牌", card: null };
+    }
+
+    const [card] = pile.splice(index, 1);
+    addCardToHand(player, card);
+    return {
+      ok: true,
+      card,
+      remaining: pile.slice(),
+      message: `PASS 精选：${getCardLabel(card)}`,
+    };
+  }
+
+  function discardUnusedPassReserveCards(cardState, roundNumber) {
+    const pile = getPassReservePile(cardState, roundNumber);
+    if (!pile.length) {
+      return { ok: true, cards: [], message: "本轮没有剩余 PASS 预留牌" };
+    }
+
+    const discarded = pile.splice(0);
+    if (!Array.isArray(cardState.discardPile)) cardState.discardPile = [];
+    cardState.discardPile.push(...discarded);
+    return {
+      ok: true,
+      cards: discarded,
+      message: `弃置剩余 PASS 预留牌：${discarded.map(getCardLabel).join("、")}`,
+    };
   }
 
   function blindDraw(cardState, playerState, player, random = Math.random) {
@@ -498,6 +612,10 @@
     collectClaimedCardIds,
     getAvailablePool,
     addCardToHand,
+    preparePassReservePiles,
+    getPassReservePile,
+    pickPassReserveCard,
+    discardUnusedPassReserveCards,
     blindDraw,
     pickFromPublic,
     replenishPublicSlot,

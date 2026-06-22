@@ -6,7 +6,7 @@
 
 - 代码入口：`randomizer/game/aliens/fangzhou.js`。
 - 状态挂载：`alienGameState.fangzhou`。
-- 外星人 2 当前固定分配为方舟。
+- 正式主动发现时，方舟可能作为随机且不重复的外星人物种之一被翻开。
 
 ## 槽位与揭示
 

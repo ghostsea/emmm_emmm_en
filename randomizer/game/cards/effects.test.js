@@ -153,7 +153,10 @@ assert.equal(dlc1Effects[1].type, cardEffects.EFFECT_TYPES.RETURN_PLAYED_CARD_TO
 assert.equal(dlc1Effects[1].options.condition.type, "lastLandingHadOwnMarker");
 
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_2.png" })[0].type, cardEffects.EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD);
+assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_3.png" })[0].options.gain, { additionalPublicScan: 3 });
+assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_4.png" })[0].options.gain, { additionalPublicScan: 1 });
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_6.png" })[2].type, cardEffects.EFFECT_TYPES.LANDING_SECTOR_SCAN);
+assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_13.png" })[1].options.gain, { additionalPublicScan: 1 });
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_15.png" })[0].options.afterResearchReward.kind, "repeatBonus");
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_17.png" })[0].type, cardEffects.EFFECT_TYPES.PAY_CREDITS_FOR_REWARD);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_18.png" })[0].options.requireCondition.type, "resourceEquals");
@@ -167,13 +170,19 @@ assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_28.png" })[0].type, car
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_29.png" })[0].type, cardEffects.EFFECT_TYPES.RETURN_UNFINISHED_TASK_TO_HAND);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_30.png" })[0].type, cardEffects.EFFECT_TYPES.CARD_ORBIT);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_34.png" })[1].type, cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME);
+assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_35.png" })[0].options.gain, { additionalPublicScan: 1 });
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_37.png" })[0].options.allMatching, true);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_38.png" })[2].type, cardEffects.EFFECT_TYPES.PROBE_STACK_REWARD);
+assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_41.png" })[0].options.gain, { additionalPublicScan: 1 });
 
-const dlc12Move = cardEffects.buildPlayEffects({ cardId: "dlc_12.png" })[0];
+const dlc12TurnBonus = cardEffects.buildPlayEffects({ cardId: "dlc_12.png" })[0];
+assert.equal(dlc12TurnBonus.type, cardEffects.EFFECT_TYPES.REGISTER_EVENT_BONUS);
+assert.equal(dlc12TurnBonus.options.bonus.duration, "turn");
+assert.equal(dlc12TurnBonus.options.bonus.eventType, "visitPlanet");
+assert.equal(dlc12TurnBonus.options.bonus.distinctBy, "planetId");
+assert.equal(dlc12TurnBonus.options.bonus.minCount, 2);
+const dlc12Move = cardEffects.buildPlayEffects({ cardId: "dlc_12.png" })[1];
 assert.equal(dlc12Move.type, cardEffects.EFFECT_TYPES.CARD_MOVE);
-assert.equal(dlc12Move.options.distinctEventReward.eventType, "visitPlanet");
-assert.equal(dlc12Move.options.distinctEventReward.minCount, 2);
 
 assert.equal(cardEffects.getCardModel("dlc_8.png").endGameScoring.kind, "remainingResource");
 assert.equal(cardEffects.getCardModel("dlc_10.png").endGameScoring.kind, "remainingResource");
@@ -523,7 +532,7 @@ assert.equal(cardEffects.collectMatchingTriggers(
 
 for (const [cardId, techType, expectedType] of [
   ["dlc_24.png", "orange", "launch"],
-  ["dlc_25.png", "purple", cardEffects.EFFECT_TYPES.PUBLIC_SCAN],
+  ["dlc_25.png", "purple", "gain_resources"],
   ["dlc_26.png", "blue", "gain_data"],
 ]) {
   const card = { id: `card-${cardId}`, cardId };
@@ -534,6 +543,9 @@ for (const [cardId, techType, expectedType] of [
   );
   assert.equal(matches.length, 2, `${cardId} should use both trigger markers on one research event`);
   assert.equal(matches[0].effect.type, expectedType);
+  if (cardId === "dlc_25.png") {
+    assert.deepEqual(matches[0].effect.options.gain, { additionalPublicScan: 1 });
+  }
 }
 
 const dlc33 = { id: "card-dlc33", cardId: "dlc_33.png" };

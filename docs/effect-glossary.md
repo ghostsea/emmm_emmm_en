@@ -44,7 +44,7 @@
 | 弃任意手牌按收入结算 | 选择任意数量手牌弃掉，并按这些牌的收入角标逐张增加收入。 | 可撤销 | `assets/symbol/effect/income.webp` |
 | 支付信用重复奖励 | 按当前信用生成可选支付节点；每支付 1 信用结算一次奖励，玩家可跳过剩余节点。 | 可撤销 | `assets/symbol/effect/credits.webp` |
 | 弃牌重复角标 | 弃 1 张非外星人手牌，并按该牌左上角快速行动奖励重复结算指定次数。 | 可撤销 | `assets/symbol/effect/discard.jpg` |
-| 额外弃牌扫描 | 获得该功能标记时，增加玩家 `additionalPublicScan`；使用时让公共牌区扫描额外弃 1 张公共牌并增加 1 组星云二选一。 | 资源获得可撤销；使用后的公共牌区扫描按扫描效果撤销。 | `assets/tokens/additional_public_scan.webp` |
+| 公共牌区扫描标记 | 卡牌或奖励提到“公共牌区扫描的标记”时，表示获得 1 个 `additionalPublicScan` 资源，而不是立刻执行公共牌区扫描。使用该资源时，让后续公共牌区扫描额外弃 1 张公共牌并增加 1 组星云二选一。 | 资源获得可撤销；使用后的公共牌区扫描按扫描效果撤销。 | `assets/tokens/additional_public_scan.webp` |
 | 任意外星人标记 | 玩家选择外星人槽位，并在黄色、粉色、蓝色痕迹中任选一种放置标记。 | 可撤销，若触发揭示会一并恢复。 | `assets/symbol/effect/alien_any.webp` |
 | 黄色外星人标记 | 玩家选择外星人槽位，放置黄色痕迹标记。 | 可撤销，若触发揭示会一并恢复。 | `assets/symbol/effect/alien_yellow.webp` |
 | 粉色外星人标记 | 玩家选择外星人槽位，放置粉色痕迹标记。 | 可撤销，若触发揭示会一并恢复。 | `assets/symbol/effect/alien_pink.webp` |

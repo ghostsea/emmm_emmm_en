@@ -2106,12 +2106,12 @@
     }),
     "dlc_3.png": withSource("dlc_3.png", {
       cardType: 0,
-      playEffects: Object.freeze([effect("dlc3-public-scan", EFFECT_TYPES.PUBLIC_SCAN, "公共牌区扫描 3 次", "public_card_scan", { repeat: 3 })]),
+      playEffects: Object.freeze([gainResourcesEffect("dlc3-public-scan-markers", "获得 3 个公共牌区扫描标记", { additionalPublicScan: 3 })]),
     }),
     "dlc_4.png": withSource("dlc_4.png", {
       cardType: 0,
       playEffects: Object.freeze([
-        effect("dlc4-public-scan", EFFECT_TYPES.PUBLIC_SCAN, "公共牌区扫描", "public_card_scan"),
+        gainResourcesEffect("dlc4-public-scan-marker", "获得 1 个公共牌区扫描标记", { additionalPublicScan: 1 }),
         cardMoveEffect("dlc4-move", "1移动"),
       ]),
     }),
@@ -2170,22 +2170,24 @@
     }),
     "dlc_12.png": withSource("dlc_12.png", {
       cardType: 0,
-      playEffects: Object.freeze([cardMoveEffect("dlc12-move", "2移动；访问至少2个不同行星获得3分", {
-        movementPoints: 2,
-        distinctEventReward: {
+      playEffects: Object.freeze([
+        registerEventBonusEffect("dlc12-turn-distinct-planets", "本回合访问至少2个不同行星：3分", {
+          duration: "turn",
           eventType: "visitPlanet",
           distinctBy: "planetId",
           minCount: 2,
           onceKey: "dlc12-two-planets",
-          effect: gainResourcesEffect("dlc12-score", "访问2个不同行星：3分", { score: 3 }),
-        },
-      })]),
+          icon: "score",
+          rewards: [gainResourcesEffect("dlc12-score", "访问2个不同行星：3分", { score: 3 })],
+        }),
+        cardMoveEffect("dlc12-move", "2移动", { movementPoints: 2 }),
+      ]),
     }),
     "dlc_13.png": withSource("dlc_13.png", {
       cardType: 0,
       playEffects: Object.freeze([
         effect("dlc13-scan-action", EFFECT_TYPES.SCAN_ACTION, "扫描行动", "scan_action", { skipCost: true }),
-        effect("dlc13-public-scan", EFFECT_TYPES.PUBLIC_SCAN, "扫描行动后公共牌区扫描", "public_card_scan"),
+        gainResourcesEffect("dlc13-public-scan-marker", "扫描行动后获得 1 个公共牌区扫描标记", { additionalPublicScan: 1 }),
       ]),
     }),
     "dlc_14.png": withSource("dlc_14.png", {
@@ -2257,8 +2259,8 @@
     "dlc_25.png": withSource("dlc_25.png", {
       cardType: 1,
       triggers: Object.freeze([
-        { id: "dlc25-purple-tech-public-scan-1", event: Object.freeze({ type: "researchTech", techType: "purple", consumeAllMatches: true }), effect: effect("dlc25-public-scan-1", EFFECT_TYPES.PUBLIC_SCAN, "紫色科技：公共牌区扫描", "public_card_scan") },
-        { id: "dlc25-purple-tech-public-scan-2", event: Object.freeze({ type: "researchTech", techType: "purple", consumeAllMatches: true }), effect: effect("dlc25-public-scan-2", EFFECT_TYPES.PUBLIC_SCAN, "紫色科技：公共牌区扫描", "public_card_scan") },
+        { id: "dlc25-purple-tech-public-scan-1", event: Object.freeze({ type: "researchTech", techType: "purple", consumeAllMatches: true }), effect: gainResourcesEffect("dlc25-public-scan-marker-1", "紫色科技：1个公共牌区扫描标记", { additionalPublicScan: 1 }) },
+        { id: "dlc25-purple-tech-public-scan-2", event: Object.freeze({ type: "researchTech", techType: "purple", consumeAllMatches: true }), effect: gainResourcesEffect("dlc25-public-scan-marker-2", "紫色科技：1个公共牌区扫描标记", { additionalPublicScan: 1 }) },
       ]),
     }),
     "dlc_26.png": withSource("dlc_26.png", {
@@ -2309,7 +2311,7 @@
     }),
     "dlc_35.png": withSource("dlc_35.png", {
       cardType: 2,
-      playEffects: Object.freeze([effect("dlc35-public-scan", EFFECT_TYPES.PUBLIC_SCAN, "公共牌区扫描", "public_card_scan")]),
+      playEffects: Object.freeze([gainResourcesEffect("dlc35-public-scan-marker", "获得 1 个公共牌区扫描标记", { additionalPublicScan: 1 })]),
       tasks: Object.freeze([{
         id: "dlc35-data-total",
         condition: Object.freeze({ type: "dataTotal", count: 12 }),
@@ -2343,7 +2345,7 @@
     }),
     "dlc_41.png": withSource("dlc_41.png", {
       cardType: 2,
-      playEffects: Object.freeze([effect("dlc41-public-scan", EFFECT_TYPES.PUBLIC_SCAN, "公共牌区扫描", "public_card_scan"), gainResourcesEffect("dlc41-publicity", "获得 1 宣传", { publicity: 1 }), pickCardEffect("dlc41-pick", "精选 1 张牌")]),
+      playEffects: Object.freeze([gainResourcesEffect("dlc41-public-scan-marker", "获得 1 个公共牌区扫描标记", { additionalPublicScan: 1 }), gainResourcesEffect("dlc41-publicity", "获得 1 宣传", { publicity: 1 }), pickCardEffect("dlc41-pick", "精选 1 张牌")]),
       tasks: Object.freeze([{
         id: "dlc41-four-color-signals",
         condition: Object.freeze({ type: "signalsInAllColors" }),

@@ -24,6 +24,43 @@ assert.equal(cardState.publicCards.filter(Boolean).length, cards.PUBLIC_CARD_COU
 assert.equal(player.hand.length, 5);
 assert.equal(player.hand[0].incomeCode, cards.CARD_CATALOG[0].income_code);
 assert.equal(cards.getIncomeCodeForCard(player.hand[0]), cards.CARD_CATALOG[0].income_code);
+
+const catalogSetCounts = cards.CARD_CATALOG.reduce((counts, entry) => {
+  counts[entry.set] = (counts[entry.set] || 0) + 1;
+  return counts;
+}, {});
+assert.equal(catalogSetCounts.basic, 140);
+assert.equal(catalogSetCounts["space-agency"], 42);
+
+const openingHandState = cards.createCardState();
+const openingHandPlayers = ["white", "blue", "green", "brown"].map((color) => ({
+  id: `player-${color}`,
+  hand: [],
+  reservedCards: [],
+  resources: { handSize: 0 },
+}));
+const openingHandPlayerState = {
+  players: openingHandPlayers,
+  currentPlayerId: openingHandPlayers[0].id,
+};
+for (const openingPlayer of openingHandPlayers) {
+  const result = cards.drawCardsToHand(openingHandState, openingHandPlayerState, openingPlayer, 4, () => 0.999999);
+  assert.equal(result.ok, true);
+  assert.equal(openingPlayer.hand.length, 4);
+  assert.equal(openingPlayer.resources.handSize, 4);
+}
+const openingCardIds = openingHandPlayers.flatMap((openingPlayer) => (
+  openingPlayer.hand.map((card) => card.cardId)
+));
+assert.equal(new Set(openingCardIds).size, openingCardIds.length);
+assert.ok(openingCardIds.some((cardId) => cardId.startsWith("dlc_")));
+assert.notDeepEqual(openingHandPlayers[0].hand.map((card) => card.cardId), [
+  "b_1.webp",
+  "b_2.webp",
+  "b_3.webp",
+  "b_4.webp",
+]);
+
 assert.deepEqual(
   cards.getIncomeGainForCard(cards.createCardInstance(cards.CARD_CATALOG.find((entry) => entry.income_code === 0), 0)),
   { credits: 1 },
@@ -179,6 +216,38 @@ assert.ok(delayedFillState.publicCards[0]);
 assert.equal(delayedFillState.publicCards[1], null);
 assert.ok(delayedFillState.publicCards[2]);
 assert.equal(cards.countPublicCards(delayedFillState), cards.PUBLIC_CARD_COUNT - 1);
+
+const passReserveState = cards.createCardState();
+const passReservePlayer = { id: "player-pass", hand: [], reservedCards: [], resources: { handSize: 0 } };
+const passReservePlayerState = { players: [passReservePlayer], currentPlayerId: passReservePlayer.id };
+cards.ensurePublicCardsFilled(passReserveState, passReservePlayerState, () => 0);
+const passReserveResult = cards.preparePassReservePiles(passReserveState, passReservePlayerState, {
+  activePlayerCount: 2,
+  rounds: [1, 2, 3],
+  random: () => 0,
+});
+assert.equal(passReserveResult.cardsPerPile, 3);
+assert.deepEqual(Object.keys(passReserveState.passReservePiles).sort(), ["1", "2", "3"]);
+assert.equal(cards.getPassReservePile(passReserveState, 1).length, 3);
+assert.equal(cards.getPassReservePile(passReserveState, 2).length, 3);
+assert.equal(cards.getPassReservePile(passReserveState, 3).length, 3);
+
+const reserveCardIds = new Set(Object.values(passReserveState.passReservePiles).flat().map((card) => card.cardId));
+const availableAfterReserve = cards.getAvailablePool(passReserveState, passReservePlayerState);
+assert.equal(availableAfterReserve.some((entry) => reserveCardIds.has(entry.card_id)), false);
+
+const passPickCard = cards.getPassReservePile(passReserveState, 1)[1];
+const passPickResult = cards.pickPassReserveCard(passReserveState, passReservePlayer, 1, passPickCard.id);
+assert.equal(passPickResult.ok, true);
+assert.equal(passReservePlayer.hand.length, 1);
+assert.equal(passReservePlayer.hand[0].id, passPickCard.id);
+assert.equal(cards.getPassReservePile(passReserveState, 1).length, 2);
+
+const discardReserveResult = cards.discardUnusedPassReserveCards(passReserveState, 1);
+assert.equal(discardReserveResult.ok, true);
+assert.equal(discardReserveResult.cards.length, 2);
+assert.equal(cards.getPassReservePile(passReserveState, 1).length, 0);
+assert.equal(passReserveState.discardPile.length, 2);
 
 cards.setDiscardSelectionActive(cardState, true, 1);
 assert.equal(cards.isDiscardSelectionActive(cardState), true);

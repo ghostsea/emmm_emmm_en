@@ -292,6 +292,139 @@ body {
   display: none;
 }
 
+.pass-reserve-selection-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1320;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  background: rgba(4, 8, 14, 0.72);
+  backdrop-filter: blur(2px);
+}
+
+.pass-reserve-selection-overlay[hidden] {
+  display: none;
+}
+
+.pass-reserve-selection-dialog {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  width: min(980px, calc(100vw - 56px));
+  max-height: calc(100vh - 56px);
+  border: 1px solid rgba(120, 210, 255, 0.42);
+  border-radius: 8px;
+  background: rgba(8, 16, 26, 0.96);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.58), 0 0 0 1px rgba(120, 210, 255, 0.12);
+  overflow: hidden;
+}
+
+.pass-reserve-selection-header,
+.pass-reserve-selection-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: rgba(12, 26, 40, 0.94);
+}
+
+.pass-reserve-selection-header {
+  align-items: flex-start;
+  flex-direction: column;
+  border-bottom: 1px solid rgba(120, 210, 255, 0.18);
+}
+
+.pass-reserve-selection-title {
+  color: rgba(235, 248, 255, 0.96);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.pass-reserve-selection-subtitle,
+.pass-reserve-selection-status {
+  color: rgba(220, 238, 248, 0.72);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.pass-reserve-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(108px, 1fr));
+  gap: 14px;
+  padding: 18px;
+  overflow: auto;
+}
+
+.pass-reserve-card-button {
+  position: relative;
+  justify-self: center;
+  width: min(148px, 100%);
+  aspect-ratio: 747 / 1040;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.42));
+  transition: transform 0.16s ease, filter 0.16s ease;
+}
+
+.pass-reserve-card-button:hover,
+.pass-reserve-card-button:focus-visible {
+  z-index: 2;
+  transform: translateY(-8px) scale(1.06);
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5));
+}
+
+.pass-reserve-card-button.is-selected {
+  z-index: 3;
+  transform: translateY(-10px) scale(1.06);
+  filter:
+    drop-shadow(0 0 14px rgba(255, 207, 92, 0.64))
+    drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5));
+}
+
+.pass-reserve-card-button.is-selected img {
+  outline: 4px solid #f4c84d;
+  outline-offset: 3px;
+}
+
+.pass-reserve-card-button img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 7px;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+.pass-reserve-selection-footer {
+  border-top: 1px solid rgba(120, 210, 255, 0.18);
+}
+
+.pass-reserve-selection-confirm {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 6px 16px;
+  border: 1px solid rgba(244, 200, 77, 0.72);
+  border-radius: 6px;
+  background: rgba(100, 74, 20, 0.92);
+  color: rgba(255, 246, 216, 0.96);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.pass-reserve-selection-confirm:disabled {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(18, 26, 36, 0.82);
+  color: rgba(230, 238, 246, 0.38);
+  cursor: default;
+}
+
 .app-wrap.card-selection-active .table-column-right {
   position: relative;
   z-index: 1250;
@@ -4030,7 +4163,7 @@ button.spin-button:hover {
   width: 220px;
   min-width: 0;
   height: auto;
-  max-height: min(48vh, 240px);
+  max-height: min(96vh, 480px);
   display: flex;
   align-items: stretch;
   isolation: isolate;
