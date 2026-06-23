@@ -9,6 +9,13 @@ const flow = chain.startAbilityChain("scan", "扫描", [
   { abilityId: "researchTechRotate", label: "不可撤销", undoable: false },
 ]);
 
+const ownerFlow = chain.startAbilityChain("owner", "归属", [
+  { abilityId: "ownedEffect", playerId: "player-brown" },
+  { abilityId: "optionOwnedEffect", options: { playerId: "player-white" } },
+]);
+assert.equal(ownerFlow.effects[0].playerId, "player-brown");
+assert.equal(ownerFlow.effects[1].playerId, "player-white");
+
 assert.equal(flow.effects.length, 3);
 assert.equal(chain.getCurrentChainNode(flow).status, "pending");
 

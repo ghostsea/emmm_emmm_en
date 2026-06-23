@@ -20,6 +20,8 @@
       label: node.label || node.abilityId || `能力 ${index + 1}`,
       status: node.status || "pending",
       undoable: node.undoable ?? true,
+      playerId: node.playerId || node.options?.playerId || null,
+      playerColor: node.playerColor || node.options?.playerColor || null,
       options: { ...(node.options || {}) },
       needsUserChoice: Boolean(node.needsUserChoice),
       result: node.result || null,

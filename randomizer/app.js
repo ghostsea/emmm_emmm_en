@@ -980,6 +980,7 @@
     );
     pendingActionEffectFlow.actionType = "initialIncome";
     pendingActionEffectFlow.playerId = effects[0]?.options?.playerId || null;
+    assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
 
     const firstPlayer = getPlayerById(pendingActionEffectFlow.playerId);
     if (firstPlayer) {
@@ -1065,6 +1066,32 @@
       || null;
   }
 
+  function effectHasExplicitPlayerTarget(effect) {
+    const options = effect?.options || {};
+    return Boolean(
+      effect?.playerId
+      || effect?.playerColor
+      || options.playerId
+      || options.playerColor
+      || options.targetPlayerId
+      || options.targetPlayerColor
+    );
+  }
+
+  function assignEffectOwner(effect, playerId) {
+    if (!effect || !playerId || effectHasExplicitPlayerTarget(effect)) return effect;
+    effect.playerId = playerId;
+    return effect;
+  }
+
+  function assignEffectFlowOwner(flow, playerId) {
+    if (!flow || !playerId) return;
+    flow.playerId = playerId;
+    for (const effect of flow.effects || []) {
+      assignEffectOwner(effect, playerId);
+    }
+  }
+
   function createScanRunId(prefix = "scan") {
     scanRunSequence += 1;
     return `${prefix}-${scanRunSequence}`;
@@ -1078,6 +1105,19 @@
   function getPlayerLabelById(playerId) {
     const player = getPlayerById(playerId);
     return player ? player.colorLabel || player.name || player.id : playerId;
+  }
+
+  function getPlayerCompanyLabel(player) {
+    return industry?.getPlayerIndustryLabel?.(player)
+      || player?.initialSelection?.industry?.label
+      || null;
+  }
+
+  function getPlayerDisplayLabel(player, options = {}) {
+    const base = player?.colorLabel || player?.name || player?.id || "玩家";
+    const agentSuffix = isAiAutoBattlePlayer(player?.id) ? "(电脑)" : "";
+    const companyLabel = options.includeCompany === false ? null : getPlayerCompanyLabel(player);
+    return `${base}${agentSuffix}${companyLabel ? `-${companyLabel}` : ""}`;
   }
 
   function createAiAutoBattleEntry(type, message, details = {}) {
@@ -10549,6 +10589,7 @@
     pendingActionEffectFlow = abilities.chain.startAbilityChain(chainId, label, normalizedEffects);
     pendingActionEffectFlow.actionType = options.actionType || "playCard";
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
+    assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.card = options.card || null;
     pendingActionEffectFlow.cardTemporaryTasks = options.temporaryTasks || [];
     pendingActionEffectFlow.playCardEvent = options.playCardEvent || null;
@@ -11747,6 +11788,7 @@
     );
     pendingActionEffectFlow.actionType = actionType;
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
+    assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.consumesMainAction = true;
 
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
@@ -11778,6 +11820,7 @@
     );
     pendingActionEffectFlow.actionType = "researchTech";
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
+    assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.consumesMainAction = true;
 
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
@@ -14443,8 +14486,8 @@
 
   function getEffectTargetPlayer(effect) {
     return resolvePlayerReference({
-      playerId: effect?.options?.targetPlayerId,
-      playerColor: effect?.options?.targetPlayerColor,
+      playerId: effect?.options?.targetPlayerId || effect?.playerId || effect?.options?.playerId,
+      playerColor: effect?.options?.targetPlayerColor || effect?.playerColor || effect?.options?.playerColor,
     }) || getCurrentPlayer();
   }
 
@@ -14722,7 +14765,7 @@
     if (!pendingActionEffectFlow || !effects?.length) return;
     const insertIndex = Math.max(0, pendingActionEffectFlow.currentIndex + 1);
     pendingActionEffectFlow.effects.splice(insertIndex, 0, ...effects.map((effect, index) => ({
-      ...effect,
+      ...assignEffectOwner({ ...effect }, pendingActionEffectFlow.playerId),
       id: effect.id || `inserted-card-effect-${insertIndex}-${index}`,
       options: { ...(effect.options || {}) },
       status: "pending",
@@ -16668,6 +16711,7 @@
       }),
     );
     pendingActionEffectFlow.playerId = currentPlayer.id;
+    assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.scanRunId = scanRunId;
     pendingActionEffectFlow.scanActionEvent = {
       type: "scanAction",
@@ -22781,6 +22825,11 @@
   }
 
   function getCurrentPlayer() {
+    const flowPlayerId = pendingActionEffectFlow?.playerId || null;
+    if (flowPlayerId) {
+      const flowPlayer = getPlayerById(flowPlayerId);
+      if (flowPlayer) return flowPlayer;
+    }
     return players.getCurrentPlayer(playerState);
   }
 
@@ -23652,7 +23701,8 @@
     marker.className = "player-color-marker";
     marker.setAttribute("aria-hidden", "true");
     name.className = "player-stat-value";
-    name.textContent = player.name;
+    name.textContent = getPlayerDisplayLabel(player);
+    item.title = name.textContent;
 
     item.append(marker, name, scoreEl, finalScoreEl);
     return item;
@@ -23783,7 +23833,8 @@
 
     const idEl = document.createElement("span");
     idEl.className = "opponent-stat-id player-stat-value";
-    idEl.textContent = player.colorLabel || color.label;
+    idEl.textContent = getPlayerDisplayLabel(player);
+    idEl.title = idEl.textContent;
 
     const marker = document.createElement("span");
     marker.className = "player-color-marker";
@@ -23871,8 +23922,9 @@
   function renderOpponentStats() {
     if (!els.opponentStatGrid) return;
 
-    const currentPlayerId = playerState.currentPlayerId;
-    const cards = playerState.players.map((player) => {
+    const currentPlayerId = getCurrentPlayer()?.id || playerState.currentPlayerId;
+    const activePlayers = getActivePlayers().length ? getActivePlayers() : playerState.players;
+    const cards = activePlayers.map((player) => {
       const color = players.getPlayerColorDefinition(player.color);
       const finalScoreBreakdown = computePlayerFinalScoreBreakdown(player);
       const card = document.createElement("article");
@@ -25772,10 +25824,23 @@
     });
   }
 
+  function getActionContextPlayerState() {
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer?.id || currentPlayer.id === playerState.currentPlayerId) {
+      return playerState;
+    }
+    return {
+      ...playerState,
+      currentPlayerId: currentPlayer.id,
+      players: playerState.players,
+    };
+  }
+
   function createActionContext() {
+    const contextPlayerState = getActionContextPlayerState();
     return {
       solarState,
-      playerState,
+      playerState: contextPlayerState,
       cardState,
       rocketState,
       nebulaDataState,
@@ -26231,6 +26296,7 @@
       );
       pendingActionEffectFlow.actionType = "pass";
       pendingActionEffectFlow.playerId = currentPlayer.id;
+      assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
       pendingActionEffectFlow.passEvent = createPassEvent(currentPlayer);
       pendingActionEffectFlow.historySource = HISTORY_SOURCE_MAIN;
       pendingActionEffectFlow.consumesMainAction = true;
