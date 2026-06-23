@@ -55,8 +55,10 @@
 - `docs/app-architecture.md`：浏览器 app 装配层、`randomizer/app/**` 边界与后续拆分原则。
 - `docs/effect-glossary.md`：效果术语表；不确定效果名含义时先查这里。
 - `docs/card-modeling-dsl-spec.md`：卡牌描述转换为可执行 DSL 的规范。
+- `docs/card-ability-migration-plan.md`：基础卡能力迁移状态、已实现/部分实现/延后清单。
 - `docs/alien-design.md`：外星人通用设计总结与新增外星人检查清单。
-- `docs/ai-player-design.md`：电脑玩家（AI 自动机）的分层、接口契约（GameState/决策总线/PlayerAgent）与里程碑。
+- `docs/ai-architecture-v2.md`：电脑玩家 AI 的**权威架构与路线**（价值模型/目标系统/回合规划），后续开发以此为准。
+- `docs/ai-player-design.md`：AI 接口契约层（GameState/决策总线/PlayerAgent/枚举），仍有效；大脑层以 v2 为准。
 - `assets/final/final_detail.md`：终局计分 a/b/c/d 板块的规则公式。
 - `assets/industry/industry-abilities.md`：公司牌主动/被动能力设计与建模说明。
 
