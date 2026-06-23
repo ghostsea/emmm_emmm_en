@@ -164,6 +164,16 @@
     return result;
   }
 
+  function normalizeScoreSources(scoreSources) {
+    const source = scoreSources && typeof scoreSources === "object" ? scoreSources : {};
+    const result = {};
+    for (const [key, value] of Object.entries(source)) {
+      const number = normalizeNumber(value, 0);
+      if (number !== 0) result[key] = Number.isInteger(number) ? number : Math.round(number * 100) / 100;
+    }
+    return result;
+  }
+
   function createDefaultPlayerTechState() {
     return { ownedTiles: {}, disabledTiles: {}, blueBoardSlots: {} };
   }
@@ -232,6 +242,7 @@
       hand,
       reservedCards,
       techState: normalizePlayerTechState(source.techState),
+      scoreSources: normalizeScoreSources(source.scoreSources),
       orbitCount: Number.isInteger(orbitCount) ? orbitCount : Math.round(orbitCount),
     };
   }
@@ -478,6 +489,7 @@
     normalizePlayerColor,
     normalizeResources,
     normalizeIncome,
+    normalizeScoreSources,
     createPlayer,
     createPlayerState,
     getCurrentPlayer,

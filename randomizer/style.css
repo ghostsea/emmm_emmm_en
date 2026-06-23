@@ -1957,7 +1957,7 @@ body {
 
 .final-result-table {
   width: 100%;
-  min-width: 780px;
+  min-width: 620px;
   border-collapse: collapse;
   font: 600 12px/1.35 "Microsoft YaHei", "PingFang SC", sans-serif;
 }
@@ -1983,16 +1983,18 @@ body {
   background: rgba(255, 255, 255, 0.025);
 }
 
-.final-result-table tbody tr.is-winner {
-  background: rgba(255, 214, 128, 0.12);
+.final-result-table tbody tr.is-total-row {
+  background: rgba(255, 214, 128, 0.08);
 }
 
-.final-result-table tbody tr.is-winner td {
+.final-result-table tbody tr.is-total-row th,
+.final-result-table tbody tr.is-total-row td {
   border-bottom-color: rgba(255, 214, 128, 0.18);
 }
 
 .final-result-player-cell {
-  min-width: 132px;
+  min-width: 108px;
+  text-align: right;
 }
 
 .final-result-player {
@@ -2010,9 +2012,20 @@ body {
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.18);
 }
 
+.final-result-score-label-cell {
+  min-width: 150px;
+  text-align: left;
+  color: rgba(238, 243, 248, 0.84);
+}
+
 .final-result-number-cell {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+.final-result-number-cell.is-winner-score {
+  background: rgba(255, 214, 128, 0.16);
+  color: #ffe7a4;
 }
 
 .final-result-number-cell.is-negative {
@@ -4733,7 +4746,7 @@ button.spin-button:hover {
   }
 
   .final-result-table {
-    min-width: 720px;
+    min-width: 520px;
   }
 
   .public-card-row {

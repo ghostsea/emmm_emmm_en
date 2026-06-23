@@ -3112,7 +3112,9 @@
       completeQuickActionStep();
       pendingCardCornerQuickAction = null;
       syncCardCornerQuickActionChrome();
-      const rewardResult = applyFangzhouCard1Reward(currentPlayer, "basic", "方舟弃牌基础奖励");
+      const rewardResult = applyFangzhouCard1Reward(currentPlayer, "basic", "方舟弃牌基础奖励", {
+        scoreSourceKey: SCORE_SOURCE_KEYS.ALIEN_CARD_QUICK,
+      });
       rocketState.statusNote = `卡牌快速行动：弃除 ${cards.getCardLabel(discardResult.card)}，${rewardResult.message}`;
       renderPlayerStats();
       renderPlayerHand();
@@ -3202,9 +3204,15 @@
     cards.addToDiscardPile(cardState, discardResult.card);
     if (Object.keys(action.reward?.gain || {}).length) {
       players.gainResources(currentPlayer, action.reward.gain);
+      if (isAlienFamilyCard(discardResult.card)) {
+        addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.ALIEN_CARD_QUICK, action.reward.gain);
+      }
     }
     if (Object.keys(action.moveReward?.gain || {}).length) {
       players.gainResources(currentPlayer, action.moveReward.gain);
+      if (isAlienFamilyCard(discardResult.card)) {
+        addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.ALIEN_CARD_QUICK, action.moveReward.gain);
+      }
     }
     const dataResults = [];
     const dataCount = Math.max(0, Math.round(action.reward?.dataCount || 0));
@@ -4608,6 +4616,7 @@
         firstTake: Boolean(pending.firstTake),
         skipCardSelection: true,
       });
+      recordTechBonusScore(pending.player || getCurrentPlayer(), bonusResult);
       if (getCurrentActionEffect()) {
         getCurrentActionEffect().result = {
           ok: true,
@@ -7398,8 +7407,10 @@
     const currentPlayer = getCurrentPlayer();
     if (!currentPlayer || !rewardEffect) return null;
     if (rewardEffect.type === "gain_resources") {
-      players.gainResources(currentPlayer, rewardEffect.options?.gain || {});
-      return { ok: true, message: `${sourceLabel || rewardEffect.label}：${formatPlanetRewardGain(rewardEffect.options?.gain || {})}` };
+      const gain = rewardEffect.options?.gain || {};
+      players.gainResources(currentPlayer, gain);
+      addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.TASK_CARD, gain);
+      return { ok: true, message: `${sourceLabel || rewardEffect.label}：${formatPlanetRewardGain(gain)}` };
     }
     if (rewardEffect.type === "gain_data") {
       const count = Math.max(0, Math.round(Number(rewardEffect.options?.count) || 0));
@@ -7876,7 +7887,9 @@
     let result = null;
 
     if (effect.type === "gain_resources") {
-      players.gainResources(currentPlayer, effect.options?.gain || {});
+      const gain = effect.options?.gain || {};
+      players.gainResources(currentPlayer, gain);
+      addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.TASK_CARD, gain);
       result = { ok: true, message: effect.label };
     } else if (effect.type === "gain_data") {
       const count = Math.max(0, Math.round(effect.options?.count || 0));
@@ -7915,6 +7928,7 @@
       if (resourceReward) {
         if (Object.keys(resourceReward.gain || {}).length) {
           players.gainResources(currentPlayer, resourceReward.gain);
+          addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.TASK_CARD, resourceReward.gain);
         }
         const dataCount = Math.max(0, Math.round(resourceReward.dataCount || 0));
         for (let index = 0; index < dataCount; index += 1) {
@@ -7923,6 +7937,7 @@
       }
       if (moveReward?.gain && Object.keys(moveReward.gain).length) {
         players.gainResources(currentPlayer, moveReward.gain);
+        addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.TASK_CARD, moveReward.gain);
       }
       const message = resourceReward
         ? formatCardCornerRewardMessage(resourceReward, dataResults)
@@ -8262,6 +8277,7 @@
     }
     if (bonus.type === "score") {
       players.gainResources(player, { score: bonus.score });
+      addPlayerScoreSource(player, SCORE_SOURCE_KEYS.BLUE_TECH, bonus.score);
       recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
         player,
         beforePlayer,
@@ -9238,6 +9254,7 @@
     if (rewardEffect.type === "gain_resources") {
       const gain = rewardEffect.options?.gain || {};
       players.gainResources(currentPlayer, gain);
+      recordScoreSourceForGainEffect(currentPlayer, rewardEffect, gain);
       messageParts.push(`${rewardEffect.label}：${formatPlanetRewardGain(gain)}`);
       return { ok: true, effect: rewardEffect, gain };
     }
@@ -9851,7 +9868,10 @@
     renderAlienPanels();
     const rewardEffects = effect.options?.grantRewards === false
       ? []
-      : (planetRewards?.buildRewardEffectsForAction?.("land", result) || []);
+      : attachScoreSourceToEffects(
+        planetRewards?.buildRewardEffectsForAction?.("land", result) || [],
+        SCORE_SOURCE_KEYS.LAND,
+      );
     const afterLandRewards = (effect.options?.afterLandRewards || [])
       .filter((reward) => {
         const planetIds = reward.planetIds || [];
@@ -9861,7 +9881,9 @@
       })
       .map((reward) => reward.effect)
       .filter(Boolean);
-    if (afterLandRewards.length) rewardEffects.push(...afterLandRewards);
+    if (afterLandRewards.length) {
+      rewardEffects.push(...attachScoreSourceToEffects(afterLandRewards, SCORE_SOURCE_KEYS.LAND));
+    }
     if (rewardEffects.length) insertActionEffectsAfterCurrent(rewardEffects);
     effect.result = {
       ...result,
@@ -10016,11 +10038,11 @@
   function buildPlutoRewardEffectsForAction(actionType) {
     return actionType === "orbit"
       ? [
-        { id: "pluto-orbit-score", type: "gain_resources", label: "冥王星环绕：11分+3宣传", icon: "score", options: { gain: { score: 11, publicity: 3 } } },
+        { id: "pluto-orbit-score", type: "gain_resources", label: "冥王星环绕：11分+3宣传", icon: "score", options: { gain: { score: 11, publicity: 3 }, scoreSourceKey: SCORE_SOURCE_KEYS.ORBIT } },
         { id: "pluto-orbit-trace", type: "alien_trace", label: "冥王星环绕：任意外星人痕迹", icon: "alien_trace", options: {} },
       ]
       : [
-        { id: "pluto-land-score", type: "gain_resources", label: "冥王星登陆：11分", icon: "score", options: { gain: { score: 11 } } },
+        { id: "pluto-land-score", type: "gain_resources", label: "冥王星登陆：11分", icon: "score", options: { gain: { score: 11 }, scoreSourceKey: SCORE_SOURCE_KEYS.LAND } },
         { id: "pluto-land-data", type: "gain_data", label: "冥王星登陆：4数据", icon: "data", options: { count: 4 } },
         { id: "pluto-land-trace", type: "alien_trace", label: "冥王星登陆：黄色外星人痕迹", icon: "alien_yellow", options: { allowedTraceTypes: ["yellow"] } },
       ];
@@ -10111,7 +10133,9 @@
         .filter((reward) => (reward.planetIds || []).includes("pluto"))
         .map((reward) => reward.effect)
         .filter(Boolean);
-      if (afterLandRewards.length) rewardEffects.push(...afterLandRewards);
+      if (afterLandRewards.length) {
+        rewardEffects.push(...attachScoreSourceToEffects(afterLandRewards, SCORE_SOURCE_KEYS.LAND));
+      }
     }
     if (rewardEffects.length) insertActionEffectsAfterCurrent(rewardEffects);
     effect.result = {
@@ -10149,7 +10173,10 @@
     syncPlanetOrbitLandMarkers();
     const rewardEffects = effect.options?.grantRewards === false
       ? []
-      : (planetRewards?.buildRewardEffectsForAction?.("orbit", result) || []);
+      : attachScoreSourceToEffects(
+        planetRewards?.buildRewardEffectsForAction?.("orbit", result) || [],
+        SCORE_SOURCE_KEYS.ORBIT,
+      );
     if (rewardEffects.length) insertActionEffectsAfterCurrent(rewardEffects);
     effect.result = {
       ...result,
@@ -10744,7 +10771,9 @@
     }
     const reward = effect.options?.reward;
     if (reward?.type === "gain_resources") {
-      players.gainResources(currentPlayer, reward.options?.gain || {});
+      const gain = reward.options?.gain || {};
+      players.gainResources(currentPlayer, gain);
+      recordScoreSourceForGainEffect(currentPlayer, effect, gain);
     }
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
@@ -11201,6 +11230,7 @@
     const beforePlayer = structuredClone(currentPlayer);
     beginEffectHistoryStep(effect.label);
     players.gainResources(currentPlayer, gain);
+    recordScoreSourceForGainEffect(currentPlayer, effect, gain);
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
       beforePlayer,
@@ -13169,6 +13199,7 @@
           bonusId,
           firstTake: Boolean(effect.options?.firstTake ?? selection?.firstTake),
         });
+        recordTechBonusScore(getCurrentPlayer(), result);
         if (result.ok) {
           result.events = [
             ...(result.events || []),
@@ -14885,7 +14916,13 @@
     const effects = [];
     for (const flip of flips || []) {
       if (!flip?.ok) continue;
-      effects.push(...buildFangzhouCard1EffectQueue(flip.effect, flip.label || flowLabel));
+      effects.push(...buildFangzhouCard1EffectQueue(flip.effect, flip.label || flowLabel).map((effect) => ({
+        ...effect,
+        options: {
+          ...(effect.options || {}),
+          ...(options.scoreSourceKey ? { scoreSourceKey: options.scoreSourceKey } : {}),
+        },
+      })));
     }
     if (!effects.length) {
       return { ok: true, effects: [], message: "无奖励效果" };
@@ -14961,7 +14998,7 @@
     return [queueResult];
   }
 
-  function applyFangzhouTraceRewardToPlayer(player, reward, label = "方舟痕迹") {
+  function applyFangzhouTraceRewardToPlayer(player, reward, label = "方舟痕迹", options = {}) {
     if (!player || !reward) return { ok: false, message: "没有可结算的方舟奖励" };
     const messages = [];
     if (Object.keys(reward.gain || {}).length) {
@@ -14973,6 +15010,7 @@
     if (basicCount > 0) {
       const basicResults = queueFangzhouBasicRewards(player, basicCount, label, {
         insertIntoCurrentFlow: isActionEffectFlowActive(),
+        scoreSourceKey: options.scoreSourceKey,
       });
       for (const result of basicResults) {
         if (result.message) messages.push(result.message);
@@ -17739,7 +17777,10 @@
       cardEffects.countTraceMarkers?.(player, alienGameState, traceType) || 0,
     )));
     const gain = { score: count * scorePer };
-    if (gain.score > 0) players.gainResources(player, gain);
+    if (gain.score > 0) {
+      players.gainResources(player, gain);
+      recordAlienTraceScore(player, traceType, gain);
+    }
     return {
       kind: reward.kind,
       count,
@@ -17894,6 +17935,7 @@
       result.reward,
       `异常点${yichangdian.formatTraceLabel(traceType, Number(position))}`,
     );
+    if (rewardResult.ok) recordAlienTraceScore(currentPlayer, traceType, result.reward?.gain);
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
       ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, yichangdian.ALIEN_ID)]
@@ -17997,7 +18039,9 @@
       currentPlayer,
       result.reward,
       `方舟${fangzhou.formatTraceLabel(traceType, Number(position))}`,
+      { scoreSourceKey: getAlienTraceScoreSourceKey(traceType) },
     );
+    if (rewardResult.ok) recordAlienTraceScore(currentPlayer, traceType, result.reward?.gain);
 
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
@@ -18114,6 +18158,7 @@
       result.reward,
       `半人马${banrenma.formatTraceLabel(traceType, Number(position))}`,
     );
+    if (rewardResult.ok) recordAlienTraceScore(currentPlayer, traceType, result.reward?.gain);
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
       ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, banrenma.ALIEN_ID)]
@@ -18255,6 +18300,7 @@
       result.reward,
       `奥陌陌${aomomo.formatTraceLabel(traceType, Number(position))}`,
     );
+    if (rewardResult.ok) recordAlienTraceScore(currentPlayer, traceType, result.reward?.gain);
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
       ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, aomomo.ALIEN_ID)]
@@ -18673,6 +18719,7 @@
       result.reward,
       `虫族${chong.formatTraceLabel(traceType, Number(position))}`,
     );
+    if (rewardResult.ok) recordAlienTraceScore(currentPlayer, traceType, result.reward?.gain);
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
       ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, chong.ALIEN_ID)]
@@ -18788,6 +18835,7 @@
       result.reward,
       `阿米巴${amiba.formatTraceLabel(traceType, Number(position))}`,
     );
+    if (rewardResult.ok) recordAlienTraceScore(currentPlayer, traceType, result.reward?.gain);
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
       ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, amiba.ALIEN_ID)]
@@ -18902,6 +18950,7 @@
       result.reward,
       `符文族${runezu.formatTraceLabel(traceType, Number(position))}`,
     );
+    if (rewardResult.ok) recordAlienTraceScore(currentPlayer, traceType, result.reward?.gain);
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
       ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, runezu.ALIEN_ID)]
@@ -19017,6 +19066,7 @@
       result.reward,
       `九折${jiuzhe.formatTraceLabel(traceType, Number(position))}`,
     );
+    if (rewardResult.ok) recordAlienTraceScore(currentPlayer, traceType, result.reward?.gain);
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
       ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, jiuzhe.ALIEN_ID)]
@@ -20572,6 +20622,107 @@
     return nodes;
   }
 
+  const SCORE_SOURCE_KEYS = Object.freeze({
+    TECH_BONUS: "techBonusScore",
+    BLUE_TECH: "blueTechScore",
+    TASK_CARD: "taskCardScore",
+    ORBIT: "orbitScore",
+    LAND: "landScore",
+    ALIEN_TRACE_PINK: "alienTracePinkScore",
+    ALIEN_TRACE_YELLOW: "alienTraceYellowScore",
+    ALIEN_TRACE_BLUE: "alienTraceBlueScore",
+    ALIEN_CARD_QUICK: "alienCardQuickScore",
+  });
+  const SCORE_SOURCE_KEY_SET = new Set(Object.values(SCORE_SOURCE_KEYS));
+  const FINAL_RESULT_PLAYER_COLOR_ORDER = Object.freeze(["white", "brown", "blue", "green"]);
+
+  function normalizeScoreSourceAmount(value) {
+    const number = Number(value) || 0;
+    return Number.isInteger(number) ? number : Math.round(number * 100) / 100;
+  }
+
+  function ensurePlayerScoreSources(player) {
+    if (!player) return {};
+    if (!player.scoreSources || typeof player.scoreSources !== "object") {
+      player.scoreSources = {};
+    }
+    return player.scoreSources;
+  }
+
+  function addPlayerScoreSource(player, key, amount) {
+    const value = normalizeScoreSourceAmount(amount);
+    if (!player || !SCORE_SOURCE_KEY_SET.has(key) || value === 0) return 0;
+    const sources = ensurePlayerScoreSources(player);
+    sources[key] = normalizeScoreSourceAmount((Number(sources[key]) || 0) + value);
+    return value;
+  }
+
+  function addScoreSourceFromGain(player, key, gain) {
+    return addPlayerScoreSource(player, key, gain?.score || 0);
+  }
+
+  function recordTechBonusScore(player, result) {
+    if (!result?.ok) return 0;
+    const rewards = result.rewards || result.payload?.rewards || {};
+    const bonusScore = Number(rewards.bonus?.score) || 0;
+    const firstTakeScore = Number(rewards.firstTakeScore) || 0;
+    return addPlayerScoreSource(player, SCORE_SOURCE_KEYS.TECH_BONUS, bonusScore + firstTakeScore);
+  }
+
+  function getAlienTraceScoreSourceKey(traceType) {
+    switch (traceType) {
+      case "pink":
+        return SCORE_SOURCE_KEYS.ALIEN_TRACE_PINK;
+      case "yellow":
+        return SCORE_SOURCE_KEYS.ALIEN_TRACE_YELLOW;
+      case "blue":
+        return SCORE_SOURCE_KEYS.ALIEN_TRACE_BLUE;
+      default:
+        return null;
+    }
+  }
+
+  function recordAlienTraceScore(player, traceType, gain) {
+    const key = getAlienTraceScoreSourceKey(traceType);
+    return key ? addScoreSourceFromGain(player, key, gain) : 0;
+  }
+
+  function getScoreSourceKeyForGainEffect(effect) {
+    const explicit = effect?.options?.scoreSourceKey;
+    if (SCORE_SOURCE_KEY_SET.has(explicit)) return explicit;
+    switch (pendingActionEffectFlow?.actionType) {
+      case "orbit":
+        return SCORE_SOURCE_KEYS.ORBIT;
+      case "land":
+        return SCORE_SOURCE_KEYS.LAND;
+      case "cardTask":
+      case "cardTrigger":
+        return SCORE_SOURCE_KEYS.TASK_CARD;
+      default:
+        return null;
+    }
+  }
+
+  function recordScoreSourceForGainEffect(player, effect, gain) {
+    const key = getScoreSourceKeyForGainEffect(effect);
+    return key ? addScoreSourceFromGain(player, key, gain) : 0;
+  }
+
+  function attachScoreSourceToEffects(effects, scoreSourceKey) {
+    if (!SCORE_SOURCE_KEY_SET.has(scoreSourceKey)) return effects || [];
+    return (effects || []).map((effect) => ({
+      ...effect,
+      options: {
+        ...(effect.options || {}),
+        scoreSourceKey: effect.options?.scoreSourceKey || scoreSourceKey,
+      },
+    }));
+  }
+
+  function getPlayerScoreSource(player, key) {
+    return normalizeScoreSourceAmount(player?.scoreSources?.[key] || 0);
+  }
+
   function computePlayerFinalScoreBreakdown(player) {
     const probeLocationData = buildProbeLocationIndex();
     return endGameScoring?.computePlayerFinalScore
@@ -20596,37 +20747,42 @@
     return Number.isInteger(number) ? String(number) : String(Math.round(number * 100) / 100);
   }
 
-  function hasJiuzheFinalResultColumn(rows) {
+  function hasJiuzheFinalResultRow(summaries) {
     return Boolean(alienGameState.jiuzhe?.revealInitialized)
-      || rows.some((row) => (
-        Number(row.breakdown.jiuzheCardScore || 0) !== 0
-        || Number(row.breakdown.jiuzhePenaltyScore || 0) !== 0
-        || Number(row.breakdown.jiuzheThreat || 0) !== 0
+      || summaries.some((summary) => (
+        Number(summary.breakdown.jiuzheCardScore || 0) !== 0
+        || Number(summary.breakdown.jiuzhePenaltyScore || 0) !== 0
+        || Number(summary.breakdown.jiuzheThreat || 0) !== 0
       ));
   }
 
-  function hasRunezuFinalResultColumn(rows) {
+  function hasRunezuFinalResultRow(summaries) {
     return Boolean(alienGameState.runezu?.revealInitialized)
-      || rows.some((row) => Number(row.breakdown.runezuSymbolScore || 0) !== 0);
+      || summaries.some((summary) => Number(summary.breakdown.runezuSymbolScore || 0) !== 0);
   }
 
-  function buildFinalResultRows() {
+  function getFinalResultPlayers() {
     const activeOrder = new Map((turnState.activePlayerIds || []).map((playerId, index) => [playerId, index]));
-    return getActivePlayers()
-      .map((player) => ({
-        player,
-        breakdown: computePlayerFinalScoreBreakdown(player),
-      }))
-      .sort((left, right) => {
-        const scoreDelta = (Number(right.breakdown.totalScore) || 0) - (Number(left.breakdown.totalScore) || 0);
-        if (scoreDelta) return scoreDelta;
-        return (activeOrder.get(left.player.id) ?? 999) - (activeOrder.get(right.player.id) ?? 999);
-      });
+    const colorOrder = new Map(FINAL_RESULT_PLAYER_COLOR_ORDER.map((color, index) => [color, index]));
+    return getActivePlayers().sort((left, right) => {
+      const colorDelta = (colorOrder.get(left.color) ?? 99) - (colorOrder.get(right.color) ?? 99);
+      if (colorDelta) return colorDelta;
+      return (activeOrder.get(left.id) ?? 999) - (activeOrder.get(right.id) ?? 999);
+    });
   }
 
-  function getFinalResultColumns(rows) {
-    const columns = [
-      { key: "player", label: "玩家" },
+  function buildFinalResultPlayerSummaries() {
+    return getFinalResultPlayers().map((player) => ({
+      player,
+      breakdown: computePlayerFinalScoreBreakdown(player),
+      scoreSources: Object.fromEntries(
+        Object.values(SCORE_SOURCE_KEYS).map((key) => [key, getPlayerScoreSource(player, key)]),
+      ),
+    }));
+  }
+
+  function getFinalResultScoreItems(summaries) {
+    const items = [
       { key: "totalScore", label: "总分" },
       { key: "baseScore", label: "裸分" },
       { key: "finalA", label: "final_a" },
@@ -20634,22 +20790,34 @@
       { key: "finalC", label: "final_c" },
       { key: "finalD", label: "final_d" },
       { key: "cardScore", label: "终局计分牌" },
+      { key: SCORE_SOURCE_KEYS.TECH_BONUS, label: "科技 bonus" },
+      { key: SCORE_SOURCE_KEYS.BLUE_TECH, label: "蓝色科技分数" },
+      { key: SCORE_SOURCE_KEYS.TASK_CARD, label: "任务牌获得分数" },
+      { key: SCORE_SOURCE_KEYS.ORBIT, label: "环绕分数" },
+      { key: SCORE_SOURCE_KEYS.LAND, label: "登陆分数" },
+      { key: SCORE_SOURCE_KEYS.ALIEN_TRACE_PINK, label: "粉色外星人痕迹分数" },
+      { key: SCORE_SOURCE_KEYS.ALIEN_TRACE_YELLOW, label: "黄色外星人痕迹分数" },
+      { key: SCORE_SOURCE_KEYS.ALIEN_TRACE_BLUE, label: "蓝色外星人痕迹分数" },
+      { key: SCORE_SOURCE_KEYS.ALIEN_CARD_QUICK, label: "快速行动" },
     ];
-    if (hasJiuzheFinalResultColumn(rows)) {
-      columns.push(
+    if (hasJiuzheFinalResultRow(summaries)) {
+      items.push(
         { key: "jiuzheCardScore", label: "九折卡牌分数" },
         { key: "jiuzhePenaltyScore", label: "九折损失分数" },
       );
     }
-    if (hasRunezuFinalResultColumn(rows)) {
-      columns.push({ key: "runezuSymbolScore", label: "符文族 symbol 分数" });
+    if (hasRunezuFinalResultRow(summaries)) {
+      items.push({ key: "runezuSymbolScore", label: "符文族 symbol 分数" });
     }
-    return columns;
+    return items;
   }
 
-  function getFinalResultCellValue(row, key) {
-    const breakdown = row.breakdown || {};
+  function getFinalResultScoreValue(summary, key) {
+    const breakdown = summary.breakdown || {};
     const tileScores = breakdown.tileScoresById || {};
+    if (SCORE_SOURCE_KEY_SET.has(key)) {
+      return summary.scoreSources?.[key] || 0;
+    }
     switch (key) {
       case "totalScore":
         return breakdown.totalScore;
@@ -20676,30 +20844,43 @@
     }
   }
 
-  function createFinalResultPlayerCell(row) {
-    const cell = document.createElement("td");
+  function createFinalResultPlayerHeaderCell(summary) {
+    const cell = document.createElement("th");
     const wrap = document.createElement("span");
     const marker = document.createElement("span");
     const name = document.createElement("span");
-    const color = players.getPlayerColorDefinition(row.player.color);
+    const color = players.getPlayerColorDefinition(summary.player.color);
 
     cell.className = "final-result-player-cell";
+    cell.scope = "col";
     wrap.className = "final-result-player";
     marker.className = "final-result-player-marker";
     marker.style.setProperty("--player-color", color.uiColor);
     marker.setAttribute("aria-hidden", "true");
-    name.textContent = getPlayerDisplayLabel(row.player, { includeCompany: false });
+    name.textContent = color.label;
     wrap.append(marker, name);
     cell.append(wrap);
     return cell;
   }
 
-  function createFinalResultScoreCell(row, columnKey) {
+  function createFinalResultScoreLabelCell(item) {
+    const cell = document.createElement("th");
+    cell.scope = "row";
+    cell.className = "final-result-score-label-cell";
+    cell.textContent = item.label;
+    return cell;
+  }
+
+  function createFinalResultScoreCell(summary, item, maxScore) {
     const cell = document.createElement("td");
-    const value = getFinalResultCellValue(row, columnKey);
+    const value = getFinalResultScoreValue(summary, item.key);
     cell.className = "final-result-number-cell";
     cell.textContent = formatFinalResultScore(value);
-    if (columnKey === "jiuzhePenaltyScore" && Number(value) < 0) {
+    if (item.key === "totalScore" && (Number(value) || 0) === maxScore) {
+      cell.classList.add("is-winner-score");
+      cell.title = "最高分";
+    }
+    if (Number(value) < 0) {
       cell.classList.add("is-negative");
     }
     return cell;
@@ -20707,36 +20888,31 @@
 
   function renderFinalResultDialog() {
     if (!els.finalResultHead || !els.finalResultBody) return;
-    const rows = buildFinalResultRows();
-    const columns = getFinalResultColumns(rows);
-    const maxScore = rows.reduce((max, row) => Math.max(max, Number(row.breakdown.totalScore) || 0), -Infinity);
+    const summaries = buildFinalResultPlayerSummaries();
+    const items = getFinalResultScoreItems(summaries);
+    const maxScore = summaries.reduce((max, summary) => Math.max(max, Number(summary.breakdown.totalScore) || 0), -Infinity);
     const headerRow = document.createElement("tr");
 
-    headerRow.append(...columns.map((column) => {
-      const th = document.createElement("th");
-      th.scope = "col";
-      th.textContent = column.label;
-      if (column.key !== "player") th.className = "final-result-number-cell";
-      return th;
-    }));
+    const firstHeader = document.createElement("th");
+    firstHeader.scope = "col";
+    firstHeader.textContent = "得分项目";
+    firstHeader.className = "final-result-score-label-cell";
+    headerRow.append(firstHeader, ...summaries.map(createFinalResultPlayerHeaderCell));
 
-    const bodyRows = rows.map((row) => {
+    const bodyRows = items.map((item) => {
       const tr = document.createElement("tr");
-      if ((Number(row.breakdown.totalScore) || 0) === maxScore) tr.classList.add("is-winner");
-      tr.append(...columns.map((column) => (
-        column.key === "player"
-          ? createFinalResultPlayerCell(row)
-          : createFinalResultScoreCell(row, column.key)
-      )));
+      if (item.key === "totalScore") tr.classList.add("is-total-row");
+      tr.append(createFinalResultScoreLabelCell(item));
+      tr.append(...summaries.map((summary) => createFinalResultScoreCell(summary, item, maxScore)));
       return tr;
     });
 
     els.finalResultHead.replaceChildren(headerRow);
     els.finalResultBody.replaceChildren(...bodyRows);
     if (els.finalResultSubtitle) {
-      const winnerCount = rows.filter((row) => (Number(row.breakdown.totalScore) || 0) === maxScore).length;
-      els.finalResultSubtitle.textContent = rows.length
-        ? `第 ${turnState.roundNumber} 轮结束 · ${rows.length} 名玩家 · ${winnerCount > 1 ? "并列最高分" : "最高分"} ${formatFinalResultScore(maxScore)}`
+      const winnerCount = summaries.filter((summary) => (Number(summary.breakdown.totalScore) || 0) === maxScore).length;
+      els.finalResultSubtitle.textContent = summaries.length
+        ? `第 ${turnState.roundNumber} 轮结束 · ${summaries.length} 名玩家 · ${winnerCount > 1 ? "并列最高分" : "最高分"} ${formatFinalResultScore(maxScore)}`
         : "暂无玩家分数";
     }
   }
