@@ -349,6 +349,7 @@
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
   let pendingActionEffectFlow = null;
+  let effectExecutionPlayerId = null;
   let pendingActionHasIrreversibleBarrier = false;
   let pendingActionIrreversibleReason = null;
   const actionHistory = actionHistoryModule.createActionHistory();
@@ -622,7 +623,7 @@
   function updatePlayerHandPanelTitle() {
     if (!els.playerHandPanelTitle) return;
 
-    const player = getCurrentPlayer();
+    const player = getInterfacePlayer();
     const count = Array.isArray(player?.hand)
       ? player.hand.length
       : Math.max(0, Math.round(Number(player?.resources?.handSize) || 0));
@@ -1098,10 +1099,48 @@
 
   function assignEffectFlowOwner(flow, playerId) {
     if (!flow || !playerId) return;
+    flow.defaultPlayerId = playerId;
     flow.playerId = playerId;
     for (const effect of flow.effects || []) {
       assignEffectOwner(effect, playerId);
     }
+  }
+
+  function getEffectOwnerPlayer(effect) {
+    return resolvePlayerReference({
+      playerId: effect?.options?.targetPlayerId || effect?.playerId || effect?.options?.playerId,
+      playerColor: effect?.options?.targetPlayerColor || effect?.playerColor || effect?.options?.playerColor,
+    })
+      || getPlayerById(pendingActionEffectFlow?.defaultPlayerId)
+      || getPlayerById(pendingActionEffectFlow?.playerId)
+      || players.getCurrentPlayer(playerState);
+  }
+
+  function setActiveEffectFlowOwner(effect) {
+    if (!pendingActionEffectFlow || !effect) return null;
+    const owner = getEffectOwnerPlayer(effect);
+    if (owner?.id) pendingActionEffectFlow.playerId = owner.id;
+    return owner;
+  }
+
+  function withEffectExecutionPlayer(effect, callback) {
+    const owner = getEffectOwnerPlayer(effect);
+    const previousPlayerId = effectExecutionPlayerId;
+    effectExecutionPlayerId = owner?.id || previousPlayerId;
+    try {
+      return callback();
+    } finally {
+      effectExecutionPlayerId = previousPlayerId;
+    }
+  }
+
+  function getInterfacePlayer() {
+    const currentPlayer = players.getCurrentPlayer(playerState);
+    if (!currentPlayer || !isAiAutoBattlePlayer(currentPlayer.id)) return currentPlayer;
+    const humanPlayer = getActivePlayers().find((player) => !isAiAutoBattlePlayer(player.id))
+      || playerState.players.find((player) => !isAiAutoBattlePlayer(player.id))
+      || null;
+    return humanPlayer || currentPlayer;
   }
 
   function createScanRunId(prefix = "scan") {
@@ -1531,7 +1570,20 @@
     return { ok: true, playerIds: [...playerIds], message: "电脑玩家已配置" };
   }
 
+  function getPendingAutomationPlayerId() {
+    if (pendingDiscardAction?.player?.id) return pendingDiscardAction.player.id;
+    if (pendingCardSelectionAction?.player?.id) return pendingCardSelectionAction.player.id;
+    if (pendingPassReserveSelection?.playerId) return pendingPassReserveSelection.playerId;
+    if (pendingHandScanAction?.player?.id) return pendingHandScanAction.player.id;
+    if (pendingMovePayment?.player?.id) return pendingMovePayment.player.id;
+    const effectOwner = getCurrentActionEffect()
+      ? getEffectOwnerPlayer(getCurrentActionEffect())
+      : null;
+    return effectOwner?.id || playerState.currentPlayerId;
+  }
+
   function shouldAutoRunCurrentAiPlayer() {
+    const automationPlayerId = getPendingAutomationPlayerId();
     return Boolean(
       aiAutoBattleState.enabled
       && !aiAutoBattleState.running
@@ -1540,7 +1592,7 @@
       && !aiAutoStepScheduled
       && !aiAutoStepInProgress
       && !isGameEnded()
-      && isAiAutoBattlePlayer(playerState.currentPlayerId),
+      && isAiAutoBattlePlayer(automationPlayerId),
     );
   }
 
@@ -4375,11 +4427,11 @@
 
   function runAiActionEffectStep() {
     if (!pendingActionEffectFlow) return null;
-    const playerId = pendingActionEffectFlow.playerId || playerState.currentPlayerId;
+    const effect = getCurrentActionEffect();
+    const playerId = getEffectOwnerPlayer(effect)?.id || pendingActionEffectFlow.playerId || playerState.currentPlayerId;
     if (playerId && !isAiAutoBattlePlayer(playerId)) {
       return { ok: false, blocked: true, message: `${getPlayerLabelById(playerId)}需要人工处理效果` };
     }
-    const effect = getCurrentActionEffect();
     if (!effect) return { ok: false, message: "没有当前效果" };
     const researchTechResult = runAiResearchTechSelectionDecision(effect);
     if (researchTechResult) return researchTechResult;
@@ -6173,6 +6225,7 @@
     }
 
     pendingMovePayment = {
+      player: currentPlayer,
       deltaX,
       deltaY,
       rocketId,
@@ -6473,6 +6526,7 @@
       }
 
       pendingMovePayment = {
+        player: currentPlayer,
         deltaX,
         deltaY,
         rocketId,
@@ -10977,7 +11031,7 @@
   function renderReservedCardsFromTaskState() {
     if (!els.reservedCardFan || !els.reservedCardPanel) return;
 
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getInterfacePlayer();
     const reservedCards = Array.isArray(currentPlayer?.reservedCards) ? currentPlayer.reservedCards : [];
     cardTaskStateModule.refreshTaskState(
       cardTaskState,
@@ -12364,6 +12418,12 @@
     return getActionEffectIconSrc(iconId);
   }
 
+  function shouldRenderActionEffect(effect) {
+    if (pendingActionEffectFlow?.actionType !== "initialIncome") return true;
+    const owner = getEffectOwnerPlayer(effect);
+    return !owner?.id || !isAiAutoBattlePlayer(owner.id);
+  }
+
   function getPlanetSectorCoordinate(planetId) {
     const snapshot = solar.createSolarSnapshot(solarState);
     const planet = snapshot.planetLocations.find((item) => item.planetId === planetId);
@@ -12474,8 +12534,17 @@
       els.actionEffectSkipButton.disabled = !canSkip;
     }
 
+    const visibleEffects = pendingActionEffectFlow.effects
+      .map((effect, index) => ({ effect, index }))
+      .filter(({ effect }) => shouldRenderActionEffect(effect));
+    if (!visibleEffects.length) {
+      els.actionEffectBar.hidden = true;
+      els.actionEffectList.replaceChildren();
+      return;
+    }
+
     els.actionEffectBar.hidden = false;
-    els.actionEffectList.replaceChildren(...pendingActionEffectFlow.effects.map((effect, index) => {
+    els.actionEffectList.replaceChildren(...visibleEffects.map(({ effect, index }) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "action-effect-button";
@@ -12522,6 +12591,7 @@
       finishActionEffectFlow();
       return;
     }
+    setActiveEffectFlowOwner(next);
     renderActionEffectBar();
     updateActionButtons();
     renderStateReadout();
@@ -12552,8 +12622,9 @@
     } else if (!hadHistoryStep && status !== "skipped") {
       appendActionLogStep(getEffectHistorySource(), current.label, current.result?.message || null);
     }
+    let chainTransition = null;
     if (status === "skipped") {
-      abilities.chain.skipCurrentChainNode(pendingActionEffectFlow);
+      chainTransition = abilities.chain.skipCurrentChainNode(pendingActionEffectFlow);
     } else {
       if (irreversibleReason) {
         markCurrentActionIrreversible(
@@ -12561,8 +12632,9 @@
           current.result?.irreversible?.code || "irreversible_effect",
         );
       }
-      abilities.chain.resolveCurrentChainNode(pendingActionEffectFlow, current.result || {});
+      chainTransition = abilities.chain.resolveCurrentChainNode(pendingActionEffectFlow, current.result || {});
     }
+    if (chainTransition?.next) setActiveEffectFlowOwner(chainTransition.next);
     renderActionEffectBar();
 
     const flowCompleted = pendingActionEffectFlow?.completed;
@@ -16690,12 +16762,6 @@
   function openInitialIncomeEffect(effect) {
     const playerId = effect?.options?.playerId;
     const incomePlayer = getPlayerById(playerId) || getCurrentPlayer();
-    if (playerId && incomePlayer && playerState.currentPlayerId !== incomePlayer.id) {
-      playerState.currentPlayerId = incomePlayer.id;
-      renderDebugPlayerSwitch();
-      renderPlayerStats();
-      renderPlayerHand();
-    }
 
     const result = beginDiscardSelection(1, {
       type: "initial_income",
@@ -16896,6 +16962,11 @@
   }
 
   function executeActionEffect(effect) {
+    if (!effect || effect.status !== "active") return { ok: false, message: "当前效果不可执行" };
+    return withEffectExecutionPlayer(effect, () => executeActionEffectForOwner(effect));
+  }
+
+  function executeActionEffectForOwner(effect) {
     if (!effect || effect.status !== "active") return { ok: false, message: "当前效果不可执行" };
 
     const techResult = executeResearchTechEffect(effect);
@@ -23068,7 +23139,7 @@
 
   function renderTechBoard() {
     syncTechRenderContext();
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getInterfacePlayer();
     tech.renderAll(techGameState, techRenderContext, els.techTiles, {
       currentPlayer,
       canTakeTile: (tileId) => {
@@ -23253,10 +23324,9 @@
   }
 
   function getCurrentPlayer() {
-    const flowPlayerId = pendingActionEffectFlow?.playerId || null;
-    if (flowPlayerId) {
-      const flowPlayer = getPlayerById(flowPlayerId);
-      if (flowPlayer) return flowPlayer;
+    if (effectExecutionPlayerId) {
+      const effectPlayer = getPlayerById(effectExecutionPlayerId);
+      if (effectPlayer) return effectPlayer;
     }
     return players.getCurrentPlayer(playerState);
   }
@@ -23273,7 +23343,7 @@
   }
 
   function renderDebugPlayerSwitch() {
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getInterfacePlayer();
     if (els.debugPlayerSwitchButton && currentPlayer) {
       els.debugPlayerSwitchButton.textContent = `玩家：${currentPlayer.colorLabel}（${getPlayerAgentLabel(currentPlayer.id)}）`;
     }
@@ -23728,7 +23798,7 @@
     element.classList.toggle("is-move-muted", isRocketMoveMuted(rocket));
     element.classList.toggle(
       "is-move-selectable",
-      rocket.playerId === getCurrentPlayer().id
+      rocket.playerId === getInterfacePlayer()?.id
         && (rocketActions.isMovablePlayerToken?.(rocket) || rocketActions.isControllablePlayerRocket(rocket)),
     );
 
@@ -24441,14 +24511,15 @@
   function renderPlayerHand() {
     if (!els.playerHandFan || !els.playerHandPanel) return;
 
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getInterfacePlayer();
     const hand = Array.isArray(currentPlayer.hand) ? currentPlayer.hand : [];
-    const discardActive = isDiscardSelectionActive();
-    const playActive = isPlayCardSelectionActive();
-    const movePaymentActive = isMovePaymentSelectionActive();
-    const handScanActive = isHandScanSelectionActive();
+    const actualCurrentPlayer = getCurrentPlayer();
+    const discardActive = isDiscardSelectionActive() && pendingDiscardAction?.player?.id === currentPlayer?.id;
+    const playActive = isPlayCardSelectionActive() && actualCurrentPlayer?.id === currentPlayer?.id;
+    const movePaymentActive = isMovePaymentSelectionActive() && pendingMovePayment?.player?.id === currentPlayer?.id;
+    const handScanActive = isHandScanSelectionActive() && pendingHandScanAction?.player?.id === currentPlayer?.id;
     const cardCornerAction = getPendingCardCornerQuickAction();
-    const cardCornerActionEnabled = canUseCardCornerQuickAction();
+    const cardCornerActionEnabled = actualCurrentPlayer?.id === currentPlayer?.id && canUseCardCornerQuickAction();
     const handScanPickIndex = pendingScanTargetAction?.type === "hand_scan"
       && Number.isInteger(Number(pendingScanTargetAction.handIndex))
       ? Number(pendingScanTargetAction.handIndex)
@@ -24721,15 +24792,18 @@
   function renderInitialSelectionArea() {
     if (!els.initialSelectionArea) return;
 
-    const currentPlayer = getCurrentPlayer();
     if (isInitialSelectionActive()) {
-      const offer = getInitialSelectionOffer(currentPlayer?.id);
-      els.initialSelectionArea.hidden = false;
-      els.initialSelectionArea.replaceChildren(createInitialSelectionPicker(offer));
-      syncInteractionFocusChrome();
-      return;
+      const setupPlayer = getCurrentPlayer();
+      if (!isAiAutoBattlePlayer(setupPlayer?.id)) {
+        const offer = getInitialSelectionOffer(setupPlayer?.id);
+        els.initialSelectionArea.hidden = false;
+        els.initialSelectionArea.replaceChildren(createInitialSelectionPicker(offer));
+        syncInteractionFocusChrome();
+        return;
+      }
     }
 
+    const currentPlayer = getInterfacePlayer();
     const selectedCards = getCurrentInitialSelectionCards(currentPlayer);
     if (!selectedCards.length) {
       els.initialSelectionArea.hidden = true;
@@ -26134,7 +26208,7 @@
   }
 
   function renderPlayerDataBoard() {
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getInterfacePlayer();
     data.renderPlayerDataTokens(currentPlayer, els.playerBoardDataLayer, {
       onPlace: (blueSlot) => {
         placeDataToBlueSlot(blueSlot);
@@ -26143,7 +26217,7 @@
   }
 
   function renderPlayerStats() {
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getInterfacePlayer();
     const resources = currentPlayer.resources;
     const finalScoreBreakdown = computePlayerFinalScoreBreakdown(currentPlayer);
 
@@ -26184,7 +26258,7 @@
   }
 
   function getPlayerReadoutLines() {
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getInterfacePlayer();
     const resources = currentPlayer.resources;
     const income = currentPlayer.income || players.DEFAULT_INCOME;
     const limits = players.RESOURCE_LIMITS;
@@ -27474,6 +27548,10 @@
     const gameplayLockReason = getGameplayLockReason();
     if (gameplayLockReason) {
       lockAllActionButtons(gameplayLockReason);
+      return;
+    }
+    if (isAiAutoBattlePlayer(playerState.currentPlayerId)) {
+      lockAllActionButtons("电脑玩家自动行动中");
       return;
     }
 
@@ -28866,7 +28944,7 @@
       "",
       ...aliens.getReadoutLines(alienGameState),
       "",
-      ...(industry.getReadoutLines?.(getCurrentPlayer(), turnState.roundNumber) || []),
+      ...(industry.getReadoutLines?.(getInterfacePlayer(), turnState.roundNumber) || []),
       ...(actionHistory.hasSession() ? ["", "行动指令栈", ...actionHistory.getTrace()] : []),
       ...(quickActionHistory.hasSession() ? ["", "快速行动指令栈", ...quickActionHistory.getTrace()] : []),
     ].join("\n");
