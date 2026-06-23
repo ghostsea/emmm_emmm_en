@@ -13102,7 +13102,7 @@
     const targetPlayer = resolvePlayerReference({
       playerId: effect.options?.targetPlayerId,
       playerColor: effect.options?.targetPlayerColor,
-    }) || getCurrentPlayer();
+    }) || getEffectOwnerPlayer(effect) || getCurrentPlayer();
     const allowedAlienSlotIds = getEligibleAlienSlotIdsForTraceEffect(effect, targetPlayer, allowedTraceTypes);
     const hasLegalTarget = !allowedAlienSlotIds
       || allowedAlienSlotIds.some((alienSlotId) => allowedTraceTypes.some((item) => {
@@ -17473,8 +17473,14 @@
         beforeAlienState: structuredClone(alienGameState),
         beforePlayerState: structuredClone(playerState),
         effectLabel: "半人马顶部奖励外星人痕迹",
+        targetPlayerId: player?.id || null,
+        targetPlayerColor: player?.color || null,
       };
-      openAlienTracePicker({ allowedTraceTypes: aliens.TRACE_TYPES });
+      openAlienTracePicker({
+        allowedTraceTypes: aliens.TRACE_TYPES,
+        targetPlayerId: player?.id || null,
+        targetPlayerColor: player?.color || null,
+      });
     } else {
       queueBanrenmaOpportunitiesForPlayer(player);
       maybeOpenQueuedBanrenmaOpportunity();
@@ -24517,13 +24523,18 @@
   }
 
   function startAnalyzeDataRewardFlow() {
+    const currentPlayer = getCurrentPlayer();
     const rewardEffects = [{
       id: "analyze-blue-alien-trace",
       type: planetRewards.EFFECT_TYPES.ALIEN_TRACE,
       label: "分析：获得 1 个蓝色外星人痕迹",
       icon: "alien_blue",
       needsUserChoice: true,
-      options: { traceType: "blue" },
+      options: {
+        traceType: "blue",
+        targetPlayerId: currentPlayer?.id || null,
+        targetPlayerColor: currentPlayer?.color || null,
+      },
     }];
     return startCardEffectFlow(
       "analyze-rewards",
