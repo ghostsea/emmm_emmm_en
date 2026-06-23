@@ -611,7 +611,7 @@
   }
 
   function probeStackRewardEffect(id, label, rewards) {
-    return effect(id, EFFECT_TYPES.PROBE_STACK_REWARD, label || "探测器同位置奖励", "score", {
+    return effect(id, EFFECT_TYPES.PROBE_STACK_REWARD, label || "任意探测器同位置奖励", "score", {
       rewards: Object.freeze((rewards || []).map((reward) => reward)),
     });
   }
@@ -2332,7 +2332,7 @@
     }),
     "dlc_38.png": withSource("dlc_38.png", {
       cardType: 0,
-      playEffects: Object.freeze([gainResourcesEffect("dlc38-publicity", "获得 1 宣传", { publicity: 1 }), cardMoveEffect("dlc38-move", "1移动"), probeStackRewardEffect("dlc38-stack-score", "若自己有2个探测器在同一位置，获得3分", [gainResourcesEffect("dlc38-score", "探测器同位置：3分", { score: 3 })])]),
+      playEffects: Object.freeze([gainResourcesEffect("dlc38-publicity", "获得 1 宣传", { publicity: 1 }), cardMoveEffect("dlc38-move", "1移动"), probeStackRewardEffect("dlc38-stack-score", "若自己的探测器与任意探测器在同一位置，获得3分", [gainResourcesEffect("dlc38-score", "同位置探测器：3分", { score: 3 })])]),
     }),
     "dlc_39.png": withSource("dlc_39.png", {
       cardType: 3,
@@ -2571,6 +2571,69 @@
     return new Set([player?.id, player?.color].filter(Boolean));
   }
 
+  function normalizeProbeCoordinate(coordinate) {
+    const x = Number(coordinate?.x);
+    const y = Number(coordinate?.y);
+    if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+    return { x, y };
+  }
+
+  function getProbeStackCoordinate(rocket, getCoordinate) {
+    const resolved = typeof getCoordinate === "function" ? getCoordinate(rocket) : null;
+    const resolvedCoordinate = normalizeProbeCoordinate(resolved);
+    if (resolvedCoordinate) return resolvedCoordinate;
+    return normalizeProbeCoordinate({ x: rocket?.sectorX, y: rocket?.sectorY });
+  }
+
+  function probeBelongsToPlayer(rocket, playerKeys) {
+    return playerKeys.has(rocket?.playerId)
+      || playerKeys.has(rocket?.color)
+      || playerKeys.has(rocket?.playerColor);
+  }
+
+  function getProbeStackRewardMatch(rockets, player, options = {}) {
+    const playerKeys = getPlayerKeys(player);
+    const sectors = new Map();
+    for (const rocket of rockets || []) {
+      const coordinate = getProbeStackCoordinate(rocket, options.getCoordinate);
+      if (!coordinate) continue;
+      const key = `${coordinate.x}:${coordinate.y}`;
+      if (!sectors.has(key)) {
+        sectors.set(key, {
+          key,
+          coordinate,
+          totalCount: 0,
+          currentPlayerCount: 0,
+          rocketIds: [],
+          currentPlayerRocketIds: [],
+        });
+      }
+      const entry = sectors.get(key);
+      entry.totalCount += 1;
+      if (rocket?.id != null) entry.rocketIds.push(rocket.id);
+      if (probeBelongsToPlayer(rocket, playerKeys)) {
+        entry.currentPlayerCount += 1;
+        if (rocket?.id != null) entry.currentPlayerRocketIds.push(rocket.id);
+      }
+    }
+    const match = [...sectors.values()]
+      .find((entry) => entry.currentPlayerCount >= 1 && entry.totalCount >= 2);
+    if (!match) return Object.freeze({ conditionMet: false });
+    return Object.freeze({
+      conditionMet: true,
+      key: match.key,
+      coordinate: Object.freeze({ ...match.coordinate }),
+      totalCount: match.totalCount,
+      currentPlayerCount: match.currentPlayerCount,
+      rocketIds: Object.freeze([...match.rocketIds]),
+      currentPlayerRocketIds: Object.freeze([...match.currentPlayerRocketIds]),
+    });
+  }
+
+  function hasProbeStackReward(rockets, player, options = {}) {
+    return getProbeStackRewardMatch(rockets, player, options).conditionMet;
+  }
+
   function countTraceMarkers(player, alienGameState, traceType) {
     const mod = getEndGameScoring();
     if (mod) return mod.countTraceMarkers(player, alienGameState, traceType);
@@ -2583,9 +2646,24 @@
     return 0;
   }
 
-  function playerHasPlanetOrbitOrLand(player, planetStatsState, planetId) {
+  function markerMatchesPlayer(marker, playerKeys) {
+    return playerKeys.has(marker?.playerId) || playerKeys.has(marker?.color) || playerKeys.has(marker?.playerColor);
+  }
+
+  function countPlutoMarkers(player, context = {}, kind = "all") {
+    const playerKeys = getPlayerKeys(player);
+    return (context?.plutoMarkers || []).filter((marker) => {
+      if (!markerMatchesPlayer(marker, playerKeys)) return false;
+      if (kind === "orbit") return marker.kind === "orbit";
+      if (kind === "land") return marker.kind === "land";
+      return marker.kind === "orbit" || marker.kind === "land";
+    }).length;
+  }
+
+  function playerHasPlanetOrbitOrLand(player, planetStatsState, planetId, context = {}) {
+    if (planetId === "pluto") return countPlutoMarkers(player, context, "all") > 0;
     const mod = getEndGameScoring();
-    if (mod) return mod.countPlanetOrbitOrLand(player, planetStatsState, planetId) > 0;
+    if (mod) return mod.countPlanetOrbitOrLand(player, planetStatsState, planetId, context) > 0;
     return false;
   }
 
@@ -2720,9 +2798,9 @@
     return false;
   }
 
-  function countPlayerPlanetMarkers(player, planetStatsState, kind = "all") {
+  function countPlayerPlanetMarkers(player, planetStatsState, kind = "all", context = {}) {
     const playerKeys = getPlayerKeys(player);
-    let count = 0;
+    let count = countPlutoMarkers(player, context, kind);
     for (const record of Object.values(planetStatsState?.planets || {})) {
       if (kind === "all" || kind === "orbit") {
         count += (record.orbitMarkers || []).filter((marker) => markerBelongsToPlayer(marker, playerKeys)).length;
@@ -2735,8 +2813,15 @@
     return count;
   }
 
-  function playerHasSamePlanetOrbitAndLand(player, planetStatsState) {
+  function playerHasSamePlanetOrbitAndLand(player, planetStatsState, context = {}) {
     const playerKeys = getPlayerKeys(player);
+    const hasPlutoOrbit = (context?.plutoMarkers || []).some((marker) => (
+      marker.kind === "orbit" && markerMatchesPlayer(marker, playerKeys)
+    ));
+    const hasPlutoLand = (context?.plutoMarkers || []).some((marker) => (
+      marker.kind === "land" && markerMatchesPlayer(marker, playerKeys)
+    ));
+    if (hasPlutoOrbit && hasPlutoLand) return true;
     return Object.values(planetStatsState?.planets || {}).some((record) => {
       const hasOrbit = (record.orbitMarkers || []).some((marker) => markerBelongsToPlayer(marker, playerKeys));
       const hasLand = (record.landingMarkers || []).some((marker) => markerBelongsToPlayer(marker, playerKeys))
@@ -2745,8 +2830,8 @@
     });
   }
 
-  function playerHasAllPlanetOrbitOrLand(player, planetStatsState, planetIds) {
-    return (planetIds || []).every((planetId) => playerHasPlanetOrbitOrLand(player, planetStatsState, planetId));
+  function playerHasAllPlanetOrbitOrLand(player, planetStatsState, planetIds, context = {}) {
+    return (planetIds || []).every((planetId) => playerHasPlanetOrbitOrLand(player, planetStatsState, planetId, context));
   }
 
   function countCompletedSectorColors(player, nebulaDataState) {
@@ -2818,23 +2903,23 @@
       return countOwnedTech(player, condition.techType) >= Number(condition.count || 1);
     }
     if (condition.type === "planetOrbitOrLand") {
-      if (!playerHasPlanetOrbitOrLand(player, context.planetStatsState, condition.planetId)) return false;
+      if (!playerHasPlanetOrbitOrLand(player, context.planetStatsState, condition.planetId, context)) return false;
       return Number(condition.count || 1) <= 1;
     }
     if (condition.type === "planetOrbitOrLandAll") {
-      return playerHasAllPlanetOrbitOrLand(player, context.planetStatsState, condition.planetIds || []);
+      return playerHasAllPlanetOrbitOrLand(player, context.planetStatsState, condition.planetIds || [], context);
     }
     if (condition.type === "samePlanetOrbitAndLand") {
-      return playerHasSamePlanetOrbitAndLand(player, context.planetStatsState);
+      return playerHasSamePlanetOrbitAndLand(player, context.planetStatsState, context);
     }
     if (condition.type === "orbitCount") {
-      return countPlayerPlanetMarkers(player, context.planetStatsState, "orbit") >= Number(condition.count || 1);
+      return countPlayerPlanetMarkers(player, context.planetStatsState, "orbit", context) >= Number(condition.count || 1);
     }
     if (condition.type === "landingCount") {
-      return countPlayerPlanetMarkers(player, context.planetStatsState, "land") >= Number(condition.count || 1);
+      return countPlayerPlanetMarkers(player, context.planetStatsState, "land", context) >= Number(condition.count || 1);
     }
     if (condition.type === "orbitOrLandCount") {
-      return countPlayerPlanetMarkers(player, context.planetStatsState, "all") >= Number(condition.count || 1);
+      return countPlayerPlanetMarkers(player, context.planetStatsState, "all", context) >= Number(condition.count || 1);
     }
     if (condition.type === "distinctSignalSectors") {
       return countDistinctSignalSectors(player, context.nebulaDataState) >= Number(condition.count || 1);
@@ -2976,6 +3061,8 @@
     collectTemporaryTaskRewards,
     countTraceMarkers,
     consolidateCardMoveEffects,
+    getProbeStackRewardMatch,
+    hasProbeStackReward,
     areAllTriggersConsumed,
     getConsumedTriggerIndexes,
   });

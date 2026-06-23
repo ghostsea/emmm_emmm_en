@@ -545,9 +545,19 @@
     return count;
   }
 
-  function countLandingMarkers(player, planetStatsState) {
+  function countPlutoMarkers(player, context = {}, kind = "all") {
     const playerKeys = getPlayerKeys(player);
-    let count = 0;
+    return (context?.plutoMarkers || []).filter((marker) => {
+      if (!markerBelongsToPlayer(marker, playerKeys)) return false;
+      if (kind === "orbit") return marker.kind === "orbit";
+      if (kind === "land") return marker.kind === "land";
+      return marker.kind === "orbit" || marker.kind === "land";
+    }).length;
+  }
+
+  function countLandingMarkers(player, planetStatsState, context = {}) {
+    const playerKeys = getPlayerKeys(player);
+    let count = countPlutoMarkers(player, context, "land");
     for (const planet of Object.values(planetStatsState?.planets || {})) {
       count += (planet.landingMarkers || []).filter((marker) => markerBelongsToPlayer(marker, playerKeys)).length;
       count += (planet.satelliteLandings || []).filter((marker) => markerBelongsToPlayer(marker, playerKeys)).length;
@@ -555,9 +565,9 @@
     return count;
   }
 
-  function maxSamePlanetOrbitOrLand(player, planetStatsState) {
+  function maxSamePlanetOrbitOrLand(player, planetStatsState, context = {}) {
     const playerKeys = getPlayerKeys(player);
-    let max = 0;
+    let max = countPlutoMarkers(player, context, "all");
     for (const planet of Object.values(planetStatsState?.planets || {})) {
       const count = [
         ...(planet.orbitMarkers || []),
@@ -649,7 +659,7 @@
       case "jiuzheTraceCount":
         return countJiuzheTraces(context.alienGameState, player) >= condition.count;
       case "samePlanetOrbitOrLand":
-        return maxSamePlanetOrbitOrLand(player, context.planetStatsState) >= condition.count;
+        return maxSamePlanetOrbitOrLand(player, context.planetStatsState, context) >= condition.count;
       case "sectorWinsByColor":
         return countSectorWinsByColor(player, context.nebulaDataState, condition.color) >= condition.count;
       case "techCount":
@@ -657,13 +667,13 @@
       case "totalIncome":
         return countTotalIncome(player) >= condition.count;
       case "landingCount":
-        return countLandingMarkers(player, context.planetStatsState) >= condition.count;
+        return countLandingMarkers(player, context.planetStatsState, context) >= condition.count;
       case "sameColorTraceCount":
         return TRACE_TYPES.some((traceType) => countAllTraceMarkersByColor(player, context.alienGameState, traceType) >= condition.count);
       case "otherAlienTraceCount":
         return countOtherAlienTraces(player, context.alienGameState) >= condition.count;
       case "orbitCount":
-        return countOrbitMarkers(player, context.planetStatsState) >= condition.count;
+        return countOrbitMarkers(player, context.planetStatsState) + countPlutoMarkers(player, context, "orbit") >= condition.count;
       case "completedTasks":
         return (Number(player?.completedTaskCount) || 0) >= condition.count;
       default:

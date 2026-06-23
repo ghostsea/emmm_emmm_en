@@ -64,6 +64,7 @@
         undoable: meta.undoable !== false && !irreversibleReason,
         irreversibleCode: meta.irreversibleCode || meta.irreversible?.code || null,
         irreversibleReason,
+        playedCard: meta.playedCard || null,
         logBefore: meta.logBefore || null,
         commands: [],
       };
@@ -265,6 +266,7 @@
         undoable: step.undoable,
         irreversibleCode: step.irreversibleCode,
         irreversibleReason: step.irreversibleReason,
+        playedCard: step.playedCard,
         commandCount: step.commands.length,
         commands: step.commands.map((command) => command.describe),
       }));

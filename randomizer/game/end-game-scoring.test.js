@@ -49,6 +49,37 @@ const bTile = endGameScoring.computePlayerTileScore(state, white, tileContext).t
   .find((entry) => entry.tileId === "b");
 assert.equal(bTile.formulaId, "b2");
 
+assert.equal(
+  endGameScoring.countPlanetOrbitOrLand(white, { planets: {} }, "pluto", {
+    plutoMarkers: [
+      { kind: "orbit", planetId: "pluto", playerId: "player-white" },
+      { kind: "land", planetId: "pluto", playerId: "player-white" },
+    ],
+  }),
+  2,
+  "Pluto orbit/land markers should count as that player's planet markers",
+);
+assert.equal(
+  endGameScoring.countOrbitOrLandMarkers(white, { planets: {} }, {
+    plutoMarkers: [
+      { kind: "orbit", planetId: "pluto", playerId: "player-white" },
+      { kind: "land", planetId: "pluto", playerId: "player-white" },
+    ],
+  }),
+  2,
+  "global orbit/land marker count should include Pluto",
+);
+assert.equal(
+  endGameScoring.countPlanetLandingPairs(white, { planets: {} }, 2, {
+    plutoMarkers: [
+      { kind: "land", planetId: "pluto", playerId: "player-white", sequence: 1 },
+      { kind: "land", planetId: "pluto", playerId: "player-white", sequence: 2 },
+    ],
+  }),
+  1,
+  "duplicate Pluto landings should count as same-planet landing pairs",
+);
+
 const slotThreeState = finalScoring.createFinalScoringState(["c"]);
 finalScoring.setTileVariants(slotThreeState, { c: 1 });
 const slotThreePlayer = player({

@@ -6,6 +6,7 @@
   const rocketActions = window.SetiRocketActions;
   const planetStats = window.SetiPlanetStats;
   const planetReferenceLayout = window.SetiPlanetReferenceLayout;
+  const actionShared = window.SetiActionShared;
   const actions = window.SetiActions;
   const scanEffects = window.SetiScanEffects;
   const planetRewards = window.SetiPlanetRewards;
@@ -140,6 +141,16 @@
     aomomoFossils: "奥陌陌化石",
     additionalPublicScan: "额外公共扫描",
     score: "分数",
+  });
+  const ACTION_LOG_DELTA_UNITS = Object.freeze({
+    credits: "信用点",
+    energy: "能量",
+    handSize: "手牌",
+    publicity: "宣传",
+    availableData: "数据",
+    aomomoFossils: "奥陌陌化石",
+    additionalPublicScan: "额外公共扫描",
+    score: "分",
   });
   const ACTION_LOG_RESOURCE_KEYS = Object.freeze([
     "credits",
@@ -549,6 +560,7 @@
     actionLogReadout: document.getElementById("action-log-readout"),
     landTargetOverlay: document.getElementById("land-target-overlay"),
     landTargetTitle: document.getElementById("land-target-title"),
+    landTargetLabel: document.querySelector(".land-target-label"),
     landTargetSelect: document.getElementById("land-target-select"),
     landTargetConfirm: document.getElementById("land-target-confirm"),
     landTargetCancel: document.getElementById("land-target-cancel"),
@@ -4860,9 +4872,53 @@
       .trim();
   }
 
+  function compactActionLogText(text) {
+    return normalizeActionLogText(text).replace(/\s+/g, "");
+  }
+
+  function createActionLogPlayedCardSnapshot(card) {
+    if (!card) return null;
+    const label = normalizeActionLogText(card.label || cards.getCardLabel(card));
+    const src = card.src || null;
+    if (!label && !src) return null;
+    return {
+      id: card.id || null,
+      cardId: card.cardId || null,
+      label,
+      cardName: card.cardName || label,
+      src,
+    };
+  }
+
+  function getActionLogDetailPartRedundantKey(part) {
+    const segments = normalizeActionLogText(part)
+      .split(/[：:]/)
+      .map((segment) => compactActionLogText(segment).replace(/奖励/g, ""))
+      .filter(Boolean);
+    if (segments.length < 3) return "";
+    const key = `${segments[0]}${segments[1]}`;
+    return key.length >= 4 ? key : "";
+  }
+
+  function simplifyActionLogDetailForLabel(label, detail) {
+    const cleanDetail = normalizeActionLogText(detail);
+    if (!cleanDetail) return "";
+    const compactLabel = compactActionLogText(label).replace(/奖励/g, "");
+    if (!compactLabel) return cleanDetail;
+    const parts = cleanDetail
+      .split("；")
+      .map(normalizeActionLogText)
+      .filter(Boolean)
+      .filter((part) => {
+        const redundantKey = getActionLogDetailPartRedundantKey(part);
+        return !redundantKey || !compactLabel.includes(redundantKey);
+      });
+    return parts.join("；");
+  }
+
   function composeActionLogStepText(label, detail) {
     const cleanLabel = normalizeActionLogText(label);
-    const cleanDetail = normalizeActionLogText(detail);
+    const cleanDetail = simplifyActionLogDetailForLabel(cleanLabel, detail);
     if (!cleanDetail || cleanDetail === cleanLabel) return cleanLabel || "行动效果";
     if (cleanDetail.startsWith(`${cleanLabel}：`) || cleanDetail.startsWith(`${cleanLabel}:`)) {
       return cleanDetail;
@@ -4883,6 +4939,7 @@
       undoable: options.undoable !== false,
       irreversibleCode: options.irreversibleCode || null,
       irreversibleReason: normalizeActionLogText(options.irreversibleReason),
+      playedCard: createActionLogPlayedCardSnapshot(options.playedCard),
     };
   }
 
@@ -4892,6 +4949,7 @@
       undoable: step.undoable !== false,
       irreversibleCode: step.irreversibleCode || null,
       irreversibleReason: step.irreversibleReason || null,
+      playedCard: step.playedCard || null,
     };
   }
 
@@ -4918,46 +4976,84 @@
     return `${rounded > 0 ? "+" : ""}${rounded}`;
   }
 
-  function formatActionLogDeltaGroup(before = {}, after = {}, keys = [], labels = {}) {
-    const parts = [];
+  function createActionLogDeltaEntries(before = {}, after = {}, keys = [], labels = {}) {
+    const entries = [];
     for (const key of keys) {
       const delta = (Number(after?.[key]) || 0) - (Number(before?.[key]) || 0);
       if (!delta) continue;
-      parts.push(`${labels[key] || key}${formatSignedDelta(delta)}`);
+      const label = labels[key] || key;
+      entries.push({
+        key,
+        label,
+        delta,
+        text: `${label}${formatSignedDelta(delta)}`,
+      });
     }
-    return parts;
+    return entries;
   }
 
-  function formatActionLogImpact(before, after = createActionLogImpactSnapshot()) {
+  function formatActionLogDeltaGroup(before = {}, after = {}, keys = [], labels = {}) {
+    return createActionLogDeltaEntries(before, after, keys, labels).map((entry) => entry.text);
+  }
+
+  function isActionLogDeltaRepresentedInDetail(detail, entry) {
+    const compactDetail = compactActionLogText(detail);
+    if (!compactDetail || !entry?.delta) return false;
+    const absDelta = Math.abs(entry.delta);
+    const sign = entry.delta > 0 ? "+" : "-";
+    const label = compactActionLogText(entry.label);
+    const unit = compactActionLogText(ACTION_LOG_DELTA_UNITS[entry.key] || entry.label);
+    const candidates = [
+      `${label}${sign}${absDelta}`,
+      `${sign}${absDelta}${label}`,
+    ];
+    if (entry.delta > 0) {
+      candidates.push(`${label}+${absDelta}`);
+      if (unit) {
+        candidates.push(`${absDelta}${unit}`, `+${absDelta}${unit}`, `获得${absDelta}${unit}`);
+      }
+    } else if (unit) {
+      candidates.push(`-${absDelta}${unit}`, `支付${absDelta}${unit}`, `消耗${absDelta}${unit}`);
+    }
+    return candidates.some((candidate) => candidate && compactDetail.includes(candidate));
+  }
+
+  function formatActionLogImpact(before, after = createActionLogImpactSnapshot(), options = {}) {
     if (!before || !after) return "";
     if (before.playerId && after.playerId && before.playerId !== after.playerId) return "";
 
     const groups = [];
-    const resourceParts = formatActionLogDeltaGroup(
+    const detailText = normalizeActionLogText(options.detailText);
+    const resourceEntries = createActionLogDeltaEntries(
       before.resources,
       after.resources,
       ACTION_LOG_RESOURCE_KEYS,
       INCOME_GAIN_LABELS,
-    );
+    ).filter((entry) => !isActionLogDeltaRepresentedInDetail(detailText, entry));
+    const resourceParts = resourceEntries.map((entry) => entry.text);
     if (resourceParts.length) groups.push(`资源：${resourceParts.join("、")}`);
 
-    const incomeParts = formatActionLogDeltaGroup(
+    const incomeEntries = createActionLogDeltaEntries(
       before.income,
       after.income,
       ACTION_LOG_INCOME_KEYS,
       INCOME_GAIN_LABELS,
-    );
+    ).filter((entry) => !isActionLogDeltaRepresentedInDetail(detailText, entry));
+    const incomeParts = incomeEntries.map((entry) => entry.text);
     if (incomeParts.length) groups.push(`收入：${incomeParts.join("、")}`);
 
     const taskDelta = (Number(after.completedTaskCount) || 0) - (Number(before.completedTaskCount) || 0);
-    if (taskDelta) groups.push(`完成任务${formatSignedDelta(taskDelta)}`);
+    if (taskDelta && !compactActionLogText(detailText).includes(`完成任务${formatSignedDelta(taskDelta)}`)) {
+      groups.push(`完成任务${formatSignedDelta(taskDelta)}`);
+    }
 
     return groups.join("；");
   }
 
   function composeActionLogDetailWithImpact(detail, step) {
-    const cleanDetail = normalizeActionLogText(detail);
-    const impact = formatActionLogImpact(step?.logBefore);
+    const cleanDetail = simplifyActionLogDetailForLabel(step?.label, detail);
+    const impactContext = `${normalizeActionLogText(step?.label)}；${cleanDetail}`;
+    const impact = formatActionLogImpact(step?.logBefore, undefined, { detailText: impactContext });
     if (!impact) return cleanDetail || null;
     if (cleanDetail && cleanDetail.includes(impact)) return cleanDetail;
     return cleanDetail ? `${cleanDetail}；${impact}` : impact;
@@ -5392,6 +5488,7 @@
         undoable: step.undoable !== false,
         irreversibleCode: step.irreversibleCode || null,
         irreversibleReason: normalizeActionLogText(step.irreversibleReason),
+        playedCard: createActionLogPlayedCardSnapshot(step.playedCard),
       })).filter((step) => step.text),
     };
     attachRecoverySnapshotToActionLogEntry(entry, entry.title || "已确认日志后状态");
@@ -5403,6 +5500,74 @@
 
   function getActionLogEntryTitle(entry) {
     return entry.title || `第${entry.roundNumber}轮 第${entry.turnNumber}回合`;
+  }
+
+  function formatActionLogIrreversibleSuffix(step) {
+    const reason = normalizeActionLogText(step?.irreversibleReason);
+    if (!reason) return "";
+    const compactReason = compactActionLogText(reason);
+    const targets = [step?.text, step?.detail, step?.label]
+      .map(compactActionLogText)
+      .filter(Boolean);
+    const isDuplicate = targets.some((target) => (
+      target === compactReason
+      || target.endsWith(`：${compactReason}`)
+      || target.endsWith(`:${compactReason}`)
+    ));
+    return isDuplicate ? "（不可撤销）" : `（不可撤销：${reason}）`;
+  }
+
+  function appendActionLogTextWithPlayedCard(container, text, playedCard) {
+    const card = createActionLogPlayedCardSnapshot(playedCard);
+    if (!card?.label) {
+      container.append(document.createTextNode(text));
+      return;
+    }
+    const matchIndex = text.indexOf(card.label);
+    if (matchIndex < 0) {
+      container.append(document.createTextNode(text));
+      return;
+    }
+    if (matchIndex > 0) {
+      container.append(document.createTextNode(text.slice(0, matchIndex)));
+    }
+
+    const cardNode = document.createElement("span");
+    cardNode.className = "action-log-played-card";
+    cardNode.tabIndex = 0;
+    cardNode.setAttribute("role", "img");
+    cardNode.setAttribute("aria-label", `打出卡牌：${card.label}`);
+
+    const name = document.createElement("span");
+    name.className = "action-log-played-card-name";
+    name.textContent = card.label;
+
+    const preview = document.createElement("span");
+    preview.className = "action-log-card-preview";
+    preview.setAttribute("aria-hidden", "true");
+    const image = document.createElement("img");
+    image.src = card.src || players.CARD_BACK_SRC;
+    image.alt = "";
+    image.width = 747;
+    image.height = 1040;
+    image.decoding = "async";
+    preview.append(image);
+    cardNode.append(name, preview);
+    container.append(cardNode);
+
+    const endIndex = matchIndex + card.label.length;
+    if (endIndex < text.length) {
+      container.append(document.createTextNode(text.slice(endIndex)));
+    }
+  }
+
+  function createActionLogEffectTextNode(step) {
+    const text = document.createElement("span");
+    text.className = "action-log-effect-text";
+    const sourceLabel = ACTION_LOG_SOURCE_LABELS[step.source] || "行动";
+    const line = `${sourceLabel}：${step.text}${formatActionLogIrreversibleSuffix(step)}`;
+    appendActionLogTextWithPlayedCard(text, line, step.playedCard);
+    return text;
   }
 
   function createActionLogEntryElement(entry) {
@@ -5437,12 +5602,7 @@
       indexNode.className = "action-log-effect-index";
       indexNode.textContent = String(index + 1);
 
-      const text = document.createElement("span");
-      text.className = "action-log-effect-text";
-      const sourceLabel = ACTION_LOG_SOURCE_LABELS[step.source] || "行动";
-      text.textContent = `${sourceLabel}：${step.text}${
-        step.irreversibleReason ? `（不可撤销：${step.irreversibleReason}）` : ""
-      }`;
+      const text = createActionLogEffectTextNode(step);
 
       item.append(indexNode, text);
       list.append(item);
@@ -10626,6 +10786,7 @@
       type: "action_start",
       label: `打出：${cards.getCardLabel(card)}`,
       effectIndex: -1,
+      playedCard: createActionLogPlayedCardSnapshot(card),
       logBefore: createActionLogImpactSnapshot(beforePlayer),
     });
     effectStepActive = true;
@@ -10692,6 +10853,7 @@
       nebulaDataState,
       alienGameState,
       planetStatsState,
+      ...buildPlutoMarkerContext(),
       probeLocations: probeLocationData.index,
       probeLocationDetails: probeLocationData.details,
       dataTotals: buildPlayerDataTotals(),
@@ -12077,7 +12239,7 @@
   function revertEffectFlowAfterUndo(step) {
     if (!pendingActionEffectFlow || !step) return;
 
-    if (step.type === "action_start" || step.effectIndex === -1) {
+    if (isMainActionOpeningStep(step)) {
       clearActionEffectFlow();
       return;
     }
@@ -13264,11 +13426,14 @@
       }
     }
 
-    return choices;
+    return [...choices, ...buildPlutoMarkerRemovalChoices(owner, markerKinds)];
   }
 
   function removePlanetMarkerForChoice(choice, player, owner = "current") {
     const markerRef = owner === "any" ? {} : { player };
+    if (choice.kind === "plutoOrbit" || choice.kind === "plutoLand") {
+      return removePlutoMarker(choice, player, owner);
+    }
     if (choice.kind === "orbit") {
       return planetStats.removePlanetOrbitMarker(planetStatsState, choice.planetId, {
         sequence: choice.sequence,
@@ -13291,6 +13456,9 @@
     const currentPlayer = getCurrentPlayer();
     beginEffectHistoryStep(effect.label);
     const beforePlanetStats = structuredClone(planetStatsState);
+    const beforePlayerState = choice.kind === "plutoOrbit" || choice.kind === "plutoLand"
+      ? structuredClone(playerState)
+      : null;
     const result = removePlanetMarkerForChoice(choice, currentPlayer, effect.options?.owner || "current");
     if (!result.ok) {
       endEffectHistoryStep();
@@ -13298,17 +13466,25 @@
       renderStateReadout();
       return result;
     }
-    recordHistoryCommand(historyCommands.createRestorePlanetStatsCommand(
-      planetStatsState,
-      beforePlanetStats,
-      "恢复移除星球标记前状态",
-    ));
+    if (beforePlayerState) {
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复移除冥王星标记前玩家状态",
+      ));
+    } else {
+      recordHistoryCommand(historyCommands.createRestorePlanetStatsCommand(
+        planetStatsState,
+        beforePlanetStats,
+        "恢复移除星球标记前状态",
+      ));
+    }
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: true,
       message: `${effect.label}：${choice.label}`,
       payload: { choice, removedMarker: result.marker },
-    }, [syncPlanetOrbitLandMarkers]);
+    }, [syncPlanetOrbitLandMarkers, renderReservedCardsFromTaskState]);
   }
 
   function openRemovePlanetMarkerPicker(effect) {
@@ -13416,22 +13592,47 @@
   function executeCardLandEffect(effect) {
     const context = createActionContext();
     const landOptions = abilities.planet.getLandOptions(context, effect.options || {});
-    if (!landOptions.ok) {
+    const placement = getCurrentPlanetActionPlacement(context);
+    const preferredRocketId = placement?.ok ? placement.rocket?.id : null;
+    const pluto = getAvailablePlutoEffectAction("land", effect, { preferredRocketId });
+    if (!landOptions.ok && !pluto.ok) {
       rocketState.statusNote = landOptions.message;
       renderStateReadout();
       return landOptions;
     }
-    const preOwnLandingMarker = effect.options?.rememberPreLandingOwnMarker
-      ? playerHasOwnLandingOnPlanet(getCurrentPlayer(), landOptions.planet?.planetId)
-      : false;
-    if (landOptions.needsChoice) {
-      openLandTargetPicker({
-        ...landOptions,
-        onConfirm: (choice) => executeCardLandTarget(effect, choice.target, { preOwnLandingMarker }),
-      });
-      return { ok: true, pendingChoice: true, message: "请选择登陆目标" };
+    const currentPlayer = getCurrentPlayer();
+    const choices = [];
+    if (landOptions.ok) {
+      choices.push(...landOptions.choices.map((choice) => ({
+        ...choice,
+        kind: "normal",
+        preOwnLandingMarker: effect.options?.rememberPreLandingOwnMarker
+          ? playerHasOwnLandingOnPlanet(currentPlayer, landOptions.planet?.planetId)
+          : false,
+      })));
     }
-    return executeCardLandTarget(effect, landOptions.defaultTarget, { preOwnLandingMarker });
+    if (pluto.ok) {
+      choices.push({
+        kind: "pluto",
+        label: formatPlutoChoiceLabel("land", pluto),
+        available: pluto,
+        preOwnLandingMarker: effect.options?.rememberPreLandingOwnMarker
+          ? playerHasOwnLandingOnPlanet(currentPlayer, "pluto")
+          : false,
+      });
+    }
+    if (choices.length > 1) {
+      return openCardPlutoActionPicker(effect, "land", choices);
+    }
+    const [choice] = choices;
+    if (choice?.kind === "pluto") {
+      return executePlutoCardActionEffect(effect, "land", choice.available, {
+        preOwnLandingMarker: choice.preOwnLandingMarker,
+      });
+    }
+    return executeCardLandTarget(effect, choice.target, {
+      preOwnLandingMarker: choice.preOwnLandingMarker,
+    });
   }
 
   function executeImprovedEarthSectorScanEffect() {
@@ -13491,11 +13692,170 @@
   }
 
   function playerHasOwnLandingOnPlanet(player, planetId) {
+    if (planetId === "pluto") return playerHasOwnPlutoLanding(player);
     return planetStats.getPlanetLandingMarkers(planetStatsState, planetId)
       .some((marker) => markerBelongsToPlayer(marker, player));
   }
 
-  function executeCardOrbitEffect(effect) {
+  function getPlutoEffectCost(actionType, card, effect) {
+    if (effect.options?.skipCost) return {};
+    return getPlutoActionCost(actionType, card);
+  }
+
+  function getAvailablePlutoEffectAction(actionType, effect, options = {}) {
+    const allowDuplicate = actionType === "land" && Boolean(effect.options?.allowDuplicateLanding);
+    const currentPlayer = getCurrentPlayer();
+    const card = getPlutoReservedCards(currentPlayer).find((item) => {
+      const state = getPlutoActionState(item);
+      if (actionType === "orbit") return !state.orbitDone;
+      return allowDuplicate || !state.landDone;
+    });
+    if (!card) return { ok: false, message: "没有可用的冥王星保留牌" };
+    const rockets = getPlutoCandidateRockets(currentPlayer, options);
+    if (!rockets.length) return { ok: false, message: "没有 y=4 的己方探测器可前往冥王星" };
+    const cost = getPlutoEffectCost(actionType, card, effect);
+    if (!players.canAfford(currentPlayer, cost)) {
+      return { ok: false, message: `资源不足，需要 ${players.formatResourceCost(cost)}` };
+    }
+    return { ok: true, card, rocket: rockets[0], cost, allowDuplicate };
+  }
+
+  function canExecuteNormalCardOrbit(effect, context) {
+    const placement = getCurrentPlanetActionPlacement(context);
+    if (!placement.ok) return { ok: false, message: placement.message };
+    const cost = effect.options?.skipCost ? {} : abilities.planet.DEFAULT_ORBIT_COST;
+    if (!players.canAfford(placement.currentPlayer, cost)) {
+      return { ok: false, message: `资源不足，需要 ${players.formatResourceCost(cost)}` };
+    }
+    const isAomomoPlanet = placement.planet.planetId === aomomo?.PLANET_ID;
+    if (isAomomoPlanet) {
+      if (!aomomo?.canAddOrbitMarker?.(alienGameState)) {
+        return { ok: false, message: `${placement.planet.name} 环绕槽位已满` };
+      }
+    } else if (!planetStats.canAddOrbitMarker(planetStatsState, placement.planet.planetId)) {
+      return { ok: false, message: `${placement.planet.name} 环绕槽位已满` };
+    }
+    return { ok: true, planet: placement.planet, placement };
+  }
+
+  function buildPlutoRewardEffectsForAction(actionType) {
+    return actionType === "orbit"
+      ? [
+        { id: "pluto-orbit-score", type: "gain_resources", label: "冥王星环绕：11分+3宣传", icon: "score", options: { gain: { score: 11, publicity: 3 } } },
+        { id: "pluto-orbit-trace", type: "alien_trace", label: "冥王星环绕：任意外星人痕迹", icon: "alien_trace", options: {} },
+      ]
+      : [
+        { id: "pluto-land-score", type: "gain_resources", label: "冥王星登陆：11分", icon: "score", options: { gain: { score: 11 } } },
+        { id: "pluto-land-data", type: "gain_data", label: "冥王星登陆：4数据", icon: "data", options: { count: 4 } },
+        { id: "pluto-land-trace", type: "alien_trace", label: "冥王星登陆：黄色外星人痕迹", icon: "alien_yellow", options: { allowedTraceTypes: ["yellow"] } },
+      ];
+  }
+
+  function executePlutoCardActionEffect(effect, actionType, available, contextInfo = {}) {
+    const currentPlayer = getCurrentPlayer();
+    beginEffectHistoryStep(effect.label);
+    const beforePlayer = structuredClone(currentPlayer);
+    const beforeRocketState = structuredClone(rocketState);
+    const beforeCard = structuredClone(available.card);
+    const spendResult = players.spendResources(currentPlayer, available.cost);
+    if (!spendResult.ok) {
+      endEffectHistoryStep();
+      rocketState.statusNote = spendResult.message;
+      renderStateReadout();
+      return spendResult;
+    }
+    const removeResult = rocketActions.removeRocket(rocketState, available.rocket.id);
+    if (!removeResult.ok) {
+      restoreMutableObject(currentPlayer, beforePlayer);
+      endEffectHistoryStep();
+      rocketState.statusNote = removeResult.message;
+      renderStateReadout();
+      return removeResult;
+    }
+    const markerResult = addPlutoMarker(available.card, actionType, currentPlayer, {
+      allowDuplicate: available.allowDuplicate,
+      rocket: available.rocket,
+    });
+    if (!markerResult.ok) {
+      restoreMutableObject(currentPlayer, beforePlayer);
+      restoreMutableObject(rocketState, beforeRocketState);
+      endEffectHistoryStep();
+      rocketState.statusNote = markerResult.message;
+      renderStateReadout();
+      return markerResult;
+    }
+    if (actionType === "orbit") {
+      players.incrementPlayerOrbitCount(playerState, currentPlayer.id);
+    }
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      currentPlayer,
+      beforePlayer,
+      "恢复冥王星卡牌行动前玩家状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestoreRocketStateCommand(
+      rocketState,
+      beforeRocketState,
+      "恢复冥王星卡牌行动前探测器状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+      available.card,
+      beforeCard,
+      "恢复冥王星卡牌行动前卡牌状态",
+    ));
+    if (pendingActionEffectFlow && actionType === "land") {
+      pendingActionEffectFlow.lastLanding = {
+        planetId: "pluto",
+        sectorX: markerResult.marker.sectorX,
+        hadOwnLandingMarker: Boolean(contextInfo.preOwnLandingMarker),
+      };
+    }
+    removeRocketElement(available.rocket.id);
+    const result = {
+      ok: true,
+      undoable: true,
+      message: `${effect.label}：${actionType === "orbit" ? "环绕" : "登陆"}冥王星，消耗 ${players.formatResourceCost(available.cost) || "0"}，移除 R${available.rocket.id}`,
+      events: [{
+        type: actionType,
+        planetId: "pluto",
+        markerKind: actionType === "orbit" ? "pluto-orbit" : "pluto-land",
+        playerId: currentPlayer.id,
+        playerColor: currentPlayer.color,
+        source: "card",
+      }],
+      removedRocketId: available.rocket.id,
+      planetId: "pluto",
+      markerKind: actionType === "orbit" ? "pluto-orbit" : "pluto-land",
+      markerSequence: markerResult.marker.sequence,
+      cost: available.cost,
+    };
+    const rewardEffects = effect.options?.grantRewards === false
+      ? []
+      : buildPlutoRewardEffectsForAction(actionType);
+    if (actionType === "land") {
+      const afterLandRewards = (effect.options?.afterLandRewards || [])
+        .filter((reward) => (reward.planetIds || []).includes("pluto"))
+        .map((reward) => reward.effect)
+        .filter(Boolean);
+      if (afterLandRewards.length) rewardEffects.push(...afterLandRewards);
+    }
+    if (rewardEffects.length) insertActionEffectsAfterCurrent(rewardEffects);
+    effect.result = {
+      ...result,
+      message: rewardEffects.length
+        ? `${result.message}；追加 ${rewardEffects.length} 个地点奖励`
+        : result.message,
+      payload: { ...(result.payload || {}), rewardCount: rewardEffects.length },
+    };
+    rocketState.statusNote = effect.result.message;
+    renderRockets();
+    renderReservedCardsFromTaskState();
+    renderPlayerStats();
+    completeCurrentActionEffect();
+    renderStateReadout();
+    return effect.result;
+  }
+
+  function executeNormalCardOrbitEffect(effect) {
     beginEffectHistoryStep(effect.label);
     const result = abilities.executeAbility("orbitProbe", createActionContext(), {
       ...(effect.options || {}),
@@ -13526,6 +13886,46 @@
     completeCurrentActionEffect();
     renderStateReadout();
     return effect.result;
+  }
+
+  function openCardPlutoActionPicker(effect, actionType, choices, options = {}) {
+    openLandTargetPicker({
+      title: `选择${getPlutoChoiceActionLabel(actionType)}目标`,
+      selectLabel: `${getPlutoChoiceActionLabel(actionType)}到`,
+      confirmText: `确认${getPlutoChoiceActionLabel(actionType)}`,
+      planet: { planetId: `card-pluto-${actionType}`, name: `${getPlutoChoiceActionLabel(actionType)}目标` },
+      choices,
+      getOptions: () => ({ ok: true, choices }),
+      onConfirm: (choice) => {
+        if (choice.kind === "pluto") {
+          return executePlutoCardActionEffect(effect, actionType, choice.available, {
+            preOwnLandingMarker: choice.preOwnLandingMarker,
+          });
+        }
+        if (actionType === "orbit") return executeNormalCardOrbitEffect(effect);
+        return executeCardLandTarget(effect, choice.target, {
+          preOwnLandingMarker: choice.preOwnLandingMarker,
+        });
+      },
+    });
+    rocketState.statusNote = `请选择${getPlutoChoiceActionLabel(actionType)}目标`;
+    renderStateReadout();
+    return { ok: true, pendingChoice: true, message: rocketState.statusNote };
+  }
+
+  function executeCardOrbitEffect(effect) {
+    const context = createActionContext();
+    const normal = canExecuteNormalCardOrbit(effect, context);
+    const preferredRocketId = normal?.placement?.rocket?.id || null;
+    const pluto = getAvailablePlutoEffectAction("orbit", effect, { preferredRocketId });
+    if (normal.ok && pluto.ok) {
+      return openCardPlutoActionPicker(effect, "orbit", [
+        { kind: "normal", label: `环绕${normal.planet?.name || "当前星球"}` },
+        { kind: "pluto", label: formatPlutoChoiceLabel("orbit", pluto), available: pluto },
+      ]);
+    }
+    if (!normal.ok && pluto.ok) return executePlutoCardActionEffect(effect, "orbit", pluto);
+    return executeNormalCardOrbitEffect(effect);
   }
 
   function returnPlayedCardToHandFromDiscard(effect) {
@@ -14177,6 +14577,15 @@
         });
       }
     }
+    for (const choice of buildPlutoMarkerRemovalChoices("current", new Set(["orbit"]))) {
+      if (choice.sectorX == null || choice.sectorY == null) continue;
+      choices.push({
+        ...choice,
+        id: `pluto:${choice.cardId}:${choice.sequence}`,
+        kind: "plutoOrbit",
+        label: `${choice.label}`,
+      });
+    }
     return choices;
   }
 
@@ -14214,36 +14623,54 @@
     if (!choice) return { ok: false, message: "无效环绕标记" };
     const currentPlayer = getCurrentPlayer();
     beginEffectHistoryStep(effect.label);
+    const isPlutoChoice = choice.kind === "plutoOrbit";
     const beforePlanetStats = structuredClone(planetStatsState);
+    const beforePlayerState = isPlutoChoice ? structuredClone(playerState) : null;
     const beforeRocketState = structuredClone(rocketState);
-    const remove = planetStats.removePlanetOrbitMarker(planetStatsState, choice.planetId, {
-      sequence: choice.sequence,
-      player: currentPlayer,
-    });
+    const remove = isPlutoChoice
+      ? removePlutoMarker(choice, currentPlayer, "current")
+      : planetStats.removePlanetOrbitMarker(planetStatsState, choice.planetId, {
+        sequence: choice.sequence,
+        player: currentPlayer,
+      });
     if (!remove.ok) {
       endEffectHistoryStep();
       rocketState.statusNote = remove.message;
       renderStateReadout();
       return remove;
     }
-    const coordinate = getPlanetSectorCoordinate(choice.planetId);
+    const coordinate = isPlutoChoice
+      ? { x: choice.sectorX, y: choice.sectorY }
+      : getPlanetSectorCoordinate(choice.planetId);
     const place = rocketActions.launchRocketAtSector(rocketState, coordinate, {
       playerId: currentPlayer.id,
       color: currentPlayer.color,
     });
     if (!place.ok) {
-      Object.assign(planetStatsState, beforePlanetStats);
+      if (isPlutoChoice && beforePlayerState) {
+        restoreMutableObject(playerState, beforePlayerState);
+      } else {
+        Object.assign(planetStatsState, beforePlanetStats);
+      }
       Object.assign(rocketState, beforeRocketState);
       endEffectHistoryStep();
       rocketState.statusNote = place.message;
       renderStateReadout();
       return place;
     }
-    recordHistoryCommand(historyCommands.createRestorePlanetStatsCommand(
-      planetStatsState,
-      beforePlanetStats,
-      "恢复移除环绕放置探测器前星球状态",
-    ));
+    if (isPlutoChoice && beforePlayerState) {
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复移除冥王星环绕放置探测器前玩家状态",
+      ));
+    } else {
+      recordHistoryCommand(historyCommands.createRestorePlanetStatsCommand(
+        planetStatsState,
+        beforePlanetStats,
+        "恢复移除环绕放置探测器前星球状态",
+      ));
+    }
     recordHistoryCommand(historyCommands.createRestoreRocketStateCommand(
       rocketState,
       beforeRocketState,
@@ -14256,7 +14683,7 @@
       undoable: true,
       message: `${effect.label}：${choice.label} -> ${place.message}`,
       payload: { choice, rocketId: place.rocket?.id || null },
-    });
+    }, [renderReservedCardsFromTaskState]);
   }
 
   function isReservedTaskCardUnfinished(card) {
@@ -14451,21 +14878,18 @@
 
   function executeProbeStackRewardEffect(effect) {
     const currentPlayer = getCurrentPlayer();
-    const counts = new Map();
-    for (const rocket of rocketState.rockets || []) {
-      if (rocket.playerId !== currentPlayer?.id) continue;
-      const coordinate = rocketActions.getRocketSectorCoordinate(rocket);
-      if (!coordinate) continue;
-      const key = `${coordinate.x}:${coordinate.y}`;
-      counts.set(key, (counts.get(key) || 0) + 1);
-    }
-    const met = [...counts.values()].some((count) => count >= 2);
+    const match = cardEffects.getProbeStackRewardMatch(rocketState.rockets || [], currentPlayer, {
+      getCoordinate: (rocket) => rocketActions.getRocketSectorCoordinate(rocket),
+    });
+    const met = Boolean(match.conditionMet);
     if (met) insertActionEffectsAfterCurrent(effect.options?.rewards || []);
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: true,
-      message: met ? `${effect.label}：条件满足，已追加奖励` : `${effect.label}：条件未满足`,
-      payload: { conditionMet: met },
+      message: met
+        ? `${effect.label}：扇区[${match.coordinate.x},${match.coordinate.y}]有 ${match.totalCount} 个探测器，已追加奖励`
+        : `${effect.label}：条件未满足`,
+      payload: match,
     });
   }
 
@@ -15017,7 +15441,7 @@
   function executePlutoReserveEffect(effect) {
     const card = pendingActionEffectFlow?.card;
     if (card) {
-      cardEffects.ensureCardEffectState(card).pluto = {
+      ensurePlutoCardEffectState(card).pluto = {
         ...(card.cardEffectState?.pluto || {}),
         orbitDone: Boolean(card.cardEffectState?.pluto?.orbitDone),
         landDone: Boolean(card.cardEffectState?.pluto?.landDone),
@@ -22170,7 +22594,11 @@
     );
     rocketState.statusNote = rewardResult.ok ? rewardResult.message : result.message;
     const traceEvents = !inDebugMode
-      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, runezu.ALIEN_ID)]
+      ? [{
+        ...buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, runezu.ALIEN_ID),
+        alienTraceOrigin: runezu.TRACE_EVENT_ORIGIN,
+        tracePosition: Number(position),
+      }]
       : [];
     const alienLabRestore = maybeRestoreAlienLabPanelForTrace(currentPlayer, traceType);
     if (alienLabRestore?.changed) {
@@ -23789,6 +24217,7 @@
         nebulaDataState,
         alienGameState,
         planetStatsState,
+        ...buildPlutoMarkerContext(),
         probeLocations: probeLocationData.index,
         probeLocationDetails: probeLocationData.details,
         cardEffects,
@@ -23853,7 +24282,7 @@
   function createOpponentSummaryRow(player) {
     const row = createOpponentStatRow("opponent-stat-row-summary");
     const orbitLandCount = endGameScoring?.countOrbitOrLandMarkers
-      ? endGameScoring.countOrbitOrLandMarkers(player, planetStatsState)
+      ? endGameScoring.countOrbitOrLandMarkers(player, planetStatsState, buildPlutoMarkerContext())
       : 0;
 
     row.append(createStatIcon("环绕登陆", orbitLandCount, RESOURCE_ICON_SRC.orbitOrLand));
@@ -24270,8 +24699,12 @@
     if (cardEffects.getCardModel?.(card)?.pluto) {
       const state = getPlutoActionState(card);
       const badge = document.createElement("span");
-      badge.className = "reserved-card-trigger-badge";
-      badge.textContent = `${state.orbitDone ? "已环绕" : "可环绕"} / ${state.landDone ? "已登陆" : "可登陆"}`;
+      badge.className = "reserved-card-trigger-badge reserved-card-pluto-status-badge";
+      const orbitLine = document.createElement("span");
+      orbitLine.textContent = state.orbitDone ? "已环绕" : "可环绕";
+      const landLine = document.createElement("span");
+      landLine.textContent = state.landDone ? "已登陆" : "可登陆";
+      badge.append(orbitLine, landLine);
       button.append(badge);
     }
 
@@ -25765,6 +26198,7 @@
         nebulaDataState,
         alienGameState,
         planetStatsState,
+        ...buildPlutoMarkerContext(),
         probeLocations: probeLocationData.index,
         probeLocationDetails: probeLocationData.details,
         cardEffects,
@@ -25904,17 +26338,196 @@
     return (player?.reservedCards || []).filter((card) => cardEffects.getCardModel?.(card)?.pluto);
   }
 
+  function getAllPlutoReservedCardEntries() {
+    return (playerState.players || []).flatMap((player) => (
+      getPlutoReservedCards(player).map((card) => ({ player, card }))
+    ));
+  }
+
+  function ensurePlutoCardEffectState(card) {
+    if (!card) return null;
+    let state = cardEffects.ensureCardEffectState(card);
+    if (!state) {
+      const modelCardId = cardEffects.getCardId?.(card) || card.cardId || card.id || "b_139.webp";
+      if (!card.cardEffectState || card.cardEffectState.modelCardId !== modelCardId) {
+        card.cardEffectState = {
+          modelCardId,
+          consumedTriggerIds: [],
+          completedTaskIds: [],
+        };
+      }
+      state = card.cardEffectState;
+    }
+    if (!Array.isArray(state.consumedTriggerIds)) state.consumedTriggerIds = [];
+    if (!Array.isArray(state.completedTaskIds)) state.completedTaskIds = [];
+    if (!state.pluto) state.pluto = {};
+    const pluto = state.pluto;
+    if (!Array.isArray(pluto.orbitMarkers)) {
+      const orbitCount = Math.max(0, Math.round(Number(pluto.orbitCount) || (pluto.orbitDone ? 1 : 0)));
+      pluto.orbitMarkers = Array.from({ length: orbitCount }, (_, index) => ({
+        kind: "orbit",
+        sequence: index + 1,
+      }));
+    }
+    if (!Array.isArray(pluto.landingMarkers)) {
+      const landCount = Math.max(0, Math.round(Number(pluto.landCount) || (pluto.landDone ? 1 : 0)));
+      pluto.landingMarkers = Array.from({ length: landCount }, (_, index) => ({
+        kind: "land",
+        sequence: index + 1,
+      }));
+    }
+    pluto.orbitDone = pluto.orbitMarkers.length > 0;
+    pluto.landDone = pluto.landingMarkers.length > 0;
+    pluto.orbitCount = pluto.orbitMarkers.length;
+    pluto.landCount = pluto.landingMarkers.length;
+    return state;
+  }
+
   function getPlutoActionState(card) {
-    const state = cardEffects.ensureCardEffectState(card);
-    if (!state.pluto) state.pluto = { orbitDone: false, landDone: false };
+    const state = ensurePlutoCardEffectState(card);
+    if (!state) return { orbitDone: false, landDone: false };
     return state.pluto;
   }
 
-  function getPlutoCandidateRockets(player = getCurrentPlayer()) {
-    return (rocketState.rockets || []).filter((rocket) => {
+  function getNextPlutoMarkerSequence(markers) {
+    return (markers || []).reduce((max, marker) => Math.max(max, Math.round(Number(marker.sequence) || 0)), 0) + 1;
+  }
+
+  function getPlutoMarkerSector(rocket) {
+    const coordinate = rocketActions.getRocketSectorCoordinate(rocket);
+    return coordinate ? { sectorX: coordinate.x, sectorY: coordinate.y } : {};
+  }
+
+  function addPlutoMarker(card, actionType, player, options = {}) {
+    const state = getPlutoActionState(card);
+    const list = actionType === "orbit" ? state.orbitMarkers : state.landingMarkers;
+    if (!options.allowDuplicate && list.length > 0) {
+      return { ok: false, message: actionType === "orbit" ? "冥王星已环绕" : "冥王星已登陆" };
+    }
+    const marker = {
+      kind: actionType,
+      planetId: "pluto",
+      sequence: getNextPlutoMarkerSequence(list),
+      playerId: player?.id || null,
+      playerColor: player?.color || null,
+      color: player?.color || null,
+      cardId: card?.id || null,
+      ...getPlutoMarkerSector(options.rocket),
+    };
+    list.push(marker);
+    state.orbitDone = state.orbitMarkers.length > 0;
+    state.landDone = state.landingMarkers.length > 0;
+    state.orbitCount = state.orbitMarkers.length;
+    state.landCount = state.landingMarkers.length;
+    return { ok: true, marker };
+  }
+
+  function removePlutoMarker(choice, player, owner = "current") {
+    const entry = getAllPlutoReservedCardEntries().find((item) => item.card.id === choice.cardId);
+    if (!entry) return { ok: false, message: "没有可移除的冥王星标记" };
+    if (owner !== "any" && entry.player?.id !== player?.id) {
+      return { ok: false, message: "只能移除自己的冥王星标记" };
+    }
+    const state = getPlutoActionState(entry.card);
+    const list = choice.kind === "plutoOrbit" ? state.orbitMarkers : state.landingMarkers;
+    const markerIndex = list.findIndex((marker) => Number(marker.sequence) === Number(choice.sequence));
+    if (markerIndex < 0) return { ok: false, message: "没有可移除的冥王星标记" };
+    const [marker] = list.splice(markerIndex, 1);
+    state.orbitDone = state.orbitMarkers.length > 0;
+    state.landDone = state.landingMarkers.length > 0;
+    state.orbitCount = state.orbitMarkers.length;
+    state.landCount = state.landingMarkers.length;
+    return { ok: true, marker, card: entry.card, ownerPlayer: entry.player, message: "已移除冥王星标记" };
+  }
+
+  function collectPlutoMarkers() {
+    const markers = [];
+    for (const { player, card } of getAllPlutoReservedCardEntries()) {
+      const state = getPlutoActionState(card);
+      for (const marker of state.orbitMarkers || []) {
+        markers.push({
+          ...marker,
+          kind: "orbit",
+          planetId: "pluto",
+          cardId: card.id,
+          playerId: marker.playerId || player.id,
+          playerColor: marker.playerColor || player.color,
+          color: marker.color || player.color,
+        });
+      }
+      for (const marker of state.landingMarkers || []) {
+        markers.push({
+          ...marker,
+          kind: "land",
+          planetId: "pluto",
+          cardId: card.id,
+          playerId: marker.playerId || player.id,
+          playerColor: marker.playerColor || player.color,
+          color: marker.color || player.color,
+        });
+      }
+    }
+    return markers;
+  }
+
+  function buildPlutoMarkerContext() {
+    return { plutoMarkers: collectPlutoMarkers() };
+  }
+
+  function playerHasOwnPlutoLanding(player) {
+    return collectPlutoMarkers().some((marker) => marker.kind === "land" && markerBelongsToPlayer(marker, player));
+  }
+
+  function buildPlutoMarkerRemovalChoices(owner, markerKinds) {
+    const currentPlayer = getCurrentPlayer();
+    const choices = [];
+    for (const { player, card } of getAllPlutoReservedCardEntries()) {
+      if (owner !== "any" && player?.id !== currentPlayer?.id) continue;
+      const state = getPlutoActionState(card);
+      if (markerKinds.has("orbit")) {
+        for (const marker of state.orbitMarkers || []) {
+          choices.push({
+            id: `plutoOrbit:${card.id}:${marker.sequence}`,
+            kind: "plutoOrbit",
+            planetId: "pluto",
+            cardId: card.id,
+            sequence: marker.sequence,
+            sectorX: marker.sectorX,
+            sectorY: marker.sectorY,
+            label: `冥王星 环绕 ${marker.sequence}`,
+            description: `${markerOwnerLabel(marker.playerId ? marker : player)}标记`,
+          });
+        }
+      }
+      if (markerKinds.has("land")) {
+        for (const marker of state.landingMarkers || []) {
+          choices.push({
+            id: `plutoLand:${card.id}:${marker.sequence}`,
+            kind: "plutoLand",
+            planetId: "pluto",
+            cardId: card.id,
+            sequence: marker.sequence,
+            label: `冥王星 登陆 ${marker.sequence}`,
+            description: `${markerOwnerLabel(marker.playerId ? marker : player)}标记`,
+          });
+        }
+      }
+    }
+    return choices;
+  }
+
+  function getPlutoCandidateRockets(player = getCurrentPlayer(), options = {}) {
+    const preferredRocketId = options.preferredRocketId ?? rocketState.activeRocketId ?? null;
+    const candidates = (rocketState.rockets || []).filter((rocket) => {
       if (rocket.playerId !== player?.id) return false;
       const coordinate = rocketActions.getRocketSectorCoordinate(rocket);
       return Number(coordinate?.y) === 4;
+    });
+    if (preferredRocketId == null) return candidates;
+    return candidates.sort((left, right) => {
+      if (left.id === preferredRocketId) return -1;
+      if (right.id === preferredRocketId) return 1;
+      return 0;
     });
   }
 
@@ -25930,14 +26543,14 @@
     return energy > 0 ? { energy } : {};
   }
 
-  function getAvailablePlutoAction(actionType) {
+  function getAvailablePlutoAction(actionType, options = {}) {
     const currentPlayer = getCurrentPlayer();
     const card = getPlutoReservedCards(currentPlayer).find((item) => {
       const state = getPlutoActionState(item);
       return actionType === "orbit" ? !state.orbitDone : !state.landDone;
     });
     if (!card) return { ok: false, message: "没有可用的冥王星保留牌" };
-    const rockets = getPlutoCandidateRockets(currentPlayer);
+    const rockets = getPlutoCandidateRockets(currentPlayer, options);
     if (!rockets.length) return { ok: false, message: "没有 y=4 的己方探测器可前往冥王星" };
     const cost = getPlutoActionCost(actionType, card);
     if (!players.canAfford(currentPlayer, cost)) {
@@ -25946,13 +26559,13 @@
     return { ok: true, card, rocket: rockets[0], cost };
   }
 
-  function executePlutoAction(actionType) {
+  function executePlutoAction(actionType, options = {}) {
     if (!canStartMainAction()) {
       rocketState.statusNote = getMainActionStartBlockReason() || "本回合已经开始或完成主要行动";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
-    const available = getAvailablePlutoAction(actionType);
+    const available = getAvailablePlutoAction(actionType, options);
     if (!available.ok) {
       rocketState.statusNote = available.message;
       renderStateReadout();
@@ -25975,9 +26588,19 @@
       renderStateReadout();
       return removeResult;
     }
-    const state = getPlutoActionState(available.card);
-    if (actionType === "orbit") state.orbitDone = true;
-    if (actionType === "land") state.landDone = true;
+    const markerResult = addPlutoMarker(available.card, actionType, currentPlayer, {
+      rocket: available.rocket,
+    });
+    if (!markerResult.ok) {
+      restoreMutableObject(currentPlayer, beforePlayer);
+      restoreMutableObject(rocketState, beforeRocketState);
+      rocketState.statusNote = markerResult.message;
+      renderStateReadout();
+      return markerResult;
+    }
+    if (actionType === "orbit") {
+      players.incrementPlayerOrbitCount(playerState, currentPlayer.id);
+    }
     const actionLabel = actionType === "orbit" ? "环绕冥王星" : "登陆冥王星";
     const result = {
       ok: true,
@@ -25997,20 +26620,13 @@
       }],
       removedRocketId: available.rocket.id,
       planetId: "pluto",
+      markerKind: actionType === "orbit" ? "pluto-orbit" : "pluto-land",
+      markerSequence: markerResult.marker.sequence,
     };
     removeRocketElement(available.rocket.id);
     recordAtomicActionHistory(actionType, actionLabel, result);
     settleCardTasksAfterEffect({ events: result.events, render: false });
-    const rewardEffects = actionType === "orbit"
-      ? [
-        { id: "pluto-orbit-score", type: "gain_resources", label: "冥王星环绕：11分+3宣传", icon: "score", options: { gain: { score: 11, publicity: 3 } } },
-        { id: "pluto-orbit-trace", type: "alien_trace", label: "冥王星环绕：任意外星人痕迹", icon: "alien_trace", options: {} },
-      ]
-      : [
-        { id: "pluto-land-score", type: "gain_resources", label: "冥王星登陆：11分", icon: "score", options: { gain: { score: 11 } } },
-        { id: "pluto-land-data", type: "gain_data", label: "冥王星登陆：4数据", icon: "data", options: { count: 4 } },
-        { id: "pluto-land-trace", type: "alien_trace", label: "冥王星登陆：黄色外星人痕迹", icon: "alien_yellow", options: { allowedTraceTypes: ["yellow"] } },
-      ];
+    const rewardEffects = buildPlutoRewardEffectsForAction(actionType);
     rocketState.statusNote = result.message;
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -26022,6 +26638,104 @@
       rewardEffects,
       { actionType, historySource: HISTORY_SOURCE_MAIN, consumesMainAction: true },
     );
+  }
+
+  function getCurrentPlanetActionPlacement(context = createActionContext()) {
+    return actionShared?.getRocketPlanet?.(context) || { ok: false };
+  }
+
+  function getPlutoChoiceActionLabel(actionType) {
+    return actionType === "orbit" ? "环绕" : "登陆";
+  }
+
+  function formatPlutoChoiceLabel(actionType, available) {
+    const actionLabel = getPlutoChoiceActionLabel(actionType);
+    const costLabel = players.formatResourceCost(available?.cost || {}) || "0";
+    const rocketLabel = available?.rocket?.id != null ? `R${available.rocket.id}` : "探测器";
+    return `${actionLabel}冥王星（${rocketLabel}，${costLabel}）`;
+  }
+
+  function buildPlutoActionChoiceOptions(actionType) {
+    const context = createActionContext();
+    const actionLabel = getPlutoChoiceActionLabel(actionType);
+    const normalCheck = actions.canExecute(actionType, context);
+    const placement = getCurrentPlanetActionPlacement(context);
+    const preferredRocketId = placement?.ok ? placement.rocket?.id : null;
+    const plutoCheck = getAvailablePlutoAction(actionType, { preferredRocketId });
+    const choices = [];
+
+    if (normalCheck.ok) {
+      if (actionType === "orbit") {
+        choices.push({
+          kind: "normal",
+          label: `环绕${normalCheck.planet?.name || placement?.planet?.name || "当前星球"}`,
+        });
+      } else {
+        const landOptions = actions.getLandOptions(context);
+        if (landOptions.ok) {
+          choices.push(...landOptions.choices.map((choice) => ({
+            ...choice,
+            kind: "normal",
+          })));
+        }
+      }
+    }
+
+    if (plutoCheck.ok) {
+      choices.push({
+        kind: "pluto",
+        label: formatPlutoChoiceLabel(actionType, plutoCheck),
+        preferredRocketId,
+      });
+    }
+
+    if (!choices.length) {
+      return {
+        ok: false,
+        message: normalCheck.message || plutoCheck.message || `当前无法${actionLabel}`,
+      };
+    }
+
+    return {
+      ok: true,
+      actionType,
+      title: `选择${actionLabel}目标`,
+      selectLabel: `${actionLabel}到`,
+      confirmText: `确认${actionLabel}`,
+      planet: { planetId: `pluto-${actionType}-choice`, name: `${actionLabel}目标` },
+      choices,
+      needsChoice: choices.length > 1,
+      defaultTarget: choices[0].target,
+    };
+  }
+
+  function openPlutoActionChoicePicker(actionType) {
+    const options = buildPlutoActionChoiceOptions(actionType);
+    if (!options.ok) {
+      rocketState.statusNote = options.message;
+      renderPlayerStats();
+      updateActionButtons();
+      renderStateReadout();
+      return { ok: false, message: options.message };
+    }
+    if (options.choices.length === 1) {
+      const [choice] = options.choices;
+      return choice.kind === "pluto"
+        ? executePlutoAction(actionType, { preferredRocketId: choice.preferredRocketId })
+        : runAction(actionType, actionType === "land" ? { target: choice.target } : undefined);
+    }
+    openLandTargetPicker({
+      ...options,
+      getOptions: () => buildPlutoActionChoiceOptions(actionType),
+      onConfirm: (choice) => (
+        choice.kind === "pluto"
+          ? executePlutoAction(actionType, { preferredRocketId: choice.preferredRocketId })
+          : runAction(actionType, actionType === "land" ? { target: choice.target } : undefined)
+      ),
+    });
+    rocketState.statusNote = `请选择${getPlutoChoiceActionLabel(actionType)}目标`;
+    renderStateReadout();
+    return { ok: true, pendingChoice: true };
   }
 
   function markActionPending() {
@@ -26066,6 +26780,24 @@
     pendingPassPlayerId = null;
     pendingActionHasIrreversibleBarrier = false;
     pendingActionIrreversibleReason = null;
+  }
+
+  function isMainActionOpeningStep(step) {
+    return step?.source === HISTORY_SOURCE_MAIN
+      && (
+        step.type === "action_start"
+        || step.type === "action-cost"
+        || step.effectIndex === -1
+      );
+  }
+
+  function clearFullyUndoneMainActionSession() {
+    effectStepActive = false;
+    actionHistory.commitSession();
+    clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
+    clearActionPending();
+    pruneEmptyActionLogDraft();
+    renderActionLog();
   }
 
   function canUndoCurrentMainAction() {
@@ -26442,6 +27174,7 @@
     ) {
       const result = actionHistory.undoLastStep();
       if (result.ok) {
+        effectStepActive = false;
         forgetLastHistoryStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
         removeLastActionLogStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
         revertEffectFlowAfterUndo(result.step);
@@ -26455,15 +27188,14 @@
       if (actionHistory.hasUndoableStep()) {
         const result = actionHistory.undoLastStep();
         if (result.ok) {
+          effectStepActive = false;
           forgetLastHistoryStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
           removeLastActionLogStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
           revertEffectFlowAfterUndo(result.step);
-          refreshAfterHistoryChange(result.message);
           if (!isActionEffectFlowActive()) {
-            actionHistory.commitSession();
-            clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
-            clearActionPending();
+            clearFullyUndoneMainActionSession();
           }
+          refreshAfterHistoryChange(result.message);
           return;
         }
       }
@@ -27291,14 +28023,20 @@
         onCancel: options.onCancel,
       }
       : null;
-    els.landTargetTitle.textContent = `选择登陆目标：${options.planet.name}`;
+    els.landTargetTitle.textContent = options.title || `选择登陆目标：${options.planet.name}`;
+    if (els.landTargetLabel) {
+      els.landTargetLabel.textContent = options.selectLabel || "登陆到";
+    }
+    if (els.landTargetConfirm) {
+      els.landTargetConfirm.textContent = options.confirmText || "确认登陆";
+    }
     els.landTargetSelect.replaceChildren(...options.choices.map((choice, index) => {
       const option = document.createElement("option");
       option.value = String(index);
       option.textContent = choice.label;
       return option;
     }));
-    els.landTargetOverlay.dataset.planetId = options.planet.planetId;
+    els.landTargetOverlay.dataset.planetId = options.planet?.planetId || "";
     els.landTargetOverlay.hidden = false;
     els.landTargetSelect.focus();
   }
@@ -27329,9 +28067,21 @@
   }
 
   function orbitForCurrentPlayer() {
-    const normal = actions.canExecute("orbit", createActionContext());
-    if (!normal.ok && getAvailablePlutoAction("orbit").ok) {
-      return executePlutoAction("orbit");
+    if (!canStartMainAction()) {
+      rocketState.statusNote = getMainActionStartBlockReason() || "本回合已经开始或完成主要行动";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const context = createActionContext();
+    const normal = actions.canExecute("orbit", context);
+    const placement = getCurrentPlanetActionPlacement(context);
+    const preferredRocketId = placement?.ok ? placement.rocket?.id : null;
+    const pluto = getAvailablePlutoAction("orbit", { preferredRocketId });
+    if (normal.ok && pluto.ok) {
+      return openPlutoActionChoicePicker("orbit");
+    }
+    if (!normal.ok && pluto.ok) {
+      return executePlutoAction("orbit", { preferredRocketId });
     }
     return runAction("orbit");
   }
@@ -27344,9 +28094,15 @@
     }
     const context = createActionContext();
     const check = actions.canExecute("land", context);
+    const placement = getCurrentPlanetActionPlacement(context);
+    const preferredRocketId = placement?.ok ? placement.rocket?.id : null;
+    const pluto = getAvailablePlutoAction("land", { preferredRocketId });
+    if (check.ok && pluto.ok) {
+      return openPlutoActionChoicePicker("land");
+    }
     if (!check.ok) {
-      if (getAvailablePlutoAction("land").ok) {
-        return executePlutoAction("land");
+      if (pluto.ok) {
+        return executePlutoAction("land", { preferredRocketId });
       }
       rocketState.statusNote = check.message;
       renderPlayerStats();

@@ -59,6 +59,21 @@ assert.equal(
   "purple tech condition should be met",
 );
 
+assert.equal(
+  jiuzhe.isCardConditionMet({ index: 1 }, white, {
+    alienGameState: alienState,
+    planetStatsState: { planets: {} },
+    nebulaDataState: { sectorSettlements: { winsByPlayerId: {} } },
+    plutoMarkers: [
+      { kind: "orbit", planetId: "pluto", playerId: "player-white" },
+      { kind: "land", planetId: "pluto", playerId: "player-white", sequence: 1 },
+      { kind: "land", planetId: "pluto", playerId: "player-white", sequence: 2 },
+    ],
+  }),
+  true,
+  "Pluto markers should count for same-planet orbit/land Jiuzhe conditions",
+);
+
 const revealState = {
   aliens: {
     1: {

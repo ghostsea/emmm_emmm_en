@@ -281,7 +281,18 @@
     return playerKeys.has(marker?.playerId) || playerKeys.has(marker?.color) || playerKeys.has(marker?.playerColor);
   }
 
-  function countPlanetOrbitOrLand(player, planetStatsState, planetId) {
+  function countPlutoMarkers(player, context = {}, kind = "all") {
+    const playerKeys = getPlayerKeys(player);
+    return (context?.plutoMarkers || []).filter((marker) => {
+      if (!markerBelongsToPlayer(marker, playerKeys)) return false;
+      if (kind === "orbit") return marker.kind === "orbit";
+      if (kind === "land") return marker.kind === "land";
+      return marker.kind === "orbit" || marker.kind === "land";
+    }).length;
+  }
+
+  function countPlanetOrbitOrLand(player, planetStatsState, planetId, context = {}) {
+    if (planetId === "pluto") return countPlutoMarkers(player, context, "all");
     const record = planetStatsState?.planets?.[planetId];
     if (!record) return 0;
     const playerKeys = getPlayerKeys(player);
@@ -297,18 +308,18 @@
     return orbitCount + landingCount + satelliteCount;
   }
 
-  function countOrbitOrLandMarkers(player, planetStatsState) {
+  function countOrbitOrLandMarkers(player, planetStatsState, context = {}) {
     const planets = planetStatsState?.planets || {};
     return Object.keys(planets).reduce((total, planetId) => (
-      total + countPlanetOrbitOrLand(player, planetStatsState, planetId)
-    ), 0);
+      total + countPlanetOrbitOrLand(player, planetStatsState, planetId, context)
+    ), countPlutoMarkers(player, context, "all"));
   }
 
-  function countPlanetLandingPairs(player, planetStatsState, minCount = 2) {
+  function countPlanetLandingPairs(player, planetStatsState, minCount = 2, context = {}) {
     const planets = planetStatsState?.planets || {};
     const playerKeys = getPlayerKeys(player);
     const required = Math.max(1, Math.round(Number(minCount) || 2));
-    let count = 0;
+    let count = countPlutoMarkers(player, context, "land") >= required ? 1 : 0;
     for (const record of Object.values(planets)) {
       const landingCount = (record?.landingMarkers || []).filter((marker) => (
         markerBelongsToPlayer(marker, playerKeys)
@@ -417,7 +428,7 @@
         );
       case "b2":
         return Math.min(
-          countOrbitOrLandMarkers(player, context.planetStatsState),
+          countOrbitOrLandMarkers(player, context.planetStatsState, context),
           countSectorWins(player, context.nebulaDataState),
         );
       case "c1":
@@ -507,16 +518,16 @@
         return scorePer * countDistinctSignalSectors(player, context.nebulaDataState);
       case "planetOrbitOrLand":
         if (!scorePer) return 0;
-        return scorePer * countPlanetOrbitOrLand(player, context.planetStatsState, rule.planetId);
+        return scorePer * countPlanetOrbitOrLand(player, context.planetStatsState, rule.planetId, context);
       case "remainingResource":
         if (!scorePer) return 0;
         return scorePer * Math.max(0, Math.round(Number(player?.resources?.[rule.resource]) || 0));
       case "planetLandingPairs":
         if (!scorePer) return 0;
-        return scorePer * countPlanetLandingPairs(player, context.planetStatsState, rule.count);
+        return scorePer * countPlanetLandingPairs(player, context.planetStatsState, rule.count, context);
       case "allOrbitOrLand":
         if (!scorePer) return 0;
-        return scorePer * countOrbitOrLandMarkers(player, context.planetStatsState);
+        return scorePer * countOrbitOrLandMarkers(player, context.planetStatsState, context);
       case "probeLocation":
         return playerHasProbeLocation(player, context, rule.locationType) ? Number(rule.score) || 0 : 0;
       case "unmarkedFinalRightmost":

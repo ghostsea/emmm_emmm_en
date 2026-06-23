@@ -172,8 +172,28 @@ assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_30.png" })[0].type, car
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_34.png" })[1].type, cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME);
 assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_35.png" })[0].options.gain, { additionalPublicScan: 1 });
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_37.png" })[0].options.allMatching, true);
-assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_38.png" })[2].type, cardEffects.EFFECT_TYPES.PROBE_STACK_REWARD);
+const dlc38StackReward = cardEffects.buildPlayEffects({ cardId: "dlc_38.png" })[2];
+assert.equal(dlc38StackReward.type, cardEffects.EFFECT_TYPES.PROBE_STACK_REWARD);
+assert.match(dlc38StackReward.label, /任意探测器/);
 assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_41.png" })[0].options.gain, { additionalPublicScan: 1 });
+
+assert.equal(cardEffects.hasProbeStackReward([
+  { id: 1, playerId: "p1", sectorX: 2, sectorY: 3 },
+  { id: 2, playerId: "p2", sectorX: 2, sectorY: 3 },
+], { id: "p1", color: "red" }), true);
+assert.equal(cardEffects.hasProbeStackReward([
+  { id: 1, playerId: "p1", sectorX: 2, sectorY: 3 },
+  { id: 2, playerId: "p2", sectorX: 4, sectorY: 3 },
+], { id: "p1", color: "red" }), false);
+assert.equal(cardEffects.hasProbeStackReward([
+  { id: 1, playerId: "p1", sectorX: 2, sectorY: 3 },
+  { id: 2, playerId: "p1", sectorX: 2, sectorY: 3 },
+], { id: "p1", color: "red" }), true);
+assert.equal(cardEffects.hasProbeStackReward([
+  { id: 1, playerId: "p2", sectorX: 2, sectorY: 3 },
+  { id: 2, playerId: "p3", sectorX: 2, sectorY: 3 },
+  { id: 3, playerId: "p1", sectorX: 5, sectorY: 3 },
+], { id: "p1", color: "red" }), false);
 
 const dlc12TurnBonus = cardEffects.buildPlayEffects({ cardId: "dlc_12.png" })[0];
 assert.equal(dlc12TurnBonus.type, cardEffects.EFFECT_TYPES.REGISTER_EVENT_BONUS);
@@ -347,6 +367,34 @@ assert.equal(cardEffects.collectReadyTasks({ id: "p1", color: "red", reservedCar
       mars: { orbitMarkers: [{ playerId: "p1" }], landingMarkers: [{ playerId: "p1" }], satelliteLandings: [] },
     },
   },
+}).length, 1);
+
+const b95Pluto = { id: "card-b95-pluto", cardId: "b_95.webp" };
+cardEffects.ensureCardEffectState(b95Pluto);
+assert.equal(cardEffects.collectReadyTasks({ id: "p1", color: "red", reservedCards: [b95Pluto] }, {
+  nebulaDataState: {},
+  alienGameState: {},
+  planetStatsState: { planets: {} },
+  plutoMarkers: [
+    { kind: "orbit", planetId: "pluto", playerId: "p1" },
+    { kind: "land", planetId: "pluto", playerId: "p1" },
+  ],
+}).length, 1);
+
+const b116Pluto = { id: "card-b116-pluto", cardId: "b_116.webp" };
+cardEffects.ensureCardEffectState(b116Pluto);
+assert.equal(cardEffects.collectReadyTasks({ id: "p1", color: "red", reservedCards: [b116Pluto] }, {
+  nebulaDataState: {},
+  alienGameState: {},
+  planetStatsState: {
+    planets: {
+      mars: { orbitMarkers: [], landingMarkers: [{ playerId: "p1" }], satelliteLandings: [] },
+    },
+  },
+  plutoMarkers: [
+    { kind: "land", planetId: "pluto", playerId: "p1", sequence: 1 },
+    { kind: "land", planetId: "pluto", playerId: "p1", sequence: 2 },
+  ],
 }).length, 1);
 
 const b101 = { id: "card-b101", cardId: "b_101.webp" };

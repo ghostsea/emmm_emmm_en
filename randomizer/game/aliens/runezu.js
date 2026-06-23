@@ -23,6 +23,7 @@
   const SYMBOL_BASE_PATH = "../assets/aliens/符文族";
   const TRACE_TYPES = Object.freeze(["pink", "yellow", "blue"]);
   const TRACE_POSITIONS = Object.freeze([1, 2, 3, 4]);
+  const TRACE_EVENT_ORIGIN = "runezu-face";
   const SYMBOL_IDS = Object.freeze([
     "symbol_1",
     "symbol_2",
@@ -969,6 +970,11 @@
     if (!event || !step) return false;
     if (step.event === "orbitOrLand") return event.type === "orbit" || event.type === "land" || event.type === "orbitOrLand";
     if (step.event === "researchTech") return event.type === "researchTech" && (!step.techType || event.techType === step.techType);
+    if (step.event === "alienTrace") {
+      return event.type === "alienTrace"
+        && event.alienId === ALIEN_ID
+        && event.alienTraceOrigin === TRACE_EVENT_ORIGIN;
+    }
     return event.type === step.event;
   }
 
@@ -1067,6 +1073,7 @@
     CARD_BACK_SRC,
     TRACE_TYPES,
     TRACE_POSITIONS,
+    TRACE_EVENT_ORIGIN,
     SYMBOL_IDS,
     PANEL_SYMBOL_SLOTS,
     FACE_SYMBOL_POSITIONS,
