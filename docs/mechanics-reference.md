@@ -2,7 +2,11 @@
 
 本文档从根目录 `AGENTS.md` 迁出，保留较完整的机制说明，供需要深入理解实现细节时查阅。根目录 `AGENTS.md` 只维护快速入口、代码地图和详细资料路径。
 
-这份文档给后续 agent / 工程师一个当前代码底层机制的入口。仓库当前是一个无构建步骤的浏览器原型，核心逻辑在 `randomizer/game/**`，入口 UI 在 `randomizer/app.js`。每次代码和框架修改后记得检查和补齐本文档。
+这份文档给后续 agent / 工程师一个当前代码底层机制的入口。仓库当前是一个无构建步骤的浏览器原型，核心逻辑在 `randomizer/game/**`，app 装配层在 `randomizer/app/**`，入口 UI 与流程编排在 `randomizer/app.js`。每次代码和框架修改后记得检查和补齐本文档。
+
+## App 装配层
+
+浏览器入口仍由 `randomizer/index.html` 按 `<script>` 顺序加载，不需要构建步骤。`randomizer/app/dependencies.js` 负责收集 `window.Seti*` 依赖并在脚本顺序错误时提前报错；`randomizer/app/constants.js` 负责静态配置、图标路径、扫描奖励表和 UI 参数；`randomizer/app/dom.js` 负责固定 DOM 元素注册；`randomizer/app/events.js` 负责事件绑定路由；`randomizer/app/public-api.js` 负责组装 `window.SetiRandomizer`；`randomizer/app/ai-controller.js` 负责 AI 自动机和策略批跑控制器。详细边界和后续拆分原则见 `docs/app-architecture.md`。
 
 ## 效果术语表
 当需要查看某个具体效果术语的效果时参考：docs\effect-glossary.md

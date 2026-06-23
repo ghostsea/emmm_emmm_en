@@ -1,6 +1,6 @@
 # SETI 快速入口
 
-这个仓库是一个无构建步骤的 SETI 浏览器原型：页面入口是 `randomizer/index.html`，主 UI 与流程编排在 `randomizer/app.js`，核心游戏逻辑集中在 `randomizer/game/**`。
+这个仓库是一个无构建步骤的 SETI 浏览器原型：页面入口是 `randomizer/index.html`，app 装配边界在 `randomizer/app/**`，主 UI 与流程编排在 `randomizer/app.js`，核心游戏逻辑集中在 `randomizer/game/**`。
 
 ## Agent 工作约定
 
@@ -13,7 +13,13 @@
 ## 代码地图
 
 - `randomizer/index.html`：浏览器页面入口。
-- `randomizer/app.js`：主 UI、设置流程、回合流程、效果队列、行动日志与各模块编排入口。
+- `randomizer/app/dependencies.js`：app 层全局模块依赖收集与脚本顺序校验。
+- `randomizer/app/constants.js`：app 层静态配置、图标路径、奖励表和 UI 参数。
+- `randomizer/app/dom.js`：固定 DOM 元素注册表。
+- `randomizer/app/events.js`：app 层事件绑定、overlay 点击分发、拖拽绑定与 resize 入口。
+- `randomizer/app/public-api.js`：调试和外部脚本使用的 `window.SetiRandomizer` API 组装。
+- `randomizer/app/ai-controller.js`：AI 自动机、策略权重、批跑/AB 测试与 AI 决策控制器。
+- `randomizer/app.js`：主 UI、设置流程、回合流程、效果队列、行动日志、AI 控制器接线与各模块编排入口。
 - `randomizer/style.css`：页面布局、交互聚焦、高亮与各区视觉状态。
 - `randomizer/solar-system/layout.js`：太阳系盘面坐标、扇区、星云与内容类型定义。
 - `randomizer/solar-system/core.js`：太阳系渲染与旋转相关核心逻辑。
@@ -35,6 +41,7 @@
 ## 常见任务入口
 
 - 改回合、PASS、主行动锁定、效果栏或日志：先读 `randomizer/app.js` 和 `randomizer/game/history/**`。
+- 改 app 框架、脚本依赖、常量、DOM、事件绑定或公开 API：先读 `docs/app-architecture.md` 和 `randomizer/app/**`。
 - 改发射、移动、环绕、登陆或星球奖励：先读 `randomizer/game/abilities/**`、`randomizer/game/actions/planet-rewards.js`、`randomizer/game/rockets.js`。
 - 改扫描、星云、数据池或扇区结算：先读 `randomizer/game/actions/scan-effects.js` 和 `randomizer/game/data/**`。
 - 改打牌、任务卡、弃牌角标或卡牌 DSL：先读 `randomizer/game/cards/**` 和卡牌相关文档。
@@ -45,9 +52,9 @@
 ## 详细资料索引
 
 - `docs/mechanics-reference.md`：从旧版 `AGENTS.md` 迁出的完整机制参考。
+- `docs/app-architecture.md`：浏览器 app 装配层、`randomizer/app/**` 边界与后续拆分原则。
 - `docs/effect-glossary.md`：效果术语表；不确定效果名含义时先查这里。
 - `docs/card-modeling-dsl-spec.md`：卡牌描述转换为可执行 DSL 的规范。
-- `docs/card-ability-migration-plan.md`：基础卡能力迁移状态、已实现/部分实现/延后清单。
 - `docs/alien-design.md`：外星人通用设计总结与新增外星人检查清单。
 - `docs/ai-player-design.md`：电脑玩家（AI 自动机）的分层、接口契约（GameState/决策总线/PlayerAgent）与里程碑。
 - `assets/final/final_detail.md`：终局计分 a/b/c/d 板块的规则公式。

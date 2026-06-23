@@ -18,7 +18,7 @@
 | 规则内核 | `game/actions/**`、`game/abilities/**`、`game/cards/**` 为 `canExecute(context)` / `execute(context)` 模式，不碰 DOM，已可 Node 单测 | 可复用 |
 | 算分 | `endGameScoring.computePlayerFinalScore(context, player)` 给定完整状态即可算分（`game/end-game-scoring.js:636`） | 评估友好 |
 | 撤销/快照 | `createGameRecoverySnapshot()`（`app.js:1159`）/ `action-history` undo 栈 | 可做"试一步→回退" |
-| 回合编排 | 全在 `app.js`（~2.5 万行），与 DOM 强耦合 | **主要障碍** |
+| 回合编排 | 主要仍在 `app.js`（约 2.6 万行），依赖、常量、DOM 注册、事件绑定、公开 API 和 AI 控制器已拆到 `randomizer/app/**`，但行动流程仍与 DOM/pending 状态强耦合 | **主要障碍** |
 | 玩家选择 | 通过 30+ 个 `pending*` 状态 + DOM overlay 收集 | **必须收口** |
 | 合法行动 | 无统一 `getLegalActions`，判断散落在 `updateActionButtons()` 与各 `canExecute*` | 需新建聚合层 |
 | 随机性 | 全局 `Math.random`，无统一种子（部分函数已支持注入 `random`） | 需可注入 RNG |
@@ -32,7 +32,8 @@
 
 ```
 randomizer/
-├─ app.js                       # UI 壳：交互点改走 requestDecision；轮到 AI 时由 controller 接管
+├─ app/                         # app 装配层：依赖、常量、DOM、事件、公开 API、AI controller 等边界模块
+├─ app.js                       # UI 壳：交互点后续应改走 requestDecision；轮到 AI 时接入 controller
 ├─ game/**                      # 规则内核（基本不动；仅补 enumerate / 纯函数化 / 可注入 RNG）
 └─ game/ai/                     # ★ 新增：电脑玩家
    ├─ player-agent.js           # PlayerAgent 接口 + HumanAgent / AIAgent
@@ -372,4 +373,4 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 - **多玩家轮次**：2 人 AI smoke 已跑通；后续仍需在 seeded RNG 完成后扩大到多种种子和更多玩家数。
 - **不可撤销步骤**：翻外星人牌、随机抽牌等被标记 `irreversible`，限制深搜回退；启发式 + 浅前瞻规避。
 - **外星人/公司牌分支**：子决策极多，是收口工作量主要来源（放在 M3）。
-- **卡牌迁移状态**：部分卡仍 `deferred`/`partial`（见 `docs/card-ability-migration-plan.md`），AI 估值需处理未完全实现的效果。
+- **卡牌迁移状态**：部分卡仍可能存在 `deferred`/`partial` 建模；以 `docs/card-modeling-dsl-spec.md`、`assets/cards/card_model.csv`、`randomizer/game/cards/**` 和对应测试为准，AI 估值需处理未完全实现的效果。
