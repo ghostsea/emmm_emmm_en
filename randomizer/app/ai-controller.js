@@ -247,11 +247,13 @@
 
     function createAiAutoBattleEntry(type, message, details = {}) {
       const currentPlayer = getCurrentPlayer();
+      const rawTurnNumber = turnState.turnNumber;
       return {
         id: aiAutoBattleState.logs.length + aiAutoBattleState.bugs.length + 1,
         type,
         roundNumber: turnState.roundNumber,
-        turnNumber: turnState.turnNumber,
+        turnNumber: getAiDisplayedTurnNumber(rawTurnNumber),
+        rawTurnNumber,
         playerId: currentPlayer?.id || playerState.currentPlayerId || null,
         playerLabel: currentPlayer?.colorLabel || currentPlayer?.name || null,
         message: String(message || ""),
@@ -2309,6 +2311,17 @@
         planet,
         score: 14 + scoreAiPlanetTarget(planet, player) - scoreAiResourceBundle(cost) * 0.25,
       };
+    }
+
+    function getAiDisplayedTurnNumber(rawTurnNumber = turnState.turnNumber) {
+      const activePlayerCount = Math.max(
+        1,
+        (turnState.activePlayerIds || []).length
+          || Math.round(Number(turnState.activePlayerCount) || 0)
+          || DEFAULT_ACTIVE_PLAYER_COUNT,
+      );
+      const raw = Math.max(1, Math.round(Number(rawTurnNumber) || 1));
+      return Math.floor((raw - 1) / activePlayerCount) + 1;
     }
 
     function getAiRequiredMovePointsFromCoordinate(player, coordinate, options = {}) {

@@ -55,6 +55,19 @@ const rewards = require("./planet-rewards");
 }
 
 {
+  const titan = rewards.buildRewardEffectsForAction("land", {
+    markerKind: "satellite",
+    satelliteId: "titan",
+    events: [{ type: "land", playerId: "player-blue", playerColor: "blue" }],
+  });
+  assert.equal(titan.length, 3);
+  assert.equal(titan[1].type, rewards.EFFECT_TYPES.ALIEN_TRACE);
+  assert.equal(titan[1].options.targetPlayerId, "player-blue");
+  assert.equal(titan[1].options.targetPlayerColor, "blue");
+  assert.equal(titan[2].options.targetPlayerId, "player-blue");
+}
+
+{
   const uranus = rewards.buildOrbitRewardEffects("uranus", 2);
   assert.equal(uranus[2].icon, "black_scan");
 }

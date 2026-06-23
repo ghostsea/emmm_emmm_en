@@ -304,6 +304,43 @@
     };
   }
 
+  function effectHasTarget(effect) {
+    return Boolean(
+      effect?.playerId
+      || effect?.playerColor
+      || effect?.options?.playerId
+      || effect?.options?.playerColor
+      || effect?.options?.targetPlayerId
+      || effect?.options?.targetPlayerColor
+    );
+  }
+
+  function getRewardTargetFromActionResult(result) {
+    const event = (result?.events || []).find((item) => (
+      item?.playerId || item?.playerColor
+    ));
+    return {
+      playerId: result?.playerId || event?.playerId || null,
+      playerColor: result?.playerColor || event?.playerColor || null,
+    };
+  }
+
+  function assignRewardTarget(effects, result) {
+    const target = getRewardTargetFromActionResult(result);
+    if (!target.playerId && !target.playerColor) return effects;
+    return effects.map((effect) => {
+      if (effectHasTarget(effect)) return effect;
+      return {
+        ...effect,
+        options: {
+          ...(effect.options || {}),
+          targetPlayerId: target.playerId,
+          targetPlayerColor: target.playerColor,
+        },
+      };
+    });
+  }
+
   function buildOrbitRewardEffects(planetId, markerSequence) {
     const effects = [];
     if (Number(markerSequence) === 1) {
@@ -336,13 +373,13 @@
   }
 
   function buildRewardEffectsForAction(actionId, result) {
+    let effects = [];
     if (actionId === "orbit") {
-      return buildOrbitRewardEffects(result?.planetId, result?.markerSequence);
+      effects = buildOrbitRewardEffects(result?.planetId, result?.markerSequence);
+    } else if (actionId === "land") {
+      effects = buildLandRewardEffects(result);
     }
-    if (actionId === "land") {
-      return buildLandRewardEffects(result);
-    }
-    return [];
+    return assignRewardTarget(effects, result);
   }
 
   return Object.freeze({

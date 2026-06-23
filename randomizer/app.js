@@ -745,7 +745,7 @@
   function setActiveEffectFlowOwner(effect) {
     if (!pendingActionEffectFlow || !effect) return null;
     const owner = getEffectOwnerPlayer(effect);
-    if (owner?.id) pendingActionEffectFlow.playerId = owner.id;
+    pendingActionEffectFlow.activePlayerId = owner?.id || null;
     return owner;
   }
 
@@ -1240,13 +1240,14 @@
     const playerLabel = options.playerLabel || getPlayerLabelById(playerId);
     const isSameTurnDraft = actionLogState.draft
       && actionLogState.draft.roundNumber === turnState.roundNumber
-      && actionLogState.draft.turnNumber === turnState.turnNumber
+      && actionLogState.draft.rawTurnNumber === turnState.turnNumber
       && actionLogState.draft.playerId === playerId;
 
     if (!isSameTurnDraft) {
       actionLogState.draft = {
         roundNumber: turnState.roundNumber,
         turnNumber: turnState.turnNumber,
+        rawTurnNumber: turnState.turnNumber,
         playerId,
         playerLabel,
         actionType: null,
@@ -1622,10 +1623,12 @@
       return null;
     }
 
+    const rawTurnNumber = draft.rawTurnNumber ?? draft.turnNumber;
     const entry = {
       id: actionLogState.nextEntryId,
       roundNumber: draft.roundNumber,
-      turnNumber: draft.turnNumber,
+      turnNumber: getDisplayedTurnNumber(rawTurnNumber),
+      rawTurnNumber,
       playerId: draft.playerId,
       playerLabel: draft.playerLabel,
       actionType: draft.actionType || options.actionType || "turn",
@@ -1644,10 +1647,12 @@
   function appendConfirmedActionLogEntry(entryInput) {
     const player = entryInput.player || getCurrentPlayer();
     const playerId = entryInput.playerId || player?.id || null;
+    const rawTurnNumber = entryInput.rawTurnNumber ?? entryInput.turnNumber ?? turnState.turnNumber;
     const entry = {
       id: actionLogState.nextEntryId,
       roundNumber: entryInput.roundNumber ?? turnState.roundNumber,
-      turnNumber: entryInput.turnNumber ?? turnState.turnNumber,
+      turnNumber: getDisplayedTurnNumber(rawTurnNumber),
+      rawTurnNumber,
       title: entryInput.title || null,
       playerId,
       playerLabel: entryInput.playerLabel || getPlayerLabelById(playerId),
@@ -1936,6 +1941,17 @@
     const nextStartPlayerId = advanceRoundStartPlayer();
     playerState.currentPlayerId = nextStartPlayerId || turnState.activePlayerIds[0] || playerState.currentPlayerId;
     return { roundAdvanced: true, turnAdvanced: true, nextPlayerId: playerState.currentPlayerId };
+  }
+
+  function getDisplayedTurnNumber(rawTurnNumber = turnState.turnNumber) {
+    const activePlayerCount = Math.max(
+      1,
+      (turnState.activePlayerIds || []).length
+        || Math.round(Number(turnState.activePlayerCount) || 0)
+        || DEFAULT_ACTIVE_PLAYER_COUNT,
+    );
+    const raw = Math.max(1, Math.round(Number(rawTurnNumber) || 1));
+    return Math.floor((raw - 1) / activePlayerCount) + 1;
   }
 
   function clearCardTurnEventBonusesForPlayer(playerId) {
@@ -11392,8 +11408,16 @@
   function insertActionEffectsAfterCurrent(effects) {
     if (!pendingActionEffectFlow || !effects?.length) return;
     const insertIndex = Math.max(0, pendingActionEffectFlow.currentIndex + 1);
+    const currentOwner = getCurrentActionEffect()
+      ? getEffectOwnerPlayer(getCurrentActionEffect())
+      : null;
+    const ownerId = currentOwner?.id
+      || pendingActionEffectFlow.activePlayerId
+      || pendingActionEffectFlow.defaultPlayerId
+      || pendingActionEffectFlow.playerId
+      || null;
     pendingActionEffectFlow.effects.splice(insertIndex, 0, ...effects.map((effect, index) => ({
-      ...assignEffectOwner({ ...effect }, pendingActionEffectFlow.playerId),
+      ...assignEffectOwner({ ...effect }, ownerId),
       id: effect.id || `inserted-card-effect-${insertIndex}-${index}`,
       options: { ...(effect.options || {}) },
       status: "pending",
