@@ -219,6 +219,16 @@
     return (context?.playerState?.players || []).find((player) => player.id === playerId) || null;
   }
 
+  function attachPlayerResult(result, player) {
+    if (!result || !player) return result;
+    return {
+      ...result,
+      playerId: player.id || null,
+      playerColor: player.color || null,
+      playerColorLabel: player.colorLabel || null,
+    };
+  }
+
   function getTokenSrc(context, player) {
     if (typeof context?.getPlayerTokenSrc === "function") {
       return context.getPlayerTokenSrc(player);
@@ -541,7 +551,7 @@
 
       context.playerState.currentPlayerId = player.id;
       const industryResult = resolveIndustryEffect(context, player, player.initialSelection?.industry);
-      results.push(industryResult);
+      results.push(attachPlayerResult(industryResult, player));
       if (industryResult.incomeIncreaseCount > 0) {
         pendingIncomeIncreases.push({
           playerId: player.id,
@@ -551,7 +561,7 @@
       }
       for (const card of selectedInitialCards) {
         const result = resolveInitialCardEffect(context, player, card);
-        results.push(result);
+        results.push(attachPlayerResult(result, player));
         for (const event of result.events || []) events.push(event);
       }
     }

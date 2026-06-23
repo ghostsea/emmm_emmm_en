@@ -788,6 +788,38 @@
     return (options || []).find((card) => card.id === cardId) || null;
   }
 
+  function getInitialEffectLogSource(result) {
+    if (result?.effect?.label) return result.effect.label;
+    if (result?.cardNumber) return `初始牌 ${result.cardNumber}`;
+    return result?.card?.label || "初始效果";
+  }
+
+  function formatInitialEffectLogDetail(result) {
+    const playerLabel = getPlayerLabelById(result?.playerId)
+      || result?.playerColorLabel
+      || "玩家";
+    const source = getInitialEffectLogSource(result);
+    const detailMessages = (result?.results || [])
+      .map((entry) => normalizeActionLogText(entry?.message))
+      .filter(Boolean);
+    const detail = detailMessages.length
+      ? detailMessages.join("；")
+      : normalizeActionLogText(result?.message);
+    return `${playerLabel} ${source}${detail ? `：${detail}` : ""}`;
+  }
+
+  function buildInitialEffectLogSteps(initialResult) {
+    const resultEntries = Array.isArray(initialResult?.results)
+      ? initialResult.results
+      : [];
+    if (!resultEntries.length) {
+      return initialResult?.message
+        ? [`结算初始效果：${initialResult.message}`]
+        : [];
+    }
+    return resultEntries.map((result) => `结算初始效果：${formatInitialEffectLogDetail(result)}`);
+  }
+
   function handleInitialSelectionCardClick(kind, cardId) {
     if (!isInitialSelectionActive()) return;
 
@@ -826,10 +858,10 @@
         text: `移出初始牌：${initialLabels.join("、")}`,
       });
     }
-    if (initialResult?.message) {
+    for (const text of buildInitialEffectLogSteps(initialResult)) {
       steps.push({
         source: HISTORY_SOURCE_SETUP,
-        text: `结算初始效果：${initialResult.message}`,
+        text,
       });
     }
     appendConfirmedActionLogEntry({
@@ -7124,8 +7156,8 @@
       return { ok: true, message: null };
     }
 
-    const currentPlayer = getCurrentPlayer();
-    if (!currentPlayer?.hand?.length || currentPlayer.hand.length < discardCount) {
+    const discardPlayer = pendingAction?.player || getCurrentPlayer();
+    if (!discardPlayer?.hand?.length || discardPlayer.hand.length < discardCount) {
       return { ok: false, message: `手牌不足，需要弃置 ${discardCount} 张牌` };
     }
 
@@ -7340,12 +7372,12 @@
 
   function finalizePendingDiscardSelection() {
     const pending = pendingDiscardAction;
-    const currentPlayer = getCurrentPlayer();
+    const discardPlayer = pending?.player || getCurrentPlayer();
     const selected = [...(pending?.selectedIndexes || [])].sort((a, b) => b - a);
     const discarded = [...(pending?.discarded || [])];
 
     for (const index of selected) {
-      const discardResult = cards.discardFromHandAtIndex(currentPlayer, index);
+      const discardResult = cards.discardFromHandAtIndex(discardPlayer, index);
       if (!discardResult.ok) {
         rocketState.statusNote = discardResult.message;
         renderPlayerHand();

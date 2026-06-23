@@ -206,7 +206,54 @@ function initialCard(number) {
     { playerId: blue.id, count: 3, label: "芬威克研究中心" },
     { playerId: white.id, count: 2, label: "宇宙战略集团" },
   ]);
+  assert.deepEqual(result.results.map((entry) => entry.playerId), [
+    blue.id,
+    blue.id,
+    white.id,
+    white.id,
+  ]);
   assert.equal(result.events.filter((event) => event.type === "signalMarked").length, 2);
+}
+
+{
+  const context = createContext([{ color: "blue" }, { color: "white" }]);
+  const [blue, white] = context.playerState.players;
+  blue.hand = Array.from({ length: 4 }, (_item, index) => ({ id: `blue-opening-${index + 1}` }));
+  white.hand = Array.from({ length: 4 }, (_item, index) => ({ id: `white-opening-${index + 1}` }));
+  blue.resources.handSize = blue.hand.length;
+  white.resources.handSize = white.hand.length;
+  blue.initialSelection = {
+    industry: { label: "任务中继站" },
+    removedInitialCards: [initialCard(2), initialCard(3)],
+  };
+  white.initialSelection = {
+    industry: { label: "宇宙战略集团" },
+    removedInitialCards: [initialCard(16), initialCard(18)],
+  };
+
+  const result = initialCards.resolveInitialSelections(context, {
+    playerIds: [blue.id, white.id],
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(blue.hand.length, 8, "任务中继站 2 盲抽 + 两张初始牌各 1 盲抽");
+  assert.equal(white.hand.length, 5, "宇宙战略集团的 1 盲抽应只进入白色玩家手牌");
+  assert.equal(
+    result.results
+      .filter((entry) => entry.playerId === blue.id)
+      .flatMap((entry) => entry.results || [])
+      .filter((entry) => entry.type === "blindDraw")
+      .length,
+    4,
+  );
+  assert.equal(
+    result.results
+      .filter((entry) => entry.playerId === white.id)
+      .flatMap((entry) => entry.results || [])
+      .filter((entry) => entry.type === "blindDraw")
+      .length,
+    1,
+  );
 }
 
 console.log("initial-cards.test.js ok");
