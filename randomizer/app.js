@@ -24200,6 +24200,19 @@
     return item;
   }
 
+  function getCurrentPlayerStatLabel(player) {
+    const name = String(player?.name || "").trim();
+    const colorLabel = String(player?.colorLabel || "").trim();
+    const colorDefaultName = colorLabel ? `${colorLabel}玩家` : "";
+    const strippedName = colorLabel && name.startsWith(colorLabel)
+      ? name.slice(colorLabel.length).trim()
+      : name;
+    const base = name && name !== colorDefaultName
+      ? strippedName || name
+      : "玩家";
+    return `${base}${isAiAutoBattlePlayer(player?.id) ? "(电脑)" : ""}`;
+  }
+
   function createPlayerNameStat(player, score, finalTotalScore) {
     const color = players.getPlayerColorDefinition(player.color);
     const item = document.createElement("span");
@@ -24218,7 +24231,7 @@
     marker.className = "player-color-marker";
     marker.setAttribute("aria-hidden", "true");
     name.className = "player-stat-value";
-    name.textContent = getPlayerDisplayLabel(player);
+    name.textContent = getCurrentPlayerStatLabel(player);
     item.title = name.textContent;
 
     item.append(marker, name, scoreEl, finalScoreEl);
@@ -24271,13 +24284,45 @@
     return nodes;
   }
 
+  function normalizeIncomeDisplayValue(value) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return 0;
+    return Math.max(0, Number.isInteger(number) ? number : Math.round(number * 100) / 100);
+  }
+
+  function getPlayerIncomeBreakdown(player, incomeKey, normalizedIncome, normalizedCompanyBaseIncome) {
+    const income = normalizedIncome || players.normalizeIncome(player?.income || null);
+    const companyBaseIncome = normalizedCompanyBaseIncome || getPlayerCompanyBaseIncome(player);
+    const total = normalizeIncomeDisplayValue(income?.[incomeKey]);
+    const configuredBase = normalizeIncomeDisplayValue(companyBaseIncome?.[incomeKey]);
+    const base = Math.min(total, configuredBase);
+    const increase = Math.max(0, normalizeIncomeDisplayValue(total - base));
+    return { total, base, increase };
+  }
+
+  function formatPlayerIncomeBreakdown(player, incomeKey, normalizedIncome, normalizedCompanyBaseIncome) {
+    const breakdown = getPlayerIncomeBreakdown(player, incomeKey, normalizedIncome, normalizedCompanyBaseIncome);
+    return `${breakdown.total}(${breakdown.base}+${breakdown.increase})`;
+  }
+
+  function createIncomeStatIcon(label, player, incomeKey, iconSrc, normalizedIncome, normalizedCompanyBaseIncome) {
+    const breakdown = getPlayerIncomeBreakdown(player, incomeKey, normalizedIncome, normalizedCompanyBaseIncome);
+    const value = `${breakdown.total}(${breakdown.base}+${breakdown.increase})`;
+    const item = createStatIcon(label, value, iconSrc);
+    const detail = `${label} ${breakdown.total}（公司默认 ${breakdown.base} + 收入增加 ${breakdown.increase}）`;
+    item.setAttribute("aria-label", detail);
+    item.title = detail;
+    return item;
+  }
+
   function buildPlayerIncomeStatNodes(player) {
-    const income = player.income || players.DEFAULT_INCOME;
+    const income = players.normalizeIncome(player?.income || null);
+    const companyBaseIncome = getPlayerCompanyBaseIncome(player);
     return [
       createStatIconMarker("收入", RESOURCE_ICON_SRC.income),
-      createStatIcon("收入信用点", income.credits || 0, RESOURCE_ICON_SRC.credits),
-      createStatIcon("收入能量", income.energy || 0, RESOURCE_ICON_SRC.energy),
-      createStatIcon("收入手牌", income.handSize || 0, RESOURCE_ICON_SRC.incomeCard),
+      createIncomeStatIcon("收入信用点", player, "credits", RESOURCE_ICON_SRC.credits, income, companyBaseIncome),
+      createIncomeStatIcon("收入能量", player, "energy", RESOURCE_ICON_SRC.energy, income, companyBaseIncome),
+      createIncomeStatIcon("收入手牌", player, "handSize", RESOURCE_ICON_SRC.incomeCard, income, companyBaseIncome),
       createStatIcon("收入宣传", income.publicity || 0, RESOURCE_ICON_SRC.publicity),
       createStatIcon("收入数据", income.availableData || 0, RESOURCE_ICON_SRC.data),
       createStatIcon("收入额外公共扫描", income.additionalPublicScan || 0, RESOURCE_ICON_SRC.additionalPublicScan),
@@ -26279,7 +26324,8 @@
   function getPlayerReadoutLines() {
     const currentPlayer = getInterfacePlayer();
     const resources = currentPlayer.resources;
-    const income = currentPlayer.income || players.DEFAULT_INCOME;
+    const income = players.normalizeIncome(currentPlayer.income || null);
+    const companyBaseIncome = getPlayerCompanyBaseIncome(currentPlayer);
     const limits = players.RESOURCE_LIMITS;
     const reservedCount = Array.isArray(currentPlayer.reservedCards) ? currentPlayer.reservedCards.length : 0;
     const probeLocationData = buildProbeLocationIndex();
@@ -26304,7 +26350,7 @@
       `${currentPlayer.name}(${currentPlayer.color}) 信用点=${resources.credits} 能量=${resources.energy} 宣传=${resources.publicity}/${limits.publicity} 可用数据=${resources.availableData}/${limits.availableData} 奥陌陌化石=${resources.aomomoFossils || 0} 额外公共扫描=${resources.additionalPublicScan || 0} 手牌=${resources.handSize} 保留=${reservedCount} 完成任务=${currentPlayer.completedTaskCount || 0} 分数=${resources.score} 环绕=${currentPlayer.orbitCount}`,
       `终局总分=${finalScoreBreakdown.totalScore}（板块=${finalScoreBreakdown.tileScore || 0} 卡牌=${finalScoreBreakdown.cardScore || 0} 九折=${finalScoreBreakdown.jiuzheCardScore || 0} 符文族=${finalScoreBreakdown.runezuSymbolScore || 0} 威胁=${finalScoreBreakdown.jiuzheThreat || 0}${finalScoreBreakdown.jiuzhePenaltyApplied ? " 已0.9修正" : ""}）`,
       `符文族symbol ${runezu?.getPlayerSymbolSummary?.(currentPlayer) || "无"}`,
-      `收入 信用点=${income.credits || 0} 能量=${income.energy || 0} 手牌=${income.handSize || 0} 宣传=${income.publicity || 0} 数据=${income.availableData || 0}`,
+      `收入 信用点=${formatPlayerIncomeBreakdown(currentPlayer, "credits", income, companyBaseIncome)} 能量=${formatPlayerIncomeBreakdown(currentPlayer, "energy", income, companyBaseIncome)} 手牌=${formatPlayerIncomeBreakdown(currentPlayer, "handSize", income, companyBaseIncome)} 宣传=${income.publicity || 0} 数据=${income.availableData || 0} 额外公共扫描=${income.additionalPublicScan || 0}`,
     ];
   }
 
