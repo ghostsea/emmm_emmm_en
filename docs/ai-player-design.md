@@ -40,6 +40,7 @@ randomizer/
    ├─ legal-actions.js          # enumerateLegalActions(state, playerId)
    ├─ evaluator.js              # 价值模型 → 状态估值（复用 行动成本和收益.md）
    ├─ policy.js                 # 启发式贪心：回合规划 + 子决策选择
+   ├─ battle-analytics.js       # AI 对战日志指标汇总，用于策略迭代
    ├─ controller.js             # AI 回合驱动器（轮到电脑时接管）
    └─ ai.test.js                # Node 无头回归
 ```
@@ -288,10 +289,28 @@ async function runAiTurn(playerId) { /* ... */ }
 当前分支已落地一个浏览器内自动对战 smoke slice：
 
 - 新增 `randomizer/game/ai/evaluator.js`、`policy.js`、`index.js` 与 `ai.test.js`。
-- `window.SetiRandomizer` 暴露 `configureAiAutoBattle`、`startAiAutoBattle`、`stopAiAutoBattle`、`runAiAutoBattleStep`、`getAiAutoBattleReport`。
-- 已支持 AI 自动初始选择、初始收入弃牌、PASS 手牌上限弃牌、PASS 预留精选、效果链逐步执行、基础 `launch` / `pass` / `end-turn` 决策。
-- `getAiAutoBattleReport()` 记录 AI 步骤日志与 bug/阻塞日志；重复阻塞会累计 `repeatCount`，便于后续定位和修复。
-- 当前策略仍是最小闭环：主动行动优先 `launch`，不可发射则 `PASS`；扫描、打牌、科技、移动、环绕/登陆、公司主动与外星人专属选择仍按后续里程碑收口。
+- 新增 `randomizer/game/ai/battle-analytics.js`，把 AI 对战日志汇总为行动分布、候选机会、PASS 机会成本、移动支付成本、目标选择、bug 分布、最终名次和优化建议。
+- `window.SetiRandomizer` 暴露 `configureAiAutoBattle`、`configureAiStrategyWeights`、`applyAiStrategyTuning`、`resetAiStrategyWeights`、`getAiStrategyWeights`、`getAiStrategyTuningHistory`、`clearAiStrategyTuningHistory`、`getAiStrategyTuningRecommendation`、`applyAiStrategyTuningRecommendation`、`startAiAutoBattle`、`runAiAutoBattleBatch`、`runAiStrategyABTest`、`runAiStrategyTuningCycle`、`stopAiAutoBattle`、`runAiAutoBattleStep`、`getAiAutoBattleReport`、`getAiAutoBattleAnalysis`。
+- 默认浏览器开局为 2 名活跃玩家：白色为人类玩家，另 1 名电脑玩家从剩余颜色随机进入；状态面板和调试玩家切换菜单会标记“人类/电脑”。
+- 多电脑测试入口保留：`startAiAutoBattle({ reset: true, activePlayerCount: N, ... })` 会按玩家顺位配置 N 名电脑玩家，用于 smoke、自博弈和后续调参。
+- 已支持 AI 自动初始选择、初始收入弃牌、PASS 手牌上限弃牌、PASS 预留精选、效果链逐步执行、基础 `launch` / `orbit` / `land` / `researchTech` / `scan` / `playCard` / `move` / `pass` / `end-turn` 决策。
+- 科技行动已收口 `tech-placement`：AI 会从可研究科技片中按轻量启发式选片，并自动选择蓝色科技槽位；人类点击与 AI 自动选择复用同一段结算收口。
+- 移动已收口 `move-path` / `move-payment`：AI 会从可移动火箭中选择方向，按能量优先、能量不足时弃移动牌的方式确认支付；主行动移动、卡牌移动与免费移动都会走现有移动历史与抵达奖励结算。
+- 登陆目标已收口 `land-target`：遇到多目标登陆弹窗时 AI 自动选择第一个可用目标。
+- 扫描行动已收口基础链路：AI 会启动主扫描行动，自动支付成本，处理公共牌扫描选牌、可选手牌扫描、手牌扫描选牌，以及 `sector_scan` / `public_scan` / `hand_scan` 的目标选择；当前会按星云槽位得分、数据收益、己方信号、扇区完成机会和手牌机会成本排序目标。
+- 打牌主行动已收口普通手牌：AI 会枚举资源可支付、非外星人专属且当前可自动结算的手牌，走 `beginPlayCardSelection()` -> `handlePlayCardSelect()` -> `confirmPlayCardSelection()`，复用人类路径的费用、历史、保留牌和效果队列结算；候选阶段会过滤当前必失败的发射/环绕/登陆/移动效果及尚未收口的复杂卡牌效果。
+- 基础 `alien-trace` 已接入：AI 会复用现有外星人痕迹 overlay 与牌图可放置槽位，自动选择第一个可用目标并记录日志。
+- 单张公共牌精选已收口，可覆盖科技奖励、星球奖励等基础 pick-card 子流程；公共牌扫描多选会按扫描目标收益选择最多 `maxSelectable` 张可扫描公共牌。
+- `getAiAutoBattleReport()` 记录 AI 步骤日志、bug/阻塞日志、轻量玩家结果快照，并附带 `analysis`；重复阻塞会累计 `repeatCount`，便于后续定位和修复。
+- `analysis` 当前包含 `actionCategoryRatios`（基础主行动/卡牌科技/快速行动/PASS 占比）、`candidateStats`（候选出现/可用/被选/可用未选）、`candidateScoreStats`（候选 policy score、最佳但未选次数与分差）、`scoreOpportunities` / `topScoreGaps`、`opportunities`（PASS 时仍有可用主行动、结束回合时仍有可用移动等）、`movePayment`、`routeTargets`、`moveFollowups`、`turnPlans`、`turnPlanTypes`、`turnPlanActions`、`finalScoreMarks`、`finalScoreFormulas`、`winner` 和 `recommendations`。
+- `analysis` 已补充胜者路线画像：单局会输出 `playerProfiles`、`winnerProfileComparison`、`winnerProfileDeltas`；批量汇总会输出 `averageWinnerProfile`、`averageNonWinnerProfile` 与 `winnerProfileDeltas`，用于比较胜者比非胜者多做了哪些路线动作（卡牌/科技/扫描/移动/任务/终局收益）。
+- 单局 `analysis.strategyTuning` 和批量 `summary.strategyTuning` 会把 `winnerProfileDeltas`、候选未选、候选分数差、PASS 机会成本、行动占比、明确路线目标、移动后续主行动与一回合组合计划转换为一组温和的策略权重建议；其中组合计划会继续拆成 `cardSynergyCount`、`techSynergyCount`、`mainThenQuickCount`、`planScanCount`、`planOrbitLandCount`、`planTaskCount`、`planFinalCount` 等胜者画像指标，用来分别调高 `playCard`、`tech`、`scan`、`orbitLand`、`task`、`final`；终局板块标记会记录 `finalScoreMarks`、`finalScoreFormulas`、`finalScoreMarkCount` 与 `finalScoreImmediateValue`，当胜者在标记价值上领先时反向提高 `final` 与 `engine` 权重；`candidateScoreStats.playCard/researchTech/scan.missedAsBest` 会指出高分候选被顶层偏置或选择策略压过。可用 `applyAiStrategyTuning(summary.strategyTuning)` 或在下一批 `runAiAutoBattleBatch({ strategyTuning: summary.strategyTuning, ... })` 中应用。
+- `runAiAutoBattleBatch` 默认会把批量 summary 记录到 `localStorage` 的 AI 调参历史；`summary.strategyTuning` 仍是单批建议，`strategyTuningRecommendation` 是基于历史多批加权平均并按 learning rate 平滑后的稳定建议。
+- `runAiAutoBattleBatch({ seed: "name", games: N })` 会为每局派生稳定 seed；`runAiStrategyABTest({ seed, games, tunedWeights/strategyTuning })` 会用同一组 seeds 分别跑 baseline 与 tuned，返回平均分、完成率、阻塞数、行动占比、胜者画像差异、路线目标分布差异和移动后续主行动分布差异，并默认把 A/B 结论作为 `kind: "ab-test"` 历史条目写入调参历史。
+- `runAiStrategyTuningCycle({ seed, games, abGames })` 会先用当前权重跑 baseline 批量、从日志生成推荐权重，再用同 seed A/B 验证 baseline 与 tuned；默认只返回 `selectedWeights`，不直接改变当前权重，传 `applySelectedWeights: true` 时才应用 A/B 胜出的权重。
+- A/B 历史条目会记录 `selectedVariant`：tuned 胜出时把 tuned 权重作为正向证据，tuned 未胜出时把 baseline 权重作为回拉证据；`getAiStrategyTuningRecommendation()` 会把这类条目和普通批跑条目一起加权平滑。
+- 当前策略已从固定行动优先级推进到候选收益主导：行动类型只保留轻量 tie-breaker，实际选择主要看 `candidate.score`、可研究科技最高分、可打手牌最高分、路线移动收益和成本。主行动前的快速移动会额外估算移动后可接的环绕/登陆收益，`launch` 候选也会估算发射后的后置快速移动价值；科技候选会生成 `tech-synergy` 计划，把橙科/紫科/蓝科分别绑定到移动/登陆、扫描、任务/终局引擎需求；打牌候选会生成 `card-synergy` 计划，把发射、移动、环绕、登陆、科技、扫描、任务和终局效果绑定回当前 `routeDemand`；3 型终局牌会复用 `end-game-scoring` 的规则按当前局面估算 `endGameExpectedScore`；玩家达到 25/50/70 分门槛时，AI 会自动处理 `final-score-mark`，按当前公式即时分、未来路线需求、剩余轮数潜力与板块卡位价值选择 A/B/C/D，避免终局标记停在人工 pending 流程，也避免只看裸主要行动收益。公司主动、未来跨度目标牌、外星人专属手牌与更复杂的外星人分支仍按后续里程碑收口。
+- 当前 `app.js` 已有轻量 `routeDemand`：从玩家手牌、保留任务/触发器、终局牌和已标记终局板块推导扫描颜色、目标星球、探测器位置目标、远离地球目标、科技颜色、痕迹、任务和终局需求，并按当前 `strategyWeights` 反向影响发射、移动、环绕、登陆、扫描、科技、打牌和 PASS 倾向。
 
 ---
 
@@ -299,15 +318,58 @@ async function runAiTurn(playerId) { /* ... */ }
 
 ```powershell
 node --check randomizer/app.js
+node --check randomizer/game/ai/battle-analytics.js
 node randomizer/game/ai/ai.test.js
 $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort-Object; foreach ($test in $tests) { node $test; if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE } }
 ```
 
+浏览器 smoke：
+
+- 默认人机入口：刷新 `randomizer/index.html` 后，初始选择阶段为 `player-white` 人类 + 1 名随机颜色电脑，状态面板显示 `玩家代理 白色=人类、<随机色>=电脑`。
+- 多电脑入口：2 名 AI 玩家、`maxSteps=2500` 可跑完整局；当前记录为 183 step 结束、`bugCount=0`，覆盖到 `alien-trace`。
+
 ---
 
-## 14. 风险与待确认
+## 14. 数据驱动优化路线
 
-- **多玩家轮次**：现状偏单活跃玩家，≥2 人在无 UI 干预下的回合切换需回归确认。
+基础主要行动的裸收益不高，因此策略迭代不应继续堆固定行动优先级，而应先用自动局日志建立基线，再逐项优化。
+
+建议循环：
+
+1. 跑一批 AI 自博弈：`runAiAutoBattleBatch({ games: 20, activePlayerCount: 2, maxSteps: 2500, stepDelayMs: 0, maxBugRepeats: 1 })`。
+2. 查看批量 `summary`，并对单局 `samples[].analysis` 记录 `actionCategoryRatios`、`candidateStats`、`candidateScoreStats`、`scoreOpportunities`、`topScoreGaps`、`opportunities`、`routeTargets`、`moveFollowups`、`turnPlans`、`turnPlanTypes`、`turnPlanActions`、`finalScoreMarks`、`finalScoreFormulas`、`winnerProfileDeltas`、`strategyTuning`、`winner.finalScore` 和 `bugs`。
+3. 优先修正指标异常：
+   - `basicMain` 占比高且 `engine` 占比低：提高卡牌、科技、终局板块对行动评分的权重。
+   - `passWithAvailableMain > 0`：为 PASS 增加机会成本，只有收入/轮序收益明显更高时才 PASS。
+   - `playCard.availableNotSelected` 或 `researchTech.availableNotSelected` 远高于 selected：细化卡牌/科技价值模型。
+   - `topScoreGaps` 或 `candidateScoreStats.*.missedAsBest > 0`：检查对应行动的候选分、顶层行动基础偏置和 `policy.chooseTurnAction()` 是否一致。
+   - `endTurnWithAvailableMove > 0` 或移动占比高：继续扩展目标导向路线评分，把移动绑定到更多任务牌、终局目标和可由特殊效果影响的路线目标。
+   - `finalScoreImmediateValue` 胜者领先或 `finalScoreMarks` 集中在少数公式：检查对应公式的行动需求是否已经接入 `routeDemand`，并用 A/B 验证 `final` 权重。
+4. 多批次后读取平滑建议：`getAiStrategyTuningRecommendation({ learningRate: 0.5 })`；需要直接应用时调用 `applyAiStrategyTuningRecommendation({ learningRate: 0.5 })`。
+5. 也可以显式应用上一批建议跑下一批：`runAiAutoBattleBatch({ games: 20, activePlayerCount: 2, maxSteps: 2500, stepDelayMs: 0, maxBugRepeats: 1, strategyTuning: previous.summary.strategyTuning })`。
+6. 对调参结果做同 seed A/B：`runAiStrategyABTest({ seed: "route-v1", games: 10, activePlayerCount: 2, maxSteps: 2500, tunedWeights: recommendation.weights })`；默认会返回 `strategyABHistoryEntry` 并写入历史，若只想试跑可传 `recordABResult: false`。
+7. 常规迭代可直接用 `runAiStrategyTuningCycle({ seed: "route-v1", games: 20, abGames: 10, activePlayerCount: 2, maxSteps: 2500 })`，它会自动完成“基线日志 -> 推荐权重 -> 同 seed A/B”；需要让胜出权重成为当前策略时再加 `applySelectedWeights: true`。
+8. 每次策略调整后跑同样批量，比较完成率、平均胜者分、行动占比、`winnerProfileDeltas`、路线目标分布、移动后续主行动分布、组合计划类型/目标动作分布、候选分数差分布、`strategyTuningRecommendation`、A/B `comparison.verdict`、`selectedVariant` 和 bug 变化。
+
+优先级：
+
+1. **第一轮已落地**：`policy.js` 不再用大额固定行动分压过候选收益，`app.js` 会为 `launch` / `orbit` / `land` / `scan` / `researchTech` / `playCard` / `move` 生成动态分。
+2. **目标导向移动已落地基础版**：移动候选会根据到星球目标、探测器位置任务（小行星、彗星、地球相邻、地球相邻小行星）和远离地球目标的距离变化、可环绕/登陆价值和移动成本评分；移动目标会进入单局和批量 `routeTargets` 指标。下一步继续补充特殊卡牌/外星人触发带来的路线目标。
+3. **卡牌价值模型已落地基础版**：`playCard` 候选会综合即时效果、保留任务/触发、终局牌当前预期分、冥王星牌、资源成本、左上角快速行动机会成本和 `card-synergy` 组合计划；下一步按具体卡牌任务完成概率、触发器可达性和终局公式未来潜力调权重。
+4. **科技价值模型已落地基础版**：按橙/紫/蓝类型、bonus、首拿奖励、当前资源和剩余轮数评分；下一步让路线意图反向影响科技偏好，例如扫描路线加权紫科、登陆路线加权橙科。
+5. **扫描目标模型已落地基础版**：主扫描行动、公共牌扫描、手牌扫描和扫描目标弹窗会复用星云目标评分；下一步把具体任务牌颜色/星云需求、终局扇区奖励和对手阻断收益纳入评分。
+6. **路线需求模型已落地基础版**：玩家当前任务、触发器、终局牌和已标记终局板块会形成 `routeDemand`，统一影响行动评分。
+7. **日志调参闭环已落地基础版**：`winnerProfileDeltas` 会生成 `strategyTuning.weights`，其中 `routeTargetCount`、`moveFollowupCount` 和 `turnPlanCount` 会反向提升 `route` / `move` / `orbitLand` / `engine` 权重；`cardSynergyCount`、`techSynergyCount`、`planScanCount`、`planTaskCount`、`planFinalCount` 等会继续把组合计划归因到打牌、科技、扫描、任务和终局路线；`finalScoreMarkCount` 与 `finalScoreImmediateValue` 会把终局板块标记质量归因到 `final` / `engine`；`candidateScoreStats` 会把“最高分但未选”的候选按行动类型归因，便于判断是评分偏低还是顶层策略偏置过强；建议可通过 API 或下一批 options 应用。
+8. **多批历史平滑已落地基础版**：批跑结果会记录到调参历史，`getAiStrategyTuningRecommendation()` 会对多批建议加权平均并用 learning rate 平滑；普通批跑和 A/B 对照会一起参与稳定推荐。
+9. **同 seed A/B 对照已落地基础版**：`runAiStrategyABTest()` 会用相同 seeds 比较 baseline 与 tuned 的平均分、完成率、阻塞数和路线画像差异，并把 A/B 胜负结果反写进历史权重置信度。
+10. **调参循环 API 已落地基础版**：`runAiStrategyTuningCycle()` 会先采集 baseline 批量日志，再把推荐权重放进同 seed A/B 验证，返回 `selectedVariant` / `selectedWeights`；默认不改变当前权重，避免单批噪声直接污染策略。
+11. **浅搜索已落地第一步**：主行动前的快速移动会只读估算移动后可接的环绕/登陆价值，并把目标写入 `moveFollowups`；`launch` 会只读估算发射后可接的一格快速移动；`researchTech` 会按当前任务/终局/路线需求生成 `tech-synergy` 计划；`playCard` 会按卡牌效果生成 `card-synergy` 计划；`final-score-mark` 会按当前公式和未来需求只读评分；这些组合都会写入日志。完整浅搜索仍待实现，需要在可回滚快照上评估“快速行动 -> 主行动 -> 后置快速行动 -> end-turn”的一回合组合。
+
+---
+
+## 15. 风险与待确认
+
+- **多玩家轮次**：2 人 AI smoke 已跑通；后续仍需在 seeded RNG 完成后扩大到多种种子和更多玩家数。
 - **不可撤销步骤**：翻外星人牌、随机抽牌等被标记 `irreversible`，限制深搜回退；启发式 + 浅前瞻规避。
 - **外星人/公司牌分支**：子决策极多，是收口工作量主要来源（放在 M3）。
 - **卡牌迁移状态**：部分卡仍 `deferred`/`partial`（见 `docs/card-ability-migration-plan.md`），AI 估值需处理未完全实现的效果。
