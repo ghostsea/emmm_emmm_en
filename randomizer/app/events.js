@@ -121,6 +121,9 @@
       moveRocket,
       handleBoardPointerDown,
       handleFinalScoreTileClick,
+      openFinalResultDialog,
+      minimizeFinalResultDialog,
+      closeFinalResultDialog,
       setDebugOpen,
       setDebugPlayerMenuOpen,
       switchCurrentPlayerColor,
@@ -218,6 +221,11 @@
     els.actionUndoButton?.addEventListener("click", () => {
       if (els.actionUndoButton.disabled) return;
       undoPendingAction();
+    });
+    els.finalResultButton?.addEventListener("click", openFinalResultDialog);
+    els.finalResultMinimize?.addEventListener("click", minimizeFinalResultDialog);
+    els.finalResultOverlay?.addEventListener("click", (event) => {
+      if (event.target === els.finalResultOverlay) closeFinalResultDialog();
     });
     els.quickActionsTrades.addEventListener("click", (event) => {
       const button = event.target.closest("[data-quick-trade]");
@@ -1022,6 +1030,10 @@
         renderSectorNebulaDataBoard();
         renderStateReadout();
       },
+    });
+    windowRef.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape" || els.finalResultOverlay?.hidden) return;
+      closeFinalResultDialog();
     });
     windowRef.addEventListener("resize", resize);
   }

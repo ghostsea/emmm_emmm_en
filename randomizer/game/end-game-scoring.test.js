@@ -41,6 +41,12 @@ const tileContext = {
 const tileScore = endGameScoring.computePlayerTileScore(state, white, tileContext);
 assert.equal(tileScore.total, 15, "a1 with income 3/2 on slot 1 should score 3*5=15");
 assert.equal(tileScore.tiles[0].formulaId, "a1");
+const tileBreakdown = endGameScoring.computePlayerFinalScore({
+  ...tileContext,
+  currentPlayer: white,
+});
+assert.equal(tileBreakdown.tileScoresById.a, 15);
+assert.equal(tileBreakdown.tileScoresById.b, 0);
 
 white.resources.score = 50;
 finalScoring.syncPendingMarks(state, [white]);
@@ -203,6 +209,8 @@ const jiuzheFinal = endGameScoring.computePlayerFinalScore({
 assert.equal(jiuzheFinal.jiuzheCardScore, 12);
 assert.equal(jiuzheFinal.jiuzhePenaltyApplied, true);
 assert.equal(jiuzheFinal.totalScore, Math.ceil(112 * 0.9));
+assert.equal(jiuzheFinal.jiuzhePenaltyScore, Math.ceil(112 * 0.9) - 112);
+assert.ok(jiuzheFinal.jiuzhePenaltyScore < 0);
 
 assert.equal(finalScoring.getTileVariant(state, "a"), 1);
 assert.equal(finalScoring.getTileVariant(state, "b"), 2);

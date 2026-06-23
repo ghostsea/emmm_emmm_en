@@ -88,8 +88,9 @@
 - 板块计分规则见 `assets/final/final_detail.md`：a=收入、b=痕迹/环绕登陆扇区、c=任务、d=科技；变体 1/2 对应表中 a1/a2…d1/d2 公式，标记位决定倍率（3 号及之后使用第三档倍率）。
 - 仅统计当前玩家**已标记**的板块；实时板块分 = 各已标记板块的 `基础值 × 位次倍率`。
 - 3 型终局计分卡打出后进入保留区第二行；实时卡牌终局分只统计当前玩家保留区中的 3 型卡。当前基础牌规则：`b_14` 每完成 1 个红色扇区 3 分；`b_63` 每完成 1 个黄色扇区 3 分；`b_100` 每完成 1 个蓝色扇区 3 分；`b_128` 每完成 1 个黑色扇区 3 分；`b_30` 每个蓝色外星人痕迹 2 分；`b_86` 每个粉色外星人痕迹 2 分；`b_113` 每个黄色外星人痕迹 2 分；`b_33` 每个蓝色科技 2 分；`b_45` 每个有信号的扇区 1 分；`b_34` 木星每个环绕/登陆（含卫星）3 分；`b_74` 火星每个环绕/登陆（含卫星）4 分；`b_82` 若有探测器在小行星得 13 分；`b_115` 按当前玩家未标记终局板块的最右档分数合计。DLC 终局牌规则：`dlc_8` 每个剩余可用数据 3 分；`dlc_10` 每个剩余宣传 1 分；`dlc_31` 每个有至少 2 个己方主星登陆标记的行星 6 分；`dlc_39` 每个己方环绕、主星登陆、卫星登陆标记 2 分。
-- 玩家状态栏在正常分数后显示终局总分（图标 `assets/symbol/effect/final_score.webp`）= 当前 `resources.score` + 板块分 + 卡牌分；正常分数行不变。
-- 统一计分入口：`SetiEndGameScoring.computePlayerFinalScore(context)`，`context` 需包含 `currentPlayer`、`finalScoringState`、`nebulaDataState`、`alienGameState`、`planetStatsState`、`cardEffects`、`getCardTypeCode`。
+- 玩家状态栏在正常分数后显示终局总分（图标 `assets/symbol/effect/final_score.webp`）= 当前 `resources.score` + 板块分 + 终局计分牌 + 外星人终局项（如九折、符文族）；正常分数行不变。
+- 游戏结束后显示独立悬浮的「终局结果」按钮，并默认弹出终局结果悬浮窗；窗口按总分降序展示所有参与玩家，`裸分` 直接取当前 `resources.score`，不再拆分普通游戏内即时得分来源。
+- 统一计分入口：`SetiEndGameScoring.computePlayerFinalScore(context)`，`context` 需包含 `currentPlayer`、`finalScoringState`、`nebulaDataState`、`alienGameState`、`planetStatsState`、`cardEffects`、`getCardTypeCode`。返回值包含 `baseScore`、`tileScore`、`cardScore`、`jiuzheCardScore`、`jiuzhePenaltyScore`、`runezuSymbolScore`、`totalScore`，并用 `tileScoresById.{a,b,c,d}` 拆出 a/b/c/d 板块分。
 - 调试按钮「+20分」会给当前玩家增加 20 分，用于快速触发 25 / 50 / 70 分门槛标记流程。
 
 ### 火箭状态

@@ -502,6 +502,26 @@
         <div class="action-log-readout" id="action-log-readout" role="tabpanel" aria-labelledby="action-log-tab" hidden></div>
       </div>
     </aside>
+
+    <button class="final-result-button" type="button" id="final-result-button" hidden aria-label="查看终局结果" aria-controls="final-result-overlay" aria-expanded="false">终局结果</button>
+
+    <div class="final-result-overlay" id="final-result-overlay" hidden aria-hidden="true">
+      <div class="final-result-dialog" role="dialog" aria-modal="true" aria-labelledby="final-result-title">
+        <div class="final-result-header">
+          <div>
+            <h2 class="final-result-title" id="final-result-title">终局结果</h2>
+            <p class="final-result-subtitle" id="final-result-subtitle">最终分数统计</p>
+          </div>
+          <button class="final-result-minimize" type="button" id="final-result-minimize" aria-label="缩小终局结果">缩小</button>
+        </div>
+        <div class="final-result-table-wrap">
+          <table class="final-result-table" id="final-result-table">
+            <thead id="final-result-head"></thead>
+            <tbody id="final-result-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="./solar-system/layout.js?v=player-actions-4"></script>

@@ -1856,7 +1856,8 @@ body {
 }
 
 .data-place-overlay,
-.scan-target-overlay {
+.scan-target-overlay,
+.final-result-overlay {
   position: fixed;
   inset: 0;
   z-index: 1400;
@@ -1870,6 +1871,7 @@ body {
 
 .data-place-overlay[hidden],
 .scan-target-overlay[hidden],
+.final-result-overlay[hidden],
 .scan-action-4-overlay[hidden] {
   display: none;
 }
@@ -1895,6 +1897,126 @@ body {
   background: rgba(14, 22, 36, 0.88);
   box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
   color: #e8eef8;
+}
+
+.final-result-dialog {
+  width: min(920px, 100%);
+  max-height: min(78vh, 720px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  border: 1px solid rgba(255, 214, 128, 0.36);
+  border-radius: 8px;
+  background: rgba(13, 19, 27, 0.94);
+  box-shadow: 0 22px 58px rgba(0, 0, 0, 0.5);
+  color: #eef3f8;
+  overflow: hidden;
+}
+
+.final-result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 18px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(42, 35, 20, 0.74);
+}
+
+.final-result-title {
+  margin: 0;
+  font: 700 18px/1.2 "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.final-result-subtitle {
+  margin: 5px 0 0;
+  color: rgba(238, 243, 248, 0.72);
+  font: 600 12px/1.35 "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.final-result-minimize {
+  flex: 0 0 auto;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 214, 128, 0.42);
+  border-radius: 6px;
+  background: rgba(72, 58, 26, 0.86);
+  color: #ffe7a4;
+  cursor: pointer;
+  font: 700 13px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.final-result-minimize:hover {
+  border-color: rgba(255, 230, 150, 0.82);
+  background: rgba(90, 72, 32, 0.94);
+}
+
+.final-result-table-wrap {
+  min-height: 0;
+  overflow: auto;
+}
+
+.final-result-table {
+  width: 100%;
+  min-width: 780px;
+  border-collapse: collapse;
+  font: 600 12px/1.35 "Microsoft YaHei", "PingFang SC", sans-serif;
+}
+
+.final-result-table th,
+.final-result-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  white-space: nowrap;
+}
+
+.final-result-table th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: rgba(20, 31, 42, 0.98);
+  color: rgba(238, 243, 248, 0.76);
+  text-align: left;
+  font-weight: 700;
+}
+
+.final-result-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.final-result-table tbody tr.is-winner {
+  background: rgba(255, 214, 128, 0.12);
+}
+
+.final-result-table tbody tr.is-winner td {
+  border-bottom-color: rgba(255, 214, 128, 0.18);
+}
+
+.final-result-player-cell {
+  min-width: 132px;
+}
+
+.final-result-player {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.final-result-player-marker {
+  width: 12px;
+  height: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.56);
+  border-radius: 50%;
+  background: var(--player-color, #fff);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+.final-result-number-cell {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.final-result-number-cell.is-negative {
+  color: #ffb5a4;
 }
 
 .data-place-title,
@@ -4443,6 +4565,42 @@ button.spin-button:hover {
   color: #fff;
 }
 
+.final-result-button {
+  position: fixed;
+  right: 10px;
+  top: clamp(12px, calc(50% - 220px), 50%);
+  z-index: 730;
+  width: 44px;
+  height: 132px;
+  border: 1px solid rgba(255, 214, 128, 0.32);
+  background: rgba(72, 58, 26, 0.64);
+  color: rgba(255, 236, 174, 0.92);
+  box-shadow: 0 0 18px rgba(140, 96, 20, 0.24);
+  -webkit-backdrop-filter: blur(6px) saturate(1.12);
+  backdrop-filter: blur(6px) saturate(1.12);
+  cursor: pointer;
+  font: 700 13px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
+  letter-spacing: 0;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transition: right 0.18s ease, background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.final-result-button[hidden] {
+  display: none;
+}
+
+.final-result-button:hover:not(:disabled):not([aria-disabled="true"]) {
+  border-color: rgba(255, 230, 150, 0.72);
+  background: rgba(90, 72, 32, 0.78);
+  color: #fff0bd;
+  box-shadow: 0 0 22px rgba(180, 126, 32, 0.28);
+}
+
+.app-wrap:not(.log-collapsed) .final-result-button {
+  right: calc(18px + clamp(320px, 32vw, 420px));
+}
+
 .log-collapsed .report-dock {
   width: 44px;
   height: 150px;
@@ -4553,6 +4711,29 @@ button.spin-button:hover {
   .action-bar-turn {
     width: 100%;
     min-width: 0;
+  }
+
+  .final-result-button,
+  .app-wrap:not(.log-collapsed) .final-result-button {
+    right: 8px;
+    top: 8px;
+    height: 120px;
+  }
+
+  .final-result-overlay {
+    padding: 10px;
+  }
+
+  .final-result-dialog {
+    max-height: calc(100vh - 20px);
+  }
+
+  .final-result-header {
+    padding: 13px 14px 12px;
+  }
+
+  .final-result-table {
+    min-width: 720px;
   }
 
   .public-card-row {

@@ -146,6 +146,7 @@
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
   let pendingActionEffectFlow = null;
+  let finalResultAutoOpened = false;
   let effectExecutionPlayerId = null;
   let pendingActionHasIrreversibleBarrier = false;
   let pendingActionIrreversibleReason = null;
@@ -1489,6 +1490,7 @@
     if (els.landTargetOverlay) els.landTargetOverlay.hidden = true;
     if (els.dataPlaceOverlay) els.dataPlaceOverlay.hidden = true;
     if (els.actionEffectBar) els.actionEffectBar.hidden = true;
+    closeFinalResultDialog({ silent: true });
     els.appWrap?.classList.remove(
       "action-effect-flow-active",
       "move-mode-active",
@@ -1844,6 +1846,8 @@
     turnState.cardTurnEventBonuses = [];
     turnState.gameEnded = false;
     turnState.gameEndReason = null;
+    finalResultAutoOpened = false;
+    closeFinalResultDialog({ silent: true });
     playerState.currentPlayerId = turnState.startPlayerId;
     preparePassReservePilesForCurrentGame();
   }
@@ -20568,6 +20572,200 @@
       : { totalScore: player.resources?.score || 0 };
   }
 
+  function formatFinalResultScore(value) {
+    const number = Number(value) || 0;
+    return Number.isInteger(number) ? String(number) : String(Math.round(number * 100) / 100);
+  }
+
+  function hasJiuzheFinalResultColumn(rows) {
+    return Boolean(alienGameState.jiuzhe?.revealInitialized)
+      || rows.some((row) => (
+        Number(row.breakdown.jiuzheCardScore || 0) !== 0
+        || Number(row.breakdown.jiuzhePenaltyScore || 0) !== 0
+        || Number(row.breakdown.jiuzheThreat || 0) !== 0
+      ));
+  }
+
+  function hasRunezuFinalResultColumn(rows) {
+    return Boolean(alienGameState.runezu?.revealInitialized)
+      || rows.some((row) => Number(row.breakdown.runezuSymbolScore || 0) !== 0);
+  }
+
+  function buildFinalResultRows() {
+    const activeOrder = new Map((turnState.activePlayerIds || []).map((playerId, index) => [playerId, index]));
+    return getActivePlayers()
+      .map((player) => ({
+        player,
+        breakdown: computePlayerFinalScoreBreakdown(player),
+      }))
+      .sort((left, right) => {
+        const scoreDelta = (Number(right.breakdown.totalScore) || 0) - (Number(left.breakdown.totalScore) || 0);
+        if (scoreDelta) return scoreDelta;
+        return (activeOrder.get(left.player.id) ?? 999) - (activeOrder.get(right.player.id) ?? 999);
+      });
+  }
+
+  function getFinalResultColumns(rows) {
+    const columns = [
+      { key: "player", label: "玩家" },
+      { key: "totalScore", label: "总分" },
+      { key: "baseScore", label: "裸分" },
+      { key: "finalA", label: "final_a" },
+      { key: "finalB", label: "final_b" },
+      { key: "finalC", label: "final_c" },
+      { key: "finalD", label: "final_d" },
+      { key: "cardScore", label: "终局计分牌" },
+    ];
+    if (hasJiuzheFinalResultColumn(rows)) {
+      columns.push(
+        { key: "jiuzheCardScore", label: "九折卡牌分数" },
+        { key: "jiuzhePenaltyScore", label: "九折损失分数" },
+      );
+    }
+    if (hasRunezuFinalResultColumn(rows)) {
+      columns.push({ key: "runezuSymbolScore", label: "符文族 symbol 分数" });
+    }
+    return columns;
+  }
+
+  function getFinalResultCellValue(row, key) {
+    const breakdown = row.breakdown || {};
+    const tileScores = breakdown.tileScoresById || {};
+    switch (key) {
+      case "totalScore":
+        return breakdown.totalScore;
+      case "baseScore":
+        return breakdown.baseScore;
+      case "finalA":
+        return tileScores.a || 0;
+      case "finalB":
+        return tileScores.b || 0;
+      case "finalC":
+        return tileScores.c || 0;
+      case "finalD":
+        return tileScores.d || 0;
+      case "cardScore":
+        return breakdown.cardScore;
+      case "jiuzheCardScore":
+        return breakdown.jiuzheCardScore;
+      case "jiuzhePenaltyScore":
+        return breakdown.jiuzhePenaltyScore;
+      case "runezuSymbolScore":
+        return breakdown.runezuSymbolScore;
+      default:
+        return 0;
+    }
+  }
+
+  function createFinalResultPlayerCell(row) {
+    const cell = document.createElement("td");
+    const wrap = document.createElement("span");
+    const marker = document.createElement("span");
+    const name = document.createElement("span");
+    const color = players.getPlayerColorDefinition(row.player.color);
+
+    cell.className = "final-result-player-cell";
+    wrap.className = "final-result-player";
+    marker.className = "final-result-player-marker";
+    marker.style.setProperty("--player-color", color.uiColor);
+    marker.setAttribute("aria-hidden", "true");
+    name.textContent = getPlayerDisplayLabel(row.player, { includeCompany: false });
+    wrap.append(marker, name);
+    cell.append(wrap);
+    return cell;
+  }
+
+  function createFinalResultScoreCell(row, columnKey) {
+    const cell = document.createElement("td");
+    const value = getFinalResultCellValue(row, columnKey);
+    cell.className = "final-result-number-cell";
+    cell.textContent = formatFinalResultScore(value);
+    if (columnKey === "jiuzhePenaltyScore" && Number(value) < 0) {
+      cell.classList.add("is-negative");
+    }
+    return cell;
+  }
+
+  function renderFinalResultDialog() {
+    if (!els.finalResultHead || !els.finalResultBody) return;
+    const rows = buildFinalResultRows();
+    const columns = getFinalResultColumns(rows);
+    const maxScore = rows.reduce((max, row) => Math.max(max, Number(row.breakdown.totalScore) || 0), -Infinity);
+    const headerRow = document.createElement("tr");
+
+    headerRow.append(...columns.map((column) => {
+      const th = document.createElement("th");
+      th.scope = "col";
+      th.textContent = column.label;
+      if (column.key !== "player") th.className = "final-result-number-cell";
+      return th;
+    }));
+
+    const bodyRows = rows.map((row) => {
+      const tr = document.createElement("tr");
+      if ((Number(row.breakdown.totalScore) || 0) === maxScore) tr.classList.add("is-winner");
+      tr.append(...columns.map((column) => (
+        column.key === "player"
+          ? createFinalResultPlayerCell(row)
+          : createFinalResultScoreCell(row, column.key)
+      )));
+      return tr;
+    });
+
+    els.finalResultHead.replaceChildren(headerRow);
+    els.finalResultBody.replaceChildren(...bodyRows);
+    if (els.finalResultSubtitle) {
+      const winnerCount = rows.filter((row) => (Number(row.breakdown.totalScore) || 0) === maxScore).length;
+      els.finalResultSubtitle.textContent = rows.length
+        ? `第 ${turnState.roundNumber} 轮结束 · ${rows.length} 名玩家 · ${winnerCount > 1 ? "并列最高分" : "最高分"} ${formatFinalResultScore(maxScore)}`
+        : "暂无玩家分数";
+    }
+  }
+
+  function syncFinalResultButton() {
+    const visible = isGameEnded();
+    if (els.finalResultButton) {
+      els.finalResultButton.hidden = !visible;
+      els.finalResultButton.disabled = !visible;
+      els.finalResultButton.setAttribute("aria-expanded", String(visible && !els.finalResultOverlay?.hidden));
+      els.finalResultButton.setAttribute("aria-disabled", String(!visible));
+    }
+    if (!visible) {
+      finalResultAutoOpened = false;
+      closeFinalResultDialog({ silent: true });
+    }
+  }
+
+  function openFinalResultDialog(options = {}) {
+    if (!isGameEnded() || !els.finalResultOverlay) return { ok: false, message: "游戏尚未结束" };
+    renderFinalResultDialog();
+    els.finalResultOverlay.hidden = false;
+    els.finalResultOverlay.setAttribute("aria-hidden", "false");
+    els.finalResultButton?.setAttribute("aria-expanded", "true");
+    if (options.auto) finalResultAutoOpened = true;
+    return { ok: true };
+  }
+
+  function closeFinalResultDialog(options = {}) {
+    if (!els.finalResultOverlay) return;
+    els.finalResultOverlay.hidden = true;
+    els.finalResultOverlay.setAttribute("aria-hidden", "true");
+    els.finalResultButton?.setAttribute("aria-expanded", "false");
+    if (!options.silent && isGameEnded()) {
+      els.finalResultButton?.focus?.();
+    }
+  }
+
+  function minimizeFinalResultDialog() {
+    closeFinalResultDialog();
+  }
+
+  function maybeAutoOpenFinalResultDialog() {
+    syncFinalResultButton();
+    if (!isGameEnded() || finalResultAutoOpened) return;
+    openFinalResultDialog({ auto: true });
+  }
+
   function createOpponentStatRow(className) {
     const row = document.createElement("div");
     row.className = `opponent-stat-row ${className}`;
@@ -23467,6 +23665,9 @@
     updateActionButtons();
     renderStateReadout();
     refreshLatestActionLogRecoverySnapshot("回合结束后状态");
+    if (advanceResult.gameEnded) {
+      maybeAutoOpenFinalResultDialog();
+    }
   }
 
   function undoPendingAction() {
@@ -23823,6 +24024,7 @@
   }
 
   function updateActionButtons() {
+    syncFinalResultButton();
     const context = createActionContext();
     const gameplayLockReason = getGameplayLockReason();
     if (gameplayLockReason) {
@@ -25564,6 +25766,9 @@
     moveRocket,
     handleBoardPointerDown,
     handleFinalScoreTileClick,
+    openFinalResultDialog,
+    minimizeFinalResultDialog,
+    closeFinalResultDialog,
     setDebugOpen,
     setDebugPlayerMenuOpen,
     switchCurrentPlayerColor,

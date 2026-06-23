@@ -660,6 +660,11 @@
     const totalScore = jiuzhePenaltyApplied
       ? Math.ceil(prePenaltyTotalScore * 0.9)
       : prePenaltyTotalScore;
+    const tileScoresById = { a: 0, b: 0, c: 0, d: 0 };
+    for (const tile of tileResult.tiles) {
+      tileScoresById[tile.tileId] = (tileScoresById[tile.tileId] || 0) + (Number(tile.score) || 0);
+    }
+    const jiuzhePenaltyScore = totalScore - prePenaltyTotalScore;
 
     return {
       playerId: getPlayerId(player),
@@ -670,8 +675,10 @@
       runezuSymbolScore,
       jiuzheThreat,
       jiuzhePenaltyApplied,
+      jiuzhePenaltyScore,
       prePenaltyTotalScore,
       totalScore,
+      tileScoresById,
       tiles: tileResult.tiles,
       cards: cardResult.cards,
       jiuzheCards: jiuzheResult.cards,
