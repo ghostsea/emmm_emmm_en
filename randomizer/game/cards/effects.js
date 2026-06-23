@@ -2449,7 +2449,7 @@
   function ensureCardEffectState(card) {
     if (!card) return null;
     const model = getCardModel(card);
-    if (!model || (!model.triggers?.length && !model.tasks?.length)) return null;
+    if (!model || (!model.triggers?.length && !model.tasks?.length && !model.pluto)) return null;
     if (!card.cardEffectState || card.cardEffectState.modelCardId !== getCardId(card)) {
       card.cardEffectState = {
         modelCardId: getCardId(card),

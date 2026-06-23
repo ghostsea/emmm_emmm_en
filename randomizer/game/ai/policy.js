@@ -31,16 +31,16 @@
   }
 
   const TURN_ACTION_SCORES = Object.freeze({
-    launch: 100,
-    orbit: 90,
-    land: 88,
-    researchTech: 82,
-    playCard: 80,
-    move: 76,
-    scan: 62,
-    analyze: 58,
-    pass: 1,
+    land: 7,
+    orbit: 6,
+    researchTech: 5,
+    playCard: 5,
+    launch: 4,
+    scan: 1.5,
+    analyze: 1,
+    move: 0,
     "end-turn": 0,
+    pass: -12,
   });
 
   const TECH_TYPE_SCORES = Object.freeze({
@@ -70,16 +70,44 @@
     return typeof candidate === "string" ? candidate : candidate?.tileId;
   }
 
+  function getFiniteScore(value) {
+    const score = Number(value);
+    return Number.isFinite(score) ? score : null;
+  }
+
+  function getBestScore(items = [], scoreFn = () => 0) {
+    return (items || []).reduce((best, item) => {
+      const score = getFiniteScore(scoreFn(item));
+      return score == null ? best : Math.max(best, score);
+    }, -Infinity);
+  }
+
   function scoreTurnAction(candidate) {
     if (!candidate) return -Infinity;
     const base = TURN_ACTION_SCORES[candidate.id] ?? 0;
-    const techBonus = candidate.id === "researchTech"
-      ? Math.min(6, (candidate.takeable || []).length)
-      : 0;
-    return base + techBonus + Number(candidate.score || 0);
+    const explicitScore = getFiniteScore(candidate.score);
+    let valueScore = explicitScore ?? 0;
+
+    if (candidate.id === "researchTech") {
+      const bestTechScore = getBestScore(candidate.takeable || [], scoreResearchTechCandidate);
+      if (Number.isFinite(bestTechScore)) {
+        valueScore = Math.max(valueScore, bestTechScore);
+      }
+    }
+
+    if (candidate.id === "playCard") {
+      const bestCardScore = getBestScore(candidate.playableCards || [], scorePlayCardCandidate);
+      if (Number.isFinite(bestCardScore)) {
+        valueScore = Math.max(valueScore, bestCardScore);
+      }
+    }
+
+    return base + valueScore;
   }
 
   function scoreResearchTechCandidate(candidate) {
+    const explicitScore = getFiniteScore(candidate?.score);
+    if (explicitScore != null) return explicitScore;
     const tileId = getCandidateTileId(candidate);
     const techType = candidate?.techType || getTechType(tileId);
     const stackIndex = candidate?.stackIndex ?? getTechStackIndex(tileId);
@@ -92,9 +120,10 @@
   }
 
   function scorePlayCardCandidate(candidate) {
+    const explicitScore = getFiniteScore(candidate?.score);
     const price = Math.max(0, Math.round(Number(candidate?.price) || 0));
-    return Number(candidate?.score || 0)
-      + Math.max(0, 5 - price) * 0.2;
+    const priceTieBreaker = Math.max(0, 5 - price) * 0.2;
+    return (explicitScore ?? 0) + priceTieBreaker;
   }
 
   function chooseInitialSelection(offer, options = {}) {
@@ -138,11 +167,11 @@
   }
 
   function chooseResearchTechTile(candidates = []) {
-    return chooseBest(candidates, scoreResearchTechCandidate);
+    return chooseBest(candidates.filter((candidate) => candidate?.available !== false), scoreResearchTechCandidate);
   }
 
   function choosePlayCard(candidates = []) {
-    return chooseBest(candidates, scorePlayCardCandidate);
+    return chooseBest(candidates.filter((candidate) => candidate?.available !== false), scorePlayCardCandidate);
   }
 
   function chooseBlueTechSlot(availableSlots = []) {
