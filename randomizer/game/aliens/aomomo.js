@@ -423,9 +423,13 @@
   function getCardDefinition(cardOrIndex) {
     if (cardOrIndex == null) return null;
     if (typeof cardOrIndex === "number") return CARD_BY_INDEX[Math.round(cardOrIndex)] || null;
-    if (Number.isFinite(Number(cardOrIndex?.alienCardId))) return CARD_BY_INDEX[Math.round(Number(cardOrIndex.alienCardId))] || null;
-    const cardId = cardOrIndex?.cardId || cardOrIndex?.id || "";
-    return CARD_BY_ID[cardId] || CARD_DEFINITIONS.find((card) => card.cardId === cardId || card.asset === cardId) || null;
+    const cardId = typeof cardOrIndex === "string" ? cardOrIndex : cardOrIndex?.cardId || cardOrIndex?.id || "";
+    const byId = CARD_BY_ID[cardId] || CARD_DEFINITIONS.find((card) => card.cardId === cardId || card.asset === cardId) || null;
+    if (byId) return byId;
+    if (isAomomoCard(cardOrIndex) && Number.isFinite(Number(cardOrIndex?.alienCardId))) {
+      return CARD_BY_INDEX[Math.round(Number(cardOrIndex.alienCardId))] || null;
+    }
+    return null;
   }
 
   function createAlienCard(index, sequence = 0) {

@@ -52,71 +52,64 @@
     return null;
   }
 
-  function getLandTargets(context) {
-    const placement = shared.getRocketPlanet(context);
-    if (!placement.ok) return placement;
-
-    const planetId = placement.planet.planetId;
-    const targets = [];
-
-    if (planetId === aomomo?.PLANET_ID) {
-      if (aomomo?.canAddLandingMarker?.(context.alienGameState)) {
-        targets.push({ type: "planet" });
-      }
-    } else if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
-      targets.push({ type: "planet" });
-    }
-
-    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer, context)) {
-      for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
-        targets.push({ type: "satellite", satelliteId: satellite.satelliteId });
-      }
-    }
-
-    if (!targets.length) {
-      return {
-        ok: false,
-        rocket: placement.rocket,
-        currentPlayer: placement.currentPlayer,
-        planet: placement.planet,
-        message: `${placement.planet.name} 无可用登陆目标`,
-      };
-    }
-
-    return {
-      ok: true,
-      rocket: placement.rocket,
-      currentPlayer: placement.currentPlayer,
-      planet: placement.planet,
-      sectorCoordinate: placement.sectorCoordinate,
-      targets,
-      message: null,
-    };
+  function getRequestedRocketId(options = {}) {
+    const rocketId = Number(options.rocketId ?? options.target?.rocketId);
+    return Number.isInteger(rocketId) ? rocketId : null;
   }
 
-  function buildLandChoices(context, placement) {
+  function targetWithRocketId(target, rocketId) {
+    if (rocketId == null) return { ...target };
+    return { ...target, rocketId };
+  }
+
+  function getPlacementList(context, options = {}) {
+    const rocketId = getRequestedRocketId(options);
+    const placements = typeof shared.listPlayerRocketPlanetPlacements === "function"
+      ? shared.listPlayerRocketPlanetPlacements(context, { rocketId })
+      : [];
+    if (placements.length) return { ok: true, placements };
+    const placement = shared.getRocketPlanet(context, rocketId == null ? undefined : { rocketId });
+    if (!placement.ok) return { ok: false, message: placement.message, placements: [] };
+    return { ok: true, placements: [placement] };
+  }
+
+  function buildLandChoices(context, placement, options = {}) {
     const planetId = placement.planet.planetId;
     const choices = [];
+    const energyCost = getEnergyCost(context, planetId);
+    const rocketLabel = placement.rocket?.id != null ? `R${placement.rocket.id}` : "火箭";
 
     if (planetId === aomomo?.PLANET_ID) {
       if (aomomo?.canAddLandingMarker?.(context.alienGameState)) {
         choices.push({
-          target: { type: "planet" },
-          label: `登陆${placement.planet.name}`,
+          target: targetWithRocketId({ type: "planet" }, placement.rocket.id),
+          rocketId: placement.rocket.id,
+          planetId,
+          planet: placement.planet,
+          energyCost,
+          label: `登陆${placement.planet.name}（${rocketLabel}，${energyCost}能量）`,
         });
       }
     } else if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       choices.push({
-        target: { type: "planet" },
-        label: `登陆${placement.planet.name}（主星）`,
+        target: targetWithRocketId({ type: "planet" }, placement.rocket.id),
+        rocketId: placement.rocket.id,
+        planetId,
+        planet: placement.planet,
+        energyCost,
+        label: `登陆${placement.planet.name}（主星，${rocketLabel}，${energyCost}能量）`,
       });
     }
 
-    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer, context)) {
+    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer, { ...context, ...options })) {
       for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
         choices.push({
-          target: { type: "satellite", satelliteId: satellite.satelliteId },
-          label: `登陆${satellite.satelliteName}`,
+          target: targetWithRocketId({ type: "satellite", satelliteId: satellite.satelliteId }, placement.rocket.id),
+          rocketId: placement.rocket.id,
+          planetId,
+          planet: placement.planet,
+          energyCost,
+          label: `登陆${satellite.satelliteName}（${placement.planet.name}，${rocketLabel}，${energyCost}能量）`,
         });
       }
     }
@@ -124,59 +117,51 @@
     return choices;
   }
 
-  function getLandOptions(context) {
-    const result = getLandTargets(context);
-    if (!result.ok) {
-      return { ok: false, message: result.message };
-    }
+  function getLandOptions(context, options = {}) {
+    const placementResult = getPlacementList(context, options);
+    if (!placementResult.ok) return { ok: false, message: placementResult.message };
 
-    const choices = buildLandChoices(context, result);
-    if (!choices.length) {
-      return { ok: false, message: `${result.planet.name} 无可用登陆目标` };
-    }
-
-    if (choices.length === 1) {
+    const allChoices = placementResult.placements.flatMap((placement) => buildLandChoices(context, placement, options));
+    if (!allChoices.length) {
+      const [placement] = placementResult.placements;
       return {
-        ok: true,
-        needsChoice: false,
-        defaultTarget: choices[0].target,
-        planet: result.planet,
-        choices,
+        ok: false,
+        message: placement ? `${placement.planet.name} 无可用登陆目标` : "当前没有可登陆的行星火箭",
       };
+    }
+
+    const currentPlayer = placementResult.placements[0]?.currentPlayer;
+    const choices = allChoices.filter((choice) => players.canAfford(currentPlayer, { energy: choice.energyCost }));
+    if (!choices.length) {
+      const cheapest = allChoices.reduce((min, choice) => Math.min(min, choice.energyCost), Infinity);
+      return { ok: false, message: `能量不足，登陆需要 ${Number.isFinite(cheapest) ? cheapest : BASE_ENERGY_COST} 能量` };
     }
 
     return {
       ok: true,
-      needsChoice: true,
-      planet: result.planet,
+      defaultTarget: choices[0].target,
+      defaultRocketId: choices[0].rocketId,
+      energyCost: choices[0].energyCost,
+      planet: choices.length === 1 ? choices[0].planet : { planetId: "multi-land", name: "登陆目标" },
       choices,
+      needsChoice: choices.length > 1,
     };
   }
 
   function canExecute(context) {
-    const result = getLandTargets(context);
-    if (!result.ok) return { ok: false, message: result.message };
-
-    const energyCost = getEnergyCost(context, result.planet.planetId);
-    const currentPlayer = result.currentPlayer;
-    if (!players.canAfford(currentPlayer, { energy: energyCost })) {
-      return {
-        ok: false,
-        message: `能量不足，登陆需要 ${energyCost} 能量`,
-      };
-    }
-
-    return { ok: true, message: null, planet: result.planet, energyCost };
+    const options = getLandOptions(context);
+    if (!options.ok) return { ok: false, message: options.message };
+    return { ok: true, message: null, planet: options.planet, energyCost: options.energyCost, choices: options.choices };
   }
 
   function execute(context, options) {
-    const check = canExecute(context);
+    const check = getLandOptions(context, options);
     if (!check.ok) {
       context.rocketState.statusNote = check.message;
       return { ok: false, actionId: ACTION_ID, message: check.message };
     }
 
-    const landOptions = getLandOptions(context);
+    const landOptions = check;
     if (!landOptions.ok) {
       context.rocketState.statusNote = landOptions.message;
       return { ok: false, actionId: ACTION_ID, message: landOptions.message };
@@ -189,10 +174,15 @@
       return { ok: false, actionId: ACTION_ID, message };
     }
 
-    const placement = shared.getRocketPlanet(context);
+    const rocketId = getRequestedRocketId(options || {}) ?? landOptions.defaultRocketId;
+    const placement = shared.getRocketPlanet(context, { rocketId });
+    if (!placement.ok) {
+      context.rocketState.statusNote = placement.message;
+      return { ok: false, actionId: ACTION_ID, message: placement.message };
+    }
     const currentPlayer = placement.currentPlayer;
     const planetId = placement.planet.planetId;
-    const energyCost = check.energyCost;
+    const energyCost = getEnergyCost(context, planetId);
 
     const isAomomoPlanet = planetId === aomomo?.PLANET_ID;
     if (target.type === "planet" && isAomomoPlanet && !aomomo?.canAddLandingMarker?.(context.alienGameState)) {

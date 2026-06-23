@@ -23,7 +23,6 @@
   const SYMBOL_BASE_PATH = "../assets/aliens/符文族";
   const TRACE_TYPES = Object.freeze(["pink", "yellow", "blue"]);
   const TRACE_POSITIONS = Object.freeze([1, 2, 3, 4]);
-  const TRACE_EVENT_ORIGIN = "runezu-face";
   const SYMBOL_IDS = Object.freeze([
     "symbol_1",
     "symbol_2",
@@ -888,9 +887,13 @@
   function getCardDefinition(cardOrIndex) {
     if (cardOrIndex == null) return null;
     if (typeof cardOrIndex === "number") return CARD_BY_INDEX[Math.round(cardOrIndex)] || null;
-    if (Number.isFinite(Number(cardOrIndex?.alienCardId))) return CARD_BY_INDEX[Math.round(Number(cardOrIndex.alienCardId))] || null;
-    const cardId = cardOrIndex?.cardId || cardOrIndex?.id || "";
-    return CARD_BY_ID[cardId] || CARD_DEFINITIONS.find((card) => card.cardId === cardId || card.asset === cardId) || null;
+    const cardId = typeof cardOrIndex === "string" ? cardOrIndex : cardOrIndex?.cardId || cardOrIndex?.id || "";
+    const byId = CARD_BY_ID[cardId] || CARD_DEFINITIONS.find((card) => card.cardId === cardId || card.asset === cardId) || null;
+    if (byId) return byId;
+    if (isRunezuCard(cardOrIndex) && Number.isFinite(Number(cardOrIndex?.alienCardId))) {
+      return CARD_BY_INDEX[Math.round(Number(cardOrIndex.alienCardId))] || null;
+    }
+    return null;
   }
 
   function getCardSrc(index) {
@@ -957,7 +960,7 @@
   }
 
   function isRunezuCard(card) {
-    return Boolean(card?.runezuCard || getCardDefinition(card));
+    return Boolean(card?.runezuCard || card?.set === "alien:符文族" || String(card?.cardId || "").startsWith("runezu_"));
   }
 
   function getTaskProgress(card) {
@@ -970,11 +973,6 @@
     if (!event || !step) return false;
     if (step.event === "orbitOrLand") return event.type === "orbit" || event.type === "land" || event.type === "orbitOrLand";
     if (step.event === "researchTech") return event.type === "researchTech" && (!step.techType || event.techType === step.techType);
-    if (step.event === "alienTrace") {
-      return event.type === "alienTrace"
-        && event.alienId === ALIEN_ID
-        && event.alienTraceOrigin === TRACE_EVENT_ORIGIN;
-    }
     return event.type === step.event;
   }
 
@@ -1073,7 +1071,6 @@
     CARD_BACK_SRC,
     TRACE_TYPES,
     TRACE_POSITIONS,
-    TRACE_EVENT_ORIGIN,
     SYMBOL_IDS,
     PANEL_SYMBOL_SLOTS,
     FACE_SYMBOL_POSITIONS,

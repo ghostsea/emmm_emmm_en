@@ -99,58 +99,196 @@
     return null;
   }
 
-  function getLandOptions(context, options = {}) {
-    const placement = shared.getRocketPlanet(context);
-    if (!placement.ok) return { ok: false, message: placement.message };
+  function getRequestedRocketId(options = {}) {
+    const raw = options.rocketId ?? options.target?.rocketId;
+    const rocketId = Number(raw);
+    return Number.isInteger(rocketId) ? rocketId : null;
+  }
 
+  function targetWithRocketId(target, rocketId) {
+    if (rocketId == null) return { ...target };
+    return { ...target, rocketId };
+  }
+
+  function formatRocketChoicePart(placement) {
+    return placement?.rocket?.id != null ? `R${placement.rocket.id}` : "火箭";
+  }
+
+  function getPlacementList(context, options = {}) {
+    const rocketId = getRequestedRocketId(options);
+    const placements = typeof shared.listPlayerRocketPlanetPlacements === "function"
+      ? shared.listPlayerRocketPlanetPlacements(context, {
+        rocketId,
+        preferredRocketId: options.preferredRocketId,
+      })
+      : [];
+    if (placements.length) return { ok: true, placements };
+
+    const placement = shared.getRocketPlanet(context, rocketId == null ? undefined : { rocketId });
+    if (!placement.ok) return { ok: false, message: placement.message, placements: [] };
+    return { ok: true, placements: [placement] };
+  }
+
+  function getActionCostLabel(cost) {
+    return players.formatResourceCost(cost) || "0";
+  }
+
+  function canAddOrbitForPlacement(context, placement) {
+    const planetId = placement.planet.planetId;
+    return planetId === aomomo?.PLANET_ID
+      ? Boolean(aomomo?.canAddOrbitMarker?.(context.alienGameState))
+      : planetStats.canAddOrbitMarker(context.planetStatsState, planetId);
+  }
+
+  function buildOrbitChoice(placement, cost) {
+    return {
+      rocketId: placement.rocket.id,
+      planetId: placement.planet.planetId,
+      planet: placement.planet,
+      cost: { ...cost },
+      label: `环绕${placement.planet.name}（${formatRocketChoicePart(placement)}，${getActionCostLabel(cost)}）`,
+    };
+  }
+
+  function getOrbitOptions(context, options = {}) {
+    const placementResult = getPlacementList(context, options);
+    if (!placementResult.ok) return { ok: false, message: placementResult.message };
+
+    const cost = resolveCost(options, DEFAULT_ORBIT_COST);
+    const currentPlayer = placementResult.placements[0]?.currentPlayer;
+    if (hasCost(cost) && !players.canAfford(currentPlayer, cost)) {
+      return {
+        ok: false,
+        message: `资源不足，需要 ${players.formatResourceCost(cost)}`,
+      };
+    }
+
+    const choices = placementResult.placements
+      .filter((placement) => canAddOrbitForPlacement(context, placement))
+      .map((placement) => buildOrbitChoice(placement, cost));
+    if (!choices.length) {
+      const [placement] = placementResult.placements;
+      return {
+        ok: false,
+        message: placement
+          ? `${placement.planet.name} 环绕槽位已满`
+          : "当前没有可环绕的行星火箭",
+      };
+    }
+
+    return {
+      ok: true,
+      planet: choices.length === 1
+        ? choices[0].planet
+        : { planetId: "multi-orbit", name: "环绕目标" },
+      choices,
+      needsChoice: choices.length > 1,
+      defaultRocketId: choices[0].rocketId,
+      cost,
+    };
+  }
+
+  function buildLandChoicesForPlacement(context, placement, options = {}) {
     const planetId = placement.planet.planetId;
     const choices = [];
+    const energyCost = getLandEnergyCost(context, planetId);
+    const cost = resolveCost(options, { energy: energyCost });
+    const costLabel = getActionCostLabel(cost);
+    const rocketPart = formatRocketChoicePart(placement);
+
     if (planetId === aomomo?.PLANET_ID) {
-      if (aomomo.canAddOrbitMarker && aomomo.canAddLandingMarker(context.alienGameState)) {
+      if (aomomo?.canAddLandingMarker?.(context.alienGameState)) {
         choices.push({
-          target: { type: "planet" },
-          label: `登陆${placement.planet.name}`,
+          target: targetWithRocketId({ type: "planet" }, placement.rocket.id),
+          rocketId: placement.rocket.id,
+          planetId,
+          planet: placement.planet,
+          energyCost,
+          cost,
+          label: `登陆${placement.planet.name}（${rocketPart}，${costLabel}）`,
         });
       }
-      if (!choices.length) return { ok: false, message: `${placement.planet.name} 无可用登陆目标` };
-      return {
-        ok: true,
-        planet: placement.planet,
-        choices,
-        needsChoice: false,
-        defaultTarget: choices[0].target,
-        energyCost: getLandEnergyCost(context, planetId),
-      };
+      return choices;
     }
     if (options.allowDuplicateLanding || planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       choices.push({
-        target: { type: "planet" },
+        target: targetWithRocketId({ type: "planet" }, placement.rocket.id),
+        rocketId: placement.rocket.id,
+        planetId,
+        planet: placement.planet,
+        energyCost,
+        cost,
         label: options.allowDuplicateLanding
-          ? `登陆${placement.planet.name}（主星，可重复）`
-          : `登陆${placement.planet.name}（主星）`,
+          ? `登陆${placement.planet.name}（主星，可重复，${rocketPart}，${costLabel}）`
+          : `登陆${placement.planet.name}（主星，${rocketPart}，${costLabel}）`,
       });
     }
     if (canLandOnSatellites(placement.currentPlayer, { ...options, turnState: context.turnState, roundNumber: context.roundNumber, turnNumber: context.turnNumber })) {
       for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
         choices.push({
-          target: { type: "satellite", satelliteId: satellite.satelliteId },
-          label: `登陆${satellite.satelliteName}`,
+          target: targetWithRocketId({ type: "satellite", satelliteId: satellite.satelliteId }, placement.rocket.id),
+          rocketId: placement.rocket.id,
+          planetId,
+          planet: placement.planet,
+          energyCost,
+          cost,
+          label: `登陆${satellite.satelliteName}（${placement.planet.name}，${rocketPart}，${costLabel}）`,
         });
       }
     }
-    if (!choices.length) return { ok: false, message: `${placement.planet.name} 无可用登陆目标` };
+    return choices;
+  }
+
+  function getLandOptions(context, options = {}) {
+    const placementResult = getPlacementList(context, options);
+    if (!placementResult.ok) return { ok: false, message: placementResult.message };
+
+    const allChoices = placementResult.placements.flatMap((placement) => (
+      buildLandChoicesForPlacement(context, placement, options)
+    ));
+    if (!allChoices.length) {
+      const [placement] = placementResult.placements;
+      return {
+        ok: false,
+        message: placement
+          ? `${placement.planet.name} 无可用登陆目标`
+          : "当前没有可登陆的行星火箭",
+      };
+    }
+    const currentPlayer = placementResult.placements[0]?.currentPlayer;
+    const choices = allChoices.filter((choice) => !hasCost(choice.cost) || players.canAfford(currentPlayer, choice.cost));
+    if (!choices.length) {
+      const cheapest = allChoices
+        .map((choice) => choice.cost || {})
+        .sort((left, right) => (
+          Object.values(left).reduce((sum, value) => sum + Number(value || 0), 0)
+          - Object.values(right).reduce((sum, value) => sum + Number(value || 0), 0)
+        ))[0] || {};
+      return {
+        ok: false,
+        message: `资源不足，需要 ${players.formatResourceCost(cheapest)}`,
+      };
+    }
     return {
       ok: true,
-      planet: placement.planet,
+      planet: choices.length === 1
+        ? choices[0].planet
+        : { planetId: "multi-land", name: "登陆目标" },
       choices,
       needsChoice: choices.length > 1,
       defaultTarget: choices[0].target,
-      energyCost: getLandEnergyCost(context, planetId),
+      defaultRocketId: choices[0].rocketId,
+      energyCost: choices[0].energyCost,
+      cost: { ...(choices[0].cost || {}) },
     };
   }
 
   function orbitProbe(context, options = {}) {
-    const placement = shared.getRocketPlanet(context);
+    const orbitOptions = getOrbitOptions(context, options);
+    if (!orbitOptions.ok) return { ok: false, abilityId: "orbitProbe", message: orbitOptions.message };
+
+    const rocketId = getRequestedRocketId(options) ?? orbitOptions.defaultRocketId;
+    const placement = shared.getRocketPlanet(context, { rocketId });
     if (!placement.ok) return { ok: false, abilityId: "orbitProbe", message: placement.message };
 
     const currentPlayer = placement.currentPlayer;
@@ -241,7 +379,9 @@
     const landOptions = getLandOptions(context, options);
     if (!landOptions.ok) return { ok: false, abilityId: "landProbe", message: landOptions.message };
 
-    const placement = shared.getRocketPlanet(context);
+    const rocketId = getRequestedRocketId(options) ?? landOptions.defaultRocketId;
+    const placement = shared.getRocketPlanet(context, { rocketId });
+    if (!placement.ok) return { ok: false, abilityId: "landProbe", message: placement.message };
     const currentPlayer = placement.currentPlayer;
     const target = normalizeLandTarget(options.target || landOptions.defaultTarget);
     if (!target) return { ok: false, abilityId: "landProbe", message: "未选择有效的登陆目标" };
@@ -378,6 +518,7 @@
     BASE_LAND_ENERGY_COST,
     ORANGE3_LAND_DISCOUNT,
     getLandEnergyCost,
+    getOrbitOptions,
     getLandOptions,
     orbitProbe,
     landProbe,

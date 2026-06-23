@@ -136,6 +136,20 @@ const inactiveOrbitResult = actions.execute("orbit", inactiveOrbitContext);
 assert.equal(inactiveOrbitResult.ok, true);
 assert.equal(planetStats.getPlanetOrbitCount(inactiveOrbitContext.planetStatsState, "mars"), 1);
 
+const multiOrbitContext = createContext();
+players.getCurrentPlayer(multiOrbitContext.playerState).techState.ownedTiles.orange1 = true;
+const multiOrbitMars = launchToPlanet(multiOrbitContext, "mars").rocket;
+const multiOrbitVenus = launchToPlanet(multiOrbitContext, "venus").rocket;
+const multiOrbitOptions = actions.getOrbitOptions(multiOrbitContext);
+assert.equal(multiOrbitOptions.ok, true);
+assert.equal(multiOrbitOptions.needsChoice, true);
+const selectedOrbit = actions.execute("orbit", multiOrbitContext, { rocketId: multiOrbitMars.id });
+assert.equal(selectedOrbit.ok, true);
+assert.equal(selectedOrbit.removedRocketId, multiOrbitMars.id);
+assert.equal(planetStats.getPlanetOrbitCount(multiOrbitContext.planetStatsState, "mars"), 1);
+assert.equal(planetStats.getPlanetOrbitCount(multiOrbitContext.planetStatsState, "venus"), 0);
+assert.equal(multiOrbitContext.rocketState.rockets.some((rocket) => rocket.id === multiOrbitVenus.id), true);
+
 const landContext = createContext();
 launchToPlanet(landContext, "venus");
 const landWithoutOrbit = actions.execute("land", landContext);
@@ -151,6 +165,22 @@ assert.equal(inactiveLandCheck.ok, true);
 const inactiveLandResult = actions.execute("land", inactiveLandContext);
 assert.equal(inactiveLandResult.ok, true);
 assert.equal(planetStats.getPlanetLandingCount(inactiveLandContext.planetStatsState, "venus"), 1);
+
+const multiLandContext = createContext();
+players.getCurrentPlayer(multiLandContext.playerState).techState.ownedTiles.orange1 = true;
+const multiLandMars = launchToPlanet(multiLandContext, "mars").rocket;
+const multiLandVenus = launchToPlanet(multiLandContext, "venus").rocket;
+const multiLandOptions = actions.getLandOptions(multiLandContext);
+assert.equal(multiLandOptions.ok, true);
+assert.equal(multiLandOptions.needsChoice, true);
+const multiLandMarsChoice = multiLandOptions.choices.find((choice) => choice.planetId === "mars" && choice.target.type === "planet");
+assert.ok(multiLandMarsChoice);
+const selectedLand = actions.execute("land", multiLandContext, { target: multiLandMarsChoice.target });
+assert.equal(selectedLand.ok, true);
+assert.equal(selectedLand.removedRocketId, multiLandMars.id);
+assert.equal(planetStats.getPlanetLandingCount(multiLandContext.planetStatsState, "mars"), 1);
+assert.equal(planetStats.getPlanetLandingCount(multiLandContext.planetStatsState, "venus"), 0);
+assert.equal(multiLandContext.rocketState.rockets.some((rocket) => rocket.id === multiLandVenus.id), true);
 
 const discountedLandContext = createContext();
 launchToPlanet(discountedLandContext, "jupiter");

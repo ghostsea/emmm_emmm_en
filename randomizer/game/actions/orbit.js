@@ -28,11 +28,43 @@
   const CREDIT_COST = 1;
   const ENERGY_COST = 1;
 
-  function canExecute(context) {
-    const placement = shared.getRocketPlanet(context);
-    if (!placement.ok) return { ok: false, message: placement.message };
+  function getRequestedRocketId(options = {}) {
+    const rocketId = Number(options.rocketId ?? options.target?.rocketId);
+    return Number.isInteger(rocketId) ? rocketId : null;
+  }
 
-    const currentPlayer = placement.currentPlayer;
+  function getPlacementList(context, options = {}) {
+    const rocketId = getRequestedRocketId(options);
+    const placements = typeof shared.listPlayerRocketPlanetPlacements === "function"
+      ? shared.listPlayerRocketPlanetPlacements(context, { rocketId })
+      : [];
+    if (placements.length) return { ok: true, placements };
+    const placement = shared.getRocketPlanet(context, rocketId == null ? undefined : { rocketId });
+    if (!placement.ok) return { ok: false, message: placement.message, placements: [] };
+    return { ok: true, placements: [placement] };
+  }
+
+  function canAddOrbitForPlacement(context, placement) {
+    const isAomomoPlanet = placement.planet.planetId === aomomo?.PLANET_ID;
+    return isAomomoPlanet
+      ? Boolean(aomomo?.canAddOrbitMarker?.(context.alienGameState))
+      : planetStats.canAddOrbitMarker(context.planetStatsState, placement.planet.planetId);
+  }
+
+  function buildOrbitChoice(placement) {
+    return {
+      rocketId: placement.rocket.id,
+      planetId: placement.planet.planetId,
+      planet: placement.planet,
+      label: `环绕${placement.planet.name}（R${placement.rocket.id}）`,
+    };
+  }
+
+  function getOrbitOptions(context, options = {}) {
+    const placementResult = getPlacementList(context, options);
+    if (!placementResult.ok) return { ok: false, message: placementResult.message };
+
+    const currentPlayer = placementResult.placements[0]?.currentPlayer;
     if (!players.canAfford(currentPlayer, { credits: CREDIT_COST, energy: ENERGY_COST })) {
       return {
         ok: false,
@@ -40,25 +72,44 @@
       };
     }
 
-    const isAomomoPlanet = placement.planet.planetId === aomomo?.PLANET_ID;
-    if (isAomomoPlanet ? !aomomo?.canAddOrbitMarker?.(context.alienGameState) : !planetStats.canAddOrbitMarker(context.planetStatsState, placement.planet.planetId)) {
+    const choices = placementResult.placements
+      .filter((placement) => canAddOrbitForPlacement(context, placement))
+      .map(buildOrbitChoice);
+    if (!choices.length) {
+      const [placement] = placementResult.placements;
       return {
         ok: false,
-        message: `${placement.planet.name} 环绕槽位已满`,
+        message: placement ? `${placement.planet.name} 环绕槽位已满` : "当前没有可环绕的行星火箭",
       };
     }
 
-    return { ok: true, message: null, planet: placement.planet };
+    return {
+      ok: true,
+      message: null,
+      planet: choices[0].planet,
+      choices,
+      needsChoice: choices.length > 1,
+      defaultRocketId: choices[0].rocketId,
+    };
   }
 
-  function execute(context) {
-    const check = canExecute(context);
+  function canExecute(context) {
+    return getOrbitOptions(context);
+  }
+
+  function execute(context, options = {}) {
+    const check = getOrbitOptions(context, options);
     if (!check.ok) {
       context.rocketState.statusNote = check.message;
       return { ok: false, actionId: ACTION_ID, message: check.message };
     }
 
-    const placement = shared.getRocketPlanet(context);
+    const rocketId = getRequestedRocketId(options) ?? check.defaultRocketId;
+    const placement = shared.getRocketPlanet(context, { rocketId });
+    if (!placement.ok) {
+      context.rocketState.statusNote = placement.message;
+      return { ok: false, actionId: ACTION_ID, message: placement.message };
+    }
     const currentPlayer = placement.currentPlayer;
     const spendResult = players.spendResources(currentPlayer, {
       credits: CREDIT_COST,
@@ -112,6 +163,7 @@
     label: ACTION_LABEL,
     creditCost: CREDIT_COST,
     energyCost: ENERGY_COST,
+    getOrbitOptions,
     canExecute,
     execute,
   });

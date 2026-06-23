@@ -32,6 +32,15 @@ assert.deepEqual(
     ["c_1", 7, 4, "blue"],
   ],
 );
+assert.deepEqual(
+  revealResult.anomalies.map((anomaly) => anomaly.src),
+  [
+    "../assets/aliens/异常点/a_1.png",
+    "../assets/aliens/异常点/b_1.png",
+    "../assets/aliens/异常点/c_1.png",
+  ],
+);
+assert.equal(yichangdian.getAnomalyMarkerSrc("a_2"), "../assets/aliens/异常点/a_2.png");
 assert.equal(revealResult.nextAnomalySectorX, 1, "earth x=4 should next trigger sector 1 while x decreases");
 
 let result = yichangdian.placeYichangdianTrace(alienState, 2, "pink", 1, white);
@@ -66,6 +75,7 @@ assert.equal(yichangdian.getTraceGrid(debugState, 1).pink[1].length, 1, "debug o
 const displayed = yichangdian.takeDisplayedCard(alienState, () => 0);
 assert.equal(displayed.ok, true);
 assert.equal(displayed.card.set, "alien:异常点");
+assert.equal(displayed.card.yichangdianCard, true);
 assert.match(displayed.card.src, /assets\/aliens\/异常点\/cards\/\d\.webp/);
 const blind = yichangdian.blindDrawCard(alienState, () => 0);
 assert.equal(blind.ok, true);

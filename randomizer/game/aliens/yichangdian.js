@@ -315,7 +315,7 @@
     const [prefix, variant] = String(markerId || "").split("_");
     const group = ANOMALY_GROUP_BY_PREFIX[prefix];
     if (!group || !variant) return "";
-    return `../assets/aliens/异常点/${group.assetColor}_${variant}.png`;
+    return `../assets/aliens/异常点/${prefix}_${variant}.png`;
   }
 
   function parseAnomalyMarkerId(markerId) {
@@ -438,6 +438,7 @@
       discardActionCode: definition.discardActionCode,
       scanActionCode: definition.scanActionCode,
       incomeCode: definition.incomeCode,
+      yichangdianCard: true,
     };
   }
 

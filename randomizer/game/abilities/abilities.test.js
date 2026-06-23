@@ -192,6 +192,48 @@ function launchToPlanet(context, planetId) {
 
 {
   const context = createContext({ resources: { credits: 10, energy: 10 } });
+  currentPlayer(context).techState.ownedTiles.orange1 = true;
+  const marsRocket = launchToPlanet(context, "mars");
+  const venusRocket = launchToPlanet(context, "venus");
+
+  const options = abilities.planet.getOrbitOptions(context);
+  assert.equal(options.ok, true);
+  assert.equal(options.needsChoice, true);
+  assert.deepEqual(
+    options.choices.map((choice) => choice.planetId).sort(),
+    ["mars", "venus"],
+  );
+
+  const result = abilities.executeAbility("orbitProbe", context, { rocketId: marsRocket.id });
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.removedRocketId, marsRocket.id);
+  assert.equal(planetStats.getPlanetOrbitCount(context.planetStatsState, "mars"), 1);
+  assert.equal(planetStats.getPlanetOrbitCount(context.planetStatsState, "venus"), 0);
+  assert.equal(context.rocketState.rockets.some((rocket) => rocket.id === venusRocket.id), true);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
+  currentPlayer(context).techState.ownedTiles.orange1 = true;
+  const marsRocket = launchToPlanet(context, "mars");
+  const venusRocket = launchToPlanet(context, "venus");
+
+  const options = abilities.planet.getLandOptions(context);
+  assert.equal(options.ok, true);
+  assert.equal(options.needsChoice, true);
+  const marsChoice = options.choices.find((choice) => choice.planetId === "mars" && choice.target.type === "planet");
+  assert.ok(marsChoice);
+
+  const result = abilities.executeAbility("landProbe", context, { target: marsChoice.target });
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.removedRocketId, marsRocket.id);
+  assert.equal(planetStats.getPlanetLandingCount(context.planetStatsState, "mars"), 1);
+  assert.equal(planetStats.getPlanetLandingCount(context.planetStatsState, "venus"), 0);
+  assert.equal(context.rocketState.rockets.some((rocket) => rocket.id === venusRocket.id), true);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
   context.solarState.aomomoActive = true;
   aomomo.initializeAomomoReveal(context.alienGameState, 1, currentPlayer(context));
   launchToPlanet(context, aomomo.PLANET_ID);

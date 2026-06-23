@@ -12,6 +12,7 @@
 
 - 揭示时读取当前地球 `x` 为 `m`。
 - 在 `m`、`m-3`、`m+3` 的 `y=4` 扇区生成 a/b/c 三个异常标记，各随机 1/2 面。
+- 异常标记素材直接使用 `assets/aliens/异常点/a_1.png`、`a_2.png`、`b_1.png`、`b_2.png`、`c_1.png`、`c_2.png`。
 - 太阳系旋转后若地球 `x` 命中异常扇区，按该异常颜色取异常点正面痕迹中最靠上的玩家结算奖励。
 - 揭示初始化包含随机异常面和牌堆状态，属于不可逆边界。
 
@@ -28,7 +29,7 @@
 - 揭示后面板下方展示一张异常点牌。
 - 揭示时，玩家在该外星人 state 面板拥有几个首痕迹，就自动从异常点牌堆获得几张异常点牌到手牌。
 - 痕迹奖励产生“外星人牌”时，可确认拿展示牌、盲抽异常点牌或取消。
-- 异常点牌进入手牌，并保留 `price`、`cardTypeCode`、`discardActionCode`、`scanActionCode`、`incomeCode`。
+- 异常点牌进入手牌，并保留 `set: "alien:异常点"`、`yichangdianCard`、`price`、`cardTypeCode`、`discardActionCode`、`scanActionCode`、`incomeCode`；其它外星牌模块不能只凭裸 `alienCardId` 把它识别成自己的牌。
 - 打牌效果由 `randomizer/game/cards/effects.js` 中 `yichangdian_0.webp` 到 `yichangdian_9.webp` 模型驱动。
 - 拿展示牌后翻新展示牌、盲抽牌都属于不可逆屏障。
 

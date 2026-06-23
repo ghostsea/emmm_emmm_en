@@ -49,8 +49,14 @@
   function execute(actionId, context, options) {
     const action = getAction(actionId);
     if (!action) return { ok: false, actionId, message: `未知行动: ${actionId}` };
-    if (actionId === "land" || actionId === "researchTech") return action.execute(context, options);
+    if (actionId === "orbit" || actionId === "land" || actionId === "researchTech") return action.execute(context, options);
     return action.execute(context);
+  }
+
+  function getOrbitOptions(context) {
+    return typeof orbit.getOrbitOptions === "function"
+      ? orbit.getOrbitOptions(context)
+      : orbit.canExecute(context);
   }
 
   function getLandOptions(context) {
@@ -64,6 +70,7 @@
     listActions,
     canExecute,
     execute,
+    getOrbitOptions,
     getLandOptions,
   });
 });

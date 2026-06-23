@@ -54,6 +54,15 @@ assert(yStacked.percentY < yBase.percentY, "Yichangdian position 1 stack should 
 const rebuiltYBase = placement.getYichangdianBaseFromStackTraceMarkerLayout(yStacked, 2);
 assert(rebuiltYBase.percentY === yBase.percentY,
   "dragging a stacked Yichangdian marker should rebuild the base coordinate");
+assert(placement.getYichangdianTraceMarkerLayout(1, "pink", 1).percentY === 34.44,
+  "Yichangdian revealed face pink first slot should keep calibrated Y");
+assert(placement.getYichangdianTraceMarkerLayout(1, "yellow", 5).percentY === 82.3,
+  "Yichangdian revealed face yellow fifth slot should keep calibrated Y");
+assert(placement.getYichangdianTraceMarkerLayout(2, "blue", 1).percentX === 80.62,
+  "Yichangdian revealed face slot 2 blue column should keep calibrated X");
+assert(placement.getYichangdianTraceMarkerLayout(1, "pink", 1).percentY
+  !== placement.getAlienTraceMarkerLayout(1, "pink").percentY,
+  "Yichangdian revealed face layout must not fall back to unrevealed state layout");
 
 for (const traceType of ["pink", "yellow", "blue"]) {
   for (let position = 1; position <= 4; position += 1) {
