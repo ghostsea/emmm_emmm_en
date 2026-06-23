@@ -1,5 +1,9 @@
 const assert = require("assert");
 
+const valuation = require("./valuation");
+const goals = require("./goals");
+const actionGraph = require("./action-graph");
+const planner = require("./planner");
 const evaluator = require("./evaluator");
 const policy = require("./policy");
 const analytics = require("./battle-analytics");
@@ -7,6 +11,40 @@ const analytics = require("./battle-analytics");
 assert.equal(evaluator.getResourceValue({ credits: 1, energy: 1, publicity: 1 }), 7);
 assert.equal(evaluator.getRemainingIncomeMultiplier(1), 4);
 assert.equal(evaluator.getRemainingIncomeMultiplier(4), 1);
+assert.equal(valuation.getIncomeRawValue({ credits: 1 }, { roundNumber: 1 }), 12);
+assert.equal(valuation.getIncomeNetValue({ credits: 1 }, {
+  roundNumber: 1,
+  hand: [{ label: "low" }, { label: "alien:strong", alienCard: true }],
+}), 9);
+assert.equal(evaluator.getIncomeValue({ credits: 1 }, { roundNumber: 1 }), 12);
+assert.equal(evaluator.getIncomeValue({ credits: 1 }, { roundNumber: 1, discardedCardValue: 3 }), 9);
+
+const inferredGoals = goals.inferGoals({
+  turnState: { roundNumber: 1 },
+  playerState: { players: [{ id: "p1", resources: { score: 12, availableData: 4 } }] },
+}, "p1");
+assert.ok(inferredGoals.some((goal) => goal.id === goals.GOAL_IDS.FIRST_ROUND_SCORE_25));
+assert.ok(goals.scoreCandidateForGoals({ id: "scan" }, inferredGoals) > 0);
+
+const graph = actionGraph.buildActionGraph([
+  { id: "researchTech", kind: "main", available: true, score: 5, valueBreakdown: { costValue: 2 } },
+], {}, "p1", {
+  goals: [{ id: goals.GOAL_IDS.FINAL_TILE_FOCUS, value: 4, priority: 1, feasibility: 1 }],
+  markedFormulas: [{ formulaId: "d2", multiplier: 7 }],
+});
+assert.equal(graph.length, 1);
+assert.ok(graph[0].finalMarginal > 0);
+assert.ok(graph[0].net > 5);
+assert.equal(graph[0].breakdown.cost, 2);
+
+const planned = planner.chooseTurnPlan([
+  { id: "move", kind: "quick", available: true, score: 3 },
+  { id: "land", kind: "main", available: true, score: 8, plan: { quickActionId: "move", score: 4 } },
+  { id: "pass", kind: "pass", available: true, score: -10 },
+], {}, "p1");
+assert.ok(planned);
+assert.equal(planned.key, "land>move");
+assert.equal(planned.firstAction.id, "land");
 
 const offer = {
   industryOptions: [
@@ -51,6 +89,14 @@ assert.equal(policy.chooseTurnAction([
   { id: "scan", available: true },
 ])?.id, "scan");
 assert.equal(policy.chooseTurnAction([
+  { id: "scan", available: true, score: 4 },
+  { id: "analyze", available: true, score: 12 },
+])?.id, "analyze");
+assert.equal(policy.chooseTurnAction([
+  { id: "end-turn", available: true },
+  { id: "placeData", available: true, score: 8 },
+])?.id, "placeData");
+assert.equal(policy.chooseTurnAction([
   { id: "scan", available: true },
   { id: "playCard", available: true, playableCards: [{ price: 2, score: 4 }] },
 ])?.id, "playCard");
@@ -82,6 +128,19 @@ assert.deepEqual(policy.chooseMovePaymentIndexes([
   moveCardIndexes: [2, 1],
 }), [1]);
 assert.deepEqual(policy.chooseDiscardIndexes([{ label: "b" }, { label: "a" }], 1), [1]);
+assert.equal(policy.chooseAlienUseOption([
+  { choice: "displayed", disabled: true },
+  { choice: "blind" },
+  { choice: "cancel" },
+])?.choice, "blind");
+assert.equal(policy.chooseAlienUseOption([
+  { choice: "skip" },
+  { choice: "2" },
+  { choice: "0" },
+])?.choice, "0");
+assert.equal(policy.chooseAlienUseOption([
+  { choice: "cancel" },
+])?.choice, "cancel");
 
 const sampleBattleReport = {
   lastSummary: { ok: false, blocked: true, gameEnded: false, steps: 4, message: "sample" },
@@ -231,6 +290,75 @@ assert.ok(finalMarkAnalysis.strategyTuning.weights.final > 1);
 const finalMarkSummary = analytics.summarizeBattleReports([finalMarkReport]);
 assert.equal(finalMarkSummary.finalScoreMarks[0].key, "c:c1");
 assert.equal(finalMarkSummary.finalScoreFormulas[0].key, "c1");
+
+const sequenceLogs = Array.from({ length: 7 }, (_item, index) => ({
+  type: "turn-action",
+  roundNumber: 1,
+  turnNumber: index + 1,
+  playerId: "player-white",
+  playerLabel: "白色",
+  details: {
+    action: {
+      id: index % 2 === 0 ? "launch" : "scan",
+      kind: "main",
+      plan: index === 1 ? { type: "main-then-quick", mainActionId: "scan", quickActionId: "move" } : null,
+    },
+    candidates: [],
+  },
+}));
+sequenceLogs.splice(2, 0, {
+  type: "scan-target",
+  roundNumber: 1,
+  turnNumber: 2,
+  playerId: "player-white",
+  playerLabel: "白色",
+  details: { pendingType: "sector_scan", nebulaId: "sector-1-a" },
+});
+sequenceLogs.splice(3, 0, {
+  type: "alien-use",
+  roundNumber: 1,
+  turnNumber: 2,
+  playerId: "player-white",
+  playerLabel: "白色",
+  details: { pendingType: "runezu-card", selected: { choice: "displayed" } },
+});
+sequenceLogs.splice(4, 0, {
+  type: "data-placement",
+  roundNumber: 1,
+  turnNumber: 2,
+  playerId: "player-white",
+  playerLabel: "白色",
+  details: { selected: { target: "computer", placementSlot: 6 } },
+});
+const sequenceReport = {
+  logs: sequenceLogs,
+  playerResults: [
+    { playerId: "player-white", playerLabel: "白色", finalScore: 35, tileScore: 10, completedTaskCount: 3, techCount: 4, cardScore: 6 },
+    { playerId: "player-blue", playerLabel: "蓝色", finalScore: 20, tileScore: 0, completedTaskCount: 0, techCount: 1, cardScore: 0 },
+  ],
+};
+const sequenceAnalysisDefault = analytics.analyzeBattleReport(sequenceReport);
+const whiteDefaultSequence = sequenceAnalysisDefault.actionSequences.playerSequences.find((entry) => entry.playerId === "player-white");
+assert.equal(sequenceAnalysisDefault.sequenceWindowTurns, 6);
+assert.equal(whiteDefaultSequence.turnCount, 7);
+assert.equal(whiteDefaultSequence.mainActionTokens.length, 6);
+assert.ok(whiteDefaultSequence.tokens.some((token) => token.includes("scan-target|sector_scan:sector-1-a")));
+assert.ok(whiteDefaultSequence.tokens.some((token) => token.includes("alien-use|runezu-card:displayed")));
+assert.ok(whiteDefaultSequence.tokens.some((token) => token.includes("data-placement|computer:6")));
+assert.ok(sequenceAnalysisDefault.actionSequences.winnerTopSequences.length > 0);
+assert.equal(sequenceAnalysisDefault.scoreBuckets.highTotalScore[0].playerId, "player-white");
+assert.equal(sequenceAnalysisDefault.scoreBuckets.highTileScore[0].playerId, "player-white");
+const sequenceAnalysisEight = analytics.analyzeBattleReport(sequenceReport, { sequenceWindowTurns: 8 });
+const whiteEightSequence = sequenceAnalysisEight.actionSequences.playerSequences.find((entry) => entry.playerId === "player-white");
+assert.equal(sequenceAnalysisEight.sequenceWindowTurns, 8);
+assert.equal(whiteEightSequence.mainActionTokens.length, 7);
+const sequenceAnalysisAll = analytics.analyzeBattleReport(sequenceReport, { sequenceWindowTurns: "all" });
+assert.equal(sequenceAnalysisAll.sequenceWindowTurns, "all");
+assert.equal(sequenceAnalysisAll.actionSequences.playerSequences.find((entry) => entry.playerId === "player-white").mainActionTokens.length, 7);
+const sequenceSummary = analytics.summarizeBattleReports([sequenceReport], { sequenceWindowTurns: 8 });
+assert.equal(sequenceSummary.actionSequences.windowTurns, 8);
+assert.ok(sequenceSummary.winnerTopSequences.length > 0);
+assert.equal(sequenceSummary.scoreBuckets.highTechScore[0].playerId, "player-white");
 
 const routeDedupAnalysis = analytics.analyzeBattleReport({
   logs: [

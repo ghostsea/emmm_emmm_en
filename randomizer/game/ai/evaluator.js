@@ -1,22 +1,24 @@
 (function (root, factory) {
   "use strict";
 
+  let valuation = root.SetiAIValuation;
   let initialCards = root.SetiInitialCards;
   let endGameScoring = root.SetiEndGameScoring;
 
-  if ((!initialCards || !endGameScoring) && typeof require === "function") {
+  if ((!valuation || !initialCards || !endGameScoring) && typeof require === "function") {
+    valuation = valuation || require("./valuation");
     initialCards = initialCards || require("../initial-cards");
     endGameScoring = endGameScoring || require("../end-game-scoring");
   }
 
-  const api = factory(initialCards, endGameScoring);
+  const api = factory(valuation, initialCards, endGameScoring);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAIEvaluator = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (initialCards, endGameScoring) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (valuation, initialCards, endGameScoring) {
   "use strict";
 
   const FINAL_ROUND_NUMBER = 4;
@@ -36,17 +38,34 @@
   }
 
   function getResourceValue(resources = {}, values = RESOURCE_VALUES) {
+    if (valuation?.getResourceValue && values === RESOURCE_VALUES) {
+      return valuation.getResourceValue(resources);
+    }
     return Object.entries(resources || {}).reduce((total, [key, value]) => (
       total + numeric(value) * numeric(values[key])
     ), 0);
   }
 
   function getRemainingIncomeMultiplier(roundNumber = 1) {
+    if (valuation?.getRemainingIncomeMultiplier) {
+      return valuation.getRemainingIncomeMultiplier(roundNumber);
+    }
     const round = Math.max(1, Math.round(numeric(roundNumber) || 1));
     return Math.max(1, FINAL_ROUND_NUMBER - round + 1);
   }
 
   function getIncomeValue(income = {}, options = {}) {
+    if (
+      valuation?.getIncomeRawValue
+      && options.discardedCardValue == null
+      && !options.discardedCard
+      && !Array.isArray(options.hand)
+    ) {
+      return valuation.getIncomeRawValue(income, options);
+    }
+    if (valuation?.getIncomeNetValue) {
+      return valuation.getIncomeNetValue(income, options);
+    }
     return getResourceValue(income, options.resourceValues) * getRemainingIncomeMultiplier(options.roundNumber);
   }
 

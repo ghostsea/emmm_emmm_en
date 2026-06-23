@@ -11,10 +11,24 @@
 })(typeof globalThis !== "undefined" ? globalThis : window, function () {
   "use strict";
 
-  const BASIC_MAIN_ACTIONS = Object.freeze(["launch", "orbit", "land", "scan"]);
+  const BASIC_MAIN_ACTIONS = Object.freeze(["launch", "orbit", "land", "scan", "analyze"]);
   const ENGINE_ACTIONS = Object.freeze(["playCard", "researchTech"]);
-  const QUICK_ACTIONS = Object.freeze(["move"]);
+  const QUICK_ACTIONS = Object.freeze(["move", "placeData"]);
   const PASS_ACTIONS = Object.freeze(["pass", "end-turn"]);
+  const DEFAULT_SEQUENCE_WINDOW_TURNS = 6;
+  const KEY_SEQUENCE_DECISIONS = Object.freeze([
+    "play-card",
+    "tech-placement",
+    "scan-target",
+    "land-target",
+    "alien-trace",
+    "alien-use",
+    "final-score-mark",
+    "pick-card",
+    "hand-scan",
+    "move-payment",
+    "data-placement",
+  ]);
   const POLICY_ACTION_BIAS = Object.freeze({
     land: 7,
     orbit: 6,
@@ -23,6 +37,7 @@
     launch: 4,
     scan: 1.5,
     analyze: 1,
+    placeData: 2,
     move: 0,
     "end-turn": 0,
     pass: -12,
@@ -324,6 +339,310 @@
     return plan?.quickActionId || plan?.actionId || "none";
   }
 
+  function normalizeSequenceWindowTurns(value) {
+    if (value === "all") return "all";
+    const turns = Math.round(Number(value));
+    return Number.isFinite(turns) && turns > 0 ? turns : DEFAULT_SEQUENCE_WINDOW_TURNS;
+  }
+
+  function isWithinSequenceWindow(turnCount, windowTurns) {
+    return windowTurns === "all" || numeric(turnCount) <= numeric(windowTurns);
+  }
+
+  function getDecisionTargetKey(entry) {
+    if (!entry) return "unknown";
+    if (entry.type === "final-score-mark") return getFinalScoreMarkKey(entry);
+    if (entry.type === "tech-placement") return entry.details?.tileId || entry.details?.selected?.tileId || "unknown";
+    if (entry.type === "scan-target") {
+      return [
+        entry.details?.pendingType || "scan",
+        entry.details?.nebulaId || entry.details?.sectorX || "unknown",
+      ].join(":");
+    }
+    if (entry.type === "play-card") {
+      const card = entry.details?.selected || entry.details?.card || {};
+      return card.cardLabel || card.cardId || card.cardInstanceId || "unknown";
+    }
+    if (entry.type === "land-target") return entry.details?.planetId || entry.details?.label || "target";
+    if (entry.type === "alien-trace") return entry.details?.alienSlot || entry.details?.traceType || entry.details?.mode || "trace";
+    if (entry.type === "alien-use") {
+      return [
+        entry.details?.pendingType || "alien",
+        entry.details?.selected?.choice || "choice",
+      ].join(":");
+    }
+    if (entry.type === "data-placement") {
+      const selected = entry.details?.selected || {};
+      return [
+        selected.target || "data",
+        selected.placementSlot || selected.blueSlot || "slot",
+      ].join(":");
+    }
+    if (entry.type === "pick-card") return entry.details?.pendingType || entry.details?.cardLabel || "pick";
+    if (entry.type === "hand-scan") return entry.details?.pendingType || entry.details?.choice || "hand";
+    if (entry.type === "move-payment") return `pay:${numeric(entry.details?.requiredMovePoints)}`;
+    return entry.details?.pendingType || entry.details?.kind || entry.details?.label || "unknown";
+  }
+
+  function compactTokenPart(value) {
+    return String(value || "")
+      .replace(/\s+/g, "")
+      .replace(/[>|]/g, "/")
+      .slice(0, 48);
+  }
+
+  function buildTurnActionToken(entry) {
+    const action = getSelectedAction(entry) || {};
+    const actionId = getSelectedActionId(entry);
+    const parts = [`r${numeric(entry.roundNumber)}t${numeric(entry.turnNumber)}`, actionId];
+    const plan = getTurnPlanFromEntry(entry);
+    if (plan?.type) parts.push(`plan:${compactTokenPart(plan.type)}`);
+    const routeTarget = getRouteTargetKey(getRouteTargetFromEntry(entry));
+    if (routeTarget) parts.push(`route:${compactTokenPart(routeTarget)}`);
+    const followup = getMoveFollowupKey(entry);
+    if (followup) parts.push(`follow:${compactTokenPart(followup)}`);
+    if (action.planetId) parts.push(`planet:${compactTokenPart(action.planetId)}`);
+    if (action.direction) parts.push(`dir:${compactTokenPart(action.direction)}`);
+    return parts.join("|");
+  }
+
+  function buildDecisionToken(entry) {
+    return [
+      `r${numeric(entry.roundNumber)}t${numeric(entry.turnNumber)}`,
+      compactTokenPart(entry.type),
+      compactTokenPart(getDecisionTargetKey(entry)),
+    ].join("|");
+  }
+
+  function ensureSequenceProfile(map, playerId, playerLabel, isWinner = false) {
+    const key = playerId || playerLabel || "unknown";
+    if (!map[key]) {
+      map[key] = {
+        playerId: playerId || null,
+        playerLabel: playerLabel || playerId || "unknown",
+        isWinner,
+        turnCount: 0,
+        mainActionCount: 0,
+        tokens: [],
+        mainActionTokens: [],
+      };
+    }
+    map[key].isWinner = Boolean(map[key].isWinner || isWinner);
+    return map[key];
+  }
+
+  function rankSequenceCounts(counts = {}, limit = 10) {
+    return Object.entries(counts)
+      .map(([key, count]) => ({ key, count }))
+      .filter((entry) => entry.key)
+      .sort((left, right) => right.count - left.count || left.key.localeCompare(right.key))
+      .slice(0, limit);
+  }
+
+  function incrementSequenceCount(map, tokens = []) {
+    if (!tokens.length) return;
+    increment(map, tokens.join(" > "));
+  }
+
+  function buildWinnerDeltaSequences(winnerCounts = {}, nonWinnerCounts = {}, limit = 10) {
+    return Object.entries(winnerCounts)
+      .map(([key, count]) => ({
+        key,
+        winnerCount: numeric(count),
+        nonWinnerCount: numeric(nonWinnerCounts[key]),
+        delta: numeric(count) - numeric(nonWinnerCounts[key]),
+      }))
+      .filter((entry) => entry.delta > 0)
+      .sort((left, right) => right.delta - left.delta || right.winnerCount - left.winnerCount || left.key.localeCompare(right.key))
+      .slice(0, limit);
+  }
+
+  function buildScoreBuckets(playerResults = [], logs = []) {
+    const sorted = [...(playerResults || [])].sort((left, right) => numeric(right.finalScore) - numeric(left.finalScore));
+    const makeEntry = (result, metric) => ({
+      playerId: result.playerId || null,
+      playerLabel: result.playerLabel || result.playerId || "unknown",
+      value: numeric(result[metric]),
+    });
+    const topByMetric = (metric, threshold = 1) => {
+      const best = Math.max(...sorted.map((result) => numeric(result[metric])), 0);
+      if (best < threshold) return [];
+      return sorted.filter((result) => numeric(result[metric]) === best).map((result) => makeEntry(result, metric));
+    };
+    const firstTracePlayers = [];
+    const seenTracePlayers = new Set();
+    for (const entry of logs || []) {
+      if (entry.type !== "alien-trace") continue;
+      const key = entry.playerId || entry.playerLabel || "unknown";
+      if (seenTracePlayers.has(key)) continue;
+      seenTracePlayers.add(key);
+      firstTracePlayers.push({
+        playerId: entry.playerId || null,
+        playerLabel: entry.playerLabel || entry.playerId || "unknown",
+        roundNumber: numeric(entry.roundNumber),
+        turnNumber: numeric(entry.turnNumber),
+      });
+    }
+    const firstRound25Players = [];
+    const seen25Players = new Set();
+    for (const entry of logs || []) {
+      const pending = entry.details?.pending || {};
+      const selected = getFinalScoreMarkSelection(entry);
+      if (entry.type !== "final-score-mark" || numeric(entry.roundNumber) > 1 || numeric(pending.threshold || selected.threshold) !== 25) continue;
+      const key = entry.playerId || entry.playerLabel || "unknown";
+      if (seen25Players.has(key)) continue;
+      seen25Players.add(key);
+      firstRound25Players.push({
+        playerId: entry.playerId || null,
+        playerLabel: entry.playerLabel || entry.playerId || "unknown",
+        value: 25,
+      });
+    }
+    return {
+      highTotalScore: sorted.filter((result) => numeric(result.finalScore) >= 25).map((result) => makeEntry(result, "finalScore")),
+      highTileScore: topByMetric("tileScore"),
+      highTaskScore: topByMetric("completedTaskCount"),
+      highTechScore: topByMetric("techCount"),
+      highCardScore: topByMetric("cardScore"),
+      firstAlienTrace: firstTracePlayers,
+      firstRound25: firstRound25Players,
+    };
+  }
+
+  function buildActionSequences(logs = [], playerResults = [], options = {}) {
+    const windowTurns = normalizeSequenceWindowTurns(options.sequenceWindowTurns);
+    const winnerId = playerResults[0]?.playerId || null;
+    const winnerLabel = playerResults[0]?.playerLabel || null;
+    const byPlayer = {};
+    const globalTokens = [];
+    const winnerSequenceCounts = {};
+    const nonWinnerSequenceCounts = {};
+    const mainActionSequenceCounts = {};
+    const globalSequenceCounts = {};
+
+    for (const result of playerResults || []) {
+      ensureSequenceProfile(byPlayer, result.playerId, result.playerLabel, result.playerId === winnerId);
+    }
+
+    for (const entry of logs || []) {
+      const playerId = entry.playerId || null;
+      const playerLabel = entry.playerLabel || playerId || "unknown";
+      const isWinner = (winnerId && playerId === winnerId) || (!winnerId && winnerLabel && playerLabel === winnerLabel);
+      const profile = ensureSequenceProfile(byPlayer, playerId, playerLabel, isWinner);
+
+      if (entry.type === "turn-action") {
+        profile.turnCount += 1;
+        if (isWithinSequenceWindow(profile.turnCount, windowTurns)) {
+          const token = buildTurnActionToken(entry);
+          profile.tokens.push(token);
+          globalTokens.push(`${compactTokenPart(playerLabel)}:${token}`);
+          const action = getSelectedAction(entry);
+          if (action?.kind === "main") {
+            profile.mainActionCount += 1;
+            profile.mainActionTokens.push(token);
+          }
+        }
+      } else if (
+        KEY_SEQUENCE_DECISIONS.includes(entry.type)
+        && profile.turnCount > 0
+        && isWithinSequenceWindow(profile.turnCount, windowTurns)
+      ) {
+        const token = buildDecisionToken(entry);
+        profile.tokens.push(token);
+        globalTokens.push(`${compactTokenPart(playerLabel)}:${token}`);
+      }
+    }
+
+    const playerSequences = Object.values(byPlayer).map((profile) => {
+      const targetCounts = profile.isWinner ? winnerSequenceCounts : nonWinnerSequenceCounts;
+      incrementSequenceCount(targetCounts, profile.tokens);
+      incrementSequenceCount(mainActionSequenceCounts, profile.mainActionTokens);
+      return {
+        ...profile,
+        sequenceKey: profile.tokens.join(" > "),
+        mainActionSequenceKey: profile.mainActionTokens.join(" > "),
+      };
+    });
+    incrementSequenceCount(globalSequenceCounts, globalTokens);
+
+    return {
+      windowTurns,
+      playerSequences,
+      globalTokens,
+      sequenceCounts: {
+        winner: winnerSequenceCounts,
+        nonWinner: nonWinnerSequenceCounts,
+        mainAction: mainActionSequenceCounts,
+        global: globalSequenceCounts,
+      },
+      winnerTopSequences: rankSequenceCounts(winnerSequenceCounts),
+      nonWinnerTopSequences: rankSequenceCounts(nonWinnerSequenceCounts),
+      winnerDeltaSequences: buildWinnerDeltaSequences(winnerSequenceCounts, nonWinnerSequenceCounts),
+      mainActionTopSequences: rankSequenceCounts(mainActionSequenceCounts),
+      globalTopSequences: rankSequenceCounts(globalSequenceCounts),
+    };
+  }
+
+  function mergeSequenceCounts(target = {}, source = {}) {
+    for (const [bucket, counts] of Object.entries(source || {})) {
+      if (!target[bucket]) target[bucket] = {};
+      for (const [key, count] of Object.entries(counts || {})) {
+        increment(target[bucket], key, count);
+      }
+    }
+    return target;
+  }
+
+  function summarizeSequenceCounts(counts = {}, windowTurns = DEFAULT_SEQUENCE_WINDOW_TURNS) {
+    const winner = counts.winner || {};
+    const nonWinner = counts.nonWinner || {};
+    return {
+      windowTurns,
+      sequenceCounts: counts,
+      winnerTopSequences: rankSequenceCounts(winner),
+      nonWinnerTopSequences: rankSequenceCounts(nonWinner),
+      winnerDeltaSequences: buildWinnerDeltaSequences(winner, nonWinner),
+      mainActionTopSequences: rankSequenceCounts(counts.mainAction || {}),
+      globalTopSequences: rankSequenceCounts(counts.global || {}),
+    };
+  }
+
+  function mergeScoreBuckets(target = {}, source = {}) {
+    for (const [bucket, entries] of Object.entries(source || {})) {
+      if (!target[bucket]) target[bucket] = {};
+      for (const entry of entries || []) {
+        const key = entry.playerId || entry.playerLabel || "unknown";
+        if (!target[bucket][key]) {
+          target[bucket][key] = {
+            playerId: entry.playerId || null,
+            playerLabel: entry.playerLabel || entry.playerId || "unknown",
+            count: 0,
+            valueTotal: 0,
+            maxValue: 0,
+          };
+        }
+        target[bucket][key].count += 1;
+        target[bucket][key].valueTotal += numeric(entry.value);
+        target[bucket][key].maxValue = Math.max(target[bucket][key].maxValue, numeric(entry.value));
+      }
+    }
+    return target;
+  }
+
+  function finalizeScoreBuckets(buckets = {}) {
+    return Object.fromEntries(Object.entries(buckets).map(([bucket, entries]) => [
+      bucket,
+      Object.values(entries || {})
+        .map((entry) => ({
+          ...entry,
+          averageValue: entry.count ? roundRatio(entry.valueTotal / entry.count) : 0,
+          valueTotal: roundRatio(entry.valueTotal),
+          maxValue: roundRatio(entry.maxValue),
+        }))
+        .sort((left, right) => right.count - left.count || right.maxValue - left.maxValue || left.playerLabel.localeCompare(right.playerLabel)),
+    ]));
+  }
+
   function recordProfileTurnPlan(profile, entry) {
     const plan = getTurnPlanFromEntry(entry);
     const planKey = getTurnPlanKey(entry);
@@ -500,7 +819,7 @@
         increment(profile.decisionCounts, entry.type);
         addProfileMetric(profile, "finalScoreMarkCount", 1);
         addProfileMetric(profile, "finalScoreImmediateValue", numeric(selected.immediateScore));
-      } else if (["play-card", "pick-card", "hand-scan", "land-target", "alien-trace", "move-payment"].includes(entry.type)) {
+      } else if (["play-card", "pick-card", "hand-scan", "land-target", "alien-trace", "alien-use", "move-payment", "data-placement"].includes(entry.type)) {
         increment(profile.decisionCounts, entry.type);
       }
     }
@@ -1000,6 +1319,9 @@
         turnPlanCounts: baseline.turnPlanCounts || {},
         turnPlanTypeCounts: baseline.turnPlanTypeCounts || {},
         turnPlanActionCounts: baseline.turnPlanActionCounts || {},
+        actionSequences: baseline.actionSequences || {},
+        winnerTopSequences: baseline.winnerTopSequences || [],
+        winnerDeltaSequences: baseline.winnerDeltaSequences || [],
         strategyWeights: baselineResult.strategyWeights || baseline.strategyWeights || null,
       },
       tuned: {
@@ -1018,6 +1340,9 @@
         turnPlanCounts: tuned.turnPlanCounts || {},
         turnPlanTypeCounts: tuned.turnPlanTypeCounts || {},
         turnPlanActionCounts: tuned.turnPlanActionCounts || {},
+        actionSequences: tuned.actionSequences || {},
+        winnerTopSequences: tuned.winnerTopSequences || [],
+        winnerDeltaSequences: tuned.winnerDeltaSequences || [],
         strategyWeights: tunedResult.strategyWeights || tuned.strategyWeights || null,
       },
       deltas: {
@@ -1033,6 +1358,18 @@
         turnPlanCounts: diffNumericMaps(tuned.turnPlanCounts, baseline.turnPlanCounts),
         turnPlanTypeCounts: diffNumericMaps(tuned.turnPlanTypeCounts, baseline.turnPlanTypeCounts),
         turnPlanActionCounts: diffNumericMaps(tuned.turnPlanActionCounts, baseline.turnPlanActionCounts),
+        winnerSequenceCounts: diffNumericMaps(
+          tuned.actionSequences?.sequenceCounts?.winner,
+          baseline.actionSequences?.sequenceCounts?.winner,
+        ),
+        nonWinnerSequenceCounts: diffNumericMaps(
+          tuned.actionSequences?.sequenceCounts?.nonWinner,
+          baseline.actionSequences?.sequenceCounts?.nonWinner,
+        ),
+        mainActionSequenceCounts: diffNumericMaps(
+          tuned.actionSequences?.sequenceCounts?.mainAction,
+          baseline.actionSequences?.sequenceCounts?.mainAction,
+        ),
       },
       verdict: {
         improved: scoreDelta > 0 && blockedDelta <= 0 && completionDelta >= 0,
@@ -1255,7 +1592,7 @@
     return recommendations;
   }
 
-  function analyzeBattleReport(report = {}) {
+  function analyzeBattleReport(report = {}, options = {}) {
     const logs = Array.isArray(report.logs) ? report.logs : [];
     const bugs = Array.isArray(report.bugs) ? report.bugs : [];
     const typeCounts = {};
@@ -1403,6 +1740,8 @@
     const playerResults = normalizePlayerResults(report.playerResults || []);
     const playerProfiles = buildPlayerProfiles(logs, playerResults);
     const winnerProfileComparison = compareWinnerProfile(playerProfiles);
+    const actionSequences = buildActionSequences(logs, playerResults, options);
+    const scoreBuckets = buildScoreBuckets(playerResults, logs);
     const analysis = {
       summary: report.lastSummary || report.summary || null,
       totalLogs: logs.length,
@@ -1457,13 +1796,16 @@
       winnerProfileComparison,
       winnerProfileDeltas: winnerProfileComparison?.delta || {},
       winner: playerResults[0] || null,
+      sequenceWindowTurns: actionSequences.windowTurns,
+      actionSequences,
+      scoreBuckets,
     };
     analysis.recommendations = buildRecommendations(analysis);
     analysis.strategyTuning = deriveStrategyTuning(analysis);
     return analysis;
   }
 
-  function summarizeBattleAnalyses(analyses = []) {
+  function summarizeBattleAnalyses(analyses = [], options = {}) {
     const validAnalyses = (analyses || []).filter(Boolean);
     const mergedActionCounts = {};
     const mergedActionCategoryCounts = {};
@@ -1490,6 +1832,8 @@
     const mergedTurnPlanActions = {};
     const mergedFinalScoreMarks = {};
     const mergedFinalScoreFormulas = {};
+    const mergedSequenceCounts = {};
+    const mergedScoreBuckets = {};
     const winnerCounts = {};
     const winnerProfiles = [];
     const nonWinnerProfiles = [];
@@ -1525,6 +1869,8 @@
       for (const [key, count] of Object.entries(analysis.turnPlanActionCounts || {})) increment(mergedTurnPlanActions, key, count);
       for (const [key, count] of Object.entries(analysis.finalScoreMarkCounts || {})) increment(mergedFinalScoreMarks, key, count);
       for (const [key, count] of Object.entries(analysis.finalScoreFormulaCounts || {})) increment(mergedFinalScoreFormulas, key, count);
+      mergeSequenceCounts(mergedSequenceCounts, analysis.actionSequences?.sequenceCounts || {});
+      mergeScoreBuckets(mergedScoreBuckets, analysis.scoreBuckets || {});
       for (const [key, count] of Object.entries(analysis.movePayment || {})) {
         if (Object.hasOwn(mergedMovePayment, key)) mergedMovePayment[key] += numeric(count);
       }
@@ -1581,6 +1927,12 @@
     const averageWinnerProfile = averageProfileMetrics(winnerProfiles);
     const averageNonWinnerProfile = averageProfileMetrics(nonWinnerProfiles);
     const winnerProfileDeltas = diffProfileMetrics(averageWinnerProfile, averageNonWinnerProfile);
+    const sequenceWindowTurns = normalizeSequenceWindowTurns(
+      options.sequenceWindowTurns
+      ?? validAnalyses.find((analysis) => analysis?.sequenceWindowTurns != null)?.sequenceWindowTurns
+      ?? DEFAULT_SEQUENCE_WINDOW_TURNS,
+    );
+    const actionSequences = summarizeSequenceCounts(mergedSequenceCounts, sequenceWindowTurns);
     const summary = {
       gameCount,
       completedGames,
@@ -1615,6 +1967,8 @@
       turnPlanActionCounts: mergedTurnPlanActions,
       finalScoreMarkCounts: mergedFinalScoreMarks,
       finalScoreFormulaCounts: mergedFinalScoreFormulas,
+      actionSequences,
+      scoreBuckets: finalizeScoreBuckets(mergedScoreBuckets),
       winnerCounts,
       averageWinnerProfile,
       averageNonWinnerProfile,
@@ -1627,6 +1981,11 @@
       turnPlanActions: rankCounts(mergedTurnPlanActions),
       finalScoreMarks: rankCounts(mergedFinalScoreMarks),
       finalScoreFormulas: rankCounts(mergedFinalScoreFormulas),
+      winnerTopSequences: actionSequences.winnerTopSequences,
+      nonWinnerTopSequences: actionSequences.nonWinnerTopSequences,
+      winnerDeltaSequences: actionSequences.winnerDeltaSequences,
+      mainActionTopSequences: actionSequences.mainActionTopSequences,
+      globalTopSequences: actionSequences.globalTopSequences,
       topBugs: rankCounts(mergedBugCounts),
       recommendations: buildRecommendations(summaryForRecommendations),
     };
@@ -1634,11 +1993,12 @@
     return summary;
   }
 
-  function summarizeBattleReports(reports = []) {
-    return summarizeBattleAnalyses((reports || []).map(analyzeBattleReport));
+  function summarizeBattleReports(reports = [], options = {}) {
+    return summarizeBattleAnalyses((reports || []).map((report) => analyzeBattleReport(report, options)), options);
   }
 
   return Object.freeze({
+    DEFAULT_SEQUENCE_WINDOW_TURNS,
     DEFAULT_STRATEGY_WEIGHTS,
     analyzeBattleReport,
     deriveStrategyTuning,

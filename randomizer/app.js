@@ -774,6 +774,10 @@
     return `${prefix}-${scanRunSequence}`;
   }
 
+  function resetScanRunSequence() {
+    scanRunSequence = 0;
+  }
+
   function getActivePlayers() {
     const activeIds = new Set(turnState.activePlayerIds || []);
     return playerState.players.filter((player) => activeIds.has(player.id));
@@ -805,6 +809,21 @@
     get pendingPublicScanQueue() { return pendingPublicScanQueue; },
     get pendingHandScanAction() { return pendingHandScanAction; },
     get pendingAlienTraceAction() { return pendingAlienTraceAction; },
+    get pendingLandTargetAction() { return pendingLandTargetAction; },
+    get pendingJiuzheCardPlay() { return pendingJiuzheCardPlay; },
+    get pendingYichangdianCardGain() { return pendingYichangdianCardGain; },
+    get pendingYichangdianCornerAction() { return pendingYichangdianCornerAction; },
+    get pendingBanrenmaCardGain() { return pendingBanrenmaCardGain; },
+    get pendingBanrenmaOpportunity() { return pendingBanrenmaOpportunity; },
+    get pendingChongCardGain() { return pendingChongCardGain; },
+    get pendingChongFossilChoice() { return pendingChongFossilChoice; },
+    get pendingAmibaCardGain() { return pendingAmibaCardGain; },
+    get pendingAmibaSymbolChoice() { return pendingAmibaSymbolChoice; },
+    get pendingAmibaTraceRemoval() { return pendingAmibaTraceRemoval; },
+    get pendingAomomoCardGain() { return pendingAomomoCardGain; },
+    get pendingRunezuCardGain() { return pendingRunezuCardGain; },
+    get pendingRunezuSymbolBranch() { return pendingRunezuSymbolBranch; },
+    get pendingRunezuFaceSymbolPlacement() { return pendingRunezuFaceSymbolPlacement; },
     get pendingCardTriggerAction() { return pendingCardTriggerAction; },
     get pendingCardTriggerFreeMove() { return pendingCardTriggerFreeMove; },
     get pendingCardTaskCompletion() { return pendingCardTaskCompletion; },
@@ -840,6 +859,14 @@
     tech,
     data,
     aliens,
+    aomomo,
+    jiuzhe,
+    yichangdian,
+    fangzhou,
+    banrenma,
+    chong,
+    amiba,
+    runezu,
     ai,
     solarState,
     nebulaDataState,
@@ -851,6 +878,7 @@
     planetStatsState,
     techGameState,
     cardState,
+    cardTaskState,
     historyStepOrder,
     els,
     DEFAULT_ACTIVE_PLAYER_COUNT,
@@ -861,6 +889,7 @@
     INITIAL_SELECTION_REQUIRED,
     MOVE_ENERGY_COST,
     allowsBlindDrawInSelection,
+    analyzeDataForCurrentPlayer,
     beginPlayCardSelection,
     beginScanAction,
     buildSectorScanChoicesForX,
@@ -871,6 +900,7 @@
     clearTransientStateForRecovery,
     computePlayerFinalScoreBreakdown,
     confirmCardTaskCompletion,
+    confirmDataPlacement,
     confirmInitialSelectionForCurrentPlayer,
     confirmLandTargetPicker,
     confirmMovePayment,
@@ -911,13 +941,30 @@
     getResearchTechSelectionOptions,
     getSectorContentForMove,
     getSectorXsMatchingCondition,
+    handleAmibaCardGainChoice,
+    handleAmibaSymbolChoice,
+    handleAmibaTraceRemovalChoice,
+    handleAomomoCardGainChoice,
+    handleBanrenmaBonusChoice,
+    handleBanrenmaCardConditionChoice,
+    handleBanrenmaCardGainChoice,
     handleCardTriggerChoice,
+    handleChongCardGainChoice,
+    handleChongFossilChoice,
+    handleChongTaskCompletionChoice,
     handleConditionalSectorChoice,
     handleHandScanCardClick,
+    handleJiuzheCardChoice,
+    handleJiuzheOpportunitySkip,
     handleOptionalHandScanChoice,
     handlePlayCardSelect,
     handlePublicScanCardClick,
+    handleRunezuCardGainChoice,
+    handleRunezuFaceSymbolChoice,
+    handleRunezuSymbolBranchChoice,
     handleSupplyTechTileClick,
+    handleYichangdianCardGainChoice,
+    handleYichangdianCornerChoice,
     hasActivePendingSubFlow,
     initializeCardGame,
     isActionEffectFlowActive,
@@ -943,10 +990,13 @@
     renderStateReadout,
     researchTechForCurrentPlayer,
     resetActionLog,
+    resetScanRunSequence,
     restoreMutableObject,
     runAction,
+    runPlaceDataToComputer,
     runAiFinalScoreMarkDecision,
     selectPassReserveCard,
+    sectorXHasAvailableScanTarget,
     setTurnStatePlayerOrder,
     skipCurrentActionEffect,
     startInitialSelection,
@@ -8396,7 +8446,14 @@
       || (isCardSelectionActive() && pendingActionEffectFlow)
       || pendingCardTriggerAction
       || pendingCardTaskCompletion
+      || (pendingJiuzheCardPlay && pendingJiuzheCardPlay.reason !== "view")
+      || pendingYichangdianCardGain
+      || pendingYichangdianCornerAction
+      || pendingBanrenmaCardGain
+      || pendingBanrenmaOpportunity
       || pendingChongTaskCompletion
+      || pendingChongCardGain
+      || pendingChongFossilChoice
       || pendingAmibaCardGain
       || pendingAmibaSymbolChoice
       || pendingAmibaTraceRemoval
@@ -18983,6 +19040,11 @@
   function appendResearchTechFollowupEffects(selectResult) {
     if (!pendingActionEffectFlow) return;
     const selectionOptions = getResearchTechSelectionOptions();
+    const owner = getEffectOwnerPlayer(getCurrentActionEffect()) || getCurrentPlayer();
+    const ownerFields = {
+      playerId: owner?.id || null,
+      playerColor: owner?.color || null,
+    };
 
     const selectIndex = pendingActionEffectFlow.effects.findIndex((effect) => (
       effect.type === "research_tech_select"
@@ -19000,6 +19062,7 @@
       followups.push({
         id: "research-tech-rotate",
         type: "research_tech_rotate",
+        ...ownerFields,
         abilityId: "researchTechRotate",
         icon: "rotate",
         label: "旋转",
@@ -19012,6 +19075,7 @@
       followups.push({
         ...planetRewards.launchEffect({ skipCost: true, source: "tech" }),
         id: "research-tech-launch",
+        ...ownerFields,
         status: "pending",
         undoable: true,
       });
@@ -19021,6 +19085,7 @@
       followups.push({
         id: "research-tech-bonus",
         type: "research_tech_bonus",
+        ...ownerFields,
         abilityId: "researchTechBonus",
         icon: bonusId,
         label: `获取${bonusLabel}`,
@@ -19038,6 +19103,7 @@
       followups.push({
         id: "research-tech-bonus-repeat",
         type: "research_tech_bonus",
+        ...ownerFields,
         abilityId: "researchTechBonus",
         icon: bonusId,
         label: `再次获取${bonusLabel}`,
@@ -19055,6 +19121,7 @@
       followups.push({
         ...planetRewards.dataEffect(2),
         id: "research-tech-data",
+        ...ownerFields,
         status: "pending",
         undoable: true,
       });
@@ -19072,6 +19139,7 @@
       followups.push({
         id: "research-tech-type-score",
         type: planetRewards.EFFECT_TYPES.GAIN_RESOURCES,
+        ...ownerFields,
         icon: "score",
         label: `同色科技得分：${count * scorePer}分`,
         status: "pending",
@@ -19087,6 +19155,7 @@
       followups.push({
         id: "research-tech-resource-score",
         type: planetRewards.EFFECT_TYPES.GAIN_RESOURCES,
+        ...ownerFields,
         icon: "score",
         label: `资源得分：${score}分`,
         status: "pending",
@@ -19100,6 +19169,7 @@
       followups.push({
         id: "research-tech-shared-publicity",
         type: planetRewards.EFFECT_TYPES.GAIN_RESOURCES,
+        ...ownerFields,
         icon: "publicity",
         label: `非首次拿取科技：${publicity}宣传`,
         status: "pending",
@@ -19115,6 +19185,8 @@
       selectResult.tileId || selectResult.payload?.tileId,
     );
     if (heliosEffect) {
+      heliosEffect.playerId = heliosEffect.playerId || ownerFields.playerId;
+      heliosEffect.playerColor = heliosEffect.playerColor || ownerFields.playerColor;
       followups.push(heliosEffect);
     }
 

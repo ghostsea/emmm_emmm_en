@@ -38,6 +38,7 @@
     launch: 4,
     scan: 1.5,
     analyze: 1,
+    placeData: 2,
     move: 0,
     "end-turn": 0,
     pass: -12,
@@ -193,6 +194,29 @@
       .slice(0, neededCards);
   }
 
+  function scoreAlienUseOption(option) {
+    if (!option || option.disabled) return -Infinity;
+    const choice = String(option.choice ?? "");
+    const explicitScore = getFiniteScore(option.score);
+    if (explicitScore != null) return explicitScore;
+
+    if (choice === "cancel") return -100;
+    if (choice === "skip") return -30;
+    if (choice === "displayed") return 50;
+    if (choice === "confirm") return 45;
+    if (choice === "blind") return 35;
+    if (/^\d+$/.test(choice)) return 30 - Number(choice) * 0.01;
+    if (choice.includes(":")) return 28;
+    return choice ? 25 : -Infinity;
+  }
+
+  function chooseAlienUseOption(options = []) {
+    return (options || [])
+      .map((option, index) => ({ option, index, score: scoreAlienUseOption(option) }))
+      .filter((entry) => Number.isFinite(entry.score))
+      .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.option || null;
+  }
+
   return Object.freeze({
     chooseInitialSelection,
     chooseTurnAction,
@@ -202,5 +226,6 @@
     choosePlayCard,
     chooseBlueTechSlot,
     chooseMovePaymentIndexes,
+    chooseAlienUseOption,
   });
 });
