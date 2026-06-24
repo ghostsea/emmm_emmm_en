@@ -82,6 +82,7 @@ assert.deepEqual(
   strategyPassive.getStrategyPlayEligibleSlotIds(player, 2).sort(),
   ["blue", "red", "yellow"],
 );
+assert.equal(strategyPassive.getAutomaticStrategyPlaySlotId(player, 2), "yellow");
 
 strategyPassive.clearStrategyPassiveSlots(player);
 assert.equal(player.industryStrategyPassiveSlots.yellow, false);

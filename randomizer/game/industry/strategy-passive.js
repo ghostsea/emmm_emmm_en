@@ -164,6 +164,10 @@
     return resolveEligibleSlotIds(player);
   }
 
+  function getAutomaticStrategyPlaySlotId(player, roundNumber) {
+    return getStrategyPlayEligibleSlotIds(player, roundNumber)[0] || null;
+  }
+
   function canInteractStrategyPlaySlot(player, slotId, roundNumber) {
     if (!player) {
       return { ok: false, message: "没有玩家" };
@@ -251,6 +255,7 @@
     isStrategyPlayInteractionActive,
     getStrategyPlayScanCode,
     getStrategyPlayEligibleSlotIds,
+    getAutomaticStrategyPlaySlotId,
     canInteractStrategyPlaySlot,
     completeStrategyPlayInteraction,
     expireStrategyPlayInteractionOnTurnEnd,

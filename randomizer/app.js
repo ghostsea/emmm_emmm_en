@@ -170,6 +170,7 @@
   let pendingFutureSpanPlayBeforePlayer = null;
   let pendingCardCornerQuickAction = null;
   let pendingCardCornerFreeMove = null;
+  let pendingDataPlaceAction = null;
   let pendingIndustryAbility = null;
   let industryFreeMoveState = null;
   let stateReadoutRenderFrame = 0;
@@ -1485,6 +1486,7 @@
     pendingPlayCardSelection = null;
     pendingCardCornerQuickAction = null;
     pendingCardCornerFreeMove = null;
+    pendingDataPlaceAction = null;
     pendingIndustryAbility = null;
     industryFreeMoveState = null;
     historyStepOrder.length = 0;
@@ -3343,6 +3345,14 @@
       return rollbackPendingIndustryQuickAction("已取消公司 1x 行动");
     }
     if (pending?.type === "place_data_income") {
+      if (pending.fromEffectFlow && pending.autoDataPlacement) {
+        rocketState.statusNote = "已取消放置数据收入奖励";
+        const continued = continuePendingDataPlacementAfterBonus(rocketState.statusNote);
+        syncDiscardSelectionChrome();
+        updateActionButtons();
+        renderStateReadout();
+        return continued;
+      }
       completeQuickActionStep();
     }
     rocketState.statusNote = isIncomeDiscardActionType(pending?.type) ? "已取消收入" : "已取消弃牌";
@@ -3400,7 +3410,8 @@
         if (getCurrentActionEffect()) {
           getCurrentActionEffect().result = {
             ok: true,
-            undoable: true,
+            undoable: incomeResult.undoable !== false,
+            irreversible: incomeResult.irreversible || null,
             message: incomeResult.message,
             payload: { gain: incomeResult.gain, card: discardedCards[0] },
           };
@@ -3408,28 +3419,46 @@
         completeCurrentActionEffect();
         rocketState.statusNote = incomeResult.message;
       } else if (pending.type === "place_data_income") {
-        if (incomeResult.ok) {
-          const player = pending.player || getCurrentPlayer();
-          recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
-            player,
-            pending.beforePlayerState,
-            "恢复放置数据收入奖励前玩家状态",
-          ));
-          recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
-            cardState,
-            pending.beforeCardState,
-            "恢复放置数据收入奖励前牌区",
-          ));
+        if (pending.fromEffectFlow && pending.autoDataPlacement) {
+          if (incomeResult.ok) {
+            recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+              cardState,
+              pending.beforeCardState,
+              "恢复放置数据收入奖励前牌区",
+            ));
+          }
+          rocketState.statusNote = incomeResult.ok
+            ? incomeResult.message
+            : (incomeResult.message || "收入失败");
+          continuePendingDataPlacementAfterBonus(rocketState.statusNote);
+        } else {
+          if (incomeResult.ok) {
+            const player = pending.player || getCurrentPlayer();
+            recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
+              player,
+              pending.beforePlayerState,
+              "恢复放置数据收入奖励前玩家状态",
+            ));
+            recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+              cardState,
+              pending.beforeCardState,
+              "恢复放置数据收入奖励前牌区",
+            ));
+          }
+          completeQuickActionStep(null, incomeResult.irreversible ? {
+            irreversibleCode: incomeResult.irreversible.code,
+            irreversibleReason: incomeResult.irreversible.reason,
+          } : {});
+          rocketState.statusNote = incomeResult.ok
+            ? incomeResult.message
+            : (incomeResult.message || "收入失败");
         }
-        completeQuickActionStep();
-        rocketState.statusNote = incomeResult.ok
-          ? incomeResult.message
-          : (incomeResult.message || "收入失败");
       } else if (pending.type === "initial_income") {
         if (incomeResult.ok && pending.fromEffectFlow && getCurrentActionEffect()) {
           getCurrentActionEffect().result = {
             ok: true,
             undoable: false,
+            irreversible: incomeResult.irreversible || null,
             message: incomeResult.message,
             payload: { gain: incomeResult.gain, card: discardedCards[0] },
           };
@@ -3455,7 +3484,10 @@
               pending.beforeCardState.discardPile,
             ));
           }
-          completeQuickActionStep();
+          completeQuickActionStep(null, incomeResult.irreversible ? {
+            irreversibleCode: incomeResult.irreversible.code,
+            irreversibleReason: incomeResult.irreversible.reason,
+          } : {});
           finishIndustryAbilityFlow(rocketState.statusNote);
         }
       } else {
@@ -3827,14 +3859,6 @@
     const shouldReserve = [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay);
     const playEffects = cardEffects.buildPlayEffects(playedCard);
     const temporaryTasks = cardEffects.getTemporaryTasks(playedCard);
-    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
-      cards,
-      currentPlayer,
-      turnState.roundNumber,
-      turnState.turnNumber,
-      playedCard,
-    ) || [];
-    const allPlayEffects = [...playEffects, ...sentinelEffects];
     if (shouldReserve) {
       if (!Array.isArray(currentPlayer.reservedCards)) currentPlayer.reservedCards = [];
       cardEffects.ensureCardEffectState(playedCard);
@@ -3849,6 +3873,10 @@
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
     const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
+    const allPlayEffects = [
+      ...playEffects,
+      ...buildIndustryPlayCardAppendEffects(currentPlayer, playedCard),
+    ];
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState);
@@ -3937,19 +3965,15 @@
     currentPlayer.reservedCards.push(playedCard);
 
     const playEffects = chong.buildImmediateEffects(playedCard);
-    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
-      cards,
-      currentPlayer,
-      turnState.roundNumber,
-      turnState.turnNumber,
-      playedCard,
-    ) || [];
-    const allPlayEffects = [...playEffects, ...sentinelEffects];
 
     cards.setPlayCardSelectionActive(cardState, false);
     pendingPlayCardSelection = null;
     rocketState.statusNote = `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`;
     const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, getCardTypeCode(playedCard));
+    const allPlayEffects = [
+      ...playEffects,
+      ...buildIndustryPlayCardAppendEffects(currentPlayer, playedCard),
+    ];
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4028,14 +4052,6 @@
     }
 
     const playEffects = amiba.buildImmediateEffects(playedCard);
-    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
-      cards,
-      currentPlayer,
-      turnState.roundNumber,
-      turnState.turnNumber,
-      playedCard,
-    ) || [];
-    const allPlayEffects = [...playEffects, ...sentinelEffects];
 
     cards.setPlayCardSelectionActive(cardState, false);
     pendingPlayCardSelection = null;
@@ -4043,6 +4059,10 @@
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
     const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
+    const allPlayEffects = [
+      ...playEffects,
+      ...buildIndustryPlayCardAppendEffects(currentPlayer, playedCard),
+    ];
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4120,14 +4140,6 @@
     }
 
     const playEffects = aomomo.buildImmediateEffects(playedCard);
-    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
-      cards,
-      currentPlayer,
-      turnState.roundNumber,
-      turnState.turnNumber,
-      playedCard,
-    ) || [];
-    const allPlayEffects = [...playEffects, ...sentinelEffects];
 
     cards.setPlayCardSelectionActive(cardState, false);
     pendingPlayCardSelection = null;
@@ -4135,6 +4147,10 @@
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
     const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
+    const allPlayEffects = [
+      ...playEffects,
+      ...buildIndustryPlayCardAppendEffects(currentPlayer, playedCard),
+    ];
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4213,14 +4229,6 @@
     }
 
     const playEffects = runezu.buildImmediateEffects(playedCard);
-    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
-      cards,
-      currentPlayer,
-      turnState.roundNumber,
-      turnState.turnNumber,
-      playedCard,
-    ) || [];
-    const allPlayEffects = [...playEffects, ...sentinelEffects];
 
     cards.setPlayCardSelectionActive(cardState, false);
     pendingPlayCardSelection = null;
@@ -4228,6 +4236,10 @@
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
     const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
+    const allPlayEffects = [
+      ...playEffects,
+      ...buildIndustryPlayCardAppendEffects(currentPlayer, playedCard),
+    ];
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4306,19 +4318,15 @@
     currentPlayer.reservedCards.push(playedCard);
 
     const playEffects = banrenma.buildImmediateEffects(playedCard);
-    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
-      cards,
-      currentPlayer,
-      turnState.roundNumber,
-      turnState.turnNumber,
-      playedCard,
-    ) || [];
-    const allPlayEffects = [...playEffects, ...sentinelEffects];
 
     cards.setPlayCardSelectionActive(cardState, false);
     pendingPlayCardSelection = null;
     rocketState.statusNote = `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`;
     const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, getCardTypeCode(playedCard));
+    const allPlayEffects = [
+      ...playEffects,
+      ...buildIndustryPlayCardAppendEffects(currentPlayer, playedCard),
+    ];
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4405,6 +4413,37 @@
       .join("、");
   }
 
+  function getBlindDrawIrreversible(drawnCount) {
+    return drawnCount > 0
+      ? { code: "hidden_card_reveal", reason: "盲抽翻出新牌" }
+      : null;
+  }
+
+  function applyIncomeGainWithImmediateRewards(player, gain, dataSource = "income") {
+    const drawnCards = [];
+    const dataResults = [];
+    const income = players.gainIncome(player, gain, {
+      blindDraw: (targetPlayer) => {
+        const result = blindDrawCardForPlayer(targetPlayer);
+        if (result.ok && result.card) drawnCards.push(result.card);
+        return result;
+      },
+      gainData: (targetPlayer) => {
+        const result = data.gainData(targetPlayer, { source: dataSource });
+        dataResults.push(result);
+        return result;
+      },
+    });
+    const irreversible = getBlindDrawIrreversible(drawnCards.length);
+    return {
+      income,
+      drawnCards,
+      dataResults,
+      undoable: !irreversible,
+      irreversible,
+    };
+  }
+
   function applyIncomeFromCard(player, card) {
     if (!player) {
       return { ok: false, message: "没有当前玩家" };
@@ -4419,14 +4458,15 @@
       };
     }
 
-    players.gainIncome(player, gain, {
-      blindDraw: (targetPlayer) => blindDrawCardForPlayer(targetPlayer),
-      gainData: (targetPlayer) => data.gainData(targetPlayer, { source: "income" }),
-    });
+    const incomeResult = applyIncomeGainWithImmediateRewards(player, gain, "income");
     return {
       ok: true,
       incomeCode,
       gain,
+      drawnCards: incomeResult.drawnCards,
+      dataResults: incomeResult.dataResults,
+      undoable: incomeResult.undoable,
+      irreversible: incomeResult.irreversible,
       message: `收入：弃掉 ${cards.getCardLabel(card)}，${formatIncomeGain(gain)}（已即时获得）`,
     };
   }
@@ -4511,6 +4551,15 @@
     } else if (pending?.type === "public_scan") {
       rocketState.statusNote = "已取消公共牌区扫描";
     } else if (pending?.type === "place_data_choose_card") {
+      if (pending.fromEffectFlow && pending.autoDataPlacement) {
+        rocketState.statusNote = "已取消放置数据精选";
+        const continued = continuePendingDataPlacementAfterBonus(rocketState.statusNote);
+        syncCardSelectionChrome();
+        renderPlayerStats();
+        updateActionButtons();
+        renderStateReadout();
+        return continued;
+      }
       completeQuickActionStep();
       rocketState.statusNote = "已取消放置数据精选";
     } else if (pending?.type === "tech_bonus_pick_card") {
@@ -4655,9 +4704,18 @@
       completeCurrentActionEffect();
     }
     if (pending?.type === "place_data_choose_card") {
-      appendActionLogStep(HISTORY_SOURCE_QUICK, "放置数据", rocketState.statusNote);
-      clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
-      if (quickActionHistory.hasSession()) quickActionHistory.commitSession();
+      if (pending.fromEffectFlow && pending.autoDataPlacement) {
+        recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+          cardState,
+          pending.beforeCardState,
+          "恢复放置数据精选前牌区",
+        ));
+        continuePendingDataPlacementAfterBonus(rocketState.statusNote);
+      } else {
+        appendActionLogStep(HISTORY_SOURCE_QUICK, "放置数据", rocketState.statusNote);
+        clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+        if (quickActionHistory.hasSession()) quickActionHistory.commitSession();
+      }
     }
     if (pending?.type === "jiuzhe_trace_pick") {
       rocketState.statusNote = `九折痕迹精选：${cards.getCardLabel(result.card)}`;
@@ -8016,13 +8074,17 @@
     } else if (effect.type === "draw_cards") {
       const count = Math.max(0, Math.round(effect.options?.count || 0));
       const drawResult = cards.drawCardsToHand(cardState, playerState, currentPlayer, count);
+      const drawnCount = (drawResult.cards || []).length;
+      const irreversible = drawnCount
+        ? { code: "hidden_card_reveal", reason: "盲抽翻出新牌" }
+        : null;
       result = {
         ok: Boolean(drawResult.ok),
-        message: `${effect.label}：盲抽 ${(drawResult.cards || []).length}/${count} 张`,
+        undoable: !irreversible,
+        irreversible,
+        message: `${effect.label}：盲抽 ${drawnCount}/${count} 张`,
       };
-      if ((drawResult.cards || []).length) {
-        markCurrentActionIrreversible("盲抽翻出新牌", "hidden_card_reveal");
-      }
+      if (irreversible) markCurrentActionIrreversible(irreversible.reason, irreversible.code);
     } else if (effect.type === "launch") {
       const launchResult = abilities.executeAbility("launchProbe", createActionContext(), {
         ...(effect.options || {}),
@@ -8077,7 +8139,10 @@
         beforeCardState.publicCards,
         beforeCardState.discardPile,
       ));
-      completeQuickActionStep();
+      completeQuickActionStep(null, result.irreversible ? {
+        irreversibleCode: result.irreversible.code,
+        irreversibleReason: result.irreversible.reason,
+      } : {});
       rocketState.statusNote = result.message;
     } else {
       quickActionHistory.undoLastStep();
@@ -8684,7 +8749,8 @@
       || (els.landTargetOverlay && !els.landTargetOverlay.hidden)
       || (els.alienTraceOverlay && !els.alienTraceOverlay.hidden)
       || pendingActionEffectFlow?.cardMoveEffect
-      || pendingActionEffectFlow?.freeMoveMode,
+      || pendingActionEffectFlow?.freeMoveMode
+      || Boolean(pendingDataPlaceAction),
     );
   }
 
@@ -8735,6 +8801,10 @@
       return true;
     }
     if (els.dataPlaceOverlay && !els.dataPlaceOverlay.hidden) {
+      if (pendingDataPlaceAction) {
+        cancelDataPlacePicker();
+        return true;
+      }
       closeDataPlacePicker();
       rocketState.statusNote = "已取消放置数据";
       return true;
@@ -8853,6 +8923,9 @@
       pendingActionEffectFlow.cardMoveEffect = null;
       deactivateMoveMode();
     }
+    if (pendingDataPlaceAction) {
+      closeDataPlacePicker();
+    }
     pendingCardTriggerAction = null;
     pendingCardTaskCompletion = null;
     pendingCardTriggerFreeMove = null;
@@ -8870,6 +8943,14 @@
     pendingRunezuFaceSymbolPlacement = null;
   }
 
+  function cleanupSkippedActionEffect(effect) {
+    if (effect?.type === "industry_strategy_passive_reward") {
+      const player = getEffectOwnerPlayer(effect) || getCurrentPlayer();
+      industry?.clearStrategyPlayInteraction?.(player);
+      renderInitialSelectionArea();
+    }
+  }
+
   function skipCurrentActionEffect() {
     if (!pendingActionEffectFlow) return;
 
@@ -8882,6 +8963,7 @@
     }
 
     cancelActiveEffectSubFlows();
+    cleanupSkippedActionEffect(current);
     beginEffectHistoryStep(`跳过：${current.label}`);
     endEffectHistoryStep();
     rocketState.statusNote = `已跳过：${current.label}`;
@@ -10823,13 +10905,15 @@
       discardPile: (cardState.discardPile || []).slice(),
     };
     const discarded = [];
+    let irreversible = null;
     for (let index = (currentPlayer.hand || []).length - 1; index >= 0; index -= 1) {
       if (!selected.has(currentPlayer.hand[index].id)) continue;
       const result = cards.discardFromHandAtIndex(currentPlayer, index);
       if (result.ok) {
         cards.addToDiscardPile(cardState, result.card);
         discarded.push(result.card);
-        applyIncomeFromCard(currentPlayer, result.card);
+        const incomeResult = applyIncomeFromCard(currentPlayer, result.card);
+        if (incomeResult.irreversible) irreversible = incomeResult.irreversible;
       }
     }
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
@@ -10844,7 +10928,8 @@
     ));
     return finishAutomaticRewardEffect(effect, {
       ok: true,
-      undoable: true,
+      undoable: !irreversible,
+      irreversible,
       message: `${effect.label}：弃掉 ${discarded.length} 张手牌`,
       payload: { discardedCount: discarded.length },
     }, [renderPlayerHand]);
@@ -11248,7 +11333,11 @@
     const drawResult = effect.options?.reward === "draw"
       ? cards.drawCardsToHand(cardState, playerState, currentPlayer, count)
       : { ok: true, cards: [] };
-    if ((drawResult.cards || []).length) markCurrentActionIrreversible("盲抽翻出新牌", "hidden_card_reveal");
+    const drawnCount = (drawResult.cards || []).length;
+    const irreversible = drawnCount
+      ? { code: "hidden_card_reveal", reason: "盲抽翻出新牌" }
+      : null;
+    if (irreversible) markCurrentActionIrreversible(irreversible.reason, irreversible.code);
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
       beforePlayer,
@@ -11261,8 +11350,9 @@
     ));
     return finishAutomaticRewardEffect(effect, {
       ok: drawResult.ok,
-      undoable: true,
-      message: `${effect.label}：最多科技类型 ${count}，盲抽 ${(drawResult.cards || []).length}/${count} 张`,
+      undoable: !irreversible,
+      irreversible,
+      message: `${effect.label}：最多科技类型 ${count}，盲抽 ${drawnCount}/${count} 张`,
       payload: { count },
     }, [renderPlayerHand]);
   }
@@ -11412,26 +11502,79 @@
     });
   }
 
+  function finishGainDataRewardEffect(effect, currentPlayer, count, source, options = {}) {
+    if (!effectStepActive) beginEffectHistoryStep(effect.label);
+    const results = [];
+    if (!options.skipGain) {
+      for (let index = 0; index < count; index += 1) {
+        const gainResult = data.gainData(currentPlayer, { source });
+        results.push(gainResult);
+        if (!options.restoreRecorded) {
+          recordHistoryCommand(historyCommands.createGainDataCommand(currentPlayer, gainResult));
+        }
+      }
+    }
+    const gained = results.filter((item) => item.ok).length;
+    const discarded = results.filter((item) => item.discarded).length;
+    const placementText = options.placementMessages?.length
+      ? `；${options.placementMessages.join("；")}`
+      : "";
+    const message = options.skipGain
+      ? `${effect.label}：数据池已满，已跳过本次数据获得`
+      : `${effect.label}：${currentPlayer?.colorLabel || currentPlayer?.name || "玩家"}获得 ${gained}/${count} 个数据${discarded ? `，弃置 ${discarded} 个溢出数据` : ""}${placementText}`;
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      skipped: Boolean(options.skipGain),
+      message,
+      payload: { results, placementMessages: options.placementMessages || [] },
+    });
+  }
+
   function executeGainDataRewardEffect(effect) {
     const currentPlayer = getEffectTargetPlayer(effect);
     const count = Math.max(0, Math.round(effect.options?.count || 0));
     const source = effect.options?.source || "planet_reward";
-    beginEffectHistoryStep(effect.label);
-    const results = [];
-    for (let index = 0; index < count; index += 1) {
-      const gainResult = data.gainData(currentPlayer, { source });
-      results.push(gainResult);
-      recordHistoryCommand(historyCommands.createGainDataCommand(currentPlayer, gainResult));
+    if (count > 0 && isDataPoolFull(currentPlayer)) {
+      const placeCheck = getAutoDataPlacementCheck(currentPlayer);
+      if (placeCheck.ok) {
+        return openAutoDataPlacementPrompt(effect, currentPlayer, {
+          onAfterPlacement: ({ messages, restoreRecorded }) => finishGainDataRewardEffect(
+            effect,
+            currentPlayer,
+            count,
+            source,
+            { placementMessages: messages, restoreRecorded },
+          ),
+          onSkip: () => {
+            beginEffectHistoryStep(effect.label);
+            effect.result = {
+              ok: true,
+              undoable: true,
+              skipped: true,
+              message: `${effect.label}：数据池已满，已跳过本次数据获得`,
+            };
+            rocketState.statusNote = effect.result.message;
+            completeCurrentActionEffect("skipped");
+            renderStateReadout();
+            return effect.result;
+          },
+        });
+      }
+      beginEffectHistoryStep(effect.label);
+      effect.result = {
+        ok: true,
+        undoable: true,
+        skipped: true,
+        message: `${effect.label}：${placeCheck.message || "数据池已满且无法放置，未获得数据"}`,
+      };
+      rocketState.statusNote = effect.result.message;
+      completeCurrentActionEffect("skipped");
+      renderStateReadout();
+      return effect.result;
     }
-    const gained = results.filter((item) => item.ok).length;
-    const discarded = results.filter((item) => item.discarded).length;
-    const message = `${effect.label}：${currentPlayer?.colorLabel || currentPlayer?.name || "玩家"}获得 ${gained}/${count} 个数据${discarded ? `，弃置 ${discarded} 个溢出数据` : ""}`;
-    return finishAutomaticRewardEffect(effect, {
-      ok: true,
-      undoable: true,
-      message,
-      payload: { results },
-    });
+    beginEffectHistoryStep(effect.label);
+    return finishGainDataRewardEffect(effect, currentPlayer, count, source);
   }
 
   function executeLaunchRewardEffect(effect) {
@@ -11621,10 +11764,7 @@
     const beforePlayer = structuredClone(currentPlayer);
     const beforeCardState = structuredClone(cardState);
     if (discardIndex >= 0) cardState.discardPile.splice(discardIndex, 1);
-    players.gainIncome(currentPlayer, gain, {
-      blindDraw: (targetPlayer) => blindDrawCardForPlayer(targetPlayer),
-      gainData: (targetPlayer) => data.gainData(targetPlayer, { source: "card_income" }),
-    });
+    const incomeResult = applyIncomeGainWithImmediateRewards(currentPlayer, gain, "card_income");
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
       beforePlayer,
@@ -11637,9 +11777,10 @@
     ));
     return finishAutomaticRewardEffect(effect, {
       ok: true,
-      undoable: true,
+      undoable: incomeResult.undoable,
+      irreversible: incomeResult.irreversible,
       message: `${effect.label}：${formatIncomeGain(gain)}`,
-      payload: { gain, card: playedCard },
+      payload: { gain, card: playedCard, drawnCards: incomeResult.drawnCards },
     }, [renderPlayerHand, renderPublicCards]);
   }
 
@@ -13255,10 +13396,7 @@
     const gain = effect.options?.gain || {};
     const beforePlayer = structuredClone(currentPlayer);
     beginEffectHistoryStep(effect.label);
-    players.gainIncome(currentPlayer, gain, {
-      blindDraw: (targetPlayer) => blindDrawCardForPlayer(targetPlayer),
-      gainData: (targetPlayer) => data.gainData(targetPlayer, { source: "banrenma-income" }),
-    });
+    const incomeResult = applyIncomeGainWithImmediateRewards(currentPlayer, gain, "banrenma-income");
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
       beforePlayer,
@@ -13266,7 +13404,8 @@
     ));
     effect.result = {
       ok: true,
-      undoable: true,
+      undoable: incomeResult.undoable,
+      irreversible: incomeResult.irreversible,
       message: `收入增加：${formatIncomeGain(gain)}`,
     };
     rocketState.statusNote = effect.result.message;
@@ -13454,6 +13593,8 @@
         return executeIndustrySentinelCornerEffect(effect);
       case "industry_helios_passive_reward":
         return executeIndustryHeliosPassiveRewardEffect(effect);
+      case "industry_strategy_passive_reward":
+        return executeIndustryStrategyPassiveRewardEffect(effect);
       case "fangzhou_launch": {
         beginEffectHistoryStep(effect.label);
         const result = abilities.executeAbility("launchProbe", createActionContext(), {
@@ -22650,6 +22791,61 @@
     renderStateReadout();
   }
 
+  function getStrategyPassiveRewardIcon(slotId) {
+    const reward = industry?.getStrategySlotReward?.(slotId);
+    if (reward?.data) return "data";
+    if (reward?.publicity) return "publicity";
+    if (reward?.credits) return "credits";
+    return "pick_card";
+  }
+
+  function snapshotStrategyPlayedCard(card) {
+    if (!card) return null;
+    return {
+      id: card.id,
+      src: card.src,
+      cardName: card.cardName,
+      label: card.label,
+      cardId: card.cardId,
+      scanActionCode: card.scanActionCode,
+    };
+  }
+
+  function buildStrategyPlayPassiveEffectNodes(player, playedCard) {
+    if (!industry?.isStrategyPlayInteractionActive?.(player, turnState.roundNumber)) return [];
+    const slotId = industry.getAutomaticStrategyPlaySlotId?.(player, turnState.roundNumber)
+      || industry.getStrategyPlayEligibleSlotIds?.(player, turnState.roundNumber)?.[0]
+      || null;
+    if (!slotId) return [];
+    const slotLabel = industry.getStrategyPassiveSlotLabel?.(slotId) || slotId;
+    const rewardLabel = industry.getStrategySlotRewardLabel?.(slotId) || "";
+    return [{
+      id: `industry-strategy-passive-${playedCard?.id || playedCard?.cardId || slotId}-${slotId}`,
+      type: "industry_strategy_passive_reward",
+      label: `宇宙战略集团：${slotLabel}奖励槽`,
+      icon: getStrategyPassiveRewardIcon(slotId),
+      status: "pending",
+      undoable: true,
+      options: {
+        slotId,
+        rewardLabel,
+        playedCard: snapshotStrategyPlayedCard(playedCard),
+      },
+    }];
+  }
+
+  function buildIndustryPlayCardAppendEffects(player, playedCard) {
+    const sentinelEffects = industry?.buildSentinelPlayCornerEffectNodes?.(
+      cards,
+      player,
+      turnState.roundNumber,
+      turnState.turnNumber,
+      playedCard,
+    ) || [];
+    const strategyEffects = buildStrategyPlayPassiveEffectNodes(player, playedCard);
+    return [...sentinelEffects, ...strategyEffects];
+  }
+
   function applyIndustryPlayCardPassives(playedCard, typeCode) {
     const player = getCurrentPlayer();
     const result = { publicityGained: 0, messages: [] };
@@ -22680,7 +22876,11 @@
       turnState.roundNumber,
     );
     if (strategyActivation?.ok) {
-      renderInitialSelectionArea();
+      if (strategyActivation.eligibleSlotIds?.length) {
+        result.messages.push("宇宙战略集团：被动奖励已加入效果队列");
+      } else if (strategyActivation.message) {
+        result.messages.push(strategyActivation.message);
+      }
     }
     return result;
   }
@@ -23017,17 +23217,6 @@
     if (player && industry?.shouldShowStrategyPassiveMarkers?.(player)) {
       industry.mountStrategyPassiveLayer(wrap, player, {
         getPlayerTokenAsset: getNormalTokenAssetForPlayer,
-        isInteractionActive: (targetPlayer) => industry.isStrategyPlayInteractionActive?.(
-          targetPlayer,
-          turnState.roundNumber,
-        ),
-        getEligibleSlotIds: (targetPlayer) => industry.getStrategyPlayEligibleSlotIds?.(
-          targetPlayer,
-          turnState.roundNumber,
-        ) || [],
-        onSlotClick: (slotId) => {
-          handleStrategyPassiveSlotClick(slotId);
-        },
       });
     }
 
@@ -23122,6 +23311,100 @@
       message: `${effect.label}：+${rewardLabel}`,
       payload: { slotId, reward, dataResults },
     }, [renderInitialSelectionArea]);
+  }
+
+  function finishIndustryStrategyPassiveRewardEffect(effect, options = {}) {
+    const player = getEffectOwnerPlayer(effect) || getCurrentPlayer();
+    const slotId = effect.options?.slotId;
+    if (!player || !slotId) {
+      rocketState.statusNote = "宇宙战略集团：无效奖励槽";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const check = industry?.canInteractStrategyPlaySlot?.(player, slotId, turnState.roundNumber);
+    if (!check?.ok) {
+      industry?.clearStrategyPlayInteraction?.(player);
+      effect.result = { ok: false, undoable: true, message: check?.message || "无法领取奖励" };
+      completeCurrentActionEffect("skipped");
+      renderInitialSelectionArea();
+      renderStateReadout();
+      return effect.result;
+    }
+
+    const slotLabel = industry.getStrategyPassiveSlotLabel?.(slotId) || slotId;
+    const reward = industry.getStrategySlotReward?.(slotId);
+    const rewardLabel = industry.getStrategySlotRewardLabel?.(slotId) || "";
+    const beforePlayer = options.beforePlayerState || structuredClone(player);
+
+    if (!effectStepActive) beginEffectHistoryStep(effect.label);
+    if (!options.restoreRecorded) {
+      recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+        player,
+        beforePlayer,
+        `撤销宇宙战略集团：${slotLabel}奖励槽`,
+      ));
+    }
+
+    const placeResult = industry.placeStrategyPassiveSlot(player, slotId);
+    if (!placeResult?.ok) {
+      endEffectHistoryStep();
+      rocketState.statusNote = placeResult?.message || "无法放置被动标记";
+      renderStateReadout();
+      return placeResult;
+    }
+
+    industry.completeStrategyPlayInteraction(player);
+    const dataResults = [];
+    if (reward?.credits || reward?.publicity) {
+      players.gainResources(player, {
+        credits: reward.credits || 0,
+        publicity: reward.publicity || 0,
+      });
+    }
+    if (reward?.data && !options.skipDataGain) {
+      const gainResult = data.gainData(player, { source: "industry_strategy_passive" });
+      dataResults.push(gainResult);
+      if (!options.restoreRecorded) {
+        recordHistoryCommand(historyCommands.createGainDataCommand(player, gainResult));
+      }
+    }
+
+    const skippedText = reward?.data && options.skipDataGain ? "（数据池已满，未获得数据）" : "";
+    const placementText = options.placementMessages?.length
+      ? `；${options.placementMessages.join("；")}`
+      : "";
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: `${effect.label}：+${rewardLabel}${skippedText}${placementText}`,
+      payload: { slotId, reward, dataResults, skippedDataGain: Boolean(options.skipDataGain) },
+    }, [renderInitialSelectionArea]);
+  }
+
+  function executeIndustryStrategyPassiveRewardEffect(effect) {
+    const player = getEffectOwnerPlayer(effect) || getCurrentPlayer();
+    const slotId = effect.options?.slotId;
+    const reward = industry?.getStrategySlotReward?.(slotId);
+    if (reward?.data && isDataPoolFull(player)) {
+      const placeCheck = getAutoDataPlacementCheck(player);
+      if (placeCheck.ok) {
+        return openAutoDataPlacementPrompt(effect, player, {
+          statusNote: "宇宙战略集团：数据池已满，请先放置数据或跳过这次数据获得",
+          skipDescription: "仍放置宇宙战略集团 token，但不获得这 1 个数据",
+          onAfterPlacement: ({ messages, restoreRecorded, beforePlayerState }) => finishIndustryStrategyPassiveRewardEffect(
+            effect,
+            { placementMessages: messages, restoreRecorded, beforePlayerState },
+          ),
+          onSkip: ({ beforePlayerState }) => finishIndustryStrategyPassiveRewardEffect(
+            effect,
+            { skipDataGain: true, beforePlayerState },
+          ),
+        });
+      }
+      return finishIndustryStrategyPassiveRewardEffect(effect, { skipDataGain: true });
+    }
+    return finishIndustryStrategyPassiveRewardEffect(effect);
   }
 
   function handleStrategyPassiveSlotClick(slotId) {
@@ -24939,19 +25222,44 @@
     });
   }
 
-  function closeDataPlacePicker() {
+  function closeDataPlacePicker(options = {}) {
     if (!els.dataPlaceOverlay) return;
     els.dataPlaceOverlay.hidden = true;
+    if (!options.keepPending) pendingDataPlaceAction = null;
   }
 
   function shouldPromptDataPlaceChoice(choices) {
     return abilities.data.needsPlacementChoice(choices);
   }
 
-  function openDataPlacePicker() {
+  function getDataPoolCount(player) {
+    const dataState = data.ensurePlayerDataState?.(player) || player?.dataState || {};
+    return Array.isArray(dataState.poolTokens)
+      ? dataState.poolTokens.length
+      : Math.max(0, Math.round(Number(player?.resources?.availableData) || 0));
+  }
+
+  function isDataPoolFull(player) {
+    return getDataPoolCount(player) >= players.RESOURCE_LIMITS.availableData;
+  }
+
+  function getAutoDataPlacementCheck(player) {
+    if (!isDataPoolFull(player)) return { ok: false, reason: "not_full" };
+    const placeCheck = data.canPlaceAnyData?.(player);
+    if (!placeCheck?.ok) {
+      return {
+        ok: false,
+        reason: "no_place",
+        message: placeCheck?.message || "数据池已满，且没有可用的数据放置位置",
+      };
+    }
+    return { ok: true, choices: placeCheck.choices || data.listPlaceDataChoices(player) };
+  }
+
+  function openDataPlacePicker(options = {}) {
     if (!els.dataPlaceOverlay || !els.dataPlaceActions) return;
 
-    const player = getCurrentPlayer();
+    const player = options.player || getCurrentPlayer();
     const choiceResult = abilities.data.listPlacementChoices(player);
     if (!choiceResult.ok) {
       rocketState.statusNote = choiceResult.message;
@@ -24960,17 +25268,20 @@
     }
 
     const choices = choiceResult.choices;
-    if (!shouldPromptDataPlaceChoice(choices)) {
+    const forcePrompt = Boolean(options.forcePrompt);
+    pendingDataPlaceAction = options.pendingAction || null;
+    if (!forcePrompt && !shouldPromptDataPlaceChoice(choices)) {
       const [choice] = choices;
       confirmDataPlacement(choice.target, choice.blueSlot);
       return;
     }
 
     if (els.dataPlaceSubtitle) {
-      els.dataPlaceSubtitle.textContent = "请选择将数据放入第一排，或放入满足条件的蓝色科技下方。";
+      els.dataPlaceSubtitle.textContent = options.subtitle
+        || "请选择将数据放入第一排，或放入满足条件的蓝色科技下方。";
     }
 
-    els.dataPlaceActions.replaceChildren(...choices.map((choice) => {
+    const choiceButtons = choices.map((choice) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "data-place-option-button";
@@ -24980,12 +25291,206 @@
       }
       button.innerHTML = `${choice.label}<small>${choice.description}</small>`;
       return button;
-    }));
+    });
+    if (options.allowSkip) {
+      const skip = document.createElement("button");
+      skip.type = "button";
+      skip.className = "data-place-option-button";
+      skip.dataset.placeSkip = "true";
+      skip.innerHTML = `${options.skipLabel || "跳过"}<small>${options.skipDescription || "不获得本次数据"}</small>`;
+      choiceButtons.push(skip);
+    }
+
+    els.dataPlaceActions.replaceChildren(...choiceButtons);
 
     els.dataPlaceOverlay.hidden = false;
   }
 
+  function openAutoDataPlacementPrompt(effect, player, options = {}) {
+    const check = getAutoDataPlacementCheck(player);
+    if (!check.ok) return check;
+    const beforePlayerState = structuredClone(player);
+    const beforeCardState = structuredClone(cardState);
+    const pendingAction = {
+      type: "auto_data_place_before_gain",
+      effect,
+      playerId: player?.id || null,
+      playerColor: player?.color || null,
+      beforePlayerState,
+      beforeCardState,
+      messages: [],
+      restoreRecorded: false,
+      onAfterPlacement: options.onAfterPlacement,
+      onSkip: options.onSkip,
+    };
+    openDataPlacePicker({
+      player,
+      forcePrompt: true,
+      allowSkip: true,
+      skipLabel: options.skipLabel || "跳过获得数据",
+      skipDescription: options.skipDescription || "不放置数据，也不获得这次数据",
+      subtitle: options.subtitle
+        || "可先放置 1 个数据空出数据池位置，再获得本次数据；也可以跳过本次数据获得。",
+      pendingAction,
+    });
+    rocketState.statusNote = options.statusNote || "数据池已满：请先放置数据，或跳过本次数据获得";
+    renderStateReadout();
+    return { ok: true, awaitingDataPlacement: true, message: rocketState.statusNote };
+  }
+
+  function getPendingDataPlacementPlayer(pending = pendingDataPlaceAction) {
+    if (!pending) return getCurrentPlayer();
+    return getPlayerById(pending.playerId)
+      || getPlayerByColor(pending.playerColor)
+      || getEffectOwnerPlayer(pending.effect)
+      || getCurrentPlayer();
+  }
+
+  function ensurePendingDataPlacementEffectStep(pending, player) {
+    if (!pending?.effect) return;
+    if (!effectStepActive) beginEffectHistoryStep(pending.effect.label);
+    if (!pending.restoreRecorded) {
+      recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+        player,
+        pending.beforePlayerState,
+        "恢复自动放置数据前玩家状态",
+      ));
+      pending.restoreRecorded = true;
+    }
+  }
+
+  function applyAutoDataPlacementSlotBonuses(player, placeResult, pending) {
+    const bonuses = getPlaceDataSlotBonuses(placeResult);
+    const messages = [];
+    for (const bonus of bonuses) {
+      if (bonus.type === "income") {
+        const incomeStart = beginDiscardSelection(1, {
+          type: "place_data_income",
+          player,
+          beforePlayerState: pending.beforePlayerState,
+          beforeCardState: pending.beforeCardState,
+          effectLabel: pending.effect?.label || "自动放置数据",
+          fromEffectFlow: true,
+          autoDataPlacement: true,
+        });
+        if (!incomeStart.ok) {
+          messages.push(incomeStart.message);
+          continue;
+        }
+        pending.messages.push(...messages);
+        return { ok: true, pendingIncome: true, messages };
+      }
+
+      if (bonus.type === "choose_card") {
+        const selectionStart = beginCardSelection({
+          type: "place_data_choose_card",
+          player,
+          beforePlayerState: pending.beforePlayerState,
+          beforeCardState: pending.beforeCardState,
+          fromEffectFlow: true,
+          autoDataPlacement: true,
+        });
+        if (!selectionStart.ok) {
+          messages.push(selectionStart.message);
+          continue;
+        }
+        pending.messages.push(...messages);
+        return { ok: true, pendingCardSelection: true, messages };
+      }
+
+      if (bonus.type === "publicity") {
+        players.gainResources(player, { publicity: bonus.publicity });
+        messages.push(`获得 ${bonus.publicity} 宣传`);
+      } else if (bonus.type === "score") {
+        players.gainResources(player, { score: bonus.score });
+        addPlayerScoreSource(player, SCORE_SOURCE_KEYS.BLUE_TECH, bonus.score);
+        messages.push(`获得 ${bonus.score} 分`);
+      } else if (bonus.type === "credits") {
+        players.gainResources(player, { credits: bonus.credits });
+        messages.push(`获得 ${bonus.credits} 信用点`);
+      } else if (bonus.type === "energy") {
+        players.gainResources(player, { energy: bonus.energy });
+        messages.push(`获得 ${bonus.energy} 能量`);
+      }
+    }
+    return { ok: true, pendingIncome: false, pendingCardSelection: false, messages };
+  }
+
+  function continuePendingDataPlacementAfterBonus(message = null) {
+    const pending = pendingDataPlaceAction;
+    if (!pending) return null;
+    if (message) pending.messages.push(message);
+    pendingDataPlaceAction = null;
+    if (typeof pending.onAfterPlacement === "function") {
+      return pending.onAfterPlacement({
+        messages: pending.messages.filter(Boolean),
+        restoreRecorded: pending.restoreRecorded,
+        beforePlayerState: pending.beforePlayerState,
+      });
+    }
+    return null;
+  }
+
+  function confirmPendingDataPlacement(target, blueSlot) {
+    const pending = pendingDataPlaceAction;
+    const player = getPendingDataPlacementPlayer(pending);
+    closeDataPlacePicker({ keepPending: true });
+    ensurePendingDataPlacementEffectStep(pending, player);
+
+    const result = abilities.executeAbility("placeData", createActionContext(), {
+      target,
+      blueSlot,
+    });
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+      return result;
+    }
+
+    pending.messages.push(result.message);
+    const bonusResult = applyAutoDataPlacementSlotBonuses(player, result, pending);
+    if (bonusResult.pendingIncome || bonusResult.pendingCardSelection) {
+      rocketState.statusNote = bonusResult.pendingIncome
+        ? `${result.message}，请选择 1 张手牌获得收入`
+        : `${result.message}，请选择 1 张公共牌`;
+      renderPlayerStats();
+      renderStateReadout();
+      return result;
+    }
+    pending.messages.push(...(bonusResult.messages || []));
+    renderPlayerStats();
+    renderInitialSelectionArea();
+    return continuePendingDataPlacementAfterBonus();
+  }
+
+  function skipPendingDataPlacement() {
+    const pending = pendingDataPlaceAction;
+    if (!pending) {
+      closeDataPlacePicker();
+      return null;
+    }
+    closeDataPlacePicker({ keepPending: true });
+    pendingDataPlaceAction = null;
+    if (typeof pending.onSkip === "function") {
+      return pending.onSkip({
+        beforePlayerState: pending.beforePlayerState,
+      });
+    }
+    return null;
+  }
+
+  function cancelDataPlacePicker() {
+    if (pendingDataPlaceAction) return skipPendingDataPlacement();
+    closeDataPlacePicker();
+    rocketState.statusNote = "已取消放置数据";
+    renderStateReadout();
+    return { ok: true, canceled: true };
+  }
+
   function confirmDataPlacement(target, blueSlot) {
+    if (pendingDataPlaceAction) {
+      return confirmPendingDataPlacement(target, blueSlot);
+    }
     closeDataPlacePicker();
     const blocked = blockIncompatiblePendingQuickAction("place-data");
     if (blocked) return blocked;
@@ -26475,7 +26980,8 @@
     runQuickTrade,
     runPlaceDataToComputer,
     confirmDataPlacement,
-    closeDataPlacePicker,
+    cancelDataPlacePicker,
+    skipPendingDataPlacement,
     handleDebugQuickSectorScanChoice,
     handleJiuzheCardChoice,
     handleJiuzheOpportunitySkip,

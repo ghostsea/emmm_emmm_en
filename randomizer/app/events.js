@@ -48,7 +48,8 @@
       runQuickTrade,
       runPlaceDataToComputer,
       confirmDataPlacement,
-      closeDataPlacePicker,
+      cancelDataPlacePicker,
+      skipPendingDataPlacement,
       handleDebugQuickSectorScanChoice,
       handleJiuzheCardChoice,
       handleJiuzheOpportunitySkip,
@@ -238,14 +239,19 @@
       runPlaceDataToComputer();
     });
     els.dataPlaceActions?.addEventListener("click", (event) => {
+      const skipButton = event.target.closest("[data-place-skip]");
+      if (skipButton && !skipButton.disabled) {
+        skipPendingDataPlacement();
+        return;
+      }
       const button = event.target.closest("[data-place-target]");
       if (!button) return;
       confirmDataPlacement(button.dataset.placeTarget, button.dataset.blueSlot);
     });
-    els.dataPlaceCancel?.addEventListener("click", closeDataPlacePicker);
+    els.dataPlaceCancel?.addEventListener("click", cancelDataPlacePicker);
     els.dataPlaceOverlay?.addEventListener("click", (event) => {
       if (event.target === els.dataPlaceOverlay) {
-        closeDataPlacePicker();
+        cancelDataPlacePicker();
       }
     });
     els.scanTargetActions?.addEventListener("click", (event) => {

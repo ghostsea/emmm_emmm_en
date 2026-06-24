@@ -93,8 +93,10 @@ assert.equal(b6Rewards[0].type, "draw_cards");
 
 const b7Effects = cardEffects.buildPlayEffects({ cardId: "b_7.webp" });
 assert.equal(cardEffects.getCardModel({ cardId: "b_7.webp" }).cardType, 0);
-assert.equal(b7Effects.length, 3);
-assert.equal(b7Effects.every((effect) => effect.type === cardEffects.EFFECT_TYPES.DRAW_THEN_SCAN), true);
+assert.equal(b7Effects.length, 1);
+assert.equal(b7Effects[0].type, "draw_cards");
+assert.equal(b7Effects[0].options.count, 3);
+assert.equal(b7Effects[0].icon, "blind_card");
 assert.equal(cardEffects.getTemporaryTasks({ cardId: "b_7.webp" }).length, 0);
 
 const b9Effects = cardEffects.buildPlayEffects({ cardId: "b_9.webp" });

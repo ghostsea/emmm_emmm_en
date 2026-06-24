@@ -1027,9 +1027,7 @@
     "b_7.webp": withSource("b_7.webp", {
       cardType: 0,
       playEffects: Object.freeze([
-        effect("b7-draw-then-scan", EFFECT_TYPES.DRAW_THEN_SCAN, "盲抽并对该牌弃牌扫描", "blind_card", {
-          repeat: 3,
-        }),
+        drawCardsEffect("b7-draw", "盲抽 3 张牌", 3),
       ]),
     }),
     "b_8.webp": withSource("b_8.webp", {

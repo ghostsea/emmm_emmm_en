@@ -100,6 +100,7 @@
 | `mission_startup_final_mark` | 任务中继站 | 开局终局 c 板块 3 号位标记 | `applyIndustryStartupPassives` |
 | `fenwick_research_cost` | 芬威克研究中心 | 研究科技宣传 5（默认 6） | `tech/resolver.js`、`abilities/tech.js` |
 | `deepspace_free_analyze` | 深空探测 | 分析数据不耗能量 | `abilities/data.js` |
+| `strategy_passive_reward_slots` | 宇宙战略集团 | 打牌后按扫描角标在效果队列末尾追加奖励槽节点；确认节点才放 token 并领奖，跳过不占槽 | `applyIndustryPlayCardPassives` / `industry_strategy_passive_reward` |
 | `future_span_parking` | 未来跨度研究所 | 专属标记扣牌、目标分、达标后免费打出 | `app.js` 公司牌叠层与打牌流程 |
 | `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；正面板块可点击并等同触发对应主要行动；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
 
@@ -132,6 +133,7 @@
 | 赫利昂 | 是 | 移除科技、清槽和收入随 1x 前快照恢复 |
 | 深空交换 | 是 | 交换手牌与公共牌快照随 1x 前快照恢复 |
 | 哨兵打牌角标 | 是 | 主行动效果队列内 `industry_sentinel_corner` |
+| 宇宙战略打牌奖励槽 | 是 | 主行动效果队列内 `industry_strategy_passive_reward`；跳过不放 token，确认后 token 与奖励同一步恢复 |
 | 未来跨度专属标记 | 是 | 扣下手牌与目标分快照 |
 | 任务中继站 / 芬威克 / 未来跨度普通 1x / 宇宙战略 | 否 | 精选并拿走/刷新公共牌；确认拿牌后提交快速行动历史，之前的快速行动也不再可撤销 |
 
