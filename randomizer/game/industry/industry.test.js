@@ -119,10 +119,18 @@ assert.equal(poorFlow.ok, false);
 
 const cardsStub = {
   getCardLabel: (card) => card.label || card.src || "card",
-  getDiscardActionRewardForCard: (card) => (
-    card.discardActionCode === "0" ? { kind: "resource", gain: { publicity: 1 }, label: "1宣传" } : null
+  getDiscardActionRewardForCard: (card) => {
+    const code = String(card.discardActionCode);
+    if (code === "0") return { code: 0, gain: { publicity: 1 }, dataCount: 0, label: "1宣传" };
+    if (code === "1") return { code: 1, gain: {}, dataCount: 1, label: "1数据" };
+    if (code === "4") return { code: 4, gain: { score: 1 }, dataCount: 1, label: "1数据+1分" };
+    return null;
+  },
+  getDiscardActionMoveRewardForCard: (card) => (
+    String(card.discardActionCode) === "5"
+      ? { code: 5, movementPoints: 1, gain: { score: 1 }, label: "1移动+1分" }
+      : null
   ),
-  getDiscardActionMoveRewardForCard: () => null,
 };
 
 const sentinelPlayer = {
@@ -139,6 +147,37 @@ assert.equal(abilities.shouldAppendSentinelPlayCornerEffect(cardsStub, sentinelP
 const nodes = abilities.buildSentinelPlayCornerEffectNodes(cardsStub, sentinelPlayer, 1, 1, playedCard);
 assert.equal(nodes.length, 1);
 assert.equal(nodes[0].type, "industry_sentinel_corner");
+assert.equal(nodes[0].icon, "publicity");
+assert.equal(
+  abilities.buildSentinelPlayCornerEffectNodes(
+    cardsStub,
+    sentinelPlayer,
+    1,
+    1,
+    { ...playedCard, id: "b-2", discardActionCode: "1" },
+  )[0].icon,
+  "data",
+);
+assert.equal(
+  abilities.buildSentinelPlayCornerEffectNodes(
+    cardsStub,
+    sentinelPlayer,
+    1,
+    1,
+    { ...playedCard, id: "b-3", discardActionCode: "4" },
+  )[0].icon,
+  "data",
+);
+assert.equal(
+  abilities.buildSentinelPlayCornerEffectNodes(
+    cardsStub,
+    sentinelPlayer,
+    1,
+    1,
+    { ...playedCard, id: "b-4", discardActionCode: "5" },
+  )[0].icon,
+  "movement",
+);
 assert.equal(abilities.shouldAppendSentinelPlayCornerEffect(cardsStub, sentinelPlayer, 1, 1, { src: "aliens/x/face.png" }), false);
 
 const stratusCards = [

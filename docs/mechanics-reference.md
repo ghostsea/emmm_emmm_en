@@ -234,8 +234,8 @@ UI 布局：
 轮与回合：
 
 - 轮：所有玩家各自执行若干回合，直到所有玩家都 PASS 后结束；全部 PASS 后进入下一轮第 1 回合。
-- 回合：一名玩家从可以执行主要行动开始，到点击“回合结束”为止；每次玩家行动确认结束后，回合号递增。
-- `turnState` 位于 `randomizer/app.js`，记录 `roundNumber`（轮号）、`turnNumber`（回合号）、基础顺位 `turnOrderPlayerIds`、本轮起始玩家 `startPlayerId`、启用玩家 `activePlayerIds`、本轮已 PASS 玩家与当前行动圈已行动玩家。
+- 回合：一轮内的一次行动圈；每名未 PASS 玩家按本轮顺位最多行动一次，除非已经 PASS。所有未 PASS 玩家在当前行动圈都行动后，显示回合号才递增。
+- `turnState` 位于 `randomizer/app.js`，记录 `roundNumber`（轮号）、`turnNumber`（内部行动序号，用 `getDisplayedTurnNumber()` 折算为界面/日志回合号）、基础顺位 `turnOrderPlayerIds`、本轮起始玩家 `startPlayerId`、启用玩家 `activePlayerIds`、本轮已 PASS 玩家与当前行动圈已行动玩家。
 - 页面加载时会自动执行原 `set-button` 设置流程：白色玩家固定为初始首位，其余颜色玩家随机洗牌，并重置为第 1 轮第 1 回合。默认人机入口启用 4 名活跃玩家，其中白色为人类玩家，其余 3 个活跃席位为电脑玩家。
 - 新轮开始时，起始玩家按基础顺位顺延到上一轮第二顺位玩家。
 

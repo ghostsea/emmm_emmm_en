@@ -2036,7 +2036,7 @@
       els.roundStatusRound.textContent = isGameEnded() ? "游戏结束" : `第 ${turnState.roundNumber} 轮`;
     }
     if (els.roundStatusTurn) {
-      els.roundStatusTurn.textContent = isGameEnded() ? "终局计分" : `第 ${turnState.turnNumber} 回合`;
+      els.roundStatusTurn.textContent = isGameEnded() ? "终局计分" : `第 ${getDisplayedTurnNumber()} 回合`;
     }
   }
 
@@ -2053,7 +2053,7 @@
       "轮次状态",
       isGameEnded()
         ? `游戏结束：第${turnState.roundNumber}轮全员 PASS，进行终局计分`
-        : `第${turnState.roundNumber}轮 第${turnState.turnNumber}回合`,
+        : `第${turnState.roundNumber}轮 第${getDisplayedTurnNumber()}回合`,
       `基础顺位 ${orderLabels || "无"}`,
       `本轮顺位 ${roundOrderLabels || "无"}`,
       `玩家代理 ${agentLabels}`,
@@ -7489,29 +7489,6 @@
         || listCardTriggerFreeMoveCandidates(match).length > 0
       ));
     if (!matches.length) return null;
-    const grouped = matches.filter((match) => (
-      match.trigger?.event?.consumeAllMatches
-      && match.card?.id === matches[0].card?.id
-      && match.event === matches[0].event
-    ));
-    if (grouped.length > 1) {
-      const triggerSnapshot = createCardTriggerProgressSnapshot();
-      for (const match of grouped) {
-        cardEffects.consumeTrigger(match.card, match.trigger.id);
-      }
-      discardReservedCardIfFinished(currentPlayer, grouped[0].card);
-      return startCardEffectFlow(
-        "card-trigger-effects",
-        `卡牌触发：${cards.getCardLabel(grouped[0].card)}`,
-        grouped.map((match) => match.effect),
-        {
-          actionType: "cardTrigger",
-          historySource: HISTORY_SOURCE_QUICK,
-          consumesMainAction: false,
-          preHistoryCommands: createCardTriggerProgressCommands(triggerSnapshot, "卡牌触发"),
-        },
-      );
-    }
     return matches.length === 1 ? applyCardTriggerMatch(matches[0]) : openCardTriggerPicker(matches);
   }
 
@@ -19667,7 +19644,7 @@
       });
     }
 
-    if (!selectionOptions.skipBonus && selectResult.tileId === "orange1") {
+    if (selectResult.tileId === "orange1") {
       followups.push({
         ...planetRewards.launchEffect({ skipCost: true, source: "tech" }),
         id: "research-tech-launch",
@@ -19713,7 +19690,7 @@
       });
     }
 
-    if (!selectionOptions.skipBonus && selectResult.tileId === "purple1") {
+    if (selectResult.tileId === "purple1") {
       followups.push({
         ...planetRewards.dataEffect(2),
         id: "research-tech-data",
@@ -24675,12 +24652,13 @@
     selectDefaultRocketForCurrentPlayer();
     renderDebugPlayerSwitch();
     renderRoundStatus();
+    const displayedTurnNumber = getDisplayedTurnNumber();
     const turnAdvanceMessage = advanceResult.gameEnded
       ? `第 ${turnState.roundNumber} 轮所有玩家已 PASS，游戏结束，进行终局计分${advanceResult.finalScoreLines?.length ? `：${advanceResult.finalScoreLines.join("；")}` : ""}`
       : advanceResult.roundAdvanced
-      ? `所有玩家已 PASS，进入第 ${turnState.roundNumber} 轮第 ${turnState.turnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`
+      ? `所有玩家已 PASS，进入第 ${turnState.roundNumber} 轮第 ${displayedTurnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`
       : advanceResult.turnAdvanced
-        ? `进入第 ${turnState.roundNumber} 轮第 ${turnState.turnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`
+        ? `进入第 ${turnState.roundNumber} 轮第 ${displayedTurnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`
         : `回合已结束，当前玩家：${nextPlayer?.colorLabel || ""}玩家`;
     rocketState.statusNote = passIncomeResult?.message
       ? `${turnAdvanceMessage}；${passIncomeResult.message}`

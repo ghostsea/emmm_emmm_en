@@ -2232,8 +2232,8 @@
     "dlc_21.png": withSource("dlc_21.png", {
       cardType: 1,
       triggers: Object.freeze([
-        { id: "dlc21-orbit-visit-energy-1", event: Object.freeze({ type: "visitPlanet", requiresOwnOrbit: true, consumeAllMatches: true }), effect: gainResourcesEffect("dlc21-energy-1", "访问有自己环绕的星球：1能量", { energy: 1 }) },
-        { id: "dlc21-orbit-visit-energy-2", event: Object.freeze({ type: "visitPlanet", requiresOwnOrbit: true, consumeAllMatches: true }), effect: gainResourcesEffect("dlc21-energy-2", "访问有自己环绕的星球：1能量", { energy: 1 }) },
+        { id: "dlc21-orbit-visit-energy-1", event: Object.freeze({ type: "visitPlanet", requiresOwnOrbit: true }), effect: gainResourcesEffect("dlc21-energy-1", "访问有自己环绕的星球：1能量", { energy: 1 }) },
+        { id: "dlc21-orbit-visit-energy-2", event: Object.freeze({ type: "visitPlanet", requiresOwnOrbit: true }), effect: gainResourcesEffect("dlc21-energy-2", "访问有自己环绕的星球：1能量", { energy: 1 }) },
       ]),
     }),
     "dlc_22.png": withSource("dlc_22.png", {
@@ -2251,22 +2251,22 @@
     "dlc_24.png": withSource("dlc_24.png", {
       cardType: 1,
       triggers: Object.freeze([
-        { id: "dlc24-orange-tech-launch-1", event: Object.freeze({ type: "researchTech", techType: "orange", consumeAllMatches: true }), effect: launchEffect("dlc24-launch-1", "橙色科技：发射") },
-        { id: "dlc24-orange-tech-launch-2", event: Object.freeze({ type: "researchTech", techType: "orange", consumeAllMatches: true }), effect: launchEffect("dlc24-launch-2", "橙色科技：发射") },
+        { id: "dlc24-orange-tech-launch-1", event: Object.freeze({ type: "researchTech", techType: "orange" }), effect: launchEffect("dlc24-launch-1", "橙色科技：发射") },
+        { id: "dlc24-orange-tech-launch-2", event: Object.freeze({ type: "researchTech", techType: "orange" }), effect: launchEffect("dlc24-launch-2", "橙色科技：发射") },
       ]),
     }),
     "dlc_25.png": withSource("dlc_25.png", {
       cardType: 1,
       triggers: Object.freeze([
-        { id: "dlc25-purple-tech-public-scan-1", event: Object.freeze({ type: "researchTech", techType: "purple", consumeAllMatches: true }), effect: gainResourcesEffect("dlc25-public-scan-marker-1", "紫色科技：1个公共牌区扫描标记", { additionalPublicScan: 1 }) },
-        { id: "dlc25-purple-tech-public-scan-2", event: Object.freeze({ type: "researchTech", techType: "purple", consumeAllMatches: true }), effect: gainResourcesEffect("dlc25-public-scan-marker-2", "紫色科技：1个公共牌区扫描标记", { additionalPublicScan: 1 }) },
+        { id: "dlc25-purple-tech-public-scan-1", event: Object.freeze({ type: "researchTech", techType: "purple" }), effect: gainResourcesEffect("dlc25-public-scan-marker-1", "紫色科技：1个公共牌区扫描标记", { additionalPublicScan: 1 }) },
+        { id: "dlc25-purple-tech-public-scan-2", event: Object.freeze({ type: "researchTech", techType: "purple" }), effect: gainResourcesEffect("dlc25-public-scan-marker-2", "紫色科技：1个公共牌区扫描标记", { additionalPublicScan: 1 }) },
       ]),
     }),
     "dlc_26.png": withSource("dlc_26.png", {
       cardType: 1,
       triggers: Object.freeze([
-        { id: "dlc26-blue-tech-data-1", event: Object.freeze({ type: "researchTech", techType: "blue", consumeAllMatches: true }), effect: gainDataEffect("dlc26-data-1", "蓝色科技：1数据", 1) },
-        { id: "dlc26-blue-tech-data-2", event: Object.freeze({ type: "researchTech", techType: "blue", consumeAllMatches: true }), effect: gainDataEffect("dlc26-data-2", "蓝色科技：1数据", 1) },
+        { id: "dlc26-blue-tech-data-1", event: Object.freeze({ type: "researchTech", techType: "blue" }), effect: gainDataEffect("dlc26-data-1", "蓝色科技：1数据", 1) },
+        { id: "dlc26-blue-tech-data-2", event: Object.freeze({ type: "researchTech", techType: "blue" }), effect: gainDataEffect("dlc26-data-2", "蓝色科技：1数据", 1) },
       ]),
     }),
     "dlc_27.png": withSource("dlc_27.png", {

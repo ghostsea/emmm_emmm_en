@@ -585,6 +585,14 @@ assert.equal(cardEffects.collectMatchingTriggers(
   { id: "p1", color: "red", reservedCards: [dlc21] },
   { type: "visitPlanet", planetId: "mars", hasOwnOrbit: true },
 ).length, 2);
+cardEffects.consumeTrigger(dlc21, "dlc21-orbit-visit-energy-1");
+assert.deepEqual(
+  cardEffects.collectMatchingTriggers(
+    { id: "p1", color: "red", reservedCards: [dlc21] },
+    { type: "visitPlanet", planetId: "mars", hasOwnOrbit: true },
+  ).map((match) => match.trigger.id),
+  ["dlc21-orbit-visit-energy-2"],
+);
 assert.equal(cardEffects.collectMatchingTriggers(
   { id: "p1", color: "red", reservedCards: [dlc21] },
   { type: "visitPlanet", planetId: "mars", hasOwnOrbit: false },
@@ -597,16 +605,37 @@ for (const [cardId, techType, expectedType] of [
 ]) {
   const card = { id: `card-${cardId}`, cardId };
   cardEffects.ensureCardEffectState(card);
+  assert.equal(
+    cardEffects.getCardModel(card).triggers.some((trigger) => trigger.event?.consumeAllMatches),
+    false,
+    `${cardId} repeated trigger markers must be consumed one at a time`,
+  );
   const matches = cardEffects.collectMatchingTriggers(
     { id: "p1", color: "red", reservedCards: [card] },
     { type: "researchTech", techType },
   );
-  assert.equal(matches.length, 2, `${cardId} should use both trigger markers on one research event`);
+  assert.equal(matches.length, 2, `${cardId} should offer two selectable trigger markers`);
   assert.equal(matches[0].effect.type, expectedType);
   if (cardId === "dlc_25.png") {
     assert.deepEqual(matches[0].effect.options.gain, { additionalPublicScan: 1 });
   }
+  cardEffects.consumeTrigger(card, matches[0].trigger.id);
+  assert.deepEqual(
+    cardEffects.collectMatchingTriggers(
+      { id: "p1", color: "red", reservedCards: [card] },
+      { type: "researchTech", techType },
+    ).map((match) => match.trigger.id),
+    [matches[1].trigger.id],
+    `${cardId} should keep the second trigger marker for a later event`,
+  );
 }
+
+const batchConsumedTriggers = Object.entries(cardEffects.MODELS).flatMap(([cardId, model]) => (
+  (model.triggers || [])
+    .filter((trigger) => trigger.event?.consumeAllMatches)
+    .map((trigger) => `${cardId}:${trigger.id}`)
+));
+assert.deepEqual(batchConsumedTriggers, []);
 
 const dlc33 = { id: "card-dlc33", cardId: "dlc_33.png" };
 cardEffects.ensureCardEffectState(dlc33);

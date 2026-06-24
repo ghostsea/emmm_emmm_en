@@ -335,7 +335,7 @@
       id: `industry-sentinel-corner-${playedCard.id || playedCard.src}`,
       type: "industry_sentinel_corner",
       label: `哨兵探测网络：${cardLabel} 弃牌角标`,
-      icon: reward.kind === "move" ? "movement" : "publicity",
+      icon: getCornerRewardIcon(reward),
       status: "pending",
       undoable: true,
       options: {
