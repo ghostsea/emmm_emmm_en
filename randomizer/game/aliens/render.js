@@ -799,6 +799,8 @@
     slot.dataset.traceType = traceType;
     slot.dataset.stateTraceKind = kind;
     const canPlace = options.canPlaceStateTrace?.(alienSlotId, traceType, kind) !== false;
+    slot.disabled = !canPlace;
+    slot.setAttribute("aria-disabled", canPlace ? "false" : "true");
     slot.classList.toggle("is-placeable", canPlace);
     const kindLabel = kind === "first" ? "首标记" : "额外痕迹";
     slot.title = `${placement.getTraceTypeLabel(traceType)} ${kindLabel} @(${layout.percentX}%,${layout.percentY}%)`;
@@ -809,7 +811,7 @@
     if (!options.showStateTraceSlots) return;
 
     const alienSlot = state.getAlienSlot(alienState, alienSlotId);
-    if (!alienSlot || alienSlot.revealed) return;
+    if (!alienSlot) return;
 
     const allowedTraceTypes = options.allowedTraceTypes || placement.TRACE_TYPES;
     for (const traceType of allowedTraceTypes) {
@@ -817,8 +819,10 @@
       if (!traceSlot) continue;
 
       if (!traceSlot.firstPlaced) {
+        if (alienSlot.revealed) continue;
         const layout = getEffectiveTraceMarkerLayout(alienSlotId, traceType);
         if (!layout) continue;
+        if (options.canPlaceStateTrace?.(alienSlotId, traceType, "first") === false) continue;
         mountStateTracePlacementSlot(alienSlotId, traceType, "first", layout, layer, options, activeKeys);
         continue;
       }
@@ -826,6 +830,7 @@
       const extraIndex = traceSlot.extraCount || 0;
       const layout = getEffectiveExtraTraceGridLayout(alienSlotId, traceType, extraIndex);
       if (!layout) continue;
+      if (options.canPlaceStateTrace?.(alienSlotId, traceType, "extra") === false) continue;
       mountStateTracePlacementSlot(alienSlotId, traceType, "extra", layout, layer, options, activeKeys);
     }
   }

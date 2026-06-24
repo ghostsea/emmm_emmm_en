@@ -3,6 +3,7 @@ const finalScoring = require("./final-scoring");
 const endGameScoring = require("./end-game-scoring");
 const cardEffects = require("./cards/effects");
 const jiuzhe = require("./aliens/jiuzhe");
+const fangzhou = require("./aliens/fangzhou");
 const chong = require("./aliens/chong");
 
 function player(overrides = {}) {
@@ -211,6 +212,29 @@ assert.equal(jiuzheFinal.jiuzhePenaltyApplied, true);
 assert.equal(jiuzheFinal.totalScore, Math.ceil(112 * 0.9));
 assert.equal(jiuzheFinal.jiuzhePenaltyScore, Math.ceil(112 * 0.9) - 112);
 assert.ok(jiuzheFinal.jiuzhePenaltyScore < 0);
+
+const revealedStateTracePlayer = player();
+const revealedStateTraceState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: fangzhou.ALIEN_ID,
+      traces: {
+        yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
+        pink: { firstPlaced: false, ownerPlayerColor: null, extraCount: 0 },
+        blue: { firstPlaced: false, ownerPlayerColor: null, extraCount: 0 },
+      },
+    },
+  },
+  fangzhou: fangzhou.createFangzhouState(),
+};
+revealedStateTraceState.fangzhou.revealedSlotId = 1;
+fangzhou.placeFangzhouTrace(revealedStateTraceState, 1, "yellow", 1, revealedStateTracePlayer);
+assert.equal(
+  endGameScoring.countTraceMarkers(revealedStateTracePlayer, revealedStateTraceState, "yellow"),
+  3,
+  "revealed alien trace count should include state first, state extra, and face markers",
+);
 
 assert.equal(finalScoring.getTileVariant(state, "a"), 1);
 assert.equal(finalScoring.getTileVariant(state, "b"), 2);

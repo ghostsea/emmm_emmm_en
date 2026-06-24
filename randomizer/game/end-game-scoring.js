@@ -4,6 +4,7 @@
   let finalScoringModule = root.SetiFinalScoring;
   let jiuzheModule = root.SetiAlienJiuzhe;
   let yichangdianModule = root.SetiAlienYichangdian;
+  let fangzhouModule = root.SetiAlienFangzhou;
   let chongModule = root.SetiAlienChong;
   let amibaModule = root.SetiAlienAmiba;
   let aomomoModule = root.SetiAlienAomomo;
@@ -12,20 +13,21 @@
     finalScoringModule = finalScoringModule || require("./final-scoring");
     jiuzheModule = jiuzheModule || require("./aliens/jiuzhe");
     yichangdianModule = yichangdianModule || require("./aliens/yichangdian");
+    fangzhouModule = fangzhouModule || require("./aliens/fangzhou");
     chongModule = chongModule || require("./aliens/chong");
     amibaModule = amibaModule || require("./aliens/amiba");
     aomomoModule = aomomoModule || require("./aliens/aomomo");
     runezuModule = runezuModule || require("./aliens/runezu");
   }
 
-  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, chongModule, amibaModule, aomomoModule, runezuModule);
+  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, fangzhouModule, chongModule, amibaModule, aomomoModule, runezuModule);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiEndGameScoring = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, chong, amiba, aomomo, runezu) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, fangzhou, chong, amiba, aomomo, runezu) {
   "use strict";
 
   const NEBULA_IDS_BY_COLOR = Object.freeze({
@@ -93,6 +95,23 @@
       try {
         yichangdian = require("./aliens/yichangdian");
         return yichangdian;
+      } catch (_error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  function getFangzhouModule() {
+    if (fangzhou) return fangzhou;
+    if (typeof globalThis !== "undefined" && globalThis.SetiAlienFangzhou) {
+      fangzhou = globalThis.SetiAlienFangzhou;
+      return fangzhou;
+    }
+    if (typeof require === "function") {
+      try {
+        fangzhou = require("./aliens/fangzhou");
+        return fangzhou;
       } catch (_error) {
         return null;
       }
@@ -205,6 +224,20 @@
     return count;
   }
 
+  function stateTraceBelongsToPlayer(traceSlot, playerKeys) {
+    return playerKeys.has(traceSlot?.ownerPlayerId)
+      || playerKeys.has(traceSlot?.playerId)
+      || playerKeys.has(traceSlot?.ownerPlayerColor)
+      || playerKeys.has(traceSlot?.playerColor)
+      || playerKeys.has(traceSlot?.color);
+  }
+
+  function countStateTraceMarkersForPlayer(slot, traceType, playerKeys) {
+    const traceSlot = slot?.traces?.[traceType];
+    if (!traceSlot?.firstPlaced || !stateTraceBelongsToPlayer(traceSlot, playerKeys)) return 0;
+    return 1 + Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
+  }
+
   function countTraceMarkers(player, alienGameState, traceType) {
     const playerKeys = getPlayerKeys(player);
     let count = 0;
@@ -212,6 +245,8 @@
     const jiuzheSlotId = alienGameState?.jiuzhe?.revealedSlotId;
     const yichangdianModule = getYichangdianModule();
     const yichangdianSlotId = alienGameState?.yichangdian?.revealedSlotId;
+    const fangzhouModule = getFangzhouModule();
+    const fangzhouSlotId = alienGameState?.fangzhou?.revealedSlotId;
     const chongModule = getChongModule();
     const chongSlotId = alienGameState?.chong?.revealedSlotId;
     const amibaModule = getAmibaModule();
@@ -221,7 +256,9 @@
     const runezuModule = getRunezuModule();
     const runezuSlotId = alienGameState?.runezu?.revealedSlotId;
     for (const [slotId, slot] of Object.entries(alienGameState?.aliens || {})) {
+      const stateTraceCount = countStateTraceMarkersForPlayer(slot, traceType, playerKeys);
       if (jiuzheModule && jiuzheSlotId != null && Number(slotId) === Number(jiuzheSlotId)) {
+        count += stateTraceCount;
         const grid = jiuzheModule.getTraceGrid(alienGameState, jiuzheSlotId);
         for (const position of jiuzheModule.TRACE_POSITIONS || []) {
           const entry = grid?.[traceType]?.[position];
@@ -230,33 +267,42 @@
         continue;
       }
       if (yichangdianModule && yichangdianSlotId != null && Number(slotId) === Number(yichangdianSlotId)) {
+        count += stateTraceCount;
         const entries = yichangdianModule.listTraceEntries(alienGameState, yichangdianSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
+      if (fangzhouModule && fangzhouSlotId != null && Number(slotId) === Number(fangzhouSlotId)) {
+        count += stateTraceCount;
+        const entries = fangzhouModule.listTraceEntries(alienGameState, fangzhouSlotId, traceType);
+        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
+        continue;
+      }
       if (chongModule && chongSlotId != null && Number(slotId) === Number(chongSlotId)) {
+        count += stateTraceCount;
         const entries = chongModule.listTraceEntries(alienGameState, chongSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
       if (amibaModule && amibaSlotId != null && Number(slotId) === Number(amibaSlotId)) {
+        count += stateTraceCount;
         const entries = amibaModule.listTraceEntries(alienGameState, amibaSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
       if (aomomoModule && aomomoSlotId != null && Number(slotId) === Number(aomomoSlotId)) {
+        count += stateTraceCount;
         const entries = aomomoModule.listTraceEntries(alienGameState, aomomoSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
       if (runezuModule && runezuSlotId != null && Number(slotId) === Number(runezuSlotId)) {
+        count += stateTraceCount;
         const entries = runezuModule.listTraceEntries(alienGameState, runezuSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
-      const traceSlot = slot?.traces?.[traceType];
-      if (!traceSlot?.firstPlaced || !playerKeys.has(traceSlot.ownerPlayerColor)) continue;
-      count += 1 + Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
+      count += stateTraceCount;
     }
     return count;
   }

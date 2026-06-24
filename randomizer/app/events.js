@@ -101,6 +101,8 @@
       openFangzhouTraceUseChoice,
       confirmFangzhouCard2Unlock,
       beginFangzhouTraceGridPlacement,
+      handleStateTraceSlotPlacement,
+      handleFangzhouTraceSlotPlacement,
       confirmAlienTracePlacement,
       closeAlienTracePicker,
       confirmBanrenmaTracePlacement,
@@ -670,6 +672,18 @@
           confirmFangzhouCard2Unlock(alienSlotId, button.dataset.traceType);
           return;
         }
+        if (button.dataset.fangzhouPlaceKind === "state") {
+          confirmAlienTracePlacement(alienSlotId, button.dataset.traceType);
+          return;
+        }
+        if (button.dataset.fangzhouPlaceKind === "fangzhou-trace") {
+          confirmFangzhouTracePlacement(
+            alienSlotId,
+            button.dataset.traceType,
+            Number(button.dataset.fangzhouPosition),
+          );
+          return;
+        }
         beginFangzhouTraceGridPlacement(alienSlotId, button.dataset.traceType);
         return;
       }
@@ -688,7 +702,7 @@
       layer.addEventListener("click", (event) => {
         const button = event.target.closest("[data-state-trace-slot]");
         if (!button || button.disabled || !button.classList.contains("is-placeable")) return;
-        confirmAlienTracePlacement(
+        handleStateTraceSlotPlacement(
           Number(button.dataset.alienSlot),
           button.dataset.traceType,
         );
@@ -716,7 +730,7 @@
         }
         const fangzhouButton = event.target.closest("[data-fangzhou-trace-slot]");
         if (fangzhouButton && !fangzhouButton.disabled && fangzhouButton.classList.contains("is-placeable")) {
-          confirmFangzhouTracePlacement(
+          handleFangzhouTraceSlotPlacement(
             Number(fangzhouButton.dataset.alienSlot),
             fangzhouButton.dataset.traceType,
             Number(fangzhouButton.dataset.fangzhouPosition),

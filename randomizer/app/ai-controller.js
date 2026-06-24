@@ -4751,7 +4751,12 @@
     }
 
     function listAiAlienStateTraceTargets() {
-      if (state.alienTracePickerState?.mode !== "debug-direct") return [];
+      const pickerMode = String(state.alienTracePickerState?.mode || "");
+      if (
+        pickerMode !== "debug-direct"
+        && pickerMode !== "trace-board"
+        && !pickerMode.endsWith("-grid")
+      ) return [];
       return getAiAlienTraceButtons("[data-state-trace-slot].is-placeable", els.alienTraceLayers || [])
         .map((button) => ({ kind: "state-slot", button }));
     }
@@ -4768,7 +4773,9 @@
         "runezu-grid": "[data-runezu-trace-slot].is-placeable",
         "jiuzhe-grid": "[data-jiuzhe-trace-slot].is-placeable",
       };
-      const gridSelectors = selectorsByMode[pickerMode];
+      const gridSelectors = pickerMode === "trace-board"
+        ? Object.values(selectorsByMode).join(",")
+        : selectorsByMode[pickerMode];
       if (!gridSelectors) return [];
       return getAiAlienTraceButtons(gridSelectors, els.alienJiuzheTraceLayers || [])
         .map((button) => ({ kind: "grid-slot", button }));
@@ -5009,9 +5016,17 @@
       const pickerMode = String(state.alienTracePickerState?.mode || "");
       let targets = [];
       if (pickerMode.endsWith("-grid")) {
-        targets = listAiAlienGridTraceTargets();
+        targets = [
+          ...listAiAlienGridTraceTargets(),
+          ...listAiAlienStateTraceTargets(),
+        ];
       } else if (pickerMode === "debug-direct") {
         targets = listAiAlienStateTraceTargets();
+      } else if (pickerMode === "trace-board") {
+        targets = [
+          ...listAiAlienGridTraceTargets(),
+          ...listAiAlienStateTraceTargets(),
+        ];
       } else if (pickerMode || state.pendingAlienTraceAction) {
         targets = listAiAlienPickerTargets();
       }
