@@ -3844,7 +3844,7 @@
     rocketState.statusNote = shouldReserve
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
-    applyIndustryPlayCardPassives(playedCard, typeCode);
+    const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState);
@@ -3877,6 +3877,7 @@
       updateActionButtons();
       renderStateReadout();
     }
+    appendIndustryPlayPassiveStatus(industryPassiveResult);
     return {
       ok: true,
       card: playedCard,
@@ -3944,7 +3945,7 @@
     cards.setPlayCardSelectionActive(cardState, false);
     pendingPlayCardSelection = null;
     rocketState.statusNote = `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`;
-    applyIndustryPlayCardPassives(playedCard, getCardTypeCode(playedCard));
+    const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, getCardTypeCode(playedCard));
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -3961,6 +3962,7 @@
       updateActionButtons();
       renderStateReadout();
     }
+    appendIndustryPlayPassiveStatus(industryPassiveResult);
     return {
       ok: true,
       card: playedCard,
@@ -4036,7 +4038,7 @@
     rocketState.statusNote = shouldReserve
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
-    applyIndustryPlayCardPassives(playedCard, typeCode);
+    const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4053,6 +4055,7 @@
       updateActionButtons();
       renderStateReadout();
     }
+    appendIndustryPlayPassiveStatus(industryPassiveResult);
     return {
       ok: true,
       card: playedCard,
@@ -4127,7 +4130,7 @@
     rocketState.statusNote = shouldReserve
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
-    applyIndustryPlayCardPassives(playedCard, typeCode);
+    const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4144,6 +4147,7 @@
       updateActionButtons();
       renderStateReadout();
     }
+    appendIndustryPlayPassiveStatus(industryPassiveResult);
     return {
       ok: true,
       card: playedCard,
@@ -4219,7 +4223,7 @@
     rocketState.statusNote = shouldReserve
       ? `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`
       : `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
-    applyIndustryPlayCardPassives(playedCard, typeCode);
+    const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4236,6 +4240,7 @@
       updateActionButtons();
       renderStateReadout();
     }
+    appendIndustryPlayPassiveStatus(industryPassiveResult);
     return {
       ok: true,
       card: playedCard,
@@ -4309,7 +4314,7 @@
     cards.setPlayCardSelectionActive(cardState, false);
     pendingPlayCardSelection = null;
     rocketState.statusNote = `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，进入保留牌区`;
-    applyIndustryPlayCardPassives(playedCard, getCardTypeCode(playedCard));
+    const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, getCardTypeCode(playedCard));
     syncPlayCardSelectionChrome();
     renderPlayerStats();
     renderReservedCardsFromTaskState();
@@ -4326,6 +4331,7 @@
       updateActionButtons();
       renderStateReadout();
     }
+    appendIndustryPlayPassiveStatus(industryPassiveResult);
     return {
       ok: true,
       card: playedCard,
@@ -22487,9 +22493,17 @@
     return true;
   }
 
+  function appendIndustryPlayPassiveStatus(result) {
+    const messages = (result?.messages || []).filter(Boolean);
+    if (!messages.length) return;
+    rocketState.statusNote = [rocketState.statusNote, ...messages].filter(Boolean).join("；");
+    renderStateReadout();
+  }
+
   function applyIndustryPlayCardPassives(playedCard, typeCode) {
     const player = getCurrentPlayer();
-    if (!player || !playedCard) return;
+    const result = { publicityGained: 0, messages: [] };
+    if (!player || !playedCard) return result;
     player.industryPlayedCardThisRound = true;
     player.industryLastPlayedCardThisRound = {
       id: playedCard.id,
@@ -22500,7 +22514,15 @@
       scanActionCode: playedCard.scanActionCode,
     };
     if (industry?.shouldGainPublicityOnType12Play?.(player) && [1, 2].includes(typeCode)) {
-      players.gainResources(player, { publicity: industry.getMissionPlayPublicityGain() });
+      const beforePublicity = Number(player.resources?.publicity) || 0;
+      const publicityGain = industry.getMissionPlayPublicityGain();
+      players.gainResources(player, { publicity: publicityGain });
+      result.publicityGained = Math.max(0, (Number(player.resources?.publicity) || 0) - beforePublicity);
+      result.messages.push(
+        result.publicityGained > 0
+          ? `任务中继站：打出${typeCode}型任务牌，宣传+${result.publicityGained}`
+          : `任务中继站：打出${typeCode}型任务牌，宣传已达上限`,
+      );
     }
     const strategyActivation = industry?.activateStrategyPlayInteraction?.(
       player,
@@ -22510,6 +22532,7 @@
     if (strategyActivation?.ok) {
       renderInitialSelectionArea();
     }
+    return result;
   }
 
   function isIndustryIrreversibleFlow(flowType) {

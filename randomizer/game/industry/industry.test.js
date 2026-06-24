@@ -106,6 +106,9 @@ const missionPlayer = {
   resources: { publicity: 3 },
   initialSelection: { industry: { label: "任务中继站" } },
 };
+assert.equal(passives.shouldGainPublicityOnType12Play(missionPlayer), true);
+assert.equal(passives.getMissionPlayPublicityGain(), 1);
+assert.equal(passives.shouldGainPublicityOnType12Play(turingPlayer), false);
 const missionFlow = abilities.buildActiveAbilityFlow(missionPlayer, "任务中继站", 1);
 assert.equal(missionFlow.ok, true);
 assert.equal(missionFlow.flowType, "mission_publicity_pick");
