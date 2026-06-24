@@ -45,6 +45,7 @@
     proxima: "sector-3-b",
     kepler22: "sector-3-a",
   });
+  const INITIAL_TURN_ORDER_SCORES = Object.freeze([1, 2, 3, 4]);
 
   const INITIAL_CARD_EFFECTS = Object.freeze({
     1: Object.freeze({ label: "天狼星A扫描两次", scan: Object.freeze({ nebulaId: NEBULA_BY_KEY.siriusA, count: 2 }) }),
@@ -261,6 +262,26 @@
         Object.entries(gain).map(([key, value]) => `${value}${labels[key] || key}`).join("、")
       }`,
     });
+  }
+
+  function getInitialTurnOrderScore(positionIndex) {
+    const index = Math.max(0, Math.round(Number(positionIndex) || 0));
+    return INITIAL_TURN_ORDER_SCORES[index] || index + 1;
+  }
+
+  function resolveTurnOrderScoreEffect(player, positionIndex) {
+    const score = getInitialTurnOrderScore(positionIndex);
+    const results = [];
+    applyResources(player, { score }, results);
+    return {
+      ok: true,
+      type: "turnOrderScore",
+      position: positionIndex + 1,
+      effect: { label: `顺位默认分 ${score}分` },
+      results,
+      events: [],
+      message: `${positionIndex + 1}号位初始获得 ${score} 分`,
+    };
   }
 
   function resetPlayerStartingResources(player) {
@@ -544,7 +565,7 @@
     const events = [];
     const pendingIncomeIncreases = [];
 
-    for (const playerId of sourcePlayerIds) {
+    for (const [positionIndex, playerId] of sourcePlayerIds.entries()) {
       const player = getPlayerById(context, playerId);
       const selectedInitialCards = player?.initialSelection?.removedInitialCards || [];
       if (!player) continue;
@@ -552,6 +573,7 @@
       context.playerState.currentPlayerId = player.id;
       const industryResult = resolveIndustryEffect(context, player, player.initialSelection?.industry);
       results.push(attachPlayerResult(industryResult, player));
+      results.push(attachPlayerResult(resolveTurnOrderScoreEffect(player, positionIndex), player));
       if (industryResult.incomeIncreaseCount > 0) {
         pendingIncomeIncreases.push({
           playerId: player.id,
@@ -587,8 +609,10 @@
     INITIAL_CARD_EFFECTS,
     INDUSTRY_EFFECTS,
     NEBULA_BY_KEY,
+    INITIAL_TURN_ORDER_SCORES,
     getInitialCardNumber,
     getInitialCardEffect,
+    getInitialTurnOrderScore,
     getIndustryEffect,
     resolveInitialCardEffect,
     resolveIndustryEffect,

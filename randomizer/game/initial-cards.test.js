@@ -198,10 +198,11 @@ function initialCard(number) {
   });
 
   assert.equal(result.ok, true);
-  assert.equal(blue.resources.score, 3);
+  assert.equal(blue.resources.score, 4);
+  assert.equal(white.resources.score, 4);
   assert.equal(blue.resources.publicity, 7);
   assert.equal(data.listPoolTokens(white).length, 2);
-  assert.equal(result.results.length, 4);
+  assert.equal(result.results.length, 6);
   assert.deepEqual(result.pendingIncomeIncreases, [
     { playerId: blue.id, count: 3, label: "芬威克研究中心" },
     { playerId: white.id, count: 2, label: "宇宙战略集团" },
@@ -209,10 +210,45 @@ function initialCard(number) {
   assert.deepEqual(result.results.map((entry) => entry.playerId), [
     blue.id,
     blue.id,
+    blue.id,
+    white.id,
     white.id,
     white.id,
   ]);
   assert.equal(result.events.filter((event) => event.type === "signalMarked").length, 2);
+}
+
+{
+  const context = createContext([{ color: "blue" }, { color: "green" }, { color: "brown" }, { color: "white" }]);
+  const [blue, green, brown, white] = context.playerState.players;
+  blue.initialSelection = {
+    industry: { label: "宇宙战略集团" },
+    removedInitialCards: [initialCard(2)],
+  };
+  green.initialSelection = { industry: { label: "宇宙战略集团" }, removedInitialCards: [] };
+  brown.initialSelection = { industry: { label: "宇宙战略集团" }, removedInitialCards: [] };
+  white.initialSelection = { industry: { label: "宇宙战略集团" }, removedInitialCards: [] };
+
+  const result = initialCards.resolveInitialSelections(context, {
+    playerIds: [blue.id, green.id, brown.id, white.id],
+  });
+
+  assert.equal(result.ok, true);
+  assert.equal(blue.resources.score, 4, "1号位 1 分 + 初始牌 2 的 3 分");
+  assert.equal(green.resources.score, 2);
+  assert.equal(brown.resources.score, 3);
+  assert.equal(white.resources.score, 4);
+  assert.deepEqual(
+    result.results
+      .filter((entry) => entry.type === "turnOrderScore")
+      .map((entry) => [entry.playerId, entry.position, entry.results[0].gain.score]),
+    [
+      [blue.id, 1, 1],
+      [green.id, 2, 2],
+      [brown.id, 3, 3],
+      [white.id, 4, 4],
+    ],
+  );
 }
 
 {
