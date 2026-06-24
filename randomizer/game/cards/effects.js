@@ -1910,7 +1910,10 @@
     }),
     "b_106.webp": withSource("b_106.webp", {
       cardType: 0,
-      playEffects: Object.freeze([removePlanetMarkerEffect("b106-remove-lander", "移除任意登陆标记", { owner: "any", markerKinds: ["land", "satelliteLand"] }), alienTraceEffect("b106-yellow-trace", "获得黄色外星人痕迹", ["yellow"])]),
+      playEffects: Object.freeze([
+        removePlanetMarkerEffect("b106-remove-lander", "移除己方登陆标记", { owner: "current", markerKinds: ["land", "satelliteLand"] }),
+        alienTraceEffect("b106-yellow-trace", "获得黄色外星人痕迹", ["yellow"]),
+      ]),
     }),
     "b_107.webp": withSource("b_107.webp", {
       cardType: 2,

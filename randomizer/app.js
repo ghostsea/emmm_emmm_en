@@ -102,6 +102,10 @@
   const planetStatsState = planetStats.createPlanetStatsState();
   const techGameState = tech.createState();
   const cardState = cards.createCardState();
+  let cardHoverPreview = null;
+  let cardHoverPreviewImage = null;
+  let cardHoverPreviewAnchor = null;
+  let cardHoverPreviewListenersBound = false;
   let pendingDiscardAction = null;
   let pendingCardSelectionAction = null;
   let pendingPassReserveSelection = null;
@@ -134,6 +138,7 @@
   let pendingRunezuCardGain = null;
   let pendingRunezuSymbolBranch = null;
   let pendingRunezuFaceSymbolPlacement = null;
+  let pendingStrategyPassiveSlotChoice = null;
   const yichangdianAnomalyMarkerElements = new Map();
   const chongPlanetFossilMarkerElements = new Map();
   const chongFossilOwnerTokenElements = new Map();
@@ -1078,6 +1083,94 @@
     };
   }
 
+  function bindCardHoverPreviewRepositioning() {
+    if (cardHoverPreviewListenersBound) return;
+    cardHoverPreviewListenersBound = true;
+    window.addEventListener("resize", () => positionCardHoverPreview(), { passive: true });
+    window.addEventListener("scroll", () => positionCardHoverPreview(), { passive: true, capture: true });
+  }
+
+  function ensureCardHoverPreview() {
+    if (cardHoverPreview && cardHoverPreviewImage) {
+      return cardHoverPreview;
+    }
+
+    cardHoverPreview = document.createElement("div");
+    cardHoverPreview.className = "card-hover-preview";
+    cardHoverPreview.setAttribute("aria-hidden", "true");
+
+    cardHoverPreviewImage = document.createElement("img");
+    cardHoverPreviewImage.alt = "";
+    cardHoverPreviewImage.decoding = "async";
+    cardHoverPreviewImage.onload = () => positionCardHoverPreview();
+
+    cardHoverPreview.append(cardHoverPreviewImage);
+    document.body.append(cardHoverPreview);
+    bindCardHoverPreviewRepositioning();
+    return cardHoverPreview;
+  }
+
+  function positionCardHoverPreview(anchor = cardHoverPreviewAnchor) {
+    if (!anchor || !cardHoverPreview || !cardHoverPreview.classList.contains("is-visible")) return;
+
+    const anchorRect = anchor.getBoundingClientRect();
+    const previewRect = cardHoverPreview.getBoundingClientRect();
+    const margin = 12;
+    const previewWidth = previewRect.width || 260;
+    const previewHeight = previewRect.height || 360;
+    const viewportWidth = window.innerWidth || document.documentElement.clientWidth || 0;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+    const maxLeft = Math.max(margin, viewportWidth - previewWidth - margin);
+    let left = anchorRect.left + (anchorRect.width / 2) - (previewWidth / 2);
+    let top = anchorRect.top - previewHeight - margin;
+    let placement = "above";
+
+    if (top < margin) {
+      top = anchorRect.bottom + margin;
+      placement = "below";
+    }
+    if (top + previewHeight > viewportHeight - margin) {
+      top = Math.max(margin, viewportHeight - previewHeight - margin);
+    }
+
+    left = Math.min(Math.max(margin, left), maxLeft);
+    cardHoverPreview.dataset.placement = placement;
+    cardHoverPreview.style.left = `${Math.round(left)}px`;
+    cardHoverPreview.style.top = `${Math.round(top)}px`;
+  }
+
+  function showCardHoverPreview(anchor, src, label) {
+    if (!anchor || !src) return;
+    const preview = ensureCardHoverPreview();
+    cardHoverPreviewAnchor = anchor;
+    cardHoverPreviewImage.src = src;
+    cardHoverPreviewImage.alt = label || "";
+    preview.style.visibility = "hidden";
+    preview.classList.add("is-visible");
+    positionCardHoverPreview(anchor);
+    preview.style.visibility = "";
+  }
+
+  function hideCardHoverPreview(anchor) {
+    if (anchor && cardHoverPreviewAnchor && anchor !== cardHoverPreviewAnchor) return;
+    if (cardHoverPreview) {
+      cardHoverPreview.classList.remove("is-visible");
+      cardHoverPreview.style.visibility = "";
+    }
+    cardHoverPreviewAnchor = null;
+  }
+
+  function attachCardHoverPreview(anchor, src, label) {
+    if (!anchor || !src) return anchor;
+    const cardLabel = label || "";
+    anchor.addEventListener("pointerenter", () => showCardHoverPreview(anchor, src, cardLabel));
+    anchor.addEventListener("pointerleave", () => hideCardHoverPreview(anchor));
+    anchor.addEventListener("pointermove", () => positionCardHoverPreview(anchor));
+    anchor.addEventListener("focus", () => showCardHoverPreview(anchor, src, cardLabel));
+    anchor.addEventListener("blur", () => hideCardHoverPreview(anchor));
+    return anchor;
+  }
+
   function getActionLogDetailPartRedundantKey(part) {
     const segments = normalizeActionLogText(part)
       .split(/[：:]/)
@@ -1737,17 +1830,8 @@
     name.className = "action-log-played-card-name";
     name.textContent = card.label;
 
-    const preview = document.createElement("span");
-    preview.className = "action-log-card-preview";
-    preview.setAttribute("aria-hidden", "true");
-    const image = document.createElement("img");
-    image.src = card.src || players.CARD_BACK_SRC;
-    image.alt = "";
-    image.width = 747;
-    image.height = 1040;
-    image.decoding = "async";
-    preview.append(image);
-    cardNode.append(name, preview);
+    attachCardHoverPreview(cardNode, card.src || players.CARD_BACK_SRC, card.label);
+    cardNode.append(name);
     container.append(cardNode);
 
     const endIndex = matchIndex + card.label.length;
@@ -5031,6 +5115,7 @@
         image.decoding = "async";
         image.setAttribute("aria-hidden", "true");
         button.append(image);
+        attachCardHoverPreview(button, card.src, label);
         slot.append(button);
         return slot;
       }
@@ -5042,6 +5127,7 @@
       image.width = 747;
       image.height = 1040;
       image.decoding = "async";
+      attachCardHoverPreview(image, card.src, label);
       slot.append(image);
       return slot;
     }));
@@ -5112,6 +5198,7 @@
       image.decoding = "async";
       image.setAttribute("aria-hidden", "true");
       button.append(image);
+      attachCardHoverPreview(button, card.src, cards.getCardLabel(card));
       return button;
     }));
 
@@ -6181,6 +6268,7 @@
     pendingRunezuCardGain = null;
     pendingRunezuSymbolBranch = null;
     pendingRunezuFaceSymbolPlacement = null;
+    pendingStrategyPassiveSlotChoice = null;
     els.scanTargetActions?.classList.remove("runezu-face-symbol-choice-grid", "runezu-symbol-branch-choice-grid");
     pendingScanTargetAction = null;
     pendingProbeSectorScanAction = null;
@@ -8801,6 +8889,7 @@
       || pendingRunezuCardGain
       || pendingRunezuSymbolBranch
       || pendingRunezuFaceSymbolPlacement
+      || pendingStrategyPassiveSlotChoice
       || pendingCardTriggerFreeMove
       || pendingCardCornerFreeMove
       || (els.scanAction4Overlay && !els.scanAction4Overlay.hidden)
@@ -8824,6 +8913,10 @@
   function cancelActivePendingSubFlows() {
     if (pendingScanTargetAction?.type === "industry_remove_tech") {
       rollbackPendingIndustryQuickAction("已取消公司 1x 行动");
+      return true;
+    }
+    if (pendingStrategyPassiveSlotChoice) {
+      cancelStrategyPassiveSlotChoice();
       return true;
     }
     if (pendingCardCornerFreeMove?.finishIndustryFlowAfterMove) {
@@ -9002,6 +9095,7 @@
     pendingRunezuCardGain = null;
     pendingRunezuSymbolBranch = null;
     pendingRunezuFaceSymbolPlacement = null;
+    pendingStrategyPassiveSlotChoice = null;
   }
 
   function cleanupSkippedActionEffect(effect) {
@@ -21928,6 +22022,7 @@
         image.decoding = "async";
         image.setAttribute("aria-hidden", "true");
         button.append(image);
+        attachCardHoverPreview(button, card.src || players.CARD_BACK_SRC, label);
         return button;
       }
 
@@ -21939,6 +22034,7 @@
       image.height = 1040;
       image.decoding = "async";
       image.style.setProperty("--card-index", String(index + 1));
+      attachCardHoverPreview(image, card.src || players.CARD_BACK_SRC, label);
       return image;
     }));
   }
@@ -22054,6 +22150,7 @@
     image.decoding = "async";
     image.setAttribute("aria-hidden", "true");
     button.append(image);
+    attachCardHoverPreview(button, image.src, image.alt);
 
     if (completedTriggerIndexes.length) {
       const badge = document.createElement("span");
@@ -22980,21 +23077,28 @@
 
   function buildStrategyPlayPassiveEffectNodes(player, playedCard) {
     if (!industry?.isStrategyPlayInteractionActive?.(player, turnState.roundNumber)) return [];
-    const slotId = industry.getAutomaticStrategyPlaySlotId?.(player, turnState.roundNumber)
-      || industry.getStrategyPlayEligibleSlotIds?.(player, turnState.roundNumber)?.[0]
-      || null;
-    if (!slotId) return [];
-    const slotLabel = industry.getStrategyPassiveSlotLabel?.(slotId) || slotId;
-    const rewardLabel = industry.getStrategySlotRewardLabel?.(slotId) || "";
+    const eligibleSlotIds = industry.getStrategyPlayEligibleSlotIds?.(player, turnState.roundNumber) || [];
+    if (!eligibleSlotIds.length) return [];
+    const scanCode = industry.getStrategyPlayScanCode?.(player);
+    const needsSlotChoice = Number(scanCode) === 3 && eligibleSlotIds.length > 1;
+    const slotId = needsSlotChoice
+      ? null
+      : (industry.getAutomaticStrategyPlaySlotId?.(player, turnState.roundNumber) || eligibleSlotIds[0]);
+    const slotLabel = slotId
+      ? (industry.getStrategyPassiveSlotLabel?.(slotId) || slotId)
+      : "选择";
+    const rewardLabel = slotId ? (industry.getStrategySlotRewardLabel?.(slotId) || "") : "";
     return [{
-      id: `industry-strategy-passive-${playedCard?.id || playedCard?.cardId || slotId}-${slotId}`,
+      id: `industry-strategy-passive-${playedCard?.id || playedCard?.cardId || "choice"}-${slotId || "choice"}`,
       type: "industry_strategy_passive_reward",
       label: `宇宙战略集团：${slotLabel}奖励槽`,
-      icon: getStrategyPassiveRewardIcon(slotId),
+      icon: slotId ? getStrategyPassiveRewardIcon(slotId) : "black_scan",
       status: "pending",
       undoable: true,
       options: {
         slotId,
+        eligibleSlotIds,
+        needsSlotChoice,
         rewardLabel,
         playedCard: snapshotStrategyPlayedCard(playedCard),
       },
@@ -23301,6 +23405,7 @@
     const wrap = document.createElement("div");
     wrap.className = "company-card-summary";
     wrap.append(createInitialSelectionImage(companyCard, "summary"));
+    attachCardHoverPreview(wrap, companyCard?.src, companyCard?.label || "公司牌");
 
     const layout = industry?.getIndustryActionMarkerLayout?.(companyCard);
     if (layout && player) {
@@ -23496,6 +23601,105 @@
     }, [renderInitialSelectionArea]);
   }
 
+  function setStrategyPassiveRewardSlot(effect, slotId) {
+    if (!effect || !slotId) return effect;
+    const slotLabel = industry.getStrategyPassiveSlotLabel?.(slotId) || slotId;
+    effect.options = {
+      ...(effect.options || {}),
+      slotId,
+      needsSlotChoice: false,
+      rewardLabel: industry.getStrategySlotRewardLabel?.(slotId) || "",
+    };
+    effect.label = `宇宙战略集团：${slotLabel}奖励槽`;
+    effect.icon = getStrategyPassiveRewardIcon(slotId);
+    return effect;
+  }
+
+  function getStrategyPassiveSelectableSlotIds(effect, player) {
+    const listedSlotIds = Array.isArray(effect?.options?.eligibleSlotIds)
+      ? effect.options.eligibleSlotIds
+      : [];
+    const currentSlotIds = industry?.getStrategyPlayEligibleSlotIds?.(player, turnState.roundNumber) || [];
+    const currentSet = new Set(currentSlotIds);
+    const candidateSlotIds = listedSlotIds.length ? listedSlotIds : currentSlotIds;
+    return candidateSlotIds.filter((slotId, index, list) => (
+      slotId
+      && list.indexOf(slotId) === index
+      && currentSet.has(slotId)
+      && industry?.canInteractStrategyPlaySlot?.(player, slotId, turnState.roundNumber)?.ok
+    ));
+  }
+
+  function closeStrategyPassiveSlotChoicePicker() {
+    pendingStrategyPassiveSlotChoice = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    renderActionEffectBar();
+    updateActionButtons();
+    renderStateReadout();
+  }
+
+  function cancelStrategyPassiveSlotChoice() {
+    if (!pendingStrategyPassiveSlotChoice) return;
+    pendingStrategyPassiveSlotChoice = null;
+    if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    rocketState.statusNote = "宇宙战略集团：已取消奖励槽选择，可重新点击效果或跳过";
+    renderActionEffectBar();
+    updateActionButtons();
+    renderStateReadout();
+  }
+
+  function openStrategyPassiveSlotChoice(effect, player, slotIds) {
+    if (!els.scanTargetOverlay || !els.scanTargetActions) {
+      rocketState.statusNote = "宇宙战略集团：无法打开奖励槽选择";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    pendingStrategyPassiveSlotChoice = {
+      effectId: effect.id,
+      slotIds: [...slotIds],
+    };
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = "宇宙战略集团";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = "黑色扫描角标可选择一个空奖励槽触发。";
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
+    els.scanTargetActions.replaceChildren(...slotIds.map((slotId) => {
+      const slotLabel = industry.getStrategyPassiveSlotLabel?.(slotId) || slotId;
+      const rewardLabel = industry.getStrategySlotRewardLabel?.(slotId) || "";
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.strategySlotChoice = slotId;
+      button.innerHTML = `${slotLabel}奖励槽<small>${rewardLabel}</small>`;
+      return button;
+    }));
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = "宇宙战略集团：请选择奖励槽";
+    renderActionEffectBar();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, pendingChoice: true, undoable: true, message: rocketState.statusNote };
+  }
+
+  function confirmStrategyPassiveSlotChoice(slotId) {
+    const pending = pendingStrategyPassiveSlotChoice;
+    const effect = getCurrentActionEffect();
+    if (!pending || !effect || effect.id !== pending.effectId || effect.type !== "industry_strategy_passive_reward") {
+      cancelStrategyPassiveSlotChoice();
+      return { ok: false, message: "没有待选择的宇宙战略集团奖励槽" };
+    }
+    if (!pending.slotIds.includes(slotId)) {
+      rocketState.statusNote = "宇宙战略集团：该奖励槽不可选";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    closeStrategyPassiveSlotChoicePicker();
+    setStrategyPassiveRewardSlot(effect, slotId);
+    return executeIndustryStrategyPassiveRewardEffect(effect);
+  }
+
   function finishIndustryStrategyPassiveRewardEffect(effect, options = {}) {
     const player = getEffectOwnerPlayer(effect) || getCurrentPlayer();
     const slotId = effect.options?.slotId;
@@ -23567,7 +23771,17 @@
 
   function executeIndustryStrategyPassiveRewardEffect(effect) {
     const player = getEffectOwnerPlayer(effect) || getCurrentPlayer();
-    const slotId = effect.options?.slotId;
+    let slotId = effect.options?.slotId;
+    if (!slotId) {
+      const slotIds = getStrategyPassiveSelectableSlotIds(effect, player);
+      if (slotIds.length > 1) {
+        return openStrategyPassiveSlotChoice(effect, player, slotIds);
+      }
+      if (slotIds.length === 1) {
+        slotId = slotIds[0];
+        setStrategyPassiveRewardSlot(effect, slotId);
+      }
+    }
     const reward = industry?.getStrategySlotReward?.(slotId);
     if (reward?.data && isDataPoolFull(player)) {
       const placeCheck = getAutoDataPlacementCheck(player);
@@ -23841,6 +24055,7 @@
       handleInitialSelectionCardClick(options.kind, card.id);
     });
     button.append(createInitialSelectionImage(card));
+    attachCardHoverPreview(button, card.src, card.label);
     return button;
   }
 
@@ -27123,6 +27338,7 @@
     get pendingBanrenmaOpportunity() { return pendingBanrenmaOpportunity; },
     get pendingYichangdianCardGain() { return pendingYichangdianCardGain; },
     get pendingJiuzheCardPlay() { return pendingJiuzheCardPlay; },
+    get pendingStrategyPassiveSlotChoice() { return pendingStrategyPassiveSlotChoice; },
     get alienTracePickerState() { return alienTracePickerState; },
     set alienTracePickerState(value) { alienTracePickerState = value; },
     get moveHighlightRocketId() { return moveHighlightRocketId; },
@@ -27199,6 +27415,8 @@
     handleDiscardCornerRepeatChoice,
     handleRemoveOrbitToProbeChoice,
     handleReturnUnfinishedTaskChoice,
+    confirmStrategyPassiveSlotChoice,
+    cancelStrategyPassiveSlotChoice,
     confirmScanTarget,
     closeBanrenmaOpportunityDialog,
     closeJiuzheCardDialog,

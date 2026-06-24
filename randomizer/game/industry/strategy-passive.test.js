@@ -104,7 +104,14 @@ assert.deepEqual(
   strategyPassive.getStrategyPlayEligibleSlotIds(player, 2).sort(),
   ["blue", "red", "yellow"],
 );
-assert.equal(strategyPassive.getAutomaticStrategyPlaySlotId(player, 2), "yellow");
+assert.equal(strategyPassive.getAutomaticStrategyPlaySlotId(player, 2), null);
+
+state.placeStrategyPassiveSlot(player, "yellow");
+state.placeStrategyPassiveSlot(player, "red");
+strategyPassive.clearStrategyPlayInteraction(player);
+strategyPassive.activateStrategyPlayInteraction(player, { scanActionCode: 3 }, 2);
+assert.deepEqual(strategyPassive.getStrategyPlayEligibleSlotIds(player, 2), ["blue"]);
+assert.equal(strategyPassive.getAutomaticStrategyPlaySlotId(player, 2), "blue");
 
 strategyPassive.clearStrategyPassiveSlots(player);
 assert.equal(player.industryStrategyPassiveSlots.yellow, false);

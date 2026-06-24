@@ -243,6 +243,12 @@ assert.equal(b13Effects.length, 4);
 assert.equal(b13Effects[0].type, cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER);
 assert.deepEqual(b13Effects[0].options.markerKinds, ["orbit", "land", "satelliteLand"]);
 
+const b106Effects = cardEffects.buildPlayEffects({ cardId: "b_106.webp" });
+assert.equal(b106Effects.length, 2);
+assert.equal(b106Effects[0].type, cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER);
+assert.equal(b106Effects[0].options.owner, "current");
+assert.deepEqual(b106Effects[0].options.markerKinds, ["land", "satelliteLand"]);
+
 const b12 = { id: "card-b12", cardId: "b_12.webp" };
 const blueTracePlayer = { id: "p1", color: "red", reservedCards: [b12] };
 cardEffects.ensureCardEffectState(b12);

@@ -374,13 +374,13 @@ body {
 .pass-reserve-card-button:hover,
 .pass-reserve-card-button:focus-visible {
   z-index: 2;
-  transform: translateY(-8px) scale(1.06);
+  transform: translateY(-6px) scale(1.02);
   filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5));
 }
 
 .pass-reserve-card-button.is-selected {
   z-index: 3;
-  transform: translateY(-10px) scale(1.06);
+  transform: translateY(-8px) scale(1.03);
   filter:
     drop-shadow(0 0 14px rgba(255, 207, 92, 0.64))
     drop-shadow(0 14px 18px rgba(0, 0, 0, 0.5));
@@ -792,7 +792,7 @@ body {
 .public-card:hover,
 .public-card:focus-visible {
   z-index: 1000;
-  transform: translateY(-18px) scale(1.3);
+  transform: translateY(-10px) scale(1.04);
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
 }
 
@@ -803,6 +803,42 @@ body {
   object-fit: contain;
   pointer-events: none;
   user-select: none;
+}
+
+.card-hover-preview {
+  position: fixed;
+  z-index: 5000;
+  display: block;
+  padding: 0;
+  border-radius: 8px;
+  background: rgba(5, 14, 22, 0.94);
+  box-shadow: 0 20px 42px rgba(0, 0, 0, 0.56), 0 0 0 1px rgba(255, 214, 98, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(5px) scale(0.985);
+  transform-origin: bottom center;
+  transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s ease;
+}
+
+.card-hover-preview[data-placement="below"] {
+  transform-origin: top center;
+}
+
+.card-hover-preview.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.card-hover-preview img {
+  display: block;
+  width: auto;
+  height: min(54vh, 380px);
+  max-width: min(88vw, 560px);
+  max-height: min(72vh, 420px);
+  border-radius: 7px;
+  object-fit: contain;
 }
 
 .public-card:disabled {
@@ -2290,8 +2326,7 @@ body {
 }
 
 .player-hand-panel {
-  /* scale(1.3) + translateY(-18px)，transform-origin 为底部，向上预留放大空间 */
-  --card-hover-lift: calc(var(--card-height) * 0.3 + 22px);
+  --card-hover-lift: 22px;
 }
 
 .player-hand-panel-header,
@@ -2551,26 +2586,26 @@ body {
 
 .player-hand-card-button.is-selected {
   z-index: 1002;
-  transform: translateY(-14px) scale(1.14);
+  transform: translateY(-10px) scale(1.06);
 }
 
 .player-hand-card-button.is-selected:hover:not(:disabled),
 .player-hand-card-button.is-selected:focus-visible:not(:disabled) {
   z-index: 1003;
-  transform: translateY(-18px) scale(1.24);
+  transform: translateY(-12px) scale(1.08);
 }
 
 .player-hand-panel[class*="-selection-active"] .player-hand-card-button:hover:not(:disabled):not(.is-selected),
 .player-hand-panel[class*="-selection-active"] .player-hand-card-button:focus-visible:not(:disabled):not(.is-selected) {
   z-index: 1001;
-  transform: translateY(-10px) scale(1.08);
+  transform: translateY(-8px) scale(1.03);
   filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.48));
 }
 
 .player-hand-card-button:hover:not(:disabled):not(.is-selected),
 .player-hand-card-button:focus-visible:not(:disabled):not(.is-selected) {
   z-index: 1000;
-  transform: translateY(-18px) scale(1.3);
+  transform: translateY(-10px) scale(1.04);
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
 }
 
@@ -2599,7 +2634,7 @@ body {
 .player-hand-card:hover,
 .player-hand-card:focus-visible {
   z-index: 1000;
-  transform: translateY(-18px) scale(1.3);
+  transform: translateY(-10px) scale(1.04);
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
 }
 
@@ -2641,7 +2676,7 @@ body {
 
 .reserved-card-button:hover .reserved-card,
 .reserved-card-button:focus-visible .reserved-card {
-  transform: translateY(-18px) scale(1.3);
+  transform: translateY(-10px) scale(1.04);
   filter: drop-shadow(0 16px 22px rgba(0, 0, 0, 0.54));
 }
 
@@ -2873,13 +2908,13 @@ body {
 .initial-selection-card-button:hover:not(:disabled),
 .initial-selection-card-button:focus-visible:not(:disabled) {
   z-index: 2;
-  transform: translateY(-8px) scale(1.08);
+  transform: translateY(-6px) scale(1.03);
   filter: drop-shadow(0 12px 16px rgba(0, 0, 0, 0.46));
 }
 
 .initial-selection-card-button.is-selected {
   z-index: 3;
-  transform: translateY(-10px) scale(1.08);
+  transform: translateY(-8px) scale(1.04);
   filter:
     drop-shadow(0 0 12px rgba(255, 207, 92, 0.62))
     drop-shadow(0 12px 16px rgba(0, 0, 0, 0.46));
@@ -4327,39 +4362,6 @@ button.spin-button:hover {
   color: #fff8d4;
   background: rgba(255, 214, 98, 0.26);
   box-shadow: 0 0 0 1px rgba(255, 214, 98, 0.36);
-}
-
-.action-log-card-preview {
-  position: absolute;
-  top: calc(100% + 7px);
-  left: 0;
-  z-index: 30;
-  display: block;
-  height: var(--card-height, 166px);
-  aspect-ratio: 747 / 1040;
-  padding: 0;
-  border-radius: 6px;
-  background: rgba(5, 14, 22, 0.92);
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(255, 214, 98, 0.28);
-  opacity: 0;
-  pointer-events: none;
-  transform: translateY(-4px) scale(0.98);
-  transform-origin: top left;
-  transition: opacity 0.12s ease, transform 0.12s ease;
-}
-
-.action-log-card-preview img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-  object-fit: contain;
-}
-
-.action-log-played-card:hover .action-log-card-preview,
-.action-log-played-card:focus-visible .action-log-card-preview {
-  opacity: 1;
-  transform: translateY(0) scale(1);
 }
 
 .action-log-effect-main .action-log-effect-index {

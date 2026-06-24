@@ -165,7 +165,9 @@
   }
 
   function getAutomaticStrategyPlaySlotId(player, roundNumber) {
-    return getStrategyPlayEligibleSlotIds(player, roundNumber)[0] || null;
+    const eligible = getStrategyPlayEligibleSlotIds(player, roundNumber);
+    if (Number(getStrategyPlayScanCode(player)) === 3 && eligible.length !== 1) return null;
+    return eligible[0] || null;
   }
 
   function canInteractStrategyPlaySlot(player, slotId, roundNumber) {

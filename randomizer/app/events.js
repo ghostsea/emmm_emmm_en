@@ -83,6 +83,8 @@
       handleDiscardCornerRepeatChoice,
       handleRemoveOrbitToProbeChoice,
       handleReturnUnfinishedTaskChoice,
+      confirmStrategyPassiveSlotChoice,
+      cancelStrategyPassiveSlotChoice,
       confirmScanTarget,
       closeBanrenmaOpportunityDialog,
       closeJiuzheCardDialog,
@@ -453,6 +455,12 @@
         return;
       }
 
+      const strategySlotChoice = event.target.closest("[data-strategy-slot-choice]");
+      if (strategySlotChoice && !strategySlotChoice.disabled) {
+        confirmStrategyPassiveSlotChoice(strategySlotChoice.dataset.strategySlotChoice);
+        return;
+      }
+
       const button = event.target.closest("[data-nebula-id]");
       if (!button || button.disabled || !button.dataset.nebulaId) return;
       confirmScanTarget(button.dataset.nebulaId, button.dataset.sectorX);
@@ -514,6 +522,10 @@
         closeJiuzheCardDialog();
         return;
       }
+      if (state.pendingStrategyPassiveSlotChoice) {
+        cancelStrategyPassiveSlotChoice();
+        return;
+      }
       closeScanTargetPicker();
     });
     els.scanTargetOverlay?.addEventListener("click", (event) => {
@@ -572,6 +584,10 @@
         }
         if (state.pendingJiuzheCardPlay?.reason === "view") {
           closeJiuzheCardDialog();
+          return;
+        }
+        if (state.pendingStrategyPassiveSlotChoice) {
+          cancelStrategyPassiveSlotChoice();
           return;
         }
         closeScanTargetPicker();
