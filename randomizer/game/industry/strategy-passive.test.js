@@ -66,6 +66,28 @@ const roundThreeBlue = strategyPassive.activateStrategyPlayInteraction(
 assert.equal(roundThreeBlue.ok, true);
 assert.deepEqual(strategyPassive.getStrategyPlayEligibleSlotIds(player, 3), ["blue"]);
 
+state.placeStrategyPassiveSlot(player, "blue");
+strategyPassive.completeStrategyPlayInteraction(player);
+const blockedBlue = strategyPassive.activateStrategyPlayInteraction(
+  player,
+  { scanActionCode: 2 },
+  3,
+);
+assert.equal(blockedBlue.ok, true);
+assert.equal(strategyPassive.isStrategyPlayInteractionActive(player, 3), false);
+assert.deepEqual(strategyPassive.getStrategyPlayEligibleSlotIds(player, 3), []);
+const blockedAny = strategyPassive.activateStrategyPlayInteraction(
+  player,
+  { scanActionCode: 3 },
+  3,
+);
+assert.equal(blockedAny.ok, true);
+assert.equal(strategyPassive.getAutomaticStrategyPlaySlotId(player, 3), null);
+strategyPassive.resetStrategyPlayInteractionForRoundReset(player);
+assert.equal(player.industryStrategyPassiveSlots.yellow, true);
+assert.equal(player.industryStrategyPassiveSlots.red, true);
+assert.equal(player.industryStrategyPassiveSlots.blue, true);
+
 strategyPassive.clearStrategyPassiveSlots(player);
 const roundThreeRed = strategyPassive.activateStrategyPlayInteraction(
   player,
