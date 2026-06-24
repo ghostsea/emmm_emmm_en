@@ -3730,29 +3730,35 @@
   }
 
   function getFutureSpanCreditPriceForCard(card) {
+    if (!card) return 0;
     if (fangzhou?.isFangzhouCard2?.(card)) {
       const credits = Number(fangzhou.CARD2_PLAY_COST?.credits);
       return Number.isFinite(credits) ? Math.max(0, Math.round(credits)) : 0;
     }
-    const cost = getCardPlayCost(card);
-    const credits = Number(cost.credits);
-    return Number.isFinite(credits) ? Math.max(0, Math.round(credits)) : 0;
+    if (banrenma?.isBanrenmaCard?.(card)) return 0;
+    return getCardPrice(card);
   }
 
   function getFutureSpanDeltaForCard(card) {
     const price = getFutureSpanCreditPriceForCard(card);
     const deltas = industry?.FUTURE_SPAN_DELTAS_BY_COST || {};
-    return Number.isFinite(Number(deltas[price])) ? Number(deltas[price]) : null;
+    if (Number.isFinite(Number(deltas[price]))) return Number(deltas[price]);
+    const maxModeledCost = Math.max(
+      0,
+      ...Object.keys(deltas)
+        .map((key) => Math.round(Number(key)))
+        .filter((value) => Number.isFinite(value) && value > 0),
+    );
+    if (price > maxModeledCost && Number.isFinite(Number(deltas[maxModeledCost]))) {
+      return Number(deltas[maxModeledCost]);
+    }
+    return null;
   }
 
   function isFutureSpanEligibleHandCard(card) {
     if (!card) return false;
     const price = getFutureSpanCreditPriceForCard(card);
-    const cost = fangzhou?.isFangzhouCard2?.(card) ? fangzhou.CARD2_PLAY_COST : getCardPlayCost(card);
     return price > 0
-      && price <= 4
-      && Number(cost.credits || 0) > 0
-      && !Number(cost.energy || 0)
       && Number.isFinite(Number(getFutureSpanDeltaForCard(card)));
   }
 
