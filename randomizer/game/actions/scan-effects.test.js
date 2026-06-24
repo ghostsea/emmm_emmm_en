@@ -33,6 +33,7 @@ assert.equal(fullPurpleQueue.length, 5);
 assert.equal(fullPurpleQueue[0].type, scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN);
 assert.equal(fullPurpleQueue[1].type, scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN);
 assert.equal(fullPurpleQueue[2].type, scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN);
+assert.deepEqual(fullPurpleQueue[2].options.cost, { publicity: 1 });
 assert.equal(fullPurpleQueue[3].type, scanEffects.EFFECT_TYPES.HAND_SCAN);
 assert.equal(fullPurpleQueue[4].type, scanEffects.EFFECT_TYPES.SCAN_ACTION_4);
 

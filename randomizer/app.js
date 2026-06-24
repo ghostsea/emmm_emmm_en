@@ -5516,7 +5516,27 @@
   }
 
   function replaceNebulaDataForCurrentPlayer(nebulaId, options = {}) {
+    const currentPlayer = getCurrentPlayer();
+    const cost = normalizeResourceCost(options.cost) || {};
+    const hasCost = Object.keys(cost).length > 0;
+    if (hasCost && (!currentPlayer || !players.canAfford(currentPlayer, cost))) {
+      const message = `资源不足，需要 ${players.formatResourceCost(cost)}`;
+      rocketState.statusNote = message;
+      renderStateReadout();
+      return { ok: false, message };
+    }
+
     beginEffectHistoryStep(options.prefix || "星云扫描");
+
+    if (hasCost) {
+      const spendResult = players.spendResources(currentPlayer, cost);
+      if (!spendResult.ok) {
+        endEffectHistoryStep();
+        rocketState.statusNote = spendResult.message;
+        renderStateReadout();
+        return spendResult;
+      }
+    }
 
     const result = abilities.executeAbility("scanSector", createActionContext(), {
       ...options,
@@ -5524,6 +5544,7 @@
     });
 
     if (!result.ok) {
+      if (hasCost) players.gainResources(currentPlayer, cost);
       endEffectHistoryStep();
       rocketState.statusNote = result.message;
       renderSectors();
@@ -5531,6 +5552,20 @@
       return result;
     }
 
+    if (hasCost) {
+      const costText = players.formatResourceCost(cost);
+      recordHistoryCommand(historyCommands.createResourceSpendCommand(
+        currentPlayer,
+        cost,
+        `${options.prefix || "星云扫描"}：消耗 ${costText}`,
+      ));
+      result.cost = { ...cost };
+      result.message = `${result.message}；消耗 ${costText}`;
+      result.payload = {
+        ...(result.payload || {}),
+        cost: { ...cost },
+      };
+    }
     recordAbilityCommands(result);
     rocketState.statusNote = result.message;
 
@@ -6274,11 +6309,20 @@
     const scanSource = pending?.fromEffectFlow || isActionEffectFlowActive() ? "scan" : "debug";
 
     if (pending?.type === "sector_scan") {
+      const cost = normalizeResourceCost(pending.cost) || {};
+      if (Object.keys(cost).length && !players.canAfford(getCurrentPlayer(), cost)) {
+        const message = `${pending.title || "扇区扫描"}：资源不足，需要 ${players.formatResourceCost(cost)}，已跳过`;
+        return skipActionEffectWithMessage(pending.effect || getCurrentActionEffect(), message, {
+          cost,
+          sectorX,
+        });
+      }
       let result = replaceNebulaDataForCurrentPlayer(nebulaId, {
         prefix: pending.title || (sectorX != null ? `扇区${sectorX}扫描` : "星云扫描"),
         source: scanSource,
         sectorX,
         gainData: pending.gainData,
+        cost,
       });
       result = applyAomomoScanCostAndBonus(pending, result);
       if (result.ok && Number.isFinite(Number(pending.returnToHandIfSignalCount))) {
@@ -8809,8 +8853,7 @@
       || "";
   }
 
-  function getActionEffectCost(effect) {
-    const cost = effect?.options?.cost;
+  function normalizeResourceCost(cost) {
     if (!cost || typeof cost !== "object" || Array.isArray(cost)) return null;
     const normalized = Object.fromEntries(
       Object.entries(cost)
@@ -8818,6 +8861,10 @@
         .map(([key, value]) => [key, Math.round(Number(value))]),
     );
     return Object.keys(normalized).length ? normalized : null;
+  }
+
+  function getActionEffectCost(effect) {
+    return normalizeResourceCost(effect?.options?.cost);
   }
 
   function getActionEffectCostText(effect) {
@@ -8945,6 +8992,30 @@
     endEffectHistoryStep();
     rocketState.statusNote = `已跳过：${current.label}`;
     completeCurrentActionEffect("skipped");
+  }
+
+  function skipActionEffectWithMessage(effect, message, payload = {}) {
+    const current = effect || getCurrentActionEffect();
+    const result = {
+      ok: true,
+      undoable: true,
+      skipped: true,
+      message,
+      payload: { ...payload, skipped: true },
+    };
+    if (!current || current.status !== "active") {
+      rocketState.statusNote = message;
+      renderStateReadout();
+      return result;
+    }
+
+    current.result = result;
+    cleanupSkippedActionEffect(current);
+    beginEffectHistoryStep(`跳过：${current.label}`);
+    rocketState.statusNote = message;
+    completeCurrentActionEffect("skipped");
+    renderStateReadout();
+    return result;
   }
 
   function renderActionEffectBar() {
@@ -9335,10 +9406,16 @@
       });
     }
 
+    choices.push({
+      id: "skip",
+      label: "跳过",
+      description: "不执行本次发射/移动效果",
+    });
+
     if (els.scanAction4Subtitle) {
       els.scanAction4Subtitle.textContent = hasRocket
-        ? "选择发射、移动，或取消跳过此效果。"
-        : "没有飞船时只能选择发射或取消。";
+        ? "选择发射、移动，或跳过此效果。"
+        : "没有飞船时只能选择发射或跳过。";
     }
 
     els.scanAction4Actions.replaceChildren(...choices.map((choice) => {
@@ -9372,6 +9449,7 @@
       return result;
     }
 
+    maybeApplyIndustryLaunchScan(result);
     recordAbilityCommands(result);
 
     renderRocketElement(result.rocket);
@@ -9577,6 +9655,15 @@
   }
 
   function executeSectorScanAtPlanet(planetId, prefixLabel, effect = null) {
+    const cost = normalizeResourceCost(effect?.options?.cost) || {};
+    if (Object.keys(cost).length && !players.canAfford(getCurrentPlayer(), cost)) {
+      const message = `${prefixLabel || "扇区扫描"}：资源不足，需要 ${players.formatResourceCost(cost)}，已跳过`;
+      return skipActionEffectWithMessage(effect || getCurrentActionEffect(), message, {
+        planetId,
+        cost,
+      });
+    }
+
     if (planetId === aomomo?.PLANET_ID) {
       if (getAomomoCurrentX() == null) {
         rocketState.statusNote = "奥陌陌星球尚未启用，无法扫描奥陌陌";
@@ -9586,6 +9673,7 @@
       const result = replaceNebulaDataForCurrentPlayer(aomomo.NEBULA_ID, {
         prefix: prefixLabel || "扫描奥陌陌",
         source: "scan",
+        cost,
       });
       maybeCompleteActionEffectFromScan(result);
       return result;
@@ -9616,6 +9704,8 @@
       return openScanTargetPicker({
         type: "sector_scan",
         fromEffectFlow: isActionEffectFlowActive(),
+        effect,
+        cost,
         title: prefixLabel || "扇区扫描",
         subtitle: "该 x 坐标同时存在外圈星云与奥陌陌，选择一个目标。",
         choices,
@@ -9625,6 +9715,7 @@
     const result = replaceNebulaDataForCurrentPlayer(choices[0].nebulaId, {
       prefix: prefixLabel || `扇区${sector.x}扫描`,
       source: "scan",
+      cost,
     });
     maybeCompleteActionEffectFromScan(result);
     return result;
@@ -10202,6 +10293,13 @@
 
     if (choiceId === "move") {
       return beginScanAction4FreeMove();
+    }
+
+    if (choiceId === "skip") {
+      const effect = getCurrentActionEffect();
+      return skipActionEffectWithMessage(effect, `${effect?.label || "发射/移动"}：已跳过`, {
+        choice: "skip",
+      });
     }
 
     return { ok: false, message: "未知选择" };
@@ -17565,28 +17663,43 @@
 
   function getReadyBanrenmaCards(player) {
     if (!banrenma || !player) return [];
-    const score = Number(player.resources?.score) || 0;
+    return getReadyBanrenmaCardsForOpportunity(player);
+  }
+
+  function getReadyBanrenmaCardsForOpportunity(player, opportunity = {}) {
+    if (!banrenma || !player) return [];
     return (player.reservedCards || [])
-      .map((card, index) => ({ card, index }))
-      .filter(({ card }) => {
+      .map((card, index) => {
         if (!banrenma.isBanrenmaCard(card)) return false;
-        const mark = banrenma.getPlayerScoreMarks(alienGameState, player)
-          .find((item) => item.id === card.banrenmaScoreMarkId || item.cardInstanceId === card.id);
-        return mark && score >= Number(mark.threshold || 0);
-      });
+        if (opportunity.cardId && card.id !== opportunity.cardId) return false;
+        const mark = banrenma.getReadyScoreMarkForCard?.(
+          alienGameState,
+          player,
+          card,
+          opportunity.markId || null,
+        );
+        return mark ? { card, index, mark } : null;
+      })
+      .filter(Boolean);
+  }
+
+  function getReadyBanrenmaCardForOpportunity(player, opportunity = {}) {
+    return getReadyBanrenmaCardsForOpportunity(player, opportunity)[0] || null;
   }
 
   function enqueueBanrenmaOpportunity(player, opportunity) {
     if (!player || !opportunity) return;
-    const key = `${opportunity.type}:${opportunity.markId || "any"}`;
+    const key = `${opportunity.type}:${opportunity.markId || "any"}:${opportunity.cardId || "any"}`;
     const exists = banrenmaOpportunityQueue.some((item) => (
-      item.playerId === player.id && `${item.type}:${item.markId || "any"}` === key
+      item.playerId === player.id
+      && `${item.type}:${item.markId || "any"}:${item.cardId || "any"}` === key
     ));
     if (exists) return;
     banrenmaOpportunityQueue.push({
       playerId: player.id,
       type: opportunity.type,
       markId: opportunity.markId || null,
+      cardId: opportunity.cardId || null,
       label: opportunity.label,
     });
   }
@@ -17601,11 +17714,11 @@
         label: "半人马顶部奖励",
       });
     }
-    for (const { card } of getReadyBanrenmaCards(player)) {
-      const markId = card.banrenmaScoreMarkId || null;
+    for (const { card, mark } of getReadyBanrenmaCards(player)) {
       enqueueBanrenmaOpportunity(player, {
         type: "card",
-        markId,
+        markId: mark?.id || card.banrenmaScoreMarkId || null,
+        cardId: card.id || null,
         label: "半人马条件效果",
       });
     }
@@ -17629,17 +17742,17 @@
     if (!els.scanTargetOverlay || !els.scanTargetActions) {
       return { ok: false, message: "无法打开半人马条件确认窗口" };
     }
-    const ready = getReadyBanrenmaCards(player).find(({ card: item }) => item.id === card.id);
+    const ready = getReadyBanrenmaCardForOpportunity(player, { cardId: card.id });
     if (!ready) {
       rocketState.statusNote = "这张半人马牌尚未达到阈值";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
-    const mark = banrenma.getPlayerScoreMarks(alienGameState, player)
-      .find((item) => item.id === card.banrenmaScoreMarkId || item.cardInstanceId === card.id);
+    const mark = ready.mark;
     pendingBanrenmaOpportunity = {
       playerId: player.id,
       type: "card",
+      cardId: card.id || null,
       markId: mark?.id || card.banrenmaScoreMarkId || null,
     };
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = "半人马条件效果";
@@ -17668,6 +17781,7 @@
       playerId: player.id,
       type: opportunity.type,
       markId: opportunity.markId || null,
+      cardId: opportunity.cardId || null,
     };
     if (opportunity.type === "panel") {
       const mark = banrenma.getPlayerScoreMarks(alienGameState, player)
@@ -17690,10 +17804,16 @@
       });
       els.scanTargetActions.replaceChildren(...nodes);
     } else {
-      const readyCards = getReadyBanrenmaCards(player);
+      const readyCards = getReadyBanrenmaCardsForOpportunity(player, opportunity);
+      if (!readyCards.length) {
+        pendingBanrenmaOpportunity = null;
+        return { ok: false, stale: true, message: "没有可结算的半人马牌" };
+      }
       if (els.scanTargetTitle) els.scanTargetTitle.textContent = "半人马条件效果";
       if (els.scanTargetSubtitle) {
-        els.scanTargetSubtitle.textContent = `${player.colorLabel}玩家可选择 1 张已打出的半人马牌结算条件效果，之后弃掉该牌并清除一个阈值标记。`;
+        els.scanTargetSubtitle.textContent = readyCards.length === 1
+          ? `${cards.getCardLabel(readyCards[0].card)} 已达到 ${readyCards[0].mark?.threshold ?? "阈值"} 分，确认后弃掉该牌并结算条件效果。`
+          : `${player.colorLabel}玩家可选择 1 张已打出的半人马牌结算条件效果，之后弃掉该牌并清除一个阈值标记。`;
       }
       if (els.scanTargetCancel) els.scanTargetCancel.hidden = true;
       const nodes = readyCards.map(({ card }) => {
@@ -17726,7 +17846,7 @@
         if (!latest || latest.id !== next.markId || !banrenma.getAvailableBonusPositions(alienGameState).length) continue;
         return openBanrenmaOpportunityDialog(player, next);
       }
-      if (!getReadyBanrenmaCards(player).length) continue;
+      if (!getReadyBanrenmaCardForOpportunity(player, next)) continue;
       return openBanrenmaOpportunityDialog(player, next);
     }
     return null;
@@ -17836,6 +17956,11 @@
       maybeOpenQueuedBanrenmaOpportunity();
       return { ok: true, skipped: true, message: rocketState.statusNote };
     }
+    if (pendingBanrenmaOpportunity.cardId && pendingBanrenmaOpportunity.cardId !== cardId) {
+      rocketState.statusNote = "这次半人马条件机会不对应所选卡牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     const cardIndex = player.reservedCards?.findIndex((card) => card.id === cardId) ?? -1;
     const card = cardIndex >= 0 ? player.reservedCards[cardIndex] : null;
     if (!card || !banrenma.isBanrenmaCard(card)) {
@@ -17849,8 +17974,12 @@
       publicCards: cardState.publicCards.slice(),
       discardPile: (cardState.discardPile || []).slice(),
     };
-    const mark = banrenma.getPlayerScoreMarks(alienGameState, player)
-      .find((item) => item.id === card.banrenmaScoreMarkId || item.cardInstanceId === card.id);
+    const mark = banrenma.getReadyScoreMarkForCard?.(
+      alienGameState,
+      player,
+      card,
+      pendingBanrenmaOpportunity.markId || null,
+    );
     if (!mark || Number(player.resources?.score || 0) < Number(mark.threshold || 0)) {
       rocketState.statusNote = "这张半人马牌尚未达到阈值";
       renderStateReadout();
@@ -17859,7 +17988,12 @@
     const [removedCard] = player.reservedCards.splice(cardIndex, 1);
     cards.addToDiscardPile(cardState, removedCard);
     banrenma.resolveScoreMark(alienGameState, player, mark.id);
-    const effects = banrenma.buildConditionEffects(removedCard);
+    const effects = banrenma.buildConditionEffects(removedCard).map((effect) => ({
+      ...effect,
+      playerId: player.id || effect.playerId || null,
+      playerColor: player.color || effect.playerColor || null,
+      options: { ...(effect.options || {}) },
+    }));
     completeBanrenmaOpportunityStep(
       player,
       beforePlayerState,

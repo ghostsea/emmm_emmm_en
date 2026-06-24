@@ -81,14 +81,14 @@
 | 强化扇区扫描 | 地球所在扇区、左相邻扇区、右相邻扇区三选一 -> 所选扇区的确定星云扫描 | 紫1对扫描行动中地球扇区扫描的升级。 | `assets/symbol/action/scan/earth_scan_improved.png` |
 | 固定星球扇区扫描 | 指定星球当前所在扇区 -> 该扇区的确定星云扫描 | 奖励效果使用；按钮附带星球名文字角标，如“水星”“火星”。 | `assets/symbol/effect/normal_scan.webp` |
 | 行星所在扇区扫描 | 指定行星当前所在扇区 -> 该扇区的确定星云扫描，可重复指定次数。 | 普通卡牌效果使用，如木星所在扇区扫描。 | `assets/symbol/effect/normal_scan.webp` |
-| 水星扇区扫描 | 水星当前所在扇区 -> 该扇区的确定星云扫描 | 紫2扫描行动追加效果。 | `assets/symbol/action/scan/mercury_scan.png` |
+| 水星扇区扫描 | 水星当前所在扇区 -> 该扇区的确定星云扫描 | 紫2扫描行动追加效果，消耗 1 宣传；宣传不足时跳过。 | `assets/symbol/action/scan/mercury_scan.png` |
 | 黄色星云扫描 | 室女座61扫描 或 开普勒22扫描 | 黄色二选一。两个确定星云复用黄色扫描图标。 | `assets/symbol/effect/yellow_scan.webp` |
 | 红色星云扫描 | 巴纳德扫描 或 比邻星扫描 | 红色二选一。两个确定星云复用红色扫描图标。 | `assets/symbol/effect/red_scan.webp` |
 | 蓝色星云扫描 | 天狼星A扫描 或 南河三扫描 | 蓝色二选一。两个确定星云复用蓝色扫描图标。 | `assets/symbol/effect/blue_scan.webp` |
 | 黑色二选一扫描 | 织女一扫描 或 绘架座β扫描 | 天王星/海王星奖励与黑色扫描牌角标使用。 | `assets/symbol/effect/black_scan.webp` |
 | 公共牌区扫描 | 弃 1 张公共牌 -> 按该牌扫描角标执行对应二选一扫描；每个额外弃牌扫描标记可追加 1 张公共牌和 1 组二选一扫描 | 扫描行动的公共牌区节点。完整扫描行动内只留下空公共牌位，补牌在扫描 flow 收尾自动处理；普通卡牌公共扫描仍即时补牌。 | `assets/symbol/action/scan/public_card_scan.webp` |
 | 手牌扫描 | 弃 1 张手牌 -> 按该牌扫描角标执行对应二选一扫描 | 紫3扫描行动追加效果。 | `assets/symbol/action/scan/private_card_scan.webp` |
-| 紫4发射/移动 | 发射（成本：1 能量） 或 移动（成本：0，移动力：1） | 紫4不是原子效果，而是扫描行动追加的选择型复合效果。实际结算复用发射或移动原子效果。 | `assets/symbol/action/scan/scan_action_4.png` |
+| 紫4发射/移动 | 发射（成本：1 能量） 或 移动（成本：0，移动力：1） | 紫4不是原子效果，而是扫描行动追加的选择型复合效果。实际结算复用发射或移动原子效果；能量不足时发射不可选，只能移动或跳过。 | `assets/symbol/action/scan/scan_action_4.png` |
 | 研究科技 | 选择科技片 -> 旋转 -> 橙1免费发射（若选橙1） -> 科技 bonus -> 紫1获得 2 数据（若选紫1） | 主要行动。默认全部颜色科技可选；可传 `techType` / `techTypes` 限制为 `blue`、`orange`、`purple` 中的一个或多个颜色。选择科技片可撤销；旋转与 bonus 不可撤销；橙1发射和紫1数据按各自原子效果结算。 | `assets/symbol/effect/research_tech.webp` |
 | 环绕行动 | 环绕标记 -> 环绕奖励链 | 主要行动。环绕标记负责支付成本、移除火箭和放标记；奖励链由星球与标记序号决定。 | `assets/symbol/effect/orbit.webp` |
 | 登陆行动 | 主星登陆标记或卫星登陆标记 -> 登陆奖励链 | 主要行动。橙3影响主星登陆成本，橙4解锁卫星登陆目标。 | `assets/symbol/effect/land.webp` |

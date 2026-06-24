@@ -69,4 +69,80 @@ assert.equal(blind.card.cardId.startsWith("banrenma_"), true);
 assert.equal(banrenma.buildImmediateEffects(3)[0].type, "card_research_tech");
 assert.equal(banrenma.buildConditionEffects(2)[0].type, banrenma.EFFECT_GAIN_INCOME);
 
+const multiReadyState = state.createDefaultAlienState();
+const multiReadyPlayer = {
+  id: "player-green",
+  color: "green",
+  colorLabel: "绿色",
+  resources: { score: 40, credits: 0, energy: 0, publicity: 0, availableData: 0 },
+  reservedCards: [
+    banrenma.createAlienCard(2, 1),
+    banrenma.createAlienCard(4, 2),
+  ],
+};
+const dataIncomeMark = banrenma.addScoreMark(
+  multiReadyState,
+  multiReadyPlayer,
+  40,
+  "card",
+  {
+    cardInstanceId: multiReadyPlayer.reservedCards[0].id,
+    cardIndex: 2,
+  },
+);
+const publicityIncomeMark = banrenma.addScoreMark(
+  multiReadyState,
+  multiReadyPlayer,
+  40,
+  "card",
+  {
+    cardInstanceId: multiReadyPlayer.reservedCards[1].id,
+    cardIndex: 4,
+  },
+);
+multiReadyPlayer.reservedCards[0].banrenmaScoreMarkId = dataIncomeMark.id;
+multiReadyPlayer.reservedCards[1].banrenmaScoreMarkId = publicityIncomeMark.id;
+assert.equal(
+  banrenma.getReadyScoreMarkForCard(
+    multiReadyState,
+    multiReadyPlayer,
+    multiReadyPlayer.reservedCards[0],
+    dataIncomeMark.id,
+  )?.id,
+  dataIncomeMark.id,
+  "first simultaneously ready card should match its own mark",
+);
+assert.equal(
+  banrenma.getReadyScoreMarkForCard(
+    multiReadyState,
+    multiReadyPlayer,
+    multiReadyPlayer.reservedCards[1],
+    publicityIncomeMark.id,
+  )?.id,
+  publicityIncomeMark.id,
+  "second simultaneously ready card should match its own mark",
+);
+banrenma.resolveScoreMark(multiReadyState, multiReadyPlayer, dataIncomeMark.id);
+multiReadyPlayer.reservedCards.shift();
+assert.equal(
+  banrenma.getReadyScoreMarkForCard(
+    multiReadyState,
+    multiReadyPlayer,
+    multiReadyPlayer.reservedCards[0],
+    publicityIncomeMark.id,
+  )?.id,
+  publicityIncomeMark.id,
+  "remaining ready card should survive prior card removal without index drift",
+);
+assert.equal(
+  banrenma.getReadyScoreMarkForCard(
+    multiReadyState,
+    multiReadyPlayer,
+    multiReadyPlayer.reservedCards[0],
+    dataIncomeMark.id,
+  ),
+  null,
+  "resolved mark should not match another ready card",
+);
+
 console.log("aliens/banrenma.test.js ok");

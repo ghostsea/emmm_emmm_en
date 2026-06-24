@@ -22,6 +22,7 @@
   "use strict";
 
   const SCAN_COST = Object.freeze({ credits: 1, energy: 2 });
+  const SCAN_ACTION_2_MERCURY_COST = Object.freeze({ publicity: 1 });
   const SCAN_ACTION_4_LAUNCH_ENERGY = 1;
 
   const EFFECT_ICONS = Object.freeze({
@@ -125,8 +126,8 @@
         type: EFFECT_TYPES.MERCURY_SECTOR_SCAN,
         abilityId: "scanSector",
         icon: "mercury_scan",
-        label: "扇区扫描",
-        options: { ...sharedOptions },
+        label: "水星扇区扫描",
+        options: { ...sharedOptions, cost: SCAN_ACTION_2_MERCURY_COST },
       });
     }
 
@@ -160,6 +161,7 @@
 
   return Object.freeze({
     SCAN_COST,
+    SCAN_ACTION_2_MERCURY_COST,
     SCAN_ACTION_4_LAUNCH_ENERGY,
     EFFECT_ICONS,
     EFFECT_TYPES,

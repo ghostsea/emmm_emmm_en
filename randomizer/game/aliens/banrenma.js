@@ -453,6 +453,25 @@
     return marks.filter((mark) => !mark.resolved);
   }
 
+  function getScoreMarkForCard(alienState, player, card, markId = null) {
+    if (!card) return null;
+    const expectedMarkId = markId || card.banrenmaScoreMarkId || null;
+    return getPlayerScoreMarks(alienState, player).find((mark) => {
+      if (expectedMarkId && mark.id !== expectedMarkId) return false;
+      return (
+        (card.banrenmaScoreMarkId && mark.id === card.banrenmaScoreMarkId)
+        || (card.id && mark.cardInstanceId === card.id)
+      );
+    }) || null;
+  }
+
+  function getReadyScoreMarkForCard(alienState, player, card, markId = null) {
+    const mark = getScoreMarkForCard(alienState, player, card, markId);
+    if (!mark) return null;
+    const score = Number(player?.resources?.score) || 0;
+    return score >= Number(mark.threshold || 0) ? mark : null;
+  }
+
   function addScoreMark(alienState, player, threshold, source = "panel", options = {}) {
     const banrenma = ensureBanrenmaState(alienState);
     const key = getPlayerKey(player);
@@ -629,6 +648,8 @@
     addScoreMark,
     resolveScoreMark,
     getPlayerScoreMarks,
+    getScoreMarkForCard,
+    getReadyScoreMarkForCard,
     getPendingPanelMark,
     getPendingCardMarks,
     markBonusSlotUsed,
