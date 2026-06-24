@@ -17758,14 +17758,6 @@
         label: "半人马顶部奖励",
       });
     }
-    for (const { card, mark } of getReadyBanrenmaCards(player)) {
-      enqueueBanrenmaOpportunity(player, {
-        type: "card",
-        markId: mark?.id || card.banrenmaScoreMarkId || null,
-        cardId: card.id || null,
-        label: "半人马条件效果",
-      });
-    }
   }
 
   function closeBanrenmaOpportunityDialog() {
@@ -17890,8 +17882,6 @@
         if (!latest || latest.id !== next.markId || !banrenma.getAvailableBonusPositions(alienGameState).length) continue;
         return openBanrenmaOpportunityDialog(player, next);
       }
-      if (!getReadyBanrenmaCardForOpportunity(player, next)) continue;
-      return openBanrenmaOpportunityDialog(player, next);
     }
     return null;
   }
