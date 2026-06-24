@@ -12,7 +12,7 @@
 | 名称 | 效果 | 是否可撤销 | 图标 |
 | --- | --- | --- | --- |
 | 扫描费用 | 开始标准扫描行动时支付，作为行动触发条件结算，不进入效果队列。 | 可随行动撤销 | `assets/symbol/effect/cost.webp` |
-| 发射 | 在地球所在扇区放置火箭；可通过 `cost` 或 `skipCost` 表示正常发射、科技免费发射、紫4发射等来源。 | 可撤销 | `assets/symbol/effect/launch.webp` |
+| 发射 | 在地球所在扇区放置火箭；可通过 `cost` 或 `skipCost` 表示正常发射、科技免费发射、紫4发射等来源。成功发射后统一结算发射后的被动效果。 | 可撤销 | `assets/symbol/effect/launch.webp` |
 | 移动 | 给予火箭指定移动力。没有橙2科技时，移动出小行星需要 2 点移动力，其余场景通常为 1 点；移动进入非地球行星或彗星获得 1 宣传，橙2移动进入小行星也获得 1 宣传。 | 可撤销 | `assets/symbol/effect/movement.webp` |
 | 卡牌特殊移动 | 卡牌移动可声明忽略小行星出入额外移动力，或记录同一环 y 不变移动并结算一次奖励。 | 可撤销 | `assets/symbol/effect/movement.webp` |
 | 环绕标记 | 支付环绕成本，移除当前火箭，并在对应星球参考图放置环绕标记。 | 可撤销 | `assets/symbol/effect/orbit.webp` |
@@ -93,7 +93,7 @@
 | 研究科技 | 选择科技片 -> 旋转 -> 橙1免费发射（若选橙1） -> 科技 bonus -> 紫1获得 2 数据（若选紫1） | 主要行动。默认全部颜色科技可选；可传 `techType` / `techTypes` 限制为 `blue`、`orange`、`purple` 中的一个或多个颜色。选择科技片可撤销；旋转与 bonus 不可撤销；橙1发射和紫1数据按各自原子效果结算。 | `assets/symbol/effect/research_tech.webp` |
 | 环绕行动 | 环绕标记 -> 环绕奖励链 | 主要行动。环绕标记负责支付成本、移除火箭和放标记；奖励链由星球与标记序号决定。 | `assets/symbol/effect/orbit.webp` |
 | 登陆行动 | 主星登陆标记或卫星登陆标记 -> 登陆奖励链 | 主要行动。橙3影响主星登陆成本，橙4解锁卫星登陆目标。 | `assets/symbol/effect/land.webp` |
-| 橙1即时效果 | 发射（`skipCost: true`, `source: "tech"`） | 研究橙1后的追加效果；同时玩家火箭上限提高到 2。 | `assets/symbol/effect/launch.webp` |
+| 橙1即时效果 | 发射（`skipCost: true`, `source: "tech"`） | 研究橙1后的追加效果；会触发发射后的被动效果；同时玩家火箭上限提高到 2。 | `assets/symbol/effect/launch.webp` |
 | 紫1即时效果 | 数据 x2 | 研究紫1后的追加效果；同时后续扫描行动中的地球扇区扫描升级为强化扇区扫描。 | `assets/symbol/effect/data.webp` |
 | 紫2扫描追加 | 水星扇区扫描 | 拥有紫2后，扫描行动追加该节点。 | `assets/symbol/action/scan/mercury_scan.png` |
 | 紫3扫描追加 | 手牌扫描 | 拥有紫3后，扫描行动追加该节点。 | `assets/symbol/action/scan/private_card_scan.webp` |

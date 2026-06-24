@@ -8114,6 +8114,7 @@
       });
       if (launchResult.rocket) renderRocketElement(launchResult.rocket);
       if (launchResult.ok) {
+        maybeApplyIndustryLaunchScan(launchResult);
         recordAbilityCommands(launchResult);
         settleCardTasksAfterEffect({ events: launchResult.events, render: false });
       }
@@ -11670,6 +11671,7 @@
       renderStateReadout();
       return result;
     }
+    maybeApplyIndustryLaunchScan(result);
     recordAbilityCommands(result);
     if (result.rocket) renderRocketElement(result.rocket);
     const finished = finishAutomaticRewardEffect(effect, {
@@ -13685,6 +13687,7 @@
           renderStateReadout();
           return result;
         }
+        maybeApplyIndustryLaunchScan(result);
         recordAbilityCommands(result);
         effect.result = result;
         rocketState.statusNote = result.message;
