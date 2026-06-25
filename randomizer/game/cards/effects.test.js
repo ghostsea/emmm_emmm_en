@@ -579,6 +579,7 @@ assert.equal(cardEffects.buildPlayEffects({ cardId: "b_64.webp" }).filter((effec
   effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN
 )).length, 2);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_66.webp" })[0].options.bonus.distinctBy, "planetId");
+assert.equal(cardEffects.buildPlayEffects({ cardId: "b_79.webp" })[1].options.incomeKey, "handSize");
 
 const b39 = { id: "card-b39", cardId: "b_39.webp" };
 const blueTriggerPlayer = { id: "p1", color: "red", reservedCards: [b39] };

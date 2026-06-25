@@ -56,6 +56,27 @@
     return candidate.plan?.actionId || candidate.plan?.quickActionId || null;
   }
 
+  function hasEffectType(candidate = {}, predicate) {
+    return (candidate.effectTypes || []).some((type) => predicate(String(type || "")));
+  }
+
+  function isCardScanEffectType(type) {
+    return type === "card_scan_nebula"
+      || type === "card_scan_color_choice"
+      || type === "card_public_scan"
+      || type === "card_any_sector_scan"
+      || type === "card_scan_action"
+      || type === "card_probe_sector_scan"
+      || type === "card_planet_sector_scan"
+      || type === "card_sector_x_scan"
+      || type === "card_draw_then_scan"
+      || type === "card_optional_discard_scan"
+      || type === "card_hand_scan"
+      || type === "card_landing_sector_scan"
+      || type === "card_conditional_sector_scan"
+      || type === "card_color_scan";
+  }
+
   function normalizeGoal(goal = {}) {
     const id = String(goal.id || "");
     return {
@@ -135,12 +156,16 @@
         || candidate.traceType === "yellow";
     }
     if (goalId === GOAL_IDS.GRAB_TRACE_PINK) {
-      return actionId === "scan" || planAction === "scan" || candidate.traceType === "pink";
+      return actionId === "scan"
+        || planAction === "scan"
+        || hasEffectType(candidate, isCardScanEffectType)
+        || candidate.traceType === "pink";
     }
     if (goalId === GOAL_IDS.GRAB_TRACE_BLUE) {
       return actionId === "analyze"
         || actionId === "scan"
         || planAction === "scan"
+        || hasEffectType(candidate, isCardScanEffectType)
         || candidate.traceType === "blue"
         || numeric(candidate.valueBreakdown?.effectValue) > 0 && effectTypes.includes("gain_data");
     }

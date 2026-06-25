@@ -51,9 +51,9 @@
   });
 
   const TECH_BONUS_SCORES = Object.freeze({
-    bonus_3f: 3,
-    bonus_1c: 3,
-    bonus_1p: 2,
+    bonus_3f: 2,
+    bonus_1c: 5,
+    bonus_1p: 4,
     bonus_1m: 2,
   });
 
@@ -246,6 +246,15 @@
       Number(right.score || 0) - Number(left.score || 0)
       || String(left.industry?.id || "").localeCompare(String(right.industry?.id || ""))
     ))[0];
+    const topPlans = plans.slice(0, 5).map((plan) => ({
+      score: Math.round(Number(plan.score || 0) * 100) / 100,
+      industryLabel: plan.industry?.label || plan.industry?.id || null,
+      initialNumbers: (plan.initialCards || [])
+        .map((card) => initialCards?.getInitialCardNumber?.(card) || null)
+        .filter((number) => number != null),
+      summary: plan.summary,
+      goals: plan.goals,
+    }));
 
     if (bestPlan) {
       return {
@@ -255,6 +264,7 @@
           score: Math.round(bestPlan.score * 100) / 100,
           goals: bestPlan.goals,
           summary: bestPlan.summary,
+          topPlans,
         },
       };
     }

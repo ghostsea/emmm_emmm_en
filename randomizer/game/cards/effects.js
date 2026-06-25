@@ -1744,7 +1744,7 @@
       cardType: 0,
       playEffects: Object.freeze([
         gainResourcesEffect("b79-publicity", "获得 2 宣传", { publicity: 2 }),
-        countCurrentIncomeResourceEffect("b79-blind-income-publicity", "每个非默认盲抽收入：1宣传", "blindDraw", "publicity", 1),
+        countCurrentIncomeResourceEffect("b79-blind-income-publicity", "每个非默认盲抽收入：1宣传", "handSize", "publicity", 1),
         tuckPlayedCardToIncomeEffect("b79-income", "将本卡放入收入区"),
       ]),
     }),

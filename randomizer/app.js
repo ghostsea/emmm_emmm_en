@@ -852,6 +852,7 @@
     get pendingPlayCardSelection() { return pendingPlayCardSelection; },
     get pendingCardCornerFreeMove() { return pendingCardCornerFreeMove; },
     get pendingIndustryAbility() { return pendingIndustryAbility; },
+    get pendingStrategyPassiveSlotChoice() { return pendingStrategyPassiveSlotChoice; },
     get industryFreeMoveState() { return industryFreeMoveState; },
     get alienTracePickerState() { return alienTracePickerState; },
   };
@@ -871,6 +872,7 @@
     actions,
     scanEffects,
     cards,
+    initialCards,
     cardEffects,
     cardTaskStateModule,
     tech,
@@ -927,6 +929,7 @@
     confirmPlayCardSelection,
     confirmPublicScanSelection,
     confirmScanTarget,
+    confirmStrategyPassiveSlotChoice,
     confirmTechBlueSlotChoice,
     createActionContext,
     createTurnState,
@@ -939,6 +942,7 @@
     executeFreeMoveForScanAction4,
     executeIndustryFreeMove,
     finalizePendingDiscardSelection,
+    finishIndustryAbilityFlow,
     formatRocketLabel,
     getActivePlayers,
     getAlienTraceActionPlayer,
@@ -958,6 +962,7 @@
     getPlayerById,
     getPlayerLabelById,
     getPublicScanChoicesForCard,
+    getReadyCardTasks,
     getRequiredMovePointsForUi,
     getResearchTechSelectionOptions,
     getSectorContentForMove,
@@ -981,7 +986,9 @@
     handleJiuzheOpportunitySkip,
     handleOptionalHandScanChoice,
     handlePlayCardSelect,
+    handlePublicCardClick,
     handlePublicScanCardClick,
+    handleIndustryDeepspaceHandClick,
     handleRunezuCardGainChoice,
     handleRunezuFaceSymbolChoice,
     handleRunezuSymbolBranchChoice,
@@ -1008,6 +1015,7 @@
     landForCurrentPlayer,
     moveRocket,
     orbitForCurrentPlayer,
+    openCardTaskCompletionPicker,
     passForCurrentPlayer,
     pickPublicCardForCurrentPlayer,
     randomizeAll,
@@ -5612,26 +5620,39 @@
       : finalScoring.FINAL_SCORE_THRESHOLDS || [];
     const lastThreshold = Math.max(...thresholds.map((threshold) => aiNumber(threshold)));
     const isLastThreshold = aiNumber(pending.threshold) >= lastThreshold;
-    const isLateMarker = isLastThreshold || aiNumber(turnState.roundNumber) >= 4;
+    const roundNumber = aiNumber(turnState.roundNumber);
+    const thresholdValue = aiNumber(pending.threshold);
+    const isLateMarker = isLastThreshold || roundNumber >= 4;
     const speculationScale = isLateMarker ? 0.35 : 1;
+    const currentBaseSpeculationScale = baseValue > 0
+      ? 1
+      : (isLateMarker || thresholdValue >= 50)
+        ? 0.18
+        : roundNumber >= 3
+          ? 0.1
+          : 0.45;
+    const effectiveSpeculationScale = speculationScale * currentBaseSpeculationScale;
+    const secondSlotSpeculationScale = baseValue > 0
+      ? Math.max(0.5, effectiveSpeculationScale)
+      : Math.max(0.25, effectiveSpeculationScale);
     const immediateScoreWeight = isLateMarker ? 2.25 : 1;
     const remainingRoundWeight = Math.min(1.6, 0.7 + getAiRemainingRoundWeight() * 0.15);
-    const formulaPotentialScore = getAiFinalScoreFormulaPotential(formulaId) * remainingRoundWeight * speculationScale;
+    const formulaPotentialScore = getAiFinalScoreFormulaPotential(formulaId) * remainingRoundWeight * effectiveSpeculationScale;
     const incomePotentialScore = 0;
     const potentialScore = formulaPotentialScore + incomePotentialScore;
     const firstSlotPriorityScore = Number(check.slotIndex) === 1
-      ? 14 * speculationScale
+      ? 14 * effectiveSpeculationScale
       : Number(check.slotIndex) === 2
-        ? 3 * Math.max(0.5, speculationScale)
+        ? 3 * secondSlotSpeculationScale
         : 0;
-    const familyPriorityScore = tileId === "c" || tileId === "d" ? 3.5 * speculationScale : 0;
+    const familyPriorityScore = tileId === "c" || tileId === "d" ? 3.5 * effectiveSpeculationScale : 0;
     const activeOpponentCount = (turnState.activePlayerIds || [])
       .filter((playerId) => playerId && playerId !== player.id)
       .length;
     const competitiveSlotSwingScore = Number(check.slotIndex) === 1
-      ? (8 + activeOpponentCount * 2.5 + Math.min(8, potentialScore * 0.85 + immediateScore * 0.18)) * speculationScale
+      ? (8 + activeOpponentCount * 2.5 + Math.min(8, potentialScore * 0.85 + immediateScore * 0.18)) * effectiveSpeculationScale
       : Number(check.slotIndex) === 2
-        ? (2 + activeOpponentCount * 0.8 + Math.min(3.5, potentialScore * 0.35)) * Math.max(0.5, speculationScale)
+        ? (2 + activeOpponentCount * 0.8 + Math.min(3.5, potentialScore * 0.35)) * secondSlotSpeculationScale
         : 0;
     const slotPriorityScore = firstSlotPriorityScore
       + familyPriorityScore
@@ -5663,6 +5684,9 @@
         potentialScore: Math.round(potentialScore * 100) / 100,
         formulaPotentialScore: Math.round(formulaPotentialScore * 100) / 100,
         incomePotentialScore: Math.round(incomePotentialScore * 100) / 100,
+        speculationScale: Math.round(speculationScale * 100) / 100,
+        currentBaseSpeculationScale: Math.round(currentBaseSpeculationScale * 100) / 100,
+        effectiveSpeculationScale: Math.round(effectiveSpeculationScale * 100) / 100,
         slotPriorityScore: Math.round(slotPriorityScore * 100) / 100,
         firstSlotPriorityScore: Math.round(firstSlotPriorityScore * 100) / 100,
         familyPriorityScore: Math.round(familyPriorityScore * 100) / 100,
@@ -5823,6 +5847,26 @@
       || "sector_finish_scan";
   }
 
+  function getSectorFinishWinnerTarget(sectorId) {
+    if (!sectorId || sectorId === aomomo?.NEBULA_ID) return null;
+    const winner = data.getSectorRanking?.(nebulaDataState, sectorId)
+      ?.find((entry) => Number(entry?.count) > 0) || null;
+    const player = winner ? resolvePlayerReference(winner) : null;
+    if (player) {
+      return {
+        playerId: player.id || null,
+        playerColor: player.color || null,
+        playerLabel: player.colorLabel || player.name || player.color || null,
+      };
+    }
+    if (!winner) return null;
+    return {
+      playerId: winner.playerId || null,
+      playerColor: winner.playerColor || null,
+      playerLabel: winner.playerLabel || winner.playerColor || null,
+    };
+  }
+
   function buildReadySectorFinishEffects(options = {}) {
     const sectorFilter = options.nebulaIds
       ? new Set([...options.nebulaIds].map((sectorId) => String(sectorId)))
@@ -5830,13 +5874,22 @@
     return (data.NEBULA_IDS || [])
       .filter((sectorId) => (!sectorFilter || sectorFilter.has(String(sectorId))))
       .filter((sectorId) => data.isSectorReadyToSettle(nebulaDataState, sectorId))
-      .map((sectorId) => ({
-        type: scanEffects.EFFECT_TYPES.SECTOR_FINISH_SCAN,
-        icon: getSectorFinishIcon(sectorId),
-        label: `完成扇区：${data.getNebulaLabel(sectorId)}`,
-        undoable: true,
-        options: { sectorId },
-      }));
+      .map((sectorId) => {
+        const target = getSectorFinishWinnerTarget(sectorId);
+        return {
+          type: scanEffects.EFFECT_TYPES.SECTOR_FINISH_SCAN,
+          icon: getSectorFinishIcon(sectorId),
+          label: `完成扇区：${data.getNebulaLabel(sectorId)}`,
+          undoable: true,
+          options: {
+            sectorId,
+            targetPlayerId: target?.playerId || null,
+            targetPlayerColor: target?.playerColor || null,
+            winnerPlayerId: target?.playerId || null,
+            winnerPlayerColor: target?.playerColor || null,
+          },
+        };
+      });
   }
 
   function appendSectorSettlementResultToFlow(settlementResult) {
@@ -6041,12 +6094,33 @@
     });
     if (!result.ok) {
       endEffectHistoryStep();
+      if (effect.type === "aomomo_land_only") {
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          skipped: true,
+          undoable: true,
+          message: `${effect.label}：无法登陆（${result.message}），已跳过`,
+          payload: { failedMessage: result.message },
+        }, [renderRockets, renderAlienPanels]);
+      }
       rocketState.statusNote = result.message;
       renderStateReadout();
       return result;
     }
 
     const winner = resolvePlayerReference(result.winner || {});
+    if (winner) {
+      effect.options = {
+        ...(effect.options || {}),
+        targetPlayerId: winner.id || null,
+        targetPlayerColor: winner.color || null,
+        winnerPlayerId: winner.id || null,
+        winnerPlayerColor: winner.color || null,
+      };
+      effect.playerId = winner.id || effect.playerId || null;
+      effect.playerColor = winner.color || effect.playerColor || null;
+      setActiveEffectFlowOwner(effect);
+    }
     const claim = winner
       ? runezu?.claimSectorSymbol?.(alienGameState, result.sectorId, winner)
       : null;
@@ -13391,6 +13465,18 @@
   }
 
   function executeAomomoLandEffect(effect, options = {}) {
+    if (effect.type === "aomomo_land_only") {
+      const landOptions = abilities.planet?.getLandOptions?.(createActionContext(), { skipCost: true });
+      if (!landOptions?.ok) {
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          skipped: true,
+          undoable: true,
+          message: `${effect.label}：无法登陆（${landOptions?.message || "没有可登陆目标"}），已跳过`,
+          payload: { failedMessage: landOptions?.message || null },
+        }, [renderRockets, renderAlienPanels]);
+      }
+    }
     const score = Math.max(0, Math.round(Number(options.scoreIfAomomo ?? effect.options?.score) || 0));
     const afterLandRewards = Array.isArray(effect.options?.afterLandRewards)
       ? [...effect.options.afterLandRewards]
@@ -14036,9 +14122,11 @@
       case scanEffects.EFFECT_TYPES.HAND_SCAN: {
         const currentPlayer = getCurrentPlayer();
         if (!currentPlayer?.hand?.length) {
-          rocketState.statusNote = "没有手牌可用于扫描";
+          effect.result = { ok: true, skipped: true, message: `${effect.label || "手牌扫描"}：没有手牌，跳过` };
+          rocketState.statusNote = effect.result.message;
+          completeCurrentActionEffect("skipped");
           renderStateReadout();
-          return { ok: false, message: rocketState.statusNote };
+          return effect.result;
         }
         pendingHandScanAction = { type: "hand_scan", player: currentPlayer, fromEffectFlow: true };
         rocketState.statusNote = "手牌扫描：请选择一张手牌弃除并扫描";
@@ -14305,8 +14393,17 @@
     }
   }
 
-  function maybeRevealAlienAfterTrace(alienSlotId, traceResult) {
+  function maybeRevealAlienAfterTrace(alienSlotId, traceResult, options = {}) {
     if (!traceResult?.readyToReveal) return null;
+    if (options.immediate === false) {
+      return {
+        ok: true,
+        delayed: true,
+        readyToReveal: true,
+        alienSlotId,
+        message: `${aliens.getAlienSlotLabel(alienSlotId)}三种首痕迹已满：将在该玩家回合结束时揭示外星人`,
+      };
+    }
     return aliens.revealRandomAlien(alienGameState, alienSlotId);
   }
 
@@ -18567,6 +18664,17 @@
     };
   }
 
+  function handleAlienRevealSideEffects(alienSlotId, revealResult, triggerPlayer) {
+    return handleJiuzheRevealSideEffects(alienSlotId, revealResult, triggerPlayer)
+      || handleYichangdianRevealSideEffects(alienSlotId, revealResult, triggerPlayer)
+      || handleFangzhouRevealSideEffects(alienSlotId, revealResult, triggerPlayer)
+      || handleBanrenmaRevealSideEffects(alienSlotId, revealResult, triggerPlayer)
+      || handleChongRevealSideEffects(alienSlotId, revealResult, triggerPlayer)
+      || handleAmibaRevealSideEffects(alienSlotId, revealResult, triggerPlayer)
+      || handleAomomoRevealSideEffects(alienSlotId, revealResult, triggerPlayer)
+      || handleRunezuRevealSideEffects(alienSlotId, revealResult, triggerPlayer);
+  }
+
   function triggerYichangdianAnomalyForEarthX(earthX) {
     if (!yichangdian || !alienGameState.yichangdian?.revealInitialized) return null;
     const yState = alienGameState.yichangdian;
@@ -18715,25 +18823,19 @@
     const firstTraceReward = result.ok
       ? applyAlienFirstTraceReward(alienSlotId, traceType, currentPlayer, result)
       : null;
-    const revealResult = maybeRevealAlienAfterTrace(alienSlotId, result);
-    const revealIrreversibleReason = revealResult?.ok
+    const revealResult = maybeRevealAlienAfterTrace(alienSlotId, result, { immediate: inDebugMode });
+    const immediateRevealResult = revealResult?.delayed ? null : revealResult;
+    const revealIrreversibleReason = immediateRevealResult?.ok
       ? "外星人揭示初始化随机内容"
       : null;
-    const revealSideEffect = handleJiuzheRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleYichangdianRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleFangzhouRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleBanrenmaRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleChongRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleAmibaRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleAomomoRevealSideEffects(alienSlotId, revealResult, currentPlayer)
-      || handleRunezuRevealSideEffects(alienSlotId, revealResult, currentPlayer);
+    const revealSideEffect = handleAlienRevealSideEffects(alienSlotId, immediateRevealResult, currentPlayer);
     rocketState.statusNote = [
       result.message,
       firstTraceReward?.message || null,
       revealSideEffect?.message || revealResult?.message || null,
     ].filter(Boolean).join("；");
     const traceEvents = result.ok && !inDebugMode
-      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, revealResult?.alienId || null)]
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, immediateRevealResult?.alienId || null)]
       : [];
     const alienLabRestore = result.ok ? maybeRestoreAlienLabPanelForTrace(currentPlayer, traceType) : null;
     if (alienLabRestore?.changed) {
@@ -18762,7 +18864,7 @@
             : null,
           message: rocketState.statusNote,
           events: traceEvents,
-          payload: { alienSlotId, traceType, revealed: revealResult || null, firstTraceReward, afterReward },
+          payload: { alienSlotId, traceType, revealed: immediateRevealResult || null, revealPending: revealResult?.delayed || false, firstTraceReward, afterReward },
         };
       }
       completeCurrentActionEffect();
@@ -18786,7 +18888,7 @@
       settleCardTasksAfterEffect({ events: traceEvents, render: true });
     }
     renderAlienPanels();
-    if (revealResult?.alienId === chong?.ALIEN_ID || revealResult?.alienId === aomomo?.ALIEN_ID) {
+    if (immediateRevealResult?.alienId === chong?.ALIEN_ID || immediateRevealResult?.alienId === aomomo?.ALIEN_ID) {
       renderRockets();
     }
     renderPlayerStats();
@@ -25273,6 +25375,60 @@
     return result;
   }
 
+  function listReadyAlienRevealSlotIds() {
+    return (aliens.ALIEN_SLOT_IDS || [])
+      .filter((alienSlotId) => {
+        const slot = aliens.getAlienSlot(alienGameState, alienSlotId);
+        return aliens.isAlienReadyToReveal?.(slot);
+      });
+  }
+
+  function revealReadyAliensAtTurnEnd(triggerPlayer) {
+    const readySlotIds = listReadyAlienRevealSlotIds();
+    if (!readySlotIds.length) return null;
+
+    const revealEntries = [];
+    for (const alienSlotId of readySlotIds) {
+      const revealResult = aliens.revealRandomAlien(alienGameState, alienSlotId);
+      const sideEffect = handleAlienRevealSideEffects(alienSlotId, revealResult, triggerPlayer);
+      revealEntries.push({
+        alienSlotId,
+        revealResult,
+        sideEffect,
+        message: sideEffect?.message || revealResult?.message || null,
+      });
+    }
+
+    const messages = revealEntries.map((entry) => entry.message).filter(Boolean);
+    const message = messages.length
+      ? `回合结束揭示外星人：${messages.join("；")}`
+      : "回合结束揭示外星人";
+    markCurrentActionIrreversible("回合结束揭示外星人", "alien_reveal_turn_end");
+    appendActionLogStep(HISTORY_SOURCE_MAIN, "回合结束揭示外星人", message, {
+      player: triggerPlayer,
+      undoable: false,
+      irreversibleCode: "alien_reveal_turn_end",
+      irreversibleReason: "回合结束揭示外星人",
+    });
+    rocketState.statusNote = message;
+    renderAlienPanels();
+    renderPlayerStats();
+    renderPlayerHand();
+    renderReservedCards();
+    renderRockets();
+    renderSectorNebulaDataBoard();
+    maybeOpenQueuedJiuzheOpportunity();
+    maybeOpenQueuedBanrenmaOpportunity();
+    updateActionButtons();
+    renderStateReadout();
+    return {
+      ok: true,
+      count: revealEntries.length,
+      entries: revealEntries,
+      message,
+    };
+  }
+
   function endCurrentTurn() {
     if (!pendingActionExecuted || isActionEffectFlowActive() || hasActivePendingSubFlow()) return;
     const endingPlayer = getCurrentPlayer();
@@ -25285,6 +25441,10 @@
     industry?.clearTuringBorrowedTech?.(endingPlayer);
 
     endEffectHistoryStep();
+    const turnEndReveal = revealReadyAliensAtTurnEnd(endingPlayer);
+    if (turnEndReveal?.count && (isActionEffectFlowActive() || hasActivePendingSubFlow())) {
+      return;
+    }
     const passIncomeResult = didPass ? applyPassTurnEndIncome(endingPlayer) : null;
     commitActionLogDraft({
       passed: didPass,
@@ -25312,9 +25472,11 @@
       : advanceResult.turnAdvanced
         ? `进入第 ${turnState.roundNumber} 轮第 ${displayedTurnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`
         : `回合已结束，当前玩家：${nextPlayer?.colorLabel || ""}玩家`;
-    rocketState.statusNote = passIncomeResult?.message
-      ? `${turnAdvanceMessage}；${passIncomeResult.message}`
-      : turnAdvanceMessage;
+    rocketState.statusNote = [
+      turnAdvanceMessage,
+      passIncomeResult?.message || null,
+      turnEndReveal?.message || null,
+    ].filter(Boolean).join("；");
     renderPlayerStats();
     renderAlienPanels();
     renderTechBoard();
