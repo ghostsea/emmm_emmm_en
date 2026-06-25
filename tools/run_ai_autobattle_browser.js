@@ -16,6 +16,8 @@ function parseArgs(argv) {
     games: 5,
     activePlayerCount: 2,
     maxSteps: 2500,
+    stopBeforeRound: null,
+    maxMovesPerTurn: null,
     stepDelayMs: 0,
     maxBugRepeats: 1,
     sequenceWindowTurns: 6,
@@ -43,6 +45,8 @@ function parseArgs(argv) {
       case "games":
       case "activePlayerCount":
       case "maxSteps":
+      case "stopBeforeRound":
+      case "maxMovesPerTurn":
       case "stepDelayMs":
       case "maxBugRepeats":
       case "timeoutMs":
@@ -347,15 +351,24 @@ async function runPageBatch(cdp, batchOptions, timeoutMs) {
 }
 
 function summarizeResult(result) {
+  const getScoreForPlayer = (player, stoppedBeforeRound = null) => Number(
+    stoppedBeforeRound
+      ? player.resources?.score ?? player.baseScore ?? player.score ?? 0
+      : player.finalScore || player.totalScore || player.score || player.resources?.score || 0,
+  );
   if (Array.isArray(result.logs) && result.lastSummary) {
-    const scores = (result.playerResults || []).map((player) => Number(player.finalScore || player.totalScore || player.score || 0));
+    const stoppedBeforeRound = Number(result.lastSummary.stoppedBeforeRound || 0) || null;
+    const scores = (result.playerResults || []).map((player) => getScoreForPlayer(player, stoppedBeforeRound));
     return {
-      ok: Boolean(result.lastSummary.ok && !result.lastSummary.blocked && result.lastSummary.gameEnded),
+      ok: Boolean(result.lastSummary.ok && !result.lastSummary.blocked && (result.lastSummary.gameEnded || stoppedBeforeRound)),
       single: true,
       blocked: Boolean(result.lastSummary.blocked),
       gameEnded: Boolean(result.lastSummary.gameEnded),
+      stoppedBeforeRound,
       steps: result.lastSummary.steps,
       maxScore: scores.length ? Math.max(...scores) : 0,
+      minPlayerScore: scores.length ? Math.min(...scores) : 0,
+      allPlayersAtLeast70: scores.length > 0 && scores.every((score) => score >= 70),
       playerScores: scores,
       bugCount: Array.isArray(result.bugs) ? result.bugs.length : 0,
       actionCounts: result.analysis?.actionCounts || null,
@@ -364,27 +377,43 @@ function summarizeResult(result) {
     };
   }
   const playerScores = [];
+  const minimumPlayerScores = [];
   for (const sample of result.samples || []) {
+    const stoppedBeforeRound = Number(sample.summary?.stoppedBeforeRound || 0) || null;
+    const sampleScores = [];
     for (const player of sample.playerResults || []) {
-      playerScores.push(Number(player.finalScore || player.totalScore || player.score || 0));
+      const score = getScoreForPlayer(player, stoppedBeforeRound);
+      playerScores.push(score);
+      sampleScores.push(score);
     }
+    minimumPlayerScores.push(sampleScores.length ? Math.min(...sampleScores) : 0);
   }
   const winnerScores = (result.samples || []).map((sample) => {
-    const scores = (sample.playerResults || []).map((player) => Number(player.finalScore || player.totalScore || player.score || 0));
+    const stoppedBeforeRound = Number(sample.summary?.stoppedBeforeRound || 0) || null;
+    const scores = (sample.playerResults || []).map((player) => getScoreForPlayer(player, stoppedBeforeRound));
     return scores.length ? Math.max(...scores) : 0;
   });
+  const stoppedBeforeRound = (result.samples || []).find((sample) => sample.summary?.stoppedBeforeRound)
+    ?.summary?.stoppedBeforeRound || null;
   return {
     ok: Boolean(result.ok),
     gamesRequested: result.gamesRequested,
     gamesRun: result.gamesRun,
     stoppedEarly: Boolean(result.stoppedEarly),
+    stoppedBeforeRound,
     blockedGames: (result.samples || []).filter((sample) => sample.summary?.blocked || sample.bugCount > 0).length,
     maxScore: playerScores.length ? Math.max(...playerScores) : 0,
     maxWinnerScore: winnerScores.length ? Math.max(...winnerScores) : 0,
+    bestMinimumPlayerScore: minimumPlayerScores.length ? Math.max(...minimumPlayerScores) : 0,
+    averageMinimumPlayerScore: minimumPlayerScores.length
+      ? Math.round((minimumPlayerScores.reduce((total, score) => total + score, 0) / minimumPlayerScores.length) * 1000) / 1000
+      : 0,
     averageWinnerScore: winnerScores.length
       ? Math.round((winnerScores.reduce((total, score) => total + score, 0) / winnerScores.length) * 1000) / 1000
       : 0,
     winnerScores,
+    minimumPlayerScores,
+    gamesAllPlayersAtLeast70: minimumPlayerScores.filter((score) => score >= 70).length,
     actionCounts: result.summary?.actionCounts || null,
     opportunities: result.summary?.opportunities || null,
     bugCounts: result.summary?.bugCounts || null,
@@ -398,7 +427,7 @@ async function main() {
   const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), "seti-ai-chrome-"));
   const { server, port: httpPort } = await startStaticServer(REPO_ROOT);
   const chrome = await launchChrome(options.chrome, debugPort, userDataDir, options.headless);
-  const pageUrl = `http://127.0.0.1:${httpPort}/randomizer/index.html`;
+  const pageUrl = `http://127.0.0.1:${httpPort}/randomizer/index.html?aiRun=${Date.now()}`;
   const consoleMessages = [];
 
   try {
@@ -412,6 +441,8 @@ async function main() {
       });
     });
     await cdp.send("Page.enable");
+    await cdp.send("Network.enable");
+    await cdp.send("Network.setCacheDisabled", { cacheDisabled: true });
     await cdp.send("Runtime.enable");
     await cdp.send("Page.navigate", { url: pageUrl });
     const pageReady = await waitFor(async () => {
@@ -430,6 +461,8 @@ async function main() {
       games: options.games,
       activePlayerCount: options.activePlayerCount,
       maxSteps: options.maxSteps,
+      stopBeforeRound: options.stopBeforeRound || undefined,
+      maxMovesPerTurn: options.maxMovesPerTurn || undefined,
       stepDelayMs: options.stepDelayMs,
       maxBugRepeats: options.maxBugRepeats,
       sequenceWindowTurns: options.sequenceWindowTurns,

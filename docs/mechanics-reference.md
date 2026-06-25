@@ -137,12 +137,12 @@
 外星人由 `randomizer/game/aliens/` 管理，当前有两个未揭示槽位（外星人 1 / 外星人 2）：
 
 - 牌库共 8 种外星人（见 `catalog.js`：`九折`、`半人马`、`奥陌陌`、`异常点`、`方舟`、`符文族`、`虫`、`阿米巴`）。
-- 开局或点击随机化时，`randomizeAlienAssignments` 只重置两个未揭示槽位，不预先写入物种。正式主动发现时，`revealRandomAlien` 从 8 种外星人里随机翻开一个尚未翻开的物种，并写入当前槽位的 `assignedAlienId` / `alienId`；两个槽位的外星人不能相同。
+- 开局或点击随机化时，`randomizeAlienAssignments` 只重置两个未揭示槽位，不预先写入物种。正式主动发现发生在触发玩家回合结束确认时，`revealRandomAlien` 从 8 种外星人里随机翻开一个尚未翻开的物种，并写入当前槽位的 `assignedAlienId` / `alienId`；两个槽位的外星人不能相同。
 - 每种外星人需要三种首标记：`yellow`（黄色痕迹）、`pink`（粉色痕迹）、`blue`（蓝色痕迹）。
 - 放置首标记立即获得 state 图奖励：外星人 1 为 5 分 + 1 宣传，外星人 2 为 3 分 + 1 宣传；同颜色后续额外标记不重复获得首标记奖励。
 - `traces[traceType].firstPlaced` / `ownerPlayerColor` 记录该颜色第一个标记是否已放置及归属玩家。
 - 同颜色后续标记只累加 `extraCount`，不再产生新的版图标记。
-- 三种首标记都放置后，`isAlienReadyToReveal` 为真；正式流程调用 `revealRandomAlien` 随机翻开对应外星人，并把 `.alien-back` 图片替换为 `assets/aliens/<id>/face.png`（宽度保持 100%，高度自适应）。异常点、半人马、虫、阿米巴、奥陌陌、符文族揭示时会按该槽位 state 首标记归属数量，自动给对应玩家发同数量外星人牌到手牌；九折/方舟使用各自专属揭示奖励。调试按钮仍可直接指定物种揭示。
+- 三种首标记都放置后，`isAlienReadyToReveal` 为真；正式流程只记录待揭示状态，直到该玩家点击回合结束确认才调用 `revealRandomAlien` 随机翻开对应外星人，并把 `.alien-back` 图片替换为 `assets/aliens/<id>/face.png`（宽度保持 100%，高度自适应）。异常点、半人马、虫、阿米巴、奥陌陌、符文族揭示时会按该槽位 state 首标记归属数量，自动给对应玩家发同数量外星人牌到手牌；九折/方舟使用各自专属揭示奖励。调试按钮仍可直接指定物种揭示。
 
 UI 布局：
 
