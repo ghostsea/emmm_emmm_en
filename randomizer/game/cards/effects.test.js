@@ -227,6 +227,8 @@ assert.equal(dlc12TurnBonus.options.bonus.distinctBy, "planetId");
 assert.equal(dlc12TurnBonus.options.bonus.minCount, 2);
 const dlc12Move = cardEffects.buildPlayEffects({ cardId: "dlc_12.png" })[1];
 assert.equal(dlc12Move.type, cardEffects.EFFECT_TYPES.CARD_MOVE);
+assert.equal(dlc12Move.options.movementPoints, 1);
+assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_12.png" })[2].options.movementPoints, 1);
 
 assert.equal(cardEffects.getCardModel("dlc_8.png").endGameScoring.kind, "remainingResource");
 assert.equal(cardEffects.getCardModel("dlc_10.png").endGameScoring.kind, "remainingResource");
@@ -351,10 +353,11 @@ assert.equal(b23Effects.length, 3);
 assert.equal(b23Effects.every((effect) => effect.type === cardEffects.EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION), true);
 
 const b24Effects = cardEffects.buildPlayEffects({ cardId: "b_24.webp" });
-assert.equal(b24Effects.length, 1);
+assert.equal(b24Effects.length, 2);
 assert.equal(b24Effects[0].type, cardEffects.EFFECT_TYPES.CARD_MOVE);
-assert.equal(b24Effects[0].options.movementPoints, 2);
-assert.equal(b24Effects[0].options.afterEventRewards[0].onceKey, "b24-comet-score");
+assert.equal(b24Effects[0].options.movementPoints, 1);
+assert.equal(b24Effects[1].options.movementPoints, 1);
+assert.equal(b24Effects[1].options.afterEventRewards[0].onceKey, "b24-comet-score");
 
 for (const [cardId, planetId] of Object.entries({
   "b_72.webp": "mars",
@@ -478,12 +481,30 @@ cardEffects.ensureCardEffectState(b138);
 assert.equal(cardEffects.collectMatchingTriggers({ id: "p1", color: "red", reservedCards: [b138] }, { type: "orbit", planetId: "mars" }).length, 2);
 assert.equal(cardEffects.collectMatchingTriggers({ id: "p1", color: "red", reservedCards: [b138] }, { type: "land", planetId: "venus" }).length, 2);
 
-const mergedMoves = cardEffects.consolidateCardMoveEffects([
+const splitMoves = cardEffects.consolidateCardMoveEffects([
   cardEffects.buildPlayEffects({ cardId: "b_24.webp" })[0],
   cardEffects.buildPlayEffects({ cardId: "b_11.webp" })[0],
 ]);
-assert.equal(mergedMoves.length, 1);
-assert.equal(mergedMoves[0].options.movementPoints, 3);
+assert.equal(splitMoves.length, 2);
+assert.equal(splitMoves[0].options.movementPoints, 1);
+assert.equal(splitMoves[1].options.movementPoints, 1);
+
+const b124Effects = cardEffects.buildPlayEffects({ cardId: "b_124.webp" });
+assert.equal(b124Effects.length, 2);
+assert.equal(b124Effects[0].options.movementPoints, 1);
+assert.equal(b124Effects[1].options.movementPoints, 1);
+assert.equal(b124Effects[0].options.ignoreAsteroidRestriction, true);
+assert.equal(b124Effects[1].options.ignoreAsteroidRestriction, true);
+const rawB124Split = cardEffects.consolidateCardMoveEffects([
+  cardEffects.getCardModel("b_124.webp").playEffects[0],
+]);
+assert.equal(rawB124Split.length, 2);
+assert.deepEqual(rawB124Split.map((effect) => effect.options.movementPoints), [1, 1]);
+
+const b108Effects = cardEffects.buildPlayEffects({ cardId: "b_108.webp" });
+assert.equal(b108Effects.length, 3);
+assert.deepEqual(b108Effects.map((effect) => effect.options.movementPoints), [1, 1, 1]);
+assert.equal(b108Effects[2].options.afterEventRewards[0].onceKey, "b108-saturn-score");
 
 const b25 = { id: "card-b25", cardId: "b_25.webp" };
 const signalTriggerPlayer = { id: "p1", color: "red", reservedCards: [b25] };

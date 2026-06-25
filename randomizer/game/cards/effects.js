@@ -626,54 +626,21 @@
 
   function consolidateCardMoveEffects(effects) {
     if (!Array.isArray(effects) || !effects.length) return [];
-
-    const result = [];
-    let index = 0;
-    while (index < effects.length) {
-      const current = effects[index];
-      if (!isMoveEffectType(current.type)) {
-        result.push(current);
-        index += 1;
-        continue;
-      }
-
-      let movementPoints = Math.max(1, Math.round(Number(current.options?.movementPoints || 1)));
-      const mergedOptions = { ...(current.options || {}) };
-      let afterEventRewards = mergedOptions.afterEventRewards || null;
-      let distinctEventReward = mergedOptions.distinctEventReward || null;
-      let nextIndex = index + 1;
-      while (nextIndex < effects.length && isMoveEffectType(effects[nextIndex].type)) {
-        const next = effects[nextIndex];
-        movementPoints += Math.max(1, Math.round(Number(next.options?.movementPoints || 1)));
-        if (!afterEventRewards && next.options?.afterEventRewards?.length) {
-          afterEventRewards = next.options.afterEventRewards;
-        }
-        if (!distinctEventReward && next.options?.distinctEventReward) {
-          distinctEventReward = next.options.distinctEventReward;
-        }
-        if (next.options?.suppressArrivalRewards) {
-          mergedOptions.suppressArrivalRewards = true;
-        }
-        if (next.options?.historyLabel && !mergedOptions.historyLabel) {
-          mergedOptions.historyLabel = next.options.historyLabel;
-        }
-        nextIndex += 1;
-      }
-
-      mergedOptions.movementPoints = movementPoints;
-      if (afterEventRewards) mergedOptions.afterEventRewards = afterEventRewards;
-      if (distinctEventReward) mergedOptions.distinctEventReward = distinctEventReward;
-
-      result.push(effect(
-        current.id,
-        EFFECT_TYPES.CARD_MOVE,
-        movementPoints > 1 ? `${movementPoints}移动` : (current.label || "移动"),
-        current.icon || "movement",
-        mergedOptions,
+    return effects.flatMap((item) => {
+      if (!isMoveEffectType(item.type)) return [item];
+      const movementPoints = Math.max(1, Math.round(Number(item.options?.movementPoints || 1)));
+      if (movementPoints <= 1) return [item];
+      return Array.from({ length: movementPoints }, (_, index) => effect(
+        `${item.id || "card-move"}-${index + 1}`,
+        item.type,
+        `${item.label || "移动"} ${index + 1}/${movementPoints}`,
+        item.icon || "movement",
+        {
+          ...(item.options || {}),
+          movementPoints: 1,
+        },
       ));
-      index = nextIndex;
-    }
-    return result;
+    });
   }
 
   function withSource(cardId, model) {
@@ -2391,6 +2358,31 @@
     };
   }
 
+  function getEffectMovementPoints(effectNode) {
+    return Math.max(1, Math.round(Number(effectNode?.options?.movementPoints || 1)));
+  }
+
+  function expandEffectNode(item, repeatIndex, repeat) {
+    const movementPoints = isMoveEffectType(item.type) ? getEffectMovementPoints(item) : 1;
+    const nodes = [];
+    for (let moveIndex = 0; moveIndex < movementPoints; moveIndex += 1) {
+      const suffixParts = [];
+      if (repeat > 1) suffixParts.push(String(repeatIndex + 1));
+      if (movementPoints > 1) suffixParts.push(String(moveIndex + 1));
+
+      const node = cloneEffectNode(item, suffixParts.join("-"));
+      if (!item.options?.noAutoRepeatExpansion) node.options.repeat = 1;
+      if (movementPoints > 1) node.options.movementPoints = 1;
+
+      if (repeat > 1) node.label = `${item.label} ${repeatIndex + 1}/${repeat}`;
+      if (movementPoints > 1) {
+        node.label = `${node.label || item.label} ${moveIndex + 1}/${movementPoints}`;
+      }
+      nodes.push(node);
+    }
+    return nodes;
+  }
+
   function expandEffects(effects) {
     const result = [];
     for (const item of effects || []) {
@@ -2398,10 +2390,7 @@
         ? 1
         : Math.max(1, Math.round(Number(item.options?.repeat || 1)));
       for (let index = 0; index < repeat; index += 1) {
-        const node = cloneEffectNode(item, repeat > 1 ? `${index + 1}` : "");
-        if (!item.options?.noAutoRepeatExpansion) node.options.repeat = 1;
-        if (repeat > 1) node.label = `${item.label} ${index + 1}/${repeat}`;
-        result.push(node);
+        result.push(...expandEffectNode(item, index, repeat));
       }
     }
     return result;

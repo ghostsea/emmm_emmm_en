@@ -12133,8 +12133,31 @@
     return result;
   }
 
+  function isCardMoveEffectType(type) {
+    return type === cardEffects.EFFECT_TYPES.CARD_MOVE
+      || type === cardEffects.EFFECT_TYPES.FREE_MOVE;
+  }
+
+  function splitInsertedMoveEffect(effect, effectIndex = 0) {
+    if (!isCardMoveEffectType(effect?.type)) return [effect];
+    const movementPoints = Math.max(1, Math.round(Number(effect.options?.movementPoints || 1)));
+    if (movementPoints <= 1) return [effect];
+
+    const baseId = effect.id || `inserted-card-move-${effectIndex}`;
+    return Array.from({ length: movementPoints }, (_, index) => ({
+      ...effect,
+      id: `${baseId}-${index + 1}`,
+      label: `${effect.label || "移动"} ${index + 1}/${movementPoints}`,
+      options: {
+        ...(effect.options || {}),
+        movementPoints: 1,
+      },
+    }));
+  }
+
   function insertActionEffectsAfterCurrent(effects) {
     if (!pendingActionEffectFlow || !effects?.length) return;
+    const expandedEffects = effects.flatMap((effect, index) => splitInsertedMoveEffect(effect, index));
     const insertIndex = Math.max(0, pendingActionEffectFlow.currentIndex + 1);
     const currentOwner = getCurrentActionEffect()
       ? getEffectOwnerPlayer(getCurrentActionEffect())
@@ -12144,7 +12167,7 @@
       || pendingActionEffectFlow.defaultPlayerId
       || pendingActionEffectFlow.playerId
       || null;
-    pendingActionEffectFlow.effects.splice(insertIndex, 0, ...effects.map((effect, index) => ({
+    pendingActionEffectFlow.effects.splice(insertIndex, 0, ...expandedEffects.map((effect, index) => ({
       ...assignEffectOwner({ ...effect }, ownerId),
       id: effect.id || `inserted-card-effect-${insertIndex}-${index}`,
       options: { ...(effect.options || {}) },
