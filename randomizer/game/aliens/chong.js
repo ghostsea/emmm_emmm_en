@@ -76,7 +76,7 @@
   });
 
   const CARD_DEFINITIONS = Object.freeze([
-    Object.freeze({ index: 0, cardId: "chong_0.webp", asset: "0.webp", cardName: "繁殖样本", price: 2, cardTypeCode: 2, discardActionCode: 3, scanActionCode: 1, incomeCode: 1 }),
+    Object.freeze({ index: 0, cardId: "chong_0.webp", asset: "0.webp", cardName: "繁殖样本", price: 1, cardTypeCode: 2, discardActionCode: 3, scanActionCode: 1, incomeCode: 1 }),
     Object.freeze({ index: 1, cardId: "chong_1.webp", asset: "1.webp", cardName: "计算机模拟", price: 3, cardTypeCode: 1, discardActionCode: 4, scanActionCode: 0, incomeCode: 2 }),
     Object.freeze({ index: 2, cardId: "chong_2.webp", asset: "2.webp", cardName: "生态系统研究", price: 1, cardTypeCode: 3, discardActionCode: 5, scanActionCode: 2, incomeCode: 2 }),
     Object.freeze({ index: 3, cardId: "chong_3.webp", asset: "3.webp", cardName: "首次接触", price: 1, cardTypeCode: 2, discardActionCode: 3, scanActionCode: 2, incomeCode: 2 }),

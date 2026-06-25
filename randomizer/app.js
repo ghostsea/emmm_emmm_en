@@ -157,6 +157,7 @@
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
   let pendingActionEffectFlow = null;
+  let completedQuickEffectFlowForUndo = null;
   let finalResultAutoOpened = false;
   let effectExecutionPlayerId = null;
   let pendingActionHasIrreversibleBarrier = false;
@@ -7491,6 +7492,7 @@
   }
 
   function beginQuickActionStep(actionType, label, options = {}) {
+    completedQuickEffectFlowForUndo = null;
     ensureActionLogDraft({
       source: HISTORY_SOURCE_QUICK,
       actionType: actionLogState.draft?.actionType || "quick",
@@ -7606,6 +7608,7 @@
   }
 
   function startCardEffectFlow(chainId, label, effects, options = {}) {
+    completedQuickEffectFlowForUndo = null;
     const deferredEndEffects = Array.isArray(options.deferredEndEffects)
       ? options.deferredEndEffects.filter(Boolean)
       : [];
@@ -8394,6 +8397,16 @@
     };
   }
 
+  function confirmCardTriggerProgress(match, player = getCurrentPlayer(), label = "卡牌触发") {
+    const triggerProgress = consumeCardTriggerWithSnapshot(match, player, label);
+    beginQuickActionStep("card-trigger-confirm", label);
+    for (const command of triggerProgress.commands) {
+      recordQuickHistoryCommand(command);
+    }
+    completeQuickActionStep("确认卡牌触发");
+    return triggerProgress;
+  }
+
   function openCardTaskCompletionPicker(card) {
     const ready = getReadyTaskForReservedCard(card);
     if (!ready) return { ok: false, message: "这张任务卡尚未满足完成条件" };
@@ -8674,7 +8687,7 @@
     }
     if (String(match?.effect?.type || "").startsWith("card_")) {
       closeCardTriggerPicker();
-      const triggerProgress = consumeCardTriggerWithSnapshot(match, getCurrentPlayer(), "卡牌触发");
+      confirmCardTriggerProgress(match, getCurrentPlayer(), `卡牌触发：${match.effect.label}`);
       return startCardEffectFlow(
         "card-trigger-effects",
         `卡牌触发：${match.effect.label}`,
@@ -8683,7 +8696,6 @@
           actionType: "cardTrigger",
           historySource: HISTORY_SOURCE_QUICK,
           consumesMainAction: false,
-          preHistoryCommands: triggerProgress.commands,
         },
       );
     }
@@ -9161,6 +9173,7 @@
     const effect = effects[step.effectIndex];
     if (!effect) return;
 
+    pendingActionEffectFlow.completed = false;
     effect.status = "active";
     pendingActionEffectFlow.currentIndex = step.effectIndex;
     for (let index = step.effectIndex + 1; index < effects.length; index += 1) {
@@ -9347,6 +9360,22 @@
     closeScanAction4Picker();
     renderActionEffectBar();
     els.appWrap?.classList.toggle("action-effect-flow-active", false);
+  }
+
+  function rememberCompletedQuickEffectFlowForUndo(flow) {
+    completedQuickEffectFlowForUndo = flow?.historySource === HISTORY_SOURCE_QUICK
+      ? flow
+      : null;
+  }
+
+  function takeCompletedQuickEffectFlowForUndo(step) {
+    const flow = completedQuickEffectFlowForUndo;
+    const effectIndex = step?.effectIndex;
+    const effect = Number.isInteger(effectIndex) ? flow?.effects?.[effectIndex] : null;
+    if (!flow || flow.historySource !== HISTORY_SOURCE_QUICK || !effect) return null;
+    if (step.effectType && effect.type !== step.effectType) return null;
+    completedQuickEffectFlowForUndo = null;
+    return flow;
   }
 
   function cancelActiveEffectSubFlows() {
@@ -9730,6 +9759,7 @@
     const delayedPublicRefillResult = transferDelayedPublicRefills
       ? null
       : settleDelayedPublicRefillsAfterScanFlow(finishedFlow);
+    rememberCompletedQuickEffectFlowForUndo(finishedFlow);
     clearActionEffectFlow();
     if (actionType === "researchTech") {
       tech.setTechSelectionActive(techGameState, false);
@@ -10308,6 +10338,9 @@
       rocketState.statusNote = `${effect.label}：没有可扫描的探测器扇区`;
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
+    }
+    if (scanEffectsToInsert.length === 1) {
+      return executeSectorXScanEffect(scanEffectsToInsert[0]);
     }
     insertActionEffectsAfterCurrent(scanEffectsToInsert);
     effect.result = {
@@ -13249,6 +13282,7 @@
     return {
       skipCost: true,
       target: target || { type: "planet" },
+      source: "card",
       historyLabel: effect.label,
       allowSatelliteWithoutTech: Boolean(effect.options?.allowSatellite),
     };
@@ -13305,6 +13339,7 @@
     if (effect.type === chong.EFFECT_TYPES.CHONG_ORBIT_OR_LAND_FOR_PICKUP) {
       result = abilities.executeAbility("orbitProbe", createActionContext(), {
         skipCost: true,
+        source: "card",
         historyLabel: effect.label,
       });
       if (!result.ok) {
@@ -13331,6 +13366,19 @@
     renderRockets();
     renderPlayerStats();
 
+    const travelActionType = result.abilityId === "orbitProbe"
+      ? "orbit"
+      : result.abilityId === "landProbe"
+        ? "land"
+        : null;
+    const rewardEffects = travelActionType
+      ? attachScoreSourceToEffects(
+        planetRewards?.buildRewardEffectsForAction?.(travelActionType, result) || [],
+        travelActionType === "orbit" ? SCORE_SOURCE_KEYS.ORBIT : SCORE_SOURCE_KEYS.LAND,
+      )
+      : [];
+    if (rewardEffects.length) insertActionEffectsAfterCurrent(rewardEffects);
+
     if (pendingActionEffectFlow) {
       pendingActionEffectFlow.chongPickupContext = {
         planetId: result.planetId || null,
@@ -13341,12 +13389,16 @@
     }
     effect.result = {
       ...result,
+      message: rewardEffects.length
+        ? `${result.message}；追加 ${rewardEffects.length} 个地点奖励`
+        : result.message,
       payload: {
         ...(result.payload || {}),
         chongPickupPlanetId: result.planetId || null,
+        rewardCount: rewardEffects.length,
       },
     };
-    rocketState.statusNote = result.message;
+    rocketState.statusNote = effect.result.message;
     completeCurrentActionEffect();
     renderStateReadout();
     return effect.result;
@@ -25850,15 +25902,25 @@
         effectStepActive = false;
         forgetLastHistoryStep(HISTORY_SOURCE_QUICK, result.step?.id || null);
         removeLastActionLogStep(HISTORY_SOURCE_QUICK, result.step?.id || null);
-        if (undoingQuickEffectFlow && pendingActionEffectFlow) {
-          if (quickActionHistory.hasUndoableStep()) {
+        const completedQuickEffectFlow = !pendingActionEffectFlow
+          ? takeCompletedQuickEffectFlowForUndo(result.step)
+          : null;
+        if (completedQuickEffectFlow) {
+          pendingActionEffectFlow = completedQuickEffectFlow;
+          els.appWrap?.classList.toggle("action-effect-flow-active", true);
+        }
+        if ((undoingQuickEffectFlow || completedQuickEffectFlow) && pendingActionEffectFlow) {
+          const effectIndex = result.step?.effectIndex;
+          const hasRevertibleEffectStep = Number.isInteger(effectIndex)
+            && Boolean(pendingActionEffectFlow.effects?.[effectIndex]);
+          if (hasRevertibleEffectStep || quickActionHistory.hasUndoableStep()) {
             revertEffectFlowAfterUndo(result.step);
           } else {
             clearActionEffectFlow();
           }
         }
       }
-      if (result.ok && !quickActionHistory.hasUndoableStep()) {
+      if (result.ok && !quickActionHistory.hasUndoableStep() && !isActionEffectFlowActive()) {
         quickActionHistory.commitSession();
         clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
       }
