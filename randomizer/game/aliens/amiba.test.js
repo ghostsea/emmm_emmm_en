@@ -57,6 +57,17 @@ const debugPlaced = amiba.seedDebugTraceGrid(debugState, 1, white);
 assert.equal(debugPlaced.length, 12);
 assert.equal(amiba.getTheoryTaskReward(debugState).emptyCount, 0);
 
+const stateTraceTheoryState = createState();
+stateTraceTheoryState.aliens[1].traces = {
+  pink: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+  yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+  blue: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
+};
+amiba.initializeAmibaReveal(stateTraceTheoryState, 1, white, () => 0);
+assert.equal(amiba.isTheoryTaskReady(stateTraceTheoryState, white), true);
+assert.equal(amiba.countTraceMarkers(stateTraceTheoryState, white, "blue"), 2);
+assert.equal(amiba.getTheoryTaskReward(stateTraceTheoryState).emptyCount, 12);
+
 assert.equal(amiba.createAlienCard(5, 1).cardTypeCode, 3);
 assert.equal(amiba.getFinalTraceTypeForCard(amiba.createAlienCard(6, 2)), "yellow");
 assert.equal(amiba.buildImmediateEffects(9)[0].type, "launch");

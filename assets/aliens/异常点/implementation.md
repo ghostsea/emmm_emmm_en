@@ -39,6 +39,7 @@
 - 痕迹奖励产生“外星人牌”时，可确认拿展示牌、盲抽异常点牌或取消。
 - 异常点牌进入手牌，并保留 `set: "alien:异常点"`、`yichangdianCard`、`price`、`cardTypeCode`、`discardActionCode`、`scanActionCode`、`incomeCode`；其它外星牌模块不能只凭裸 `alienCardId` 把它识别成自己的牌。
 - 打牌效果由 `randomizer/game/cards/effects.js` 中 `yichangdian_0.webp` 到 `yichangdian_9.webp` 模型驱动。
+- 1 号 2 型任务要求玩家拥有异常点三色痕迹，判定合并揭示前 state 首痕迹、state 额外痕迹和揭示后的异常点正面痕迹。
 - 拿展示牌后翻新展示牌、盲抽牌都属于不可逆屏障。
 
 ## 调试

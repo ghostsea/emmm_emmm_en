@@ -2,19 +2,21 @@
   "use strict";
 
   let placement = root.SetiAlienPlacement;
+  let state = root.SetiAlienState;
 
   if (typeof require === "function") {
     placement = placement || require("./placement");
+    state = state || require("./state");
   }
 
-  const api = factory(placement);
+  const api = factory(placement, state);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAlienRunezu = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (placement) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (placement, state) {
   "use strict";
 
   const ALIEN_ID = "符文族";
@@ -506,6 +508,11 @@
     return playerKeys.has(marker?.playerId) || playerKeys.has(marker?.playerColor) || playerKeys.has(marker?.color);
   }
 
+  function countStateTraceMarkers(alienState, player, traceType = null, alienSlotId = alienState?.runezu?.revealedSlotId) {
+    if (!state?.countTraceMarkersForPlayerOnSlot || alienSlotId == null) return 0;
+    return state.countTraceMarkersForPlayerOnSlot(alienState, alienSlotId, player, traceType);
+  }
+
   function isRunezuAlienSlot(alienState, alienSlotId) {
     const slot = alienState?.aliens?.[alienSlotId];
     return slot?.alienId === ALIEN_ID || slot?.assignedAlienId === ALIEN_ID;
@@ -629,9 +636,10 @@
 
   function countTraceMarkers(alienState, player, traceType = null, alienSlotId = alienState?.runezu?.revealedSlotId) {
     const playerKeys = getPlayerKeys(player);
-    return listTraceEntries(alienState, alienSlotId, traceType)
+    const faceCount = listTraceEntries(alienState, alienSlotId, traceType)
       .filter((entry) => markerBelongsToPlayer(entry, playerKeys))
       .length;
+    return countStateTraceMarkers(alienState, player, traceType, alienSlotId) + faceCount;
   }
 
   function playerHasAllTraceColors(alienState, player, alienSlotId = alienState?.runezu?.revealedSlotId) {

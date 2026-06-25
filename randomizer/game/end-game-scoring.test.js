@@ -5,6 +5,7 @@ const cardEffects = require("./cards/effects");
 const jiuzhe = require("./aliens/jiuzhe");
 const fangzhou = require("./aliens/fangzhou");
 const chong = require("./aliens/chong");
+const aomomo = require("./aliens/aomomo");
 
 function player(overrides = {}) {
   return {
@@ -271,6 +272,34 @@ const chongScore = endGameScoring.computePlayerCardScore(chongPlayer, {
   getCardTypeCode: (card) => card.cardTypeCode,
 });
 assert.equal(chongScore.total, 3, "生态系统研究 should score 1 per owned Chong trace");
+
+const aomomoState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: aomomo.ALIEN_ID,
+      assignedAlienId: aomomo.ALIEN_ID,
+      traces: {
+        yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
+        pink: { firstPlaced: false, ownerPlayerColor: null, extraCount: 0 },
+        blue: { firstPlaced: false, ownerPlayerColor: null, extraCount: 0 },
+      },
+    },
+  },
+  aomomo: aomomo.createAomomoState(),
+};
+aomomo.initializeAomomoReveal(aomomoState, 1, white, () => 0);
+aomomo.placeAomomoTrace(aomomoState, 1, "blue", 2, white);
+const aomomoPlayer = player({
+  reservedCards: [aomomo.createAlienCard(8, 1)],
+});
+const aomomoScore = endGameScoring.computePlayerCardScore(aomomoPlayer, {
+  ...tileContext,
+  currentPlayer: aomomoPlayer,
+  alienGameState: aomomoState,
+  getCardTypeCode: (card) => card.cardTypeCode,
+});
+assert.equal(aomomoScore.total, 3, "奥陌陌8 should score state first, state extra, and face traces");
 
 const marsCardPlayer = player({
   reservedCards: [{ cardId: "b_74.webp", cardTypeCode: 3 }],

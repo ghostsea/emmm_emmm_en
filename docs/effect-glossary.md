@@ -51,7 +51,7 @@
 | 粉色外星人标记 | 玩家选择外星人槽位，放置粉色痕迹标记。 | 可撤销，若触发揭示会一并恢复。 | `assets/symbol/effect/alien_pink.webp` |
 | 蓝色外星人标记 | 玩家选择外星人槽位，放置蓝色痕迹标记。 | 可撤销，若触发揭示会一并恢复。 | `assets/symbol/effect/alien_blue.webp` |
 | 完成扇区 | 结算已填满且全被玩家 token 替换的具名扇区；普通扇区写入赢家 token、保留第二名并重新填满数据槽，奥陌陌不产生赢家。 | 可撤销；后续奖励各自决定撤销边界。 | `assets/symbol/effect/*_finish_scan.webp` |
-| 公共牌区补牌 | 完整扫描行动的扫描 flow 收尾时，统一自动补充本次公共扫描留下的空公共牌位；不作为效果栏节点。 | 不可撤销 | `assets/symbol/action/scan/public_card_scan.webp` |
+| 公共牌区补牌 | 扫描相关 flow 收尾时，统一自动补充本次公共扫描留下的空公共牌位；不作为效果栏节点。 | 不可撤销 | `assets/symbol/action/scan/public_card_scan.webp` |
 
 ## 星云扫描原子效果
 
@@ -87,7 +87,7 @@
 | 红色星云扫描 | 巴纳德扫描 或 比邻星扫描 | 红色二选一。两个确定星云复用红色扫描图标。 | `assets/symbol/effect/red_scan.webp` |
 | 蓝色星云扫描 | 天狼星A扫描 或 南河三扫描 | 蓝色二选一。两个确定星云复用蓝色扫描图标。 | `assets/symbol/effect/blue_scan.webp` |
 | 黑色二选一扫描 | 织女一扫描 或 绘架座β扫描 | 天王星/海王星奖励与黑色扫描牌角标使用。 | `assets/symbol/effect/black_scan.webp` |
-| 公共牌区扫描 | 弃 1 张公共牌 -> 按该牌扫描角标执行对应二选一扫描；每个额外弃牌扫描标记可追加 1 张公共牌和 1 组二选一扫描 | 扫描行动的公共牌区节点。完整扫描行动内只留下空公共牌位，补牌在扫描 flow 收尾自动处理；普通卡牌公共扫描仍即时补牌。 | `assets/symbol/action/scan/public_card_scan.webp` |
+| 公共牌区扫描 | 弃 1 张公共牌 -> 按该牌扫描角标执行对应二选一扫描；每个额外弃牌扫描标记可追加 1 张公共牌和 1 组二选一扫描 | 扫描行动和卡牌公共扫描都会先留下空公共牌位，补牌在对应扫描相关 flow 收尾自动处理；卡牌多次公共扫描先选完并弃完本次要扫描的公共牌，再依次选择星云。 | `assets/symbol/action/scan/public_card_scan.webp` |
 | 手牌扫描 | 弃 1 张手牌 -> 按该牌扫描角标执行对应二选一扫描 | 紫3扫描行动追加效果。 | `assets/symbol/action/scan/private_card_scan.webp` |
 | 紫4发射/移动 | 发射（成本：1 能量） 或 移动（成本：0，移动力：1） | 紫4不是原子效果，而是扫描行动追加的选择型复合效果。实际结算复用发射或移动原子效果；能量不足时发射不可选，只能移动或跳过。 | `assets/symbol/action/scan/scan_action_4.png` |
 | 研究科技 | 选择科技片 -> 旋转 -> 橙1免费发射（若选橙1） -> 科技 bonus -> 紫1获得 2 数据（若选紫1） | 主要行动。默认全部颜色科技可选；可传 `techType` / `techTypes` 限制为 `blue`、`orange`、`purple` 中的一个或多个颜色。选择科技片可撤销；旋转与 bonus 不可撤销；橙1发射和紫1数据按各自原子效果结算。 | `assets/symbol/effect/research_tech.webp` |

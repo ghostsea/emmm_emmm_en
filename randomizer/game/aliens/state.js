@@ -83,6 +83,21 @@
     return count;
   }
 
+  function countTraceMarkersForPlayerOnSlot(alienState, alienSlotId, player, traceType = null) {
+    const alienSlot = getAlienSlot(alienState, alienSlotId);
+    if (!alienSlot?.traces || !player) return 0;
+    const traceTypes = traceType == null
+      ? placement.TRACE_TYPES
+      : (placement.TRACE_TYPES.includes(traceType) ? [traceType] : []);
+    let count = 0;
+    for (const type of traceTypes) {
+      const traceSlot = alienSlot.traces[type];
+      if (!firstTraceBelongsToPlayer(traceSlot, player)) continue;
+      count += 1 + Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
+    }
+    return count;
+  }
+
   function countFirstTracesByPlayerOnSlot(alienState, alienSlotId, players = []) {
     return (players || []).map((player) => ({
       player,
@@ -221,6 +236,7 @@
     getAlienSlot,
     countPlacedFirstTraces,
     countFirstTracesForPlayerOnSlot,
+    countTraceMarkersForPlayerOnSlot,
     countFirstTracesByPlayerOnSlot,
     getFirstTraceRewardForSlot,
     isAlienReadyToReveal,

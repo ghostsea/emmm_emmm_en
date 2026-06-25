@@ -81,4 +81,25 @@ faceResult = runezu.placePlayerSymbolOnFace(alienState, 1, player, "symbol_1");
 assert.equal(faceResult.ok, true);
 assert.deepEqual(faceResult.reward.gain, { energy: 1 });
 
+const threeTraceCard = runezu.createAlienCard(9, 1);
+const stateTraceAlienState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: runezu.ALIEN_ID,
+      assignedAlienId: runezu.ALIEN_ID,
+      traces: {
+        pink: { firstPlaced: true, ownerPlayerColor: "blue", extraCount: 0 },
+        yellow: { firstPlaced: true, ownerPlayerColor: "blue", extraCount: 0 },
+        blue: { firstPlaced: true, ownerPlayerColor: "blue", extraCount: 1 },
+      },
+    },
+  },
+  runezu: runezu.createRunezuState(),
+};
+runezu.ensureRunezuState(stateTraceAlienState).revealedSlotId = 1;
+const readyThreeTraceTask = runezu.getReadyThreeTraceTask(threeTraceCard, stateTraceAlienState, player);
+assert.equal(readyThreeTraceTask.task.id, "runezu-9-three-traces");
+assert.equal(runezu.countTraceMarkers(stateTraceAlienState, player, "blue"), 2);
+
 console.log("runezu.test.js: all tests passed");

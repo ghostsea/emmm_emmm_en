@@ -52,6 +52,12 @@ assert.equal(chong.countTraceMarkers(debugState, white, null), 11);
 assert.equal(Object.keys(debugState.chong.panelFossilSlots).length, 1);
 assert.equal(debugState.chong.unlockedBluePositions.includes(1), false);
 
+const stateTraceTaskState = createState();
+stateTraceTaskState.aliens[2].traces.blue = { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 };
+chong.initializeChongReveal(stateTraceTaskState, 2, white, () => 0);
+assert.equal(chong.countTraceMarkers(stateTraceTaskState, white, "blue"), 2);
+assert.equal(chong.isTraceTaskReady(stateTraceTaskState, white, chong.getCardTask(1)), true);
+
 const transportState = createState();
 chong.initializeChongReveal(transportState, 2, white, () => 0);
 const fossil = chong.getAvailablePlanetFossils(transportState, "jupiter")[0];

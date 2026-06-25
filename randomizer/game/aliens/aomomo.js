@@ -2,19 +2,21 @@
   "use strict";
 
   let placement = root.SetiAlienPlacement;
+  let state = root.SetiAlienState;
 
   if (typeof require === "function") {
     placement = placement || require("./placement");
+    state = state || require("./state");
   }
 
-  const api = factory(placement);
+  const api = factory(placement, state);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAlienAomomo = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (placement) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (placement, state) {
   "use strict";
 
   const ALIEN_ID = "奥陌陌";
@@ -39,6 +41,7 @@
   const EFFECT_FOSSIL_FOR_MOVE_AND_LAND = "aomomo_fossil_move_land";
   const EFFECT_FOSSIL_FOR_ANY_SCAN = "aomomo_fossil_any_scan";
   const EFFECT_SPEND_FOSSILS_GAIN_SCORE = "aomomo_spend_fossils_gain_score";
+  const EFFECT_VISIT_AOMOMO_THIS_TURN_FOSSIL = "aomomo_visit_turn_fossil";
 
   const CARD_DEFINITIONS = Object.freeze([
     Object.freeze({ index: 0, cardId: "aomomo_0.webp", asset: "0.webp", cardName: "改变轨迹", price: 2, cardTypeCode: 2, discardActionCode: 5, scanActionCode: 1, incomeCode: 1 }),
@@ -73,6 +76,31 @@
 
   function gainFossilEffect(id, label, count = 1) {
     return effect(id, EFFECT_GAIN_FOSSILS, label, "aomomoFossil", { count });
+  }
+
+  function aomomoFossilRewardEffect(id, label, count = 1) {
+    return effect(id, "gain_resources", label, "aomomoFossil", { gain: { aomomoFossils: count } });
+  }
+
+  function scoreRewardEffect(id, label, score) {
+    return effect(id, "gain_resources", label, "score", { gain: { score } });
+  }
+
+  function aomomoSignalBonusEffect(id, label, rewardEffect, options = {}) {
+    return effect(id, "card_register_event_bonus", label, rewardEffect.icon || "aomomoFossil", {
+      bonus: {
+        duration: "flow",
+        eventType: "signalMarked",
+        nebulaIds: [NEBULA_ID],
+        icon: rewardEffect.icon || "aomomoFossil",
+        rewards: [rewardEffect],
+        ...(options.onceKey ? { onceKey: options.onceKey } : {}),
+      },
+    });
+  }
+
+  function scanActionEffect(id, label) {
+    return effect(id, "card_scan_action", label, "scan_action", { skipCost: true });
   }
 
   function createTraceGrid() {
@@ -148,6 +176,11 @@
 
   function markerBelongsToPlayer(marker, playerKeys) {
     return playerKeys.has(marker?.playerId) || playerKeys.has(marker?.playerColor) || playerKeys.has(marker?.color);
+  }
+
+  function countStateTraceMarkers(alienState, player, traceType = null, alienSlotId = alienState?.aomomo?.revealedSlotId) {
+    if (!state?.countTraceMarkersForPlayerOnSlot || alienSlotId == null) return 0;
+    return state.countTraceMarkersForPlayerOnSlot(alienState, alienSlotId, player, traceType);
   }
 
   function isAomomoAlienSlot(alienState, alienSlotId) {
@@ -289,18 +322,16 @@
     return entries;
   }
 
-  function countTraceMarkers(alienState, player, alienSlotId = alienState?.aomomo?.revealedSlotId) {
+  function countTraceMarkers(alienState, player, traceType = null, alienSlotId = alienState?.aomomo?.revealedSlotId) {
     const playerKeys = getPlayerKeys(player);
-    return listTraceEntries(alienState, alienSlotId)
+    const faceCount = listTraceEntries(alienState, alienSlotId, traceType)
       .filter((entry) => markerBelongsToPlayer(entry, playerKeys))
       .length;
+    return countStateTraceMarkers(alienState, player, traceType, alienSlotId) + faceCount;
   }
 
   function countTraceMarkersByType(alienState, player, traceType, alienSlotId = alienState?.aomomo?.revealedSlotId) {
-    const playerKeys = getPlayerKeys(player);
-    return listTraceEntries(alienState, alienSlotId, traceType)
-      .filter((entry) => markerBelongsToPlayer(entry, playerKeys))
-      .length;
+    return countTraceMarkers(alienState, player, traceType, alienSlotId);
   }
 
   function playerHasAllTraceTypes(alienState, player, alienSlotId = alienState?.aomomo?.revealedSlotId) {
@@ -518,7 +549,15 @@
     const index = getCardDefinition(cardOrIndex)?.index;
     switch (index) {
       case 0:
-        return [effect("aomomo-0-scan", EFFECT_SCAN_AOMOMO_X_GAIN_FOSSIL, "奥陌陌0：扫描奥陌陌所在扇区；若扫描奥陌陌得1化石", "scan", { gainData: true })];
+        return [
+          aomomoSignalBonusEffect(
+            "aomomo-0-aomomo-signal-fossil",
+            "奥陌陌0：本次扫描行动扫到奥陌陌得1化石",
+            aomomoFossilRewardEffect("aomomo-0-fossil", "扫描奥陌陌：1化石", 1),
+            { onceKey: "aomomo-0-aomomo-signal-fossil" },
+          ),
+          scanActionEffect("aomomo-0-scan-action", "奥陌陌0：扫描行动"),
+        ];
       case 1:
         return [gainFossilEffect("aomomo-1-fossil", "奥陌陌1：1化石", 1)];
       case 2:
@@ -531,7 +570,10 @@
           effect("aomomo-4-fossil-data", EFFECT_FOSSIL_FOR_DATA, "奥陌陌4：可移除1化石得1数据", "aomomoFossil", { cost: 1, dataCount: 1, optional: true }),
         ];
       case 5:
-        return [];
+        return [
+          effect("aomomo-5-move", "card_move", "奥陌陌5：4移动", "movement", { movementPoints: 4 }),
+          effect("aomomo-5-visit-fossil", EFFECT_VISIT_AOMOMO_THIS_TURN_FOSSIL, "奥陌陌5：本回合访问奥陌陌得1化石", "aomomoFossil", { count: 1 }),
+        ];
       case 6:
         return [effect("aomomo-6-move-land", EFFECT_FOSSIL_FOR_MOVE_AND_LAND, "奥陌陌6：可移除1化石移动2并登陆", "movement", { cost: 1, movement: 2 })];
       case 7:
@@ -547,7 +589,14 @@
           effect("aomomo-8-fossil-any-scan", EFFECT_FOSSIL_FOR_ANY_SCAN, "奥陌陌8：可移除1化石扫描任意扇区", "aomomoFossil", { cost: 1, gainData: true, optional: true }),
         ];
       case 9:
-        return [effect("aomomo-9-scan", EFFECT_SCAN_AOMOMO_X_SCORE, "奥陌陌9：扫描奥陌陌所在扇区；奥陌陌数据+2分", "scan", { gainData: true, score: 2 })];
+        return [
+          aomomoSignalBonusEffect(
+            "aomomo-9-aomomo-signal-score",
+            "奥陌陌9：本次扫描行动奥陌陌信号+2分",
+            scoreRewardEffect("aomomo-9-score", "扫描奥陌陌：2分", 2),
+          ),
+          scanActionEffect("aomomo-9-scan-action", "奥陌陌9：扫描行动"),
+        ];
       default:
         return [];
     }
@@ -581,6 +630,7 @@
     EFFECT_FOSSIL_FOR_MOVE_AND_LAND,
     EFFECT_FOSSIL_FOR_ANY_SCAN,
     EFFECT_SPEND_FOSSILS_GAIN_SCORE,
+    EFFECT_VISIT_AOMOMO_THIS_TURN_FOSSIL,
     CARD_DEFINITIONS,
     CARD_BY_INDEX,
     CARD_BY_ID,

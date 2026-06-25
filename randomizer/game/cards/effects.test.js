@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const cardEffects = require("./effects");
 const aomomo = require("../aliens/aomomo");
+const yichangdian = require("../aliens/yichangdian");
 
 const b1 = { id: "card-b1", cardId: "b_1.webp" };
 assert.equal(cardEffects.getCardModel(b1).cardType, 2);
@@ -77,10 +78,13 @@ assert.equal(cardEffects.collectTemporaryTaskRewards(
 
 for (const cardId of ["b_5.webp", "b_6.webp"]) {
   const model = cardEffects.getCardModel({ cardId });
+  const playEffects = cardEffects.buildPlayEffects({ cardId });
   assert.equal(model.cardType, 0);
   assert.equal(model.tasks, undefined);
   assert.equal(model.triggers, undefined);
-  assert.equal(cardEffects.buildPlayEffects({ cardId }).length, 2);
+  assert.equal(playEffects.length, 1);
+  assert.equal(playEffects[0].type, cardEffects.EFFECT_TYPES.PUBLIC_SCAN);
+  assert.equal(playEffects[0].options.repeat, 2);
   assert.equal(cardEffects.getTemporaryTasks({ cardId }).length, 1);
 }
 
@@ -790,6 +794,19 @@ assert.deepEqual(collectReadyTaskIds(
   { alienGameState: playerTraceState },
 ), ["b46-all-pink-task"]);
 
+const mixedAllPinkPlayer = { id: "p1", color: "red", reservedCards: [{ id: "card-b46-mixed", cardId: "b_46.webp" }] };
+const mixedAllPinkState = createAomomoAlienState(mixedAllPinkPlayer);
+mixedAllPinkState.aliens[2] = {
+  traces: {
+    pink: { firstPlaced: true, ownerPlayerColor: "red" },
+  },
+};
+assert.equal(aomomo.placeAomomoTrace(mixedAllPinkState, 1, "pink", 2, mixedAllPinkPlayer).ok, true);
+assert.deepEqual(collectReadyTaskIds(
+  mixedAllPinkPlayer,
+  { alienGameState: mixedAllPinkState },
+), ["b46-all-pink-task"]);
+
 assert.deepEqual(collectReadyTaskIds(
   { id: "p1", color: "red", reservedCards: [{ id: "card-b52", cardId: "b_52.webp" }] },
   { probeLocations: { p1: ["asteroid"] } },
@@ -810,6 +827,18 @@ const singleAlienTraceState = {
 assert.deepEqual(collectReadyTaskIds(
   { id: "p1", color: "red", reservedCards: [{ id: "card-b67", cardId: "b_67.webp" }] },
   { alienGameState: singleAlienTraceState },
+), ["b67-three-traces-task"]);
+
+const mixedSingleAlienTracePlayer = { id: "p1", color: "red", reservedCards: [{ id: "card-b67-mixed", cardId: "b_67.webp" }] };
+const mixedSingleAlienTraceState = createAomomoAlienState(mixedSingleAlienTracePlayer);
+mixedSingleAlienTraceState.aliens[1].traces = {
+  yellow: { firstPlaced: true, ownerPlayerColor: "red" },
+  pink: { firstPlaced: true, ownerPlayerColor: "red" },
+};
+assert.equal(aomomo.placeAomomoTrace(mixedSingleAlienTraceState, 1, "blue", 2, mixedSingleAlienTracePlayer).ok, true);
+assert.deepEqual(collectReadyTaskIds(
+  mixedSingleAlienTracePlayer,
+  { alienGameState: mixedSingleAlienTraceState },
 ), ["b67-three-traces-task"]);
 assert.equal(
   cardEffects.collectReadyTasks(
@@ -843,6 +872,29 @@ assert.deepEqual(aomomoTraceMatches.map((match) => match.trigger.id), [
   "aomomo1-trace-score",
 ]);
 
+const aomomo0Effects = cardEffects.buildPlayEffects({ cardId: "aomomo_0.webp" });
+assert.equal(aomomo0Effects.length, 2);
+assert.equal(aomomo0Effects[0].type, cardEffects.EFFECT_TYPES.REGISTER_EVENT_BONUS);
+assert.equal(aomomo0Effects[0].options.bonus.eventType, "signalMarked");
+assert.deepEqual(aomomo0Effects[0].options.bonus.nebulaIds, ["aomomo"]);
+assert.equal(aomomo0Effects[0].options.bonus.onceKey, "aomomo0-aomomo-signal-fossil");
+assert.equal(aomomo0Effects[1].type, cardEffects.EFFECT_TYPES.SCAN_ACTION);
+
+const aomomo5Effects = cardEffects.buildPlayEffects({ cardId: "aomomo_5.webp" });
+assert.equal(cardEffects.getRuntimeCardTypeCode({ cardId: "aomomo_5.webp", cardTypeCode: 2 }, 2), 2);
+assert.equal(aomomo5Effects.length, 2);
+assert.equal(aomomo5Effects[0].type, cardEffects.EFFECT_TYPES.CARD_MOVE);
+assert.equal(aomomo5Effects[0].options.movementPoints, 4);
+assert.equal(aomomo5Effects[1].type, aomomo.EFFECT_VISIT_AOMOMO_THIS_TURN_FOSSIL);
+
+const aomomo9Effects = cardEffects.buildPlayEffects({ cardId: "aomomo_9.webp" });
+assert.equal(aomomo9Effects.length, 2);
+assert.equal(aomomo9Effects[0].type, cardEffects.EFFECT_TYPES.REGISTER_EVENT_BONUS);
+assert.equal(aomomo9Effects[0].options.bonus.eventType, "signalMarked");
+assert.deepEqual(aomomo9Effects[0].options.bonus.nebulaIds, ["aomomo"]);
+assert.equal(aomomo9Effects[0].options.bonus.onceKey, undefined);
+assert.equal(aomomo9Effects[1].type, cardEffects.EFFECT_TYPES.SCAN_ACTION);
+
 function createAomomoAlienState(triggerPlayer) {
   const alienGameState = {
     aliens: {
@@ -860,6 +912,14 @@ function collectAomomoReadyTaskIds(player, alienGameState) {
     nebulaDataState: {},
     alienGameState,
     planetStatsState: {},
+  }).map((readyTask) => readyTask.task.id);
+}
+
+function collectAomomoReadyTaskIdsWithContext(player, context = {}) {
+  return cardEffects.collectReadyTasks(player, {
+    nebulaDataState: context.nebulaDataState || {},
+    alienGameState: context.alienGameState || {},
+    planetStatsState: context.planetStatsState || {},
   }).map((readyTask) => readyTask.task.id);
 }
 
@@ -899,6 +959,79 @@ assert.equal(aomomo.placeAomomoTrace(aomomoTraceSetState, 1, "yellow", 3, aomomo
 assert.equal(aomomo.placeAomomoTrace(aomomoTraceSetState, 1, "blue", 4, aomomoTraceSetPlayer).ok, true);
 assert.deepEqual(collectAomomoReadyTaskIds(aomomoTraceSetPlayer, aomomoTraceSetState), ["aomomo3-all-trace-types"]);
 
+const aomomo5 = { id: "card-aomomo-5", cardId: "aomomo_5.webp", aomomoCard: true };
+const aomomoSignalPlayer = {
+  id: "p1",
+  color: "white",
+  resources: { aomomoFossils: 0 },
+  reservedCards: [aomomo5],
+};
+assert.deepEqual(collectAomomoReadyTaskIdsWithContext(aomomoSignalPlayer), []);
+assert.deepEqual(collectAomomoReadyTaskIdsWithContext(aomomoSignalPlayer, {
+  nebulaDataState: {
+    nebulae: {
+      aomomo: {
+        tokens: [{ replacedByPlayerId: "p1", replacedByPlayerColor: "white" }],
+      },
+    },
+  },
+}), ["aomomo5-signal-fossil"]);
+
+const aomomoStateTraceCard = { id: "card-aomomo-3-state", cardId: "aomomo_3.webp", aomomoCard: true };
+const aomomoStateTracePlayer = {
+  id: "p1",
+  color: "white",
+  resources: { aomomoFossils: 0 },
+  reservedCards: [aomomoStateTraceCard],
+};
+const aomomoStateTraceState = createAomomoAlienState(aomomoStateTracePlayer);
+aomomoStateTraceState.aliens[1].traces = {
+  pink: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+  yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
+  blue: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+};
+assert.deepEqual(collectAomomoReadyTaskIds(aomomoStateTracePlayer, aomomoStateTraceState), ["aomomo3-all-trace-types"]);
+
+const aomomoMixedTraceCard = { id: "card-aomomo-3-mixed", cardId: "aomomo_3.webp", aomomoCard: true };
+const aomomoMixedTracePlayer = {
+  id: "p1",
+  color: "white",
+  resources: { aomomoFossils: 0 },
+  reservedCards: [aomomoMixedTraceCard],
+};
+const aomomoMixedTraceState = createAomomoAlienState(aomomoMixedTracePlayer);
+aomomoMixedTraceState.aliens[1].traces = {
+  pink: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+  yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+};
+assert.equal(aomomo.placeAomomoTrace(aomomoMixedTraceState, 1, "blue", 2, aomomoMixedTracePlayer).ok, true);
+assert.deepEqual(collectAomomoReadyTaskIds(aomomoMixedTracePlayer, aomomoMixedTraceState), ["aomomo3-all-trace-types"]);
+
+const yichangdian1 = { id: "card-yichangdian-1", cardId: "yichangdian_1.webp", yichangdianCard: true };
+const yichangdianTaskPlayer = {
+  id: "p1",
+  color: "white",
+  reservedCards: [yichangdian1],
+};
+const yichangdianTaskState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: yichangdian.ALIEN_ID,
+      assignedAlienId: yichangdian.ALIEN_ID,
+      traces: {
+        pink: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+        yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
+        blue: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+      },
+    },
+  },
+  yichangdian: { ...yichangdian.createYichangdianState(), revealedSlotId: 1 },
+};
+assert.deepEqual(collectReadyTaskIds(yichangdianTaskPlayer, {
+  alienGameState: yichangdianTaskState,
+}), ["y1-all-trace-types"]);
+
 const aomomo9 = { id: "card-aomomo-9", cardId: "aomomo_9.webp", aomomoCard: true };
 const aomomoFossilTracePlayer = {
   id: "p1",
@@ -918,9 +1051,27 @@ assert.equal(b31Effects[1].type, cardEffects.EFFECT_TYPES.RESEARCH_TECH);
 assert.deepEqual(b31Effects[1].options.techTypes, ["purple"]);
 
 const b38Effects = cardEffects.buildPlayEffects({ cardId: "b_38.webp" });
-assert.equal(b38Effects.length, 3);
+assert.equal(b38Effects.length, 2);
 assert.equal(b38Effects[0].type, cardEffects.EFFECT_TYPES.PUBLIC_SCAN);
-assert.equal(b38Effects[2].options.techTypes[0], "purple");
+assert.equal(b38Effects[0].options.repeat, 2);
+assert.equal(b38Effects[1].options.techTypes[0], "purple");
+
+const b118Effects = cardEffects.buildPlayEffects({ cardId: "b_118.webp" });
+assert.equal(b118Effects[0].type, cardEffects.EFFECT_TYPES.REGISTER_EVENT_BONUS);
+assert.equal(b118Effects[0].options.bonus.distinctBy, "sectorX");
+assert.equal(b118Effects[1].type, cardEffects.EFFECT_TYPES.PUBLIC_SCAN);
+assert.equal(b118Effects[1].options.repeat, 3);
+
+for (const [cardId, repeat] of [
+  ["b_5.webp", 2],
+  ["b_6.webp", 2],
+  ["b_133.webp", 2],
+]) {
+  const publicScanEffects = cardEffects.buildPlayEffects({ cardId })
+    .filter((effect) => effect.type === cardEffects.EFFECT_TYPES.PUBLIC_SCAN);
+  assert.equal(publicScanEffects.length, 1);
+  assert.equal(publicScanEffects[0].options.repeat, repeat);
+}
 
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_43.webp" })[0].type, "gain_data");
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_69.webp" })[0].type, "launch");

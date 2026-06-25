@@ -72,6 +72,18 @@ yichangdian.seedDebugTraceGrid(debugState, 1, white);
 assert.equal(yichangdian.listTraceEntries(debugState, 1).length, 15, "debug grid should place 3x5 tokens");
 assert.equal(yichangdian.getTraceGrid(debugState, 1).pink[1].length, 1, "debug only places one position-1 token");
 
+const stateTraceTaskState = state.createDefaultAlienState();
+state.placeFirstTrace(stateTraceTaskState, 1, "pink", "white");
+state.placeFirstTrace(stateTraceTaskState, 1, "yellow", "white");
+state.addExtraTrace(stateTraceTaskState, 1, "yellow");
+state.placeFirstTrace(stateTraceTaskState, 1, "blue", "white");
+stateTraceTaskState.aliens[1].assignedAlienId = yichangdian.ALIEN_ID;
+stateTraceTaskState.aliens[1].alienId = yichangdian.ALIEN_ID;
+stateTraceTaskState.aliens[1].revealed = true;
+yichangdian.initializeYichangdianReveal(stateTraceTaskState, 1, white, 4, () => 0);
+assert.equal(yichangdian.playerHasAllTraceTypes(stateTraceTaskState, white), true);
+assert.equal(yichangdian.countTraceMarkersByType(stateTraceTaskState, white, "yellow"), 2);
+
 const displayed = yichangdian.takeDisplayedCard(alienState, () => 0);
 assert.equal(displayed.ok, true);
 assert.equal(displayed.card.set, "alien:异常点");

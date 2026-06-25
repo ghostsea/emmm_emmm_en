@@ -2,19 +2,21 @@
   "use strict";
 
   let placement = root.SetiAlienPlacement;
+  let state = root.SetiAlienState;
 
   if (typeof require === "function") {
     placement = placement || require("./placement");
+    state = state || require("./state");
   }
 
-  const api = factory(placement);
+  const api = factory(placement, state);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAlienChong = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (placement) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (placement, state) {
   "use strict";
 
   const ALIEN_ID = "虫";
@@ -268,6 +270,11 @@
 
   function markerBelongsToPlayer(marker, playerKeys) {
     return playerKeys.has(marker?.playerId) || playerKeys.has(marker?.playerColor) || playerKeys.has(marker?.color);
+  }
+
+  function countStateTraceMarkers(alienState, player, traceType = null, alienSlotId = alienState?.chong?.revealedSlotId) {
+    if (!state?.countTraceMarkersForPlayerOnSlot || alienSlotId == null) return 0;
+    return state.countTraceMarkersForPlayerOnSlot(alienState, alienSlotId, player, traceType);
   }
 
   function isChongAlienSlot(alienState, alienSlotId) {
@@ -600,9 +607,10 @@
 
   function countTraceMarkers(alienState, player, traceType = null, alienSlotId = alienState?.chong?.revealedSlotId) {
     const playerKeys = getPlayerKeys(player);
-    return listTraceEntries(alienState, alienSlotId, traceType)
+    const faceCount = listTraceEntries(alienState, alienSlotId, traceType)
       .filter((entry) => markerBelongsToPlayer(entry, playerKeys))
       .length;
+    return countStateTraceMarkers(alienState, player, traceType, alienSlotId) + faceCount;
   }
 
   function isTraceTaskReady(alienState, player, task) {

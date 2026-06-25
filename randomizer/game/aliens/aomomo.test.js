@@ -1,16 +1,34 @@
 const assert = require("node:assert/strict");
 
 globalThis.SetiAlienPlacement = require("./placement");
+globalThis.SetiAlienState = require("./state");
 const aomomo = require("./aomomo");
 
-function createState() {
+function createTraceSlot(ownerPlayerColor = null, extraCount = 0) {
+  return {
+    firstPlaced: Boolean(ownerPlayerColor),
+    ownerPlayerColor,
+    extraCount,
+  };
+}
+
+function createTraceSlots(overrides = {}) {
+  return {
+    pink: createTraceSlot(),
+    yellow: createTraceSlot(),
+    blue: createTraceSlot(),
+    ...overrides,
+  };
+}
+
+function createState(traces = createTraceSlots()) {
   return {
     aliens: {
       1: {
         revealed: true,
         alienId: aomomo.ALIEN_ID,
         assignedAlienId: aomomo.ALIEN_ID,
-        traces: {},
+        traces,
       },
     },
     aomomo: aomomo.createAomomoState(),
@@ -50,9 +68,42 @@ assert.equal(aomomo.countLandingMarkers(panelState), 3);
 assert.equal(aomomo.canAddLandingMarker(panelState), false);
 
 assert.equal(aomomo.createAlienCard(8, 1).cardTypeCode, 3);
-assert.equal(aomomo.buildImmediateEffects(0)[0].type, aomomo.EFFECT_SCAN_AOMOMO_X_GAIN_FOSSIL);
+const aomomo0Effects = aomomo.buildImmediateEffects(0);
+assert.equal(aomomo0Effects.length, 2);
+assert.equal(aomomo0Effects[0].type, "card_register_event_bonus");
+assert.equal(aomomo0Effects[0].options.bonus.eventType, "signalMarked");
+assert.deepEqual(aomomo0Effects[0].options.bonus.nebulaIds, [aomomo.NEBULA_ID]);
+assert.equal(aomomo0Effects[1].type, "card_scan_action");
 assert.equal(aomomo.buildImmediateEffects(1)[0].type, aomomo.EFFECT_GAIN_FOSSILS);
-assert.equal(aomomo.buildImmediateEffects(5).length, 0);
+const aomomo5Effects = aomomo.buildImmediateEffects(5);
+assert.equal(aomomo5Effects.length, 2);
+assert.equal(aomomo5Effects[0].type, "card_move");
+assert.equal(aomomo5Effects[0].options.movementPoints, 4);
+assert.equal(aomomo5Effects[1].type, aomomo.EFFECT_VISIT_AOMOMO_THIS_TURN_FOSSIL);
 assert.equal(aomomo.buildImmediateEffects(8).at(-1).type, aomomo.EFFECT_FOSSIL_FOR_ANY_SCAN);
+const aomomo9Effects = aomomo.buildImmediateEffects(9);
+assert.equal(aomomo9Effects.length, 2);
+assert.equal(aomomo9Effects[0].type, "card_register_event_bonus");
+assert.equal(aomomo9Effects[0].options.bonus.eventType, "signalMarked");
+assert.deepEqual(aomomo9Effects[0].options.bonus.nebulaIds, [aomomo.NEBULA_ID]);
+assert.equal(aomomo9Effects[1].type, "card_scan_action");
+
+const stateTraceState = createState(createTraceSlots({
+  pink: createTraceSlot("white"),
+  yellow: createTraceSlot("white", 1),
+  blue: createTraceSlot("white"),
+}));
+aomomo.initializeAomomoReveal(stateTraceState, 1, white, () => 0);
+assert.equal(aomomo.playerHasAllTraceTypes(stateTraceState, white), true);
+assert.equal(aomomo.countTraceMarkersByType(stateTraceState, white, "yellow"), 2);
+
+const mixedTraceState = createState(createTraceSlots({
+  pink: createTraceSlot("white"),
+  yellow: createTraceSlot("white"),
+}));
+aomomo.initializeAomomoReveal(mixedTraceState, 1, white, () => 0);
+assert.equal(aomomo.placeAomomoTrace(mixedTraceState, 1, "blue", 2, white).ok, true);
+assert.equal(aomomo.playerHasAllTraceTypes(mixedTraceState, white), true);
+assert.equal(aomomo.countTraceMarkers(mixedTraceState, white, null), 3);
 
 console.log("aomomo.test.js: all tests passed");

@@ -86,6 +86,7 @@
   let endGameScoringModule = null;
   let yichangdianModule = null;
   let aomomoModule = null;
+  let alienTraceModuleCache = null;
 
   function getEndGameScoring() {
     if (endGameScoringModule) return endGameScoringModule;
@@ -136,6 +137,47 @@
       }
     }
     return null;
+  }
+
+  function loadAlienTraceModule(cacheKey, globalName, requirePath) {
+    if (!alienTraceModuleCache) alienTraceModuleCache = {};
+    if (alienTraceModuleCache[cacheKey]) return alienTraceModuleCache[cacheKey];
+    if (typeof globalThis !== "undefined" && globalThis[globalName]) {
+      alienTraceModuleCache[cacheKey] = globalThis[globalName];
+      return alienTraceModuleCache[cacheKey];
+    }
+    if (typeof require === "function") {
+      try {
+        alienTraceModuleCache[cacheKey] = require(requirePath);
+        return alienTraceModuleCache[cacheKey];
+      } catch (_error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  function getAlienTraceModuleByAlienId(alienId) {
+    switch (alienId) {
+      case "九折":
+        return loadAlienTraceModule("jiuzhe", "SetiAlienJiuzhe", "../aliens/jiuzhe");
+      case "异常点":
+        return getYichangdian();
+      case "方舟":
+        return loadAlienTraceModule("fangzhou", "SetiAlienFangzhou", "../aliens/fangzhou");
+      case "半人马":
+        return loadAlienTraceModule("banrenma", "SetiAlienBanrenma", "../aliens/banrenma");
+      case "虫":
+        return loadAlienTraceModule("chong", "SetiAlienChong", "../aliens/chong");
+      case "阿米巴":
+        return loadAlienTraceModule("amiba", "SetiAlienAmiba", "../aliens/amiba");
+      case "奥陌陌":
+        return getAomomo();
+      case "符文族":
+        return loadAlienTraceModule("runezu", "SetiAlienRunezu", "../aliens/runezu");
+      default:
+        return null;
+    }
   }
 
   function source(referenceId, referenceName, className, sourceKind = "bespoke") {
@@ -337,6 +379,12 @@
     });
   }
 
+  function aomomoFossilRewardEffect(id, label, count = 1) {
+    return effect(id, REWARD_TYPES.GAIN_RESOURCES, label, "aomomoFossil", {
+      gain: { aomomoFossils: Math.max(0, Math.round(Number(count) || 0)) },
+    });
+  }
+
   function gainDataEffect(id, label, count) {
     return effect(id, REWARD_TYPES.GAIN_DATA, label, "data", { count });
   }
@@ -456,6 +504,17 @@
         ...bonus,
         rewards: Object.freeze((bonus.rewards || []).map((reward) => Object.freeze({ ...reward }))),
       }),
+    });
+  }
+
+  function aomomoSignalBonusEffect(id, label, rewards, options = {}) {
+    return registerEventBonusEffect(id, label, {
+      duration: "flow",
+      eventType: "signalMarked",
+      nebulaIds: Object.freeze(["aomomo"]),
+      icon: options.icon || "aomomoFossil",
+      rewards: Object.freeze(rewards),
+      ...(options.onceKey ? { onceKey: options.onceKey } : {}),
     });
   }
 
@@ -661,6 +720,15 @@
   const MODELS = Object.freeze({
     "aomomo_0.webp": withSource("aomomo_0.webp", {
       cardType: 2,
+      playEffects: Object.freeze([
+        aomomoSignalBonusEffect(
+          "aomomo0-aomomo-signal-fossil",
+          "奥陌陌0：本次扫描行动扫到奥陌陌得1化石",
+          [aomomoFossilRewardEffect("aomomo0-fossil", "扫描奥陌陌：1化石", 1)],
+          { onceKey: "aomomo0-aomomo-signal-fossil" },
+        ),
+        effect("aomomo0-scan-action", EFFECT_TYPES.SCAN_ACTION, "奥陌陌0：扫描行动", "scan_action", { skipCost: true }),
+      ]),
       tasks: Object.freeze([{
         id: "aomomo0-land",
         condition: Object.freeze({ type: "aomomoLanding" }),
@@ -710,8 +778,18 @@
       }]),
     }),
     "aomomo_5.webp": withSource("aomomo_5.webp", {
-      cardType: 0,
-      playEffects: Object.freeze([]),
+      cardType: 2,
+      playEffects: Object.freeze([
+        cardMoveEffect("aomomo5-move", "奥陌陌5：4移动", { movementPoints: 4 }),
+        effect("aomomo5-visit-fossil", "aomomo_visit_turn_fossil", "奥陌陌5：本回合访问奥陌陌得1化石", "aomomoFossil", { count: 1 }),
+      ]),
+      tasks: Object.freeze([{
+        id: "aomomo5-signal-fossil",
+        condition: Object.freeze({ type: "aomomoSignalCount", count: 1 }),
+        rewards: Object.freeze([
+          gainResourcesEffect("aomomo5-task-fossil", "奥陌陌有己方信号：1化石", { aomomoFossils: 1 }),
+        ]),
+      }]),
     }),
     "aomomo_8.webp": withSource("aomomo_8.webp", {
       cardType: 3,
@@ -719,6 +797,15 @@
     }),
     "aomomo_9.webp": withSource("aomomo_9.webp", {
       cardType: 2,
+      playEffects: Object.freeze([
+        aomomoSignalBonusEffect(
+          "aomomo9-aomomo-signal-score",
+          "奥陌陌9：本次扫描行动奥陌陌信号+2分",
+          [gainResourcesEffect("aomomo9-score", "扫描奥陌陌：2分", { score: 2 })],
+          { icon: "score" },
+        ),
+        effect("aomomo9-scan-action", EFFECT_TYPES.SCAN_ACTION, "奥陌陌9：扫描行动", "scan_action", { skipCost: true }),
+      ]),
       tasks: Object.freeze([{
         id: "aomomo9-fossil-spending-trace",
         condition: Object.freeze({ type: "aomomoFossilSpendingTrace" }),
@@ -2342,10 +2429,15 @@
     };
   }
 
+  function shouldPreserveRepeatInBuildEffects(item) {
+    return Boolean(item?.options?.noAutoRepeatExpansion)
+      || item?.type === EFFECT_TYPES.PUBLIC_SCAN;
+  }
+
   function expandEffectNode(item, repeatIndex, repeat) {
     const nodes = [];
     const node = cloneEffectNode(item, repeat > 1 ? String(repeatIndex + 1) : "");
-    if (!item.options?.noAutoRepeatExpansion) node.options.repeat = 1;
+    if (!shouldPreserveRepeatInBuildEffects(item)) node.options.repeat = 1;
     if (repeat > 1) node.label = `${item.label} ${repeatIndex + 1}/${repeat}`;
     nodes.push(node);
     return nodes;
@@ -2354,7 +2446,7 @@
   function expandEffects(effects) {
     const result = [];
     for (const item of effects || []) {
-      const repeat = item.options?.noAutoRepeatExpansion
+      const repeat = shouldPreserveRepeatInBuildEffects(item)
         ? 1
         : Math.max(1, Math.round(Number(item.options?.repeat || 1)));
       for (let index = 0; index < repeat; index += 1) {
@@ -2676,6 +2768,14 @@
     return marks.some((mark) => tokenBelongsToPlayer(mark, playerKeys));
   }
 
+  function countPlayerSignalsInNebula(player, nebulaDataState, nebulaId) {
+    const playerKeys = getPlayerKeys(player);
+    const tokens = nebulaDataState?.nebulae?.[nebulaId]?.tokens || [];
+    const marks = nebulaDataState?.sectorExtraMarks?.[nebulaId] || [];
+    return tokens.filter((token) => tokenBelongsToPlayer(token, playerKeys)).length
+      + marks.filter((mark) => tokenBelongsToPlayer(mark, playerKeys)).length;
+  }
+
   function playerHasSignalInColor(player, nebulaDataState, color) {
     return (NEBULA_IDS_BY_COLOR[color] || []).some((nebulaId) => (
       playerHasSignalInNebula(player, nebulaDataState, nebulaId)
@@ -2702,11 +2802,6 @@
     ));
   }
 
-  function allAliensHaveTrace(alienGameState, traceType) {
-    const slots = Object.values(alienGameState?.aliens || {});
-    return slots.length > 0 && slots.every((slot) => slot?.traces?.[traceType]?.firstPlaced);
-  }
-
   function markerBelongsToPlayer(marker, playerKeys) {
     return playerKeys.has(marker?.playerId) || playerKeys.has(marker?.color) || playerKeys.has(marker?.playerColor);
   }
@@ -2719,10 +2814,65 @@
       || playerKeys.has(traceSlot.playerColor);
   }
 
+  function listGridTraceEntries(grid, traceType, traceTypes = ["pink", "yellow", "blue"], positions = [1, 2, 3, 4, 5]) {
+    const entries = [];
+    const types = traceType ? [traceType] : traceTypes;
+    for (const type of types) {
+      for (const position of positions) {
+        const value = grid?.[type]?.[position];
+        if (Array.isArray(value)) {
+          entries.push(...value);
+        } else if (value) {
+          entries.push(value);
+        }
+      }
+    }
+    return entries;
+  }
+
+  function listRevealedFaceTraceEntries(alienGameState, alienSlotId, traceType = null) {
+    const slot = alienGameState?.aliens?.[alienSlotId];
+    if (!slot?.revealed) return [];
+    const module = getAlienTraceModuleByAlienId(slot.alienId || slot.assignedAlienId);
+    if (!module) return [];
+    if (module.listTraceEntries) {
+      return module.listTraceEntries(alienGameState, alienSlotId, traceType) || [];
+    }
+    if (module.getTraceGrid) {
+      return listGridTraceEntries(
+        module.getTraceGrid(alienGameState, alienSlotId),
+        traceType,
+        module.TRACE_TYPES || ["pink", "yellow", "blue"],
+        module.TRACE_POSITIONS || [1, 2, 3, 4, 5],
+      );
+    }
+    return [];
+  }
+
+  function alienSlotHasTrace(alienGameState, alienSlotId, slot, traceType) {
+    return Boolean(slot?.traces?.[traceType]?.firstPlaced)
+      || listRevealedFaceTraceEntries(alienGameState, alienSlotId, traceType).length > 0;
+  }
+
+  function alienSlotHasPlayerTrace(alienGameState, alienSlotId, slot, playerKeys, traceType) {
+    if (traceBelongsToPlayer(slot?.traces?.[traceType], playerKeys)) return true;
+    return listRevealedFaceTraceEntries(alienGameState, alienSlotId, traceType)
+      .some((entry) => markerBelongsToPlayer(entry, playerKeys));
+  }
+
+  function allAliensHaveTrace(alienGameState, traceType) {
+    const entries = Object.entries(alienGameState?.aliens || {});
+    return entries.length > 0 && entries.every(([slotId, slot]) => (
+      alienSlotHasTrace(alienGameState, slotId, slot, traceType)
+    ));
+  }
+
   function allAliensHavePlayerTrace(player, alienGameState, traceType) {
-    const slots = Object.values(alienGameState?.aliens || {});
+    const slots = Object.entries(alienGameState?.aliens || {});
     const playerKeys = getPlayerKeys(player);
-    return slots.length > 0 && slots.every((slot) => traceBelongsToPlayer(slot?.traces?.[traceType], playerKeys));
+    return slots.length > 0 && slots.every(([slotId, slot]) => (
+      alienSlotHasPlayerTrace(alienGameState, slotId, slot, playerKeys, traceType)
+    ));
   }
 
   function playerHasProbeLocation(player, context, locationType) {
@@ -2829,14 +2979,16 @@
     }));
   }
 
-  function slotHasPlayerTraceSet(slot, playerKeys, traceTypes) {
-    return (traceTypes || []).every((traceType) => traceBelongsToPlayer(slot?.traces?.[traceType], playerKeys));
+  function slotHasPlayerTraceSet(alienGameState, slotId, slot, playerKeys, traceTypes) {
+    return (traceTypes || []).every((traceType) => (
+      alienSlotHasPlayerTrace(alienGameState, slotId, slot, playerKeys, traceType)
+    ));
   }
 
   function playerHasSingleAlienTraceSet(player, alienGameState, traceTypes) {
     const playerKeys = getPlayerKeys(player);
-    return Object.values(alienGameState?.aliens || {})
-      .some((slot) => slotHasPlayerTraceSet(slot, playerKeys, traceTypes));
+    return Object.entries(alienGameState?.aliens || {})
+      .some(([slotId, slot]) => slotHasPlayerTraceSet(alienGameState, slotId, slot, playerKeys, traceTypes));
   }
 
   function playerHasYichangdianAllTraceTypes(player, alienGameState) {
@@ -2867,6 +3019,12 @@
     const aomomo = getAomomo();
     if (!aomomo?.playerHasFossilSpendingTrace) return false;
     return aomomo.playerHasFossilSpendingTrace(alienGameState, player);
+  }
+
+  function playerHasAomomoSignalCount(player, nebulaDataState, count = 1) {
+    const aomomo = getAomomo();
+    const nebulaId = aomomo?.NEBULA_ID || "aomomo";
+    return countPlayerSignalsInNebula(player, nebulaDataState, nebulaId) >= Number(count || 1);
   }
 
   function taskConditionMet(task, player, context) {
@@ -2977,6 +3135,9 @@
     }
     if (condition.type === "aomomoFossilSpendingTrace") {
       return playerHasAomomoFossilSpendingTrace(player, context.alienGameState);
+    }
+    if (condition.type === "aomomoSignalCount") {
+      return playerHasAomomoSignalCount(player, context.nebulaDataState, condition.count);
     }
     return false;
   }

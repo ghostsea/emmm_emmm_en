@@ -678,6 +678,7 @@
       passedPlayerIds: [],
       completedTurnPlayerIds: [],
       cardTurnEventBonuses: [],
+      visitedPlanetsByPlayerId: {},
       gameEnded: false,
       gameEndReason: null,
     };
@@ -2077,6 +2078,7 @@
     turnState.passedPlayerIds = [];
     turnState.completedTurnPlayerIds = [];
     turnState.cardTurnEventBonuses = [];
+    turnState.visitedPlanetsByPlayerId = {};
     turnState.gameEnded = false;
     turnState.gameEndReason = null;
     finalResultAutoOpened = false;
@@ -2175,6 +2177,7 @@
     turnState.passedPlayerIds = [];
     turnState.completedTurnPlayerIds = [];
     turnState.cardTurnEventBonuses = [];
+    turnState.visitedPlanetsByPlayerId = {};
     const nextStartPlayerId = advanceRoundStartPlayer();
     playerState.currentPlayerId = nextStartPlayerId || turnState.activePlayerIds[0] || playerState.currentPlayerId;
     return { roundAdvanced: true, turnAdvanced: true, nextPlayerId: playerState.currentPlayerId };
@@ -2200,6 +2203,52 @@
       .filter((bonus) => bonus.playerId !== playerId);
   }
 
+  function clearTurnVisitedPlanetsForPlayer(playerId) {
+    if (!playerId) return;
+    if (!turnState.visitedPlanetsByPlayerId || typeof turnState.visitedPlanetsByPlayerId !== "object") {
+      turnState.visitedPlanetsByPlayerId = {};
+      return;
+    }
+    delete turnState.visitedPlanetsByPlayerId[playerId];
+  }
+
+  function ensureTurnVisitedPlanetsByPlayerId() {
+    if (!turnState.visitedPlanetsByPlayerId || typeof turnState.visitedPlanetsByPlayerId !== "object") {
+      turnState.visitedPlanetsByPlayerId = {};
+    }
+    return turnState.visitedPlanetsByPlayerId;
+  }
+
+  function hasPlayerVisitedPlanetThisTurn(player, planetId) {
+    const playerId = player?.id || player?.playerId || null;
+    if (!playerId || !planetId) return false;
+    return (ensureTurnVisitedPlanetsByPlayerId()[playerId] || []).includes(planetId);
+  }
+
+  function recordTurnVisitPlanetEvents(events = []) {
+    const visitEvents = (events || []).filter((event) => event?.type === "visitPlanet" && event.planetId);
+    if (!visitEvents.length) return null;
+    const beforeVisits = structuredClone(turnState.visitedPlanetsByPlayerId || {});
+    const visitsByPlayerId = ensureTurnVisitedPlanetsByPlayerId();
+    let changed = false;
+    for (const event of visitEvents) {
+      const playerId = event.playerId || getCurrentPlayer()?.id || null;
+      if (!playerId) continue;
+      if (!Array.isArray(visitsByPlayerId[playerId])) visitsByPlayerId[playerId] = [];
+      if (visitsByPlayerId[playerId].includes(event.planetId)) continue;
+      visitsByPlayerId[playerId].push(event.planetId);
+      changed = true;
+    }
+    if (!changed) return null;
+    return {
+      label: "恢复本回合访问记录",
+      describe: "恢复本回合已访问星球记录",
+      undo() {
+        turnState.visitedPlanetsByPlayerId = structuredClone(beforeVisits);
+      },
+    };
+  }
+
   function advanceTurnAfterPlayerAction(playerId, options = {}) {
     if (!playerId) return { roundAdvanced: false, turnAdvanced: false, nextPlayerId: playerState.currentPlayerId };
 
@@ -2207,6 +2256,7 @@
       turnState.passedPlayerIds.push(playerId);
     }
     clearCardTurnEventBonusesForPlayer(playerId);
+    clearTurnVisitedPlanetsForPlayer(playerId);
     if (!turnState.completedTurnPlayerIds.includes(playerId)) {
       turnState.completedTurnPlayerIds.push(playerId);
     }
@@ -2292,6 +2342,20 @@
     return Math.min(1 + getPublicScanBonusSelectableCount(player), 3, filledSlots);
   }
 
+  function getPublicScanMinSelectable(pending = pendingCardSelectionAction) {
+    const maxSelectable = Math.max(1, Math.round(Number(pending?.maxSelectable) || 1));
+    const requested = Math.max(1, Math.round(Number(pending?.minSelectable) || 1));
+    return Math.min(maxSelectable, requested);
+  }
+
+  function getPublicScanSelectionInstruction(pending) {
+    const maxSelectable = Math.max(1, Math.round(Number(pending?.maxSelectable) || 1));
+    const minSelectable = getPublicScanMinSelectable(pending);
+    return minSelectable >= maxSelectable
+      ? `请选择 ${maxSelectable} 张公共牌，确认后依次扫描`
+      : `最多选择 ${maxSelectable} 张公共牌，确认后依次扫描`;
+  }
+
   function isPublicScanMultiSelectActive() {
     return isCardSelectionActive()
       && pendingCardSelectionAction?.type === "public_scan"
@@ -2304,8 +2368,11 @@
     els.publicScanConfirm.hidden = !multi;
     if (!multi) return;
     const count = pendingCardSelectionAction?.selectedSlots?.length || 0;
-    els.publicScanConfirm.disabled = count < 1;
-    els.publicScanConfirm.textContent = count > 0 ? `确认扫描（${count}张）` : "确认扫描";
+    const minSelectable = getPublicScanMinSelectable();
+    els.publicScanConfirm.disabled = count < minSelectable;
+    els.publicScanConfirm.textContent = count > 0
+      ? `确认扫描（${count}/${minSelectable}张）`
+      : "确认扫描";
   }
 
   function syncCardSelectionChrome() {
@@ -4569,7 +4636,7 @@
     cards.setSelectionActive(cardState, true);
     rocketState.statusNote = pendingAction?.type === "public_scan"
       ? (pendingAction.maxSelectable ?? 1) > 1
-        ? `公共牌区扫描：最多选择 ${pendingAction.maxSelectable} 张公共牌，确认后依次扫描`
+        ? `公共牌区扫描：${getPublicScanSelectionInstruction(pendingAction)}`
         : "公共牌区扫描：请选择一张亮明的公共牌（不能盲抽）"
       : pendingAction?.type === "place_data_choose_card"
         ? "放置数据：精选一张公共牌，或点击盲抽"
@@ -5791,6 +5858,7 @@
         cost: { ...cost },
       };
     }
+    enrichScanResultEvents(result, nebulaId, { sectorX: options.sectorX });
     recordAbilityCommands(result);
     rocketState.statusNote = result.message;
 
@@ -5840,6 +5908,12 @@
     if (!flow || !Array.isArray(flow.delayedPublicRefills)) return;
     flow.delayedPublicRefills = flow.delayedPublicRefills
       .filter((item) => scanRunId && item.scanRunId !== scanRunId);
+  }
+
+  function cloneDelayedPublicRefills(flow = pendingActionEffectFlow) {
+    return Array.isArray(flow?.delayedPublicRefills)
+      ? flow.delayedPublicRefills.map((item) => ({ ...item }))
+      : [];
   }
 
   function getSectorFinishIcon(sectorId) {
@@ -6243,8 +6317,8 @@
   }
 
   function settleDelayedPublicRefillsAfterScanFlow(flow) {
-    if (!flow?.scanRunId) return null;
-    const slots = getDelayedPublicRefillSlots(flow.scanRunId, flow);
+    const scanRunId = flow?.scanRunId || null;
+    const slots = getDelayedPublicRefillSlots(scanRunId, flow);
     if (!slots.length) {
       return null;
     }
@@ -6253,7 +6327,7 @@
       label: "补充公共牌区",
       undoable: false,
     };
-    const result = replenishDelayedPublicRefillSlots(flow.scanRunId, slots, {
+    const result = replenishDelayedPublicRefillSlots(scanRunId, slots, {
       flow,
       label: syntheticEffect.label,
       effectIndex: null,
@@ -6651,6 +6725,8 @@
           return scanResult;
         }
         const queue = pendingPublicScanQueue;
+        if (!Array.isArray(queue.events)) queue.events = [];
+        queue.events.push(...(scanResult.events || []));
         queue.currentIndex += 1;
         if (queue.currentIndex < queue.items.length) {
           rocketState.statusNote = scanResult.message;
@@ -6663,6 +6739,7 @@
         }
         pendingPublicScanQueue = null;
         closeScanTargetPicker();
+        scanResult.events = queue.events.slice();
         rocketState.statusNote = scanResult.message;
         renderSectors();
         renderPlayerStats();
@@ -7006,9 +7083,15 @@
   }
 
   function createPublicScanPendingAction(player, fromEffectFlow = false, options = {}) {
-    const maxSelectable = Math.max(
+    const requestedMaxSelectable = Math.max(
       1,
       Math.round(Number(options.maxSelectable || getPublicScanMaxSelectable(player))),
+    );
+    const filledSlots = cardState.publicCards.filter(Boolean).length;
+    const maxSelectable = Math.min(requestedMaxSelectable, Math.max(1, filledSlots));
+    const minSelectable = Math.min(
+      maxSelectable,
+      Math.max(1, Math.round(Number(options.minSelectable || 1))),
     );
     return {
       type: "public_scan",
@@ -7019,6 +7102,7 @@
       deferPublicRefill: Boolean(options.deferPublicRefill),
       freeAdditionalPublicScans: Boolean(options.freeAdditionalPublicScans),
       maxSelectable,
+      minSelectable,
       selectedSlots: [],
     };
   }
@@ -7090,8 +7174,14 @@
     }
 
     const selectedSlots = [...(pending.selectedSlots || [])].sort((a, b) => a - b);
-    if (!selectedSlots.length) {
-      return { ok: false, message: "请至少选择一张公共牌" };
+    const minSelectable = getPublicScanMinSelectable(pending);
+    if (selectedSlots.length < minSelectable) {
+      const message = minSelectable > 1
+        ? `请至少选择 ${minSelectable} 张公共牌`
+        : "请至少选择一张公共牌";
+      rocketState.statusNote = message;
+      renderStateReadout();
+      return { ok: false, message };
     }
 
     const items = [];
@@ -7207,9 +7297,10 @@
 
     pending.selectedSlots = selectedSlots;
     const count = selectedSlots.length;
+    const minSelectable = getPublicScanMinSelectable(pending);
     rocketState.statusNote = count > 0
-      ? `公共牌区扫描：已选 ${count}/${maxSelectable} 张，点击确认开始扫描`
-      : `公共牌区扫描：最多选择 ${maxSelectable} 张公共牌`;
+      ? `公共牌区扫描：已选 ${count}/${maxSelectable} 张${count < minSelectable ? `，至少需要 ${minSelectable} 张` : "，点击确认开始扫描"}`
+      : `公共牌区扫描：${getPublicScanSelectionInstruction(pending)}`;
     syncPublicScanConfirmButton();
     renderPublicCards();
     renderStateReadout();
@@ -7359,8 +7450,13 @@
   }
 
   function recordAbilityCommands(result, history = actionHistory) {
-    if (!result?.commands?.length) return;
-    for (const command of result.commands) {
+    if (!result) return;
+    const commands = [];
+    const turnVisitCommand = recordTurnVisitPlanetEvents(result.events);
+    if (turnVisitCommand) commands.push(turnVisitCommand);
+    commands.push(...(result.commands || []));
+    if (!commands.length) return;
+    for (const command of commands) {
       if (history === quickActionHistory) {
         recordQuickHistoryCommand(command);
       } else {
@@ -7515,6 +7611,7 @@
     pendingActionEffectFlow.actionType = options.actionType || "playCard";
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
+    pendingActionEffectFlow.scanRunId = options.scanRunId || null;
     pendingActionEffectFlow.card = options.card || null;
     pendingActionEffectFlow.cardTemporaryTasks = options.temporaryTasks || [];
     pendingActionEffectFlow.playCardEvent = options.playCardEvent || null;
@@ -7527,6 +7624,9 @@
       options: { ...(effect.options || {}) },
       status: "pending",
     }));
+    pendingActionEffectFlow.delayedPublicRefills = (options.delayedPublicRefills || [])
+      .filter(Boolean)
+      .map((item) => ({ ...item }));
     pendingActionEffectFlow.deferredEndEffectsFlushed = !pendingActionEffectFlow.deferredEndEffects.length;
     pendingActionEffectFlow.preHistoryCommands = Array.isArray(options.preHistoryCommands)
       ? options.preHistoryCommands
@@ -7705,13 +7805,19 @@
   }
 
   function startTemporaryCardTaskRewardFlow(tasks, settlementResult, options = {}) {
-    const effects = cardEffects.collectTemporaryTaskRewards(tasks, settlementResult);
+    const effects = options.effects || cardEffects.collectTemporaryTaskRewards(tasks, settlementResult);
     if (!effects.length) return false;
     return startCardEffectFlow(
       "card-temporary-task-rewards",
       "卡牌临时任务奖励",
       effects,
-      { actionType: "cardTask", futureSpanPlayedCard: Boolean(options.futureSpanPlayedCard) },
+      {
+        actionType: "cardTask",
+        futureSpanPlayedCard: Boolean(options.futureSpanPlayedCard),
+        historySource: options.historySource || HISTORY_SOURCE_MAIN,
+        scanRunId: options.scanRunId || null,
+        delayedPublicRefills: options.delayedPublicRefills || [],
+      },
     );
   }
 
@@ -7887,6 +7993,10 @@
   function eventMatchesCardBonus(event, bonus) {
     if (!event || !bonus || event.type !== bonus.eventType) return false;
     if (bonus.color && getNebulaColorForCardEvent(event.nebulaId) !== bonus.color) return false;
+    const includedNebulaIds = bonus.nebulaIds || bonus.includeNebulaIds || [];
+    if (includedNebulaIds.length && !includedNebulaIds.includes(event.nebulaId)) return false;
+    const excludedNebulaIds = bonus.excludeNebulaIds || [];
+    if (excludedNebulaIds.length && excludedNebulaIds.includes(event.nebulaId)) return false;
     if (bonus.includePlanetIds?.length && !bonus.includePlanetIds.includes(event.planetId)) return false;
     if (bonus.excludePlanetIds?.length && bonus.excludePlanetIds.includes(event.planetId)) return false;
     return true;
@@ -9602,9 +9712,17 @@
       return;
     }
     const actionType = finishedFlow.actionType;
-    const delayedPublicRefillResult = actionType === "scan"
-      ? settleDelayedPublicRefillsAfterScanFlow(finishedFlow)
-      : null;
+    const settleResult = finishedFlow.sectorSettlementResult || null;
+    const temporaryTaskRewardEffects = cardEffects.collectTemporaryTaskRewards(
+      finishedFlow.cardTemporaryTasks,
+      settleResult,
+    );
+    const delayedPublicRefills = cloneDelayedPublicRefills(finishedFlow);
+    const transferDelayedPublicRefills = temporaryTaskRewardEffects.length > 0
+      && delayedPublicRefills.length > 0;
+    const delayedPublicRefillResult = transferDelayedPublicRefills
+      ? null
+      : settleDelayedPublicRefillsAfterScanFlow(finishedFlow);
     clearActionEffectFlow();
     if (actionType === "researchTech") {
       tech.setTechSelectionActive(techGameState, false);
@@ -9633,9 +9751,12 @@
       scrollToPlayerCommandPanel();
       return;
     }
-    const settleResult = finishedFlow.sectorSettlementResult || null;
     if (startTemporaryCardTaskRewardFlow(finishedFlow.cardTemporaryTasks, settleResult, {
+      effects: temporaryTaskRewardEffects,
       futureSpanPlayedCard: finishedFlow.futureSpanPlayedCard,
+      historySource: finishedFlow.historySource || HISTORY_SOURCE_MAIN,
+      scanRunId: finishedFlow.scanRunId || null,
+      delayedPublicRefills: transferDelayedPublicRefills ? delayedPublicRefills : [],
     })) {
       return;
     }
@@ -12577,14 +12698,28 @@
   function openCardPublicScanEffect(effect) {
     const currentPlayer = getCurrentPlayer();
     const repeat = Math.max(1, Math.round(Number(effect.options?.repeat || 1)));
-    rocketState.statusNote = `${effect.label}：请选择一张亮明的公共牌`;
+    const filledSlots = cardState.publicCards.filter(Boolean).length;
+    const selectableCount = Math.min(repeat, Math.max(1, filledSlots));
+    const scanRunId = effect.options?.scanRunId || createScanRunId(effect.id || "card-public-scan");
+    effect.options = {
+      ...(effect.options || {}),
+      scanRunId,
+      deferPublicRefill: true,
+    };
+    rocketState.statusNote = selectableCount > 1
+      ? `${effect.label}：请选择 ${selectableCount} 张当前公共牌`
+      : `${effect.label}：请选择一张亮明的公共牌`;
     renderStateReadout();
     return beginCardSelection({
       ...createPublicScanPendingAction(currentPlayer, true, {
-        maxSelectable: repeat,
+        maxSelectable: selectableCount,
+        minSelectable: selectableCount,
         freeAdditionalPublicScans: repeat > 1,
+        scanRunId,
+        deferPublicRefill: true,
       }),
-      maxSelectable: repeat,
+      maxSelectable: selectableCount,
+      minSelectable: selectableCount,
       selectedSlots: [],
     });
   }
@@ -13377,6 +13512,30 @@
     });
   }
 
+  function executeAomomoVisitThisTurnFossilEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    const count = Math.max(0, Math.round(Number(effect.options?.count) || 1));
+    const visited = hasPlayerVisitedPlanetThisTurn(currentPlayer, aomomo?.PLANET_ID);
+    beginEffectHistoryStep(effect.label);
+    const beforePlayer = structuredClone(currentPlayer);
+    if (visited && count > 0) {
+      players.gainResources(currentPlayer, { aomomoFossils: count });
+      recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+        currentPlayer,
+        beforePlayer,
+        "恢复奥陌陌访问奖励前玩家状态",
+      ));
+    }
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: visited
+        ? `${effect.label}：已访问奥陌陌，获得 ${count} 化石`
+        : `${effect.label}：本回合尚未访问奥陌陌，未获得化石`,
+      payload: { visited, count },
+    });
+  }
+
   function executeAomomoFossilForDataEffect(effect) {
     const currentPlayer = getCurrentPlayer();
     const cost = Math.max(1, Math.round(Number(effect.options?.cost) || 1));
@@ -13690,6 +13849,8 @@
         return openRunezuSymbolBranchDialog(effect);
       case aomomo?.EFFECT_GAIN_FOSSILS:
         return executeAomomoGainFossilsEffect(effect);
+      case aomomo?.EFFECT_VISIT_AOMOMO_THIS_TURN_FOSSIL:
+        return executeAomomoVisitThisTurnFossilEffect(effect);
       case aomomo?.EFFECT_SCAN_AOMOMO_X:
       case aomomo?.EFFECT_SCAN_AOMOMO_X_GAIN_FOSSIL:
       case aomomo?.EFFECT_SCAN_AOMOMO_X_SCORE:
