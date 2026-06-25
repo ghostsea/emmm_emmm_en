@@ -502,7 +502,6 @@ body {
 
 .app-wrap[data-interaction-focus="hand-cards"] .player-stats,
 .app-wrap[data-interaction-focus="hand-cards"] .action-bar,
-.app-wrap[data-interaction-focus="hand-cards"] .action-effect-bar,
 .app-wrap[data-interaction-focus="hand-cards"] .quick-actions-panel,
 .app-wrap[data-interaction-focus="hand-cards"] .player-board-panel {
   opacity: 0.34;
@@ -554,13 +553,24 @@ body {
 
 .app-wrap[data-interaction-focus="board-rockets"] .table-column-left,
 .app-wrap[data-interaction-focus="board-rockets"] .table-column-right,
-.app-wrap[data-interaction-focus="board-rockets"] .player-command,
+.app-wrap[data-interaction-focus="board-rockets"] .player-stats,
+.app-wrap[data-interaction-focus="board-rockets"] .action-bar,
+.app-wrap[data-interaction-focus="board-rockets"] .quick-actions-panel,
 .app-wrap[data-interaction-focus="board-rockets"] .player-hand-panel,
 .app-wrap[data-interaction-focus="board-rockets"] .reserved-card-panel,
 .app-wrap[data-interaction-focus="board-rockets"] .planets-reference {
   opacity: 0.34;
   filter: saturate(0.7) brightness(0.86);
   pointer-events: none;
+}
+
+.app-wrap[data-interaction-focus="hand-cards"] .action-effect-bar,
+.app-wrap[data-interaction-focus="board-rockets"] .action-effect-bar {
+  position: relative;
+  z-index: 1270;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
 }
 
 .app-wrap[data-interaction-focus="board-rockets"] .board-shell,

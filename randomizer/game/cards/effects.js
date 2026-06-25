@@ -620,27 +620,9 @@
     });
   }
 
-  function isMoveEffectType(type) {
-    return type === EFFECT_TYPES.CARD_MOVE || type === EFFECT_TYPES.FREE_MOVE;
-  }
-
   function consolidateCardMoveEffects(effects) {
     if (!Array.isArray(effects) || !effects.length) return [];
-    return effects.flatMap((item) => {
-      if (!isMoveEffectType(item.type)) return [item];
-      const movementPoints = Math.max(1, Math.round(Number(item.options?.movementPoints || 1)));
-      if (movementPoints <= 1) return [item];
-      return Array.from({ length: movementPoints }, (_, index) => effect(
-        `${item.id || "card-move"}-${index + 1}`,
-        item.type,
-        `${item.label || "移动"} ${index + 1}/${movementPoints}`,
-        item.icon || "movement",
-        {
-          ...(item.options || {}),
-          movementPoints: 1,
-        },
-      ));
-    });
+    return [...effects];
   }
 
   function withSource(cardId, model) {
@@ -673,6 +655,8 @@
     DOUBLE_PLANET_LANDINGS: Object.freeze({ kind: "planetLandingPairs", count: 2, scorePer: 6 }),
     ALL_ORBIT_OR_LAND: Object.freeze({ kind: "allOrbitOrLand", scorePer: 2 }),
   });
+
+  const B140_MARS_RELATED_CARD_IDS = Object.freeze(["b_72.webp", "b_73.webp", "b_74.webp", "b_91.webp"]);
 
   const MODELS = Object.freeze({
     "aomomo_0.webp": withSource("aomomo_0.webp", {
@@ -2062,8 +2046,8 @@
     "b_140.webp": withSource("b_140.webp", {
       cardType: 1,
       triggers: Object.freeze([
-        { id: "b140-mars-orbit-land-publicity", event: Object.freeze({ types: ["orbit", "land"], planetIds: ["mars"] }), effect: gainResourcesEffect("b140-publicity", "火星环绕/登陆：2宣传", { publicity: 2 }) },
-        { id: "b140-mars-orbit-land-score", event: Object.freeze({ types: ["orbit", "land"], planetIds: ["mars"] }), effect: gainResourcesEffect("b140-score", "火星环绕/登陆：5分", { score: 5 }) },
+        { id: "b140-mars-orbit-land-publicity", event: Object.freeze({ types: ["orbit", "land", "playCard"], planetIds: ["mars"], cardIds: B140_MARS_RELATED_CARD_IDS }), effect: gainResourcesEffect("b140-publicity", "火星环绕/登陆或打出火星相关牌：2宣传", { publicity: 2 }) },
+        { id: "b140-mars-orbit-land-score", event: Object.freeze({ types: ["orbit", "land", "playCard"], planetIds: ["mars"], cardIds: B140_MARS_RELATED_CARD_IDS }), effect: gainResourcesEffect("b140-score", "火星环绕/登陆或打出火星相关牌：5分", { score: 5 }) },
       ]),
     }),
     "dlc_1.png": withSource("dlc_1.png", {
@@ -2358,28 +2342,12 @@
     };
   }
 
-  function getEffectMovementPoints(effectNode) {
-    return Math.max(1, Math.round(Number(effectNode?.options?.movementPoints || 1)));
-  }
-
   function expandEffectNode(item, repeatIndex, repeat) {
-    const movementPoints = isMoveEffectType(item.type) ? getEffectMovementPoints(item) : 1;
     const nodes = [];
-    for (let moveIndex = 0; moveIndex < movementPoints; moveIndex += 1) {
-      const suffixParts = [];
-      if (repeat > 1) suffixParts.push(String(repeatIndex + 1));
-      if (movementPoints > 1) suffixParts.push(String(moveIndex + 1));
-
-      const node = cloneEffectNode(item, suffixParts.join("-"));
-      if (!item.options?.noAutoRepeatExpansion) node.options.repeat = 1;
-      if (movementPoints > 1) node.options.movementPoints = 1;
-
-      if (repeat > 1) node.label = `${item.label} ${repeatIndex + 1}/${repeat}`;
-      if (movementPoints > 1) {
-        node.label = `${node.label || item.label} ${moveIndex + 1}/${movementPoints}`;
-      }
-      nodes.push(node);
-    }
+    const node = cloneEffectNode(item, repeat > 1 ? String(repeatIndex + 1) : "");
+    if (!item.options?.noAutoRepeatExpansion) node.options.repeat = 1;
+    if (repeat > 1) node.label = `${item.label} ${repeatIndex + 1}/${repeat}`;
+    nodes.push(node);
     return nodes;
   }
 
@@ -2509,6 +2477,10 @@
     }
     if (event.type === "playCard") {
       if (trigger.event.price != null && Number(trigger.event.price) !== Number(event.price)) return false;
+      const included = trigger.event.cardIds || trigger.event.includeCardIds || [];
+      if (included.length && !included.includes(event.cardId)) return false;
+      const excluded = trigger.event.excludeCardIds || [];
+      if (excluded.includes(event.cardId)) return false;
       return true;
     }
     if (event.type === "orbit" || event.type === "land") {

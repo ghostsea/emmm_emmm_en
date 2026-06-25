@@ -11495,7 +11495,7 @@
       return discard;
     }
     cards.addToDiscardPile(cardState, discard.card);
-    const repeat = Math.max(1, Math.round(Number(effect.options?.repeat || 1)));
+    const repeat = Math.max(1, Math.round(Number(effect.options?.cornerRepeat || effect.options?.repeat || 1)));
     const messages = [];
     for (let index = 0; index < repeat; index += 1) {
       const reward = applyCardCornerRewardFromCard(currentPlayer, discard.card, {
@@ -12207,31 +12207,9 @@
     return result;
   }
 
-  function isCardMoveEffectType(type) {
-    return type === cardEffects.EFFECT_TYPES.CARD_MOVE
-      || type === cardEffects.EFFECT_TYPES.FREE_MOVE;
-  }
-
-  function splitInsertedMoveEffect(effect, effectIndex = 0) {
-    if (!isCardMoveEffectType(effect?.type)) return [effect];
-    const movementPoints = Math.max(1, Math.round(Number(effect.options?.movementPoints || 1)));
-    if (movementPoints <= 1) return [effect];
-
-    const baseId = effect.id || `inserted-card-move-${effectIndex}`;
-    return Array.from({ length: movementPoints }, (_, index) => ({
-      ...effect,
-      id: `${baseId}-${index + 1}`,
-      label: `${effect.label || "移动"} ${index + 1}/${movementPoints}`,
-      options: {
-        ...(effect.options || {}),
-        movementPoints: 1,
-      },
-    }));
-  }
-
   function insertActionEffectsAfterCurrent(effects) {
     if (!pendingActionEffectFlow || !effects?.length) return;
-    const expandedEffects = effects.flatMap((effect, index) => splitInsertedMoveEffect(effect, index));
+    const insertedEffects = effects.filter(Boolean);
     const insertIndex = Math.max(0, pendingActionEffectFlow.currentIndex + 1);
     const currentOwner = getCurrentActionEffect()
       ? getEffectOwnerPlayer(getCurrentActionEffect())
@@ -12241,7 +12219,7 @@
       || pendingActionEffectFlow.defaultPlayerId
       || pendingActionEffectFlow.playerId
       || null;
-    pendingActionEffectFlow.effects.splice(insertIndex, 0, ...expandedEffects.map((effect, index) => ({
+    pendingActionEffectFlow.effects.splice(insertIndex, 0, ...insertedEffects.map((effect, index) => ({
       ...assignEffectOwner({ ...effect }, ownerId),
       id: effect.id || `inserted-card-effect-${insertIndex}-${index}`,
       options: { ...(effect.options || {}) },
@@ -25527,6 +25505,7 @@
         quickActionHistory.commitSession();
         clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
       }
+      clearActionEffectFlow();
       refreshAfterHistoryChange(`已撤销：${flowLabel}`);
       return;
     }
@@ -25539,7 +25518,11 @@
         forgetLastHistoryStep(HISTORY_SOURCE_QUICK, result.step?.id || null);
         removeLastActionLogStep(HISTORY_SOURCE_QUICK, result.step?.id || null);
         if (undoingQuickEffectFlow && pendingActionEffectFlow) {
-          revertEffectFlowAfterUndo(result.step);
+          if (quickActionHistory.hasUndoableStep()) {
+            revertEffectFlowAfterUndo(result.step);
+          } else {
+            clearActionEffectFlow();
+          }
         }
       }
       if (result.ok && !quickActionHistory.hasUndoableStep()) {
