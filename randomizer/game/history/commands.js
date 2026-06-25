@@ -38,6 +38,17 @@
     }
   }
 
+  function captureDrawPileCardIds(cardState) {
+    return Array.isArray(cardState?.drawPileCardIds)
+      ? cardState.drawPileCardIds.slice()
+      : [];
+  }
+
+  function restoreDrawPileCardIds(cardState, snapshot) {
+    if (!cardState) return;
+    cardState.drawPileCardIds = Array.isArray(snapshot) ? snapshot.slice() : [];
+  }
+
   function createResourceSpendCommand(player, cost, label) {
     const spent = { ...cost };
     return {
@@ -111,25 +122,38 @@
     };
   }
 
-  function createRestorePublicCardsCommand(cardState, publicCardsSnapshot, discardPileSnapshot) {
+  function createRestorePublicCardsCommand(
+    cardState,
+    publicCardsSnapshot,
+    discardPileSnapshot,
+    drawPileCardIdsSnapshot = captureDrawPileCardIds(cardState),
+  ) {
     return {
       label: "公共牌区变更",
-      describe: "恢复公共牌区与弃牌堆",
+      describe: "恢复公共牌区、弃牌堆与抽牌堆",
       undo() {
         cardState.publicCards = publicCardsSnapshot.slice();
         cardState.discardPile = discardPileSnapshot.slice();
+        restoreDrawPileCardIds(cardState, drawPileCardIdsSnapshot);
       },
     };
   }
 
-  function createDiscardHandCardCommand(cardState, player, handSnapshot, discardPileSnapshot) {
+  function createDiscardHandCardCommand(
+    cardState,
+    player,
+    handSnapshot,
+    discardPileSnapshot,
+    drawPileCardIdsSnapshot = captureDrawPileCardIds(cardState),
+  ) {
     return {
       label: "手牌弃除",
-      describe: "恢复手牌与弃牌堆",
+      describe: "恢复手牌、弃牌堆与抽牌堆",
       undo() {
         player.hand = handSnapshot.slice();
         player.resources.handSize = player.hand.length;
         cardState.discardPile = discardPileSnapshot.slice();
+        restoreDrawPileCardIds(cardState, drawPileCardIdsSnapshot);
       },
     };
   }
@@ -174,6 +198,7 @@
       resources: { ...(player?.resources || {}) },
       hand: (player?.hand || []).slice(),
       discardPile: (cardState?.discardPile || []).slice(),
+      drawPileCardIds: captureDrawPileCardIds(cardState),
       publicCards: (cardState?.publicCards || []).slice(),
     };
   }
@@ -188,6 +213,7 @@
         player.hand = snapshot.hand.slice();
         if (cardState) {
           cardState.discardPile = snapshot.discardPile.slice();
+          restoreDrawPileCardIds(cardState, snapshot.drawPileCardIds);
           cardState.publicCards = snapshot.publicCards.slice();
         }
       },

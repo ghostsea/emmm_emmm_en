@@ -109,6 +109,7 @@
       debugRunezuButton: documentRef.getElementById("debug-runezu-button"),
       debugCheatButton: documentRef.getElementById("debug-cheat-button"),
       alienTraceOverlay: documentRef.getElementById("alien-trace-overlay"),
+      alienTraceTitle: documentRef.getElementById("alien-trace-title"),
       alienTraceSubtitle: documentRef.getElementById("alien-trace-subtitle"),
       alienTraceActions: documentRef.getElementById("alien-trace-actions"),
       alienTraceCancel: documentRef.getElementById("alien-trace-cancel"),

@@ -39,16 +39,36 @@ spend.undo();
 assert.equal(player.resources.credits, 7);
 assert.equal(player.resources.energy, 4);
 
-const cardState = { publicCards: [null, null], discardPile: [] };
+const cardState = { publicCards: [null, null], discardPile: [], drawPileCardIds: ["b_1.webp"] };
 const tradePlayer = players.createPlayer({ color: "blue" });
 tradePlayer.hand = [{ id: "c1", cardName: "A" }];
 tradePlayer.resources.credits = 3;
 const tradeSnapshot = commands.captureTradeState(tradePlayer, cardState);
 tradePlayer.resources.credits = 1;
 tradePlayer.hand = [];
+cardState.drawPileCardIds = ["b_2.webp"];
 commands.createRestoreTradeStateCommand(tradePlayer, cardState, tradeSnapshot).undo();
 assert.equal(tradePlayer.resources.credits, 3);
 assert.equal(tradePlayer.hand.length, 1);
+assert.deepEqual(cardState.drawPileCardIds, ["b_1.webp"]);
+
+const publicCardState = {
+  publicCards: [{ id: "public-before" }],
+  discardPile: [{ id: "discard-before" }],
+  drawPileCardIds: ["b_3.webp"],
+};
+const restorePublicCards = commands.createRestorePublicCardsCommand(
+  publicCardState,
+  publicCardState.publicCards.slice(),
+  publicCardState.discardPile.slice(),
+);
+publicCardState.publicCards = [];
+publicCardState.discardPile = [];
+publicCardState.drawPileCardIds = ["b_4.webp"];
+restorePublicCards.undo();
+assert.equal(publicCardState.publicCards.length, 1);
+assert.equal(publicCardState.discardPile.length, 1);
+assert.deepEqual(publicCardState.drawPileCardIds, ["b_3.webp"]);
 
 const sliceContext = {
   playerState: {

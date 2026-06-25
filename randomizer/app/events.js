@@ -101,6 +101,7 @@
       openFangzhouTraceUseChoice,
       confirmFangzhouCard2Unlock,
       beginFangzhouTraceGridPlacement,
+      confirmAlienRevealNotice,
       handleStateTraceSlotPlacement,
       handleFangzhouTraceSlotPlacement,
       confirmAlienTracePlacement,
@@ -598,6 +599,12 @@
       }
     });
     els.alienTraceActions?.addEventListener("click", (event) => {
+      const revealConfirmButton = event.target.closest("[data-alien-reveal-confirm]");
+      if (revealConfirmButton && !revealConfirmButton.disabled) {
+        confirmAlienRevealNotice();
+        return;
+      }
+
       const button = event.target.closest("[data-alien-picker-step][data-alien-slot]");
       if (!button || button.disabled) return;
 
@@ -694,9 +701,13 @@
         confirmAlienTracePlacement(alienSlotId, button.dataset.traceType);
       }
     });
-    els.alienTraceCancel?.addEventListener("click", closeAlienTracePicker);
+    els.alienTraceCancel?.addEventListener("click", () => {
+      if (state.pendingAlienRevealConfirmation) return;
+      closeAlienTracePicker();
+    });
     els.alienTraceOverlay?.addEventListener("click", (event) => {
       if (event.target === els.alienTraceOverlay) {
+        if (state.pendingAlienRevealConfirmation) return;
         closeAlienTracePicker();
       }
     });

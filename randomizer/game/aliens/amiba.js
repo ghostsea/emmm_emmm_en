@@ -679,12 +679,14 @@
     return listTraceEntries(alienState, alienSlotId).length;
   }
 
-  function hasPlayerTraceType(alienState, player, traceType) {
-    return countTraceMarkers(alienState, player, traceType) > 0;
+  function hasPlayerFaceTraceType(alienState, player, traceType, alienSlotId = alienState?.amiba?.revealedSlotId) {
+    const playerKeys = getPlayerKeys(player);
+    return listTraceEntries(alienState, alienSlotId, traceType)
+      .some((entry) => markerBelongsToPlayer(entry, playerKeys));
   }
 
   function isTheoryTaskReady(alienState, player) {
-    return TRACE_TYPES.every((traceType) => hasPlayerTraceType(alienState, player, traceType));
+    return TRACE_TYPES.every((traceType) => hasPlayerFaceTraceType(alienState, player, traceType));
   }
 
   function getTheoryTaskReward(alienState) {

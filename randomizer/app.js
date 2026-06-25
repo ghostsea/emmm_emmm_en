@@ -151,6 +151,7 @@
   const runezuBoardSymbolElements = new Map();
   const cardTaskState = cardTaskStateModule.createTaskState();
   let alienTracePickerState = null;
+  let pendingAlienRevealConfirmation = null;
   let debugAlienTraceModeActive = false;
   let sectorWinDebugActive = false;
   let pendingActionExecuted = false;
@@ -272,6 +273,7 @@
     }
     cardState.publicCards = Array.from({ length: cards.PUBLIC_CARD_COUNT }, () => null);
     cardState.discardPile = [];
+    cardState.drawPileCardIds = [];
     cards.setSelectionActive(cardState, false);
     cards.setPlayCardSelectionActive(cardState, false);
     cards.setDiscardSelectionActive(cardState, false, 0);
@@ -1686,6 +1688,7 @@
     pendingRunezuSymbolBranch = null;
     pendingRunezuFaceSymbolPlacement = null;
     alienTracePickerState = null;
+    pendingAlienRevealConfirmation = null;
     debugAlienTraceModeActive = false;
     pendingActionExecuted = false;
     pendingPassPlayerId = null;
@@ -1712,6 +1715,10 @@
     }
     tech.setTechSelectionActive(techGameState, false);
     if (els.scanTargetOverlay) els.scanTargetOverlay.hidden = true;
+    if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = true;
+    if (els.alienTraceTitle) els.alienTraceTitle.textContent = "获取外星人标记";
+    if (els.alienTraceSubtitle) els.alienTraceSubtitle.classList.remove("alien-reveal-confirmation-text");
+    if (els.alienTraceCancel) els.alienTraceCancel.hidden = false;
     if (els.landTargetOverlay) els.landTargetOverlay.hidden = true;
     if (els.dataPlaceOverlay) els.dataPlaceOverlay.hidden = true;
     if (els.actionEffectBar) els.actionEffectBar.hidden = true;
@@ -15157,6 +15164,111 @@
     els.alienTraceOverlay.hidden = true;
     alienTracePickerState = null;
     pendingAlienTraceAction = null;
+    if (els.alienTraceTitle) els.alienTraceTitle.textContent = "获取外星人标记";
+    if (els.alienTraceSubtitle) {
+      els.alienTraceSubtitle.classList.remove("alien-reveal-confirmation-text");
+    }
+    if (els.alienTraceCancel) els.alienTraceCancel.hidden = false;
+  }
+
+  function findPlayerForFirstTrace(traceSlot) {
+    if (!traceSlot?.firstPlaced) return null;
+    return resolvePlayerReference({
+      playerId: traceSlot.ownerPlayerId || traceSlot.playerId || null,
+      playerColor: traceSlot.ownerPlayerColor || traceSlot.playerColor || null,
+    });
+  }
+
+  function formatRevealTraceOwnerLabel(traceSlot) {
+    const player = findPlayerForFirstTrace(traceSlot);
+    if (player) return `玩家${player.colorLabel || player.name || player.id}`;
+    const ownerColor = traceSlot?.ownerPlayerColor || traceSlot?.playerColor || null;
+    const colorLabel = players.getPlayerColorDefinition(ownerColor)?.label || ownerColor;
+    if (colorLabel) return `玩家${colorLabel}`;
+    const ownerId = traceSlot?.ownerPlayerId || traceSlot?.playerId || null;
+    return ownerId ? `玩家${ownerId}` : "未知玩家";
+  }
+
+  function formatAlienRevealTitle(alienId) {
+    const label = aliens.getAlienLabel?.(alienId) || alienId || "外星人";
+    return `${label}${label.endsWith("外星人") ? "" : "外星人"}已被揭示！`;
+  }
+
+  function buildAlienRevealNoticeEntry(alienSlotId, revealResult) {
+    const slot = aliens.getAlienSlot(alienGameState, alienSlotId);
+    const alienId = revealResult?.alienId || slot?.alienId || slot?.assignedAlienId || null;
+    const traceTypes = ["pink", "yellow", "blue"];
+    return {
+      alienSlotId: Number(alienSlotId),
+      alienId,
+      title: formatAlienRevealTitle(alienId),
+      lines: traceTypes.map((traceType) => {
+        const traceLabel = aliens.getTraceTypeLabel?.(traceType) || `${traceType}痕迹`;
+        const ownerLabel = formatRevealTraceOwnerLabel(slot?.traces?.[traceType]);
+        return `${ownerLabel}拥有${traceLabel}`;
+      }),
+    };
+  }
+
+  function openAlienRevealConfirmation(noticeEntries, onConfirm) {
+    const entries = (noticeEntries || []).filter(Boolean);
+    if (!entries.length) {
+      return typeof onConfirm === "function" ? onConfirm() : { ok: true };
+    }
+    if (!els.alienTraceOverlay || !els.alienTraceActions) {
+      return {
+        ok: false,
+        awaitingConfirmation: false,
+        entries,
+        message: "无法打开外星人揭示确认",
+      };
+    }
+
+    pendingAlienRevealConfirmation = { entries, onConfirm };
+    alienTracePickerState = { mode: "reveal-confirm" };
+    if (els.alienTraceTitle) {
+      els.alienTraceTitle.textContent = entries.length === 1 ? entries[0].title : "外星人已被揭示！";
+    }
+    if (els.alienTraceSubtitle) {
+      const lines = entries.flatMap((entry) => (
+        entries.length === 1 ? entry.lines : [entry.title, ...entry.lines]
+      ));
+      els.alienTraceSubtitle.textContent = lines.join("\n");
+      els.alienTraceSubtitle.classList.add("alien-reveal-confirmation-text");
+    }
+    const confirmButton = document.createElement("button");
+    confirmButton.type = "button";
+    confirmButton.className = "scan-target-option-button alien-reveal-confirm-button";
+    confirmButton.dataset.alienRevealConfirm = "true";
+    confirmButton.textContent = "确认";
+    els.alienTraceActions.replaceChildren(confirmButton);
+    if (els.alienTraceCancel) els.alienTraceCancel.hidden = true;
+    els.alienTraceOverlay.hidden = false;
+    return {
+      ok: true,
+      awaitingConfirmation: true,
+      entries,
+      message: entries.map((entry) => entry.title).join("；"),
+    };
+  }
+
+  function closeAlienRevealConfirmationOverlay() {
+    if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = true;
+    if (els.alienTraceTitle) els.alienTraceTitle.textContent = "获取外星人标记";
+    if (els.alienTraceSubtitle) {
+      els.alienTraceSubtitle.classList.remove("alien-reveal-confirmation-text");
+    }
+    if (els.alienTraceActions) els.alienTraceActions.replaceChildren();
+    if (els.alienTraceCancel) els.alienTraceCancel.hidden = false;
+    alienTracePickerState = null;
+  }
+
+  function confirmAlienRevealNotice() {
+    const pending = pendingAlienRevealConfirmation;
+    if (!pending) return { ok: false, message: "没有待确认的外星人揭示" };
+    pendingAlienRevealConfirmation = null;
+    closeAlienRevealConfirmationOverlay();
+    return typeof pending.onConfirm === "function" ? pending.onConfirm() : { ok: true };
   }
 
   function getAlienTracePlacementPreview(alienSlotId, traceType) {
@@ -15389,6 +15501,11 @@
       targetPlayerId: options.targetPlayerId || null,
       targetPlayerColor: options.targetPlayerColor || null,
     };
+    if (els.alienTraceTitle) els.alienTraceTitle.textContent = "获取外星人标记";
+    if (els.alienTraceSubtitle) {
+      els.alienTraceSubtitle.classList.remove("alien-reveal-confirmation-text");
+    }
+    if (els.alienTraceCancel) els.alienTraceCancel.hidden = false;
     renderAlienTracePickerAlienStep();
     els.alienTraceOverlay.hidden = false;
     return { ok: true, message: "请选择外星人" };
@@ -25522,23 +25639,19 @@
       });
   }
 
-  function revealReadyAliensAtTurnEnd(triggerPlayer) {
-    const readySlotIds = listReadyAlienRevealSlotIds();
-    if (!readySlotIds.length) return null;
-
-    const revealEntries = [];
-    for (const alienSlotId of readySlotIds) {
-      const revealResult = aliens.revealRandomAlien(alienGameState, alienSlotId);
-      const sideEffect = handleAlienRevealSideEffects(alienSlotId, revealResult, triggerPlayer);
-      revealEntries.push({
-        alienSlotId,
-        revealResult,
+  function settleTurnEndAlienRevealEntries(triggerPlayer, revealEntries) {
+    const settledEntries = (revealEntries || []).map((entry) => {
+      const sideEffect = entry.sideEffect !== undefined
+        ? entry.sideEffect
+        : handleAlienRevealSideEffects(entry.alienSlotId, entry.revealResult, triggerPlayer);
+      return {
+        ...entry,
         sideEffect,
-        message: sideEffect?.message || revealResult?.message || null,
-      });
-    }
+        message: sideEffect?.message || entry.revealResult?.message || null,
+      };
+    });
 
-    const messages = revealEntries.map((entry) => entry.message).filter(Boolean);
+    const messages = settledEntries.map((entry) => entry.message).filter(Boolean);
     const message = messages.length
       ? `回合结束揭示外星人：${messages.join("；")}`
       : "回合结束揭示外星人";
@@ -25562,25 +25675,57 @@
     renderStateReadout();
     return {
       ok: true,
-      count: revealEntries.length,
-      entries: revealEntries,
+      count: settledEntries.length,
+      entries: settledEntries,
       message,
     };
   }
 
-  function endCurrentTurn() {
-    if (!pendingActionExecuted || isActionEffectFlowActive() || hasActivePendingSubFlow()) return;
-    const endingPlayer = getCurrentPlayer();
-    const endingPlayerId = endingPlayer?.id || null;
-    const didPass = pendingPassPlayerId === endingPlayerId;
+  function revealReadyAliensAtTurnEnd(triggerPlayer, options = {}) {
+    const readySlotIds = listReadyAlienRevealSlotIds();
+    if (!readySlotIds.length) return null;
 
-    if (industry?.expireStrategyPlayInteractionOnTurnEnd?.(endingPlayer, turnState.roundNumber)?.cleared) {
-      renderInitialSelectionArea();
+    const revealEntries = [];
+    for (const alienSlotId of readySlotIds) {
+      const revealResult = aliens.revealRandomAlien(alienGameState, alienSlotId);
+      revealEntries.push({
+        alienSlotId,
+        revealResult,
+        sideEffect: undefined,
+        message: revealResult?.message || null,
+      });
     }
-    industry?.clearTuringBorrowedTech?.(endingPlayer);
 
-    endEffectHistoryStep();
-    const turnEndReveal = revealReadyAliensAtTurnEnd(endingPlayer);
+    if (options.confirmBeforeSideEffects) {
+      const noticeEntries = revealEntries
+        .filter((entry) => entry.revealResult?.ok)
+        .map((entry) => buildAlienRevealNoticeEntry(entry.alienSlotId, entry.revealResult));
+      if (noticeEntries.length) {
+        const confirmResult = openAlienRevealConfirmation(noticeEntries, () => {
+          const settledReveal = settleTurnEndAlienRevealEntries(triggerPlayer, revealEntries);
+          return typeof options.onConfirmed === "function"
+            ? options.onConfirmed(settledReveal)
+            : settledReveal;
+        });
+        if (confirmResult.awaitingConfirmation) {
+          return {
+            ...confirmResult,
+            count: revealEntries.length,
+            entries: revealEntries,
+          };
+        }
+      }
+    }
+
+    return settleTurnEndAlienRevealEntries(triggerPlayer, revealEntries);
+  }
+
+  function finishCurrentTurnAfterAlienReveal({
+    endingPlayer,
+    endingPlayerId,
+    didPass,
+    turnEndReveal,
+  }) {
     if (turnEndReveal?.count && (isActionEffectFlowActive() || hasActivePendingSubFlow())) {
       return;
     }
@@ -25630,6 +25775,33 @@
     if (advanceResult.gameEnded) {
       maybeAutoOpenFinalResultDialog();
     }
+  }
+
+  function endCurrentTurn() {
+    if (!pendingActionExecuted || isActionEffectFlowActive() || hasActivePendingSubFlow()) return;
+    const endingPlayer = getCurrentPlayer();
+    const endingPlayerId = endingPlayer?.id || null;
+    const didPass = pendingPassPlayerId === endingPlayerId;
+
+    if (industry?.expireStrategyPlayInteractionOnTurnEnd?.(endingPlayer, turnState.roundNumber)?.cleared) {
+      renderInitialSelectionArea();
+    }
+    industry?.clearTuringBorrowedTech?.(endingPlayer);
+
+    endEffectHistoryStep();
+    const turnEndContext = { endingPlayer, endingPlayerId, didPass };
+    const turnEndReveal = revealReadyAliensAtTurnEnd(endingPlayer, {
+      confirmBeforeSideEffects: true,
+      onConfirmed: (confirmedReveal) => finishCurrentTurnAfterAlienReveal({
+        ...turnEndContext,
+        turnEndReveal: confirmedReveal,
+      }),
+    });
+    if (turnEndReveal?.awaitingConfirmation) return;
+    finishCurrentTurnAfterAlienReveal({
+      ...turnEndContext,
+      turnEndReveal,
+    });
   }
 
   function undoPendingAction() {
@@ -27878,6 +28050,7 @@
     get pendingStrategyPassiveSlotChoice() { return pendingStrategyPassiveSlotChoice; },
     get alienTracePickerState() { return alienTracePickerState; },
     set alienTracePickerState(value) { alienTracePickerState = value; },
+    get pendingAlienRevealConfirmation() { return pendingAlienRevealConfirmation; },
     get moveHighlightRocketId() { return moveHighlightRocketId; },
     get pendingCardTriggerFreeMove() { return pendingCardTriggerFreeMove; },
     get industryFreeMoveState() { return industryFreeMoveState; },
@@ -27970,6 +28143,7 @@
     openFangzhouTraceUseChoice,
     confirmFangzhouCard2Unlock,
     beginFangzhouTraceGridPlacement,
+    confirmAlienRevealNotice,
     handleStateTraceSlotPlacement,
     handleFangzhouTraceSlotPlacement,
     confirmAlienTracePlacement,

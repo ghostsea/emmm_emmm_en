@@ -289,6 +289,89 @@ assert.ok(pickResult.replenished);
 
 const uniqueIds = new Set(player.hand.map((card) => card.cardId));
 assert.equal(uniqueIds.size, player.hand.length);
+
+function createDrawCycleScenario(discardCount, freshCount) {
+  const state = cards.createCardState();
+  state.publicCards = Array.from({ length: cards.PUBLIC_CARD_COUNT }, () => null);
+  const drawPlayer = { id: "player-draw-cycle", hand: [], reservedCards: [], resources: { handSize: 0 } };
+  const blocker = { id: "player-card-blocker", hand: [], reservedCards: [], resources: { handSize: 0 } };
+  const freeEntries = cards.CARD_CATALOG.slice(0, discardCount + freshCount);
+  blocker.hand = cards.CARD_CATALOG
+    .slice(discardCount + freshCount)
+    .map((entry, index) => cards.createCardInstance(entry, `block-${index}`));
+  blocker.resources.handSize = blocker.hand.length;
+  state.discardPile = freeEntries
+    .slice(0, discardCount)
+    .map((entry, index) => cards.createCardInstance(entry, `discard-${index}`));
+  return {
+    state,
+    drawPlayer,
+    playerState: { players: [drawPlayer, blocker], currentPlayerId: drawPlayer.id },
+    discardEntries: freeEntries.slice(0, discardCount),
+    freshEntries: freeEntries.slice(discardCount),
+  };
+}
+
+{
+  const cycle = createDrawCycleScenario(1, 1);
+  assert.deepEqual(
+    cards.getAvailablePool(cycle.state, cycle.playerState).map((entry) => entry.card_id),
+    [cycle.freshEntries[0].card_id],
+  );
+  const freshDraw = cards.blindDraw(cycle.state, cycle.playerState, cycle.drawPlayer, () => 0);
+  assert.equal(freshDraw.ok, true);
+  assert.equal(freshDraw.card.cardId, cycle.freshEntries[0].card_id);
+  assert.equal(cycle.state.discardPile.length, 1);
+  assert.equal(cycle.state.discardPile[0].cardId, cycle.discardEntries[0].card_id);
+
+  const recycledDraw = cards.blindDraw(cycle.state, cycle.playerState, cycle.drawPlayer, () => 0);
+  assert.equal(recycledDraw.ok, true);
+  assert.equal(recycledDraw.reshuffled, true);
+  assert.equal(recycledDraw.card.cardId, cycle.discardEntries[0].card_id);
+  assert.equal(cycle.state.discardPile.length, 0);
+  assert.deepEqual(cards.getDrawPileCardIds(cycle.state), []);
+}
+
+{
+  const cycle = createDrawCycleScenario(2, 0);
+  const firstRecycled = cards.blindDraw(cycle.state, cycle.playerState, cycle.drawPlayer, () => 0);
+  assert.equal(firstRecycled.ok, true);
+  assert.equal(firstRecycled.reshuffled, true);
+  assert.equal(firstRecycled.card.cardId, cycle.discardEntries[0].card_id);
+  assert.deepEqual(cards.getDrawPileCardIds(cycle.state), [cycle.discardEntries[1].card_id]);
+
+  const [newDiscard] = cycle.drawPlayer.hand.splice(
+    cycle.drawPlayer.hand.findIndex((card) => card.id === firstRecycled.card.id),
+    1,
+  );
+  cycle.drawPlayer.resources.handSize = cycle.drawPlayer.hand.length;
+  cards.addToDiscardPile(cycle.state, newDiscard);
+  assert.deepEqual(
+    cards.getAvailablePool(cycle.state, cycle.playerState).map((entry) => entry.card_id),
+    [cycle.discardEntries[1].card_id],
+  );
+
+  const secondRecycled = cards.blindDraw(cycle.state, cycle.playerState, cycle.drawPlayer, () => 0);
+  assert.equal(secondRecycled.ok, true);
+  assert.equal(secondRecycled.card.cardId, cycle.discardEntries[1].card_id);
+  assert.deepEqual(cycle.state.discardPile.map((card) => card.cardId), [cycle.discardEntries[0].card_id]);
+
+  const thirdRecycled = cards.blindDraw(cycle.state, cycle.playerState, cycle.drawPlayer, () => 0);
+  assert.equal(thirdRecycled.ok, true);
+  assert.equal(thirdRecycled.reshuffled, true);
+  assert.equal(thirdRecycled.card.cardId, cycle.discardEntries[0].card_id);
+  assert.equal(cycle.state.discardPile.length, 0);
+}
+
+{
+  const cycle = createDrawCycleScenario(1, 0);
+  const replenished = cards.replenishPublicSlot(cycle.state, cycle.playerState, 1, () => 0);
+  assert.ok(replenished);
+  assert.equal(replenished.cardId, cycle.discardEntries[0].card_id);
+  assert.equal(cycle.state.publicCards[1].cardId, cycle.discardEntries[0].card_id);
+  assert.equal(cycle.state.discardPile.length, 0);
+}
+
 const delayedFillState = cards.createCardState();
 const delayedFillPlayer = { id: "player-blue", hand: [], resources: { handSize: 0 } };
 const delayedFillPlayerState = { players: [delayedFillPlayer], currentPlayerId: delayedFillPlayer.id };

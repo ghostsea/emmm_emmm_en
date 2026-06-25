@@ -70,6 +70,7 @@
       gain: Object.freeze({ score: 1 }),
     }),
   });
+  const CARD_CATALOG_BY_ID = new Map(CARD_CATALOG.map((entry) => [entry.card_id, entry]));
 
   let cardInstanceSequence = 0;
 
@@ -135,6 +136,20 @@
     return cardIds;
   }
 
+  function getCardId(value) {
+    if (!value) return null;
+    if (typeof value === "string") return value;
+    if (value.card_id) return value.card_id;
+    if (value.cardId) return value.cardId;
+    if (Number.isInteger(value.cardIndex)) return `b_${value.cardIndex}.webp`;
+    return null;
+  }
+
+  function getCatalogEntryByCardId(cardId) {
+    if (!cardId) return null;
+    return CARD_CATALOG_BY_ID.get(String(cardId)) || null;
+  }
+
   function getBasicCatalogEntryByInput(input) {
     const cardId = normalizeBasicCardInput(input);
     if (!cardId) return null;
@@ -172,9 +187,9 @@
 
   function getCatalogEntryForCard(card) {
     if (!card) return null;
-    const cardId = card.cardId || (Number.isInteger(card.cardIndex) ? `b_${card.cardIndex}.webp` : null);
+    const cardId = getCardId(card);
     if (!cardId) return null;
-    return CARD_CATALOG.find((entry) => entry.card_id === cardId) || null;
+    return getCatalogEntryByCardId(cardId);
   }
 
   function getIncomeCodeForCard(card) {
@@ -223,6 +238,7 @@
     return {
       publicCards: Array.from({ length: PUBLIC_CARD_COUNT }, () => null),
       discardPile: [],
+      drawPileCardIds: [],
       passReservePiles: {},
       ui: {
         selectionActive: false,
@@ -241,13 +257,13 @@
       for (const cardList of [player.hand, player.reservedCards]) {
         if (!Array.isArray(cardList)) continue;
         for (const card of cardList) {
-          if (card?.cardId) ids.add(card.cardId);
-          else if (Number.isInteger(card?.cardIndex)) ids.add(`b_${card.cardIndex}.webp`);
+          const cardId = getCardId(card);
+          if (cardId) ids.add(cardId);
         }
       }
       const futureSpanCard = player.industryFutureSpan?.card;
-      if (futureSpanCard?.cardId) ids.add(futureSpanCard.cardId);
-      else if (Number.isInteger(futureSpanCard?.cardIndex)) ids.add(`b_${futureSpanCard.cardIndex}.webp`);
+      const futureSpanCardId = getCardId(futureSpanCard);
+      if (futureSpanCardId) ids.add(futureSpanCardId);
     }
 
     return ids;
@@ -261,26 +277,21 @@
     for (const pile of Object.values(piles)) {
       if (!Array.isArray(pile)) continue;
       for (const card of pile) {
-        if (card?.cardId) ids.add(card.cardId);
-        else if (Number.isInteger(card?.cardIndex)) ids.add(`b_${card.cardIndex}.webp`);
+        const cardId = getCardId(card);
+        if (cardId) ids.add(cardId);
       }
     }
 
     return ids;
   }
 
-  function collectClaimedCardIds(cardState, playerState) {
+  function collectLiveCardIds(cardState, playerState) {
     const ids = collectPlayerCardIds(playerState);
 
     if (cardState?.publicCards) {
       for (const card of cardState.publicCards) {
-        if (card?.cardId) ids.add(card.cardId);
-      }
-    }
-
-    if (Array.isArray(cardState?.discardPile)) {
-      for (const card of cardState.discardPile) {
-        if (card?.cardId) ids.add(card.cardId);
+        const cardId = getCardId(card);
+        if (cardId) ids.add(cardId);
       }
     }
 
@@ -291,14 +302,144 @@
     return ids;
   }
 
+  function collectDiscardCardIds(cardState) {
+    const ids = new Set();
+    if (Array.isArray(cardState?.discardPile)) {
+      for (const card of cardState.discardPile) {
+        const cardId = getCardId(card);
+        if (cardId) ids.add(cardId);
+      }
+    }
+    return ids;
+  }
+
+  function collectClaimedCardIds(cardState, playerState) {
+    const ids = collectLiveCardIds(cardState, playerState);
+    for (const cardId of collectDiscardCardIds(cardState)) {
+      ids.add(cardId);
+    }
+    return ids;
+  }
+
+  function ensureDrawPileCardIds(cardState) {
+    if (!Array.isArray(cardState.drawPileCardIds)) cardState.drawPileCardIds = [];
+    return cardState.drawPileCardIds;
+  }
+
+  function getDrawPileCardIds(cardState) {
+    return Array.isArray(cardState?.drawPileCardIds)
+      ? cardState.drawPileCardIds.slice()
+      : [];
+  }
+
+  function sanitizeDrawPileCardIds(cardState, playerState) {
+    const drawPile = ensureDrawPileCardIds(cardState);
+    const live = collectLiveCardIds(cardState, playerState);
+    const seen = new Set();
+    const sanitized = [];
+
+    for (const rawCardId of drawPile) {
+      const cardId = String(rawCardId || "");
+      if (!cardId || seen.has(cardId) || live.has(cardId) || !getCatalogEntryByCardId(cardId)) continue;
+      seen.add(cardId);
+      sanitized.push(cardId);
+    }
+
+    if (sanitized.length !== drawPile.length || sanitized.some((cardId, index) => cardId !== drawPile[index])) {
+      cardState.drawPileCardIds = sanitized;
+    }
+    return cardState.drawPileCardIds;
+  }
+
+  function removeCardIdFromDrawPile(cardState, cardId) {
+    if (!cardId || !Array.isArray(cardState?.drawPileCardIds)) return;
+    cardState.drawPileCardIds = cardState.drawPileCardIds.filter((item) => item !== cardId);
+  }
+
+  function getActiveDrawPool(cardState, playerState) {
+    const drawPile = sanitizeDrawPileCardIds(cardState, playerState);
+    return drawPile
+      .map((cardId) => getCatalogEntryByCardId(cardId))
+      .filter(Boolean);
+  }
+
+  function getFreshAvailablePool(cardState, playerState) {
+    const unavailable = collectClaimedCardIds(cardState, playerState);
+    for (const cardId of getDrawPileCardIds(cardState)) {
+      unavailable.add(cardId);
+    }
+    return CARD_CATALOG.filter((entry) => !unavailable.has(entry.card_id));
+  }
+
+  function getDiscardRecycleCardIds(cardState, playerState) {
+    const live = collectLiveCardIds(cardState, playerState);
+    const activeDrawPile = new Set(getDrawPileCardIds(cardState));
+    const seen = new Set();
+    const cardIds = [];
+
+    if (!Array.isArray(cardState?.discardPile)) return cardIds;
+    for (const card of cardState.discardPile) {
+      const cardId = getCardId(card);
+      if (!cardId || seen.has(cardId) || live.has(cardId) || activeDrawPile.has(cardId)) continue;
+      if (!getCatalogEntryByCardId(cardId)) continue;
+      seen.add(cardId);
+      cardIds.push(cardId);
+    }
+    return cardIds;
+  }
+
+  function getDiscardRecyclePool(cardState, playerState) {
+    return getDiscardRecycleCardIds(cardState, playerState)
+      .map((cardId) => getCatalogEntryByCardId(cardId))
+      .filter(Boolean);
+  }
+
   function getAvailablePool(cardState, playerState) {
-    const claimed = collectClaimedCardIds(cardState, playerState);
-    return CARD_CATALOG.filter((entry) => !claimed.has(entry.card_id));
+    const activeDrawPool = getActiveDrawPool(cardState, playerState);
+    if (activeDrawPool.length) return activeDrawPool;
+
+    const freshPool = getFreshAvailablePool(cardState, playerState);
+    if (freshPool.length) return freshPool;
+
+    return getDiscardRecyclePool(cardState, playerState);
   }
 
   function pickRandomEntry(pool, random = Math.random) {
     if (!pool.length) return null;
     return pool[Math.floor(random() * pool.length)];
+  }
+
+  function takeRandomEntryFromDrawPile(cardState, playerState, random = Math.random) {
+    const drawPile = sanitizeDrawPileCardIds(cardState, playerState);
+    if (!drawPile.length) return null;
+
+    const index = Math.floor(random() * drawPile.length);
+    const [cardId] = drawPile.splice(index, 1);
+    return getCatalogEntryByCardId(cardId);
+  }
+
+  function recycleDiscardPileIntoDrawPile(cardState, playerState) {
+    const cardIds = getDiscardRecycleCardIds(cardState, playerState);
+    if (!cardIds.length) return false;
+
+    const recycled = new Set(cardIds);
+    cardState.discardPile = (cardState.discardPile || [])
+      .filter((card) => !recycled.has(getCardId(card)));
+    cardState.drawPileCardIds = cardIds;
+    return true;
+  }
+
+  function takeRandomEntryForDraw(cardState, playerState, random = Math.random) {
+    const activeEntry = takeRandomEntryFromDrawPile(cardState, playerState, random);
+    if (activeEntry) return { entry: activeEntry, reshuffled: false };
+
+    const freshPool = getFreshAvailablePool(cardState, playerState);
+    const freshEntry = pickRandomEntry(freshPool, random);
+    if (freshEntry) return { entry: freshEntry, reshuffled: false };
+
+    if (!recycleDiscardPileIntoDrawPile(cardState, playerState)) return null;
+    const recycledEntry = takeRandomEntryFromDrawPile(cardState, playerState, random);
+    return recycledEntry ? { entry: recycledEntry, reshuffled: true } : null;
   }
 
   function addCardToHand(player, card) {
@@ -330,16 +471,14 @@
     const random = options.random || Math.random;
 
     cardState.passReservePiles = {};
-    const pool = getAvailablePool(cardState, playerState).slice();
     const piles = ensurePassReservePiles(cardState);
 
     for (const roundNumber of rounds) {
       const pile = [];
       for (let index = 0; index < cardsPerPile; index += 1) {
-        if (!pool.length) break;
-        const entryIndex = Math.floor(random() * pool.length);
-        const [entry] = pool.splice(entryIndex, 1);
-        if (entry) pile.push(createCardInstance(entry, `pass-${roundNumber}-${index + 1}`));
+        const result = takeRandomEntryForDraw(cardState, playerState, random);
+        if (!result?.entry) break;
+        pile.push(createCardInstance(result.entry, `pass-${roundNumber}-${index + 1}`));
       }
       piles[String(roundNumber)] = pile;
     }
@@ -392,8 +531,9 @@
     }
 
     const discarded = pile.splice(0);
-    if (!Array.isArray(cardState.discardPile)) cardState.discardPile = [];
-    cardState.discardPile.push(...discarded);
+    for (const card of discarded) {
+      addToDiscardPile(cardState, card);
+    }
     return {
       ok: true,
       cards: discarded,
@@ -406,21 +546,19 @@
       return { ok: false, message: "没有当前玩家", card: null };
     }
 
-    const pool = getAvailablePool(cardState, playerState);
-    const entry = pickRandomEntry(pool, random);
-    if (!entry) {
+    const result = takeRandomEntryForDraw(cardState, playerState, random);
+    if (!result?.entry) {
       return { ok: false, message: "牌库已无可用卡牌", card: null };
     }
 
-    const card = createCardInstance(entry);
+    const card = createCardInstance(result.entry);
     addCardToHand(player, card);
-    return { ok: true, message: null, card };
+    return { ok: true, message: null, card, reshuffled: Boolean(result.reshuffled) };
   }
 
   function replenishPublicSlot(cardState, playerState, slotIndex, random = Math.random) {
-    const pool = getAvailablePool(cardState, playerState);
-    const entry = pickRandomEntry(pool, random);
-    cardState.publicCards[slotIndex] = entry ? createCardInstance(entry) : null;
+    const result = takeRandomEntryForDraw(cardState, playerState, random);
+    cardState.publicCards[slotIndex] = result?.entry ? createCardInstance(result.entry) : null;
     return cardState.publicCards[slotIndex];
   }
 
@@ -523,6 +661,7 @@
   function addToDiscardPile(cardState, card) {
     if (!card) return;
     if (!Array.isArray(cardState.discardPile)) cardState.discardPile = [];
+    removeCardIdFromDrawPile(cardState, getCardId(card));
     cardState.discardPile.push(card);
   }
 
@@ -612,6 +751,7 @@
     getDiscardActionMoveRewardForCard,
     createCardState,
     collectClaimedCardIds,
+    getDrawPileCardIds,
     getAvailablePool,
     addCardToHand,
     preparePassReservePiles,

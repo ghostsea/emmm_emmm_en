@@ -64,7 +64,7 @@ stateTraceTheoryState.aliens[1].traces = {
   blue: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
 };
 amiba.initializeAmibaReveal(stateTraceTheoryState, 1, white, () => 0);
-assert.equal(amiba.isTheoryTaskReady(stateTraceTheoryState, white), true);
+assert.equal(amiba.isTheoryTaskReady(stateTraceTheoryState, white), false);
 assert.equal(amiba.countTraceMarkers(stateTraceTheoryState, white, "blue"), 2);
 assert.equal(amiba.getTheoryTaskReward(stateTraceTheoryState).emptyCount, 12);
 
