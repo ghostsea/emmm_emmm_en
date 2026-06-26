@@ -10,7 +10,7 @@
 4. `randomizer/app/constants.js` 创建 app 层静态配置、图标路径、扫描/扇区奖励表和 UI 参数。
 5. `randomizer/app/dom.js` 集中查询页面上的固定 DOM 节点。
 6. `randomizer/app/events.js` 绑定页面事件、overlay 点击分发、拖拽回调和 resize 入口。
-7. `randomizer/app/action-log-export.js` 生成终局行动日志 Markdown 和下载文件名。
+7. `randomizer/app/action-log-export.js` 生成行动日志 Markdown 和下载文件名。
 8. `randomizer/app/public-api.js` 组装 `window.SetiRandomizer` 调试/外部脚本 API。
 9. `randomizer/app/ai-controller.js` 封装 AI 自动机、策略权重、批跑/AB 测试和 AI 决策控制器。
 10. `randomizer/app.js` 保留运行态、流程编排、效果队列、渲染调度、行动日志和各控制器接线。

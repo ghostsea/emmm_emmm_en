@@ -99,6 +99,8 @@
       beginYichangdianTraceGridPlacement,
       renderAlienTracePickerColorStep,
       openFangzhouTraceUseChoice,
+      handleFangzhouTraceDestinationChoice,
+      handleFangzhouUnlockTraceChoice,
       confirmFangzhouCard2Unlock,
       beginFangzhouTraceGridPlacement,
       confirmAlienRevealNotice,
@@ -228,7 +230,8 @@
       undoPendingAction();
     });
     els.finalResultButton?.addEventListener("click", openFinalResultDialog);
-    els.finalResultDownloadLog?.addEventListener("click", () => downloadActionLogMarkdown());
+    els.actionLogDownloadButton?.addEventListener("click", () => downloadActionLogMarkdown({ allowIncomplete: true }));
+    els.finalResultDownloadLog?.addEventListener("click", () => downloadActionLogMarkdown({ allowIncomplete: true }));
     els.finalResultMinimize?.addEventListener("click", minimizeFinalResultDialog);
     els.finalResultOverlay?.addEventListener("click", (event) => {
       if (event.target === els.finalResultOverlay) closeFinalResultDialog();
@@ -671,6 +674,19 @@
 
       if (pickerStep === "fangzhou-color" && button.dataset.traceType) {
         openFangzhouTraceUseChoice(alienSlotId, button.dataset.traceType);
+        return;
+      }
+
+      if (pickerStep === "fangzhou-destination") {
+        handleFangzhouTraceDestinationChoice(
+          button.dataset.fangzhouDestination,
+          button.dataset.traceType || null,
+        );
+        return;
+      }
+
+      if (pickerStep === "fangzhou-unlock-color" && button.dataset.traceType) {
+        handleFangzhouUnlockTraceChoice(button.dataset.traceType);
         return;
       }
 

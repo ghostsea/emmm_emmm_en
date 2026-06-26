@@ -33,6 +33,7 @@
       actionResearchTechButton: documentRef.getElementById("action-research-tech-button"),
       actionQuickButton: documentRef.getElementById("action-quick-button"),
       finalResultButton: documentRef.getElementById("final-result-button"),
+      actionLogDownloadButton: documentRef.getElementById("action-log-download-button"),
       actionPassButton: documentRef.getElementById("action-pass-button"),
       actionConfirmButton: documentRef.getElementById("action-confirm-button"),
       actionUndoButton: documentRef.getElementById("action-undo-button"),

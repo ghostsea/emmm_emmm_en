@@ -785,7 +785,7 @@
 
   function getInterfacePlayer() {
     const currentPlayer = players.getCurrentPlayer(playerState);
-    if (!currentPlayer || !isAiAutoBattlePlayer(currentPlayer.id)) return currentPlayer;
+    if (!currentPlayer || !isAiAutoBattlePlayer(currentPlayer.id) || isAiAutomationPaused()) return currentPlayer;
     const humanPlayer = getActivePlayers().find((player) => !isAiAutoBattlePlayer(player.id))
       || playerState.players.find((player) => !isAiAutoBattlePlayer(player.id))
       || null;
@@ -1063,6 +1063,7 @@
     getAiStrategyWeights,
     getCardTriggerFreeMoveEffect,
     getPlayerAgentLabel,
+    isAiAutomationPaused,
     isAiAutoBattlePlayer,
     listCardTriggerFreeMoveCandidates,
     recordAiAutoBattleLog,
@@ -14718,6 +14719,14 @@
       targetPlayerColor: targetPlayer?.color || effect.options?.targetPlayerColor || null,
       afterTraceReward: effect.options?.afterTraceReward || null,
     };
+    const fangzhouChoice = openFangzhouTraceDestinationChoice({
+      allowedTraceTypes,
+      allowedAlienSlotIds,
+      targetPlayerId: targetPlayer?.id || null,
+      targetPlayerColor: targetPlayer?.color || null,
+      label: effect.label,
+    });
+    if (fangzhouChoice) return fangzhouChoice;
     return beginAlienTraceBoardPlacement({
       allowedTraceTypes,
       allowedAlienSlotIds,
@@ -16287,6 +16296,7 @@
         : null,
       targetPlayerId: options.targetPlayerId || null,
       targetPlayerColor: options.targetPlayerColor || null,
+      fangzhouDestinationResolved: Boolean(options.fangzhouDestinationResolved),
     };
     if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = true;
     const currentPlayer = getAlienTracePickerPlayer();
@@ -16525,6 +16535,200 @@
     };
   }
 
+  function getAlienTraceChoiceSlotIds(allowedAlienSlotIds = null) {
+    return allowedAlienSlotIds?.length
+      ? allowedAlienSlotIds.map(Number)
+      : aliens.ALIEN_SLOT_IDS;
+  }
+
+  function getFangzhouTraceChoiceSlotId(allowedAlienSlotIds = null) {
+    return getAlienTraceChoiceSlotIds(allowedAlienSlotIds)
+      .find((alienSlotId) => fangzhou?.isFangzhouRevealedSlot?.(alienGameState, alienSlotId)) || null;
+  }
+
+  function getFangzhouUnlockableTraceTypes(alienSlotId, allowedTraceTypes, player) {
+    if (!alienSlotId) return [];
+    const traceTypes = allowedTraceTypes?.length ? allowedTraceTypes : aliens.TRACE_TYPES;
+    return traceTypes.filter((traceType) => (
+      fangzhou?.canUnlockCard2ForTrace?.(alienGameState, player, traceType)
+    ));
+  }
+
+  function canPlaceAlienTraceOnPanelWithoutMode(alienSlotId, traceType, player) {
+    const alienSlot = aliens.getAlienSlot(alienGameState, alienSlotId);
+    if (!alienSlot) return false;
+    const statePreview = getAlienTracePlacementPreview(alienSlotId, traceType);
+    if (!alienSlot.revealed) return statePreview.canPlace;
+    if (statePreview.canPlace) return true;
+    if (fangzhou?.isFangzhouRevealedSlot?.(alienGameState, alienSlotId)) {
+      return Boolean(fangzhou.canPlaceAnyFangzhouTrace?.(
+        alienGameState,
+        alienSlotId,
+        traceType,
+        player,
+      ));
+    }
+    return Boolean(alienSlot.alienId);
+  }
+
+  function hasAlienTracePanelPlacementTarget(allowedAlienSlotIds, allowedTraceTypes, player) {
+    const slotIds = getAlienTraceChoiceSlotIds(allowedAlienSlotIds);
+    const traceTypes = allowedTraceTypes?.length ? allowedTraceTypes : aliens.TRACE_TYPES;
+    return slotIds.some((alienSlotId) => traceTypes.some((traceType) => (
+      canPlaceAlienTraceOnPanelWithoutMode(alienSlotId, traceType, player)
+    )));
+  }
+
+  function renderFangzhouTraceDestinationChoice(alienSlotId, unlockableTraceTypes, options = {}) {
+    const currentPlayer = getAlienTracePickerPlayer();
+    const canPanelPlace = Boolean(options.canPanelPlace);
+    if (els.alienTraceTitle) els.alienTraceTitle.textContent = "获取外星人标记";
+    if (els.alienTraceSubtitle) {
+      const playerText = currentPlayer?.colorLabel ? `${currentPlayer.colorLabel}玩家` : "当前玩家";
+      els.alienTraceSubtitle.textContent = `${playerText}：请选择本次外星人痕迹的用途。`;
+    }
+    if (els.alienTraceCancel) els.alienTraceCancel.hidden = false;
+
+    const choices = [];
+    if (canPanelPlace) {
+      choices.push({
+        destination: "panel",
+        label: "放到外星人面板",
+        description: "随后点击 state 或正面牌图上的可放置痕迹位",
+      });
+    }
+    if (unlockableTraceTypes.length === 1) {
+      const traceType = unlockableTraceTypes[0];
+      choices.push({
+        destination: "unlock",
+        traceType,
+        label: `解锁${aliens.getTraceTypeLabel(traceType)}方舟牌`,
+        description: "消耗本次痕迹解锁保留区卡牌并加入手牌",
+      });
+    } else if (unlockableTraceTypes.length > 1) {
+      choices.push({
+        destination: "unlock",
+        label: "解锁方舟牌",
+        description: "下一步选择要解锁的方舟牌颜色",
+      });
+    }
+
+    els.alienTraceActions.replaceChildren(...choices.map((choice) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.alienPickerStep = "fangzhou-destination";
+      button.dataset.alienSlot = String(alienSlotId);
+      button.dataset.fangzhouDestination = choice.destination;
+      if (choice.traceType) button.dataset.traceType = choice.traceType;
+      button.innerHTML = `${choice.label}<small>${choice.description}</small>`;
+      return button;
+    }));
+    if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = false;
+  }
+
+  function renderFangzhouUnlockTraceChoice(alienSlotId, traceTypes) {
+    const currentPlayer = getAlienTracePickerPlayer();
+    const unlockableTraceTypes = getFangzhouUnlockableTraceTypes(alienSlotId, traceTypes, currentPlayer);
+    if (els.alienTraceTitle) els.alienTraceTitle.textContent = "解锁方舟牌";
+    if (els.alienTraceSubtitle) {
+      const playerText = currentPlayer?.colorLabel ? `${currentPlayer.colorLabel}玩家` : "当前玩家";
+      els.alienTraceSubtitle.textContent = `${playerText}：选择要消耗本次痕迹解锁的方舟牌。`;
+    }
+    if (els.alienTraceCancel) els.alienTraceCancel.hidden = false;
+    alienTracePickerState = {
+      ...alienTracePickerState,
+      mode: "fangzhou-unlock-color",
+      selectedAlienSlotId: Number(alienSlotId),
+      allowedTraceTypes: unlockableTraceTypes,
+    };
+    els.alienTraceActions.replaceChildren(...unlockableTraceTypes.map((traceType) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.alienPickerStep = "fangzhou-unlock-color";
+      button.dataset.alienSlot = String(alienSlotId);
+      button.dataset.traceType = traceType;
+      button.dataset.fangzhouUse = "unlock";
+      button.innerHTML = `解锁${aliens.getTraceTypeLabel(traceType)}方舟牌<small>卡牌进入手牌</small>`;
+      return button;
+    }));
+    if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = false;
+    return { ok: true, message: "请选择要解锁的方舟牌" };
+  }
+
+  function openFangzhouTraceDestinationChoice(options = {}) {
+    const allowedTraceTypes = options.allowedTraceTypes?.length
+      ? options.allowedTraceTypes
+      : (alienTracePickerState?.allowedTraceTypes?.length ? alienTracePickerState.allowedTraceTypes : aliens.TRACE_TYPES);
+    const hasAllowedAlienSlotIdsOption = Object.prototype.hasOwnProperty.call(options, "allowedAlienSlotIds");
+    const allowedAlienSlotIds = hasAllowedAlienSlotIdsOption
+      ? (options.allowedAlienSlotIds?.length ? options.allowedAlienSlotIds.map(Number) : null)
+      : (alienTracePickerState?.allowedAlienSlotIds || null);
+    const alienSlotId = options.alienSlotId || getFangzhouTraceChoiceSlotId(allowedAlienSlotIds);
+    if (!alienSlotId) return null;
+    const currentPlayer = resolvePlayerReference({
+      playerId: options.targetPlayerId || alienTracePickerState?.targetPlayerId,
+      playerColor: options.targetPlayerColor || alienTracePickerState?.targetPlayerColor,
+    }) || getAlienTracePickerPlayer();
+    const unlockableTraceTypes = getFangzhouUnlockableTraceTypes(alienSlotId, allowedTraceTypes, currentPlayer);
+    if (!unlockableTraceTypes.length) return null;
+
+    const canPanelPlace = hasAlienTracePanelPlacementTarget(
+      allowedAlienSlotIds,
+      allowedTraceTypes,
+      currentPlayer,
+    );
+
+    alienTracePickerState = {
+      ...alienTracePickerState,
+      mode: "fangzhou-destination",
+      selectedAlienSlotId: Number(alienSlotId),
+      allowedTraceTypes,
+      allowedAlienSlotIds,
+      targetPlayerId: currentPlayer?.id || options.targetPlayerId || alienTracePickerState?.targetPlayerId || null,
+      targetPlayerColor: currentPlayer?.color || options.targetPlayerColor || alienTracePickerState?.targetPlayerColor || null,
+      effectLabel: options.label || alienTracePickerState?.effectLabel || null,
+    };
+
+    if (canPanelPlace) {
+      renderFangzhouTraceDestinationChoice(alienSlotId, unlockableTraceTypes, { canPanelPlace });
+      return { ok: true, message: "请选择方舟痕迹用途" };
+    }
+    if (unlockableTraceTypes.length === 1) {
+      return confirmFangzhouCard2Unlock(alienSlotId, unlockableTraceTypes[0]);
+    }
+    return renderFangzhouUnlockTraceChoice(alienSlotId, unlockableTraceTypes);
+  }
+
+  function handleFangzhouTraceDestinationChoice(destination, traceType = null) {
+    const alienSlotId = Number(alienTracePickerState?.selectedAlienSlotId || alienGameState.fangzhou?.revealedSlotId || 0);
+    if (!alienSlotId) return { ok: false, message: "没有可用的方舟槽位" };
+    if (destination === "panel") {
+      return beginAlienTraceBoardPlacement({
+        allowedTraceTypes: alienTracePickerState?.allowedTraceTypes || aliens.TRACE_TYPES,
+        allowedAlienSlotIds: alienTracePickerState?.allowedAlienSlotIds || null,
+        targetPlayerId: alienTracePickerState?.targetPlayerId || null,
+        targetPlayerColor: alienTracePickerState?.targetPlayerColor || null,
+        label: pendingAlienTraceAction?.effectLabel || alienTracePickerState?.effectLabel || "外星人痕迹",
+        fangzhouDestinationResolved: true,
+      });
+    }
+    if (destination === "unlock") {
+      if (traceType) return confirmFangzhouCard2Unlock(alienSlotId, traceType);
+      return renderFangzhouUnlockTraceChoice(
+        alienSlotId,
+        alienTracePickerState?.allowedTraceTypes || aliens.TRACE_TYPES,
+      );
+    }
+    return { ok: false, message: "未知方舟痕迹用途" };
+  }
+
+  function handleFangzhouUnlockTraceChoice(traceType) {
+    const alienSlotId = Number(alienTracePickerState?.selectedAlienSlotId || alienGameState.fangzhou?.revealedSlotId || 0);
+    return confirmFangzhouCard2Unlock(alienSlotId, traceType);
+  }
+
   function placeFangzhouTraceTarget(alienSlotId, traceType, placeTarget = null) {
     if (placeTarget?.kind === "state") {
       return confirmAlienTracePlacement(alienSlotId, traceType);
@@ -16663,6 +16867,8 @@
 
   function routeFangzhouAlienTraceGain(alienSlotId) {
     const allowedTraceTypes = alienTracePickerState?.allowedTraceTypes || aliens.TRACE_TYPES;
+    const destinationChoice = openFangzhouTraceDestinationChoice({ alienSlotId, allowedTraceTypes });
+    if (destinationChoice) return destinationChoice;
     if (allowedTraceTypes.length === 1) {
       return openFangzhouTraceUseChoice(alienSlotId, allowedTraceTypes[0]);
     }
@@ -16675,30 +16881,11 @@
     return { ok: true, message: "请选择痕迹颜色" };
   }
 
-  function shouldPromptFangzhouTraceUse(alienSlotId, traceType) {
-    if (isDebugAlienTraceMode()) return false;
-    const currentPlayer = getAlienTracePickerPlayer();
-    return Boolean(
-      fangzhou?.isFangzhouRevealedSlot?.(alienGameState, alienSlotId)
-      && fangzhou.canUnlockCard2ForTrace?.(alienGameState, currentPlayer, traceType)
-    );
-  }
-
   function handleStateTraceSlotPlacement(alienSlotId, traceType) {
-    if (shouldPromptFangzhouTraceUse(alienSlotId, traceType)) {
-      return openFangzhouTraceUseChoice(alienSlotId, traceType, {
-        placeTarget: { kind: "state" },
-      });
-    }
     return confirmAlienTracePlacement(alienSlotId, traceType);
   }
 
   function handleFangzhouTraceSlotPlacement(alienSlotId, traceType, position) {
-    if (shouldPromptFangzhouTraceUse(alienSlotId, traceType)) {
-      return openFangzhouTraceUseChoice(alienSlotId, traceType, {
-        placeTarget: { kind: "fangzhou-trace", position: Number(position) },
-      });
-    }
     return confirmFangzhouTracePlacement(alienSlotId, traceType, position);
   }
 
@@ -19401,12 +19588,20 @@
         targetPlayerId: player?.id || null,
         targetPlayerColor: player?.color || null,
       };
-      beginAlienTraceBoardPlacement({
+      const fangzhouChoice = openFangzhouTraceDestinationChoice({
         allowedTraceTypes: aliens.TRACE_TYPES,
         targetPlayerId: player?.id || null,
         targetPlayerColor: player?.color || null,
         label: "半人马顶部奖励外星人痕迹",
       });
+      if (!fangzhouChoice) {
+        beginAlienTraceBoardPlacement({
+          allowedTraceTypes: aliens.TRACE_TYPES,
+          targetPlayerId: player?.id || null,
+          targetPlayerColor: player?.color || null,
+          label: "半人马顶部奖励外星人痕迹",
+        });
+      }
     } else {
       queueBanrenmaOpportunitiesForPlayer(player);
       maybeContinueAlienRevealQueuedOpportunities();
@@ -22988,28 +23183,32 @@
     els.finalResultBody.replaceChildren(...bodyRows);
     if (els.finalResultSubtitle) {
       const winnerCount = summaries.filter((summary) => (Number(summary.breakdown.totalScore) || 0) === maxScore).length;
+      const phaseLabel = isGameEnded()
+        ? `第 ${turnState.roundNumber} 轮结束`
+        : `第 ${turnState.roundNumber} 轮第 ${getDisplayedTurnNumber()} 回合`;
       els.finalResultSubtitle.textContent = summaries.length
-        ? `第 ${turnState.roundNumber} 轮结束 · ${summaries.length} 名玩家 · ${winnerCount > 1 ? "并列最高分" : "最高分"} ${formatFinalResultScore(maxScore)}`
+        ? `${phaseLabel} · ${summaries.length} 名玩家 · ${winnerCount > 1 ? "并列最高分" : "最高分"} ${formatFinalResultScore(maxScore)}`
         : "暂无玩家分数";
     }
   }
 
   function syncFinalResultButton() {
-    const visible = isGameEnded();
     if (els.finalResultButton) {
-      els.finalResultButton.hidden = !visible;
-      els.finalResultButton.disabled = !visible;
-      els.finalResultButton.setAttribute("aria-expanded", String(visible && !els.finalResultOverlay?.hidden));
-      els.finalResultButton.setAttribute("aria-disabled", String(!visible));
+      els.finalResultButton.hidden = false;
+      els.finalResultButton.disabled = false;
+      els.finalResultButton.setAttribute("aria-expanded", String(!els.finalResultOverlay?.hidden));
+      els.finalResultButton.setAttribute("aria-disabled", "false");
     }
-    if (!visible) {
+    if (!isGameEnded()) {
       finalResultAutoOpened = false;
-      closeFinalResultDialog({ silent: true });
+    }
+    if (els.finalResultOverlay && !els.finalResultOverlay.hidden) {
+      renderFinalResultDialog();
     }
   }
 
   function openFinalResultDialog(options = {}) {
-    if (!isGameEnded() || !els.finalResultOverlay) return { ok: false, message: "游戏尚未结束" };
+    if (!els.finalResultOverlay) return { ok: false, message: "统计窗口不可用" };
     renderFinalResultDialog();
     els.finalResultOverlay.hidden = false;
     els.finalResultOverlay.setAttribute("aria-hidden", "false");
@@ -23023,7 +23222,7 @@
     els.finalResultOverlay.hidden = true;
     els.finalResultOverlay.setAttribute("aria-hidden", "true");
     els.finalResultButton?.setAttribute("aria-expanded", "false");
-    if (!options.silent && isGameEnded()) {
+    if (!options.silent) {
       els.finalResultButton?.focus?.();
     }
   }
@@ -26993,7 +27192,7 @@
       lockAllActionButtons(gameplayLockReason);
       return;
     }
-    if (isAiAutoBattlePlayer(playerState.currentPlayerId)) {
+    if (isAiAutoBattlePlayer(playerState.currentPlayerId) && !isAiAutomationPaused()) {
       lockAllActionButtons("电脑玩家自动行动中");
       return;
     }
@@ -28946,6 +29145,8 @@
     beginYichangdianTraceGridPlacement,
     renderAlienTracePickerColorStep,
     openFangzhouTraceUseChoice,
+    handleFangzhouTraceDestinationChoice,
+    handleFangzhouUnlockTraceChoice,
     confirmFangzhouCard2Unlock,
     beginFangzhouTraceGridPlacement,
     confirmAlienRevealNotice,

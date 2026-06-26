@@ -95,7 +95,7 @@
 - 仅统计当前玩家**已标记**的板块；实时板块分 = 各已标记板块的 `基础值 × 位次倍率`。
 - 3 型终局计分卡打出后进入保留区第二行；实时卡牌终局分只统计当前玩家保留区中的 3 型卡。当前基础牌规则：`b_14` 每完成 1 个红色扇区 3 分；`b_63` 每完成 1 个黄色扇区 3 分；`b_100` 每完成 1 个蓝色扇区 3 分；`b_128` 每完成 1 个黑色扇区 3 分；`b_30` 每个蓝色外星人痕迹 2 分；`b_86` 每个粉色外星人痕迹 2 分；`b_113` 每个黄色外星人痕迹 2 分；`b_33` 每个蓝色科技 2 分；`b_45` 每个有信号的扇区 1 分；`b_34` 木星每个环绕/登陆（含卫星）3 分；`b_74` 火星每个环绕/登陆（含卫星）4 分；`b_82` 若有探测器在小行星得 13 分；`b_115` 按当前玩家未标记终局板块的最右档分数合计。DLC 终局牌规则：`dlc_8` 每个剩余可用数据 3 分；`dlc_10` 每个剩余宣传 1 分；`dlc_31` 每个有至少 2 个己方主星登陆标记的行星 6 分；`dlc_39` 每个己方环绕、主星登陆、卫星登陆标记 2 分。
 - 玩家状态栏在正常分数后显示终局总分（图标 `assets/symbol/effect/final_score.webp`）= 当前 `resources.score` + 板块分 + 终局计分牌 + 外星人终局项（如九折、符文族）；正常分数行不变。
-- 游戏结束后显示独立悬浮的「终局结果」按钮，并默认弹出终局结果悬浮窗；窗口第一列为得分项目，后续列按白、棕、蓝、绿展示本局参与玩家，最高总分单元格高亮。
+- 开局即显示独立悬浮的「统计」按钮，可随时打开当前实时总分统计；游戏结束后仍会默认弹出统计悬浮窗。窗口第一列为得分项目，后续列按白、棕、蓝、绿展示本局参与玩家，最高总分单元格高亮。
 - 终局弹窗中 `裸分` 直接取当前 `resources.score`；同时玩家状态维护 `scoreSources` 账本，用于拆出普通游戏内即时得分来源：科技 bonus（含 3 分 bonus 与首科技 2 分）、蓝色科技放置数据得分、1/2 型任务牌得分、环绕、登陆、粉/黄/蓝外星人痕迹得分、外星人卡牌左上角快速行动得分。旧存档或改动前已发生的即时得分若没有账本记录，只会体现在 `裸分` 中。
 - 统一计分入口：`SetiEndGameScoring.computePlayerFinalScore(context)`，`context` 需包含 `currentPlayer`、`finalScoringState`、`nebulaDataState`、`alienGameState`、`planetStatsState`、`cardEffects`、`getCardTypeCode`。返回值包含 `baseScore`、`tileScore`、`cardScore`、`jiuzheCardScore`、`jiuzhePenaltyScore`、`runezuSymbolScore`、`totalScore`，并用 `tileScoresById.{a,b,c,d}` 拆出 a/b/c/d 板块分；九折卡牌分数、九折损失分数和符文族 symbol 分数在对应外星人存在时作为条件行展示。
 - 调试按钮「+20分」会给当前玩家增加 20 分，用于快速触发 25 / 50 / 70 分门槛标记流程。
@@ -150,7 +150,7 @@ UI 布局：
 - 默认坐标已固化在 `randomizer/game/aliens/placement.js` 的 `ALIEN_TRACE_MARKER_SLOTS`。
 - 首标记仅在 `firstPlaced` 后显示玩家 token（`ALIEN_TRACE_TOKEN_DISPLAY_SCALE` 当前为 7），无默认参考图标。
 - 非首标记数量不限；网格锚点为 `ALIEN_EXTRA_TRACE_MARKER_SLOTS`（第二行第二列中心），从锚点与 token 尺寸反推第一格中心，再按每行 3 个向右、向下排布；`ALIEN_EXTRA_TRACE_TOKEN_DISPLAY_SCALE` 当前为 5。槽位揭示后仍可在已有首痕迹的颜色上继续点击 state 额外痕迹位追加 token。
-- 获取外星人标记的正式流程会进入面板点击模式：未揭示槽位可点击 state 首标记/额外痕迹位；已揭示槽位可点击正面牌图痕迹位，也可点击 state 上已有首痕迹颜色的额外痕迹位。方舟获得痕迹时若同色保留牌仍可解锁，会先选择“解锁保留牌”或“放置到外星人上”。调试「获取外星人标记」使用同类直接点击模式；再次点击调试按钮退出。各外星人专属调试按钮揭示后会自动进入该模式。
+- 获取外星人标记的正式流程会进入面板点击模式：未揭示槽位可点击 state 首标记/额外痕迹位；已揭示槽位可点击正面牌图痕迹位，也可点击 state 上已有首痕迹颜色的额外痕迹位。方舟获得痕迹且同色保留牌仍可解锁时，会在领取痕迹入口先选择“放到外星人面板”或“解锁方舟牌”；选择面板后再点击 state 或正面牌图上的目标位时只执行放置，不再二次弹出用途选择。调试「获取外星人标记」使用同类直接点击模式；再次点击调试按钮退出。各外星人专属调试按钮揭示后会自动进入该模式。
 - 符文族机制由 `randomizer/game/aliens/runezu.js` 管理：揭示时给星球、具名星云扇区、带 2 分首取 bonus 的科技板块和正面白色圆框放置 symbol；玩家通过对应访问/结算/科技首取获得 symbol。揭示后的三色痕迹各有 1-4 号位，1 号位可叠放并拿取/补充白色圆框 symbol，后续 token 向上紧密叠放且已有 token 后热区纵向扩大，2/3 号位给分和符文族牌，4 号位给 7 分和 symbol。玩家回合空闲时，持有可放置 symbol 会高亮正面可用黑圈；点击黑圈并选择 1 个持有 symbol 后，作为快速行动放置并领取对应奖励。未放入黑圈的持有 symbol 按最大不同集合参与终局计分。
 - 调试「符文族调试」会直接揭示符文族并按揭示机制放置 6 个白色圆框 symbol，不自动放置痕迹 token，也不显示黑圈占位；会自动进入「获取外星人标记」模式，点击符文族正面痕迹位会按正式规则放置当前玩家 token 并触发对应奖励。
 - 奥陌陌机制由 `randomizer/game/aliens/aomomo.js` 管理：揭示后替换第 3 轮盘贴图，启用第 3 轮盘基础坐标 `x=5, y=3` 的奥陌陌星球和 `aomomo` 星云；玩家资源新增 `aomomoFossils`。奥陌陌三色痕迹各有 1-5 号位，1 号位可无限堆叠，1/5 号位消耗化石得分，2/4 号位获得化石，3/4 号位获得奥陌陌牌。环绕和登陆标记写入奥陌陌面板的 1 个环绕槽和 3 个登陆槽。
@@ -252,7 +252,7 @@ UI 布局：
 - 撤销快速行动会删除 draft 中最近的快速行动记录；撤销主要行动效果会删除最近的主要行动记录；回滚整个主要行动会删除 draft 中所有主要行动记录但保留尚未撤销的快速行动记录。若最近步骤是不可撤销屏障，只提示原因，不会越过屏障撤销更早步骤。
 - 确认后不可撤销的精选/拿牌效果会写入不可撤销屏障，并在日志中显示原因；公司 1x 中任务中继站、芬威克、未来跨度、宇宙战略等公共牌精选补牌能力也按 quick 日志记录 `不可撤销：公共牌补牌翻出新牌`。
 - 每条已确认的稳定行动日志 entry 会附带 `recoverySnapshot`，保存该日志确认后的完整游戏状态切片（含隐藏牌序、外星人状态、火箭、科技、星云、玩家、任务状态等，不递归保存日志本身）。最后一名玩家确认初始选择后若进入“初始收入增加”效果流，该条日志会暂时不暴露恢复快照，直到初始收入全部完成后刷新为稳定恢复点。`window.SetiRandomizer.getActionLogRecoveryPackage()` 可导出含恢复快照的日志包；`window.SetiRandomizer.recoverFromActionLog(logOrPackage, { entryId/index })` 会取对应日志快照恢复局面，并清空所有进行中的 overlay/选择流程。恢复点定位为“某条已确认日志之后”的稳定局面；调试入口仍不保证完整日志语义。
-- 游戏结束后「终局结果」弹窗会显示「下载行动日志」按钮，调用 `window.SetiRandomizer.downloadActionLogMarkdown()` 以 Markdown 文件导出终局行动复盘。`window.SetiRandomizer.getActionLogMarkdown()` 返回同一份 Markdown 文本，方便 Playwright/控制台/外部 agent 读取；`downloadActionLogMarkdown()` 默认只允许终局后下载，传 `{ allowIncomplete: true }` 可调试导出当前局面。Markdown 只包含游戏元信息、终局分数、玩家路线摘要和完整行动流水，不包含 `recoverySnapshot`、隐藏牌序或完整恢复状态；需要恢复局面时仍使用 `getActionLogRecoveryPackage()`。
+- 开局即显示悬浮「下载日志」按钮，统计弹窗内也保留同一入口；UI 调用 `window.SetiRandomizer.downloadActionLogMarkdown({ allowIncomplete: true })`，可随时以 Markdown 文件导出当前行动复盘。`window.SetiRandomizer.getActionLogMarkdown()` 返回同一份 Markdown 文本，方便 Playwright/控制台/外部 agent 读取；`downloadActionLogMarkdown()` 作为公开 API 默认仍只允许终局后下载，传 `{ allowIncomplete: true }` 可导出当前局面。Markdown 只包含游戏元信息、终局分数、玩家路线摘要和完整行动流水，不包含 `recoverySnapshot`、隐藏牌序或完整恢复状态；需要恢复局面时仍使用 `getActionLogRecoveryPackage()`。
 - `randomizeAll()` 会清空行动日志，避免新开局混入上一局流程；调试入口 `window.SetiRandomizer.getActionLog()` 返回已确认日志快照。
 
 主行动锁定规则：

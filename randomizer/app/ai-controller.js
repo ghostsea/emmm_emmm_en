@@ -639,6 +639,7 @@
       const report = {
         enabled: aiAutoBattleState.enabled,
         running: aiAutoBattleState.running,
+        pausedOnBug: aiAutoStepPausedOnBug,
         playerIds: aiAutoBattleState.playerIds,
         logs: aiAutoBattleState.logs,
         bugs: aiAutoBattleState.bugs,
@@ -670,6 +671,10 @@
     function isAiAutoBattlePlayer(playerId = playerState.currentPlayerId) {
       return aiAutoBattleState.enabled
         && getAiAutoBattlePlayerIds().includes(playerId);
+    }
+
+    function isAiAutomationPaused() {
+      return Boolean(aiAutoStepPausedOnBug);
     }
 
     function isAiIncomeDiscardType(type) {
@@ -8355,9 +8360,13 @@
         return hasAiFeasibleSimpleGridTraceTarget(yichangdian, alienSlotId, allowedTraceTypes, { stackPosition: 1 });
       }
       if (fangzhou?.isFangzhouRevealedSlot?.(alienGameState, alienSlotId)) {
-        return hasAiFeasibleGridTraceTarget(fangzhou, alienSlotId, allowedTraceTypes, (traceType, position) => (
+        const canPlaceOnPanel = hasAiFeasibleGridTraceTarget(fangzhou, alienSlotId, allowedTraceTypes, (traceType, position) => (
           fangzhou.canPlaceFangzhouTrace?.(alienGameState, alienSlotId, traceType, position, player)?.ok
         ));
+        const canUnlockCard = (allowedTraceTypes || []).some((traceType) => (
+          fangzhou.canUnlockCard2ForTrace?.(alienGameState, player, traceType)
+        ));
+        return canPlaceOnPanel || canUnlockCard;
       }
       if (banrenma?.isBanrenmaRevealedSlot?.(alienGameState, alienSlotId)) {
         return hasAiFeasibleBanrenmaTraceTarget(alienSlotId, allowedTraceTypes, player);
@@ -10435,6 +10444,7 @@
       getAiStrategyWeights,
       getCardTriggerFreeMoveEffect,
       getPlayerAgentLabel,
+      isAiAutomationPaused,
       isAiAutoBattlePlayer,
       listCardTriggerFreeMoveCandidates,
       recordAiAutoBattleLog,

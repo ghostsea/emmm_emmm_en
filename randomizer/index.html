@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=alien-reveal-notice-1">
+  <link rel="stylesheet" href="./style.css?v=report-actions-1-fangzhou-trace-choice-1">
 </head>
 <body>
   <div class="app-wrap debug-collapsed log-collapsed" id="app-wrap">
@@ -503,7 +503,10 @@
       </div>
     </aside>
 
-    <button class="final-result-button" type="button" id="final-result-button" hidden aria-label="查看终局结果" aria-controls="final-result-overlay" aria-expanded="false">终局结果</button>
+    <div class="floating-report-actions" id="floating-report-actions" aria-label="统计与日志">
+      <button class="floating-report-button final-result-button" type="button" id="final-result-button" aria-label="查看当前统计" aria-controls="final-result-overlay" aria-expanded="false">统计</button>
+      <button class="floating-report-button action-log-download-button" type="button" id="action-log-download-button" aria-label="下载行动日志">下载日志</button>
+    </div>
 
     <div class="final-result-overlay" id="final-result-overlay" hidden aria-hidden="true">
       <div class="final-result-dialog" role="dialog" aria-modal="true" aria-labelledby="final-result-title">
@@ -610,11 +613,11 @@
   <script src="./game/ai/index.js?v=ai-auto-battle-1"></script>
   <script src="./app/dependencies.js?v=app-boundaries-5"></script>
   <script src="./app/constants.js?v=app-boundaries-4"></script>
-  <script src="./app/dom.js?v=alien-reveal-confirm-1"></script>
-  <script src="./app/events.js?v=alien-reveal-confirm-1"></script>
+  <script src="./app/dom.js?v=report-actions-1"></script>
+  <script src="./app/events.js?v=report-actions-1-fangzhou-trace-choice-1"></script>
   <script src="./app/action-log-export.js?v=action-log-export-1"></script>
   <script src="./app/public-api.js?v=app-boundaries-5"></script>
-  <script src="./app/ai-controller.js?v=app-boundaries-52-mission-income-1"></script>
-  <script src="./app.js?v=app-boundaries-12-chong-task-complete-fix-6-alien-reveal-confirm-2-nonblocking-1-mission-income-1"></script>
+  <script src="./app/ai-controller.js?v=report-actions-1-fangzhou-trace-choice-1"></script>
+  <script src="./app.js?v=report-actions-1-fangzhou-trace-choice-1"></script>
 </body>
 </html>
