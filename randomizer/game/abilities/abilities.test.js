@@ -284,6 +284,27 @@ function launchToPlanet(context, planetId) {
 }
 
 {
+  const context = createContext({ resources: { credits: 10, energy: 0 } });
+  launchToPlanet(context, "jupiter");
+  const options = abilities.planet.getLandOptions(context, {
+    skipCost: true,
+    allowSatelliteWithoutTech: true,
+  });
+  assert.equal(options.ok, true, options.message);
+  assert.equal(options.choices.some((choice) => choice.target.type === "planet"), true);
+  assert.equal(options.choices.some((choice) => choice.target.satelliteId === "io"), true);
+
+  const result = abilities.executeAbility("landProbe", context, {
+    target: { type: "satellite", satelliteId: "io" },
+    skipCost: true,
+    allowSatelliteWithoutTech: true,
+  });
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerKind, "satellite");
+  assert.equal(currentPlayer(context).resources.energy, 0);
+}
+
+{
   const context = createContext({ resources: { credits: 10, energy: 10 } });
   const player = currentPlayer(context);
   player.techState = playerTech.createPlayerTechState();

@@ -117,6 +117,62 @@ const poorMission = { ...missionPlayer, resources: { publicity: 1 } };
 const poorFlow = abilities.buildActiveAbilityFlow(poorMission, "任务中继站", 1);
 assert.equal(poorFlow.ok, false);
 
+const missionCardsStub = {
+  getCardLabel: (card) => card.label || "card",
+  getIncomeGainForCard: (card) => card.incomeGain || null,
+};
+const missionPlayersStub = {
+  gainResources: (target, gain) => {
+    target.resources = target.resources || {};
+    for (const [key, value] of Object.entries(gain || {})) {
+      target.resources[key] = (target.resources[key] || 0) + value;
+    }
+    return target;
+  },
+};
+const missionDataStub = {
+  gainData: (target, options = {}) => {
+    target.resources.availableData = (target.resources.availableData || 0) + 1;
+    return { ok: true, source: options.source || null };
+  },
+};
+const missionCreditPlayer = { id: "mission-credit", hand: [], resources: { credits: 0, handSize: 0 } };
+const missionCreditIncome = abilities.applyIncomeResourcesFromCard(
+  missionCardsStub,
+  missionPlayersStub,
+  missionDataStub,
+  missionCreditPlayer,
+  { label: "信用点收入牌", incomeGain: { credits: 1 } },
+);
+assert.equal(missionCreditIncome.ok, true);
+assert.equal(missionCreditPlayer.resources.credits, 1);
+assert.match(missionCreditIncome.message, /信用点/);
+
+const missionBlindPlayer = { id: "mission-blind", hand: [], resources: { handSize: 0, availableData: 0 } };
+let missionBlindDraws = 0;
+const missionBlindIncome = abilities.applyIncomeResourcesFromCard(
+  missionCardsStub,
+  missionPlayersStub,
+  missionDataStub,
+  missionBlindPlayer,
+  { label: "盲抽收入牌", incomeGain: { handSize: 1 } },
+  {
+    blindDraw: (target) => {
+      missionBlindDraws += 1;
+      const drawn = { id: `mission-draw-${missionBlindDraws}` };
+      target.hand.push(drawn);
+      target.resources.handSize = target.hand.length;
+      return { ok: true, card: drawn };
+    },
+  },
+);
+assert.equal(missionBlindIncome.ok, true);
+assert.equal(missionBlindDraws, 1);
+assert.equal(missionBlindPlayer.hand.length, 1);
+assert.equal(missionBlindPlayer.resources.handSize, 1);
+assert.equal(missionBlindIncome.drawnCards[0].id, "mission-draw-1");
+assert.match(missionBlindIncome.message, /盲抽1张/);
+
 const cardsStub = {
   getCardLabel: (card) => card.label || card.src || "card",
   getDiscardActionRewardForCard: (card) => {

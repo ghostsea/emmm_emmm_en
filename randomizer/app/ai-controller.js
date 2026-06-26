@@ -1170,7 +1170,7 @@
       const incomeValue = incomeGain ? scoreAiIncomeOpportunityValue(player, incomeGain) : 0;
       const cornerValue = scoreAiCardCornerOpportunity(card);
       if (pendingType === "industry_mission_pick") {
-        return incomeGain?.handSize ? -Infinity : incomeValue;
+        return incomeGain ? incomeValue : -Infinity;
       }
       if (pendingType === "industry_fenwick_pick") {
         const reward = industry?.getCornerReward?.(cards, card) || null;

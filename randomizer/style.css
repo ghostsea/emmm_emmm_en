@@ -831,6 +831,10 @@ body {
   transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s ease;
 }
 
+.card-hover-preview.card-hover-preview--pass-reserve {
+  z-index: 1340;
+}
+
 .card-hover-preview[data-placement="below"] {
   transform-origin: top center;
 }
@@ -1928,6 +1932,19 @@ body {
   backdrop-filter: blur(2px);
 }
 
+.alien-reveal-notice-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(6, 10, 18, 0.52);
+  backdrop-filter: blur(2px);
+  pointer-events: none;
+}
+
 .data-place-overlay[hidden],
 .scan-target-overlay[hidden],
 .final-result-overlay[hidden],
@@ -1969,6 +1986,11 @@ body {
   box-shadow: 0 22px 58px rgba(0, 0, 0, 0.5);
   color: #eef3f8;
   overflow: hidden;
+}
+
+.alien-reveal-notice-dialog {
+  width: min(460px, 100%);
+  pointer-events: auto;
 }
 
 .final-result-header {

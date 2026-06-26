@@ -172,8 +172,6 @@
       getCurrentPlayer,
       openJiuzheCardDialog,
       openBanrenmaCardConditionCompletionPicker,
-      getReadyChongTaskForReservedCard,
-      openChongTraceTaskCompletionPicker,
       openCardTaskCompletionPicker,
       confirmMovePayment,
       cancelMovePaymentSelection,
@@ -982,13 +980,7 @@
       if (!button || button.disabled) return;
       const currentPlayer = getCurrentPlayer();
       const card = currentPlayer?.reservedCards?.[Number(button.dataset.reservedIndex)];
-      if (card) {
-        if (getReadyChongTaskForReservedCard(card, currentPlayer)) {
-          openChongTraceTaskCompletionPicker(card);
-        } else {
-          openCardTaskCompletionPicker(card);
-        }
-      }
+      if (card) openCardTaskCompletionPicker(card);
     });
     els.movePaymentConfirm?.addEventListener("click", confirmMovePayment);
     els.movePaymentCancel?.addEventListener("click", cancelMovePaymentSelection);

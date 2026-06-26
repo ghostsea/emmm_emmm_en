@@ -58,7 +58,7 @@
 | 哨兵探测网络 | `sentinel_arm_play_corner` | `sentinel_arm_play_corner` | 武装本轮；**打牌效果队列末尾**追加 `industry_sentinel_corner` 结算打出牌弃牌角标（非外星人） |
 | 寰宇动力 | `huanyu_free_moves` | `huanyu_free_moves` | 至多 2 枚火箭各免费移动 1 次 |
 | 赫利昂联合体 | `helios_remove_tech_income` | `helios_remove_tech` → 弃牌收入 | 移除一项非蓝科技 + 1 次收入（弃 1 张手牌按收入角标） |
-| 任务中继站 | `mission_publicity_pick_income` | `mission_publicity_pick` | 消耗 2 宣传精选 1 张牌，获得其**收入角标**资源（不支持盲抽收入） |
+| 任务中继站 | `mission_publicity_pick_income` | `mission_publicity_pick` | 消耗 2 宣传精选 1 张牌，获得其**收入角标**奖励（盲抽角标会盲抽 1 张） |
 | 芬威克研究中心 | `fenwick_publicity_pick_corner` | `fenwick_publicity_pick` | 消耗 2 宣传精选 1 张牌，获得**弃牌角标**（不弃牌）；若角标是移动，移动选择可取消但精选补牌仍不可撤销 |
 | 深空探测 | `deepspace_swap_cards` | `deepspace_swap` | 选手牌 1 张再选公共牌 1 张交换 |
 | 宇宙战略集团 | `strategy_pick_card` | `strategy_pick` | 精选 1 张公共牌（无额外资源）；确认精选后清除 3 个被动奖励槽 token |
@@ -76,7 +76,7 @@
 
 - `getCornerReward(cards, card)`：读左上角弃牌角标 → `{ kind: "resource" \| "move", gain, dataCount?, movementPoints? }`
 - `applyCornerReward(players, data, player, reward)`：结算资源/数据；移动类返回 `pendingFreeMove`
-- `applyIncomeResourcesFromCard`：任务中继站精选后的收入角标（拒绝 `handSize` 盲抽收入）
+- `applyIncomeResourcesFromCard`：任务中继站精选后的收入角标奖励（资源、数据与 `handSize` 盲抽）
 - `buildStratusPublicCornerEffectNodes`：生成层云核心快速行动队列节点 `type: "industry_stratus_corner"`
 - `buildSentinelPlayCornerEffectNodes`：生成打牌队列节点 `type: "industry_sentinel_corner"`
 

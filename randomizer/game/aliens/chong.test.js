@@ -94,5 +94,23 @@ assert.equal(chong0Effects[1].icon, "chongFossilBack");
 assert.equal(chong.buildImmediateEffects(2)[0].icon, "chongFossilOk");
 assert.equal(chong.buildImmediateEffects(6)[0].type, chong.EFFECT_TYPES.CHONG_ORBIT_OR_LAND_FOR_PICKUP);
 assert.equal(chong.buildImmediateEffects(6)[0].icon, "orbitOrLand");
+for (const cardIndex of [0, 3, 5, 6, 8, 9]) {
+  const task = chong.getCardTask(cardIndex);
+  const effects = chong.buildImmediateEffects(cardIndex);
+  assert.equal(task.kind, "transport", `chong ${cardIndex} should be a transport task`);
+  assert.equal(effects.some((effect) => effect.type === chong.EFFECT_TYPES.CHONG_PICKUP_FOSSIL), true, `chong ${cardIndex} should pick up a fossil`);
+}
+for (const cardIndex of [8, 9]) {
+  const [travelEffect] = chong.buildImmediateEffects(cardIndex);
+  assert.equal(travelEffect.type, chong.EFFECT_TYPES.CHONG_LAND_FOR_PICKUP);
+  assert.equal(travelEffect.options.allowSatellite, true, `chong ${cardIndex} should allow satellite landing`);
+}
+for (const cardIndex of [0, 3, 5]) {
+  const travelEffect = chong.buildImmediateEffects(cardIndex).find((effect) => (
+    effect.type === chong.EFFECT_TYPES.CHONG_LAND_FOR_PICKUP
+  ));
+  assert.ok(travelEffect, `chong ${cardIndex} should land before pickup`);
+  assert.equal(Boolean(travelEffect.options.allowSatellite), false, `chong ${cardIndex} should not allow satellite landing`);
+}
 
 console.log("chong.test.js: all tests passed");

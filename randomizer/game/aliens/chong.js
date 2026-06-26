@@ -111,6 +111,7 @@
     CHONG_PICKUP_AFTER_ORBIT_OR_LAND: "chong_pickup_after_orbit_or_land",
     CHONG_PROBE_PLANET_FOSSIL_REWARD: "chong_probe_planet_fossil_reward",
     CHONG_CHOOSE_PLANET_FOSSIL_REWARD: "chong_choose_planet_fossil_reward",
+    CHONG_TASK_CLEANUP: "chong_task_cleanup",
   });
 
   function effect(id, type, label, icon, options = {}) {

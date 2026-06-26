@@ -109,25 +109,44 @@
     return { ok: false, message: "不支持的弃牌角标奖励", results };
   }
 
-  function applyIncomeResourcesFromCard(cards, players, data, player, card) {
+  function applyIncomeResourcesFromCard(cards, players, data, player, card, options = {}) {
     const gain = cards.getIncomeGainForCard(card);
     if (!gain) {
       return { ok: false, message: `无法识别卡牌收入：${cards.getCardLabel(card)}` };
     }
     const resourceGain = {};
+    const dataResults = [];
+    const drawnCards = [];
     if (gain.credits) resourceGain.credits = gain.credits;
     if (gain.energy) resourceGain.energy = gain.energy;
     if (gain.publicity) resourceGain.publicity = gain.publicity;
-    if (gain.availableData) {
-      for (let index = 0; index < gain.availableData; index += 1) {
-        data.gainData(player, { source: "industry_income" });
-      }
-    }
-    if (gain.handSize) {
-      return { ok: false, message: "任务中继站不支持盲抽收入角标" };
-    }
     if (Object.keys(resourceGain).length) {
       players.gainResources(player, resourceGain);
+    }
+    const dataCount = Math.max(0, Math.round(Number(gain.availableData) || 0));
+    for (let index = 0; index < dataCount; index += 1) {
+      dataResults.push(data.gainData(player, { source: "industry_income" }));
+    }
+    const handCount = Math.max(0, Math.round(Number(gain.handSize) || 0));
+    if (handCount > 0) {
+      if (typeof options.blindDraw === "function") {
+        for (let index = 0; index < handCount; index += 1) {
+          const result = options.blindDraw(player);
+          if (!result?.ok) {
+            return {
+              ok: false,
+              message: result?.message || "任务中继站盲抽收入结算失败",
+              gain,
+              dataResults,
+              drawnCards,
+            };
+          }
+          if (result.card) drawnCards.push(result.card);
+        }
+      } else {
+        players.gainResources(player, { handSize: handCount });
+        drawnCards.push(...(player.hand || []).slice(-handCount));
+      }
     }
     const labels = {
       credits: "信用点",
@@ -136,11 +155,14 @@
       availableData: "数据",
     };
     const parts = Object.entries(resourceGain).map(([key, value]) => `${value}${labels[key] || key}`);
-    if (gain.availableData) parts.push(`${gain.availableData}数据`);
+    if (dataCount) parts.push(`${dataCount}数据`);
+    if (handCount) parts.push(`盲抽${drawnCards.length || handCount}张`);
     return {
       ok: true,
-      message: parts.join("、") || "无收入资源",
+      message: parts.join("、") || "无收入奖励",
       gain,
+      dataResults,
+      drawnCards,
     };
   }
 
@@ -242,7 +264,7 @@
           flowType: "mission_publicity_pick",
           label: prepared.label,
           publicityCost: PUBLICITY_PICK_COST,
-          message: `${prepared.label}：消耗 ${PUBLICITY_PICK_COST} 宣传精选 1 张牌并获得其收入资源`,
+          message: `${prepared.label}：消耗 ${PUBLICITY_PICK_COST} 宣传精选 1 张牌并获得其收入角标奖励`,
         };
       }
       case "fenwick_publicity_pick_corner": {
