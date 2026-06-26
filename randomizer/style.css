@@ -3810,6 +3810,7 @@ body {
   position: absolute;
   width: var(--rocket-width, 41px);
   height: auto;
+  z-index: 475;
   transform: translate(-50%, -50%);
   transform-origin: center center;
   cursor: default;
@@ -3914,12 +3915,13 @@ body {
 }
 
 .rocket-token.is-dragging {
+  z-index: 510;
   cursor: grabbing;
   filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.92));
 }
 
 .rocket-token.is-move-target {
-  z-index: 480;
+  z-index: 500;
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 14px var(--rocket-glow, rgba(77, 209, 255, 0.9)));
   transform: translate(-50%, -50%) scale(1.2);
 }

@@ -7812,6 +7812,21 @@
     return pendingActionEffectFlow?.historySource || HISTORY_SOURCE_MAIN;
   }
 
+  function shouldIrreversibleBlockCurrentMainAction(source) {
+    if (source !== HISTORY_SOURCE_QUICK) return true;
+    return Boolean(pendingActionExecuted || actionHistory.hasSession());
+  }
+
+  function markCurrentActionIrreversibleForSource(source, reason, code = "irreversible") {
+    if (shouldIrreversibleBlockCurrentMainAction(source)) {
+      return markCurrentActionIrreversible(reason, code);
+    }
+    return {
+      code,
+      reason: reason || "该步骤产生不可撤销影响",
+    };
+  }
+
   function getHistoryForSource(source) {
     return source === HISTORY_SOURCE_QUICK ? quickActionHistory : actionHistory;
   }
@@ -7905,7 +7920,11 @@
         step.undoable = false;
         step.irreversibleCode = options.irreversibleCode || "irreversible_quick_action";
         step.irreversibleReason = options.irreversibleReason || "该快速行动产生不可撤销影响";
-        markCurrentActionIrreversible(step.irreversibleReason, step.irreversibleCode);
+        markCurrentActionIrreversibleForSource(
+          HISTORY_SOURCE_QUICK,
+          step.irreversibleReason,
+          step.irreversibleCode,
+        );
       }
       rememberHistoryStep(HISTORY_SOURCE_QUICK, step.id);
       appendActionLogStep(
@@ -7914,6 +7933,10 @@
         composeActionLogDetailWithImpact(detail, step),
         actionLogOptionsFromHistoryStep(step),
       );
+      if (step.undoable === false) {
+        quickActionHistory.commitSession();
+        clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+      }
     }
     return step || null;
   }
@@ -8485,7 +8508,11 @@
       type: cardEffects.EFFECT_TYPES.CARD_MOVE,
       label: `${bonus.label || "卡牌事件"}：1移动`,
       icon: "movement",
-      options: { movementPoints: 1, historyLabel: bonus.label || "卡牌事件移动" },
+      options: {
+        movementPoints: 1,
+        historyLabel: bonus.label || "卡牌事件移动",
+        ...(gained > 0 ? { refundPublicityOnSkip: gained } : {}),
+      },
     };
     if (pendingActionEffectFlow) {
       insertActionEffectsAfterCurrent([moveEffect]);
@@ -9211,7 +9238,13 @@
         irreversible,
         message: `${effect.label}：盲抽 ${drawnCount}/${count} 张`,
       };
-      if (irreversible) markCurrentActionIrreversible(irreversible.reason, irreversible.code);
+      if (irreversible) {
+        markCurrentActionIrreversibleForSource(
+          HISTORY_SOURCE_QUICK,
+          irreversible.reason,
+          irreversible.code,
+        );
+      }
     } else if (effect.type === "launch") {
       const launchResult = abilities.executeAbility("launchProbe", createActionContext(), {
         ...(effect.options || {}),
@@ -9806,7 +9839,7 @@
         step.undoable = false;
         step.irreversibleCode = effectResult?.irreversible?.code || "irreversible_effect";
         step.irreversibleReason = irreversibleReason;
-        markCurrentActionIrreversible(irreversibleReason, step.irreversibleCode);
+        markCurrentActionIrreversibleForSource(source, irreversibleReason, step.irreversibleCode);
       }
       rememberHistoryStep(source, step.id);
       appendActionLogStep(
@@ -9828,7 +9861,7 @@
       pendingActionEffectFlow?.label || effect?.label || "效果",
     );
     if (!history.hasSession()) {
-      markCurrentActionIrreversible(reason, code);
+      markCurrentActionIrreversibleForSource(source, reason, code);
       return null;
     }
     history.beginStep({
@@ -9851,7 +9884,7 @@
         actionLogOptionsFromHistoryStep(step),
       );
     }
-    markCurrentActionIrreversible(reason, code);
+    markCurrentActionIrreversibleForSource(source, reason, code);
     return step;
   }
 
@@ -10161,6 +10194,25 @@
     }
   }
 
+  function applySkippedActionEffectRefund(effect) {
+    const publicity = Math.max(0, Math.round(Number(effect?.options?.refundPublicityOnSkip) || 0));
+    if (publicity <= 0) return null;
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer) return null;
+    const gain = { publicity };
+    const beforePlayer = structuredClone(currentPlayer);
+    players.gainResources(currentPlayer, gain);
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      currentPlayer,
+      beforePlayer,
+      "恢复跳过效果返还前玩家状态",
+    ));
+    return {
+      gain,
+      message: `跳过返还${formatPlanetRewardGain(gain)}`,
+    };
+  }
+
   function skipCurrentActionEffect() {
     if (!pendingActionEffectFlow) return;
 
@@ -10175,8 +10227,21 @@
     cancelActiveEffectSubFlows();
     cleanupSkippedActionEffect(current);
     beginEffectHistoryStep(`跳过：${current.label}`);
+    const refund = applySkippedActionEffectRefund(current);
+    if (refund) {
+      current.result = {
+        ok: true,
+        skipped: true,
+        message: `${current.label}：已跳过；${refund.message}`,
+        payload: {
+          skipped: true,
+          refundGain: refund.gain,
+        },
+      };
+    }
     endEffectHistoryStep();
-    rocketState.statusNote = `已跳过：${current.label}`;
+    rocketState.statusNote = refund ? current.result.message : `已跳过：${current.label}`;
+    if (refund) renderPlayerStats();
     completeCurrentActionEffect("skipped");
   }
 
@@ -10198,7 +10263,13 @@
     current.result = result;
     cleanupSkippedActionEffect(current);
     beginEffectHistoryStep(`跳过：${current.label}`);
-    rocketState.statusNote = message;
+    const refund = applySkippedActionEffectRefund(current);
+    if (refund) {
+      result.message = `${message}；${refund.message}`;
+      result.payload.refundGain = refund.gain;
+    }
+    rocketState.statusNote = result.message;
+    if (refund) renderPlayerStats();
     completeCurrentActionEffect("skipped");
     renderStateReadout();
     return result;
@@ -26781,7 +26852,6 @@
     if (!actionHistory.hasSession()
       || pendingActionExecuted
       || isActionEffectFlowActive()
-      || pendingActionHasIrreversibleBarrier
       || actionHistory.hasUndoableStep()) {
       return false;
     }

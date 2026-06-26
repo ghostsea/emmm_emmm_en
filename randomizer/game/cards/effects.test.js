@@ -606,7 +606,11 @@ assert.equal(cardEffects.buildPlayEffects({ cardId: "b_41.webp" })[0].type, card
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_42.webp" })[1].type, cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_47.webp" })[0].options.per, 3);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_48.webp" })[0].type, cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD);
-assert.equal(cardEffects.buildPlayEffects({ cardId: "b_49.webp" })[0].options.bonus.onceKey, "b49-visit-move-replacement");
+const b49ReplacementBonus = cardEffects.buildPlayEffects({ cardId: "b_49.webp" })[0].options.bonus;
+assert.equal(b49ReplacementBonus.onceKey, "b49-visit-move-replacement");
+assert.equal(b49ReplacementBonus.eventType, "visitPlanet");
+assert.equal(b49ReplacementBonus.replacePublicityWithMove, true);
+assert.deepEqual(b49ReplacementBonus.excludePlanetIds, ["earth"]);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_50.webp" })[0].options.owner, "any");
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_50.webp" })[0].options.maxTargets, 3);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_55.webp" })[0].options.researchedByOthersOnly, true);
