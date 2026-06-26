@@ -553,7 +553,7 @@
     }
 
     const plans = (context.rocketState.rockets || [])
-      .filter(rockets.isMovablePlayerToken || rockets.isControllablePlayerRocket)
+      .filter((rocket) => rockets.isMovablePlayerToken(rocket) || rockets.isControllablePlayerRocket(rocket))
       .map((rocket) => resolveRocketRotationPlan(context, rocket, beforeRotation, afterRotation))
       .filter((plan) => plan && (plan.from.x !== plan.to.x || plan.from.y !== plan.to.y));
 

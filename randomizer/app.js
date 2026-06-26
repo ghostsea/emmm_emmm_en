@@ -5042,6 +5042,29 @@
           };
         }
         completeCurrentActionEffect();
+      } else {
+        beginQuickActionStep("chong-pick-card", pending.effectLabel || "虫族奖励精选", {
+          logBefore: pending.logBefore,
+        });
+        if (pending.beforePlayerState) {
+          recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+            playerState,
+            pending.beforePlayerState,
+            "恢复虫族精选前玩家状态",
+          ));
+        }
+        if (pending.beforeCardState) {
+          recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+            cardState,
+            pending.beforeCardState,
+            "恢复虫族精选前牌区状态",
+          ));
+        }
+        completeQuickActionStep(rocketState.statusNote, {
+          irreversibleCode: "hidden_card_reveal",
+          irreversibleReason: "虫族奖励精选翻出新牌",
+        });
+        keepExistingMainActionPendingAfterChongTask();
       }
     }
     if (pending?.type === "amiba_pick_card") {
@@ -17943,7 +17966,16 @@
       allowBlindDraw: true,
       fromEffectFlow,
       effectLabel,
+      beforePlayerState: structuredClone(playerState),
+      beforeCardState: structuredClone(cardState),
+      logBefore: createActionLogImpactSnapshot(),
     });
+  }
+
+  function keepExistingMainActionPendingAfterChongTask() {
+    if (actionHistory.hasSession()) {
+      markActionPending();
+    }
   }
 
   function finishChongFossilEffect(message, payload = {}, options = {}) {
@@ -18010,18 +18042,23 @@
       irreversibleCode: rewardResult.irreversible.code,
       irreversibleReason: rewardResult.irreversible.reason,
     } : {});
+    keepExistingMainActionPendingAfterChongTask();
     closeChongFossilChoiceDialog();
+    let finalMessage = message;
     if (rewardResult.reward?.pickCard) {
-      openChongPickCardFollowUp(player, false, `完成 ${cards.getCardLabel(card)}`);
+      const pickResult = openChongPickCardFollowUp(player, false, `完成 ${cards.getCardLabel(card)}`);
+      finalMessage = pickResult.ok
+        ? `${message}；请选择公共牌或盲抽`
+        : `${message}；${pickResult.message || "无法打开虫族奖励精选"}`;
     }
-    rocketState.statusNote = message;
+    rocketState.statusNote = finalMessage;
     renderAlienPanels();
     renderPlayerStats();
     renderPlayerHand();
     renderReservedCardsFromTaskState();
     updateActionButtons();
     renderStateReadout();
-    return { ok: true, message };
+    return { ok: true, message: finalMessage };
   }
 
   function completeChongTransportTask(pending, player) {
@@ -18045,6 +18082,7 @@
     }
 
     rocketActions.removeRocket(rocketState, rocketId);
+    removeRocketElement(rocketId);
     card.chongTaskCompleted = true;
     removeReservedCardToDiscard(player, card);
     incrementCompletedTaskCount(player);
@@ -18093,12 +18131,17 @@
       irreversibleCode: irreversible.code,
       irreversibleReason: irreversible.reason,
     } : {});
+    keepExistingMainActionPendingAfterChongTask();
     closeChongTaskCompletionDialog();
 
+    let finalMessage = message;
     if (shouldOpenPickCard) {
-      openChongPickCardFollowUp(player, false, `完成 ${cards.getCardLabel(card)}`);
+      const pickResult = openChongPickCardFollowUp(player, false, `完成 ${cards.getCardLabel(card)}`);
+      finalMessage = pickResult.ok
+        ? `${message}；请选择公共牌或盲抽`
+        : `${message}；${pickResult.message || "无法打开虫族奖励精选"}`;
     }
-    rocketState.statusNote = message;
+    rocketState.statusNote = finalMessage;
     renderAlienPanels();
     renderRockets();
     renderPlayerStats();
@@ -18106,7 +18149,7 @@
     renderReservedCardsFromTaskState();
     updateActionButtons();
     renderStateReadout();
-    return { ok: true, message };
+    return { ok: true, message: finalMessage };
   }
 
   function handleChongTaskCompletionChoice(choice) {

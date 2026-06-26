@@ -673,6 +673,32 @@ function launchToPlanet(context, planetId) {
 
 {
   const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
+  setContextRotation(context, solar.applySolarOrbitRotation(context.solarState.rotation, 1));
+  const token = rockets.createMovableTokenAtSector(context.rocketState, { x: 1, y: 2 }, {
+    kind: rockets.ROCKET_KIND.CHONG_FOSSIL,
+    playerId: currentPlayer(context).id,
+    color: currentPlayer(context).color,
+    fossilId: "fossil_test",
+  });
+  assert.equal(token.ok, true, token.message);
+  rockets.assignRocketToSlot(token.rocket, 1, 2, 4);
+
+  const result = rotateContextOnce(context);
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.moved[0].rocketId, token.rocket.id);
+  assert.equal(result.moved[0].reason, "pushed");
+  assert.deepEqual(rockets.getRocketSectorCoordinate(token.rocket), { x: 0, y: 2 });
+  assert.equal(currentPlayer(context).resources.publicity, 1);
+  assert.ok(result.events.some((event) => (
+    event.type === "visitComet"
+    && event.rocketId === token.rocket.id
+    && event.tokenKind === rockets.ROCKET_KIND.CHONG_FOSSIL
+    && event.fossilId === "fossil_test"
+  )));
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
   currentPlayer(context).techState.ownedTiles.orange2 = true;
   const launch = abilities.executeAbility("launchProbe", context, { skipCost: true });
   assert.equal(launch.ok, true);
