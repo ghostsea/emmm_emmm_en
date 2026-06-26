@@ -282,7 +282,7 @@
           abilityId,
           flowType: "helios_remove_tech",
           label: prepared.label,
-          message: `${prepared.label}：请选择要移除的科技（不可选蓝色），清除 3 个奖励槽标记并增加 1 次收入`,
+          message: `${prepared.label}：请选择要无效的科技（不可选蓝色），确认后清除 3 个奖励槽标记并增加 1 次收入`,
         };
       case "mission_publicity_pick_income": {
         if (!player?.resources || player.resources.publicity < PUBLICITY_PICK_COST) {

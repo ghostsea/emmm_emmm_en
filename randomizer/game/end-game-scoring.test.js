@@ -57,6 +57,23 @@ const bTile = endGameScoring.computePlayerTileScore(state, white, tileContext).t
   .find((entry) => entry.tileId === "b");
 assert.equal(bTile.formulaId, "b2");
 
+const disabledTechPlayer = player({
+  techState: {
+    ownedTiles: { orange1: true, purple1: true, blue1: true, purple2: true },
+    disabledTiles: { orange1: true, purple2: true },
+    blueBoardSlots: { blue1: 1 },
+  },
+});
+assert.equal(
+  endGameScoring.countOwnedTech(disabledTechPlayer, "orange"),
+  1,
+  "disabled tech still counts as owned for tech-count scoring",
+);
+assert.equal(endGameScoring.countOwnedTech(disabledTechPlayer, "purple"), 2);
+assert.equal(endGameScoring.countTotalOwnedTech(disabledTechPlayer), 4);
+assert.equal(endGameScoring.getFormulaBaseValue("d1", disabledTechPlayer, tileContext), 1);
+assert.equal(endGameScoring.getFormulaBaseValue("d2", disabledTechPlayer, tileContext), 2);
+
 assert.equal(
   endGameScoring.countPlanetOrbitOrLand(white, { planets: {} }, "pluto", {
     plutoMarkers: [

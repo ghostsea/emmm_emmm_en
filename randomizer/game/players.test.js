@@ -49,6 +49,9 @@ assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange2", { roundNumber
 assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange2", { roundNumber: 4, turnNumber: 2 }), false);
 borrowedTechPlayer.techState.ownedTiles.orange3 = true;
 assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange3"), true);
+borrowedTechPlayer.techState.disabledTiles.orange3 = true;
+assert.equal(players.playerOwnsTech(borrowedTechPlayer, "orange3"), false);
+assert.equal(borrowedTechPlayer.techState.ownedTiles.orange3, true);
 
 const multiPlayerState = players.createPlayerState({
   players: players.PLAYER_COLOR_IDS.map((color) => ({ color })),

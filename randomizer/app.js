@@ -4048,7 +4048,7 @@
           : (incomeResult.message || "收入失败");
       } else if (pending.type === "industry_helios_income") {
         rocketState.statusNote = incomeResult.ok
-          ? `赫利昂联合体：移除 ${pending.removedTileId || "科技"}，${incomeResult.message}`
+          ? `赫利昂联合体：无效 ${pending.removedTileId || "科技"}，${incomeResult.message}`
           : (incomeResult.message || "收入失败");
         if (incomeResult.ok) {
           recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
@@ -12964,7 +12964,6 @@
   function countOwnedTechByType(player, techType) {
     return Object.keys(player?.techState?.ownedTiles || {})
       .filter((tileId) => player.techState.ownedTiles[tileId]
-        && !player.techState.disabledTiles?.[tileId]
         && (!techType || String(tileId).startsWith(techType)))
       .length;
   }
@@ -22395,11 +22394,7 @@
       const currentPlayer = getCurrentPlayer();
       const techType = selectResult.techType || selectResult.payload?.techType;
       const scorePer = Math.max(0, Math.round(Number(selectionOptions.afterResearchReward.scorePer) || 1));
-      const count = Object.keys(currentPlayer?.techState?.ownedTiles || {})
-        .filter((tileId) => currentPlayer.techState.ownedTiles[tileId]
-          && !currentPlayer.techState.disabledTiles?.[tileId]
-          && String(tileId).startsWith(techType))
-        .length;
+      const count = countOwnedTechByType(currentPlayer, techType);
       followups.push({
         id: "research-tech-type-score",
         type: planetRewards.EFFECT_TYPES.GAIN_RESOURCES,
@@ -24877,8 +24872,6 @@
       case "huanyu_free_moves":
         return startIndustryHuanyuMoveEffectFlow(flow, options);
       case "helios_remove_tech":
-        industry?.clearHeliosPassiveSlots?.(getCurrentPlayer());
-        renderInitialSelectionArea();
         return openIndustryHeliosTechPicker(flow);
       case "mission_publicity_pick":
         return startIndustryPublicityPick(flow, "industry_mission_pick");
@@ -25046,17 +25039,17 @@
     const removable = (tech.playerTech?.listActiveOwnedTileIds?.(player.techState) || [])
       .filter((tileId) => !String(tileId).startsWith("blue"));
     if (!removable.length) {
-      finishIndustryAbilityFlow("赫利昂联合体：没有可移除的非蓝色科技");
+      finishIndustryAbilityFlow("赫利昂联合体：没有可无效的非蓝色科技");
       return false;
     }
     return openScanTargetPicker({
       type: "industry_remove_tech",
       title: flow.label || "赫利昂联合体",
-      subtitle: "选择要移除的科技（不可选蓝色），随后增加 1 次收入",
+      subtitle: "选择要无效的科技（不可选蓝色），随后增加 1 次收入",
       choices: removable.map((tileId) => ({
         nebulaId: tileId,
         label: tileId,
-        description: "移除后不再具备该科技效果",
+        description: "无效后不再具备效果，仍计入科技数量",
       })),
     });
   }
@@ -25074,12 +25067,14 @@
       renderStateReadout();
       return removeResult;
     }
+    industry?.clearHeliosPassiveSlots?.(player);
     renderTechBoard();
+    renderInitialSelectionArea();
     pendingIndustryAbility = { flowType: "helios_remove_tech", removedTileId: tileId };
     recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
       player,
       beforePlayer,
-      "恢复赫利昂移除科技前玩家状态",
+      "恢复赫利昂无效科技前玩家状态",
     ));
     const incomeStart = beginDiscardSelection(1, {
       type: "industry_helios_income",
@@ -25089,12 +25084,15 @@
       removedTileId: tileId,
     });
     if (!incomeStart.ok) {
-      Object.assign(player, beforePlayer);
+      restoreObjectSnapshot(player, beforePlayer);
       renderTechBoard();
-      completeIndustryAbilityQuickStep();
+      renderInitialSelectionArea();
+      pendingIndustryAbility = null;
+      rollbackPendingIndustryQuickAction(incomeStart.message || "赫利昂联合体：收入无法结算，已撤回 1x 行动");
+      return { ok: false, message: incomeStart.message || "赫利昂联合体：收入无法结算" };
     }
     rocketState.statusNote = incomeStart.ok
-      ? `赫利昂联合体：已移除 ${tileId}，请选择 1 张手牌增加收入`
+      ? `赫利昂联合体：已无效 ${tileId}，请选择 1 张手牌增加收入`
       : incomeStart.message;
     renderPlayerStats();
     renderStateReadout();

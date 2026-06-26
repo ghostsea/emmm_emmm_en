@@ -316,18 +316,15 @@
 
   function countOwnedTech(player, techType) {
     const ownedTiles = player?.techState?.ownedTiles || {};
-    const disabledTiles = player?.techState?.disabledTiles || {};
     return Object.keys(ownedTiles)
       .filter((tileId) => ownedTiles[tileId]
-        && !disabledTiles[tileId]
         && String(tileId).startsWith(techType))
       .length;
   }
 
   function countTotalOwnedTech(player) {
     const ownedTiles = player?.techState?.ownedTiles || {};
-    const disabledTiles = player?.techState?.disabledTiles || {};
-    return Object.keys(ownedTiles).filter((tileId) => ownedTiles[tileId] && !disabledTiles[tileId]).length;
+    return Object.keys(ownedTiles).filter((tileId) => ownedTiles[tileId]).length;
   }
 
   function markerBelongsToPlayer(marker, playerKeys) {

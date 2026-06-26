@@ -455,7 +455,7 @@
   }
 
   function playerOwnsTech(player, tileId, options = {}) {
-    if (Boolean(player?.techState?.ownedTiles?.[tileId])) return true;
+    if (Boolean(player?.techState?.ownedTiles?.[tileId]) && !player?.techState?.disabledTiles?.[tileId]) return true;
     return isBorrowedTechActive(player, tileId, options);
   }
 

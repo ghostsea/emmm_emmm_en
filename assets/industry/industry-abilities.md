@@ -57,7 +57,7 @@
 | 图灵系统 | `turing_borrow_tech` | `turing_borrow_tech` | 选择供应区一项橙色或紫色科技，**当前回合**借用其效果（不获得板块/bonus）；公司牌下方只复制显示该科技图标 |
 | 哨兵探测网络 | `sentinel_arm_play_corner` | `sentinel_arm_play_corner` | 武装本轮；**打牌效果队列末尾**追加 `industry_sentinel_corner` 结算打出牌弃牌角标（非外星人） |
 | 寰宇动力 | `huanyu_free_moves` | `huanyu_free_moves` | 启动 2 个移动效果队列节点；每个节点提供 1 点移动力，已结算节点的火箭不能作为后续寰宇节点目标，可跳过任一节点 |
-| 赫利昂联合体 | `helios_remove_tech_income` | `helios_remove_tech` → 弃牌收入 | 移除一项非蓝科技 + 1 次收入（弃 1 张手牌按收入角标） |
+| 赫利昂联合体 | `helios_remove_tech_income` | `helios_remove_tech` → 弃牌收入 | 使一项非蓝科技失效 + 1 次收入（弃 1 张手牌按收入角标）；该科技仍视为拥有并参与科技数量计分 |
 | 任务中继站 | `mission_publicity_pick_income` | `mission_publicity_pick` | 消耗 2 宣传精选 1 张牌，获得其**收入角标**奖励（盲抽角标会盲抽 1 张） |
 | 芬威克研究中心 | `fenwick_publicity_pick_corner` | `fenwick_publicity_pick` | 消耗 1 宣传精选 1 张牌，获得**弃牌角标**（不弃牌）；若角标是移动，移动选择可取消但精选补牌仍不可撤销 |
 | 深空探测 | `deepspace_swap_cards` | `deepspace_swap` | 选手牌 1 张再选公共牌 1 张交换 |
@@ -130,7 +130,7 @@
 | 层云核心 | 是 | 不弃牌；角标奖励按效果步骤撤销，第一个效果步骤同时包含公司标记回退 |
 | 图灵借用 | 是 | 恢复借用前玩家快照，撤销后 1x 标记也回到可用 |
 | 寰宇移动 | 是 | 2 个快速行动效果队列节点逐个撤销；1x 标记通过队列预置撤销命令同事务恢复 |
-| 赫利昂 | 是 | 移除科技、清槽和收入随 1x 前快照恢复 |
+| 赫利昂 | 是 | 失效科技、确认科技时清槽和收入随 1x 前快照恢复 |
 | 深空交换 | 是 | 交换手牌与公共牌快照随 1x 前快照恢复 |
 | 哨兵打牌角标 | 是 | 主行动效果队列内 `industry_sentinel_corner` |
 | 宇宙战略打牌奖励槽 | 是 | 主行动效果队列内 `industry_strategy_passive_reward`；跳过不放 token，确认后 token 与奖励同一步恢复 |
