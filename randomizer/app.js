@@ -825,6 +825,24 @@
     return `${base}${agentSuffix}${companyLabel ? `-${companyLabel}` : ""}`;
   }
 
+  function getPlayerActionLabel(player, fallback = {}) {
+    if (player) return player.colorLabel || player.name || player.id || "玩家";
+    if (fallback.playerId) return getPlayerLabelById(fallback.playerId) || fallback.playerId;
+    if (fallback.playerColor) {
+      return players.getPlayerColorDefinition(fallback.playerColor)?.label || fallback.playerColor;
+    }
+    return "玩家";
+  }
+
+  function getTargetPlayerOptions(player, options = {}) {
+    const targetPlayerId = options.targetPlayerId || options.playerId || player?.id || null;
+    const targetPlayerColor = options.targetPlayerColor || options.playerColor || player?.color || null;
+    const targetOptions = {};
+    if (targetPlayerId) targetOptions.targetPlayerId = targetPlayerId;
+    if (targetPlayerColor) targetOptions.targetPlayerColor = targetPlayerColor;
+    return targetOptions;
+  }
+
   const aiControllerState = {
     get pendingDiscardAction() { return pendingDiscardAction; },
     get pendingCardSelectionAction() { return pendingCardSelectionAction; },
@@ -15025,19 +15043,6 @@
       playerId: effect.options?.targetPlayerId,
       playerColor: effect.options?.targetPlayerColor,
     }) || getEffectOwnerPlayer(effect) || getCurrentPlayer();
-    if (targetPlayer?.id && isPlayerPassedThisRound(targetPlayer.id)) {
-      const playerLabel = targetPlayer.colorLabel || targetPlayer.name || targetPlayer.color || "目标玩家";
-      return skipActionEffectWithMessage(
-        effect,
-        `${effect.label}：${playerLabel}已 PASS，忽略外星人痕迹`,
-        {
-          reason: "target_player_passed",
-          targetPlayerId: targetPlayer.id,
-          targetPlayerColor: targetPlayer.color || null,
-          traceTypes: allowedTraceTypes,
-        },
-      );
-    }
     const allowedAlienSlotIds = getEligibleAlienSlotIdsForTraceEffect(effect, targetPlayer, allowedTraceTypes);
     const hasLegalTarget = !allowedAlienSlotIds
       || allowedAlienSlotIds.some((alienSlotId) => allowedTraceTypes.some((item) => {
@@ -17366,14 +17371,25 @@
     });
   }
 
+  function getFangzhouCard1RewardTargetOptions(flip, options = {}) {
+    const targetPlayerId = flip?.targetPlayerId || flip?.playerId || options.targetPlayerId || options.playerId || null;
+    const targetPlayerColor = flip?.targetPlayerColor || flip?.playerColor || options.targetPlayerColor || options.playerColor || null;
+    const targetOptions = {};
+    if (targetPlayerId) targetOptions.targetPlayerId = targetPlayerId;
+    if (targetPlayerColor) targetOptions.targetPlayerColor = targetPlayerColor;
+    return targetOptions;
+  }
+
   function enqueueFangzhouCard1RewardEffects(flips, flowLabel, options = {}) {
     const effects = [];
     for (const flip of flips || []) {
       if (!flip?.ok) continue;
+      const targetOptions = getFangzhouCard1RewardTargetOptions(flip, options);
       effects.push(...buildFangzhouCard1EffectQueue(flip.effect, flip.label || flowLabel).map((effect) => ({
         ...effect,
         options: {
           ...(effect.options || {}),
+          ...targetOptions,
           ...(options.scoreSourceKey ? { scoreSourceKey: options.scoreSourceKey } : {}),
         },
       })));
@@ -17430,6 +17446,7 @@
       {
         actionType: tier === "advanced" ? "fangzhouAdvanced" : "fangzhouBasic",
         ...options,
+        ...getTargetPlayerOptions(player, options),
       },
     );
 
@@ -17447,7 +17464,7 @@
     const queueResult = enqueueFangzhouCard1RewardEffects(
       flips,
       `${label} 基础奖励`,
-      { actionType: "fangzhouBasic", ...options },
+      { actionType: "fangzhouBasic", ...options, ...getTargetPlayerOptions(player, options) },
     );
     return [queueResult];
   }
@@ -17482,9 +17499,22 @@
     };
   }
 
+  function formatFangzhouRevealBasicRewardMessage(rewards = []) {
+    const groups = new Map();
+    for (const reward of rewards || []) {
+      const playerLabel = reward.playerLabel || getPlayerActionLabel(null, reward);
+      if (!groups.has(playerLabel)) groups.set(playerLabel, []);
+      groups.get(playerLabel).push(reward.label || `方舟奖励 ${reward.index}`);
+    }
+    const parts = [...groups.entries()].map(([playerLabel, labels]) => (
+      `${playerLabel}基础奖励 ${labels.length} 次（${labels.join("、")}）`
+    ));
+    return parts.length ? `方舟揭示基础奖励：${parts.join("；")}` : null;
+  }
+
   function processFangzhouRevealBasicRewards() {
     if (!fangzhou) return { ok: true, count: 0 };
-    const flips = [];
+    const rewards = [];
     while (alienGameState.fangzhou?.pendingRevealBasicRewards?.length) {
       const next = fangzhou.takeNextRevealBasicReward(alienGameState);
       if (!next.ok || !next.entry) break;
@@ -17492,13 +17522,25 @@
       if (!player) continue;
       const flip = fangzhou.flipCard1Reward(alienGameState, "basic");
       if (!flip.ok) break;
-      flips.push(flip);
+      rewards.push({
+        ...flip,
+        playerId: player.id || next.entry.playerId || null,
+        playerColor: player.color || next.entry.playerColor || null,
+        targetPlayerId: player.id || next.entry.playerId || null,
+        targetPlayerColor: player.color || next.entry.playerColor || null,
+        playerLabel: getPlayerActionLabel(player, next.entry),
+      });
     }
-    if (flips.length) {
+    if (rewards.length) {
       renderFangzhouCardDisplays();
-      enqueueFangzhouCard1RewardEffects(flips, "方舟揭示基础奖励", { actionType: "fangzhouBasic" });
+      enqueueFangzhouCard1RewardEffects(rewards, "方舟揭示基础奖励", { actionType: "fangzhouBasic" });
     }
-    return { ok: true, count: flips.length };
+    return {
+      ok: true,
+      count: rewards.length,
+      rewards,
+      message: formatFangzhouRevealBasicRewardMessage(rewards),
+    };
   }
 
   function handleFangzhouRevealSideEffects(alienSlotId, revealResult, triggerPlayer) {
@@ -17509,11 +17551,15 @@
       triggerPlayer,
       getActivePlayers(),
     );
-    processFangzhouRevealBasicRewards();
+    const rewardResult = initResult.alreadyInitialized
+      ? { ok: true, count: 0, rewards: [], message: null }
+      : processFangzhouRevealBasicRewards();
+    const rewardMessages = rewardResult.message ? [rewardResult.message] : [];
     return {
       ...initResult,
-      rewardMessages: [],
-      message: initResult.message,
+      rewardResult,
+      rewardMessages,
+      message: [initResult.message, ...rewardMessages].filter(Boolean).join("；"),
     };
   }
 
