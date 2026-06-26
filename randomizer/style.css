@@ -551,6 +551,15 @@ body {
   pointer-events: auto;
 }
 
+.app-wrap[data-interaction-focus="tech-panel"] .action-bar,
+.app-wrap[data-interaction-focus="tech-panel"] .action-effect-bar {
+  position: relative;
+  z-index: 1270;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+}
+
 .app-wrap[data-interaction-focus="board-rockets"] .table-column-left,
 .app-wrap[data-interaction-focus="board-rockets"] .table-column-right,
 .app-wrap[data-interaction-focus="board-rockets"] .player-stats,

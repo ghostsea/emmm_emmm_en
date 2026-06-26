@@ -32,6 +32,37 @@ assert.equal(placement.getFangzhouTraceMarkerLayout(2, "pink", 1).percentX, 20.6
 assert.equal(placement.getFangzhouTraceMarkerLayout(2, "yellow", 4).percentX, 50.44);
 assert.equal(placement.getFangzhouTraceMarkerLayout(2, "blue", 3).percentX, 79.51);
 
+const card2CornerExpectations = {
+  pink: {
+    1: { scanActionCode: 1, incomeCode: 2 },
+    2: { scanActionCode: 2, incomeCode: 1 },
+    3: { scanActionCode: 0, incomeCode: 0 },
+    4: { scanActionCode: 3, incomeCode: 1 },
+  },
+  yellow: {
+    1: { scanActionCode: 0, incomeCode: 2 },
+    2: { scanActionCode: 1, incomeCode: 1 },
+    3: { scanActionCode: 2, incomeCode: 0 },
+    4: { scanActionCode: 3, incomeCode: 0 },
+  },
+  blue: {
+    1: { scanActionCode: 2, incomeCode: 2 },
+    2: { scanActionCode: 0, incomeCode: 1 },
+    3: { scanActionCode: 3, incomeCode: 2 },
+    4: { scanActionCode: 1, incomeCode: 0 },
+  },
+};
+for (const [traceType, variants] of Object.entries(card2CornerExpectations)) {
+  for (const [variant, expected] of Object.entries(variants)) {
+    const definition = fangzhou.createCard2Definition(traceType, Number(variant));
+    assert.equal(definition.price, 2);
+    assert.equal(definition.cardTypeCode, 0);
+    assert.equal(definition.discardActionCode, fangzhou.CARD2_DISCARD_ACTION_CODE);
+    assert.equal(definition.scanActionCode, expected.scanActionCode);
+    assert.equal(definition.incomeCode, expected.incomeCode);
+  }
+}
+
 const debugState = createDebugState();
 debugState.fangzhou.revealedSlotId = 2;
 debugState.fangzhou.revealInitialized = true;

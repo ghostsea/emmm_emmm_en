@@ -121,4 +121,48 @@ const rollbackBlocked = barrierHistory.rollbackSession();
 assert.equal(rollbackBlocked.ok, false);
 assert.equal(rollbackBlocked.blockedBy.id, barrierStep.id);
 
+const fangzhouLikeHistory = actionHistory.createActionHistory();
+const fangzhouLikeState = {
+  cardInHand: false,
+  credits: 0,
+  launched: false,
+};
+fangzhouLikeHistory.beginSession("playCard", "打牌行动");
+fangzhouLikeHistory.beginStep({ source: "main", type: "action_start", label: "打出方舟解锁牌" });
+fangzhouLikeHistory.record({
+  label: "恢复打牌前状态",
+  undo() {
+    fangzhouLikeState.cardInHand = true;
+    fangzhouLikeState.credits = 2;
+  },
+});
+fangzhouLikeHistory.endStep();
+fangzhouLikeHistory.beginStep({
+  source: "main",
+  type: "irreversible",
+  label: "方舟奖励牌",
+  undoable: false,
+  irreversibleCode: "fangzhou_card1_flip",
+  irreversibleReason: "方舟奖励牌翻开新牌",
+});
+const fangzhouBarrier = fangzhouLikeHistory.endStep();
+assert.equal(fangzhouLikeHistory.hasUndoableStep(), false);
+fangzhouLikeState.launched = true;
+fangzhouLikeHistory.beginStep({ source: "main", type: "effect", label: "方舟奖励：发射" });
+fangzhouLikeHistory.record({
+  label: "撤销发射",
+  undo() {
+    fangzhouLikeState.launched = false;
+  },
+});
+fangzhouLikeHistory.endStep();
+assert.equal(fangzhouLikeHistory.hasUndoableStep(), true);
+const undoFangzhouReward = fangzhouLikeHistory.undoLastStep();
+assert.equal(undoFangzhouReward.ok, true);
+assert.deepEqual(fangzhouLikeState, { cardInHand: false, credits: 0, launched: false });
+const blockedFangzhouPlayUndo = fangzhouLikeHistory.undoLastStep();
+assert.equal(blockedFangzhouPlayUndo.ok, false);
+assert.equal(blockedFangzhouPlayUndo.blockedBy.id, fangzhouBarrier.id);
+assert.deepEqual(fangzhouLikeState, { cardInHand: false, credits: 0, launched: false });
+
 console.log("action-history.test.js: all tests passed");

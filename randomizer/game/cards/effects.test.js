@@ -30,6 +30,31 @@ assert.equal(cardEffects.collectMatchingTriggers(player, {
   planetId: "mars",
 }).length, 2);
 
+const b92 = { id: "card-b92", cardId: "b_92.webp" };
+const pioneerPlayer = {
+  id: "p1",
+  color: "red",
+  reservedCards: [b92],
+};
+cardEffects.ensureCardEffectState(b92);
+const b92JupiterMatches = cardEffects.collectMatchingTriggers(pioneerPlayer, {
+  type: "visitPlanet",
+  planetId: "jupiter",
+});
+assert.equal(b92JupiterMatches.length, 1);
+assert.equal(b92JupiterMatches[0].trigger.id, "b92-jupiter-data");
+assert.equal(b92JupiterMatches[0].effect.type, "gain_data");
+assert.equal(b92JupiterMatches[0].effect.options.count, 1);
+cardEffects.consumeTrigger(b92, b92JupiterMatches[0].trigger.id);
+const b92SaturnMatches = cardEffects.collectMatchingTriggers(pioneerPlayer, {
+  type: "visitPlanet",
+  planetId: "saturn",
+});
+assert.equal(b92SaturnMatches.length, 1);
+assert.equal(b92SaturnMatches[0].trigger.id, "b92-saturn-energy");
+assert.equal(b92SaturnMatches[0].effect.type, "gain_resources");
+assert.deepEqual(b92SaturnMatches[0].effect.options.gain, { energy: 1 });
+
 const b25ScanTriggerCard = { id: "card-b25-scan-trigger", cardId: "b_25.webp" };
 const scanTriggerPlayer = { id: "p1", color: "red", reservedCards: [b25ScanTriggerCard] };
 cardEffects.ensureCardEffectState(b25ScanTriggerCard);

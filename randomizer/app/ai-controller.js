@@ -7401,7 +7401,7 @@
           ? scoreAiIndustryPublicPick(player, "industry_mission_pick") - 3
           : -Infinity;
       } else if (abilityId === "fenwick_publicity_pick_corner") {
-        score = players.canAfford(player, { publicity: industry.PUBLICITY_PICK_COST || 2 })
+        score = players.canAfford(player, { publicity: industry.FENWICK_PUBLICITY_PICK_COST || 1 })
           ? scoreAiIndustryPublicPick(player, "industry_fenwick_pick") - 3
           : -Infinity;
       } else if (abilityId === "deepspace_swap_cards") {

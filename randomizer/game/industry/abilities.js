@@ -20,6 +20,7 @@
   "use strict";
 
   const PUBLICITY_PICK_COST = 2;
+  const FENWICK_PUBLICITY_PICK_COST = 1;
   const STRATUS_PUBLIC_CARD_LIMIT = 3;
 
   function isAlienCard(card) {
@@ -268,16 +269,16 @@
         };
       }
       case "fenwick_publicity_pick_corner": {
-        if (!player?.resources || player.resources.publicity < PUBLICITY_PICK_COST) {
-          return { ok: false, message: `宣传不足，需要 ${PUBLICITY_PICK_COST} 宣传` };
+        if (!player?.resources || player.resources.publicity < FENWICK_PUBLICITY_PICK_COST) {
+          return { ok: false, message: `宣传不足，需要 ${FENWICK_PUBLICITY_PICK_COST} 宣传` };
         }
         return {
           ok: true,
           abilityId,
           flowType: "fenwick_publicity_pick",
           label: prepared.label,
-          publicityCost: PUBLICITY_PICK_COST,
-          message: `${prepared.label}：消耗 ${PUBLICITY_PICK_COST} 宣传精选 1 张牌并获得弃牌角标奖励（不弃牌）`,
+          publicityCost: FENWICK_PUBLICITY_PICK_COST,
+          message: `${prepared.label}：消耗 ${FENWICK_PUBLICITY_PICK_COST} 宣传精选 1 张牌并获得弃牌角标奖励（不弃牌）`,
         };
       }
       case "deepspace_swap_cards":
@@ -412,6 +413,7 @@
 
   return Object.freeze({
     PUBLICITY_PICK_COST,
+    FENWICK_PUBLICITY_PICK_COST,
     STRATUS_PUBLIC_CARD_LIMIT,
     isAlienCard,
     getCornerReward,

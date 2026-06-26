@@ -57,6 +57,12 @@
       : `${label || "外星人"}揭示发牌：无首痕迹`;
   }
 
+  function getAlienCardGrantIrreversible(totalDrawn) {
+    return totalDrawn > 0
+      ? { code: "hidden_alien_card_reveal", reason: "外星人牌获取翻开新牌" }
+      : null;
+  }
+
   function grantAlienCardsForFirstTraces(alienState, alienSlotId, players, alienModule, options = {}) {
     const grants = [];
     let totalExpected = 0;
@@ -90,8 +96,11 @@
       grants.push(grant);
     }
 
+    const irreversible = getAlienCardGrantIrreversible(totalDrawn);
     return {
       ok: grants.every((grant) => grant.failures.length === 0),
+      undoable: !irreversible,
+      irreversible,
       totalExpected,
       totalDrawn,
       grants,

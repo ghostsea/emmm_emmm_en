@@ -27,6 +27,27 @@
   const CARD1_RESHUFFLE_THRESHOLD = 5;
   const CARD2_VARIANTS_PER_COLOR = 4;
   const CARD2_PLAY_COST = Object.freeze({ credits: 2 });
+  const CARD2_DISCARD_ACTION_CODE = "fangzhou_basic";
+  const CARD2_CORNER_CODES = Object.freeze({
+    pink: Object.freeze({
+      1: Object.freeze({ scanActionCode: 1, incomeCode: 2 }),
+      2: Object.freeze({ scanActionCode: 2, incomeCode: 1 }),
+      3: Object.freeze({ scanActionCode: 0, incomeCode: 0 }),
+      4: Object.freeze({ scanActionCode: 3, incomeCode: 1 }),
+    }),
+    yellow: Object.freeze({
+      1: Object.freeze({ scanActionCode: 0, incomeCode: 2 }),
+      2: Object.freeze({ scanActionCode: 1, incomeCode: 1 }),
+      3: Object.freeze({ scanActionCode: 2, incomeCode: 0 }),
+      4: Object.freeze({ scanActionCode: 3, incomeCode: 0 }),
+    }),
+    blue: Object.freeze({
+      1: Object.freeze({ scanActionCode: 2, incomeCode: 2 }),
+      2: Object.freeze({ scanActionCode: 0, incomeCode: 1 }),
+      3: Object.freeze({ scanActionCode: 3, incomeCode: 2 }),
+      4: Object.freeze({ scanActionCode: 1, incomeCode: 0 }),
+    }),
+  });
 
   const TRACE_REWARDS = Object.freeze({
     pink: Object.freeze({
@@ -380,18 +401,28 @@
     return `${CARD1_BASE_PATH}/${index}.webp`;
   }
 
+  function getCard2CornerCodes(traceType, variant) {
+    const normalizedVariant = Math.round(Number(variant) || 0);
+    return CARD2_CORNER_CODES[traceType]?.[normalizedVariant] || {
+      scanActionCode: 0,
+      incomeCode: 0,
+    };
+  }
+
   function createCard2Definition(traceType, variant) {
+    const cornerCodes = getCard2CornerCodes(traceType, variant);
     return {
       traceType,
       variant,
       cardId: `fangzhou_${traceType}_${variant}`,
       src: getCard2Src(traceType, variant),
       label: `方舟${placement.getTraceTypeLabel(traceType)} ${variant}`,
+      cardName: `方舟${placement.getTraceTypeLabel(traceType)} ${variant}`,
       price: CARD2_PLAY_COST.credits,
       cardTypeCode: 0,
-      discardActionCode: 0,
-      scanActionCode: 0,
-      incomeCode: 0,
+      discardActionCode: CARD2_DISCARD_ACTION_CODE,
+      scanActionCode: cornerCodes.scanActionCode,
+      incomeCode: cornerCodes.incomeCode,
       set: `alien:方舟:card2`,
       faceUp: false,
     };
@@ -644,6 +675,8 @@
     CARD1_BASE_PATH,
     CARD2_BASE_PATH,
     CARD2_PLAY_COST,
+    CARD2_DISCARD_ACTION_CODE,
+    CARD2_CORNER_CODES,
     TRACE_TYPES,
     TRACE_POSITIONS,
     TRACE_POSITION_COUNT,
@@ -685,5 +718,6 @@
     formatTraceLabel,
     countTraceMarkers,
     createCard2Definition,
+    getCard2CornerCodes,
   });
 });

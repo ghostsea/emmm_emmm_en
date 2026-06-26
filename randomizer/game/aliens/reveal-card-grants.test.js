@@ -55,6 +55,12 @@ for (const module of [yichangdian, banrenma, chong, amiba, aomomo, runezu]) {
   );
 
   assert.equal(grantResult.ok, true, `${module.ALIEN_ID} reveal grants should succeed`);
+  assert.equal(grantResult.undoable, false, `${module.ALIEN_ID} reveal grants should be irreversible`);
+  assert.deepEqual(
+    grantResult.irreversible,
+    { code: "hidden_alien_card_reveal", reason: "外星人牌获取翻开新牌" },
+    `${module.ALIEN_ID} reveal grants should report hidden alien card reveal`,
+  );
   assert.equal(grantResult.totalExpected, 3, `${module.ALIEN_ID} should grant one card per first trace`);
   assert.equal(grantResult.totalDrawn, 3, `${module.ALIEN_ID} should draw all reveal cards`);
   assert.equal(players[0].hand.length, 2, `${module.ALIEN_ID} red should receive two cards`);

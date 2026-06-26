@@ -114,10 +114,26 @@ assert.equal(passives.shouldGainPublicityOnType12Play(turingPlayer), false);
 const missionFlow = abilities.buildActiveAbilityFlow(missionPlayer, "任务中继站", 1);
 assert.equal(missionFlow.ok, true);
 assert.equal(missionFlow.flowType, "mission_publicity_pick");
+assert.equal(missionFlow.publicityCost, abilities.PUBLICITY_PICK_COST);
 
 const poorMission = { ...missionPlayer, resources: { publicity: 1 } };
 const poorFlow = abilities.buildActiveAbilityFlow(poorMission, "任务中继站", 1);
 assert.equal(poorFlow.ok, false);
+
+const fenwickPlayer = {
+  id: "white",
+  resources: { publicity: 1 },
+  initialSelection: { industry: { label: "芬威克研究中心" } },
+};
+const fenwickFlow = abilities.buildActiveAbilityFlow(fenwickPlayer, "芬威克研究中心", 1);
+assert.equal(fenwickFlow.ok, true);
+assert.equal(fenwickFlow.flowType, "fenwick_publicity_pick");
+assert.equal(fenwickFlow.publicityCost, abilities.FENWICK_PUBLICITY_PICK_COST);
+assert.match(fenwickFlow.message, /消耗 1 宣传/);
+
+const poorFenwick = { ...fenwickPlayer, resources: { publicity: 0 } };
+const poorFenwickFlow = abilities.buildActiveAbilityFlow(poorFenwick, "芬威克研究中心", 1);
+assert.equal(poorFenwickFlow.ok, false);
 
 const missionCardsStub = {
   getCardLabel: (card) => card.label || "card",

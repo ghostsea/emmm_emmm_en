@@ -1893,7 +1893,7 @@
       cardType: 1,
       triggers: Object.freeze([
         { id: "b92-jupiter-data", event: Object.freeze({ type: "visitPlanet", planetIds: ["jupiter"] }), effect: gainDataEffect("b92-jupiter-data-effect", "访问木星：1数据", 1) },
-        { id: "b92-saturn-score", event: Object.freeze({ type: "visitPlanet", planetIds: ["saturn"] }), effect: gainResourcesEffect("b92-saturn-score-effect", "访问土星：4分", { score: 4 }) },
+        { id: "b92-saturn-energy", event: Object.freeze({ type: "visitPlanet", planetIds: ["saturn"] }), effect: gainResourcesEffect("b92-saturn-energy-effect", "访问土星：1能量", { energy: 1 }) },
       ]),
     }),
     "b_93.webp": withSource("b_93.webp", {

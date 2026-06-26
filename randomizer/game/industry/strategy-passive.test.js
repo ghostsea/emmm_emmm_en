@@ -4,6 +4,7 @@ const assert = require("node:assert/strict");
 
 const state = require("./state");
 const strategyPassive = require("./strategy-passive");
+const fangzhou = require("../aliens/fangzhou");
 
 const player = {
   id: "white",
@@ -136,5 +137,15 @@ assert.equal(strategyPassive.isStrategyPlayInteractionActive(player, 2), false);
 const reactivated = strategyPassive.activateStrategyPlayInteraction(player, { scanActionCode: 0 }, 2);
 assert.equal(reactivated.ok, true);
 assert.equal(strategyPassive.isStrategyPlayInteractionActive(player, 2), true);
+
+strategyPassive.clearStrategyPassiveSlots(player);
+const fangzhouCard = {
+  ...fangzhou.createCard2Definition("blue", 4),
+  id: "fangzhou-blue-4-test",
+  fangzhouCard2: true,
+};
+const fangzhouActivation = strategyPassive.activateStrategyPlayInteraction(player, fangzhouCard, 2);
+assert.equal(fangzhouActivation.ok, true);
+assert.deepEqual(strategyPassive.getStrategyPlayEligibleSlotIds(player, 2), ["red"]);
 
 console.log("strategy-passive.test.js: all tests passed");

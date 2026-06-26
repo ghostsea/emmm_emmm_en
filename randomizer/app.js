@@ -3007,6 +3007,8 @@
     pendingActionEffectFlow.cardMoveEffect = {
       effect,
       poolRemaining: movementPoints,
+      deferredType1Events: [],
+      moved: false,
     };
     effect.badge = String(movementPoints);
   }
@@ -3047,6 +3049,13 @@
 
     if (payment.discardCommand) recordHistoryCommand(payment.discardCommand);
     recordAbilityCommands(result);
+
+    const moveEvents = Array.isArray(result.events) ? result.events.filter(Boolean) : [];
+    if (ctx) {
+      if (!Array.isArray(ctx.deferredType1Events)) ctx.deferredType1Events = [];
+      ctx.deferredType1Events.push(...moveEvents);
+      ctx.moved = true;
+    }
 
     const messageParts = [];
     const appliedRewards = applyCardMoveAfterEventRewards(effect, result, messageParts);
@@ -3089,6 +3098,8 @@
       }
       effect.result = {
         ...result,
+        events: [],
+        deferredType1Events: [...(ctx.deferredType1Events || [])],
         message: `${result.message}${rewardText}`,
         payload: {
           ...(result.payload || {}),
@@ -3106,6 +3117,8 @@
     deactivateMoveMode();
     effect.result = {
       ...result,
+      events: [],
+      deferredType1Events: ctx ? [...(ctx.deferredType1Events || [])] : moveEvents,
       message: `${result.message}${rewardText}`,
       payload: {
         ...(result.payload || {}),
@@ -3118,6 +3131,46 @@
     completeCurrentActionEffect();
     renderStateReadout();
     return effect.result;
+  }
+
+  function finishCurrentCardMoveEffectEarly() {
+    const ctx = pendingActionEffectFlow?.cardMoveEffect;
+    const current = getCurrentActionEffect();
+    if (!ctx || !current || current.status !== "active" || ctx.effect?.id !== current.id) return false;
+    if (!ctx.moved && !current.result) return false;
+
+    const poolRemaining = Math.max(0, Math.round(Number(ctx.poolRemaining) || 0));
+    const deferredType1Events = Array.isArray(ctx.deferredType1Events)
+      ? [...ctx.deferredType1Events]
+      : [...(current.result?.deferredType1Events || [])];
+    const previousMessage = current.result?.message || "";
+    const endMessage = poolRemaining > 0
+      ? `结束剩余 ${poolRemaining} 点移动力`
+      : "移动已完成";
+
+    pendingActionEffectFlow.cardMoveEffect = null;
+    current.badge = "";
+    current.result = {
+      ...(current.result || {}),
+      ok: true,
+      undoable: current.result?.undoable !== false,
+      events: [],
+      deferredType1Events,
+      message: previousMessage ? `${previousMessage}；${endMessage}` : `${current.label}：${endMessage}`,
+      payload: {
+        ...(current.result?.payload || {}),
+        poolRemaining: 0,
+        endedEarly: poolRemaining > 0,
+      },
+    };
+
+    deactivateMoveMode();
+    rocketState.statusNote = current.result.message;
+    renderActionEffectBar();
+    renderPlayerStats();
+    completeCurrentActionEffect();
+    renderStateReadout();
+    return true;
   }
 
   function requestCardEffectMove(deltaX, deltaY, rocketId) {
@@ -8733,16 +8786,16 @@
   }
 
   function settleCardTasksAfterEffect(options = {}) {
-    const { events, skipType1 = false, render = true } = options;
+    const { events, skipType1 = false, type1Only = false, render = true } = options;
     const currentPlayer = getCurrentPlayer();
     const normalizedEvents = (events || []).map((event) => (
       event?.type === "visitPlanet" && event.planetId
         ? { ...event, hasOwnOrbit: playerHasOwnOrbitMarkerAtPlanet(currentPlayer, event.planetId) }
         : event
     ));
-    const cardEventBonuses = processCardEventBonuses(normalizedEvents);
-    const chongCompletions = processChongTransportArrivalEvents(normalizedEvents);
-    const runezuCompletions = processRunezuTaskEvents(normalizedEvents);
+    const cardEventBonuses = type1Only ? [] : processCardEventBonuses(normalizedEvents);
+    const chongCompletions = type1Only ? [] : processChongTransportArrivalEvents(normalizedEvents);
+    const runezuCompletions = type1Only ? [] : processRunezuTaskEvents(normalizedEvents);
     refreshCardTaskState({ render });
     const type1Result = skipType1 ? null : applyType1TriggerMatches(normalizedEvents);
     return {
@@ -9618,11 +9671,30 @@
     return true;
   }
 
-  function startResearchTechEffectFlow(result) {
-    if (!result?.ok || !result.awaitingTileSelection) return false;
-
+  function beginResearchTechActionSession(result, options = {}) {
     startActionLogDraft("researchTech", "科技行动", { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession("researchTech", "科技行动");
+    actionHistory.beginStep({
+      source: HISTORY_SOURCE_MAIN,
+      type: "action_start",
+      label: "科技行动",
+      effectIndex: -1,
+      logBefore: options.logBefore || createActionLogImpactSnapshot(),
+    });
+    effectStepActive = true;
+    endEffectHistoryStep({
+      result: {
+        ok: true,
+        undoable: true,
+        message: result?.message || "请选择要研究的科技板块",
+      },
+    });
+  }
+
+  function startResearchTechEffectFlow(result, options = {}) {
+    if (!result?.ok || !result.awaitingTileSelection) return false;
+
+    beginResearchTechActionSession(result, options);
     pendingActionEffectFlow = abilities.chain.startAbilityChain(
       "researchTech",
       "科技行动",
@@ -9634,6 +9706,7 @@
         label: "选择科技片",
         options: {
           cost: result.cost || {},
+          allowedTechTypes: result.allowedTechTypes || result.payload?.allowedTechTypes || null,
         },
         status: "pending",
         undoable: true,
@@ -9641,6 +9714,7 @@
     );
     pendingActionEffectFlow.actionType = "researchTech";
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
+    pendingActionEffectFlow.historySource = HISTORY_SOURCE_MAIN;
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.consumesMainAction = true;
 
@@ -9888,6 +9962,36 @@
     return step;
   }
 
+  function recordMainActionIrreversibleBarrier(label, reason, code = "irreversible_effect") {
+    const history = actionHistory;
+    if (!history.hasSession()) {
+      markCurrentActionIrreversible(reason, code);
+      return null;
+    }
+
+    history.beginStep({
+      source: HISTORY_SOURCE_MAIN,
+      type: "irreversible",
+      label: label || "不可撤销",
+      effectIndex: null,
+      undoable: false,
+      irreversibleCode: code,
+      irreversibleReason: reason || "该步骤产生不可撤销影响",
+    });
+    const step = history.endStep();
+    if (step) {
+      rememberHistoryStep(HISTORY_SOURCE_MAIN, step.id);
+      appendActionLogStep(
+        HISTORY_SOURCE_MAIN,
+        step.label,
+        step.irreversibleReason,
+        actionLogOptionsFromHistoryStep(step),
+      );
+    }
+    markCurrentActionIrreversible(reason, code);
+    return step;
+  }
+
   function refreshAfterHistoryChange(message) {
     renderSectorNebulaDataBoard();
     renderRockets();
@@ -9911,6 +10015,9 @@
     if (!pendingActionEffectFlow || !step) return;
 
     if (isMainActionOpeningStep(step)) {
+      if (pendingActionEffectFlow.actionType === "researchTech") {
+        clearResearchTechSelectionState();
+      }
       clearActionEffectFlow();
       return;
     }
@@ -9932,6 +10039,9 @@
       effects[index].preHistoryCommandsApplied = false;
     }
     cancelActiveEffectSubFlows();
+    if (pendingActionEffectFlow.actionType === "researchTech" && effect.type === "research_tech_select") {
+      restoreResearchTechSelectionAfterUndo(effect);
+    }
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
   }
 
@@ -10218,6 +10328,7 @@
 
     const current = getCurrentActionEffect();
     if (!current || current.status !== "active") return;
+    if (finishCurrentCardMoveEffectEarly()) return;
     if (current.options?.skippable === false || current.required) {
       rocketState.statusNote = `${current.label} 必须完成，不能跳过`;
       renderStateReadout();
@@ -10290,6 +10401,20 @@
       && current.options?.skippable !== false
       && !current.required;
     if (els.actionEffectSkipButton) {
+      const finishingCardMove = Boolean(
+        canSkip
+        && pendingActionEffectFlow?.cardMoveEffect
+        && pendingActionEffectFlow.cardMoveEffect.effect?.id === current?.id
+        && (pendingActionEffectFlow.cardMoveEffect.moved || current?.result)
+      );
+      els.actionEffectSkipButton.textContent = finishingCardMove ? "结束移动" : "跳过";
+      els.actionEffectSkipButton.setAttribute(
+        "aria-label",
+        finishingCardMove ? "结束当前卡牌移动" : "跳过当前效果",
+      );
+      els.actionEffectSkipButton.title = finishingCardMove
+        ? "结束剩余移动力并结算已产生的访问触发"
+        : "跳过当前效果";
       els.actionEffectSkipButton.hidden = !canSkip;
       els.actionEffectSkipButton.disabled = !canSkip;
     }
@@ -10366,6 +10491,7 @@
     cancelActiveEffectSubFlows();
     const hadHistoryStep = effectStepActive;
     const effectEvents = status !== "skipped" ? (current.result?.events || []) : [];
+    const deferredType1Events = status !== "skipped" ? (current.result?.deferredType1Events || []) : [];
     const irreversibleReason = status !== "skipped"
       ? (
         getIrreversibleReason(current.result, current.label)
@@ -10400,6 +10526,9 @@
     const flowCompleted = pendingActionEffectFlow?.completed;
     if (flowCompleted) {
       settleCardTasksAfterEffect({ events: effectEvents, render: false });
+      if (deferredType1Events.length) {
+        settleCardTasksAfterEffect({ events: deferredType1Events, type1Only: true, render: false });
+      }
       if (
         (pendingActionEffectFlow && !pendingActionEffectFlow.completed)
         || hasActiveCardTriggerResolution()
@@ -10413,6 +10542,9 @@
       return;
     }
     settleCardTasksAfterEffect({ events: effectEvents, render: true });
+    if (deferredType1Events.length) {
+      settleCardTasksAfterEffect({ events: deferredType1Events, type1Only: true, render: true });
+    }
     renderActionEffectBar();
     updateActionButtons();
     renderStateReadout();
@@ -17743,7 +17875,15 @@
 
   function handleFangzhouCard2Play(handIndex) {
     const currentPlayer = getCurrentPlayer();
-    const futureSpanFreePlay = Boolean(currentPlayer?.hand?.[handIndex]?.futureSpanFreePlay);
+    const removeIndex = Math.round(handIndex);
+    const card = currentPlayer?.hand?.[removeIndex];
+    if (!card) {
+      rocketState.statusNote = "无效的手牌位置";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const futureSpanFreePlay = Boolean(card.futureSpanFreePlay);
     const cost = futureSpanFreePlay ? {} : fangzhou.CARD2_PLAY_COST;
     if (Object.keys(cost).length && !players.canAfford(currentPlayer, cost)) {
       rocketState.statusNote = `信用点不足：方舟牌需要 ${cost.credits} 信用点`;
@@ -17753,49 +17893,105 @@
 
     const beforePlayer = getPlayCardBeforePlayerSnapshot(currentPlayer);
     const beforeAlienState = structuredClone(alienGameState);
+    const beforeCardState = {
+      publicCards: cardState.publicCards.slice(),
+      discardPile: (cardState.discardPile || []).slice(),
+    };
     const spendResult = Object.keys(cost).length ? players.spendResources(currentPlayer, cost) : { ok: true };
     if (!spendResult.ok) return spendResult;
 
-    const removeResult = cards.discardFromHandAtIndex(currentPlayer, handIndex);
+    const removeResult = cards.discardFromHandAtIndex(currentPlayer, removeIndex);
     if (!removeResult.ok) {
       if (Object.keys(cost).length) players.gainResources(currentPlayer, cost);
       return removeResult;
     }
+    const playedCard = removeResult.card;
+    cards.addToDiscardPile(cardState, playedCard);
 
     cards.setPlayCardSelectionActive(cardState, false);
     pendingPlayCardSelection = null;
-    syncPlayCardSelectionChrome();
 
-    actionHistory.beginSession("playCard", "打出方舟解锁牌");
-    actionHistory.beginStep({ source: HISTORY_SOURCE_MAIN, type: "fangzhou_card2_play", label: "打出方舟解锁牌" });
-    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
-      currentPlayer,
-      beforePlayer,
-      "恢复打出方舟牌前玩家状态",
-    ));
-    recordHistoryCommand(historyCommands.createRestoreObjectCommand(
-      alienGameState,
-      beforeAlienState,
-      "恢复打出方舟牌前外星人状态",
-    ));
-
-    const rewardResult = applyFangzhouCard1Reward(
-      currentPlayer,
-      "advanced",
-      `打出 ${cards.getCardLabel(removeResult.card)}`,
-    );
-    actionHistory.endStep();
-    if (!futureSpanFreePlay) {
-      actionHistory.commitSession();
+    const flipResult = fangzhou.flipCard1Reward(alienGameState, "advanced");
+    if (!flipResult.ok) {
+      restoreObjectSnapshot(currentPlayer, beforePlayer);
+      restoreObjectSnapshot(alienGameState, beforeAlienState);
+      cardState.publicCards = beforeCardState.publicCards.slice();
+      cardState.discardPile = beforeCardState.discardPile.slice();
+      cards.setPlayCardSelectionActive(cardState, true);
+      pendingPlayCardSelection = { source: "hand", handIndex: removeIndex, cardId: card.id };
+      rocketState.statusNote = flipResult.message || "方舟高级奖励无法结算";
+      syncPlayCardSelectionChrome();
+      renderPlayerStats();
+      renderPlayerHand();
+      renderAlienPanels();
+      renderPublicCards();
+      updatePublicCardControls();
+      updateActionButtons();
+      renderStateReadout();
+      return flipResult;
     }
 
-    rocketState.statusNote = rewardResult.message || "方舟高级奖励已结算";
+    renderFangzhouCardDisplays();
+    const targetOptions = getFangzhouCard1RewardTargetOptions(flipResult, getTargetPlayerOptions(currentPlayer));
+    const fangzhouEffects = buildFangzhouCard1EffectQueue(
+      flipResult.effect,
+      flipResult.label || `打出 ${cards.getCardLabel(playedCard)}`,
+    ).map((effect) => ({
+      ...effect,
+      options: {
+        ...(effect.options || {}),
+        ...targetOptions,
+      },
+    }));
+    const typeCode = getCardTypeCode(playedCard);
+    const price = getCardPrice(playedCard);
+    rocketState.statusNote = `打出：${cards.getCardLabel(playedCard)}，支付 ${formatCardPlayCost(cost)}，已弃掉`;
+    const industryPassiveResult = applyIndustryPlayCardPassives(playedCard, typeCode);
+    const playFlowQueue = buildPlayCardEffectFlowQueue(currentPlayer, playedCard, fangzhouEffects);
+    const playCardEvent = {
+      type: "playCard",
+      price,
+      cardId: playedCard.cardId,
+      sourceCardInstanceId: playedCard.id,
+      playerId: currentPlayer.id,
+    };
+
+    syncPlayCardSelectionChrome();
     renderAlienPanels();
     renderPlayerStats();
     renderPlayerHand();
-    updateActionButtons();
-    renderStateReadout();
-    return rewardResult;
+    renderPublicCards();
+    updatePublicCardControls();
+    recordPlayCardStart(currentPlayer, playedCard, beforePlayer, beforeCardState, beforeAlienState);
+    recordMainActionIrreversibleBarrier(
+      "方舟奖励牌",
+      "方舟奖励牌翻开新牌",
+      "fangzhou_card1_flip",
+    );
+    if (playFlowQueue.effects.length) {
+      startCardEffectFlow("fangzhou-card2-play-effects", `打出 ${cards.getCardLabel(playedCard)}`, playFlowQueue.effects, {
+        actionType: "playCard",
+        card: playedCard,
+        temporaryTasks: [],
+        industryPlayedCard: playedCard,
+        deferredEndEffects: playFlowQueue.deferredEndEffects,
+        playCardEvent,
+      });
+    } else {
+      settleCardTasksAfterEffect({ events: [playCardEvent], render: false });
+      markActionPending();
+      updateActionButtons();
+      renderStateReadout();
+    }
+    appendIndustryPlayPassiveStatus(industryPassiveResult);
+    return {
+      ok: true,
+      card: playedCard,
+      reserved: false,
+      flipResult,
+      followUps: fangzhouEffects,
+      message: rocketState.statusNote,
+    };
   }
 
   function findPlayerForJiuzheEntry(entry) {
@@ -20217,6 +20413,23 @@
     return `${message || ""}${message ? "；" : ""}${grantResult.message}`;
   }
 
+  function getRevealIrreversible(revealReason, revealSideEffect) {
+    const reasons = [];
+    let code = null;
+    if (revealReason) {
+      reasons.push(revealReason);
+      code = "alien_reveal_random_setup";
+    }
+    const cardGrantIrreversible = revealSideEffect?.cardGrant?.irreversible;
+    if (cardGrantIrreversible?.reason && !reasons.includes(cardGrantIrreversible.reason)) {
+      reasons.push(cardGrantIrreversible.reason);
+    }
+    if (!code && cardGrantIrreversible?.code) code = cardGrantIrreversible.code;
+    return reasons.length
+      ? { code: code || "irreversible_effect", reason: reasons.join("；") }
+      : null;
+  }
+
   function grantRevealCardsForFirstTraces(alienModule, label, alienSlotId) {
     if (!aliens.grantAlienCardsForFirstTraces) {
       return { ok: false, totalExpected: 0, totalDrawn: 0, grants: [], message: "" };
@@ -20548,6 +20761,7 @@
       ? "外星人揭示初始化随机内容"
       : null;
     const revealSideEffect = handleAlienRevealSideEffects(alienSlotId, immediateRevealResult, currentPlayer);
+    const revealIrreversible = getRevealIrreversible(revealIrreversibleReason, revealSideEffect);
     rocketState.statusNote = [
       result.message,
       firstTraceReward?.message || null,
@@ -20577,10 +20791,8 @@
       if (getCurrentActionEffect()) {
         getCurrentActionEffect().result = {
           ok: true,
-          undoable: !revealIrreversibleReason,
-          irreversible: revealIrreversibleReason
-            ? { code: "alien_reveal_random_setup", reason: revealIrreversibleReason }
-            : null,
+          undoable: !revealIrreversible,
+          irreversible: revealIrreversible,
           message: rocketState.statusNote,
           events: traceEvents,
           payload: { alienSlotId, traceType, revealed: immediateRevealResult || null, revealPending: revealResult?.delayed || false, firstTraceReward, afterReward },
@@ -22150,6 +22362,53 @@
     }
     if (active) setQuickPanelOpen(false);
     syncInteractionFocusChrome();
+  }
+
+  function clearResearchTechSelectionState() {
+    tech.setTechSelectionActive(techGameState, false);
+    tech.cancelPendingTake(techGameState);
+    techGameState.ui.selectedTileId = null;
+    techGameState.ui.selectedBlueSlot = null;
+    techGameState.ui.allowedTechTypes = null;
+    closeTechBlueSlotPicker();
+    techGameState.ui.statusNote = "";
+    syncTechSelectionChrome();
+    renderTechBoard();
+  }
+
+  function restoreResearchTechSelectionAfterUndo(effect) {
+    const selectIndex = pendingActionEffectFlow?.effects?.indexOf(effect) ?? -1;
+    if (selectIndex >= 0) {
+      const trailingEffects = pendingActionEffectFlow.effects
+        .slice(selectIndex + 1)
+        .filter((item) => !isGeneratedResearchTechFollowupEffect(item));
+      pendingActionEffectFlow.effects.splice(selectIndex + 1, pendingActionEffectFlow.effects.length, ...trailingEffects);
+    }
+    tech.setTechSelectionActive(techGameState, true);
+    techGameState.ui.pendingTileId = null;
+    techGameState.ui.selectedTileId = null;
+    techGameState.ui.selectedBlueSlot = null;
+    if (Array.isArray(effect?.options?.allowedTechTypes)) {
+      techGameState.ui.allowedTechTypes = [...effect.options.allowedTechTypes];
+    }
+    closeTechBlueSlotPicker();
+    techGameState.ui.statusNote = "请选择要研究的科技板块";
+    rocketState.statusNote = "科技：请选择要研究的科技片";
+    syncTechSelectionChrome();
+    renderTechBoard();
+  }
+
+  function cancelPendingResearchTechTileChoice() {
+    techGameState.ui.pendingTileId = null;
+    techGameState.ui.selectedTileId = null;
+    techGameState.ui.selectedBlueSlot = null;
+    closeTechBlueSlotPicker();
+    techGameState.ui.statusNote = "请选择要研究的科技板块";
+    rocketState.statusNote = "科技：请选择要研究的科技片";
+    syncTechSelectionChrome();
+    renderTechBoard();
+    updateActionButtons();
+    renderStateReadout();
   }
 
   function cancelTechSelection() {
@@ -27323,8 +27582,16 @@
 
   function undoPendingAction() {
     if (isTechActionSelectionActive()) {
-      cancelTechSelection();
-      return;
+      const isResearchTechFlow = pendingActionEffectFlow?.actionType === "researchTech";
+      if (isResearchTechFlow && actionHistory.hasUndoableStep()) {
+        if (techGameState.ui.pendingTileId) {
+          cancelPendingResearchTechTileChoice();
+          return;
+        }
+      } else {
+        cancelTechSelection();
+        return;
+      }
     }
     if (
       !pendingActionExecuted
@@ -28309,7 +28576,7 @@
     } else if (actionId === "researchTech") {
       if (result.awaitingTileSelection) {
         rocketState.statusNote = result.message;
-        startResearchTechEffectFlow(result);
+        startResearchTechEffectFlow(result, { logBefore: actionLogBefore });
         syncTechSelectionChrome();
         renderTechBoard();
         updateActionButtons();
