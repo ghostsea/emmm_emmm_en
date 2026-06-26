@@ -59,11 +59,58 @@
     return value;
   }
 
+  function getPlayerFromState(state = {}, playerId = null) {
+    return state.currentPlayer
+      || (state.playerState?.players || state.players || []).find((player) => player?.id === playerId)
+      || null;
+  }
+
+  function getFinalMarkCount(state = {}, candidate = {}, options = {}) {
+    if (Number.isFinite(Number(options.finalMarkCount))) return numeric(options.finalMarkCount);
+    if (Number.isFinite(Number(candidate.finalMarkCount))) return numeric(candidate.finalMarkCount);
+    if (Array.isArray(options.markedFormulas)) return options.markedFormulas.length;
+    if (Array.isArray(state.aiMarkedFinalFormulas)) return state.aiMarkedFinalFormulas.length;
+    return 0;
+  }
+
+  function estimateCandidateFinalMarkCashout(candidate = {}, state = {}, playerId = null, options = {}) {
+    if (candidate.finalMarkCashoutIncluded || candidate.valueBreakdown?.finalMarkCashoutIncluded) return 0;
+    if (!valuation?.estimateFinalMarkCashoutValue) return 0;
+    const directScoreGain = numeric(candidate.directScoreGain ?? candidate.valueBreakdown?.directScoreGain);
+    if (directScoreGain <= 0) return 0;
+    const player = getPlayerFromState(state, playerId);
+    return valuation.estimateFinalMarkCashoutValue(directScoreGain, {
+      player,
+      currentScore: options.currentScore ?? player?.resources?.score ?? candidate.currentScore,
+      finalMarkCount: getFinalMarkCount(state, candidate, options),
+      roundNumber: options.roundNumber ?? state.turnState?.roundNumber ?? state.roundNumber,
+      finalRoundNumber: options.finalRoundNumber,
+      threshold: options.nextFinalMarkThreshold ?? candidate.nextFinalMarkThreshold,
+      weight: options.finalMarkCashoutWeight ?? candidate.finalMarkCashoutWeight ?? 1,
+    });
+  }
+
+  function estimateCandidateMissingFinalMarkPenalty(candidate = {}, state = {}, playerId = null, options = {}) {
+    if (candidate.missingFinalMarkPenaltyIncluded || candidate.valueBreakdown?.missingFinalMarkPenaltyIncluded) return 0;
+    if (!valuation?.estimateMissingFinalMarkPenalty) return 0;
+    const player = getPlayerFromState(state, playerId);
+    return valuation.estimateMissingFinalMarkPenalty(candidate, {
+      player,
+      currentScore: options.currentScore ?? player?.resources?.score ?? candidate.currentScore,
+      finalMarkCount: getFinalMarkCount(state, candidate, options),
+      roundNumber: options.roundNumber ?? state.turnState?.roundNumber ?? state.roundNumber,
+      finalRoundNumber: options.finalRoundNumber,
+      threshold: options.nextFinalMarkThreshold ?? candidate.nextFinalMarkThreshold,
+    });
+  }
+
   function normalizeActionCandidate(candidate = {}, state = {}, playerId = null, options = {}) {
     const cost = getCandidateCost(candidate);
     const gain = getCandidateGain(candidate, cost);
     const activeGoals = options.goals || goals.inferGoals(state, playerId, options);
     const finalMarginal = valuation.estimateFinalMarginalForAction(candidate, state, playerId, options);
+    const finalMarkCashout = estimateCandidateFinalMarkCashout(candidate, state, playerId, options);
+    const missingFinalMarkPenalty = estimateCandidateMissingFinalMarkPenalty(candidate, state, playerId, options);
     const goalBonus = goals.scoreCandidateForGoals(candidate, activeGoals, state, playerId, options);
     const feasibility = clamp01(candidate.available === false ? 0 : candidate.feasibility ?? 1);
     const explicitScore = Number.isFinite(Number(candidate.score)) ? numeric(candidate.score) : null;
@@ -71,7 +118,7 @@
       || Number.isFinite(Number(candidate.cost))
       || Boolean(candidate.costResources);
     const baseNet = hasExplicitGainCost || explicitScore == null ? gain - cost : explicitScore;
-    const net = (baseNet + finalMarginal + goalBonus) * feasibility;
+    const net = (baseNet + finalMarginal + finalMarkCashout + goalBonus - missingFinalMarkPenalty) * feasibility;
     return {
       ...candidate,
       id: getCandidateId(candidate),
@@ -79,6 +126,8 @@
       cost: roundValue(cost),
       prereqChain: candidate.prereqChain || candidate.plan?.prereqChain || [],
       finalMarginal: roundValue(finalMarginal),
+      finalMarkCashout: roundValue(finalMarkCashout),
+      missingFinalMarkPenalty: roundValue(missingFinalMarkPenalty),
       goalBonus: roundValue(goalBonus),
       feasibility: roundValue(feasibility),
       net: roundValue(net),
@@ -89,6 +138,8 @@
         gain: roundValue(gain),
         cost: roundValue(cost),
         finalMarginal: roundValue(finalMarginal),
+        finalMarkCashout: roundValue(finalMarkCashout),
+        missingFinalMarkPenalty: roundValue(missingFinalMarkPenalty),
         goalBonus: roundValue(goalBonus),
         feasibility: roundValue(feasibility),
         net: roundValue(net),

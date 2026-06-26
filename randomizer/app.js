@@ -36,6 +36,7 @@
     runezu,
     initialCards,
     industry,
+    aiValuation,
     ai,
   } = dependencies;
 
@@ -186,6 +187,7 @@
   let pendingIndustryAbility = null;
   let industryFreeMoveState = null;
   let stateReadoutRenderFrame = 0;
+  let codexAiBatchSuppressReadoutRender = false;
   const setupSelectionState = {
     phase: "selecting",
     currentPlayerId: null,
@@ -875,6 +877,7 @@
     abilities,
     actions,
     scanEffects,
+    quickTrades,
     cards,
     initialCards,
     cardEffects,
@@ -1030,6 +1033,7 @@
     restoreMutableObject,
     runAction,
     runPlaceDataToComputer,
+    runQuickTrade,
     runAiFinalScoreMarkDecision,
     selectPassReserveCard,
     sectorXHasAvailableScanTarget,
@@ -2037,6 +2041,7 @@
   }
 
   function renderActionLog() {
+    if (codexAiBatchSuppressReadoutRender) return;
     if (!els.actionLogReadout) return;
     const entries = actionLogState.entries;
     if (!entries.length) {
@@ -5735,8 +5740,17 @@
       + Math.max(0, 3 - Number(check.slotIndex || 3)) * 1.15
       + multiplier * 0.18;
     const thresholdScore = Math.max(0, aiNumber(pending.threshold)) * 0.015;
+    const zeroBaseLatePenalty = aiValuation?.estimateFinalTileZeroBasePenalty
+      ? aiValuation.estimateFinalTileZeroBasePenalty({
+        baseValue,
+        threshold: thresholdValue,
+        roundNumber,
+        finalRoundNumber: FINAL_ROUND_NUMBER,
+        slotIndex: check.slotIndex,
+      })
+      : 0;
     const score = applyAiStrategyWeight(
-      immediateScore * immediateScoreWeight + demandScore + potentialScore + slotPriorityScore + thresholdScore,
+      immediateScore * immediateScoreWeight + demandScore + potentialScore + slotPriorityScore + thresholdScore - zeroBaseLatePenalty,
       "final",
       0.85,
     );
@@ -5767,6 +5781,7 @@
         familyPriorityScore: Math.round(familyPriorityScore * 100) / 100,
         competitiveSlotSwingScore: Math.round(competitiveSlotSwingScore * 100) / 100,
         thresholdScore: Math.round(thresholdScore * 100) / 100,
+        zeroBaseLatePenalty: Math.round(zeroBaseLatePenalty * 100) / 100,
       },
     };
   }
@@ -27860,6 +27875,7 @@
   }
 
   function renderStateReadout() {
+    if (codexAiBatchSuppressReadoutRender) return;
     const snapshot = solar.createSolarSnapshot(solarState);
     const axisLine = "坐标轴 x0=中线上方偏右第一块，顺时针递增";
     const wheelLine = [1, 2, 3, 4]
@@ -28316,6 +28332,148 @@
   randomizeAll();
   configureDefaultAiOpponent();
   startInitialSelection();
+
+  function summarizeCodexAiBatchResult(result, options = {}) {
+    const samples = Array.isArray(result?.samples) ? result.samples : [];
+    const includeDiagnostics = Boolean(options.includeDiagnostics);
+    const playerResults = samples.flatMap((sample) => sample.playerResults || []);
+    const scores = playerResults
+      .map((entry) => Number(entry.finalScore))
+      .filter((value) => Number.isFinite(value));
+    const markCounts = playerResults
+      .map((entry) => Number(entry.finalMarkCount))
+      .filter((value) => Number.isFinite(value));
+    const gamesWithAllPlayersMarked = samples.filter((sample) => {
+      const playersInGame = sample.playerResults || [];
+      return playersInGame.length > 0 && playersInGame.every((entry) => Number(entry.finalMarkCount) >= 3);
+    }).length;
+    const average = (values) => {
+      if (!values.length) return 0;
+      return Math.round((values.reduce((total, value) => total + value, 0) / values.length) * 100) / 100;
+    };
+    return {
+      ok: Boolean(result?.ok),
+      gamesRequested: result?.gamesRequested || 0,
+      gamesRun: result?.gamesRun || samples.length,
+      stoppedEarly: Boolean(result?.stoppedEarly),
+      averageFinalScore: average(scores),
+      bestFinalScore: scores.length ? Math.max(...scores) : 0,
+      averageFinalMarkCount: average(markCounts),
+      fullMarkPlayerRate: markCounts.length
+        ? Math.round((markCounts.filter((count) => count >= 3).length / markCounts.length) * 1000) / 1000
+        : 0,
+      fullMarkGameRate: samples.length
+        ? Math.round((gamesWithAllPlayersMarked / samples.length) * 1000) / 1000
+        : 0,
+      samples: samples.map((sample) => ({
+        gameIndex: sample.gameIndex,
+        seed: sample.seed,
+        ok: sample.summary?.ok,
+        blocked: Boolean(sample.summary?.blocked),
+        gameEnded: Boolean(sample.summary?.gameEnded),
+        bugCount: sample.bugCount || 0,
+        ...(includeDiagnostics ? {
+          summary: sample.summary,
+          lowMarkPlayerDiagnostics: sample.lowMarkPlayerDiagnostics,
+          tailLogs: (sample.tailLogs || []).map((entry) => ({
+            type: entry.type,
+            roundNumber: entry.roundNumber,
+            turnNumber: entry.turnNumber,
+            playerLabel: entry.playerLabel,
+            message: entry.message,
+          })),
+          analysis: sample.analysis
+            ? {
+              actionCounts: sample.analysis.actionCounts,
+              finalScoreMarks: sample.analysis.finalScoreMarks,
+              finalScoreFormulas: sample.analysis.finalScoreFormulas,
+            }
+            : null,
+        } : {}),
+        players: (sample.playerResults || []).map((entry) => ({
+          playerLabel: entry.playerLabel,
+          finalScore: entry.finalScore,
+          baseScore: entry.baseScore,
+          tileScore: entry.tileScore,
+          finalMarkCount: entry.finalMarkCount,
+          finalFormulas: entry.finalFormulas,
+          credits: entry.resources?.credits,
+          energy: entry.resources?.energy,
+          income: entry.income,
+        })),
+      })),
+    };
+  }
+
+  function maybeRunCodexAiBatchSmoke() {
+    const params = new URLSearchParams(window.location.search);
+    const rawGames = params.get("codexAiBatch") ?? params.get("codex_ai_batch");
+    if (rawGames == null) return;
+    const output = document.createElement("pre");
+    output.id = "codex-ai-batch-result";
+    output.dataset.status = "running";
+    output.textContent = "running";
+    document.body.appendChild(output);
+    const games = Math.min(20, Math.max(1, Math.round(Number(rawGames) || 3)));
+    const maxSteps = Math.min(5000, Math.max(20, Math.round(Number(params.get("maxSteps")) || 1800)));
+    const yieldEverySteps = Math.max(0, Math.round(Number(params.get("yieldEverySteps")) || 80));
+    const stopBeforeRound = Math.max(0, Math.round(Number(params.get("stopBeforeRound")) || 0));
+    const activePlayerCount = Math.max(0, Math.round(Number(params.get("activePlayerCount")) || 0));
+    const seed = params.get("seed") || "codex-ai-batch";
+    const explicitSeeds = (params.get("seeds") || "")
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean)
+      .slice(0, games);
+    const includeDiagnostics = params.get("diagnostics") === "1";
+    const suppressReadoutRender = params.get("renderReadout") !== "1";
+    window.setTimeout(async () => {
+      const previousSuppressReadoutRender = codexAiBatchSuppressReadoutRender;
+      codexAiBatchSuppressReadoutRender = suppressReadoutRender;
+      try {
+        let lastProgressStep = 0;
+        let lastProgressRound = 0;
+        const result = await runAiAutoBattleBatch({
+          games,
+          seed,
+          ...(explicitSeeds.length ? { seeds: explicitSeeds } : {}),
+          maxSteps,
+          yieldEverySteps,
+          ...(stopBeforeRound > 0 ? { stopBeforeRound } : {}),
+          ...(activePlayerCount > 0 ? { activePlayerCount } : {}),
+          stepDelayMs: 0,
+          stopOnBlocked: params.get("stopOnBlocked") !== "false",
+          recordStrategyTuning: false,
+          sequenceWindowTurns: 8,
+          onStep: (progress) => {
+            const step = Math.max(0, Math.round(Number(progress?.steps) || 0));
+            const round = Math.max(0, Math.round(Number(progress?.roundNumber) || 0));
+            if (step - lastProgressStep < 25 && round === lastProgressRound) return;
+            lastProgressStep = step;
+            lastProgressRound = round;
+            output.textContent = JSON.stringify({
+              running: true,
+              steps: step,
+              roundNumber: round,
+              turnNumber: progress?.turnNumber || null,
+              currentPlayerId: progress?.currentPlayerId || null,
+            }, null, 2);
+          },
+        });
+        output.dataset.status = result?.ok ? "ok" : "failed";
+        output.textContent = JSON.stringify(summarizeCodexAiBatchResult(result, { includeDiagnostics }), null, 2);
+      } catch (error) {
+        output.dataset.status = "error";
+        output.textContent = JSON.stringify({
+          ok: false,
+          message: String(error?.message || error),
+        }, null, 2);
+      } finally {
+        codexAiBatchSuppressReadoutRender = previousSuppressReadoutRender;
+      }
+    }, 0);
+  }
+  maybeRunCodexAiBatchSmoke();
 
   window.SetiRandomizer = window.SetiAppPublicApi.createPublicApi({
     structuredClone,

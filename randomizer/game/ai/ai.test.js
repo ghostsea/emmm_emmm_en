@@ -66,7 +66,39 @@ const inferredGoals = goals.inferGoals({
   playerState: { players: [{ id: "p1", resources: { score: 12, availableData: 4 } }] },
 }, "p1");
 assert.ok(inferredGoals.some((goal) => goal.id === goals.GOAL_IDS.FIRST_ROUND_SCORE_25));
+assert.ok(inferredGoals.some((goal) => goal.id === goals.GOAL_IDS.OPENING_INCOME));
 assert.ok(goals.scoreCandidateForGoals({ id: "scan" }, inferredGoals) > 0);
+const contestedTraceGoals = goals.inferGoals({
+  turnState: { roundNumber: 1 },
+  playerState: { players: [{ id: "p1", resources: { score: 8, credits: 2, energy: 2, availableData: 1 } }] },
+}, "p1", {
+  traceCompetition: {
+    firstTrace: {
+      yellow: { open: 0, own: 0, takenByOthers: 2, revealed: 0 },
+      pink: { open: 2, own: 0, takenByOthers: 0, revealed: 0 },
+      blue: { open: 2, own: 0, takenByOthers: 0, revealed: 0 },
+    },
+    yellowLandingPressure: 1,
+  },
+});
+const contestedYellowGoal = contestedTraceGoals.find((goal) => goal.id === goals.GOAL_IDS.GRAB_TRACE_YELLOW);
+const contestedPinkGoal = contestedTraceGoals.find((goal) => goal.id === goals.GOAL_IDS.GRAB_TRACE_PINK);
+assert.ok(contestedYellowGoal.feasibility < contestedPinkGoal.feasibility);
+const openYellowSupport = goals.scoreCandidateForGoals(
+  { id: "land", plan: { actionId: "land" } },
+  [{ id: goals.GOAL_IDS.GRAB_TRACE_YELLOW, value: 10, priority: 1, feasibility: 1 }],
+  {},
+  "p1",
+  { traceCompetition: { firstTrace: { yellow: { open: 2, revealed: 0 } }, yellowLandingPressure: 0 } },
+);
+const pressuredYellowSupport = goals.scoreCandidateForGoals(
+  { id: "land", plan: { actionId: "land" } },
+  [{ id: goals.GOAL_IDS.GRAB_TRACE_YELLOW, value: 10, priority: 1, feasibility: 1 }],
+  {},
+  "p1",
+  { traceCompetition: { firstTrace: { yellow: { open: 0, revealed: 0 } }, yellowLandingPressure: 1 } },
+);
+assert.ok(pressuredYellowSupport < openYellowSupport * 0.5);
 assert.equal(policy.chooseAlienUseOption([
   { choice: "12", label: "拥有3个橙色科技 · 14分 · 威胁6" },
   { choice: "0", label: "九折有6个痕迹 · 7分 · 威胁0" },
@@ -90,6 +122,194 @@ const cornerGraph = actionGraph.buildActionGraph([
 });
 assert.ok(cornerGraph[0].finalMarginal > 0);
 assert.ok(cornerGraph[0].net > 2);
+assert.equal(valuation.getNextMissingFinalScoreThreshold(47, 1), 50);
+assert.equal(valuation.getNextMissingFinalScoreThreshold(51, 2), 70);
+assert.equal(valuation.getNextMissingFinalScoreThreshold(72, 3), null);
+const lateWeakTechPenalty = valuation.estimateMissingFinalMarkPenalty(
+  { id: "researchTech", directScoreGain: 2 },
+  { currentScore: 47, finalMarkCount: 1, roundNumber: 4 },
+);
+const lateScanPenalty = valuation.estimateMissingFinalMarkPenalty(
+  { id: "scan", directScoreGain: 0 },
+  { currentScore: 47, finalMarkCount: 1, roundNumber: 4 },
+);
+const lateCrossingTechPenalty = valuation.estimateMissingFinalMarkPenalty(
+  { id: "researchTech", directScoreGain: 3 },
+  { currentScore: 47, finalMarkCount: 1, roundNumber: 4 },
+);
+assert.ok(lateWeakTechPenalty > lateScanPenalty);
+assert.equal(lateCrossingTechPenalty, 0);
+assert.ok(valuation.estimateMissingFinalMarkPenalty(
+  { id: "researchTech", directScoreGain: 2 },
+  { currentScore: 50, finalMarkCount: 2, roundNumber: 4 },
+) > 30);
+assert.equal(valuation.estimateFinalMarkCashoutValue(3, {
+  currentScore: 47,
+  finalMarkCount: 1,
+  roundNumber: 4,
+}), 12);
+const thirdMarkCrossingValue = valuation.estimateFinalMarkCashoutValue(6, {
+  currentScore: 64,
+  finalMarkCount: 2,
+  roundNumber: 4,
+});
+const thirdMarkNearValue = valuation.estimateFinalMarkCashoutValue(3, {
+  currentScore: 64,
+  finalMarkCount: 2,
+  roundNumber: 4,
+});
+assert.ok(thirdMarkCrossingValue > 20);
+assert.ok(thirdMarkCrossingValue > thirdMarkNearValue);
+assert.equal(valuation.estimateFinalTileZeroBasePenalty({
+  baseValue: 0,
+  threshold: 25,
+  roundNumber: 4,
+  slotIndex: 1,
+}), 0);
+assert.equal(valuation.estimateFinalTileZeroBasePenalty({
+  baseValue: 2,
+  threshold: 70,
+  roundNumber: 4,
+  slotIndex: 1,
+}), 0);
+const zeroBaseSecondMarkPenalty = valuation.estimateFinalTileZeroBasePenalty({
+  baseValue: 0,
+  threshold: 50,
+  roundNumber: 4,
+  slotIndex: 1,
+});
+const zeroBaseThirdMarkPenalty = valuation.estimateFinalTileZeroBasePenalty({
+  baseValue: 0,
+  threshold: 70,
+  roundNumber: 4,
+  slotIndex: 1,
+});
+const earlyZeroBaseThirdMarkPenalty = valuation.estimateFinalTileZeroBasePenalty({
+  baseValue: 0,
+  threshold: 70,
+  roundNumber: 2,
+  slotIndex: 1,
+});
+assert.ok(zeroBaseSecondMarkPenalty >= 9);
+assert.ok(zeroBaseThirdMarkPenalty > zeroBaseSecondMarkPenalty);
+assert.ok(earlyZeroBaseThirdMarkPenalty < zeroBaseThirdMarkPenalty);
+const finalRoundPassBeforeSecondMarkPenalty = valuation.estimateFinalRoundPassPenalty({
+  currentScore: 28,
+  finalMarkCount: 1,
+  roundNumber: 4,
+});
+const finalRoundPassBeforeThirdMarkPenalty = valuation.estimateFinalRoundPassPenalty({
+  currentScore: 66,
+  finalMarkCount: 2,
+  roundNumber: 4,
+});
+const preFinalRoundPassPenalty = valuation.estimateFinalRoundPassPenalty({
+  currentScore: 28,
+  finalMarkCount: 1,
+  roundNumber: 3,
+});
+assert.ok(finalRoundPassBeforeSecondMarkPenalty > 25);
+assert.ok(finalRoundPassBeforeSecondMarkPenalty > finalRoundPassBeforeThirdMarkPenalty);
+assert.equal(preFinalRoundPassPenalty, 0);
+assert.equal(valuation.estimateSecondMarkAnalyzeEnergyTradeValue({
+  currentScore: 47,
+  finalMarkCount: 1,
+  energy: 0,
+  credits: 2,
+  roundNumber: 4,
+  turnNumber: 6,
+  canReachAnalyze: true,
+  hasIncomeFormula: true,
+  hasAnalyzeReadyDataSlot: true,
+  bestRevealedBlueTraceScore: 2,
+  placedComputerData: 4,
+}), 0);
+assert.ok(valuation.estimateSecondMarkAnalyzeEnergyTradeValue({
+  currentScore: 47,
+  finalMarkCount: 1,
+  energy: 0,
+  credits: 2,
+  roundNumber: 4,
+  turnNumber: 6,
+  hasAnalyzeReadyDataSlot: true,
+  bestRevealedBlueTraceScore: 3,
+  placedComputerData: 4,
+}) > 0);
+assert.ok(valuation.estimateSecondMarkAnalyzeEnergyTradeValue({
+  currentScore: 49,
+  finalMarkCount: 1,
+  energy: 0,
+  credits: 2,
+  roundNumber: 4,
+  turnNumber: 6,
+  canReachAnalyze: true,
+  hasIncomeFormula: true,
+  placedComputerData: 5,
+}) > 0);
+assert.ok(valuation.estimateSecondMarkAnalyzeEnergyTradeValue({
+  currentScore: 49,
+  finalMarkCount: 1,
+  energy: 0,
+  credits: 0,
+  handSize: 2,
+  roundNumber: 4,
+  turnNumber: 6,
+  canReachAnalyze: true,
+  hasIncomeFormula: true,
+  placedComputerData: 5,
+}) > 0);
+const finalCashoutGraph = actionGraph.buildActionGraph([
+  { id: "researchTech", kind: "main", available: true, score: 7, directScoreGain: 6 },
+  { id: "scan", kind: "main", available: true, score: 10, directScoreGain: 0 },
+], {
+  turnState: { roundNumber: 4 },
+  currentPlayer: { id: "p1", resources: { score: 64 } },
+  aiMarkedFinalFormulas: [{ formulaId: "a1" }, { formulaId: "b1" }],
+}, "p1");
+assert.ok(finalCashoutGraph[0].finalMarkCashout > 20);
+assert.equal(finalCashoutGraph[0].missingFinalMarkPenalty, 0);
+assert.ok(finalCashoutGraph[1].missingFinalMarkPenalty > 0);
+assert.ok(finalCashoutGraph[0].net > finalCashoutGraph[1].net);
+const cashoutIncludedGraph = actionGraph.buildActionGraph([
+  { id: "land", kind: "main", available: true, score: 30, directScoreGain: 6, finalMarkCashoutIncluded: true },
+], {
+  turnState: { roundNumber: 4 },
+  currentPlayer: { id: "p1", resources: { score: 64 } },
+  aiMarkedFinalFormulas: [{ formulaId: "a1" }, { formulaId: "b1" }],
+}, "p1");
+assert.equal(cashoutIncludedGraph[0].finalMarkCashout, 0);
+const weakTechGraph = actionGraph.buildActionGraph([
+  { id: "researchTech", kind: "main", available: true, score: 16, directScoreGain: 2 },
+  { id: "playCard", kind: "main", available: true, score: 9, directScoreGain: 3 },
+], {
+  turnState: { roundNumber: 4 },
+  currentPlayer: { id: "p1", resources: { score: 47 } },
+  aiMarkedFinalFormulas: [{ formulaId: "d2" }],
+}, "p1");
+assert.ok(weakTechGraph[0].missingFinalMarkPenalty > 0);
+assert.equal(weakTechGraph[1].missingFinalMarkPenalty, 0);
+assert.ok(weakTechGraph[1].net > weakTechGraph[0].net);
+const lateProgressGraph = actionGraph.buildActionGraph([
+  { id: "placeData", kind: "quick", available: true, score: 2, directScoreGain: 2 },
+  { id: "end-turn", kind: "end-turn", available: true, score: -24 },
+], {
+  turnState: { roundNumber: 4 },
+  currentPlayer: { id: "p1", resources: { score: 21 } },
+  aiMarkedFinalFormulas: [],
+}, "p1");
+assert.ok(lateProgressGraph[0].finalMarkCashout > 0);
+assert.ok(lateProgressGraph[0].missingFinalMarkPenalty > 0);
+assert.ok(lateProgressGraph[0].net > lateProgressGraph[1].net);
+const thirdMarkRecoveryGraph = actionGraph.buildActionGraph([
+  { id: "researchTech", kind: "main", available: true, score: 17, directScoreGain: 2 },
+  { id: "quickTrade", kind: "quick", available: true, tradeId: "publicity-for-card", score: 16 },
+], {
+  turnState: { roundNumber: 4 },
+  currentPlayer: { id: "p1", resources: { score: 50 } },
+  aiMarkedFinalFormulas: [{ formulaId: "a1" }, { formulaId: "b1" }],
+}, "p1");
+assert.ok(thirdMarkRecoveryGraph[0].missingFinalMarkPenalty > 30);
+assert.ok(thirdMarkRecoveryGraph[1].net > thirdMarkRecoveryGraph[0].net);
 
 const hiddenTraceState = {
   aliens: {
@@ -134,8 +354,40 @@ const competitiveTraceValue = valuation.estimateAlienTraceValue({
   traceType: "yellow",
   activeOpponentCount: 3,
 });
+const revealedTraceAfterStolenFirstValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "banrenma-grid",
+  traceType: "pink",
+  position: 2,
+  reward: { gain: { score: 3 } },
+});
+const hiddenBackupAfterStolenFirstValue = valuation.estimateAlienTraceValue({
+  alienGameState: {
+    aliens: {
+      1: {
+        revealed: false,
+        traces: {
+          pink: { firstPlaced: true, ownerPlayerColor: "blue", extraCount: 0 },
+        },
+      },
+      2: {
+        revealed: false,
+        traces: {
+          pink: { firstPlaced: false, ownerPlayerColor: null, extraCount: 0 },
+        },
+      },
+    },
+  },
+  alienSlotId: 2,
+  traceType: "pink",
+  player: { color: "white" },
+  activeOpponentCount: 3,
+});
 assert.ok(firstTraceValue >= 10);
 assert.ok(firstTraceValue > repeatedTraceValue);
+assert.ok(repeatedTraceValue < 2);
+assert.ok(revealedTraceAfterStolenFirstValue > repeatedTraceValue + 3);
+assert.ok(revealedTraceAfterStolenFirstValue > hiddenBackupAfterStolenFirstValue + 3);
 assert.ok(jiuzheTraceValue < firstTraceValue);
 assert.ok(competitiveTraceValue > firstTraceValue + 4);
 
@@ -334,7 +586,7 @@ assert.deepEqual(policy.chooseDiscardIndexes([
     { credits: 1 },
     { handSize: 1 },
   ],
-}), [1]);
+}), [0]);
 assert.deepEqual(policy.chooseDiscardIndexes([
   { label: "energy income" },
   { label: "credit income" },
@@ -346,7 +598,7 @@ assert.deepEqual(policy.chooseDiscardIndexes([
     1: { credits: 1 },
     2: { handSize: 1 },
   },
-}), [1, 2]);
+}), [0, 1]);
 assert.equal(policy.chooseAlienUseOption([
   { choice: "displayed", disabled: true },
   { choice: "blind" },

@@ -250,6 +250,22 @@
     ), 0);
   }
 
+  function getHiddenTraceColorCompetition(alienGameState = {}, traceType = null, player = null) {
+    if (!traceType) return { open: 0, own: 0, opponent: 0 };
+    return Object.values(alienGameState?.aliens || {}).reduce((status, slot) => {
+      if (!slot || slot.revealed || !slot.traces?.[traceType]) return status;
+      const traceSlot = slot.traces[traceType];
+      if (!traceSlot.firstPlaced) {
+        status.open += 1;
+      } else if (player && markerBelongsToPlayer(traceSlot, player)) {
+        status.own += 1;
+      } else {
+        status.opponent += 1;
+      }
+      return status;
+    }, { open: 0, own: 0, opponent: 0 });
+  }
+
   function getHiddenAlienStateRewardValue(alienSlotId = null) {
     const slotId = Math.round(numeric(alienSlotId));
     const score = slotId === 1 ? 5 : slotId === 2 ? 3 : 4;
@@ -320,6 +336,20 @@
     const traceSlot = slot.traces[traceType];
     if (!traceSlot?.firstPlaced) {
       const placedCount = countPlacedFirstTracesInSlot(slot);
+      const colorCompetition = getHiddenTraceColorCompetition(alienGameState, traceType, player);
+      const lostHiddenFirstTraceColor = Boolean(
+        player
+        && colorCompetition.opponent > 0
+        && colorCompetition.own <= 0
+      );
+      const stateRewardValue = getHiddenAlienStateRewardValue(alienSlotId);
+      if (lostHiddenFirstTraceColor) {
+        return roundValue(
+          1.2
+            + Math.min(1.4, colorCompetition.opponent * 0.45)
+            + stateRewardValue * 0.18,
+        );
+      }
       let cardExpectation = input.alienCardExpectedValue ?? DEFAULT_ALIEN_CARD_VALUE * 0.85;
       let speciesRevealValue = 0;
       if (alienId.includes("jiuzhe")) {
@@ -330,7 +360,6 @@
         speciesRevealValue = 2.5;
       }
       const revealPressure = placedCount >= 2 ? 5 : placedCount === 1 ? 2 : 0.75;
-      const stateRewardValue = getHiddenAlienStateRewardValue(alienSlotId);
       const ownValue = stateRewardValue + cardExpectation + speciesRevealValue + revealPressure;
       const activeOpponentCount = Math.max(0, Math.round(numeric(input.activeOpponentCount ?? input.opponentCount)));
       const competitionBase = stateRewardValue + cardExpectation * 0.75 + speciesRevealValue * 0.45;
@@ -341,7 +370,11 @@
     }
 
     const ownFirst = player && markerBelongsToPlayer(traceSlot, player);
-    return roundValue((ownFirst ? 2.5 : 3) + Math.max(0, numeric(traceSlot.extraCount)) * 0.8);
+    const placedCount = countPlacedFirstTracesInSlot(slot);
+    const waitForRevealValue = placedCount >= 2 ? 1.1 : placedCount === 1 ? 0.8 : 0.5;
+    const ownRetentionValue = ownFirst ? 0.9 : 0;
+    const extraMarkerValue = Math.min(1.2, Math.max(0, numeric(traceSlot.extraCount)) * 0.3);
+    return roundValue(waitForRevealValue + ownRetentionValue + extraMarkerValue);
   }
 
   function getFinalScoreValue(state = {}, player) {
@@ -351,6 +384,212 @@
       return numeric(result?.totalScore ?? result?.total);
     }
     return numeric(player.resources?.score);
+  }
+
+  function getNextMissingFinalScoreThreshold(currentScore = 0, finalMarkCount = 0) {
+    const score = Math.max(0, numeric(currentScore));
+    const marks = Math.max(0, Math.round(numeric(finalMarkCount)));
+    if (marks >= 3) return null;
+    if (score < 25 && marks < 1) return 25;
+    if (score < 50 && marks < 2) return 50;
+    if (score < 70 && marks < 3) return 70;
+    return null;
+  }
+
+  function estimateFinalMarkCashoutValue(scoreGain = 0, options = {}) {
+    const gain = Math.max(0, numeric(scoreGain));
+    if (!gain) return 0;
+
+    const round = Math.max(1, Math.round(numeric(options.roundNumber) || 1));
+    const finalRound = Math.max(1, Math.round(numeric(options.finalRoundNumber) || FINAL_ROUND_NUMBER));
+    if (round < finalRound - 1) return 0;
+
+    const player = options.player || null;
+    const currentScore = Math.max(0, numeric(options.currentScore ?? player?.resources?.score));
+    const finalMarkCount = Math.max(0, Math.round(numeric(
+      options.finalMarkCount ?? player?.finalMarkCount,
+    )));
+    const threshold = options.threshold
+      ? Math.max(0, numeric(options.threshold))
+      : getNextMissingFinalScoreThreshold(currentScore, finalMarkCount);
+    if (!threshold || currentScore >= threshold) return 0;
+
+    const configs = {
+      25: { crossing: 7, window: 8, partialCap: 4, gainWeight: 0.65 },
+      50: { crossing: 12, window: 12, partialCap: 8, gainWeight: 0.85 },
+      70: { crossing: 26, window: 18, partialCap: 17, gainWeight: 1.1 },
+    };
+    const config = configs[threshold] || configs[50];
+    const distance = Math.max(1, threshold - currentScore);
+    let value = 0;
+    if (currentScore + gain >= threshold) {
+      value = config.crossing;
+    } else if (distance <= config.window) {
+      value = Math.min(
+        config.partialCap,
+        Math.min(gain, distance) * config.gainWeight + Math.max(0, config.window - distance) * 0.3,
+      );
+    } else if (threshold === 70 && currentScore >= 55 && gain >= 3) {
+      value = Math.min(7, gain * 0.6);
+    }
+    const urgency = round >= finalRound ? 1 : 0.45;
+    const weight = Math.max(0, numeric(options.weight ?? 1));
+    return roundValue(Math.max(0, value * urgency * weight));
+  }
+
+  function estimateMissingFinalMarkPenalty(candidate = {}, options = {}) {
+    const round = Math.max(1, Math.round(numeric(options.roundNumber) || 1));
+    const finalRound = Math.max(1, Math.round(numeric(options.finalRoundNumber) || FINAL_ROUND_NUMBER));
+    if (round < finalRound) return 0;
+
+    const actionId = String(candidate.id || candidate.actionId || "");
+    if (!actionId || actionId === "pass" || actionId === "end-turn") return 0;
+
+    const player = options.player || null;
+    const currentScore = Math.max(0, numeric(
+      options.currentScore ?? player?.resources?.score ?? candidate.currentScore,
+    ));
+    const finalMarkCount = Math.max(0, Math.round(numeric(
+      options.finalMarkCount ?? candidate.finalMarkCount ?? player?.finalMarkCount,
+    )));
+    const threshold = options.threshold
+      ? Math.max(0, numeric(options.threshold))
+      : getNextMissingFinalScoreThreshold(currentScore, finalMarkCount);
+    if (!threshold) return 0;
+    const deficit = Math.max(0, threshold - currentScore);
+    if (!deficit) return 0;
+
+    const directScoreGain = Math.max(0, numeric(candidate.directScoreGain));
+    if (directScoreGain >= deficit) return 0;
+    const followupDirectScore = Math.max(0, numeric(candidate.followupMainAction?.directScoreGain));
+    const actionScales = threshold >= 70
+      ? {
+        placeData: 1.08,
+        researchTech: 1.75,
+        launch: 0.8,
+        move: 0.65,
+        playCard: 1.05,
+        scan: 1.18,
+        analyze: 0.72,
+        cardCorner: 0.85,
+        ...(options.actionScales || {}),
+      }
+      : {
+        placeData: 1.1,
+        researchTech: threshold <= 50 && finalMarkCount <= 1 ? 1.28 : 0.95,
+        launch: 0.85,
+        move: 0.78,
+        playCard: 0.68,
+        scan: threshold <= 50 && finalMarkCount <= 1 ? 0.58 : 0.65,
+        analyze: 0.6,
+        cardCorner: 0.55,
+        ...(options.actionScales || {}),
+    };
+    const actionScale = numeric(actionScales[actionId] ?? 0.7);
+    const finalRoundThirdMark = threshold >= 70 && finalMarkCount === 2 && round >= finalRound;
+    const urgency = threshold <= 50 ? 0.5 : finalRoundThirdMark ? 0.42 : 0.24;
+    const base = threshold <= 50 ? 8 : finalRoundThirdMark ? 10 : 5;
+    const missingMarkPressure = threshold <= 50 && finalMarkCount <= 1
+      ? 4
+      : finalRoundThirdMark
+        ? 3
+        : 0;
+    const directCoverage = directScoreGain > 0 ? Math.min(1, directScoreGain / deficit) : 0;
+    const directDiscount = directCoverage > 0 ? Math.max(0.35, 1 - directCoverage * 0.65) : 1;
+    const followupDiscount = followupDirectScore > 0
+      ? (currentScore + directScoreGain + followupDirectScore >= threshold ? 0.35 : 0.55)
+      : 1;
+    const cap = threshold <= 50 ? 24 : finalRoundThirdMark ? 38 : 14;
+    return roundValue(Math.min(
+      cap,
+      (base + deficit * urgency + missingMarkPressure) * actionScale * followupDiscount * directDiscount,
+    ));
+  }
+
+  function estimateFinalTileZeroBasePenalty(options = {}) {
+    const baseValue = Math.max(0, numeric(options.baseValue));
+    const threshold = Math.max(0, numeric(options.threshold));
+    if (baseValue > 0 || threshold < 50) return 0;
+
+    const round = Math.max(1, Math.round(numeric(options.roundNumber) || 1));
+    const finalRound = Math.max(1, Math.round(numeric(options.finalRoundNumber) || FINAL_ROUND_NUMBER));
+    const slotIndex = Math.max(1, Math.round(numeric(options.slotIndex) || 3));
+    const thresholdBase = threshold >= 70 ? 13 : 7;
+    const roundScale = round >= finalRound
+      ? 1.25
+      : round >= finalRound - 1
+        ? 0.8
+        : 0.45;
+    const slotScale = slotIndex === 1
+      ? 1.1
+      : slotIndex === 2
+        ? 0.95
+        : 0.8;
+    const cap = threshold >= 70 ? 24 : 14;
+    return roundValue(Math.min(cap, thresholdBase * roundScale * slotScale));
+  }
+
+  function estimateFinalRoundPassPenalty(options = {}) {
+    const round = Math.max(1, Math.round(numeric(options.roundNumber) || 1));
+    const finalRound = Math.max(1, Math.round(numeric(options.finalRoundNumber) || FINAL_ROUND_NUMBER));
+    if (round < finalRound) return 0;
+
+    const player = options.player || null;
+    const currentScore = Math.max(0, numeric(options.currentScore ?? player?.resources?.score));
+    const finalMarkCount = Math.max(0, Math.round(numeric(
+      options.finalMarkCount ?? player?.finalMarkCount,
+    )));
+    const threshold = options.threshold
+      ? Math.max(0, numeric(options.threshold))
+      : getNextMissingFinalScoreThreshold(currentScore, finalMarkCount);
+    if (!threshold || currentScore >= threshold) return 0;
+
+    const deficit = Math.max(1, threshold - currentScore);
+    const base = threshold <= 50 ? 16 : 14;
+    const urgency = threshold <= 50 ? 0.5 : 0.35;
+    const missingMarkPressure = Math.max(0, 3 - finalMarkCount) * (threshold <= 50 ? 2 : 1.5);
+    const cap = threshold <= 50 ? 36 : 30;
+    return roundValue(Math.min(cap, base + deficit * urgency + missingMarkPressure));
+  }
+
+  function estimateSecondMarkAnalyzeEnergyTradeValue(options = {}) {
+    const round = Math.max(1, Math.round(numeric(options.roundNumber) || 1));
+    const finalRound = Math.max(1, Math.round(numeric(options.finalRoundNumber) || FINAL_ROUND_NUMBER));
+    if (round !== finalRound) return 0;
+    if (Math.max(1, Math.round(numeric(options.turnNumber) || 1)) < 5) return 0;
+
+    const currentScore = Math.max(0, numeric(options.currentScore));
+    const finalMarkCount = Math.max(0, Math.round(numeric(options.finalMarkCount)));
+    const energy = Math.max(0, numeric(options.energy));
+    const credits = Math.max(0, numeric(options.credits));
+    const handSize = Math.max(0, numeric(options.handSize));
+    const analyzeEnergyCost = Math.max(1, numeric(options.analyzeEnergyCost || 1));
+    if (
+      finalMarkCount !== 1
+      || currentScore < 43
+      || currentScore >= 50
+      || energy >= analyzeEnergyCost
+      || (credits < 2 && handSize < 2)
+    ) {
+      return 0;
+    }
+
+    const deficit = Math.max(1, 50 - currentScore);
+    const canReachAnalyze = Boolean(options.canReachAnalyze);
+    const hasAnalyzeReadyDataSlot = Boolean(options.hasAnalyzeReadyDataSlot);
+    const bestRevealedBlueTraceScore = Math.max(0, numeric(options.bestRevealedBlueTraceScore));
+    const fangzhouBlueScoreCashout = Boolean(options.fangzhouBlueScoreCashout);
+    const revealedBlueScoreCashout = hasAnalyzeReadyDataSlot && currentScore + bestRevealedBlueTraceScore >= 50;
+    const closeIncomeSecondMark = Boolean(options.hasIncomeFormula) && canReachAnalyze && currentScore >= 49;
+    if (!closeIncomeSecondMark && !fangzhouBlueScoreCashout && !revealedBlueScoreCashout) return 0;
+
+    const placedCount = Math.max(0, numeric(options.placedComputerData));
+    return roundValue(
+      22
+        + Math.max(0, 6 - deficit) * 1.05
+        + Math.max(0, placedCount - 3) * 0.65
+        + (revealedBlueScoreCashout || fangzhouBlueScoreCashout ? 3 : 0),
+    );
   }
 
   function evaluatePlayerState(state = {}, playerId, options = {}) {
@@ -422,6 +661,12 @@
     getIncomeNetValue,
     getIncomeValue,
     estimateAlienTraceValue,
+    getNextMissingFinalScoreThreshold,
+    estimateFinalMarkCashoutValue,
+    estimateMissingFinalMarkPenalty,
+    estimateFinalTileZeroBasePenalty,
+    estimateFinalRoundPassPenalty,
+    estimateSecondMarkAnalyzeEnergyTradeValue,
     evaluatePlayerState,
     estimateFinalMarginalForAction,
   });
