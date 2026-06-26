@@ -724,9 +724,13 @@
   }
 
   function resolvePlayerReference(reference = {}) {
-    return getPlayerById(reference.playerId)
-      || getPlayerByColor(reference.playerColor)
-      || null;
+    const playerId = reference.playerId || null;
+    if (playerId) {
+      const player = getPlayerById(playerId);
+      if (player) return player;
+    }
+    const playerColor = reference.playerColor || null;
+    return playerColor ? getPlayerByColor(playerColor) : null;
   }
 
   function effectHasExplicitPlayerTarget(effect) {
@@ -3065,6 +3069,22 @@
     return rocketsForPlayer.filter((rocket) => !usedRocketIds.has(Number(rocket.id)));
   }
 
+  function getCardMoveEffectCost(effect) {
+    return normalizeResourceCost(effect?.options?.cost) || {};
+  }
+
+  function addResourceCosts(...costs) {
+    const total = {};
+    for (const cost of costs) {
+      for (const [key, value] of Object.entries(cost || {})) {
+        const amount = Math.max(0, Math.round(Number(value) || 0));
+        if (amount <= 0) continue;
+        total[key] = (total[key] || 0) + amount;
+      }
+    }
+    return total;
+  }
+
   function selectDefaultRocketFromCandidates(rocketsForPlayer) {
     const currentRocket = rocketActions.getActiveRocket(rocketState);
     if (rocketsForPlayer.some((rocket) => rocket.id === currentRocket?.id)) {
@@ -3090,17 +3110,31 @@
       return huanyuRocketCheck;
     }
 
+    const currentPlayer = getCurrentPlayer();
+    const effectCost = getCardMoveEffectCost(effect);
+    if (Object.keys(effectCost).length && !players.canAfford(currentPlayer, effectCost)) {
+      if (payment.discardCommand) payment.discardCommand.undo();
+      rocketState.statusNote = `${effect.label}：需要 ${players.formatResourceCost(effectCost)}，可点击跳过`;
+      renderPlayerHand();
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
     const terrainRequired = payment.terrainRequired
-      || getRequiredMovePointsForUi(getCurrentPlayer(), rocketId, deltaX, deltaY, effect.options || {});
+      || getRequiredMovePointsForUi(currentPlayer, rocketId, deltaX, deltaY, effect.options || {});
     const poolUsed = Number.isFinite(Number(payment.poolUsed))
       ? Math.max(0, Math.round(Number(payment.poolUsed)))
       : Math.min(ctx?.poolRemaining || 0, terrainRequired);
     const energyCost = Math.max(0, Math.round(Number(payment.energyCost) || 0));
+    const moveCost = addResourceCosts(
+      getCardMoveEffectCost(effect),
+      energyCost > 0 ? { energy: energyCost } : {},
+    );
 
     beginEffectHistoryStep(effect.options?.historyLabel || effect.label);
 
     const result = abilities.executeAbility("moveProbe", createActionContext(), {
-      cost: energyCost > 0 ? { energy: energyCost } : {},
+      cost: moveCost,
       movementPoints: terrainRequired,
       rocketId,
       deltaX,
@@ -3265,6 +3299,12 @@
     }
 
     const currentPlayer = getCurrentPlayer();
+    const effectCost = getCardMoveEffectCost(effect);
+    if (Object.keys(effectCost).length && !players.canAfford(currentPlayer, effectCost)) {
+      rocketState.statusNote = `${effect.label}：需要 ${players.formatResourceCost(effectCost)}，可点击跳过`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     const terrainRequired = getRequiredMovePointsForUi(currentPlayer, rocketId, deltaX, deltaY, effect.options || {});
     const poolRemaining = ctx?.poolRemaining ?? Math.max(1, Math.round(Number(effect.options?.movementPoints || 1)));
     const poolUsed = Math.min(poolRemaining, terrainRequired);
@@ -6977,6 +7017,12 @@
     return found ? solar.mod8(found.x) : null;
   }
 
+  function getSectorScanTargetLabel(sectorX) {
+    const x = solar.mod8(sectorX);
+    const nebula = solar.getNebulaAtCoordinate(x, 5, solarState.sectorBySlot);
+    return nebula?.label || `扇区${x}`;
+  }
+
   function buildAomomoScanChoiceForX(sectorX, extra = {}) {
     return buildNebulaScanChoice(aomomo.NEBULA_ID, {
       sectorX,
@@ -8640,23 +8686,19 @@
     return null;
   }
 
-  function applyMoveReplacementBonus(event, bonus, messages) {
+  function applyPublicityMoveFollowupBonus(event, bonus, messages) {
     const currentPlayer = getCurrentPlayer();
-    if (!currentPlayer || !bonus.replacePublicityWithMove) return false;
+    if (!currentPlayer || !bonus.publicityToMoveFollowup) return false;
     if (Math.max(0, Number(event.publicityReward) || 0) <= 0) return false;
-    const gained = Math.max(0, Number(event.publicityGained) || 0);
-    if (gained > 0) {
-      players.spendResources(currentPlayer, { publicity: gained });
-    }
     const moveEffect = {
-      id: `${bonus.id || "card-event"}-move-${event.planetId || "planet"}`,
+      id: `${bonus.id || "card-event"}-pay-publicity-move-${event.planetId || "planet"}`,
       type: cardEffects.EFFECT_TYPES.CARD_MOVE,
-      label: `${bonus.label || "卡牌事件"}：1移动`,
+      label: `${bonus.label || "卡牌事件"}：支付1宣传，1移动`,
       icon: "movement",
       options: {
+        cost: { publicity: 1 },
         movementPoints: 1,
         historyLabel: bonus.label || "卡牌事件移动",
-        ...(gained > 0 ? { refundPublicityOnSkip: gained } : {}),
       },
     };
     if (pendingActionEffectFlow) {
@@ -8668,7 +8710,7 @@
         consumesMainAction: false,
       });
     }
-    messages.push(`${bonus.label || "卡牌事件"}：宣传访问奖励改为1移动`);
+    messages.push(`${bonus.label || "卡牌事件"}：追加1宣传换1移动`);
     return true;
   }
 
@@ -8705,7 +8747,7 @@
           if (bonus.claimedKeys.includes(bonus.onceKey)) continue;
           pendingOnceKey = bonus.onceKey;
         }
-        if (applyMoveReplacementBonus(event, bonus, messages)) {
+        if (applyPublicityMoveFollowupBonus(event, bonus, messages)) {
           if (pendingOnceKey) bonus.claimedKeys.push(pendingOnceKey);
           continue;
         }
@@ -10415,25 +10457,6 @@
     }
   }
 
-  function applySkippedActionEffectRefund(effect) {
-    const publicity = Math.max(0, Math.round(Number(effect?.options?.refundPublicityOnSkip) || 0));
-    if (publicity <= 0) return null;
-    const currentPlayer = getCurrentPlayer();
-    if (!currentPlayer) return null;
-    const gain = { publicity };
-    const beforePlayer = structuredClone(currentPlayer);
-    players.gainResources(currentPlayer, gain);
-    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
-      currentPlayer,
-      beforePlayer,
-      "恢复跳过效果返还前玩家状态",
-    ));
-    return {
-      gain,
-      message: `跳过返还${formatPlanetRewardGain(gain)}`,
-    };
-  }
-
   function skipCurrentActionEffect() {
     if (!pendingActionEffectFlow) return;
 
@@ -10456,21 +10479,8 @@
     cancelActiveEffectSubFlows();
     cleanupSkippedActionEffect(current);
     beginEffectHistoryStep(`跳过：${current.label}`);
-    const refund = applySkippedActionEffectRefund(current);
-    if (refund) {
-      current.result = {
-        ok: true,
-        skipped: true,
-        message: `${current.label}：已跳过；${refund.message}`,
-        payload: {
-          skipped: true,
-          refundGain: refund.gain,
-        },
-      };
-    }
     endEffectHistoryStep();
-    rocketState.statusNote = refund ? current.result.message : `已跳过：${current.label}`;
-    if (refund) renderPlayerStats();
+    rocketState.statusNote = `已跳过：${current.label}`;
     completeCurrentActionEffect("skipped");
   }
 
@@ -10492,13 +10502,7 @@
     current.result = result;
     cleanupSkippedActionEffect(current);
     beginEffectHistoryStep(`跳过：${current.label}`);
-    const refund = applySkippedActionEffectRefund(current);
-    if (refund) {
-      result.message = `${message}；${refund.message}`;
-      result.payload.refundGain = refund.gain;
-    }
     rocketState.statusNote = result.message;
-    if (refund) renderPlayerStats();
     completeCurrentActionEffect("skipped");
     renderStateReadout();
     return result;
@@ -11084,6 +11088,14 @@
 
   function beginCardMoveEffect(effect) {
     const currentPlayer = getCurrentPlayer();
+    const effectCost = getCardMoveEffectCost(effect);
+    if (Object.keys(effectCost).length && !players.canAfford(currentPlayer, effectCost)) {
+      rocketState.statusNote = `${effect.label}：需要 ${players.formatResourceCost(effectCost)}，可点击跳过`;
+      deactivateMoveMode();
+      renderActionEffectBar();
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     const rocketsForPlayer = getMovableTokensForCardMoveEffect(effect, currentPlayer?.id);
     if (!rocketsForPlayer.length) {
       rocketState.statusNote = isIndustryHuanyuMoveEffect(effect)
@@ -11399,10 +11411,11 @@
     const effects = [];
     for (const sectorX of xs) {
       for (let index = 0; index < repeat; index += 1) {
+        const sectorLabel = getSectorScanTargetLabel(sectorX);
         effects.push({
           id: `${effect.id || "probe-sector-scan"}-${rocket.id}-${sectorX}-${index + 1}`,
           type: cardEffects.EFFECT_TYPES.SECTOR_X_SCAN,
-          label: `${effect.label}：R${rocket.id} 扇区${sectorX}${repeat > 1 ? ` ${index + 1}/${repeat}` : ""}`,
+          label: `${effect.label}：${sectorLabel}${repeat > 1 ? ` ${index + 1}/${repeat}` : ""}`,
           icon: "scan",
           options: {
             sectorX,
@@ -11454,7 +11467,7 @@
       button.dataset.probeScanRocketId = String(rocket.id);
       const active = selected.has(rocket.id);
       button.classList.toggle("is-selected", active);
-      button.innerHTML = `R${rocket.id} 扇区${sector.x}<small>${active ? "已选择" : "点击选择该探测器"}</small>`;
+      button.innerHTML = `${getSectorScanTargetLabel(sector.x)}<small>${active ? "已选择" : "点击选择该扇区"}</small>`;
       return button;
     });
     if (maxTargets > 1) {
@@ -11812,7 +11825,7 @@
     if (pluto.ok) {
       choices.push({
         kind: "pluto",
-        label: formatPlutoChoiceLabel("land", pluto),
+        label: formatPlutoChoiceLabel("land", pluto, effect),
         available: pluto,
         preOwnLandingMarker: effect.options?.rememberPreLandingOwnMarker
           ? playerHasOwnLandingOnPlanet(currentPlayer, "pluto")
@@ -11940,6 +11953,39 @@
         { id: "pluto-land-data", type: "gain_data", label: "冥王星登陆：4数据", icon: "data", options: { count: 4 } },
         { id: "pluto-land-trace", type: "alien_trace", label: "冥王星登陆：黄色外星人痕迹", icon: "alien_yellow", options: { allowedTraceTypes: ["yellow"] } },
       ];
+  }
+
+  function formatLocationRewardSummary(effects) {
+    if (typeof planetRewards?.formatRewardEffectsSummary === "function") {
+      return planetRewards.formatRewardEffectsSummary(effects);
+    }
+    return (effects || [])
+      .map((effect) => String(effect?.label || "").trim())
+      .filter(Boolean)
+      .join("；");
+  }
+
+  function getMatchingAfterLandRewardEffects(options = {}, planetId, targetType = "planet") {
+    if (!Array.isArray(options.afterLandRewards)) return [];
+    return options.afterLandRewards
+      .filter((reward) => {
+        const planetIds = reward?.planetIds || [];
+        const planetMatch = !planetIds.length || planetIds.includes(planetId);
+        const satelliteMatch = reward?.includeSatellites && targetType === "satellite";
+        return planetMatch || satelliteMatch;
+      })
+      .map((reward) => reward?.effect)
+      .filter(Boolean);
+  }
+
+  function buildPlutoChoiceRewardSummary(actionType, effect = null) {
+    const rewardEffects = effect?.options?.grantRewards === false
+      ? []
+      : buildPlutoRewardEffectsForAction(actionType);
+    if (actionType === "land") {
+      rewardEffects.push(...getMatchingAfterLandRewardEffects(effect?.options || {}, "pluto", "planet"));
+    }
+    return formatLocationRewardSummary(rewardEffects);
   }
 
   function executePlutoCardActionEffect(effect, actionType, available, contextInfo = {}) {
@@ -12124,7 +12170,7 @@
         kind: "normal",
       })));
     }
-    if (pluto.ok) choices.push({ kind: "pluto", label: formatPlutoChoiceLabel("orbit", pluto), available: pluto });
+    if (pluto.ok) choices.push({ kind: "pluto", label: formatPlutoChoiceLabel("orbit", pluto, effect), available: pluto });
     if (choices.length > 1) return openCardPlutoActionPicker(effect, "orbit", choices);
     if (!normal.ok && pluto.ok) return executePlutoCardActionEffect(effect, "orbit", pluto);
     if (choices.length === 1 && choices[0].kind === "normal") return executeNormalCardOrbitEffect(effect, choices[0]);
@@ -20008,11 +20054,14 @@
   function enqueueJiuzheOpportunity(player, opportunity) {
     if (!player || !opportunity) return;
     const exists = jiuzheOpportunityQueue.some((item) => (
-      item.playerId === player.id && item.reason === opportunity.reason
+      item.playerId === player.id
+      && item.playerColor === player.color
+      && item.reason === opportunity.reason
     ));
     if (exists) return;
     jiuzheOpportunityQueue.push({
       playerId: player.id,
+      playerColor: player.color,
       reason: opportunity.reason,
       label: opportunity.label,
       cost: opportunity.cost || {},
@@ -20059,8 +20108,8 @@
     if (!cardsForPlayer.length) return { ok: false, message: "该玩家没有九折牌" };
 
     pendingJiuzheCardPlay = opportunity
-      ? { playerId: player.id, ...opportunity }
-      : { playerId: player.id, reason: "view", cost: {}, label: "查看九折牌" };
+      ? { playerId: player.id, playerColor: player.color, ...opportunity }
+      : { playerId: player.id, playerColor: player.color, reason: "view", cost: {}, label: "查看九折牌" };
     pendingJiuzheOpportunityOpen = Boolean(opportunity);
 
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = opportunity ? opportunity.label : "九折牌";
@@ -20103,7 +20152,7 @@
 
   function handleJiuzheCardChoice(cardIndex) {
     if (!jiuzhe || !pendingJiuzheCardPlay) return { ok: false, message: "没有九折打出机会" };
-    const player = getPlayerById(pendingJiuzheCardPlay.playerId);
+    const player = resolvePlayerReference(pendingJiuzheCardPlay);
     if (!player) return { ok: false, message: "找不到九折牌玩家" };
     if (pendingJiuzheCardPlay.reason === "view") return { ok: false, message: "当前只是查看九折牌" };
 
@@ -20155,7 +20204,8 @@
 
   function handleJiuzheOpportunitySkip() {
     if (!jiuzhe || !pendingJiuzheCardPlay) return { ok: false, message: "没有九折打出机会" };
-    const player = getPlayerById(pendingJiuzheCardPlay.playerId);
+    const player = resolvePlayerReference(pendingJiuzheCardPlay);
+    if (!player) return { ok: false, message: "找不到九折牌玩家" };
     const beforeAlienState = structuredClone(alienGameState);
     const result = jiuzhe.declineOpportunity(alienGameState, player, pendingJiuzheCardPlay.reason);
     if (result.ok) {
@@ -20183,11 +20233,12 @@
     if (els.scanTargetOverlay && !els.scanTargetOverlay.hidden) return null;
     while (jiuzheOpportunityQueue.length) {
       const next = jiuzheOpportunityQueue.shift();
-      const player = getPlayerById(next.playerId);
+      const player = resolvePlayerReference(next);
       if (!player) continue;
       const latest = jiuzhe.getPendingOpportunity(alienGameState, player);
       if (!latest || latest.reason !== next.reason) continue;
-      return openJiuzheCardDialog(player, latest);
+      const openResult = openJiuzheCardDialog(player, latest);
+      if (openResult?.ok) return openResult;
     }
     return null;
   }
@@ -20223,11 +20274,13 @@
     const key = `${opportunity.type}:${opportunity.markId || "any"}:${opportunity.cardId || "any"}`;
     const exists = banrenmaOpportunityQueue.some((item) => (
       item.playerId === player.id
+      && item.playerColor === player.color
       && `${item.type}:${item.markId || "any"}:${item.cardId || "any"}` === key
     ));
     if (exists) return;
     banrenmaOpportunityQueue.push({
       playerId: player.id,
+      playerColor: player.color,
       type: opportunity.type,
       markId: opportunity.markId || null,
       cardId: opportunity.cardId || null,
@@ -20274,6 +20327,7 @@
     const mark = ready.mark;
     pendingBanrenmaOpportunity = {
       playerId: player.id,
+      playerColor: player.color,
       type: "card",
       cardId: card.id || null,
       markId: mark?.id || card.banrenmaScoreMarkId || null,
@@ -20302,6 +20356,7 @@
     }
     pendingBanrenmaOpportunity = {
       playerId: player.id,
+      playerColor: player.color,
       type: opportunity.type,
       markId: opportunity.markId || null,
       cardId: opportunity.cardId || null,
@@ -20362,12 +20417,13 @@
     if (els.scanTargetOverlay && !els.scanTargetOverlay.hidden) return null;
     while (banrenmaOpportunityQueue.length) {
       const next = banrenmaOpportunityQueue.shift();
-      const player = getPlayerById(next.playerId);
+      const player = resolvePlayerReference(next);
       if (!player) continue;
       if (next.type === "panel") {
         const latest = banrenma.getPendingPanelMark(alienGameState, player);
         if (!latest || latest.id !== next.markId || !banrenma.getAvailableBonusPositions(alienGameState).length) continue;
-        return openBanrenmaOpportunityDialog(player, next);
+        const openResult = openBanrenmaOpportunityDialog(player, next);
+        if (openResult?.ok) return openResult;
       }
     }
     return null;
@@ -20399,7 +20455,7 @@
     if (!pendingBanrenmaOpportunity || pendingBanrenmaOpportunity.type !== "panel") {
       return { ok: false, message: "没有半人马顶部奖励机会" };
     }
-    const player = getPlayerById(pendingBanrenmaOpportunity.playerId);
+    const player = resolvePlayerReference(pendingBanrenmaOpportunity);
     if (!player) return { ok: false, message: "找不到半人马玩家" };
     const beforePlayerState = structuredClone(playerState);
     const beforeAlienState = structuredClone(alienGameState);
@@ -20462,7 +20518,7 @@
     if (!pendingBanrenmaOpportunity || pendingBanrenmaOpportunity.type !== "card") {
       return { ok: false, message: "没有半人马条件效果机会" };
     }
-    const player = getPlayerById(pendingBanrenmaOpportunity.playerId);
+    const player = resolvePlayerReference(pendingBanrenmaOpportunity);
     if (!player) return { ok: false, message: "找不到半人马玩家" };
     if (cardId === "cancel" || cardId === "skip") {
       const beforeAlienState = structuredClone(alienGameState);
@@ -25675,6 +25731,8 @@
       incomeActionCode: playedCard.incomeActionCode,
       scanActionCode: playedCard.scanActionCode,
     };
+    player.industryPlayedCardRound = turnState.roundNumber;
+    player.industryPlayedCardTurn = turnState.turnNumber;
     if (industry?.shouldGainPublicityOnType12Play?.(player) && [1, 2].includes(typeCode)) {
       const beforePublicity = Number(player.resources?.publicity) || 0;
       const publicityGain = industry.getMissionPlayPublicityGain();
@@ -25752,6 +25810,10 @@
 
   function tryInjectSentinelPlayCornerEffectAfterArm() {
     const player = getCurrentPlayer();
+    const playedCardInCurrentTurn = player?.industryPlayedCardThisRound
+      && player?.industryPlayedCardRound === turnState.roundNumber
+      && player?.industryPlayedCardTurn === turnState.turnNumber;
+    if (!playedCardInCurrentTurn) return false;
     const playedCard = player?.industryLastPlayedCardThisRound;
     if (!playedCard) return false;
 
@@ -25768,7 +25830,7 @@
       return appendSentinelPlayCornerEffectsToFlow(nodes);
     }
 
-    if (!player.industryPlayedCardThisRound || !pendingActionExecuted) return false;
+    if (!pendingActionExecuted) return false;
 
     return startCardEffectFlow(
       "industry-sentinel-corner",
@@ -27137,11 +27199,12 @@
     return actionType === "orbit" ? "环绕" : "登陆";
   }
 
-  function formatPlutoChoiceLabel(actionType, available) {
+  function formatPlutoChoiceLabel(actionType, available, effect = null) {
     const actionLabel = getPlutoChoiceActionLabel(actionType);
     const costLabel = players.formatResourceCost(available?.cost || {}) || "0";
     const rocketLabel = available?.rocket?.id != null ? `R${available.rocket.id}` : "探测器";
-    return `${actionLabel}冥王星（${rocketLabel}，${costLabel}）`;
+    const rewardSummary = buildPlutoChoiceRewardSummary(actionType, effect);
+    return `${actionLabel}冥王星${rewardSummary ? ` - 奖励：${rewardSummary}` : ""}（${rocketLabel}，${costLabel}）`;
   }
 
   function buildPlutoActionChoiceOptions(actionType) {
@@ -27679,8 +27742,16 @@
   }
 
   function maybeContinueAlienRevealQueuedOpportunities() {
-    if (maybeOpenQueuedJiuzheOpportunity()) return { ok: true, opened: true };
-    if (maybeOpenQueuedBanrenmaOpportunity()) return { ok: true, opened: true };
+    const jiuzheOpenResult = maybeOpenQueuedJiuzheOpportunity();
+    if (jiuzheOpenResult?.ok) {
+      scheduleAiAutoStepIfNeeded();
+      return { ok: true, opened: true, result: jiuzheOpenResult };
+    }
+    const banrenmaOpenResult = maybeOpenQueuedBanrenmaOpportunity();
+    if (banrenmaOpenResult?.ok) {
+      scheduleAiAutoStepIfNeeded();
+      return { ok: true, opened: true, result: banrenmaOpenResult };
+    }
     return maybeResumeTurnEndAfterReveal();
   }
 
@@ -27757,6 +27828,7 @@
       renderInitialSelectionArea();
     }
     industry?.clearTuringBorrowedTech?.(endingPlayer);
+    industry?.clearSentinelPlayCornerState?.(endingPlayer);
 
     endEffectHistoryStep();
     const turnEndContext = { endingPlayer, endingPlayerId, didPass };

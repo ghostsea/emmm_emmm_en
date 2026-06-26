@@ -216,8 +216,10 @@ const sentinelPlayer = {
 };
 const playedCard = { id: "b-1", src: "b_1.webp", discardActionCode: "0", label: "测试牌" };
 assert.equal(abilities.shouldAppendSentinelPlayCornerEffect(cardsStub, sentinelPlayer, 1, 1, playedCard), true);
-assert.equal(abilities.shouldAppendSentinelPlayCornerEffect(cardsStub, sentinelPlayer, 1, 2, playedCard), true);
+assert.equal(abilities.shouldAppendSentinelPlayCornerEffect(cardsStub, sentinelPlayer, 1, 2, playedCard), false);
 assert.equal(abilities.shouldAppendSentinelPlayCornerEffect(cardsStub, sentinelPlayer, 2, 1, playedCard), false);
+assert.equal(passives.isSentinelCornerArmed(sentinelPlayer, 1, 1), true);
+assert.equal(passives.isSentinelCornerArmed(sentinelPlayer, 1, 2), false);
 const nodes = abilities.buildSentinelPlayCornerEffectNodes(cardsStub, sentinelPlayer, 1, 1, playedCard);
 assert.equal(nodes.length, 1);
 assert.equal(nodes[0].type, "industry_sentinel_corner");
@@ -253,6 +255,19 @@ assert.equal(
   "movement",
 );
 assert.equal(abilities.shouldAppendSentinelPlayCornerEffect(cardsStub, sentinelPlayer, 1, 1, { src: "aliens/x/face.png" }), false);
+sentinelPlayer.industryPlayedCardThisRound = true;
+sentinelPlayer.industryLastPlayedCardThisRound = playedCard;
+sentinelPlayer.industryPlayedCardRound = 1;
+sentinelPlayer.industryPlayedCardTurn = 1;
+const sentinelClear = state.clearSentinelPlayCornerState(sentinelPlayer);
+assert.equal(sentinelClear.cleared, true);
+assert.equal(sentinelPlayer.industrySentinelArmedRound, 0);
+assert.equal(sentinelPlayer.industrySentinelArmedTurn, 0);
+assert.equal(sentinelPlayer.industryPlayedCardThisRound, false);
+assert.equal(sentinelPlayer.industryLastPlayedCardThisRound, null);
+assert.equal(sentinelPlayer.industryPlayedCardRound, 0);
+assert.equal(sentinelPlayer.industryPlayedCardTurn, 0);
+assert.equal(state.clearSentinelPlayCornerState(sentinelPlayer).cleared, false);
 
 const huanyuMoveNodes = abilities.buildHuanyuFreeMoveEffectNodes({
   label: "寰宇动力",

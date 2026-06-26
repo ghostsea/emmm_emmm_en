@@ -382,6 +382,14 @@
     return assignRewardTarget(effects, result);
   }
 
+  function formatRewardEffectsSummary(effects, options = {}) {
+    const separator = options.separator || "；";
+    return (effects || [])
+      .map((effect) => String(effect?.previewLabel || effect?.label || "").trim())
+      .filter(Boolean)
+      .join(separator);
+  }
+
   return Object.freeze({
     EFFECT_TYPES,
     EFFECT_ICONS,
@@ -396,6 +404,7 @@
     buildSatelliteLandRewardEffects,
     buildLandRewardEffects,
     buildRewardEffectsForAction,
+    formatRewardEffectsSummary,
     dataEffect,
     launchEffect,
   });

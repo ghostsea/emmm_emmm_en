@@ -446,7 +446,7 @@
     const markerKinds = options.markerKinds?.length
       ? options.markerKinds
       : ["orbit", "land", "satelliteLand"];
-    return effect(id, EFFECT_TYPES.REMOVE_PLANET_MARKER, label || "移除环绕或登陆标记", "orbitOrLand", {
+    return effect(id, EFFECT_TYPES.REMOVE_PLANET_MARKER, label || "移除环绕或登陆标记", options.icon || "orbitOrLand", {
       owner: options.owner || "current",
       markerKinds: Object.freeze([...markerKinds]),
     });
@@ -1143,13 +1143,14 @@
     "b_13.webp": withSource("b_13.webp", {
       cardType: 0,
       playEffects: Object.freeze([
-        removePlanetMarkerEffect("b13-remove-marker", "移除己方环绕或登陆标记", {
+        removePlanetMarkerEffect("b13-remove-marker", "移除己方环绕器", {
           owner: "current",
-          markerKinds: ["orbit", "land", "satelliteLand"],
+          markerKinds: ["orbit"],
+          icon: "orbit",
         }),
-        gainResourcesEffect("b13-score", "移除标记：3分", { score: 3 }),
-        gainDataEffect("b13-data", "移除标记：1数据", 1),
-        pickCardEffect("b13-pick", "移除标记：精选1张牌"),
+        gainResourcesEffect("b13-score", "移除环绕器：3分", { score: 3 }),
+        gainDataEffect("b13-data", "移除环绕器：1数据", 1),
+        pickCardEffect("b13-pick", "移除环绕器：精选1张牌"),
       ]),
     }),
     "b_14.webp": withSource("b_14.webp", {
@@ -1203,7 +1204,7 @@
       ]),
     }),
     "b_18.webp": withSource("b_18.webp", {
-      cardType: 2,
+      cardType: 0,
       playEffects: Object.freeze([
         cardMoveEffect("b18-move", "1移动"),
         effect("b18-red-scan", EFFECT_TYPES.SCAN_COLOR_CHOICE, "红色扇区扫描", "red_scan", {
@@ -1211,11 +1212,6 @@
           gainData: true,
         }),
       ]),
-      tasks: Object.freeze([{
-        id: "b18-purple-tech-task",
-        condition: Object.freeze({ type: "techCount", techType: "purple", count: 3 }),
-        rewards: Object.freeze([gainDataEffect("b18-purple-tech-data", "拥有3个紫色科技：1数据", 1)]),
-      }]),
     }),
     "b_19.webp": withSource("b_19.webp", {
       cardType: 2,
@@ -1527,12 +1523,11 @@
     "b_49.webp": withSource("b_49.webp", {
       cardType: 0,
       playEffects: Object.freeze([
-        registerEventBonusEffect("b49-visit-move-replacement", "本回合访问非地球行星可改得1移动", {
+        registerEventBonusEffect("b49-visit-publicity-move-followup", "本回合访问非地球行星可支付1宣传获得1移动", {
           duration: "turn",
           eventType: "visitPlanet",
           excludePlanetIds: ["earth"],
-          replacePublicityWithMove: true,
-          onceKey: "b49-visit-move-replacement",
+          publicityToMoveFollowup: true,
           icon: "movement",
         }),
         cardMoveEffect("b49-move", "2移动", { movementPoints: 2 }),

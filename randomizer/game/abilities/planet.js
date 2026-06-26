@@ -6,16 +6,18 @@
   let shared = root.SetiActionShared;
   let historyCommands = root.SetiHistoryCommands;
   let aomomo = root.SetiAlienAomomo;
+  let planetRewards = root.SetiPlanetRewards;
 
-  if ((!players || !planetStats || !shared || !historyCommands || !aomomo) && typeof require === "function") {
+  if ((!players || !planetStats || !shared || !historyCommands || !aomomo || !planetRewards) && typeof require === "function") {
     players = players || require("../players");
     planetStats = planetStats || require("../planet-stats");
     shared = shared || require("../actions/shared");
     historyCommands = historyCommands || require("../history/commands");
     aomomo = aomomo || require("../aliens/aomomo");
+    planetRewards = planetRewards || require("../actions/planet-rewards");
   }
 
-  const api = factory(players, planetStats, shared, historyCommands, aomomo);
+  const api = factory(players, planetStats, shared, historyCommands, aomomo, planetRewards);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
@@ -28,6 +30,7 @@
   shared,
   historyCommands,
   aomomo,
+  planetRewards,
 ) {
   "use strict";
 
@@ -133,6 +136,69 @@
     return players.formatResourceCost(cost) || "0";
   }
 
+  function formatChoiceLabel(actionLabel, targetLabel, details, rewardSummary) {
+    const detailText = (details || []).filter(Boolean).join("，");
+    const rewardText = rewardSummary ? ` - 奖励：${rewardSummary}` : "";
+    return `${actionLabel}${targetLabel}${rewardText}${detailText ? `（${detailText}）` : ""}`;
+  }
+
+  function formatRewardSummary(effects) {
+    if (typeof planetRewards?.formatRewardEffectsSummary === "function") {
+      return planetRewards.formatRewardEffectsSummary(effects);
+    }
+    return (effects || [])
+      .map((effect) => String(effect?.label || "").trim())
+      .filter(Boolean)
+      .join("；");
+  }
+
+  function getNextOrbitMarkerSequence(context, planetId) {
+    if (planetId === aomomo?.PLANET_ID) {
+      return aomomo.countOrbitMarkers(context.alienGameState) + 1;
+    }
+    return planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) + 1;
+  }
+
+  function getNextLandingMarkerSequence(context, planetId) {
+    if (planetId === aomomo?.PLANET_ID) {
+      return aomomo.countLandingMarkers(context.alienGameState) + 1;
+    }
+    return planetStats.getPlanetLandingCount(context.planetStatsState, planetId) + 1;
+  }
+
+  function buildOrbitRewardSummary(planetId, markerSequence, options = {}) {
+    if (options.grantRewards === false || typeof planetRewards?.buildOrbitRewardEffects !== "function") return "";
+    return formatRewardSummary(planetRewards.buildOrbitRewardEffects(planetId, markerSequence));
+  }
+
+  function getAfterLandRewardEffects(options = {}, planetId, targetType) {
+    if (!Array.isArray(options.afterLandRewards)) return [];
+    return options.afterLandRewards
+      .filter((reward) => {
+        const planetIds = reward?.planetIds || [];
+        const planetMatch = !planetIds.length || planetIds.includes(planetId);
+        const satelliteMatch = reward?.includeSatellites && targetType === "satellite";
+        return planetMatch || satelliteMatch;
+      })
+      .map((reward) => reward?.effect)
+      .filter(Boolean);
+  }
+
+  function buildLandRewardSummary(planetId, target, markerSequence, options = {}) {
+    const effects = [];
+    if (options.grantRewards !== false) {
+      if (target?.type === "satellite") {
+        if (typeof planetRewards?.buildSatelliteLandRewardEffects === "function") {
+          effects.push(...planetRewards.buildSatelliteLandRewardEffects(target.satelliteId));
+        }
+      } else if (typeof planetRewards?.buildPlanetLandRewardEffects === "function") {
+        effects.push(...planetRewards.buildPlanetLandRewardEffects(planetId, markerSequence));
+      }
+    }
+    effects.push(...getAfterLandRewardEffects(options, planetId, target?.type || "planet"));
+    return formatRewardSummary(effects);
+  }
+
   function canAddOrbitForPlacement(context, placement) {
     const planetId = placement.planet.planetId;
     return planetId === aomomo?.PLANET_ID
@@ -140,13 +206,22 @@
       : planetStats.canAddOrbitMarker(context.planetStatsState, planetId);
   }
 
-  function buildOrbitChoice(placement, cost) {
+  function buildOrbitChoice(context, placement, cost, options = {}) {
+    const planetId = placement.planet.planetId;
+    const markerSequence = getNextOrbitMarkerSequence(context, planetId);
+    const rewardSummary = buildOrbitRewardSummary(planetId, markerSequence, options);
     return {
+      actionType: "orbit",
       rocketId: placement.rocket.id,
-      planetId: placement.planet.planetId,
+      planetId,
       planet: placement.planet,
+      markerSequence,
+      rewardSummary,
       cost: { ...cost },
-      label: `环绕${placement.planet.name}（${formatRocketChoicePart(placement)}，${getActionCostLabel(cost)}）`,
+      label: formatChoiceLabel("环绕", placement.planet.name, [
+        formatRocketChoicePart(placement),
+        getActionCostLabel(cost),
+      ], rewardSummary),
     };
   }
 
@@ -165,7 +240,7 @@
 
     const choices = placementResult.placements
       .filter((placement) => canAddOrbitForPlacement(context, placement))
-      .map((placement) => buildOrbitChoice(placement, cost));
+      .map((placement) => buildOrbitChoice(context, placement, cost, options));
     if (!choices.length) {
       const [placement] = placementResult.placements;
       return {
@@ -198,41 +273,62 @@
 
     if (planetId === aomomo?.PLANET_ID) {
       if (aomomo?.canAddLandingMarker?.(context.alienGameState)) {
+        const target = targetWithRocketId({ type: "planet" }, placement.rocket.id);
+        const markerSequence = getNextLandingMarkerSequence(context, planetId);
+        const rewardSummary = buildLandRewardSummary(planetId, target, markerSequence, options);
         choices.push({
-          target: targetWithRocketId({ type: "planet" }, placement.rocket.id),
+          actionType: "land",
+          target,
           rocketId: placement.rocket.id,
           planetId,
           planet: placement.planet,
+          markerSequence,
+          rewardSummary,
           energyCost,
           cost,
-          label: `登陆${placement.planet.name}（${rocketPart}，${costLabel}）`,
+          label: formatChoiceLabel("登陆", placement.planet.name, [rocketPart, costLabel], rewardSummary),
         });
       }
       return choices;
     }
     if (options.allowDuplicateLanding || planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
+      const target = targetWithRocketId({ type: "planet" }, placement.rocket.id);
+      const markerSequence = getNextLandingMarkerSequence(context, planetId);
+      const rewardSummary = buildLandRewardSummary(planetId, target, markerSequence, options);
       choices.push({
-        target: targetWithRocketId({ type: "planet" }, placement.rocket.id),
+        actionType: "land",
+        target,
         rocketId: placement.rocket.id,
         planetId,
         planet: placement.planet,
+        markerSequence,
+        rewardSummary,
         energyCost,
         cost,
         label: options.allowDuplicateLanding
-          ? `登陆${placement.planet.name}（主星，可重复，${rocketPart}，${costLabel}）`
-          : `登陆${placement.planet.name}（主星，${rocketPart}，${costLabel}）`,
+          ? formatChoiceLabel("登陆", placement.planet.name, ["主星，可重复", rocketPart, costLabel], rewardSummary)
+          : formatChoiceLabel("登陆", placement.planet.name, ["主星", rocketPart, costLabel], rewardSummary),
       });
     }
     if (canLandOnSatellites(placement.currentPlayer, { ...options, turnState: context.turnState, roundNumber: context.roundNumber, turnNumber: context.turnNumber })) {
       for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
+        const target = targetWithRocketId({ type: "satellite", satelliteId: satellite.satelliteId }, placement.rocket.id);
+        const rewardSummary = buildLandRewardSummary(planetId, target, null, options);
         choices.push({
-          target: targetWithRocketId({ type: "satellite", satelliteId: satellite.satelliteId }, placement.rocket.id),
+          actionType: "land",
+          target,
           rocketId: placement.rocket.id,
           planetId,
           planet: placement.planet,
+          satelliteId: satellite.satelliteId,
+          rewardSummary,
           energyCost,
           cost,
-          label: `登陆${satellite.satelliteName}（${placement.planet.name}，${rocketPart}，${costLabel}）`,
+          label: formatChoiceLabel("登陆", satellite.satelliteName, [
+            placement.planet.name,
+            rocketPart,
+            costLabel,
+          ], rewardSummary),
         });
       }
     }

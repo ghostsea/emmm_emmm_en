@@ -409,17 +409,31 @@
     return { cleared };
   }
 
+  function clearSentinelPlayCornerState(player) {
+    if (!player) return { cleared: false };
+    const cleared = Boolean(player.industrySentinelArmedRound)
+      || Boolean(player.industrySentinelArmedTurn)
+      || Boolean(player.industryPlayedCardThisRound)
+      || Boolean(player.industryLastPlayedCardThisRound)
+      || Boolean(player.industryPlayedCardRound)
+      || Boolean(player.industryPlayedCardTurn);
+    player.industrySentinelArmedRound = 0;
+    player.industrySentinelArmedTurn = 0;
+    player.industryPlayedCardThisRound = false;
+    player.industryLastPlayedCardThisRound = null;
+    player.industryPlayedCardRound = 0;
+    player.industryPlayedCardTurn = 0;
+    return { cleared };
+  }
+
   function resetRoundIndustryRuntimeState(player) {
     if (!player) return player;
     clearTuringBorrowedTech(player);
-    player.industrySentinelArmedRound = 0;
-    player.industrySentinelArmedTurn = 0;
+    clearSentinelPlayCornerState(player);
     player.industryHuanyuFreeMoveRound = 0;
     player.industryHuanyuFreeMoveTurn = 0;
     player.industryHuanyuFreeMovesLeft = 0;
     player.industryHuanyuMovedRocketIds = [];
-    player.industryPlayedCardThisRound = false;
-    player.industryLastPlayedCardThisRound = null;
     // 仅清除「打牌触发的虚线交互」；industryStrategyPassiveSlots 跨轮保留，直到 1x 清槽
     player.industryStrategyPlayInteractionRound = 0;
     player.industryStrategyPlayScanCode = null;
@@ -460,6 +474,7 @@
     resetRoundIndustryRuntimeState,
     resetAllRoundIndustryRuntimeState,
     clearTuringBorrowedTech,
+    clearSentinelPlayCornerState,
     createIndustryMarkUndoCommand,
     initializeStrategyPassiveMarkers,
     canPlaceStrategyPassiveSlot,

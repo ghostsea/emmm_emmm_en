@@ -203,6 +203,12 @@ function launchToPlanet(context, planetId) {
     options.choices.map((choice) => choice.planetId).sort(),
     ["mars", "venus"],
   );
+  const marsOrbitChoice = options.choices.find((choice) => choice.planetId === "mars");
+  assert.equal(marsOrbitChoice.markerSequence, 1);
+  assert.match(
+    marsOrbitChoice.label,
+    /环绕火星 - 奖励：首次环绕：额外获得 3 分；精选 1 张卡牌；火星扇区扫描；获得 1 次收入/,
+  );
 
   const result = abilities.executeAbility("orbitProbe", context, { rocketId: marsRocket.id });
   assert.equal(result.ok, true, result.message);
@@ -223,6 +229,11 @@ function launchToPlanet(context, planetId) {
   assert.equal(options.needsChoice, true);
   const marsChoice = options.choices.find((choice) => choice.planetId === "mars" && choice.target.type === "planet");
   assert.ok(marsChoice);
+  assert.equal(marsChoice.markerSequence, 1);
+  assert.match(
+    marsChoice.label,
+    /登陆火星 - 奖励：首次登陆：额外获得 2 个数据；获得 6 分；获得 1 个黄色外星人标记/,
+  );
 
   const result = abilities.executeAbility("landProbe", context, { target: marsChoice.target });
   assert.equal(result.ok, true, result.message);
@@ -272,6 +283,8 @@ function launchToPlanet(context, planetId) {
   const options = abilities.planet.getLandOptions(context, { allowSatelliteWithoutTech: true });
   assert.equal(options.ok, true);
   assert.equal(options.choices.some((choice) => choice.target.satelliteId === "io"), true);
+  const ioChoice = options.choices.find((choice) => choice.target.satelliteId === "io");
+  assert.match(ioChoice.label, /登陆木卫一 - 奖励：获得 10 分；获得 4 能量/);
 
   const result = abilities.executeAbility("landProbe", context, {
     target: satelliteTarget,

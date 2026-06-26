@@ -137,9 +137,12 @@
   }
 
   function isSentinelCornerArmed(player, roundNumber, turnNumber = 1) {
-    const round = Math.max(0, Math.round(Number(roundNumber) || 0));
+    const round = normalizeRoundNumber(roundNumber);
+    const turn = normalizeTurnNumber(turnNumber);
     return round > 0
-      && player?.industrySentinelArmedRound === round;
+      && turn > 0
+      && player?.industrySentinelArmedRound === round
+      && player?.industrySentinelArmedTurn === turn;
   }
 
   function getBorrowedTechTileId(player, roundNumber = null, turnNumber = null) {

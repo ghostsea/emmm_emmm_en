@@ -39,9 +39,9 @@
 |------|------|
 | `industryRoundMarkRound` / `industryRoundMarkTurn` | 已放置 1x 标记的轮号与发生回合号（刷新只看轮号） |
 | `industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn` | 图灵系统：当前回合借用的科技片 id；带行动上下文时按 Round/Turn 精确判定；无显式上下文的同回合长链路按未清空的借用态生效 |
-| `industrySentinelArmedRound` / `industrySentinelArmedTurn` | 哨兵：本轮已武装「打牌后弃牌角标」；Turn 只记录发生回合 |
+| `industrySentinelArmedRound` / `industrySentinelArmedTurn` | 哨兵：当前回合已武装「打牌后弃牌角标」；必须与当前 Round/Turn 同时匹配 |
 | `industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds` | 旧寰宇免费移动运行时字段；当前主动效果改走快速行动效果队列，不再依赖这些字段 |
-| `industryPlayedCardThisRound` / `industryLastPlayedCardThisRound` | 本轮是否已打牌及牌快照（哨兵补注入队） |
+| `industryPlayedCardThisRound` / `industryLastPlayedCardThisRound` / `industryPlayedCardRound` / `industryPlayedCardTurn` | 当前回合已打牌及牌快照（字段名沿用 ThisRound；回合结束清理，仅供哨兵补注入队） |
 | `industryAlienLabPanels` / `industryAlienLabInitialized` | 异星实验室三色板块正反面；蓝=发射、黄=扫描、粉=科技 |
 | `industryFutureSpan` / `industryFutureSpanInitialized` | 未来跨度专属标记状态：扣下的牌、目标分、是否正在打出 |
 
@@ -55,7 +55,7 @@
 |------|-----------------|----------|----------|
 | 层云核心 | `stratus_public_corners` | `stratus_public_corners` | 根据公共牌区 3 张牌生成效果队列，逐个结算**左上角弃牌角标**（不弃牌、不移除公共牌） |
 | 图灵系统 | `turing_borrow_tech` | `turing_borrow_tech` | 选择供应区一项橙色或紫色科技，**当前回合**借用其效果（不获得板块/bonus）；公司牌下方只复制显示该科技图标 |
-| 哨兵探测网络 | `sentinel_arm_play_corner` | `sentinel_arm_play_corner` | 武装本轮；**打牌效果队列末尾**追加 `industry_sentinel_corner` 结算打出牌弃牌角标（非外星人） |
+| 哨兵探测网络 | `sentinel_arm_play_corner` | `sentinel_arm_play_corner` | 武装当前回合；**打牌效果队列末尾**追加 `industry_sentinel_corner` 结算打出牌弃牌角标（非外星人） |
 | 寰宇动力 | `huanyu_free_moves` | `huanyu_free_moves` | 启动 2 个移动效果队列节点；每个节点提供 1 点移动力，已结算节点的火箭不能作为后续寰宇节点目标，可跳过任一节点 |
 | 赫利昂联合体 | `helios_remove_tech_income` | `helios_remove_tech` → 弃牌收入 | 使一项非蓝科技失效 + 1 次收入（弃 1 张手牌按收入角标）；该科技仍视为拥有并参与科技数量计分 |
 | 任务中继站 | `mission_publicity_pick_income` | `mission_publicity_pick` | 消耗 2 宣传精选 1 张牌，获得其**收入角标**奖励（盲抽角标会盲抽 1 张） |
@@ -82,9 +82,9 @@
 
 ### 哨兵特殊流程
 
-1. 放置 1x → `industrySentinelArmedRound = round`
-2. 打牌时若已标记且已武装 → 队列追加 `industry_sentinel_corner`
-3. 若先打牌后标记 → `tryInjectSentinelPlayCornerEffectAfterArm` 补开或追加队列
+1. 放置 1x → `industrySentinelArmedRound = round` 且 `industrySentinelArmedTurn = turn`
+2. 当前回合打牌时若已标记且已武装 → 队列追加 `industry_sentinel_corner`
+3. 若先打牌后标记且该牌是当前回合打出 → `tryInjectSentinelPlayCornerEffectAfterArm` 补开或追加队列
 4. 节点执行：`executeIndustrySentinelCornerEffect`；移动角标再插入 `CARD_MOVE` 子效果
 
 ## 被动能力建模

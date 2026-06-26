@@ -265,7 +265,7 @@
           abilityId,
           flowType: "sentinel_arm_play_corner",
           label: prepared.label,
-          message: `${prepared.label}：已启用本轮打牌后弃牌角标奖励`,
+          message: `${prepared.label}：已启用本回合打牌后弃牌角标奖励`,
         };
       case "huanyu_free_moves":
         return {
@@ -351,7 +351,9 @@
 
   function isSentinelPlayCornerReady(player, roundNumber, turnNumber = 1) {
     const round = normalizeRoundNumber(roundNumber);
+    const turn = normalizeTurnNumber(turnNumber);
     return player?.industrySentinelArmedRound === round
+      && player?.industrySentinelArmedTurn === turn
       && player?.industryRoundMarkRound === round;
   }
 
@@ -437,6 +439,8 @@
     player.industryHuanyuMovedRocketIds = [];
     player.industryPlayedCardThisRound = false;
     player.industryLastPlayedCardThisRound = null;
+    player.industryPlayedCardRound = 0;
+    player.industryPlayedCardTurn = 0;
     return player;
   }
 

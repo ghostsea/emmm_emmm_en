@@ -4483,6 +4483,15 @@ button.spin-button:hover {
   border: 2px solid rgba(154, 218, 255, 0.22);
 }
 
+.scan-target-option-button.jiuzhe-card-option:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
+.jiuzhe-card-option:not(.is-played):not(.is-achieved) .jiuzhe-card-option-image {
+  filter: brightness(0.58) saturate(0.78);
+}
+
 .scan-target-option-button.fangzhou-card-option:disabled {
   cursor: default;
   opacity: 1;
@@ -4493,11 +4502,13 @@ button.spin-button:hover {
   border-width: 4px;
   border-color: rgba(92, 203, 255, 0.96);
   box-shadow: 0 0 14px rgba(92, 203, 255, 0.42);
+  filter: none;
 }
 
 .jiuzhe-card-option.is-achieved .jiuzhe-card-option-image {
   border-color: rgba(255, 215, 98, 0.96);
   box-shadow: 0 0 16px rgba(255, 215, 98, 0.42);
+  filter: none;
 }
 
 .debug-dock {

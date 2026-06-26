@@ -30,6 +30,10 @@ const rewards = require("./planet-rewards");
   assert.equal(firstMars[0].options.count, 2);
   assert.equal(firstMars[1].options.gain.score, 6);
   assert.equal(firstMars[2].options.traceType, "yellow");
+  assert.equal(
+    rewards.formatRewardEffectsSummary(firstMars),
+    "首次登陆：额外获得 2 个数据；获得 6 分；获得 1 个黄色外星人标记",
+  );
 
   const secondMars = rewards.buildPlanetLandRewardEffects("mars", 2);
   assert.equal(secondMars[0].options.count, 1);
@@ -70,6 +74,10 @@ const rewards = require("./planet-rewards");
 {
   const uranus = rewards.buildOrbitRewardEffects("uranus", 2);
   assert.equal(uranus[2].icon, "black_scan");
+}
+
+{
+  assert.equal(rewards.formatRewardEffectsSummary([]), "");
 }
 
 console.log("planet-rewards.test.js: all tests passed");

@@ -755,10 +755,16 @@
     }
 
     function getPendingPlayerId(pending) {
-      return pending?.playerId
+      const playerId = pending?.playerId
         || pending?.targetPlayerId
         || pending?.player?.id
         || null;
+      if (playerId) return playerId;
+      const playerColor = pending?.playerColor
+        || pending?.targetPlayerColor
+        || pending?.player?.color
+        || null;
+      return playerColor ? getPlayerByColor(playerColor)?.id || null : null;
     }
 
     function getPendingAlienAutomationPlayerId() {
@@ -8704,11 +8710,16 @@
     }
 
     function getAiAlienPendingPlayer(pending = {}) {
-      const playerId = pending?.playerId
-        || getEffectOwnerPlayer(pending?.effect)?.id
+      const explicitPlayerId = pending?.playerId || pending?.targetPlayerId || pending?.player?.id || null;
+      const explicitPlayerColor = pending?.playerColor || pending?.targetPlayerColor || pending?.player?.color || null;
+      const ownerPlayerId = getEffectOwnerPlayer(pending?.effect)?.id
         || state.pendingActionEffectFlow?.playerId
         || playerState.currentPlayerId;
-      return getPlayerById(playerId) || getCurrentPlayer();
+      const explicitColorPlayer = explicitPlayerColor ? getPlayerByColor(explicitPlayerColor) : null;
+      return getPlayerById(explicitPlayerId)
+        || explicitColorPlayer
+        || getPlayerById(ownerPlayerId)
+        || getCurrentPlayer();
     }
 
     function makeAiAlienChoiceFlow(type, label, pending, selector, datasetKey, handler, options = {}) {

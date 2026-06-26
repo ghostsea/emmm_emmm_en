@@ -298,7 +298,8 @@ assert.equal(b11Effects[0].options.afterEventRewards[0].eventType, "visitAsteroi
 const b13Effects = cardEffects.buildPlayEffects({ cardId: "b_13.webp" });
 assert.equal(b13Effects.length, 4);
 assert.equal(b13Effects[0].type, cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER);
-assert.deepEqual(b13Effects[0].options.markerKinds, ["orbit", "land", "satelliteLand"]);
+assert.equal(b13Effects[0].icon, "orbit");
+assert.deepEqual(b13Effects[0].options.markerKinds, ["orbit"]);
 
 const b106Effects = cardEffects.buildPlayEffects({ cardId: "b_106.webp" });
 assert.equal(b106Effects.length, 2);
@@ -335,20 +336,27 @@ assert.equal(cardEffects.collectReadyTasks(blackSectorPlayer, {
   alienGameState: {},
 }).length, 1);
 
-for (const cardId of ["b_16.webp", "b_17.webp"]) {
+for (const cardId of ["b_16.webp", "b_17.webp", "b_18.webp"]) {
   const effects = cardEffects.buildPlayEffects({ cardId });
+  const model = cardEffects.getCardModel({ cardId });
+  assert.equal(model.cardType, 0);
+  assert.equal(model.reserveAfterPlay, undefined);
+  assert.equal(model.tasks, undefined);
+  assert.equal(cardEffects.getTemporaryTasks({ cardId }).length, 0);
   assert.equal(effects[0].type, cardEffects.EFFECT_TYPES.CARD_MOVE);
   assert.equal(effects[1].type, cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE);
 }
 
-const b18 = { id: "card-b18", cardId: "b_18.webp" };
+assert.equal(cardEffects.getRuntimeCardTypeCode({ cardId: "b_18.webp", cardTypeCode: 0 }, 0), 0);
+
+const b19 = { id: "card-b19", cardId: "b_19.webp" };
 const purpleTechPlayer = {
   id: "p1",
   color: "red",
   techState: { ownedTiles: { purple1: true, purple2: true, purple3: true }, blueBoardSlots: {} },
-  reservedCards: [b18],
+  reservedCards: [b19],
 };
-cardEffects.ensureCardEffectState(b18);
+cardEffects.ensureCardEffectState(b19);
 assert.equal(cardEffects.collectReadyTasks(purpleTechPlayer, {
   nebulaDataState: {},
   alienGameState: {},
@@ -636,11 +644,11 @@ assert.equal(cardEffects.buildPlayEffects({ cardId: "b_41.webp" })[0].type, card
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_42.webp" })[1].type, cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_47.webp" })[0].options.per, 3);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_48.webp" })[0].type, cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD);
-const b49ReplacementBonus = cardEffects.buildPlayEffects({ cardId: "b_49.webp" })[0].options.bonus;
-assert.equal(b49ReplacementBonus.onceKey, "b49-visit-move-replacement");
-assert.equal(b49ReplacementBonus.eventType, "visitPlanet");
-assert.equal(b49ReplacementBonus.replacePublicityWithMove, true);
-assert.deepEqual(b49ReplacementBonus.excludePlanetIds, ["earth"]);
+const b49PublicityMoveBonus = cardEffects.buildPlayEffects({ cardId: "b_49.webp" })[0].options.bonus;
+assert.equal(b49PublicityMoveBonus.onceKey, undefined);
+assert.equal(b49PublicityMoveBonus.eventType, "visitPlanet");
+assert.equal(b49PublicityMoveBonus.publicityToMoveFollowup, true);
+assert.deepEqual(b49PublicityMoveBonus.excludePlanetIds, ["earth"]);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_50.webp" })[0].options.owner, "any");
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_50.webp" })[0].options.maxTargets, 3);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_55.webp" })[0].options.researchedByOthersOnly, true);

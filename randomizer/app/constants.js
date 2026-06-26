@@ -112,6 +112,7 @@
         scan_action: "../assets/symbol/effect/scan_action.webp",
         research_tech: "../assets/symbol/effect/research_tech.webp",
         movement: "../assets/symbol/effect/movement.webp",
+        orbit: "../assets/symbol/effect/orbit.webp",
         land: "../assets/symbol/effect/land.webp",
         orbitOrLand: "../assets/symbol/effect/orbit or land.webp",
         chongFossilBack: "../assets/aliens/虫/fossil_back.webp",
