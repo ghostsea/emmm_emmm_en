@@ -800,6 +800,24 @@
     return null;
   }
 
+  function getActiveTransportForCard(alienState, cardId) {
+    if (!cardId) return null;
+    const chong = ensureChongState(alienState);
+    for (const [rocketId, task] of Object.entries(chong.transportTasksByRocketId || {})) {
+      if (task.cardId !== cardId) continue;
+      const fossil = chong.fossilsById?.[task.fossilId];
+      if (!fossil || fossil.taskCompleted) continue;
+      if (fossil.status !== "transported" && fossil.status !== "delivered") continue;
+      return {
+        rocketId: Number(rocketId),
+        fossil,
+        task: buildTransportTaskFromFossil(fossil),
+        delivered: fossil.status === "delivered" || Boolean(task.delivered),
+      };
+    }
+    return null;
+  }
+
   function formatTraceLabel(traceType, position) {
     return `${placement.getTraceTypeLabel(traceType)} ${position}号位`;
   }
@@ -860,6 +878,7 @@
     completeTransportedFossil,
     getTransportTaskForRocket,
     getDeliveredTransportForCard,
+    getActiveTransportForCard,
     unlockBluePositionWithFossil,
     markerBelongsToPlayer,
     getPlayerKeys,

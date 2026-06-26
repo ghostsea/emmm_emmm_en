@@ -12946,19 +12946,21 @@
     }, [renderReservedCardsFromTaskState]);
   }
 
-  function isReservedTaskCardUnfinished(card) {
-    const typeCode = cardEffects.getRuntimeCardTypeCode(card, card.cardTypeCode);
-    if (typeCode !== 1 && typeCode !== 2) return false;
-    if (typeCode === 1) return !cardEffects.areAllTriggersConsumed(card);
-    const model = cardEffects.getCardModel(card);
-    if (!model?.tasks?.length) return false;
-    const completed = new Set(card.cardEffectState?.completedTaskIds || []);
-    return model.tasks.some((task) => !completed.has(task.id));
+  function isChongTransportStartedForCard(card) {
+    return Boolean(card?.id && chong?.getActiveTransportForCard?.(alienGameState, card.id));
+  }
+
+  function isReservedTaskCardUnfinished(card, effect = null) {
+    return cardEffects.isReturnUnfinishedTaskTarget(card, {
+      cardTypes: effect?.options?.cardTypes || [1, 2],
+      isBanrenmaCard: (candidate) => Boolean(banrenma?.isBanrenmaCard?.(candidate)),
+      isChongTransportStarted: isChongTransportStartedForCard,
+    });
   }
 
   function executeReturnUnfinishedTaskToHandEffect(effect) {
     const currentPlayer = getCurrentPlayer();
-    const choices = (currentPlayer?.reservedCards || []).filter(isReservedTaskCardUnfinished);
+    const choices = (currentPlayer?.reservedCards || []).filter((card) => isReservedTaskCardUnfinished(card, effect));
     if (!choices.length) {
       rocketState.statusNote = `${effect.label}：没有未完成的 1/2 型任务卡`;
       renderStateReadout();
@@ -12990,6 +12992,11 @@
     closeScanTargetPicker();
     const index = (currentPlayer?.reservedCards || []).findIndex((card) => card.id === cardId);
     if (index < 0) return { ok: false, message: "无效任务卡" };
+    if (!isReservedTaskCardUnfinished(currentPlayer.reservedCards[index], effect)) {
+      rocketState.statusNote = "该牌不能作为未完成任务卡返回手牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     beginEffectHistoryStep(effect.label);
     const beforePlayer = structuredClone(currentPlayer);
     const [card] = currentPlayer.reservedCards.splice(index, 1);

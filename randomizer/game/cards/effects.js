@@ -2491,6 +2491,33 @@
     return Number.isFinite(fallback) ? Math.round(fallback) : 0;
   }
 
+  function isReturnUnfinishedTaskTarget(card, options = {}) {
+    if (!card) return false;
+    if (
+      (typeof options.isBanrenmaCard === "function" && options.isBanrenmaCard(card))
+      || card.banrenmaCard
+      || card.set === "alien:半人马"
+      || String(card.cardId || "").startsWith("banrenma_")
+    ) {
+      return false;
+    }
+    if (typeof options.isChongTransportStarted === "function" && options.isChongTransportStarted(card)) return false;
+
+    const cardTypes = new Set(
+      (Array.isArray(options.cardTypes) && options.cardTypes.length ? options.cardTypes : [1, 2])
+        .map((typeCode) => Math.round(Number(typeCode)))
+        .filter((typeCode) => Number.isFinite(typeCode)),
+    );
+    const typeCode = getRuntimeCardTypeCode(card, card.cardTypeCode);
+    if (!cardTypes.has(typeCode)) return false;
+    if (typeCode === 1) return !areAllTriggersConsumed(card);
+
+    const model = getCardModel(card);
+    if (!model?.tasks?.length) return false;
+    const completed = new Set(card.cardEffectState?.completedTaskIds || []);
+    return model.tasks.some((task) => !completed.has(task.id));
+  }
+
   function getCardMigrationStatus(cardOrId) {
     const cardId = typeof cardOrId === "string" ? cardOrId : getCardId(cardOrId);
     const model = getCardModel(cardId);
@@ -3255,6 +3282,7 @@
     getCardReference,
     getDeferredCardModel,
     getRuntimeCardTypeCode,
+    isReturnUnfinishedTaskTarget,
     getCardMigrationStatus,
     buildPlayEffects,
     getTemporaryTasks,

@@ -247,6 +247,31 @@ assert.equal(cardEffects.countRocketsForReward(
 ), 3);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_28.png" })[0].type, cardEffects.EFFECT_TYPES.DISCARD_ANY_FOR_INCOME);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_29.png" })[0].type, cardEffects.EFFECT_TYPES.RETURN_UNFINISHED_TASK_TO_HAND);
+const returnableType2Task = { id: "card-dlc29-type2", cardId: "b_1.webp" };
+cardEffects.ensureCardEffectState(returnableType2Task);
+assert.equal(cardEffects.isReturnUnfinishedTaskTarget(returnableType2Task), true);
+const completedType2Task = { id: "card-dlc29-completed-type2", cardId: "b_1.webp" };
+cardEffects.ensureCardEffectState(completedType2Task);
+for (const task of cardEffects.getCardModel(completedType2Task).tasks) {
+  cardEffects.completeTask(completedType2Task, task.id);
+}
+assert.equal(cardEffects.isReturnUnfinishedTaskTarget(completedType2Task), false);
+const returnableType1Task = { id: "card-dlc29-type1", cardId: "b_2.webp" };
+cardEffects.ensureCardEffectState(returnableType1Task);
+assert.equal(cardEffects.isReturnUnfinishedTaskTarget(returnableType1Task), true);
+const consumedType1Task = { id: "card-dlc29-consumed-type1", cardId: "b_2.webp" };
+cardEffects.ensureCardEffectState(consumedType1Task);
+for (const trigger of cardEffects.getCardModel(consumedType1Task).triggers) {
+  cardEffects.consumeTrigger(consumedType1Task, trigger.id);
+}
+assert.equal(cardEffects.isReturnUnfinishedTaskTarget(consumedType1Task), false);
+assert.equal(cardEffects.isReturnUnfinishedTaskTarget(
+  { id: "card-dlc29-banrenma", cardId: "banrenma_0.webp", cardTypeCode: 1, banrenmaCard: true },
+), false);
+assert.equal(cardEffects.isReturnUnfinishedTaskTarget(
+  { id: "card-dlc29-chong-moving", cardId: "chong_0.webp", cardTypeCode: 1, chongCard: true },
+  { isChongTransportStarted: () => true },
+), false);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_30.png" })[0].type, cardEffects.EFFECT_TYPES.CARD_ORBIT);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_34.png" })[1].type, cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME);
 assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_35.png" })[0].options.gain, { additionalPublicScan: 1 });
