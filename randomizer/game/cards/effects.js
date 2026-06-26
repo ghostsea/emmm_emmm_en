@@ -40,6 +40,7 @@
     HAND_SCAN: "card_hand_scan",
     COUNT_HAND_CORNER_MOVE: "card_count_hand_corner_move",
     CHOOSE_HAND_CORNER_REWARD: "card_choose_hand_corner_reward",
+    DISCARD_PUBLIC_CORNER_REWARDS: "card_discard_public_corner_rewards",
     RETURN_PLAYED_CARD_TO_HAND_IF: "card_return_played_card_to_hand_if",
     LANDING_SECTOR_SCAN: "card_landing_sector_scan",
     CONDITIONAL_SECTOR_SCAN: "card_conditional_sector_scan",
@@ -551,10 +552,11 @@
     return effect(id, EFFECT_TYPES.CARD_MOVE, moveLabel, "movement", normalizedOptions);
   }
 
-  function conditionalRewardEffect(id, label, condition, rewards) {
-    return effect(id, EFFECT_TYPES.CONDITIONAL_REWARD, label, "score", {
+  function conditionalRewardEffect(id, label, condition, rewards, options = {}) {
+    const rewardList = rewards || [];
+    return effect(id, EFFECT_TYPES.CONDITIONAL_REWARD, label, options.icon || rewardList[0]?.icon || "score", {
       condition: Object.freeze({ ...(condition || {}) }),
-      rewards: Object.freeze((rewards || []).map((reward) => reward)),
+      rewards: Object.freeze(rewardList.map((reward) => reward)),
     });
   }
 
@@ -590,6 +592,12 @@
 
   function chooseHandCornerRewardEffect(id, label) {
     return effect(id, EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD, label || "按手牌角标选择奖励", "publicity", {});
+  }
+
+  function discardPublicCornerRewardsEffect(id, label, count = 1) {
+    return effect(id, EFFECT_TYPES.DISCARD_PUBLIC_CORNER_REWARDS, label || "弃公共牌并结算左上角", "discard", {
+      count: Math.max(1, Math.round(Number(count || 1))),
+    });
   }
 
   function returnPlayedCardToHandIfEffect(id, label, condition) {
@@ -1267,9 +1275,7 @@
     "b_23.webp": withSource("b_23.webp", {
       cardType: 0,
       playEffects: Object.freeze([
-        effect("b23-draw-corner", EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION, "盲抽并立刻结算左上角角标", "blind_card", {
-          repeat: 3,
-        }),
+        discardPublicCornerRewardsEffect("b23-public-corners", "同时弃除公共牌区3张牌并获取左上角奖励", 3),
       ]),
     }),
     "b_24.webp": withSource("b_24.webp", {
@@ -1554,13 +1560,16 @@
     }),
     "b_52.webp": withSource("b_52.webp", {
       cardType: 0,
-      tasks: Object.freeze([{
-        id: "b52-asteroid-probe-task",
-        condition: Object.freeze({ type: "probeLocation", locationType: "asteroid" }),
-        rewards: Object.freeze([
-          alienTraceEffect("b52-yellow-trace", "探测器在小行星：获得1黄色痕迹", ["yellow"]),
-        ]),
-      }]),
+      playEffects: Object.freeze([
+        conditionalRewardEffect(
+          "b52-asteroid-probe-trace",
+          "若己方火箭在小行星：获得1黄色痕迹",
+          Object.freeze({ type: "probeLocation", locationType: "asteroid" }),
+          Object.freeze([
+            alienTraceEffect("b52-yellow-trace", "探测器在小行星：获得1黄色痕迹", ["yellow"]),
+          ]),
+        ),
+      ]),
     }),
     "b_53.webp": withSource("b_53.webp", {
       cardType: 2,
@@ -1735,10 +1744,11 @@
       ]),
       tasks: Object.freeze([{
         id: "b67-three-traces-task",
-        condition: Object.freeze({ type: "singleAlienTraceSet", traceTypes: ["yellow", "pink", "blue"] }),
+        condition: Object.freeze({ type: "singleAlienTraceCount", count: 3 }),
         rewards: Object.freeze([
-          alienTraceEffect("b67-any-trace-reward", "同一外星人三色痕迹：在该外星人获得任意痕迹", null, {
-            targetRule: "singleAlienTraceSet",
+          alienTraceEffect("b67-any-trace-reward", "同一外星人3个痕迹：在该外星人获得任意痕迹", null, {
+            targetRule: "singleAlienTraceCount",
+            requiredTraceCount: 3,
           }),
         ]),
       }]),
@@ -2811,7 +2821,8 @@
     return playerKeys.has(traceSlot.ownerPlayerId)
       || playerKeys.has(traceSlot.ownerPlayerColor)
       || playerKeys.has(traceSlot.playerId)
-      || playerKeys.has(traceSlot.playerColor);
+      || playerKeys.has(traceSlot.playerColor)
+      || playerKeys.has(traceSlot.color);
   }
 
   function listGridTraceEntries(grid, traceType, traceTypes = ["pink", "yellow", "blue"], positions = [1, 2, 3, 4, 5]) {
@@ -2858,6 +2869,26 @@
     if (traceBelongsToPlayer(slot?.traces?.[traceType], playerKeys)) return true;
     return listRevealedFaceTraceEntries(alienGameState, alienSlotId, traceType)
       .some((entry) => markerBelongsToPlayer(entry, playerKeys));
+  }
+
+  function countStateTraceMarkersForPlayer(slot, traceType, playerKeys) {
+    const traceSlot = slot?.traces?.[traceType];
+    if (!traceBelongsToPlayer(traceSlot, playerKeys)) return 0;
+    return 1 + Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
+  }
+
+  function countAlienSlotTraceMarkersForPlayer(alienGameState, alienSlotId, slot, playerKeys, traceTypes = null) {
+    const types = Array.isArray(traceTypes) && traceTypes.length
+      ? traceTypes
+      : ["yellow", "pink", "blue"];
+    let count = 0;
+    for (const traceType of types) {
+      count += countStateTraceMarkersForPlayer(slot, traceType, playerKeys);
+      count += listRevealedFaceTraceEntries(alienGameState, alienSlotId, traceType)
+        .filter((entry) => markerBelongsToPlayer(entry, playerKeys))
+        .length;
+    }
+    return count;
   }
 
   function allAliensHaveTrace(alienGameState, traceType) {
@@ -2991,6 +3022,14 @@
       .some(([slotId, slot]) => slotHasPlayerTraceSet(alienGameState, slotId, slot, playerKeys, traceTypes));
   }
 
+  function playerHasSingleAlienTraceCount(player, alienGameState, count, traceTypes = null) {
+    const playerKeys = getPlayerKeys(player);
+    const required = Math.max(1, Math.round(Number(count || 1)));
+    return Object.entries(alienGameState?.aliens || {}).some(([slotId, slot]) => (
+      countAlienSlotTraceMarkersForPlayer(alienGameState, slotId, slot, playerKeys, traceTypes) >= required
+    ));
+  }
+
   function playerHasYichangdianAllTraceTypes(player, alienGameState) {
     const yichangdian = getYichangdian();
     if (!yichangdian?.playerHasAllTraceTypes) return false;
@@ -3120,6 +3159,14 @@
     }
     if (condition.type === "singleAlienTraceSet") {
       return playerHasSingleAlienTraceSet(player, context.alienGameState, condition.traceTypes || []);
+    }
+    if (condition.type === "singleAlienTraceCount") {
+      return playerHasSingleAlienTraceCount(
+        player,
+        context.alienGameState,
+        condition.count,
+        condition.traceTypes || null,
+      );
     }
     if (condition.type === "yichangdianAllTraceTypes") {
       return playerHasYichangdianAllTraceTypes(player, context.alienGameState);

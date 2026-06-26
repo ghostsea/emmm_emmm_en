@@ -2115,8 +2115,40 @@ body {
 }
 
 .scan-target-subtitle.alien-reveal-confirmation-text {
-  white-space: pre-line;
-  line-height: 1.65;
+  display: grid;
+  gap: 6px;
+  line-height: 1.45;
+  white-space: normal;
+}
+
+.alien-reveal-name {
+  color: #f6fbff;
+  font-weight: 800;
+}
+
+.alien-reveal-title-line {
+  margin-top: 4px;
+  color: rgba(232, 238, 248, 0.9);
+}
+
+.alien-reveal-title-line:first-child {
+  margin-top: 0;
+}
+
+.alien-reveal-trace-line {
+  font-weight: 700;
+}
+
+.alien-reveal-trace-pink {
+  color: #ff8fc7;
+}
+
+.alien-reveal-trace-yellow {
+  color: #ffe27a;
+}
+
+.alien-reveal-trace-blue {
+  color: #7db7ff;
 }
 
 .data-place-actions,

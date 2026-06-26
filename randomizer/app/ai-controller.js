@@ -739,12 +739,47 @@
       return { ok: true, playerIds: [...playerIds], message: "电脑玩家已配置" };
     }
 
+    function getPendingPlayerId(pending) {
+      return pending?.playerId
+        || pending?.targetPlayerId
+        || pending?.player?.id
+        || null;
+    }
+
+    function getPendingAlienAutomationPlayerId() {
+      const pendingEntries = [
+        state.pendingAlienTraceAction,
+        state.pendingJiuzheCardPlay?.reason === "view" ? null : state.pendingJiuzheCardPlay,
+        state.pendingYichangdianCardGain,
+        state.pendingYichangdianCornerAction,
+        state.pendingBanrenmaCardGain,
+        state.pendingBanrenmaOpportunity,
+        state.pendingChongCardGain,
+        state.pendingChongFossilChoice,
+        state.pendingChongTaskCompletion,
+        state.pendingAmibaCardGain,
+        state.pendingAmibaSymbolChoice,
+        state.pendingAmibaTraceRemoval,
+        state.pendingAomomoCardGain,
+        state.pendingRunezuCardGain,
+        state.pendingRunezuFaceSymbolPlacement,
+        state.pendingRunezuSymbolBranch,
+      ];
+      for (const pending of pendingEntries) {
+        const playerId = getPendingPlayerId(pending);
+        if (playerId) return playerId;
+      }
+      return null;
+    }
+
     function getPendingAutomationPlayerId() {
       if (state.pendingDiscardAction?.player?.id) return state.pendingDiscardAction.player.id;
       if (state.pendingCardSelectionAction?.player?.id) return state.pendingCardSelectionAction.player.id;
       if (state.pendingPassReserveSelection?.playerId) return state.pendingPassReserveSelection.playerId;
       if (state.pendingHandScanAction?.player?.id) return state.pendingHandScanAction.player.id;
       if (state.pendingMovePayment?.player?.id) return state.pendingMovePayment.player.id;
+      const alienPendingPlayerId = getPendingAlienAutomationPlayerId();
+      if (alienPendingPlayerId) return alienPendingPlayerId;
       const effectOwner = getCurrentActionEffect()
         ? getEffectOwnerPlayer(getCurrentActionEffect())
         : null;

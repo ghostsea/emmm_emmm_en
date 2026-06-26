@@ -152,6 +152,7 @@
   const cardTaskState = cardTaskStateModule.createTaskState();
   let alienTracePickerState = null;
   let pendingAlienRevealConfirmation = null;
+  let pendingTurnEndAfterRevealContinuation = null;
   let debugAlienTraceModeActive = false;
   let sectorWinDebugActive = false;
   let pendingActionExecuted = false;
@@ -1690,6 +1691,7 @@
     pendingRunezuFaceSymbolPlacement = null;
     alienTracePickerState = null;
     pendingAlienRevealConfirmation = null;
+    pendingTurnEndAfterRevealContinuation = null;
     debugAlienTraceModeActive = false;
     pendingActionExecuted = false;
     pendingPassPlayerId = null;
@@ -2370,17 +2372,36 @@
       && (pendingCardSelectionAction.maxSelectable ?? 1) > 1;
   }
 
+  function isPublicCornerDiscardSelectionActive() {
+    return isCardSelectionActive()
+      && pendingCardSelectionAction?.type === "card_public_corner_discard";
+  }
+
+  function isPublicCardMultiSelectActive() {
+    return isPublicScanMultiSelectActive() || isPublicCornerDiscardSelectionActive();
+  }
+
+  function getPublicCardMultiSelectMinSelectable(pending = pendingCardSelectionAction) {
+    if (pending?.type === "public_scan") return getPublicScanMinSelectable(pending);
+    const maxSelectable = Math.max(1, Math.round(Number(pending?.maxSelectable) || 1));
+    const requested = Math.max(1, Math.round(Number(pending?.minSelectable) || maxSelectable));
+    return Math.min(maxSelectable, requested);
+  }
+
   function syncPublicScanConfirmButton() {
     if (!els.publicScanConfirm) return;
-    const multi = isPublicScanMultiSelectActive();
+    const multi = isPublicCardMultiSelectActive();
     els.publicScanConfirm.hidden = !multi;
     if (!multi) return;
     const count = pendingCardSelectionAction?.selectedSlots?.length || 0;
-    const minSelectable = getPublicScanMinSelectable();
+    const minSelectable = getPublicCardMultiSelectMinSelectable();
     els.publicScanConfirm.disabled = count < minSelectable;
-    els.publicScanConfirm.textContent = count > 0
-      ? `确认扫描（${count}/${minSelectable}张）`
+    const label = pendingCardSelectionAction?.type === "card_public_corner_discard"
+      ? "确认弃除"
       : "确认扫描";
+    els.publicScanConfirm.textContent = count > 0
+      ? `${label}（${count}/${minSelectable}张）`
+      : label;
   }
 
   function syncCardSelectionChrome() {
@@ -4649,7 +4670,7 @@
       : pendingAction?.type === "place_data_choose_card"
         ? "放置数据：精选一张公共牌，或点击盲抽"
       : pendingAction?.type === "tech_bonus_pick_card"
-        ? "科技奖励：精选一张公共牌"
+        ? "科技奖励：精选一张公共牌，或点击盲抽"
       : pendingAction?.type === "jiuzhe_trace_pick"
         ? "九折痕迹：精选一张公共牌"
       : pendingAction?.type === "yichangdian_anomaly_pick"
@@ -4658,6 +4679,8 @@
         ? "卡牌触发：精选一张公共牌，或点击盲抽"
       : pendingAction?.type === "card_pick_corner_reward"
         ? "精选：选择一张公共牌，并获得其左上角奖励"
+      : pendingAction?.type === "card_public_corner_discard"
+        ? `公共牌角标：请选择 ${pendingAction.minSelectable || pendingAction.count || 3} 张公共牌弃除`
       : pendingAction?.type === "industry_mission_pick"
         ? "任务中继站：精选 1 张公共牌并获得收入资源"
       : pendingAction?.type === "industry_fenwick_pick"
@@ -4892,6 +4915,16 @@
         };
         completeCurrentActionEffect("skipped");
       }
+    } else if (pending?.type === "card_public_corner_discard") {
+      rocketState.statusNote = "已取消公共牌角标弃除";
+      if (pending.fromEffectFlow && getCurrentActionEffect()) {
+        getCurrentActionEffect().result = {
+          ok: true,
+          undoable: true,
+          message: rocketState.statusNote,
+        };
+        completeCurrentActionEffect("skipped");
+      }
     } else if (pending?.type?.startsWith?.("industry_")) {
       return rollbackPendingIndustryQuickAction("已取消公司 1x 行动");
     } else {
@@ -4900,6 +4933,7 @@
     syncCardSelectionChrome();
     renderPlayerStats();
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
   }
 
@@ -5210,6 +5244,7 @@
     renderPublicCards();
     renderPlayerStats();
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result;
   }
@@ -5304,7 +5339,7 @@
     ensurePublicCardsFilledRespectingDelayedRefills();
 
     const selectionActive = isCardSelectionActive();
-    const publicScanMulti = isPublicScanMultiSelectActive();
+    const publicCardMultiSelect = isPublicCardMultiSelectActive();
     const selectedPublicSlots = pendingCardSelectionAction?.selectedSlots || [];
     els.publicCardRow.replaceChildren(...cardState.publicCards.map((card, index) => {
       const slot = document.createElement("div");
@@ -5324,7 +5359,7 @@
         button.className = "public-card";
         button.dataset.publicSlot = String(index);
         button.classList.add("is-selectable");
-        if (publicScanMulti && selectedPublicSlots.includes(index)) {
+        if (publicCardMultiSelect && selectedPublicSlots.includes(index)) {
           button.classList.add("is-selected");
         }
         button.setAttribute("aria-label", label);
@@ -5361,6 +5396,10 @@
     if (!isCardSelectionActive()) return;
     if (pendingCardSelectionAction?.type === "public_scan") {
       handlePublicScanCardClick(slotIndex);
+      return;
+    }
+    if (pendingCardSelectionAction?.type === "card_public_corner_discard") {
+      handlePublicCornerDiscardCardClick(slotIndex);
       return;
     }
     if (pendingCardSelectionAction?.type === "industry_deepspace_public") {
@@ -7198,8 +7237,119 @@
     });
   }
 
+  function buildCardCornerMoveEffectFromReward(effect, card, moveReward, index) {
+    return {
+      id: `${effect?.id || "public-corner"}-move-${index + 1}-${card.id}`,
+      type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+      label: `${cards.getCardLabel(card)}：${moveReward.label}`,
+      icon: "movement",
+      options: {
+        movementPoints: moveReward.movementPoints || 1,
+        historyLabel: moveReward.label,
+      },
+    };
+  }
+
+  function confirmPublicCornerDiscardSelection() {
+    const pending = pendingCardSelectionAction;
+    if (pending?.type !== "card_public_corner_discard") {
+      return { ok: false, message: "当前不是公共牌角标弃除" };
+    }
+
+    const selectedSlots = [...(pending.selectedSlots || [])].sort((a, b) => a - b);
+    const minSelectable = getPublicCardMultiSelectMinSelectable(pending);
+    if (selectedSlots.length < minSelectable) {
+      const message = `请至少选择 ${minSelectable} 张公共牌`;
+      rocketState.statusNote = message;
+      renderStateReadout();
+      return { ok: false, message };
+    }
+
+    const selectedCards = [];
+    for (const slotIndex of selectedSlots) {
+      const card = cardState.publicCards[slotIndex];
+      if (!card) {
+        rocketState.statusNote = "所选公共牌已不可用";
+        renderStateReadout();
+        return { ok: false, message: rocketState.statusNote };
+      }
+      selectedCards.push({ slotIndex, card });
+    }
+
+    const player = pending.player || getCurrentPlayer();
+    if (!player) {
+      rocketState.statusNote = "没有当前玩家";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const effect = pending.effect || getCurrentActionEffect() || { label: pending.effectLabel || "公共牌角标弃除" };
+    const beforePlayer = pending.beforePlayerState || structuredClone(player);
+    const beforeCardState = pending.beforeCardState || {
+      publicCards: cardState.publicCards.slice(),
+      discardPile: (cardState.discardPile || []).slice(),
+    };
+
+    pendingCardSelectionAction = null;
+    cards.setSelectionActive(cardState, false);
+    syncCardSelectionChrome();
+
+    beginEffectHistoryStep(effect.label);
+
+    const messages = [];
+    const moveEffects = [];
+    for (const { slotIndex, card } of selectedCards) {
+      cardState.publicCards[slotIndex] = null;
+      cards.addToDiscardPile(cardState, card);
+      const reward = applyCardCornerRewardFromCard(player, card, {
+        source: "public_corner_discard",
+        insertMoveIntoCurrentFlow: false,
+      });
+      messages.push(`${cards.getCardLabel(card)}：${reward.message}`);
+      if (reward.moveReward) {
+        moveEffects.push(buildCardCornerMoveEffectFromReward(effect, card, reward.moveReward, moveEffects.length));
+      }
+    }
+
+    if (moveEffects.length) insertActionEffectsAfterCurrent(moveEffects);
+
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      beforePlayer,
+      "恢复公共牌角标弃除前玩家状态",
+    ));
+    recordHistoryCommand(historyCommands.createRestorePublicCardsCommand(
+      cardState,
+      beforeCardState.publicCards,
+      beforeCardState.discardPile,
+    ));
+
+    ensurePublicCardsFilledRespectingDelayedRefills();
+    const replenishedCount = selectedCards
+      .filter(({ slotIndex }) => cardState.publicCards[slotIndex])
+      .length;
+    const irreversible = replenishedCount > 0
+      ? { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" }
+      : null;
+    if (irreversible) markCurrentActionIrreversible(irreversible.reason, irreversible.code);
+
+    const message = `${effect.label}：弃除 ${selectedCards.length} 张公共牌；${messages.join("；")}`;
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: !irreversible,
+      irreversible,
+      message,
+      payload: {
+        cards: selectedCards.map(({ card }) => card),
+        replenishedCount,
+      },
+    }, [renderPlayerHand]);
+  }
+
   function confirmPublicScanSelection() {
     const pending = pendingCardSelectionAction;
+    if (pending?.type === "card_public_corner_discard") {
+      return confirmPublicCornerDiscardSelection();
+    }
     if (pending?.type !== "public_scan") {
       return { ok: false, message: "当前不是公共牌区扫描" };
     }
@@ -7285,6 +7435,41 @@
     updateActionButtons();
     renderStateReadout();
     return openPublicScanNebulaPickerForCurrentQueueItem();
+  }
+
+  function handlePublicCornerDiscardCardClick(slotIndex) {
+    const index = Number(slotIndex);
+    const card = cardState.publicCards[index];
+    if (!card) {
+      rocketState.statusNote = "该公共牌位没有卡牌";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const pending = pendingCardSelectionAction;
+    const maxSelectable = pending?.maxSelectable ?? 1;
+    const selectedSlots = pending.selectedSlots || [];
+    const existingIndex = selectedSlots.indexOf(index);
+    if (existingIndex >= 0) {
+      selectedSlots.splice(existingIndex, 1);
+    } else if (selectedSlots.length >= maxSelectable) {
+      rocketState.statusNote = `最多选择 ${maxSelectable} 张公共牌`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    } else {
+      selectedSlots.push(index);
+    }
+
+    pending.selectedSlots = selectedSlots;
+    const count = selectedSlots.length;
+    const minSelectable = getPublicCardMultiSelectMinSelectable(pending);
+    rocketState.statusNote = count > 0
+      ? `公共牌角标：已选 ${count}/${maxSelectable} 张${count < minSelectable ? `，至少需要 ${minSelectable} 张` : "，点击确认弃除"}`
+      : `公共牌角标：请选择 ${minSelectable} 张公共牌弃除`;
+    syncPublicScanConfirmButton();
+    renderPublicCards();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote };
   }
 
   function handlePublicScanCardClick(slotIndex) {
@@ -9862,6 +10047,7 @@
     renderAlienPanels();
     updateActionButtons();
     renderStateReadout();
+    maybeResumeTurnEndAfterReveal();
   }
 
   function maybeCompleteActionEffectFromScan(result) {
@@ -11149,6 +11335,12 @@
     if (condition.type === "otherProbeAtPlanet") {
       return runtimeOtherProbeAtPlanet(currentPlayer, condition.planetId);
     }
+    if (condition.type === "probeLocation") {
+      const probeLocationData = buildProbeLocationIndex();
+      return [currentPlayer?.id, currentPlayer?.color]
+        .filter(Boolean)
+        .some((key) => (probeLocationData.index?.[key] || []).includes(condition.locationType));
+    }
     return false;
   }
 
@@ -12377,6 +12569,42 @@
       player: currentPlayer,
       effectLabel: effect.label,
       allowBlindDraw: Boolean(effect.options?.allowBlindDraw),
+      fromEffectFlow: true,
+      beforePlayerState: structuredClone(currentPlayer),
+      beforeCardState: {
+        publicCards: cardState.publicCards.slice(),
+        discardPile: (cardState.discardPile || []).slice(),
+      },
+    });
+    if (!result.ok) {
+      rocketState.statusNote = result.message;
+      renderStateReadout();
+    }
+    return result;
+  }
+
+  function executeDiscardPublicCornerRewardsEffect(effect) {
+    const currentPlayer = getCurrentPlayer();
+    if (!currentPlayer) return { ok: false, message: "没有当前玩家" };
+    const count = Math.max(1, Math.round(Number(effect.options?.count || 1)));
+    const filledSlots = cardState.publicCards
+      .map((card, index) => card ? index : null)
+      .filter((index) => index != null);
+    if (filledSlots.length < count) {
+      rocketState.statusNote = `${effect.label}：公共牌不足 ${count} 张`;
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+    const result = beginCardSelection({
+      type: "card_public_corner_discard",
+      player: currentPlayer,
+      effect,
+      effectLabel: effect.label,
+      count,
+      maxSelectable: count,
+      minSelectable: count,
+      selectedSlots: [],
+      allowBlindDraw: false,
       fromEffectFlow: true,
       beforePlayerState: structuredClone(currentPlayer),
       beforeCardState: {
@@ -13858,6 +14086,8 @@
         return executeCountHandCornerMoveEffect(effect);
       case types.CHOOSE_HAND_CORNER_REWARD:
         return executeChooseHandCornerRewardEffect(effect);
+      case types.DISCARD_PUBLIC_CORNER_REWARDS:
+        return executeDiscardPublicCornerRewardsEffect(effect);
       case types.RETURN_PLAYED_CARD_TO_HAND_IF:
         return executeReturnPlayedCardToHandIfEffect(effect);
       case types.LANDING_SECTOR_SCAN:
@@ -13980,7 +14210,7 @@
       bonusId: effect.options?.bonusId || selection?.bonusId,
       firstTake: Boolean(effect.options?.firstTake ?? selection?.firstTake),
       selection,
-      allowBlindDraw: false,
+      allowBlindDraw: true,
     });
     if (!result.ok) {
       rocketState.statusNote = result.message;
@@ -15272,17 +15502,53 @@
   function buildAlienRevealNoticeEntry(alienSlotId, revealResult) {
     const slot = aliens.getAlienSlot(alienGameState, alienSlotId);
     const alienId = revealResult?.alienId || slot?.alienId || slot?.assignedAlienId || null;
+    const alienLabel = aliens.getAlienLabel?.(alienId) || alienId || "外星人";
     const traceTypes = ["pink", "yellow", "blue"];
     return {
       alienSlotId: Number(alienSlotId),
       alienId,
+      alienLabel,
       title: formatAlienRevealTitle(alienId),
       lines: traceTypes.map((traceType) => {
         const traceLabel = aliens.getTraceTypeLabel?.(traceType) || `${traceType}痕迹`;
         const ownerLabel = formatRevealTraceOwnerLabel(slot?.traces?.[traceType]);
-        return `${ownerLabel}拥有${traceLabel}`;
+        return { traceType, traceLabel, ownerLabel };
       }),
     };
+  }
+
+  function renderAlienRevealTitleElement(container, entry) {
+    if (!container || !entry) return;
+    const strong = document.createElement("strong");
+    strong.className = "alien-reveal-name";
+    strong.textContent = entry.alienLabel || "外星人";
+    const suffix = String(entry.alienLabel || "").endsWith("外星人")
+      ? "已被揭示！"
+      : "外星人已被揭示！";
+    container.replaceChildren(strong, document.createTextNode(suffix));
+  }
+
+  function createAlienRevealTitleLine(entry) {
+    const line = document.createElement("div");
+    line.className = "alien-reveal-title-line";
+    renderAlienRevealTitleElement(line, entry);
+    return line;
+  }
+
+  function createAlienRevealTraceLine(line) {
+    const node = document.createElement("div");
+    node.className = `alien-reveal-trace-line alien-reveal-trace-${line.traceType || "unknown"}`;
+    node.textContent = `${line.ownerLabel || "未知玩家"}拥有${line.traceLabel || "痕迹"}`;
+    return node;
+  }
+
+  function buildAlienRevealNoticeNodes(entries) {
+    return entries.flatMap((entry) => {
+      const nodes = [];
+      if (entries.length > 1) nodes.push(createAlienRevealTitleLine(entry));
+      nodes.push(...(entry.lines || []).map(createAlienRevealTraceLine));
+      return nodes;
+    });
   }
 
   function openAlienRevealConfirmation(noticeEntries, onConfirm) {
@@ -15302,13 +15568,14 @@
     pendingAlienRevealConfirmation = { entries, onConfirm };
     alienTracePickerState = { mode: "reveal-confirm" };
     if (els.alienTraceTitle) {
-      els.alienTraceTitle.textContent = entries.length === 1 ? entries[0].title : "外星人已被揭示！";
+      if (entries.length === 1) {
+        renderAlienRevealTitleElement(els.alienTraceTitle, entries[0]);
+      } else {
+        els.alienTraceTitle.textContent = "外星人已被揭示！";
+      }
     }
     if (els.alienTraceSubtitle) {
-      const lines = entries.flatMap((entry) => (
-        entries.length === 1 ? entry.lines : [entry.title, ...entry.lines]
-      ));
-      els.alienTraceSubtitle.textContent = lines.join("\n");
+      els.alienTraceSubtitle.replaceChildren(...buildAlienRevealNoticeNodes(entries));
       els.alienTraceSubtitle.classList.add("alien-reveal-confirmation-text");
     }
     const confirmButton = document.createElement("button");
@@ -15433,6 +15700,29 @@
     return (traceTypes || []).every((traceType) => alienSlotHasPlayerTrace(alienSlotId, traceType, player));
   }
 
+  function countStateTraceMarkersForSlot(alienSlotId, traceType, playerKeys) {
+    const traceSlot = aliens.getAlienSlot(alienGameState, Number(alienSlotId))?.traces?.[traceType];
+    if (!traceSlot?.firstPlaced || !alienTraceMarkerBelongsToPlayer(traceSlot, playerKeys)) return 0;
+    return 1 + Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
+  }
+
+  function countAlienTraceMarkersForSlot(alienSlotId, player, traceTypes = null) {
+    const playerKeys = getAlienTracePlayerKeys(player);
+    const types = Array.isArray(traceTypes) && traceTypes.length
+      ? traceTypes
+      : aliens.TRACE_TYPES;
+    let count = 0;
+    for (const traceType of types) {
+      const traceSlot = aliens.getAlienSlot(alienGameState, Number(alienSlotId))?.traces?.[traceType];
+      count += countStateTraceMarkersForSlot(alienSlotId, traceType, playerKeys);
+      count += listAlienTraceEntriesForSlot(alienSlotId, traceType)
+        .filter((entry) => entry !== traceSlot)
+        .filter((entry) => alienTraceMarkerBelongsToPlayer(entry, playerKeys))
+        .length;
+    }
+    return count;
+  }
+
   function getEligibleAlienSlotIdsForTraceEffect(effect, player, traceTypes) {
     const targetRule = effect?.options?.targetRule;
     if (!targetRule) return null;
@@ -15444,6 +15734,10 @@
       if (targetRule === "singleAlienTraceSet") {
         const requiredTypes = effect.options?.traceTypes || ["yellow", "pink", "blue"];
         return alienSlotHasPlayerTraceSet(alienSlotId, requiredTypes, player);
+      }
+      if (targetRule === "singleAlienTraceCount") {
+        const requiredCount = Math.max(1, Math.round(Number(effect.options?.requiredTraceCount || 3)));
+        return countAlienTraceMarkersForSlot(alienSlotId, player, effect.options?.traceTypes || null) >= requiredCount;
       }
       return true;
     });
@@ -16874,6 +17168,7 @@
     renderPlayerHand();
     renderPlayerStats();
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return { ok: true, message, result };
   }
@@ -17005,6 +17300,7 @@
     renderPlayerHand();
     renderPlayerStats();
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return { ok: true, message, result };
   }
@@ -17141,6 +17437,7 @@
     renderPlayerStats();
     renderReservedCardsFromTaskState();
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return { ok: true, message, result };
   }
@@ -17519,6 +17816,7 @@
     renderPlayerStats();
     renderPlayerHand();
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result || { ok: true, message };
   }
@@ -17640,7 +17938,7 @@
     renderPlayerHand();
     renderReservedCardsFromTaskState();
     updateActionButtons();
-    maybeOpenQueuedBanrenmaOpportunity();
+    maybeContinueAlienRevealQueuedOpportunities();
     renderStateReadout();
     return result || { ok: true, message };
   }
@@ -17795,6 +18093,7 @@
     renderPlayerHand();
     renderPlayerStats();
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return { ok: true, message, result };
   }
@@ -17978,6 +18277,14 @@
     }
   }
 
+  function failChongTaskCompletion(message) {
+    rocketState.statusNote = message || "虫族任务完成失败";
+    renderReservedCardsFromTaskState();
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: false, message: rocketState.statusNote };
+  }
+
   function finishChongFossilEffect(message, payload = {}, options = {}) {
     const currentEffect = getCurrentActionEffect();
     if (currentEffect && options.completeEffect !== false) {
@@ -18016,6 +18323,10 @@
       fossilId,
       `完成 ${cards.getCardLabel(card)}：${fossilId}`,
     );
+    if (!rewardResult.ok) {
+      closeChongFossilChoiceDialog();
+      return failChongTaskCompletion(rewardResult.message || "虫族化石奖励结算失败");
+    }
     card.chongTaskCompleted = true;
     removeReservedCardToDiscard(player, card);
     incrementCompletedTaskCount(player);
@@ -18063,11 +18374,12 @@
 
   function completeChongTransportTask(pending, player) {
     const card = pending.card;
-    const ready = pending.ready || getReadyChongTaskForReservedCard(card, player);
+    const ready = getReadyChongTaskForReservedCard(card, player) || pending.ready;
     const delivered = ready?.deliveredTransport;
     const rocketId = delivered?.rocketId;
     if (!ready || !Number.isInteger(rocketId)) {
-      return { ok: false, message: "没有已送达的虫族化石任务" };
+      closeChongTaskCompletionDialog();
+      return failChongTaskCompletion("没有已送达的虫族化石任务");
     }
 
     const beforePlayerState = pending.beforePlayerState || structuredClone(playerState);
@@ -18076,9 +18388,8 @@
     const beforeCardState = pending.beforeCardState || structuredClone(cardState);
     const result = chong.completeTransportedFossil(alienGameState, rocketId);
     if (!result.ok) {
-      rocketState.statusNote = result.message;
-      renderStateReadout();
-      return result;
+      closeChongTaskCompletionDialog();
+      return failChongTaskCompletion(result.message);
     }
 
     rocketActions.removeRocket(rocketState, rocketId);
@@ -18154,9 +18465,12 @@
 
   function handleChongTaskCompletionChoice(choice) {
     const pending = pendingChongTaskCompletion;
-    if (!pending) return { ok: false, message: "没有虫族任务完成流程" };
+    if (!pending) return failChongTaskCompletion("没有虫族任务完成流程");
     const player = getPlayerById(pending.playerId) || getCurrentPlayer();
-    if (!player) return { ok: false, message: "找不到虫族任务玩家" };
+    if (!player) {
+      closeChongTaskCompletionDialog();
+      return failChongTaskCompletion("找不到虫族任务玩家");
+    }
     if (choice === "cancel") {
       closeChongTaskCompletionDialog();
       rocketState.statusNote = "已取消虫族任务完成";
@@ -18168,9 +18482,12 @@
 
   function handleChongFossilChoice(choice) {
     const pending = pendingChongFossilChoice;
-    if (!pending) return { ok: false, message: "没有虫族化石选择流程" };
+    if (!pending) return failChongTaskCompletion("没有虫族化石选择流程");
     const player = getPlayerById(pending.playerId) || getCurrentPlayer();
-    if (!player) return { ok: false, message: "找不到虫族化石玩家" };
+    if (!player) {
+      closeChongFossilChoiceDialog();
+      return failChongTaskCompletion("找不到虫族化石玩家");
+    }
 
     if (choice === "cancel") {
       closeChongFossilChoiceDialog();
@@ -18256,9 +18573,9 @@
   function openChongTraceTaskCompletionPicker(card) {
     const player = getCurrentPlayer();
     const ready = getReadyChongTaskForReservedCard(card, player);
-    if (!ready) return { ok: false, message: "这张虫族任务尚未满足条件" };
+    if (!ready) return failChongTaskCompletion("这张虫族任务尚未满足条件");
     if (ready.task?.kind === "transport") {
-      if (!els.scanTargetOverlay || !els.scanTargetActions) return { ok: false, message: "无法打开虫族任务确认窗口" };
+      if (!els.scanTargetOverlay || !els.scanTargetActions) return failChongTaskCompletion("无法打开虫族任务确认窗口");
       pendingChongTaskCompletion = {
         ready,
         card,
@@ -18450,7 +18767,7 @@
     renderAlienPanels();
     updateActionButtons();
     renderStateReadout();
-    maybeOpenQueuedJiuzheOpportunity();
+    maybeContinueAlienRevealQueuedOpportunities();
     return result;
   }
 
@@ -18474,7 +18791,7 @@
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
-    maybeOpenQueuedJiuzheOpportunity();
+    maybeContinueAlienRevealQueuedOpportunities();
     return result;
   }
 
@@ -18746,7 +19063,7 @@
       });
     } else {
       queueBanrenmaOpportunitiesForPlayer(player);
-      maybeOpenQueuedBanrenmaOpportunity();
+      maybeContinueAlienRevealQueuedOpportunities();
     }
     return markResult;
   }
@@ -18776,7 +19093,7 @@
       updateActionButtons();
       renderStateReadout();
       queueBanrenmaOpportunitiesForPlayer(player);
-      maybeOpenQueuedBanrenmaOpportunity();
+      maybeContinueAlienRevealQueuedOpportunities();
       return { ok: true, skipped: true, message: rocketState.statusNote };
     }
     if (pendingBanrenmaOpportunity.cardId && pendingBanrenmaOpportunity.cardId !== cardId) {
@@ -18839,7 +19156,7 @@
       });
     } else {
       queueBanrenmaOpportunitiesForPlayer(player);
-      maybeOpenQueuedBanrenmaOpportunity();
+      maybeContinueAlienRevealQueuedOpportunities();
     }
     return { ok: true, card: removedCard, effects, message: rocketState.statusNote };
   }
@@ -19244,8 +19561,7 @@
     }
     renderPlayerStats();
     renderPlayerHand();
-    maybeOpenQueuedJiuzheOpportunity();
-    maybeOpenQueuedBanrenmaOpportunity();
+    maybeContinueAlienRevealQueuedOpportunities();
     renderStateReadout();
     return revealResult || result;
   }
@@ -19350,6 +19666,7 @@
       completeCurrentActionEffect();
     }
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result;
   }
@@ -19460,6 +19777,7 @@
       completeCurrentActionEffect();
     }
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result;
   }
@@ -19600,7 +19918,7 @@
       completeCurrentActionEffect();
     }
     updateActionButtons();
-    maybeOpenQueuedBanrenmaOpportunity();
+    maybeContinueAlienRevealQueuedOpportunities();
     renderStateReadout();
     return result;
   }
@@ -19729,6 +20047,7 @@
       completeCurrentActionEffect();
     }
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result;
   }
@@ -20141,6 +20460,7 @@
       completeCurrentActionEffect();
     }
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result;
   }
@@ -20255,6 +20575,7 @@
       completeCurrentActionEffect();
     }
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result;
   }
@@ -20370,6 +20691,7 @@
       completeCurrentActionEffect();
     }
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result;
   }
@@ -20473,6 +20795,7 @@
       completeCurrentActionEffect();
     }
     updateActionButtons();
+    maybeContinuePendingTurnEndRevealFlow();
     renderStateReadout();
     return result;
   }
@@ -25764,8 +26087,7 @@
     renderReservedCards();
     renderRockets();
     renderSectorNebulaDataBoard();
-    maybeOpenQueuedJiuzheOpportunity();
-    maybeOpenQueuedBanrenmaOpportunity();
+    maybeContinueAlienRevealQueuedOpportunities();
     updateActionButtons();
     renderStateReadout();
     return {
@@ -25815,15 +26137,57 @@
     return settleTurnEndAlienRevealEntries(triggerPlayer, revealEntries);
   }
 
+  function hasTurnEndRevealBlockingSubFlow() {
+    return isActionEffectFlowActive() || hasActivePendingSubFlow();
+  }
+
+  function queueTurnEndAfterRevealContinuation(context) {
+    pendingTurnEndAfterRevealContinuation = { ...context };
+    scheduleAiAutoStepIfNeeded();
+    return {
+      ok: true,
+      awaitingSubFlow: true,
+      message: context.turnEndReveal?.message || "等待外星人揭示后续流程完成",
+    };
+  }
+
+  function maybeResumeTurnEndAfterReveal() {
+    if (!pendingTurnEndAfterRevealContinuation) return null;
+    if (hasTurnEndRevealBlockingSubFlow()) {
+      scheduleAiAutoStepIfNeeded();
+      return null;
+    }
+    const continuation = pendingTurnEndAfterRevealContinuation;
+    pendingTurnEndAfterRevealContinuation = null;
+    return finishCurrentTurnAfterAlienReveal(continuation);
+  }
+
+  function maybeContinuePendingTurnEndRevealFlow() {
+    if (!pendingTurnEndAfterRevealContinuation) return null;
+    return maybeContinueAlienRevealQueuedOpportunities();
+  }
+
+  function maybeContinueAlienRevealQueuedOpportunities() {
+    if (maybeOpenQueuedJiuzheOpportunity()) return { ok: true, opened: true };
+    if (maybeOpenQueuedBanrenmaOpportunity()) return { ok: true, opened: true };
+    return maybeResumeTurnEndAfterReveal();
+  }
+
   function finishCurrentTurnAfterAlienReveal({
     endingPlayer,
     endingPlayerId,
     didPass,
     turnEndReveal,
   }) {
-    if (turnEndReveal?.count && (isActionEffectFlowActive() || hasActivePendingSubFlow())) {
-      return;
+    if (turnEndReveal?.count && hasTurnEndRevealBlockingSubFlow()) {
+      return queueTurnEndAfterRevealContinuation({
+        endingPlayer,
+        endingPlayerId,
+        didPass,
+        turnEndReveal,
+      });
     }
+    pendingTurnEndAfterRevealContinuation = null;
     const passIncomeResult = didPass ? applyPassTurnEndIncome(endingPlayer) : null;
     commitActionLogDraft({
       passed: didPass,

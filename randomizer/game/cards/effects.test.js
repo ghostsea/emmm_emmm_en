@@ -353,8 +353,9 @@ assert.equal(cardEffects.collectReadyTasks(signalPlayer, {
 }).length, 1);
 
 const b23Effects = cardEffects.buildPlayEffects({ cardId: "b_23.webp" });
-assert.equal(b23Effects.length, 3);
-assert.equal(b23Effects.every((effect) => effect.type === cardEffects.EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION), true);
+assert.equal(b23Effects.length, 1);
+assert.equal(b23Effects[0].type, cardEffects.EFFECT_TYPES.DISCARD_PUBLIC_CORNER_REWARDS);
+assert.equal(b23Effects[0].options.count, 3);
 
 const b24Effects = cardEffects.buildPlayEffects({ cardId: "b_24.webp" });
 assert.equal(b24Effects.length, 1);
@@ -807,18 +808,22 @@ assert.deepEqual(collectReadyTaskIds(
   { alienGameState: mixedAllPinkState },
 ), ["b46-all-pink-task"]);
 
+const b52Effects = cardEffects.buildPlayEffects({ cardId: "b_52.webp" });
+assert.equal(b52Effects.length, 1);
+assert.equal(b52Effects[0].type, cardEffects.EFFECT_TYPES.CONDITIONAL_REWARD);
+assert.deepEqual(b52Effects[0].options.condition, { type: "probeLocation", locationType: "asteroid" });
+assert.equal(b52Effects[0].options.rewards[0].type, "alien_trace");
+assert.deepEqual(b52Effects[0].options.rewards[0].options.allowedTraceTypes, ["yellow"]);
 assert.deepEqual(collectReadyTaskIds(
   { id: "p1", color: "red", reservedCards: [{ id: "card-b52", cardId: "b_52.webp" }] },
   { probeLocations: { p1: ["asteroid"] } },
-), ["b52-asteroid-probe-task"]);
+), []);
 
 const singleAlienTraceState = {
   aliens: {
     1: {
       traces: {
-        yellow: { firstPlaced: true, ownerPlayerColor: "red" },
-        pink: { firstPlaced: true, ownerPlayerColor: "red" },
-        blue: { firstPlaced: true, ownerPlayerColor: "red" },
+        yellow: { firstPlaced: true, ownerPlayerColor: "red", extraCount: 2 },
       },
     },
     2: { traces: {} },
@@ -840,6 +845,24 @@ assert.deepEqual(collectReadyTaskIds(
   mixedSingleAlienTracePlayer,
   { alienGameState: mixedSingleAlienTraceState },
 ), ["b67-three-traces-task"]);
+const splitAlienTraceState = {
+  aliens: {
+    1: {
+      traces: {
+        yellow: { firstPlaced: true, ownerPlayerColor: "red", extraCount: 1 },
+      },
+    },
+    2: {
+      traces: {
+        pink: { firstPlaced: true, ownerPlayerColor: "red", extraCount: 0 },
+      },
+    },
+  },
+};
+assert.deepEqual(collectReadyTaskIds(
+  { id: "p1", color: "red", reservedCards: [{ id: "card-b67-split", cardId: "b_67.webp" }] },
+  { alienGameState: splitAlienTraceState },
+), []);
 assert.equal(
   cardEffects.collectReadyTasks(
     { id: "p1", color: "red", resources: { publicity: 7 }, reservedCards: [{ id: "card-b68", cardId: "b_68.webp" }] },
