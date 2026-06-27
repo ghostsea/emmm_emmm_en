@@ -8318,16 +8318,44 @@
   }
 
   function buildCardCornerMoveEffectFromReward(effect, card, moveReward, index) {
+    const movementPoints = Math.max(1, Math.round(Number(moveReward.movementPoints || 1)));
     return {
       id: `${effect?.id || "public-corner"}-move-${index + 1}-${card.id}`,
       type: cardEffects.EFFECT_TYPES.CARD_MOVE,
       label: `${cards.getCardLabel(card)}：${moveReward.label}`,
       icon: "movement",
       options: {
-        movementPoints: moveReward.movementPoints || 1,
+        movementPoints,
         historyLabel: moveReward.label,
       },
     };
+  }
+
+  function buildRepeatedCardCornerMoveEffect(effect, card, moveReward, repeat) {
+    const repeatCount = Math.max(1, Math.round(Number(repeat || 1)));
+    const baseMovementPoints = Math.max(1, Math.round(Number(moveReward?.movementPoints || 1)));
+    const totalMovementPoints = baseMovementPoints * repeatCount;
+    return {
+      id: `${effect?.id || "repeat-corner"}-move-${card.id}`,
+      type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+      label: `${cards.getCardLabel(card)}：${totalMovementPoints}移动（${moveReward.label} x${repeatCount}）`,
+      icon: "movement",
+      options: {
+        movementPoints: totalMovementPoints,
+        historyLabel: `${moveReward.label} x${repeatCount}`,
+      },
+    };
+  }
+
+  function formatRepeatedCardCornerMoveReward(moveReward, repeat) {
+    const repeatCount = Math.max(1, Math.round(Number(repeat || 1)));
+    const baseMovementPoints = Math.max(1, Math.round(Number(moveReward?.movementPoints || 1)));
+    const repeatedGain = Object.fromEntries(Object.entries(moveReward?.gain || {})
+      .map(([key, value]) => [key, Number(value) * repeatCount])
+      .filter(([, value]) => Number.isFinite(value) && value !== 0));
+    return [formatPlanetRewardGain(repeatedGain), `${baseMovementPoints * repeatCount}移动`]
+      .filter(Boolean)
+      .join("、");
   }
 
   function confirmPublicCornerDiscardSelection() {
@@ -13536,13 +13564,20 @@
     cards.addToDiscardPile(cardState, discard.card);
     const repeat = Math.max(1, Math.round(Number(effect.options?.cornerRepeat || effect.options?.repeat || 1)));
     const messages = [];
+    const moveReward = cards.getDiscardActionMoveRewardForCard?.(discard.card);
     for (let index = 0; index < repeat; index += 1) {
       const reward = applyCardCornerRewardFromCard(currentPlayer, discard.card, {
         source: "card_corner_repeat",
-        insertMoveIntoCurrentFlow: true,
+        insertMoveIntoCurrentFlow: !moveReward,
         effectId: `${effect.id || "repeat-corner"}-${index + 1}`,
       });
-      messages.push(reward.message);
+      if (!moveReward) messages.push(reward.message);
+    }
+    if (moveReward) {
+      insertActionEffectsAfterCurrent([
+        buildRepeatedCardCornerMoveEffect(effect, discard.card, moveReward, repeat),
+      ]);
+      messages.push(formatRepeatedCardCornerMoveReward(moveReward, repeat));
     }
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
