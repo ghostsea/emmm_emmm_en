@@ -166,7 +166,21 @@
       playerResult.currentPlayer,
       tech.RESEARCH_PUBLICITY_COST,
     ) ?? tech.RESEARCH_PUBLICITY_COST;
-    const result = tech.resolver.selectTechTile(context, { tileId, blueSlot, skipCost, ...techTypeOptions });
+    if (!skipCost) {
+      const spend = players.spendResources(playerResult.currentPlayer, { publicity: researchCost });
+      if (!spend.ok) {
+        restoreObject(playerResult.currentPlayer, snapshots.player);
+        restoreObject(context.techBoardState, snapshots.board);
+        restoreObject(context.techUiState, snapshots.ui);
+        return {
+          ok: false,
+          abilityId: "researchTechSelect",
+          message: spend.message || `宣传不足，研究科技需要 ${researchCost} 宣传`,
+        };
+      }
+    }
+
+    const result = tech.resolver.selectTechTile(context, { tileId, blueSlot, ...techTypeOptions });
     if (!result.ok || result.needsBlueSlotChoice) {
       restoreObject(playerResult.currentPlayer, snapshots.player);
       restoreObject(context.techBoardState, snapshots.board);
@@ -205,6 +219,67 @@
         },
       ],
       cost: skipCost ? {} : { publicity: researchCost },
+      payload: {
+        tileId: result.tileId,
+        techType: result.techType,
+        bonusId: result.bonusId,
+        blueSlot: result.blueSlot,
+        firstTake: result.firstTake,
+      },
+      events: [],
+    };
+  }
+
+  function researchTechTake(context, options = {}) {
+    const playerResult = getPlayerTechState(context);
+    if (!playerResult.ok) return { ok: false, abilityId: "researchTechTake", message: playerResult.message };
+
+    const snapshots = {
+      player: structuredClone(playerResult.currentPlayer),
+      board: structuredClone(context.techBoardState),
+      ui: structuredClone(context.techUiState),
+    };
+
+    const result = tech.resolver.takeSelectedTechTile(context, {
+      tileId: options.tileId,
+      blueSlot: options.blueSlot,
+      expectedBonusId: options.bonusId ?? options.expectedBonusId ?? null,
+      expectedFirstTake: options.firstTake ?? options.expectedFirstTake ?? null,
+      ...buildTechTypeOptions(context, options),
+    });
+
+    if (!result.ok || result.needsBlueSlotChoice) {
+      restoreObject(playerResult.currentPlayer, snapshots.player);
+      restoreObject(context.techBoardState, snapshots.board);
+      restoreObject(context.techUiState, snapshots.ui);
+      return {
+        ok: false,
+        abilityId: "researchTechTake",
+        message: result.message || "科技拿取失败",
+      };
+    }
+
+    if (context.techUiState) {
+      context.techUiState.techSelectionActive = false;
+      context.techUiState.selectedTileId = result.tileId;
+      context.techUiState.selectedBlueSlot = result.blueSlot;
+      context.techUiState.pendingTileId = null;
+      context.techUiState.allowedTechTypes = null;
+      context.techUiState.statusNote = result.message;
+    }
+
+    return {
+      ...result,
+      ok: true,
+      abilityId: "researchTechTake",
+      message: result.message,
+      undoable: false,
+      irreversible: {
+        code: "tech_bonus_reveal",
+        reason: "拿取科技后露出下一张 bonus",
+      },
+      commands: [],
+      cost: {},
       payload: {
         tileId: result.tileId,
         techType: result.techType,
@@ -276,6 +351,7 @@
   return Object.freeze({
     researchTechPrepare,
     researchTechSelect,
+    researchTechTake,
     researchTechRotate,
     researchTechBonus,
   });

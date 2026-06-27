@@ -57,6 +57,26 @@ const board = context.techGameState.board;
 const player = players.getCurrentPlayer(context.playerState);
 context.ensurePlayerTechState(player);
 
+const previewContext = createContext(10);
+const previewPlayer = players.getCurrentPlayer(previewContext.playerState);
+previewContext.ensurePlayerTechState(previewPlayer);
+const previewBonus = previewContext.techGameState.board.stacks.purple1.bonusId;
+const previewSelect = tech.resolver.selectTechTile(previewContext, { tileId: "purple1" });
+assert.equal(previewSelect.ok, true);
+assert.equal(previewSelect.bonusId, previewBonus);
+assert.equal(previewContext.techGameState.board.stacks.purple1.remaining, 4);
+assert.equal(previewContext.techGameState.board.stacks.purple1.bonusId, previewBonus);
+assert.equal(previewPlayer.resources.publicity, 10);
+assert.equal(previewPlayer.techState.ownedTiles.purple1, undefined);
+const previewTake = tech.resolver.takeSelectedTechTile(previewContext, {
+  tileId: previewSelect.tileId,
+  bonusId: previewSelect.bonusId,
+  firstTake: previewSelect.firstTake,
+});
+assert.equal(previewTake.ok, true);
+assert.equal(previewContext.techGameState.board.stacks.purple1.remaining, 3);
+assert.equal(previewPlayer.techState.ownedTiles.purple1, true);
+
 const pickBlue1 = tech.resolver.executeTakeTech(context, { tileId: "blue1" });
 assert.equal(pickBlue1.ok, true);
 assert.equal(pickBlue1.needsBlueSlotChoice, true);

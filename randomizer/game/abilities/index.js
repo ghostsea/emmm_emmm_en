@@ -43,6 +43,7 @@
     analyzeData: dataAbility.analyzeData,
     researchTechPrepare: techAbility.researchTechPrepare,
     researchTechSelect: techAbility.researchTechSelect,
+    researchTechTake: techAbility.researchTechTake,
     researchTechRotate: techAbility.researchTechRotate,
     researchTechBonus: techAbility.researchTechBonus,
     payScanCost: scanAbility.payScanCost,

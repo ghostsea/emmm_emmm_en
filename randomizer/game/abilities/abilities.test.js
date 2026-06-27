@@ -377,6 +377,17 @@ function launchToPlanet(context, planetId) {
   assert.equal(select.undoable, true);
   assert.equal(player.resources.publicity, 4);
   assert.equal(context.solarState.rotation.rotationCount, beforeRotation);
+  assert.equal(context.techBoardState.stacks.purple1.remaining, 4);
+  assert.equal(player.techState.ownedTiles.purple1, undefined);
+
+  const take = abilities.executeAbility("researchTechTake", context, {
+    tileId: select.tileId,
+    blueSlot: select.blueSlot,
+    bonusId: select.bonusId,
+    firstTake: select.firstTake,
+  });
+  assert.equal(take.ok, true);
+  assert.equal(take.undoable, false);
   assert.equal(context.techBoardState.stacks.purple1.remaining, 3);
   assert.equal(player.techState.ownedTiles.purple1, true);
 
@@ -386,8 +397,8 @@ function launchToPlanet(context, planetId) {
   assert.equal(context.solarState.rotation.rotationCount, beforeRotation + 1);
 
   const bonus = abilities.executeAbility("researchTechBonus", context, {
-    bonusId: select.bonusId,
-    firstTake: select.firstTake,
+    bonusId: take.bonusId,
+    firstTake: take.firstTake,
     skipCardSelection: true,
   });
   assert.equal(bonus.ok, true);
@@ -419,6 +430,7 @@ function launchToPlanet(context, planetId) {
   assert.equal(select.ok, true);
   assert.deepEqual(select.cost, {});
   assert.equal(player.resources.publicity, 0);
+  assert.equal(player.techState.ownedTiles.blue1, undefined);
 }
 
 {
@@ -438,6 +450,7 @@ function launchToPlanet(context, planetId) {
   assert.equal(select.ok, true);
   assert.equal(select.tileId, "purple1");
   assert.equal(context.techUiState.allowedTechTypes, null);
+  assert.equal(context.techBoardState.stacks.purple1.remaining, 4);
 }
 
 {
@@ -446,6 +459,12 @@ function launchToPlanet(context, planetId) {
   assert.equal(prepare.ok, true);
   const select = abilities.executeAbility("researchTechSelect", context, { tileId: "orange1" });
   assert.equal(select.ok, true);
+  const take = abilities.executeAbility("researchTechTake", context, {
+    tileId: select.tileId,
+    bonusId: select.bonusId,
+    firstTake: select.firstTake,
+  });
+  assert.equal(take.ok, true);
   assert.equal(context.rocketState.rockets.length, 0);
   const launch = abilities.executeAbility("launchProbe", context, {
     skipCost: true,

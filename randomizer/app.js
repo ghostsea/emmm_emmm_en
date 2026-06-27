@@ -16404,6 +16404,36 @@
         rocketState.statusNote = "科技：请选择要研究的科技片";
         renderStateReadout();
         return { ok: true, message: rocketState.statusNote };
+      case "research_tech_take": {
+        beginEffectHistoryStep(effect.label, { effectType: "research_tech_take" });
+        const result = abilities.executeAbility("researchTechTake", createActionContext(), effect.options || {});
+        if (!result.ok) {
+          endEffectHistoryStep();
+          rocketState.statusNote = result.message;
+          renderStateReadout();
+          return result;
+        }
+        if (!shouldSkipCurrentResearchTechCost()) {
+          maybeConsumeAlienLabPanelForMainAction("researchTech", result);
+        }
+        recordAbilityCommands(result);
+        if (result.firstTake) {
+          const claim = claimRunezuSourceSymbolWithHistory(
+            "tech",
+            result.tileId,
+            getCurrentPlayer(),
+            "研究科技获得符文族symbol",
+          );
+          if (claim?.ok) result.message = `${result.message}；${claim.message}`;
+        }
+        effect.result = result;
+        rocketState.statusNote = result.message;
+        onTechTileTaken(result);
+        renderPlayerStats();
+        completeCurrentActionEffect();
+        renderStateReadout();
+        return result;
+      }
       case "research_tech_rotate": {
         const result = abilities.executeAbility("researchTechRotate", createActionContext());
         if (!result.ok) {
@@ -23355,9 +23385,18 @@
     if (effect.options?.generatedByResearchTech) return true;
     if (String(effect.id || "").startsWith("research-tech-")) return true;
     return [
+      "research_tech_take",
       "research_tech_rotate",
       "research_tech_bonus",
     ].includes(effect.type);
+  }
+
+  function countOwnedTechByTypeAfterSelection(player, techType, selectResult) {
+    const currentCount = countOwnedTechByType(player, techType);
+    const tileId = selectResult?.tileId || selectResult?.payload?.tileId || null;
+    if (!tileId || player?.techState?.ownedTiles?.[tileId]) return currentCount;
+    if (techType && !String(tileId).startsWith(techType)) return currentCount;
+    return currentCount + 1;
   }
 
   function appendResearchTechFollowupEffects(selectResult) {
@@ -23382,9 +23421,29 @@
       pendingActionEffectFlow.effects.splice(selectIndex + 1);
     }
 
-    const bonusId = selectResult.bonusId;
+    const bonusId = selectResult.bonusId ?? selectResult.payload?.bonusId;
     const bonusLabel = tech.BONUS_LABELS[bonusId] || bonusId || "奖励";
     const followups = [];
+    const tileId = selectResult.tileId || selectResult.payload?.tileId;
+    const techType = selectResult.techType || selectResult.payload?.techType;
+
+    followups.push({
+      id: "research-tech-take",
+      type: "research_tech_take",
+      ...ownerFields,
+      abilityId: "researchTechTake",
+      icon: "research_tech",
+      label: `获得科技片：${tileId}`,
+      status: "pending",
+      undoable: false,
+      options: {
+        tileId,
+        techType,
+        bonusId,
+        blueSlot: selectResult.blueSlot ?? selectResult.payload?.blueSlot ?? null,
+        firstTake: Boolean(selectResult.firstTake ?? selectResult.payload?.firstTake),
+      },
+    });
 
     if (!selectionOptions.skipRotate) {
       followups.push({
@@ -23457,9 +23516,8 @@
 
     if (selectionOptions.afterResearchReward?.kind === "techTypeCountScore") {
       const currentPlayer = getCurrentPlayer();
-      const techType = selectResult.techType || selectResult.payload?.techType;
       const scorePer = Math.max(0, Math.round(Number(selectionOptions.afterResearchReward.scorePer) || 1));
-      const count = countOwnedTechByType(currentPlayer, techType);
+      const count = countOwnedTechByTypeAfterSelection(currentPlayer, techType, selectResult);
       followups.push({
         id: "research-tech-type-score",
         type: planetRewards.EFFECT_TYPES.GAIN_RESOURCES,
@@ -23502,7 +23560,6 @@
       });
     }
 
-    const techType = selectResult.techType || selectResult.payload?.techType;
     const heliosEffect = industry?.buildHeliosPassiveRewardEffect?.(
       getCurrentPlayer(),
       techType,
@@ -23527,9 +23584,18 @@
   }
 
   function onTechTileSelected(result) {
+    appendResearchTechFollowupEffects(result);
+    syncTechSelectionChrome();
+    renderTechBoard();
+    renderActionEffectBar();
+    updateActionButtons();
+  }
+
+  function onTechTileTaken(result) {
     const player = getCurrentPlayer();
     if (industry?.shouldApplyTuringBlueTechPublicity?.(player, result.tileId)) {
       players.gainResources(player, { publicity: industry.getTuringBlueTechPublicityGain() });
+      result.message = `${result.message}；图灵系统蓝色科技 +${industry.getTuringBlueTechPublicityGain()} 宣传`;
     }
     const techType = result.techType || result.payload?.techType || String(result.tileId || "").match(/^(orange|purple|blue)/)?.[1] || null;
     const techEvent = techType
@@ -23544,7 +23610,6 @@
     if (techEvent) {
       result.events = [...(result.events || []), techEvent];
     }
-    appendResearchTechFollowupEffects(result);
     syncTechSelectionChrome();
     renderTechBoard();
     renderActionEffectBar();
@@ -23724,20 +23789,8 @@
   function commitResearchTechSelectionResult(result) {
     if (!result?.ok || result.needsBlueSlotChoice) return result;
     rocketState.statusNote = result.message;
-    if (!shouldSkipCurrentResearchTechCost()) {
-      maybeConsumeAlienLabPanelForMainAction("researchTech", result);
-    }
     beginEffectHistoryStep(result.message || "选择科技片", { effectType: "research_tech_select" });
     recordAbilityCommands(result);
-    if (result.firstTake) {
-      const claim = claimRunezuSourceSymbolWithHistory(
-        "tech",
-        result.tileId,
-        getCurrentPlayer(),
-        "研究科技获得符文族symbol",
-      );
-      if (claim?.ok) result.message = `${result.message}；${claim.message}`;
-    }
     rocketState.statusNote = result.message;
     const current = getCurrentActionEffect();
     if (current) current.result = result;

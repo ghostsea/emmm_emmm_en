@@ -232,7 +232,7 @@ UI 布局：
 - `scan`：扫描，默认消耗 1 信用点 + 2 能量，生成扫描效果队列。异星实验室黄色板块正面时，标准扫描改为 2 能量并在支付成功后翻背；作弊实验室始终为 2 能量且不翻背。
 - `analyze`：分析数据，消耗 1 能量并清空已放置数据，随后获得 1 个蓝色外星人痕迹。
 - `playCard`：打牌，打开手牌选择/打出流程。
-- `researchTech`：研究科技，生成科技效果链：选择科技片、旋转、即时奖励（如橙1发射、紫1数据）、获取 bonus。异星实验室粉色板块正面时，标准研究费用改为 4 宣传并在选择科技片成功后翻背；作弊实验室始终为 4 宣传且不翻背。
+- `researchTech`：研究科技，生成科技效果链：选择科技片、获得科技片、旋转、即时奖励（如橙1发射、紫1数据）、获取 bonus。异星实验室粉色板块正面时，标准研究费用改为 4 宣传并在获得科技片成功后翻背；作弊实验室始终为 4 宣传且不翻背。
 
 轮与回合：
 
@@ -274,7 +274,7 @@ UI 布局：
 - “撤销”按最近完成的主/快速步骤回滚；主行动整体仍可通过回滚会话撤销。若撤销的是主行动起点或扫描费用这类前置步骤，会同步清空本次主行动会话与效果队列，主行动按钮立即恢复为可重新选择状态。
 - 行动可以由能力事件链组成；链上每个节点是一个原子能力，能力返回 `undoable` 决定是否进入撤销历史。
 - 不可撤销效果结算后会作为历史屏障记录：屏障本身和屏障之前的步骤不可撤销，但屏障之后新发生的可撤销步骤仍可单独撤销；若最近屏障来自快速行动，也不能越过它撤销更早的主行动。
-- 科技行动采用效果链：选择科技片可撤销；撤销已选择的科技片会回到选片前，再撤销科技行动起点会回到执行科技行动前；旋转与科技 bonus 不可撤销；橙1免费发射与紫1获得数据分别按标准「发射」「数据」效果处理且可撤销；橙1发射同样结算发射后的被动效果。
+- 科技行动采用效果链：选择科技片只确认本次选择并支付科技行动费用，不从供应区拿走板块，也不会露出下一张科技 bonus；该选择可撤销。后续「获得科技片」节点才会实际拿取并放置科技片，该节点会露出下一张 bonus，因此不可撤销；旋转与科技 bonus 也不可撤销；橙1免费发射与紫1获得数据分别按标准「发射」「数据」效果处理且可撤销；橙1发射同样结算发射后的被动效果。
 
 ### 橙色科技效果
 
@@ -403,6 +403,7 @@ UI 布局：
 - `tech.js`：
   - `researchTechPrepare(context, options)`
   - `researchTechSelect(context, options)`
+  - `researchTechTake(context, options)`
   - `researchTechRotate(context, options)`
   - `researchTechBonus(context, options)`
 - `scan.js`：
@@ -453,7 +454,7 @@ UI 布局：
 - 弃移动牌/紫4扫描移动：`moveProbe(context, { cost, movementPoints, rocketId, deltaX, deltaY })`；其中 `movementPoints` 是效果移动力与补充支付合计后的点数，`cost` 只记录实际消耗的能量。
 - 扇区扫描：`scanSector(context, { nebulaId })` 或 `scanSector(context, { sectorX })`。
 - 公共/手牌扫描：UI 先选择牌和目标星云，再调用扫描能力。完整扫描行动的公共扫描使用 `scanRunId` 延迟补公共牌，结算为“弃除来源牌 + 星云扫描 + 可选获得数据”，补牌在扫描 flow 末尾自动执行，不进入效果队列；若目标星云已无可替换数据，星云扫描改为追加扇区扫描计数标记且不获得数据。普通公共扫描仍调用 `scanPublicCard` 即时补牌。手牌扫描结算“星云扫描 + 可选获得数据 + 弃除来源牌”。
-- 科技行动：`researchTechPrepare` 进入选择效果链，默认允许全部颜色科技，也可传 `techType` / `techTypes` 限制颜色；`researchTechSelect` 支付 6 宣传、拿取并放置科技片，且 `undoable: true`；`researchTechRotate` 执行太阳系旋转并结算火箭随盘旋转/镂空推动，`undoable: false`；橙1/紫1分别追加标准「发射」「数据」效果节点；`researchTechBonus` 结算 bonus 与首拿 +2 分，`undoable: false`。
+- 科技行动：`researchTechPrepare` 进入选择效果链，默认允许全部颜色科技，也可传 `techType` / `techTypes` 限制颜色；`researchTechSelect` 支付 6 宣传并锁定本次选择，但不从供应区拿走科技片，且 `undoable: true`；`researchTechTake` 才实际拿取并放置科技片，会露出下一张 bonus，`undoable: false`；`researchTechRotate` 执行太阳系旋转并结算火箭随盘旋转/镂空推动，`undoable: false`；橙1/紫1分别追加标准「发射」「数据」效果节点；`researchTechBonus` 结算 bonus 与首拿 +2 分，`undoable: false`。
 
 ## 卡牌模型
 

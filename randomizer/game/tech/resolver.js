@@ -41,6 +41,12 @@
     return industryPassives || (typeof globalThis !== "undefined" ? globalThis.SetiIndustryPassives : null);
   }
 
+  function restoreObject(target, snapshot) {
+    if (!target || !snapshot) return;
+    for (const key of Object.keys(target)) delete target[key];
+    Object.assign(target, structuredClone(snapshot));
+  }
+
   function getResearchPublicityCost(player) {
     return getIndustryPassives()?.getResearchPublicityCost?.(player, catalog.RESEARCH_PUBLICITY_COST)
       ?? catalog.RESEARCH_PUBLICITY_COST;
@@ -170,7 +176,6 @@
     const {
       tileId,
       blueSlot = null,
-      skipCost = false,
     } = options;
     const effectiveOptions = normalizeTechTypeFilter(options)
       ? options
@@ -208,23 +213,92 @@
       resolvedBlueSlot = blueSlotChoice.blueSlot;
     }
 
-    if (!skipCost) {
-      const researchCost = getResearchPublicityCost(currentPlayer);
-      const afford = players.canAfford(currentPlayer, { publicity: researchCost });
-      if (!afford) {
+    const stack = boardState.getStack(board, tileId);
+    const bonusId = boardState.getCurrentBonusId(stack);
+    if (!bonusId) return { ok: false, message: `${tileId} 无可用奖励` };
+    const firstTake = boardState.isFirstTakeAvailable(board, tileId);
+
+    if (context.techUiState) {
+      context.techUiState.pendingTileId = null;
+      context.techUiState.selectedTileId = tileId;
+      context.techUiState.selectedBlueSlot = resolvedBlueSlot;
+      context.techUiState.statusNote = `已选择科技：${tileId}`;
+    }
+
+    return {
+      ok: true,
+      tileId,
+      techType: check.techType,
+      bonusId,
+      blueSlot: resolvedBlueSlot,
+      firstTake,
+      remainingForSlot: boardState.getRemainingForSlot(board, tileId),
+      remainingForType: boardState.getRemainingForType(board, check.techType),
+      awaitingCardSelection: false,
+      layout: structuredClone(placement.getPlacementLayout(tileId, resolvedBlueSlot)),
+      rewards: {
+        bonus: {},
+        firstTakeScore: 0,
+      },
+      message: `选择科技：${tileId}`,
+      playerTech: structuredClone(currentPlayer.techState),
+    };
+  }
+
+  function takeSelectedTechTile(context, options = {}) {
+    const {
+      tileId,
+      blueSlot = null,
+      expectedBonusId = null,
+      expectedFirstTake = null,
+    } = options;
+    const effectiveOptions = normalizeTechTypeFilter(options)
+      ? options
+      : { ...options, allowedTechTypes: context.techUiState?.allowedTechTypes || null };
+
+    const board = context.techBoardState;
+    const currentPlayer = players.getCurrentPlayer(context.playerState);
+    if (!currentPlayer) return { ok: false, message: "没有当前玩家" };
+    if (!board) return { ok: false, message: "科技版图状态未初始化" };
+
+    if (!currentPlayer.techState) {
+      currentPlayer.techState = playerTech.createPlayerTechState();
+    }
+
+    const check = canTakeTile(board, currentPlayer.techState, tileId, effectiveOptions);
+    if (!check.ok) return check;
+
+    let resolvedBlueSlot = null;
+    if (check.techType === "blue") {
+      const blueSlotChoice = resolveBlueSlotChoice(
+        currentPlayer.techState,
+        tileId,
+        blueSlot ?? options.blueSlot,
+      );
+      if (!blueSlotChoice.ok) return blueSlotChoice;
+      if (blueSlotChoice.needsBlueSlotChoice) {
         return {
-          ok: false,
-          message: `宣传不足，研究科技需要 ${researchCost} 宣传`,
+          ok: true,
+          needsBlueSlotChoice: true,
+          tileId,
+          availableSlots: blueSlotChoice.availableSlots,
+          message: blueSlotChoice.message,
         };
       }
+      resolvedBlueSlot = blueSlotChoice.blueSlot;
     }
 
-    if (!skipCost) {
-      const researchCost = getResearchPublicityCost(currentPlayer);
-      const spend = players.spendResources(currentPlayer, { publicity: researchCost });
-      if (!spend.ok) return spend;
+    const currentBonusId = boardState.getCurrentBonusId(check.stack);
+    if (expectedBonusId != null && currentBonusId !== expectedBonusId) {
+      return { ok: false, message: `${tileId} 当前 bonus 已变化，请重新选择科技` };
+    }
+    const currentFirstTake = boardState.isFirstTakeAvailable(board, tileId);
+    if (expectedFirstTake != null && Boolean(expectedFirstTake) !== currentFirstTake) {
+      return { ok: false, message: `${tileId} 首拿状态已变化，请重新选择科技` };
     }
 
+    const boardBefore = structuredClone(board);
+    const techBefore = structuredClone(currentPlayer.techState);
     const takeBoardResult = boardState.consumeFromSupplySlot(
       board,
       tileId,
@@ -238,13 +312,17 @@
       tileId,
       resolvedBlueSlot,
     );
-    if (!record.ok) return record;
+    if (!record.ok) {
+      restoreObject(board, boardBefore);
+      restoreObject(currentPlayer.techState, techBefore);
+      return record;
+    }
 
     if (context.techUiState) {
       context.techUiState.pendingTileId = null;
       context.techUiState.selectedTileId = tileId;
       context.techUiState.selectedBlueSlot = resolvedBlueSlot;
-      context.techUiState.statusNote = `已选择科技：${tileId}`;
+      context.techUiState.statusNote = `已获得科技：${tileId}`;
     }
 
     return {
@@ -262,7 +340,7 @@
         bonus: {},
         firstTakeScore: 0,
       },
-      message: `选择科技：${tileId}`,
+      message: `获得科技：${tileId}`,
       playerTech: structuredClone(currentPlayer.techState),
     };
   }
@@ -352,6 +430,27 @@
     const selectResult = selectTechTile(context, options);
     if (!selectResult.ok || selectResult.needsBlueSlotChoice) return selectResult;
 
+    if (!options.skipCost) {
+      const researchCost = getResearchPublicityCost(players.getCurrentPlayer(context.playerState));
+      const spend = players.spendResources(players.getCurrentPlayer(context.playerState), { publicity: researchCost });
+      if (!spend.ok) {
+        restoreSnapshots();
+        return spend;
+      }
+    }
+
+    const takeResult = takeSelectedTechTile(context, {
+      ...options,
+      tileId: selectResult.tileId,
+      blueSlot: selectResult.blueSlot,
+      expectedBonusId: selectResult.bonusId,
+      expectedFirstTake: selectResult.firstTake,
+    });
+    if (!takeResult.ok || takeResult.needsBlueSlotChoice) {
+      restoreSnapshots();
+      return takeResult;
+    }
+
     if (!options.skipRotation) {
       const rotateResult = rotateForResearch(context, 1);
       if (!rotateResult.ok) {
@@ -361,8 +460,8 @@
     }
 
     const bonusResult = applyTechBonus(context, {
-      bonusId: selectResult.bonusId,
-      firstTake: selectResult.firstTake,
+      bonusId: takeResult.bonusId,
+      firstTake: takeResult.firstTake,
     });
     if (!bonusResult.ok) {
       restoreSnapshots();
@@ -375,12 +474,12 @@
       players.getCurrentPlayer(context.playerState).techState,
       {
         tileId: selectResult.tileId,
-        techType: selectResult.techType,
-        takenBonusId: selectResult.bonusId,
-        blueSlot: selectResult.blueSlot,
-        firstTake: selectResult.firstTake,
-        remainingForSlot: selectResult.remainingForSlot,
-        remainingForType: selectResult.remainingForType,
+        techType: takeResult.techType,
+        takenBonusId: takeResult.bonusId,
+        blueSlot: takeResult.blueSlot,
+        firstTake: takeResult.firstTake,
+        remainingForSlot: takeResult.remainingForSlot,
+        remainingForType: takeResult.remainingForType,
       },
       {
         ok: true,
@@ -409,6 +508,7 @@
     getResearchPublicityCost,
     canTakeTile,
     selectTechTile,
+    takeSelectedTechTile,
     rotateForResearch,
     applyTechBonus,
     executeTakeTech,
