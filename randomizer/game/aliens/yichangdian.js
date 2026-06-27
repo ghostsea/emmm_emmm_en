@@ -70,7 +70,7 @@
   });
 
   const CARD_DEFINITIONS = Object.freeze([
-    Object.freeze({ index: 0, cardId: "yichangdian_0.webp", cardName: "不可思议", price: 1, cardTypeCode: 1, discardActionCode: 3, scanActionCode: 0, incomeCode: 1 }),
+    Object.freeze({ index: 0, cardId: "yichangdian_0.webp", cardName: "不可思议", price: 1, cardTypeCode: 0, discardActionCode: 3, scanActionCode: 0, incomeCode: 1 }),
     Object.freeze({ index: 1, cardId: "yichangdian_1.webp", cardName: "我们被监视了?", price: 1, cardTypeCode: 2, discardActionCode: 5, scanActionCode: 0, incomeCode: 2 }),
     Object.freeze({ index: 2, cardId: "yichangdian_2.webp", cardName: "近距离观察", price: 1, cardTypeCode: 0, discardActionCode: 3, scanActionCode: 1, incomeCode: 0 }),
     Object.freeze({ index: 3, cardId: "yichangdian_3.webp", cardName: "吃瓜群众", price: 1, cardTypeCode: 1, discardActionCode: 4, scanActionCode: 0, incomeCode: 0 }),
