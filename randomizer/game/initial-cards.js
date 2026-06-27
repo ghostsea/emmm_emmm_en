@@ -311,6 +311,7 @@
     });
     player.income = players.normalizeIncome(null);
     player.dataState = data.createDefaultDataState();
+    player.scoreSources = players.normalizeScoreSources(null);
   }
 
   function setBaseIncome(player, income, results) {
