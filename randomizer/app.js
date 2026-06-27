@@ -1064,6 +1064,7 @@
     landForCurrentPlayer,
     moveRocket,
     orbitForCurrentPlayer,
+    openBanrenmaReadyOpportunityForPlayer,
     openCardTaskCompletionPicker,
     passForCurrentPlayer,
     pickPublicCardForCurrentPlayer,
@@ -20837,8 +20838,13 @@
     return effects.map((effect) => effect.label).join("；") || "无条件效果";
   }
 
-  function openBanrenmaCardConditionCompletionPicker(card) {
-    const player = getCurrentPlayer();
+  function openBanrenmaCardConditionCompletionPicker(card, options = {}) {
+    const player = options.player
+      || resolvePlayerReference({
+        playerId: options.playerId,
+        playerColor: options.playerColor,
+      })
+      || getCurrentPlayer();
     if (!banrenma || !player || !card || !banrenma.isBanrenmaCard(card)) {
       return { ok: false, message: "没有可结算的半人马牌" };
     }
@@ -20954,6 +20960,24 @@
       }
     }
     return null;
+  }
+
+  function openBanrenmaReadyOpportunityForPlayer(player, options = {}) {
+    if (!banrenma || !player) return null;
+    if (pendingBanrenmaOpportunity || pendingBanrenmaCardGain) return null;
+    if (isActionEffectFlowActive() || hasActivePendingSubFlow()) return null;
+    const panelMark = banrenma.getPendingPanelMark(alienGameState, player);
+    if (panelMark && banrenma.getAvailableBonusPositions(alienGameState).length) {
+      return openBanrenmaOpportunityDialog(player, {
+        type: "panel",
+        markId: panelMark.id,
+        label: "半人马顶部奖励",
+      });
+    }
+    if (options.includeCards === false) return null;
+    const readyCard = getReadyBanrenmaCardForOpportunity(player);
+    if (!readyCard?.card) return null;
+    return openBanrenmaCardConditionCompletionPicker(readyCard.card, { player });
   }
 
   function completeBanrenmaOpportunityStep(player, beforePlayerState, beforeAlienState, beforeCardState, label) {

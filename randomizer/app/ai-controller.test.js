@@ -17,9 +17,10 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     resources: {},
   };
   const allPlayers = [white, blue];
+  const currentPlayer = options.currentPlayerColor === "blue" ? blue : white;
   const playerState = {
     players: allPlayers,
-    currentPlayerId: white.id,
+    currentPlayerId: currentPlayer.id,
   };
   const turnState = {
     activePlayerIds: allPlayers.map((player) => player.id),
@@ -91,7 +92,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     getCardPrice: () => ({}),
     getCardTypeCode: () => 1,
     getCurrentActionEffect: () => null,
-    getCurrentPlayer: () => white,
+    getCurrentPlayer: () => currentPlayer,
     getEarthSectorCoordinate: () => ({ x: 1, y: 1 }),
     getEffectOwnerPlayer: () => null,
     getInitialSelectionOffer: () => null,
@@ -112,6 +113,15 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       return { ok: true, progressed: true };
     },
     hasActivePendingSubFlow: () => Boolean(pendingJiuzheCardPlay),
+    openBanrenmaReadyOpportunityForPlayer: (player, openOptions = {}) => {
+      if (!options.readyBanrenmaPlayerColor || player?.color !== options.readyBanrenmaPlayerColor) return null;
+      handled = {
+        type: "banrenma-ready",
+        playerColor: player.color,
+        includeCards: openOptions.includeCards,
+      };
+      return { ok: true, message: "opened banrenma opportunity" };
+    },
   };
 
   const noopNames = [
@@ -267,6 +277,50 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.blocked, true, "human-owned Jiuzhe pending should not be handled by AI");
   assert.equal(harness.getHandled(), null);
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerDiscardPending: true,
+    readyBanrenmaPlayerColor: "blue",
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should open ready Banrenma panel marks before current-player subflows");
+  assert.deepEqual(harness.getHandled(), {
+    type: "banrenma-ready",
+    playerColor: "blue",
+    includeCards: false,
+  });
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    readyBanrenmaPlayerColor: "blue",
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should open current player's ready Banrenma card conditions");
+  assert.deepEqual(harness.getHandled(), {
+    type: "banrenma-ready",
+    playerColor: "blue",
+    includeCards: true,
+  });
 }
 
 console.log("app/ai-controller.test.js ok");

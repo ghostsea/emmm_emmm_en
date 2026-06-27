@@ -179,6 +179,7 @@
       landForCurrentPlayer,
       moveRocket,
       orbitForCurrentPlayer,
+      openBanrenmaReadyOpportunityForPlayer,
       openCardTaskCompletionPicker,
       passForCurrentPlayer,
       pickPublicCardForCurrentPlayer,
@@ -1828,6 +1829,48 @@
         effectTypes: (selected.ready.effects || []).map((effect) => effect?.type || null).filter(Boolean),
       });
       return openCardTaskCompletionPicker(selected.ready.card);
+    }
+
+    function getAiBanrenmaOpportunityPlayers() {
+      if (typeof openBanrenmaReadyOpportunityForPlayer !== "function") return [];
+      const currentPlayer = getCurrentPlayer();
+      const currentPlayerId = currentPlayer?.id || null;
+      const activeAiPlayers = (getActivePlayers?.() || [])
+        .filter((player) => player?.id && isAiAutoBattlePlayer(player.id));
+      return [
+        ...(currentPlayerId && isAiAutoBattlePlayer(currentPlayerId) ? [currentPlayer] : []),
+        ...activeAiPlayers.filter((player) => player?.id !== currentPlayerId),
+      ].filter(Boolean);
+    }
+
+    function runAiReadyBanrenmaOpportunityOpenDecision() {
+      if (state.pendingBanrenmaOpportunity || state.pendingBanrenmaCardGain) return null;
+      if (isActionEffectFlowActive() || hasActivePendingSubFlow()) return null;
+      const currentPlayerId = getCurrentPlayer()?.id || null;
+      for (const player of getAiBanrenmaOpportunityPlayers()) {
+        const includeCards = player.id === currentPlayerId;
+        const result = openBanrenmaReadyOpportunityForPlayer(player, {
+          includeCards,
+          playerId: player.id || null,
+          playerColor: player.color || null,
+        });
+        if (!result) continue;
+        if (result.ok === false) return result;
+        recordAiAutoBattleLog("alien-use", `${player.colorLabel}AI 打开半人马达标机会`, {
+          logPlayerId: player.id || null,
+          logPlayerColor: player.color || null,
+          includeCards,
+          result,
+        });
+        return {
+          ok: true,
+          progressed: true,
+          opened: true,
+          result,
+          message: result.message || "AI 已打开半人马达标机会",
+        };
+      }
+      return null;
     }
 
     function aiNumber(value) {
@@ -11102,6 +11145,9 @@
 
         const earlyAlienTraceResult = runAiAlienTraceDecision();
         if (earlyAlienTraceResult) return earlyAlienTraceResult;
+
+        const readyBanrenmaResult = runAiReadyBanrenmaOpportunityOpenDecision();
+        if (readyBanrenmaResult) return readyBanrenmaResult;
 
         const initialResult = chooseInitialSelectionForAiPlayer();
         if (initialResult) return initialResult;
