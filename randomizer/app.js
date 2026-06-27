@@ -5397,14 +5397,14 @@
   function applyHuanyuSuperdriveRoundStartForPlayer(player, roundNumber = turnState.roundNumber) {
     if (!hasHuanyuSuperdriveRoundStartPending(player, roundNumber)) return null;
     const round = Math.max(1, Math.round(Number(roundNumber) || 1));
-    const resourceGain = { energy: 2, publicity: 2 };
+    const resourceGain = { energy: 1, publicity: 1 };
     players.gainResources(player, resourceGain);
     const drawResult = blindDrawCardForPlayer(player);
     player.industryHuanyuSuperdriveRoundStartRound = round;
     const drawnCount = drawResult?.ok && drawResult.card ? 1 : 0;
     const message = drawResult?.ok
-      ? `第${round}轮开始：获得 2能量、2宣传；盲抽 ${drawnCount}/1 张`
-      : `第${round}轮开始：获得 2能量、2宣传；盲抽失败：${drawResult?.message || "未知错误"}`;
+      ? `第${round}轮开始：获得 1能量、1宣传；盲抽 ${drawnCount}/1 张`
+      : `第${round}轮开始：获得 1能量、1宣传；盲抽失败：${drawResult?.message || "未知错误"}`;
     return {
       ok: Boolean(drawResult?.ok),
       playerId: player.id,

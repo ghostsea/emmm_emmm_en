@@ -58,7 +58,7 @@
 | 图灵系统 | `turing_borrow_tech` | `turing_borrow_tech` | 选择供应区一项橙色或紫色科技，**当前回合**借用其效果（不获得板块/bonus）；公司牌下方只复制显示该科技图标 |
 | 哨兵探测网络 | `sentinel_arm_play_corner` | `sentinel_arm_play_corner` | 武装当前回合；**打牌效果队列末尾**追加 `industry_sentinel_corner` 结算打出牌弃牌角标（非外星人） |
 | 寰宇动力 | `huanyu_free_moves` | `huanyu_free_moves` | 启动 2 个移动效果队列节点；每个节点提供 1 点移动力，已结算节点的火箭不能作为后续寰宇节点目标，可跳过任一节点 |
-| 寰宇超动力 | `huanyu_free_moves` | `huanyu_free_moves` | AI 专用；以寰宇动力为模板，额外每轮开始获得 2 能量、1 盲抽、2 宣传，且 PASS 后追加一次免费发射 |
+| 寰宇超动力 | `huanyu_free_moves` | `huanyu_free_moves` | AI 专用；以寰宇动力为模板，额外每轮开始获得 1 能量、1 盲抽、1 宣传，且 PASS 后追加一次免费发射 |
 | 赫利昂联合体 | `helios_remove_tech_income` | `helios_remove_tech` → 弃牌收入 | 使一项非蓝科技失效 + 1 次收入（弃 1 张手牌按收入角标）；该科技仍视为拥有并参与科技数量计分 |
 | 任务中继站 | `mission_publicity_pick_income` | `mission_publicity_pick` | 消耗 2 宣传精选 1 张牌，获得其**收入角标**奖励（盲抽角标会盲抽 1 张） |
 | 芬威克研究中心 | `fenwick_publicity_pick_corner` | `fenwick_publicity_pick` | 消耗 1 宣传精选 1 张牌，获得**弃牌角标**（不弃牌）；若角标是移动，移动选择可取消但精选补牌仍不可撤销 |
@@ -99,7 +99,7 @@
 | `turing_blue_tech_publicity` | 图灵系统 | 获取蓝色科技 +1 宣传 | `app.js` 科技放置后 |
 | `sentinel_launch_scan_earth` | 哨兵探测网络 | 发射后免费扫描地球扇区；若完成扇区则进入 `sector_finish_scan` 收尾 | `maybeApplyIndustryLaunchScan` / `startLaunchSectorFinishEffectFlow` |
 | `huanyu_rocket_limit` | 寰宇动力 | 火箭数量上限 +1 | `launch.js` / `rocket.js` |
-| `huanyu_superdrive_round_start` | 寰宇超动力 | 每轮开始获得 2 能量、1 盲抽、2 宣传；包括第一轮初始选择结算后 | `applyIndustryRoundStartBonuses` |
+| `huanyu_superdrive_round_start` | 寰宇超动力 | 每轮开始获得 1 能量、1 盲抽、1 宣传；包括第一轮初始选择结算后 | `applyIndustryRoundStartBonuses` |
 | `huanyu_superdrive_pass_launch` | 寰宇超动力 | PASS 效果队列末尾追加一次免费发射，忽略火箭上限 | `buildPassEffectQueue` / `industry_huanyu_superdrive_launch` |
 | `mission_play_type_publicity` | 任务中继站 | 本玩家每当打出 1/2 型任务牌 +1 宣传 | `applyIndustryPlayCardPassives` |
 | `mission_startup_final_mark` | 任务中继站 | 开局终局 c 板块 3 号位标记 | `applyIndustryStartupPassives` |
