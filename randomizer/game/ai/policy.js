@@ -303,9 +303,9 @@
   ]);
 
   const INCOME_GAIN_SCORE = Object.freeze({
-    energy: 12,
-    credits: 11,
-    handSize: 10,
+    handSize: 13,
+    energy: 11,
+    credits: 10,
     publicity: 3,
     availableData: 3,
     additionalPublicScan: 2,

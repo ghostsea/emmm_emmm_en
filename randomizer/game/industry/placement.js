@@ -15,7 +15,7 @@
 
   /**
    * 公司牌左下角「1x」免费/快速行动圆标位置（相对牌面宽高的百分比）。
-   * 异星实验室暂不处理 1x 行动，不返回可点击布局。
+   * 异星实验室及电脑专用作弊实验室暂不处理 1x 行动，不返回可点击布局。
    * 坐标经各牌资产手工校准。
    */
   const INDUSTRY_ACTION_MARKER_SLOTS = Object.freeze({
@@ -31,7 +31,7 @@
     "未来跨度研究所": Object.freeze({ percentX: 11.2, percentY: 84.0, radiusPercent: 4.9 }),
   });
 
-  const EXCLUDED_INDUSTRY_LABELS = Object.freeze(["异星实验室"]);
+  const EXCLUDED_INDUSTRY_LABELS = Object.freeze(["异星实验室", "作弊实验室"]);
 
   const STRATEGY_PASSIVE_INDUSTRY_LABEL = "宇宙战略集团";
 

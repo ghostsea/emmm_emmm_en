@@ -165,12 +165,13 @@
 
     const panelStrip = document.createElement("div");
     panelStrip.className = "company-alien-lab-panel-strip";
-    panelStrip.setAttribute("aria-label", "异星实验室板块");
+    const permanentPanels = passives.hasPermanentAlienLabPanels?.(player) === true;
+    panelStrip.setAttribute("aria-label", permanentPanels ? "作弊实验室永久板块" : "异星实验室板块");
 
     for (const panelId of state.ALIEN_LAB_PANEL_IDS || []) {
       const asset = ALIEN_LAB_PANEL_ASSETS[panelId];
       if (!asset) continue;
-      const faceUp = state.isAlienLabPanelFaceUp?.(player, panelId) !== false;
+      const faceUp = permanentPanels || state.isAlienLabPanelFaceUp?.(player, panelId) !== false;
       const panelButton = document.createElement("button");
       panelButton.type = "button";
       panelButton.className = `company-alien-lab-panel-button company-alien-lab-panel-button--${panelId}`;
@@ -178,7 +179,7 @@
       panelButton.disabled = !faceUp;
       panelButton.dataset.alienLabPanel = panelId;
       panelButton.title = faceUp
-        ? `${asset.label}：点击执行对应主要行动`
+        ? `${asset.label}：${permanentPanels ? "永久正面，" : ""}点击执行对应主要行动`
         : `${asset.label}：背面，获取对应颜色外星痕迹后恢复`;
       panelButton.setAttribute("aria-label", panelButton.title);
 

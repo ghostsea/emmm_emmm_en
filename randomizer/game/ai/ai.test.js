@@ -23,13 +23,13 @@ const constants = appConstants.createAppConstants({
 assert.equal(constants.DEFAULT_ACTIVE_PLAYER_COUNT, 4);
 
 assert.equal(evaluator.getResourceValue({ credits: 1, energy: 1, publicity: 1 }), 7);
-assert.equal(evaluator.getRemainingIncomeMultiplier(1), 4);
-assert.equal(evaluator.getRemainingIncomeMultiplier(4), 1);
-assert.equal(valuation.getIncomeRawValue({ credits: 1 }, { roundNumber: 1 }), 12);
+assert.equal(evaluator.getRemainingIncomeMultiplier(1), 3);
+assert.equal(evaluator.getRemainingIncomeMultiplier(4), 0);
+assert.equal(valuation.getIncomeRawValue({ credits: 1 }, { roundNumber: 1 }), 9);
 assert.equal(valuation.getIncomeNetValue({ credits: 1 }, {
   roundNumber: 1,
   hand: [{ label: "low" }, { label: "alien:strong", alienCard: true }],
-}), 9);
+}), 6);
 assert.equal(valuation.getPhaseResourceValues(1).credits, 5);
 assert.equal(valuation.getPhaseResourceValues(1).energy, 5);
 assert.equal(valuation.getPhaseResourceValues(3).energy, 3);
@@ -37,7 +37,7 @@ assert.equal(valuation.getIncomeNetValue({ credits: 1 }, {
   roundNumber: 1,
   usePhaseResourceValues: true,
   hand: [{ label: "low" }, { label: "alien:strong", alienCard: true }],
-}), 17);
+}), 12);
 assert.deepStrictEqual(valuation.getLaunchPaymentCost(), { credits: 2 });
 assert.deepStrictEqual(valuation.getLaunchPaymentCost({ skipCost: true }), {});
 assert.deepStrictEqual(valuation.getLaunchPaymentCost({ cost: { energy: 1, credits: 0 } }), { energy: 1 });
@@ -58,8 +58,8 @@ assert.equal(valuation.getMovePaymentCost({
   movePaymentCards: [{ label: "cheap move", movePayment: true, aiValue: 2 }],
   resourceValues: { energy: 5, handSize: 3 },
 }), 7);
-assert.equal(evaluator.getIncomeValue({ credits: 1 }, { roundNumber: 1 }), 12);
-assert.equal(evaluator.getIncomeValue({ credits: 1 }, { roundNumber: 1, discardedCardValue: 3 }), 9);
+assert.equal(evaluator.getIncomeValue({ credits: 1 }, { roundNumber: 1 }), 9);
+assert.equal(evaluator.getIncomeValue({ credits: 1 }, { roundNumber: 1, discardedCardValue: 3 }), 6);
 
 const inferredGoals = goals.inferGoals({
   turnState: { roundNumber: 1 },
@@ -115,6 +115,33 @@ assert.equal(graph.length, 1);
 assert.ok(graph[0].finalMarginal > 0);
 assert.ok(graph[0].net > 5);
 assert.equal(graph[0].breakdown.cost, 2);
+const plainC2PlayCardGraph = actionGraph.buildActionGraph([
+  { id: "playCard", kind: "main", available: true, score: 0 },
+], {}, "p1", {
+  goals: [],
+  markedFormulas: [{ formulaId: "c2", multiplier: 8 }],
+});
+assert.equal(plainC2PlayCardGraph[0].finalMarginal, 0);
+const c2ProgressPlayCardGraph = actionGraph.buildActionGraph([
+  { id: "playCard", kind: "main", available: true, score: 0, finalFormulaDeltas: { c2: 1 } },
+], {}, "p1", {
+  goals: [],
+  markedFormulas: [{ formulaId: "c2", multiplier: 8 }],
+});
+assert.ok(c2ProgressPlayCardGraph[0].finalMarginal > 0);
+const finalTileGoal = [{ id: goals.GOAL_IDS.FINAL_TILE_FOCUS, value: 10, priority: 1, feasibility: 1 }];
+assert.equal(goals.scoreCandidateForGoals(
+  { id: "playCard", kind: "main", available: true, score: 0 },
+  finalTileGoal,
+), 0);
+assert.ok(goals.scoreCandidateForGoals(
+  { id: "playCard", kind: "main", available: true, score: 0, finalFormulaDeltas: { c2: 1 } },
+  finalTileGoal,
+) > 0);
+assert.ok(goals.scoreCandidateForGoals(
+  { id: "playCard", kind: "main", available: true, score: 0, valueBreakdown: { c2Type3ProgressValue: 3 } },
+  finalTileGoal,
+) > 0);
 const cornerGraph = actionGraph.buildActionGraph([
   { id: "cardCorner", kind: "quick", available: true, gain: 4, cost: 2 },
 ], {}, "p1", {
@@ -446,6 +473,29 @@ const lowerRewardTraceValue = valuation.estimateAlienTraceValue({
   reward: { gain: { score: 3 }, pickAlienCard: true },
 });
 assert.ok(highRewardTraceValue > lowerRewardTraceValue);
+const revealedPosition1Value = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "aomomo-grid",
+  traceType: "blue",
+  position: 1,
+  reward: { pickAlienCard: true },
+});
+const revealedPosition3Value = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "aomomo-grid",
+  traceType: "blue",
+  position: 3,
+  reward: { pickAlienCard: true },
+});
+const revealedPosition5Value = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "aomomo-grid",
+  traceType: "blue",
+  position: 5,
+  reward: { pickAlienCard: true },
+});
+assert.ok(revealedPosition5Value > revealedPosition3Value);
+assert.ok(revealedPosition3Value > revealedPosition1Value);
 
 const movementGraph = actionGraph.buildActionGraph([
   { id: "move", kind: "quick", available: true, score: 99, gain: 2, cost: 12 },
@@ -586,7 +636,7 @@ assert.deepEqual(policy.chooseDiscardIndexes([
     { credits: 1 },
     { handSize: 1 },
   ],
-}), [0]);
+}), [2]);
 assert.deepEqual(policy.chooseDiscardIndexes([
   { label: "energy income" },
   { label: "credit income" },
@@ -598,7 +648,7 @@ assert.deepEqual(policy.chooseDiscardIndexes([
     1: { credits: 1 },
     2: { handSize: 1 },
   },
-}), [0, 1]);
+}), [2, 0]);
 assert.equal(policy.chooseAlienUseOption([
   { choice: "displayed", disabled: true },
   { choice: "blind" },

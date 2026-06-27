@@ -876,6 +876,8 @@
     get pendingChongTaskCompletion() { return pendingChongTaskCompletion; },
     get pendingActionExecuted() { return pendingActionExecuted; },
     get pendingActionEffectFlow() { return pendingActionEffectFlow; },
+    get actionHistoryHasSession() { return actionHistory.hasSession(); },
+    get actionHistorySessionInfo() { return actionHistory.getSessionInfo?.() || null; },
     get effectStepActive() { return effectStepActive; },
     set effectStepActive(value) { effectStepActive = value; },
     get pendingMovePayment() { return pendingMovePayment; },
@@ -938,6 +940,7 @@
     FINAL_SCORE_IDS,
     INITIAL_SELECTION_REQUIRED,
     MOVE_ENERGY_COST,
+    activateNextActionEffect,
     allowsBlindDrawInSelection,
     analyzeDataForCurrentPlayer,
     beginPlayCardSelection,
@@ -949,6 +952,7 @@
     canStartMainAction,
     cancelTechSelection,
     clearTransientStateForRecovery,
+    closeScanTargetPicker,
     computePlayerFinalScoreBreakdown,
     confirmCardTaskCompletion,
     confirmCardCornerQuickAction,
@@ -966,6 +970,7 @@
     createTurnState,
     drawCardForCurrentPlayer,
     endCurrentTurn,
+    recoverPendingActionFromOpenHistoryForAi,
     executeActionEffect,
     executeCardMoveForEffect,
     executeFreeMoveForCardCorner,
@@ -1017,6 +1022,7 @@
     handleJiuzheOpportunitySkip,
     handleOptionalHandScanChoice,
     handlePlayCardSelect,
+    handlePublicCornerDiscardCardClick,
     handlePublicCardClick,
     handlePublicScanCardClick,
     handleIndustryDeepspaceHandClick,
@@ -5457,6 +5463,7 @@
         irreversibleCode: "hidden_card_reveal",
         irreversibleReason: "卡牌触发精选翻出新牌",
       });
+      continueAfterCardTriggerResolution();
     }
     if (pending?.type === "card_pick_corner_reward") {
       const player = pending.player || getCurrentPlayer();
@@ -6002,9 +6009,9 @@
       case "b2":
         return 4;
       case "c1":
-        return 5.4;
+        return 3.4;
       case "c2":
-        return 5.8;
+        return 3.8;
       case "d1":
         return 5.2;
       case "d2":
@@ -6046,6 +6053,211 @@
       return applyAiStrategyWeight(value, "tech", 0.55);
     }
     return value;
+  }
+
+  function scoreAiFinalScoreFormulaGrowth(formulaId, player, slotIndex, baseValue, demand = {}) {
+    if (!player || !endGameScoring?.getSlotMultiplier) return 0;
+    if (!["c1", "c2", "d1", "d2"].includes(formulaId)) return 0;
+    const slot = Math.max(1, Math.round(aiNumber(slotIndex) || 1));
+
+    const remainingRounds = Math.max(1, aiNumber(getAiRemainingRoundWeight()));
+    const roundNumber = Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1));
+    const currentBase = Math.max(0, Math.round(aiNumber(baseValue)));
+
+    if (formulaId === "c1" || formulaId === "c2") {
+      const countOpenTasks = (card) => {
+        const model = cardEffects?.getCardModel?.(card) || null;
+        const completed = new Set(card?.cardEffectState?.completedTaskIds || []);
+        return (model?.tasks || []).filter((task) => task?.id && !completed.has(task.id)).length;
+      };
+      const reservedCards = Array.isArray(player.reservedCards) ? player.reservedCards : [];
+      const hand = Array.isArray(player.hand) ? player.hand : [];
+      const reservedTaskCount = reservedCards.reduce((total, card) => total + countOpenTasks(card), 0);
+      const handTaskCount = hand.reduce((total, card) => total + countOpenTasks(card), 0);
+      const type3Reserved = endGameScoring?.countType3Cards
+        ? Math.max(0, Math.round(aiNumber(endGameScoring.countType3Cards(player, getCardTypeCode))))
+        : reservedCards.reduce((total, card) => total + (Math.round(aiNumber(getCardTypeCode(card))) === 3 ? 1 : 0), 0);
+      const type3InHand = hand.reduce((total, card) => (
+        total + (Math.round(aiNumber(getCardTypeCode(card))) === 3 ? 1 : 0)
+      ), 0);
+      const taskDemand = aiNumber(demand.task) + getAiMapDemand(demand.actions, "playCard") * 0.8;
+      const visibleTaskPipeline = reservedTaskCount + handTaskCount * 0.35;
+      const visibleType3Pipeline = type3Reserved + type3InHand * 0.45;
+      const cPipeline = formulaId === "c1"
+        ? visibleTaskPipeline
+        : visibleTaskPipeline + visibleType3Pipeline;
+      const demandPipeline = Math.max(0, taskDemand) * (formulaId === "c1" ? 0.018 : 0.026);
+      const pipelineScale = Math.min(1, Math.max(0, (cPipeline + demandPipeline) / (formulaId === "c1" ? 2.5 : 2)));
+      if (currentBase <= 0 && pipelineScale < 0.12) return 0;
+      const rawActionWindow = roundNumber >= FINAL_ROUND_NUMBER
+        ? (formulaId === "c1" ? 0.35 : 0.85)
+        : roundNumber === 3
+          ? (formulaId === "c1" ? 0.75 : 1.45)
+          : (formulaId === "c1" ? 1.15 : 2.1);
+      const actionWindow = rawActionWindow * pipelineScale;
+      const expectedNewTasks = Math.min(
+        7,
+        reservedTaskCount * (formulaId === "c1" ? 0.48 : 0.78)
+          + handTaskCount * (formulaId === "c1" ? 0.18 : 0.34)
+          + Math.max(0, taskDemand) * (formulaId === "c1" ? 0.018 : 0.034)
+          + actionWindow,
+      );
+      const expectedNewType3 = formulaId === "c2"
+        ? Math.min(
+          4,
+          type3InHand * (roundNumber >= FINAL_ROUND_NUMBER ? 0.42 : 0.68)
+            + Math.max(0, taskDemand) * 0.012,
+        )
+        : 0;
+
+      let projectedBase = currentBase;
+      if (formulaId === "c1") {
+        projectedBase = Math.max(
+          currentBase,
+          Math.floor(Math.max(0, aiNumber(player.completedTaskCount)) + expectedNewTasks),
+        );
+      } else {
+        projectedBase = Math.max(
+          currentBase,
+          Math.floor((
+            Math.max(0, aiNumber(player.completedTaskCount))
+            + type3Reserved
+            + expectedNewTasks
+            + expectedNewType3
+          ) / 2),
+        );
+      }
+
+      const baseGain = Math.max(0, projectedBase - currentBase);
+      if (baseGain <= 0 && currentBase > 0) return 0;
+      const multiplier = Math.max(0, aiNumber(endGameScoring.getSlotMultiplier(formulaId, slot)));
+      const growthValue = baseGain * multiplier;
+      const firstSlotPremium = slot === 1 && roundNumber <= 3
+        ? Math.min(
+          formulaId === "c1" ? 5 : 9,
+          (formulaId === "c2" ? 3.6 : 1.8) + expectedNewTasks * (formulaId === "c1" ? 0.38 : 0.65) + expectedNewType3 * 0.5,
+        )
+        : slot === 2 && roundNumber <= 3
+          ? Math.min(formulaId === "c1" ? 2 : 3.5, expectedNewTasks * 0.28 + expectedNewType3 * 0.25)
+          : 0;
+      const zeroBaseFloor = currentBase <= 0 && roundNumber <= 3
+        ? Math.min(
+          formulaId === "c1" ? 1.4 : 3.2,
+          (expectedNewTasks * (formulaId === "c1" ? 0.22 : 0.38) + expectedNewType3 * 0.28) * pipelineScale,
+        )
+        : 0;
+      return Math.min(24, growthValue * (formulaId === "c1" ? 0.48 : 0.68) + firstSlotPremium + zeroBaseFloor);
+    }
+
+    if (!endGameScoring?.countOwnedTech) return 0;
+    if (slot >= 3) return 0;
+    const techCounts = ["orange", "purple", "blue"].map((techType) => (
+      Math.max(0, Math.round(aiNumber(endGameScoring.countOwnedTech(player, techType))))
+    ));
+    const totalTech = techCounts.reduce((total, count) => total + count, 0);
+    const hasCheatLab = player?.industryCard?.id === "industry:作弊实验室"
+      || player?.industryCard?.label === "作弊实验室";
+    const publicity = Math.max(0, aiNumber(player.resources?.publicity));
+    const techDemand = sumAiDemandMap(demand.techTypes) + getAiMapDemand(demand.actions, "researchTech");
+    const resourceBoost = publicity >= (hasCheatLab ? 4 : 6) ? 0.65 : publicity >= 3 ? 0.35 : 0;
+    const demandBoost = Math.min(1.4, Math.max(0, techDemand) * 0.045);
+    const expectedNewTech = Math.min(
+      5,
+      Math.max(0, (remainingRounds - 0.35) * (hasCheatLab ? 1.25 : 0.85) + resourceBoost + demandBoost),
+    );
+    if (expectedNewTech <= 0) return 0;
+
+    let projectedBase = currentBase;
+    if (formulaId === "d2") {
+      projectedBase = Math.floor((totalTech + expectedNewTech) / 2);
+    } else {
+      const projected = [...techCounts].sort((left, right) => left - right);
+      let remainingTech = expectedNewTech;
+      while (remainingTech >= 1) {
+        projected[0] += 1;
+        projected.sort((left, right) => left - right);
+        remainingTech -= 1;
+      }
+      projectedBase = projected[0];
+    }
+
+    const baseGain = Math.max(0, projectedBase - currentBase);
+    if (baseGain <= 0 && currentBase > 0) return 0;
+
+    const multiplier = Math.max(0, aiNumber(endGameScoring.getSlotMultiplier(formulaId, slot)));
+    const growthValue = baseGain * multiplier;
+    const firstSlotPremium = slot === 1 && roundNumber <= 3
+      ? Math.min(8, (formulaId === "d2" ? 3.2 : 2.4) + expectedNewTech * 0.7)
+      : 0;
+    const zeroBaseFloor = currentBase <= 0 && roundNumber <= 3
+      ? Math.min(4.5, expectedNewTech * (formulaId === "d2" ? 0.9 : 0.65))
+      : 0;
+    return Math.min(22, growthValue * 0.74 + firstSlotPremium + zeroBaseFloor);
+  }
+
+  function hasAiPlayerClaimedFinalThreshold(playerId, threshold) {
+    if (!playerId) return false;
+    return (finalScoring.listMarks?.(finalScoringState) || []).some((mark) => (
+      mark?.playerId === playerId && Number(mark?.threshold) === Number(threshold)
+    ));
+  }
+
+  function scoreAiFinalScoreTileCompetition(tileId, formulaId, slotIndex, player, context) {
+    if (!tileId || !formulaId || !player || !endGameScoring?.getSlotMultiplier) return 0;
+    const currentSlot = Math.max(1, Math.round(aiNumber(slotIndex) || 1));
+    if (currentSlot >= 3) return 0;
+    const currentMultiplier = Math.max(0, aiNumber(endGameScoring.getSlotMultiplier(formulaId, currentSlot)));
+    const nextMultiplier = Math.max(0, aiNumber(endGameScoring.getSlotMultiplier(formulaId, currentSlot + 1)));
+    const multiplierGap = Math.max(0, currentMultiplier - nextMultiplier);
+    if (multiplierGap <= 0) return 0;
+
+    const thresholds = Array.isArray(finalScoringState.thresholds) && finalScoringState.thresholds.length
+      ? finalScoringState.thresholds
+      : finalScoring.FINAL_SCORE_THRESHOLDS || [];
+    let score = 0;
+    const activeIds = Array.isArray(turnState.activePlayerIds) && turnState.activePlayerIds.length
+      ? turnState.activePlayerIds
+      : playerState.players.map((entry) => entry.id).filter(Boolean);
+
+    for (const opponentId of activeIds) {
+      if (!opponentId || opponentId === player.id) continue;
+      const opponent = getPlayerById(opponentId);
+      if (!opponent) continue;
+      if (finalScoring.hasPlayerMarkedTile?.(finalScoringState, tileId, opponent.id)) continue;
+
+      const opponentScore = Math.max(0, aiNumber(opponent.resources?.score));
+      const nextThreshold = thresholds.find((threshold) => (
+        opponentScore < aiNumber(threshold)
+        && !hasAiPlayerClaimedFinalThreshold(opponent.id, threshold)
+      )) || null;
+      const pendingCount = finalScoring.getPendingMarksForPlayer?.(finalScoringState, opponent.id)?.length || 0;
+      let readiness = pendingCount > 0 ? 1.15 : 0;
+      if (nextThreshold != null) {
+        const deficit = Math.max(0, aiNumber(nextThreshold) - opponentScore);
+        if (deficit <= 0) readiness = Math.max(readiness, 1.15);
+        else if (deficit <= 8) readiness = Math.max(readiness, 0.75);
+        else if (deficit <= 15 && Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1)) >= 3) {
+          readiness = Math.max(readiness, 0.4);
+        }
+      }
+      if (readiness <= 0) continue;
+
+      const opponentBase = Math.max(0, aiNumber(endGameScoring.getFormulaBaseValue(
+        formulaId,
+        opponent,
+        context,
+        { getCardTypeCode },
+      )));
+      const formulaPotential = getAiFinalScoreFormulaPotential(formulaId);
+      const immediateSwing = opponentBase * multiplierGap;
+      const slotUrgency = currentSlot === 1 ? 5 : 2.2;
+      score += readiness * Math.min(
+        18,
+        slotUrgency + immediateSwing * 0.45 + formulaPotential * 0.75,
+      );
+    }
+
+    return score;
   }
 
   function getAiFinalScoreTileCandidate(tileId, player = getCurrentPlayer()) {
@@ -6106,7 +6318,14 @@
     const remainingRoundWeight = Math.min(1.6, 0.7 + getAiRemainingRoundWeight() * 0.15);
     const formulaPotentialScore = getAiFinalScoreFormulaPotential(formulaId) * remainingRoundWeight * effectiveSpeculationScale;
     const incomePotentialScore = 0;
-    const potentialScore = formulaPotentialScore + incomePotentialScore;
+    const growthPotentialScore = scoreAiFinalScoreFormulaGrowth(
+      formulaId,
+      player,
+      check.slotIndex,
+      baseValue,
+      demand,
+    ) * Math.max(0.45, effectiveSpeculationScale);
+    const potentialScore = formulaPotentialScore + incomePotentialScore + growthPotentialScore;
     const firstSlotPriorityScore = Number(check.slotIndex) === 1
       ? 14 * effectiveSpeculationScale
       : Number(check.slotIndex) === 2
@@ -6121,13 +6340,20 @@
       : Number(check.slotIndex) === 2
         ? (2 + activeOpponentCount * 0.8 + Math.min(3.5, potentialScore * 0.35)) * secondSlotSpeculationScale
         : 0;
+    const opponentCompetitionScore = scoreAiFinalScoreTileCompetition(
+      tileId,
+      formulaId,
+      check.slotIndex,
+      player,
+      context,
+    ) * Math.max(0.35, effectiveSpeculationScale);
     const slotPriorityScore = firstSlotPriorityScore
       + familyPriorityScore
       + competitiveSlotSwingScore
       + Math.max(0, 3 - Number(check.slotIndex || 3)) * 1.15
       + multiplier * 0.18;
     const thresholdScore = Math.max(0, aiNumber(pending.threshold)) * 0.015;
-    const zeroBaseLatePenalty = aiValuation?.estimateFinalTileZeroBasePenalty
+    const rawZeroBaseLatePenalty = aiValuation?.estimateFinalTileZeroBasePenalty
       ? aiValuation.estimateFinalTileZeroBasePenalty({
         baseValue,
         threshold: thresholdValue,
@@ -6136,8 +6362,28 @@
         slotIndex: check.slotIndex,
       })
       : 0;
+    const zeroBaseLatePenalty = (
+      (formulaId === "c1" || formulaId === "c2")
+      && growthPotentialScore > 0
+    )
+      ? rawZeroBaseLatePenalty * (formulaId === "c1" ? 0.72 : 0.45)
+      : rawZeroBaseLatePenalty;
+    const unsupportedCFormulaPenalty = (
+      (formulaId === "c1" || formulaId === "c2")
+      && baseValue <= 0
+      && growthPotentialScore < 1
+    )
+      ? (isLateMarker ? 18 : thresholdValue >= 50 ? 14 : 8)
+      : 0;
     const score = applyAiStrategyWeight(
-      immediateScore * immediateScoreWeight + demandScore + potentialScore + slotPriorityScore + thresholdScore - zeroBaseLatePenalty,
+      immediateScore * immediateScoreWeight
+        + demandScore
+        + potentialScore
+        + slotPriorityScore
+        + opponentCompetitionScore
+        + thresholdScore
+        - zeroBaseLatePenalty
+        - unsupportedCFormulaPenalty,
       "final",
       0.85,
     );
@@ -6160,6 +6406,7 @@
         potentialScore: Math.round(potentialScore * 100) / 100,
         formulaPotentialScore: Math.round(formulaPotentialScore * 100) / 100,
         incomePotentialScore: Math.round(incomePotentialScore * 100) / 100,
+        growthPotentialScore: Math.round(growthPotentialScore * 100) / 100,
         speculationScale: Math.round(speculationScale * 100) / 100,
         currentBaseSpeculationScale: Math.round(currentBaseSpeculationScale * 100) / 100,
         effectiveSpeculationScale: Math.round(effectiveSpeculationScale * 100) / 100,
@@ -6167,8 +6414,11 @@
         firstSlotPriorityScore: Math.round(firstSlotPriorityScore * 100) / 100,
         familyPriorityScore: Math.round(familyPriorityScore * 100) / 100,
         competitiveSlotSwingScore: Math.round(competitiveSlotSwingScore * 100) / 100,
+        opponentCompetitionScore: Math.round(opponentCompetitionScore * 100) / 100,
         thresholdScore: Math.round(thresholdScore * 100) / 100,
+        rawZeroBaseLatePenalty: Math.round(rawZeroBaseLatePenalty * 100) / 100,
         zeroBaseLatePenalty: Math.round(zeroBaseLatePenalty * 100) / 100,
+        unsupportedCFormulaPenalty: Math.round(unsupportedCFormulaPenalty * 100) / 100,
       },
     };
   }
@@ -6217,6 +6467,10 @@
     return result;
   }
 
+  function isExhaustedNebulaScanMessage(message) {
+    return /没有可替换的数据|已没有未替换的数据/.test(String(message || ""));
+  }
+
   function replaceNebulaDataForCurrentPlayer(nebulaId, options = {}) {
     const currentPlayer = getCurrentPlayer();
     const cost = normalizeResourceCost(options.cost) || {};
@@ -6248,6 +6502,20 @@
     if (!result.ok) {
       if (hasCost) players.gainResources(currentPlayer, cost);
       endEffectHistoryStep();
+      if (isExhaustedNebulaScanMessage(result.message)) {
+        const skipped = {
+          ok: true,
+          undoable: true,
+          skipped: true,
+          message: `${result.message}，已跳过`,
+          payload: { nebulaId, skipped: true },
+          events: [],
+        };
+        rocketState.statusNote = skipped.message;
+        renderSectors();
+        renderStateReadout();
+        return skipped;
+      }
       rocketState.statusNote = result.message;
       renderSectors();
       renderStateReadout();
@@ -6934,9 +7202,13 @@
   function closeScanTargetPicker(options = {}) {
     if (!els.scanTargetOverlay) return;
     if (pendingPublicScanQueue) {
+      if (options.forcePublicScanQueueClose) {
+        pendingPublicScanQueue = null;
+      } else {
       rocketState.statusNote = "公共牌区扫描：请完成全部星云选择";
       renderStateReadout();
       return;
+      }
     }
     if (!options.forceYichangdianCornerClose && restoreYichangdianCornerPickerIfPending()) {
       return;
@@ -11255,6 +11527,15 @@
         source: "scan",
         cost,
       });
+      if (!result.ok && effect && isActionEffectFlowActive()) {
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          skipped: true,
+          undoable: true,
+          message: `${prefixLabel || "扫描奥陌陌"}：${result.message || "无法扫描"}，已跳过`,
+          payload: { planetId, nebulaId: aomomo.NEBULA_ID, failedMessage: result.message || null },
+        });
+      }
       maybeCompleteActionEffectFromScan(result);
       return result;
     }
@@ -11297,6 +11578,20 @@
       source: "scan",
       cost,
     });
+    if (!result.ok && effect && isActionEffectFlowActive()) {
+      return finishAutomaticRewardEffect(effect, {
+        ok: true,
+        skipped: true,
+        undoable: true,
+        message: `${prefixLabel || `扇区${sector.x}扫描`}：${result.message || "无法扫描"}，已跳过`,
+        payload: {
+          planetId,
+          nebulaId: choices[0].nebulaId,
+          sectorX: sector.x,
+          failedMessage: result.message || null,
+        },
+      });
+    }
     maybeCompleteActionEffectFromScan(result);
     return result;
   }
@@ -15485,9 +15780,13 @@
         return true;
       }));
     if (!hasLegalTarget) {
-      rocketState.statusNote = `${effect.label}：没有符合条件的外星人目标`;
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
+      return finishAutomaticRewardEffect(effect, {
+        ok: true,
+        skipped: true,
+        undoable: true,
+        message: `${effect.label}：没有符合条件的外星人目标，已跳过`,
+        payload: { traceType, allowedTraceTypes, allowedAlienSlotIds },
+      });
     }
     pendingAlienTraceAction = {
       type: "planet_reward_alien_trace",
@@ -24739,7 +25038,7 @@
       if (industry?.hasFutureSpanCard?.(currentPlayer)) {
         summary.classList.add("has-future-span-card-below");
       }
-    } else if (companyCard?.label === "异星实验室" || hasTuringBorrowedTech) {
+    } else if (industry?.shouldShowAlienLabPanels?.(currentPlayer) || hasTuringBorrowedTech) {
       summary.classList.add("has-company-below-card-markers");
     }
     summary.replaceChildren(createCompanyCardSummary(companyCard, currentPlayer));
@@ -25519,7 +25818,10 @@
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
-    if (industry?.isAlienLabPanelFaceUp?.(player, panelId) !== true) {
+    if (
+      industry?.hasPermanentAlienLabPanels?.(player) !== true
+      && industry?.isAlienLabPanelFaceUp?.(player, panelId) !== true
+    ) {
       rocketState.statusNote = "异星实验室板块已翻面，无法触发";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
@@ -25552,6 +25854,7 @@
     const panelId = ALIEN_LAB_MAIN_ACTION_PANEL[actionId];
     if (!result?.ok || !player || !panelId) return result;
     if (!industry?.shouldShowAlienLabPanels?.(player)) return result;
+    if (industry?.hasPermanentAlienLabPanels?.(player)) return result;
     if (industry?.isAlienLabPanelFaceUp?.(player, panelId) !== true) return result;
 
     const beforePanels = industry.createAlienLabPanelSnapshot?.(player);
@@ -27346,6 +27649,23 @@
     clearCompletedEffectFlowForUndo(HISTORY_SOURCE_MAIN);
     pendingActionHasIrreversibleBarrier = false;
     pendingActionIrreversibleReason = null;
+  }
+
+  function recoverPendingActionFromOpenHistoryForAi() {
+    if (
+      pendingActionExecuted
+      || isActionEffectFlowActive()
+      || hasActivePendingSubFlow()
+      || !actionHistory.hasSession()
+    ) {
+      return { ok: false, message: "当前不需要恢复行动待结束状态" };
+    }
+    markActionPending();
+    const info = actionHistory.getSessionInfo?.() || null;
+    rocketState.statusNote = `${info?.label || "行动"}已恢复为待回合结束状态`;
+    updateActionButtons();
+    renderStateReadout();
+    return { ok: true, message: rocketState.statusNote, sessionInfo: info };
   }
 
   function isMainActionOpeningStep(step) {

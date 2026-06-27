@@ -28,7 +28,7 @@
 
 ### 2. 正常对局（每轮一次 1x）
 
-- 除 **异星实验室** 外，公司牌左下角有 1x 圆标（`placement.js`）；**未来跨度研究所** 既有普通每轮 1x 圆标，也有独立的 `wlkd_token` 专属快速行动标记。
+- 除 **异星实验室** 和 AI 专用 **作弊实验室** 外，公司牌左下角有 1x 圆标（`placement.js`）；**未来跨度研究所** 既有普通每轮 1x 圆标，也有独立的 `wlkd_token` 专属快速行动标记。
 - 每**轮**（`turnState.roundNumber` 轮号）每玩家最多放置 1 次 `normal_token`；`player.industryRoundMarkRound === turnState.roundNumber` 表示本轮已用。`player.industryRoundMarkTurn` 只记录标记发生的回合号，不参与刷新判定。
 - 未放置时牌面蓝色高亮（`is-action-marker-pending`）；放置后启动该公司 `buildActiveAbilityFlow`。
 - 回合结束时清空当前玩家的图灵借用；新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等，**不**清零 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记）。
@@ -42,7 +42,7 @@
 | `industrySentinelArmedRound` / `industrySentinelArmedTurn` | 哨兵：当前回合已武装「打牌后弃牌角标」；必须与当前 Round/Turn 同时匹配 |
 | `industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds` | 旧寰宇免费移动运行时字段；当前主动效果改走快速行动效果队列，不再依赖这些字段 |
 | `industryPlayedCardThisRound` / `industryLastPlayedCardThisRound` / `industryPlayedCardRound` / `industryPlayedCardTurn` | 当前回合已打牌及牌快照（字段名沿用 ThisRound；回合结束清理，仅供哨兵补注入队） |
-| `industryAlienLabPanels` / `industryAlienLabInitialized` | 异星实验室三色板块正反面；蓝=发射、黄=扫描、粉=科技 |
+| `industryAlienLabPanels` / `industryAlienLabInitialized` | 异星实验室/作弊实验室三色板块正反面；蓝=发射、黄=扫描、粉=科技；作弊实验室按永久正面处理 |
 | `industryFutureSpan` / `industryFutureSpanInitialized` | 未来跨度专属标记状态：扣下的牌、目标分、是否正在打出 |
 
 普通 1x 的确定性流程从放置标记到能力结算记录到 `quickActionHistory`；撤销时恢复 1x 前玩家快照，并调用 `cancelIndustryAbilityFlow` 清掉进行中的选择、移动或借用状态。层云核心使用快速行动来源的效果队列，放置标记的恢复命令记录在第一个效果步骤中；撤销后续效果只回退对应奖励，撤销第一个效果会同时回退本次公司标记并关闭层云核心效果流。进行中的公司选择/移动/借用流程若被取消，会回滚当前公司 quick step，避免 token 留在牌上但能力未结算。涉及公共牌精选并补牌/盲抽的新信息流程仍在确认后写入不可撤销屏障；芬威克若精选到移动角标，取消后续免费移动只放弃移动并提交该不可撤销快速行动。
@@ -64,6 +64,7 @@
 | 宇宙战略集团 | `strategy_pick_card` | `strategy_pick` | 精选 1 张公共牌（无额外资源）；确认精选后清除 3 个被动奖励槽 token |
 | 未来跨度研究所 | `future_span_pick_advance` | `future_span_pick` | 若专属标记已有未达成目标牌：精选 1 张公共牌，并将目标分提高 3 |
 | 异星实验室 | — | — | **无 1x 圆标**（`EXCLUDED_INDUSTRY_LABELS`） |
+| 作弊实验室 | — | — | AI 专用；复用异星实验室牌图与初始收益，**无 1x 圆标**，三色板块永久正面 |
 
 ### 未来跨度研究所
 
@@ -103,6 +104,7 @@
 | `strategy_passive_reward_slots` | 宇宙战略集团 | 打牌后按扫描角标在打牌流程的动态后续效果全部结束后追加奖励槽节点；确认节点才放 token 并领奖，跳过不占槽；黑色角标多空槽时由玩家选择；已占槽位只能等 1x 快速行动确认精选后清理 | `applyIndustryPlayCardPassives` / `industry_strategy_passive_reward` |
 | `future_span_parking` | 未来跨度研究所 | 专属标记扣牌、目标分、达标后免费打出 | `app.js` 公司牌叠层与打牌流程 |
 | `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；正面板块可点击并等同触发对应主要行动；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
+| `cheat_lab_permanent_panels` | 作弊实验室 | AI 专用异星实验室强化：蓝/黄/粉三色板块永久按正面计费和渲染，执行发射/扫描/研究科技后不翻背 | `passives.js` / `render.js` / `app.js` / `ai-controller.js` |
 
 图灵借用：只能选择供应区橙色或紫色科技。科技效果查询在拥有板块之外，带行动上下文时要求 `industryBorrowedTechTileId === tileId` 且借用的 Round/Turn 都等于当前行动上下文；无显式上下文的同回合长链路会按玩家身上未清空的借用态生效，直到回合结束清空。橙色科技经 `players.playerOwnsTech` 生效，紫色扫描科技经 `scan-effects.js` 的扫描队列构建生效。UI 会在公司牌下方复制显示对应科技图标用于提示，不从供应区拿走科技片，也不获得 bonus；回合结束会清空当前玩家借用状态并移除显示图标，新轮开始也会清空所有轮内借用状态。
 

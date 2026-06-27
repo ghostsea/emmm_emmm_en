@@ -11,7 +11,7 @@
 })(typeof globalThis !== "undefined" ? globalThis : window, function () {
   "use strict";
 
-  const SKIPPED_ACTIVE_LABELS = Object.freeze(["异星实验室"]);
+  const SKIPPED_ACTIVE_LABELS = Object.freeze(["异星实验室", "作弊实验室"]);
 
   const INDUSTRY_DEFINITIONS = Object.freeze({
     "层云核心": Object.freeze({
@@ -63,6 +63,11 @@
       label: "异星实验室",
       activeAbilityId: null,
       passiveIds: Object.freeze(["alien_lab_panels"]),
+    }),
+    "作弊实验室": Object.freeze({
+      label: "作弊实验室",
+      activeAbilityId: null,
+      passiveIds: Object.freeze(["alien_lab_panels", "cheat_lab_permanent_panels"]),
     }),
     "宇宙战略集团": Object.freeze({
       label: "宇宙战略集团",

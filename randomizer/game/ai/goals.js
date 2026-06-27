@@ -149,6 +149,32 @@
       || type === "card_color_scan";
   }
 
+  function hasPositiveFinalFormulaDelta(candidate = {}) {
+    return Object.values(candidate.finalFormulaDeltas || {})
+      .some((value) => numeric(value) > 0);
+  }
+
+  function candidateHasFinalTilePlayCardSupport(candidate = {}) {
+    if (hasPositiveFinalFormulaDelta(candidate)) return true;
+    const planAction = getPlanActionId(candidate);
+    if (planAction === "task") return true;
+
+    const breakdown = {
+      ...(candidate.breakdown || {}),
+      ...(candidate.valueBreakdown || {}),
+    };
+    const hasConcreteFinalValue = numeric(breakdown.cFinalTaskProgressValue) > 0
+      || numeric(breakdown.c2Type3ProgressValue) > 0
+      || numeric(breakdown.endGameExpectedScore) > 0;
+    if (hasConcreteFinalValue) return true;
+
+    return planAction === "final" && (
+      numeric(candidate.plan?.endGameExpectedScore) > 0
+      || numeric(candidate.plan?.cFinalTaskProgressValue) > 0
+      || numeric(candidate.plan?.c2Type3ProgressValue) > 0
+    );
+  }
+
   function normalizeGoal(goal = {}) {
     const id = String(goal.id || "");
     return {
@@ -265,7 +291,7 @@
     }
     if (goalId === GOAL_IDS.FINAL_TILE_FOCUS) {
       return Boolean(candidate.finalMarginal)
-        || actionId === "playCard"
+        || (actionId === "playCard" && candidateHasFinalTilePlayCardSupport(candidate))
         || actionId === "researchTech"
         || actionId === "land"
         || actionId === "orbit"

@@ -19,7 +19,7 @@
 
   const FINAL_ROUND_NUMBER = 4;
   const DEFAULT_CARD_VALUE = 3;
-  const DEFAULT_ALIEN_CARD_VALUE = 4;
+  const DEFAULT_ALIEN_CARD_VALUE = 5.5;
   const DEFAULT_LAUNCH_COST = Object.freeze({ credits: 2 });
   const RESOURCE_VALUES = Object.freeze({
     score: 1,
@@ -96,8 +96,7 @@
     const finalRound = Math.max(1, Math.round(numeric(options.finalRoundNumber) || FINAL_ROUND_NUMBER));
     const round = Math.max(1, Math.round(numeric(roundNumber) || 1));
     const includeCurrentRound = options.includeCurrentRound !== false;
-    const currentRoundIncome = includeCurrentRound ? 1 : 0;
-    return Math.max(0, finalRound - round + currentRoundIncome);
+    return Math.max(0, finalRound - round - (includeCurrentRound ? 0 : 1));
   }
 
   function isAlienCard(card) {
@@ -290,6 +289,16 @@
     return value;
   }
 
+  function getRevealedTracePositionValue(position) {
+    const pos = Math.max(0, Math.round(numeric(position)));
+    if (pos >= 5) return 5;
+    if (pos === 4) return 3.2;
+    if (pos === 3) return 2.3;
+    if (pos === 2) return 1.8;
+    if (pos === 1) return 0.8;
+    return 0;
+  }
+
   function estimateRevealedTraceValue(input = {}) {
     const mode = String(input.mode || "");
     const position = Math.max(0, Math.round(numeric(input.position)));
@@ -297,12 +306,12 @@
     const rewardValue = estimateRewardValue(input.reward);
     let value = 3;
     if (rewardValue > 0 || input.reward) value += rewardValue;
-    if (position === 2) value += 2.5;
+    value += getRevealedTracePositionValue(position);
     if (mode.includes("fangzhou") && label.includes("解锁")) value += 5;
     if (mode.includes("yichangdian") && position === 2) value += 2;
-    if (mode.includes("banrenma") || mode.includes("aomomo")) value += position === 2 ? 2 : 1;
-    if (mode.includes("chong") || mode.includes("amiba") || mode.includes("runezu")) value += position === 2 ? 1.5 : 0.75;
-    if (mode.includes("jiuzhe")) value += position === 2 ? 1 : 0.25;
+    if (mode.includes("banrenma") || mode.includes("aomomo")) value += position >= 4 ? 1 : position === 2 ? 1.2 : 0.6;
+    if (mode.includes("chong") || mode.includes("amiba") || mode.includes("runezu")) value += position >= 4 ? 0.8 : position === 2 ? 1 : 0.4;
+    if (mode.includes("jiuzhe")) value += position >= 4 ? 0.6 : position === 2 ? 0.8 : 0.25;
     if (label.includes("得分") || label.includes("分数")) value += 2;
     if (label.includes("精选") || label.includes("牌")) value += DEFAULT_CARD_VALUE;
     if (label.includes("信用")) value += RESOURCE_VALUES.credits;
@@ -620,8 +629,8 @@
     }
     if (formulaId === "b2" && ["orbit", "land"].includes(actionId)) return 1;
     if (formulaId === "b2" && planAction && ["orbit", "land", "scan"].includes(planAction)) return 0.5;
-    if (formulaId === "c1" && (actionId === "playCard" || planAction === "task")) return 0.5;
-    if (formulaId === "c2" && actionId === "playCard") return 0.5;
+    if (formulaId === "c1" && planAction === "task") return 0.35;
+    if (formulaId === "c2" && planAction === "task") return 0.25;
     if (formulaId === "d1" && actionId === "researchTech") return 0.5;
     if (formulaId === "d2" && actionId === "researchTech") return 0.5;
     if (formulaId === "b1" && (actionId === "alien-trace" || effectTypes.includes("alien_trace"))) return 1;
@@ -646,6 +655,7 @@
     RESOURCE_VALUES,
     DEFAULT_CARD_VALUE,
     DEFAULT_ALIEN_CARD_VALUE,
+    getRevealedTracePositionValue,
     DEFAULT_LAUNCH_COST,
     numeric,
     roundValue,

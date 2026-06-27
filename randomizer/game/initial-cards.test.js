@@ -116,6 +116,20 @@ function initialCard(number) {
   const context = createContext();
   const player = currentPlayer(context);
 
+  const result = initialCards.resolveIndustryEffect(context, player, { label: "作弊实验室" });
+
+  assert.equal(result.ok, true);
+  assert.equal(player.resources.publicity, 1);
+  assert.equal(player.resources.credits, 2);
+  assert.equal(player.resources.energy, 2);
+  assert.equal(player.resources.handSize, 1);
+  assert.equal(result.incomeIncreaseCount, 3);
+}
+
+{
+  const context = createContext();
+  const player = currentPlayer(context);
+
   const result = initialCards.resolveIndustryEffect(context, player, { label: "图灵系统" });
 
   assert.equal(result.ok, true);

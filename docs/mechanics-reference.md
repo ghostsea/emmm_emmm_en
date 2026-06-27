@@ -48,7 +48,7 @@
 - 3 选 2 初始牌在确认前始终保留显示，已选初始牌显示加粗金色边框；确认按钮要求已选择 1 张公司和 2 张初始牌，确认后这 2 张初始牌移出游戏且不再显示。
 - 玩家确认后，选择结果写入该玩家 `initialSelection`；全部启用玩家确认后，`randomizer/game/initial-cards.js` 会按所有玩家选定的公司牌和初始牌统一结算，之后初始选择阶段结束并解锁正常行动。
 - 初始选择结束后，任务/保留牌区最左侧固定显示当前玩家已选公司牌左半幅（可见宽约普通保留牌 1.38 倍，即半幅基准 1.15 倍再放大 20%），初始牌不再显示。
-- 除异星实验室外，公司牌左下角「1x」圆标位置由 `randomizer/game/industry/placement.js` 的 `INDUSTRY_ACTION_MARKER_SLOTS` 定义（百分比坐标）；未放置标记时公司牌外框蓝色高亮，放置后取消高亮。玩家可在该区域点击放置 `normal_token` 标记，每轮（`turnState.roundNumber` 轮号）每玩家仅可触发一次，状态写入 `player.industryRoundMarkRound`；`player.industryRoundMarkTurn` 只记录标记发生的回合号，不参与刷新判定。放置作为快速行动记录，可通过撤销按钮撤回。放置成功后立即启动该公司对应的 1x 主动能力流程。
+- 除异星实验室和 AI 专用作弊实验室外，公司牌左下角「1x」圆标位置由 `randomizer/game/industry/placement.js` 的 `INDUSTRY_ACTION_MARKER_SLOTS` 定义（百分比坐标）；未放置标记时公司牌外框蓝色高亮，放置后取消高亮。玩家可在该区域点击放置 `normal_token` 标记，每轮（`turnState.roundNumber` 轮号）每玩家仅可触发一次，状态写入 `player.industryRoundMarkRound`；`player.industryRoundMarkTurn` 只记录标记发生的回合号，不参与刷新判定。放置作为快速行动记录，可通过撤销按钮撤回。放置成功后立即启动该公司对应的 1x 主动能力流程。
 - 公司 1x 主动/被动能力由 `randomizer/game/industry/` 管理（`catalog.js` 定义、`abilities.js` 构建流程、`passives.js` 钩子、`index.js` 聚合为 `SetiIndustry`）；设计与建模详见 `assets/industry/industry-abilities.md`。
   - 层云核心：放置 1x 标记后，根据公共牌区 3 张牌的弃牌角标生成快速行动效果序列（不弃牌、不移除公共牌）；玩家按效果栏依次结算，撤销按效果步骤回退，撤销第一个效果会同时回退本次公司标记。
   - 图灵系统：借用一项供应区橙色或紫色科技当前回合效果（不获得板块/bonus；包含紫色科技对扫描行动队列的增强），并在公司牌下方只复制显示该科技图标，回合结束移除；被动：获取蓝色科技 +1 宣传。
@@ -61,7 +61,8 @@
   - 宇宙战略集团：精选 1 张牌；1x 确认精选后清除左上黄/红/蓝 3 个被动奖励槽 token。被动：打牌后按扫描角标在打牌效果流程的所有动态后续效果结束后追加 `industry_strategy_passive_reward` 节点，点击节点后放置 token 并领奖（黄=1 信用点，红=1 宣传，蓝=1 数据，可跳过、可撤销）；跳过不放置 token 且不占用槽位，下次打牌仍可再次触发。已放置 token 的槽位不能再次触发，回合/轮次重置不会清槽；只有宇宙战略集团 1x 快速行动确认精选后清槽，才让对应奖励重新可触发。黑色扫描角标沿用旧任意槽逻辑：只有 1 个空槽时自动触发该槽，多个空槽可选时弹出黄/红/蓝奖励槽选项，由玩家选择触发哪个槽。
 - 未来跨度研究所：公司牌上额外显示 `wlkd_token` 专属标记。点击后作为快速行动选择一张费用为信用点的手牌（半人马等能量费用牌不可选），移到公司牌下方并设定目标分（当前分 + 15/25/35/45，对应费用 1/2/3/4）；达成目标分后目标牌高亮为可打出但不显示专属标记，可用标准“打牌”主行动免费打出，所有效果完成后专属标记回到公司且当轮可再次作为快速行动使用。底部普通 1x 只能在已有未达成目标牌时使用：精选 1 张公共牌并把目标分提高 3，确认补牌后不可撤销。
 - 异星实验室：公司牌上显示蓝/黄/粉三块专属板块。正面时分别把标准发射改为 1 信用点、标准扫描改为 2 能量、标准研究科技改为 4 宣传；正面板块高亮且可点击，点击等同触发对应主要行动。执行对应标准主行动后该板块翻背。获得同色外星痕迹时对应板块翻回正面。该公司没有普通 1x 圆标。
-- 玩家运行时字段：`industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn`（图灵借用；带行动上下文时按 Round/Turn 精确判定，无显式上下文的同回合长链路按未清空借用态生效）、`industrySentinelArmedRound` / `industrySentinelArmedTurn`（哨兵当前回合武装）、`industryPlayedCardThisRound` / `industryLastPlayedCardThisRound` / `industryPlayedCardRound` / `industryPlayedCardTurn`（当前回合打牌快照，字段名沿用 ThisRound）、`industryAlienLabPanels`（异星实验室三色板块）、`industryFutureSpan`（未来跨度扣下的牌、目标分与打出状态）。寰宇动力主动效果改走快速行动效果队列，不再依赖 `industryHuanyuFreeMove*` 运行时字段。回合结束时会清空当前玩家的图灵借用和哨兵武装/打牌快照；新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等轮内状态，不重置 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记），也不清空未来跨度目标牌或异星实验室板块。
+- 作弊实验室：AI 专用公司，默认给电脑选择。初始收益与异星实验室相同，复用异星实验室牌图；蓝/黄/粉三块板块永远按正面处理，因此标准发射始终只耗 1 信用点，标准扫描始终只耗 2 能量，标准研究科技始终只耗 4 宣传，执行后不会翻背。该公司没有普通 1x 圆标。
+- 玩家运行时字段：`industryBorrowedTechTileId` / `industryBorrowedTechRound` / `industryBorrowedTechTurn`（图灵借用；带行动上下文时按 Round/Turn 精确判定，无显式上下文的同回合长链路按未清空借用态生效）、`industrySentinelArmedRound` / `industrySentinelArmedTurn`（哨兵当前回合武装）、`industryPlayedCardThisRound` / `industryLastPlayedCardThisRound` / `industryPlayedCardRound` / `industryPlayedCardTurn`（当前回合打牌快照，字段名沿用 ThisRound）、`industryAlienLabPanels`（异星实验室/作弊实验室三色板块）、`industryFutureSpan`（未来跨度扣下的牌、目标分与打出状态）。寰宇动力主动效果改走快速行动效果队列，不再依赖 `industryHuanyuFreeMove*` 运行时字段。回合结束时会清空当前玩家的图灵借用和哨兵武装/打牌快照；新轮开始时（所有玩家都 PASS 后）`resetAllRoundIndustryRuntimeState` 清空借用/武装等轮内状态，不重置 `industryRoundMarkRound` / `industryRoundMarkTurn`（靠轮号比较判定可否再标记），也不清空未来跨度目标牌或异星实验室/作弊实验室板块。
 - 公司 1x 标记与能力撤销：除涉及精选并拿走/刷新公共牌的能力（任务中继站、芬威克、未来跨度普通 1x、宇宙战略）外，普通 1x 会写入 `quickActionHistory`；撤销会恢复 1x 前玩家快照、清空轮内公司运行态并取消进行中的公司能力流，避免只撤销奖励但标记仍占用。层云核心只结算弃牌角标不弃牌、不移除公共牌，并按效果步骤撤销；第一个效果步骤同时回退放置公司标记的快速行动。进行中的公司选择/借用/移动流程取消时会回滚当前公司 quick step；但任务中继站、芬威克、未来跨度普通 1x、宇宙战略确认拿牌后会提交不可撤销快速行动屏障，之前的快速行动也不再可撤销。芬威克若精选到移动角标，取消后续免费移动只放弃移动并提交该不可撤销快速行动。未来跨度专属标记是独立快速行动，仍单独记录。
 - 交互聚焦：`app.js` 的 `syncInteractionFocusChrome()` 根据进行中的流程在 `#app-wrap` 上设置 `data-interaction-focus`（`public-cards` / `hand-cards` / `tech-panel` / `board-rockets`）；`style.css` 会暗化非目标区域。`hand-cards` 聚焦时不能暗化或禁用 `.player-command` 父容器，需只暗化手牌区的兄弟控件，保证收入弃牌、打牌选牌、移动弃牌支付、手牌扫描等流程中手牌区保持高亮可点。公司牌 1x 可放置时仅用牌面蓝色高亮（`is-action-marker-pending`），不自动进入全屏聚焦以免遮挡行动按钮。
 - 选择公司后，保留牌区右侧分两行显示：第一行放 1 / 2 型任务牌，并按手牌区方式在牌多时部分覆盖；第二行放 3 型终局计分牌以及声明 `displayRow: "bottom"` 的特殊保留牌（当前为 b139 冥王星）。
@@ -224,13 +225,13 @@ UI 布局：
 
 当前主行动包括：
 
-- `launch`：发射，默认消耗 2 信用点，在地球所在扇区放置火箭；若玩家已达到火箭数量上限则不可执行。异星实验室蓝色板块正面时，标准发射改为 1 信用点并在成功后翻背。
+- `launch`：发射，默认消耗 2 信用点，在地球所在扇区放置火箭；若玩家已达到火箭数量上限则不可执行。异星实验室蓝色板块正面时，标准发射改为 1 信用点并在成功后翻背；作弊实验室始终为 1 信用点且不翻背。
 - `orbit`：环绕，要求当前火箭在非地球星球格，消耗 1 信用点 + 1 能量，移除火箭并放置环绕标记。
 - `land`：登陆，要求当前火箭在非地球星球格，消耗 1/2/3 能量，移除火箭并放置主星/卫星登陆标记；卫星登陆需要橙色 4 号科技。
-- `scan`：扫描，默认消耗 1 信用点 + 2 能量，生成扫描效果队列。异星实验室黄色板块正面时，标准扫描改为 2 能量并在支付成功后翻背。
+- `scan`：扫描，默认消耗 1 信用点 + 2 能量，生成扫描效果队列。异星实验室黄色板块正面时，标准扫描改为 2 能量并在支付成功后翻背；作弊实验室始终为 2 能量且不翻背。
 - `analyze`：分析数据，消耗 1 能量并清空已放置数据，随后获得 1 个蓝色外星人痕迹。
 - `playCard`：打牌，打开手牌选择/打出流程。
-- `researchTech`：研究科技，生成科技效果链：选择科技片、旋转、即时奖励（如橙1发射、紫1数据）、获取 bonus。异星实验室粉色板块正面时，标准研究费用改为 4 宣传并在选择科技片成功后翻背。
+- `researchTech`：研究科技，生成科技效果链：选择科技片、旋转、即时奖励（如橙1发射、紫1数据）、获取 bonus。异星实验室粉色板块正面时，标准研究费用改为 4 宣传并在选择科技片成功后翻背；作弊实验室始终为 4 宣传且不翻背。
 
 轮与回合：
 

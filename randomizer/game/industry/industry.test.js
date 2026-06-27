@@ -9,6 +9,7 @@ const player = { id: "white", color: "white", industryRoundMarkRound: 0 };
 
 assert.equal(placement.hasIndustryActionMarker({ label: "层云核心" }), true);
 assert.equal(placement.hasIndustryActionMarker({ label: "异星实验室" }), false);
+assert.equal(placement.hasIndustryActionMarker({ label: "作弊实验室" }), false);
 assert.equal(placement.getIndustryActionMarkerLayout("寰宇动力").percentY, 78.3);
 assert.equal(placement.hasIndustryActionMarker({ label: "未来跨度研究所" }), true);
 assert.equal(placement.getIndustryActionMarkerLayout("未来跨度研究所").percentY, 84.0);
@@ -44,9 +45,11 @@ const abilities = require("./abilities");
 
 assert.equal(catalog.hasImplementedActiveAbility("层云核心"), true);
 assert.equal(catalog.hasImplementedActiveAbility("未来跨度研究所"), true);
+assert.equal(catalog.hasImplementedActiveAbility("作弊实验室"), false);
 assert.equal(passives.getRocketLimitBonus({ initialSelection: { industry: { label: "寰宇动力" } } }), 1);
 assert.equal(passives.getResearchPublicityCost({ initialSelection: { industry: { label: "芬威克研究中心" } } }), 5);
 const alienLabPlayer = { initialSelection: { industry: { label: "异星实验室" } }, resources: { score: 0 } };
+const cheatLabPlayer = { initialSelection: { industry: { label: "作弊实验室" } }, resources: { score: 0 } };
 const turingPlayer = {
   id: "white",
   initialSelection: { industry: { label: "图灵系统" } },
@@ -82,6 +85,15 @@ assert.equal(state.consumeAlienLabPanel(alienLabPlayer, "blue").changed, true);
 assert.equal(passives.getStandardLaunchCost(alienLabPlayer).credits, 2);
 assert.equal(state.restoreAlienLabPanelForTrace(alienLabPlayer, "blue").changed, true);
 assert.equal(passives.getStandardLaunchCost(alienLabPlayer).credits, 1);
+
+assert.equal(passives.hasPermanentAlienLabPanels(cheatLabPlayer), true);
+assert.equal(passives.getStandardLaunchCost(cheatLabPlayer).credits, 1);
+assert.equal(passives.getStandardScanCost(cheatLabPlayer).energy, 2);
+assert.equal(passives.getStandardScanCost(cheatLabPlayer).credits, undefined);
+assert.equal(passives.getResearchPublicityCost(cheatLabPlayer), 4);
+state.initializeAlienLabPanels(cheatLabPlayer);
+assert.equal(state.consumeAlienLabPanel(cheatLabPlayer, "blue").changed, true);
+assert.equal(passives.getStandardLaunchCost(cheatLabPlayer).credits, 1);
 
 const strategyPlayer = {
   id: "white",

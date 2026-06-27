@@ -24,6 +24,7 @@
   const HUANYU_ROCKET_LIMIT_BONUS = 1;
   const MISSION_PLAY_PUBLICITY_GAIN = 1;
   const TURING_BLUE_TECH_PUBLICITY_GAIN = 1;
+  const CHEAT_LAB_PERMANENT_PASSIVE_ID = "cheat_lab_permanent_panels";
 
   function playerHasPassive(player, passiveId) {
     const definition = catalog.getPlayerIndustryDefinition(player);
@@ -34,8 +35,18 @@
     return playerHasPassive(player, "huanyu_rocket_limit") ? HUANYU_ROCKET_LIMIT_BONUS : 0;
   }
 
+  function hasPermanentAlienLabPanels(player) {
+    return playerHasPassive(player, CHEAT_LAB_PERMANENT_PASSIVE_ID);
+  }
+
+  function hasActiveAlienLabPanel(player, panelId) {
+    if (!playerHasPassive(player, "alien_lab_panels")) return false;
+    if (hasPermanentAlienLabPanels(player)) return true;
+    return player?.industryAlienLabPanels?.[panelId] !== false;
+  }
+
   function getResearchPublicityCost(player, defaultCost = 6) {
-    if (playerHasPassive(player, "alien_lab_panels") && player?.industryAlienLabPanels?.pink !== false) {
+    if (hasActiveAlienLabPanel(player, "pink")) {
       return ALIEN_LAB_RESEARCH_COST;
     }
     return playerHasPassive(player, "fenwick_research_cost") ? FENWICK_RESEARCH_COST : defaultCost;
@@ -46,14 +57,14 @@
   }
 
   function getStandardLaunchCost(player, defaultCost = { credits: 2 }) {
-    if (playerHasPassive(player, "alien_lab_panels") && player?.industryAlienLabPanels?.blue !== false) {
+    if (hasActiveAlienLabPanel(player, "blue")) {
       return cloneCost(ALIEN_LAB_LAUNCH_COST);
     }
     return cloneCost(defaultCost);
   }
 
   function getStandardScanCost(player, defaultCost = { credits: 1, energy: 2 }) {
-    if (playerHasPassive(player, "alien_lab_panels") && player?.industryAlienLabPanels?.yellow !== false) {
+    if (hasActiveAlienLabPanel(player, "yellow")) {
       return cloneCost(ALIEN_LAB_SCAN_COST);
     }
     return cloneCost(defaultCost);
@@ -183,6 +194,8 @@
     getResearchPublicityCost,
     getStandardLaunchCost,
     getStandardScanCost,
+    hasPermanentAlienLabPanels,
+    hasActiveAlienLabPanel,
     canAnalyzeWithoutEnergy,
     shouldScanEarthOnLaunch,
     shouldGainPublicityOnType12Play,

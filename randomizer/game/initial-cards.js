@@ -175,6 +175,13 @@
       incomeIncreaseCount: 3,
       baseIncome: Object.freeze({ credits: 2, energy: 1, handSize: 1 }),
     }),
+    "作弊实验室": Object.freeze({
+      label: "作弊实验室",
+      resources: Object.freeze({ publicity: 1, credits: 2, energy: 2 }),
+      blindDraw: 1,
+      incomeIncreaseCount: 3,
+      baseIncome: Object.freeze({ credits: 2, energy: 1, handSize: 1 }),
+    }),
     "宇宙战略集团": Object.freeze({
       label: "宇宙战略集团",
       resources: Object.freeze({ publicity: 1, credits: 4, energy: 2 }),
