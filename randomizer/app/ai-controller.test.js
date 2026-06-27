@@ -2,6 +2,8 @@
 
 const assert = require("node:assert/strict");
 const { createAiController } = require("./ai-controller");
+const chong = require("../game/aliens/chong");
+const fangzhou = require("../game/aliens/fangzhou");
 const runezu = require("../game/aliens/runezu");
 
 function createAiControllerHarness(pendingPlayerColor, options = {}) {
@@ -15,7 +17,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     id: "player-blue",
     color: "blue",
     colorLabel: "Blue",
-    resources: {},
+    hand: options.blueHand || [],
+    reservedCards: [],
+    resources: { credits: 5, energy: 5 },
     runezuSymbols: options.blueRunezuSymbols || {},
   };
   const allPlayers = [white, blue];
@@ -67,8 +71,24 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       PLAYER_COLOR_IDS: allPlayers.map((player) => player.color),
       canAfford: () => true,
     },
+    planetRewards: {
+      EFFECT_TYPES: {
+        GAIN_RESOURCES: "gain_resources",
+        GAIN_DATA: "gain_data",
+        ALIEN_TRACE: "alien_trace",
+        DRAW_CARDS: "draw_cards",
+        PICK_CARD: "pick_card",
+        INCOME: "income",
+      },
+    },
     aliens: { ALIEN_SLOT_IDS: [1] },
+    chong,
+    fangzhou,
     runezu,
+    cards: {
+      getCardLabel: (card) => card?.cardName || card?.label || card?.cardId || card?.id || "card",
+      getIncomeCodeForCard: (card) => card?.incomeCode ?? null,
+    },
     data: {},
     ai: {
       policy: {
@@ -79,7 +99,16 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         ),
       },
     },
-    cardEffects: { EFFECT_TYPES: { RESEARCH_TECH: "card_research_tech" } },
+    cardEffects: {
+      EFFECT_TYPES: {
+        CARD_MOVE: "card_move",
+        FREE_MOVE: "free_move",
+        RESEARCH_TECH: "card_research_tech",
+      },
+      buildPlayEffects: () => [],
+      getCardModel: () => null,
+      ensureCardEffectState: () => null,
+    },
     finalScoring: {
       ensureFinalScoringState: (stateToEnsure) => {
         if (!stateToEnsure.tiles) stateToEnsure.tiles = {};
@@ -115,8 +144,8 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     formatRocketLabel: () => "",
     getActivePlayers: () => allPlayers,
     getAlienTraceActionPlayer: () => null,
-    getCardPlayCost: () => ({}),
-    getCardPrice: () => ({}),
+    getCardPlayCost: (card) => (card?.price ? { credits: card.price } : {}),
+    getCardPrice: (card) => card?.price || 0,
     getCardTypeCode: () => 1,
     getCurrentActionEffect: () => null,
     getCurrentPlayer: () => currentPlayer,
@@ -264,6 +293,17 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   if (options.currentPlayerDiscardPending) {
     context.isDiscardSelectionActive = () => true;
   }
+  if (options.playCardSelectionActive) {
+    context.isPlayCardSelectionActive = () => true;
+    context.handlePlayCardSelect = (handIndex) => {
+      handled = { type: "play-card", handIndex: Number(handIndex), confirmed: false };
+      return { ok: true, progressed: true };
+    };
+    context.confirmPlayCardSelection = () => {
+      handled = { ...(handled || { type: "play-card" }), confirmed: true };
+      return { ok: true, progressed: true };
+    };
+  }
 
   const emptyArrayNames = [
     "buildSectorScanChoicesForX",
@@ -378,6 +418,50 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   assert.equal(harness.getHandled().type, "runezu-face-symbol-open");
   assert.equal(harness.getHandled().alienSlotId, 1);
   assert.ok([4, 5, 6, 7].includes(harness.getHandled().position));
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    playCardSelectionActive: true,
+    blueHand: [chong.createAlienCard(2, 1)],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should select a playable Chong alien card from hand");
+  assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    playCardSelectionActive: true,
+    blueHand: [{
+      ...fangzhou.createCard2Definition("pink", 1),
+      id: "fangzhou-card2-ai-test",
+      faceUp: true,
+      fangzhouCard2: true,
+      fangzhouTraceType: "pink",
+    }],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should select a playable Fangzhou card2 from hand");
+  assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
 }
 
 console.log("app/ai-controller.test.js ok");
