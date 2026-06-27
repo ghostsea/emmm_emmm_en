@@ -28076,12 +28076,17 @@
   }
 
   function clearFullyUndoneMainActionSession() {
+    const info = actionHistory.getSessionInfo?.();
+    if (!info || info.stepCount !== 0 || actionHistory.hasUndoableStep()) {
+      return false;
+    }
     effectStepActive = false;
     actionHistory.commitSession();
     clearHistoryStepOrderForSource(HISTORY_SOURCE_MAIN);
     clearActionPending();
     pruneEmptyActionLogDraft();
     renderActionLog();
+    return true;
   }
 
   function clearStaleFullyUndoneMainActionSession() {
@@ -28599,6 +28604,7 @@
     if (
       !pendingActionExecuted
       && !isActionEffectFlowActive()
+      && !actionHistory.hasUndoableStep()
       && !quickActionHistory.hasUndoableStep()
     ) return;
 
