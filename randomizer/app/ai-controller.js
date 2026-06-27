@@ -244,6 +244,7 @@
     const AI_SCAN_COLORS = Object.freeze(["yellow", "red", "blue", "black"]);
     const AI_TECH_TYPES = Object.freeze(["orange", "purple", "blue"]);
     const AI_TRACE_TYPES = Object.freeze(["yellow", "pink", "blue"]);
+    const AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE = "fangzhou_card2_advanced_reward";
     const AI_INCOME_DISCARD_TYPES = new Set([
       "income",
       "initial_income",
@@ -2162,6 +2163,13 @@
       if (Number.isFinite(Number(reward.symbolValue))) value += aiNumber(reward.symbolValue);
       value -= Math.max(0, aiNumber(reward.payData)) * AI_RESOURCE_VALUES.availableData;
       return value;
+    }
+
+    function scoreAiBestChongFossilRewardValue(player = getCurrentPlayer()) {
+      if (!chong?.FOSSIL_IDS?.length || !chong?.getFossilReward) return 0;
+      return chong.FOSSIL_IDS.reduce((best, fossilId) => (
+        Math.max(best, scoreAiAlienRewardBundle(chong.getFossilReward(fossilId), player))
+      ), 0);
     }
 
     function scoreAiAmibaSymbolRewardValue(symbolId, player = getCurrentPlayer()) {
@@ -4727,6 +4735,17 @@
           return scoreAiRunezuSymbolRewardValue(effectOptions.symbolId, player);
         case runezu?.EFFECT_TYPES?.SYMBOL_BRANCH:
           return scoreAiRunezuSymbolBranchValue(effectOptions.branches || [], player);
+        case chong?.EFFECT_TYPES?.CHONG_LAND_FOR_PICKUP:
+        case chong?.EFFECT_TYPES?.CHONG_ORBIT_OR_LAND_FOR_PICKUP:
+          return 10 + scoreAiBestChongFossilRewardValue(player) * 0.3;
+        case chong?.EFFECT_TYPES?.CHONG_PICKUP_FOSSIL:
+        case chong?.EFFECT_TYPES?.CHONG_PROBE_PLANET_FOSSIL_REWARD:
+        case chong?.EFFECT_TYPES?.CHONG_CHOOSE_PLANET_FOSSIL_REWARD:
+          return 5.5 + scoreAiBestChongFossilRewardValue(player) * 0.45;
+        case chong?.EFFECT_TYPES?.CHONG_TASK_CLEANUP:
+          return 1.5;
+        case AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE:
+          return 16;
         case aomomo?.EFFECT_GAIN_FOSSILS:
           return Math.max(1, Math.round(aiNumber(effectOptions.count || 1))) * 3;
         case aomomo?.EFFECT_SCAN_AOMOMO_X:
@@ -6361,7 +6380,22 @@
 
     function isAiLandingEffect(effect) {
       return effect?.type === cardEffects.EFFECT_TYPES.CARD_LAND
-        || effect?.type === "aomomo_land_only";
+        || effect?.type === "aomomo_land_only"
+        || isAiChongTravelEffect(effect);
+    }
+
+    function isAiChongPickupPlanetId(planetId) {
+      return planetId === "jupiter" || planetId === "saturn";
+    }
+
+    function isAiChongTravelEffect(effect) {
+      return Boolean(
+        chong
+        && (
+          effect?.type === chong.EFFECT_TYPES?.CHONG_LAND_FOR_PICKUP
+          || effect?.type === chong.EFFECT_TYPES?.CHONG_ORBIT_OR_LAND_FOR_PICKUP
+        ),
+      );
     }
 
     function getAiNextActionEffect(offset = 1) {
@@ -6372,6 +6406,7 @@
 
     function getAiLandEffectCost(effect, planetId) {
       const options = effect?.options || {};
+      if (isAiChongTravelEffect(effect)) return {};
       if (options.skipCost) return {};
       if (options.cost && typeof options.cost === "object" && !Array.isArray(options.cost)) {
         return { ...options.cost };
@@ -6384,6 +6419,9 @@
       const planet = getAiPlanetAtCoordinate(coordinate);
       if (!planet) return { ok: false, score: -Infinity, planet: null };
       if (planet.planetId === aomomo?.PLANET_ID && effect?.type !== "aomomo_land_only") {
+        return { ok: false, score: -Infinity, planet };
+      }
+      if (isAiChongTravelEffect(effect) && !isAiChongPickupPlanetId(planet.planetId)) {
         return { ok: false, score: -Infinity, planet };
       }
       if (!canAiPlanetAcceptLanding(planet.planetId, player)) {
@@ -8183,7 +8221,17 @@
     }
 
     function getAiPlayEffectsForCard(card) {
+      if (fangzhou?.isFangzhouCard2?.(card)) {
+        return [{
+          id: `fangzhou-card2-advanced-${card?.id || card?.cardId || "card"}`,
+          type: AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE,
+          label: "方舟高级奖励",
+          icon: "fangzhou",
+          options: { tier: "advanced" },
+        }];
+      }
       if (banrenma?.isBanrenmaCard?.(card)) return banrenma.buildImmediateEffects?.(card) || [];
+      if (chong?.isChongCard?.(card)) return chong.buildImmediateEffects?.(card) || [];
       if (amiba?.isAmibaCard?.(card)) return amiba.buildImmediateEffects?.(card) || [];
       if (aomomo?.isAomomoCard?.(card)) return aomomo.buildImmediateEffects?.(card) || [];
       if (runezu?.isRunezuCard?.(card)) return runezu.buildImmediateEffects?.(card) || [];
@@ -8192,7 +8240,9 @@
 
     function isAiAlienMainPlayCard(card) {
       return Boolean(
-        banrenma?.isBanrenmaCard?.(card)
+        fangzhou?.isFangzhouCard2?.(card)
+        || banrenma?.isBanrenmaCard?.(card)
+        || chong?.isChongCard?.(card)
         || amiba?.isAmibaCard?.(card)
         || aomomo?.isAomomoCard?.(card)
         || runezu?.isRunezuCard?.(card),
@@ -8201,14 +8251,70 @@
 
     function doesAiCardReserveAfterPlay(card, typeCode, model) {
       if (banrenma?.isBanrenmaCard?.(card)) return true;
+      if (chong?.isChongCard?.(card)) return true;
       return [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay);
     }
 
     function isAiSupportedHandPlayCard(card) {
       if (!card) return false;
-      if (fangzhou?.isFangzhouCard2?.(card)) return false;
-      if (chong?.isChongCard?.(card)) return false;
       return true;
+    }
+
+    function listAiChongPickupChoicesForOptions(options) {
+      return (options?.choices || []).filter((choice) => isAiChongPickupPlanetId(choice?.planetId));
+    }
+
+    function getAiChongLandOptions(effect) {
+      const baseOptions = abilities.planet?.getLandOptions?.(createActionContext(), {
+        skipCost: true,
+        allowSatelliteWithoutTech: Boolean(effect?.options?.allowSatellite),
+      });
+      if (!baseOptions?.ok) return baseOptions || { ok: false, message: "当前不能登陆" };
+      const choices = listAiChongPickupChoicesForOptions(baseOptions);
+      return choices.length
+        ? { ...baseOptions, choices }
+        : { ok: false, message: "当前没有可登陆木星/土星并拾取化石的火箭" };
+    }
+
+    function getAiChongOrbitOrLandOptions(effect) {
+      const context = createActionContext();
+      const choices = [];
+      const orbitOptions = abilities.planet?.getOrbitOptions?.(context, { skipCost: true });
+      if (orbitOptions?.ok) {
+        choices.push(...listAiChongPickupChoicesForOptions(orbitOptions).map((choice) => ({
+          ...choice,
+          kind: "orbit",
+        })));
+      }
+      const landOptions = abilities.planet?.getLandOptions?.(context, {
+        skipCost: true,
+        allowSatelliteWithoutTech: Boolean(effect?.options?.allowSatellite),
+      });
+      if (landOptions?.ok) {
+        choices.push(...listAiChongPickupChoicesForOptions(landOptions).map((choice) => ({
+          ...choice,
+          kind: "land",
+        })));
+      }
+      return choices.length
+        ? { ok: true, choices }
+        : { ok: false, message: "当前没有可环绕或登陆木星/土星并拾取化石的火箭" };
+    }
+
+    function canAiResolveChongTravelEffect(effect, previousEffect) {
+      if (!isAiChongTravelEffect(effect)) return { ok: true };
+      if (
+        previousEffect?.type === cardEffects.EFFECT_TYPES.CARD_MOVE
+        || previousEffect?.type === cardEffects.EFFECT_TYPES.FREE_MOVE
+      ) {
+        return { ok: true };
+      }
+      const options = effect.type === chong?.EFFECT_TYPES?.CHONG_ORBIT_OR_LAND_FOR_PICKUP
+        ? getAiChongOrbitOrLandOptions(effect)
+        : getAiChongLandOptions(effect);
+      return options?.ok
+        ? { ok: true }
+        : { ok: false, message: options?.message || "当前不能执行虫族取化石行动" };
     }
 
     function canAiResolvePlayCardEffects(playEffects = []) {
@@ -8230,9 +8336,15 @@
       ]);
       for (let index = 0; index < playEffects.length; index += 1) {
         const effect = playEffects[index];
+        const previousEffect = playEffects[index - 1] || null;
         const nextEffect = playEffects[index + 1] || null;
+        if (effect?.type === AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE) continue;
         if (unsupportedTypes.has(effect?.type)) {
           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };
+        }
+        if (isAiChongTravelEffect(effect)) {
+          const chongCheck = canAiResolveChongTravelEffect(effect, previousEffect);
+          if (!chongCheck.ok) return chongCheck;
         }
         if (effect?.type === "launch" && !effect.options?.ignoreRocketLimit) {
           const currentPlayer = getCurrentPlayer();
