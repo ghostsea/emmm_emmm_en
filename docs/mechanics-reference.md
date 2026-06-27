@@ -96,7 +96,7 @@
 - 仅统计当前玩家**已标记**的板块；实时板块分 = 各已标记板块的 `基础值 × 位次倍率`。
 - 3 型终局计分卡打出后进入保留区第二行；实时卡牌终局分只统计当前玩家保留区中的 3 型卡。当前基础牌规则：`b_14` 每完成 1 个红色扇区 3 分；`b_63` 每完成 1 个黄色扇区 3 分；`b_100` 每完成 1 个蓝色扇区 3 分；`b_128` 每完成 1 个黑色扇区 3 分；`b_30` 每个蓝色外星人痕迹 2 分；`b_86` 每个粉色外星人痕迹 2 分；`b_113` 每个黄色外星人痕迹 2 分；`b_33` 每个蓝色科技 2 分；`b_45` 每个有信号的扇区 1 分；`b_34` 木星每个环绕/登陆（含卫星）3 分；`b_74` 火星每个环绕/登陆（含卫星）4 分；`b_82` 若有探测器在小行星得 13 分；`b_115` 按当前玩家未标记终局板块的最右档分数合计。DLC 终局牌规则：`dlc_8` 每个剩余可用数据 3 分；`dlc_10` 每个剩余宣传 1 分；`dlc_31` 每个有至少 2 个己方主星登陆标记的行星 6 分；`dlc_39` 每个己方环绕、主星登陆、卫星登陆标记 2 分。
 - 玩家状态栏在正常分数后显示终局总分（图标 `assets/symbol/effect/final_score.webp`）= 当前 `resources.score` + 板块分 + 终局计分牌 + 外星人终局项（如九折、符文族）；正常分数行不变。
-- 开局即显示独立悬浮的「统计」按钮，可随时打开当前实时总分统计；游戏结束后仍会默认弹出统计悬浮窗。窗口第一列为得分项目，后续列按白、棕、蓝、绿展示本局参与玩家，最高总分单元格高亮。
+- 右侧日志 dock 的控制列固定提供「统计」和「日志」入口；「统计」可随时打开当前实时总分统计，游戏结束后仍会默认弹出统计悬浮窗。窗口第一列为得分项目，后续列按白、棕、蓝、绿展示本局参与玩家，最高总分单元格高亮。
 - 终局弹窗中 `裸分` 直接取当前 `resources.score`；同时玩家状态维护 `scoreSources` 账本，用于拆出普通游戏内即时得分来源：科技 bonus（含 3 分 bonus 与首科技 2 分）、蓝色科技放置数据得分、1/2 型任务牌得分、环绕、登陆、粉/黄/蓝外星人痕迹得分、外星人卡牌左上角快速行动得分。旧存档或改动前已发生的即时得分若没有账本记录，只会体现在 `裸分` 中。
 - 统一计分入口：`SetiEndGameScoring.computePlayerFinalScore(context)`，`context` 需包含 `currentPlayer`、`finalScoringState`、`nebulaDataState`、`alienGameState`、`planetStatsState`、`cardEffects`、`getCardTypeCode`。返回值包含 `baseScore`、`tileScore`、`cardScore`、`jiuzheCardScore`、`jiuzhePenaltyScore`、`runezuSymbolScore`、`totalScore`，并用 `tileScoresById.{a,b,c,d}` 拆出 a/b/c/d 板块分；九折卡牌分数、九折损失分数和符文族 symbol 分数在对应外星人存在时作为条件行展示。
 - 调试按钮「+20分」会给当前玩家增加 20 分，用于快速触发 25 / 50 / 70 分门槛标记流程。
@@ -253,8 +253,9 @@ UI 布局：
 - 撤销快速行动会删除 draft 中最近的快速行动记录；撤销主要行动效果会删除最近的主要行动记录；回滚整个主要行动会删除 draft 中所有主要行动记录但保留尚未撤销的快速行动记录。若最近步骤是不可撤销屏障，只提示原因，不会越过屏障撤销更早步骤。
 - 确认后不可撤销的精选/拿牌效果会写入不可撤销屏障，并在日志中显示原因；公司 1x 中任务中继站、芬威克、未来跨度、宇宙战略等公共牌精选补牌能力也按 quick 日志记录 `不可撤销：公共牌补牌翻出新牌`。
 - 每条已确认的稳定行动日志 entry 会附带 `recoverySnapshot`，保存该日志确认后的完整游戏状态切片（含隐藏牌序、外星人状态、火箭、科技、星云、玩家、任务状态等，不递归保存日志本身）。最后一名玩家确认初始选择后若进入“初始收入增加”效果流，该条日志会暂时不暴露恢复快照，直到初始收入全部完成后刷新为稳定恢复点。`window.SetiRandomizer.getActionLogRecoveryPackage()` 可导出含恢复快照的日志包；`window.SetiRandomizer.recoverFromActionLog(logOrPackage, { entryId/index })` 会取对应日志快照恢复局面，并清空所有进行中的 overlay/选择流程。恢复点定位为“某条已确认日志之后”的稳定局面；调试入口仍不保证完整日志语义。
-- 浏览器会把最近稳定局面自动保存到本地 `localStorage`；刷新页面时优先恢复该局面，不再直接重新开局。保存点要求当前没有进行中的主行动、快速行动、效果队列或选择弹窗，因此若刷新发生在半步流程中，会回到上一个稳定保存点。左侧 dock 的「开始游戏」按钮会二次确认，确认后清除本地进度并重新发起一局新游戏。
-- 开局即显示悬浮「下载日志」按钮，统计弹窗内也保留同一入口；UI 调用 `window.SetiRandomizer.downloadActionLogMarkdown({ allowIncomplete: true })`，可随时以 Markdown 文件导出当前行动复盘。`window.SetiRandomizer.getActionLogMarkdown()` 返回同一份 Markdown 文本，方便 Playwright/控制台/外部 agent 读取；`downloadActionLogMarkdown()` 作为公开 API 默认仍只允许终局后下载，传 `{ allowIncomplete: true }` 可导出当前局面。Markdown 只包含游戏元信息、终局分数、玩家路线摘要和完整行动流水，不包含 `recoverySnapshot`、隐藏牌序或完整恢复状态；需要恢复局面时仍使用 `getActionLogRecoveryPackage()`。
+- 浏览器会把最近稳定局面自动保存到本地 `localStorage`。保存点要求当前没有进行中的主行动、快速行动、效果队列或选择弹窗，因此若刷新发生在半步流程中，会回到上一个稳定保存点。页面加载时先显示开始界面，不会自动恢复或新开；点击「开始游戏」会清除本地进度并新开一局，点击「继续游戏(beta)」才会恢复上次保存的局面。没有可恢复局面时，「继续游戏(beta)」保持禁用。
+- 开始界面的「调试功能」默认关闭；关闭时左侧调试 dock 和日志中的「状态日志」页签都不显示，只保留「行动日志」。开启后恢复调试入口和状态日志页签。
+- 统计弹窗内保留「下载行动日志」入口；UI 调用 `window.SetiRandomizer.downloadActionLogMarkdown({ allowIncomplete: true })`，可随时以 Markdown 文件导出当前行动复盘。`window.SetiRandomizer.getActionLogMarkdown()` 返回同一份 Markdown 文本，方便 Playwright/控制台/外部 agent 读取；`downloadActionLogMarkdown()` 作为公开 API 默认仍只允许终局后下载，传 `{ allowIncomplete: true }` 可导出当前局面。Markdown 只包含游戏元信息、终局分数、玩家路线摘要和完整行动流水，不包含 `recoverySnapshot`、隐藏牌序或完整恢复状态；需要恢复局面时仍使用 `getActionLogRecoveryPackage()`。
 - `randomizeAll()` 会清空行动日志，避免新开局混入上一局流程；调试入口 `window.SetiRandomizer.getActionLog()` 返回已确认日志快照。
 
 主行动锁定规则：

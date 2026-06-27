@@ -4,10 +4,32 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=persistent-game-1">
+  <link rel="stylesheet" href="./style.css?v=start-screen-2">
 </head>
 <body>
-  <div class="app-wrap debug-collapsed log-collapsed" id="app-wrap">
+  <div class="start-screen" id="start-screen" aria-label="开始界面">
+    <div class="start-screen-panel">
+      <div class="start-screen-actions" aria-label="游戏入口">
+        <button class="start-screen-start-button" type="button" id="start-screen-start-button">开始游戏</button>
+        <button class="start-screen-continue-button" type="button" id="start-screen-continue-button" disabled aria-disabled="true">继续游戏(beta)</button>
+      </div>
+      <div class="start-screen-options" aria-label="开始选项">
+        <label class="start-screen-option" for="start-ai-difficulty">
+          <span class="start-screen-option-label">电脑难度</span>
+          <select class="start-screen-select" id="start-ai-difficulty">
+            <option value="laughable">令人发笑的</option>
+          </select>
+        </label>
+        <label class="start-screen-option start-screen-toggle-option" for="start-debug-enabled">
+          <span class="start-screen-option-label">调试功能</span>
+          <input class="start-screen-checkbox" type="checkbox" id="start-debug-enabled">
+          <span class="start-screen-toggle-text" id="start-debug-toggle-text" aria-hidden="true">关闭</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-wrap debug-collapsed log-collapsed debug-tools-disabled state-log-disabled" id="app-wrap">
     <aside class="table-column table-column-left" aria-label="左侧游戏区域">
       <section class="round-status-panel" aria-label="轮次信息">
         <div class="round-status-frame">
@@ -467,10 +489,7 @@
     </aside>
 
     <aside class="debug-dock" id="debug-dock">
-      <div class="debug-dock-controls">
-        <button class="debug-new-game-button" type="button" id="game-start-button">开始游戏</button>
-        <button class="debug-toggle" type="button" id="debug-toggle" aria-controls="debug-panel" aria-expanded="false">调试</button>
-      </div>
+      <button class="debug-toggle" type="button" id="debug-toggle" aria-controls="debug-panel" aria-expanded="false">调试</button>
       <div class="debug-panel" id="debug-panel">
         <div class="debug-actions">
           <button class="debug-action-button debug-player-switch-button" type="button" id="debug-player-switch-button" aria-controls="debug-player-menu" aria-expanded="false">玩家：白色</button>
@@ -495,7 +514,10 @@
     </aside>
 
     <aside class="report-dock" id="report-dock">
-      <button class="log-toggle" type="button" id="log-toggle" aria-controls="report-panel" aria-expanded="false">日志</button>
+      <div class="report-dock-controls">
+        <button class="report-control-button final-result-button" type="button" id="final-result-button" aria-label="查看当前统计" aria-controls="final-result-overlay" aria-expanded="false">统计</button>
+        <button class="report-control-button log-toggle" type="button" id="log-toggle" aria-controls="report-panel" aria-expanded="false">日志</button>
+      </div>
       <div class="report-panel" id="report-panel">
         <div class="report-tabs" role="tablist" aria-label="日志类型">
           <button class="report-tab is-active" type="button" id="state-log-tab" data-report-tab="state" role="tab" aria-selected="true" aria-controls="state-readout">状态日志</button>
@@ -505,11 +527,6 @@
         <div class="action-log-readout" id="action-log-readout" role="tabpanel" aria-labelledby="action-log-tab" hidden></div>
       </div>
     </aside>
-
-    <div class="floating-report-actions" id="floating-report-actions" aria-label="统计与日志">
-      <button class="floating-report-button final-result-button" type="button" id="final-result-button" aria-label="查看当前统计" aria-controls="final-result-overlay" aria-expanded="false">统计</button>
-      <button class="floating-report-button action-log-download-button" type="button" id="action-log-download-button" aria-label="下载行动日志">下载日志</button>
-    </div>
 
     <div class="final-result-overlay" id="final-result-overlay" hidden aria-hidden="true">
       <div class="final-result-dialog" role="dialog" aria-modal="true" aria-labelledby="final-result-title">
@@ -616,11 +633,11 @@
   <script src="./game/ai/index.js?v=ai-auto-battle-1"></script>
   <script src="./app/dependencies.js?v=app-boundaries-5"></script>
   <script src="./app/constants.js?v=app-boundaries-4"></script>
-  <script src="./app/dom.js?v=persistent-game-1"></script>
-  <script src="./app/events.js?v=persistent-game-1"></script>
+  <script src="./app/dom.js?v=start-screen-2"></script>
+  <script src="./app/events.js?v=start-screen-2"></script>
   <script src="./app/action-log-export.js?v=action-log-export-1"></script>
   <script src="./app/public-api.js?v=app-boundaries-5"></script>
   <script src="./app/ai-controller.js?v=report-actions-1-fangzhou-trace-choice-1"></script>
-  <script src="./app.js?v=persistent-game-1-yichangdian-anomaly-1"></script>
+  <script src="./app.js?v=start-screen-2"></script>
 </body>
 </html>

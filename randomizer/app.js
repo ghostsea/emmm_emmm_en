@@ -176,7 +176,13 @@
     entries: [],
     draft: null,
     nextEntryId: 1,
-    activeReportTab: "state",
+    activeReportTab: "action",
+  };
+  const startScreenState = {
+    aiDifficulty: "laughable",
+    debugToolsEnabled: false,
+    continueAvailable: false,
+    entered: false,
   };
   let effectStepActive = false;
   let moveHighlightRocketId = null;
@@ -1603,6 +1609,11 @@
     }
   }
 
+  function hasPersistentGameState() {
+    const saved = readPersistentGamePackage();
+    return Boolean(saved?.latestSnapshot || saved?.snapshot);
+  }
+
   function clearPersistentGameState() {
     const storage = getPersistentGameStorage();
     if (!storage) return false;
@@ -2230,10 +2241,89 @@
     els.actionLogReadout.replaceChildren(list);
   }
 
+  function isDebugToolsEnabled() {
+    return !els.appWrap?.classList.contains("debug-tools-disabled");
+  }
+
+  function isStateLogEnabled() {
+    return !els.appWrap?.classList.contains("state-log-disabled");
+  }
+
+  function syncStartScreenDebugOption() {
+    const enabled = Boolean(els.startDebugEnabled?.checked);
+    if (els.startDebugToggleText) {
+      els.startDebugToggleText.textContent = enabled ? "开启" : "关闭";
+    }
+  }
+
+  function updateStartScreenContinueButton() {
+    const canContinue = hasPersistentGameState();
+    startScreenState.continueAvailable = canContinue;
+    if (els.startScreenContinueButton) {
+      els.startScreenContinueButton.disabled = !canContinue;
+      els.startScreenContinueButton.setAttribute("aria-disabled", String(!canContinue));
+    }
+    return canContinue;
+  }
+
+  function setDebugToolsEnabled(enabled) {
+    const isEnabled = Boolean(enabled);
+    startScreenState.debugToolsEnabled = isEnabled;
+    els.appWrap?.classList.toggle("debug-tools-disabled", !isEnabled);
+    els.appWrap?.classList.toggle("state-log-disabled", !isEnabled);
+    syncStartScreenDebugOption();
+    if (!isEnabled) {
+      setDebugOpen(false);
+      setReportTab("action");
+    } else {
+      setReportTab(actionLogState.activeReportTab || "action");
+    }
+    resize();
+  }
+
+  function applyStartScreenOptions() {
+    startScreenState.aiDifficulty = els.startAiDifficulty?.value || "laughable";
+    setDebugToolsEnabled(Boolean(els.startDebugEnabled?.checked));
+  }
+
+  function closeStartScreen() {
+    if (els.startScreen) {
+      els.startScreen.hidden = true;
+      els.startScreen.setAttribute("aria-hidden", "true");
+    }
+    setLogOpen(false);
+    resize();
+  }
+
+  function startNewGameFromStartScreen() {
+    startScreenState.entered = true;
+    startNewGame({ clearStorage: true, message: "新游戏已开始，请完成初始选择。" });
+    applyStartScreenOptions();
+    closeStartScreen();
+  }
+
+  function continueGameFromStartScreen() {
+    if (!updateStartScreenContinueButton()) return;
+    if (!restorePersistentGameState()) {
+      updateStartScreenContinueButton();
+      return;
+    }
+    startScreenState.entered = true;
+    configureDefaultAiOpponent();
+    applyStartScreenOptions();
+    closeStartScreen();
+    schedulePersistentGameStateSave({ label: "继续后状态" });
+  }
+
   function setReportTab(tab) {
-    const nextTab = tab === "action" ? "action" : "state";
+    const stateLogEnabled = isStateLogEnabled();
+    const nextTab = stateLogEnabled && tab !== "action" ? "state" : "action";
     actionLogState.activeReportTab = nextTab;
     const stateActive = nextTab === "state";
+    if (els.stateLogTab) {
+      els.stateLogTab.hidden = !stateLogEnabled;
+      els.stateLogTab.setAttribute("aria-hidden", String(!stateLogEnabled));
+    }
     els.stateLogTab?.classList.toggle("is-active", stateActive);
     els.actionLogTab?.classList.toggle("is-active", !stateActive);
     els.stateLogTab?.setAttribute("aria-selected", String(stateActive));
@@ -22716,14 +22806,18 @@
   }
 
   function setLogOpen(open) {
+    if (open && !isStateLogEnabled()) {
+      setReportTab("action");
+    }
     els.appWrap.classList.toggle("log-collapsed", !open);
-    els.logToggle.setAttribute("aria-expanded", String(open));
+    els.logToggle?.setAttribute("aria-expanded", String(open));
     resize();
   }
 
   function setDebugOpen(open) {
-    els.appWrap.classList.toggle("debug-collapsed", !open);
-    els.debugToggle.setAttribute("aria-expanded", String(open));
+    const nextOpen = Boolean(open) && isDebugToolsEnabled();
+    els.appWrap.classList.toggle("debug-collapsed", !nextOpen);
+    els.debugToggle?.setAttribute("aria-expanded", String(nextOpen));
     resize();
   }
 
@@ -30678,7 +30772,9 @@
     techRenderContext,
     alienGameState,
     randomizeAll,
-    startNewGame,
+    startNewGameFromStartScreen,
+    continueGameFromStartScreen,
+    syncStartScreenDebugOption,
     handleMainActionButtonClick,
     cancelTechSelection,
     confirmLandTargetPicker,
@@ -30849,16 +30945,13 @@
     resize,
   });
   setTokenAssetSizes();
-  setReportTab("state");
+  syncStartScreenDebugOption();
+  setDebugToolsEnabled(false);
+  setReportTab("action");
   setLogOpen(false);
-  if (restorePersistentGameState()) {
-    configureDefaultAiOpponent();
-    resize();
-    schedulePersistentGameStateSave({ label: "恢复后状态" });
-  } else {
-    startNewGame({ clearStorage: false, message: "新游戏已开始，请完成初始选择。" });
-  }
+  updateStartScreenContinueButton();
   window.addEventListener("beforeunload", () => {
+    if (!startScreenState.entered) return;
     savePersistentGameStateNow({ label: "刷新前状态" });
   });
 

@@ -28,6 +28,160 @@ body {
   background-attachment: fixed;
 }
 
+.start-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 3200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: clamp(20px, 5vw, 56px);
+  background-color: #030711;
+  background-image: url("../assets/core/start.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: auto min(88vh, 940px);
+}
+
+.start-screen[hidden] {
+  display: none;
+}
+
+.start-screen-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: stretch;
+  gap: 16px;
+  width: min(420px, calc(100vw - 40px));
+}
+
+.start-screen-actions {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+}
+
+.start-screen-start-button,
+.start-screen-continue-button {
+  justify-self: center;
+  min-width: 190px;
+  min-height: 58px;
+  padding: 0 30px;
+  border: 1px solid rgba(255, 223, 142, 0.78);
+  border-radius: 8px;
+  background: rgba(120, 78, 26, 0.76);
+  color: #fff3c9;
+  box-shadow: 0 0 26px rgba(198, 132, 44, 0.34);
+  cursor: pointer;
+  font: 800 22px/1 "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+  letter-spacing: 0;
+  transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.12s ease;
+}
+
+.start-screen-continue-button {
+  min-height: 42px;
+  border-color: rgba(154, 218, 255, 0.48);
+  background: rgba(6, 25, 39, 0.78);
+  color: rgba(226, 244, 255, 0.92);
+  box-shadow: 0 0 18px rgba(44, 132, 190, 0.24);
+  font-size: 15px;
+}
+
+.start-screen-start-button:hover:not(:disabled),
+.start-screen-start-button:focus-visible,
+.start-screen-continue-button:hover:not(:disabled),
+.start-screen-continue-button:focus-visible {
+  border-color: rgba(255, 237, 180, 0.96);
+  background: rgba(152, 99, 32, 0.88);
+  color: #fff8dc;
+}
+
+.start-screen-continue-button:hover:not(:disabled),
+.start-screen-continue-button:focus-visible {
+  border-color: rgba(172, 225, 255, 0.82);
+  background: rgba(30, 88, 126, 0.86);
+  color: #effaff;
+}
+
+.start-screen-start-button:active,
+.start-screen-continue-button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.99);
+}
+
+.start-screen-continue-button:disabled,
+.start-screen-continue-button[aria-disabled="true"] {
+  border-color: rgba(160, 175, 188, 0.22);
+  background: rgba(8, 16, 24, 0.5);
+  color: rgba(226, 238, 246, 0.38);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.start-screen-options {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.start-screen-option {
+  display: grid;
+  grid-template-columns: minmax(92px, auto) minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  padding: 8px 10px 8px 14px;
+  border: 1px solid rgba(154, 218, 255, 0.24);
+  border-radius: 8px;
+  background: rgba(5, 13, 24, 0.64);
+  -webkit-backdrop-filter: blur(6px) saturate(1.1);
+  backdrop-filter: blur(6px) saturate(1.1);
+}
+
+.start-screen-toggle-option {
+  grid-template-columns: minmax(92px, auto) auto auto;
+}
+
+.start-screen-option-label {
+  color: rgba(240, 248, 255, 0.86);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.start-screen-select {
+  width: 100%;
+  min-width: 0;
+  min-height: 32px;
+  border: 1px solid rgba(154, 218, 255, 0.32);
+  border-radius: 6px;
+  background: rgba(8, 22, 34, 0.9);
+  color: rgba(240, 248, 255, 0.94);
+  font: 700 13px/1.2 "Microsoft YaHei", "PingFang SC", Arial, sans-serif;
+}
+
+.start-screen-checkbox {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  accent-color: #d1973e;
+  cursor: pointer;
+}
+
+.start-screen-toggle-text {
+  color: rgba(240, 248, 255, 0.86);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+@media (max-aspect-ratio: 1501 / 1048) {
+  .start-screen {
+    background-size: min(94vw, 1320px) auto;
+  }
+}
+
 .app-wrap {
   position: relative;
   margin: 0 auto;
@@ -4534,21 +4688,11 @@ button.spin-button:hover {
   transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
 
-.debug-dock-controls {
+.debug-toggle {
   flex: 0 0 44px;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  min-width: 0;
+  min-height: 150px;
   border: 0;
   border-right: 1px solid rgba(134, 202, 255, 0.22);
-}
-
-.debug-toggle,
-.debug-new-game-button {
-  flex: 1 1 0;
-  min-height: 92px;
-  border: 0;
   background: rgba(20, 74, 112, 0.58);
   color: rgba(255, 255, 255, 0.86);
   cursor: pointer;
@@ -4559,20 +4703,9 @@ button.spin-button:hover {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.debug-new-game-button {
-  flex-basis: 118px;
-  border-bottom: 1px solid rgba(134, 202, 255, 0.22);
-  background: rgba(90, 68, 20, 0.68);
-}
-
-.debug-toggle:hover,
-.debug-new-game-button:hover {
+.debug-toggle:hover {
   background: rgba(49, 126, 171, 0.7);
   color: #fff;
-}
-
-.debug-new-game-button:hover {
-  background: rgba(128, 96, 28, 0.78);
 }
 
 .debug-panel {
@@ -4674,10 +4807,14 @@ button.spin-button:hover {
 
 .debug-collapsed .debug-dock {
   width: 44px;
-  max-height: min(96vh, 220px);
+  max-height: min(96vh, 180px);
   border-color: rgba(134, 202, 255, 0.18);
   background: rgba(5, 13, 24, 0.34);
   box-shadow: 0 0 14px rgba(22, 102, 169, 0.18);
+}
+
+.app-wrap.debug-tools-disabled .debug-dock {
+  display: none;
 }
 
 .app-wrap:not(.debug-collapsed) .debug-dock {
@@ -4708,10 +4845,19 @@ button.spin-button:hover {
   transition: width 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
 
-.log-toggle {
+.report-dock-controls {
   flex: 0 0 44px;
-  border: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
   border-right: 1px solid rgba(134, 202, 255, 0.22);
+}
+
+.report-control-button {
+  flex: 1 1 0;
+  min-height: 106px;
+  border: 0;
   background: rgba(20, 74, 112, 0.58);
   color: rgba(255, 255, 255, 0.86);
   cursor: pointer;
@@ -4722,82 +4868,39 @@ button.spin-button:hover {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-.log-toggle:hover {
+.report-control-button + .report-control-button {
+  border-top: 1px solid rgba(134, 202, 255, 0.22);
+}
+
+.report-control-button:hover {
   background: rgba(49, 126, 171, 0.7);
   color: #fff;
 }
 
-.floating-report-actions {
-  position: fixed;
-  right: 10px;
-  top: clamp(12px, calc(50% - 220px), 50%);
-  z-index: 730;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: right 0.18s ease;
-}
-
-.floating-report-button {
-  width: 44px;
-  min-height: 106px;
-  border: 1px solid rgba(255, 214, 128, 0.32);
+.final-result-button {
   background: rgba(72, 58, 26, 0.64);
   color: rgba(255, 236, 174, 0.92);
-  box-shadow: 0 0 18px rgba(140, 96, 20, 0.24);
-  -webkit-backdrop-filter: blur(6px) saturate(1.12);
-  backdrop-filter: blur(6px) saturate(1.12);
-  cursor: pointer;
-  font: 700 13px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
-  letter-spacing: 0;
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.floating-report-button[hidden] {
-  display: none;
-}
-
-.floating-report-button:hover:not(:disabled):not([aria-disabled="true"]) {
-  border-color: rgba(255, 230, 150, 0.72);
+.final-result-button:hover:not(:disabled):not([aria-disabled="true"]) {
   background: rgba(90, 72, 32, 0.78);
   color: #fff0bd;
-  box-shadow: 0 0 22px rgba(180, 126, 32, 0.28);
-}
-
-.action-log-download-button {
-  min-height: 128px;
-  border-color: rgba(134, 202, 255, 0.34);
-  background: rgba(20, 74, 112, 0.62);
-  color: rgba(214, 239, 255, 0.94);
-  box-shadow: 0 0 18px rgba(44, 132, 190, 0.24);
-}
-
-.action-log-download-button:hover:not(:disabled):not([aria-disabled="true"]) {
-  border-color: rgba(161, 220, 255, 0.76);
-  background: rgba(39, 104, 150, 0.78);
-  color: #e4f6ff;
-  box-shadow: 0 0 22px rgba(67, 158, 220, 0.28);
-}
-
-.app-wrap:not(.log-collapsed) .floating-report-actions {
-  right: calc(18px + clamp(320px, 32vw, 420px));
-}
-
-.log-collapsed .floating-report-actions {
-  right: 62px;
 }
 
 .log-collapsed .report-dock {
   width: 44px;
-  height: 150px;
+  height: 212px;
   border-color: rgba(134, 202, 255, 0.18);
   background: rgba(5, 13, 24, 0.32);
   box-shadow: 0 0 14px rgba(22, 102, 169, 0.2);
 }
 
 .log-collapsed .report-panel {
+  display: none;
+}
+
+.app-wrap.state-log-disabled .report-tabs,
+.app-wrap.state-log-disabled .state-readout {
   display: none;
 }
 
@@ -4901,20 +5004,6 @@ button.spin-button:hover {
     min-width: 0;
   }
 
-  .floating-report-actions,
-  .app-wrap:not(.log-collapsed) .floating-report-actions {
-    right: 8px;
-    top: 8px;
-  }
-
-  .log-collapsed .floating-report-actions {
-    right: 58px;
-  }
-
-  .floating-report-button {
-    min-height: 94px;
-  }
-
   .final-result-overlay {
     padding: 10px;
   }
@@ -4973,7 +5062,7 @@ button.spin-button:hover {
 
   .log-collapsed .report-dock {
     width: 44px;
-    height: 130px;
+    height: 212px;
   }
 
   .debug-dock {

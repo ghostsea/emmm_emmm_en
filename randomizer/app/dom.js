@@ -14,6 +14,12 @@
   function collectElements(documentRef) {
     return {
       appWrap: documentRef.querySelector(".app-wrap"),
+      startScreen: documentRef.getElementById("start-screen"),
+      startScreenStartButton: documentRef.getElementById("start-screen-start-button"),
+      startScreenContinueButton: documentRef.getElementById("start-screen-continue-button"),
+      startAiDifficulty: documentRef.getElementById("start-ai-difficulty"),
+      startDebugEnabled: documentRef.getElementById("start-debug-enabled"),
+      startDebugToggleText: documentRef.getElementById("start-debug-toggle-text"),
       boardShell: documentRef.getElementById("board-shell"),
       playerCommand: documentRef.getElementById("player-command"),
       playerStats: documentRef.getElementById("player-stats"),
@@ -33,7 +39,6 @@
       actionResearchTechButton: documentRef.getElementById("action-research-tech-button"),
       actionQuickButton: documentRef.getElementById("action-quick-button"),
       finalResultButton: documentRef.getElementById("final-result-button"),
-      actionLogDownloadButton: documentRef.getElementById("action-log-download-button"),
       actionPassButton: documentRef.getElementById("action-pass-button"),
       actionConfirmButton: documentRef.getElementById("action-confirm-button"),
       actionUndoButton: documentRef.getElementById("action-undo-button"),
@@ -91,7 +96,6 @@
         4: documentRef.getElementById("sector-wrap-4"),
       },
       spinButton: documentRef.getElementById("spin-button"),
-      gameStartButton: documentRef.getElementById("game-start-button"),
       debugToggle: documentRef.getElementById("debug-toggle"),
       debugPlayerSwitchButton: documentRef.getElementById("debug-player-switch-button"),
       debugPlayerMenu: documentRef.getElementById("debug-player-menu"),

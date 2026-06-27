@@ -37,7 +37,9 @@
       techRenderContext,
       alienGameState,
       randomizeAll,
-      startNewGame,
+      startNewGameFromStartScreen,
+      continueGameFromStartScreen,
+      syncStartScreenDebugOption,
       handleMainActionButtonClick,
       cancelTechSelection,
       confirmLandTargetPicker,
@@ -210,12 +212,13 @@
       throw new Error("bindAppEvents requires mutable app state accessors");
     }
 
-    els.spinButton?.addEventListener("click", randomizeAll);
-    els.gameStartButton?.addEventListener("click", () => {
-      const confirmed = windowRef.confirm("确定重新开始一局新游戏？当前本地保存的进度会被清除。");
-      if (!confirmed) return;
-      startNewGame?.({ clearStorage: true, message: "新游戏已开始，请完成初始选择。" });
+    els.startScreenStartButton?.addEventListener("click", startNewGameFromStartScreen);
+    els.startScreenContinueButton?.addEventListener("click", () => {
+      if (els.startScreenContinueButton.disabled) return;
+      continueGameFromStartScreen();
     });
+    els.startDebugEnabled?.addEventListener("change", syncStartScreenDebugOption);
+    els.spinButton?.addEventListener("click", randomizeAll);
     els.actionBarMain?.addEventListener("click", handleMainActionButtonClick);
     els.techSelectionCancel?.addEventListener("click", cancelTechSelection);
     els.landTargetConfirm?.addEventListener("click", confirmLandTargetPicker);
@@ -237,7 +240,6 @@
       undoPendingAction();
     });
     els.finalResultButton?.addEventListener("click", openFinalResultDialog);
-    els.actionLogDownloadButton?.addEventListener("click", () => downloadActionLogMarkdown({ allowIncomplete: true }));
     els.finalResultDownloadLog?.addEventListener("click", () => downloadActionLogMarkdown({ allowIncomplete: true }));
     els.finalResultMinimize?.addEventListener("click", minimizeFinalResultDialog);
     els.finalResultOverlay?.addEventListener("click", (event) => {
