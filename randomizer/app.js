@@ -86,6 +86,7 @@
     FINAL_ROUND_NUMBER,
     PASS_RESERVE_ROUNDS,
   } = appConstants;
+  const BANRENMA_PANEL_BONUS_EFFECT_TYPE = "banrenma_panel_bonus";
   const tokenWidths = {
     rocket: null,
     orbit: null,
@@ -11069,6 +11070,11 @@
   }
 
   function getActionEffectDisplayIconSrc(effect) {
+    if (effect?.type === BANRENMA_PANEL_BONUS_EFFECT_TYPE) {
+      const player = resolvePlayerReference(effect.options || effect) || getEffectOwnerPlayer(effect);
+      return banrenma?.getPlayerMarkSrc?.(player?.color || effect.options?.playerColor)
+        || RESOURCE_ICON_SRC.banrenmaToken;
+    }
     const iconId = getActionEffectCostText(effect) ? "cost" : effect?.icon;
     return getActionEffectIconSrc(iconId);
   }
@@ -16462,6 +16468,10 @@
       return executeBanrenmaGainIncomeEffect(effect);
     }
 
+    if (banrenma && effect.type === BANRENMA_PANEL_BONUS_EFFECT_TYPE) {
+      return executeBanrenmaPanelBonusEffect(effect);
+    }
+
     switch (effect.type) {
       case "pass_hand_limit":
         return executePassHandLimitEffect(effect);
@@ -20204,6 +20214,7 @@
       effectLabel: options.effectLabel || "半人马外星人牌",
       beforePlayerState: options.beforePlayerState || null,
       beforeAlienState: options.beforeAlienState || null,
+      baseResult: options.baseResult || null,
     };
 
     const displayedIndex = alienGameState.banrenma?.displayedCardIndex;
@@ -20242,15 +20253,17 @@
   function finishBanrenmaCardGain(message, result = null) {
     const pending = pendingBanrenmaCardGain;
     const irreversible = getAlienCardGainIrreversible(result);
+    const baseResult = pending?.baseResult || null;
+    const combinedMessage = [baseResult?.message, message].filter(Boolean).join("；") || message;
     closeBanrenmaCardGainDialog();
-    rocketState.statusNote = message;
+    rocketState.statusNote = combinedMessage;
     if (pending?.fromEffectFlow && getCurrentActionEffect()) {
       getCurrentActionEffect().result = {
         ok: true,
-        undoable: !irreversible,
+        undoable: !irreversible && baseResult?.undoable !== false,
         irreversible,
-        message,
-        payload: { banrenmaCard: result?.card || null },
+        message: combinedMessage,
+        payload: { ...(baseResult?.payload || {}), banrenmaCard: result?.card || null },
       };
       completeCurrentActionEffect();
     }
@@ -21116,6 +21129,48 @@
     return getReadyBanrenmaCardsForOpportunity(player, opportunity)[0] || null;
   }
 
+  function createBanrenmaPanelBonusEffect(player, mark) {
+    const playerLabel = player?.colorLabel || player?.name || player?.color || "玩家";
+    return {
+      id: `banrenma-panel-bonus-${player?.id || player?.color || "player"}-${mark?.id || "mark"}`,
+      type: BANRENMA_PANEL_BONUS_EFFECT_TYPE,
+      label: `半人马顶部奖励：${playerLabel}`,
+      icon: "banrenma_mark",
+      playerId: player?.id || null,
+      playerColor: player?.color || null,
+      options: {
+        playerId: player?.id || null,
+        playerColor: player?.color || null,
+        markId: mark?.id || null,
+      },
+      status: "pending",
+    };
+  }
+
+  function hasBanrenmaPanelBonusEffectQueued(player, markId) {
+    if (!pendingActionEffectFlow || !markId) return false;
+    return (pendingActionEffectFlow.effects || []).some((effect) => (
+      effect?.type === BANRENMA_PANEL_BONUS_EFFECT_TYPE
+      && effect.status !== "completed"
+      && effect.status !== "skipped"
+      && effect.options?.markId === markId
+      && (
+        effect.options?.playerId === player?.id
+        || effect.options?.playerColor === player?.color
+      )
+    ));
+  }
+
+  function queueBanrenmaPanelBonusEffectForPlayer(player) {
+    if (!banrenma || !player || !isActionEffectFlowActive()) return false;
+    const mark = banrenma.getPendingPanelMark(alienGameState, player);
+    if (!mark || !banrenma.getAvailableBonusPositions(alienGameState).length) return false;
+    if (hasBanrenmaPanelBonusEffectQueued(player, mark.id)) return false;
+    insertActionEffectsAfterCurrent([createBanrenmaPanelBonusEffect(player, mark)]);
+    renderActionEffectBar();
+    return true;
+  }
+
   function enqueueBanrenmaOpportunity(player, opportunity) {
     if (!player || !opportunity) return;
     const key = `${opportunity.type}:${opportunity.markId || "any"}:${opportunity.cardId || "any"}`;
@@ -21137,6 +21192,10 @@
 
   function queueBanrenmaOpportunitiesForPlayer(player) {
     if (!banrenma || !player || !banrenma.isBanrenmaRevealedSlot?.(alienGameState, alienGameState.banrenma?.revealedSlotId)) return;
+    if (isActionEffectFlowActive()) {
+      queueBanrenmaPanelBonusEffectForPlayer(player);
+      return;
+    }
     const panelMark = banrenma.getPendingPanelMark(alienGameState, player);
     if (panelMark && banrenma.getAvailableBonusPositions(alienGameState).length) {
       enqueueBanrenmaOpportunity(player, {
@@ -21212,6 +21271,8 @@
       type: opportunity.type,
       markId: opportunity.markId || null,
       cardId: opportunity.cardId || null,
+      fromEffectFlow: Boolean(opportunity.fromEffectFlow),
+      effectLabel: opportunity.label || null,
     };
     if (opportunity.type === "panel") {
       const mark = banrenma.getPlayerScoreMarks(alienGameState, player)
@@ -21265,6 +21326,7 @@
 
   function maybeOpenQueuedBanrenmaOpportunity() {
     if (pendingBanrenmaOpportunity || pendingBanrenmaCardGain) return null;
+    if (isActionEffectFlowActive()) return null;
     if (hasActivePendingSubFlow()) return null;
     if (els.scanTargetOverlay && !els.scanTargetOverlay.hidden) return null;
     while (banrenmaOpportunityQueue.length) {
@@ -21299,6 +21361,27 @@
     return openBanrenmaCardConditionCompletionPicker(readyCard.card, { player });
   }
 
+  function executeBanrenmaPanelBonusEffect(effect) {
+    const player = resolvePlayerReference(effect.options || effect) || getEffectOwnerPlayer(effect);
+    if (!player) {
+      return skipActionEffectWithMessage(effect, "半人马顶部奖励：找不到玩家");
+    }
+    const mark = banrenma.getPendingPanelMark(alienGameState, player);
+    const expectedMarkId = effect.options?.markId || null;
+    if (!mark || (expectedMarkId && mark.id !== expectedMarkId)) {
+      return skipActionEffectWithMessage(effect, "半人马顶部奖励：没有待结算的分数标记");
+    }
+    if (!banrenma.getAvailableBonusPositions(alienGameState).length) {
+      return skipActionEffectWithMessage(effect, "半人马顶部奖励：没有可用奖励位");
+    }
+    return openBanrenmaOpportunityDialog(player, {
+      type: "panel",
+      markId: mark.id,
+      label: effect.label || "半人马顶部奖励",
+      fromEffectFlow: true,
+    });
+  }
+
   function completeBanrenmaOpportunityStep(player, beforePlayerState, beforeAlienState, beforeCardState, label) {
     beginQuickActionStep("banrenma-opportunity", label || "半人马奖励");
     recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
@@ -21322,10 +21405,11 @@
   }
 
   function handleBanrenmaBonusChoice(position) {
-    if (!pendingBanrenmaOpportunity || pendingBanrenmaOpportunity.type !== "panel") {
+    const pending = pendingBanrenmaOpportunity;
+    if (!pending || pending.type !== "panel") {
       return { ok: false, message: "没有半人马顶部奖励机会" };
     }
-    const player = resolvePlayerReference(pendingBanrenmaOpportunity);
+    const player = resolvePlayerReference(pending);
     if (!player) return { ok: false, message: "找不到半人马玩家" };
     const beforePlayerState = structuredClone(playerState);
     const beforeAlienState = structuredClone(alienGameState);
@@ -21333,33 +21417,67 @@
       alienGameState,
       player,
       Number(position),
-      pendingBanrenmaOpportunity.markId,
+      pending.markId,
     );
     if (!markResult.ok) {
       rocketState.statusNote = markResult.message;
       renderStateReadout();
       return markResult;
     }
-    banrenma.resolveScoreMark(alienGameState, player, pendingBanrenmaOpportunity.markId);
+    banrenma.resolveScoreMark(alienGameState, player, pending.markId);
     const rewardResult = applyBanrenmaRewardToPlayer(player, markResult.reward, markResult.message);
-    completeBanrenmaOpportunityStep(player, beforePlayerState, beforeAlienState, null, markResult.message);
+    const fromEffectFlow = Boolean(pending.fromEffectFlow && getCurrentActionEffect());
+    const effectLabel = pending.effectLabel || getCurrentActionEffect()?.label || markResult.message;
+    const baseResult = {
+      ok: true,
+      undoable: rewardResult.undoable !== false,
+      message: rewardResult.message || markResult.message,
+      payload: {
+        banrenmaBonusPosition: Number(position),
+        reward: markResult.reward || null,
+        markId: pending.markId || null,
+      },
+    };
+    if (fromEffectFlow) {
+      beginEffectHistoryStep(effectLabel);
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复半人马顶部奖励前玩家状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复半人马顶部奖励前外星人状态",
+      ));
+      if (getCurrentActionEffect()) getCurrentActionEffect().result = baseResult;
+    } else {
+      completeBanrenmaOpportunityStep(player, beforePlayerState, beforeAlienState, null, markResult.message);
+    }
     closeBanrenmaOpportunityDialog();
-    rocketState.statusNote = rewardResult.message || markResult.message;
+    rocketState.statusNote = baseResult.message;
     renderAlienPanels();
     renderPlayerStats();
     updateActionButtons();
     renderStateReadout();
     if (markResult.reward?.pickAlienCard) {
-      openBanrenmaCardGainDialog({
+      const openResult = openBanrenmaCardGainDialog({
         player,
-        effectLabel: "半人马顶部奖励外星人牌",
+        fromEffectFlow,
+        effectLabel: fromEffectFlow ? effectLabel : "半人马顶部奖励外星人牌",
+        beforePlayerState,
+        beforeAlienState,
+        baseResult: fromEffectFlow ? baseResult : null,
       });
+      if (!openResult.ok && fromEffectFlow) {
+        completeCurrentActionEffect();
+      }
     } else if (markResult.reward?.alienTrace) {
       pendingAlienTraceAction = {
-        type: "banrenma_bonus_alien_trace",
-        beforeAlienState: structuredClone(alienGameState),
-        beforePlayerState: structuredClone(playerState),
-        effectLabel: "半人马顶部奖励外星人痕迹",
+        type: fromEffectFlow ? "planet_reward_alien_trace" : "banrenma_bonus_alien_trace",
+        beforeAlienState,
+        beforePlayerState,
+        effectLabel: fromEffectFlow ? effectLabel : "半人马顶部奖励外星人痕迹",
         targetPlayerId: player?.id || null,
         targetPlayerColor: player?.color || null,
       };
@@ -21367,16 +21485,18 @@
         allowedTraceTypes: aliens.TRACE_TYPES,
         targetPlayerId: player?.id || null,
         targetPlayerColor: player?.color || null,
-        label: "半人马顶部奖励外星人痕迹",
+        label: fromEffectFlow ? effectLabel : "半人马顶部奖励外星人痕迹",
       });
       if (!fangzhouChoice) {
         beginAlienTraceBoardPlacement({
           allowedTraceTypes: aliens.TRACE_TYPES,
           targetPlayerId: player?.id || null,
           targetPlayerColor: player?.color || null,
-          label: "半人马顶部奖励外星人痕迹",
+          label: fromEffectFlow ? effectLabel : "半人马顶部奖励外星人痕迹",
         });
       }
+    } else if (fromEffectFlow) {
+      completeCurrentActionEffect();
     } else {
       queueBanrenmaOpportunitiesForPlayer(player);
       maybeContinueAlienRevealQueuedOpportunities();
