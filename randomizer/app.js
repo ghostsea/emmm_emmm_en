@@ -28689,8 +28689,16 @@
     const canPlayCard = Boolean(currentPlayer?.hand?.length) || hasPlayableFutureSpanCard(currentPlayer);
 
     setActionButtonState(els.actionLaunchButton, launchCheck.ok, launchCheck.message);
-    setActionButtonState(els.actionOrbitButton, orbitCheck.ok || plutoOrbitCheck.ok, orbitCheck.ok ? orbitCheck.message : plutoOrbitCheck.message);
-    setActionButtonState(els.actionLandButton, landCheck.ok || plutoLandCheck.ok, landCheck.ok ? landCheck.message : plutoLandCheck.message);
+    setActionButtonState(
+      els.actionOrbitButton,
+      orbitCheck.ok || plutoOrbitCheck.ok,
+      orbitCheck.ok ? orbitCheck.message : (orbitCheck.message || plutoOrbitCheck.message),
+    );
+    setActionButtonState(
+      els.actionLandButton,
+      landCheck.ok || plutoLandCheck.ok,
+      landCheck.ok ? landCheck.message : (landCheck.message || plutoLandCheck.message),
+    );
     setActionButtonState(els.actionScanButton, scanCheck.ok, scanCheck.message);
     setActionButtonState(els.actionAnalyzeButton, analyzeCheck.ok, analyzeCheck.message);
     setActionButtonState(els.actionPlayCardButton, canPlayCard, canPlayCard ? "" : "没有手牌可打出");
