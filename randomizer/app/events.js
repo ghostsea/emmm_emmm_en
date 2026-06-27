@@ -168,6 +168,7 @@
       handlePublicCardClick,
       selectPassReserveCard,
       confirmPassReserveSelection,
+      dismissPassReserveSelectionOverlay,
       cancelCardSelection,
       confirmPublicScanSelection,
       cancelDiscardSelection,
@@ -986,6 +987,11 @@
     els.passReserveSelectionConfirm?.addEventListener("click", () => {
       if (els.passReserveSelectionConfirm.disabled) return;
       confirmPassReserveSelection();
+    });
+    els.passReserveSelectionOverlay?.addEventListener("click", (event) => {
+      if (event.target === els.passReserveSelectionOverlay) {
+        dismissPassReserveSelectionOverlay();
+      }
     });
     els.cardSelectionCancel?.addEventListener("click", cancelCardSelection);
     els.cardSelectionBackdrop?.addEventListener("click", cancelCardSelection);

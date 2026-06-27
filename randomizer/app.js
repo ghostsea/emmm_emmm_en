@@ -115,6 +115,7 @@
   let pendingDiscardAction = null;
   let pendingCardSelectionAction = null;
   let pendingPassReserveSelection = null;
+  let passReserveSelectionDismissed = false;
   let pendingScanTargetAction = null;
   let pendingProbeSectorScanAction = null;
   let pendingProbeLocationRewardAction = null;
@@ -1852,6 +1853,7 @@
     pendingDiscardAction = null;
     pendingCardSelectionAction = null;
     pendingPassReserveSelection = null;
+    passReserveSelectionDismissed = false;
     pendingScanTargetAction = null;
     pendingProbeSectorScanAction = null;
     pendingPublicScanQueue = null;
@@ -6150,16 +6152,17 @@
 
   function syncPassReserveSelectionChrome() {
     const active = isPassReserveSelectionActive();
-    els.appWrap?.classList.toggle("pass-reserve-selection-active", active);
-    if (!active) hideCardHoverPreview();
+    const visible = active && !passReserveSelectionDismissed;
+    els.appWrap?.classList.toggle("pass-reserve-selection-active", visible);
+    if (!visible) hideCardHoverPreview();
     if (els.passReserveSelectionOverlay) {
-      els.passReserveSelectionOverlay.hidden = !active;
-      els.passReserveSelectionOverlay.setAttribute("aria-hidden", String(!active));
+      els.passReserveSelectionOverlay.hidden = !visible;
+      els.passReserveSelectionOverlay.setAttribute("aria-hidden", String(!visible));
     }
-    if (active && els.passReserveSelectionTitle) {
+    if (visible && els.passReserveSelectionTitle) {
       els.passReserveSelectionTitle.textContent = "PASS 预留精选";
     }
-    if (active && els.passReserveSelectionSubtitle) {
+    if (visible && els.passReserveSelectionSubtitle) {
       const round = pendingPassReserveSelection?.roundNumber || turnState.roundNumber;
       const count = getPassReserveSelectionCards().length;
       els.passReserveSelectionSubtitle.textContent = `第 ${round} 轮 PASS：从剩余 ${count} 张预留牌中选择 1 张。`;
@@ -6177,17 +6180,44 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
+    if (
+      pendingPassReserveSelection
+      && pendingPassReserveSelection.effectId === (effect?.id || null)
+      && pendingPassReserveSelection.playerId === (currentPlayer?.id || null)
+      && pendingPassReserveSelection.roundNumber === roundNumber
+    ) {
+      passReserveSelectionDismissed = false;
+      const selected = pile.find((card) => card.id === pendingPassReserveSelection.selectedCardId);
+      rocketState.statusNote = selected
+        ? `PASS 预留精选：已选择 ${cards.getCardLabel(selected)}`
+        : `PASS 预留精选：请选择 1 张牌（剩余 ${pile.length} 张）`;
+      syncPassReserveSelectionChrome();
+      updateActionButtons();
+      renderStateReadout();
+      return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+    }
+
     pendingPassReserveSelection = {
       effectId: effect?.id || null,
       playerId: currentPlayer?.id || null,
       roundNumber,
       selectedCardId: null,
     };
+    passReserveSelectionDismissed = false;
     rocketState.statusNote = `PASS 预留精选：请选择 1 张牌（剩余 ${pile.length} 张）`;
     syncPassReserveSelectionChrome();
     updateActionButtons();
     renderStateReadout();
     return { ok: true, awaitingChoice: true, message: rocketState.statusNote };
+  }
+
+  function dismissPassReserveSelectionOverlay(options = {}) {
+    if (!pendingPassReserveSelection) return { ok: false, message: "当前没有 PASS 预留精选" };
+    passReserveSelectionDismissed = true;
+    syncPassReserveSelectionChrome();
+    rocketState.statusNote = "PASS 预留精选已临时关闭；再次点击效果栏的 PASS 预留精选可继续选择";
+    if (!options.silent) renderStateReadout();
+    return { ok: true, dismissed: true, message: rocketState.statusNote };
   }
 
   function selectPassReserveCard(cardId) {
@@ -6243,6 +6273,7 @@
       payload: { card: result.card, roundNumber: pending.roundNumber },
     };
     pendingPassReserveSelection = null;
+    passReserveSelectionDismissed = false;
     syncPassReserveSelectionChrome();
     rocketState.statusNote = result.message;
     renderPlayerHand();
@@ -6323,6 +6354,51 @@
     });
   }
 
+  function getFinalScoreMarkLogSource() {
+    if (pendingActionEffectFlow?.historySource) return pendingActionEffectFlow.historySource;
+    if (quickActionHistory.hasSession()) return HISTORY_SOURCE_QUICK;
+    return HISTORY_SOURCE_MAIN;
+  }
+
+  function recordFinalScoreMarkActionLog(result, player) {
+    if (!result?.ok) return null;
+
+    const source = getFinalScoreMarkLogSource();
+    const history = getHistoryForSource(source);
+    const label = "标记终局";
+    const reason = "终局计分标记已放置";
+    const code = "final_score_mark";
+    let step = null;
+
+    if (history.hasSession()) {
+      history.beginStep({
+        source,
+        type: "final_score_mark",
+        label,
+        effectIndex: null,
+        undoable: false,
+        irreversibleCode: code,
+        irreversibleReason: reason,
+        logBefore: createActionLogImpactSnapshot(player),
+      });
+      step = history.endStep();
+      if (step) {
+        rememberHistoryStep(source, step.id);
+        appendActionLogStep(source, step.label, result.message, actionLogOptionsFromHistoryStep(step));
+      }
+    } else {
+      appendActionLogStep(source, label, result.message, {
+        player,
+        undoable: false,
+        irreversibleCode: code,
+        irreversibleReason: reason,
+      });
+    }
+
+    markCurrentActionIrreversibleForSource(source, reason, code);
+    return step;
+  }
+
   function handleFinalScoreTileClick(tileId) {
     const currentPlayer = getCurrentPlayer();
     syncFinalScorePendingMarks();
@@ -6332,6 +6408,7 @@
     });
 
     rocketState.statusNote = result.message;
+    if (result.ok) recordFinalScoreMarkActionLog(result, currentPlayer);
     renderFinalScoreBoard();
     queueStateReadoutRender();
     return result;
@@ -11027,6 +11104,7 @@
 
     if (pendingPassReserveSelection) {
       pendingPassReserveSelection = null;
+      passReserveSelectionDismissed = false;
       syncPassReserveSelectionChrome();
     }
 
@@ -23576,6 +23654,7 @@
     pendingDiscardAction = null;
     pendingCardSelectionAction = null;
     pendingPassReserveSelection = null;
+    passReserveSelectionDismissed = false;
     pendingHandScanAction = null;
     pendingPlayCardSelection = null;
     cards.setSelectionActive(cardState, false);
@@ -31100,6 +31179,7 @@
     handlePublicCardClick,
     selectPassReserveCard,
     confirmPassReserveSelection,
+    dismissPassReserveSelectionOverlay,
     cancelCardSelection,
     confirmPublicScanSelection,
     cancelDiscardSelection,
