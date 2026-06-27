@@ -24592,6 +24592,7 @@
     marker.className = "player-color-marker";
     marker.setAttribute("aria-hidden", "true");
     name.className = "player-stat-value";
+    name.classList.toggle("is-player-passed", isPlayerPassedThisRound(player?.id));
     name.textContent = getCurrentPlayerStatLabel(player);
     item.title = name.textContent;
 
@@ -25226,6 +25227,7 @@
 
     const idEl = document.createElement("span");
     idEl.className = "opponent-stat-id player-stat-value";
+    idEl.classList.toggle("is-player-passed", isPlayerPassedThisRound(player?.id));
     idEl.textContent = getPlayerDisplayLabel(player);
     idEl.title = idEl.textContent;
 
