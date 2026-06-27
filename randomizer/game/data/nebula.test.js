@@ -395,6 +395,32 @@ assert.equal(stripOnlySettle.winner.playerColor, "blue");
 assert.equal(stripOnlyState.sectorSettlements.sectors["sector-2-a"].winners[0].slotKind, "bar");
 assert.equal(stripOnlyState.sectorSettlements.sectors["sector-2-a"].winners[0].markerIndex, 1);
 
+const barnardCompletedState = data.createDefaultNebulaDataState();
+data.fillNebulaData(barnardCompletedState, "sector-2-b", { source: "test" });
+settlementPlayers.forEach((player, index) => {
+  data.replaceNextNebulaDataToken(barnardCompletedState, "sector-2-b", player, {
+    replacementOrder: index + 1,
+  });
+});
+[
+  settlementPlayers[0],
+  settlementPlayers[2],
+].forEach((player, index) => {
+  data.replaceNextNebulaDataToken(barnardCompletedState, "sector-2-b", player, {
+    replacementOrder: 10 + index,
+  });
+});
+assert.equal(data.isSectorReadyToSettle(barnardCompletedState, "sector-2-b"), true);
+const barnardSweep = data.settleCompletedSectors(barnardCompletedState, {
+  players: settlementPlayers,
+  getPlayerTokenSrc: (player) => `token-${player.color}.png`,
+});
+assert.equal(barnardSweep.ok, true);
+assert.equal(barnardSweep.settlements.length, 1);
+assert.equal(barnardSweep.settlements[0].sectorId, "sector-2-b");
+assert.equal(barnardSweep.settlements[0].winner.playerColor, "white");
+assert.equal(barnardCompletedState.sectorSettlements.sectors["sector-2-b"].winners[0].slotKind, "circle");
+
 data.clearNebulaData(settlementState);
 assert.equal(settlementState.sectorSettlements.sectors["sector-1-a"], undefined);
 
