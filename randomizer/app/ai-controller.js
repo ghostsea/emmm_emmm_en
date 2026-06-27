@@ -697,6 +697,83 @@
       return Boolean(aiAutoStepPausedOnBug);
     }
 
+    function disableAiControlForRecovery(message = "AI 自动控制已禁用") {
+      aiAutoBattleState.enabled = false;
+      aiAutoBattleState.running = false;
+      aiAutoBattleState.playerIds = [];
+      aiAutoStepScheduled = false;
+      aiAutoStepInProgress = false;
+      aiAutoStepPausedOnBug = false;
+      aiAutoStepSuspended = false;
+      return {
+        ok: true,
+        disabled: true,
+        message,
+      };
+    }
+
+    function createAiControlSnapshot() {
+      return {
+        version: 1,
+        enabled: Boolean(aiAutoBattleState.enabled),
+        playerIds: getAiAutoBattlePlayerIds(),
+        pausedOnBug: Boolean(aiAutoStepPausedOnBug),
+        stepDelayMs: Math.max(0, Math.round(Number(aiAutoBattleState.stepDelayMs) || 0)),
+        maxBugRepeats: Math.max(1, Math.round(Number(aiAutoBattleState.maxBugRepeats) || 1)),
+        maxMovesPerTurn: Math.max(0, Math.round(Number(aiAutoBattleState.maxMovesPerTurn) || 0)),
+        strategyWeights: getAiStrategyWeights(),
+      };
+    }
+
+    function restoreAiControlSnapshot(snapshot, options = {}) {
+      aiAutoBattleState.running = false;
+      aiAutoStepScheduled = false;
+      aiAutoStepInProgress = false;
+      aiAutoStepSuspended = false;
+
+      if (!snapshot || typeof snapshot !== "object") {
+        return {
+          ...disableAiControlForRecovery(options.missingMessage || "恢复快照未包含电脑配置，已按全手动恢复"),
+          missing: true,
+        };
+      }
+
+      if (snapshot.strategyWeights && typeof snapshot.strategyWeights === "object") {
+        configureAiStrategyWeights(snapshot.strategyWeights, { merge: false });
+      }
+      if (snapshot.stepDelayMs != null) {
+        aiAutoBattleState.stepDelayMs = Math.max(0, Math.round(Number(snapshot.stepDelayMs) || 0));
+      }
+      if (snapshot.maxBugRepeats != null) {
+        aiAutoBattleState.maxBugRepeats = Math.max(1, Math.round(Number(snapshot.maxBugRepeats) || 1));
+      }
+      if (snapshot.maxMovesPerTurn != null) {
+        aiAutoBattleState.maxMovesPerTurn = Math.max(0, Math.round(Number(snapshot.maxMovesPerTurn) || 0));
+      }
+
+      if (!snapshot.enabled) {
+        return disableAiControlForRecovery("电脑配置已恢复为全手动");
+      }
+
+      const playerIds = Array.isArray(snapshot.playerIds)
+        ? [...new Set(snapshot.playerIds.map((playerId) => getPlayerById(playerId)?.id).filter(Boolean))]
+        : [];
+      if (!playerIds.length) {
+        return disableAiControlForRecovery("恢复快照中的电脑玩家无效，已按全手动恢复");
+      }
+
+      aiAutoBattleState.enabled = true;
+      aiAutoBattleState.playerIds = playerIds;
+      aiAutoStepPausedOnBug = Boolean(snapshot.pausedOnBug);
+      return {
+        ok: true,
+        enabled: true,
+        playerIds: [...playerIds],
+        pausedOnBug: aiAutoStepPausedOnBug,
+        message: "电脑配置已恢复",
+      };
+    }
+
     function isAiIncomeDiscardType(type) {
       return AI_INCOME_DISCARD_TYPES.has(String(type || ""));
     }
@@ -12610,6 +12687,7 @@
       configureAiAutoBattle,
       configureAiStrategyWeights,
       configureDefaultAiOpponent,
+      createAiControlSnapshot,
       getAiAutoBattleAnalysis,
       getAiAutoBattleReport,
       getAiMapDemand,
@@ -12625,6 +12703,7 @@
       listCardTriggerFreeMoveCandidates,
       recordAiAutoBattleLog,
       resetAiStrategyWeights,
+      restoreAiControlSnapshot,
       runAiAutoBattle,
       runAiAutoBattleBatch,
       runAiAutomationStep,

@@ -71,6 +71,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       PLAYER_COLOR_IDS: allPlayers.map((player) => player.color),
       canAfford: () => true,
     },
+    rocketActions: {
+      getRocketsForPlayer: () => [],
+    },
     planetRewards: {
       EFFECT_TYPES: {
         GAIN_RESOURCES: "gain_resources",
@@ -318,6 +321,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   for (const name of emptyArrayNames) context[name] = () => [];
 
   return {
+    white,
     blue,
     controller: createAiController(context),
     getHandled: () => handled,
@@ -462,6 +466,67 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI should select a playable Fangzhou card2 from hand");
   assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
+}
+
+{
+  const harness = createAiControllerHarness(null);
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      stepDelayMs: 25,
+      maxBugRepeats: 5,
+      maxMovesPerTurn: 2,
+      strategyWeights: { scan: 1.3, pass: 0.7 },
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const snapshot = harness.controller.createAiControlSnapshot();
+  assert.equal(snapshot.enabled, true);
+  assert.deepEqual(snapshot.playerIds, [harness.blue.id]);
+  assert.equal(snapshot.stepDelayMs, 25);
+  assert.equal(snapshot.maxBugRepeats, 5);
+  assert.equal(snapshot.maxMovesPerTurn, 2);
+  assert.equal(snapshot.strategyWeights.scan, 1.3);
+
+  const restored = createAiControllerHarness(null);
+  const result = restored.controller.restoreAiControlSnapshot({
+    ...snapshot,
+    running: true,
+    pausedOnBug: true,
+  });
+  assert.equal(result.ok, true, "valid AI control snapshot should restore");
+  assert.equal(restored.controller.isAiAutoBattlePlayer(restored.blue.id), true);
+  assert.equal(restored.controller.isAiAutoBattlePlayer(restored.white.id), false);
+  assert.equal(restored.controller.isAiAutomationPaused(), true);
+  assert.equal(restored.controller.getAiStrategyWeights().scan, 1.3);
+  assert.equal(restored.controller.getAiAutoBattleReport().running, false, "running state is never restored");
+}
+
+{
+  const harness = createAiControllerHarness(null);
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const missing = harness.controller.restoreAiControlSnapshot(null);
+  assert.equal(missing.ok, true);
+  assert.equal(missing.disabled, true);
+  assert.equal(missing.missing, true);
+  assert.equal(harness.controller.isAiAutoBattlePlayer(harness.blue.id), false);
+
+  const invalid = harness.controller.restoreAiControlSnapshot({
+    enabled: true,
+    playerIds: ["missing-player"],
+  });
+  assert.equal(invalid.ok, true);
+  assert.equal(invalid.disabled, true);
+  assert.equal(harness.controller.isAiAutoBattlePlayer(harness.blue.id), false);
 }
 
 console.log("app/ai-controller.test.js ok");

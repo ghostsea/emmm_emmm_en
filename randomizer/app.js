@@ -1111,6 +1111,7 @@
     configureAiAutoBattle,
     configureAiStrategyWeights,
     configureDefaultAiOpponent,
+    createAiControlSnapshot,
     getAiAutoBattleAnalysis,
     getAiAutoBattleReport,
     getAiMapDemand,
@@ -1126,6 +1127,7 @@
     listCardTriggerFreeMoveCandidates,
     recordAiAutoBattleLog,
     resetAiStrategyWeights,
+    restoreAiControlSnapshot,
     runAiAutoBattle,
     runAiAutoBattleBatch,
     runAiAutomationStep,
@@ -1562,6 +1564,9 @@
         cardTaskState: structuredClone(cardTaskState),
         setupSelectionState: structuredClone(setupSelectionState),
       },
+      runtime: {
+        aiControl: createAiControlSnapshot(),
+      },
     };
   }
 
@@ -1697,7 +1702,7 @@
   function restorePersistentGameState() {
     const saved = readPersistentGamePackage();
     const snapshot = saved?.latestSnapshot || saved?.snapshot || null;
-    if (!snapshot) return false;
+    if (!snapshot) return { ok: false, message: "没有可恢复的本地存档" };
 
     persistentGameSaveSuspended = true;
     try {
@@ -1709,7 +1714,7 @@
       });
       if (!result.ok) {
         clearPersistentGameState();
-        return false;
+        return result;
       }
       const latestEntry = actionLogState.entries[actionLogState.entries.length - 1] || null;
       if (latestEntry && !latestEntry.recoverySnapshot) {
@@ -1718,11 +1723,11 @@
       if (saved.activeReportTab) {
         setReportTab(saved.activeReportTab);
       }
-      return true;
+      return result;
     } catch (error) {
       console.warn("[SETI] 恢复本地存档失败，已清除坏存档", error);
       clearPersistentGameState();
-      return false;
+      return { ok: false, message: "恢复本地存档失败" };
     } finally {
       persistentGameSaveSuspended = false;
     }
@@ -2000,10 +2005,18 @@
       }
     }
     clearTransientStateForRecovery();
-    refreshAfterGameRecovery(options.message || "已从行动日志恢复局面");
+    const aiControlResult = restoreAiControlSnapshot(snapshot?.runtime?.aiControl || null, {
+      missingMessage: "旧存档未包含电脑配置，已按全手动恢复",
+    });
+    const baseMessage = options.message || "已从行动日志恢复局面";
+    const recoveryMessage = aiControlResult?.missing
+      ? `${baseMessage}；${aiControlResult.message}`
+      : baseMessage;
+    refreshAfterGameRecovery(recoveryMessage);
     return {
       ok: true,
       snapshotVersion: snapshot.version || null,
+      aiControl: aiControlResult,
       message: rocketState.statusNote,
     };
   }
@@ -2322,15 +2335,15 @@
 
   function continueGameFromStartScreen() {
     if (!updateStartScreenContinueButton()) return;
-    if (!restorePersistentGameState()) {
+    const restoreResult = restorePersistentGameState();
+    if (!restoreResult?.ok) {
       updateStartScreenContinueButton();
       return;
     }
     startScreenState.entered = true;
-    configureDefaultAiOpponent();
     applyStartScreenOptions();
     closeStartScreen();
-    refreshAfterGameRecovery("已恢复上次保存的局面");
+    refreshAfterGameRecovery(restoreResult.message || "已恢复上次保存的局面");
     schedulePersistentGameStateSave({ label: "继续后状态" });
   }
 

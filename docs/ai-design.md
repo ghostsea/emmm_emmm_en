@@ -61,11 +61,12 @@ GameState 快照
   → battle-analytics 记录 breakdown，供调参与路径挖掘
 ```
 
-设计约束：估值只读、克隆 `createGameRecoverySnapshot()`（`app.js:1159`）做“试一步→回退”；`irreversible` 步骤不进搜索回退，遇到用启发式即时决策。
+设计约束：估值只读、克隆 `createGameRecoverySnapshot()` 做“试一步→回退”；`irreversible` 步骤不进搜索回退，遇到用启发式即时决策。
 
 ### 2.1 当前接口契约
 
 - 电脑玩家判定由 `isAiAutoBattlePlayer(playerId)` 统一处理；默认人机局保留白色人类玩家，其余活跃玩家由 `configureDefaultAiOpponent()` 配置为电脑。
+- `createAiControlSnapshot()` / `restoreAiControlSnapshot()` 只保存和恢复可持久化 AI 控制配置：是否启用、电脑席位、暂停标记、步进参数和策略权重；不恢复 `running`、已排队定时器或进行中的自动步骤。
 - 批跑 / A/B / 调参入口走 `configureAiAutoBattle()`、`runAiAutomationStep()`、`runAiAutoBattleBatch()`、`runAiStrategyABTest()`、`runAiStrategyTuningCycle()`；未显式传 `activePlayerCount` 时按 4 人局重置。
 - `runAiAutomationStep()` 是唯一推进器，按“初始选择 / 弃牌 / PASS 预留 / 终局标记 / 公共牌选择 / 科技放置 / 扫描 / 打牌 / 移动支付 / 登陆 / 数据放置 / 外星人 / 效果链 / 顶层行动”的顺序收口 pending 状态。
 - 顶层行动候选仍由现有规则入口判断可用性，策略层优先读取 `actionGraph.net`，旧 `candidate.score` 只作为 fallback 与 tie-breaker。
