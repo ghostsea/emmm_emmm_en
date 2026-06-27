@@ -281,9 +281,12 @@
     if (reward.pickCard) value += DEFAULT_CARD_VALUE;
     if (reward.pickAlienCard) value += DEFAULT_ALIEN_CARD_VALUE;
     if (reward.fossilPanel || reward.chooseFossilRewardOnly) value += 4;
-    if (reward.panelSymbol) value += 2.5;
+    if (Number.isFinite(Number(reward.panelSymbolValue))) value += numeric(reward.panelSymbolValue);
+    else if (reward.panelSymbol) value += 2.5;
     if (reward.refillPanelSymbol) value += 0.75;
-    if (reward.region) value += 2.5;
+    if (Number.isFinite(Number(reward.regionValue))) value += numeric(reward.regionValue);
+    else if (reward.region) value += 2.5;
+    if (Number.isFinite(Number(reward.symbolValue))) value += numeric(reward.symbolValue);
     value -= numeric(reward.payData) * RESOURCE_VALUES.availableData;
     value -= numeric(reward.payFossils) * 2.5;
     return value;

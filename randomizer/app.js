@@ -1078,6 +1078,7 @@
     orbitForCurrentPlayer,
     openBanrenmaReadyOpportunityForPlayer,
     openCardTaskCompletionPicker,
+    openRunezuFaceSymbolPlacement,
     passForCurrentPlayer,
     pickPublicCardForCurrentPlayer,
     randomizeAll,
