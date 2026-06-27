@@ -2,6 +2,7 @@
 
 const assert = require("node:assert/strict");
 const { createAiController } = require("./ai-controller");
+const runezu = require("../game/aliens/runezu");
 
 function createAiControllerHarness(pendingPlayerColor, options = {}) {
   const white = {
@@ -15,6 +16,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     color: "blue",
     colorLabel: "Blue",
     resources: {},
+    runezuSymbols: options.blueRunezuSymbols || {},
   };
   const allPlayers = [white, blue];
   const currentPlayer = options.currentPlayerColor === "blue" ? blue : white;
@@ -45,9 +47,18 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     get pendingDiscardAction() {
       return options.currentPlayerDiscardPending ? { player: white, selectedIndexes: [] } : null;
     },
-    get pendingActionExecuted() { return false; },
+    get pendingActionExecuted() { return Boolean(options.pendingActionExecuted); },
     get pendingActionEffectFlow() { return null; },
+    get pendingRunezuFaceSymbolPlacement() { return null; },
   };
+  const alienGameState = options.runezuQuick
+    ? {
+      aliens: {
+        1: { revealed: true, alienId: runezu.ALIEN_ID, assignedAlienId: runezu.ALIEN_ID },
+      },
+      runezu: runezu.createRunezuState(),
+    }
+    : {};
 
   const context = {
     window: { setTimeout: () => 1, localStorage: null },
@@ -56,15 +67,31 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       PLAYER_COLOR_IDS: allPlayers.map((player) => player.color),
       canAfford: () => true,
     },
-    ai: { policy: {} },
+    aliens: { ALIEN_SLOT_IDS: [1] },
+    runezu,
+    data: {},
+    ai: {
+      policy: {
+        chooseTurnAction: (candidates) => (
+          candidates.find((candidate) => candidate.id === "runezuFaceSymbol")
+          || candidates.find((candidate) => candidate.available !== false)
+          || null
+        ),
+      },
+    },
     cardEffects: { EFFECT_TYPES: { RESEARCH_TECH: "card_research_tech" } },
+    finalScoring: {
+      ensureFinalScoringState: (stateToEnsure) => {
+        if (!stateToEnsure.tiles) stateToEnsure.tiles = {};
+      },
+    },
     tech: {},
     playerState,
     turnState,
     rocketState: {},
     solarState: {},
     nebulaDataState: {},
-    alienGameState: {},
+    alienGameState,
     finalScoringState: {},
     planetStatsState: {},
     techGameState: { ui: {} },
@@ -121,6 +148,14 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         includeCards: openOptions.includeCards,
       };
       return { ok: true, message: "opened banrenma opportunity" };
+    },
+    openRunezuFaceSymbolPlacement: (alienSlotId, position) => {
+      handled = {
+        type: "runezu-face-symbol-open",
+        alienSlotId: Number(alienSlotId),
+        position: Number(position),
+      };
+      return { ok: true, progressed: true, awaitingChoice: true };
     },
   };
 
@@ -321,6 +356,28 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     playerColor: "blue",
     includeCards: true,
   });
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    pendingActionExecuted: true,
+    runezuQuick: true,
+    blueRunezuSymbols: { symbol_4: 1 },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should open Runezu face symbol quick action after reveal");
+  assert.equal(harness.getHandled().type, "runezu-face-symbol-open");
+  assert.equal(harness.getHandled().alienSlotId, 1);
+  assert.ok([4, 5, 6, 7].includes(harness.getHandled().position));
 }
 
 console.log("app/ai-controller.test.js ok");

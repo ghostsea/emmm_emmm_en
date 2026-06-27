@@ -496,6 +496,36 @@ const revealedPosition5Value = valuation.estimateAlienTraceValue({
 });
 assert.ok(revealedPosition5Value > revealedPosition3Value);
 assert.ok(revealedPosition3Value > revealedPosition1Value);
+const amibaStaticRegionTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "amiba-grid",
+  traceType: "pink",
+  position: 1,
+  reward: { region: "red" },
+});
+const amibaDynamicRegionTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "amiba-grid",
+  traceType: "pink",
+  position: 1,
+  reward: { region: "red", regionValue: 9 },
+});
+const runezuDefaultPanelTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "runezu-grid",
+  traceType: "yellow",
+  position: 1,
+  reward: { panelSymbol: true },
+});
+const runezuDynamicPanelTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "runezu-grid",
+  traceType: "yellow",
+  position: 1,
+  reward: { panelSymbol: true, panelSymbolValue: 8 },
+});
+assert.ok(amibaDynamicRegionTraceValue > amibaStaticRegionTraceValue + 5);
+assert.ok(runezuDynamicPanelTraceValue > runezuDefaultPanelTraceValue + 4);
 
 const movementGraph = actionGraph.buildActionGraph([
   { id: "move", kind: "quick", available: true, score: 99, gain: 2, cost: 12 },

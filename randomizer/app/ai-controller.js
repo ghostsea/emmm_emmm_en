@@ -181,6 +181,7 @@
       orbitForCurrentPlayer,
       openBanrenmaReadyOpportunityForPlayer,
       openCardTaskCompletionPicker,
+      openRunezuFaceSymbolPlacement,
       passForCurrentPlayer,
       pickPublicCardForCurrentPlayer,
       randomizeAll,
@@ -1960,6 +1961,68 @@
       return null;
     }
 
+    function listAiRunezuFaceSymbolQuickCandidates(player = getCurrentPlayer()) {
+      if (
+        !player
+        || typeof openRunezuFaceSymbolPlacement !== "function"
+        || !runezu?.isRunezuRevealedSlot
+        || state.pendingRunezuFaceSymbolPlacement
+        || isActionEffectFlowActive()
+        || hasActivePendingSubFlow()
+        || isCardSelectionActive()
+        || isDiscardSelectionActive()
+      ) {
+        return [];
+      }
+      const candidates = [];
+      for (const alienSlotId of aliens?.ALIEN_SLOT_IDS || []) {
+        if (!runezu.isRunezuRevealedSlot(alienGameState, alienSlotId)) continue;
+        for (const position of runezu.FACE_SYMBOL_POSITIONS || []) {
+          const check = runezu.canPlaceFaceSymbol?.(alienGameState, position, player);
+          if (!check?.ok) continue;
+          const bestChoice = (check.choices || [])
+            .map((choice) => ({
+              symbolId: choice.symbolId,
+              score: scoreAiRunezuFaceSymbolPlacementChoice(check.position, choice.symbolId, player),
+            }))
+            .filter((choice) => Number.isFinite(Number(choice.score)))
+            .sort((left, right) => right.score - left.score)[0] || null;
+          if (!bestChoice || bestChoice.score <= 0) continue;
+          candidates.push({
+            id: "runezuFaceSymbol",
+            kind: "quick",
+            available: true,
+            alienSlotId: Number(alienSlotId),
+            position: Number(check.position),
+            symbolId: bestChoice.symbolId,
+            score: bestChoice.score,
+            gain: bestChoice.score,
+            cost: 0,
+            reason: null,
+            valueBreakdown: {
+              symbolId: bestChoice.symbolId,
+              rewardValue: scoreAiRunezuFaceRewardValue(check.position, player),
+              finalPenalty: scoreAiRunezuSpendSymbolFinalPenalty(bestChoice.symbolId, player),
+            },
+          });
+        }
+      }
+      return candidates.sort((left, right) => right.score - left.score);
+    }
+
+    function runAiRunezuFaceSymbolQuickActionDecision(action) {
+      if (!action || typeof openRunezuFaceSymbolPlacement !== "function") {
+        return { ok: false, message: "AI 缺少符文族黑圈快速行动入口" };
+      }
+      const currentPlayer = getCurrentPlayer();
+      recordAiAutoBattleLog("alien-use", `${currentPlayer.colorLabel}AI 打开符文族黑圈`, {
+        logPlayerId: currentPlayer.id || null,
+        logPlayerColor: currentPlayer.color || null,
+        action,
+      });
+      return openRunezuFaceSymbolPlacement(action.alienSlotId, action.position);
+    }
+
     function aiNumber(value) {
       const number = Number(value);
       return Number.isFinite(number) ? number : 0;
@@ -2075,6 +2138,243 @@
       return Object.entries(resources || {}).reduce((total, [key, value]) => (
         total + aiNumber(value) * aiNumber(values[key])
       ), 0);
+    }
+
+    function cloneAiValue(value) {
+      if (typeof structuredClone === "function") return structuredClone(value);
+      return value == null ? value : JSON.parse(JSON.stringify(value));
+    }
+
+    function scoreAiAlienRewardBundle(reward = {}, player = getCurrentPlayer()) {
+      if (!reward || typeof reward !== "object") return 0;
+      const gain = reward.gain || {};
+      const directScore = Math.max(0, aiNumber(gain.score));
+      let value = scoreAiResourceBundle(gain);
+      if (directScore > 0) {
+        value += scoreAiThresholdPressureForScoreGain(directScore, player) * 0.55;
+      }
+      value += Math.max(0, Math.round(aiNumber(reward.dataCount))) * AI_RESOURCE_VALUES.availableData;
+      value += Math.max(0, Math.round(aiNumber(reward.drawCards || reward.blindDraw))) * AI_RESOURCE_VALUES.handSize;
+      if (reward.pickCard) value += 3.5;
+      if (reward.pickAlienCard) value += 5.5;
+      if (Number.isFinite(Number(reward.regionValue))) value += aiNumber(reward.regionValue);
+      if (Number.isFinite(Number(reward.panelSymbolValue))) value += aiNumber(reward.panelSymbolValue);
+      if (Number.isFinite(Number(reward.symbolValue))) value += aiNumber(reward.symbolValue);
+      value -= Math.max(0, aiNumber(reward.payData)) * AI_RESOURCE_VALUES.availableData;
+      return value;
+    }
+
+    function scoreAiAmibaSymbolRewardValue(symbolId, player = getCurrentPlayer()) {
+      const reward = amiba?.getSymbolReward?.(symbolId);
+      return scoreAiAlienRewardBundle(reward, player);
+    }
+
+    function scoreAiAmibaSymbolEntryValue(entry, player = getCurrentPlayer()) {
+      if (!entry?.symbolId) return -Infinity;
+      const slotId = String(entry.slotId || "");
+      const slotTieBreaker = slotId.endsWith("_3") ? 0.25 : 0.1;
+      return scoreAiAmibaSymbolRewardValue(entry.symbolId, player) + slotTieBreaker;
+    }
+
+    function scoreAiAmibaSingleSymbolChoiceValue(region, player = getCurrentPlayer()) {
+      const symbols = amiba?.listSymbolsInRegion?.(alienGameState, region) || [];
+      return symbols.reduce((best, entry) => (
+        Math.max(best, scoreAiAmibaSymbolEntryValue(entry, player))
+      ), 0);
+    }
+
+    function scoreAiAmibaRegionRewardValue(region, player = getCurrentPlayer()) {
+      const symbols = amiba?.listSymbolsInRegion?.(alienGameState, region) || [];
+      return symbols.reduce((total, entry) => (
+        total + Math.max(0, scoreAiAmibaSymbolEntryValue(entry, player))
+      ), 0);
+    }
+
+    function scoreAiAmibaTraceRemovalValue(player = getCurrentPlayer()) {
+      if (!amiba?.listPlayerTraceOptions) return 0;
+      const alienSlotId = alienGameState.amiba?.revealedSlotId;
+      return (amiba.listPlayerTraceOptions(alienGameState, alienSlotId, player) || [])
+        .reduce((best, option) => {
+          const regionValue = scoreAiAmibaRegionRewardValue(option.region, player);
+          const traceLoss = Number(option.position) >= 3 ? 2 : 1;
+          return Math.max(best, regionValue - traceLoss);
+        }, 0);
+    }
+
+    function scoreAiRunezuPlayerSymbolFinalScore(player = getCurrentPlayer()) {
+      if (!runezu?.scorePlayerSymbols || !player) return 0;
+      return Math.max(0, aiNumber(runezu.scorePlayerSymbols(player)));
+    }
+
+    function scoreAiRunezuSymbolFinalGain(symbolId, player = getCurrentPlayer()) {
+      if (!runezu?.gainPlayerSymbol || !runezu?.SYMBOL_IDS?.includes(symbolId) || !player) return 0;
+      const before = scoreAiRunezuPlayerSymbolFinalScore(player);
+      const simulatedPlayer = cloneAiValue(player);
+      runezu.gainPlayerSymbol(simulatedPlayer, symbolId);
+      return Math.max(0, scoreAiRunezuPlayerSymbolFinalScore(simulatedPlayer) - before);
+    }
+
+    function scoreAiRunezuSpendSymbolFinalPenalty(symbolId, player = getCurrentPlayer()) {
+      if (!runezu?.spendPlayerSymbol || !runezu?.SYMBOL_IDS?.includes(symbolId) || !player) return 0;
+      const before = scoreAiRunezuPlayerSymbolFinalScore(player);
+      const simulatedPlayer = cloneAiValue(player);
+      if (!runezu.spendPlayerSymbol(simulatedPlayer, symbolId)) return 0;
+      const loss = Math.max(0, before - scoreAiRunezuPlayerSymbolFinalScore(simulatedPlayer));
+      const round = getAiRoundNumber();
+      const weight = round >= FINAL_ROUND_NUMBER ? 0.8 : round >= 3 ? 0.55 : 0.35;
+      return loss * weight;
+    }
+
+    function scoreAiRunezuFaceRewardValue(position, player = getCurrentPlayer()) {
+      return scoreAiAlienRewardBundle(runezu?.getFaceReward?.(position), player);
+    }
+
+    function getAiRunezuFaceSymbolEntry(symbolId) {
+      if (!symbolId || !runezu?.listFaceSymbolSlots) return null;
+      return (runezu.listFaceSymbolSlots(alienGameState) || [])
+        .find((entry) => entry?.symbolId === symbolId) || null;
+    }
+
+    function scoreAiRunezuSymbolRewardValue(symbolId, player = getCurrentPlayer()) {
+      const entry = getAiRunezuFaceSymbolEntry(symbolId);
+      if (!entry) return 0;
+      return scoreAiRunezuFaceRewardValue(entry.position, player);
+    }
+
+    function scoreAiRunezuSymbolBranchValue(branches = [], player = getCurrentPlayer()) {
+      return (branches || []).reduce((best, branch) => {
+        const symbolIds = branch?.symbolIds || branch || [];
+        const value = symbolIds.reduce((total, symbolId) => (
+          total + scoreAiRunezuSymbolRewardValue(symbolId, player)
+        ), 0);
+        return Math.max(best, value);
+      }, 0);
+    }
+
+    function scoreAiRunezuSymbolCardSynergy(symbolId, player = getCurrentPlayer(), mappedRewardValue = 0) {
+      if (!symbolId || !player) return 0;
+      const hand = Array.isArray(player.hand) ? player.hand : [];
+      return hand.reduce((total, card) => {
+        if (!runezu?.isRunezuCard?.(card)) return total;
+        let value = 0;
+        const effects = runezu.buildImmediateEffects?.(card) || [];
+        for (const effect of effects) {
+          if (effect?.type === runezu.EFFECT_TYPES?.SYMBOL_REWARD && effect.options?.symbolId === symbolId) {
+            value += 1 + Math.max(0, mappedRewardValue) * 0.45;
+          }
+          if (effect?.type === runezu.EFFECT_TYPES?.SYMBOL_BRANCH) {
+            const branches = effect.options?.branches || [];
+            if (branches.some((branch) => (branch.symbolIds || []).includes(symbolId))) {
+              value += 0.3 + Math.max(0, mappedRewardValue) * 0.18;
+            }
+          }
+        }
+        if (String(card.discardActionCode || "") === String(symbolId).replace("symbol_", "s_")) {
+          value += 0.4 + Math.max(0, mappedRewardValue) * 0.22;
+        }
+        return total + value;
+      }, 0);
+    }
+
+    function scoreAiRunezuFaceUnlockValue(position) {
+      return ({
+        1: 0.4,
+        2: 0.4,
+        3: 0.4,
+        4: 0.9,
+        5: 1.5,
+        6: 1.5,
+        7: 0.9,
+      })[Number(position)] || 0;
+    }
+
+    function scoreAiRunezuFaceSymbolPlacementChoice(position, symbolId, player = getCurrentPlayer()) {
+      if (!runezu?.canPlaceFaceSymbol || !runezu?.SYMBOL_IDS?.includes(symbolId) || !player) return -Infinity;
+      const check = runezu.canPlaceFaceSymbol(alienGameState, position, player);
+      if (!check?.ok || !(check.choices || []).some((choice) => choice.symbolId === symbolId)) return -Infinity;
+      const rewardValue = scoreAiRunezuFaceRewardValue(position, player);
+      const finalPenalty = scoreAiRunezuSpendSymbolFinalPenalty(symbolId, player);
+      const synergy = scoreAiRunezuSymbolCardSynergy(symbolId, player, rewardValue);
+      return roundAiScore(rewardValue + synergy + scoreAiRunezuFaceUnlockValue(position) - finalPenalty);
+    }
+
+    function scoreAiBestRunezuFacePlacementForSymbol(symbolId, player = getCurrentPlayer()) {
+      return (runezu?.FACE_SYMBOL_POSITIONS || [])
+        .reduce((best, position) => {
+          const score = scoreAiRunezuFaceSymbolPlacementChoice(position, symbolId, player);
+          return score > best.score ? { position: Number(position), score } : best;
+        }, { position: null, score: -Infinity });
+    }
+
+    function scoreAiRunezuSymbolGainValue(symbolId, player = getCurrentPlayer()) {
+      if (!runezu?.SYMBOL_IDS?.includes(symbolId) || !player) return 0;
+      const simulatedPlayer = cloneAiValue(player);
+      runezu?.gainPlayerSymbol?.(simulatedPlayer, symbolId);
+      const bestPlacement = scoreAiBestRunezuFacePlacementForSymbol(symbolId, simulatedPlayer);
+      const finalGain = scoreAiRunezuSymbolFinalGain(symbolId, player);
+      const counts = runezu.getPlayerSymbolCounts?.(player) || {};
+      const collectionValue = counts[symbolId] > 0 ? 0.35 : 1.15;
+      const round = getAiRoundNumber();
+      const finalWeight = round >= FINAL_ROUND_NUMBER ? 0.9 : round >= 3 ? 0.65 : 0.42;
+      return roundAiScore(
+        1
+        + collectionValue
+        + finalGain * finalWeight
+        + Math.max(0, bestPlacement.score) * 0.72,
+      );
+    }
+
+    function scoreAiRunezuPanelSymbolRewardValue(reward = {}, player = getCurrentPlayer()) {
+      if (!reward?.panelSymbol) return 0;
+      const slotId = reward.panelSymbolSlotId;
+      const entry = slotId ? alienGameState.runezu?.panelSymbolSlots?.[slotId] : null;
+      const symbolValue = entry?.symbolId ? scoreAiRunezuSymbolGainValue(entry.symbolId, player) : 2.5;
+      return symbolValue + (reward.refillPanelSymbol ? 0.75 : 0);
+    }
+
+    function scoreAiRunezuRewardValue(reward = {}, player = getCurrentPlayer()) {
+      if (!reward) return 0;
+      return scoreAiAlienRewardBundle({
+        ...reward,
+        panelSymbolValue: scoreAiRunezuPanelSymbolRewardValue(reward, player),
+        symbolValue: reward.symbolId ? scoreAiRunezuSymbolGainValue(reward.symbolId, player) : 0,
+      }, player);
+    }
+
+    function getAiRunezuSourceSymbol(sourceType, sourceId) {
+      if (!runezu?.listSourceSymbols || !alienGameState.runezu?.revealInitialized) return null;
+      return (runezu.listSourceSymbols(alienGameState) || [])
+        .find((entry) => (
+          entry?.sourceType === sourceType
+          && String(entry.sourceId) === String(sourceId)
+          && !entry.claimedByPlayerId
+          && !entry.claimedByPlayerColor
+        )) || null;
+    }
+
+    function scoreAiRunezuSourceSymbolValue(sourceType, sourceId, player = getCurrentPlayer()) {
+      const sourceSymbol = getAiRunezuSourceSymbol(sourceType, sourceId);
+      return sourceSymbol?.symbolId
+        ? scoreAiRunezuSymbolGainValue(sourceSymbol.symbolId, player)
+        : 0;
+    }
+
+    function getAiAlienTraceRewardForValuation(mode, reward, player = getCurrentPlayer()) {
+      if (!reward || typeof reward !== "object") return reward;
+      if (mode === "amiba-grid" && reward.region) {
+        return {
+          ...reward,
+          regionValue: scoreAiAmibaRegionRewardValue(reward.region, player),
+        };
+      }
+      if (mode === "runezu-grid") {
+        return {
+          ...reward,
+          panelSymbolValue: scoreAiRunezuPanelSymbolRewardValue(reward, player),
+          symbolValue: reward.symbolId ? scoreAiRunezuSymbolGainValue(reward.symbolId, player) : 0,
+        };
+      }
+      return reward;
     }
 
     function getAiMovePaymentCards(player = getCurrentPlayer()) {
@@ -4420,13 +4720,13 @@
         case cardEffects.EFFECT_TYPES.RETURN_PLAYED_CARD_TO_HAND_IF:
           return 1.5;
         case amiba?.EFFECT_TYPES?.CHOOSE_SYMBOL_REWARD:
-          return 5;
+          return scoreAiAmibaSingleSymbolChoiceValue(effectOptions.region, player);
         case amiba?.EFFECT_TYPES?.REMOVE_TRACE_FOR_REGION_REWARD:
-          return 4;
+          return scoreAiAmibaTraceRemovalValue(player);
         case runezu?.EFFECT_TYPES?.SYMBOL_REWARD:
-          return 5;
+          return scoreAiRunezuSymbolRewardValue(effectOptions.symbolId, player);
         case runezu?.EFFECT_TYPES?.SYMBOL_BRANCH:
-          return 7;
+          return scoreAiRunezuSymbolBranchValue(effectOptions.branches || [], player);
         case aomomo?.EFFECT_GAIN_FOSSILS:
           return Math.max(1, Math.round(aiNumber(effectOptions.count || 1))) * 3;
         case aomomo?.EFFECT_SCAN_AOMOMO_X:
@@ -4929,6 +5229,9 @@
       const context = {
         ...createActionContext(),
         finalScoringState,
+        alienGameState,
+        nebulaDataState,
+        planetStatsState,
         cardEffects,
         getCardTypeCode,
       };
@@ -4995,7 +5298,11 @@
     }
 
     function scoreAiCardEndGameExpectedValue(card, model, player = getCurrentPlayer()) {
-      if (!card || !model?.endGameScoring || !player || !endGameScoring?.scoreCardEndGameRule) return 0;
+      const runezuFinalRule = runezu?.getFinalCardRule?.(card);
+      const rule = model?.endGameScoring || (runezuFinalRule
+        ? { kind: runezuFinalRule.type, multiplier: Number(runezuFinalRule.multiplier) || 1 }
+        : null);
+      if (!card || !rule || !player || !endGameScoring?.scoreCardEndGameRule) return 0;
       const simulatedPlayer = {
         ...player,
         reservedCards: [
@@ -5010,7 +5317,7 @@
         getCardTypeCode,
       };
       return Math.max(0, aiNumber(endGameScoring.scoreCardEndGameRule(
-        model.endGameScoring,
+        rule,
         simulatedPlayer,
         context,
       )));
@@ -5475,7 +5782,8 @@
     function scoreAiOrbitRewardValue(planetId, player = getCurrentPlayer()) {
       if (!planetId) return 0;
       const sequence = Math.max(1, planetStats.getPlanetOrbitCount(planetStatsState, planetId) + 1);
-      return scoreAiRewardEffects(planetRewards.buildOrbitRewardEffects?.(planetId, sequence) || [], player);
+      return scoreAiRewardEffects(planetRewards.buildOrbitRewardEffects?.(planetId, sequence) || [], player)
+        + scoreAiRunezuSourceSymbolValue("planet", planetId, player);
     }
 
     function getAiLandRewardEffectsForTarget(planetId, target = { type: "planet" }) {
@@ -5544,16 +5852,18 @@
 
     function scoreAiLandRewardValueForTarget(planetId, target = { type: "planet" }, player = getCurrentPlayer()) {
       const effects = getAiLandRewardEffectsForTarget(planetId, target);
-      return Array.isArray(effects) ? scoreAiRewardEffects(effects, player) : 0;
+      return (Array.isArray(effects) ? scoreAiRewardEffects(effects, player) : 0)
+        + scoreAiRunezuSourceSymbolValue("planet", planetId, player);
     }
 
     function scoreAiLandResolvedRewardValueForTarget(planetId, target = { type: "planet" }, player = getCurrentPlayer()) {
       const effects = getAiLandRewardEffectsForTarget(planetId, target);
-      if (!Array.isArray(effects)) return 0;
+      const sourceSymbolValue = scoreAiRunezuSourceSymbolValue("planet", planetId, player);
+      if (!Array.isArray(effects)) return sourceSymbolValue;
       return scoreAiRewardEffects(
         effects.filter((effect) => !isAiAlienTraceRewardEffect(effect) || canAiResolveAlienTraceEffect(effect, player)),
         player,
-      );
+      ) + sourceSymbolValue;
     }
 
     function getAiRewardTraceTypes(effects = []) {
@@ -6681,6 +6991,9 @@
       if (candidate?.tileId === "purple1") value += 1.5;
       value += scoreAiTechBonus(candidate?.bonusId, player);
       if (candidate?.firstTake) value += 2;
+      if (candidate?.firstTake) {
+        value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
+      }
       value += Math.max(0, 5 - stackIndex) * 0.4;
       value += Math.max(0, getAiRemainingRoundWeight() - 1) * 0.4;
       value += getAiMapDemand(demand.techTypes, techType) * 0.85 * getAiStrategyWeight("tech");
@@ -7538,6 +7851,16 @@
       value += getAiMapDemand(demand.traceTypes, "pink") * 0.42 * getAiStrategyWeight("scan");
       value += getAiMapDemand(demand.traceTypes, "blue") * (gainsData ? 0.34 : 0.12) * getAiStrategyWeight("scan");
       value += scoreAiB2SectorScanFocus(nebulaId, counts, player);
+      const runezuSectorSymbolValue = scoreAiRunezuSourceSymbolValue("sector", nebulaId, player);
+      if (runezuSectorSymbolValue > 0) {
+        const ownAfterScan = counts.ownCount + 1;
+        const runezuClaimScale = counts.openCount <= 1
+          ? (ownAfterScan > counts.maxOtherCount ? 1 : 0.18)
+          : counts.openCount === 2
+            ? (ownAfterScan > counts.maxOtherCount ? 0.45 : 0.18)
+            : 0.08;
+        value += runezuSectorSymbolValue * runezuClaimScale;
+      }
 
       if (counts.openCount <= 1 && capacity > 0) {
         const ownAfterScan = counts.ownCount + 1;
@@ -7948,6 +8271,12 @@
             target: { type: "planet" },
           });
           if (!options.ok) return { ok: false, message: options.message || "当前不能执行奥陌陌登陆" };
+        }
+        if (effect?.type === amiba?.EFFECT_TYPES?.REMOVE_TRACE_FOR_REGION_REWARD) {
+          const currentPlayer = getCurrentPlayer();
+          const alienSlotId = alienGameState.amiba?.revealedSlotId;
+          const options = amiba?.listPlayerTraceOptions?.(alienGameState, alienSlotId, currentPlayer) || [];
+          if (!options.length) return { ok: false, message: "没有可移除的阿米巴痕迹" };
         }
         if (effect?.type === aomomo?.EFFECT_FOSSIL_FOR_MOVE_AND_LAND) {
           const currentPlayer = getCurrentPlayer();
@@ -10035,7 +10364,8 @@
       const scoringMode = mode === "fangzhou-use" && fangzhouUseChoice === "place" && position != null
         ? "fangzhou-grid"
         : mode;
-      const reward = getAiAlienTraceTargetReward(scoringMode, traceType, position);
+      const rawReward = getAiAlienTraceTargetReward(scoringMode, traceType, position);
+      const reward = getAiAlienTraceRewardForValuation(scoringMode, rawReward, player);
       const demand = getAiStrategyDemand(player);
       const traceDemand = traceType ? getAiMapDemand(demand.traceTypes, traceType) : 0;
       const alienSlot = Number(target.button.dataset.alienSlot || state.alienTracePickerState?.selectedAlienSlotId);
@@ -10470,6 +10800,53 @@
       }));
     }
 
+    function scoreAiAmibaSymbolUseOption(option, player) {
+      if (option.choice === "cancel") return -100;
+      const entry = amiba?.getSymbolEntry?.(alienGameState, option.choice);
+      return scoreAiAmibaSymbolEntryValue(entry, player);
+    }
+
+    function scoreAiAmibaTraceRemovalUseOption(option, flow, player) {
+      if (option.choice === "cancel") return -100;
+      const [traceType, positionText] = String(option.choice || "").split(":");
+      const position = Number(positionText);
+      const match = (amiba?.listPlayerTraceOptions?.(alienGameState, flow.pending?.alienSlotId, player) || [])
+        .find((item) => item.traceType === traceType && Number(item.position) === position);
+      if (!match) return -Infinity;
+      const traceLoss = position >= 3 ? 2 : 1;
+      return scoreAiAmibaRegionRewardValue(match.region, player) - traceLoss;
+    }
+
+    function scoreAiRunezuFaceSymbolUseOption(option, flow, player) {
+      if (option.choice === "cancel") return -100;
+      return scoreAiRunezuFaceSymbolPlacementChoice(flow.pending?.position, option.choice, player);
+    }
+
+    function scoreAiRunezuSymbolBranchUseOption(option, flow, player) {
+      if (option.choice === "cancel") return -100;
+      const branch = (flow.pending?.branches || [])[Number(option.choice)];
+      if (!branch) return -Infinity;
+      return (branch.symbolIds || []).reduce((total, symbolId) => (
+        total + scoreAiRunezuSymbolRewardValue(symbolId, player)
+      ), 0);
+    }
+
+    function enrichAiAlienUseOptions(options, flow) {
+      let enriched = enrichAiJiuzheCardOptions(options, flow);
+      if (!["amiba-symbol", "amiba-trace-removal", "runezu-face-symbol", "runezu-symbol-branch"].includes(flow.type)) {
+        return enriched;
+      }
+      const player = getAiAlienPendingPlayer(flow.pending);
+      return enriched.map((option) => {
+        let score = option.score;
+        if (flow.type === "amiba-symbol") score = scoreAiAmibaSymbolUseOption(option, player);
+        if (flow.type === "amiba-trace-removal") score = scoreAiAmibaTraceRemovalUseOption(option, flow, player);
+        if (flow.type === "runezu-face-symbol") score = scoreAiRunezuFaceSymbolUseOption(option, flow, player);
+        if (flow.type === "runezu-symbol-branch") score = scoreAiRunezuSymbolBranchUseOption(option, flow, player);
+        return { ...option, score };
+      });
+    }
+
     function listAiAlienUseOptions(flow) {
       const buttons = [...(els.scanTargetActions?.querySelectorAll(flow.selector) || [])];
       let options = buttons.map((button, index) => ({
@@ -10530,7 +10907,7 @@
           disabled: false,
         });
       }
-      options = enrichAiJiuzheCardOptions(options, flow);
+      options = enrichAiAlienUseOptions(options, flow);
       return options;
     }
 
@@ -10817,6 +11194,7 @@
         candidates.push(...listAiLateResourceRecoveryTradeCandidates(currentPlayer));
         candidates.push(...listAiMoveCandidates());
         candidates.push(...listAiDataPlacementCandidates(currentPlayer));
+        candidates.push(...listAiRunezuFaceSymbolQuickCandidates(currentPlayer));
         candidates.push(...listAiCardCornerQuickCandidates(currentPlayer));
         candidates.push({
           id: "end-turn",
@@ -11163,6 +11541,7 @@
       candidates.push(...listAiFinalMainUnlockTradeCandidates(currentPlayer, playCardCandidates));
       candidates.push(...listAiLateResourceRecoveryTradeCandidates(currentPlayer));
       candidates.push(...listAiDataPlacementCandidates(currentPlayer));
+      candidates.push(...listAiRunezuFaceSymbolQuickCandidates(currentPlayer));
       candidates.push(...listAiCardCornerQuickCandidates(currentPlayer, playCardCandidates));
       candidates.push({
         id: "pass",
@@ -11349,6 +11728,9 @@
       }
       if (action.id === "cardCorner") {
         return runAiCardCornerQuickActionDecision(action);
+      }
+      if (action.id === "runezuFaceSymbol") {
+        return runAiRunezuFaceSymbolQuickActionDecision(action);
       }
       if (action.id === "industry") {
         recordAiAutoBattleLog("industry", `${currentPlayer.colorLabel}AI 使用公司 1x：${action.companyLabel}`, {
