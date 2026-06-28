@@ -2246,6 +2246,192 @@
       ), 0);
     }
 
+    let aiResourceContinuationDepth = 0;
+
+    function createAiPlayerAfterResourceGain(player = getCurrentPlayer(), gain = {}) {
+      if (!player || !gain || typeof gain !== "object") return null;
+      const resources = { ...(player.resources || {}) };
+      Object.entries(gain).forEach(([key, value]) => {
+        resources[key] = aiNumber(resources[key]) + aiNumber(value);
+      });
+      return {
+        ...player,
+        resources,
+      };
+    }
+
+    function getAiMidgameResourceContinuationWeight() {
+      const round = getAiRoundNumber();
+      if (round <= 1) return 0.55;
+      if (round === 2) return 1;
+      if (round === 3) return 0.82;
+      return 0;
+    }
+
+    function scoreAiPlanetCashoutUnlockAfterResourceGain(player = getCurrentPlayer(), gain = {}) {
+      const simulatedPlayer = createAiPlayerAfterResourceGain(player, gain);
+      if (!player || !simulatedPlayer) return 0;
+      const weight = getAiMidgameResourceContinuationWeight();
+      if (weight <= 0) return 0;
+      const resources = player.resources || {};
+      const simulatedResources = simulatedPlayer.resources || {};
+      const demand = getAiStrategyDemand(player);
+      const planetDemand = sumAiDemandMap(demand.planetIds);
+      const routeDemand = getAiTotalRouteDemand(demand);
+
+      const best = getMovableTokensForPlayer(player.id).reduce((bestValue, rocket) => {
+        const coordinate = rocketActions.getRocketSectorCoordinate(rocket);
+        const planet = getAiPlanetAtCoordinate(coordinate);
+        if (!planet?.planetId || planet.planetId === "earth") return bestValue;
+
+        let value = 0;
+        if (canAiPlanetAcceptOrbit(planet.planetId)) {
+          const orbitCost = abilities.planet.DEFAULT_ORBIT_COST || { credits: 1, energy: 1 };
+          const couldOrbitBefore = players.canAfford(player, orbitCost);
+          const canOrbitAfter = players.canAfford(simulatedPlayer, orbitCost);
+          if (!couldOrbitBefore && canOrbitAfter) {
+            const directScore = getAiOrbitDirectScoreGain(planet.planetId, simulatedPlayer);
+            value = Math.max(
+              value,
+              3.5
+                + directScore * 0.55
+                + scoreAiThresholdPressureForScoreGain(directScore, simulatedPlayer) * 0.24
+                + getAiMapDemand(demand.actions, "orbit") * 0.06
+                + planetDemand * 0.03,
+            );
+          }
+        }
+
+        if (canAiPlanetAcceptLanding(planet.planetId, simulatedPlayer)) {
+          const landCost = abilities.planet.getLandEnergyCost(createActionContext(), planet.planetId);
+          const couldLandBefore = aiNumber(resources.energy) >= landCost;
+          const canLandAfter = aiNumber(simulatedResources.energy) >= landCost;
+          if (!couldLandBefore && canLandAfter) {
+            const choices = buildAiLandChoicesForPlanet(planet, simulatedPlayer);
+            const directScore = (choices || []).reduce((best, choice) => Math.max(
+              best,
+              getAiLandDirectScoreGainForTarget(planet.planetId, choice.target, simulatedPlayer),
+            ), getAiLandDirectScoreGainForTarget(planet.planetId, { type: "planet" }, simulatedPlayer));
+            value = Math.max(
+              value,
+              4.5
+                + directScore * 0.62
+                + scoreAiThresholdPressureForScoreGain(directScore, simulatedPlayer) * 0.28
+                + getAiMapDemand(demand.actions, "land") * 0.07
+                + routeDemand * 0.025,
+            );
+          }
+        }
+
+        return Math.max(bestValue, value);
+      }, 0);
+      return roundAiScore(Math.min(12, Math.max(0, best)));
+    }
+
+    function scoreAiMidgameResourceContinuationValue(gain = {}, player = getCurrentPlayer(), options = {}) {
+      if (!gain || typeof gain !== "object" || !player) return 0;
+      const weight = getAiMidgameResourceContinuationWeight();
+      if (weight <= 0) return 0;
+
+      const simulatedPlayer = createAiPlayerAfterResourceGain(player, gain);
+      if (!simulatedPlayer) return 0;
+      if (aiResourceContinuationDepth > 0) return 0;
+      aiResourceContinuationDepth += 1;
+      try {
+
+        const resources = player.resources || {};
+        const afterResources = simulatedPlayer.resources || {};
+        const round = getAiRoundNumber();
+        const demand = getAiStrategyDemand(player);
+        const mainActionScale = state.pendingActionExecuted ? 0.55 : 1;
+        const currentScore = Math.max(0, aiNumber(resources.score));
+        let value = 0;
+
+        const creditGain = Math.max(0, aiNumber(gain.credits));
+        const energyGain = Math.max(0, aiNumber(gain.energy));
+        const handGain = Math.max(0, aiNumber(gain.handSize) + aiNumber(gain.drawCards) + aiNumber(gain.cardSelection));
+        const publicityGain = Math.max(0, aiNumber(gain.publicity));
+        const dataGain = Math.max(0, aiNumber(gain.availableData));
+
+        if (creditGain > 0 && aiNumber(resources.credits) < 1 && aiNumber(afterResources.credits) >= 1) {
+          const playableHand = (player.hand || []).filter(isAiSupportedHandPlayCard).length;
+          const deficit = Math.max(0, getAiLiveScorePaceDeficit(player));
+          value += Math.min(
+            7,
+            (2.4 + Math.min(4, playableHand * 0.75) + Math.min(2, deficit * 0.04)) * mainActionScale,
+          );
+        }
+
+        if (handGain > 0 && (player.hand || []).length <= 2) {
+          value += Math.min(5.5, 1.7 + Math.max(0, 3 - (player.hand || []).length) * 1.1) * mainActionScale;
+        }
+
+        if (publicityGain > 0 && aiNumber(resources.publicity) < 3 && aiNumber(afterResources.publicity) >= 3) {
+          value += Math.min(4.5, 2.4 + Math.max(0, 2 - (player.hand || []).length) * 0.65) * mainActionScale;
+        }
+
+        if (energyGain > 0 || creditGain > 0) {
+          const scanCost = scanEffects?.getStandardScanCost?.(player) || scanEffects?.SCAN_COST || { credits: 1, energy: 2 };
+          const couldScanBefore = scanEffects?.canExecuteScan?.(player, { standardAction: true })?.ok;
+          const canScanAfter = scanEffects?.canExecuteScan?.(simulatedPlayer, { standardAction: true })?.ok;
+          if (!couldScanBefore && canScanAfter) {
+            const scanUnlockValue = 3
+              + scoreAiScanPriorityFloor(player) * 0.55
+              + Math.min(2.2, getAiAvailableDataRoom(player) * 0.26)
+              + Math.min(2.5, sumAiDemandMap(demand.traceTypes) * 0.04);
+            value += Math.min(
+              9,
+              (scanUnlockValue
+                + getAiMapDemand(demand.actions, "scan") * 0.04
+                - Math.max(0, aiNumber(scanCost.credits) - aiNumber(afterResources.credits)) * 1.2) * mainActionScale,
+            );
+          }
+        }
+
+        if (energyGain > 0) {
+          const couldAnalyzeBefore = data.canAnalyzeData?.(player)?.ok;
+          const canAnalyzeAfter = data.canAnalyzeData?.(simulatedPlayer)?.ok;
+          if (!couldAnalyzeBefore && canAnalyzeAfter) {
+            const analyzeScore = Math.max(0, aiNumber(scoreAiAnalyzeAction(simulatedPlayer)));
+            const blueTraceScore = getAiBestRevealedAlienTraceDirectScore(player, "blue");
+            value += Math.min(
+              11,
+              (3.6
+                + analyzeScore * 0.34
+                + Math.max(0, blueTraceScore) * 0.28
+                + getAiMapDemand(demand.actions, "analyze") * 0.06) * mainActionScale,
+            );
+          }
+          value += scoreAiPlanetCashoutUnlockAfterResourceGain(player, gain) * 0.85;
+        }
+
+        if (dataGain > 0) {
+          const requiredSlot = data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6;
+          const placedCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+          const beforeCanReachAnalyze = placedCount + Math.max(0, aiNumber(resources.availableData)) >= requiredSlot;
+          const afterCanReachAnalyze = placedCount + Math.max(0, aiNumber(afterResources.availableData)) >= requiredSlot;
+          const dataRoom = getAiAvailableDataRoom(player);
+          if (!beforeCanReachAnalyze && afterCanReachAnalyze) {
+            value += 4.6 + getAiMapDemand(demand.traceTypes, "blue") * 0.08;
+          } else if (afterCanReachAnalyze && hasAiAnalyzeReadyDataSlot(player)) {
+            value += 2.2;
+          } else if (round <= 3 && dataRoom > 0) {
+            value += Math.min(3.2, 0.8 + dataRoom * 0.22 + getAiEarlyEnginePressure(player) * 0.65);
+          }
+        }
+
+        if (currentScore < 25 && round <= 2) {
+          const flexibleGain = creditGain + energyGain + handGain + publicityGain * 0.5 + dataGain * 0.35;
+          value += Math.min(3.5, flexibleGain * 0.55 + getAiEarlyEnginePressure(player) * 0.5);
+        }
+
+        const scale = options.scale == null ? 1 : aiNumber(options.scale);
+        return roundAiScore(Math.min(14, Math.max(0, value)) * weight * scale);
+      } finally {
+        aiResourceContinuationDepth = Math.max(0, aiResourceContinuationDepth - 1);
+      }
+    }
+
     function cloneAiValue(value) {
       if (typeof structuredClone === "function") return structuredClone(value);
       return value == null ? value : JSON.parse(JSON.stringify(value));
@@ -2256,10 +2442,18 @@
       const gain = reward.gain || {};
       const directScore = Math.max(0, aiNumber(gain.score));
       let value = scoreAiResourceBundle(gain);
+      value += scoreAiMidgameResourceContinuationValue(gain, player, { scale: 0.8 });
       if (directScore > 0) {
         value += scoreAiThresholdPressureForScoreGain(directScore, player) * 0.55;
       }
       value += Math.max(0, Math.round(aiNumber(reward.dataCount))) * AI_RESOURCE_VALUES.availableData;
+      if (Math.max(0, Math.round(aiNumber(reward.dataCount))) > 0) {
+        value += scoreAiMidgameResourceContinuationValue(
+          { availableData: Math.max(0, Math.round(aiNumber(reward.dataCount))) },
+          player,
+          { scale: 0.65 },
+        );
+      }
       value += Math.max(0, Math.round(aiNumber(reward.drawCards || reward.blindDraw))) * AI_RESOURCE_VALUES.handSize;
       if (reward.pickCard) value += 3.5;
       if (reward.pickAlienCard) value += 5.5;
@@ -4462,17 +4656,21 @@
         case "income":
           return scoreAiIncomeOpportunityValue(player, bonus.gain || bonus.income || { credits: 1 });
         case "publicity":
-          return scoreAiResourceBundle({ publicity: bonus.publicity || 1 });
+          return scoreAiResourceBundle({ publicity: bonus.publicity || 1 })
+            + scoreAiMidgameResourceContinuationValue({ publicity: bonus.publicity || 1 }, player, { scale: 0.55 });
         case "score":
           return scoreAiResourceBundle({ score: bonus.score || 1 })
             + scoreAiThresholdPressureForScoreGain(bonus.score || 1, player);
         case "credits":
-          return scoreAiResourceBundle({ credits: bonus.credits || 1 });
+          return scoreAiResourceBundle({ credits: bonus.credits || 1 })
+            + scoreAiMidgameResourceContinuationValue({ credits: bonus.credits || 1 }, player, { scale: 0.75 });
         case "energy":
-          return scoreAiResourceBundle({ energy: bonus.energy || 1 });
+          return scoreAiResourceBundle({ energy: bonus.energy || 1 })
+            + scoreAiMidgameResourceContinuationValue({ energy: bonus.energy || 1 }, player, { scale: 0.85 });
         case "choose_card":
           return getAiResourceValuesForRound().handSize + 1.4
-            + Math.max(0, 3 - (player?.hand || []).length) * 0.45;
+            + Math.max(0, 3 - (player?.hand || []).length) * 0.45
+            + scoreAiMidgameResourceContinuationValue({ handSize: 1, cardSelection: 1 }, player, { scale: 0.45 });
         default:
           return 0;
       }
@@ -4706,6 +4904,7 @@
 
     function scoreAiCountedResourceGain(gain = {}, player = getCurrentPlayer()) {
       return scoreAiResourceBundle(gain)
+        + scoreAiMidgameResourceContinuationValue(gain, player)
         + scoreAiThresholdPressureForScoreGain(gain.score, player);
     }
 
@@ -4761,8 +4960,11 @@
           return scoreAiCountedResourceGain(gain, player);
         }
         case planetRewards.EFFECT_TYPES?.GAIN_DATA:
-        case "gain_data":
-          return Math.max(0, Math.round(aiNumber(effectOptions.count || 1))) * AI_RESOURCE_VALUES.availableData;
+        case "gain_data": {
+          const count = Math.max(0, Math.round(aiNumber(effectOptions.count || 1)));
+          return count * AI_RESOURCE_VALUES.availableData
+            + scoreAiMidgameResourceContinuationValue({ availableData: count }, player, { scale: 0.75 });
+        }
         case planetRewards.EFFECT_TYPES?.INCOME:
         case "income":
           return scoreAiIncomeOpportunityValue(
@@ -7194,16 +7396,46 @@
       return roundAiScore(Math.min(24, Math.max(0, penalty)));
     }
 
+    function scoreAiBlueTechDataEngineValue(player = getCurrentPlayer()) {
+      if (!player) return 0;
+      const round = getAiRoundNumber();
+      if (round >= FINAL_ROUND_NUMBER) return 0;
+      const demand = getAiStrategyDemand(player);
+      const resources = player.resources || {};
+      const requiredSlot = data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6;
+      const placedCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      const availableData = Math.max(0, aiNumber(resources.availableData));
+      const dataRoom = getAiAvailableDataRoom(player);
+      const missingForAnalyze = Math.max(0, requiredSlot - placedCount);
+      const canReachAnalyze = placedCount + availableData >= requiredSlot;
+      const readyAnalyze = hasAiAnalyzeReadyDataSlot(player);
+      const blueTraceDemand = getAiMapDemand(demand.traceTypes, "blue");
+      const analyzeDemand = getAiMapDemand(demand.actions, "analyze");
+      const scanDemand = getAiMapDemand(demand.actions, "scan");
+      let value = 0;
+      value += Math.min(4.5, availableData * 0.55);
+      value += Math.min(3, placedCount * 0.28);
+      value += Math.min(2.5, dataRoom * 0.18);
+      value += Math.min(4, (blueTraceDemand * 0.07) + (analyzeDemand * 0.08) + (scanDemand * 0.03));
+      if (canReachAnalyze) value += readyAnalyze ? 4.2 : 2.5;
+      else if (missingForAnalyze <= 2 && dataRoom > 0) value += 1.4 + (2 - missingForAnalyze) * 0.45;
+      if (round <= 2 && countAiFinalMarksForPlayer(player) <= 0) value += getAiEarlyEnginePressure(player) * 0.85;
+      return roundAiScore(Math.min(12, Math.max(0, value)));
+    }
+
     function scoreAiTechBonus(bonusId, player = getCurrentPlayer()) {
       const resources = player?.resources || {};
       if (bonusId === "bonus_3f") return getAiRoundNumber() <= 2 ? 2.2 : 3;
       if (bonusId === "bonus_1c") return (getAiRoundNumber() <= 2 ? 5.6 : 4.2)
-        + Math.max(0, 3 - (player?.hand || []).length) * 0.4;
+        + Math.max(0, 3 - (player?.hand || []).length) * 0.4
+        + scoreAiMidgameResourceContinuationValue({ handSize: 1, cardSelection: 1 }, player, { scale: 0.38 });
       if (bonusId === "bonus_1p") {
-        if (getAiRoundNumber() <= 2) return resources.energy <= 2 ? 6.1 : 5;
-        return resources.energy <= 2 ? 5.4 : 3.6;
+        const continuation = scoreAiMidgameResourceContinuationValue({ energy: 1 }, player, { scale: 0.58 });
+        if (getAiRoundNumber() <= 2) return (resources.energy <= 2 ? 6.1 : 5) + continuation;
+        return (resources.energy <= 2 ? 5.4 : 3.6) + continuation;
       }
-      if (bonusId === "bonus_1m") return getAiRoundNumber() <= 2 ? 1.8 : 2.4;
+      if (bonusId === "bonus_1m") return (getAiRoundNumber() <= 2 ? 1.8 : 2.4)
+        + scoreAiMidgameResourceContinuationValue({ publicity: 1 }, player, { scale: 0.35 });
       return 1;
     }
 
@@ -7267,6 +7499,7 @@
       const landDemand = getAiMapDemand(demand.actions, "land");
       const scanDemand = getAiMapDemand(demand.actions, "scan") + sumAiDemandMap(demand.scanColors) * 0.35;
       const engineDemand = getAiMapDemand(demand.actions, "researchTech") + demand.task * 0.08 + demand.final * 0.08;
+      const blueDataEngineValue = techType === "blue" ? scoreAiBlueTechDataEngineValue(player) : 0;
 
       if (tileId === "orange1") {
         addPlan(
@@ -7310,8 +7543,10 @@
       if (techType === "blue") {
         addPlan(
           "engine",
-          "蓝科补强任务/终局引擎",
-          engineDemand * 0.12 + Math.max(0, getAiRemainingRoundWeight() - 1) * 0.3,
+          "蓝科补强数据/分析引擎",
+          engineDemand * 0.12
+            + blueDataEngineValue * 0.55
+            + Math.max(0, getAiRemainingRoundWeight() - 1) * 0.3,
           { tileId, techType },
         );
       }
@@ -7365,7 +7600,7 @@
       let value = 6;
       if (techType === "orange") value += 2.5;
       if (techType === "purple") value += 2 + (resources.additionalPublicScan || 0) * 0.75;
-      if (techType === "blue") value += 1.5;
+      if (techType === "blue") value += 1.5 + scoreAiBlueTechDataEngineValue(player) * 0.5;
       if (candidate?.tileId === "orange1") value += (getMovableTokensForPlayer(player?.id).length ? 1 : 4);
       if (candidate?.tileId === "orange2") value += scoreAiOrange2MobilityNeed(player) * 0.75;
       if (candidate?.tileId === "orange3") value += 4.8 + getAiMapDemand(demand.actions, "land") * 0.05;
@@ -8244,8 +8479,14 @@
       const counts = getAiNebulaSignalCounts(nebulaId, player);
       const slotScore = Math.max(0, aiNumber(data.getNebulaSlotScoreReward?.(nebulaId, nextToken.slotIndex)));
       const gainsData = options.gainData !== false;
+      const dataRoom = getAiAvailableDataRoom(player);
       const dataValue = gainsData
-        ? (getAiAvailableDataRoom(player) > 0 ? AI_RESOURCE_VALUES.availableData : -0.75)
+        ? (
+          dataRoom > 0
+            ? AI_RESOURCE_VALUES.availableData
+              + scoreAiMidgameResourceContinuationValue({ availableData: 1 }, player, { scale: 0.45 })
+            : -0.75
+        )
         : 0;
       const demand = getAiStrategyDemand(player);
       const nebulaColor = data.getNebulaColor?.(nebulaId);
