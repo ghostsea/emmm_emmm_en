@@ -117,6 +117,13 @@
     return choices;
   }
 
+  function formatMarkerDisplayNote(marker) {
+    const sequence = marker?.sequence || "?";
+    return marker?.displayed === false
+      ? `记录登陆标记#${sequence}（超出参考图贴图数，不显示新贴图）`
+      : `显示登陆标记#${sequence}`;
+  }
+
   function getLandOptions(context, options = {}) {
     const placementResult = getPlacementList(context, options);
     if (!placementResult.ok) return { ok: false, message: placementResult.message };
@@ -192,7 +199,7 @@
     }
 
     if (target.type === "planet" && !isAomomoPlanet && !planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
-      const message = `${placement.planet.name} 主星登陆槽位已满`;
+      const message = `${placement.planet.name} 不支持主星登陆`;
       context.rocketState.statusNote = message;
       return { ok: false, actionId: ACTION_ID, message };
     }
@@ -267,7 +274,7 @@
     const discountNote = discountParts.length ? `（${discountParts.join("；")}）` : "";
     const markerNote = markerKind === "satellite"
       ? `显示卫星登陆标记 ${targetLabel}`
-      : `显示登陆标记#${markerSequence}`;
+      : formatMarkerDisplayNote(markerResult.marker);
     const message = `登陆 ${targetLabel}，消耗 ${energyCost} 能量${discountNote}，移除火箭，${markerNote}`;
     context.rocketState.statusNote = message;
     return {

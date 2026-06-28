@@ -136,6 +136,22 @@ function launchToPlanet(context, planetId) {
 }
 
 {
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
+  const player = currentPlayer(context);
+  for (let index = 0; index < 5; index += 1) {
+    assert.equal(planetStats.addPlanetOrbitMarker(context.planetStatsState, "mars", player).ok, true);
+  }
+  launchToPlanet(context, "mars");
+  const options = abilities.planet.getOrbitOptions(context);
+  assert.equal(options.ok, true, options.message);
+  assert.equal(options.choices[0].markerSequence, 6);
+  const result = abilities.executeAbility("orbitProbe", context);
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerSequence, 6);
+  assert.equal(planetStats.getPlanetOrbitMarkers(context.planetStatsState, "mars")[5].displayed, false);
+}
+
+{
   const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
   const launch = abilities.executeAbility("launchProbe", context, { skipCost: true });
   assert.equal(launch.ok, true);
@@ -188,6 +204,23 @@ function launchToPlanet(context, planetId) {
   assert.equal(context.rocketState.rockets.length, 1);
   assert.equal(planetStats.getPlanetLandingCount(context.planetStatsState, "venus"), 0);
   assert.equal(currentPlayer(context).resources.energy, 10);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
+  const player = currentPlayer(context);
+  for (let index = 0; index < 5; index += 1) {
+    assert.equal(planetStats.addPlanetLandingMarker(context.planetStatsState, "venus", player).ok, true);
+  }
+  launchToPlanet(context, "venus");
+  const options = abilities.planet.getLandOptions(context);
+  assert.equal(options.ok, true, options.message);
+  const choice = options.choices.find((item) => item.target.type === "planet");
+  assert.equal(choice.markerSequence, 6);
+  const result = abilities.executeAbility("landProbe", context, { target: choice.target });
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerSequence, 6);
+  assert.equal(planetStats.getPlanetLandingMarkers(context.planetStatsState, "venus")[5].displayed, false);
 }
 
 {

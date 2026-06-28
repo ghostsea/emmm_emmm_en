@@ -3470,7 +3470,7 @@
       return cost;
     }
 
-    function buildAiFinalMainUnlockTradeCandidate(player = getCurrentPlayer(), tradeId = null, playCardCandidates = null) {
+    function buildAiMainUnlockTradeCandidate(player = getCurrentPlayer(), tradeId = null, playCardCandidates = null) {
       if (!player || !tradeId || !quickTrades?.getTradeAction) return null;
       const trade = quickTrades.getTradeAction(tradeId);
       const check = quickTrades.canExecuteTrade?.(tradeId, createActionContext()) || { ok: false };
@@ -3552,10 +3552,10 @@
         available: true,
         tradeId: trade.id,
         label: trade.label || trade.id,
-        reason: "终局主行动前：交易信用点解锁高价值打牌",
+        reason: "主行动前：交易信用点解锁高价值打牌",
         score: roundAiScore(Math.min(42, score)),
         valueBreakdown: {
-          finalMainUnlockTrade: true,
+          mainUnlockTrade: true,
           bestPlayCard: {
             handIndex: bestPlay.handIndex,
             cardId: bestPlay.cardId || null,
@@ -3579,12 +3579,12 @@
       };
     }
 
-    function listAiFinalMainUnlockTradeCandidates(player = getCurrentPlayer(), playCardCandidates = null) {
+    function listAiMainUnlockTradeCandidates(player = getCurrentPlayer(), playCardCandidates = null) {
       if (
         !player
         || !quickTrades?.getTradeAction
         || typeof runQuickTrade !== "function"
-        || getAiRoundNumber() < FINAL_ROUND_NUMBER
+        || getAiRoundNumber() < 2
         || state.pendingActionExecuted
         || !canStartMainAction()
         || (turnState.passedPlayerIds || []).includes(player.id)
@@ -3592,7 +3592,7 @@
         return [];
       }
       return ["cards-for-credit", "energy-for-credit"]
-        .map((tradeId) => buildAiFinalMainUnlockTradeCandidate(player, tradeId, playCardCandidates))
+        .map((tradeId) => buildAiMainUnlockTradeCandidate(player, tradeId, playCardCandidates))
         .filter(Boolean)
         .sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
     }
@@ -4039,6 +4039,8 @@
       const planAction = String(rawCandidate.plan?.actionId || rawCandidate.followupMainAction?.actionId || "");
       if (actionId === "move" && planAction) return planAction;
       if (actionId === "cardCorner" && planAction) return planAction;
+      if (actionId === "industry" && rawCandidate.abilityId === "stratus_public_corners") return "cardCorner";
+      if (actionId === "industry" && rawCandidate.abilityId === "huanyu_free_moves") return "move";
       return actionId;
     }
 
@@ -5784,9 +5786,21 @@
         c2Type3ProgressValue,
       );
       const directScoreGain = details.directScoreGain ?? getAiRewardDirectScore(playEffects, player);
+      const firstRound25Pressure = getAiRoundNumber() <= 1
+        && Math.max(0, aiNumber(player?.resources?.score)) < 25;
       const directScorePaceValue = scoreAiPaceValueForDirectScore(directScoreGain, player, {
-        baseWeight: getAiRoundNumber() >= 3 ? 0.45 : getAiRoundNumber() === 2 ? 0.28 : 0.12,
-        pressureWeight: getAiRoundNumber() >= 3 ? 0.2 : 0.1,
+        baseWeight: getAiRoundNumber() >= 3
+          ? 0.45
+          : getAiRoundNumber() === 2
+            ? 0.28
+            : firstRound25Pressure
+              ? 0.32
+              : 0.12,
+        pressureWeight: getAiRoundNumber() >= 3
+          ? 0.2
+          : firstRound25Pressure
+            ? 0.18
+            : 0.1,
       });
       const thirdFinalMarkCashoutValue = scoreAiThirdFinalMarkCashoutValue(directScoreGain, player, {
         weight: 0.75,
@@ -11467,6 +11481,58 @@
         .filter((candidate) => candidate.available !== false);
     }
 
+    function getAiResearchTechCandidateExecutionCheck(candidate, player = getCurrentPlayer()) {
+      const tileId = candidate?.tileId || null;
+      if (!tileId) return { ok: false, message: "科技候选缺少 tileId" };
+      if (!player) return { ok: false, message: "没有当前玩家" };
+      createActionContext().ensurePlayerTechState(player);
+      if (!player.techState) return { ok: false, message: "玩家科技状态未初始化" };
+
+      if (techGameState.ui.industryBorrowMode) {
+        return tech.resolver.canTakeTile(
+          techGameState.board,
+          player.techState,
+          tileId,
+          { techTypes: ["orange", "purple"] },
+        );
+      }
+
+      const selectionOptions = getResearchTechSelectionOptions();
+      if (selectionOptions.researchedByOthersOnly && !isTechTileOwnedByOtherPlayer(tileId)) {
+        return { ok: false, message: "这张牌只能选择其他玩家已研究过的科技" };
+      }
+      const allowedTechTypes = tech.resolver.normalizeTechTypeFilter(selectionOptions)
+        || tech.resolver.normalizeTechTypeFilter({ techTypes: techGameState.ui.allowedTechTypes })
+        || null;
+      return tech.resolver.canTakeTile(
+        techGameState.board,
+        player.techState,
+        tileId,
+        allowedTechTypes ? { techTypes: allowedTechTypes } : {},
+      );
+    }
+
+    function selectExecutableAiResearchTechCandidate(candidates = [], selected = null, player = getCurrentPlayer()) {
+      const ordered = [];
+      if (selected) ordered.push(selected);
+      for (const candidate of candidates) {
+        if (!candidate?.tileId) continue;
+        if (ordered.some((item) => item?.tileId === candidate.tileId)) continue;
+        ordered.push(candidate);
+      }
+
+      let firstFailure = null;
+      for (const candidate of ordered) {
+        const check = getAiResearchTechCandidateExecutionCheck(candidate, player);
+        if (check.ok) return { candidate, check };
+        if (!firstFailure) firstFailure = { candidate, check };
+      }
+      return {
+        candidate: null,
+        check: firstFailure?.check || { ok: false, message: "没有可研究科技候选" },
+      };
+    }
+
     function runAiResearchTechSelectionDecision(effect) {
       const isResearchSelectionEffect = effect?.type === "research_tech_select"
         || (
@@ -11500,14 +11566,26 @@
       const candidates = techGameState.ui.industryBorrowMode
         ? listAiBorrowTechCandidates(currentPlayer)
         : listAiResearchTechCandidates();
-      const selected = ai?.policy?.chooseResearchTechTile?.(candidates, {
+      const policySelected = ai?.policy?.chooseResearchTechTile?.(candidates, {
         currentPlayer,
         turnState,
         techGameState,
         effect,
-      }) || candidates[0] || null;
+      }) || null;
+      const policyCheck = policySelected
+        ? getAiResearchTechCandidateExecutionCheck(policySelected, currentPlayer)
+        : null;
+      let selected = policySelected || candidates[0] || null;
+      const executable = selectExecutableAiResearchTechCandidate(candidates, selected, currentPlayer);
+      if (!executable.candidate && selected?.tileId) {
+        recordAiAutoBattleLog("tech-placement-reject", `${currentPlayer.colorLabel}AI 科技候选失效：${selected.tileId}`, {
+          selected,
+          reason: executable.check?.message || null,
+        });
+      }
+      selected = executable.candidate;
       if (!selected?.tileId) {
-        const message = `${effect?.label || "选择科技"}：没有可研究科技候选，已跳过`;
+        const message = `${effect?.label || "选择科技"}：${executable.check?.message || "没有可研究科技候选"}，已跳过`;
         recordAiAutoBattleLog("tech-placement", `${currentPlayer.colorLabel}AI 跳过科技选择`, {
           effectId: effect?.id || null,
           effectType: effect?.type || null,
@@ -11517,6 +11595,13 @@
         cancelTechSelection?.();
         skipCurrentActionEffect?.();
         return { ok: true, progressed: true, skipped: true, message };
+      }
+      if (policySelected?.tileId && policySelected.tileId !== selected.tileId) {
+        recordAiAutoBattleLog("tech-placement-retarget", `${currentPlayer.colorLabel}AI 改选科技 ${selected.tileId}`, {
+          rejected: policySelected,
+          selected,
+          reason: policyCheck?.message || null,
+        });
       }
       recordAiAutoBattleLog("tech-placement", `${currentPlayer.colorLabel}AI 选择科技 ${selected.tileId}`, {
         selected,
@@ -11896,7 +11981,7 @@
       candidates.push(...listAiEmergencyAnalyzeEnergyTradeCandidates(currentPlayer));
       candidates.push(...listAiFinalAnalyzeEnergyTradeCandidates(currentPlayer));
       candidates.push(...listAiThirdFinalMarkResourceTradeCandidates(currentPlayer));
-      candidates.push(...listAiFinalMainUnlockTradeCandidates(currentPlayer, playCardCandidates));
+      candidates.push(...listAiMainUnlockTradeCandidates(currentPlayer, playCardCandidates));
       candidates.push(...listAiLateResourceRecoveryTradeCandidates(currentPlayer));
       candidates.push(...listAiDataPlacementCandidates(currentPlayer));
       candidates.push(...listAiRunezuFaceSymbolQuickCandidates(currentPlayer));
@@ -11987,78 +12072,7 @@
       });
     }
 
-    function runAiTurnActionDecision() {
-      const currentPlayer = getCurrentPlayer();
-      if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
-        return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}不是电脑玩家` };
-      }
-      const rawCandidates = enumerateAiTurnActions();
-      const markedFinalFormulas = getAiMarkedFinalFormulaEntries(currentPlayer);
-      const traceCompetition = getAiTraceCompetitionState(currentPlayer);
-      const graphState = {
-        playerState,
-        turnState,
-        alienGameState,
-        finalScoringState,
-        currentPlayer,
-        aiMarkedFinalFormulas: markedFinalFormulas,
-        aiTraceCompetition: traceCompetition,
-      };
-      const graphCandidates = ai?.actionGraph?.buildActionGraph
-        ? ai.actionGraph.buildActionGraph(rawCandidates, graphState, currentPlayer?.id, {
-          markedFormulas: markedFinalFormulas,
-          hasMarkedFinalTile: markedFinalFormulas.length > 0,
-          traceCompetition,
-        })
-        : null;
-      const graphAdjustedCandidates = Array.isArray(graphCandidates) && graphCandidates.length === rawCandidates.length
-        ? graphCandidates.map((candidate, index) => {
-          const adjustedCandidate = adjustAiActionGraphCandidateForStyle(
-            rawCandidates[index],
-            adjustAiActionGraphCandidate(rawCandidates[index], candidate, currentPlayer),
-            currentPlayer,
-            markedFinalFormulas,
-          );
-          return {
-            ...rawCandidates[index],
-            actionGraph: {
-              gain: adjustedCandidate.gain,
-              cost: adjustedCandidate.cost,
-              finalMarginal: adjustedCandidate.finalMarginal,
-              goalBonus: adjustedCandidate.goalBonus,
-              feasibility: adjustedCandidate.feasibility,
-              net: adjustedCandidate.net,
-            },
-            breakdown: adjustedCandidate.breakdown,
-          };
-        })
-        : rawCandidates;
-      const candidates = applyAiTurnActionSelectionPressure(graphAdjustedCandidates);
-      const action = ai?.policy?.chooseTurnAction?.(candidates, {
-        playerState,
-        turnState,
-        currentPlayer,
-      }) || null;
-      if (!action) {
-        if (!rawCandidates.length && state.actionHistoryHasSession && !state.pendingActionExecuted) {
-          const recovery = recoverPendingActionFromOpenHistoryForAi?.();
-          if (recovery?.ok) {
-            endCurrentTurn();
-            recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI 恢复并结束当前行动`, {
-              recovery,
-              sessionInfo: state.actionHistorySessionInfo || null,
-            });
-            return {
-              ok: true,
-              progressed: true,
-              action: { id: "end-turn-recovered" },
-              recovery,
-            };
-          }
-        }
-        return { ok: false, blocked: true, message: "AI 没有可执行行动", candidates };
-      }
-      recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI 执行 ${action.id}`, { action, candidates });
+    function executeAiTurnAction(action, currentPlayer = getCurrentPlayer()) {
       if (action.id === "end-turn") {
         endCurrentTurn();
         return { ok: true, progressed: true, action };
@@ -12110,6 +12124,136 @@
         return passForCurrentPlayer();
       }
       return { ok: false, message: `AI 尚不支持行动 ${action.id}` };
+    }
+
+    function shouldRetryAiTurnAction(action, result) {
+      if (!action || action.id === "end-turn" || action.id === "pass") return false;
+      return result?.ok === false && !result.blocked && !result.progressed;
+    }
+
+    function rejectAiTurnActionCandidate(candidates, action, result) {
+      return (candidates || []).map((candidate) => (
+        candidate === action
+          ? {
+            ...candidate,
+            available: false,
+            reason: result?.message || candidate.reason || "AI 执行前二次校验失败",
+            rejectedByAiExecution: true,
+          }
+          : candidate
+      ));
+    }
+
+    function runAiTurnActionDecision() {
+      const currentPlayer = getCurrentPlayer();
+      if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
+        return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}不是电脑玩家` };
+      }
+      const rawCandidates = enumerateAiTurnActions();
+      const markedFinalFormulas = getAiMarkedFinalFormulaEntries(currentPlayer);
+      const traceCompetition = getAiTraceCompetitionState(currentPlayer);
+      const graphState = {
+        playerState,
+        turnState,
+        alienGameState,
+        finalScoringState,
+        currentPlayer,
+        aiMarkedFinalFormulas: markedFinalFormulas,
+        aiTraceCompetition: traceCompetition,
+      };
+      const graphCandidates = ai?.actionGraph?.buildActionGraph
+        ? ai.actionGraph.buildActionGraph(rawCandidates, graphState, currentPlayer?.id, {
+          markedFormulas: markedFinalFormulas,
+          hasMarkedFinalTile: markedFinalFormulas.length > 0,
+          traceCompetition,
+        })
+        : null;
+      const graphAdjustedCandidates = Array.isArray(graphCandidates) && graphCandidates.length === rawCandidates.length
+        ? graphCandidates.map((candidate, index) => {
+          const adjustedCandidate = adjustAiActionGraphCandidateForStyle(
+            rawCandidates[index],
+            adjustAiActionGraphCandidate(rawCandidates[index], candidate, currentPlayer),
+            currentPlayer,
+            markedFinalFormulas,
+          );
+          return {
+            ...rawCandidates[index],
+            actionGraph: {
+              gain: adjustedCandidate.gain,
+              cost: adjustedCandidate.cost,
+              finalMarginal: adjustedCandidate.finalMarginal,
+              goalBonus: adjustedCandidate.goalBonus,
+              feasibility: adjustedCandidate.feasibility,
+              net: adjustedCandidate.net,
+            },
+            breakdown: adjustedCandidate.breakdown,
+          };
+        })
+        : rawCandidates;
+      const candidates = applyAiTurnActionSelectionPressure(graphAdjustedCandidates);
+      let selectableCandidates = candidates;
+      const rejectedActions = [];
+      const maxAttempts = Math.max(1, candidates.length);
+
+      for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
+        const action = ai?.policy?.chooseTurnAction?.(selectableCandidates, {
+          playerState,
+          turnState,
+          currentPlayer,
+        }) || null;
+        if (!action) {
+          if (!rawCandidates.length && state.actionHistoryHasSession && !state.pendingActionExecuted) {
+            const recovery = recoverPendingActionFromOpenHistoryForAi?.();
+            if (recovery?.ok) {
+              endCurrentTurn();
+              recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI 恢复并结束当前行动`, {
+                recovery,
+                sessionInfo: state.actionHistorySessionInfo || null,
+              });
+              return {
+                ok: true,
+                progressed: true,
+                action: { id: "end-turn-recovered" },
+                recovery,
+              };
+            }
+          }
+          return {
+            ok: false,
+            blocked: true,
+            message: rejectedActions.length ? "AI 候选均执行失败" : "AI 没有可执行行动",
+            candidates: selectableCandidates,
+            rejectedActions,
+          };
+        }
+        recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI 执行 ${action.id}`, {
+          action,
+          candidates: selectableCandidates,
+        });
+        const result = executeAiTurnAction(action, currentPlayer);
+        if (shouldRetryAiTurnAction(action, result)) {
+          rejectedActions.push({
+            id: action.id || null,
+            reason: result?.message || null,
+            action,
+          });
+          recordAiAutoBattleLog("turn-action-retry", `${currentPlayer.colorLabel}AI 剔除失效行动 ${action.id}`, {
+            action,
+            result,
+          });
+          selectableCandidates = rejectAiTurnActionCandidate(selectableCandidates, action, result);
+          continue;
+        }
+        return result;
+      }
+
+      return {
+        ok: false,
+        blocked: true,
+        message: "AI 候选均执行失败",
+        candidates: selectableCandidates,
+        rejectedActions,
+      };
     }
 
     function runAiActionEffectStep() {

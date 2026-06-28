@@ -60,6 +60,13 @@
     };
   }
 
+  function formatMarkerDisplayNote(marker) {
+    const sequence = marker?.sequence || "?";
+    return marker?.displayed === false
+      ? `记录环绕标记#${sequence}（超出参考图贴图数，不显示新贴图）`
+      : `显示环绕标记#${sequence}`;
+  }
+
   function getOrbitOptions(context, options = {}) {
     const placementResult = getPlacementList(context, options);
     if (!placementResult.ok) return { ok: false, message: placementResult.message };
@@ -79,7 +86,7 @@
       const [placement] = placementResult.placements;
       return {
         ok: false,
-        message: placement ? `${placement.planet.name} 环绕槽位已满` : "当前没有可环绕的行星火箭",
+        message: placement ? `${placement.planet.name} 不支持环绕` : "当前没有可环绕的行星火箭",
       };
     }
 
@@ -144,7 +151,7 @@
 
     players.incrementPlayerOrbitCount(context.playerState, currentPlayer.id);
 
-    const message = `环绕 ${placement.planet.name}，消耗 ${CREDIT_COST} 信用点 + ${ENERGY_COST} 能量，移除火箭，显示环绕标记#${markerResult.marker.sequence}`;
+    const message = `环绕 ${placement.planet.name}，消耗 ${CREDIT_COST} 信用点 + ${ENERGY_COST} 能量，移除火箭，${formatMarkerDisplayNote(markerResult.marker)}`;
     context.rocketState.statusNote = message;
     return {
       ok: true,

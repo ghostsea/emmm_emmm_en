@@ -156,6 +156,17 @@ assert.equal(players.getCurrentPlayer(marsContext.playerState).orbitCount, 1);
 assert.equal(players.getCurrentPlayer(marsContext.playerState).resources.credits, 7);
 assert.equal(players.getCurrentPlayer(marsContext.playerState).resources.energy, 9);
 
+const fullOrbitContext = createContext();
+for (let index = 0; index < 5; index += 1) {
+  assert.equal(planetStats.addPlanetOrbitMarker(fullOrbitContext.planetStatsState, "mars", players.getCurrentPlayer(fullOrbitContext.playerState)).ok, true);
+}
+launchToPlanet(fullOrbitContext, "mars");
+assert.equal(actions.canExecute("orbit", fullOrbitContext).ok, true);
+const overflowOrbit = actions.execute("orbit", fullOrbitContext);
+assert.equal(overflowOrbit.ok, true, overflowOrbit.message);
+assert.equal(overflowOrbit.markerSequence, 6);
+assert.equal(planetStats.getPlanetOrbitMarkers(fullOrbitContext.planetStatsState, "mars")[5].displayed, false);
+
 const inactiveOrbitContext = createContext();
 launchToPlanet(inactiveOrbitContext, "mars");
 inactiveOrbitContext.rocketState.activeRocketId = null;
@@ -195,6 +206,17 @@ const landWithoutOrbit = actions.execute("land", landContext);
 assert.equal(landWithoutOrbit.ok, true);
 assert.equal(planetStats.getPlanetLandingCount(landContext.planetStatsState, "venus"), 1);
 assert.equal(players.getCurrentPlayer(landContext.playerState).resources.energy, 7);
+
+const fullLandContext = createContext();
+for (let index = 0; index < 5; index += 1) {
+  assert.equal(planetStats.addPlanetLandingMarker(fullLandContext.planetStatsState, "venus", players.getCurrentPlayer(fullLandContext.playerState)).ok, true);
+}
+launchToPlanet(fullLandContext, "venus");
+assert.equal(actions.canExecute("land", fullLandContext).ok, true);
+const overflowLand = actions.execute("land", fullLandContext);
+assert.equal(overflowLand.ok, true, overflowLand.message);
+assert.equal(overflowLand.markerSequence, 6);
+assert.equal(planetStats.getPlanetLandingMarkers(fullLandContext.planetStatsState, "venus")[5].displayed, false);
 
 const inactiveLandContext = createContext();
 launchToPlanet(inactiveLandContext, "venus");

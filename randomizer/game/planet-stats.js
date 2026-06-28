@@ -84,56 +84,65 @@
     return Number(marker?.sequence) === Number(ref.sequence);
   }
 
-  function reindexMarkerSequences(markers) {
+  function getPlanetMarkerDisplayLimit(planetId, kind) {
+    return Math.max(0, planetReferenceLayout.getPlanetSlotCount(planetId, kind));
+  }
+
+  function updateMarkerDisplayState(marker, displayLimit) {
+    marker.displayed = marker.sequence <= displayLimit;
+    marker.displaySlot = marker.displayed ? marker.sequence : null;
+    return marker;
+  }
+
+  function reindexMarkerSequences(markers, displayLimit = Infinity) {
     markers.forEach((marker, index) => {
       marker.sequence = index + 1;
+      updateMarkerDisplayState(marker, displayLimit);
     });
   }
 
   function canAddOrbitMarker(state, planetId) {
     const record = getPlanetRecord(state, planetId);
     if (!record) return false;
-    const maxSlots = planetReferenceLayout.getPlanetSlotCount(planetId, "orbit");
-    return maxSlots > 0 && record.orbits < maxSlots;
+    return getPlanetMarkerDisplayLimit(planetId, "orbit") > 0;
   }
 
   function canAddLandingMarker(state, planetId) {
     const record = getPlanetRecord(state, planetId);
     if (!record) return false;
-    const maxSlots = planetReferenceLayout.getPlanetSlotCount(planetId, "land");
-    return maxSlots > 0 && record.landings < maxSlots;
+    return getPlanetMarkerDisplayLimit(planetId, "land") > 0;
   }
 
   function addPlanetOrbitMarker(state, planetId, player) {
     if (!canAddOrbitMarker(state, planetId)) {
-      return { ok: false, marker: null, message: "环绕槽位已满或星球不支持环绕标记" };
+      return { ok: false, marker: null, message: "星球不支持环绕标记" };
     }
 
     const record = getPlanetRecord(state, planetId);
     const normalizedPlayer = normalizePlayer(player);
     record.orbits += 1;
-    const marker = {
+    const marker = updateMarkerDisplayState({
       sequence: record.orbits,
       playerId: normalizedPlayer.id,
       color: normalizedPlayer.color,
-    };
+    }, getPlanetMarkerDisplayLimit(planetId, "orbit"));
     record.orbitMarkers.push(marker);
     return { ok: true, marker, message: null };
   }
 
-  function addPlanetLandingMarker(state, planetId, player, options = {}) {
-    if (!options.allowDuplicate && !canAddLandingMarker(state, planetId)) {
-      return { ok: false, marker: null, message: "登陆槽位已满或星球不支持登陆标记" };
+  function addPlanetLandingMarker(state, planetId, player) {
+    if (!canAddLandingMarker(state, planetId)) {
+      return { ok: false, marker: null, message: "星球不支持登陆标记" };
     }
 
     const record = getPlanetRecord(state, planetId);
     const normalizedPlayer = normalizePlayer(player);
     record.landings += 1;
-    const marker = {
+    const marker = updateMarkerDisplayState({
       sequence: record.landings,
       playerId: normalizedPlayer.id,
       color: normalizedPlayer.color,
-    };
+    }, getPlanetMarkerDisplayLimit(planetId, "land"));
     record.landingMarkers.push(marker);
     return { ok: true, marker, message: null };
   }
@@ -146,7 +155,7 @@
     ));
     if (markerIndex < 0) return { ok: false, marker: null, message: "没有可移除的环绕标记" };
     const [marker] = record.orbitMarkers.splice(markerIndex, 1);
-    reindexMarkerSequences(record.orbitMarkers);
+    reindexMarkerSequences(record.orbitMarkers, getPlanetMarkerDisplayLimit(planetId, "orbit"));
     record.orbits = record.orbitMarkers.length;
     return { ok: true, marker, message: "已移除环绕标记" };
   }
@@ -159,7 +168,7 @@
     ));
     if (markerIndex < 0) return { ok: false, marker: null, message: "没有可移除的登陆标记" };
     const [marker] = record.landingMarkers.splice(markerIndex, 1);
-    reindexMarkerSequences(record.landingMarkers);
+    reindexMarkerSequences(record.landingMarkers, getPlanetMarkerDisplayLimit(planetId, "land"));
     record.landings = record.landingMarkers.length;
     return { ok: true, marker, message: "已移除登陆标记" };
   }

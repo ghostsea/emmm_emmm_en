@@ -152,6 +152,13 @@
       .join("；");
   }
 
+  function formatMarkerDisplayNote(kindLabel, marker) {
+    const sequence = marker?.sequence || "?";
+    return marker?.displayed === false
+      ? `记录${kindLabel}标记#${sequence}（超出参考图贴图数，不显示新贴图）`
+      : `显示${kindLabel}标记#${sequence}`;
+  }
+
   function getNextOrbitMarkerSequence(context, planetId) {
     if (planetId === aomomo?.PLANET_ID) {
       return aomomo.countOrbitMarkers(context.alienGameState) + 1;
@@ -246,7 +253,7 @@
       return {
         ok: false,
         message: placement
-          ? `${placement.planet.name} 环绕槽位已满`
+          ? `${placement.planet.name} 不支持环绕`
           : "当前没有可环绕的行星火箭",
       };
     }
@@ -291,7 +298,7 @@
       }
       return choices;
     }
-    if (options.allowDuplicateLanding || planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
+    if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       const target = targetWithRocketId({ type: "planet" }, placement.rocket.id);
       const markerSequence = getNextLandingMarkerSequence(context, planetId);
       const rewardSummary = buildLandRewardSummary(planetId, target, markerSequence, options);
@@ -402,7 +409,7 @@
         return { ok: false, abilityId: "orbitProbe", message: `${placement.planet.name} 环绕槽位已满` };
       }
     } else if (!planetStats.canAddOrbitMarker(context.planetStatsState, placement.planet.planetId)) {
-      return { ok: false, abilityId: "orbitProbe", message: `${placement.planet.name} 环绕槽位已满` };
+      return { ok: false, abilityId: "orbitProbe", message: `${placement.planet.name} 不支持环绕` };
     }
 
     const snapshots = {
@@ -441,7 +448,7 @@
 
     players.incrementPlayerOrbitCount(context.playerState, currentPlayer.id);
 
-    const message = `环绕 ${placement.planet.name}，消耗 ${players.formatResourceCost(cost)}，移除火箭，显示环绕标记#${markerResult.marker.sequence}`;
+    const message = `环绕 ${placement.planet.name}，消耗 ${players.formatResourceCost(cost)}，移除火箭，${formatMarkerDisplayNote("环绕", markerResult.marker)}`;
     context.rocketState.statusNote = message;
     return {
       ok: true,
@@ -500,7 +507,7 @@
       && !isAomomoPlanet
       && !options.allowDuplicateLanding
       && !planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
-      return { ok: false, abilityId: "landProbe", message: `${placement.planet.name} 主星登陆槽位已满` };
+      return { ok: false, abilityId: "landProbe", message: `${placement.planet.name} 不支持主星登陆` };
     }
     if (target.type === "satellite" && !planetStats.canLandOnSatellite(context.planetStatsState, planetId, target.satelliteId)) {
       return { ok: false, abilityId: "landProbe", message: `${placement.planet.name} 的该卫星不可登陆` };
@@ -573,7 +580,7 @@
     const discountNote = discountParts.length ? `（${discountParts.join("；")}）` : "";
     const markerNote = markerKind === "satellite"
       ? `显示卫星登陆标记 ${targetLabel}`
-      : `显示登陆标记#${markerSequence}`;
+      : formatMarkerDisplayNote("登陆", markerResult.marker);
     const message = `登陆 ${targetLabel}，消耗 ${players.formatResourceCost(cost)}${discountNote}，移除火箭，${markerNote}`;
     context.rocketState.statusNote = message;
     return {

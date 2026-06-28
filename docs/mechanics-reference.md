@@ -126,9 +126,9 @@
 星球统计由 `randomizer/game/planet-stats.js` 管理：
 
 - 每个星球记录 `orbits`、`landings`、`orbitMarkers`、`landingMarkers`、`satelliteLandings`。
-- `canAddOrbitMarker` / `canAddLandingMarker` 根据行星参考图槽位判断是否可放置。
-- `addPlanetOrbitMarker` / `addPlanetLandingMarker` / `addSatelliteLandingMarker` 会生成玩家颜色标记。
-- `removePlanetOrbitMarker` / `removePlanetLandingMarker` / `removeSatelliteLandingMarker` 会移除指定标记；主星环绕/登陆标记移除后会重排序号，空出的槽位可再次环绕或登陆。
+- `canAddOrbitMarker` / `canAddLandingMarker` 判断普通行星是否支持对应主星标记；主星环绕/登陆次数不再受参考图贴图槽位数量限制。
+- `addPlanetOrbitMarker` / `addPlanetLandingMarker` / `addSatelliteLandingMarker` 会生成玩家颜色标记。普通主星环绕/登陆超过参考图已有坐标数时仍写入统计并结算奖励，但 `displayed=false`，不会在行星参考图上生成新的贴图。
+- `removePlanetOrbitMarker` / `removePlanetLandingMarker` / `removeSatelliteLandingMarker` 会移除指定标记；主星环绕/登陆标记移除后会重排序号，若后续标记重新落入参考图可视序号会再次显示。
 - 登陆主星消耗基础 3 能量；若该星球已有任意环绕标记，则消耗降为 2 能量；拥有橙色 3 号科技时再减少 1 能量。
 - 默认不能登陆卫星；拥有橙色 4 号科技后，登陆行动才会把可用卫星加入目标选择。
 - `b_139.webp` 打出后作为特殊保留牌进入下排，不计为 3 型终局卡。当前玩家有 y=4 探测器时，可通过对应主行动执行冥王星环绕或登陆；若当前火箭同时处于可环绕/登陆的普通星球（例如天王星或海王星）且冥王星也可用，主行动会弹出目标选择。b139 自身提供的冥王星环绕和登陆各限一次，登陆若已先环绕按常规降低 1 能量，橙3仍生效；行动移除探测器并产生 `planetId: "pluto"` 的 `orbit` / `land` 事件，不写入普通星球参考图。
