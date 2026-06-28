@@ -7599,6 +7599,7 @@
       for (const target of targets) {
         const oldDistance = getAiSectorDistance(from, target.coordinate);
         const newDistance = getAiSectorDistance(to, target.coordinate);
+        let rotationStagingValue = 0;
         let score = (oldDistance - newDistance) * 4;
         if (newDistance === 0) score += target.value;
         else score += target.value / (newDistance + 1) * indirectTargetMultiplier;
@@ -7627,6 +7628,12 @@
             const distanceScale = newDistance === 0 ? 0.75 : newDistance === 1 ? 0.62 : 0.42;
             score += satelliteCashoutPremium * distanceScale;
           }
+          rotationStagingValue = scoreAiRotationStagingValue({
+            ...target,
+            oldDistance,
+            newDistance,
+          }, player, { from, to });
+          if (rotationStagingValue > 0) score += rotationStagingValue;
         }
         if (oldDistance === 0 && newDistance > 0) score -= target.value;
         if (
@@ -7639,7 +7646,7 @@
           score -= Math.min(18, Math.max(0, fromSatelliteOpportunity.score) * 0.5);
         }
         if (mainActionAlreadyUsed) score *= round >= 3 ? 0.42 : 0.52;
-        if (score > best.score) best = { score, target: { ...target, oldDistance, newDistance } };
+        if (score > best.score) best = { score, target: { ...target, oldDistance, newDistance, rotationStagingValue } };
       }
       if (!Number.isFinite(best.score)) return { score: 0, target: null };
       return best;
@@ -7916,6 +7923,43 @@
         penalty *= 1.35;
       }
       return roundAiScore(Math.min(16, Math.max(0, penalty)));
+    }
+
+    function scoreAiRotationStagingValue(routeTarget, player = getCurrentPlayer(), options = {}) {
+      if (!player || routeTarget?.kind !== "planet") return 0;
+      const range = getAiPlanetOptimalMoveRange(routeTarget.id);
+      if (!range) return 0;
+      const oldDistance = Math.max(0, Math.round(aiNumber(routeTarget.oldDistance)));
+      const newDistance = Math.max(0, Math.round(aiNumber(routeTarget.newDistance)));
+      if (newDistance <= range.max || newDistance >= oldDistance) return 0;
+
+      const excess = Math.max(0, newDistance - range.max);
+      const swing = getAiThreeRotationDistanceSwingForPlanet(routeTarget.id);
+      if (excess <= 0 || swing <= 0 || excess > swing) return 0;
+      if (isAiAsteroidCoordinate(options.to) && !players.playerOwnsTech(player, "orange2", createActionContext())) {
+        return 0;
+      }
+
+      const round = getAiRoundNumber();
+      const rotationFit = Math.max(0, swing - excess + 1);
+      const routeValue = Math.max(0, aiNumber(routeTarget.value));
+      const satellitePressure = routeTarget.satelliteOpportunity && round >= 3
+        ? Math.min(2.4, scoreAiOuterSatelliteCashoutPremium(routeTarget.id, {
+          type: "satellite",
+          satelliteId: routeTarget.satelliteOpportunity.satelliteId,
+        }, player, {
+          directScore: routeTarget.satelliteOpportunity.directScore,
+          energyCost: routeTarget.satelliteOpportunity.energyCost,
+          energyShortfall: routeTarget.satelliteOpportunity.energyShortfall,
+          routeDistance: newDistance,
+        }) * 0.12)
+        : 0;
+      return roundAiScore(Math.min(
+        5.5,
+        (round <= 2 ? 1.2 : round === 3 ? 0.95 : 0.65) * rotationFit
+          + Math.min(1.8, routeValue * 0.04)
+          + satellitePressure,
+      ));
     }
 
     function scoreAiAsteroidTrapMovePenalty(options = {}) {
@@ -11345,6 +11389,7 @@
         followupScore: landingScore.score,
         remainingPoolAfterStep,
         nearestActionablePlanetPenalty,
+        industryHuanyuMove: options.industryHuanyuMove,
       });
       const movementCost = paymentCost + pathPenalty + finalSecondMarkNoDirectSetupPenalty;
       return {
