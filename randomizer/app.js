@@ -165,6 +165,7 @@
   let completedEffectFlowsForUndo = {};
   let finalResultAutoOpened = false;
   let effectExecutionPlayerId = null;
+  let autoExecutingActionEffects = false;
   let pendingActionHasIrreversibleBarrier = false;
   let pendingActionIrreversibleReason = null;
   const actionHistory = actionHistoryModule.createActionHistory();
@@ -173,6 +174,12 @@
   const HISTORY_SOURCE_QUICK = "quick";
   const HISTORY_SOURCE_SETUP = "setup";
   const INDUSTRY_TURING_BORROW_TECH_TYPES = Object.freeze(["orange", "purple"]);
+  const AOMOMO_AUTO_REWARD_EFFECT_TYPES = new Set([
+    planetRewards.EFFECT_TYPES.GAIN_RESOURCES,
+    planetRewards.EFFECT_TYPES.GAIN_DATA,
+    planetRewards.EFFECT_TYPES.SCAN_PLANET_SECTOR,
+    planetRewards.EFFECT_TYPES.AOMOMO_CARD,
+  ]);
   const historyStepOrder = [];
   const actionLogState = {
     entries: [],
@@ -10771,6 +10778,7 @@
     if (!rewardEffects.length) return false;
 
     const actionLabel = actionType === "orbit" ? "环绕" : "登陆";
+    const isAomomoRewardFlow = result?.planetId === (aomomo?.PLANET_ID || "aomomo");
     startActionLogDraft(actionType, `${actionLabel}行动`, { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession(actionType, `${actionLabel}行动`);
     actionHistory.beginStep({
@@ -10801,11 +10809,42 @@
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.consumesMainAction = true;
+    pendingActionEffectFlow.autoExecuteAomomoRewards = isAomomoRewardFlow;
 
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
     rocketState.statusNote = `${actionLabel}：请依次点击奖励效果`;
     activateNextActionEffect();
     return true;
+  }
+
+  function shouldAutoExecuteAomomoRewardEffect(effect) {
+    return Boolean(
+      pendingActionEffectFlow?.autoExecuteAomomoRewards
+      && effect?.status === "active"
+      && AOMOMO_AUTO_REWARD_EFFECT_TYPES.has(effect.type)
+      && !hasActiveEffectSubFlow()
+    );
+  }
+
+  function maybeAutoExecuteAomomoRewardEffects() {
+    if (autoExecutingActionEffects || !pendingActionEffectFlow?.autoExecuteAomomoRewards) return false;
+    autoExecutingActionEffects = true;
+    let executed = false;
+    try {
+      for (let guard = 0; guard < 20; guard += 1) {
+        const effect = getCurrentActionEffect();
+        if (!shouldAutoExecuteAomomoRewardEffect(effect)) return executed;
+        const result = executeActionEffect(effect);
+        executed = true;
+        if (result?.awaitingChoice || result?.pendingChoice || result?.ok === false) return executed;
+        if (!pendingActionEffectFlow || pendingActionEffectFlow.completed || hasActiveEffectSubFlow()) return executed;
+        const current = getCurrentActionEffect();
+        if (current === effect && current?.status === "active") return executed;
+      }
+      return executed;
+    } finally {
+      autoExecutingActionEffects = false;
+    }
   }
 
   function beginResearchTechActionSession(result, options = {}) {
@@ -11681,6 +11720,7 @@
     renderActionEffectBar();
     updateActionButtons();
     renderStateReadout();
+    maybeAutoExecuteAomomoRewardEffects();
   }
 
   function resolveCompletedSectorSettlements(actionType, options = {}) {
@@ -28349,9 +28389,16 @@
   }
 
   function getPlanetStatsReadoutLines() {
+    const lines = planetStats.formatPlanetStatsLines(planetStatsState);
+    if (aomomo && (solarState.aomomoActive || alienGameState.aomomo?.revealInitialized)) {
+      const aomomoLineIndex = lines.findIndex((line) => String(line).startsWith("奥陌陌 "));
+      if (aomomoLineIndex >= 0) {
+        lines[aomomoLineIndex] = `奥陌陌 环绕=${aomomo.countOrbitMarkers(alienGameState)} 登陆=${aomomo.countLandingMarkers(alienGameState)}`;
+      }
+    }
     return [
       "星球统计",
-      ...planetStats.formatPlanetStatsLines(planetStatsState),
+      ...lines,
     ];
   }
 
@@ -30452,6 +30499,7 @@
         startedRewardFlow = startPlanetRewardEffectFlow(actionId, result);
         if (startedRewardFlow) {
           settleCardTasksAfterEffect({ events: result.events, render: false });
+          maybeAutoExecuteAomomoRewardEffects();
         }
       }
     } else if (actionId === "researchTech") {
@@ -31749,6 +31797,7 @@
     const button = event.target.closest("button");
     if (!button || !els.actionBarMain?.contains(button)) return;
     if (button === els.actionQuickButton) return;
+    if (button.disabled || button.getAttribute("aria-disabled") === "true") return;
 
     switch (button.id) {
       case "action-launch-button":
