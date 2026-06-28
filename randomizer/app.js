@@ -6730,6 +6730,93 @@
     return Math.min(finalWindow ? 26 : 20, Math.max(0, penalty));
   }
 
+  function getAiB2FinalFormulaState(player, context = {}) {
+    if (!player || !endGameScoring) {
+      return { orbitLandCount: 0, sectorWins: 0 };
+    }
+    return {
+      orbitLandCount: endGameScoring.countOrbitOrLandMarkers
+        ? Math.max(0, Math.round(aiNumber(endGameScoring.countOrbitOrLandMarkers(
+          player,
+          context.planetStatsState,
+          context,
+        ))))
+        : 0,
+      sectorWins: endGameScoring.countSectorWins
+        ? Math.max(0, Math.round(aiNumber(endGameScoring.countSectorWins(
+          player,
+          context.nebulaDataState,
+        ))))
+        : 0,
+    };
+  }
+
+  function scoreAiB2FinalFormulaFeasibilityPenalty(
+    formulaId,
+    player,
+    slotIndex,
+    thresholdValue,
+    baseValue,
+    demand = {},
+    b2State = null,
+  ) {
+    if (formulaId !== "b2" || !player) return 0;
+    if (Math.max(0, aiNumber(baseValue)) > 0) return 0;
+
+    const state = b2State || getAiB2FinalFormulaState(player, createActionContext());
+    const orbitLandCount = Math.max(0, aiNumber(state.orbitLandCount));
+    const sectorWins = Math.max(0, aiNumber(state.sectorWins));
+    const missingSectorSide = sectorWins <= 0;
+    const missingOrbitLandSide = orbitLandCount <= 0;
+    if (!missingSectorSide && !missingOrbitLandSide) return 0;
+
+    const slot = Math.max(1, Math.round(aiNumber(slotIndex) || 1));
+    const threshold = Math.max(0, aiNumber(thresholdValue));
+    const roundNumber = Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1));
+    const scanDemand = getAiMapDemand(demand.actions, "scan")
+      + sumAiDemandMap(demand.scanColors) * 0.35
+      + getAiMapDemand(demand.traceTypes, "pink") * 0.15
+      + getAiMapDemand(demand.traceTypes, "blue") * 0.08;
+    const routeDemand = getAiMapDemand(demand.actions, "orbit")
+      + getAiMapDemand(demand.actions, "land")
+      + getAiMapDemand(demand.actions, "move") * 0.35;
+    const lateScale = threshold >= 70 || roundNumber >= FINAL_ROUND_NUMBER
+      ? 1.35
+      : threshold >= 50 || roundNumber >= 3
+        ? 1.05
+        : 0.82;
+    const slotScale = slot === 1 ? 1 : slot === 2 ? 0.75 : 0.55;
+    let penalty = 0;
+
+    if (missingSectorSide) {
+      const imbalance = Math.max(0, orbitLandCount - sectorWins);
+      penalty += (7.5 + Math.min(6, imbalance * 1.35)) * lateScale * slotScale;
+      if (scanDemand < 4) penalty += (4 - scanDemand) * 1.15 * lateScale;
+      if (threshold <= 25 && roundNumber <= 2 && slot === 1 && routeDemand > scanDemand + 1) {
+        penalty += 3.5;
+      }
+      if (threshold <= 25 && roundNumber <= 2 && scanDemand >= 7) {
+        penalty *= 0.65;
+      }
+    }
+
+    if (missingOrbitLandSide) {
+      const movableRocketCount = typeof getMovableTokensForPlayer === "function"
+        ? getMovableTokensForPlayer(player.id).length
+        : 0;
+      const routePipeline = routeDemand + movableRocketCount * 0.5;
+      const imbalance = Math.max(0, sectorWins - orbitLandCount);
+      penalty += (5.5 + Math.min(4, imbalance * 0.9)) * lateScale * slotScale;
+      if (routePipeline < 3) penalty += (3 - routePipeline) * 0.9 * lateScale;
+      if (threshold <= 25 && roundNumber <= 2 && routePipeline >= 6) {
+        penalty *= 0.75;
+      }
+    }
+
+    if (missingSectorSide && missingOrbitLandSide) penalty += 3 * lateScale;
+    return Math.round(Math.min(threshold >= 50 ? 24 : 17, Math.max(0, penalty)) * 100) / 100;
+  }
+
   function hasAiPlayerClaimedFinalThreshold(playerId, threshold) {
     if (!playerId) return false;
     return (finalScoring.listMarks?.(finalScoringState) || []).some((mark) => (
@@ -6829,6 +6916,7 @@
     const immediateScore = baseValue * multiplier;
     const demand = getAiStrategyDemand(player);
     const demandScore = scoreAiFinalScoreFormulaDemand(formulaId, demand);
+    const b2FormulaState = formulaId === "b2" ? getAiB2FinalFormulaState(player, context) : null;
     const thresholds = Array.isArray(finalScoringState.thresholds) && finalScoringState.thresholds.length
       ? finalScoringState.thresholds
       : finalScoring.FINAL_SCORE_THRESHOLDS || [];
@@ -6919,6 +7007,15 @@
       growthPotentialScore,
       demand,
     );
+    const b2FeasibilityPenalty = scoreAiB2FinalFormulaFeasibilityPenalty(
+      formulaId,
+      player,
+      check.slotIndex,
+      thresholdValue,
+      baseValue,
+      demand,
+      b2FormulaState,
+    );
     const score = applyAiStrategyWeight(
       immediateScore * immediateScoreWeight
         + demandScore
@@ -6928,7 +7025,8 @@
         + thresholdScore
         - zeroBaseLatePenalty
         - unsupportedCFormulaPenalty
-        - weakCFormulaPenalty,
+        - weakCFormulaPenalty
+        - b2FeasibilityPenalty,
       "final",
       0.85,
     );
@@ -6965,6 +7063,9 @@
         zeroBaseLatePenalty: Math.round(zeroBaseLatePenalty * 100) / 100,
         unsupportedCFormulaPenalty: Math.round(unsupportedCFormulaPenalty * 100) / 100,
         weakCFormulaPenalty: Math.round(weakCFormulaPenalty * 100) / 100,
+        b2FeasibilityPenalty: Math.round(b2FeasibilityPenalty * 100) / 100,
+        b2OrbitLandCount: b2FormulaState ? b2FormulaState.orbitLandCount : 0,
+        b2SectorWins: b2FormulaState ? b2FormulaState.sectorWins : 0,
       },
     };
   }
