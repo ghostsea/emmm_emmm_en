@@ -8200,6 +8200,43 @@
         : 8;
     }
 
+    function scoreAiNoRouteLaunchPenalty(player = getCurrentPlayer(), postLaunchMovePlan = null) {
+      const round = getAiRoundNumber();
+      if (!player || round < 3) return 0;
+      if (Math.max(0, aiNumber(postLaunchMovePlan?.score)) > 0) return 0;
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
+      const finalMarks = countAiFinalMarksForPlayer(player);
+      if (!nextThreshold || currentScore >= nextThreshold || finalMarks >= 3) return 0;
+
+      const resources = player.resources || {};
+      const launchCost = getAiLaunchPaymentCost();
+      const creditCost = Math.max(0, aiNumber(launchCost.credits));
+      const credits = Math.max(0, aiNumber(resources.credits));
+      const energy = Math.max(0, aiNumber(resources.energy));
+      const handSize = Math.max(0, aiNumber(resources.handSize ?? (player.hand || []).length));
+      const isFinalRound = round >= FINAL_ROUND_NUMBER;
+      if (
+        !isFinalRound
+        && (
+          currentScore > 42
+          || finalMarks > 1
+          || creditCost <= 0
+          || credits > creditCost
+          || energy > 1
+          || handSize > 3
+        )
+      ) {
+        return 0;
+      }
+      let penalty = (isFinalRound ? 14 : 22)
+        + Math.min(8, Math.max(0, nextThreshold - currentScore) * 0.16)
+        + Math.max(0, 3 - finalMarks) * 2;
+      if (creditCost > 0 && credits <= creditCost) penalty += isFinalRound ? 8 : 14;
+      if (energy <= 1 && handSize <= 3) penalty += isFinalRound ? 4 : 6;
+      return roundAiScore(Math.min(isFinalRound ? 34 : 44, penalty));
+    }
+
     function scoreAiExtraLaunchPacePenalty(player = getCurrentPlayer()) {
       if (!player) return 0;
       const round = getAiRoundNumber();
@@ -11032,8 +11069,21 @@
       const remainingPoolAfterStep = Math.max(0, poolRemaining - poolUsed);
       const nextEffect = options.nextEffect || null;
       const landingRequiredThisStep = isAiLandingEffect(nextEffect);
+      const originPlanet = getAiPlanetAtCoordinate(from);
       const destinationPlanet = getAiPlanetAtCoordinate(to);
       const isB49PublicityMoveFollowup = /b49-visit-publicity-move-followup-pay-publicity-move/.test(String(effect?.id || ""));
+      if (
+        isB49PublicityMoveFollowup
+        && !landingRequiredThisStep
+        && originPlanet?.planetId
+        && originPlanet.planetId !== "earth"
+        && (
+          canAiPlanetAcceptLanding(originPlanet.planetId, currentPlayer)
+          || canAiPlanetAcceptOrbit(originPlanet.planetId)
+        )
+      ) {
+        return null;
+      }
       if (
         isB49PublicityMoveFollowup
         && !landingRequiredThisStep
@@ -12777,6 +12827,9 @@
       const finalSecondMarkExtraLaunchPenalty = launchCheck.ok
         ? scoreAiFinalSecondMarkExtraLaunchPenalty(currentPlayer, postLaunchMovePlan)
         : 0;
+      const noRouteLaunchPenalty = launchCheck.ok
+        ? scoreAiNoRouteLaunchPenalty(currentPlayer, postLaunchMovePlan)
+        : 0;
       const launchCost = scoreAiLaunchPaymentCost();
       const launchReservePenalty = launchCheck.ok
         ? scoreAiResourceReservePenaltyForCost(currentPlayer, getAiLaunchPaymentCost(), { actionId: "launch" })
@@ -12787,6 +12840,7 @@
           - lateLaunchPenalty
           - extraLaunchPacePenalty
           - finalSecondMarkExtraLaunchPenalty
+          - noRouteLaunchPenalty
         : 0;
       const launchCandidate = {
         id: "launch",
@@ -12805,6 +12859,7 @@
           lateLaunchPenalty,
           extraLaunchPacePenalty,
           finalSecondMarkExtraLaunchPenalty,
+          noRouteLaunchPenalty,
         },
       };
       candidates.push(launchCandidate);
