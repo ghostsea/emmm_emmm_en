@@ -2,19 +2,21 @@
   "use strict";
 
   let placement = root.SetiAlienPlacement;
+  let state = root.SetiAlienState;
 
   if (typeof require === "function") {
     placement = placement || require("./placement");
+    state = state || require("./state");
   }
 
-  const api = factory(placement);
+  const api = factory(placement, state);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiAlienFangzhou = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (placement) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (placement, state) {
   "use strict";
 
   const ALIEN_ID = "方舟";
@@ -28,6 +30,7 @@
   const CARD2_VARIANTS_PER_COLOR = 4;
   const CARD2_PLAY_COST = Object.freeze({ credits: 2 });
   const CARD2_DISCARD_ACTION_CODE = "fangzhou_basic";
+  const CARD2_UNLOCK_TRACE_REWARD = Object.freeze({ gain: Object.freeze({ score: 3 }) });
   const CARD2_CORNER_CODES = Object.freeze({
     pink: Object.freeze({
       1: Object.freeze({ scanActionCode: 1, incomeCode: 2 }),
@@ -233,6 +236,11 @@
     return playerKeys.has(marker?.playerId) || playerKeys.has(marker?.playerColor) || playerKeys.has(marker?.color);
   }
 
+  function countStateTraceMarkers(alienState, player, traceType = null, alienSlotId = alienState?.fangzhou?.revealedSlotId) {
+    if (!state?.countTraceMarkersForPlayerOnSlot || alienSlotId == null) return 0;
+    return state.countTraceMarkersForPlayerOnSlot(alienState, alienSlotId, player, traceType);
+  }
+
   function isFangzhouAlienSlot(alienState, alienSlotId) {
     const slot = alienState?.aliens?.[alienSlotId];
     return slot?.alienId === ALIEN_ID || slot?.assignedAlienId === ALIEN_ID;
@@ -317,6 +325,10 @@
 
   function getTraceReward(traceType, position) {
     return cloneReward(TRACE_REWARDS[traceType]?.[position]);
+  }
+
+  function getCard2UnlockTraceReward() {
+    return cloneReward(CARD2_UNLOCK_TRACE_REWARD);
   }
 
   function placeFangzhouTrace(alienState, alienSlotId, traceType, position, player, options = {}) {
@@ -664,9 +676,10 @@
 
   function countTraceMarkers(alienState, player, alienSlotId = alienState?.fangzhou?.revealedSlotId) {
     const playerKeys = getPlayerKeys(player);
-    return listTraceEntries(alienState, alienSlotId)
+    const faceCount = listTraceEntries(alienState, alienSlotId)
       .filter((entry) => markerBelongsToPlayer(entry, playerKeys))
       .length;
+    return countStateTraceMarkers(alienState, player, null, alienSlotId) + faceCount;
   }
 
   return Object.freeze({
@@ -682,6 +695,7 @@
     TRACE_POSITION_COUNT,
     TRACE_REWARDS,
     UNLOCK_REQUIRED_BY_POSITION,
+    CARD2_UNLOCK_TRACE_REWARD,
     CARD1_DEFINITIONS,
     CARD1_BY_INDEX,
     CARD1_RESHUFFLE_THRESHOLD,
@@ -694,6 +708,7 @@
     getUnlockCount,
     canPlaceFangzhouTrace,
     getTraceReward,
+    getCard2UnlockTraceReward,
     placeFangzhouTrace,
     listTraceEntries,
     getTraceEntries,
@@ -716,6 +731,7 @@
     getPlayerKeys,
     getPlayerKey,
     formatTraceLabel,
+    countStateTraceMarkers,
     countTraceMarkers,
     createCard2Definition,
     getCard2CornerCodes,

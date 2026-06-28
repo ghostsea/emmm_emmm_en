@@ -18281,13 +18281,13 @@
         destination: "unlock",
         traceType,
         label: `解锁${aliens.getTraceTypeLabel(traceType)}方舟牌`,
-        description: "消耗本次痕迹解锁保留区卡牌并加入手牌",
+        description: "追加到 state 额外痕迹位，获得3分，并解锁卡牌加入手牌",
       });
     } else if (unlockableTraceTypes.length > 1) {
       choices.push({
         destination: "unlock",
         label: "解锁方舟牌",
-        description: "下一步选择要解锁的方舟牌颜色",
+        description: "下一步选择要追加并解锁的方舟牌颜色",
       });
     }
 
@@ -18311,7 +18311,7 @@
     if (els.alienTraceTitle) els.alienTraceTitle.textContent = "解锁方舟牌";
     if (els.alienTraceSubtitle) {
       const playerText = currentPlayer?.colorLabel ? `${currentPlayer.colorLabel}玩家` : "当前玩家";
-      els.alienTraceSubtitle.textContent = `${playerText}：选择要消耗本次痕迹解锁的方舟牌。`;
+      els.alienTraceSubtitle.textContent = `${playerText}：选择本次痕迹要追加并解锁的方舟牌。`;
     }
     if (els.alienTraceCancel) els.alienTraceCancel.hidden = false;
     alienTracePickerState = {
@@ -18328,7 +18328,7 @@
       button.dataset.alienSlot = String(alienSlotId);
       button.dataset.traceType = traceType;
       button.dataset.fangzhouUse = "unlock";
-      button.innerHTML = `解锁${aliens.getTraceTypeLabel(traceType)}方舟牌<small>卡牌进入手牌</small>`;
+      button.innerHTML = `解锁${aliens.getTraceTypeLabel(traceType)}方舟牌<small>追加 state 额外痕迹，获得3分，卡牌进入手牌</small>`;
       return button;
     }));
     if (els.alienTraceOverlay) els.alienTraceOverlay.hidden = false;
@@ -18461,7 +18461,7 @@
     if (els.alienTraceSubtitle) {
       els.alienTraceSubtitle.textContent = (
         `当前玩家：${currentPlayer.colorLabel}。${traceLabel}外星人痕迹：`
-        + "选择放置到方舟正面，或消耗痕迹解锁对应卡牌（解锁后卡牌进入手牌）。"
+        + "选择放置到方舟正面，或追加到 state 额外位并解锁对应卡牌。"
       );
     }
 
@@ -18487,7 +18487,7 @@
         alienSlotId,
         traceType,
         label: `解锁${traceLabel}方舟牌`,
-        description: "消耗本次痕迹解锁保留区卡牌并加入手牌",
+        description: "追加到 state 额外痕迹位，获得3分，并解锁保留区卡牌加入手牌",
         disabled: false,
         fangzhouUse: "unlock",
       });
@@ -18567,18 +18567,42 @@
     return confirmFangzhouTracePlacement(alienSlotId, traceType, position);
   }
 
+  function applyFangzhouUnlockStateTraceReward(player, traceType) {
+    const reward = fangzhou?.getCard2UnlockTraceReward?.();
+    const gain = reward?.gain || null;
+    if (!gain || !Object.values(gain).some((value) => Number(value) !== 0)) {
+      return { ok: true, reward: null, gain: null, message: null };
+    }
+
+    players.gainResources(player, gain);
+    recordAlienTraceScore(player, traceType, gain);
+    return {
+      ok: true,
+      reward,
+      gain: { ...gain },
+      message: `state额外痕迹奖励：${formatAlienFirstTraceRewardGain(gain) || "无奖励"}`,
+    };
+  }
+
   function confirmFangzhouCard2Unlock(alienSlotId, traceType) {
-    const currentPlayer = getAlienTracePickerPlayer();
+    const pending = pendingAlienTraceAction;
     const inDebugMode = isDebugAlienTraceMode();
+    const currentPlayer = getAlienTraceActionPlayer(pending || alienTracePickerState, { allowFallback: inDebugMode });
+    if (!currentPlayer) return failMissingAlienTraceTargetPlayer();
     if (!fangzhou?.canUnlockCard2ForTrace?.(alienGameState, currentPlayer, traceType)) {
       rocketState.statusNote = "无法解锁该方舟卡牌";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
+    if (!canPlaceAnyStateExtraTrace(alienSlotId, traceType)) {
+      rocketState.statusNote = "无法将该痕迹追加到方舟 state 额外位";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
 
-    const pending = pendingAlienTraceAction;
     const beforeAlienState = pending?.beforeAlienState || structuredClone(alienGameState);
     const beforePlayerState = pending?.beforePlayerState || structuredClone(playerState);
+    const beforeLogSnapshot = createActionLogImpactSnapshot(currentPlayer);
     if (!inDebugMode) {
       pendingAlienTraceAction = null;
       if (alienTracePickerState?.mode !== "debug-direct") {
@@ -18593,14 +18617,34 @@
       renderStateReadout();
       return unlockResult;
     }
+    const stateTraceResult = aliens.addExtraTrace(alienGameState, alienSlotId, traceType, currentPlayer.color);
+    if (!stateTraceResult.ok) {
+      rocketState.statusNote = stateTraceResult.message;
+      renderStateReadout();
+      return stateTraceResult;
+    }
     if (unlockResult.handCard) {
       currentPlayer.hand.push(unlockResult.handCard);
     }
 
-    rocketState.statusNote = unlockResult.message;
+    const stateTraceReward = applyFangzhouUnlockStateTraceReward(currentPlayer, traceType);
+    rocketState.statusNote = [
+      unlockResult.message,
+      stateTraceResult.message,
+      stateTraceReward.message,
+    ].filter(Boolean).join("；");
+    const traceEvents = !inDebugMode
+      ? [buildAlienTraceEvent(alienSlotId, traceType, currentPlayer, fangzhou.ALIEN_ID)]
+      : [];
+    const alienLabRestore = maybeRestoreAlienLabPanelForTrace(currentPlayer, traceType);
+    if (alienLabRestore?.changed) {
+      rocketState.statusNote = `${rocketState.statusNote}；${alienLabRestore.message}`;
+    }
+    const afterReward = applyAlienTraceAfterReward(pending, currentPlayer, traceType);
+    appendAlienTraceAfterRewardMessage(afterReward);
 
     if (pending?.type === "planet_reward_alien_trace") {
-      beginEffectHistoryStep(pending.effectLabel || "方舟解锁卡牌");
+      beginEffectHistoryStep(pending.effectLabel || "方舟解锁卡牌", { logBefore: beforeLogSnapshot });
       recordHistoryCommand(historyCommands.createRestoreObjectCommand(
         alienGameState,
         beforeAlienState,
@@ -18616,12 +18660,20 @@
           ok: true,
           undoable: true,
           message: rocketState.statusNote,
-          payload: { alienSlotId, traceType, unlocked: true },
+          events: traceEvents,
+          payload: {
+            alienSlotId,
+            traceType,
+            unlocked: true,
+            stateTrace: stateTraceResult,
+            reward: stateTraceReward.reward || null,
+            afterReward,
+          },
         };
       }
       completeCurrentActionEffect();
     } else {
-      beginQuickActionStep("fangzhou-unlock", rocketState.statusNote);
+      beginQuickActionStep("fangzhou-unlock", rocketState.statusNote, { logBefore: beforeLogSnapshot });
       recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
         alienGameState,
         beforeAlienState,
@@ -18633,7 +18685,7 @@
         "恢复方舟解锁卡牌前玩家状态",
       ));
       completeQuickActionStep();
-      settleCardTasksAfterEffect({ skipType1: true, render: false });
+      settleCardTasksAfterEffect({ events: traceEvents, render: false });
     }
 
     renderAlienPanels();
@@ -18642,7 +18694,14 @@
     renderReservedCardsFromTaskState();
     updateActionButtons();
     renderStateReadout();
-    return unlockResult;
+    return {
+      ...unlockResult,
+      message: rocketState.statusNote,
+      stateTrace: stateTraceResult,
+      reward: stateTraceReward.reward || null,
+      events: traceEvents,
+      afterReward,
+    };
   }
 
   function getAlienFangzhouCardArea(alienSlotId) {
@@ -18666,7 +18725,7 @@
       }
       button.style.setProperty("--card-index", String(index + 1));
       button.title = debugUnlockMode
-        ? `${card.label}（点击消耗痕迹解锁）`
+        ? `${card.label}（点击追加 state 额外痕迹并解锁）`
         : `${card.label}（未解锁）`;
       button.disabled = !debugUnlockMode;
 

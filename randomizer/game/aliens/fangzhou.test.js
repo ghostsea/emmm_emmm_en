@@ -3,6 +3,7 @@
 
 const assert = require("node:assert/strict");
 const placement = require("./placement");
+const alienState = require("./state");
 const fangzhou = require("./fangzhou");
 
 function createDebugState() {
@@ -87,6 +88,23 @@ assert.equal(fangzhou.canUnlockCard2ForTrace(lockedState, white, "pink"), false)
 assert.equal(fangzhou.canPlaceAnyFangzhouTrace(lockedState, 2, "pink", white), true);
 const unlocked = fangzhou.canPlaceFangzhouTrace(lockedState, 2, "pink", 2, white);
 assert.equal(unlocked.ok, true);
+
+const unlockTraceReward = fangzhou.getCard2UnlockTraceReward();
+assert.deepEqual(unlockTraceReward.gain, { score: 3 });
+const unlockTraceState = createDebugState();
+unlockTraceState.fangzhou.revealedSlotId = 2;
+unlockTraceState.fangzhou.revealInitialized = true;
+fangzhou.dealPlayerCard2(unlockTraceState, white, () => 0);
+assert.equal(alienState.countTraceMarkersForPlayerOnSlot(unlockTraceState, 2, white, "pink"), 1);
+const stateExtraTrace = alienState.addExtraTrace(unlockTraceState, 2, "pink", white.color);
+assert.equal(stateExtraTrace.ok, true);
+const unlockWithStateTrace = fangzhou.unlockCard2(unlockTraceState, white, "pink");
+assert.equal(unlockWithStateTrace.ok, true);
+assert.equal(unlockTraceState.aliens[2].traces.pink.extraCount, 1);
+assert.equal(unlockTraceState.aliens[2].traces.pink.extraMarkers[0].ownerPlayerColor, "white");
+assert.equal(alienState.countTraceMarkersForPlayerOnSlot(unlockTraceState, 2, white, "pink"), 2);
+assert.equal(fangzhou.countStateTraceMarkers(unlockTraceState, white, "pink", 2), 2);
+assert.equal(fangzhou.countTraceMarkers(unlockTraceState, white, 2), 2);
 
 const singleState = createDebugState();
 singleState.fangzhou.revealedSlotId = 2;
