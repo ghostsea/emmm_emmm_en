@@ -177,6 +177,8 @@
       confirmCardCornerQuickAction,
       cancelHandScanSelection,
       getCurrentPlayer,
+      isAiAutomationInputLocked,
+      blockManualAiAutomationInput,
       openJiuzheCardDialog,
       openBanrenmaCardConditionCompletionPicker,
       openCardTaskCompletionPicker,
@@ -868,6 +870,10 @@
       if (!button || state.moveHighlightRocketId == null) return;
       event.stopPropagation();
       event.preventDefault();
+      if (isAiAutomationInputLocked?.()) {
+        blockManualAiAutomationInput?.("电脑玩家自动移动中");
+        return;
+      }
       if (state.pendingCardTriggerFreeMove) {
         executeFreeMoveForCardTrigger(
           Number(button.dataset.moveX),

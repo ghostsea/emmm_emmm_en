@@ -87,6 +87,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     get pendingDiscardAction() {
       return options.currentPlayerDiscardPending ? { player: white, selectedIndexes: [] } : null;
     },
+    get pendingMovePayment() { return options.pendingMovePayment || null; },
     get pendingActionExecuted() { return Boolean(options.pendingActionExecuted); },
     get pendingActionEffectFlow() { return null; },
     get pendingRunezuFaceSymbolPlacement() { return null; },
@@ -106,9 +107,19 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     players: {
       PLAYER_COLOR_IDS: allPlayers.map((player) => player.color),
       canAfford: () => true,
+      playerOwnsTech: () => false,
+    },
+    solar: {
+      mod8: (value) => ((Math.round(Number(value) || 0) % 8) + 8) % 8,
+      createSolarSnapshot: () => ({ planetLocations: [] }),
+      collectVisibleCoordinateGroups: () => ({ asteroids: [], comets: [] }),
+      collectVisibleCoordinateReport: () => [],
     },
     rocketActions: {
       getRocketsForPlayer: () => [],
+      getRocketSectorCoordinate: (rocket) => rocket?.sector || null,
+      SECTOR_RING_MIN: 1,
+      SECTOR_RING_MAX: 4,
     },
     planetRewards: {
       EFFECT_TYPES: {
@@ -159,7 +170,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     tech: {},
     playerState,
     turnState,
-    rocketState: {},
+    rocketState: options.rocketState || {},
     solarState: {},
     nebulaDataState: {},
     alienGameState,
@@ -423,6 +434,19 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     };
     context.confirmPlayCardSelection = () => {
       noteHandled({ ...(handled || { type: "play-card" }), confirmed: true });
+      return { ok: true, progressed: true };
+    };
+  }
+  if (options.pendingMovePayment) {
+    context.isMovePaymentSelectionActive = () => true;
+    context.isMovePaymentCard = (card) => Boolean(card?.movePayment);
+    context.confirmMovePayment = (confirmOptions = {}) => {
+      noteHandled({
+        type: "move-payment",
+        automated: confirmOptions.automated === true,
+        playerId: options.pendingMovePayment.player?.id || null,
+        selectedHandIndices: [...(options.pendingMovePayment.selectedHandIndices || [])],
+      });
       return { ok: true, progressed: true };
     };
   }
@@ -691,6 +715,41 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI-owned data placement should resolve while current player is human");
   assert.deepEqual(harness.getHandled(), { type: "data-placement", target: "computer", blueSlot: null });
+}
+
+{
+  const pendingMovePayment = {
+    player: null,
+    rocketId: 7,
+    deltaX: 1,
+    deltaY: 0,
+    requiredMovePoints: 1,
+    selectedHandIndices: [],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "white",
+    pendingMovePayment,
+    rocketState: {
+      rockets: [{ id: 7, playerId: "player-blue", sector: { x: 2, y: 2 } }],
+    },
+  });
+  pendingMovePayment.player = harness.blue;
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI-owned move payment should resolve while current interface player is human");
+  assert.deepEqual(harness.getHandled(), {
+    type: "move-payment",
+    automated: true,
+    playerId: harness.blue.id,
+    selectedHandIndices: [],
+  });
 }
 
 {

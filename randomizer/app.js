@@ -233,7 +233,7 @@
     if (isHandScanSelectionActive()) {
       return "（请选择一张牌进行扫描）";
     }
-    if (isMovePaymentSelectionActive()) {
+    if (isMovePaymentSelectionActive() && !isMovePaymentLockedForAiAutomation()) {
       const required = pendingMovePayment?.requiredMovePoints || MOVE_ENERGY_COST;
       return required > 1
         ? `（需 ${required} 点移动力：可选移动牌，剩余用能量补齐）`
@@ -2919,6 +2919,44 @@
     return pendingMovePayment != null;
   }
 
+  function getMovePaymentPlayer() {
+    if (!pendingMovePayment) return null;
+    const playerId = pendingMovePayment.player?.id || pendingMovePayment.playerId || null;
+    if (playerId) return getPlayerById(playerId) || pendingMovePayment.player || null;
+    const playerColor = pendingMovePayment.player?.color || pendingMovePayment.playerColor || null;
+    if (playerColor) return getPlayerByColor(playerColor) || pendingMovePayment.player || null;
+    return pendingMovePayment.player || getCurrentPlayer();
+  }
+
+  function isMovePaymentLockedForAiAutomation() {
+    const player = getMovePaymentPlayer();
+    return Boolean(
+      isMovePaymentSelectionActive()
+      && player?.id
+      && isAiAutoBattlePlayer(player.id)
+      && !isAiAutomationPaused()
+    );
+  }
+
+  function isAiAutomationInputLocked(player = getCurrentPlayer()) {
+    return Boolean(player?.id && isAiAutoBattlePlayer(player.id) && !isAiAutomationPaused());
+  }
+
+  function blockManualAiAutomationInput(message = null, player = getCurrentPlayer()) {
+    rocketState.statusNote = message || `${player?.colorLabel || "电脑玩家"}AI 正在自动行动`;
+    scheduleAiAutoStepIfNeeded();
+    renderStateReadout();
+    return { ok: false, blocked: true, message: rocketState.statusNote };
+  }
+
+  function blockManualAiMovePayment(message = null) {
+    const player = getMovePaymentPlayer();
+    return blockManualAiAutomationInput(
+      message || `${player?.colorLabel || "电脑玩家"}AI 正在确认移动支付`,
+      player,
+    );
+  }
+
   function isMovePaymentCard(card) {
     return Number(card?.discardActionCode) === MOVE_DISCARD_ACTION_CODE
       || Boolean(cards.getDiscardActionMoveRewardForCard?.(card));
@@ -3002,7 +3040,7 @@
     rocketState.statusNote = options.message
       || `移动：已有 ${providedMovePoints} 点移动力，还需 ${paymentRequired} 点（可弃移动牌或用能量）`;
     syncMovePaymentChrome();
-    scrollToPlayerHandPanel();
+    if (!isMovePaymentLockedForAiAutomation()) scrollToPlayerHandPanel();
     updateActionButtons();
     renderStateReadout();
     return {
@@ -3017,17 +3055,19 @@
 
   function syncMovePaymentChrome() {
     const active = isMovePaymentSelectionActive();
+    const lockedForAi = isMovePaymentLockedForAiAutomation();
+    const manualActive = active && !lockedForAi;
     const preservesCardCornerMove = pendingMovePayment?.supplementalMoveContext?.type === "card_corner_free_move";
     if (active && !preservesCardCornerMove) cancelCardCornerQuickAction({ silent: true });
-    els.appWrap?.classList.toggle("move-payment-selection-active", active);
-    els.playerHandPanel?.classList.toggle("move-payment-selection-active", active);
-    els.playerHandPanel?.classList.toggle("player-hand-panel-focused", active);
+    els.appWrap?.classList.toggle("move-payment-selection-active", manualActive);
+    els.playerHandPanel?.classList.toggle("move-payment-selection-active", manualActive);
+    els.playerHandPanel?.classList.toggle("player-hand-panel-focused", manualActive);
     if (els.movePaymentConfirm) {
-      els.movePaymentConfirm.hidden = !active;
-      els.movePaymentConfirm.disabled = !active;
+      els.movePaymentConfirm.hidden = !manualActive;
+      els.movePaymentConfirm.disabled = !manualActive;
     }
     if (els.movePaymentCancel) {
-      els.movePaymentCancel.hidden = !active;
+      els.movePaymentCancel.hidden = !manualActive;
     }
     updatePlayerHandPanelTitle();
     if (active) setQuickPanelOpen(false);
@@ -3063,6 +3103,9 @@
 
   function cancelMovePaymentSelection() {
     if (!isMovePaymentSelectionActive()) return;
+    if (isMovePaymentLockedForAiAutomation()) {
+      return blockManualAiMovePayment();
+    }
 
     pendingMovePayment = null;
     rocketState.statusNote = "已取消移动";
@@ -3121,7 +3164,7 @@
       ? `移动：需要 ${requiredMovePoints} 点移动力，可选择移动牌，剩余用能量补齐`
       : "移动：选择移动牌弃置，或直接确认消耗 1 能量";
     syncMovePaymentChrome();
-    scrollToPlayerHandPanel();
+    if (!isMovePaymentLockedForAiAutomation()) scrollToPlayerHandPanel();
     updateActionButtons();
     renderStateReadout();
     return { ok: true, message: rocketState.statusNote };
@@ -3129,8 +3172,11 @@
 
   function handleHandCardMovePayment(handIndex) {
     if (!isMovePaymentSelectionActive()) return;
+    if (isMovePaymentLockedForAiAutomation()) {
+      return blockManualAiMovePayment();
+    }
 
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getMovePaymentPlayer();
     const index = Math.round(handIndex);
     const card = currentPlayer?.hand?.[index];
     if (!isMovePaymentCard(card)) return;
@@ -3144,10 +3190,18 @@
     renderPlayerHand();
   }
 
-  function confirmMovePayment() {
+  function confirmMovePayment(options = {}) {
     if (!isMovePaymentSelectionActive()) return;
+    if (isMovePaymentLockedForAiAutomation() && options.automated !== true) {
+      return blockManualAiMovePayment();
+    }
 
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getMovePaymentPlayer();
+    if (!currentPlayer) {
+      rocketState.statusNote = "没有可支付移动消耗的玩家";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
     const { requiredMovePoints = MOVE_ENERGY_COST } = pendingMovePayment;
     const selectedHandIndices = [...(pendingMovePayment.selectedHandIndices || [])].sort((left, right) => left - right);
     let paymentNote = "";
@@ -3656,7 +3710,7 @@
         ? `${effect.label}：卡牌移动力 ${poolUsed} 点，还需 ${paymentRequired} 点（可弃移动牌或用能量）`
         : `${effect.label}：需要 ${paymentRequired} 点移动力（可弃移动牌或用能量）`;
       syncMovePaymentChrome();
-      scrollToPlayerHandPanel();
+      if (!isMovePaymentLockedForAiAutomation()) scrollToPlayerHandPanel();
       renderStateReadout();
       return { ok: true, message: rocketState.statusNote };
     }
@@ -31436,7 +31490,10 @@
     });
   }
 
-  function moveRocket(deltaX, deltaY, rocketId) {
+  function moveRocket(deltaX, deltaY, rocketId, options = {}) {
+    if (isAiAutomationInputLocked() && options.automated !== true) {
+      return blockManualAiAutomationInput("电脑玩家自动移动中");
+    }
     const selectedRocketId = rocketId ?? moveHighlightRocketId ?? rocketState.activeRocketId;
     if (!selectedRocketId) {
       rocketState.statusNote = "请先点击要移动的火箭";
@@ -31465,6 +31522,12 @@
 
   function handleRocketPointerDown(event) {
     if (event.button !== 0) return;
+    if (isAiAutomationInputLocked()) {
+      event.preventDefault();
+      event.stopPropagation();
+      blockManualAiAutomationInput();
+      return;
+    }
 
     const rocketId = Number(event.currentTarget.dataset.rocketId);
     if (!Number.isInteger(rocketId)) return;
@@ -31484,6 +31547,11 @@
 
   function handleBoardPointerDown(event) {
     if (event.button !== 0) return;
+    if (isAiAutomationInputLocked()) {
+      event.preventDefault();
+      blockManualAiAutomationInput();
+      return;
+    }
     if (event.target.closest(".rocket-token") || event.target.closest(".move-arrow-button")) return;
     if (moveHighlightRocketId == null) return;
     if (
@@ -32016,6 +32084,8 @@
     confirmCardCornerQuickAction,
     cancelHandScanSelection,
     getCurrentPlayer,
+    isAiAutomationInputLocked,
+    blockManualAiAutomationInput,
     openJiuzheCardDialog,
     openBanrenmaCardConditionCompletionPicker,
     getReadyChongTaskForReservedCard,

@@ -11279,7 +11279,7 @@
 
     function runAiMovePaymentDecision() {
       if (!isMovePaymentSelectionActive()) return null;
-      const currentPlayer = getCurrentPlayer();
+      const currentPlayer = getPendingOwnerPlayer(state.pendingMovePayment);
       if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
         return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}需要人工确认移动支付` };
       }
@@ -11292,6 +11292,8 @@
       const rocket = (rocketState.rockets || [])
         .find((item) => Number(item.id) === Number(state.pendingMovePayment.rocketId)) || null;
       const from = rocket ? rocketActions.getRocketSectorCoordinate(rocket) : null;
+      const effect = getCurrentActionEffect?.() || state.pendingMovePayment.cardMoveEffectContext?.effect || null;
+      const nextEffect = getAiNextActionEffect();
       const to = from
         ? {
           x: solar.mod8(from.x + aiNumber(state.pendingMovePayment.deltaX)),
@@ -11328,7 +11330,7 @@
         preserveEnergy: preserveEnergyForRouteCashout,
         preserveEnergyForRouteCashout,
       });
-      const result = confirmMovePayment();
+      const result = confirmMovePayment({ automated: true });
       if (result?.ok) incrementAiMoveCountThisTurn(currentPlayer.id);
       return result || { ok: false, blocked: true, message: "AI 移动支付未产生结果" };
     }
@@ -13096,7 +13098,7 @@
       recordAiAutoBattleLog("move", `${currentPlayer.colorLabel}AI 移动 ${action.rocketLabel || `R${action.rocketId}`} ${action.directionLabel}`, {
         action,
       });
-      return moveRocket(action.deltaX, action.deltaY, action.rocketId);
+      return moveRocket(action.deltaX, action.deltaY, action.rocketId, { automated: true });
     }
 
     function buildAiResearchTechCandidate(tileId) {
