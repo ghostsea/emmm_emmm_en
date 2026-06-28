@@ -3144,7 +3144,7 @@
         ? 0
         : Math.max(0, Math.round(aiNumber(routeTarget?.newDistance)));
       if (distance > 1) return false;
-      const opportunity = getAiBestSatelliteLandingOpportunity(targetPlanetId, player);
+      const opportunity = getAiBestSatelliteLandingOpportunity(targetPlanetId, player, { routeDistance: distance });
       if (!opportunity || opportunity.directScore < 10 || aiNumber(opportunity.score) <= 0) return false;
       const requiredMovePoints = Math.max(0, Math.round(aiNumber(options.requiredMovePoints ?? MOVE_ENERGY_COST)));
       const currentEnergy = Math.max(0, Math.round(aiNumber(player?.resources?.energy)));
@@ -4280,9 +4280,9 @@
       const hasImmediateRouteRecovery = bestLaunchMoveRecoveryScore > 0 || bestPlanetCashoutRecoveryScore > 0;
       const finalLowHandRefillWindow = getAiRoundNumber() >= FINAL_ROUND_NUMBER
         && mainActionOpen
-        && currentScore < 120
+        && currentScore < 150
         && handSize <= 1
-        && publicity >= 3;
+        && (credits >= 2 || energy >= 2 || publicity >= 3);
       if (!recoveryThreshold && !hasImmediateRouteRecovery && !finalLowHandRefillWindow) return [];
       const scoreToNextThreshold = recoveryThreshold ? Math.max(1, recoveryThreshold - currentScore) : 0;
       const closeThirdMarkScanSetup = getAiRoundNumber() >= FINAL_ROUND_NUMBER
@@ -4385,6 +4385,8 @@
       const usefulPublicTradeThreshold = recoveryThreshold <= 50 && scoreToNextThreshold <= 3 ? 8 : 4;
       const hasUsefulPublicTradeCard = bestPublicTradeCardScore >= usefulPublicTradeThreshold;
       const finalLowHandPublicRefill = finalLowHandRefillWindow && bestPublicTradeCardScore >= 0;
+      const finalLowHandCreditRefill = finalLowHandPublicRefill && credits >= 2;
+      const finalLowHandEnergyRefill = finalLowHandPublicRefill && energy >= 2;
       const secondMarkCreditRecovery = recoveryThreshold <= 50
         && finalMarks <= 1
         && credits <= 0
@@ -4463,9 +4465,12 @@
           enabled: (mainActionOpen || canPrepareFinalThresholdAction)
             && credits >= 2
             && handSize <= 1
-            && !avoidCloseSecondMarkCreditCardTrap,
+            && !avoidCloseSecondMarkCreditCardTrap
+            && (recoveryThreshold || finalLowHandCreditRefill),
           value: baseValue + (handSize <= 0 ? 6 : 3) + (credits >= 6 ? 2 : 0),
-          reason: "后期落后：信用点换牌恢复行动",
+          reason: finalLowHandCreditRefill
+            ? "终局低手牌：信用点精选恢复打牌"
+            : "后期落后：信用点换牌恢复行动",
         },
         {
           tradeId: "credits-for-energy",
@@ -4526,12 +4531,15 @@
         },
         {
           tradeId: "energy-for-card",
-          enabled: secondMarkEnergyCardSearch,
+          enabled: secondMarkEnergyCardSearch || finalLowHandEnergyRefill,
           value: baseValue
             + 5
             + Math.min(8, bestPublicTradeCardScore * 0.28)
-            + Math.max(0, 7 - scoreToNextThreshold) * 0.5,
-          reason: "终局第2标记：能量精选寻找得分牌",
+            + Math.max(0, 7 - scoreToNextThreshold) * 0.5
+            + (finalLowHandEnergyRefill ? 3 + (handSize <= 0 ? 2 : 0) : 0),
+          reason: finalLowHandEnergyRefill
+            ? "终局低手牌：能量精选恢复打牌"
+            : "终局第2标记：能量精选寻找得分牌",
         },
         {
           tradeId: "energy-for-credit",
@@ -4611,6 +4619,8 @@
               secondMarkCardSearch,
               closeSecondMarkCardSearch,
               finalLowHandPublicRefill,
+              finalLowHandCreditRefill,
+              finalLowHandEnergyRefill,
               secondMarkEnergyCardSearch,
               desperateSecondMarkCardSearch,
               thresholdCreditRecovery,
@@ -5219,14 +5229,32 @@
       const slot = Math.max(0, Math.round(aiNumber(placementSlot)));
       if (!slot) return 0;
       const pressure = getAiEarlyEnginePressure(player);
+      const round = getAiRoundNumber();
+      const requiredSlot = data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6;
+      const currentScore = Math.max(0, aiNumber(player?.resources?.score));
+      const catchupEngine = currentScore < 50
+        || countAiFinalMarksForPlayer(player) < 2
+        || getAiLiveScorePaceDeficit(player) > 18;
       if (slot < 4) {
         return pressure * Math.max(0.4, 1.25 - slot * 0.2);
       }
       if (slot === 4) {
         return pressure * 0.75;
       }
-      if (slot <= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6)) {
-        return pressure * 0.8;
+      if (slot <= requiredSlot) {
+        const resources = player?.resources || {};
+        const demand = getAiStrategyDemand(player);
+        const canPayAnalyze = aiNumber(resources.energy) >= (data.ANALYZE_ENERGY_COST || 1);
+        const rawCloseAnalyzeBonus = Math.min(
+          5.5,
+          (slot === requiredSlot ? 2.8 : 1.4)
+            + (round <= 3 ? 1.1 : 0.35)
+            + (canPayAnalyze ? 1.1 : 0)
+            + getAiMapDemand(demand.actions, "analyze") * 0.045
+            + getAiMapDemand(demand.traceTypes, "blue") * 0.04,
+        );
+        const closeAnalyzeBonus = catchupEngine ? rawCloseAnalyzeBonus : 0;
+        return pressure * 0.8 + closeAnalyzeBonus;
       }
       return 0;
     }
@@ -8352,6 +8380,13 @@
       const missingForAnalyze = Math.max(0, requiredSlot - placedCount);
       const canReachAnalyze = placedCount + availableData >= requiredSlot;
       const readyAnalyze = hasAiAnalyzeReadyDataSlot(player);
+      const currentScore = Math.max(0, aiNumber(resources.score));
+      const catchupEngine = currentScore < 55
+        || countAiFinalMarksForPlayer(player) < 2
+        || getAiLiveScorePaceDeficit(player) > 18;
+      const nearAnalyzeEngine = catchupEngine
+        && round <= 3
+        && placedCount + availableData >= Math.max(4, requiredSlot - 2);
       const blueTraceDemand = getAiMapDemand(demand.traceTypes, "blue");
       const analyzeDemand = getAiMapDemand(demand.actions, "analyze");
       const scanDemand = getAiMapDemand(demand.actions, "scan");
@@ -8362,8 +8397,16 @@
       value += Math.min(4, (blueTraceDemand * 0.07) + (analyzeDemand * 0.08) + (scanDemand * 0.03));
       if (canReachAnalyze) value += readyAnalyze ? 4.2 : 2.5;
       else if (missingForAnalyze <= 2 && dataRoom > 0) value += 1.4 + (2 - missingForAnalyze) * 0.45;
+      if (nearAnalyzeEngine) {
+        value += Math.min(
+          4.2,
+          1.6
+            + Math.max(0, 3 - missingForAnalyze) * 0.65
+            + Math.min(1.4, analyzeDemand * 0.035 + blueTraceDemand * 0.03),
+        );
+      }
       if (round <= 2 && countAiFinalMarksForPlayer(player) <= 0) value += getAiEarlyEnginePressure(player) * 0.85;
-      return roundAiScore(Math.min(12, Math.max(0, value)));
+      return roundAiScore(Math.min(15, Math.max(0, value)));
     }
 
     function scoreAiTechBonus(bonusId, player = getCurrentPlayer()) {
@@ -8373,8 +8416,16 @@
         + Math.max(0, 3 - (player?.hand || []).length) * 0.4
         + scoreAiMidgameResourceContinuationValue({ handSize: 1, cardSelection: 1 }, player, { scale: 0.38 });
       if (bonusId === "bonus_1p") {
-        const continuation = scoreAiMidgameResourceContinuationValue({ energy: 1 }, player, { scale: 0.58 });
+        const catchupEnergy = Math.max(0, aiNumber(resources.score)) < 70
+          || countAiFinalMarksForPlayer(player) < 3
+          || getAiLiveScorePaceDeficit(player) > 15;
+        const continuation = scoreAiMidgameResourceContinuationValue(
+          { energy: 1 },
+          player,
+          { scale: catchupEnergy ? 0.72 : 0.58 },
+        );
         if (getAiRoundNumber() <= 2) return (resources.energy <= 2 ? 6.1 : 5) + continuation;
+        if (catchupEnergy) return (resources.energy <= 2 ? 5.8 : 3.8) + continuation;
         return (resources.energy <= 2 ? 5.4 : 3.6) + continuation;
       }
       if (bonusId === "bonus_1m") return (getAiRoundNumber() <= 2 ? 1.8 : 2.4)
