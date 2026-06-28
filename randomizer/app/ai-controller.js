@@ -4106,8 +4106,8 @@
         && currentCredits === 1
         && getAiRoundNumber() >= FINAL_ROUND_NUMBER
         && currentScore >= 70
-        && currentScore < 80
-        && hand.length >= 6
+        && currentScore < 115
+        && hand.length >= 3
         && currentPlayable.length <= 0
       );
       if (currentCredits > 0 && !finalLowTailOneCreditUnlock) return null;
