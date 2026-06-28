@@ -15320,8 +15320,7 @@
 
   function executeYichangdianNextAnomalyRewardEffect(effect) {
     const currentPlayer = getCurrentPlayer();
-    const nextSectorX = alienGameState.yichangdian?.nextAnomalySectorX;
-    const anomaly = nextSectorX == null ? null : yichangdian?.getAnomalyBySectorX?.(alienGameState, nextSectorX);
+    const { anomaly } = resolveYichangdianNextAnomalyFromCurrentEarth();
     const reward = anomaly ? yichangdian.getAnomalyReward(anomaly.markerId) : null;
     if (!currentPlayer || !anomaly || !reward) {
       rocketState.statusNote = "没有可结算的即将触发异常奖励";
@@ -15359,6 +15358,18 @@
     renderPlayerStats();
     renderStateReadout();
     return { ok: true, message: rewardResult.message };
+  }
+
+  function resolveYichangdianNextAnomalyFromCurrentEarth() {
+    if (!yichangdian || !alienGameState.yichangdian?.revealInitialized) {
+      return { nextSectorX: null, anomaly: null };
+    }
+    const earth = getEarthSectorCoordinate();
+    const nextSectorX = yichangdian.updateNextAnomaly(alienGameState, earth.x);
+    const anomaly = nextSectorX == null
+      ? null
+      : yichangdian.getAnomalyBySectorX(alienGameState, nextSectorX);
+    return { nextSectorX, anomaly };
   }
 
   function executeYichangdianPublicAllEffect(effect) {
@@ -15399,7 +15410,7 @@
   }
 
   function executeYichangdianNextAnomalyScanEffect(effect) {
-    const nextSectorX = alienGameState.yichangdian?.nextAnomalySectorX;
+    const { nextSectorX } = resolveYichangdianNextAnomalyFromCurrentEarth();
     if (nextSectorX == null) {
       rocketState.statusNote = "没有即将触发的异常扇区";
       renderStateReadout();

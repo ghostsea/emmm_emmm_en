@@ -45,6 +45,18 @@ assert.equal(revealResult.nextAnomalySectorX, 1, "earth x=4 should next trigger 
 const nextAnomaly = yichangdian.getAnomalyBySectorX(alienState, revealResult.nextAnomalySectorX);
 assert.equal(nextAnomaly.markerId, "b_1", "earth x matching anomaly x should resolve that anomaly");
 assert.equal(yichangdian.getAnomalyReward(nextAnomaly.markerId).traceType, "yellow");
+assert.equal(
+  yichangdian.updateNextAnomaly(alienState, 1),
+  7,
+  "earth already on an anomaly sector should skip that sector and find the next counterclockwise anomaly",
+);
+const nextAfterCurrentAnomaly = yichangdian.getAnomalyBySectorX(alienState, alienState.yichangdian.nextAnomalySectorX);
+assert.equal(nextAfterCurrentAnomaly.markerId, "c_1");
+assert.equal(
+  yichangdian.getAnomalyReward(nextAfterCurrentAnomaly.markerId).traceType,
+  "blue",
+  "next anomaly reward should match the resolved anomaly marker",
+);
 
 let result = yichangdian.placeYichangdianTrace(alienState, 2, "pink", 1, white);
 assert.equal(result.ok, true);
