@@ -27,11 +27,27 @@
   const ACTION_LABEL = "登陆";
   const BASE_ENERGY_COST = 3;
   const ORANGE3_LAND_DISCOUNT = 1;
+  const AOMOMO_PLANET_ID = "aomomo";
+
+  function getAomomo() {
+    if (aomomo) return aomomo;
+    const source = typeof globalThis !== "undefined"
+      ? globalThis
+      : (typeof window !== "undefined" ? window : null);
+    aomomo = source?.SetiAlienAomomo || null;
+    return aomomo;
+  }
+
+  function isAomomoPlanetId(planetId) {
+    const aomomoApi = getAomomo();
+    return planetId === (aomomoApi?.PLANET_ID || AOMOMO_PLANET_ID);
+  }
 
   function getEnergyCost(context, planetId) {
     const currentPlayer = players.getCurrentPlayer(context.playerState);
-    const hasOrbit = planetId === aomomo?.PLANET_ID
-      ? aomomo.countOrbitMarkers(context.alienGameState) > 0
+    const aomomoApi = getAomomo();
+    const hasOrbit = isAomomoPlanetId(planetId)
+      ? (aomomoApi?.countOrbitMarkers?.(context.alienGameState) || 0) > 0
       : planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
     const orbitDiscount = hasOrbit ? 1 : 0;
     const techDiscount = players.playerOwnsTech(currentPlayer, "orange3", context) ? ORANGE3_LAND_DISCOUNT : 0;
@@ -78,9 +94,10 @@
     const choices = [];
     const energyCost = getEnergyCost(context, planetId);
     const rocketLabel = placement.rocket?.id != null ? `R${placement.rocket.id}` : "火箭";
+    const aomomoApi = getAomomo();
 
-    if (planetId === aomomo?.PLANET_ID) {
-      if (aomomo?.canAddLandingMarker?.(context.alienGameState)) {
+    if (isAomomoPlanetId(planetId)) {
+      if (aomomoApi?.canAddLandingMarker?.(context.alienGameState)) {
         choices.push({
           target: targetWithRocketId({ type: "planet" }, placement.rocket.id),
           rocketId: placement.rocket.id,
@@ -101,7 +118,7 @@
       });
     }
 
-    if (planetId !== aomomo?.PLANET_ID && canLandOnSatellites(placement.currentPlayer, { ...context, ...options })) {
+    if (!isAomomoPlanetId(planetId) && canLandOnSatellites(placement.currentPlayer, { ...context, ...options })) {
       for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
         choices.push({
           target: targetWithRocketId({ type: "satellite", satelliteId: satellite.satelliteId }, placement.rocket.id),
@@ -191,8 +208,14 @@
     const planetId = placement.planet.planetId;
     const energyCost = getEnergyCost(context, planetId);
 
-    const isAomomoPlanet = planetId === aomomo?.PLANET_ID;
-    if (target.type === "planet" && isAomomoPlanet && !aomomo?.canAddLandingMarker?.(context.alienGameState)) {
+    const aomomoApi = getAomomo();
+    const isAomomoPlanet = isAomomoPlanetId(planetId);
+    if (target.type === "planet" && isAomomoPlanet && !aomomoApi?.canAddLandingMarker) {
+      const message = "奥陌陌模块未加载";
+      context.rocketState.statusNote = message;
+      return { ok: false, actionId: ACTION_ID, message };
+    }
+    if (target.type === "planet" && isAomomoPlanet && !aomomoApi.canAddLandingMarker(context.alienGameState)) {
       const message = `${placement.planet.name} 登陆槽位已满`;
       context.rocketState.statusNote = message;
       return { ok: false, actionId: ACTION_ID, message };
@@ -244,7 +267,7 @@
       satelliteId = target.satelliteId;
       targetLabel = markerResult.marker?.satelliteName || target.satelliteId;
     } else if (isAomomoPlanet) {
-      markerResult = aomomo.addLandingMarker(context.alienGameState, currentPlayer);
+      markerResult = aomomoApi.addLandingMarker(context.alienGameState, currentPlayer);
       markerKind = "aomomo-land";
       markerSequence = markerResult.marker?.sequence || null;
       targetLabel = placement.planet.name;
@@ -267,7 +290,7 @@
 
     const discountParts = [];
     const hasOrbit = isAomomoPlanet
-      ? aomomo.countOrbitMarkers(context.alienGameState) > 0
+      ? aomomoApi.countOrbitMarkers(context.alienGameState) > 0
       : planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
     if (hasOrbit) discountParts.push("有环绕，消耗-1");
     if (players.playerOwnsTech(currentPlayer, "orange3", context)) discountParts.push("橙色3，消耗-1");

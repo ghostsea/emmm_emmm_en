@@ -37,6 +37,21 @@
   const DEFAULT_ORBIT_COST = Object.freeze({ credits: 1, energy: 1 });
   const BASE_LAND_ENERGY_COST = 3;
   const ORANGE3_LAND_DISCOUNT = 1;
+  const AOMOMO_PLANET_ID = "aomomo";
+
+  function getAomomo() {
+    if (aomomo) return aomomo;
+    const source = typeof globalThis !== "undefined"
+      ? globalThis
+      : (typeof window !== "undefined" ? window : null);
+    aomomo = source?.SetiAlienAomomo || null;
+    return aomomo;
+  }
+
+  function isAomomoPlanetId(planetId) {
+    const aomomoApi = getAomomo();
+    return planetId === (aomomoApi?.PLANET_ID || AOMOMO_PLANET_ID);
+  }
 
   function cloneCost(cost) {
     return Object.fromEntries(
@@ -82,8 +97,9 @@
 
   function getLandEnergyCost(context, planetId) {
     const currentPlayer = players.getCurrentPlayer(context.playerState);
-    const hasOrbit = planetId === aomomo?.PLANET_ID
-      ? aomomo.countOrbitMarkers(context.alienGameState) > 0
+    const aomomoApi = getAomomo();
+    const hasOrbit = isAomomoPlanetId(planetId)
+      ? (aomomoApi?.countOrbitMarkers?.(context.alienGameState) || 0) > 0
       : planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
     const orbitDiscount = hasOrbit ? 1 : 0;
     const techDiscount = players.playerOwnsTech(currentPlayer, "orange3", context) ? ORANGE3_LAND_DISCOUNT : 0;
@@ -160,15 +176,15 @@
   }
 
   function getNextOrbitMarkerSequence(context, planetId) {
-    if (planetId === aomomo?.PLANET_ID) {
-      return aomomo.countOrbitMarkers(context.alienGameState) + 1;
+    if (isAomomoPlanetId(planetId)) {
+      return (getAomomo()?.countOrbitMarkers?.(context.alienGameState) || 0) + 1;
     }
     return planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) + 1;
   }
 
   function getNextLandingMarkerSequence(context, planetId) {
-    if (planetId === aomomo?.PLANET_ID) {
-      return aomomo.countLandingMarkers(context.alienGameState) + 1;
+    if (isAomomoPlanetId(planetId)) {
+      return (getAomomo()?.countLandingMarkers?.(context.alienGameState) || 0) + 1;
     }
     return planetStats.getPlanetLandingCount(context.planetStatsState, planetId) + 1;
   }
@@ -208,8 +224,9 @@
 
   function canAddOrbitForPlacement(context, placement) {
     const planetId = placement.planet.planetId;
-    return planetId === aomomo?.PLANET_ID
-      ? Boolean(aomomo?.canAddOrbitMarker?.(context.alienGameState))
+    const aomomoApi = getAomomo();
+    return isAomomoPlanetId(planetId)
+      ? Boolean(aomomoApi?.canAddOrbitMarker?.(context.alienGameState))
       : planetStats.canAddOrbitMarker(context.planetStatsState, planetId);
   }
 
@@ -277,9 +294,10 @@
     const cost = resolveCost(options, { energy: energyCost });
     const costLabel = getActionCostLabel(cost);
     const rocketPart = formatRocketChoicePart(placement);
+    const aomomoApi = getAomomo();
 
-    if (planetId === aomomo?.PLANET_ID) {
-      if (aomomo?.canAddLandingMarker?.(context.alienGameState)) {
+    if (isAomomoPlanetId(planetId)) {
+      if (aomomoApi?.canAddLandingMarker?.(context.alienGameState)) {
         const target = targetWithRocketId({ type: "planet" }, placement.rocket.id);
         const markerSequence = getNextLandingMarkerSequence(context, planetId);
         const rewardSummary = buildLandRewardSummary(planetId, target, markerSequence, options);
@@ -403,9 +421,13 @@
         message: `资源不足，需要 ${players.formatResourceCost(cost)}`,
       };
     }
-    const isAomomoPlanet = placement.planet.planetId === aomomo?.PLANET_ID;
+    const aomomoApi = getAomomo();
+    const isAomomoPlanet = isAomomoPlanetId(placement.planet.planetId);
     if (isAomomoPlanet) {
-      if (!aomomo?.canAddOrbitMarker?.(context.alienGameState)) {
+      if (!aomomoApi?.canAddOrbitMarker) {
+        return { ok: false, abilityId: "orbitProbe", message: "奥陌陌模块未加载" };
+      }
+      if (!aomomoApi.canAddOrbitMarker(context.alienGameState)) {
         return { ok: false, abilityId: "orbitProbe", message: `${placement.planet.name} 环绕槽位已满` };
       }
     } else if (!planetStats.canAddOrbitMarker(context.planetStatsState, placement.planet.planetId)) {
@@ -432,7 +454,7 @@
     }
 
     const markerResult = isAomomoPlanet
-      ? aomomo.addOrbitMarker(context.alienGameState, currentPlayer)
+      ? aomomoApi.addOrbitMarker(context.alienGameState, currentPlayer)
       : planetStats.addPlanetOrbitMarker(
         context.planetStatsState,
         placement.planet.planetId,
@@ -499,8 +521,12 @@
     }
 
     const planetId = placement.planet.planetId;
-    const isAomomoPlanet = planetId === aomomo?.PLANET_ID;
-    if (target.type === "planet" && isAomomoPlanet && !aomomo?.canAddLandingMarker?.(context.alienGameState)) {
+    const aomomoApi = getAomomo();
+    const isAomomoPlanet = isAomomoPlanetId(planetId);
+    if (target.type === "planet" && isAomomoPlanet && !aomomoApi?.canAddLandingMarker) {
+      return { ok: false, abilityId: "landProbe", message: "奥陌陌模块未加载" };
+    }
+    if (target.type === "planet" && isAomomoPlanet && !aomomoApi.canAddLandingMarker(context.alienGameState)) {
       return { ok: false, abilityId: "landProbe", message: `${placement.planet.name} 登陆槽位已满` };
     }
     if (target.type === "planet"
@@ -552,7 +578,7 @@
       satelliteId = target.satelliteId;
       targetLabel = markerResult.marker?.satelliteName || target.satelliteId;
     } else if (isAomomoPlanet) {
-      markerResult = aomomo.addLandingMarker(context.alienGameState, currentPlayer);
+      markerResult = aomomoApi.addLandingMarker(context.alienGameState, currentPlayer);
       markerKind = "aomomo-land";
       markerSequence = markerResult.marker?.sequence || null;
     } else {
@@ -573,7 +599,7 @@
 
     const discountParts = [];
     const hasOrbit = isAomomoPlanet
-      ? aomomo.countOrbitMarkers(context.alienGameState) > 0
+      ? (aomomoApi.countOrbitMarkers(context.alienGameState) > 0)
       : planetStats.getPlanetOrbitCount(context.planetStatsState, planetId) > 0;
     if (hasOrbit) discountParts.push("有环绕，消耗-1");
     if (players.playerOwnsTech(currentPlayer, "orange3", context)) discountParts.push("橙色3，消耗-1");

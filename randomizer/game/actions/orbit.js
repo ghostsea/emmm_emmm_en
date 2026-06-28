@@ -27,6 +27,21 @@
   const ACTION_LABEL = "环绕";
   const CREDIT_COST = 1;
   const ENERGY_COST = 1;
+  const AOMOMO_PLANET_ID = "aomomo";
+
+  function getAomomo() {
+    if (aomomo) return aomomo;
+    const source = typeof globalThis !== "undefined"
+      ? globalThis
+      : (typeof window !== "undefined" ? window : null);
+    aomomo = source?.SetiAlienAomomo || null;
+    return aomomo;
+  }
+
+  function isAomomoPlanetId(planetId) {
+    const aomomoApi = getAomomo();
+    return planetId === (aomomoApi?.PLANET_ID || AOMOMO_PLANET_ID);
+  }
 
   function getRequestedRocketId(options = {}) {
     const rocketId = Number(options.rocketId ?? options.target?.rocketId);
@@ -45,9 +60,10 @@
   }
 
   function canAddOrbitForPlacement(context, placement) {
-    const isAomomoPlanet = placement.planet.planetId === aomomo?.PLANET_ID;
+    const aomomoApi = getAomomo();
+    const isAomomoPlanet = isAomomoPlanetId(placement.planet.planetId);
     return isAomomoPlanet
-      ? Boolean(aomomo?.canAddOrbitMarker?.(context.alienGameState))
+      ? Boolean(aomomoApi?.canAddOrbitMarker?.(context.alienGameState))
       : planetStats.canAddOrbitMarker(context.planetStatsState, placement.planet.planetId);
   }
 
@@ -134,9 +150,15 @@
       return { ok: false, actionId: ACTION_ID, message: removed.message };
     }
 
-    const isAomomoPlanet = placement.planet.planetId === aomomo?.PLANET_ID;
+    const aomomoApi = getAomomo();
+    const isAomomoPlanet = isAomomoPlanetId(placement.planet.planetId);
+    if (isAomomoPlanet && !aomomoApi?.addOrbitMarker) {
+      const message = "奥陌陌模块未加载";
+      context.rocketState.statusNote = message;
+      return { ok: false, actionId: ACTION_ID, message };
+    }
     const markerResult = isAomomoPlanet
-      ? aomomo.addOrbitMarker(context.alienGameState, currentPlayer)
+      ? aomomoApi.addOrbitMarker(context.alienGameState, currentPlayer)
       : planetStats.addPlanetOrbitMarker(
         context.planetStatsState,
         placement.planet.planetId,

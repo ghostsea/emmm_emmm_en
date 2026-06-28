@@ -1,4 +1,7 @@
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const path = require("node:path");
+const vm = require("node:vm");
 
 const solar = require("../../solar-system/core");
 const players = require("../players");
@@ -66,6 +69,82 @@ function rotateContextOnce(context) {
   const afterRotation = solar.applySolarOrbitRotation(beforeRotation, 1);
   setContextRotation(context, afterRotation);
   return abilities.rocket.settleRocketsAfterSolarRotation(context, beforeRotation, afterRotation);
+}
+
+function runBrowserScript(sandbox, relativePath) {
+  const filename = path.resolve(__dirname, "..", "..", relativePath);
+  const code = fs.readFileSync(filename, "utf8");
+  vm.runInContext(code, sandbox, { filename: relativePath });
+}
+
+function createLateAomomoAbilitySandbox() {
+  const sandbox = {
+    console,
+    structuredClone,
+  };
+  sandbox.globalThis = sandbox;
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  [
+    "solar-system/layout.js",
+    "solar-system/core.js",
+    "game/players.js",
+    "game/rockets.js",
+    "game/planet-reference-layout.js",
+    "game/planet-stats.js",
+    "game/actions/shared.js",
+    "game/actions/planet-rewards.js",
+    "game/history/commands.js",
+    "game/abilities/planet.js",
+  ].forEach((scriptPath) => runBrowserScript(sandbox, scriptPath));
+  assert.equal(sandbox.SetiAlienAomomo, undefined);
+  [
+    "game/aliens/placement.js",
+    "game/aliens/state.js",
+    "game/aliens/aomomo.js",
+  ].forEach((scriptPath) => runBrowserScript(sandbox, scriptPath));
+  return sandbox;
+}
+
+function createBrowserAomomoPlanetContext(sandbox) {
+  const solarApi = sandbox.SetiSolarSystem;
+  const playersApi = sandbox.SetiPlayers;
+  const rocketsApi = sandbox.SetiRocketActions;
+  const planetStatsApi = sandbox.SetiPlanetStats;
+  const aomomoApi = sandbox.SetiAlienAomomo;
+  const solarState = solarApi.createBaselineState();
+  solarState.aomomoActive = true;
+  const playerState = playersApi.createPlayerState({
+    players: [{ color: "blue", resources: { credits: 10, energy: 10 } }],
+    currentPlayerColor: "blue",
+  });
+  const rocketState = rocketsApi.createRocketState();
+  const alienGameState = {
+    aliens: {
+      1: { revealed: true, alienId: aomomoApi.ALIEN_ID, assignedAlienId: aomomoApi.ALIEN_ID },
+    },
+    aomomo: aomomoApi.createAomomoState(),
+  };
+  const context = {
+    solarState,
+    playerState,
+    rocketState,
+    planetStatsState: planetStatsApi.createPlanetStatsState(),
+    alienGameState,
+    getPlanetLocations() {
+      return solarApi.createSolarSnapshot(solarState).planetLocations;
+    },
+  };
+  const current = playersApi.getCurrentPlayer(playerState);
+  aomomoApi.initializeAomomoReveal(alienGameState, 1, current);
+  const planet = context.getPlanetLocations().find((item) => item.planetId === aomomoApi.PLANET_ID);
+  assert.ok(planet, "aomomo planet should be visible");
+  const launch = rocketsApi.launchRocketAtSector(rocketState, planet, {
+    playerId: current.id,
+    color: current.color,
+  });
+  assert.equal(launch.ok, true, launch.message);
+  return { context, aomomoApi };
 }
 
 {
@@ -293,6 +372,30 @@ function launchToPlanet(context, planetId) {
 
   assert.equal(aomomo.countLandingMarkers(context.alienGameState), 0);
   assert.equal(context.rocketState.rockets.length, 1);
+}
+
+{
+  const sandbox = createLateAomomoAbilitySandbox();
+  const { context, aomomoApi } = createBrowserAomomoPlanetContext(sandbox);
+  const options = sandbox.SetiAbilityPlanet.getOrbitOptions(context);
+  assert.equal(options.ok, true, options.message);
+  assert.equal(options.choices[0].planetId, aomomoApi.PLANET_ID);
+  const result = sandbox.SetiAbilityPlanet.orbitProbe(context);
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerKind, "aomomo-orbit");
+  assert.equal(aomomoApi.countOrbitMarkers(context.alienGameState), 1);
+}
+
+{
+  const sandbox = createLateAomomoAbilitySandbox();
+  const { context, aomomoApi } = createBrowserAomomoPlanetContext(sandbox);
+  const options = sandbox.SetiAbilityPlanet.getLandOptions(context);
+  assert.equal(options.ok, true, options.message);
+  assert.equal(options.choices[0].planetId, aomomoApi.PLANET_ID);
+  const result = sandbox.SetiAbilityPlanet.landProbe(context);
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerKind, "aomomo-land");
+  assert.equal(aomomoApi.countLandingMarkers(context.alienGameState), 1);
 }
 
 {
