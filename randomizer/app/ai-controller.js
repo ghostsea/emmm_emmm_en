@@ -7609,7 +7609,7 @@
         : 0;
       const followupScore = Math.max(0, aiNumber(options.followupScore));
       const canContinueSameMove = Math.max(0, Math.round(aiNumber(options.remainingPoolAfterStep))) > 0
-        && !isAiIndustryHuanyuMoveEffect(options.effect);
+        && !isAiIndustryHuanyuMoveContext(options);
       const routeCanCashOut = followupScore > 0 || (routeTarget?.kind === "planet" && Math.max(0, aiNumber(routeTarget.newDistance)) <= 0);
       const swing = nearestPlanet?.planetId ? getAiThreeRotationDistanceSwingForPlanet(nearestPlanet.planetId) : 0;
       const waitableExcess = Math.min(distanceExcess, swing);
@@ -7626,8 +7626,9 @@
       if (distanceExcess > 0 && !routeCanCashOut) {
         penalty += Math.min(12, 3 + distanceExcess * 2.8 + waitableExcess * 1.6);
       }
-      if (isAiIndustryHuanyuMoveEffect(options.effect) && asteroidCountAfter >= 2 && !routeCanCashOut) {
-        penalty += 8;
+      if (isAiIndustryHuanyuMoveContext(options) && !routeCanCashOut) {
+        penalty += asteroidCountAfter >= 2 ? 16 : 6;
+        if (distanceExcess > 0) penalty += Math.min(10, distanceExcess * 3 + waitableExcess * 1.5);
       }
       if (nearestDistance >= 4 && !routeCanCashOut) {
         penalty += Math.min(8, nearestDistance * 1.2);
@@ -10092,18 +10093,33 @@
       return bestScore >= 5 ? bestScore : -Infinity;
     }
 
-    function scoreAiIndustryHuanyuMoves() {
-      const candidates = listAiEffectMoveCandidates({
+    function listAiIndustryHuanyuMoveCandidates() {
+      return listAiEffectMoveCandidates({
         id: "industryMove",
         free: true,
         poolRemaining: 1,
+        industryHuanyuMove: true,
       })
-        .filter((candidate) => !(state.industryFreeMoveState?.movedRocketIds || []).includes(candidate.rocketId))
+        .filter((candidate) => !(state.industryFreeMoveState?.movedRocketIds || []).includes(candidate.rocketId));
+    }
+
+    function scoreAiIndustryHuanyuMoves() {
+      const candidates = listAiIndustryHuanyuMoveCandidates()
         .sort((left, right) => Number(right.score || 0) - Number(left.score || 0));
       if (!candidates.length) return -Infinity;
+      const ownsOrange2 = players.playerOwnsTech(getCurrentPlayer(), "orange2", createActionContext());
+      const asteroidStops = [candidates[0], candidates[1]].filter((candidate) => (
+        candidate
+        && isAiAsteroidCoordinate(candidate.to)
+        && Math.max(0, aiNumber(candidate.valueBreakdown?.landingDirectScoreGain)) <= 0
+      )).length;
+      const asteroidStrandingPenalty = ownsOrange2
+        ? 0
+        : asteroidStops >= 2 ? 12 : asteroidStops === 1 ? 4 : 0;
       return 3
         + Math.max(0, Number(candidates[0]?.score || 0))
-        + Math.max(0, Number(candidates[1]?.score || 0)) * 0.45;
+        + Math.max(0, Number(candidates[1]?.score || 0)) * 0.45
+        - asteroidStrandingPenalty;
     }
 
     function scoreAiIndustrySentinelArm(player = getCurrentPlayer()) {
@@ -10638,6 +10654,7 @@
           terrainRequired,
           paymentRequired,
           remainingPoolAfterStep,
+          industryHuanyuMove: isAiIndustryHuanyuMoveContext({ ...options, effect }),
         },
       };
     }
@@ -10647,6 +10664,10 @@
         effect?.options?.industryHuanyuMoveGroupId
         && effect.options?.requireDifferentRocketInGroup,
       );
+    }
+
+    function isAiIndustryHuanyuMoveContext(options = {}) {
+      return Boolean(options.industryHuanyuMove || isAiIndustryHuanyuMoveEffect(options.effect));
     }
 
     function getAiCompletedIndustryHuanyuMoveRocketIds(effect) {
@@ -10782,11 +10803,7 @@
       if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
         return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}需要人工处理公司免费移动` };
       }
-      const candidates = listAiEffectMoveCandidates({
-        id: "industryMove",
-        free: true,
-        poolRemaining: 1,
-      }).filter((candidate) => !(state.industryFreeMoveState?.movedRocketIds || []).includes(candidate.rocketId));
+      const candidates = listAiIndustryHuanyuMoveCandidates();
       const selected = ai?.policy?.chooseTurnAction?.(candidates, {
         playerState,
         turnState,
