@@ -87,6 +87,7 @@
     PASS_RESERVE_ROUNDS,
   } = appConstants;
   const BANRENMA_PANEL_BONUS_EFFECT_TYPE = "banrenma_panel_bonus";
+  const JIUZHE_THRESHOLD_CARD_EFFECT_TYPE = "jiuzhe_threshold_card";
   const tokenWidths = {
     rocket: null,
     orbit: null,
@@ -11423,6 +11424,9 @@
   }
 
   function getActionEffectDisplayIconSrc(effect) {
+    if (effect?.type === JIUZHE_THRESHOLD_CARD_EFFECT_TYPE) {
+      return jiuzhe?.CARD_BACK_SRC || "";
+    }
     if (effect?.type === BANRENMA_PANEL_BONUS_EFFECT_TYPE) {
       const player = resolvePlayerReference(effect.options || effect) || getEffectOwnerPlayer(effect);
       return banrenma?.getPlayerMarkSrc?.(player?.color || effect.options?.playerColor)
@@ -16916,6 +16920,10 @@
       return executeBanrenmaGainIncomeEffect(effect);
     }
 
+    if (jiuzhe && effect.type === JIUZHE_THRESHOLD_CARD_EFFECT_TYPE) {
+      return executeJiuzheThresholdCardEffect(effect);
+    }
+
     if (banrenma && effect.type === BANRENMA_PANEL_BONUS_EFFECT_TYPE) {
       return executeBanrenmaPanelBonusEffect(effect);
     }
@@ -21433,9 +21441,64 @@
     });
   }
 
+  function isJiuzheThresholdOpportunity(opportunity) {
+    return opportunity?.reason === "freeThreshold" || opportunity?.reason === "paidThreshold";
+  }
+
+  function createJiuzheThresholdCardEffect(player, opportunity) {
+    const playerLabel = player?.colorLabel || player?.name || player?.color || "玩家";
+    const reason = opportunity?.reason || "threshold";
+    return {
+      id: `jiuzhe-threshold-card-${player?.id || player?.color || "player"}-${reason}`,
+      type: JIUZHE_THRESHOLD_CARD_EFFECT_TYPE,
+      label: `九折碰线打牌：${playerLabel}`,
+      icon: "jiuzhe_card_back",
+      playerId: player?.id || null,
+      playerColor: player?.color || null,
+      options: {
+        playerId: player?.id || null,
+        playerColor: player?.color || null,
+        reason,
+        label: opportunity?.label || "九折碰线打牌",
+        cost: opportunity?.cost || {},
+        skippable: false,
+      },
+      required: true,
+      status: "pending",
+    };
+  }
+
+  function hasJiuzheThresholdEffectQueued(player, reason) {
+    if (!pendingActionEffectFlow || !player || !reason) return false;
+    return (pendingActionEffectFlow.effects || []).some((effect) => (
+      effect?.type === JIUZHE_THRESHOLD_CARD_EFFECT_TYPE
+      && effect.status !== "completed"
+      && effect.status !== "skipped"
+      && effect.options?.reason === reason
+      && (
+        effect.options?.playerId === player.id
+        || effect.options?.playerColor === player.color
+        || effect.playerId === player.id
+        || effect.playerColor === player.color
+      )
+    ));
+  }
+
+  function queueJiuzheThresholdEffectForPlayer(player, opportunity) {
+    if (!jiuzhe || !player || !isActionEffectFlowActive() || !isJiuzheThresholdOpportunity(opportunity)) return false;
+    if (hasJiuzheThresholdEffectQueued(player, opportunity.reason)) return false;
+    insertActionEffectsAfterCurrent([createJiuzheThresholdCardEffect(player, opportunity)]);
+    renderActionEffectBar();
+    return true;
+  }
+
   function queueJiuzheOpportunitiesForPlayer(player) {
     if (!jiuzhe || !player) return;
     const opportunity = jiuzhe.getPendingOpportunity(alienGameState, player);
+    if (isActionEffectFlowActive() && isJiuzheThresholdOpportunity(opportunity)) {
+      queueJiuzheThresholdEffectForPlayer(player, opportunity);
+      return;
+    }
     enqueueJiuzheOpportunity(player, opportunity);
   }
 
@@ -21518,14 +21581,15 @@
   }
 
   function handleJiuzheCardChoice(cardIndex) {
-    if (!jiuzhe || !pendingJiuzheCardPlay) return { ok: false, message: "没有九折打出机会" };
-    const player = resolvePlayerReference(pendingJiuzheCardPlay);
+    const pending = pendingJiuzheCardPlay;
+    if (!jiuzhe || !pending) return { ok: false, message: "没有九折打出机会" };
+    const player = resolvePlayerReference(pending);
     if (!player) return { ok: false, message: "找不到九折牌玩家" };
-    if (pendingJiuzheCardPlay.reason === "view") return { ok: false, message: "当前只是查看九折牌" };
+    if (pending.reason === "view") return { ok: false, message: "当前只是查看九折牌" };
 
     const beforePlayerState = structuredClone(playerState);
     const beforeAlienState = structuredClone(alienGameState);
-    const cost = pendingJiuzheCardPlay.cost || {};
+    const cost = pending.cost || {};
     if (Object.keys(cost).length && !players.canAfford(player, cost)) {
       rocketState.statusNote = `资源不足，需要 ${players.formatResourceCost(cost)}`;
       renderStateReadout();
@@ -21536,7 +21600,7 @@
       players.spendResources(player, cost);
     }
     const result = jiuzhe.playJiuzheCard(alienGameState, player, cardIndex, {
-      reason: pendingJiuzheCardPlay.reason,
+      reason: pending.reason,
     });
     if (!result.ok) {
       if (Object.keys(cost).length) players.gainResources(player, cost);
@@ -21545,57 +21609,120 @@
       return result;
     }
 
-    beginQuickActionStep("jiuzhe-card", pendingJiuzheCardPlay.label || "九折打出");
-    recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
-      playerState,
-      beforePlayerState,
-      "恢复九折打出前玩家状态",
-    ));
-    recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
-      alienGameState,
-      beforeAlienState,
-      "恢复九折打出前外星人状态",
-    ));
-    completeQuickActionStep();
+    const fromEffectFlow = Boolean(pending.fromEffectFlow && getCurrentActionEffect());
+    const effectLabel = pending.effectLabel || pending.label || getCurrentActionEffect()?.label || "九折打出";
+    const effectResult = {
+      ok: true,
+      undoable: true,
+      message: `${pending.label || effectLabel}：${result.message}`,
+      payload: {
+        reason: pending.reason,
+        cardIndex: result.card?.index ?? Number(cardIndex),
+        cost,
+      },
+    };
 
-    rocketState.statusNote = `${pendingJiuzheCardPlay.label}：${result.message}`;
-    queueJiuzheOpportunitiesForPlayer(player);
+    if (fromEffectFlow) {
+      beginEffectHistoryStep(effectLabel);
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复九折打出前玩家状态",
+      ));
+      recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复九折打出前外星人状态",
+      ));
+      if (getCurrentActionEffect()) getCurrentActionEffect().result = effectResult;
+    } else {
+      beginQuickActionStep("jiuzhe-card", pending.label || "九折打出");
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        playerState,
+        beforePlayerState,
+        "恢复九折打出前玩家状态",
+      ));
+      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+        alienGameState,
+        beforeAlienState,
+        "恢复九折打出前外星人状态",
+      ));
+      completeQuickActionStep();
+    }
+
+    rocketState.statusNote = effectResult.message;
     closeJiuzheCardDialog();
+    queueJiuzheOpportunitiesForPlayer(player);
     renderPlayerStats();
     renderAlienPanels();
     updateActionButtons();
     renderStateReadout();
-    maybeContinueAlienRevealQueuedOpportunities();
-    return result;
+    if (fromEffectFlow) {
+      completeCurrentActionEffect();
+    } else {
+      maybeContinueAlienRevealQueuedOpportunities();
+    }
+    return { ...result, message: effectResult.message };
   }
 
   function handleJiuzheOpportunitySkip() {
-    if (!jiuzhe || !pendingJiuzheCardPlay) return { ok: false, message: "没有九折打出机会" };
-    const player = resolvePlayerReference(pendingJiuzheCardPlay);
+    const pending = pendingJiuzheCardPlay;
+    if (!jiuzhe || !pending) return { ok: false, message: "没有九折打出机会" };
+    const player = resolvePlayerReference(pending);
     if (!player) return { ok: false, message: "找不到九折牌玩家" };
     const beforeAlienState = structuredClone(alienGameState);
-    const result = jiuzhe.declineOpportunity(alienGameState, player, pendingJiuzheCardPlay.reason);
+    const result = jiuzhe.declineOpportunity(alienGameState, player, pending.reason);
     if (result.ok) {
-      beginQuickActionStep("jiuzhe-card-skip", pendingJiuzheCardPlay.label || "九折放弃");
-      recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
-        alienGameState,
-        beforeAlienState,
-        "恢复九折放弃前外星人状态",
-      ));
-      completeQuickActionStep();
+      const fromEffectFlow = Boolean(pending.fromEffectFlow && getCurrentActionEffect());
+      const effectLabel = pending.effectLabel || pending.label || getCurrentActionEffect()?.label || "九折放弃";
+      const effectResult = {
+        ok: true,
+        undoable: true,
+        skipped: true,
+        message: `${pending.label || effectLabel}：${result.message}`,
+        payload: {
+          reason: pending.reason,
+          skipped: true,
+        },
+      };
+      if (fromEffectFlow) {
+        beginEffectHistoryStep(effectLabel);
+        recordHistoryCommand(historyCommands.createRestoreObjectCommand(
+          alienGameState,
+          beforeAlienState,
+          "恢复九折放弃前外星人状态",
+        ));
+        if (getCurrentActionEffect()) getCurrentActionEffect().result = effectResult;
+      } else {
+        beginQuickActionStep("jiuzhe-card-skip", pending.label || "九折放弃");
+        recordQuickHistoryCommand(historyCommands.createRestoreObjectCommand(
+          alienGameState,
+          beforeAlienState,
+          "恢复九折放弃前外星人状态",
+        ));
+        completeQuickActionStep();
+      }
+      rocketState.statusNote = effectResult.message;
+      closeJiuzheCardDialog();
+      queueJiuzheOpportunitiesForPlayer(player);
+      renderPlayerStats();
+      updateActionButtons();
+      renderStateReadout();
+      if (fromEffectFlow) {
+        completeCurrentActionEffect();
+      } else {
+        maybeContinueAlienRevealQueuedOpportunities();
+      }
+      return { ...result, message: effectResult.message };
     }
     rocketState.statusNote = result.message;
-    queueJiuzheOpportunitiesForPlayer(player);
-    closeJiuzheCardDialog();
-    renderPlayerStats();
-    updateActionButtons();
     renderStateReadout();
-    maybeContinueAlienRevealQueuedOpportunities();
     return result;
   }
 
   function maybeOpenQueuedJiuzheOpportunity() {
     if (pendingJiuzheOpportunityOpen || pendingJiuzheCardPlay) return null;
+    if (isActionEffectFlowActive()) return null;
     if (hasActivePendingSubFlow()) return null;
     if (els.scanTargetOverlay && !els.scanTargetOverlay.hidden) return null;
     while (jiuzheOpportunityQueue.length) {
@@ -21866,6 +21993,27 @@
     const readyCard = getReadyBanrenmaCardForOpportunity(player);
     if (!readyCard?.card) return null;
     return openBanrenmaCardConditionCompletionPicker(readyCard.card, { player });
+  }
+
+  function executeJiuzheThresholdCardEffect(effect) {
+    const player = resolvePlayerReference(effect.options || effect) || getEffectOwnerPlayer(effect);
+    if (!player) {
+      return skipActionEffectWithMessage(effect, "九折碰线打牌：找不到玩家");
+    }
+    const expectedReason = effect.options?.reason || null;
+    const latest = jiuzhe?.getPendingOpportunity?.(alienGameState, player) || null;
+    if (!isJiuzheThresholdOpportunity(latest)) {
+      return skipActionEffectWithMessage(effect, "九折碰线打牌：没有待处理的达分机会");
+    }
+    if (expectedReason && latest.reason !== expectedReason) {
+      queueJiuzheThresholdEffectForPlayer(player, latest);
+      return skipActionEffectWithMessage(effect, "九折碰线打牌：机会已更新，跳过旧提醒");
+    }
+    return openJiuzheCardDialog(player, {
+      ...latest,
+      fromEffectFlow: true,
+      effectLabel: effect.label || latest.label || "九折碰线打牌",
+    });
   }
 
   function executeBanrenmaPanelBonusEffect(effect) {
