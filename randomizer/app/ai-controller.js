@@ -7050,7 +7050,11 @@
       if (energyShortfall <= 0) premium += 2.5;
       else premium -= Math.min(5.5, energyShortfall * 1.8);
       if (routeDistance != null) {
-        if (routeDistance <= 3) premium += Math.max(0, 4.5 - routeDistance);
+        if (routeDistance <= 3) {
+          premium += Math.max(0, 4.5 - routeDistance);
+          if (energyShortfall === 1) premium += 3.5;
+          else if (energyShortfall === 2) premium += 1.5;
+        }
         else premium -= Math.min(5, (routeDistance - 3) * 1.15);
       }
       if (options.immediate === true) premium += 2;
