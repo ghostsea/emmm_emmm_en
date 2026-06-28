@@ -7089,14 +7089,48 @@
       else premium -= Math.min(5.5, energyShortfall * 1.8);
       if (routeDistance != null) {
         if (routeDistance <= 3) {
-          premium += Math.max(0, 4.5 - routeDistance);
-          if (energyShortfall === 1) premium += 3.5;
-          else if (energyShortfall === 2) premium += 1.5;
+          premium += Math.max(0, 6.25 - routeDistance * 1.35);
+          if (directScore >= 25) premium += 1.75;
+          if (energyShortfall === 1) premium += 4.5;
+          else if (energyShortfall === 2) premium += 2.5;
         }
         else premium -= Math.min(5, (routeDistance - 3) * 1.15);
       }
       if (options.immediate === true) premium += 2;
-      return roundAiScore(Math.min(24, Math.max(0, premium)));
+      return roundAiScore(Math.min(28, Math.max(0, premium)));
+    }
+
+    function scoreAiOuterSatelliteRouteApproachPremium(planetId, satelliteOpportunity, player = getCurrentPlayer(), options = {}) {
+      if (!satelliteOpportunity || !player) return 0;
+      const target = { type: "satellite", satelliteId: satelliteOpportunity.satelliteId };
+      if (!isAiOuterHighScoreSatelliteTarget(planetId, target)) return 0;
+      const directScore = Math.max(0, aiNumber(satelliteOpportunity.directScore));
+      if (directScore < 20) return 0;
+      const round = getAiRoundNumber();
+      if (round < 3) return 0;
+      const newDistance = Math.max(0, Math.round(aiNumber(options.newDistance)));
+      if (newDistance <= 0 || newDistance > 3) return 0;
+      const oldDistance = options.oldDistance == null
+        ? newDistance + 1
+        : Math.max(0, Math.round(aiNumber(options.oldDistance)));
+      if (oldDistance <= newDistance) return 0;
+      const energyShortfall = Math.max(0, Math.round(aiNumber(satelliteOpportunity.energyShortfall)));
+      if (round === 3 && energyShortfall > 1) return 0;
+
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const threshold = getAiNextMissingFinalScoreThreshold(player);
+      const crossesThreshold = Boolean(threshold && currentScore < threshold && currentScore + directScore >= threshold);
+      const distanceGain = Math.max(0, oldDistance - newDistance);
+      const finalRound = round >= FINAL_ROUND_NUMBER;
+      let premium = finalRound ? 4.8 : 1.6;
+      premium += Math.max(0, 4 - newDistance) * (finalRound ? 2.25 : 1.05);
+      premium += Math.min(3, distanceGain) * (finalRound ? 1.15 : 0.55);
+      premium += Math.max(0, directScore - 20) * (finalRound ? 0.3 : 0.14);
+      if (crossesThreshold) premium += finalRound ? 4.5 : 2.5;
+      if (countAiFinalMarksForPlayer(player) < 3) premium += finalRound ? 2.2 : 1.1;
+      if (energyShortfall <= 0) premium += finalRound ? 2.2 : 1;
+      else premium += Math.max(0, 3 - energyShortfall) * (finalRound ? 0.9 : 0.35);
+      return roundAiScore(Math.min(finalRound ? 18 : 8, Math.max(0, premium)));
     }
 
     function canAiOpponentContestSatelliteNow(opponent, planetId) {
@@ -7624,6 +7658,35 @@
       return Boolean(coordinate && isAsteroidContent(getSectorContentForMove(coordinate)));
     }
 
+    function scoreAiMoveArrivalRewardValue(coordinate, player = getCurrentPlayer(), options = {}) {
+      if (!coordinate || !player) return 0;
+      const content = getSectorContentForMove(coordinate);
+      if (!content) return 0;
+      let publicityGain = 0;
+      if (content.kind === solar.layout.CONTENT_KIND.PLANET && content.planetId !== "earth") {
+        publicityGain = 1;
+      } else if (content.kind === solar.layout.CONTENT_KIND.COMET) {
+        publicityGain = 1;
+      } else if (
+        content.kind === solar.layout.CONTENT_KIND.ASTEROID
+        && players.playerOwnsTech(player, "orange2", createActionContext())
+      ) {
+        publicityGain = 1;
+      }
+      if (publicityGain <= 0) return 0;
+      const round = getAiRoundNumber();
+      const baseScale = round <= 2 ? 0.62 : round === 3 ? 0.5 : 0.42;
+      const freeScale = options.free ? 1 : 0.78;
+      const asteroidOrange2Bonus = content.kind === solar.layout.CONTENT_KIND.ASTEROID ? 0.85 : 0;
+      const resourceValue = scoreAiResourceBundle({ publicity: publicityGain }) * baseScale * freeScale;
+      const currentPublicity = Math.max(0, aiNumber(player.resources?.publicity));
+      const projectedPublicity = Math.min(players.RESOURCE_LIMITS.publicity, currentPublicity + publicityGain);
+      const selectionBridge = currentPublicity < 3 && projectedPublicity >= 3
+        ? (round <= 2 ? 0.85 : round === 3 ? 1.15 : 1.45)
+        : 0;
+      return roundAiScore(Math.max(0, resourceValue + selectionBridge * freeScale + asteroidOrange2Bonus));
+    }
+
     function getAiThreeRotationDistanceSwingForPlanet(planetId) {
       if (planetId === "uranus" || planetId === "neptune") return 3;
       if (planetId === "jupiter" || planetId === "saturn") return 2;
@@ -7737,12 +7800,19 @@
         return total + Math.min(4, window.excess * 0.8 + window.waitableExcess * 0.45);
       }, 0);
       if (activeRocketCount <= 0 && asteroidDemand <= 0) return 0;
+      const industryLabel = String(getAiIndustryCard(player)?.label || "");
+      const huanyuMovePressure = industryLabel.includes("寰宇超动力")
+        ? 5.5
+        : industryLabel.includes("寰宇")
+          ? 3.5
+          : 0;
       return Math.min(
-        22,
-        asteroidRocketCount * 7.25
-          + Math.max(0, activeRocketCount - 1) * 2.45
-          + asteroidDemand * 1.05
-          + farPlanetWindowPressure,
+        28,
+        asteroidRocketCount * 8.6
+          + Math.max(0, activeRocketCount - 1) * 3.25
+          + asteroidDemand * 1.25
+          + farPlanetWindowPressure
+          + huanyuMovePressure,
       );
     }
 
@@ -7983,6 +8053,10 @@
             });
             const distanceScale = newDistance === 0 ? 0.75 : newDistance === 1 ? 0.62 : 0.42;
             score += satelliteCashoutPremium * distanceScale;
+            score += scoreAiOuterSatelliteRouteApproachPremium(target.id, target.satelliteOpportunity, player, {
+              oldDistance,
+              newDistance,
+            });
           }
           rotationStagingValue = scoreAiRotationStagingValue({
             ...target,
@@ -8349,6 +8423,9 @@
       let penalty = 3.5 + Math.max(0, asteroidCountAfter - 1) * 5;
       if (followupScore <= 0) penalty += 4 + distanceExcess * 1.6;
       if (asteroidCountAfter >= 2) penalty += 5;
+      if (asteroidCountAfter >= 2 && !routeCanCashOut) {
+        penalty += round <= 2 ? 7 : round === 3 ? 9 : 11;
+      }
       if (Math.max(0, Math.round(aiNumber(options.requiredMovePoints))) <= 1) penalty += 1.5;
       if (routeIsAsteroidTarget && !routeCanCashOut) {
         penalty += round <= 2 ? 7 : round === 3 ? 9 : 10;
@@ -10297,14 +10374,16 @@
       }
       if (moveReward) {
         value += scoreAiResourceBundle(moveReward.gain || {});
-        value += Math.max(0, Math.round(aiNumber(moveReward.movementPoints || 1))) * AI_RESOURCE_VALUES.movement;
         const bestMove = listAiEffectMoveCandidates({
           id: "cardCornerMovePreview",
           free: true,
           poolRemaining: moveReward.movementPoints || 1,
         }).sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null;
         if (!bestMove) return { value: -Infinity, resourceReward, moveReward, bestMove: null };
-        value += Math.max(0, aiNumber(bestMove.score)) * 0.45;
+        const bestMoveScore = aiNumber(bestMove.score);
+        if (bestMoveScore < 0) return { value: -Infinity, resourceReward, moveReward, bestMove };
+        value += Math.max(0, Math.round(aiNumber(moveReward.movementPoints || 1))) * AI_RESOURCE_VALUES.movement;
+        value += bestMoveScore * 0.45;
         return { value, resourceReward, moveReward, bestMove };
       }
       const incomeGain = cards.getIncomeGainForCard?.(card);
@@ -10786,6 +10865,9 @@
         + finalSecondMarkUncashableMovePenalty;
       const movementGain = applyAiStrategyWeight(applyAiStrategyWeight(routeScoreForGain, "route", 0.7), "move", 0.8)
         + applyAiStrategyWeight(followupGain, "orbitLand", 0.5)
+        + scoreAiMoveArrivalRewardValue(to, currentPlayer, {
+          free: movePayment.energySpent <= 0 && movePayment.cardSpent <= 0,
+        })
         + direction.score * 0.08;
       const paymentCost = movePayment.cost;
       const nearestActionablePlanetPenalty = scoreAiNearestActionablePlanetTimingPenalty({
@@ -10933,9 +11015,10 @@
         });
         if (!candidates.length) return -Infinity;
         const bestMoveScore = aiNumber(candidates[0]?.score);
+        if (bestMoveScore < 0) return -Infinity;
         return scoreAiResourceBundle(resolvedReward.gain || {})
           + Math.max(0.5, aiNumber(resolvedReward.movementPoints || 1) * 0.85)
-          + Math.max(0, bestMoveScore) * 0.75;
+          + bestMoveScore * 0.75;
       }
       return -Infinity;
     }
@@ -10977,10 +11060,11 @@
     function scoreAiIndustryHuanyuMoves() {
       const candidates = listAiIndustryHuanyuMoveCandidates()
         .sort((left, right) => Number(right.score || 0) - Number(left.score || 0));
-      if (!candidates.length) return -Infinity;
-      const firstMove = candidates[0] || null;
+      const positiveCandidates = candidates.filter((candidate) => aiNumber(candidate.score) > 0);
+      if (!positiveCandidates.length) return -Infinity;
+      const firstMove = positiveCandidates[0] || null;
       const secondMove = firstMove
-        ? candidates.find((candidate) => String(candidate.rocketId) !== String(firstMove.rocketId)) || null
+        ? positiveCandidates.find((candidate) => String(candidate.rocketId) !== String(firstMove.rocketId)) || null
         : null;
       const plannedMoves = [firstMove, secondMove].filter(Boolean);
       const ownsOrange2 = players.playerOwnsTech(getCurrentPlayer(), "orange2", createActionContext());
@@ -11766,6 +11850,7 @@
       });
       const movementGain = applyAiStrategyWeight(applyAiStrategyWeight(routeScore.score, "route", 0.7), "move", 0.8) * 0.75
         + direction.score * 0.08
+        + scoreAiMoveArrivalRewardValue(to, currentPlayer, { free: paymentRequired <= 0 }) * 0.85
         + applyAiStrategyWeight(landingScore.score, "orbitLand", 0.6);
       const paymentCost = paymentRequired > 0
         ? scoreAiMovePaymentCost(currentPlayer, paymentRequired)
