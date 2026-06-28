@@ -1664,6 +1664,20 @@ body {
   min-width: 0;
 }
 
+.player-turn-order-number {
+  flex: 0 0 18px;
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 246, 177, 0.9);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
 .opponent-stat-row .player-stat {
   gap: 7px;
 }
