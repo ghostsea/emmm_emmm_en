@@ -10781,8 +10781,10 @@
         + earlyLandingTraceBlockedPenalty
         + earlyOrbitOnlyTraceDelayPenalty;
       const moveScore = movementGain - movementCost - index * 0.1;
+      const paidMoveResourceSpent = Math.max(0, aiNumber(movePayment.energySpent))
+        + Math.max(0, aiNumber(movePayment.cardSpent));
       const paidNoCashoutMove = Math.max(0, aiNumber(followupMainAction.score)) <= 0
-        && Math.max(0, aiNumber(movePayment.energySpent)) > 0
+        && paidMoveResourceSpent > 0
         && moveScore < 0
         && !arrivedAtPlanetTarget;
       if (paidNoCashoutMove) return null;
@@ -10823,6 +10825,7 @@
           followupTiming: followupMainAction.timing || null,
           requiredMovePoints,
           moveEnergySpent: movePayment.energySpent,
+          moveCardSpent: movePayment.cardSpent,
           energyAfterMovePayment: movePayment.remainingEnergy,
           preserveEnergyForRouteCashout,
           finalUncashableMovePenalty,
