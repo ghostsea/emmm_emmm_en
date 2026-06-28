@@ -12701,6 +12701,11 @@
   }
 
   function playerHasOwnOrbitMarkerAtPlanet(player, planetId) {
+    if (planetId === (aomomo?.PLANET_ID || "aomomo") && aomomo?.listOrbitMarkers) {
+      const hasAomomoPanelOrbit = aomomo.listOrbitMarkers(alienGameState)
+        .some((marker) => markerBelongsToPlayer(marker, player));
+      if (hasAomomoPanelOrbit) return true;
+    }
     return planetStats.getPlanetOrbitMarkers(planetStatsState, planetId)
       .some((marker) => markerBelongsToPlayer(marker, player));
   }

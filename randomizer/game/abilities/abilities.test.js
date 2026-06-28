@@ -249,6 +249,28 @@ function launchToPlanet(context, planetId) {
 }
 
 {
+  const context = createContext({ resources: { credits: 10, energy: 10, publicity: 0 } });
+  context.solarState.aomomoActive = true;
+  aomomo.initializeAomomoReveal(context.alienGameState, 1, currentPlayer(context));
+  const launch = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  assert.equal(launch.ok, true);
+  const aomomoPlanet = context.getPlanetLocations().find((planet) => planet.planetId === aomomo.PLANET_ID);
+  const result = abilities.executeAbility("moveProbe", context, {
+    cost: {},
+    rocketId: launch.rocket.id,
+    deltaX: aomomoPlanet.x - launch.rocket.sectorX,
+    deltaY: aomomoPlanet.y - launch.rocket.sectorY,
+  });
+  assert.equal(result.ok, true, result.message);
+  assert.equal(currentPlayer(context).resources.publicity, 1);
+  assert.ok(result.events.some((event) => (
+    event.type === "visitPlanet"
+    && event.planetId === aomomo.PLANET_ID
+    && event.publicityReward === 1
+  )));
+}
+
+{
   const context = createContext({ resources: { credits: 10, energy: 10 } });
   context.solarState.aomomoActive = true;
   aomomo.initializeAomomoReveal(context.alienGameState, 1, currentPlayer(context));
@@ -258,6 +280,7 @@ function launchToPlanet(context, planetId) {
   assert.equal(result.markerKind, "aomomo-orbit");
   assert.equal(aomomo.countOrbitMarkers(context.alienGameState), 1);
   assert.equal(planetStats.getPlanetOrbitCount(context.planetStatsState, aomomo.PLANET_ID), 0);
+  assert.ok(result.events.some((event) => event.type === "orbit" && event.planetId === aomomo.PLANET_ID));
 
   for (let index = result.commands.length - 1; index >= 0; index -= 1) {
     result.commands[index].undo();
@@ -365,6 +388,7 @@ function launchToPlanet(context, planetId) {
   assert.equal(result.markerKind, "aomomo-land");
   assert.equal(aomomo.countLandingMarkers(context.alienGameState), 1);
   assert.equal(planetStats.getPlanetLandingCount(context.planetStatsState, aomomo.PLANET_ID), 0);
+  assert.ok(result.events.some((event) => event.type === "land" && event.planetId === aomomo.PLANET_ID));
 
   for (let index = result.commands.length - 1; index >= 0; index -= 1) {
     result.commands[index].undo();

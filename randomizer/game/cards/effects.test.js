@@ -1087,6 +1087,50 @@ assert.equal(collectAomomoReadyTaskIds(aomomoLandingPlayer, aomomoLandingState).
 assert.equal(aomomo.addLandingMarker(aomomoLandingState, aomomoLandingPlayer).ok, true);
 assert.deepEqual(collectAomomoReadyTaskIds(aomomoLandingPlayer, aomomoLandingState), ["aomomo0-land"]);
 
+const aomomoSamePlanetCard = { id: "card-b95-aomomo", cardId: "b_95.webp" };
+const aomomoSamePlanetPlayer = {
+  id: "p1",
+  color: "white",
+  resources: { aomomoFossils: 0 },
+  reservedCards: [aomomoSamePlanetCard],
+};
+const aomomoSamePlanetState = createAomomoAlienState(aomomoSamePlanetPlayer);
+assert.equal(aomomo.addOrbitMarker(aomomoSamePlanetState, aomomoSamePlanetPlayer).ok, true);
+assert.equal(aomomo.addLandingMarker(aomomoSamePlanetState, aomomoSamePlanetPlayer).ok, true);
+assert.deepEqual(collectAomomoReadyTaskIds(aomomoSamePlanetPlayer, aomomoSamePlanetState), ["b95-same-planet-orbit-land-task"]);
+
+const aomomoOrbitCountCard = { id: "card-b104-aomomo", cardId: "b_104.webp" };
+const aomomoOrbitCountPlayer = {
+  id: "p1",
+  color: "white",
+  resources: { aomomoFossils: 0 },
+  reservedCards: [aomomoOrbitCountCard],
+};
+const aomomoOrbitCountState = createAomomoAlienState(aomomoOrbitCountPlayer);
+assert.equal(aomomo.addOrbitMarker(aomomoOrbitCountState, aomomoOrbitCountPlayer).ok, true);
+assert.deepEqual(cardEffects.collectReadyTasks(aomomoOrbitCountPlayer, {
+  nebulaDataState: {},
+  alienGameState: aomomoOrbitCountState,
+  planetStatsState: {
+    planets: {
+      mars: { orbitMarkers: [{ playerId: "p1" }], landingMarkers: [], satelliteLandings: [] },
+    },
+  },
+}).map((readyTask) => readyTask.task.id), ["b104-orbit-count-task"]);
+
+const aomomoLandingCountCard = { id: "card-b116-aomomo", cardId: "b_116.webp" };
+const aomomoLandingCountPlayer = {
+  id: "p1",
+  color: "white",
+  resources: { aomomoFossils: 0 },
+  reservedCards: [aomomoLandingCountCard],
+};
+const aomomoLandingCountState = createAomomoAlienState(aomomoLandingCountPlayer);
+for (let index = 0; index < 3; index += 1) {
+  assert.equal(aomomo.addLandingMarker(aomomoLandingCountState, aomomoLandingCountPlayer).ok, true);
+}
+assert.deepEqual(collectAomomoReadyTaskIds(aomomoLandingCountPlayer, aomomoLandingCountState), ["b116-landing-count-task"]);
+
 const aomomo2 = { id: "card-aomomo-2", cardId: "aomomo_2.webp", aomomoCard: true };
 const aomomoFossilPlayer = {
   id: "p1",

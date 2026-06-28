@@ -105,6 +105,42 @@ assert.equal(
   "duplicate Pluto landings should count as same-planet landing pairs",
 );
 
+const aomomoMarkerState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: aomomo.ALIEN_ID,
+      assignedAlienId: aomomo.ALIEN_ID,
+    },
+  },
+  aomomo: aomomo.createAomomoState(),
+};
+aomomo.initializeAomomoReveal(aomomoMarkerState, 1, white, () => 0);
+aomomo.addOrbitMarker(aomomoMarkerState, white);
+aomomo.addLandingMarker(aomomoMarkerState, white);
+aomomo.addLandingMarker(aomomoMarkerState, white);
+assert.equal(
+  endGameScoring.countPlanetOrbitOrLand(white, { planets: {} }, aomomo.PLANET_ID, {
+    alienGameState: aomomoMarkerState,
+  }),
+  3,
+  "Aomomo panel orbit/land markers should count as that player's planet markers",
+);
+assert.equal(
+  endGameScoring.countOrbitOrLandMarkers(white, { planets: {} }, {
+    alienGameState: aomomoMarkerState,
+  }),
+  3,
+  "global orbit/land marker count should include Aomomo panel markers",
+);
+assert.equal(
+  endGameScoring.countPlanetLandingPairs(white, { planets: {} }, 2, {
+    alienGameState: aomomoMarkerState,
+  }),
+  1,
+  "duplicate Aomomo landings should count as same-planet landing pairs",
+);
+
 const slotThreeState = finalScoring.createFinalScoringState(["c"]);
 finalScoring.setTileVariants(slotThreeState, { c: 1 });
 const slotThreePlayer = player({

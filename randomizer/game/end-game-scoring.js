@@ -341,28 +341,75 @@
     }).length;
   }
 
+  function isAomomoPlanetId(planetId) {
+    const aomomoModule = getAomomoModule();
+    return planetId === (aomomoModule?.PLANET_ID || "aomomo");
+  }
+
+  function countPlanetRecordMarkers(player, record, kind = "all") {
+    const playerKeys = getPlayerKeys(player);
+    let count = 0;
+    if (kind === "all" || kind === "orbit") {
+      count += (record?.orbitMarkers || []).filter((marker) => (
+        markerBelongsToPlayer(marker, playerKeys)
+      )).length;
+    }
+    if (kind === "all" || kind === "land") {
+      count += (record?.landingMarkers || []).filter((marker) => (
+        markerBelongsToPlayer(marker, playerKeys)
+      )).length;
+      count += (record?.satelliteLandings || []).filter((marker) => (
+        markerBelongsToPlayer(marker, playerKeys)
+      )).length;
+    }
+    return count;
+  }
+
+  function countAomomoMarkers(player, context = {}, kind = "all") {
+    const aomomoModule = getAomomoModule();
+    if (!aomomoModule || !context?.alienGameState) return 0;
+    const playerKeys = aomomoModule.getPlayerKeys
+      ? aomomoModule.getPlayerKeys(player)
+      : getPlayerKeys(player);
+    const markerMatches = (marker) => (
+      aomomoModule.markerBelongsToPlayer
+        ? aomomoModule.markerBelongsToPlayer(marker, playerKeys)
+        : markerBelongsToPlayer(marker, playerKeys)
+    );
+    let count = 0;
+    if (kind === "all" || kind === "orbit") {
+      count += (aomomoModule.listOrbitMarkers?.(context.alienGameState) || []).filter(markerMatches).length;
+    }
+    if (kind === "all" || kind === "land") {
+      count += (aomomoModule.listLandingMarkers?.(context.alienGameState) || []).filter(markerMatches).length;
+    }
+    return count;
+  }
+
+  function countAomomoOrLegacyPlanetRecordMarkers(player, planetStatsState, context = {}, kind = "all") {
+    const panelCount = countAomomoMarkers(player, context, kind);
+    if (panelCount > 0) return panelCount;
+    const aomomoModule = getAomomoModule();
+    const planetId = aomomoModule?.PLANET_ID || "aomomo";
+    return countPlanetRecordMarkers(player, planetStatsState?.planets?.[planetId], kind);
+  }
+
   function countPlanetOrbitOrLand(player, planetStatsState, planetId, context = {}) {
     if (planetId === "pluto") return countPlutoMarkers(player, context, "all");
+    if (isAomomoPlanetId(planetId)) {
+      return countAomomoOrLegacyPlanetRecordMarkers(player, planetStatsState, context, "all");
+    }
     const record = planetStatsState?.planets?.[planetId];
-    if (!record) return 0;
-    const playerKeys = getPlayerKeys(player);
-    const orbitCount = (record.orbitMarkers || []).filter((marker) => (
-      markerBelongsToPlayer(marker, playerKeys)
-    )).length;
-    const landingCount = (record.landingMarkers || []).filter((marker) => (
-      markerBelongsToPlayer(marker, playerKeys)
-    )).length;
-    const satelliteCount = (record.satelliteLandings || []).filter((marker) => (
-      markerBelongsToPlayer(marker, playerKeys)
-    )).length;
-    return orbitCount + landingCount + satelliteCount;
+    return countPlanetRecordMarkers(player, record, "all");
   }
 
   function countOrbitOrLandMarkers(player, planetStatsState, context = {}) {
     const planets = planetStatsState?.planets || {};
-    return Object.keys(planets).reduce((total, planetId) => (
-      total + countPlanetOrbitOrLand(player, planetStatsState, planetId, context)
-    ), countPlutoMarkers(player, context, "all"));
+    return Object.keys(planets).reduce((total, planetId) => {
+      if (isAomomoPlanetId(planetId)) return total;
+      return total + countPlanetOrbitOrLand(player, planetStatsState, planetId, context);
+    }, countPlutoMarkers(player, context, "all")
+      + countAomomoOrLegacyPlanetRecordMarkers(player, planetStatsState, context, "all"));
   }
 
   function countPlanetLandingPairs(player, planetStatsState, minCount = 2, context = {}) {
@@ -370,7 +417,9 @@
     const playerKeys = getPlayerKeys(player);
     const required = Math.max(1, Math.round(Number(minCount) || 2));
     let count = countPlutoMarkers(player, context, "land") >= required ? 1 : 0;
-    for (const record of Object.values(planets)) {
+    if (countAomomoOrLegacyPlanetRecordMarkers(player, planetStatsState, context, "land") >= required) count += 1;
+    for (const [planetId, record] of Object.entries(planets)) {
+      if (isAomomoPlanetId(planetId)) continue;
       const landingCount = (record?.landingMarkers || []).filter((marker) => (
         markerBelongsToPlayer(marker, playerKeys)
       )).length;
