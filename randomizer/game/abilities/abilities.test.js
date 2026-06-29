@@ -1054,4 +1054,36 @@ function launchToPlanet(context, planetId) {
   assert.ok(result.events.some((event) => event.type === "visitAsteroid"));
 }
 
+{
+  const context = createContext();
+  context.playerState = players.createPlayerState({
+    players: [
+      {
+        color: "blue",
+        resources: { credits: 10, energy: 10, publicity: 0 },
+        techState: { ownedTiles: { orange1: true, orange2: true } },
+      },
+      { color: "green", resources: { credits: 10, energy: 10, publicity: 0 } },
+    ],
+    currentPlayerColor: "blue",
+  });
+  const bluePlayer = currentPlayer(context);
+  const launchOne = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  const launchTwo = abilities.executeAbility("launchProbe", context, { skipCost: true });
+  assert.equal(launchOne.ok, true, launchOne.message);
+  assert.equal(launchTwo.ok, true, launchTwo.message);
+  rockets.assignRocketToSlot(launchOne.rocket, 0, 1, 4);
+  rockets.assignRocketToSlot(launchTwo.rocket, 4, 1, 4);
+
+  context.playerState.currentPlayerId = context.playerState.players.find((player) => player.color === "green").id;
+  bluePlayer.passed = true;
+  const result = rotateContextOnce(context);
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.moved.length, 2);
+  assert.equal(result.moved.every((move) => move.reason === "pushed"), true);
+  assert.equal(result.moved.every((move) => move.afterContent?.kind === solar.layout.CONTENT_KIND.ASTEROID), true);
+  assert.equal(bluePlayer.resources.publicity, 2);
+  assert.equal(result.events.filter((event) => event.type === "visitAsteroid").length, 2);
+}
+
 console.log("abilities.test.js: all tests passed");

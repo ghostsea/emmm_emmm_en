@@ -68,6 +68,13 @@ assert.equal(players.getCurrentPlayer(context.playerState).resources.publicity, 
 assert.equal(context.selectionRequests.at(-1).tradeId, "publicity-for-card");
 assert.equal(context.selectionRequests.at(-1).allowBlindDraw, false);
 
+const cardsForPickCard = quickTrades.executeTrade("cards-for-pick-card", context);
+assert.equal(cardsForPickCard.ok, true);
+assert.equal(cardsForPickCard.awaitingDiscard, true);
+assert.equal(players.getCurrentPlayer(context.playerState).resources.handSize, 0);
+assert.equal(context.selectionRequests.at(-1).tradeId, "cards-for-pick-card");
+assert.equal(context.selectionRequests.at(-1).allowBlindDraw, false);
+
 const energyCreditContext = createContext({
   playerState: players.createPlayerState({
     currentPlayer: {

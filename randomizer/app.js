@@ -4621,6 +4621,9 @@
       rocketState.statusNote = tradeResult.ok
         ? tradeResult.message
         : (tradeResult.message || "交易失败");
+      if (tradeResult.ok && tradeResult.awaitingCardSelection && beforeState && pendingCardSelectionAction) {
+        pendingCardSelectionAction.beforeTradeState = beforeState;
+      }
       if (tradeResult.ok && !tradeResult.awaitingCardSelection && beforeState) {
         recordQuickTradeCompletion(pending.tradeId, tradePlayer, beforeState);
       }
@@ -6073,8 +6076,20 @@
     pendingCardSelectionAction = null;
     cards.setSelectionActive(cardState, false);
     if (pending?.type === "trade" && pending.player && pending.refundCost) {
-      players.gainResources(pending.player, pending.refundCost);
-      rocketState.statusNote = `已取消精选，已退回 ${players.formatResourceCost(pending.refundCost)}`;
+      if (pending.beforeTradeState) {
+        historyCommands.createRestoreTradeStateCommand(
+          pending.player,
+          cardState,
+          pending.beforeTradeState,
+        ).undo();
+        rocketState.statusNote = "已取消精选，已恢复交易前状态";
+        renderPlayerHand();
+        renderPublicCards();
+        updatePublicCardControls();
+      } else {
+        players.gainResources(pending.player, pending.refundCost);
+        rocketState.statusNote = `已取消精选，已退回 ${players.formatResourceCost(pending.refundCost)}`;
+      }
     } else if (pending?.type === "public_scan") {
       rocketState.statusNote = "已取消公共牌区扫描";
     } else if (pending?.type === "place_data_choose_card") {

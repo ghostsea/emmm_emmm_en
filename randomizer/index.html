@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=start-screen-layout-2">
+  <link rel="stylesheet" href="./style.css?v=quick-trade-pick-1">
 </head>
 <body>
   <div class="start-screen" id="start-screen" aria-label="开始界面">
@@ -351,6 +351,12 @@
                 <span class="quick-trade-arrow" aria-hidden="true">-&gt;</span>
                 <img class="quick-trade-icon" src="../assets/symbol/effect/energy.webp" alt="" aria-hidden="true">
               </button>
+              <button class="quick-trade-button" type="button" data-quick-trade="cards-for-pick-card" aria-label="2张牌换精选1张牌">
+                <span class="quick-trade-count">2</span>
+                <img class="quick-trade-icon" src="../assets/symbol/effect/card.webp" alt="" aria-hidden="true">
+                <span class="quick-trade-arrow" aria-hidden="true">-&gt;</span>
+                <img class="quick-trade-icon" src="../assets/symbol/effect/choose_card.webp" alt="" aria-hidden="true">
+              </button>
               <button class="quick-trade-button" type="button" data-quick-trade="energy-for-card" aria-label="2能量换1张牌">
                 <span class="quick-trade-count">2</span>
                 <img class="quick-trade-icon" src="../assets/symbol/effect/energy.webp" alt="" aria-hidden="true">
@@ -677,7 +683,7 @@
   <script src="./game/actions/research-tech.js?v=tech-module-1"></script>
   <script src="./game/actions/planet-rewards.js?v=aomomo-rewards-1"></script>
   <script src="./game/actions/index.js?v=tech-module-1"></script>
-  <script src="./game/actions/quick-trades.js?v=income-effect-1"></script>
+  <script src="./game/actions/quick-trades.js?v=quick-trade-pick-1"></script>
   <script src="./game/actions/scan-effects.js?v=scan-effects-2"></script>
   <script src="./game/history/action-history.js?v=action-history-1"></script>
   <script src="./game/history/commands.js?v=action-history-2"></script>
@@ -730,6 +736,6 @@
   <script src="./app/action-log-export.js?v=action-log-export-1"></script>
   <script src="./app/public-api.js?v=app-boundaries-5"></script>
   <script src="./app/ai-controller.js?v=deepspace-analyze-1"></script>
-  <script src="./app.js?v=final-income-trace-1"></script>
+  <script src="./app.js?v=quick-trade-pick-1"></script>
 </body>
 </html>

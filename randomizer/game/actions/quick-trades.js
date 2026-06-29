@@ -43,6 +43,12 @@
       gain: Object.freeze({ energy: 1 }),
     }),
     Object.freeze({
+      id: "cards-for-pick-card",
+      label: "2张牌 → 精选1张牌",
+      cost: Object.freeze({ handSize: 2 }),
+      gain: Object.freeze({ handSize: 1 }),
+    }),
+    Object.freeze({
       id: "energy-for-card",
       label: "2能量 → 1张牌",
       cost: Object.freeze({ energy: 2 }),
