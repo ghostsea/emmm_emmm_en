@@ -98,6 +98,9 @@ assert.equal(passives.getStandardLaunchCost(alienLabPlayer).credits, 1);
 
 assert.equal(passives.hasPermanentAlienLabPanels(cheatLabPlayer), true);
 assert.equal(passives.hasCheatLabRoundStart(cheatLabPlayer), true);
+const cheatLabStartup = initialCards.getIndustryEffect("作弊实验室");
+assert.equal(cheatLabStartup.blindDraw, 5);
+assert.equal(cheatLabStartup.incomeIncreaseCount, 5);
 assert.equal(passives.getStandardLaunchCost(cheatLabPlayer).credits, 1);
 assert.equal(passives.getStandardScanCost(cheatLabPlayer).energy, 2);
 assert.equal(passives.getStandardScanCost(cheatLabPlayer).credits, undefined);

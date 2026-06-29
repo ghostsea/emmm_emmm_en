@@ -185,8 +185,8 @@
     "作弊实验室": Object.freeze({
       label: "作弊实验室",
       resources: Object.freeze({ publicity: 1, credits: 2, energy: 2 }),
-      blindDraw: 3,
-      incomeIncreaseCount: 4,
+      blindDraw: 5,
+      incomeIncreaseCount: 5,
       baseIncome: Object.freeze({ credits: 2, energy: 1, handSize: 1 }),
     }),
     "宇宙战略集团": Object.freeze({

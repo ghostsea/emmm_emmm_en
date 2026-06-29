@@ -1500,9 +1500,10 @@
       const income = player.income || {};
       return formulaEntries.reduce((total, entry) => {
         if (entry.formulaId === "a2") {
-          const currentBase = getAiIncomeFormulaBase("a2", income);
+          const currentBase = getAiIncomeFormulaBase("a2", income, player);
+          const formulaIncome = getAiIncomeIncreaseSnapshot(player, income);
           const bottlenecks = ["credits", "energy", "handSize"]
-            .filter((key) => aiNumber(income[key]) <= currentBase);
+            .filter((key) => aiNumber(formulaIncome[key]) <= currentBase);
           const lifted = bottlenecks.filter((key) => aiNumber(incomeGain[key]) > 0);
           if (lifted.length) {
             return total + (entry.potential ? 8 : 14) * Math.min(1, lifted.length / Math.max(1, bottlenecks.length));
@@ -1510,8 +1511,8 @@
           return total - (entry.potential ? 1.5 : 4);
         }
         if (entry.formulaId === "a1") {
-          const beforeBase = getAiIncomeFormulaBase("a1", income);
-          const afterBase = getAiIncomeFormulaBase("a1", addAiIncomeGain(income, incomeGain));
+          const beforeBase = getAiIncomeFormulaBase("a1", income, player);
+          const afterBase = getAiIncomeFormulaBase("a1", addAiIncomeGain(income, incomeGain), player);
           return total + Math.max(0, afterBase - beforeBase) * (entry.potential ? 2 : 4);
         }
         return total;
@@ -1647,13 +1648,23 @@
       const cTaskProgressValue = model?.tasks?.length
         ? scoreAiCFinalTaskProgressValue(player, model.tasks.length)
         : 0;
-      let value = Math.max(0, scoreAiPlayCardValue(card, {
-        player,
-        model,
-        playEffects,
-        typeCode,
-        endGameExpectedScore,
-      })) * 0.55;
+      let value = 0;
+      const directScoreGain = getAiRewardDirectScore(playEffects, player);
+      if (directScoreGain > 0) {
+        value += Math.min(10, directScoreGain * 0.8)
+          + scoreAiPaceValueForDirectScore(directScoreGain, player, {
+            baseWeight: 0.18,
+            pressureWeight: 0.08,
+          });
+      }
+      for (const effect of playEffects || []) {
+        const type = effect?.type;
+        if (type === "research_tech_select" || type === cardEffects.EFFECT_TYPES.RESEARCH_TECH) value += 4;
+        if (type === cardEffects.EFFECT_TYPES.PUBLIC_SCAN || type === cardEffects.EFFECT_TYPES.HAND_SCAN) value += 2.5;
+        if (type === planetRewards.EFFECT_TYPES?.DRAW_CARDS || type === "draw_cards") {
+          value += Math.max(1, aiNumber(effect?.options?.count) || 1) * 1.6;
+        }
+      }
       if (typeCode === 3) value += 4 + scoreAiC2Type3ProgressValue(player);
       if (model?.endGameScoring || endGameExpectedScore > 0) value += 2.5 + Math.min(8, endGameExpectedScore * 0.5);
       if (model?.tasks?.length) value += 1.5 + model.tasks.length * 1.2 + Math.min(8, cTaskProgressValue * 0.65);
@@ -2136,6 +2147,16 @@
       const paceBonus = directScore > 0
         ? Math.min(10, getAiLiveScorePaceDeficit(player) * (getAiRoundNumber() >= 3 ? 0.12 : 0.06))
         : 0;
+      if (ready.chongTask) {
+        const task = ready.task || ready.card?.chongTask || null;
+        const fossilId = ready.deliveredTransport?.fossil?.fossilId
+          || ready.deliveredTransport?.task?.fossilId
+          || null;
+        const chongValue = task?.kind === "transport"
+          ? scoreAiChongTransportCompletionValue(task, player, { fossilId })
+          : scoreAiChongTraceTaskProgressValue(task, player);
+        return 8 + Math.max(effectValue + directScore * 0.35 + paceBonus, chongValue);
+      }
       return effectValue + directScore * 0.35 + paceBonus;
     }
 
@@ -4773,14 +4794,17 @@
       const currentBestScore = (currentPlayable || []).reduce((best, candidate) => (
         Math.max(best, aiNumber(candidate?.score))
       ), 0);
+      const currentFinalMarks = countAiFinalMarksForPlayer(player);
       const finalLowTailOneCreditUnlock = (
         tradeId === "cards-for-credit"
         && currentCredits === 1
         && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && currentFinalMarks >= 3
+        && !getAiNextMissingFinalScoreThreshold(player)
         && currentScore >= 70
-        && currentScore < 115
+        && currentScore < 155
         && hand.length >= 3
-        && currentPlayable.length <= 0
+        && currentBestScore < 8
       );
       if (currentCredits > 0 && !finalLowTailOneCreditUnlock) return null;
       const simulatedPlayer = createAiPlayerAfterQuickTrade(player, trade);
@@ -4821,16 +4845,19 @@
       const c2Type3ProgressValue = Math.max(0, aiNumber(breakdown.c2Type3ProgressValue));
       const cFinalTaskProgressValue = Math.max(0, aiNumber(breakdown.cFinalTaskProgressValue));
       const endGameExpectedScore = Math.max(0, aiNumber(breakdown.endGameExpectedScore));
+      const concretePlanScore = bestPlay.plan?.actionId === "task" && cFinalTaskProgressValue <= 0
+        ? 0
+        : Math.max(0, aiNumber(breakdown.planScore));
       const concreteFinalValue = directScoreGain
         + Math.max(0, aiNumber(bestPlay.finalDeltaValue))
         + c2Type3ProgressValue
         + cFinalTaskProgressValue
         + endGameExpectedScore
         + Math.max(0, aiNumber(breakdown.playCardConversionPressure))
-        + Math.max(0, aiNumber(breakdown.planScore));
-      const finalMarks = countAiFinalMarksForPlayer(player);
+        + concretePlanScore;
+      const finalMarks = currentFinalMarks;
       if (aiNumber(bestPlay.score) < 8) return null;
-      if (finalMarks >= 3 && concreteFinalValue <= 0 && aiNumber(bestPlay.score) < 12) return null;
+      if (finalMarks >= 3 && concreteFinalValue <= 0) return null;
       const discardCost = estimateAiTradeDiscardOpportunityCost(player, trade, bestPlay.handIndex);
       if (!Number.isFinite(discardCost)) return null;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
@@ -5765,12 +5792,27 @@
       };
     }
 
-    function getAiIncomeFormulaBase(formulaId, income = {}) {
+    function getAiIncomeIncreaseSnapshot(player = getCurrentPlayer(), incomeOverride = null) {
+      const income = incomeOverride || player?.income || {};
+      const baseIncome = getAiPlayerCompanyBaseIncome(player);
+      return {
+        credits: Math.max(0, aiNumber(income.credits) - Math.min(aiNumber(income.credits), aiNumber(baseIncome.credits))),
+        energy: Math.max(0, aiNumber(income.energy) - Math.min(aiNumber(income.energy), aiNumber(baseIncome.energy))),
+        handSize: Math.max(0, aiNumber(income.handSize) - Math.min(aiNumber(income.handSize), aiNumber(baseIncome.handSize))),
+      };
+    }
+
+    function getAiIncomeFormulaBase(formulaId, income = {}, player = null) {
+      const formulaIncome = player ? getAiIncomeIncreaseSnapshot(player, income) : income;
       if (formulaId === "a1") {
-        return Math.max(aiNumber(income.credits), aiNumber(income.energy));
+        return Math.max(aiNumber(formulaIncome.credits), aiNumber(formulaIncome.energy));
       }
       if (formulaId === "a2") {
-        return Math.min(aiNumber(income.credits), aiNumber(income.energy), aiNumber(income.handSize));
+        return Math.min(
+          aiNumber(formulaIncome.credits),
+          aiNumber(formulaIncome.energy),
+          aiNumber(formulaIncome.handSize),
+        );
       }
       return 0;
     }
@@ -5784,15 +5826,16 @@
       const afterIncome = addAiIncomeGain(beforeIncome, incomeGain);
       return incomeFormulas.reduce((total, entry) => {
         const multiplier = Math.max(1, aiNumber(entry.multiplier));
-        const beforeBase = getAiIncomeFormulaBase(entry.formulaId, beforeIncome);
-        const afterBase = getAiIncomeFormulaBase(entry.formulaId, afterIncome);
+        const beforeBase = getAiIncomeFormulaBase(entry.formulaId, beforeIncome, player);
+        const afterBase = getAiIncomeFormulaBase(entry.formulaId, afterIncome, player);
         const immediateValue = Math.max(0, afterBase - beforeBase) * multiplier;
         const immediateWeight = entry.potential ? 0.55 : 0.95;
         if (entry.formulaId === "a1") return total + immediateValue * (entry.potential ? 0.45 : 0.85);
         if (immediateValue > 0) return total + immediateValue * immediateWeight;
 
         const incomeKeys = ["credits", "energy", "handSize"];
-        const bottleneckKeys = incomeKeys.filter((key) => aiNumber(beforeIncome[key]) <= beforeBase);
+        const formulaIncome = getAiIncomeIncreaseSnapshot(player, beforeIncome);
+        const bottleneckKeys = incomeKeys.filter((key) => aiNumber(formulaIncome[key]) <= beforeBase);
         const liftedBottlenecks = bottleneckKeys.filter((key) => aiNumber(incomeGain[key]) > 0);
         if (!liftedBottlenecks.length) return total;
         const setupWeight = entry.potential
@@ -6260,6 +6303,17 @@
     }
 
     function getAiPlayerCompanyBaseIncome(player = getCurrentPlayer()) {
+      const explicitBaseIncome = player?.companyBaseIncome
+        || player?.baseIncome
+        || player?.industryBaseIncome
+        || player?.industryEffect?.baseIncome
+        || player?.initialSelection?.industryBaseIncome
+        || player?.initialSelection?.industryEffect?.baseIncome
+        || player?.initialSelection?.industry?.baseIncome
+        || null;
+      if (explicitBaseIncome && typeof explicitBaseIncome === "object") {
+        return players.normalizeIncome(explicitBaseIncome);
+      }
       const industryEffect = initialCards?.getIndustryEffect?.(player?.initialSelection?.industry);
       return players.normalizeIncome(industryEffect?.baseIncome || null);
     }
@@ -7319,6 +7373,7 @@
       const standardActionPremium = details.standardActionPremium
         ?? scoreAiCardStandardActionPremium(playEffects, player);
       const routePlanScore = Math.max(0, aiNumber(details.plan?.score));
+      const concreteRoutePlanScore = details.plan?.actionId === "task" ? 0 : routePlanScore;
       const handPressure = Math.max(0, handSize - 3) * (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 2.8 : 1.4);
       const lateCardEnginePressure = details.lateCardEnginePressure
         ?? scoreAiLatePlayCardEnginePressure(card, {
@@ -7331,17 +7386,27 @@
         });
 
       let value = handPressure;
-      if (model?.tasks?.length) value += 5 + Math.min(10, cFinalTaskProgressValue * 0.8);
+      const looseFinalTaskOnly = getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && finalMarks >= 3
+        && !nextThreshold
+        && model?.tasks?.length
+        && cFinalTaskProgressValue <= 0
+        && concreteRoutePlanScore <= 0
+        && !model?.endGameScoring
+        && typeCode !== 3;
+      if (model?.tasks?.length && !looseFinalTaskOnly) {
+        value += 5 + Math.min(10, cFinalTaskProgressValue * 0.8);
+      }
       if (typeCode === 3) value += 4 + Math.min(10, c2Type3ProgressValue * 0.65);
       if (model?.endGameScoring) value += 4 + Math.min(12, endGameExpectedScore * 0.75);
       if (standardActionPremium > 0) value += Math.min(10, standardActionPremium * 0.55);
-      if (routePlanScore > 0) value += Math.min(8, routePlanScore * 0.35);
+      if (concreteRoutePlanScore > 0) value += Math.min(8, concreteRoutePlanScore * 0.35);
       if (isAiAlienMainPlayCard(card)) value += 5;
       if (getAiRoundNumber() >= FINAL_ROUND_NUMBER && nextThreshold && currentScore < nextThreshold) {
         value += Math.max(0, 3 - finalMarks) * 3.2
           + Math.min(9, Math.max(0, nextThreshold - currentScore) * 0.18);
       }
-      value += lateCardEnginePressure;
+      if (!looseFinalTaskOnly) value += lateCardEnginePressure;
       return roundAiScore(Math.min(getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 38 : 24, Math.max(0, value)));
     }
 
@@ -9714,6 +9779,56 @@
       return roundAiScore(Math.min(13, Math.max(0, value)));
     }
 
+    function scoreAiLowTechBoardCatchupValue(candidate, player = getCurrentPlayer()) {
+      const techType = candidate?.techType || "";
+      if (!candidate || !player || !techType) return 0;
+      const round = getAiRoundNumber();
+      if (round < 3) return 0;
+
+      const techCount = countAiPlayerTech(player);
+      const targetTechCount = round >= FINAL_ROUND_NUMBER ? 9 : 7;
+      if (techCount >= targetTechCount) return 0;
+
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const finalMarks = countAiFinalMarksForPlayer(player);
+      const dEntries = getAiPlanningFinalFormulaEntries(player, ["d1", "d2"]);
+      const hasTechFinalPlan = dEntries.length > 0;
+      const severeLowTech = techCount <= (round >= FINAL_ROUND_NUMBER ? 5 : 4);
+      const lowScoreTarget = round >= FINAL_ROUND_NUMBER ? 135 : 78;
+      const lowScorePressure = currentScore < lowScoreTarget;
+      const lowMarkPressure = finalMarks < (round >= FINAL_ROUND_NUMBER ? 3 : 2);
+
+      if (!severeLowTech && !hasTechFinalPlan && !lowScorePressure && !lowMarkPressure) return 0;
+
+      let value = Math.max(0, targetTechCount - techCount) * (round >= FINAL_ROUND_NUMBER ? 0.8 : 0.55);
+      if (severeLowTech) value += round >= FINAL_ROUND_NUMBER ? 3 : 2;
+      if (lowScorePressure) {
+        value += Math.min(
+          round >= FINAL_ROUND_NUMBER ? 4.5 : 3,
+          1 + Math.max(0, lowScoreTarget - currentScore) * (round >= FINAL_ROUND_NUMBER ? 0.05 : 0.035),
+        );
+      }
+      if (lowMarkPressure) value += round >= FINAL_ROUND_NUMBER ? 1.8 : 1.4;
+      if (hasTechFinalPlan) value += round >= FINAL_ROUND_NUMBER ? 2 : 1.2;
+
+      if (dEntries.some((entry) => entry.formulaId === "d1")) {
+        const counts = getAiPlayerTechTypeCounts(player);
+        const minCount = Math.min(...AI_TECH_TYPES.map((type) => aiNumber(counts[type])));
+        const currentTypeCount = aiNumber(counts[techType]);
+        if (currentTypeCount <= minCount) value += 1.4;
+        else if (currentTypeCount >= minCount + 2) value -= Math.min(1.5, currentTypeCount - minCount - 1);
+      }
+      if (dEntries.some((entry) => entry.formulaId === "d2")) {
+        const beforeBase = Math.floor(techCount / 2);
+        const afterBase = Math.floor((techCount + 1) / 2);
+        value += afterBase > beforeBase ? 1.5 : 0.45;
+      }
+
+      if (candidate?.bonusId === "bonus_3f") value += 0.8;
+      if (candidate?.firstTake) value += 0.45;
+      return roundAiScore(Math.min(10, Math.max(0, value)));
+    }
+
     function scoreAiResearchTechValue(candidate, player = getCurrentPlayer()) {
       const techType = candidate?.techType || "";
       const stackIndex = Math.max(1, Math.round(aiNumber(candidate?.stackIndex) || 1));
@@ -9780,6 +9895,8 @@
       if (routePlan?.score > 0) value += applyAiStrategyWeight(routePlan.score, "tech", 0.35);
       const lateTechCatchupValue = scoreAiLateTechEngineCatchupValue(candidate, player);
       if (lateTechCatchupValue) value += applyAiStrategyWeight(lateTechCatchupValue, "tech", 0.75);
+      const lowTechCatchupValue = scoreAiLowTechBoardCatchupValue(candidate, player);
+      if (lowTechCatchupValue) value += applyAiStrategyWeight(lowTechCatchupValue, "tech", 0.65);
       const finalPlanningValue = scoreAiResearchTechFinalPlanningValue(candidate, player);
       if (finalPlanningValue) {
         value += applyAiStrategyWeight(
@@ -9860,7 +9977,7 @@
     }
 
     function getAiResearchTechLaunchRisks(candidate, player = getCurrentPlayer()) {
-      const selectionOptions = getResearchTechSelectionOptions();
+      const selectionOptions = getResearchTechSelectionOptions() || {};
       const effects = getAiResearchTechTriggeredEffects(candidate, player);
       if (!selectionOptions.skipBonus && candidate?.tileId === "orange1") {
         effects.push({ type: "launch", options: { skipCost: true } });
@@ -9880,6 +9997,13 @@
         launchCount: launchEffects.length,
         launchCost,
         includesImmediateTechLaunch: Boolean(!selectionOptions.skipBonus && candidate?.tileId === "orange1"),
+      };
+    }
+
+    function getAiResearchTechSelectionOptionsForEffect(effect = null) {
+      return {
+        ...((effect && effect.options) || {}),
+        ...(getResearchTechSelectionOptions?.() || {}),
       };
     }
 
@@ -10536,21 +10660,40 @@
       const postSecondFinalMarkPenalty = finalMarks >= 2 && dataRoom <= 1 && blueTraceDemand < 1
         ? 5
         : 0;
-      return applyAiStrategyWeight(
-        7
-          + placedCount * 1.15
-          + fullComputerBonus * 0.8
-          + Math.min(4, dataRoom * 0.55)
-          + blueTraceDemand * 1.05 * getAiStrategyWeight("task")
-          + getAiMapDemand(demand.actions, "analyze") * 0.2 * getAiStrategyWeight("engine")
-          + lateRoundPressure
-          + firstThresholdCatchupBonus
-          + readyAnalyzeWindowValue
-          - getAiAnalyzeEnergyCost(player) * getAiResourceValuesForRound(player).energy * 0.35
-          - postSecondFinalMarkPenalty,
+      const rawScore = 7
+        + placedCount * 1.15
+        + fullComputerBonus * 0.8
+        + Math.min(4, dataRoom * 0.55)
+        + blueTraceDemand * 1.05 * getAiStrategyWeight("task")
+        + getAiMapDemand(demand.actions, "analyze") * 0.2 * getAiStrategyWeight("engine")
+        + lateRoundPressure
+        + firstThresholdCatchupBonus
+        + readyAnalyzeWindowValue
+        - getAiAnalyzeEnergyCost(player) * getAiResourceValuesForRound(player).energy * 0.35
+        - postSecondFinalMarkPenalty;
+      const weightedScore = applyAiStrategyWeight(
+        rawScore,
         "task",
         0.5,
       );
+      const hasBlueTraceFinalFormula = getAiMarkedFinalFormulaEntries(player)
+        .some((entry) => entry.formulaId === "b1");
+      if (
+        Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1)) >= FINAL_ROUND_NUMBER
+        && placedCount >= requiredSlot
+        && finalMarks >= 3
+        && !nextThreshold
+        && currentScore < 150
+        && bestBlueTraceScore <= 4
+        && blueTraceDemand < 1
+        && !hasBlueTraceFinalFormula
+      ) {
+        return Math.min(
+          weightedScore,
+          roundAiScore(7 + bestBlueTraceScore * 2 + Math.min(2.5, availableData * 0.45)),
+        );
+      }
+      return weightedScore;
     }
 
     function scoreAiFollowupMainActionAfterMove(coordinate, player = getCurrentPlayer(), options = {}) {
@@ -14383,6 +14526,7 @@
       candidate.directScoreGain = getAiResearchTechDirectScoreGain(candidate);
       candidate.valueBreakdown = {
         lateTechCatchupValue: scoreAiLateTechEngineCatchupValue(candidate, getCurrentPlayer()),
+        lowTechCatchupValue: scoreAiLowTechBoardCatchupValue(candidate, getCurrentPlayer()),
       };
       if (!safety.ok) candidate.score -= 1000;
       return candidate;
@@ -14478,7 +14622,7 @@
       createActionContext().ensurePlayerTechState(currentPlayer);
       if (!currentPlayer.techState) return [];
 
-      const selectionOptions = getResearchTechSelectionOptions();
+      const selectionOptions = options || getResearchTechSelectionOptionsForEffect();
       const allowedTechTypes = (options ? tech.resolver.normalizeTechTypeFilter(options) : null)
         || tech.resolver.normalizeTechTypeFilter(selectionOptions)
         || tech.resolver.normalizeTechTypeFilter({ techTypes: techGameState.ui.allowedTechTypes })
@@ -14497,7 +14641,7 @@
         .filter((candidate) => candidate.available !== false);
     }
 
-    function getAiResearchTechCandidateExecutionCheck(candidate, player = getCurrentPlayer()) {
+    function getAiResearchTechCandidateExecutionCheck(candidate, player = getCurrentPlayer(), selectionOptionsOverride = null) {
       const tileId = candidate?.tileId || null;
       if (!tileId) return { ok: false, message: "科技候选缺少 tileId" };
       if (!player) return { ok: false, message: "没有当前玩家" };
@@ -14513,7 +14657,7 @@
         );
       }
 
-      const selectionOptions = getResearchTechSelectionOptions();
+      const selectionOptions = selectionOptionsOverride || getAiResearchTechSelectionOptionsForEffect();
       if (selectionOptions.researchedByOthersOnly && !isTechTileOwnedByOtherPlayer(tileId)) {
         return { ok: false, message: "这张牌只能选择其他玩家已研究过的科技" };
       }
@@ -14528,7 +14672,12 @@
       );
     }
 
-    function selectExecutableAiResearchTechCandidate(candidates = [], selected = null, player = getCurrentPlayer()) {
+    function selectExecutableAiResearchTechCandidate(
+      candidates = [],
+      selected = null,
+      player = getCurrentPlayer(),
+      selectionOptions = null,
+    ) {
       const ordered = [];
       if (selected) ordered.push(selected);
       for (const candidate of candidates) {
@@ -14539,7 +14688,7 @@
 
       let firstFailure = null;
       for (const candidate of ordered) {
-        const check = getAiResearchTechCandidateExecutionCheck(candidate, player);
+        const check = getAiResearchTechCandidateExecutionCheck(candidate, player, selectionOptions);
         if (check.ok) return { candidate, check };
         if (!firstFailure) firstFailure = { candidate, check };
       }
@@ -14551,15 +14700,13 @@
 
     function runAiResearchTechSelectionDecision(effect) {
       const isResearchSelectionEffect = effect?.type === "research_tech_select"
-        || (
-          effect?.type === cardEffects.EFFECT_TYPES.RESEARCH_TECH
-          && isTechTilePickingActive()
-        );
+        || effect?.type === cardEffects.EFFECT_TYPES.RESEARCH_TECH;
       if (!isResearchSelectionEffect && !isTechTilePickingActive()) return null;
       const currentPlayer = getCurrentPlayer();
       if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
         return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}需要人工选择科技片` };
       }
+      const selectionOptions = getAiResearchTechSelectionOptionsForEffect(effect);
 
       if (techGameState.ui.pendingTileId) {
         const availableSlots = tech.getAvailableBlueSlots(currentPlayer.techState);
@@ -14581,7 +14728,7 @@
 
       const candidates = techGameState.ui.industryBorrowMode
         ? listAiBorrowTechCandidates(currentPlayer)
-        : listAiResearchTechCandidates();
+        : listAiResearchTechCandidates(selectionOptions);
       const policySelected = ai?.policy?.chooseResearchTechTile?.(candidates, {
         currentPlayer,
         turnState,
@@ -14589,10 +14736,10 @@
         effect,
       }) || null;
       const policyCheck = policySelected
-        ? getAiResearchTechCandidateExecutionCheck(policySelected, currentPlayer)
+        ? getAiResearchTechCandidateExecutionCheck(policySelected, currentPlayer, selectionOptions)
         : null;
       let selected = policySelected || candidates[0] || null;
-      const executable = selectExecutableAiResearchTechCandidate(candidates, selected, currentPlayer);
+      const executable = selectExecutableAiResearchTechCandidate(candidates, selected, currentPlayer, selectionOptions);
       if (!executable.candidate && selected?.tileId) {
         recordAiAutoBattleLog("tech-placement-reject", `${currentPlayer.colorLabel}AI 科技候选失效：${selected.tileId}`, {
           selected,
@@ -15136,7 +15283,7 @@
         return runAiMoveActionDecision(action);
       }
       if (action.id === "placeData") {
-        return runPlaceDataToComputer();
+        return confirmDataPlacement(action.target, action.blueSlot);
       }
       if (action.id === "quickTrade") {
         return runQuickTrade(action.tradeId);
@@ -15354,14 +15501,16 @@
         if (!ai?.policy) return { ok: false, blocked: true, message: "SetiAI 未加载" };
         if (isGameEnded()) return { ok: true, done: true, message: "游戏已结束" };
 
-        const earlyAlienUseResult = runAiAlienUseDecision();
-        if (earlyAlienUseResult) return earlyAlienUseResult;
+        const alienUseResult = runAiAlienUseDecision();
+        if (alienUseResult) return alienUseResult;
 
-        const earlyAlienTraceResult = runAiAlienTraceDecision();
-        if (earlyAlienTraceResult) return earlyAlienTraceResult;
+        const alienTraceResult = runAiAlienTraceDecision();
+        if (alienTraceResult) return alienTraceResult;
 
-        const readyBanrenmaResult = runAiReadyBanrenmaOpportunityOpenDecision();
-        if (readyBanrenmaResult) return readyBanrenmaResult;
+        if (!isActionEffectFlowActive()) {
+          const earlyReadyBanrenmaResult = runAiReadyBanrenmaOpportunityOpenDecision();
+          if (earlyReadyBanrenmaResult) return earlyReadyBanrenmaResult;
+        }
 
         const initialResult = chooseInitialSelectionForAiPlayer();
         if (initialResult) return initialResult;
@@ -15404,6 +15553,14 @@
 
         const effectMoveResult = runAiActionEffectMoveDecision();
         if (effectMoveResult) return effectMoveResult;
+
+        if (isActionEffectFlowActive() && !hasActivePendingSubFlow()) {
+          const activeEffectResult = runAiActionEffectStep();
+          if (activeEffectResult) return activeEffectResult;
+        }
+
+        const readyBanrenmaResult = runAiReadyBanrenmaOpportunityOpenDecision();
+        if (readyBanrenmaResult) return readyBanrenmaResult;
 
         const cardTriggerResult = runAiCardTriggerDecision();
         if (cardTriggerResult) return cardTriggerResult;
