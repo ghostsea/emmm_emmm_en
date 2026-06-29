@@ -153,12 +153,17 @@ for (let position = 1; position <= 3; position += 1) {
   assert(layout && Number.isFinite(layout.percentX) && Number.isFinite(layout.percentY),
     `Aomomo landing ${position} should have a layout`);
 }
-assert(placement.getAomomoLandingMarkerLayout(1, 1).percentX === 38.33,
-  "Aomomo first landing marker should align with the upper yellow landing slot");
+assert(placement.getAomomoLandingMarkerLayout(1, 1).percentY === 32.23,
+  "Aomomo first landing marker should align with the lower yellow landing slot");
 assert(placement.getAomomoLandingMarkerLayout(1, 2).percentY === 25.21,
   "Aomomo second landing marker should align with the middle yellow landing slot");
-assert(placement.getAomomoLandingMarkerLayout(1, 3).percentY === 32.23,
-  "Aomomo third landing marker should align with the lower yellow landing slot");
+assert(placement.getAomomoLandingMarkerLayout(1, 3).percentY === 18.57,
+  "Aomomo third landing marker should align with the upper yellow landing slot");
+assert(
+  placement.getAomomoLandingMarkerLayout(1, 1).percentY > placement.getAomomoLandingMarkerLayout(1, 2).percentY
+  && placement.getAomomoLandingMarkerLayout(1, 2).percentY > placement.getAomomoLandingMarkerLayout(1, 3).percentY,
+  "Aomomo landing marker sequence should fill from the lower slot toward the upper slot",
+);
 assert(distance(aomomoOrbit, placement.getAomomoLandingMarkerLayout(1, 1)) > 20,
   "Aomomo orbit marker should not overlap landing marker slots");
 

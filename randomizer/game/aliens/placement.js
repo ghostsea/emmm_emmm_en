@@ -557,14 +557,14 @@
 
   const AOMOMO_LANDING_MARKER_SLOTS = Object.freeze({
     1: Object.freeze({
-      1: Object.freeze({ percentX: 38.33, percentY: 18.57, scalePercent: 46 }),
+      1: Object.freeze({ percentX: 36.6, percentY: 32.23, scalePercent: 46 }),
       2: Object.freeze({ percentX: 32.45, percentY: 25.21, scalePercent: 46 }),
-      3: Object.freeze({ percentX: 36.6, percentY: 32.23, scalePercent: 46 }),
+      3: Object.freeze({ percentX: 38.33, percentY: 18.57, scalePercent: 46 }),
     }),
     2: Object.freeze({
-      1: Object.freeze({ percentX: 38.33, percentY: 18.57, scalePercent: 46 }),
+      1: Object.freeze({ percentX: 36.6, percentY: 32.23, scalePercent: 46 }),
       2: Object.freeze({ percentX: 32.45, percentY: 25.21, scalePercent: 46 }),
-      3: Object.freeze({ percentX: 36.6, percentY: 32.23, scalePercent: 46 }),
+      3: Object.freeze({ percentX: 38.33, percentY: 18.57, scalePercent: 46 }),
     }),
   });
 
