@@ -60,7 +60,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     colorLabel: "Blue",
     hand: options.blueHand || [],
     reservedCards: [],
-    resources: { credits: 5, energy: 5 },
+    resources: { credits: 5, energy: 5, ...(options.blueResources || {}) },
+    income: { ...(options.blueIncome || {}) },
+    techCounts: { ...(options.blueTechCounts || {}) },
     runezuSymbols: options.blueRunezuSymbols || {},
   };
   const allPlayers = [white, blue];
@@ -227,6 +229,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       ensureFinalScoringState: (stateToEnsure) => {
         if (!stateToEnsure.tiles) stateToEnsure.tiles = {};
       },
+    },
+    endGameScoring: {
+      countOwnedTech: (player, techType) => Math.max(0, Number(player?.techCounts?.[techType] || 0)),
     },
     tech: {},
     playerState,
@@ -614,6 +619,17 @@ function makeChongTransportAlienState(options = {}) {
     },
     chong: chongState,
   };
+}
+
+function makeBanrenmaAlienState() {
+  const alienGameState = {
+    aliens: {
+      1: { revealed: true, alienId: banrenma.ALIEN_ID, assignedAlienId: banrenma.ALIEN_ID },
+    },
+    banrenma: banrenma.createBanrenmaState(),
+  };
+  banrenma.ensureTraceGrid(alienGameState, 1);
+  return alienGameState;
 }
 
 {
@@ -1060,13 +1076,7 @@ function makeChongTransportAlienState(options = {}) {
 
 {
   const selected = [];
-  const alienGameState = {
-    aliens: {
-      1: { revealed: true, alienId: banrenma.ALIEN_ID, assignedAlienId: banrenma.ALIEN_ID },
-    },
-    banrenma: banrenma.createBanrenmaState(),
-  };
-  banrenma.ensureTraceGrid(alienGameState, 1);
+  const alienGameState = makeBanrenmaAlienState();
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     roundNumber: 4,
@@ -1103,6 +1113,98 @@ function makeChongTransportAlienState(options = {}) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI should resolve late Banrenma trace picker");
   assert.deepEqual(selected, ["score-5"], "AI should discount late alien-card rewards when direct score is available");
+}
+
+{
+  const selected = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    blueResources: { availableData: 3, score: 30 },
+    blueTechCounts: { blue: 3 },
+    alienGameState: makeBanrenmaAlienState(),
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: {
+      mode: "banrenma-grid",
+      selectedAlienSlotId: 1,
+      allowedTraceTypes: ["blue"],
+    },
+    alienTraceButtons: [
+      makeButton(
+        { alienSlot: "1", banrenmaTraceType: "blue", banrenmaTraceSlot: "2", banrenmaPosition: "2" },
+        "半人马蓝色痕迹 2号位：支付 3 数据，15分",
+        false,
+        () => selected.push("pay-data-score"),
+      ),
+      makeButton(
+        { alienSlot: "1", banrenmaTraceType: "blue", banrenmaTraceSlot: "5", banrenmaPosition: "5" },
+        "半人马蓝色痕迹 5号位：5分，外星人牌",
+        false,
+        () => selected.push("card-5"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve Banrenma blue-tech trace picker");
+  assert.deepEqual(
+    selected,
+    ["card-5"],
+    "AI should delay Banrenma 3-data score conversion when blue tech already covers the data route",
+  );
+}
+
+{
+  const selected = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    blueResources: { availableData: 4, score: 44 },
+    blueTechCounts: { blue: 0 },
+    alienGameState: makeBanrenmaAlienState(),
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: {
+      mode: "banrenma-grid",
+      selectedAlienSlotId: 1,
+      allowedTraceTypes: ["blue"],
+    },
+    alienTraceButtons: [
+      makeButton(
+        { alienSlot: "1", banrenmaTraceType: "blue", banrenmaTraceSlot: "2", banrenmaPosition: "2" },
+        "半人马蓝色痕迹 2号位：支付 3 数据，15分",
+        false,
+        () => selected.push("pay-data-score"),
+      ),
+      makeButton(
+        { alienSlot: "1", banrenmaTraceType: "blue", banrenmaTraceSlot: "5", banrenmaPosition: "5" },
+        "半人马蓝色痕迹 5号位：5分，外星人牌",
+        false,
+        () => selected.push("card-5"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve Banrenma threshold trace picker");
+  assert.deepEqual(
+    selected,
+    ["pay-data-score"],
+    "AI should still take Banrenma 3-data score conversion when it crosses a final-score threshold",
+  );
 }
 
 {

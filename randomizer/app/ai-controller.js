@@ -3194,6 +3194,43 @@
       return roundAiScore(Math.max(0, value));
     }
 
+    function scoreAiBanrenmaCardThresholdSetupValue(card, player = getCurrentPlayer()) {
+      if (!player || !banrenma?.isBanrenmaCard?.(card)) return 0;
+      const conditionEffects = banrenma.buildConditionEffects?.(card) || [];
+      if (!conditionEffects.length) return 0;
+      const round = getAiRoundNumber();
+      const conditionValue = conditionEffects.reduce(
+        (total, effect) => total + Math.max(0, scoreAiEffectValue(effect, { player })),
+        0,
+      );
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
+      const crossesNextThreshold = Boolean(
+        nextThreshold
+        && currentScore < nextThreshold
+        && currentScore + (banrenma.SCORE_MARK_DELTA || 15) >= nextThreshold
+      );
+      const energyCost = Math.max(
+        0,
+        aiNumber((getCardPlayCost(card) || {}).energy ?? getCardPrice(card)),
+      );
+      const energyAfterPlay = Math.max(0, aiNumber(player.resources?.energy) - energyCost);
+      let setupValue = round <= 2 ? 6.5 : round === 3 ? 4.2 : 1.6;
+      let conditionMultiplier = round <= 2 ? 0.72 : round === 3 ? 0.58 : 0.28;
+
+      if (crossesNextThreshold) {
+        setupValue += nextThreshold <= 50 ? 4.5 : 3;
+        conditionMultiplier += 0.16;
+      }
+      if (energyAfterPlay <= 0 && round <= 3) setupValue -= 2.2;
+      if (round >= FINAL_ROUND_NUMBER) {
+        setupValue -= 1.4;
+        conditionMultiplier *= 0.55;
+      }
+
+      return roundAiScore(Math.max(0, Math.min(18, setupValue + conditionValue * conditionMultiplier)));
+    }
+
     function scoreAiBestRunezuFacePlacementForSymbol(symbolId, player = getCurrentPlayer()) {
       return (runezu?.FACE_SYMBOL_POSITIONS || [])
         .reduce((best, position) => {
@@ -3468,11 +3505,19 @@
         const threshold = getAiNextMissingFinalScoreThreshold(player);
         const currentScore = Math.max(0, aiNumber(player.resources?.score));
         const crossesThreshold = Boolean(threshold && currentScore < threshold && currentScore + directScore >= threshold);
+        const availableData = getAiAvailableDataTokenCount(player);
+        const dataLeftAfterPayment = Math.max(0, availableData - payData);
 
         if (round <= 2 && !crossesThreshold) value -= 6;
-        else if (round === 3 && blueTechCount >= 2 && !crossesThreshold) value -= 2.5;
-        if (blueTechCount >= 3 && !crossesThreshold) value -= round <= 3 ? 2 : 1;
-        if (round >= FINAL_ROUND_NUMBER || crossesThreshold) value += crossesThreshold ? 8 : 4;
+        else if (round === 3 && blueTechCount >= 2 && !crossesThreshold) value -= 5.5;
+        else if (round === 3 && blueTechCount <= 0 && !crossesThreshold) value += 3;
+        if (blueTechCount >= 2 && !crossesThreshold) {
+          value -= Math.min(16, 5 + (blueTechCount - 2) * 5);
+        }
+        if (round <= 3 && blueTechCount >= 3 && !crossesThreshold) value -= 18;
+        if (dataLeftAfterPayment <= 1 && round <= 3 && !crossesThreshold) value -= 5.5;
+        if (round >= FINAL_ROUND_NUMBER || crossesThreshold) value += crossesThreshold ? 9 : 4;
+        if (round >= FINAL_ROUND_NUMBER && blueTechCount >= 3 && !crossesThreshold) value -= 1.5;
       }
 
       return value;
@@ -6192,6 +6237,8 @@
         case planetRewards.EFFECT_TYPES?.INCOME:
         case "income":
           return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
+        case banrenma?.EFFECT_GAIN_INCOME:
+          return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
         case planetRewards.EFFECT_TYPES?.ALIEN_TRACE:
         case "alien_trace":
           return scoreAiAlienTraceValue({
@@ -7482,6 +7529,8 @@
         ? scoreAiCFinalTaskProgressValue(player, model.tasks.length)
         : 0;
       const chongTaskChainValue = details.chongTaskChainValue ?? scoreAiChongCardTaskChainValue(card, player);
+      const banrenmaThresholdSetupValue = details.banrenmaThresholdSetupValue
+        ?? scoreAiBanrenmaCardThresholdSetupValue(card, player);
       const playCardConversionPressure = details.playCardConversionPressure
         ?? scoreAiPlayCardConversionPressure(card, {
           player,
@@ -7558,6 +7607,7 @@
         + applyAiStrategyWeight(c2Type3ProgressValue, "final", 0.85)
         + applyAiStrategyWeight(Math.min(12, cFinalTaskProgressValue), "task", 0.75)
         + applyAiStrategyWeight(chongTaskChainValue, "task", 0.7)
+        + applyAiStrategyWeight(banrenmaThresholdSetupValue, "playCard", 0.65)
         + applyAiStrategyWeight(finalRoundEndGameCardUrgency, "final", 0.75)
         + applyAiStrategyWeight(Math.min(10, endGameExpectedScore * 0.55), "final", 0.6)
         + applyAiStrategyWeight(Math.max(0, aiNumber(routePlan?.score)), "playCard", 0.35)
@@ -11159,6 +11209,7 @@
         ? scoreAiCFinalTaskProgressValue(currentPlayer, model.tasks.length)
         : 0;
       const chongTaskChainValue = scoreAiChongCardTaskChainValue(card, currentPlayer);
+      const banrenmaThresholdSetupValue = scoreAiBanrenmaCardThresholdSetupValue(card, currentPlayer);
       const score = scoreAiPlayCardValue(card, {
         player: currentPlayer,
         model,
@@ -11174,6 +11225,7 @@
         finalSecondMarkNoDirectSetupPenalty,
         finalRoundResourceDrainPenalty,
         chongTaskChainValue,
+        banrenmaThresholdSetupValue,
       });
       return {
         id: "playCard",
@@ -11201,6 +11253,7 @@
           c2Type3ProgressValue,
           cFinalTaskProgressValue,
           chongTaskChainValue,
+          banrenmaThresholdSetupValue,
           playCardConversionPressure,
           lateCardEnginePressure,
           endGameExpectedScore,
