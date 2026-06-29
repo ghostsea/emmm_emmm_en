@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=start-screen-company-1">
+  <link rel="stylesheet" href="./style.css?v=start-screen-layout-1">
 </head>
 <body>
   <div class="start-screen" id="start-screen" aria-label="开始界面">
@@ -26,7 +26,8 @@
           <span class="start-screen-toggle-text" id="start-debug-toggle-text" aria-hidden="true">关闭</span>
         </label>
         <fieldset class="start-screen-alien-option" aria-label="外星人">
-          <legend class="start-screen-option-label start-screen-option-title">外星人</legend>
+          <legend class="visually-hidden">外星人</legend>
+          <div class="start-screen-option-label start-screen-option-title" aria-hidden="true">外星人</div>
           <div class="start-screen-choice-grid start-screen-alien-grid" id="start-alien-options">
             <label class="start-screen-alien-choice" for="start-alien-jiuzhe">
               <input class="start-screen-checkbox" type="checkbox" id="start-alien-jiuzhe" data-start-alien-id="九折" checked>
@@ -63,7 +64,8 @@
           </div>
         </fieldset>
         <fieldset class="start-screen-alien-option start-screen-company-option" aria-label="公司">
-          <legend class="start-screen-option-label start-screen-option-title">公司</legend>
+          <legend class="visually-hidden">公司</legend>
+          <div class="start-screen-option-label start-screen-option-title" aria-hidden="true">公司</div>
           <div class="start-screen-choice-grid start-screen-company-grid" id="start-industry-options">
             <label class="start-screen-alien-choice start-screen-company-choice" for="start-industry-stratus">
               <input class="start-screen-checkbox" type="checkbox" id="start-industry-stratus" data-start-industry-label="层云核心" checked>

@@ -33,11 +33,12 @@ body {
   inset: 0;
   z-index: 3200;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   min-height: 100vh;
   overflow-y: auto;
   padding: clamp(20px, 5vw, 56px);
+  padding-top: clamp(150px, 31vh, 330px);
   background-color: #030711;
   background-image: url("../assets/core/start.png");
   background-position: center;
@@ -56,6 +57,18 @@ body {
   justify-items: stretch;
   gap: 16px;
   width: min(420px, calc(100vw - 40px));
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .start-screen-actions {
@@ -167,7 +180,9 @@ body {
 }
 
 .start-screen-option-title {
-  padding: 0 4px;
+  min-height: 18px;
+  padding: 0 2px 2px;
+  font-weight: 900;
 }
 
 .start-screen-choice-grid,
@@ -175,6 +190,11 @@ body {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px 6px;
+}
+
+.start-screen-company-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .start-screen-alien-choice,
