@@ -542,6 +542,36 @@ const revealedPosition5Value = valuation.estimateAlienTraceValue({
 });
 assert.ok(revealedPosition5Value > revealedPosition3Value);
 assert.ok(revealedPosition3Value > revealedPosition1Value);
+const aomomoFossilBuilderTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "aomomo-grid",
+  traceType: "blue",
+  position: 2,
+  reward: { gain: { score: 2, aomomoFossils: 1 } },
+});
+const aomomoScoreOnlyTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "aomomo-grid",
+  traceType: "blue",
+  position: 2,
+  reward: { gain: { score: 2 } },
+});
+const aomomoCashoutTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "aomomo-grid",
+  traceType: "blue",
+  position: 5,
+  reward: { payFossils: 4, gain: { score: 25 } },
+});
+const aomomoSmallSpendTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "aomomo-grid",
+  traceType: "blue",
+  position: 1,
+  reward: { payFossils: 1, gain: { score: 6 } },
+});
+assert.ok(aomomoFossilBuilderTraceValue > aomomoScoreOnlyTraceValue + 3);
+assert.ok(aomomoCashoutTraceValue > aomomoSmallSpendTraceValue + 8);
 const amibaStaticRegionTraceValue = valuation.estimateAlienTraceValue({
   revealed: true,
   mode: "amiba-grid",

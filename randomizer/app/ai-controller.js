@@ -252,6 +252,7 @@
       movement: 1.5,
       publicity: 1.5,
       additionalPublicScan: 1.5,
+      aomomoFossils: 4,
     });
     const AI_SCAN_COLORS = Object.freeze(["yellow", "red", "blue", "black"]);
     const AI_TECH_TYPES = Object.freeze(["orange", "purple", "blue"]);
@@ -2509,11 +2510,60 @@
       return value == null ? value : JSON.parse(JSON.stringify(value));
     }
 
+    function getAiAomomoFossilCount(player = getCurrentPlayer()) {
+      return Math.max(0, Math.round(aiNumber(player?.resources?.aomomoFossils)));
+    }
+
+    function getAiAomomoFossilUnitValue(player = getCurrentPlayer()) {
+      const fossils = getAiAomomoFossilCount(player);
+      const round = getAiRoundNumber();
+      let value = aiNumber(AI_RESOURCE_VALUES.aomomoFossils || 4);
+      if (round <= 3 && fossils < 4) value += Math.min(1.1, (4 - fossils) * 0.28);
+      if (round >= FINAL_ROUND_NUMBER && fossils <= 1) value -= 0.8;
+      return Math.max(2.5, Math.min(5.2, value));
+    }
+
+    function scoreAiAomomoFossilPlanBonus(gainCount = 0, player = getCurrentPlayer()) {
+      const gain = Math.max(0, Math.round(aiNumber(gainCount)));
+      if (!gain || !player) return 0;
+      const current = getAiAomomoFossilCount(player);
+      const after = current + gain;
+      const round = getAiRoundNumber();
+      let value = 0;
+      if (current < 4) {
+        value += Math.max(0, Math.min(4, after) - Math.min(4, current)) * (round <= 3 ? 1.15 : 0.45);
+        if (after >= 4) value += round >= 3 ? 6.5 : 3.2;
+        else if (after >= 3) value += round <= 3 ? 2.1 : 0.8;
+        else if (after >= 2) value += round <= 2 ? 1.1 : 0.6;
+      }
+      if (round >= FINAL_ROUND_NUMBER && after < 4) value -= Math.min(1.5, gain * 0.7);
+      return roundAiScore(Math.max(-2, Math.min(9, value)));
+    }
+
+    function scoreAiAomomoFossilSpendPlanPenalty(spendCount = 0, player = getCurrentPlayer(), options = {}) {
+      const spend = Math.max(0, Math.round(aiNumber(spendCount)));
+      if (!spend || !player) return 0;
+      const current = getAiAomomoFossilCount(player);
+      const after = Math.max(0, current - spend);
+      const round = getAiRoundNumber();
+      let penalty = 0;
+      if (current < 4) {
+        penalty += Math.min(6, spend * (round <= 3 ? 1.4 : 0.55));
+      } else if (after < 4) {
+        penalty += round <= 3 ? 5.5 : 3.5;
+      }
+      if (aiNumber(options.directScore) >= 20 && round >= 3) penalty *= 0.45;
+      if (options.crossesThreshold) penalty *= 0.55;
+      return roundAiScore(Math.max(0, Math.min(8, penalty)));
+    }
+
     function scoreAiAlienRewardBundle(reward = {}, player = getCurrentPlayer()) {
       if (!reward || typeof reward !== "object") return 0;
       const gain = reward.gain || {};
       const directScore = Math.max(0, aiNumber(gain.score));
       let value = scoreAiResourceBundle(gain);
+      const fossilGain = Math.max(0, Math.round(aiNumber(gain.aomomoFossils)));
+      if (fossilGain > 0) value += scoreAiAomomoFossilPlanBonus(fossilGain, player);
       value += scoreAiMidgameResourceContinuationValue(gain, player, { scale: 0.8 });
       if (directScore > 0) {
         value += scoreAiThresholdPressureForScoreGain(directScore, player) * 0.55;
@@ -2533,6 +2583,14 @@
       if (Number.isFinite(Number(reward.panelSymbolValue))) value += aiNumber(reward.panelSymbolValue);
       if (Number.isFinite(Number(reward.symbolValue))) value += aiNumber(reward.symbolValue);
       value -= Math.max(0, aiNumber(reward.payData)) * AI_RESOURCE_VALUES.availableData;
+      const fossilCost = Math.max(0, Math.round(aiNumber(reward.payFossils)));
+      if (fossilCost > 0) {
+        const threshold = getAiNextMissingFinalScoreThreshold(player);
+        const currentScore = Math.max(0, aiNumber(player?.resources?.score));
+        const crossesThreshold = Boolean(threshold && currentScore < threshold && currentScore + directScore >= threshold);
+        value -= fossilCost * getAiAomomoFossilUnitValue(player);
+        value -= scoreAiAomomoFossilSpendPlanPenalty(fossilCost, player, { directScore, crossesThreshold });
+      }
       return value;
     }
 
@@ -3342,6 +3400,39 @@
       }
 
       return value;
+    }
+
+    function scoreAiAomomoTraceTimingValue(mode, reward, player = getCurrentPlayer(), position = null) {
+      if (mode !== "aomomo-grid" || !reward || !player) return 0;
+      const pos = Number(position);
+      const gain = reward.gain || {};
+      const fossilGain = Math.max(0, Math.round(aiNumber(gain.aomomoFossils)));
+      const fossilCost = Math.max(0, Math.round(aiNumber(reward.payFossils)));
+      const directScore = Math.max(0, aiNumber(gain.score));
+      const threshold = getAiNextMissingFinalScoreThreshold(player);
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const crossesThreshold = Boolean(threshold && currentScore < threshold && currentScore + directScore >= threshold);
+      const round = getAiRoundNumber();
+      let value = 0;
+
+      value += scoreAiAomomoFossilPlanBonus(fossilGain, player);
+      value -= scoreAiAomomoFossilSpendPlanPenalty(fossilCost, player, { directScore, crossesThreshold });
+
+      if ((pos === 2 || pos === 4) && fossilGain > 0) {
+        value += pos === 4 ? 1.2 : 0.8;
+      }
+
+      if (pos === 5 && directScore >= 20) {
+        value += round >= 3 ? 8 : 3.5;
+        if (crossesThreshold) value += threshold <= 50 ? 8 : 6;
+      }
+
+      if (pos === 1 && fossilCost > 0 && directScore <= 6 && !crossesThreshold) {
+        const fossils = getAiAomomoFossilCount(player);
+        value -= fossils <= 4 && round <= 3 ? 3.5 : 1;
+      }
+
+      return roundAiScore(Math.max(-10, Math.min(18, value)));
     }
 
     function getAiMovePaymentCards(player = getCurrentPlayer()) {
@@ -5763,9 +5854,11 @@
     }
 
     function scoreAiCountedResourceGain(gain = {}, player = getCurrentPlayer()) {
+      const fossilGain = Math.max(0, Math.round(aiNumber(gain?.aomomoFossils)));
       return scoreAiResourceBundle(gain)
         + scoreAiMidgameResourceContinuationValue(gain, player)
-        + scoreAiThresholdPressureForScoreGain(gain.score, player);
+        + scoreAiThresholdPressureForScoreGain(gain.score, player)
+        + scoreAiAomomoFossilPlanBonus(fossilGain, player);
     }
 
     function getAiConditionalProgress(current, target) {
@@ -5976,22 +6069,46 @@
         case AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE:
           return scoreAiFangzhouCard2AdvancedRewardValue(player);
         case aomomo?.EFFECT_GAIN_FOSSILS:
-          return Math.max(1, Math.round(aiNumber(effectOptions.count || 1))) * 3;
+          return scoreAiCountedResourceGain({
+            aomomoFossils: Math.max(1, Math.round(aiNumber(effectOptions.count || 1))),
+          }, player);
         case aomomo?.EFFECT_SCAN_AOMOMO_X:
         case aomomo?.EFFECT_SCAN_AOMOMO_X_GAIN_FOSSIL:
         case aomomo?.EFFECT_SCAN_AOMOMO_X_SCORE:
-          return 5 + Math.max(0, aiNumber(effectOptions.score || 0));
+          return 5
+            + Math.max(0, aiNumber(effectOptions.score || 0))
+            + (type === aomomo?.EFFECT_SCAN_AOMOMO_X_GAIN_FOSSIL ? scoreAiCountedResourceGain({ aomomoFossils: 1 }, player) * 0.45 : 0);
         case aomomo?.EFFECT_LAND_SCORE_IF_AOMOMO:
         case "aomomo_land_only":
           return 8 + Math.max(0, aiNumber(effectOptions.score || 0));
-        case aomomo?.EFFECT_FOSSIL_FOR_DATA:
-          return effectOptions.optional ? 2.5 : 4;
+        case aomomo?.EFFECT_FOSSIL_FOR_DATA: {
+          const fossilCost = Math.max(1, Math.round(aiNumber(effectOptions.cost) || 1));
+          const dataCount = Math.max(1, Math.round(aiNumber(effectOptions.dataCount) || 1));
+          return dataCount * AI_RESOURCE_VALUES.availableData
+            + scoreAiMidgameResourceContinuationValue({ availableData: dataCount }, player, { scale: 0.45 })
+            - fossilCost * getAiAomomoFossilUnitValue(player)
+            - scoreAiAomomoFossilSpendPlanPenalty(fossilCost, player);
+        }
         case aomomo?.EFFECT_FOSSIL_FOR_MOVE_AND_LAND:
-          return 6;
+          return 7
+            - getAiAomomoFossilUnitValue(player) * 0.65
+            - scoreAiAomomoFossilSpendPlanPenalty(effectOptions.cost || 1, player) * 0.55;
         case aomomo?.EFFECT_FOSSIL_FOR_ANY_SCAN:
-          return 4;
-        case aomomo?.EFFECT_SPEND_FOSSILS_GAIN_SCORE:
-          return Math.max(4, aiNumber(effectOptions.score || 0));
+          return 4.5
+            + scoreAiScanPriorityFloor(player) * 0.28
+            - getAiAomomoFossilUnitValue(player) * 0.6
+            - scoreAiAomomoFossilSpendPlanPenalty(effectOptions.cost || 1, player) * 0.45;
+        case aomomo?.EFFECT_SPEND_FOSSILS_GAIN_SCORE: {
+          const directScore = Math.max(0, aiNumber(effectOptions.score || 0));
+          const fossilCost = Math.max(1, Math.round(aiNumber(effectOptions.cost) || 1));
+          const threshold = getAiNextMissingFinalScoreThreshold(player);
+          const currentScore = Math.max(0, aiNumber(player?.resources?.score));
+          const crossesThreshold = Boolean(threshold && currentScore < threshold && currentScore + directScore >= threshold);
+          return directScore
+            + scoreAiPaceValueForDirectScore(directScore, player)
+            - fossilCost * getAiAomomoFossilUnitValue(player)
+            - scoreAiAomomoFossilSpendPlanPenalty(fossilCost, player, { directScore, crossesThreshold });
+        }
         default:
           return String(type || "").startsWith("card_") ? 2 : 0;
       }
@@ -10190,7 +10307,12 @@
         value += counts.ownCount + 1 > counts.maxOtherCount ? 3 : 1;
       }
 
-      if (nebulaId === aomomo?.NEBULA_ID) value += 2;
+      if (nebulaId === aomomo?.NEBULA_ID) {
+        value += 2 + getAiAomomoFossilUnitValue(player) * 0.22;
+        if (counts.openCount <= 1 || counts.ownCount > 0) {
+          value += scoreAiAomomoFossilPlanBonus(1, player) * 0.5;
+        }
+      }
       if (options.pendingType === "hand_scan") value -= 0.5;
       return value;
     }
@@ -13235,6 +13357,7 @@
       if (reward?.blindDraw) score += Math.max(0, aiNumber(reward.blindDraw)) * 1.4;
       if (isFangzhouUnlockChoice) score += scoreAiFangzhouUnlockChoiceValue(player, traceType);
       score += scoreAiBanrenmaTraceTimingValue(scoringMode, reward, player, position);
+      score += scoreAiAomomoTraceTimingValue(scoringMode, reward, player, position);
       if (target.kind === "grid-slot" || (mode === "fangzhou-use" && fangzhouUseChoice === "place") || isFangzhouUnlockChoice) {
         const directScore = Math.max(0, aiNumber(reward?.gain?.score));
         const pointConversionPenalty = scoreAiHighCostPointConversionPenalty(player, {

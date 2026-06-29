@@ -20,6 +20,7 @@
   const FINAL_ROUND_NUMBER = 4;
   const DEFAULT_CARD_VALUE = 3;
   const DEFAULT_ALIEN_CARD_VALUE = 5.5;
+  const AOMOMO_FOSSIL_VALUE = 4;
   const DEFAULT_LAUNCH_COST = Object.freeze({ credits: 2 });
   const RESOURCE_VALUES = Object.freeze({
     score: 1,
@@ -34,6 +35,7 @@
     additionalPublicScan: 1.5,
     publicity: 1,
     signal: 3,
+    aomomoFossils: AOMOMO_FOSSIL_VALUE,
   });
 
   function numeric(value) {
@@ -386,7 +388,7 @@
     value += numeric(reward.basicRewardCount) * 2.25;
     if (reward.pickCard) value += DEFAULT_CARD_VALUE;
     if (reward.pickAlienCard) value += DEFAULT_ALIEN_CARD_VALUE;
-    if (reward.fossilPanel || reward.chooseFossilRewardOnly) value += 4;
+    if (reward.fossilPanel || reward.chooseFossilRewardOnly) value += AOMOMO_FOSSIL_VALUE;
     if (Number.isFinite(Number(reward.panelSymbolValue))) value += numeric(reward.panelSymbolValue);
     else if (reward.panelSymbol) value += 2.5;
     if (reward.refillPanelSymbol) value += 0.75;
@@ -394,7 +396,7 @@
     else if (reward.region) value += 2.5;
     if (Number.isFinite(Number(reward.symbolValue))) value += numeric(reward.symbolValue);
     value -= numeric(reward.payData) * RESOURCE_VALUES.availableData;
-    value -= numeric(reward.payFossils) * 2.5;
+    value -= numeric(reward.payFossils) * AOMOMO_FOSSIL_VALUE;
     return value;
   }
 
