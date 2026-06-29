@@ -71,6 +71,64 @@ assert.equal(orbitLandStep3.completed, true);
 assert.equal(orbitLandCard.runezuTaskProgress.length, 3);
 assert.equal(orbitLandCard.runezuTaskCompleted, true);
 
+const techCard = runezu.createAlienCard(3, 1);
+assert.equal(techCard.runezuTask.id, "runezu-3-tech");
+assert.deepEqual(
+  techCard.runezuTask.steps.map((step) => [step.event, step.techType]),
+  [["researchTech", "orange"], ["researchTech", "purple"], ["researchTech", "blue"]],
+);
+assert.equal(runezu.consumeTaskEvents(techCard, [{ type: "researchTech", techType: "blue" }]), null);
+assert.equal(techCard.runezuTaskProgress.length, 0);
+const techStep1 = runezu.consumeTaskEvents(techCard, [{ type: "researchTech", techType: "orange" }]);
+assert.equal(techStep1.ok, true);
+assert.deepEqual(techStep1.symbolIds, ["symbol_4"]);
+assert.equal(techStep1.completed, false);
+const techStep2 = runezu.consumeTaskEvents(techCard, [{ type: "researchTech", techType: "purple" }]);
+assert.equal(techStep2.ok, true);
+assert.deepEqual(techStep2.symbolIds, ["symbol_1"]);
+assert.equal(techStep2.completed, false);
+const techStep3 = runezu.consumeTaskEvents(techCard, [{ type: "researchTech", techType: "blue" }]);
+assert.equal(techStep3.ok, true);
+assert.deepEqual(techStep3.symbolIds, ["symbol_6"]);
+assert.equal(techStep3.completed, true);
+assert.equal(techCard.runezuTaskCompleted, true);
+
+const scanCard = runezu.createAlienCard(4, 1);
+assert.equal(scanCard.runezuTask.id, "runezu-4-scan");
+assert.deepEqual(
+  scanCard.runezuTask.steps.map((step) => step.event),
+  ["scanAction", "scanAction"],
+);
+assert.equal(runezu.consumeTaskEvents(scanCard, [{ type: "signalMarked" }]), null);
+assert.equal(scanCard.runezuTaskProgress.length, 0);
+const scanStep1 = runezu.consumeTaskEvents(scanCard, [{ type: "scanAction" }]);
+assert.equal(scanStep1.ok, true);
+assert.deepEqual(scanStep1.symbolIds, ["symbol_4"]);
+assert.equal(scanStep1.completed, false);
+const scanStep2 = runezu.consumeTaskEvents(scanCard, [{ type: "scanAction" }]);
+assert.equal(scanStep2.ok, true);
+assert.deepEqual(scanStep2.symbolIds, ["symbol_2"]);
+assert.equal(scanStep2.completed, true);
+assert.equal(scanCard.runezuTaskCompleted, true);
+
+const legacyScanCard = runezu.createAlienCard(4, 2);
+legacyScanCard.runezuTask.steps = legacyScanCard.runezuTask.steps.map((step) => ({ ...step, event: "scan" }));
+assert.equal(runezu.consumeTaskEvents(legacyScanCard, [{ type: "signalMarked" }]), null);
+const legacyScanStep = runezu.consumeTaskEvents(legacyScanCard, [{ type: "scanAction" }]);
+assert.equal(legacyScanStep.ok, true);
+assert.deepEqual(legacyScanStep.symbolIds, ["symbol_4"]);
+
+const fullLaunchCard = runezu.createAlienCard(6, 2);
+const launchStep1 = runezu.consumeTaskEvents(fullLaunchCard, [{ type: "launch" }]);
+assert.equal(launchStep1.ok, true);
+assert.deepEqual(launchStep1.symbolIds, ["symbol_1"]);
+assert.equal(launchStep1.completed, false);
+const launchStep2 = runezu.consumeTaskEvents(fullLaunchCard, [{ type: "launch" }]);
+assert.equal(launchStep2.ok, true);
+assert.deepEqual(launchStep2.symbolIds, ["symbol_7"]);
+assert.equal(launchStep2.completed, true);
+assert.equal(fullLaunchCard.runezuTaskCompleted, true);
+
 const alienState = { aliens: { 1: { revealed: true, alienId: runezu.ALIEN_ID } } };
 const player = { id: "p1", color: "blue", runezuSymbols: {} };
 runezu.ensureRunezuState(alienState);

@@ -188,8 +188,8 @@
         id: "runezu-4-scan",
         kind: "sequential-events",
         steps: Object.freeze([
-          Object.freeze({ event: "scan", symbolId: "symbol_4" }),
-          Object.freeze({ event: "scan", symbolId: "symbol_2" }),
+          Object.freeze({ event: "scanAction", symbolId: "symbol_4" }),
+          Object.freeze({ event: "scanAction", symbolId: "symbol_2" }),
         ]),
       }),
     }),
@@ -981,6 +981,7 @@
     if (!event || !step) return false;
     if (step.event === "orbitOrLand") return event.type === "orbit" || event.type === "land" || event.type === "orbitOrLand";
     if (step.event === "researchTech") return event.type === "researchTech" && (!step.techType || event.techType === step.techType);
+    if (step.event === "scan") return event.type === "scanAction";
     return event.type === step.event;
   }
 

@@ -10543,15 +10543,11 @@
     if (!runezu || !events?.length) return [];
     const currentPlayer = getCurrentPlayer();
     if (!currentPlayer?.reservedCards?.length) return [];
-    const normalizedEvents = [...events];
-    if (events.some((event) => event?.type === "signalMarked")) {
-      normalizedEvents.push({ type: "scan" });
-    }
     const results = [];
     for (const card of [...currentPlayer.reservedCards]) {
       if (!runezu.isRunezuCard?.(card)) continue;
       const beforePlayer = structuredClone(currentPlayer);
-      const result = runezu.consumeTaskEvents?.(card, normalizedEvents);
+      const result = runezu.consumeTaskEvents?.(card, events);
       if (!result?.ok || !result.effects?.length) continue;
       if (result.completed) {
         removeReservedCardToDiscard(currentPlayer, card);
