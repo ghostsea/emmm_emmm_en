@@ -3031,6 +3031,35 @@
       return roundAiScore(rewardValue + synergy + scoreAiRunezuFaceUnlockValue(position) - finalPenalty);
     }
 
+    function listAiBanrenmaHandCards(player = getCurrentPlayer()) {
+      return (player?.hand || []).filter((card) => banrenma?.isBanrenmaCard?.(card));
+    }
+
+    function countAiPlayableBanrenmaCards(player = getCurrentPlayer()) {
+      if (!player || !players?.canAfford) return 0;
+      return listAiBanrenmaHandCards(player)
+        .filter((card) => isAiSupportedHandPlayCard(card) && players.canAfford(player, getCardPlayCost(card) || {}))
+        .length;
+    }
+
+    function scoreAiBanrenmaEnergyIncomeValue(player = getCurrentPlayer(), incomeGain = {}) {
+      if (!player || aiNumber(incomeGain?.energy) <= 0) return 0;
+      const handCards = listAiBanrenmaHandCards(player).length;
+      if (!handCards) return 0;
+      const playableCards = countAiPlayableBanrenmaCards(player);
+      const resources = player.resources || {};
+      const income = player.income || {};
+      const round = getAiRoundNumber();
+      const energy = Math.max(0, aiNumber(resources.energy));
+      const energyIncome = Math.max(0, aiNumber(income.energy));
+      let value = Math.min(7, handCards * 1.8 + playableCards * 1.2);
+      if (energy <= 1) value += 2.5;
+      if (energyIncome <= 2) value += 1.5;
+      if (round >= FINAL_ROUND_NUMBER) value *= 0.35;
+      else if (round >= 3) value *= 0.7;
+      return roundAiScore(Math.max(0, value));
+    }
+
     function scoreAiBestRunezuFacePlacementForSymbol(symbolId, player = getCurrentPlayer()) {
       return (runezu?.FACE_SYMBOL_POSITIONS || [])
         .reduce((best, position) => {
@@ -3108,6 +3137,34 @@
         };
       }
       return reward;
+    }
+
+    function scoreAiBanrenmaTraceTimingValue(mode, reward, player = getCurrentPlayer(), position = null) {
+      if (mode !== "banrenma-grid" || !reward || !player) return 0;
+      const pos = Number(position);
+      const directScore = Math.max(0, aiNumber(reward.gain?.score));
+      const payData = Math.max(0, Math.round(aiNumber(reward.payData)));
+      const round = getAiRoundNumber();
+      let value = 0;
+
+      if (reward.pickAlienCard) {
+        value += round <= 2 ? 4 : round === 3 ? 2.5 : 1;
+      }
+
+      if (pos === 2 && payData >= 3 && directScore >= 15) {
+        const techCounts = getAiPlayerTechTypeCounts(player);
+        const blueTechCount = Math.max(0, aiNumber(techCounts.blue));
+        const threshold = getAiNextMissingFinalScoreThreshold(player);
+        const currentScore = Math.max(0, aiNumber(player.resources?.score));
+        const crossesThreshold = Boolean(threshold && currentScore < threshold && currentScore + directScore >= threshold);
+
+        if (round <= 2 && !crossesThreshold) value -= 6;
+        else if (round === 3 && blueTechCount >= 2 && !crossesThreshold) value -= 2.5;
+        if (blueTechCount >= 3 && !crossesThreshold) value -= round <= 3 ? 2 : 1;
+        if (round >= FINAL_ROUND_NUMBER || crossesThreshold) value += crossesThreshold ? 8 : 4;
+      }
+
+      return value;
     }
 
     function getAiMovePaymentCards(player = getCurrentPlayer()) {
@@ -5239,6 +5296,7 @@
         : getAiRoundNumber() === 2
           ? Math.min(2.5, scoreAiResourceBundle(gain) * 0.28 + earlyPressure * 0.6) * incomeUseScale
           : 0;
+      const banrenmaEnergyPlanValue = scoreAiBanrenmaEnergyIncomeValue(player, gain) * incomeUseScale;
       const markedFinalValue = scoreAiMarkedIncomeFinalValue(player, gain);
       return Math.max(
         0,
@@ -5249,6 +5307,7 @@
           + energyIncomeBalance
           + handIncomeBalance
           + earlyIncomeTargetBonus
+          + banrenmaEnergyPlanValue
           + markedFinalValue
           + strategicIncomeFit
           - creditSurplusPenalty
@@ -12994,6 +13053,7 @@
       if (reward?.pickAlienCard) score += 4;
       if (reward?.drawCards) score += Math.max(0, aiNumber(reward.drawCards)) * 1.8;
       if (reward?.blindDraw) score += Math.max(0, aiNumber(reward.blindDraw)) * 1.4;
+      score += scoreAiBanrenmaTraceTimingValue(scoringMode, reward, player, position);
       if (target.kind === "grid-slot" || (mode === "fangzhou-use" && fangzhouUseChoice === "place")) {
         const directScore = Math.max(0, aiNumber(reward?.gain?.score));
         const pointConversionPenalty = scoreAiHighCostPointConversionPenalty(player, {
