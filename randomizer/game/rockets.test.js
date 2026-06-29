@@ -76,8 +76,12 @@ assert.equal(rockets.getRocketsForPlayer(fossilState, "player-white").length, 1)
 assert.equal(rockets.getMovableTokensForPlayer(fossilState, "player-white").length, 2);
 assert.equal(rockets.isControllablePlayerRocket(fossil.rocket), false);
 assert.equal(rockets.isMovablePlayerToken(fossil.rocket), true);
+assert.equal(rockets.isChongFossilRewardProbe(standard.rocket, "player-white"), true);
+assert.equal(rockets.isChongFossilRewardProbe(fossil.rocket, "player-white"), true);
+assert.equal(rockets.isChongFossilRewardProbe(fossil.rocket, "player-red"), false);
 fossil.rocket.movementLocked = true;
 assert.equal(rockets.isMovablePlayerToken(fossil.rocket), false);
+assert.equal(rockets.isChongFossilRewardProbe(fossil.rocket, "player-white"), false);
 assert.equal(rockets.getMovableTokensForPlayer(fossilState, "player-white").length, 1);
 
 console.log("rocket action tests passed");

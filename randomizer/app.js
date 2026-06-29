@@ -15862,13 +15862,13 @@
     const candidates = [
       ...(active ? [active] : []),
       ...rocketActions.getRocketsForPlayer(rocketState, currentPlayer.id),
+      ...rocketActions.getMovableTokensForPlayer(rocketState, currentPlayer.id),
     ];
     const seen = new Set();
     for (const rocket of candidates) {
       if (!rocket || seen.has(rocket.id)) continue;
       seen.add(rocket.id);
-      if (!rocketActions.isControllablePlayerRocket(rocket)) continue;
-      if (rocket.playerId !== currentPlayer.id) continue;
+      if (!rocketActions.isChongFossilRewardProbe(rocket, currentPlayer.id)) continue;
       const sector = rocketActions.getRocketSectorCoordinate(rocket);
       const planet = planetLocations.find((item) => item.x === sector?.x && item.y === sector?.y);
       if (planet?.planetId === "jupiter" || planet?.planetId === "saturn") {
@@ -16153,7 +16153,7 @@
       return finishAutomaticRewardEffect(effect, {
         ok: true,
         undoable: true,
-        message: "虫族化石：当前没有标准探测器停在木星/土星",
+        message: "虫族化石：当前没有探测器或搬运化石停在木星/土星",
       });
     }
     const fossils = chong.getAvailablePlanetFossils(alienGameState, placement.planetId);

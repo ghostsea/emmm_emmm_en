@@ -24,6 +24,9 @@
   const TRACE_TYPES = Object.freeze(["pink", "yellow", "blue"]);
   const TRACE_POSITIONS = Object.freeze([1, 2, 3, 4, 5]);
   const TRACE_POSITION_COUNT = 5;
+  const INCOME_KEYS = Object.freeze(["credits", "energy", "handSize", "publicity", "availableData", "additionalPublicScan"]);
+  let lazyInitialCardsModule = null;
+  let lazyInitialCardsModuleResolved = false;
 
   const TRACE_REWARDS = Object.freeze({
     pink: Object.freeze({
@@ -55,7 +58,7 @@
     Object.freeze({ index: 2, threat: 4, score: 12, condition: Object.freeze({ type: "sectorWinsByColor", color: "blue", count: 2 }), label: "完成2个蓝色扇区" }),
     Object.freeze({ index: 3, threat: 7, score: 15, condition: Object.freeze({ type: "techCount", techType: "purple", count: 3 }), label: "拥有3个紫色科技" }),
     Object.freeze({ index: 4, threat: 3, score: 9, condition: Object.freeze({ type: "techCount", techType: "blue", count: 3 }), label: "拥有3个蓝色科技" }),
-    Object.freeze({ index: 5, threat: 8, score: 18, condition: Object.freeze({ type: "totalIncome", count: 8 }), label: "总共8个收入" }),
+    Object.freeze({ index: 5, threat: 8, score: 18, condition: Object.freeze({ type: "incomeIncreaseCount", count: 8 }), label: "收入增加8次" }),
     Object.freeze({ index: 6, threat: 5, score: 14, condition: Object.freeze({ type: "sectorWinsByColor", color: "black", count: 2 }), label: "完成2个黑色扇区" }),
     Object.freeze({ index: 7, threat: 7, score: 16, condition: Object.freeze({ type: "landingCount", count: 4 }), label: "拥有4个登陆" }),
     Object.freeze({ index: 8, threat: 1, score: 8, condition: Object.freeze({ type: "sameColorTraceCount", count: 5 }), label: "拥有5个相同颜色外星人痕迹" }),
@@ -600,10 +603,54 @@
     return max;
   }
 
-  function countTotalIncome(player) {
-    const income = player?.income || {};
-    return ["credits", "energy", "handSize", "publicity", "availableData", "additionalPublicScan"]
-      .reduce((total, key) => total + (Number(income[key]) || 0), 0);
+  function normalizeIncomeMap(income) {
+    const source = income || {};
+    const result = {};
+    for (const key of INCOME_KEYS) {
+      result[key] = Math.max(0, Math.round(Number(source[key]) || 0));
+    }
+    return result;
+  }
+
+  function getInitialCardsModule(context = {}) {
+    if (context?.initialCards?.getIndustryEffect) return context.initialCards;
+    if (typeof context?.getInitialCardsModule === "function") {
+      const module = context.getInitialCardsModule();
+      if (module?.getIndustryEffect) return module;
+    }
+    if (typeof globalThis !== "undefined" && globalThis.SetiInitialCards?.getIndustryEffect) {
+      return globalThis.SetiInitialCards;
+    }
+    if (!lazyInitialCardsModuleResolved && typeof require === "function") {
+      lazyInitialCardsModuleResolved = true;
+      try {
+        lazyInitialCardsModule = require("../initial-cards");
+      } catch (_error) {
+        lazyInitialCardsModule = null;
+      }
+    }
+    return lazyInitialCardsModule;
+  }
+
+  function getCompanyBaseIncome(player, context = {}) {
+    if (typeof context?.getPlayerCompanyBaseIncome === "function") {
+      return normalizeIncomeMap(context.getPlayerCompanyBaseIncome(player));
+    }
+    if (context?.companyBaseIncome) return normalizeIncomeMap(context.companyBaseIncome);
+    if (player?.companyBaseIncome) return normalizeIncomeMap(player.companyBaseIncome);
+    if (player?.initialSelection?.companyBaseIncome) return normalizeIncomeMap(player.initialSelection.companyBaseIncome);
+
+    const initialCards = getInitialCardsModule(context);
+    const industryEffect = initialCards?.getIndustryEffect?.(player?.initialSelection?.industry);
+    return normalizeIncomeMap(industryEffect?.baseIncome || null);
+  }
+
+  function countIncomeIncreases(player, context = {}) {
+    const income = normalizeIncomeMap(player?.income);
+    const companyBaseIncome = getCompanyBaseIncome(player, context);
+    return INCOME_KEYS.reduce((total, key) => (
+      total + Math.max(0, income[key] - (companyBaseIncome[key] || 0))
+    ), 0);
   }
 
   function countJiuzheTraces(alienState, player, alienSlotId = alienState?.jiuzhe?.revealedSlotId) {
@@ -691,8 +738,9 @@
         return countSectorWinsByColor(player, context.nebulaDataState, condition.color) >= condition.count;
       case "techCount":
         return countOwnedTech(player, condition.techType) >= condition.count;
+      case "incomeIncreaseCount":
       case "totalIncome":
-        return countTotalIncome(player) >= condition.count;
+        return countIncomeIncreases(player, context) >= condition.count;
       case "landingCount":
         return countLandingMarkers(player, context.planetStatsState, context) >= condition.count;
       case "sameColorTraceCount":
@@ -788,6 +836,8 @@
     countOwnedTech,
     countOrbitMarkers,
     countLandingMarkers,
+    getCompanyBaseIncome,
+    countIncomeIncreases,
     countJiuzheTraces,
     countAllTraceMarkersByColor,
     countOtherAlienTraces,

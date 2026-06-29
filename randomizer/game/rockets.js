@@ -81,6 +81,14 @@
     return true;
   }
 
+  function isChongFossilRewardProbe(rocket, playerId) {
+    if (!rocket?.playerId) return false;
+    if (playerId && rocket.playerId !== playerId) return false;
+    const kind = rocket.kind || ROCKET_KIND.STANDARD;
+    if (kind === ROCKET_KIND.CHONG_FOSSIL) return isMovablePlayerToken(rocket);
+    return isControllablePlayerRocket(rocket);
+  }
+
   function formatRocketLabel(rocket) {
     if ((rocket?.kind || ROCKET_KIND.STANDARD) === ROCKET_KIND.CHONG_FOSSIL) {
       return `F${rocket?.id ?? "?"}`;
@@ -541,6 +549,7 @@
     getMovableTokensForPlayer,
     isControllablePlayerRocket,
     isMovablePlayerToken,
+    isChongFossilRewardProbe,
     formatRocketLabel,
     removeRocket,
     placeRocketAtBoardPoint,

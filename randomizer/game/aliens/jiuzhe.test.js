@@ -59,6 +59,40 @@ assert.equal(
   "purple tech condition should be met",
 );
 
+const baseIncomeOnlyTotalEightPlayer = {
+  id: "player-brown",
+  color: "brown",
+  income: { credits: 2, energy: 1, handSize: 1, publicity: 4, availableData: 0, additionalPublicScan: 0 },
+  initialSelection: { industry: { label: "层云核心" } },
+};
+assert.equal(
+  jiuzhe.countIncomeIncreases(baseIncomeOnlyTotalEightPlayer),
+  4,
+  "company base income should not count as income increases",
+);
+assert.equal(
+  jiuzhe.isCardConditionMet({ index: 5 }, baseIncomeOnlyTotalEightPlayer),
+  false,
+  "Jiuzhe card 5 should not count company base income toward the 8 income threshold",
+);
+
+const eightIncomeIncreasePlayer = {
+  id: "player-green",
+  color: "green",
+  income: { credits: 4, energy: 3, handSize: 2, publicity: 1, availableData: 1, additionalPublicScan: 1 },
+  initialSelection: { industry: { label: "层云核心" } },
+};
+assert.equal(
+  jiuzhe.countIncomeIncreases(eightIncomeIncreasePlayer),
+  8,
+  "income increases should count only values above company base income",
+);
+assert.equal(
+  jiuzhe.isCardConditionMet({ index: 5 }, eightIncomeIncreasePlayer),
+  true,
+  "Jiuzhe card 5 should score after 8 income increases",
+);
+
 assert.equal(
   jiuzhe.isCardConditionMet({ index: 1 }, white, {
     alienGameState: alienState,

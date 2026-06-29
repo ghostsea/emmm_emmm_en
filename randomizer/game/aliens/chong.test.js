@@ -106,6 +106,7 @@ assert.equal(chong0Effects[0].type, chong.EFFECT_TYPES.CHONG_LAND_FOR_PICKUP);
 assert.equal(chong0Effects[0].icon, "land");
 assert.equal(chong0Effects[1].type, chong.EFFECT_TYPES.CHONG_PICKUP_FOSSIL);
 assert.equal(chong0Effects[1].icon, "chongFossilBack");
+assert.equal(chong.buildImmediateEffects(2)[0].type, chong.EFFECT_TYPES.CHONG_PROBE_PLANET_FOSSIL_REWARD);
 assert.equal(chong.buildImmediateEffects(2)[0].icon, "chongFossilOk");
 assert.equal(chong.buildImmediateEffects(6)[0].type, chong.EFFECT_TYPES.CHONG_ORBIT_OR_LAND_FOR_PICKUP);
 assert.equal(chong.buildImmediateEffects(6)[0].icon, "orbitOrLand");
