@@ -2961,6 +2961,29 @@
       }, 0);
     }
 
+    function getAiRunezuPrematureSymbolCardReason(card, playEffects = [], player = getCurrentPlayer()) {
+      if (!runezu?.isRunezuCard?.(card)) return null;
+      let hasSymbolEffect = false;
+      let hasReadySymbolReward = false;
+      for (const effect of playEffects || []) {
+        if (effect?.type === runezu.EFFECT_TYPES?.SYMBOL_REWARD) {
+          hasSymbolEffect = true;
+          if (scoreAiRunezuSymbolRewardValue(effect.options?.symbolId, player) > 0) {
+            hasReadySymbolReward = true;
+          }
+        }
+        if (effect?.type === runezu.EFFECT_TYPES?.SYMBOL_BRANCH) {
+          hasSymbolEffect = true;
+          if (scoreAiRunezuSymbolBranchValue(effect.options?.branches || [], player) > 0) {
+            hasReadySymbolReward = true;
+          }
+        }
+      }
+      return hasSymbolEffect && !hasReadySymbolReward
+        ? "符文族卡牌等待对应 symbol 放入黑圈并具备奖励"
+        : null;
+    }
+
     function scoreAiRunezuSymbolCardSynergy(symbolId, player = getCurrentPlayer(), mappedRewardValue = 0) {
       if (!symbolId || !player) return 0;
       const hand = Array.isArray(player.hand) ? player.hand : [];
@@ -10464,6 +10487,7 @@
       const playEffects = getAiPlayEffectsForCard(card);
       const effectCheck = canAiResolvePlayCardEffects(playEffects);
       if (!effectCheck.ok) return null;
+      if (getAiRunezuPrematureSymbolCardReason(card, playEffects, currentPlayer)) return null;
       const reservesAfterPlay = doesAiCardReserveAfterPlay(card, typeCode, model);
       const finalFormulaDeltas = getAiPlayCardFinalFormulaDeltas(card, {
         player: currentPlayer,
