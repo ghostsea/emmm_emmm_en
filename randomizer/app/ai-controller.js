@@ -3160,9 +3160,31 @@
           }
         }
       }
-      return hasSymbolEffect && !hasReadySymbolReward
+      const taskBlockedSymbolIds = getAiRunezuBlockedTaskSymbolIds(card, player);
+      return (hasSymbolEffect && !hasReadySymbolReward) || taskBlockedSymbolIds.length
         ? "符文族卡牌等待对应 symbol 放入黑圈并具备奖励"
         : null;
+    }
+
+    function getAiRunezuTaskPendingSymbolIds(card, player = getCurrentPlayer()) {
+      if (!runezu?.isRunezuCard?.(card)) return [];
+      const task = card?.runezuTask || runezu?.getCardTask?.(card);
+      if (!task || card?.runezuTaskCompleted) return [];
+      if (task.kind === "sequential-events") {
+        const progress = Array.isArray(card.runezuTaskProgress) ? card.runezuTaskProgress.length : 0;
+        const step = (task.steps || [])[progress];
+        return step?.symbolId ? [step.symbolId] : [];
+      }
+      if (task.kind === "three-trace-colors") {
+        if (!runezu?.playerHasAllTraceColors?.(alienGameState, player)) return [];
+        return (task.rewards || []).filter(Boolean);
+      }
+      return [];
+    }
+
+    function getAiRunezuBlockedTaskSymbolIds(card, player = getCurrentPlayer()) {
+      return getAiRunezuTaskPendingSymbolIds(card, player)
+        .filter((symbolId) => scoreAiRunezuSymbolRewardValue(symbolId, player) <= 0);
     }
 
     function scoreAiRunezuSymbolCardSynergy(symbolId, player = getCurrentPlayer(), mappedRewardValue = 0) {
@@ -3185,6 +3207,10 @@
         }
         if (String(card.discardActionCode || "") === String(symbolId).replace("symbol_", "s_")) {
           value += 0.4 + Math.max(0, mappedRewardValue) * 0.22;
+        }
+        const taskSymbolIds = getAiRunezuTaskPendingSymbolIds(card, player);
+        if (taskSymbolIds.includes(symbolId)) {
+          value += 1.2 + Math.max(0, mappedRewardValue) * 0.38;
         }
         return total + value;
       }, 0);

@@ -127,6 +127,18 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     }
       : {}
   );
+  if (options.runezuQuick && options.runezuFaceSymbolSlots) {
+    const runezuState = runezu.ensureRunezuState(alienGameState);
+    for (const [position, symbolId] of Object.entries(options.runezuFaceSymbolSlots)) {
+      runezuState.faceSymbolSlots[position] = {
+        position: Number(position),
+        symbolId,
+        playerId: blue.id,
+        playerColor: blue.color,
+        placedAt: 1,
+      };
+    }
+  }
 
   const context = {
     window: { setTimeout: () => 1, localStorage: null },
@@ -1419,6 +1431,47 @@ function makeBanrenmaAlienState() {
 
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI should select a playable Chong alien card from hand");
+  assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    playCardSelectionActive: true,
+    runezuQuick: true,
+    blueHand: [runezu.createAlienCard(4, 1)],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.blocked, true, "AI should wait on Runezu task cards until the next task symbol has a face reward");
+  assert.equal(harness.getHandled(), null);
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    playCardSelectionActive: true,
+    runezuQuick: true,
+    runezuFaceSymbolSlots: { 4: "symbol_4" },
+    blueHand: [runezu.createAlienCard(4, 1)],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should play Runezu task cards once the next task symbol has a face reward");
   assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
 }
 
