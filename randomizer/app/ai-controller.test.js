@@ -5,6 +5,7 @@ const { createAiController } = require("./ai-controller");
 const chong = require("../game/aliens/chong");
 const fangzhou = require("../game/aliens/fangzhou");
 const runezu = require("../game/aliens/runezu");
+const yichangdian = require("../game/aliens/yichangdian");
 
 function datasetKeyForSelector(selector) {
   const match = String(selector || "").match(/\[data-([a-z0-9-]+)\]/i);
@@ -12,13 +13,25 @@ function datasetKeyForSelector(selector) {
   return match[1].replace(/-([a-z0-9])/g, (_all, char) => char.toUpperCase());
 }
 
-function makeButton(dataset = {}, textContent = "", disabled = false) {
-  return {
+function makeButton(dataset = {}, textContent = "", disabled = false, onClick = null, className = "scan-target-option-button is-placeable") {
+  const button = {
     dataset,
     textContent,
     disabled,
-    className: "scan-target-option-button",
+    className,
+    matches: (selector) => String(selector || "").split(",").some((part) => {
+      const item = part.trim();
+      const key = datasetKeyForSelector(item);
+      const dataMatches = !key || Object.prototype.hasOwnProperty.call(dataset || {}, key);
+      const classMatches = (item.match(/\.[a-z0-9_-]+/gi) || [])
+        .every((classToken) => String(button.className || "").split(/\s+/).includes(classToken.slice(1)));
+      return dataMatches && classMatches;
+    }),
   };
+  button.click = () => {
+    if (typeof onClick === "function") onClick(button);
+  };
+  return button;
 }
 
 function makeActionList(buttons = []) {
@@ -79,6 +92,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
 
   const state = {
     get pendingJiuzheCardPlay() { return pendingJiuzheCardPlay; },
+    get pendingAlienTraceAction() { return options.pendingAlienTraceAction || null; },
     get pendingScanTargetAction() { return options.scanTargetPending || null; },
     get pendingProbeSectorScanAction() { return options.probeSectorPending || null; },
     get pendingProbeLocationRewardAction() { return options.probeLocationPending || null; },
@@ -91,15 +105,18 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     get pendingActionExecuted() { return Boolean(options.pendingActionExecuted); },
     get pendingActionEffectFlow() { return null; },
     get pendingRunezuFaceSymbolPlacement() { return null; },
+    alienTracePickerState: options.alienTracePickerState || null,
   };
-  const alienGameState = options.runezuQuick
-    ? {
+  const alienGameState = options.alienGameState || (
+    options.runezuQuick
+      ? {
       aliens: {
         1: { revealed: true, alienId: runezu.ALIEN_ID, assignedAlienId: runezu.ALIEN_ID },
       },
       runezu: runezu.createRunezuState(),
     }
-    : {};
+      : {}
+  );
 
   const context = {
     window: { setTimeout: () => 1, localStorage: null },
@@ -135,6 +152,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     chong,
     fangzhou,
     runezu,
+    yichangdian,
     cards: {
       getCardLabel: (card) => card?.cardName || card?.label || card?.cardId || card?.id || "card",
       getIncomeCodeForCard: (card) => card?.incomeCode ?? null,
@@ -200,6 +218,8 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       },
       dataPlaceOverlay: { hidden: !options.dataPlacePending },
       dataPlaceActions: makeActionList(options.dataPlaceButtons || []),
+      alienJiuzheTraceLayers: [makeActionList(options.alienTraceButtons || [])],
+      alienTraceLayers: [makeActionList(options.alienStateTraceButtons || [])],
     },
     DEFAULT_ACTIVE_PLAYER_COUNT: allPlayers.length,
     DEFAULT_INITIAL_HAND_COUNT: 5,
@@ -213,7 +233,11 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     computePlayerFinalScoreBreakdown: () => ({}),
     formatRocketLabel: () => "",
     getActivePlayers: () => allPlayers,
-    getAlienTraceActionPlayer: () => null,
+    getAlienTraceActionPlayer: (pending) => {
+      const playerId = pending?.targetPlayerId || pending?.playerId || options.alienTracePlayerId || null;
+      const playerColor = pending?.targetPlayerColor || pending?.playerColor || options.alienTracePlayerColor || null;
+      return allPlayers.find((player) => player.id === playerId || player.color === playerColor) || null;
+    },
     getCardPlayCost: (card) => (card?.price ? { credits: card.price } : {}),
     getCardPrice: (card) => card?.price || 0,
     getCardTypeCode: () => 1,
@@ -249,6 +273,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     },
     hasActivePendingSubFlow: () => Boolean(
       pendingJiuzheCardPlay
+      || options.pendingAlienTraceAction
       || options.scanTargetPending
       || options.probeSectorPending
       || options.probeLocationPending
@@ -822,6 +847,59 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   assert.equal(harness.getHandled().type, "runezu-face-symbol-open");
   assert.equal(harness.getHandled().alienSlotId, 1);
   assert.ok([4, 5, 6, 7].includes(harness.getHandled().position));
+}
+
+{
+  const yState = yichangdian.createYichangdianState();
+  yState.revealedSlotId = 1;
+  yState.revealInitialized = true;
+  yState.anomalies = [
+    { markerId: "b_1", traceType: "yellow", sectorX: 7, y: 4, triggeredCount: 0 },
+    { markerId: "c_2", traceType: "blue", sectorX: 0, y: 4, triggeredCount: 0 },
+  ];
+  const alienGameState = {
+    aliens: {
+      1: { revealed: true, alienId: yichangdian.ALIEN_ID, assignedAlienId: yichangdian.ALIEN_ID },
+    },
+    yichangdian: yState,
+  };
+  yichangdian.ensureTraceGrid(alienGameState, 1);
+  const selected = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    alienGameState,
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: {
+      mode: "yichangdian-grid",
+      selectedAlienSlotId: 1,
+      allowedTraceTypes: ["yellow", "blue"],
+    },
+    alienTraceButtons: [
+      makeButton(
+        { alienSlot: "1", yichangdianTraceType: "yellow", yichangdianTraceSlot: "2", yichangdianPosition: "2" },
+        "异常点黄色 2号位",
+        false,
+        () => selected.push("yellow-2"),
+      ),
+      makeButton(
+        { alienSlot: "1", yichangdianTraceType: "blue", yichangdianTraceSlot: "1", yichangdianPosition: "1" },
+        "异常点蓝色 1号位",
+        false,
+        () => selected.push("blue-1"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve Yichangdian trace picker");
+  assert.deepEqual(selected, ["blue-1"], "AI should claim the soon energy anomaly color over the old fixed yellow-2 preference");
 }
 
 {

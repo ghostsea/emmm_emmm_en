@@ -3435,6 +3435,105 @@
       return roundAiScore(Math.max(-10, Math.min(18, value)));
     }
 
+    function getAiYichangdianAnomalyForTraceType(traceType) {
+      if (!traceType || !yichangdian?.getAnomalyReward) return null;
+      return (alienGameState?.yichangdian?.anomalies || []).find((anomaly) => {
+        if (anomaly?.traceType === traceType) return true;
+        const reward = yichangdian.getAnomalyReward(anomaly?.markerId);
+        return reward?.traceType === traceType;
+      }) || null;
+    }
+
+    function getAiYichangdianAnomalyTriggerDistance(anomaly) {
+      const earth = getEarthSectorCoordinate?.();
+      if (!anomaly || !earth || typeof solar?.mod8 !== "function") return 4;
+      return solar.mod8(aiNumber(earth.x) - aiNumber(anomaly.sectorX)) || 8;
+    }
+
+    function scoreAiYichangdianAnomalyRewardValue(anomaly, player = getCurrentPlayer()) {
+      const reward = anomaly ? yichangdian?.getAnomalyReward?.(anomaly.markerId) : null;
+      if (!reward) return 0;
+      let value = scoreAiAlienRewardBundle(reward, player);
+      if (reward.pickCard) value += scoreAiMidgameResourceContinuationValue({ handSize: 1 }, player, { scale: 0.35 });
+      return roundAiScore(Math.max(0, Math.min(16, value)));
+    }
+
+    function scoreAiYichangdianNextAnomalyRewardValue(player = getCurrentPlayer()) {
+      if (!yichangdian?.getNextAnomalySectorX || !yichangdian?.getAnomalyBySectorX) return 0;
+      const earth = getEarthSectorCoordinate?.();
+      if (!earth || !alienGameState?.yichangdian?.revealInitialized) return 0;
+      const nextSectorX = yichangdian.getNextAnomalySectorX(alienGameState, earth.x);
+      const anomaly = nextSectorX == null ? null : yichangdian.getAnomalyBySectorX(alienGameState, nextSectorX);
+      return scoreAiYichangdianAnomalyRewardValue(anomaly, player);
+    }
+
+    function scoreAiYichangdianNextAnomalyScanValue(player = getCurrentPlayer()) {
+      if (!yichangdian?.getNextAnomalySectorX) return 0;
+      const earth = getEarthSectorCoordinate?.();
+      if (!earth || !alienGameState?.yichangdian?.revealInitialized) return 0;
+      const nextSectorX = yichangdian.getNextAnomalySectorX(alienGameState, earth.x);
+      if (nextSectorX == null) return 0;
+      const nebula = solar?.getNebulaAtCoordinate?.(nextSectorX, 5, solarState?.sectorBySlot);
+      const nebulaId = nebula?.id || null;
+      if (nebulaId && sectorXHasAvailableScanTarget?.(nextSectorX)) {
+        const targetScore = scoreAiNebulaScanChoice({ nebulaId }, { player });
+        return 4.5 + (Number.isFinite(Number(targetScore)) ? targetScore * 0.28 : 0);
+      }
+      return 3.2 + scoreAiScanPriorityFloor(player) * 0.25;
+    }
+
+    function countAiYichangdianAnomalySignals() {
+      if (!yichangdian || !solar?.getNebulaAtCoordinate) return 0;
+      return (alienGameState?.yichangdian?.anomalies || []).reduce((total, anomaly) => {
+        const nebula = solar.getNebulaAtCoordinate(anomaly.sectorX, 5, solarState?.sectorBySlot);
+        const tokens = nebulaDataState?.nebulae?.[nebula?.id]?.tokens || [];
+        return total + tokens.filter((token) => token?.replacedByPlayerColor || token?.playerColor).length;
+      }, 0);
+    }
+
+    function getAiYichangdianTopTraceEntry(alienSlotId, traceType) {
+      if (!yichangdian?.getTopTraceEntry || alienSlotId == null || !traceType) return null;
+      return yichangdian.getTopTraceEntry(alienGameState, alienSlotId, traceType);
+    }
+
+    function canAiYichangdianTraceBecomeTop(position, topEntry) {
+      const pos = Math.max(0, Math.round(aiNumber(position)));
+      if (pos === 1) return true;
+      if (!topEntry) return true;
+      return pos > 0 && pos < Math.max(1, Math.round(aiNumber(topEntry.position)));
+    }
+
+    function scoreAiYichangdianTraceTimingValue(mode, reward, player = getCurrentPlayer(), position = null, traceType = null, alienSlotId = null) {
+      if (mode !== "yichangdian-grid" || !player || !traceType) return 0;
+      const anomaly = getAiYichangdianAnomalyForTraceType(traceType);
+      if (!anomaly) return 0;
+
+      const rewardValue = scoreAiYichangdianAnomalyRewardValue(anomaly, player);
+      if (rewardValue <= 0) return 0;
+
+      const topEntry = getAiYichangdianTopTraceEntry(alienSlotId, traceType);
+      const ownsTop = topEntry ? aiAlienTraceEntryBelongsToPlayer(topEntry, player) : false;
+      const becomesTop = canAiYichangdianTraceBecomeTop(position, topEntry);
+      const distance = getAiYichangdianAnomalyTriggerDistance(anomaly);
+      const timingScale = distance <= 1 ? 1.35 : distance <= 3 ? 1 : distance <= 5 ? 0.68 : 0.45;
+      const round = getAiRoundNumber();
+      let value = 0;
+
+      if (!topEntry) {
+        value += rewardValue * timingScale * (round <= 3 ? 0.78 : 0.5);
+      } else if (ownsTop) {
+        value += rewardValue * timingScale * (Number(position) === 1 ? 0.22 : 0.12);
+      } else if (becomesTop) {
+        value += 2.2 + rewardValue * timingScale * (round <= 3 ? 0.92 : 0.62);
+      } else {
+        value -= Math.min(5, 1.4 + rewardValue * 0.32);
+      }
+
+      if (distance <= 1 && becomesTop && !ownsTop) value += 2.4;
+      if (reward?.pickAlienCard && rewardValue < 5) value += 0.8;
+      return roundAiScore(Math.max(-6, Math.min(18, value)));
+    }
+
     function getAiMovePaymentCards(player = getCurrentPlayer()) {
       return (player?.hand || []).filter((card) => isMovePaymentCard(card));
     }
@@ -6039,6 +6138,28 @@
             .reduce((total, reward) => total + scoreAiEffectValue(reward, options), 0)
             * 0.8
             * getAiConditionRewardMultiplier(effectOptions.condition, player).multiplier;
+        case "yichangdian_next_anomaly_reward":
+          return scoreAiYichangdianNextAnomalyRewardValue(player);
+        case "yichangdian_next_anomaly_scan":
+          return scoreAiYichangdianNextAnomalyScanValue(player);
+        case "yichangdian_anomaly_signal_score": {
+          const signalScore = countAiYichangdianAnomalySignals();
+          return signalScore
+            + scoreAiPaceValueForDirectScore(signalScore, player, { baseWeight: 0.4, pressureWeight: 0.18 });
+        }
+        case "yichangdian_alien_trace": {
+          const bestTraceScore = Math.max(...AI_TRACE_TYPES.map((item) => getAiBestRevealedAlienTraceDirectScore(player, item)));
+          return Math.max(8, bestTraceScore * 0.45 + sumAiDemandMap(getAiStrategyDemand(player).traceTypes) * 0.05);
+        }
+        case "yichangdian_public_all":
+          return Math.max(8, (cards.PUBLIC_CARD_COUNT || 3) * AI_RESOURCE_VALUES.handSize * 0.95);
+        case "yichangdian_draw_then_two_corners":
+          return 3 * AI_RESOURCE_VALUES.handSize + Math.max(4, scoreAiCardCornerOpportunity((player?.hand || [])[0]) * 0.4);
+        case "yichangdian_launch_anomaly_move": {
+          const earth = getEarthSectorCoordinate?.();
+          const currentAnomaly = earth ? yichangdian?.getAnomalyBySectorX?.(alienGameState, earth.x) : null;
+          return currentAnomaly ? 2.6 : 0.6;
+        }
         case cardEffects.EFFECT_TYPES.REGISTER_EVENT_BONUS:
           return 2.5;
         case cardEffects.EFFECT_TYPES.PLUTO_RESERVE:
@@ -12916,15 +13037,7 @@
       const pos = Number(position);
       const positionLadder = scoreAiRevealedAlienGridPosition(pos);
       if (mode === "yichangdian-grid") {
-        const key = `${trace}:${pos}`;
-        return (({
-          "yellow:2": 8,
-          "pink:2": 7,
-          "yellow:1": 5,
-          "blue:1": 4,
-          "blue:2": 4,
-          "pink:1": 3,
-        })[key] || 0) + positionLadder * 0.35;
+        return 1.4 + positionLadder * 0.55 + (pos >= 4 ? 1.2 : 0);
       }
       if (mode === "fangzhou-grid") {
         if (label.includes("解锁")) return 10 + positionLadder * 0.4;
@@ -13358,6 +13471,7 @@
       if (isFangzhouUnlockChoice) score += scoreAiFangzhouUnlockChoiceValue(player, traceType);
       score += scoreAiBanrenmaTraceTimingValue(scoringMode, reward, player, position);
       score += scoreAiAomomoTraceTimingValue(scoringMode, reward, player, position);
+      score += scoreAiYichangdianTraceTimingValue(scoringMode, reward, player, position, traceType, alienSlot);
       if (target.kind === "grid-slot" || (mode === "fangzhou-use" && fangzhouUseChoice === "place") || isFangzhouUnlockChoice) {
         const directScore = Math.max(0, aiNumber(reward?.gain?.score));
         const pointConversionPenalty = scoreAiHighCostPointConversionPenalty(player, {
