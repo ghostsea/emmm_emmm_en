@@ -25689,7 +25689,10 @@
   function loadTokenWidth(asset, scale, fallbackNaturalWidth, onLoad) {
     const image = new Image();
     const resolveWidth = (naturalWidth) => {
-      onLoad(Math.max(1, Math.round(naturalWidth * scale)));
+      const canonicalWidth = Number.isFinite(Number(fallbackNaturalWidth))
+        ? Number(fallbackNaturalWidth)
+        : naturalWidth;
+      onLoad(Math.max(1, Math.round(canonicalWidth * scale)));
     };
     image.addEventListener("load", () => {
       resolveWidth(image.naturalWidth || fallbackNaturalWidth);
