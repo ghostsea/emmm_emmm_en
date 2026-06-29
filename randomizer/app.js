@@ -10271,6 +10271,12 @@
       renderStateReadout();
       return Boolean(type1Result);
     }
+    if (activateNextActionEffectIfIdle()) {
+      renderActionEffectBar();
+      updateActionButtons();
+      renderStateReadout();
+      return true;
+    }
     if (pendingActionEffectFlow?.completed) {
       finishActionEffectFlow();
       return true;
@@ -10604,6 +10610,9 @@
     const runezuCompletions = type1Only ? [] : processRunezuTaskEvents(normalizedEvents);
     refreshCardTaskState({ render });
     const type1Result = skipType1 ? null : applyType1TriggerMatches(normalizedEvents);
+    if (!hasActiveCardTriggerResolution()) {
+      activateNextActionEffectIfIdle();
+    }
     return {
       cardEventBonuses,
       chongCompletions,
@@ -12334,11 +12343,13 @@
 
   function activateNextActionEffectIfIdle() {
     if (!pendingActionEffectFlow || pendingActionEffectFlow.completed) return false;
-    const current = getCurrentActionEffect();
-    if (current?.status === "active") return false;
-    const next = abilities.chain.activateNext
-      ? abilities.chain.activateNext(pendingActionEffectFlow)
-      : null;
+    const next = abilities.chain.activateNextIfIdle
+      ? abilities.chain.activateNextIfIdle(pendingActionEffectFlow)
+      : (() => {
+        const current = getCurrentActionEffect();
+        if (current?.status === "active") return null;
+        return abilities.chain.activateNext ? abilities.chain.activateNext(pendingActionEffectFlow) : null;
+      })();
     if (!next) return false;
     setActiveEffectFlowOwner(next);
     return true;
@@ -15351,7 +15362,6 @@
       return result;
     }
     recordAbilityCommands(result);
-    settleCardTasksAfterEffect({ events: result.events, render: false });
     if (result.rocket) renderRocketElement(result.rocket);
     effect.result = {
       ...result,
@@ -29967,19 +29977,27 @@
     };
     removeRocketElement(available.rocket.id);
     recordAtomicActionHistory(actionType, actionLabel, result);
-    settleCardTasksAfterEffect({ events: result.events, render: false });
     const rewardEffects = buildPlutoRewardEffectsForAction(actionType);
     rocketState.statusNote = result.message;
     renderPlayerStats();
     renderReservedCardsFromTaskState();
     updateActionButtons();
     renderStateReadout();
-    return startCardEffectFlow(
+    const startedRewardFlow = startCardEffectFlow(
       `pluto-${actionType}-rewards`,
       actionLabel,
       rewardEffects,
       { actionType, historySource: HISTORY_SOURCE_MAIN, consumesMainAction: true },
     );
+    const settlement = settleCardTasksAfterEffect({ events: result.events, render: false });
+    renderPlayerStats();
+    renderReservedCardsFromTaskState();
+    updateActionButtons();
+    renderStateReadout();
+    return startedRewardFlow
+      || Boolean(settlement?.type1Result)
+      || hasActiveCardTriggerResolution()
+      || isActionEffectFlowActive();
   }
 
   function getCurrentPlanetActionPlacement(context = createActionContext()) {

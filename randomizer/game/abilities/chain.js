@@ -59,6 +59,13 @@
     return chain.effects[nextIndex];
   }
 
+  function activateNextIfIdle(chain) {
+    if (!chain || chain.completed) return null;
+    const current = getCurrentChainNode(chain);
+    if (current?.status === "active") return null;
+    return activateNext(chain);
+  }
+
   function resolveCurrentChainNode(chain, result = {}) {
     const node = getCurrentChainNode(chain);
     if (!node || node.status !== "active") {
@@ -108,6 +115,7 @@
   return Object.freeze({
     startAbilityChain,
     activateNext,
+    activateNextIfIdle,
     getCurrentChainNode,
     resolveCurrentChainNode,
     skipCurrentChainNode,

@@ -30,6 +30,8 @@ assert.equal(chain.getCurrentChainNode(flow).status, "pending");
 let current = chain.activateNext(flow);
 assert.equal(current.abilityId, "payScanCost");
 assert.equal(current.status, "active");
+assert.equal(chain.activateNextIfIdle(flow), null);
+assert.equal(chain.getCurrentChainNode(flow).abilityId, "payScanCost");
 
 let resolved = chain.resolveCurrentChainNode(flow, { ok: true, undoable: true });
 assert.equal(resolved.ok, true);
@@ -51,5 +53,15 @@ chain.resolveCurrentChainNode(flow, { ok: true, undoable: false });
 assert.equal(flow.completed, true);
 assert.equal(chain.undoLastChainStep(flow).ok, true);
 assert.equal(chain.getCurrentChainNode(flow).abilityId, "payScanCost");
+
+const idleFlow = chain.startAbilityChain("inserted", "插入效果", [
+  { abilityId: "alreadyDone", status: "completed" },
+]);
+idleFlow.effects.push({ abilityId: "insertedReward", status: "pending" });
+idleFlow.currentIndex = 0;
+idleFlow.completed = false;
+current = chain.activateNextIfIdle(idleFlow);
+assert.equal(current.abilityId, "insertedReward");
+assert.equal(current.status, "active");
 
 console.log("chain.test.js: all tests passed");
