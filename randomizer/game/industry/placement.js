@@ -30,7 +30,7 @@
     "深空探测": Object.freeze({ percentX: 8.01, percentY: 76.0, radiusPercent: 4.9 }),
     "赫利昂联合体": Object.freeze({ percentX: 10.01, percentY: 60.0, radiusPercent: 4.9 }),
     "未来跨度研究所": Object.freeze({ percentX: 11.2, percentY: 84.0, radiusPercent: 4.9 }),
-    "原教旨主义": Object.freeze({ percentX: 9.01, percentY: 78.3, radiusPercent: 4.9 }),
+    "原教旨主义": Object.freeze({ percentX: 9.01, percentY: 73.4, radiusPercent: 4.9 }),
   });
 
   const EXCLUDED_INDUSTRY_LABELS = Object.freeze(["异星实验室", "作弊实验室"]);

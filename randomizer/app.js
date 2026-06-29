@@ -3721,7 +3721,7 @@
     deactivateMoveMode();
     effect.result = {
       ...result,
-      events: [],
+      events: getAfterMoveEventsForEffect(effect),
       deferredType1Events: ctx ? [...(ctx.deferredType1Events || [])] : moveEvents,
       message: `${result.message}${rewardText}`,
       payload: {
@@ -3758,7 +3758,7 @@
       ...(current.result || {}),
       ok: true,
       undoable: current.result?.undoable !== false,
-      events: [],
+      events: getAfterMoveEventsForEffect(current),
       deferredType1Events,
       message: previousMessage ? `${previousMessage}；${endMessage}` : `${current.label}：${endMessage}`,
       payload: {
@@ -4046,6 +4046,11 @@
     return null;
   }
 
+  function shouldQueueCardCornerMoveQuickAction(action, player = getCurrentPlayer()) {
+    return action?.actionKind === "move"
+      && Boolean(industry?.shouldDoubleDiscardCornerRewards?.(player));
+  }
+
   function canUseCardCornerQuickAction() {
     return !getGameplayLockReason()
       && !isTechTilePickingActive()
@@ -4229,6 +4234,56 @@
     return { ok: true, message: rocketState.statusNote };
   }
 
+  function cloneEffectEvent(event) {
+    return event && typeof event === "object" ? { ...event } : event;
+  }
+
+  function getAfterMoveEventsForEffect(effect) {
+    return Array.isArray(effect?.options?.afterMoveEvents)
+      ? effect.options.afterMoveEvents.filter(Boolean).map(cloneEffectEvent)
+      : [];
+  }
+
+  function buildQueuedCardCornerMoveEffect(action, discardedCard, cornerEvent) {
+    const movementPoints = Math.max(
+      1,
+      Math.round(Number(action?.moveReward?.movementPoints ?? action?.movementPoints ?? 1) || 1),
+    );
+    return {
+      id: `card-corner-quick-move-${discardedCard?.id || "card"}`,
+      type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+      label: `${cards.getCardLabel(discardedCard)}：${movementPoints}移动`,
+      icon: "movement",
+      options: {
+        movementPoints,
+        historyLabel: `卡牌快速行动：${action?.label || "弃牌换移动"}`,
+        source: "card_corner",
+        afterMoveEvents: cornerEvent ? [cornerEvent] : [],
+      },
+    };
+  }
+
+  function startCardCornerMoveEffectFlow(action, discardedCard, cornerEvent) {
+    const moveEffect = buildQueuedCardCornerMoveEffect(action, discardedCard, cornerEvent);
+    const started = startCardEffectFlow(
+      "card-corner-quick-move",
+      `卡牌快速行动：${action.label}`,
+      [moveEffect],
+      {
+        actionType: "cardCornerMove",
+        historySource: HISTORY_SOURCE_QUICK,
+        consumesMainAction: false,
+      },
+    );
+    if (started) {
+      rocketState.statusNote = `卡牌快速行动：弃除 ${cards.getCardLabel(discardedCard)}，请按效果栏分配 ${moveEffect.options.movementPoints} 移动力`;
+      renderActionEffectBar();
+      updateActionButtons();
+      renderStateReadout();
+    }
+    return started;
+  }
+
   function confirmCardCornerQuickAction() {
     if (!canUseCardCornerQuickAction()) {
       return { ok: false, message: "当前无法使用卡牌快速行动" };
@@ -4242,7 +4297,8 @@
       return { ok: false, message: rocketState.statusNote };
     }
 
-    if (action.actionKind === "move") {
+    const queueMoveEffect = shouldQueueCardCornerMoveQuickAction(action, currentPlayer);
+    if (action.actionKind === "move" && !queueMoveEffect) {
       const moveCheck = canStartCardCornerFreeMove();
       if (!moveCheck.ok) {
         rocketState.statusNote = moveCheck.message;
@@ -4430,7 +4486,11 @@
     updateActionButtons();
     renderStateReadout();
     if (action.actionKind === "move") {
-      beginCardCornerFreeMove(action, discardResult.card, [cornerEvent]);
+      if (queueMoveEffect) {
+        startCardCornerMoveEffectFlow(action, discardResult.card, cornerEvent);
+      } else {
+        beginCardCornerFreeMove(action, discardResult.card, [cornerEvent]);
+      }
     } else {
       settleCardTasksAfterEffect({ events: [cornerEvent], render: false });
     }
@@ -5693,9 +5753,13 @@
     if (!industry?.shouldCompleteIncomeTaskCards?.(player)) return null;
     const typeCode = getCardTypeCode(card);
     if (typeCode !== 1 && typeCode !== 2) return null;
+    const scoreAwarded = 3;
+    players.gainResources(player, { score: scoreAwarded });
+    addPlayerScoreSource(player, SCORE_SOURCE_KEYS.INDUSTRY_EFFECT, scoreAwarded);
     return {
       typeCode,
       completedTaskCount: incrementCompletedTaskCount(player),
+      scoreAwarded,
     };
   }
 
@@ -5716,7 +5780,7 @@
     const incomeResult = applyIncomeGainWithImmediateRewards(player, gain, "income");
     const taskCompletion = maybeCompleteFundamentalismIncomeTaskCard(player, card);
     const taskMessage = taskCompletion
-      ? `；原教旨主义：${taskCompletion.typeCode}型任务视为完成，完成任务+1`
+      ? `；原教旨主义：${taskCompletion.typeCode}型任务视为完成，完成任务+1，分数+${taskCompletion.scoreAwarded}`
       : "";
     return {
       ok: true,

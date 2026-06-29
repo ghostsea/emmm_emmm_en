@@ -51,6 +51,7 @@ assert.equal(catalog.hasImplementedActiveAbility("作弊实验室"), false);
 assert.equal(catalog.hasImplementedActiveAbility("寰宇超动力"), true);
 assert.equal(catalog.hasImplementedActiveAbility("原教旨主义"), true);
 assert.equal(placement.hasIndustryActionMarker({ label: "原教旨主义" }), true);
+assert.equal(placement.getIndustryActionMarkerLayout("原教旨主义").percentY, 73.4);
 assert.equal(passives.getRocketLimitBonus({ initialSelection: { industry: { label: "寰宇动力" } } }), 1);
 const huanyuSuperdrivePlayer = { initialSelection: { industry: { label: "寰宇超动力" } } };
 assert.equal(passives.getRocketLimitBonus(huanyuSuperdrivePlayer), 1);
