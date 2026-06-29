@@ -4337,7 +4337,10 @@
       completeQuickActionStep();
       pendingCardCornerQuickAction = null;
       syncCardCornerQuickActionChrome();
-      const rewardResult = applyFangzhouCard1Reward(currentPlayer, "basic", "方舟弃牌基础奖励", {
+      const rewardMultiplier = getDiscardCornerRewardMultiplier(currentPlayer);
+      const rewardResult = applyFangzhouCard1Rewards(currentPlayer, rewardMultiplier, "basic", "方舟弃牌基础奖励", {
+        historySource: HISTORY_SOURCE_QUICK,
+        consumesMainAction: false,
         scoreSourceKey: SCORE_SOURCE_KEYS.ALIEN_CARD_QUICK,
       });
       rocketState.statusNote = `卡牌快速行动：弃除 ${cards.getCardLabel(discardResult.card)}，${rewardResult.message}`;
@@ -4373,7 +4376,26 @@
         return discardResult;
       }
       cards.addToDiscardPile(cardState, discardResult.card);
-      const rewardResult = applyRunezuSymbolReward(currentPlayer, action.symbolId, action.label);
+      const rewardMultiplier = getDiscardCornerRewardMultiplier(currentPlayer);
+      const rewardResults = [];
+      let irreversible = null;
+      for (let index = 0; index < rewardMultiplier; index += 1) {
+        const rewardLabel = rewardMultiplier > 1
+          ? `${action.label} ${index + 1}/${rewardMultiplier}`
+          : action.label;
+        const result = applyRunezuSymbolReward(currentPlayer, action.symbolId, rewardLabel);
+        rewardResults.push(result);
+        if (result.irreversible) irreversible = result.irreversible;
+      }
+      const rewardResult = {
+        ok: true,
+        undoable: !irreversible,
+        irreversible,
+        symbolId: action.symbolId,
+        repeat: rewardMultiplier,
+        results: rewardResults,
+        message: rewardResults.map((result) => result.message).filter(Boolean).join("；") || `${action.label}：无奖励`,
+      };
       recordQuickHistoryCommand(historyCommands.createRestorePlayerCommand(
         currentPlayer,
         beforePlayer,
@@ -4389,9 +4411,9 @@
         beforeCardState.publicCards,
         beforeCardState.discardPile,
       ));
-      completeQuickActionStep(null, rewardResult.irreversible ? {
-        irreversibleCode: rewardResult.irreversible.code,
-        irreversibleReason: rewardResult.irreversible.reason,
+      completeQuickActionStep(null, irreversible ? {
+        irreversibleCode: irreversible.code,
+        irreversibleReason: irreversible.reason,
       } : {});
       pendingCardCornerQuickAction = null;
       syncCardCornerQuickActionChrome();
@@ -20030,15 +20052,14 @@
     return flips;
   }
 
-  function applyFangzhouCard1Reward(player, tier = "basic", label = "方舟基础奖励", options = {}) {
+  function applyFangzhouCard1Rewards(player, count = 1, tier = "basic", label = "方舟基础奖励", options = {}) {
     if (!fangzhou) return { ok: false, message: "方舟模块未加载" };
-    const flipResult = fangzhou.flipCard1Reward(alienGameState, tier);
-    if (!flipResult.ok) return flipResult;
+    const flips = flipFangzhouCard1Rewards(count, tier);
+    if (!flips.length) return { ok: false, message: "没有可翻开的方舟奖励" };
 
-    renderFangzhouCardDisplays();
     const queueResult = enqueueFangzhouCard1RewardEffects(
-      [flipResult],
-      flipResult.label || label,
+      flips,
+      label,
       {
         actionType: tier === "advanced" ? "fangzhouAdvanced" : "fangzhouBasic",
         ...options,
@@ -20046,12 +20067,19 @@
       },
     );
 
+    const messages = flips.map((flip) => flip.message).filter(Boolean);
     return {
       ok: true,
-      flipResult,
-      message: flipResult.message,
+      flipResult: flips[0],
+      flips,
+      repeat: flips.length,
+      message: messages.length > 1 ? messages.join("；") : (messages[0] || label),
       followUps: queueResult.effects || [],
     };
+  }
+
+  function applyFangzhouCard1Reward(player, tier = "basic", label = "方舟基础奖励", options = {}) {
+    return applyFangzhouCard1Rewards(player, 1, tier, label, options);
   }
 
   function queueFangzhouBasicRewards(player, count, label = "方舟痕迹", options = {}) {

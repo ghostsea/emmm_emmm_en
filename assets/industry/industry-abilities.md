@@ -112,7 +112,7 @@
 | `future_span_parking` | 未来跨度研究所 | 专属标记扣牌、目标分、达标后免费打出 | `app.js` 公司牌叠层与打牌流程 |
 | `fundamentalism_round_start_income` | 原教旨主义 | 第 2/3/4 轮该玩家开始行动时获得 1 个收入效果（弃 1 张手牌按收入角标增加收入并立即结算） | `maybeStartFundamentalismRoundStartIncomeFlow` / `industry_fundamentalism_income` |
 | `fundamentalism_disable_play_card_action` | 原教旨主义 | 不能使用标准“打牌”主要行动；九折等外星机制自己的打牌入口不受影响 | `beginPlayCardSelection` / `updateActionButtons` |
-| `fundamentalism_double_discard_corner` | 原教旨主义 | 手牌左上角弃牌快速行动的资源/数据/移动奖励翻倍；移动翻倍会启动一个快速行动效果队列节点，作为单个 2 移动力池由玩家分配 | `getCardCornerQuickActionForCard` / `confirmCardCornerQuickAction` |
+| `fundamentalism_double_discard_corner` | 原教旨主义 | 手牌左上角弃牌快速行动的资源/数据/移动奖励翻倍；移动翻倍会启动一个快速行动效果队列节点，作为单个 2 移动力池由玩家分配；方舟 card2 与符文族符文角标等外星人专属弃牌奖励重复结算 2 次 | `getCardCornerQuickActionForCard` / `confirmCardCornerQuickAction` |
 | `fundamentalism_income_task_completion` | 原教旨主义 | 作为收入选择的 1/2 型任务牌视为完成任务，`completedTaskCount +1`，并获得 3 分；该任务可参与 final_c | `applyIncomeFromCard` |
 | `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；正面板块可点击并等同触发对应主要行动；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
 | `cheat_lab_permanent_panels` | 作弊实验室 | AI 专用异星实验室强化：蓝/黄/粉三色板块永久按正面计费和渲染，执行发射/扫描/研究科技后不翻背 | `passives.js` / `render.js` / `app.js` / `ai-controller.js` |
