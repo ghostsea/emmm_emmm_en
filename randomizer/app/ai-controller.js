@@ -4773,14 +4773,17 @@
       const currentBestScore = (currentPlayable || []).reduce((best, candidate) => (
         Math.max(best, aiNumber(candidate?.score))
       ), 0);
+      const currentFinalMarks = countAiFinalMarksForPlayer(player);
       const finalLowTailOneCreditUnlock = (
         tradeId === "cards-for-credit"
         && currentCredits === 1
         && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && currentFinalMarks >= 3
+        && !getAiNextMissingFinalScoreThreshold(player)
         && currentScore >= 70
-        && currentScore < 115
+        && currentScore < 155
         && hand.length >= 3
-        && currentPlayable.length <= 0
+        && currentBestScore < 8
       );
       if (currentCredits > 0 && !finalLowTailOneCreditUnlock) return null;
       const simulatedPlayer = createAiPlayerAfterQuickTrade(player, trade);
@@ -4821,16 +4824,19 @@
       const c2Type3ProgressValue = Math.max(0, aiNumber(breakdown.c2Type3ProgressValue));
       const cFinalTaskProgressValue = Math.max(0, aiNumber(breakdown.cFinalTaskProgressValue));
       const endGameExpectedScore = Math.max(0, aiNumber(breakdown.endGameExpectedScore));
+      const concretePlanScore = bestPlay.plan?.actionId === "task" && cFinalTaskProgressValue <= 0
+        ? 0
+        : Math.max(0, aiNumber(breakdown.planScore));
       const concreteFinalValue = directScoreGain
         + Math.max(0, aiNumber(bestPlay.finalDeltaValue))
         + c2Type3ProgressValue
         + cFinalTaskProgressValue
         + endGameExpectedScore
         + Math.max(0, aiNumber(breakdown.playCardConversionPressure))
-        + Math.max(0, aiNumber(breakdown.planScore));
-      const finalMarks = countAiFinalMarksForPlayer(player);
+        + concretePlanScore;
+      const finalMarks = currentFinalMarks;
       if (aiNumber(bestPlay.score) < 8) return null;
-      if (finalMarks >= 3 && concreteFinalValue <= 0 && aiNumber(bestPlay.score) < 12) return null;
+      if (finalMarks >= 3 && concreteFinalValue <= 0) return null;
       const discardCost = estimateAiTradeDiscardOpportunityCost(player, trade, bestPlay.handIndex);
       if (!Number.isFinite(discardCost)) return null;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
@@ -7319,6 +7325,7 @@
       const standardActionPremium = details.standardActionPremium
         ?? scoreAiCardStandardActionPremium(playEffects, player);
       const routePlanScore = Math.max(0, aiNumber(details.plan?.score));
+      const concreteRoutePlanScore = details.plan?.actionId === "task" ? 0 : routePlanScore;
       const handPressure = Math.max(0, handSize - 3) * (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 2.8 : 1.4);
       const lateCardEnginePressure = details.lateCardEnginePressure
         ?? scoreAiLatePlayCardEnginePressure(card, {
@@ -7331,17 +7338,27 @@
         });
 
       let value = handPressure;
-      if (model?.tasks?.length) value += 5 + Math.min(10, cFinalTaskProgressValue * 0.8);
+      const looseFinalTaskOnly = getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && finalMarks >= 3
+        && !nextThreshold
+        && model?.tasks?.length
+        && cFinalTaskProgressValue <= 0
+        && concreteRoutePlanScore <= 0
+        && !model?.endGameScoring
+        && typeCode !== 3;
+      if (model?.tasks?.length && !looseFinalTaskOnly) {
+        value += 5 + Math.min(10, cFinalTaskProgressValue * 0.8);
+      }
       if (typeCode === 3) value += 4 + Math.min(10, c2Type3ProgressValue * 0.65);
       if (model?.endGameScoring) value += 4 + Math.min(12, endGameExpectedScore * 0.75);
       if (standardActionPremium > 0) value += Math.min(10, standardActionPremium * 0.55);
-      if (routePlanScore > 0) value += Math.min(8, routePlanScore * 0.35);
+      if (concreteRoutePlanScore > 0) value += Math.min(8, concreteRoutePlanScore * 0.35);
       if (isAiAlienMainPlayCard(card)) value += 5;
       if (getAiRoundNumber() >= FINAL_ROUND_NUMBER && nextThreshold && currentScore < nextThreshold) {
         value += Math.max(0, 3 - finalMarks) * 3.2
           + Math.min(9, Math.max(0, nextThreshold - currentScore) * 0.18);
       }
-      value += lateCardEnginePressure;
+      if (!looseFinalTaskOnly) value += lateCardEnginePressure;
       return roundAiScore(Math.min(getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 38 : 24, Math.max(0, value)));
     }
 
@@ -9714,6 +9731,56 @@
       return roundAiScore(Math.min(13, Math.max(0, value)));
     }
 
+    function scoreAiLowTechBoardCatchupValue(candidate, player = getCurrentPlayer()) {
+      const techType = candidate?.techType || "";
+      if (!candidate || !player || !techType) return 0;
+      const round = getAiRoundNumber();
+      if (round < 3) return 0;
+
+      const techCount = countAiPlayerTech(player);
+      const targetTechCount = round >= FINAL_ROUND_NUMBER ? 9 : 7;
+      if (techCount >= targetTechCount) return 0;
+
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const finalMarks = countAiFinalMarksForPlayer(player);
+      const dEntries = getAiPlanningFinalFormulaEntries(player, ["d1", "d2"]);
+      const hasTechFinalPlan = dEntries.length > 0;
+      const severeLowTech = techCount <= (round >= FINAL_ROUND_NUMBER ? 5 : 4);
+      const lowScoreTarget = round >= FINAL_ROUND_NUMBER ? 135 : 78;
+      const lowScorePressure = currentScore < lowScoreTarget;
+      const lowMarkPressure = finalMarks < (round >= FINAL_ROUND_NUMBER ? 3 : 2);
+
+      if (!severeLowTech && !hasTechFinalPlan && !lowScorePressure && !lowMarkPressure) return 0;
+
+      let value = Math.max(0, targetTechCount - techCount) * (round >= FINAL_ROUND_NUMBER ? 0.8 : 0.55);
+      if (severeLowTech) value += round >= FINAL_ROUND_NUMBER ? 3 : 2;
+      if (lowScorePressure) {
+        value += Math.min(
+          round >= FINAL_ROUND_NUMBER ? 4.5 : 3,
+          1 + Math.max(0, lowScoreTarget - currentScore) * (round >= FINAL_ROUND_NUMBER ? 0.05 : 0.035),
+        );
+      }
+      if (lowMarkPressure) value += round >= FINAL_ROUND_NUMBER ? 1.8 : 1.4;
+      if (hasTechFinalPlan) value += round >= FINAL_ROUND_NUMBER ? 2 : 1.2;
+
+      if (dEntries.some((entry) => entry.formulaId === "d1")) {
+        const counts = getAiPlayerTechTypeCounts(player);
+        const minCount = Math.min(...AI_TECH_TYPES.map((type) => aiNumber(counts[type])));
+        const currentTypeCount = aiNumber(counts[techType]);
+        if (currentTypeCount <= minCount) value += 1.4;
+        else if (currentTypeCount >= minCount + 2) value -= Math.min(1.5, currentTypeCount - minCount - 1);
+      }
+      if (dEntries.some((entry) => entry.formulaId === "d2")) {
+        const beforeBase = Math.floor(techCount / 2);
+        const afterBase = Math.floor((techCount + 1) / 2);
+        value += afterBase > beforeBase ? 1.5 : 0.45;
+      }
+
+      if (candidate?.bonusId === "bonus_3f") value += 0.8;
+      if (candidate?.firstTake) value += 0.45;
+      return roundAiScore(Math.min(10, Math.max(0, value)));
+    }
+
     function scoreAiResearchTechValue(candidate, player = getCurrentPlayer()) {
       const techType = candidate?.techType || "";
       const stackIndex = Math.max(1, Math.round(aiNumber(candidate?.stackIndex) || 1));
@@ -9780,6 +9847,8 @@
       if (routePlan?.score > 0) value += applyAiStrategyWeight(routePlan.score, "tech", 0.35);
       const lateTechCatchupValue = scoreAiLateTechEngineCatchupValue(candidate, player);
       if (lateTechCatchupValue) value += applyAiStrategyWeight(lateTechCatchupValue, "tech", 0.75);
+      const lowTechCatchupValue = scoreAiLowTechBoardCatchupValue(candidate, player);
+      if (lowTechCatchupValue) value += applyAiStrategyWeight(lowTechCatchupValue, "tech", 0.65);
       const finalPlanningValue = scoreAiResearchTechFinalPlanningValue(candidate, player);
       if (finalPlanningValue) {
         value += applyAiStrategyWeight(
@@ -10536,21 +10605,40 @@
       const postSecondFinalMarkPenalty = finalMarks >= 2 && dataRoom <= 1 && blueTraceDemand < 1
         ? 5
         : 0;
-      return applyAiStrategyWeight(
-        7
-          + placedCount * 1.15
-          + fullComputerBonus * 0.8
-          + Math.min(4, dataRoom * 0.55)
-          + blueTraceDemand * 1.05 * getAiStrategyWeight("task")
-          + getAiMapDemand(demand.actions, "analyze") * 0.2 * getAiStrategyWeight("engine")
-          + lateRoundPressure
-          + firstThresholdCatchupBonus
-          + readyAnalyzeWindowValue
-          - getAiAnalyzeEnergyCost(player) * getAiResourceValuesForRound(player).energy * 0.35
-          - postSecondFinalMarkPenalty,
+      const rawScore = 7
+        + placedCount * 1.15
+        + fullComputerBonus * 0.8
+        + Math.min(4, dataRoom * 0.55)
+        + blueTraceDemand * 1.05 * getAiStrategyWeight("task")
+        + getAiMapDemand(demand.actions, "analyze") * 0.2 * getAiStrategyWeight("engine")
+        + lateRoundPressure
+        + firstThresholdCatchupBonus
+        + readyAnalyzeWindowValue
+        - getAiAnalyzeEnergyCost(player) * getAiResourceValuesForRound(player).energy * 0.35
+        - postSecondFinalMarkPenalty;
+      const weightedScore = applyAiStrategyWeight(
+        rawScore,
         "task",
         0.5,
       );
+      const hasBlueTraceFinalFormula = getAiMarkedFinalFormulaEntries(player)
+        .some((entry) => entry.formulaId === "b1");
+      if (
+        Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1)) >= FINAL_ROUND_NUMBER
+        && placedCount >= requiredSlot
+        && finalMarks >= 3
+        && !nextThreshold
+        && currentScore < 150
+        && bestBlueTraceScore <= 4
+        && blueTraceDemand < 1
+        && !hasBlueTraceFinalFormula
+      ) {
+        return Math.min(
+          weightedScore,
+          roundAiScore(7 + bestBlueTraceScore * 2 + Math.min(2.5, availableData * 0.45)),
+        );
+      }
+      return weightedScore;
     }
 
     function scoreAiFollowupMainActionAfterMove(coordinate, player = getCurrentPlayer(), options = {}) {
@@ -14383,6 +14471,7 @@
       candidate.directScoreGain = getAiResearchTechDirectScoreGain(candidate);
       candidate.valueBreakdown = {
         lateTechCatchupValue: scoreAiLateTechEngineCatchupValue(candidate, getCurrentPlayer()),
+        lowTechCatchupValue: scoreAiLowTechBoardCatchupValue(candidate, getCurrentPlayer()),
       };
       if (!safety.ok) candidate.score -= 1000;
       return candidate;
