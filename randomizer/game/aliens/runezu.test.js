@@ -41,6 +41,36 @@ const launchResult = runezu.consumeTaskEvents(launchCard, [{ type: "launch" }]);
 assert.equal(launchResult.ok, true);
 assert.deepEqual(launchResult.symbolIds, ["symbol_1"]);
 
+const orbitLandCard = runezu.createAlienCard(2, 1);
+assert.equal(orbitLandCard.runezuTask.id, "runezu-2-orbit-land");
+assert.deepEqual(
+  orbitLandCard.runezuTask.steps.map((step) => step.event),
+  ["orbitOrLand", "orbitOrLand", "orbitOrLand"],
+);
+
+const orbitLandStep1 = runezu.consumeTaskEvents(orbitLandCard, [{ type: "orbit" }]);
+assert.equal(orbitLandStep1.ok, true);
+assert.deepEqual(orbitLandStep1.symbolIds, ["symbol_4"]);
+assert.equal(orbitLandStep1.completed, false);
+assert.equal(orbitLandCard.runezuTaskProgress.length, 1);
+
+const orbitLandNoMatch = runezu.consumeTaskEvents(orbitLandCard, [{ type: "launch" }]);
+assert.equal(orbitLandNoMatch, null);
+assert.equal(orbitLandCard.runezuTaskProgress.length, 1);
+
+const orbitLandStep2 = runezu.consumeTaskEvents(orbitLandCard, [{ type: "land" }]);
+assert.equal(orbitLandStep2.ok, true);
+assert.deepEqual(orbitLandStep2.symbolIds, ["symbol_5"]);
+assert.equal(orbitLandStep2.completed, false);
+assert.equal(orbitLandCard.runezuTaskProgress.length, 2);
+
+const orbitLandStep3 = runezu.consumeTaskEvents(orbitLandCard, [{ type: "orbit" }]);
+assert.equal(orbitLandStep3.ok, true);
+assert.deepEqual(orbitLandStep3.symbolIds, ["symbol_3"]);
+assert.equal(orbitLandStep3.completed, true);
+assert.equal(orbitLandCard.runezuTaskProgress.length, 3);
+assert.equal(orbitLandCard.runezuTaskCompleted, true);
+
 const alienState = { aliens: { 1: { revealed: true, alienId: runezu.ALIEN_ID } } };
 const player = { id: "p1", color: "blue", runezuSymbols: {} };
 runezu.ensureRunezuState(alienState);
