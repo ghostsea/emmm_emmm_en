@@ -6297,6 +6297,109 @@
       )));
     }
 
+    function isAiResearchTechEffectType(type) {
+      return type === "research_tech_select" || type === cardEffects.EFFECT_TYPES.RESEARCH_TECH;
+    }
+
+    function countAiHandEngineCards(player = getCurrentPlayer()) {
+      return (player?.hand || []).reduce((total, card) => {
+        const model = cardEffects.getCardModel?.(card) || null;
+        const typeCode = getCardTypeCode(card);
+        const playEffects = getAiPlayEffectsForCard(card);
+        const hasEngineEffect = (playEffects || []).some((effect) => (
+          isAiResearchTechEffectType(effect?.type)
+          || isAiCardScanEffectType(effect?.type)
+          || effect?.type === "draw_cards"
+        ));
+        const isEngineCard = Boolean(
+          model?.tasks?.length
+          || model?.endGameScoring
+          || typeCode === 3
+          || hasEngineEffect,
+        );
+        return total + (isEngineCard ? 1 : 0);
+      }, 0);
+    }
+
+    function countAiHandTaskCards(player = getCurrentPlayer()) {
+      return (player?.hand || []).reduce((total, card) => {
+        const model = cardEffects.getCardModel?.(card) || null;
+        return total + (model?.tasks?.length ? 1 : 0);
+      }, 0);
+    }
+
+    function scoreAiLateCardEnginePressure(player = getCurrentPlayer()) {
+      if (!player || getAiRoundNumber() < 3) return 0;
+      const round = getAiRoundNumber();
+      const completedTasks = Math.max(0, Math.round(aiNumber(player.completedTaskCount)));
+      const finalMarks = countAiFinalMarksForPlayer(player);
+      const techCount = countAiPlayerTech(player);
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const cEntries = getAiPlanningFinalFormulaEntries(player, ["c1", "c2"]);
+      const dEntries = getAiPlanningFinalFormulaEntries(player, ["d1", "d2"]);
+      const uncompletedTaskCount = listAiUncompletedCardTasksForPlayer(player).length;
+      const handEngineCards = countAiHandEngineCards(player);
+      const handTaskCards = countAiHandTaskCards(player);
+      const hasTaskPipeline = cEntries.length > 0 || uncompletedTaskCount > 0 || handTaskCards > 0;
+      let pressure = 0;
+
+      if (hasTaskPipeline) {
+        if (completedTasks <= 0) pressure += round === 3 ? 4.5 : 7;
+        else if (completedTasks === 1) pressure += round === 3 ? 2.5 : 4.5;
+        else pressure += 1;
+      }
+
+      if (cEntries.length && completedTasks <= 1) pressure += finalMarks >= 2 ? 3 : 1.8;
+      if (dEntries.length && techCount < 8) {
+        pressure += Math.min(5.5, Math.max(0, 8 - techCount) * 1.05 + (round >= FINAL_ROUND_NUMBER ? 1.2 : 0));
+      }
+      if (finalMarks >= 3 && ((hasTaskPipeline && completedTasks <= 1) || techCount < 8)) pressure += 2.2;
+      else if (finalMarks >= 2 && hasTaskPipeline && completedTasks <= 1) pressure += 1.2;
+      if (round >= FINAL_ROUND_NUMBER && currentScore < 120 && hasTaskPipeline && completedTasks <= 1) pressure += 2.2;
+
+      if (handEngineCards <= 0 && uncompletedTaskCount <= 0 && (!dEntries.length || techCount >= 8)) {
+        pressure *= 0.45;
+      }
+      return roundAiScore(Math.min(18, Math.max(0, pressure)));
+    }
+
+    function scoreAiLatePlayCardEnginePressure(card, details = {}) {
+      const player = details.player || getCurrentPlayer();
+      if (!card || !player) return 0;
+      const basePressure = scoreAiLateCardEnginePressure(player);
+      if (basePressure <= 0) return 0;
+      const model = details.model || cardEffects.getCardModel?.(card) || null;
+      const playEffects = details.playEffects || getAiPlayEffectsForCard(card);
+      const typeCode = details.typeCode ?? getCardTypeCode(card);
+      const endGameExpectedScore = details.endGameExpectedScore
+        ?? scoreAiCardEndGameExpectedValue(card, model, player);
+      const c2Type3ProgressValue = typeCode === 3 ? scoreAiC2Type3ProgressValue(player) : 0;
+      const completedTasks = Math.max(0, Math.round(aiNumber(player.completedTaskCount)));
+      const hasC2 = getAiPlanningFinalFormulaEntries(player, ["c2"]).length > 0;
+      const hasResearchEffect = (playEffects || []).some((effect) => isAiResearchTechEffectType(effect?.type));
+      const hasScanEffect = (playEffects || []).some((effect) => isAiCardScanEffectType(effect?.type));
+      const hasDrawEffect = (playEffects || []).some((effect) => effect?.type === "draw_cards");
+      let fit = 0;
+
+      if (model?.tasks?.length) {
+        fit += 0.62 + model.tasks.length * 0.18 + (completedTasks <= 0 ? 0.18 : 0);
+      }
+      if (typeCode === 3 && (hasC2 || model?.endGameScoring || endGameExpectedScore > 0)) {
+        fit += 0.42 + Math.min(0.28, c2Type3ProgressValue * 0.08);
+      }
+      if (model?.endGameScoring) {
+        fit += 0.42 + Math.min(0.3, endGameExpectedScore * 0.035);
+      }
+      if (hasResearchEffect) {
+        fit += getAiPlanningFinalFormulaEntries(player, ["d1", "d2"]).length ? 0.34 : 0.16;
+      }
+      if (hasScanEffect) fit += getAiPlanningFinalFormulaEntries(player, ["b2"]).length ? 0.26 : 0.14;
+      if (hasDrawEffect) fit += 0.12;
+      if (details.plan?.actionId === "task" || details.plan?.actionId === "final") fit += 0.12;
+      if (fit <= 0) return 0;
+      return roundAiScore(Math.min(22, basePressure * fit));
+    }
+
     function scoreAiPlayCardConversionPressure(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       if (!card || !player || getAiRoundNumber() < 3) return 0;
@@ -6317,6 +6420,15 @@
         ?? scoreAiCardStandardActionPremium(playEffects, player);
       const routePlanScore = Math.max(0, aiNumber(details.plan?.score));
       const handPressure = Math.max(0, handSize - 3) * (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 2.8 : 1.4);
+      const lateCardEnginePressure = details.lateCardEnginePressure
+        ?? scoreAiLatePlayCardEnginePressure(card, {
+          player,
+          model,
+          playEffects,
+          typeCode,
+          endGameExpectedScore,
+          plan: details.plan,
+        });
 
       let value = handPressure;
       if (model?.tasks?.length) value += 5 + Math.min(10, cFinalTaskProgressValue * 0.8);
@@ -6329,7 +6441,8 @@
         value += Math.max(0, 3 - finalMarks) * 3.2
           + Math.min(9, Math.max(0, nextThreshold - currentScore) * 0.18);
       }
-      return roundAiScore(Math.min(getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 34 : 18, Math.max(0, value)));
+      value += lateCardEnginePressure;
+      return roundAiScore(Math.min(getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 38 : 24, Math.max(0, value)));
     }
 
     function scoreAiCardLaunchRouteValue(effect, player = getCurrentPlayer()) {
@@ -8662,6 +8775,42 @@
       return roundAiScore(value);
     }
 
+    function scoreAiLateTechEngineCatchupValue(candidate, player = getCurrentPlayer()) {
+      const techType = candidate?.techType || "";
+      if (!candidate || !player || !techType || getAiRoundNumber() < 3) return 0;
+      const dEntries = getAiPlanningFinalFormulaEntries(player, ["d1", "d2"]);
+      if (!dEntries.length) return 0;
+      const round = getAiRoundNumber();
+      const techCount = countAiPlayerTech(player);
+      const finalMarks = countAiFinalMarksForPlayer(player);
+      if (techCount >= (round >= FINAL_ROUND_NUMBER ? 11 : 9)) return 0;
+
+      let value = finalMarks >= 3 ? 2.4 : finalMarks >= 2 ? 1.4 : 0.6;
+      value += Math.max(0, 8 - techCount) * (round >= FINAL_ROUND_NUMBER ? 1.25 : 0.9);
+
+      if (dEntries.some((entry) => entry.formulaId === "d2")) {
+        const bestD2Multiplier = dEntries.reduce((best, entry) => (
+          entry.formulaId === "d2" ? Math.max(best, aiNumber(entry.multiplier)) : best
+        ), 0);
+        const beforeBase = Math.floor(techCount / 2);
+        const afterBase = Math.floor((techCount + 1) / 2);
+        if (afterBase > beforeBase) value += Math.min(5, bestD2Multiplier * 0.85);
+        else value += Math.min(2.5, bestD2Multiplier * 0.28);
+      }
+
+      if (dEntries.some((entry) => entry.formulaId === "d1")) {
+        const counts = getAiPlayerTechTypeCounts(player);
+        const minCount = Math.min(...AI_TECH_TYPES.map((type) => aiNumber(counts[type])));
+        const currentTypeCount = aiNumber(counts[techType]);
+        if (currentTypeCount <= minCount) value += 3.2;
+        else if (currentTypeCount === minCount + 1) value += 1.2;
+        else value -= Math.min(2, currentTypeCount - minCount - 1);
+      }
+
+      if (candidate?.bonusId === "bonus_3f") value += 1.2;
+      return roundAiScore(Math.min(13, Math.max(0, value)));
+    }
+
     function scoreAiResearchTechValue(candidate, player = getCurrentPlayer()) {
       const techType = candidate?.techType || "";
       const stackIndex = Math.max(1, Math.round(aiNumber(candidate?.stackIndex) || 1));
@@ -8726,6 +8875,8 @@
       if (techType === "purple") value += getAiMapDemand(demand.actions, "scan") * 0.08 * getAiStrategyWeight("scan");
       const routePlan = candidate?.plan || scoreAiResearchTechRoutePlan(candidate, player);
       if (routePlan?.score > 0) value += applyAiStrategyWeight(routePlan.score, "tech", 0.35);
+      const lateTechCatchupValue = scoreAiLateTechEngineCatchupValue(candidate, player);
+      if (lateTechCatchupValue) value += applyAiStrategyWeight(lateTechCatchupValue, "tech", 0.75);
       const finalPlanningValue = scoreAiResearchTechFinalPlanningValue(candidate, player);
       if (finalPlanningValue) {
         value += applyAiStrategyWeight(
@@ -10235,6 +10386,14 @@
       const plan = scoreAiPlayCardRoutePlan(card, model, playEffects, currentPlayer);
       const directScoreGain = getAiRewardDirectScore(playEffects, currentPlayer);
       const standardActionPremium = scoreAiCardStandardActionPremium(playEffects, currentPlayer);
+      const lateCardEnginePressure = scoreAiLatePlayCardEnginePressure(card, {
+        player: currentPlayer,
+        model,
+        playEffects,
+        typeCode,
+        endGameExpectedScore,
+        plan,
+      });
       const playCardConversionPressure = scoreAiPlayCardConversionPressure(card, {
         player: currentPlayer,
         model,
@@ -10243,6 +10402,7 @@
         endGameExpectedScore,
         plan,
         standardActionPremium,
+        lateCardEnginePressure,
       });
       const routePlanCashout = Boolean(
         plan?.movePreview?.followupLanding?.directScoreGain > 0
@@ -10314,6 +10474,7 @@
           cFinalTaskProgressValue,
           chongTaskChainValue,
           playCardConversionPressure,
+          lateCardEnginePressure,
           endGameExpectedScore,
           finalRoundEndGameCardUrgency: scoreAiFinalRoundEndGameCardUrgency(
             typeCode,
@@ -13271,6 +13432,9 @@
       candidate.score = scoreAiResearchTechValue(candidate);
       candidate.finalFormulaDeltas = getAiResearchTechFinalFormulaDeltas(candidate, getCurrentPlayer());
       candidate.directScoreGain = getAiResearchTechDirectScoreGain(candidate);
+      candidate.valueBreakdown = {
+        lateTechCatchupValue: scoreAiLateTechEngineCatchupValue(candidate, getCurrentPlayer()),
+      };
       if (!safety.ok) candidate.score -= 1000;
       return candidate;
     }
