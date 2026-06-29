@@ -1055,7 +1055,7 @@
       ]),
       tasks: Object.freeze([{
         id: "b4-blue-alien-task",
-        condition: Object.freeze({ type: "allAliensHaveTrace", traceType: "blue" }),
+        condition: Object.freeze({ type: "allAliensHavePlayerTrace", traceType: "blue" }),
         rewards: Object.freeze([gainDataEffect("b4-blue-alien-reward", "2个外星人均有蓝色痕迹：2数据", 2)]),
       }]),
     }),
@@ -1097,7 +1097,7 @@
       ]),
       tasks: Object.freeze([{
         id: "b8-yellow-alien-task",
-        condition: Object.freeze({ type: "allAliensHaveTrace", traceType: "yellow" }),
+        condition: Object.freeze({ type: "allAliensHavePlayerTrace", traceType: "yellow" }),
         rewards: Object.freeze([
           gainResourcesEffect("b8-yellow-alien-score", "2个外星人均有黄色痕迹：2分", { score: 2 }),
           drawCardsEffect("b8-yellow-alien-draw", "2个外星人均有黄色痕迹：1盲抽", 1),

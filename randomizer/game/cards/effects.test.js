@@ -107,8 +107,39 @@ assert.equal(cardEffects.collectReadyTasks(alienReadyPlayer, {
   nebulaDataState: {},
   alienGameState: {
     aliens: {
-      1: { traces: { blue: { firstPlaced: true } } },
-      2: { traces: { blue: { firstPlaced: true } } },
+      1: { traces: { blue: { firstPlaced: true, ownerPlayerId: "p2", ownerPlayerColor: "blue" } } },
+      2: { traces: { blue: { firstPlaced: true, ownerPlayerId: "p2", ownerPlayerColor: "blue" } } },
+    },
+  },
+}).length, 0);
+assert.equal(cardEffects.collectReadyTasks(alienReadyPlayer, {
+  nebulaDataState: {},
+  alienGameState: {
+    aliens: {
+      1: { traces: { blue: { firstPlaced: true, ownerPlayerId: "p1", ownerPlayerColor: "red" } } },
+      2: { traces: { blue: { firstPlaced: true, ownerPlayerId: "p1", ownerPlayerColor: "red" } } },
+    },
+  },
+}).length, 1);
+
+const b8 = { id: "card-b8", cardId: "b_8.webp" };
+const yellowAlienReadyPlayer = { id: "p1", color: "red", reservedCards: [b8] };
+cardEffects.ensureCardEffectState(b8);
+assert.equal(cardEffects.collectReadyTasks(yellowAlienReadyPlayer, {
+  nebulaDataState: {},
+  alienGameState: {
+    aliens: {
+      1: { traces: { yellow: { firstPlaced: true, ownerPlayerId: "p2", ownerPlayerColor: "blue" } } },
+      2: { traces: { yellow: { firstPlaced: true, ownerPlayerId: "p2", ownerPlayerColor: "blue" } } },
+    },
+  },
+}).length, 0);
+assert.equal(cardEffects.collectReadyTasks(yellowAlienReadyPlayer, {
+  nebulaDataState: {},
+  alienGameState: {
+    aliens: {
+      1: { traces: { yellow: { firstPlaced: true, ownerPlayerId: "p1", ownerPlayerColor: "red" } } },
+      2: { traces: { yellow: { firstPlaced: true, ownerPlayerId: "p1", ownerPlayerColor: "red" } } },
     },
   },
 }).length, 1);
@@ -345,6 +376,16 @@ assert.equal(cardEffects.collectReadyTasks(blueTracePlayer, {
   },
   planetStatsState: {},
 }).length, 1);
+assert.equal(cardEffects.collectReadyTasks(blueTracePlayer, {
+  nebulaDataState: {},
+  alienGameState: {
+    aliens: {
+      1: { traces: { blue: { firstPlaced: true, ownerPlayerId: "p2", ownerPlayerColor: "blue", extraCount: 2 } } },
+      2: { traces: { blue: { firstPlaced: true, ownerPlayerId: "p2", ownerPlayerColor: "blue", extraCount: 1 } } },
+    },
+  },
+  planetStatsState: {},
+}).length, 0);
 
 const b15 = { id: "card-b15", cardId: "b_15.webp" };
 const blackSectorPlayer = { id: "p1", color: "red", reservedCards: [b15] };
@@ -360,6 +401,16 @@ assert.equal(cardEffects.collectReadyTasks(blackSectorPlayer, {
   },
   alienGameState: {},
 }).length, 1);
+assert.equal(cardEffects.collectReadyTasks(blackSectorPlayer, {
+  nebulaDataState: {
+    sectorSettlements: {
+      winsByPlayerId: {
+        p2: [{ sectorId: "sector-1-b" }],
+      },
+    },
+  },
+  alienGameState: {},
+}).length, 0);
 
 for (const cardId of ["b_16.webp", "b_17.webp", "b_18.webp"]) {
   const effects = cardEffects.buildPlayEffects({ cardId });
@@ -414,6 +465,19 @@ assert.equal(cardEffects.collectReadyTasks(saturnPlayer, {
     },
   },
 }).length, 1);
+assert.equal(cardEffects.collectReadyTasks(saturnPlayer, {
+  nebulaDataState: {},
+  alienGameState: {},
+  planetStatsState: {
+    planets: {
+      saturn: {
+        orbitMarkers: [{ playerId: "p2", color: "blue" }],
+        landingMarkers: [],
+        satelliteLandings: [],
+      },
+    },
+  },
+}).length, 0);
 
 const b22 = { id: "card-b22", cardId: "b_22.webp" };
 const signalPlayer = { id: "p1", color: "red", reservedCards: [b22] };
@@ -526,6 +590,42 @@ assert.equal(cardEffects.collectReadyTasks({ id: "p1", color: "red", reservedCar
     { kind: "land", planetId: "pluto", playerId: "p1", sequence: 2 },
   ],
 }).length, 1);
+assert.equal(cardEffects.collectReadyTasks({ id: "p1", color: "red", reservedCards: [b116Pluto] }, {
+  nebulaDataState: {},
+  alienGameState: {},
+  planetStatsState: {
+    planets: {
+      mars: { orbitMarkers: [], landingMarkers: [{ playerId: "p2", color: "blue" }], satelliteLandings: [] },
+    },
+  },
+  plutoMarkers: [
+    { kind: "land", planetId: "pluto", playerId: "p2", playerColor: "blue", sequence: 1 },
+    { kind: "land", planetId: "pluto", playerId: "p2", playerColor: "blue", sequence: 2 },
+  ],
+}).length, 0);
+
+const b117 = { id: "card-b117", cardId: "b_117.webp" };
+cardEffects.ensureCardEffectState(b117);
+assert.equal(cardEffects.collectReadyTasks({ id: "p1", color: "red", reservedCards: [b117] }, {
+  nebulaDataState: {},
+  alienGameState: {},
+  planetStatsState: {
+    planets: {
+      mars: { orbitMarkers: [{ playerId: "p1" }], landingMarkers: [{ playerId: "p1" }], satelliteLandings: [] },
+      saturn: { orbitMarkers: [{ playerId: "p1" }], landingMarkers: [{ playerId: "p1" }], satelliteLandings: [{ playerId: "p1" }] },
+    },
+  },
+}).length, 1);
+assert.equal(cardEffects.collectReadyTasks({ id: "p1", color: "red", reservedCards: [b117] }, {
+  nebulaDataState: {},
+  alienGameState: {},
+  planetStatsState: {
+    planets: {
+      mars: { orbitMarkers: [{ playerId: "p2" }], landingMarkers: [{ playerId: "p2" }], satelliteLandings: [] },
+      saturn: { orbitMarkers: [{ playerId: "p2" }], landingMarkers: [{ playerId: "p2" }], satelliteLandings: [{ playerId: "p2" }] },
+    },
+  },
+}).length, 0);
 
 const b101 = { id: "card-b101", cardId: "b_101.webp" };
 cardEffects.ensureCardEffectState(b101);

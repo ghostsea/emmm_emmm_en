@@ -10080,8 +10080,18 @@
     if (normalized.length) pendingType1TriggerEvents.push(...normalized);
   }
 
+  function isCardTriggerPickSelectionActive() {
+    return isCardSelectionActive() && pendingCardSelectionAction?.type === "card_trigger_pick";
+  }
+
   function hasActiveCardTriggerResolution() {
-    return Boolean(pendingCardTriggerAction || pendingCardTriggerFreeMove || pendingCardCornerFreeMove);
+    return Boolean(
+      pendingCardTriggerAction
+      || pendingCardTriggerFreeMove
+      || pendingCardCornerFreeMove
+      || isCardTriggerPickSelectionActive()
+      || pendingAmibaSymbolChoice?.triggerMatch
+    );
   }
 
   function isCardTriggerRewardFlowBusy() {
@@ -11741,7 +11751,7 @@
       || pendingPublicScanQueue
       || pendingHandScanAction
       || pendingPassReserveSelection
-      || (isCardSelectionActive() && pendingActionEffectFlow)
+      || (isCardSelectionActive() && (pendingActionEffectFlow || isCardTriggerPickSelectionActive()))
       || pendingCardTriggerAction
       || pendingCardTaskCompletion
       || (pendingJiuzheCardPlay && pendingJiuzheCardPlay.reason !== "view")
@@ -11972,7 +11982,7 @@
       syncHandScanSelectionChrome();
     }
 
-    if (isCardSelectionActive() && pendingActionEffectFlow) {
+    if (isCardSelectionActive() && (pendingActionEffectFlow || isCardTriggerPickSelectionActive())) {
       if (pendingCardSelectionAction?.type === "fundamentalism_exchange_pick") {
         if (pendingCardSelectionAction.player && pendingCardSelectionAction.beforePlayerState) {
           restoreObjectSnapshot(pendingCardSelectionAction.player, pendingCardSelectionAction.beforePlayerState);
@@ -12450,7 +12460,7 @@
         events: [finishedFlow.passEvent || createPassEvent(passPlayer)],
         render: false,
       });
-      if (pendingCardTriggerAction || isActionEffectFlowActive()) {
+      if (hasActiveCardTriggerResolution() || isActionEffectFlowActive()) {
         rocketState.statusNote = passSettlement?.type1Result?.message || "PASS 任务触发：请先完成触发效果";
         markActionPending();
         renderPlayerStats();
@@ -30225,7 +30235,7 @@
     }
 
     const passSettlement = settlePassEventAfterEffects(currentPlayer);
-    if (pendingCardTriggerAction || isActionEffectFlowActive()) {
+    if (hasActiveCardTriggerResolution() || isActionEffectFlowActive()) {
       updateActionButtons();
       renderStateReadout();
       return { ok: true, message: passSettlement?.type1Result?.message || rocketState.statusNote };
