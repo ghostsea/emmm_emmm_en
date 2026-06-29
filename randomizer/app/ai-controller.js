@@ -905,6 +905,16 @@
       return playerColor ? getPlayerByColor(playerColor)?.id || null : null;
     }
 
+    function shouldUseAlienTracePickerOwnerForAutomation(picker) {
+      const mode = String(picker?.mode || "");
+      return Boolean(
+        mode
+        && mode !== "debug-direct"
+        && mode !== "reveal-confirm"
+        && getPendingPlayerId(picker)
+      );
+    }
+
     function getEffectOwnerPlayerSafe(effect) {
       return effect ? getEffectOwnerPlayer(effect) : null;
     }
@@ -919,6 +929,9 @@
     function getPendingAlienAutomationPlayerId() {
       const pendingEntries = [
         state.pendingAlienTraceAction,
+        shouldUseAlienTracePickerOwnerForAutomation(state.alienTracePickerState)
+          ? state.alienTracePickerState
+          : null,
         state.pendingJiuzheCardPlay?.reason === "view" ? null : state.pendingJiuzheCardPlay,
         state.pendingYichangdianCardGain,
         state.pendingYichangdianCornerAction,

@@ -97,6 +97,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       : null);
   let handled = null;
   const handledEvents = [];
+  const scheduledTimers = [];
   const noteHandled = (event) => {
     handled = event;
     handledEvents.push(event);
@@ -141,7 +142,17 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   }
 
   const context = {
-    window: { setTimeout: () => 1, localStorage: null },
+    window: {
+      setTimeout: (callback, delay) => {
+        const entry = { callback, delay };
+        scheduledTimers.push(entry);
+        if (typeof options.onSetTimeout === "function") {
+          options.onSetTimeout(entry);
+        }
+        return scheduledTimers.length;
+      },
+      localStorage: null,
+    },
     state,
     players: {
       PLAYER_COLOR_IDS: allPlayers.map((player) => player.color),
@@ -604,6 +615,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     controller: createAiController(context),
     getHandled: () => handled,
     getHandledEvents: () => handledEvents.slice(),
+    getScheduledTimers: () => scheduledTimers.slice(),
   };
 }
 
@@ -1142,6 +1154,39 @@ function makeBanrenmaAlienState() {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI should resolve Yichangdian trace picker");
   assert.deepEqual(selected, ["blue-1"], "AI should claim the soon energy anomaly color over the old fixed yellow-2 preference");
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "white",
+    alienTracePickerState: {
+      mode: "fangzhou-use",
+      targetPlayerId: "player-blue",
+      selectedAlienSlotId: 1,
+      selectedTraceType: "blue",
+      allowedTraceTypes: ["blue"],
+    },
+    alienPickerButtons: [
+      makeButton(
+        { alienPickerStep: "fangzhou-use", alienSlot: "1", traceType: "blue", fangzhouUse: "unlock" },
+        "解锁蓝色方舟牌",
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  harness.controller.scheduleAiAutoStepIfNeeded();
+  assert.equal(
+    harness.getScheduledTimers().length,
+    1,
+    "AI-owned Fangzhou trace-use picker should schedule even when the current interface player is human",
+  );
 }
 
 {
