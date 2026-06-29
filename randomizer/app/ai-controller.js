@@ -4283,7 +4283,63 @@
         && currentScore < 150
         && handSize <= 1
         && (credits >= 2 || energy >= 2 || publicity >= 3);
-      if (!recoveryThreshold && !hasImmediateRouteRecovery && !finalLowHandRefillWindow) return [];
+      const finalLowScoreMainUnlockWindow = getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && (!recoveryThreshold || finalMarks >= 3)
+        && currentScore >= 70
+        && currentScore < 150
+        && credits < scanCreditCost
+        && !(turnState.passedPlayerIds || []).includes(player.id);
+      const scoreFinalLowScoreScanUnlockTrade = (tradeId) => {
+        if (!finalLowScoreMainUnlockWindow) return 0;
+        const trade = quickTrades.getTradeAction(tradeId);
+        if (!trade) return 0;
+        const simulatedPlayer = createAiPlayerAfterQuickTrade(player, trade);
+        if (!simulatedPlayer) return 0;
+        const simulatedCredits = Math.max(0, aiNumber(simulatedPlayer.resources?.credits));
+        const simulatedEnergy = Math.max(0, aiNumber(simulatedPlayer.resources?.energy));
+        if (simulatedCredits < scanCreditCost || simulatedEnergy < scanEnergyCost) return 0;
+        const canScanAfterTrade = scanEffects?.canExecuteScan?.(simulatedPlayer, { standardAction: true })?.ok;
+        const tradeCost = estimateAiTradeDiscardOpportunityCost(player, trade);
+        if (!Number.isFinite(tradeCost)) return 0;
+        const effectiveTradeCost = finalLowScoreMainUnlockWindow && handSize >= 5
+          ? Math.min(tradeCost, 18)
+          : tradeCost;
+        const scanScore = canScanAfterTrade ? Math.max(0, aiNumber(scoreAiScanAction(simulatedPlayer))) : 0;
+        const directScoreGain = canScanAfterTrade ? Math.max(0, aiNumber(getAiScanDirectScoreGain(simulatedPlayer))) : 0;
+        const lowScorePressure = Math.max(0, 150 - currentScore) * 0.045;
+        const handBuffer = Math.max(0, handSize - Math.max(0, aiNumber(trade.cost?.handSize))) >= 3 ? 1.5 : 0;
+        const scanUnlockBaseValue = canScanAfterTrade
+          ? 7
+          : state.pendingActionExecuted
+            ? 8.5
+            : 0;
+        const preparedScanValue = scanUnlockBaseValue > 0
+          ? scanUnlockBaseValue + lowScorePressure + handBuffer
+          : 0;
+        return Math.max(
+          0,
+          scanScore * 0.68
+            + directScoreGain * 0.8
+            + lowScorePressure
+            + handBuffer
+            + preparedScanValue
+            - effectiveTradeCost * 0.18,
+        );
+      };
+      const finalLowScoreScanUnlockByTrade = {
+        "cards-for-credit": scoreFinalLowScoreScanUnlockTrade("cards-for-credit"),
+        "energy-for-credit": scoreFinalLowScoreScanUnlockTrade("energy-for-credit"),
+      };
+      const finalLowScoreCardsForCreditScanPrepare = finalLowScoreMainUnlockWindow
+        && handSize >= 4
+        && scanCreditCost > 0
+        && scanCreditCost - credits === 1
+        && energy >= scanEnergyCost;
+      const finalLowScoreCardsForCreditScanUnlock = finalLowScoreScanUnlockByTrade["cards-for-credit"] >= 3.5
+        || finalLowScoreCardsForCreditScanPrepare;
+      const finalLowScoreEnergyForCreditScanUnlock = finalLowScoreScanUnlockByTrade["energy-for-credit"] >= 3.5;
+      const finalLowScoreScanUnlock = finalLowScoreCardsForCreditScanUnlock || finalLowScoreEnergyForCreditScanUnlock;
+      if (!recoveryThreshold && !hasImmediateRouteRecovery && !finalLowHandRefillWindow && !finalLowScoreScanUnlock) return [];
       const scoreToNextThreshold = recoveryThreshold ? Math.max(1, recoveryThreshold - currentScore) : 0;
       const closeThirdMarkScanSetup = getAiRoundNumber() >= FINAL_ROUND_NUMBER
         && nextThreshold === 70
@@ -4295,6 +4351,7 @@
         && !closeThirdMarkScanSetup
         && !hasImmediateRouteRecovery
         && !finalLowHandRefillWindow
+        && !finalLowScoreScanUnlock
       ) return [];
       const closeScanCashoutWindow = recoveryThreshold <= 50 ? 10 : 8;
       const closeScanDirectScoreGain = getAiRoundNumber() >= FINAL_ROUND_NUMBER
@@ -4520,14 +4577,22 @@
         },
         {
           tradeId: "cards-for-credit",
-          enabled: canScanAfterCardsForCredit || thresholdCreditRecovery,
+          enabled: canScanAfterCardsForCredit || thresholdCreditRecovery || finalLowScoreCardsForCreditScanUnlock,
           value: baseValue
             + (canScanAfterCardsForCredit ? scanCashoutTradeValue : 0)
             + (thresholdCreditRecovery ? Math.min(10, 5 + Math.max(0, 8 - scoreToNextThreshold) * 0.55) : 0)
+            + (finalLowScoreCardsForCreditScanUnlock
+              ? Math.max(
+                finalLowScoreScanUnlockByTrade["cards-for-credit"],
+                8 + Math.max(0, 150 - currentScore) * 0.05,
+              )
+              : 0)
             + (energy >= scanEnergyCost + 1 ? 1 : 0),
           reason: canScanAfterCardsForCredit
             ? "终局临门：弃牌换信用点准备扫描"
-            : "终局缺标记：弃牌换信用点准备下一轮兑现",
+            : finalLowScoreCardsForCreditScanUnlock
+              ? "终局低分：弃牌换信用点解锁扫描"
+              : "终局缺标记：弃牌换信用点准备下一轮兑现",
         },
         {
           tradeId: "energy-for-card",
@@ -4545,17 +4610,21 @@
           tradeId: "energy-for-credit",
           enabled: canScanAfterEnergyForCredit
             || (secondMarkCreditRecovery && !shouldReservePlanetCashoutEnergy)
-            || thirdMarkCreditRecovery,
+            || thirdMarkCreditRecovery
+            || finalLowScoreEnergyForCreditScanUnlock,
           value: baseValue
             + (recoveryThreshold <= 50 ? 8 : 4)
             + (canScanAfterEnergyForCredit ? scanCashoutTradeValue : 0)
             + (secondMarkCreditRecovery ? Math.min(8, scoreToNextThreshold * 0.28) : 0)
-            + (thirdMarkCreditRecovery ? Math.min(10, 4 + Math.max(0, 22 - scoreToNextThreshold) * 0.25 + (handSize > 0 ? 2 : 0)) : 0),
+            + (thirdMarkCreditRecovery ? Math.min(10, 4 + Math.max(0, 22 - scoreToNextThreshold) * 0.25 + (handSize > 0 ? 2 : 0)) : 0)
+            + (finalLowScoreEnergyForCreditScanUnlock ? finalLowScoreScanUnlockByTrade["energy-for-credit"] : 0),
           reason: canScanAfterEnergyForCredit
             ? "终局临门：能量换信用点准备扫描"
-            : thirdMarkCreditRecovery
-              ? "终局第3标记：能量换信用点恢复打牌/扫描"
-              : "后期落后：能量换信用点恢复打牌/扫描",
+            : finalLowScoreEnergyForCreditScanUnlock
+              ? "终局低分：能量换信用点解锁扫描"
+              : thirdMarkCreditRecovery
+                ? "终局第3标记：能量换信用点恢复打牌/扫描"
+                : "后期落后：能量换信用点恢复打牌/扫描",
         },
         {
           tradeId: "publicity-for-card",
@@ -4624,6 +4693,12 @@
               secondMarkEnergyCardSearch,
               desperateSecondMarkCardSearch,
               thresholdCreditRecovery,
+              finalLowScoreScanUnlock,
+              finalLowScoreCardsForCreditScanPrepare,
+              finalLowScoreScanUnlockByTrade: {
+                "cards-for-credit": roundAiScore(finalLowScoreScanUnlockByTrade["cards-for-credit"]),
+                "energy-for-credit": roundAiScore(finalLowScoreScanUnlockByTrade["energy-for-credit"]),
+              },
               secondMarkAnalyzeEnergyRecovery,
               thirdMarkCreditRecovery,
               closeThirdMarkScanSetup,

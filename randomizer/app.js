@@ -6840,6 +6840,79 @@
     return Math.min(finalWindow ? 26 : 20, Math.max(0, penalty));
   }
 
+  function getAiB1FinalFormulaState(player) {
+    const traceTypes = aliens?.TRACE_TYPES?.length ? aliens.TRACE_TYPES : ["yellow", "pink", "blue"];
+    const counts = {};
+    for (const traceType of traceTypes) {
+      counts[traceType] = endGameScoring?.countTraceMarkers
+        ? Math.max(0, Math.round(aiNumber(endGameScoring.countTraceMarkers(player, alienGameState, traceType))))
+        : 0;
+    }
+    const values = traceTypes.map((traceType) => counts[traceType] || 0);
+    const minTrace = values.length ? Math.min(...values) : 0;
+    const totalTrace = values.reduce((total, count) => total + count, 0);
+    const missingTypes = traceTypes.filter((traceType) => (counts[traceType] || 0) <= 0);
+    return {
+      counts,
+      minTrace,
+      totalTrace,
+      missingTypes,
+    };
+  }
+
+  function scoreAiB1FinalFormulaFeasibilityPenalty(
+    formulaId,
+    player,
+    slotIndex,
+    thresholdValue,
+    baseValue,
+    demand = {},
+    b1State = null,
+  ) {
+    if (formulaId !== "b1" || !player) return 0;
+    if (Math.max(0, aiNumber(baseValue)) > 0) return 0;
+
+    const state = b1State || getAiB1FinalFormulaState(player);
+    const missingTypes = state.missingTypes || [];
+    if (!missingTypes.length) return 0;
+
+    const threshold = Math.max(0, aiNumber(thresholdValue));
+    const roundNumber = Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1));
+    if (threshold < 50 && roundNumber <= 2) return 0;
+
+    const slot = Math.max(1, Math.round(aiNumber(slotIndex) || 1));
+    const totalTrace = Math.max(0, aiNumber(state.totalTrace));
+    const allTraceDemand = sumAiDemandMap(demand.traceTypes);
+    const missingTraceDemand = missingTypes.reduce((total, traceType) => (
+      total + getAiMapDemand(demand.traceTypes, traceType)
+    ), 0);
+    const actionPipeline = getAiMapDemand(demand.actions, "analyze") * 0.45
+      + getAiMapDemand(demand.actions, "land") * 0.32
+      + getAiMapDemand(demand.actions, "scan") * 0.22
+      + getAiMapDemand(demand.actions, "playCard") * 0.14;
+    const tracePipeline = missingTraceDemand * 0.16 + allTraceDemand * 0.06 + actionPipeline;
+    const lateScale = threshold >= 70 || roundNumber >= FINAL_ROUND_NUMBER
+      ? 1.28
+      : threshold >= 50 || roundNumber >= 3
+        ? 1
+        : 0.55;
+    const slotScale = slot === 1 ? 1 : slot === 2 ? 0.82 : 0.62;
+    let penalty = (
+      5.8
+      + missingTypes.length * 3
+      + Math.max(0, 3 - totalTrace) * 0.85
+    ) * lateScale * slotScale;
+
+    if (threshold >= 70) penalty += 3 * lateScale;
+    if (roundNumber >= FINAL_ROUND_NUMBER && missingTypes.length >= 2) penalty += 2.5 * lateScale;
+
+    if (tracePipeline >= 5) penalty *= 0.58;
+    else if (tracePipeline >= 3) penalty *= 0.74;
+    else if (tracePipeline < 1.5) penalty += (1.5 - tracePipeline) * 1.4 * lateScale;
+
+    return Math.round(Math.min(threshold >= 70 ? 26 : 18, Math.max(0, penalty)) * 100) / 100;
+  }
+
   function getAiB2FinalFormulaState(player, context = {}) {
     if (!player || !endGameScoring) {
       return { orbitLandCount: 0, sectorWins: 0 };
@@ -7026,6 +7099,7 @@
     const immediateScore = baseValue * multiplier;
     const demand = getAiStrategyDemand(player);
     const demandScore = scoreAiFinalScoreFormulaDemand(formulaId, demand);
+    const b1FormulaState = formulaId === "b1" ? getAiB1FinalFormulaState(player) : null;
     const b2FormulaState = formulaId === "b2" ? getAiB2FinalFormulaState(player, context) : null;
     const thresholds = Array.isArray(finalScoringState.thresholds) && finalScoringState.thresholds.length
       ? finalScoringState.thresholds
@@ -7117,6 +7191,15 @@
       growthPotentialScore,
       demand,
     );
+    const b1FeasibilityPenalty = scoreAiB1FinalFormulaFeasibilityPenalty(
+      formulaId,
+      player,
+      check.slotIndex,
+      thresholdValue,
+      baseValue,
+      demand,
+      b1FormulaState,
+    );
     const b2FeasibilityPenalty = scoreAiB2FinalFormulaFeasibilityPenalty(
       formulaId,
       player,
@@ -7136,6 +7219,7 @@
         - zeroBaseLatePenalty
         - unsupportedCFormulaPenalty
         - weakCFormulaPenalty
+        - b1FeasibilityPenalty
         - b2FeasibilityPenalty,
       "final",
       0.85,
@@ -7173,6 +7257,9 @@
         zeroBaseLatePenalty: Math.round(zeroBaseLatePenalty * 100) / 100,
         unsupportedCFormulaPenalty: Math.round(unsupportedCFormulaPenalty * 100) / 100,
         weakCFormulaPenalty: Math.round(weakCFormulaPenalty * 100) / 100,
+        b1FeasibilityPenalty: Math.round(b1FeasibilityPenalty * 100) / 100,
+        b1TraceCounts: b1FormulaState ? b1FormulaState.counts : null,
+        b1MissingTraceTypes: b1FormulaState ? b1FormulaState.missingTypes : [],
         b2FeasibilityPenalty: Math.round(b2FeasibilityPenalty * 100) / 100,
         b2OrbitLandCount: b2FormulaState ? b2FormulaState.orbitLandCount : 0,
         b2SectorWins: b2FormulaState ? b2FormulaState.sectorWins : 0,
