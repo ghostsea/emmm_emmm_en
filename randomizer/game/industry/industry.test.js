@@ -43,11 +43,14 @@ assert.equal(player.industryRoundMarkTurn, 0);
 const catalog = require("./catalog");
 const passives = require("./passives");
 const abilities = require("./abilities");
+const initialCards = require("../initial-cards");
 
 assert.equal(catalog.hasImplementedActiveAbility("层云核心"), true);
 assert.equal(catalog.hasImplementedActiveAbility("未来跨度研究所"), true);
 assert.equal(catalog.hasImplementedActiveAbility("作弊实验室"), false);
 assert.equal(catalog.hasImplementedActiveAbility("寰宇超动力"), true);
+assert.equal(catalog.hasImplementedActiveAbility("原教旨主义"), true);
+assert.equal(placement.hasIndustryActionMarker({ label: "原教旨主义" }), true);
 assert.equal(passives.getRocketLimitBonus({ initialSelection: { industry: { label: "寰宇动力" } } }), 1);
 const huanyuSuperdrivePlayer = { initialSelection: { industry: { label: "寰宇超动力" } } };
 assert.equal(passives.getRocketLimitBonus(huanyuSuperdrivePlayer), 1);
@@ -138,6 +141,39 @@ assert.equal(missionFlow.publicityCost, abilities.PUBLICITY_PICK_COST);
 const poorMission = { ...missionPlayer, resources: { publicity: 1 } };
 const poorFlow = abilities.buildActiveAbilityFlow(poorMission, "任务中继站", 1);
 assert.equal(poorFlow.ok, false);
+
+const fundamentalismPlayer = {
+  id: "fundamentalism",
+  resources: { score: 9, credits: 1, energy: 1 },
+  initialSelection: { industry: { label: "原教旨主义" } },
+};
+assert.equal(passives.hasFundamentalismRoundStartIncome(fundamentalismPlayer), true);
+assert.equal(passives.blocksStandardPlayCardAction(fundamentalismPlayer), true);
+assert.equal(passives.shouldDoubleDiscardCornerRewards(fundamentalismPlayer), true);
+assert.equal(passives.shouldCompleteIncomeTaskCards(fundamentalismPlayer), true);
+const fundamentalismFlow = abilities.buildActiveAbilityFlow(fundamentalismPlayer, "原教旨主义", 2);
+assert.equal(fundamentalismFlow.ok, true);
+assert.equal(fundamentalismFlow.flowType, "fundamentalism_score_exchange");
+assert.equal(fundamentalismFlow.exchangeCount, 3);
+const fundamentalismNodes = abilities.buildFundamentalismScoreExchangeEffectNodes({
+  label: "原教旨主义",
+  groupId: "test-fundamentalism",
+});
+assert.equal(fundamentalismNodes.length, 3);
+assert.deepEqual(fundamentalismNodes.map((node) => node.type), [
+  "industry_fundamentalism_exchange",
+  "industry_fundamentalism_exchange",
+  "industry_fundamentalism_exchange",
+]);
+assert.deepEqual(fundamentalismNodes.map((node) => node.icon), ["score", "score", "score"]);
+assert.equal(fundamentalismNodes[0].options.exchangeIndex, 1);
+const fundamentalismStartup = initialCards.getIndustryEffect("原教旨主义");
+assert.equal(fundamentalismStartup.resources.credits, 2);
+assert.equal(fundamentalismStartup.resources.energy, 2);
+assert.equal(fundamentalismStartup.resources.publicity, 3);
+assert.equal(fundamentalismStartup.blindDraw, 3);
+assert.equal(fundamentalismStartup.incomeIncreaseCount, 2);
+assert.deepEqual(fundamentalismStartup.baseIncome, { credits: 2, energy: 2 });
 
 const fenwickPlayer = {
   id: "white",

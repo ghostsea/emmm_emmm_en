@@ -28,6 +28,10 @@
   const CHEAT_LAB_ROUND_START_PASSIVE_ID = "cheat_lab_round_start";
   const HUANYU_SUPERDRIVE_ROUND_START_PASSIVE_ID = "huanyu_superdrive_round_start";
   const HUANYU_SUPERDRIVE_PASS_LAUNCH_PASSIVE_ID = "huanyu_superdrive_pass_launch";
+  const FUNDAMENTALISM_ROUND_START_INCOME_PASSIVE_ID = "fundamentalism_round_start_income";
+  const FUNDAMENTALISM_DISABLE_PLAY_CARD_PASSIVE_ID = "fundamentalism_disable_play_card_action";
+  const FUNDAMENTALISM_DOUBLE_DISCARD_CORNER_PASSIVE_ID = "fundamentalism_double_discard_corner";
+  const FUNDAMENTALISM_INCOME_TASK_COMPLETION_PASSIVE_ID = "fundamentalism_income_task_completion";
 
   function playerHasPassive(player, passiveId) {
     const definition = catalog.getPlayerIndustryDefinition(player);
@@ -48,6 +52,22 @@
 
   function hasCheatLabRoundStart(player) {
     return playerHasPassive(player, CHEAT_LAB_ROUND_START_PASSIVE_ID);
+  }
+
+  function hasFundamentalismRoundStartIncome(player) {
+    return playerHasPassive(player, FUNDAMENTALISM_ROUND_START_INCOME_PASSIVE_ID);
+  }
+
+  function blocksStandardPlayCardAction(player) {
+    return playerHasPassive(player, FUNDAMENTALISM_DISABLE_PLAY_CARD_PASSIVE_ID);
+  }
+
+  function shouldDoubleDiscardCornerRewards(player) {
+    return playerHasPassive(player, FUNDAMENTALISM_DOUBLE_DISCARD_CORNER_PASSIVE_ID);
+  }
+
+  function shouldCompleteIncomeTaskCards(player) {
+    return playerHasPassive(player, FUNDAMENTALISM_INCOME_TASK_COMPLETION_PASSIVE_ID);
   }
 
   function hasPermanentAlienLabPanels(player) {
@@ -209,6 +229,10 @@
     hasHuanyuSuperdriveRoundStart,
     shouldLaunchAfterPassWithHuanyuSuperdrive,
     hasCheatLabRoundStart,
+    hasFundamentalismRoundStartIncome,
+    blocksStandardPlayCardAction,
+    shouldDoubleDiscardCornerRewards,
+    shouldCompleteIncomeTaskCards,
     getResearchPublicityCost,
     getStandardLaunchCost,
     getStandardScanCost,

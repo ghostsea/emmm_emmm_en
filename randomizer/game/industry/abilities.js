@@ -23,6 +23,7 @@
   const FENWICK_PUBLICITY_PICK_COST = 1;
   const STRATUS_PUBLIC_CARD_LIMIT = 3;
   const HUANYU_FREE_MOVE_COUNT = 2;
+  const FUNDAMENTALISM_EXCHANGE_COUNT = 3;
 
   function isAlienCard(card) {
     const cardId = String(card?.cardId || card?.id || "");
@@ -94,6 +95,30 @@
           industryHuanyuMoveIndex: moveNumber,
           industryHuanyuMoveCount: count,
           requireDifferentRocketInGroup: true,
+        },
+      });
+    }
+    return nodes;
+  }
+
+  function buildFundamentalismScoreExchangeEffectNodes(options = {}) {
+    const label = options.label || "原教旨主义";
+    const count = Math.max(0, Math.round(Number(options.count ?? FUNDAMENTALISM_EXCHANGE_COUNT) || 0));
+    const groupId = options.groupId || "industry-fundamentalism-score-exchange";
+    const nodes = [];
+    for (let index = 0; index < count; index += 1) {
+      const exchangeNumber = index + 1;
+      nodes.push({
+        id: `${groupId}-exchange-${exchangeNumber}`,
+        type: "industry_fundamentalism_exchange",
+        label: `${label}：兑换 ${exchangeNumber}/${count}`,
+        icon: "score",
+        status: "pending",
+        undoable: true,
+        options: {
+          exchangeIndex: exchangeNumber,
+          exchangeCount: count,
+          groupId,
         },
       });
     }
@@ -344,6 +369,15 @@
           label: prepared.label,
           message: `${prepared.label}：请精选 1 张公共牌，并清除当前 3 个奖励槽标记`,
         };
+      case "fundamentalism_score_exchange":
+        return {
+          ok: true,
+          abilityId,
+          flowType: "fundamentalism_score_exchange",
+          label: prepared.label,
+          exchangeCount: FUNDAMENTALISM_EXCHANGE_COUNT,
+          message: `${prepared.label}：请按效果栏结算 ${FUNDAMENTALISM_EXCHANGE_COUNT} 次分数/资源兑换`,
+        };
       default:
         return { ok: false, message: `未实现的公司 1x 行动：${abilityId}` };
     }
@@ -449,10 +483,12 @@
     FENWICK_PUBLICITY_PICK_COST,
     STRATUS_PUBLIC_CARD_LIMIT,
     HUANYU_FREE_MOVE_COUNT,
+    FUNDAMENTALISM_EXCHANGE_COUNT,
     isAlienCard,
     getCornerReward,
     buildStratusPublicCornerEffectNodes,
     buildHuanyuFreeMoveEffectNodes,
+    buildFundamentalismScoreExchangeEffectNodes,
     applyCornerReward,
     applyIncomeResourcesFromCard,
     prepareActiveAbility,

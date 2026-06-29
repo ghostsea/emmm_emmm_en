@@ -83,6 +83,16 @@
       activeAbilityId: "strategy_pick_card",
       passiveIds: Object.freeze(["strategy_passive_reward_slots"]),
     }),
+    "原教旨主义": Object.freeze({
+      label: "原教旨主义",
+      activeAbilityId: "fundamentalism_score_exchange",
+      passiveIds: Object.freeze([
+        "fundamentalism_round_start_income",
+        "fundamentalism_disable_play_card_action",
+        "fundamentalism_double_discard_corner",
+        "fundamentalism_income_task_completion",
+      ]),
+    }),
   });
 
   function normalizeIndustryLabel(cardOrLabel) {

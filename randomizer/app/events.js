@@ -86,6 +86,7 @@
       handleDiscardIncomeCardChoice,
       confirmDiscardAnyForIncome,
       handlePayCreditChoice,
+      handleFundamentalismExchangeChoice,
       handleDiscardCornerRepeatChoice,
       handleRemoveOrbitToProbeChoice,
       handleReturnUnfinishedTaskChoice,
@@ -456,6 +457,12 @@
       const payCreditChoice = event.target.closest("[data-pay-credit-choice]");
       if (payCreditChoice && !payCreditChoice.disabled) {
         handlePayCreditChoice(payCreditChoice.dataset.payCreditChoice);
+        return;
+      }
+
+      const fundamentalismExchange = event.target.closest("[data-fundamentalism-exchange]");
+      if (fundamentalismExchange && !fundamentalismExchange.disabled) {
+        handleFundamentalismExchangeChoice(fundamentalismExchange.dataset.fundamentalismExchange);
         return;
       }
 

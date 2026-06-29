@@ -20,7 +20,7 @@
 
 ### 1. 初始选择（Setup）
 
-- 每位启用玩家：从开始界面“公司”勾选池中随机获得公司 2 选 1（默认 11 张全选，至少 2 张；池较小时不同玩家之间可重复）、初始牌 3 选 2。
+- 每位启用玩家：从开始界面“公司”勾选池中随机获得公司 2 选 1（默认 12 张全选，至少 2 张；池较小时不同玩家之间可重复）、初始牌 3 选 2。
 - 结果写入 `player.initialSelection`（`industry` + `removedInitialCards`）。
 - 全部确认后 `initial-cards.js` → `resolveInitialSelections` 结算公司/初始牌即时效果。
 - 若公司有「收入增加」次数，进入 **初始收入增加** 效果队列（`actionType: initialIncome`）。
@@ -42,11 +42,12 @@
 | `industrySentinelArmedRound` / `industrySentinelArmedTurn` | 哨兵：当前回合已武装「打牌后弃牌角标」；必须与当前 Round/Turn 同时匹配 |
 | `industryHuanyuFreeMoveRound` / `industryHuanyuFreeMoveTurn` / `industryHuanyuFreeMovesLeft` / `industryHuanyuMovedRocketIds` | 旧寰宇免费移动运行时字段；当前主动效果改走快速行动效果队列，不再依赖这些字段 |
 | `industryHuanyuSuperdriveRoundStartRound` / `industryCheatLabRoundStartRound` | AI 专用回合开始奖励的已结算轮号；防止同一轮因重渲染或初始选择/换轮钩子重复发放 |
+| `industryFundamentalismRoundStartIncomeRound` | 原教旨主义：第 2/3/4 轮玩家开始行动时收入效果的已结算轮号；防止同一轮重复触发 |
 | `industryPlayedCardThisRound` / `industryLastPlayedCardThisRound` / `industryPlayedCardRound` / `industryPlayedCardTurn` | 当前回合已打牌及牌快照（字段名沿用 ThisRound；回合结束清理，仅供哨兵补注入队） |
 | `industryAlienLabPanels` / `industryAlienLabInitialized` | 异星实验室/作弊实验室三色板块正反面；蓝=发射、黄=扫描、粉=科技；作弊实验室按永久正面处理 |
 | `industryFutureSpan` / `industryFutureSpanInitialized` | 未来跨度专属标记状态：扣下的牌、目标分、是否正在打出 |
 
-普通 1x 的确定性流程从放置标记到能力结算记录到 `quickActionHistory`；撤销时恢复 1x 前玩家快照，并调用 `cancelIndustryAbilityFlow` 清掉进行中的选择、移动或借用状态。层云核心使用快速行动来源的效果队列，放置标记的恢复命令记录在第一个效果步骤中；撤销后续效果只回退对应奖励，撤销第一个效果会同时回退本次公司标记并关闭层云核心效果流。进行中的公司选择/移动/借用流程若被取消，会回滚当前公司 quick step，避免 token 留在牌上但能力未结算。涉及公共牌精选并补牌/盲抽的新信息流程仍在确认后写入不可撤销屏障；芬威克若精选到移动角标，取消后续免费移动只放弃移动并提交该不可撤销快速行动。
+普通 1x 的确定性流程从放置标记到能力结算记录到 `quickActionHistory`；撤销时恢复 1x 前玩家快照，并调用 `cancelIndustryAbilityFlow` 清掉进行中的选择、移动或借用状态。层云核心、寰宇动力和原教旨主义使用快速行动来源的效果队列，放置标记的恢复命令记录在第一个效果步骤中；撤销后续效果只回退对应奖励，撤销第一个效果会同时回退本次公司标记并关闭该效果流。进行中的公司选择/移动/借用流程若被取消，会回滚当前公司 quick step，避免 token 留在牌上但能力未结算。涉及公共牌精选并补牌/盲抽的新信息流程仍在确认后写入不可撤销屏障；芬威克若精选到移动角标，取消后续免费移动只放弃移动并提交该不可撤销快速行动。
 
 ## 主动能力（1x）建模
 
@@ -65,6 +66,7 @@
 | 深空探测 | `deepspace_swap_cards` | `deepspace_swap` | 选手牌 1 张再选公共牌 1 张交换 |
 | 宇宙战略集团 | `strategy_pick_card` | `strategy_pick` | 精选 1 张公共牌（无额外资源）；确认精选后清除 3 个被动奖励槽 token |
 | 未来跨度研究所 | `future_span_pick_advance` | `future_span_pick` | 若专属标记已有未达成目标牌：精选 1 张公共牌，并将目标分提高 3 |
+| 原教旨主义 | `fundamentalism_score_exchange` | `fundamentalism_score_exchange` | 启动 3 个 `industry_fundamentalism_exchange` 节点；每个节点可跳过、可撤销，可在 3 分与 1 信用/1 能量/1 精选之间兑换，或用 1 信用/1 能量/弃 1 手牌换 3 分 |
 | 异星实验室 | — | — | **无 1x 圆标**（`EXCLUDED_INDUSTRY_LABELS`） |
 | 作弊实验室 | — | — | AI 专用；复用异星实验室牌图，开局比异星实验室多 2 张盲抽和 1 次收入增加，**无 1x 圆标**，三色板块永久正面；每轮开始额外获得 1 能量和 1 盲抽 |
 
@@ -81,6 +83,7 @@
 - `applyCornerReward(players, data, player, reward)`：结算资源/数据；移动类返回 `pendingFreeMove`
 - `applyIncomeResourcesFromCard`：任务中继站精选后的收入角标奖励（资源、数据与 `handSize` 盲抽）
 - `buildStratusPublicCornerEffectNodes`：生成层云核心快速行动队列节点 `type: "industry_stratus_corner"`
+- `buildFundamentalismScoreExchangeEffectNodes`：生成原教旨主义 3 个快速行动兑换节点 `type: "industry_fundamentalism_exchange"`
 - `buildSentinelPlayCornerEffectNodes`：生成打牌队列节点 `type: "industry_sentinel_corner"`
 
 ### 哨兵特殊流程
@@ -107,6 +110,10 @@
 | `deepspace_free_analyze` | 深空探测 | 分析数据不耗能量 | `abilities/data.js` |
 | `strategy_passive_reward_slots` | 宇宙战略集团 | 打牌后按扫描角标在打牌流程的动态后续效果全部结束后追加奖励槽节点；确认节点才放 token 并领奖，跳过不占槽；黑色角标多空槽时由玩家选择；已占槽位只能等 1x 快速行动确认精选后清理 | `applyIndustryPlayCardPassives` / `industry_strategy_passive_reward` |
 | `future_span_parking` | 未来跨度研究所 | 专属标记扣牌、目标分、达标后免费打出 | `app.js` 公司牌叠层与打牌流程 |
+| `fundamentalism_round_start_income` | 原教旨主义 | 第 2/3/4 轮该玩家开始行动时获得 1 个收入效果（弃 1 张手牌按收入角标增加收入并立即结算） | `maybeStartFundamentalismRoundStartIncomeFlow` / `industry_fundamentalism_income` |
+| `fundamentalism_disable_play_card_action` | 原教旨主义 | 不能使用标准“打牌”主要行动；九折等外星机制自己的打牌入口不受影响 | `beginPlayCardSelection` / `updateActionButtons` |
+| `fundamentalism_double_discard_corner` | 原教旨主义 | 手牌左上角弃牌快速行动的资源/数据/移动奖励翻倍；移动翻倍合并为单个移动力池结算 | `getCardCornerQuickActionForCard` / `confirmCardCornerQuickAction` |
+| `fundamentalism_income_task_completion` | 原教旨主义 | 作为收入选择的 1/2 型任务牌视为完成任务，`completedTaskCount +1`，可参与 final_c | `applyIncomeFromCard` |
 | `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；正面板块可点击并等同触发对应主要行动；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
 | `cheat_lab_permanent_panels` | 作弊实验室 | AI 专用异星实验室强化：蓝/黄/粉三色板块永久按正面计费和渲染，执行发射/扫描/研究科技后不翻背 | `passives.js` / `render.js` / `app.js` / `ai-controller.js` |
 | `cheat_lab_round_start` | 作弊实验室 | 每轮开始获得 1 能量和 1 盲抽；包括第一轮初始选择结算后。开局公司即时效果另有 3 张盲抽和 4 次收入增加 | `applyIndustryRoundStartBonuses` |
@@ -126,6 +133,7 @@
 | `deepspace_swap` | 手牌选择 → 公共牌选择交换 |
 | `future_span_pick` | 公共牌精选 → 目标分 +3 |
 | `strategy_pick` | 公共牌精选 |
+| `fundamentalism_score_exchange` | 快速行动效果队列：3 个分数/资源兑换节点；精选分支确认补牌后该节点不可撤销 |
 
 交互聚焦（`data-interaction-focus`）：仅在**进行中**的精选/手牌/科技/移动流程时暗化其它区域；公司 1x 可放置时**不**自动全屏聚焦，仅用牌面高亮。
 
@@ -137,6 +145,7 @@
 | 层云核心 | 是 | 不弃牌；角标奖励按效果步骤撤销，第一个效果步骤同时包含公司标记回退 |
 | 图灵借用 | 是 | 恢复借用前玩家快照，撤销后 1x 标记也回到可用 |
 | 寰宇移动 | 是 | 2 个快速行动效果队列节点逐个撤销；1x 标记通过队列预置撤销命令同事务恢复 |
+| 原教旨主义兑换 | 是/部分否 | 3 个快速行动效果队列节点逐个处理；纯资源/弃牌换分可撤销，3 分换精选在公共牌补牌后该节点不可撤销 |
 | 赫利昂 | 是 | 失效科技、确认科技时清槽和收入随 1x 前快照恢复 |
 | 深空交换 | 是 | 交换手牌与公共牌快照随 1x 前快照恢复 |
 | 哨兵打牌角标 | 是 | 主行动效果队列内 `industry_sentinel_corner` |
