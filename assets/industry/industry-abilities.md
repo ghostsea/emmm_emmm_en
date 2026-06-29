@@ -66,7 +66,7 @@
 | 宇宙战略集团 | `strategy_pick_card` | `strategy_pick` | 精选 1 张公共牌（无额外资源）；确认精选后清除 3 个被动奖励槽 token |
 | 未来跨度研究所 | `future_span_pick_advance` | `future_span_pick` | 若专属标记已有未达成目标牌：精选 1 张公共牌，并将目标分提高 3 |
 | 异星实验室 | — | — | **无 1x 圆标**（`EXCLUDED_INDUSTRY_LABELS`） |
-| 作弊实验室 | — | — | AI 专用；复用异星实验室牌图与初始收益，**无 1x 圆标**，三色板块永久正面；每轮开始额外获得 1 能量和 1 盲抽 |
+| 作弊实验室 | — | — | AI 专用；复用异星实验室牌图，开局比异星实验室多 2 张盲抽和 1 次收入增加，**无 1x 圆标**，三色板块永久正面；每轮开始额外获得 1 能量和 1 盲抽 |
 
 ### 未来跨度研究所
 
@@ -109,7 +109,7 @@
 | `future_span_parking` | 未来跨度研究所 | 专属标记扣牌、目标分、达标后免费打出 | `app.js` 公司牌叠层与打牌流程 |
 | `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；正面板块可点击并等同触发对应主要行动；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
 | `cheat_lab_permanent_panels` | 作弊实验室 | AI 专用异星实验室强化：蓝/黄/粉三色板块永久按正面计费和渲染，执行发射/扫描/研究科技后不翻背 | `passives.js` / `render.js` / `app.js` / `ai-controller.js` |
-| `cheat_lab_round_start` | 作弊实验室 | 每轮开始获得 1 能量和 1 盲抽；包括第一轮初始选择结算后 | `applyIndustryRoundStartBonuses` |
+| `cheat_lab_round_start` | 作弊实验室 | 每轮开始获得 1 能量和 1 盲抽；包括第一轮初始选择结算后。开局公司即时效果另有 3 张盲抽和 4 次收入增加 | `applyIndustryRoundStartBonuses` |
 
 图灵借用：只能选择供应区橙色或紫色科技。科技效果查询在拥有板块之外，带行动上下文时要求 `industryBorrowedTechTileId === tileId` 且借用的 Round/Turn 都等于当前行动上下文；无显式上下文的同回合长链路会按玩家身上未清空的借用态生效，直到回合结束清空。橙色科技经 `players.playerOwnsTech` 生效，紫色扫描科技经 `scan-effects.js` 的扫描队列构建生效。UI 会在公司牌下方复制显示对应科技图标用于提示，不从供应区拿走科技片，也不获得 bonus；回合结束会清空当前玩家借用状态并移除显示图标，新轮开始也会清空所有轮内借用状态。
 
