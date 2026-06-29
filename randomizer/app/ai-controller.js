@@ -2900,6 +2900,81 @@
       };
     }
 
+    function buildAiChongTransportMoveCandidate(input = {}) {
+      const rocket = input.rocket || null;
+      if (!isAiChongFossilToken(rocket)) return null;
+      const player = input.player || getCurrentPlayer();
+      const direction = input.direction || null;
+      const from = input.from || null;
+      const to = input.to || null;
+      if (!player || !direction || !from || !to) return null;
+      if (input.nextEffect && isAiLandingEffect(input.nextEffect)) return null;
+
+      const task = getAiChongTransportTaskForRocket(rocket);
+      if (!task?.destinationPlanetId) return null;
+      const destination = getAiPlanetCoordinateById(task.destinationPlanetId);
+      if (!destination) return null;
+
+      const oldDistance = getAiSectorDistance(from, destination);
+      const newDistance = getAiSectorDistance(to, destination);
+      if (!Number.isFinite(Number(oldDistance)) || !Number.isFinite(Number(newDistance))) return null;
+      if (newDistance >= oldDistance) return null;
+
+      const deliveryValue = scoreAiChongTransportCompletionValue(task, player, {
+        fossilId: task.fossilId,
+      });
+      const distanceGain = oldDistance - newDistance;
+      const routeGain = distanceGain * (task.destinationPlanetId === "earth" ? 13 : 10);
+      const arrivalGain = newDistance === 0 ? deliveryValue : deliveryValue * 0.24 / (newDistance + 1);
+      const movementGain = routeGain + arrivalGain + (newDistance === 0 ? 7 : 0);
+      const paymentCost = Math.max(0, aiNumber(input.paymentCost));
+      const indexPenalty = Math.max(0, aiNumber(input.index)) * 0.1;
+      const movementCost = paymentCost + indexPenalty;
+      const score = movementGain - movementCost;
+      if (score < (input.free ? -0.5 : 1.5)) return null;
+
+      return {
+        id: input.id || "move",
+        kind: input.kind || "quick",
+        available: true,
+        rocketId: rocket.id,
+        rocketLabel: formatRocketLabel(rocket),
+        direction: direction.id,
+        directionLabel: direction.label,
+        deltaX: direction.deltaX,
+        deltaY: direction.deltaY,
+        from,
+        to,
+        requiredMovePoints: input.requiredMovePoints,
+        terrainRequired: input.terrainRequired,
+        paymentRequired: input.paymentRequired,
+        routeTarget: {
+          id: `chong-transport:${rocket.id}:${task.destinationPlanetId}`,
+          label: `运送虫族化石到${task.destinationPlanetId}`,
+          kind: "planet",
+          chongTransport: true,
+          coordinate: destination,
+          oldDistance,
+          newDistance,
+          value: deliveryValue,
+        },
+        routeScore: movementGain,
+        gain: movementGain,
+        cost: movementCost,
+        score,
+        valueBreakdown: {
+          movementGain,
+          paymentCost,
+          movementCost,
+          oldDistance,
+          newDistance,
+          distanceGain,
+          deliveryValue,
+          chongTransportOnly: true,
+        },
+      };
+    }
+
     function scoreAiChongTraceTaskProgressValue(task = {}, player = getCurrentPlayer()) {
       if (!task || !player || !task.traceType) return 0;
       const required = Math.max(1, Math.round(aiNumber(task.count || 1)));
@@ -5863,6 +5938,61 @@
       return status.opponent > 0 && status.own <= 0;
     }
 
+    function getAiAlienSlot(alienSlotId) {
+      if (alienSlotId == null) return null;
+      return aliens?.getAlienSlot?.(alienGameState, alienSlotId)
+        || alienGameState?.aliens?.[String(alienSlotId)]
+        || alienGameState?.aliens?.[Number(alienSlotId)]
+        || null;
+    }
+
+    function getAiAlienCardConversionMultiplier(player = getCurrentPlayer()) {
+      const round = getAiRoundNumber();
+      const handCount = Math.max(
+        0,
+        aiNumber(player?.hand?.length ?? player?.resources?.handSize),
+      );
+      let multiplier = round <= 2 ? 1.18 : round === 3 ? 0.82 : 0.36;
+      if (round >= FINAL_ROUND_NUMBER && handCount > 4) {
+        multiplier -= Math.min(0.1, (handCount - 4) * 0.025);
+      }
+      return Math.max(0.26, Math.min(1.25, multiplier));
+    }
+
+    function getAiAlienCardExpectedValue(player = getCurrentPlayer(), options = {}) {
+      const baseValue = 5.5 * getAiAlienCardConversionMultiplier(player);
+      if (options.hiddenFirstTrace && getAiRoundNumber() <= 2) return baseValue + 1.2;
+      if (options.hiddenFirstTrace && getAiRoundNumber() === 3) return baseValue + 0.4;
+      return baseValue;
+    }
+
+    function scoreAiLateAlienCardConversionPenalty(player = getCurrentPlayer()) {
+      const multiplier = getAiAlienCardConversionMultiplier(player);
+      return Math.max(0, (1 - multiplier) * 12);
+    }
+
+    function scoreAiHiddenAlienRevealTimingPremium(alienSlotId, placedCount, player = getCurrentPlayer()) {
+      const slot = getAiAlienSlot(alienSlotId);
+      if (!slot || slot.revealed) return 0;
+      const slotId = Math.round(aiNumber(alienSlotId));
+      const round = getAiRoundNumber();
+      const placed = Math.max(0, Math.min(3, Math.round(aiNumber(placedCount))));
+      let value = 0;
+
+      if (slotId === 2) {
+        if (round <= 2) value += 3 + placed * 2.2 + (placed >= 2 ? 3.5 : 0);
+        else if (round === 3) value += 1.5 + placed * 1.6 + (placed >= 2 ? 4.5 : 0);
+        else value += placed >= 2 ? 2 : -2.5;
+
+        const firstAlienRevealed = Boolean(getAiAlienSlot(1)?.revealed);
+        if (firstAlienRevealed && round <= 3) value += 2.2;
+      }
+
+      if (placed >= 2 && round <= 3) value += 1.6;
+      if (round >= FINAL_ROUND_NUMBER && placed <= 1) value -= 2;
+      return roundAiScore(value);
+    }
+
     function scoreAiAlienTraceValue(options = {}) {
       const picker = state.alienTracePickerState || {};
       const traceType = options.traceType || picker.selectedTraceType || picker.allowedTraceTypes?.[0];
@@ -5878,11 +6008,15 @@
           position: options.position,
           label: options.label,
           reward: options.reward,
+          alienCardExpectedValue: getAiAlienCardExpectedValue(player, {
+            hiddenFirstTrace: true,
+            alienSlotId,
+          }),
           activeOpponentCount: getAiActiveOpponentCount(player),
           competition: true,
         })
         : 5;
-      const slot = aliens?.getAlienSlot?.(alienGameState, alienSlotId);
+      const slot = getAiAlienSlot(alienSlotId);
       const traceSlot = traceType && slot?.traces ? slot.traces[traceType] : null;
       if (slot && !slot.revealed && traceType && !traceSlot?.firstPlaced) {
         if (isAiHiddenFirstTraceColorLost(traceType, player)) {
@@ -5895,6 +6029,7 @@
         let earlyTracePremium = round <= 2 ? 6 : round === 3 ? 3 : 0;
         if (placedCount >= 2) earlyTracePremium += 5;
         else if (placedCount === 1) earlyTracePremium += 2.5;
+        earlyTracePremium += scoreAiHiddenAlienRevealTimingPremium(alienSlotId, placedCount, player);
         return value + earlyTracePremium;
       }
       if (isAiHiddenFirstTraceTakenByOpponent(alienSlotId, traceType, player)) {
@@ -11515,6 +11650,21 @@
           ),
         }
         : null;
+      if (isAiChongFossilToken(rocket)) {
+        const movePayment = estimateAiMovePayment(currentPlayer, requiredMovePoints);
+        return buildAiChongTransportMoveCandidate({
+          id: "move",
+          kind: "quick",
+          rocket,
+          direction,
+          index,
+          player: currentPlayer,
+          from,
+          to,
+          requiredMovePoints,
+          paymentCost: movePayment.cost,
+        });
+      }
       const routeScore = scoreAiMoveTowardTargets(from, to, currentPlayer, { rocket });
       const preserveEnergyForRouteCashout = shouldAiPreserveEnergyForRouteCashout(currentPlayer, to, {
         routeTarget: routeScore.target,
@@ -12583,6 +12733,27 @@
       ) {
         return null;
       }
+      const paymentCost = paymentRequired > 0
+        ? scoreAiMovePaymentCost(currentPlayer, paymentRequired)
+        : 0;
+      if (isAiChongFossilToken(rocket)) {
+        return buildAiChongTransportMoveCandidate({
+          id: options.id || "effectMove",
+          kind: "effect",
+          rocket,
+          direction,
+          index,
+          player: currentPlayer,
+          from,
+          to,
+          terrainRequired,
+          paymentRequired,
+          paymentCost,
+          free: options.free,
+          effect,
+          nextEffect,
+        });
+      }
       const landingScore = landingRequiredThisStep
         ? scoreAiLandingAfterMove(to, nextEffect, currentPlayer)
         : { ok: true, score: 0, planet: null };
@@ -12605,9 +12776,6 @@
         + direction.score * 0.08
         + scoreAiMoveArrivalRewardValue(to, currentPlayer, { free: paymentRequired <= 0 }) * 0.85
         + applyAiStrategyWeight(landingScore.score, "orbitLand", 0.6);
-      const paymentCost = paymentRequired > 0
-        ? scoreAiMovePaymentCost(currentPlayer, paymentRequired)
-        : 0;
       const nearestActionablePlanetPenalty = scoreAiNearestActionablePlanetTimingPenalty({
         player: currentPlayer,
         effect,
@@ -13461,11 +13629,15 @@
       if (label.includes("首标记 1/3")) score += 4;
       if (label.includes("未揭示")) score += 3;
       if (label.includes("得分") || label.includes("分数")) score += 3;
-      if (label.includes("精选") || label.includes("牌")) score += 4.5;
+      if (label.includes("精选")) score += 4.5;
+      if (label.includes("牌")) score += 4.5 * getAiAlienCardConversionMultiplier(player);
       if (label.includes("信用")) score += 2;
       if (label.includes("数据") || label.includes("扫描")) score += 1.5;
       if (label.includes("解锁")) score += 8;
-      if (reward?.pickAlienCard) score += 4;
+      if (reward?.pickAlienCard) {
+        score += 4 * getAiAlienCardConversionMultiplier(player);
+        score -= scoreAiLateAlienCardConversionPenalty(player);
+      }
       if (reward?.drawCards) score += Math.max(0, aiNumber(reward.drawCards)) * 1.8;
       if (reward?.blindDraw) score += Math.max(0, aiNumber(reward.blindDraw)) * 1.4;
       if (isFangzhouUnlockChoice) score += scoreAiFangzhouUnlockChoiceValue(player, traceType);

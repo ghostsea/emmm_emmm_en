@@ -519,6 +519,23 @@ const lowerRewardTraceValue = valuation.estimateAlienTraceValue({
   reward: { gain: { score: 3 }, pickAlienCard: true },
 });
 assert.ok(highRewardTraceValue > lowerRewardTraceValue);
+const earlyAlienCardTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "banrenma-grid",
+  traceType: "pink",
+  position: 4,
+  reward: { gain: { score: 3 }, pickAlienCard: true },
+  alienCardExpectedValue: 5.5,
+});
+const lateAlienCardTraceValue = valuation.estimateAlienTraceValue({
+  revealed: true,
+  mode: "banrenma-grid",
+  traceType: "pink",
+  position: 4,
+  reward: { gain: { score: 3 }, pickAlienCard: true },
+  alienCardExpectedValue: 1.5,
+});
+assert.ok(earlyAlienCardTraceValue > lateAlienCardTraceValue + 3);
 const revealedPosition1Value = valuation.estimateAlienTraceValue({
   revealed: true,
   mode: "aomomo-grid",

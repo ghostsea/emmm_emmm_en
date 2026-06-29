@@ -414,7 +414,10 @@
     const mode = String(input.mode || "");
     const position = Math.max(0, Math.round(numeric(input.position)));
     const label = String(input.label || "");
-    const rewardValue = estimateRewardValue(input.reward);
+    let rewardValue = estimateRewardValue(input.reward);
+    if (input.reward?.pickAlienCard && Number.isFinite(Number(input.alienCardExpectedValue))) {
+      rewardValue += numeric(input.alienCardExpectedValue) - DEFAULT_ALIEN_CARD_VALUE;
+    }
     let value = 3;
     if (rewardValue > 0 || input.reward) value += rewardValue;
     value += getRevealedTracePositionValue(position);

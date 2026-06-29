@@ -2,10 +2,12 @@
 
 const assert = require("node:assert/strict");
 const { createAiController } = require("./ai-controller");
+const banrenma = require("../game/aliens/banrenma");
 const chong = require("../game/aliens/chong");
 const fangzhou = require("../game/aliens/fangzhou");
 const runezu = require("../game/aliens/runezu");
 const yichangdian = require("../game/aliens/yichangdian");
+const alienCore = require("../game/aliens");
 
 function datasetKeyForSelector(selector) {
   const match = String(selector || "").match(/\[data-([a-z0-9-]+)\]/i);
@@ -71,8 +73,8 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     activePlayerIds: allPlayers.map((player) => player.id),
     turnOrderPlayerIds: allPlayers.map((player) => player.id),
     activePlayerCount: allPlayers.length,
-    roundNumber: 1,
-    turnNumber: 1,
+    roundNumber: options.roundNumber || 1,
+    turnNumber: options.turnNumber || 1,
     startPlayerId: white.id,
   };
   let pendingJiuzheCardPlay = pendingPlayerColor
@@ -133,8 +135,19 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       collectVisibleCoordinateReport: () => [],
     },
     rocketActions: {
+      ROCKET_KIND: { STANDARD: "standard", CHONG_FOSSIL: "chong-fossil" },
       getRocketsForPlayer: () => [],
       getRocketSectorCoordinate: (rocket) => rocket?.sector || null,
+      canMoveRocket: (_rocketState, rocketId, deltaX, deltaY) => {
+        const rocket = (options.movableTokens || []).find((item) => Number(item.id) === Number(rocketId));
+        if (!rocket) return { ok: false, message: "rocket not found" };
+        const sector = rocket.sector || null;
+        if (!sector) return { ok: false, message: "rocket has no sector" };
+        const y = sector.y + Number(deltaY || 0);
+        if (y < 1 || y > 4) return { ok: false, message: "out of bounds" };
+        if (!Number(deltaX || 0) && !Number(deltaY || 0)) return { ok: false, message: "no movement" };
+        return { ok: true, rocket, message: null };
+      },
       SECTOR_RING_MIN: 1,
       SECTOR_RING_MAX: 4,
     },
@@ -148,7 +161,16 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         INCOME: "income",
       },
     },
-    aliens: { ALIEN_SLOT_IDS: [1] },
+    aliens: {
+      ALIEN_SLOT_IDS: options.alienSlotIds || [1],
+      TRACE_TYPES: alienCore.TRACE_TYPES,
+      getAlienSlot: (stateToRead, alienSlotId) => (
+        stateToRead?.aliens?.[String(alienSlotId)]
+        || stateToRead?.aliens?.[Number(alienSlotId)]
+        || null
+      ),
+    },
+    banrenma,
     chong,
     fangzhou,
     runezu,
@@ -169,11 +191,19 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
             .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0]
           || null
         ),
-        chooseTurnAction: (candidates) => (
-          candidates.find((candidate) => candidate.id === "runezuFaceSymbol")
-          || candidates.find((candidate) => candidate.available !== false)
-          || null
-        ),
+        chooseTurnAction: (candidates) => {
+          const selected = options.chooseTurnAction
+            ? options.chooseTurnAction(candidates)
+            : (
+              candidates.find((candidate) => candidate.id === "runezuFaceSymbol")
+              || candidates.find((candidate) => candidate.available !== false)
+              || null
+            );
+          if (typeof options.onChooseTurnAction === "function") {
+            options.onChooseTurnAction(candidates, selected);
+          }
+          return selected;
+        },
       },
     },
     cardEffects: {
@@ -218,6 +248,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       },
       dataPlaceOverlay: { hidden: !options.dataPlacePending },
       dataPlaceActions: makeActionList(options.dataPlaceButtons || []),
+      alienTraceActions: makeActionList(options.alienPickerButtons || []),
       alienJiuzheTraceLayers: [makeActionList(options.alienTraceButtons || [])],
       alienTraceLayers: [makeActionList(options.alienStateTraceButtons || [])],
     },
@@ -243,7 +274,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     getCardTypeCode: () => 1,
     getCurrentActionEffect: () => options.currentActionEffect || null,
     getCurrentPlayer: () => currentPlayer,
-    getEarthSectorCoordinate: () => ({ x: 1, y: 1 }),
+    getEarthSectorCoordinate: () => options.earthCoordinate || { x: 1, y: 1 },
     getEffectOwnerPlayer: (effect) => {
       if (effect?.playerId) return allPlayers.find((player) => player.id === effect.playerId) || null;
       if (effect?.playerColor) return allPlayers.find((player) => player.color === effect.playerColor) || null;
@@ -481,6 +512,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       return { ok: true, progressed: true };
     };
   }
+  if (options.canPayForMove) {
+    context.canPayForMove = () => ({ ok: true });
+  }
 
   const emptyArrayNames = [
     "buildSectorScanChoicesForX",
@@ -493,6 +527,19 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     "getSectorXsMatchingCondition",
   ];
   for (const name of emptyArrayNames) context[name] = () => [];
+  context.getMovableTokensForPlayer = (playerId) => (options.movableTokens || [])
+    .filter((token) => !playerId || token.playerId === playerId);
+  if (options.recordMove) {
+    context.moveRocket = (deltaX, deltaY, rocketId) => {
+      noteHandled({
+        type: "move",
+        deltaX: Number(deltaX),
+        deltaY: Number(deltaY),
+        rocketId: Number(rocketId),
+      });
+      return { ok: true, progressed: true };
+    };
+  }
 
   return {
     white,
@@ -501,6 +548,20 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     getHandled: () => handled,
     getHandledEvents: () => handledEvents.slice(),
   };
+}
+
+function makeHiddenAlienSlot(traceOwners = {}) {
+  const traces = {};
+  for (const traceType of ["yellow", "pink", "blue"]) {
+    const owner = traceOwners[traceType] || null;
+    traces[traceType] = {
+      firstPlaced: Boolean(owner),
+      ownerPlayerId: owner?.id || null,
+      ownerPlayerColor: owner?.color || owner || null,
+      extraCount: 0,
+    };
+  }
+  return { revealed: false, traces };
 }
 
 {
@@ -900,6 +961,164 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI should resolve Yichangdian trace picker");
   assert.deepEqual(selected, ["blue-1"], "AI should claim the soon energy anomaly color over the old fixed yellow-2 preference");
+}
+
+{
+  const selected = [];
+  const alienGameState = {
+    aliens: {
+      1: makeHiddenAlienSlot({ blue: "blue" }),
+      2: makeHiddenAlienSlot({ yellow: "green", pink: "white" }),
+    },
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    alienSlotIds: [1, 2],
+    alienGameState,
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: { mode: "basic", allowedTraceTypes: ["blue"] },
+    alienPickerButtons: [
+      makeButton(
+        { alienPickerStep: "basic", alienSlot: "1", traceType: "blue" },
+        "外星人 1 蓝色痕迹 额外 +1",
+        false,
+        () => selected.push("slot-1-blue"),
+      ),
+      makeButton(
+        { alienPickerStep: "basic", alienSlot: "2", traceType: "blue" },
+        "外星人 2 放置蓝色痕迹，首标记 2/3",
+        false,
+        () => selected.push("slot-2-blue"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve hidden alien trace picker");
+  assert.deepEqual(selected, ["slot-2-blue"], "AI should complete alien 2 reveal setup before farming old hidden extra traces");
+}
+
+{
+  const selected = [];
+  const alienGameState = {
+    aliens: {
+      1: { revealed: true, alienId: banrenma.ALIEN_ID, assignedAlienId: banrenma.ALIEN_ID },
+    },
+    banrenma: banrenma.createBanrenmaState(),
+  };
+  banrenma.ensureTraceGrid(alienGameState, 1);
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    alienGameState,
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: {
+      mode: "banrenma-grid",
+      selectedAlienSlotId: 1,
+      allowedTraceTypes: ["blue"],
+    },
+    alienTraceButtons: [
+      makeButton(
+        { alienSlot: "1", banrenmaTraceType: "blue", banrenmaTraceSlot: "4", banrenmaPosition: "4" },
+        "半人马蓝色痕迹 4号位：3分，外星人牌",
+        false,
+        () => selected.push("alien-card"),
+      ),
+      makeButton(
+        { alienSlot: "1", banrenmaTraceType: "blue", banrenmaTraceSlot: "3", banrenmaPosition: "3" },
+        "半人马蓝色痕迹 3号位：5分",
+        false,
+        () => selected.push("score-5"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve late Banrenma trace picker");
+  assert.deepEqual(selected, ["score-5"], "AI should discount late alien-card rewards when direct score is available");
+}
+
+{
+  const turnChoices = [];
+  const chongState = chong.createChongState();
+  chongState.fossilsById.fossil_02 = {
+    fossilId: "fossil_02",
+    status: "transported",
+    location: "transported",
+    destinationPlanetId: "earth",
+    fossilRewardRepeat: 1,
+    taskGain: {},
+    taskDataCount: 0,
+    taskPickCard: false,
+  };
+  chongState.transportTasksByRocketId["77"] = {
+    fossilId: "fossil_02",
+    destinationPlanetId: "earth",
+    cardId: "chong-test",
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    pendingActionExecuted: true,
+    recordMove: true,
+    canPayForMove: true,
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    earthCoordinate: { x: 1, y: 1 },
+    alienGameState: {
+      aliens: {
+        1: { revealed: true, alienId: chong.ALIEN_ID, assignedAlienId: chong.ALIEN_ID },
+      },
+      chong: chongState,
+    },
+    movableTokens: [
+      {
+        id: 77,
+        kind: "chong-fossil",
+        playerId: "player-blue",
+        color: "blue",
+        sector: { x: 1, y: 3 },
+        sectorX: 1,
+        sectorY: 3,
+      },
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should choose a Chong fossil transport move");
+  assert.ok(
+    turnChoices.some((candidates) => candidates.some((candidate) => candidate.id === "move")),
+    "AI should enumerate a legal Chong fossil move candidate",
+  );
+  assert.deepEqual(
+    harness.getHandled(),
+    { type: "move", deltaX: 0, deltaY: -1, rocketId: 77 },
+    "AI should move transported Chong fossils only closer to Earth",
+  );
 }
 
 {
