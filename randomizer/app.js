@@ -30733,13 +30733,21 @@
   }
 
   function analyzeDataForCurrentPlayer() {
-    return runAction("analyze");
+    return runAction("analyze", getAnalyzeActionOptionsForPlayer());
   }
 
   function canAnalyzeDataForPlayer(player = getCurrentPlayer()) {
     return data.canAnalyzeData(player, {
       skipEnergyCost: Boolean(industry.canAnalyzeWithoutEnergy?.(player)),
     });
+  }
+
+  function getAnalyzeActionOptionsForPlayer(player = getCurrentPlayer(), actionOptions = {}) {
+    const options = { ...(actionOptions || {}) };
+    if (industry.canAnalyzeWithoutEnergy?.(player)) {
+      options.skipCost = true;
+    }
+    return options;
   }
 
   function startAnalyzeDataRewardFlow() {
@@ -30828,12 +30836,15 @@
       analyze: "analyzeData",
     };
     const abilityId = abilityByAction[actionId];
+    const resolvedActionOptions = actionId === "analyze"
+      ? getAnalyzeActionOptionsForPlayer(getCurrentPlayer(), actionOptions)
+      : actionOptions;
     const actionLogBefore = createActionLogImpactSnapshot();
     const result = abilityId
-      ? abilities.executeAbility(abilityId, createActionContext(), actionOptions)
+      ? abilities.executeAbility(abilityId, createActionContext(), resolvedActionOptions)
       : actionId === "researchTech"
-        ? abilities.executeAbility("researchTechPrepare", createActionContext(), actionOptions)
-        : actions.execute(actionId, createActionContext(), actionOptions);
+        ? abilities.executeAbility("researchTechPrepare", createActionContext(), resolvedActionOptions)
+        : actions.execute(actionId, createActionContext(), resolvedActionOptions);
 
     let startedRewardFlow = false;
 

@@ -67,6 +67,14 @@
     return null;
   }
 
+  function getIndustryPassives() {
+    if (industryPassives) return industryPassives;
+    if (typeof globalThis !== "undefined" && globalThis.SetiIndustryPassives) {
+      industryPassives = globalThis.SetiIndustryPassives;
+    }
+    return industryPassives;
+  }
+
   function placeData(context, options = {}) {
     const player = players.getCurrentPlayer(context.playerState);
     if (!player) return { ok: false, abilityId: "placeData", message: "没有当前玩家" };
@@ -129,7 +137,7 @@
     const player = players.getCurrentPlayer(context.playerState);
     if (!player) return { ok: false, abilityId: "analyzeData", message: "没有当前玩家" };
 
-    const freeEnergy = Boolean(options.skipCost) || Boolean(industryPassives?.canAnalyzeWithoutEnergy?.(player));
+    const freeEnergy = Boolean(options.skipCost) || Boolean(getIndustryPassives()?.canAnalyzeWithoutEnergy?.(player));
     const check = data.canAnalyzeData(player, { skipEnergyCost: freeEnergy });
     if (!check.ok) return { ok: false, abilityId: "analyzeData", message: check.message };
 
