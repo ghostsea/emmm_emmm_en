@@ -12680,16 +12680,18 @@
     }
 
     const currentPlayer = getCurrentPlayer();
+    const currentEffect = getCurrentActionEffect();
+    const skipCost = Boolean(currentEffect?.options?.skipCost);
     const rocketsForPlayer = getMovableTokensForPlayer(currentPlayer?.id);
     const hasRocket = rocketsForPlayer.length > 0;
-    const canLaunch = players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
+    const canLaunch = skipCost || players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
     const choices = [];
 
     if (canLaunch) {
       choices.push({
         id: "launch",
         label: "发射",
-        description: "消耗 1 能量，在地球扇区发射火箭",
+        description: skipCost ? "免费在地球扇区发射火箭" : "消耗 1 能量，在地球扇区发射火箭",
       });
     } else {
       choices.push({
@@ -12736,7 +12738,9 @@
 
   function launchRocketForScanAction4() {
     const currentPlayer = getCurrentPlayer();
-    if (!players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY })) {
+    const currentEffect = getCurrentActionEffect();
+    const skipCost = Boolean(currentEffect?.options?.skipCost);
+    if (!skipCost && !players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY })) {
       return { ok: false, message: "能量不足，发射需要 1 能量" };
     }
 
@@ -12744,7 +12748,8 @@
 
     const result = abilities.executeAbility("scanAction4", createActionContext(), {
       choice: "launch",
-      cost: { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY },
+      skipCost,
+      cost: skipCost ? {} : { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY },
     });
     if (!result.ok) {
       endEffectHistoryStep();
@@ -12990,7 +12995,7 @@
   }
 
   function executeSectorScanAtPlanet(planetId, prefixLabel, effect = null) {
-    const cost = normalizeResourceCost(effect?.options?.cost) || {};
+    const cost = effect?.options?.skipCost ? {} : (normalizeResourceCost(effect?.options?.cost) || {});
     if (Object.keys(cost).length && !players.canAfford(getCurrentPlayer(), cost)) {
       const message = `${prefixLabel || "扇区扫描"}：资源不足，需要 ${players.formatResourceCost(cost)}，已跳过`;
       return skipActionEffectWithMessage(effect || getCurrentActionEffect(), message, {
@@ -16073,6 +16078,7 @@
     const followups = scanEffects.buildScanEffectQueue(currentPlayer, {
       includeFinalize: true,
       fullScanAction: true,
+      skipCost: Boolean(effect.options?.skipCost),
       scanRunId,
       turnState,
       roundNumber: turnState.roundNumber,
@@ -17880,9 +17886,11 @@
         });
         if (!result.ok) {
           endEffectHistoryStep();
-          rocketState.statusNote = result.message;
-          renderStateReadout();
-          return result;
+          return skipActionEffectWithMessage(
+            effect,
+            `${effect.label || "方舟发射"}：${result.message || "无法发射"}，已跳过`,
+            { reason: result.message || null, abilityId: result.abilityId || "launchProbe" },
+          );
         }
         maybeApplyIndustryLaunchScan(result);
         recordAbilityCommands(result);

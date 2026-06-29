@@ -113,4 +113,12 @@ const card8Move = queue.buildCard1EffectQueue(fangzhou.CARD1_BY_INDEX[8].advance
   .find((node) => node.type === queue.CARD_EFFECT_TYPES.CARD_MOVE);
 assert.equal(card8Move?.options?.movementPoints, 3);
 
+for (const index of [6, 8]) {
+  const launch = queue.buildCard1EffectQueue(fangzhou.CARD1_BY_INDEX[index].advanced, "测试")
+    .find((node) => node.type === queue.CUSTOM_TYPES.LAUNCH);
+  assert.equal(launch?.options?.skipCost, true, `card1 ${index} 高级发射应免成本`);
+  assert.equal(launch?.options?.ignoreRocketLimit, true, `card1 ${index} 高级发射应无视火箭上限`);
+  assert.notEqual(launch?.options?.skippable, false, `card1 ${index} 高级发射不能成为必做卡死节点`);
+}
+
 console.log("fangzhou-card1-queue.test.js: all tests passed");

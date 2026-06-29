@@ -13346,15 +13346,17 @@
     function listAiScanAction4Candidates(currentPlayer = getCurrentPlayer()) {
       if (!currentPlayer) return [];
       const candidates = [];
+      const effect = getCurrentActionEffect?.() || null;
+      const skipCost = Boolean(effect?.options?.skipCost);
       const rocketLimit = abilities.rocket.getRocketLimitForPlayer(currentPlayer, createActionContext());
       const activeRocketCount = rocketActions.getRocketsForPlayer
         ? rocketActions.getRocketsForPlayer(rocketState, currentPlayer.id).length
         : getMovableTokensForPlayer(currentPlayer.id).length;
       const canLaunch = activeRocketCount < rocketLimit
-        && players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
+        && (skipCost || players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY }));
       if (canLaunch) {
         const launchGain = scoreAiLaunchAction(currentPlayer);
-        const launchCost = scoreAiResourceBundle({ energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
+        const launchCost = skipCost ? 0 : scoreAiResourceBundle({ energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY });
         candidates.push({
           id: "launch",
           kind: "effect",
@@ -13367,6 +13369,7 @@
             launchGain,
             launchCost,
             scanAction4: true,
+            skipCost,
           },
         });
       }

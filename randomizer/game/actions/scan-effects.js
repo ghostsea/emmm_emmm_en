@@ -92,7 +92,10 @@
   function buildScanEffectQueue(player, options = {}) {
     const scanRunId = options.scanRunId || null;
     const fullScanAction = Boolean(options.fullScanAction || options.includeFinalize);
-    const sharedOptions = scanRunId ? { scanRunId, fullScanAction } : {};
+    const sharedOptions = {
+      ...(scanRunId ? { scanRunId, fullScanAction } : {}),
+      ...(options.skipCost ? { skipCost: true } : {}),
+    };
     const effects = [];
 
     if (playerOwnsPurpleTech(player, 1, options)) {

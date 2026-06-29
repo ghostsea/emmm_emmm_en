@@ -118,6 +118,7 @@
         type: CUSTOM_TYPES.LAUNCH,
         label: `${labelPrefix}：发射（无视火箭上限）`,
         icon: "launch",
+        options: { skipCost: true, ignoreRocketLimit: true },
       });
     }
 
