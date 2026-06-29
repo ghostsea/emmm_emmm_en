@@ -2,6 +2,8 @@
 
 这个仓库是一个无构建步骤的 SETI 浏览器原型：页面入口是 `randomizer/index.html`，app 装配边界在 `randomizer/app/**`，主 UI 与流程编排在 `randomizer/app.js`，核心游戏逻辑集中在 `randomizer/game/**`。
 
+每次修改，验证好后你需要自动提交代码。提交信息使用中文描述。
+
 ## Agent 工作约定
 
 - 开始修改前，先读相关模块和本文件列出的细节文档；不要只凭记忆改机制。
