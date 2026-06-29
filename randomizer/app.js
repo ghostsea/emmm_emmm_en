@@ -10913,7 +10913,10 @@
     if (!ready) return { ok: false, message: "这张任务卡尚未满足完成条件" };
     if (!els.scanTargetOverlay || !els.scanTargetActions) return { ok: false, message: "无法打开任务确认窗口" };
 
-    pendingCardTaskCompletion = { ready };
+    pendingCardTaskCompletion = {
+      ...getPendingOwnerFields(null, getCurrentPlayer()),
+      ready,
+    };
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = "完成任务";
     if (els.scanTargetSubtitle) {
       els.scanTargetSubtitle.textContent = `${cards.getCardLabel(ready.card)} 已满足条件，确认后结算奖励并移除。`;
@@ -10944,7 +10947,7 @@
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getPendingOwnerPlayer(pending);
     const ready = pending.ready;
     closeCardTaskCompletionPicker();
 
@@ -24213,6 +24216,7 @@
     }
     const branches = effect.options?.branches || [];
     pendingRunezuSymbolBranch = {
+      ...getPendingOwnerFields(effect, getEffectOwnerPlayer(effect)),
       effect,
       branches,
       beforeAlienState: structuredClone(alienGameState),
@@ -24265,7 +24269,7 @@
     }
     const branch = pending.branches[Number(choice)];
     if (!branch) return { ok: false, message: "无效的符文族分支" };
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getPendingOwnerPlayer(pending, effect);
     const messages = [];
     let irreversible = null;
     beginEffectHistoryStep(effect.label);

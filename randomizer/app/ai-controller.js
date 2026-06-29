@@ -948,6 +948,10 @@
       if (state.pendingPassReserveSelection?.playerId) return state.pendingPassReserveSelection.playerId;
       if (state.pendingHandScanAction?.player?.id) return state.pendingHandScanAction.player.id;
       if (state.pendingMovePayment?.player?.id) return state.pendingMovePayment.player.id;
+      if (state.pendingCardTaskCompletion) {
+        const playerId = getPendingPlayerId(state.pendingCardTaskCompletion);
+        if (playerId) return playerId;
+      }
       const sharedPendingEntries = [
         state.pendingScanTargetAction,
         state.pendingProbeSectorScanAction,
@@ -2089,7 +2093,7 @@
 
     function runAiCardTaskCompletionDecision() {
       if (!state.pendingCardTaskCompletion) return null;
-      const currentPlayer = getCurrentPlayer();
+      const currentPlayer = getPendingOwnerPlayer(state.pendingCardTaskCompletion);
       if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
         return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}需要人工确认任务完成` };
       }
