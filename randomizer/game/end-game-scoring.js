@@ -5,6 +5,7 @@
   let jiuzheModule = root.SetiAlienJiuzhe;
   let yichangdianModule = root.SetiAlienYichangdian;
   let fangzhouModule = root.SetiAlienFangzhou;
+  let banrenmaModule = root.SetiAlienBanrenma;
   let chongModule = root.SetiAlienChong;
   let amibaModule = root.SetiAlienAmiba;
   let aomomoModule = root.SetiAlienAomomo;
@@ -14,20 +15,21 @@
     jiuzheModule = jiuzheModule || require("./aliens/jiuzhe");
     yichangdianModule = yichangdianModule || require("./aliens/yichangdian");
     fangzhouModule = fangzhouModule || require("./aliens/fangzhou");
+    banrenmaModule = banrenmaModule || require("./aliens/banrenma");
     chongModule = chongModule || require("./aliens/chong");
     amibaModule = amibaModule || require("./aliens/amiba");
     aomomoModule = aomomoModule || require("./aliens/aomomo");
     runezuModule = runezuModule || require("./aliens/runezu");
   }
 
-  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, fangzhouModule, chongModule, amibaModule, aomomoModule, runezuModule);
+  const api = factory(finalScoringModule, jiuzheModule, yichangdianModule, fangzhouModule, banrenmaModule, chongModule, amibaModule, aomomoModule, runezuModule);
 
   if (typeof module === "object" && module.exports) {
     module.exports = api;
   }
 
   root.SetiEndGameScoring = api;
-})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, fangzhou, chong, amiba, aomomo, runezu) {
+})(typeof globalThis !== "undefined" ? globalThis : window, function (finalScoring, jiuzhe, yichangdian, fangzhou, banrenma, chong, amiba, aomomo, runezu) {
   "use strict";
 
   const NEBULA_IDS_BY_COLOR = Object.freeze({
@@ -112,6 +114,23 @@
       try {
         fangzhou = require("./aliens/fangzhou");
         return fangzhou;
+      } catch (_error) {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  function getBanrenmaModule() {
+    if (banrenma) return banrenma;
+    if (typeof globalThis !== "undefined" && globalThis.SetiAlienBanrenma) {
+      banrenma = globalThis.SetiAlienBanrenma;
+      return banrenma;
+    }
+    if (typeof require === "function") {
+      try {
+        banrenma = require("./aliens/banrenma");
+        return banrenma;
       } catch (_error) {
         return null;
       }
@@ -254,6 +273,8 @@
     const yichangdianSlotId = alienGameState?.yichangdian?.revealedSlotId;
     const fangzhouModule = getFangzhouModule();
     const fangzhouSlotId = alienGameState?.fangzhou?.revealedSlotId;
+    const banrenmaModule = getBanrenmaModule();
+    const banrenmaSlotId = alienGameState?.banrenma?.revealedSlotId;
     const chongModule = getChongModule();
     const chongSlotId = alienGameState?.chong?.revealedSlotId;
     const amibaModule = getAmibaModule();
@@ -282,6 +303,12 @@
       if (fangzhouModule && fangzhouSlotId != null && Number(slotId) === Number(fangzhouSlotId)) {
         count += stateTraceCount;
         const entries = fangzhouModule.listTraceEntries(alienGameState, fangzhouSlotId, traceType);
+        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
+        continue;
+      }
+      if (banrenmaModule && banrenmaSlotId != null && Number(slotId) === Number(banrenmaSlotId)) {
+        count += stateTraceCount;
+        const entries = banrenmaModule.listTraceEntries(alienGameState, banrenmaSlotId, traceType);
         count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
         continue;
       }
@@ -328,7 +355,11 @@
   }
 
   function markerBelongsToPlayer(marker, playerKeys) {
-    return playerKeys.has(marker?.playerId) || playerKeys.has(marker?.color) || playerKeys.has(marker?.playerColor);
+    return playerKeys.has(marker?.playerId)
+      || playerKeys.has(marker?.ownerPlayerId)
+      || playerKeys.has(marker?.color)
+      || playerKeys.has(marker?.playerColor)
+      || playerKeys.has(marker?.ownerPlayerColor);
   }
 
   function countPlutoMarkers(player, context = {}, kind = "all") {
@@ -505,19 +536,77 @@
     return multipliers[slot >= 3 ? 3 : slot] || 0;
   }
 
+  function normalizeIncomeFormulaValue(value) {
+    const number = Number(value);
+    if (!Number.isFinite(number)) return 0;
+    return Math.max(0, Math.round(number));
+  }
+
+  function getMappedCompanyBaseIncome(player, context = {}) {
+    const maps = [
+      context.companyBaseIncomeByPlayerId,
+      context.companyBaseIncomeByPlayer,
+      context.companyBaseIncomeByColor,
+    ].filter((source) => source && typeof source === "object");
+    if (!maps.length) return null;
+
+    const playerKeys = getPlayerKeys(player);
+    for (const map of maps) {
+      for (const key of playerKeys) {
+        if (map[key] && typeof map[key] === "object") return map[key];
+      }
+    }
+    return null;
+  }
+
+  function getPlayerCompanyBaseIncome(player, context = {}, helpers = {}) {
+    const resolver = helpers.getPlayerCompanyBaseIncome
+      || context.getPlayerCompanyBaseIncome
+      || context.getCompanyBaseIncome;
+    if (typeof resolver === "function") {
+      const resolved = resolver(player);
+      if (resolved && typeof resolved === "object") return resolved;
+    }
+
+    const mapped = getMappedCompanyBaseIncome(player, context);
+    if (mapped) return mapped;
+
+    const candidates = [
+      player?.companyBaseIncome,
+      player?.baseIncome,
+      player?.industryBaseIncome,
+      player?.industryEffect?.baseIncome,
+      player?.industry?.baseIncome,
+      player?.initialSelection?.industryBaseIncome,
+      player?.initialSelection?.industryEffect?.baseIncome,
+      player?.initialSelection?.industry?.baseIncome,
+    ];
+    return candidates.find((candidate) => candidate && typeof candidate === "object") || {};
+  }
+
+  function getIncomeIncreaseValue(player, incomeKey, context = {}, helpers = {}) {
+    const total = normalizeIncomeFormulaValue(player?.income?.[incomeKey]);
+    const companyBaseIncome = getPlayerCompanyBaseIncome(player, context, helpers);
+    const configuredBase = normalizeIncomeFormulaValue(companyBaseIncome?.[incomeKey]);
+    const base = Math.min(total, configuredBase);
+    return Math.max(0, total - base);
+  }
+
   function getFormulaBaseValue(formulaId, player, context, helpers = {}) {
-    const income = player?.income || {};
     const getType3Count = helpers.getType3CardCount
       || ((currentPlayer) => countType3Cards(currentPlayer, helpers.getCardTypeCode));
 
     switch (formulaId) {
       case "a1":
-        return Math.max(Number(income.credits) || 0, Number(income.energy) || 0);
+        return Math.max(
+          getIncomeIncreaseValue(player, "credits", context, helpers),
+          getIncomeIncreaseValue(player, "energy", context, helpers),
+        );
       case "a2":
         return Math.min(
-          Number(income.credits) || 0,
-          Number(income.energy) || 0,
-          Number(income.handSize) || 0,
+          getIncomeIncreaseValue(player, "credits", context, helpers),
+          getIncomeIncreaseValue(player, "energy", context, helpers),
+          getIncomeIncreaseValue(player, "handSize", context, helpers),
         );
       case "b1":
         return Math.min(
@@ -801,6 +890,8 @@
     countType3Cards,
     getFormulaId,
     getSlotMultiplier,
+    getPlayerCompanyBaseIncome,
+    getIncomeIncreaseValue,
     getFormulaBaseValue,
     resolveCardEndGameRule,
     scoreCardEndGameRule,

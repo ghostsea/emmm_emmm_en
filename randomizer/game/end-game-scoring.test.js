@@ -4,8 +4,10 @@ const endGameScoring = require("./end-game-scoring");
 const cardEffects = require("./cards/effects");
 const jiuzhe = require("./aliens/jiuzhe");
 const fangzhou = require("./aliens/fangzhou");
+const banrenma = require("./aliens/banrenma");
 const chong = require("./aliens/chong");
 const aomomo = require("./aliens/aomomo");
+const runezu = require("./aliens/runezu");
 
 function player(overrides = {}) {
   return {
@@ -49,6 +51,56 @@ const tileBreakdown = endGameScoring.computePlayerFinalScore({
 });
 assert.equal(tileBreakdown.tileScoresById.a, 15);
 assert.equal(tileBreakdown.tileScoresById.b, 0);
+
+const baseIncomeOnlyPlayer = player({
+  income: { credits: 3, energy: 1, handSize: 1 },
+});
+const huanyuBaseIncome = { credits: 3, energy: 1, handSize: 1 };
+const baseIncomeContext = {
+  ...tileContext,
+  getPlayerCompanyBaseIncome: () => huanyuBaseIncome,
+};
+assert.equal(
+  endGameScoring.getFormulaBaseValue("a1", baseIncomeOnlyPlayer, baseIncomeContext),
+  0,
+  "a1 should not count company default credit or energy income",
+);
+assert.equal(
+  endGameScoring.getFormulaBaseValue("a2", baseIncomeOnlyPlayer, baseIncomeContext),
+  0,
+  "a2 should not count company default credit, energy, or blind-draw income",
+);
+
+const incomeIncreasePlayer = player({
+  resources: { score: 25 },
+  income: { credits: 5, energy: 3, handSize: 2 },
+});
+assert.equal(
+  endGameScoring.getIncomeIncreaseValue(incomeIncreasePlayer, "credits", baseIncomeContext),
+  2,
+  "income increase should be total income minus company default income",
+);
+assert.equal(
+  endGameScoring.getFormulaBaseValue("a1", incomeIncreasePlayer, baseIncomeContext),
+  2,
+  "a1 should use the larger credit/energy increase after removing company defaults",
+);
+assert.equal(
+  endGameScoring.getFormulaBaseValue("a2", incomeIncreasePlayer, baseIncomeContext),
+  1,
+  "a2 should use the smallest credit/energy/blind-draw increase after removing company defaults",
+);
+const incomeIncreaseState = finalScoring.createFinalScoringState(["a"]);
+finalScoring.setTileVariants(incomeIncreaseState, { a: 1 });
+finalScoring.syncPendingMarks(incomeIncreaseState, [incomeIncreasePlayer]);
+finalScoring.markTile(incomeIncreaseState, "a", incomeIncreasePlayer, { tokenSrc: "white.png" });
+const incomeIncreaseTile = endGameScoring.computePlayerTileScore(incomeIncreaseState, incomeIncreasePlayer, {
+  ...baseIncomeContext,
+  finalScoringState: incomeIncreaseState,
+  currentPlayer: incomeIncreasePlayer,
+}).tiles[0];
+assert.equal(incomeIncreaseTile.baseValue, 2);
+assert.equal(incomeIncreaseTile.score, 10, "a1 slot 1 should score income increase 2 * 5");
 
 white.resources.score = 50;
 finalScoring.syncPendingMarks(state, [white]);
@@ -313,6 +365,100 @@ assert.equal(
   endGameScoring.countTraceMarkers({ id: "p-green", color: "green" }, splitExtraOwnerTraceState, "pink"),
   1,
   "first state trace should score for the first owner",
+);
+
+const banrenmaTracePlayer = player({ resources: { score: 25 } });
+const banrenmaTraceState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: banrenma.ALIEN_ID,
+      assignedAlienId: banrenma.ALIEN_ID,
+      traces: {
+        yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
+        pink: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+        blue: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 0 },
+      },
+    },
+  },
+  banrenma: banrenma.createBanrenmaState(),
+};
+banrenma.initializeBanrenmaReveal(banrenmaTraceState, 1, banrenmaTracePlayer, [banrenmaTracePlayer], () => 0);
+banrenma.placeBanrenmaTrace(banrenmaTraceState, 1, "yellow", 1, banrenmaTracePlayer);
+banrenma.placeBanrenmaTrace(banrenmaTraceState, 1, "yellow", 1, banrenmaTracePlayer);
+banrenma.placeBanrenmaTrace(banrenmaTraceState, 1, "yellow", 4, banrenmaTracePlayer);
+banrenma.placeBanrenmaTrace(banrenmaTraceState, 1, "pink", 1, banrenmaTracePlayer);
+banrenma.placeBanrenmaTrace(banrenmaTraceState, 1, "blue", 2, banrenmaTracePlayer);
+assert.equal(
+  endGameScoring.countTraceMarkers(banrenmaTracePlayer, banrenmaTraceState, "yellow"),
+  5,
+  "Banrenma trace count should include state first, state extra, stacked face position 1, and face grid slots",
+);
+assert.equal(
+  endGameScoring.getFormulaBaseValue("b1", banrenmaTracePlayer, {
+    ...tileContext,
+    alienGameState: banrenmaTraceState,
+  }),
+  2,
+  "b1 should use all state and revealed-face trace markers when taking the minimum color count",
+);
+const banrenmaB1State = finalScoring.createFinalScoringState(["b"]);
+finalScoring.setTileVariants(banrenmaB1State, { b: 1 });
+finalScoring.syncPendingMarks(banrenmaB1State, [banrenmaTracePlayer]);
+finalScoring.markTile(banrenmaB1State, "b", banrenmaTracePlayer, { tokenSrc: "white.png" });
+const banrenmaB1Tile = endGameScoring.computePlayerTileScore(banrenmaB1State, banrenmaTracePlayer, {
+  ...tileContext,
+  finalScoringState: banrenmaB1State,
+  currentPlayer: banrenmaTracePlayer,
+  alienGameState: banrenmaTraceState,
+}).tiles.find((entry) => entry.tileId === "b");
+assert.equal(banrenmaB1Tile.baseValue, 2);
+assert.equal(banrenmaB1Tile.score, 16, "b1 slot 1 should score minimum trace count 2 * 8");
+
+const aomomoSharedTraceState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: aomomo.ALIEN_ID,
+      assignedAlienId: aomomo.ALIEN_ID,
+      traces: {
+        yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
+      },
+    },
+  },
+  aomomo: aomomo.createAomomoState(),
+};
+aomomo.initializeAomomoReveal(aomomoSharedTraceState, 1, white, () => 0);
+aomomo.placeAomomoTrace(aomomoSharedTraceState, 1, "yellow", 1, white);
+aomomo.placeAomomoTrace(aomomoSharedTraceState, 1, "yellow", 1, white);
+aomomo.placeAomomoTrace(aomomoSharedTraceState, 1, "yellow", 4, white);
+assert.equal(
+  endGameScoring.countTraceMarkers(white, aomomoSharedTraceState, "yellow"),
+  5,
+  "shared trace count should include stacked Aomomo face traces plus state traces",
+);
+
+const runezuSharedTraceState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: runezu.ALIEN_ID,
+      assignedAlienId: runezu.ALIEN_ID,
+      traces: {
+        yellow: { firstPlaced: true, ownerPlayerColor: "white", extraCount: 1 },
+      },
+    },
+  },
+  runezu: runezu.createRunezuState(),
+};
+runezu.initializeRunezuReveal(runezuSharedTraceState, 1, white, { random: () => 0, techTileIds: [] });
+runezu.placeRunezuTrace(runezuSharedTraceState, 1, "yellow", 1, white);
+runezu.placeRunezuTrace(runezuSharedTraceState, 1, "yellow", 1, white);
+runezu.placeRunezuTrace(runezuSharedTraceState, 1, "yellow", 4, white);
+assert.equal(
+  endGameScoring.countTraceMarkers(white, runezuSharedTraceState, "yellow"),
+  5,
+  "shared trace count should include stacked Runezu face traces plus state traces",
 );
 
 assert.equal(finalScoring.getTileVariant(state, "a"), 1);

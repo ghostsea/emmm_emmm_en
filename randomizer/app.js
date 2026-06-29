@@ -18960,6 +18960,9 @@
     if (fangzhou?.isFangzhouRevealedSlot?.(alienGameState, slotId)) {
       return [...stateEntries, ...(fangzhou.listTraceEntries?.(alienGameState, slotId, traceType) || [])];
     }
+    if (banrenma?.isBanrenmaRevealedSlot?.(alienGameState, slotId)) {
+      return [...stateEntries, ...(banrenma.listTraceEntries?.(alienGameState, slotId, traceType) || [])];
+    }
     if (chong?.isChongRevealedSlot?.(alienGameState, slotId)) {
       return [...stateEntries, ...(chong.listTraceEntries?.(alienGameState, slotId, traceType) || [])];
     }
@@ -26540,6 +26543,7 @@
         probeLocationDetails: probeLocationData.details,
         cardEffects,
         getCardTypeCode,
+        getPlayerCompanyBaseIncome,
       })
       : { totalScore: player.resources?.score || 0 };
   }
@@ -29400,6 +29404,7 @@
         probeLocationDetails: probeLocationData.details,
         cardEffects,
         getCardTypeCode,
+        getPlayerCompanyBaseIncome,
       })
       : { totalScore: resources.score, tileScore: 0, cardScore: 0 };
 
@@ -29505,6 +29510,7 @@
       beginCardSelection: (pendingAction) => beginCardSelection(pendingAction),
       beginDiscardSelection: (count, pendingAction) => beginDiscardSelection(count, pendingAction),
       beginIncome: (options) => beginIncomeForCurrentPlayer(options),
+      getPlayerCompanyBaseIncome,
       ensurePlayerTechState: (player) => {
         if (!player.techState) {
           player.techState = players.normalizePlayerTechState(null);
