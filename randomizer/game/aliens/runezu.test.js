@@ -7,8 +7,8 @@ const runezu = require("./runezu");
 const yichangdian = require("./yichangdian");
 
 function assertRunezuTaskRewardEffect(result, symbolIds) {
-  assert.equal(result.ok, true);
-  assert.deepEqual(result.symbolIds, symbolIds);
+  if (Object.hasOwn(result, "ok")) assert.equal(result.ok, true);
+  if (Object.hasOwn(result, "symbolIds")) assert.deepEqual(result.symbolIds, symbolIds);
   assert.equal(result.effects.length, symbolIds.length);
   result.effects.forEach((effect, index) => {
     const symbolId = symbolIds[index];
@@ -23,6 +23,10 @@ function assertRunezuSymbolAssetExists(symbolId) {
   const relativeSrc = runezu.getSymbolSrc(symbolId).replace(/^\.\.\//, "");
   const assetPath = path.resolve(__dirname, "..", "..", "..", relativeSrc);
   assert.equal(fs.existsSync(assetPath), true, `${symbolId} icon asset should exist at ${assetPath}`);
+}
+
+function assertRunezuCardTaskCanonical(card) {
+  assert.deepEqual(card.runezuTask, runezu.getCardTask(card));
 }
 
 runezu.SYMBOL_IDS.forEach(assertRunezuSymbolAssetExists);
@@ -50,6 +54,16 @@ const runezuFaceTraceResult = runezu.consumeTaskEvents(card, [{
 }]);
 assertRunezuTaskRewardEffect(runezuFaceTraceResult, ["symbol_2"]);
 assert.equal(card.runezuTaskProgress.length, 3);
+
+const staleTraceCard = runezu.createAlienCard(5, 2);
+staleTraceCard.runezuTask.steps = staleTraceCard.runezuTask.steps.map((step) => ({
+  ...step,
+  event: "runezuTrace",
+}));
+const migratedTraceStep = runezu.consumeTaskEvents(staleTraceCard, [{ type: "alienTrace" }]);
+assertRunezuTaskRewardEffect(migratedTraceStep, ["symbol_6"]);
+assertRunezuCardTaskCanonical(staleTraceCard);
+assert.deepEqual(runezu.getTaskProgressIndexes(staleTraceCard), [1]);
 
 const yichangdianCard = yichangdian.createAlienCard(5, 1);
 assert.equal(runezu.isRunezuCard(yichangdianCard), false);
@@ -99,6 +113,7 @@ assert.deepEqual(
   staleOrbitOnlyCard.runezuTask.steps.map((step) => step.event),
   ["orbitOrLand", "orbitOrLand", "orbitOrLand"],
 );
+assertRunezuCardTaskCanonical(staleOrbitOnlyCard);
 assert.deepEqual(runezu.getTaskProgressIndexes(staleOrbitOnlyCard), [1]);
 assert.equal(runezu.isTaskUnfinished(staleOrbitOnlyCard), true);
 
@@ -121,6 +136,16 @@ assertRunezuTaskRewardEffect(techStep3, ["symbol_6"]);
 assert.equal(techStep3.completed, true);
 assert.equal(techCard.runezuTaskCompleted, true);
 
+const staleTechCard = runezu.createAlienCard(3, 2);
+staleTechCard.runezuTask.steps = staleTechCard.runezuTask.steps.map((step) => ({
+  ...step,
+  event: "research",
+}));
+const migratedTechStep = runezu.consumeTaskEvents(staleTechCard, [{ type: "researchTech", techType: "orange" }]);
+assertRunezuTaskRewardEffect(migratedTechStep, ["symbol_4"]);
+assertRunezuCardTaskCanonical(staleTechCard);
+assert.deepEqual(runezu.getTaskProgressIndexes(staleTechCard), [1]);
+
 const scanCard = runezu.createAlienCard(4, 1);
 assert.equal(scanCard.runezuTask.id, "runezu-4-scan");
 assert.deepEqual(
@@ -142,6 +167,8 @@ legacyScanCard.runezuTask.steps = legacyScanCard.runezuTask.steps.map((step) => 
 assert.equal(runezu.consumeTaskEvents(legacyScanCard, [{ type: "signalMarked" }]), null);
 const legacyScanStep = runezu.consumeTaskEvents(legacyScanCard, [{ type: "scanAction" }]);
 assertRunezuTaskRewardEffect(legacyScanStep, ["symbol_4"]);
+assertRunezuCardTaskCanonical(legacyScanCard);
+assert.deepEqual(runezu.getTaskProgressIndexes(legacyScanCard), [1]);
 
 const fullLaunchCard = runezu.createAlienCard(6, 2);
 const launchStep1 = runezu.consumeTaskEvents(fullLaunchCard, [{ type: "launch" }]);
@@ -151,6 +178,16 @@ const launchStep2 = runezu.consumeTaskEvents(fullLaunchCard, [{ type: "launch" }
 assertRunezuTaskRewardEffect(launchStep2, ["symbol_7"]);
 assert.equal(launchStep2.completed, true);
 assert.equal(fullLaunchCard.runezuTaskCompleted, true);
+
+const staleLaunchCard = runezu.createAlienCard(6, 3);
+staleLaunchCard.runezuTask.steps = staleLaunchCard.runezuTask.steps.map((step) => ({
+  ...step,
+  event: "launchProbe",
+}));
+const migratedLaunchStep = runezu.consumeTaskEvents(staleLaunchCard, [{ type: "launch" }]);
+assertRunezuTaskRewardEffect(migratedLaunchStep, ["symbol_1"]);
+assertRunezuCardTaskCanonical(staleLaunchCard);
+assert.deepEqual(runezu.getTaskProgressIndexes(staleLaunchCard), [1]);
 
 const alienState = { aliens: { 1: { revealed: true, alienId: runezu.ALIEN_ID } } };
 const player = { id: "p1", color: "blue", runezuSymbols: {} };
@@ -242,6 +279,14 @@ const stateTraceAlienState = {
 runezu.ensureRunezuState(stateTraceAlienState).revealedSlotId = 1;
 const readyThreeTraceTask = runezu.getReadyThreeTraceTask(threeTraceCard, stateTraceAlienState, player);
 assert.equal(readyThreeTraceTask.task.id, "runezu-9-three-traces");
+assertRunezuTaskRewardEffect(readyThreeTraceTask, ["symbol_6", "symbol_3"]);
 assert.equal(runezu.countTraceMarkers(stateTraceAlienState, player, "blue"), 2);
+
+const staleThreeTraceCard = runezu.createAlienCard(9, 2);
+staleThreeTraceCard.runezuTask.rewards = ["symbol_1"];
+const migratedThreeTraceTask = runezu.getReadyThreeTraceTask(staleThreeTraceCard, stateTraceAlienState, player);
+assertRunezuTaskRewardEffect(migratedThreeTraceTask, ["symbol_6", "symbol_3"]);
+assertRunezuCardTaskCanonical(staleThreeTraceCard);
+assert.equal(runezu.isTaskUnfinished(staleThreeTraceCard), true);
 
 console.log("runezu.test.js: all tests passed");
