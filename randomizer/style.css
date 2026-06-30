@@ -269,6 +269,7 @@ body {
 
 .app-wrap {
   --board-visual-scale: 1.1;
+  --alien-visual-scale: 1.1;
   position: relative;
   margin: 0 auto;
   width: 100%;
@@ -1131,23 +1132,27 @@ body {
 }
 
 .alien-panel {
-  width: min(88%, 420px);
+  width: min(calc(88% * var(--alien-visual-scale, 1)), calc(420px * var(--alien-visual-scale, 1)), 100%);
   min-height: var(--alien-panel-min-height, 0);
   align-self: center;
-  padding: clamp(14px, 1.29vw, 21px);
+  padding: clamp(
+    calc(14px * var(--alien-visual-scale, 1)),
+    calc(1.29vw * var(--alien-visual-scale, 1)),
+    calc(21px * var(--alien-visual-scale, 1))
+  );
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: calc(10px * var(--alien-visual-scale, 1));
 }
 
 .alien-stack {
-  width: min(100%, 300px);
+  width: min(100%, calc(300px * var(--alien-visual-scale, 1)));
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: calc(14px * var(--alien-visual-scale, 1));
 }
 
 .alien-jiuzhe-thresholds,
@@ -1157,7 +1162,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 8px;
+  gap: calc(8px * var(--alien-visual-scale, 1));
   width: 100%;
 }
 
@@ -1170,9 +1175,9 @@ body {
 .alien-banrenma-scoremark {
   display: grid;
   justify-items: center;
-  gap: 3px;
-  min-width: 42px;
-  padding: 5px 4px;
+  gap: calc(3px * var(--alien-visual-scale, 1));
+  min-width: calc(42px * var(--alien-visual-scale, 1));
+  padding: calc(5px * var(--alien-visual-scale, 1)) calc(4px * var(--alien-visual-scale, 1));
   border: 1px solid rgba(255, 222, 126, 0.36);
   border-radius: 6px;
   background: rgba(3, 12, 20, 0.48);
@@ -1182,8 +1187,8 @@ body {
 .alien-jiuzhe-threshold-icon,
 .alien-banrenma-scoremark-icon {
   display: block;
-  width: 60px;
-  height: 60px;
+  width: calc(60px * var(--alien-visual-scale, 1));
+  height: calc(60px * var(--alien-visual-scale, 1));
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
 }
@@ -1475,9 +1480,9 @@ body {
 .alien-runezu-card-area {
   display: grid;
   justify-items: center;
-  gap: 6px;
-  width: min(58%, 170px);
-  padding: 7px;
+  gap: calc(6px * var(--alien-visual-scale, 1));
+  width: min(58%, calc(170px * var(--alien-visual-scale, 1)));
+  padding: calc(7px * var(--alien-visual-scale, 1));
   border: 1px solid rgba(126, 229, 255, 0.28);
   border-radius: 10px;
   background: rgba(7, 18, 32, 0.48);
@@ -5104,23 +5109,23 @@ button.spin-button:hover {
   }
 
   .alien-stack {
-    width: min(100%, 259px);
+    width: min(100%, calc(259px * var(--alien-visual-scale, 1)));
   }
 
   .alien-panel {
     width: 100%;
     min-height: 0;
-    gap: 8px;
+    gap: calc(8px * var(--alien-visual-scale, 1));
   }
 
   .alien-jiuzhe-threshold {
-    min-width: 36px;
-    padding: 4px 3px;
+    min-width: calc(36px * var(--alien-visual-scale, 1));
+    padding: calc(4px * var(--alien-visual-scale, 1)) calc(3px * var(--alien-visual-scale, 1));
   }
 
   .alien-jiuzhe-threshold-icon {
-    width: 52px;
-    height: 52px;
+    width: calc(52px * var(--alien-visual-scale, 1));
+    height: calc(52px * var(--alien-visual-scale, 1));
   }
 
   .opponent-stat-grid {
@@ -5199,22 +5204,22 @@ button.spin-button:hover {
   }
 
   .alien-stack {
-    width: min(100%, 242px);
+    width: min(100%, calc(242px * var(--alien-visual-scale, 1)));
   }
 
   .alien-panel {
     width: 100%;
     min-height: 0;
-    gap: 7px;
+    gap: calc(7px * var(--alien-visual-scale, 1));
   }
 
   .alien-jiuzhe-threshold {
-    min-width: 34px;
+    min-width: calc(34px * var(--alien-visual-scale, 1));
   }
 
   .alien-jiuzhe-threshold-icon {
-    width: 48px;
-    height: 48px;
+    width: calc(48px * var(--alien-visual-scale, 1));
+    height: calc(48px * var(--alien-visual-scale, 1));
   }
 
   .tech-tile {
