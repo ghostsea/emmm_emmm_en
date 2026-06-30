@@ -203,6 +203,10 @@ assert.deepEqual(state.listPiratesRaidBlockedTechTiles(piratesPlayer), [
 assert.equal(passives.isTechBlockedByPirates(piratesPlayer, "orange2"), true);
 assert.equal(passives.isTechBlockedByPirates(piratesPlayer, "orange1"), false);
 assert.equal(passives.shouldQueuePiratesRaidForPlanet(piratesPlayer, "mars"), true);
+assert.equal(passives.hasAnyPiratesRaidPlanetMarker(piratesPlayer), false);
+assert.equal(passives.canUsePiratesRaidLaunchOnPlanet(piratesPlayer, "mars"), false);
+const piratesFlowBeforeRaid = abilities.buildActiveAbilityFlow(piratesPlayer, "星际海盗", 2);
+assert.equal(piratesFlowBeforeRaid.ok, false);
 const piratesNodes = abilities.buildPiratesRaidMarkerEffectNodes(piratesPlayer, "mars", "land");
 assert.equal(piratesNodes.length, 2);
 assert.deepEqual(piratesNodes.map((node) => node.type), [
@@ -215,6 +219,10 @@ const piratesPlace = state.placePiratesRaidMarker(piratesPlayer, "orange2", "mar
 assert.equal(piratesPlace.ok, true);
 assert.equal(passives.isTechBlockedByPirates(piratesPlayer, "orange2"), false);
 assert.equal(state.hasPiratesRaidPlanetMarker(piratesPlayer, "mars"), true);
+assert.equal(passives.hasPiratesRaidPlanetMarker(piratesPlayer, "mars"), true);
+assert.equal(passives.hasAnyPiratesRaidPlanetMarker(piratesPlayer), true);
+assert.equal(passives.canUsePiratesRaidLaunchOnPlanet(piratesPlayer, "mars"), true);
+assert.equal(passives.canUsePiratesRaidLaunchOnPlanet(piratesPlayer, "venus"), false);
 assert.equal(passives.shouldQueuePiratesRaidForPlanet(piratesPlayer, "mars"), false);
 const piratesFlow = abilities.buildActiveAbilityFlow(piratesPlayer, "星际海盗", 2);
 assert.equal(piratesFlow.ok, true);

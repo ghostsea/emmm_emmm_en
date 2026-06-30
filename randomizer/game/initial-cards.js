@@ -215,7 +215,7 @@
       blindDraw: 1,
       startupTechTileId: "orange1",
       launchCount: 1,
-      incomeIncreaseCount: 3,
+      incomeIncreaseCount: 2,
       baseIncome: Object.freeze({ credits: 2, energy: 2, handSize: 1 }),
     }),
   });

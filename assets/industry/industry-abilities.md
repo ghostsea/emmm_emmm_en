@@ -68,7 +68,7 @@
 | 宇宙战略集团 | `strategy_pick_card` | `strategy_pick` | 精选 1 张公共牌（无额外资源）；确认精选后清除 3 个被动奖励槽 token |
 | 未来跨度研究所 | `future_span_pick_advance` | `future_span_pick` | 若专属标记已有未达成目标牌：精选 1 张公共牌，并将目标分提高 3 |
 | 原教旨主义 | `fundamentalism_score_exchange` | `fundamentalism_score_exchange` | 启动 3 个 `industry_fundamentalism_exchange` 节点；每个节点可跳过、可撤销，可在 3 分与 1 信用/1 能量/1 精选之间兑换，或用 1 信用/1 能量/弃 1 手牌换 3 分 |
-| 星际海盗 | `pirates_raid_launch` | `pirates_raid_launch` | 启动 1 个 `industry_pirates_raid_launch` 节点；选择一个己方环绕/登陆/卫星登陆标记，移除并消耗 1 信用点，然后在该星球当前扇区免费发射 |
+| 星际海盗 | `pirates_raid_launch` | `pirates_raid_launch` | 启动 1 个 `industry_pirates_raid_launch` 节点；选择一个已有掠夺标记星球上的己方环绕/登陆/卫星登陆标记，移除并消耗 1 信用点，然后在该星球当前扇区免费发射 |
 | 异星实验室 | — | — | **无 1x 圆标**（`EXCLUDED_INDUSTRY_LABELS`） |
 | 作弊实验室 | — | — | AI 专用；复用异星实验室牌图，开局获得 5 张盲抽和 5 次收入增加，**无 1x 圆标**，三色板块永久正面；每轮开始额外获得 1 能量和 1 盲抽 |
 
@@ -139,7 +139,7 @@
 | `future_span_pick` | 公共牌精选 → 目标分 +3 |
 | `strategy_pick` | 公共牌精选 |
 | `fundamentalism_score_exchange` | 快速行动效果队列：3 个分数/资源兑换节点；精选分支确认补牌后该节点不可撤销 |
-| `pirates_raid_launch` | 快速行动效果队列：选择己方环绕/登陆/卫星登陆标记，消耗 1 信用点并在同星球当前扇区免费发射 |
+| `pirates_raid_launch` | 快速行动效果队列：选择已有掠夺标记星球上的己方环绕/登陆/卫星登陆标记，消耗 1 信用点并在同星球当前扇区免费发射 |
 
 交互聚焦（`data-interaction-focus`）：仅在**进行中**的精选/手牌/科技/移动/掠夺标记放置流程时暗化其它区域；公司 1x 可放置时**不**自动全屏聚焦，仅用牌面高亮。
 
@@ -165,7 +165,7 @@
 ## 与初始牌/公司开局效果的关系
 
 - **公司牌即时效果**（资源重设、盲抽、发射、扫描等）：`initial-cards.js` 在 `resolveInitialSelections` 中一次性结算。
-- 星际海盗开局特殊科技：直接消耗供应区 1 块 `orange1` 并放到玩家科技面板，不获得 bonus、不领取首拿 2 分、不旋转；`firstTakeClaimedBy` 保持空，因此对局中第一个正常获得橙色科技的玩家仍能领取首拿 2 分。
+- 星际海盗开局特殊科技：直接消耗供应区 1 块 `orange1` 并放到玩家科技面板，不获得 bonus、不领取首拿 2 分、不旋转；`firstTakeClaimedBy` 保持空，因此对局中第一个正常获得橙色科技的玩家仍能领取首拿 2 分。初始效果为 3 信用点、2 能量、1 盲抽、2 次收入增加，默认收入 2 信用点、2 能量、1 盲抽。
 - **收入增加**：不即时给资源，而是生成 `pendingIncomeIncreases`，由 `startInitialIncomeEffectFlow` 排队；玩家弃 1 张手牌按该牌**收入角标**提升 `player.income` 并立即按新收入结算资源。
 - 任务中继站被动终局标记在 `applyIndustryStartupPassives` 中调用 `finalScoring.placeDirectMarkAtSlot(..., "c", ..., 3)`。
 

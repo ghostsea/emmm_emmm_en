@@ -196,6 +196,20 @@
     return Boolean(state?.isPiratesRaidTechBlocked?.(player, tileId));
   }
 
+  function hasPiratesRaidPlanetMarker(player, planetId) {
+    if (!hasPiratesRaidMarkers(player)) return false;
+    return Boolean(state?.hasPiratesRaidPlanetMarker?.(player, planetId));
+  }
+
+  function hasAnyPiratesRaidPlanetMarker(player) {
+    if (!hasPiratesRaidMarkers(player)) return false;
+    return (state?.listPiratesRaidPlanetMarkers?.(player) || []).length > 0;
+  }
+
+  function canUsePiratesRaidLaunchOnPlanet(player, planetId) {
+    return hasPiratesRaidPlanetMarker(player, planetId);
+  }
+
   function shouldQueuePiratesRaidForPlanet(player, planetId) {
     if (!hasPiratesRaidMarkers(player)) return false;
     if (!planetId || state?.hasPiratesRaidPlanetMarker?.(player, planetId)) return false;
@@ -286,6 +300,9 @@
     shouldShowPiratesRaidMarkers,
     shouldInitializePiratesRaidMarkers,
     isTechBlockedByPirates,
+    hasPiratesRaidPlanetMarker,
+    hasAnyPiratesRaidPlanetMarker,
+    canUsePiratesRaidLaunchOnPlanet,
     shouldQueuePiratesRaidForPlanet,
     isSentinelCornerArmed,
     getBorrowedTechTileId,

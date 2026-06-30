@@ -205,7 +205,7 @@ function initialCard(number) {
   assert.equal(player.resources.publicity, 0);
   assert.equal(player.resources.handSize, 1);
   assert.equal(context.launches.length, 1);
-  assert.equal(result.incomeIncreaseCount, 3);
+  assert.equal(result.incomeIncreaseCount, 2);
   assert.deepEqual(player.income, {
     credits: 2,
     energy: 2,
