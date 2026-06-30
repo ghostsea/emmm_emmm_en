@@ -22,6 +22,7 @@ function parseArgs(argv) {
     stepDelayMs: 0,
     maxBugRepeats: 1,
     sequenceWindowTurns: 6,
+    yieldEverySteps: 20,
     stopOnBlocked: true,
     headless: true,
     single: false,
@@ -56,6 +57,9 @@ function parseArgs(argv) {
         break;
       case "sequenceWindowTurns":
         options.sequenceWindowTurns = value === "all" ? "all" : Number(value);
+        break;
+      case "yieldEverySteps":
+        options.yieldEverySteps = Number(value);
         break;
       case "stopOnBlocked":
         options.stopOnBlocked = value !== "false";
@@ -317,6 +321,7 @@ function buildBatchStartExpression(pageOptions) {
         }
         progressTimer = window.setInterval(updateProgress, 1000);
         updateProgress();
+        await wait(0);
         const result = await window.SetiRandomizer.${pageOptions.single ? "startAiAutoBattle" : "runAiAutoBattleBatch"}(${JSON.stringify(pageOptions)});
         window.__setiAiBatchState.result = JSON.stringify(result);
       } catch (error) {
@@ -499,6 +504,7 @@ async function main() {
       stepDelayMs: options.stepDelayMs,
       maxBugRepeats: options.maxBugRepeats,
       sequenceWindowTurns: options.sequenceWindowTurns,
+      yieldEverySteps: options.yieldEverySteps,
       stopOnBlocked: options.stopOnBlocked,
       strategyWeights: options.strategyWeights || undefined,
       strategyTuning: options.strategyTuning || undefined,

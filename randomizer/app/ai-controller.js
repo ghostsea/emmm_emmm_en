@@ -289,16 +289,16 @@
     ]);
     const AI_STRATEGY_WEIGHT_DEFAULTS = Object.freeze({
       ...AI_STRATEGY_WEIGHT_KEYS.reduce((weights, key) => ({ ...weights, [key]: 1 }), {}),
-      engine: 1.1,
-      playCard: 1.24,
-      tech: 1.18,
-      scan: 1,
-      route: 0.94,
-      move: 0.89,
-      orbitLand: 1.12,
-      task: 1.08,
-      final: 1.2,
-      pass: 0.89,
+      engine: 1.16,
+      playCard: 1.36,
+      tech: 1.24,
+      scan: 0.94,
+      route: 0.88,
+      move: 0.84,
+      orbitLand: 1.08,
+      task: 1.14,
+      final: 1.18,
+      pass: 0.86,
     });
     const AI_CHEAT_LAB_INDUSTRY_LABEL = "作弊实验室";
     const AI_CHEAT_LAB_INDUSTRY_ID = "industry:作弊实验室";
@@ -662,6 +662,9 @@
         pendingLandTarget: Boolean(els.landTargetOverlay && !els.landTargetOverlay.hidden),
         pendingScanAction4: Boolean(els.scanAction4Overlay && !els.scanAction4Overlay.hidden),
         pendingDataPlacement: Boolean(els.dataPlaceOverlay && !els.dataPlaceOverlay.hidden),
+        pendingDataPlacementAction: Boolean(state.pendingDataPlaceAction),
+        pendingActionEffectCardMove: Boolean(state.pendingActionEffectFlow?.cardMoveEffect),
+        pendingActionEffectFreeMove: Boolean(state.pendingActionEffectFlow?.freeMoveMode),
         pendingIndustryAbility: Boolean(state.pendingIndustryAbility),
         pendingIndustryFreeMove: Boolean(state.industryFreeMoveState),
         pendingIndustryHandSelection: isIndustryHandSelectionActive(),
@@ -5103,6 +5106,11 @@
       const scanCreditCost = Math.max(0, aiNumber(scanCost.credits));
       const scanEnergyCost = Math.max(0, aiNumber(scanCost.energy));
       const analyzeEnergyCost = getAiAnalyzeEnergyCost(player);
+      const b2SectorBottleneck = getAiB2SectorBottleneck(player, { requireMarked: true });
+      const b2SectorScanRecoveryValue = scoreAiB2SectorScanRecoveryValue(player, {
+        requireMarked: true,
+        trade: true,
+      });
       const hasImmediateRouteRecovery = bestLaunchMoveRecoveryScore > 0 || bestPlanetCashoutRecoveryScore > 0;
       const finalLowHandScoreCeiling = 165;
       const finalLowScoreScanUnlockCeiling = 150;
@@ -5168,7 +5176,48 @@
         || finalLowScoreCardsForCreditScanPrepare;
       const finalLowScoreEnergyForCreditScanUnlock = finalLowScoreScanUnlockByTrade["energy-for-credit"] >= 3.5;
       const finalLowScoreScanUnlock = finalLowScoreCardsForCreditScanUnlock || finalLowScoreEnergyForCreditScanUnlock;
-      if (!recoveryThreshold && !hasImmediateRouteRecovery && !finalLowHandRefillWindow && !finalLowScoreScanUnlock) return [];
+      const b2SectorScanUnlockWindow = getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && mainActionOpen
+        && b2SectorBottleneck.active
+        && b2SectorScanRecoveryValue > 0
+        && !(turnState.passedPlayerIds || []).includes(player.id);
+      const scoreB2SectorScanUnlockTrade = (tradeId) => {
+        if (!b2SectorScanUnlockWindow) return 0;
+        const trade = quickTrades.getTradeAction(tradeId);
+        if (!trade) return 0;
+        const simulatedPlayer = createAiPlayerAfterQuickTrade(player, trade);
+        if (!simulatedPlayer) return 0;
+        const simulatedCredits = Math.max(0, aiNumber(simulatedPlayer.resources?.credits));
+        const simulatedEnergy = Math.max(0, aiNumber(simulatedPlayer.resources?.energy));
+        if (simulatedCredits < scanCreditCost || simulatedEnergy < scanEnergyCost) return 0;
+        if (!scanEffects?.canExecuteScan?.(simulatedPlayer, { standardAction: true })?.ok) return 0;
+        const tradeCost = estimateAiTradeDiscardOpportunityCost(player, trade);
+        if (!Number.isFinite(tradeCost)) return 0;
+        const scanScore = Math.max(0, aiNumber(scoreAiScanAction(simulatedPlayer)));
+        const sectorDeficit = Math.max(1, aiNumber(b2SectorBottleneck.deficit));
+        return Math.max(
+          0,
+          b2SectorScanRecoveryValue
+            + Math.min(16, scanScore * 0.48)
+            + Math.min(7, sectorDeficit * 1.8)
+            - tradeCost * 0.2,
+        );
+      };
+      const b2SectorScanUnlockByTrade = {
+        "credits-for-energy": scoreB2SectorScanUnlockTrade("credits-for-energy"),
+        "cards-for-energy": scoreB2SectorScanUnlockTrade("cards-for-energy"),
+        "cards-for-credit": scoreB2SectorScanUnlockTrade("cards-for-credit"),
+        "energy-for-credit": scoreB2SectorScanUnlockTrade("energy-for-credit"),
+      };
+      const b2SectorScanUnlock = Object.values(b2SectorScanUnlockByTrade)
+        .some((score) => aiNumber(score) >= 5);
+      if (
+        !recoveryThreshold
+        && !hasImmediateRouteRecovery
+        && !finalLowHandRefillWindow
+        && !finalLowScoreScanUnlock
+        && !b2SectorScanUnlock
+      ) return [];
       const scoreToNextThreshold = recoveryThreshold ? Math.max(1, recoveryThreshold - currentScore) : 0;
       const closeThirdMarkScanSetup = getAiRoundNumber() >= FINAL_ROUND_NUMBER
         && nextThreshold === 70
@@ -5369,15 +5418,19 @@
             || canScanAfterCreditsForEnergy
             || canScanProgressAfterCreditsForEnergy
             || aiNumber(planetCashoutRecoveryByTrade["credits-for-energy"]?.score) > 0
+            || aiNumber(b2SectorScanUnlockByTrade["credits-for-energy"]) > 0
           ),
           value: baseValue + 3 + (handSize > 0 ? 1.5 : 0)
             + Math.min(7, aiNumber(launchMoveRecoveryByTrade["credits-for-energy"]?.score) * 0.4)
             + Math.min(18, aiNumber(planetCashoutRecoveryByTrade["credits-for-energy"]?.score) * 0.55)
             + (canScanAfterCreditsForEnergy ? scanCashoutTradeValue : 0)
-            + (canScanProgressAfterCreditsForEnergy ? scanProgressTradeValue : 0),
+            + (canScanProgressAfterCreditsForEnergy ? scanProgressTradeValue : 0)
+            + Math.min(28, aiNumber(b2SectorScanUnlockByTrade["credits-for-energy"])),
           reason: aiNumber(planetCashoutRecoveryByTrade["credits-for-energy"]?.score) > 0
             ? "路线兑现：信用点换能量准备环绕/登陆"
-            : canScanAfterCreditsForEnergy
+            : aiNumber(b2SectorScanUnlockByTrade["credits-for-energy"]) > 0
+              ? "B2兑现：信用点换能量准备完成扇区"
+              : canScanAfterCreditsForEnergy
               ? "终局临门：信用点换能量准备扫描"
               : canScanProgressAfterCreditsForEnergy
                 ? "终局第3标记：信用点换能量推进扫描找分"
@@ -5391,16 +5444,20 @@
             || canScanAfterCardsForEnergy
             || canScanProgressAfterCardsForEnergy
             || aiNumber(planetCashoutRecoveryByTrade["cards-for-energy"]?.score) > 0
+            || aiNumber(b2SectorScanUnlockByTrade["cards-for-energy"]) > 0
           ),
           value: baseValue + 1.5 + (credits <= 0 ? 1 : 0)
             + Math.min(7, aiNumber(launchMoveRecoveryByTrade["cards-for-energy"]?.score) * 0.4)
             + Math.min(15, aiNumber(planetCashoutRecoveryByTrade["cards-for-energy"]?.score) * 0.45)
             + (secondMarkAnalyzeEnergyRecovery ? Math.min(18, 12 + Math.max(0, 8 - scoreToNextThreshold) * 0.75) : 0)
             + (canScanAfterCardsForEnergy ? scanCashoutTradeValue : 0)
-            + (canScanProgressAfterCardsForEnergy ? scanProgressTradeValue : 0),
+            + (canScanProgressAfterCardsForEnergy ? scanProgressTradeValue : 0)
+            + Math.min(24, aiNumber(b2SectorScanUnlockByTrade["cards-for-energy"])),
           reason: aiNumber(planetCashoutRecoveryByTrade["cards-for-energy"]?.score) > 0
             ? "路线兑现：弃牌换能量准备环绕/登陆"
-            : canScanAfterCardsForEnergy
+            : aiNumber(b2SectorScanUnlockByTrade["cards-for-energy"]) > 0
+              ? "B2兑现：弃牌换能量准备完成扇区"
+              : canScanAfterCardsForEnergy
               ? "终局临门：弃牌换能量准备扫描"
               : canScanProgressAfterCardsForEnergy
                 ? "终局第3标记：弃牌换能量推进扫描找分"
@@ -5410,7 +5467,10 @@
         },
         {
           tradeId: "cards-for-credit",
-          enabled: canScanAfterCardsForCredit || thresholdCreditRecovery || finalLowScoreCardsForCreditScanUnlock,
+          enabled: canScanAfterCardsForCredit
+            || thresholdCreditRecovery
+            || finalLowScoreCardsForCreditScanUnlock
+            || aiNumber(b2SectorScanUnlockByTrade["cards-for-credit"]) > 0,
           value: baseValue
             + (canScanAfterCardsForCredit ? scanCashoutTradeValue : 0)
             + (thresholdCreditRecovery ? Math.min(10, 5 + Math.max(0, 8 - scoreToNextThreshold) * 0.55) : 0)
@@ -5420,10 +5480,13 @@
                 8 + Math.max(0, 150 - currentScore) * 0.05,
               )
               : 0)
+            + Math.min(24, aiNumber(b2SectorScanUnlockByTrade["cards-for-credit"]))
             + (energy >= scanEnergyCost + 1 ? 1 : 0),
           reason: canScanAfterCardsForCredit
             ? "终局临门：弃牌换信用点准备扫描"
-            : finalLowScoreCardsForCreditScanUnlock
+            : aiNumber(b2SectorScanUnlockByTrade["cards-for-credit"]) > 0
+              ? "B2兑现：弃牌换信用点准备完成扇区"
+              : finalLowScoreCardsForCreditScanUnlock
               ? "终局低分：弃牌换信用点解锁扫描"
               : "终局缺标记：弃牌换信用点准备下一轮兑现",
         },
@@ -5444,16 +5507,20 @@
           enabled: canScanAfterEnergyForCredit
             || (secondMarkCreditRecovery && !shouldReservePlanetCashoutEnergy)
             || thirdMarkCreditRecovery
-            || finalLowScoreEnergyForCreditScanUnlock,
+            || finalLowScoreEnergyForCreditScanUnlock
+            || aiNumber(b2SectorScanUnlockByTrade["energy-for-credit"]) > 0,
           value: baseValue
             + (recoveryThreshold <= 50 ? 8 : 4)
             + (canScanAfterEnergyForCredit ? scanCashoutTradeValue : 0)
             + (secondMarkCreditRecovery ? Math.min(8, scoreToNextThreshold * 0.28) : 0)
             + (thirdMarkCreditRecovery ? Math.min(10, 4 + Math.max(0, 22 - scoreToNextThreshold) * 0.25 + (handSize > 0 ? 2 : 0)) : 0)
-            + (finalLowScoreEnergyForCreditScanUnlock ? finalLowScoreScanUnlockByTrade["energy-for-credit"] : 0),
+            + (finalLowScoreEnergyForCreditScanUnlock ? finalLowScoreScanUnlockByTrade["energy-for-credit"] : 0)
+            + Math.min(24, aiNumber(b2SectorScanUnlockByTrade["energy-for-credit"])),
           reason: canScanAfterEnergyForCredit
             ? "终局临门：能量换信用点准备扫描"
-            : finalLowScoreEnergyForCreditScanUnlock
+            : aiNumber(b2SectorScanUnlockByTrade["energy-for-credit"]) > 0
+              ? "B2兑现：能量换信用点准备完成扇区"
+              : finalLowScoreEnergyForCreditScanUnlock
               ? "终局低分：能量换信用点解锁扫描"
               : thirdMarkCreditRecovery
                 ? "终局第3标记：能量换信用点恢复打牌/扫描"
@@ -5701,7 +5768,12 @@
         multiplier += 0.12;
       }
       if (formulas.has("b2") && ["land", "orbit", "scan", "move"].includes(actionId)) {
-        multiplier += actionId === "scan" ? 0.08 : 0.1;
+        const b2Bottleneck = getAiB2SectorBottleneck(getCurrentPlayer(), { requireMarked: true });
+        if (b2Bottleneck.active) {
+          multiplier += actionId === "scan" ? 0.22 : actionId === "move" ? 0.04 : 0.06;
+        } else {
+          multiplier += actionId === "scan" ? 0.08 : 0.1;
+        }
       }
       if (formulas.has("b1") && ["land", "scan", "analyze"].includes(actionId)) {
         multiplier += 0.07;
@@ -10798,12 +10870,13 @@
       const dataRoom = getAiAvailableDataRoom(player);
       const demand = getAiStrategyDemand(player);
       const blueTraceDemand = getAiMapDemand(demand.traceTypes, "blue");
+      const round = getAiRoundNumber();
       const lateRoundPressure = Math.max(0, turnState.roundNumber - 1) * 1.5;
       const requiredSlot = data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6;
       const fullComputerBonus = placedCount >= requiredSlot ? 8 : 0;
       const finalMarks = countAiFinalMarksForPlayer(player);
       const currentScore = Math.max(0, aiNumber(player?.resources?.score));
-      const firstThresholdCatchupBonus = Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1)) >= FINAL_ROUND_NUMBER
+      const firstThresholdCatchupBonus = round >= FINAL_ROUND_NUMBER
         && currentScore < 25
         ? 8
         : 0;
@@ -10830,6 +10903,18 @@
             + (finalMarks < 3 ? 2.2 : 0),
         )
         : 0;
+      const lateFullDataAnalyzeRecovery = round >= FINAL_ROUND_NUMBER
+        && placedCount >= requiredSlot
+        && availableData >= 4
+        && currentScore < 170
+        ? Math.min(
+          12,
+          4
+            + Math.max(0, availableData - 3) * 1.2
+            + Math.min(4, getAiLiveScorePaceDeficit(player) * 0.06)
+            + (finalMarks >= 3 ? 1.5 : 0),
+        )
+        : 0;
       const postSecondFinalMarkPenalty = finalMarks >= 2 && dataRoom <= 1 && blueTraceDemand < 1
         ? 5
         : 0;
@@ -10842,6 +10927,7 @@
         + lateRoundPressure
         + firstThresholdCatchupBonus
         + readyAnalyzeWindowValue
+        + lateFullDataAnalyzeRecovery
         - getAiAnalyzeEnergyCost(player) * getAiResourceValuesForRound(player).energy * 0.35
         - postSecondFinalMarkPenalty;
       const weightedScore = applyAiStrategyWeight(
@@ -10852,7 +10938,7 @@
       const hasBlueTraceFinalFormula = getAiMarkedFinalFormulaEntries(player)
         .some((entry) => entry.formulaId === "b1");
       if (
-        Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1)) >= FINAL_ROUND_NUMBER
+        round >= FINAL_ROUND_NUMBER
         && placedCount >= requiredSlot
         && finalMarks >= 3
         && !nextThreshold
@@ -10863,7 +10949,13 @@
       ) {
         return Math.min(
           weightedScore,
-          roundAiScore(7 + bestBlueTraceScore * 2 + Math.min(2.5, availableData * 0.45)),
+          roundAiScore(
+            7
+              + bestBlueTraceScore * 2
+              + Math.min(2.5, availableData * 0.45)
+              + lateFullDataAnalyzeRecovery
+              + (availableData >= 4 ? 4 : 0),
+          ),
         );
       }
       return weightedScore;
@@ -10974,12 +11066,66 @@
       };
     }
 
+    function getAiB2FormulaEntries(player = getCurrentPlayer(), options = {}) {
+      if (!player) return [];
+      const entries = options.requireMarked
+        ? getAiMarkedFinalFormulaEntries(player)
+        : getAiPlanningFinalFormulaEntries(player, ["b2"]);
+      return (entries || []).filter((entry) => entry?.formulaId === "b2");
+    }
+
+    function getAiB2SectorBottleneck(player = getCurrentPlayer(), options = {}) {
+      if (!player || !endGameScoring?.countSectorWins || !endGameScoring?.countOrbitOrLandMarkers) {
+        return { active: false, sectorWins: 0, orbitLandCount: 0, deficit: 0, multiplier: 0, marked: false };
+      }
+      const entries = getAiB2FormulaEntries(player, options);
+      if (!entries.length) {
+        return { active: false, sectorWins: 0, orbitLandCount: 0, deficit: 0, multiplier: 0, marked: false };
+      }
+      const context = createActionContext();
+      const sectorWins = Math.max(0, Math.round(aiNumber(endGameScoring.countSectorWins(player, nebulaDataState))));
+      const orbitLandCount = Math.max(0, Math.round(aiNumber(
+        endGameScoring.countOrbitOrLandMarkers(player, planetStatsState, context),
+      )));
+      const deficit = Math.max(0, orbitLandCount - sectorWins);
+      const multiplier = Math.min(
+        10,
+        entries.reduce((total, entry) => total + Math.max(0, aiNumber(entry.multiplier)), 0),
+      );
+      const marked = entries.some((entry) => !entry.potential);
+      return {
+        active: deficit > 0 && multiplier > 0,
+        sectorWins,
+        orbitLandCount,
+        deficit,
+        multiplier,
+        marked,
+      };
+    }
+
+    function scoreAiB2SectorScanRecoveryValue(player = getCurrentPlayer(), options = {}) {
+      const bottleneck = getAiB2SectorBottleneck(player, options);
+      if (!bottleneck.active) return 0;
+      const round = getAiRoundNumber();
+      const finalRound = round >= FINAL_ROUND_NUMBER;
+      const markedScale = bottleneck.marked ? 1 : 0.55;
+      const noSectorWinPressure = bottleneck.sectorWins <= 0 ? bottleneck.multiplier * 0.55 : 0;
+      const deficitPressure = Math.min(4, bottleneck.deficit) * (finalRound ? 2.1 : 1.25);
+      const base = bottleneck.multiplier * (finalRound ? 1.15 : 0.72)
+        + noSectorWinPressure
+        + deficitPressure
+        + (options.trade ? 3.5 : 0)
+        + (options.mainAction ? 2.5 : 0);
+      return roundAiScore(Math.min(options.cap ?? 34, Math.max(0, base * markedScale)));
+    }
+
     function scoreAiB2SectorScanFocus(nebulaId, counts, player = getCurrentPlayer()) {
       if (!nebulaId || !counts || !player || !endGameScoring?.countSectorWins || !endGameScoring?.countOrbitOrLandMarkers) {
         return 0;
       }
-      const b2Entries = getAiPlanningFinalFormulaEntries(player, ["b2"]);
+      const b2Entries = getAiB2FormulaEntries(player);
       if (!b2Entries.length) return 0;
+      const b2Bottleneck = getAiB2SectorBottleneck(player);
       const context = createActionContext();
       const sectorWins = Math.max(0, Math.round(aiNumber(endGameScoring.countSectorWins(player, nebulaDataState))));
       const orbitLandCount = Math.max(0, Math.round(aiNumber(
@@ -11000,13 +11146,16 @@
       const bottleneckPressure = Math.max(1, orbitLandCount - sectorWins);
       let value = 0;
       if (closesSector) {
-        value += winsAfterScan ? b2Multiplier * (1.1 + bottleneckPressure * 0.18) : -b2Multiplier * 0.75;
+        value += winsAfterScan ? b2Multiplier * (1.25 + bottleneckPressure * 0.24) : -b2Multiplier * 0.75;
       } else if (nearClose) {
-        value += winsAfterScan ? b2Multiplier * 0.48 : b2Multiplier * 0.2;
+        value += winsAfterScan ? b2Multiplier * 0.62 : b2Multiplier * 0.28;
       } else if (counts.ownCount > 0) {
-        value += b2Multiplier * 0.18;
+        value += b2Multiplier * (b2Bottleneck.marked ? 0.3 : 0.18);
       } else if (sectorWins <= 0 && getAiRoundNumber() >= 3) {
-        value += b2Multiplier * 0.12;
+        value += b2Multiplier * (b2Bottleneck.marked ? 0.28 : 0.12);
+      }
+      if (b2Bottleneck.active && b2Bottleneck.marked && getAiRoundNumber() >= FINAL_ROUND_NUMBER) {
+        value += Math.min(8, b2Bottleneck.deficit * 1.15 + (sectorWins <= 0 ? 2.5 : 0));
       }
       return applyAiStrategyWeight(value, "final", 0.75);
     }
@@ -11326,6 +11475,10 @@
         }
       }
       const earlyEngineValue = scoreAiEarlyScanEngineValue(player);
+      const b2SectorScanRecoveryValue = scoreAiB2SectorScanRecoveryValue(player, {
+        requireMarked: true,
+        mainAction: true,
+      });
       const demand = getAiStrategyDemand(player);
       const tracePressure = Math.min(3, sumAiDemandMap(demand.traceTypes) * 0.05);
       const costMultiplier = getAiRoundNumber() <= 2 ? 0.62 : getAiRoundNumber() === 3 ? 0.68 : 0.7;
@@ -11340,7 +11493,18 @@
       const directScoreGain = getAiScanDirectScoreGain(player);
       const traceCount = countAiTraceMarkersForPlayer(player);
       const availableData = Math.max(0, aiNumber(player?.resources?.availableData));
+      const dataRoom = getAiAvailableDataRoom(player);
       const canOpenAnalyze = placedComputerCount >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6) - 1;
+      const fullDataAnalyzeBacklogPenalty = getAiRoundNumber() >= 3
+        && dataRoom <= 0
+        && hasAiAnalyzeReadyDataSlot(player)
+        ? Math.min(
+          18,
+          (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 9 : 5)
+            + Math.max(0, availableData - 3) * 1.4
+            + (b2SectorScanRecoveryValue > 0 ? 3 : 0),
+        )
+        : 0;
       const repeatedScanPenalty = Math.max(0, scanCountThisRound) * (getAiRoundNumber() <= 2 ? 7 : 10);
       const earlySetupScanBonus = (
         getAiRoundNumber() <= 2
@@ -11359,14 +11523,17 @@
       const lowCashoutScanPenalty = directScoreGain <= 0 && !canOpenAnalyze
         ? (getAiRoundNumber() <= 2 ? 5 : 11)
         : 0;
-      const adjustedLowCashoutScanPenalty = Math.max(0, lowCashoutScanPenalty - earlySetupScanBonus * 0.7);
-      const netBeforePace = value + earlyEngineValue * 0.55 + tracePressure - costValue * costMultiplier;
+      const adjustedLowCashoutScanPenalty = Math.max(
+        0,
+        lowCashoutScanPenalty - earlySetupScanBonus * 0.7 - b2SectorScanRecoveryValue * 0.6,
+      );
+      const netBeforePace = value + earlyEngineValue * 0.55 + tracePressure + b2SectorScanRecoveryValue - costValue * costMultiplier;
       const deficit = getAiLiveScorePaceDeficit(player);
       const paceBonus = netBeforePace > 4 && deficit > 15
         ? Math.min(getAiRoundNumber() >= 3 ? 9 : 5, (deficit - 15) * (getAiRoundNumber() >= 3 ? 0.18 : 0.1))
         : 0;
       return applyAiStrategyWeight(
-        value + earlyEngineValue * 0.55 + tracePressure + paceBonus + earlySetupScanBonus,
+        value + earlyEngineValue * 0.55 + tracePressure + paceBonus + earlySetupScanBonus + b2SectorScanRecoveryValue,
         "scan",
         0.85,
       )
@@ -11374,6 +11541,7 @@
         - reservePenalty
         - lateResourceDrainPenalty
         - repeatedScanPenalty
+        - fullDataAnalyzeBacklogPenalty
         - adjustedLowCashoutScanPenalty;
     }
 
@@ -15685,6 +15853,62 @@
       return executeActionEffect(effect);
     }
 
+    function hasAiPendingDecisionForCurrentEffect(pending = getAiAutoBattlePendingState()) {
+      if (!pending) return false;
+      return [
+        "pendingScanTargetType",
+        "pendingPublicScanQueue",
+        "pendingHandScan",
+        "pendingPassReserve",
+        "pendingCardSelection",
+        "pendingPlayCardSelection",
+        "pendingMovePayment",
+        "pendingCardTrigger",
+        "pendingCardTriggerFreeMove",
+        "pendingCardCornerFreeMove",
+        "pendingCardTaskCompletion",
+        "pendingStrategyPassiveSlotChoice",
+        "pendingJiuzheCardPlay",
+        "pendingYichangdianCardGain",
+        "pendingYichangdianCornerAction",
+        "pendingBanrenmaCardGain",
+        "pendingBanrenmaOpportunity",
+        "pendingChongTaskCompletion",
+        "pendingChongCardGain",
+        "pendingChongFossilChoice",
+        "pendingAmibaCardGain",
+        "pendingAmibaSymbolChoice",
+        "pendingAmibaTraceRemoval",
+        "pendingAomomoCardGain",
+        "pendingRunezuCardGain",
+        "pendingRunezuSymbolBranch",
+        "pendingRunezuFaceSymbolPlacement",
+        "pendingAlienTrace",
+        "pendingLandTarget",
+        "pendingScanAction4",
+        "pendingDataPlacement",
+        "pendingActionEffectCardMove",
+        "pendingActionEffectFreeMove",
+        "pendingIndustryAbility",
+        "pendingIndustryFreeMove",
+        "pendingIndustryHandSelection",
+      ].some((key) => Boolean(pending[key]));
+    }
+
+    function recoverAiIdleActionEffectStep() {
+      if (!isActionEffectFlowActive()) return null;
+      const effect = getCurrentActionEffect();
+      if (!effect || (effect.status && effect.status !== "active")) return null;
+      const pending = getAiAutoBattlePendingState();
+      if (hasAiPendingDecisionForCurrentEffect(pending)) return null;
+      recordAiAutoBattleLog("effect-recovery", `AI 恢复推进效果：${effect.label || effect.type}`, {
+        effectId: effect.id || null,
+        effectType: effect.type || null,
+        pending,
+      });
+      return runAiActionEffectStep();
+    }
+
     function runAiAutomationStep() {
       try {
         if (!ai?.policy) return { ok: false, blocked: true, message: "SetiAI 未加载" };
@@ -15842,8 +16066,17 @@
           break;
         }
         const beforeLogCount = aiAutoBattleState.logs.length;
-        const result = runAiAutomationStep();
+        let result = runAiAutomationStep();
         summary.steps += 1;
+        if (
+          aiAutoBattleState.logs.length === beforeLogCount
+          && result?.ok === true
+          && !result?.progressed
+          && !result?.done
+        ) {
+          const recoveryResult = recoverAiIdleActionEffectStep();
+          if (recoveryResult) result = recoveryResult;
+        }
         if (typeof options.onStep === "function") {
           options.onStep({
             steps: summary.steps,
