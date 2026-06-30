@@ -2,6 +2,7 @@
 
 const assert = require("node:assert/strict");
 const { createAiController } = require("./ai-controller");
+const aomomo = require("../game/aliens/aomomo");
 const banrenma = require("../game/aliens/banrenma");
 const chong = require("../game/aliens/chong");
 const fangzhou = require("../game/aliens/fangzhou");
@@ -206,7 +207,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     },
     solar: {
       mod8: (value) => ((Math.round(Number(value) || 0) % 8) + 8) % 8,
-      createSolarSnapshot: () => ({ planetLocations: [] }),
+      createSolarSnapshot: () => ({ planetLocations: options.planetLocations || [] }),
       collectVisibleCoordinateGroups: () => ({ asteroids: [], comets: [] }),
       collectVisibleCoordinateReport: () => [],
     },
@@ -244,6 +245,13 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         INCOME: "income",
       },
     },
+    planetStats: options.planetStats || {
+      canAddLandingMarker: () => false,
+      canAddOrbitMarker: () => false,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
     aliens: {
       ALIEN_SLOT_IDS: options.alienSlotIds || [1],
       TRACE_TYPES: alienCore.TRACE_TYPES,
@@ -258,6 +266,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     fangzhou,
     runezu,
     yichangdian,
+    aomomo,
     cards: {
       getCardLabel: (card) => card?.cardName || card?.label || card?.cardId || card?.id || "card",
       getDiscardRemaining: () => Math.max(0, Math.round(Number(options.discardCount ?? pendingDiscardAction?.count ?? 1) || 0)),
@@ -266,7 +275,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       getDiscardActionMoveRewardForCard: (card) => card?.moveReward || null,
       getDiscardActionRewardForCard: (card) => card?.resourceReward || null,
     },
-    abilities: {
+    abilities: options.abilities || {
       planet: {
         DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
         BASE_LAND_ENERGY_COST: 3,
@@ -291,6 +300,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     },
     scanEffects: options.scanEffects || {
       SCAN_COST: { credits: 1, energy: 2 },
+      buildScanEffectQueue: () => [],
       canExecuteScan: () => ({ ok: false, message: "scan disabled in harness" }),
       getStandardScanCost: () => ({ credits: 1, energy: 2 }),
     },
@@ -390,7 +400,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     finalScoringState: options.finalScoringState || {},
     planetStatsState: {},
     techGameState: { board: options.techBoard || {}, ui: { ...(options.techUi || {}) } },
-    cardState: {},
+    cardState: { publicCards: options.publicCards || [] },
     cardTaskState: {},
     historyStepOrder: {},
     els: {
@@ -414,7 +424,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     DEFAULT_ACTIVE_PLAYER_COUNT: allPlayers.length,
     DEFAULT_INITIAL_HAND_COUNT: 5,
     DEFAULT_INITIAL_PLAYER_COLOR: "white",
-    FINAL_ROUND_NUMBER: 5,
+    FINAL_ROUND_NUMBER: options.finalRoundNumber || 4,
     FINAL_SCORE_IDS: options.finalScoreIds || [],
     INITIAL_SELECTION_REQUIRED: { initial: 0 },
     MOVE_ENERGY_COST: 1,
@@ -856,6 +866,27 @@ function makeChongTransportAlienState(options = {}) {
   };
 }
 
+function makeChongAvailableFossilAlienState(options = {}) {
+  const fossilId = options.fossilId || "fossil_02";
+  const planetId = options.planetId || "jupiter";
+  const chongState = chong.createChongState();
+  chongState.revealedSlotId = 1;
+  chongState.planetFossilIds = { jupiter: [], saturn: [] };
+  chongState.planetFossilIds[planetId] = [fossilId];
+  chongState.fossilsById[fossilId] = {
+    fossilId,
+    status: "available",
+    location: "planet",
+    planetId,
+    visibleToPlayerIds: [],
+  };
+  return {
+    aliens: {
+      1: { revealed: true, alienId: chong.ALIEN_ID, assignedAlienId: chong.ALIEN_ID },
+    },
+    chong: chongState,
+  };
+}
 function makeBanrenmaAlienState() {
   const alienGameState = {
     aliens: {
@@ -864,6 +895,36 @@ function makeBanrenmaAlienState() {
     banrenma: banrenma.createBanrenmaState(),
   };
   banrenma.ensureTraceGrid(alienGameState, 1);
+  return alienGameState;
+}
+
+function makeAomomoAlienState() {
+  const alienGameState = {
+    aliens: {
+      1: { revealed: true, alienId: aomomo.ALIEN_ID, assignedAlienId: aomomo.ALIEN_ID },
+    },
+    aomomo: aomomo.createAomomoState(),
+  };
+  aomomo.ensureTraceGrid(alienGameState, 1);
+  return alienGameState;
+}
+
+function makeYichangdianAlienState(options = {}) {
+  const yState = yichangdian.createYichangdianState();
+  yState.revealedSlotId = 1;
+  yState.revealInitialized = true;
+  yState.anomalies = options.anomalies || [
+    { markerId: "a_2", traceType: "pink", sectorX: 6, y: 4, triggeredCount: 0 },
+    { markerId: "b_1", traceType: "yellow", sectorX: 4, y: 4, triggeredCount: 0 },
+    { markerId: "c_2", traceType: "blue", sectorX: 0, y: 4, triggeredCount: 0 },
+  ];
+  const alienGameState = {
+    aliens: {
+      1: { revealed: true, alienId: yichangdian.ALIEN_ID, assignedAlienId: yichangdian.ALIEN_ID },
+    },
+    yichangdian: yState,
+  };
+  yichangdian.ensureTraceGrid(alienGameState, 1);
   return alienGameState;
 }
 
@@ -1341,6 +1402,129 @@ function makeBanrenmaAlienState() {
 }
 
 {
+  let selectedTurnAction = null;
+  let seenTurnCandidates = [];
+  const runezuCard2 = runezu.createAlienCard(2, 1);
+  runezuCard2.runezuTaskProgress = [{ event: "orbitOrLand", symbolId: "symbol_4" }];
+  const runezuCard4 = runezu.createAlienCard(4, 2);
+  runezuCard4.runezuTaskProgress = [{ event: "scan", symbolId: "symbol_4" }];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    pendingActionExecuted: true,
+    roundNumber: 3,
+    runezuQuick: true,
+    runezuFaceSymbolSlots: {
+      3: "symbol_3",
+      4: "symbol_4",
+      6: "symbol_6",
+      7: "symbol_7",
+    },
+    blueRunezuSymbols: {
+      symbol_1: 1,
+      symbol_2: 1,
+      symbol_5: 1,
+    },
+    blueResources: { availableData: 1 },
+    blueHand: [
+      runezuCard2,
+      runezuCard4,
+      runezu.createAlienCard(6, 3),
+    ],
+    onChooseTurnAction: (_candidates, selected) => {
+      selectedTurnAction = selected;
+      seenTurnCandidates = _candidates.slice();
+    },
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    data: {
+      PLACEMENT_KIND_COMPUTER: "computer",
+      PLACEMENT_KIND_BLUE_BONUS: "blueBonus",
+      getComputerSlotBonus: () => null,
+      canPlaceAnyData: () => ({
+        ok: true,
+        choices: [{
+          target: "computer",
+          placementSlot: 1,
+          label: "第一排放置位 1",
+          description: "按从左到右放入第一排第 1 位",
+        }],
+      }),
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should evaluate Runezu face symbols by real score");
+  assert.equal(harness.getHandled().type, "runezu-face-symbol-open");
+  assert.equal(
+    harness.getHandled().position,
+    5,
+    "AI should fill Runezu position 5 when it unlocks follow-up position 1/2 symbol rewards",
+  );
+  assert.ok(
+    seenTurnCandidates.some((candidate) => candidate.id === "placeData"),
+    "Runezu dependency test should compare against a normal low-value data placement",
+  );
+  assert.ok(
+    Number(selectedTurnAction?.valueBreakdown?.dependencyUnlockValue || 0) > 0,
+    "Runezu position 5 candidate should carry dependency unlock value",
+  );
+}
+
+{
+  const selected = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    earthCoordinate: { x: 1, y: 1 },
+    alienGameState: makeYichangdianAlienState(),
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: {
+      mode: "yichangdian-grid",
+      selectedAlienSlotId: 1,
+      allowedTraceTypes: ["yellow", "blue"],
+    },
+    alienTraceButtons: [
+      makeButton(
+        { alienSlot: "1", yichangdianTraceType: "blue", yichangdianTraceSlot: "1", yichangdianPosition: "1" },
+        "异常点蓝色 1号位：1能量，即将触发异常奖励",
+        false,
+        () => selected.push("soon-anomaly"),
+      ),
+      makeButton(
+        { alienSlot: "1", yichangdianTraceType: "yellow", yichangdianTraceSlot: "4", yichangdianPosition: "4" },
+        "异常点黄色 4号位：2分，外星人牌",
+        false,
+        () => selected.push("alien-card"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve Yichangdian trace picker");
+  assert.deepEqual(
+    selected,
+    ["alien-card"],
+    "AI should take an early Yichangdian alien-card trace before chasing a low-value immediate anomaly",
+  );
+}
+
+{
   const yState = yichangdian.createYichangdianState();
   yState.revealedSlotId = 1;
   yState.revealInitialized = true;
@@ -1603,6 +1787,96 @@ function makeBanrenmaAlienState() {
 }
 
 {
+  const selected = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    blueResources: { aomomoFossils: 4, score: 42 },
+    alienGameState: makeAomomoAlienState(),
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: {
+      mode: "aomomo-grid",
+      selectedAlienSlotId: 1,
+      allowedTraceTypes: ["blue"],
+    },
+    alienTraceButtons: [
+      makeButton(
+        { alienSlot: "1", aomomoTraceType: "blue", aomomoTraceSlot: "4", aomomoPosition: "4" },
+        "奥陌陌蓝色痕迹 4号位：3分，外星人牌，1化石",
+        false,
+        () => selected.push("fossil-card"),
+      ),
+      makeButton(
+        { alienSlot: "1", aomomoTraceType: "blue", aomomoTraceSlot: "5", aomomoPosition: "5" },
+        "奥陌陌蓝色痕迹 5号位：支付 4 化石，25分",
+        false,
+        () => selected.push("spend-four-fossils"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should cash out Aomomo 4-fossil trace when ready");
+  assert.deepEqual(
+    selected,
+    ["spend-four-fossils"],
+    "AI should prioritize the 25-score Aomomo trace once it has four fossils available",
+  );
+}
+
+{
+  const selected = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    blueResources: { aomomoFossils: 0, score: 35 },
+    alienGameState: makeAomomoAlienState(),
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: {
+      mode: "aomomo-grid",
+      selectedAlienSlotId: 1,
+      allowedTraceTypes: ["blue"],
+    },
+    alienTraceButtons: [
+      makeButton(
+        { alienSlot: "1", aomomoTraceType: "blue", aomomoTraceSlot: "2", aomomoPosition: "2" },
+        "奥陌陌蓝色痕迹 2号位：2分，1化石",
+        false,
+        () => selected.push("distant-fossil"),
+      ),
+      makeButton(
+        { alienSlot: "1", aomomoTraceType: "blue", aomomoTraceSlot: "3", aomomoPosition: "3" },
+        "奥陌陌蓝色痕迹 3号位：3分，外星人牌",
+        false,
+        () => selected.push("alien-card"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should not overbuild a distant Aomomo fossil plan");
+  assert.deepEqual(
+    selected,
+    ["alien-card"],
+    "AI should take the card slot instead of overvaluing the first fossil toward a distant 4-fossil trace",
+  );
+}
+
+{
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
@@ -1646,6 +1920,70 @@ function makeBanrenmaAlienState() {
     harness.getHandled(),
     { type: "move", deltaX: 0, deltaY: -1, rocketId: 77 },
     "AI should move transported Chong fossils only closer to Earth",
+  );
+}
+
+{
+  let selectedTurnAction = null;
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    pendingActionExecuted: true,
+    roundNumber: 3,
+    blueResources: { score: 42, availableData: 1, handSize: 3, credits: 5, energy: 5 },
+    recordMove: true,
+    canPayForMove: true,
+    onChooseTurnAction: (_candidates, selected) => {
+      selectedTurnAction = selected;
+    },
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    data: {
+      PLACEMENT_KIND_COMPUTER: "computer",
+      PLACEMENT_KIND_BLUE_BONUS: "blueBonus",
+      getComputerSlotBonus: (slot) => (Number(slot) === 4
+        ? { type: "income", gain: { energy: 1 } }
+        : null),
+      canPlaceAnyData: () => ({
+        ok: true,
+        choices: [{
+          target: "computer",
+          placementSlot: 4,
+          label: "第一排放置位 4",
+          description: "按从左到右放入第一排第 4 位",
+        }],
+      }),
+    },
+    earthCoordinate: { x: 1, y: 1 },
+    alienGameState: makeChongTransportAlienState({ rocketId: 77 }),
+    movableTokens: [
+      {
+        id: 77,
+        kind: "chong-fossil",
+        playerId: "player-blue",
+        color: "blue",
+        sector: { x: 1, y: 3 },
+        sectorX: 1,
+        sectorY: 3,
+      },
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should keep Chong transport moving when an income slot is also available");
+  assert.equal(selectedTurnAction?.id, "move", "Chong transport should outrank generic income placement once carried");
+  assert.deepEqual(
+    harness.getHandled(),
+    { type: "move", deltaX: 0, deltaY: -1, rocketId: 77 },
+    "AI should cash out carried Chong fossils before extending the generic engine",
   );
 }
 
@@ -1737,6 +2075,105 @@ function makeBanrenmaAlienState() {
   );
 }
 
+{
+  const moveEffect = { id: "test-chong-card-move-to-fossil", type: "card_move", options: { movementPoints: 1 } };
+  const chongLandEffect = chong.buildImmediateEffects(3).find((effect) => (
+    effect.type === chong.EFFECT_TYPES.CHONG_LAND_FOR_PICKUP
+  ));
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    recordEffectMove: true,
+    canPayForMove: true,
+    allowedMoveDeltas: [
+      { deltaX: 1, deltaY: 0 },
+      { deltaX: 0, deltaY: 1 },
+    ],
+    planetLocations: [
+      { planetId: "jupiter", label: "木星", name: "木星", x: 1, y: 2 },
+      { planetId: "uranus", label: "天王星", name: "天王星", x: 0, y: 3 },
+    ],
+    planetStats: {
+      canAddLandingMarker: () => true,
+      canAddOrbitMarker: () => true,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
+    pendingActionEffectFlow: {
+      currentIndex: 0,
+      effects: [moveEffect, chongLandEffect],
+      cardMoveEffect: { effect: moveEffect, poolRemaining: 1 },
+    },
+    alienGameState: makeChongAvailableFossilAlienState({ planetId: "jupiter" }),
+    movableTokens: [
+      {
+        id: 77,
+        kind: "standard",
+        playerId: "player-blue",
+        color: "blue",
+        sector: { x: 0, y: 2 },
+        sectorX: 0,
+        sectorY: 2,
+      },
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should move toward a Chong fossil pickup planet before the pickup landing");
+  assert.deepEqual(
+    harness.getHandled(),
+    { type: "effect-move", deltaX: 1, deltaY: 0, rocketId: 77 },
+    "AI should prefer Jupiter over a non-fossil high-score landing when a Chong pickup follows",
+  );
+}
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    playCardSelectionActive: true,
+    blueResources: { credits: 5, energy: 5, handSize: 1 },
+    blueHand: [chong.createAlienCard(8, 1)],
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 3,
+        getLandEnergyCost: () => 0,
+        getLandOptions: () => ({
+          ok: true,
+          choices: [{
+            planetId: "mars",
+            planet: { planetId: "mars", label: "火星", name: "火星" },
+            target: { type: "planet" },
+            energyCost: 0,
+            label: "登陆火星",
+          }],
+        }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 3,
+      },
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.blocked, true, "AI should not play a Chong transport card when only non-fossil planets are landable");
+  assert.equal(harness.getHandled(), null);
+}
 {
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
@@ -2273,6 +2710,75 @@ function makeBanrenmaAlienState() {
 }
 
 {
+  let selectedTurnAction = null;
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    pendingActionExecuted: true,
+    roundNumber: 2,
+    blueResources: { score: 12, credits: 5, energy: 0, availableData: 1, handSize: 3 },
+    blueIncome: { credits: 2, energy: 1, handSize: 1 },
+    blueHand: [
+      banrenma.createAlienCard(3, 1),
+      banrenma.createAlienCard(5, 2),
+      banrenma.createAlienCard(7, 3),
+    ],
+    onChooseTurnAction: (_candidates, selected) => {
+      selectedTurnAction = selected;
+    },
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    data: {
+      PLACEMENT_KIND_COMPUTER: "computer",
+      PLACEMENT_KIND_BLUE_BONUS: "blueBonus",
+      getComputerSlotBonus: (slot) => {
+        if (Number(slot) === 4) return { type: "income", gain: { energy: 1 } };
+        if (Number(slot) === 5) return { type: "score", score: 10 };
+        return null;
+      },
+      canPlaceAnyData: () => ({
+        ok: true,
+        choices: [
+          {
+            target: "computer",
+            placementSlot: 5,
+            label: "第一排放置位 5",
+            description: "得分位",
+          },
+          {
+            target: "computer",
+            placementSlot: 4,
+            label: "第一排放置位 4",
+            description: "能量收入位",
+          },
+        ],
+      }),
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should place data for energy income when Banrenma cards need fuel");
+  assert.equal(
+    Number(selectedTurnAction?.placementSlot),
+    4,
+    "Banrenma energy plan should outrank an early direct-score data slot",
+  );
+  assert.deepEqual(harness.getHandled(), {
+    type: "data-placement",
+    target: "computer",
+    blueSlot: null,
+  });
+}
+
+{
   const chongTransportTask = {
     kind: "transport",
     destinationPlanetId: "earth",
@@ -2392,6 +2898,73 @@ function makeBanrenmaAlienState() {
     currentPlayerColor: "blue",
     roundNumber: 5,
     canStartMainAction: true,
+    recordBeginPlayCard: true,
+    blueResources: { score: 86, credits: 3, energy: 2, publicity: 1, availableData: 0, handSize: 5 },
+    blueHand: [{
+      id: "weak-final-card",
+      cardName: "Weak final card",
+      price: 1,
+      typeCode: 3,
+      playEffects: [{ type: "card_public_scan", options: {} }],
+      model: {
+        endGameScoring: { kind: "sectorWins", scorePer: 1 },
+      },
+    }],
+    finalScoringState: {
+      tiles: {
+        final_a2: {
+          id: "final_a2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b2: {
+          id: "final_b2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a2: "a2",
+      final_b2: "b2",
+      final_d2: "d2",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should enumerate the weak final play-card harness action");
+  const playCardCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "playCard");
+  const weakFinalCandidate = playCardCandidate?.playableCards?.[0] || null;
+  assert.ok(weakFinalCandidate, "weak final play-card candidate should be enumerated");
+  assert.ok(
+    Number(weakFinalCandidate.valueBreakdown?.playCardConversionPressure || 0) <= 6,
+    "low-yield final card without C2 planning should not receive full conversion pressure",
+  );
+  assert.ok(
+    Number(weakFinalCandidate.valueBreakdown?.lateCardEnginePressure || 0) <= 4,
+    "low-yield final card without C2 planning should not receive full late engine pressure",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 5,
+    canStartMainAction: true,
     realisticCanAfford: true,
     enableQuickTrades: true,
     recordQuickTrade: true,
@@ -2452,6 +3025,80 @@ function makeBanrenmaAlienState() {
   assert.ok(
     Number(tradeCandidate.valueBreakdown?.concreteFinalValue || 0) > 0,
     "tail unlock trade should still require concrete score/final value",
+  );
+}
+
+{
+  const turnChoices = [];
+  const publicScoreCard = {
+    id: "public-tail-score-card",
+    cardName: "Public tail score card",
+    price: 1,
+    playEffects: [{ type: "gain_resources", options: { gain: { score: 14 } } }],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 5,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "publicity-for-card": {
+        id: "publicity-for-card",
+        label: "3 publicity -> public card",
+        cost: { publicity: 3 },
+        gain: { handSize: 1 },
+      },
+    },
+    publicCards: [publicScoreCard],
+    blueResources: { score: 158, credits: 1, energy: 0, publicity: 3, availableData: 0, handSize: 0 },
+    blueHand: [],
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b2: {
+          id: "final_b2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_b2: "b2",
+      final_d2: "d2",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should use publicity to refill a playable tail scoring card");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "publicity-for-card" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "publicity-for-card");
+  assert.ok(tradeCandidate, "publicity-for-card tail refill candidate should be enumerated");
+  assert.equal(
+    tradeCandidate.valueBreakdown?.finalLowHandPublicRefill,
+    true,
+    "158-score final low-hand player should still be inside the public refill window",
   );
 }
 

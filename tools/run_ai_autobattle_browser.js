@@ -9,6 +9,7 @@ const { spawn, spawnSync } = require("child_process");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DEFAULT_CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
+const DEFAULT_CDP_TIMEOUT_MS = 45000;
 
 function parseArgs(argv) {
   const options = {
@@ -30,6 +31,7 @@ function parseArgs(argv) {
     strategyTuning: null,
     mergeStrategyWeights: true,
     resetStrategyWeights: false,
+    includeState: false,
     timeoutMs: null,
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -69,6 +71,10 @@ function parseArgs(argv) {
         break;
       case "resetStrategyWeights":
         options.resetStrategyWeights = true;
+        if (inlineValue == null && value != null && !String(value).startsWith("--")) index -= 1;
+        break;
+      case "includeState":
+        options.includeState = true;
         if (inlineValue == null && value != null && !String(value).startsWith("--")) index -= 1;
         break;
       case "headed":
@@ -147,7 +153,7 @@ async function waitForJson(url, timeoutMs = 10000) {
   let lastError = null;
   while (Date.now() < deadline) {
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, { signal: AbortSignal.timeout(2000) });
       if (response.ok) return response.json();
       lastError = new Error(`HTTP ${response.status}`);
     } catch (error) {
@@ -187,8 +193,9 @@ class CdpClient {
   handleMessage(event) {
     const message = JSON.parse(event.data);
     if (message.id && this.pending.has(message.id)) {
-      const { resolve, reject } = this.pending.get(message.id);
+      const { resolve, reject, timer } = this.pending.get(message.id);
       this.pending.delete(message.id);
+      clearTimeout(timer);
       if (message.error) reject(new Error(message.error.message || JSON.stringify(message.error)));
       else resolve(message.result);
       return;
@@ -198,11 +205,15 @@ class CdpClient {
     }
   }
 
-  send(method, params = {}) {
+  send(method, params = {}, timeoutMs = DEFAULT_CDP_TIMEOUT_MS) {
     const id = this.nextId++;
     const payload = JSON.stringify({ id, method, params });
     return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject });
+      const timer = setTimeout(() => {
+        this.pending.delete(id);
+        reject(new Error(`CDP ${method} timed out after ${timeoutMs}ms`));
+      }, timeoutMs);
+      this.pending.set(id, { resolve, reject, timer });
       this.ws.send(payload);
     });
   }
@@ -225,12 +236,22 @@ async function launchChrome(chromePath, remoteDebuggingPort, userDataDir, headle
     `--remote-debugging-port=${remoteDebuggingPort}`,
     `--user-data-dir=${userDataDir}`,
     "--disable-background-networking",
+    "--disable-accelerated-2d-canvas",
+    "--disable-accelerated-video-decode",
     "--disable-default-apps",
     "--disable-extensions",
     "--disable-gpu",
+    "--disable-gpu-compositing",
+    "--disable-gpu-rasterization",
+    "--disable-gpu-sandbox",
+    "--disable-features=CanvasOopRasterization,DawnGraphite,DefaultANGLEVulkan,SkiaGraphite,UseDawn,Vulkan,WebGPU,WebGPUDeveloperFeatures",
     "--disable-sync",
+    "--disable-vulkan",
+    "--in-process-gpu",
+    "--use-angle=swiftshader",
     "--no-first-run",
     "--no-default-browser-check",
+    "--no-sandbox",
     "about:blank",
   ];
   if (headless) args.unshift("--headless=new");
@@ -350,6 +371,17 @@ async function runPageBatch(cdp, batchOptions, timeoutMs) {
   return JSON.parse(state.result);
 }
 
+async function getPageAiDebugState(cdp) {
+  const state = await cdp.send("Runtime.evaluate", {
+    expression: "JSON.stringify(window.SetiRandomizer?.getAiDebugState?.() || null)",
+    returnByValue: true,
+  });
+  if (state.exceptionDetails) {
+    throw new Error(state.exceptionDetails.text || "Runtime debug state read failed");
+  }
+  return state.result?.value ? JSON.parse(state.result.value) : null;
+}
+
 function summarizeResult(result) {
   const getScoreForPlayer = (player, stoppedBeforeRound = null) => Number(
     stoppedBeforeRound
@@ -427,12 +459,13 @@ async function main() {
   const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), "seti-ai-chrome-"));
   const { server, port: httpPort } = await startStaticServer(REPO_ROOT);
   const chrome = await launchChrome(options.chrome, debugPort, userDataDir, options.headless);
+  let cdp = null;
   const pageUrl = `http://127.0.0.1:${httpPort}/randomizer/index.html?aiRun=${Date.now()}`;
   const consoleMessages = [];
 
   try {
     const wsUrl = await getPageWebSocket(debugPort);
-    const cdp = new CdpClient(wsUrl);
+    cdp = new CdpClient(wsUrl);
     await cdp.open();
     cdp.on("Runtime.consoleAPICalled", (params) => {
       consoleMessages.push({
@@ -451,7 +484,7 @@ async function main() {
         returnByValue: true,
       });
       return ready.result?.value === true;
-    }, 20000);
+    }, 60000);
     if (!pageReady) {
       throw new Error("Timed out waiting for SetiRandomizer.runAiAutoBattleBatch");
     }
@@ -476,6 +509,7 @@ async function main() {
     };
     const timeoutMs = options.timeoutMs || Math.max(120000, options.games * options.maxSteps * 60);
     const result = await runPageBatch(cdp, batchOptions, timeoutMs);
+    const debugState = options.includeState ? await getPageAiDebugState(cdp) : null;
     const summary = summarizeResult(result);
     const output = {
       options: batchOptions,
@@ -484,19 +518,27 @@ async function main() {
       result,
       consoleMessages: consoleMessages.slice(-50),
     };
+    if (options.includeState) output.debugState = debugState;
     if (options.out) {
       fs.mkdirSync(path.dirname(path.resolve(options.out)), { recursive: true });
       fs.writeFileSync(options.out, JSON.stringify(output, null, 2));
     }
     process.stdout.write(`${JSON.stringify(summary, null, 2)}\n`);
-    cdp.close();
   } finally {
+    if (cdp) cdp.close();
     server.close();
     if (chrome.pid && process.platform === "win32") {
-      spawnSync("taskkill", ["/PID", String(chrome.pid), "/T", "/F"], { stdio: "ignore" });
+      const killResult = spawnSync("taskkill", ["/PID", String(chrome.pid), "/T", "/F"], {
+        stdio: "ignore",
+        timeout: 5000,
+      });
+      if (killResult.error) chrome.kill();
     } else {
       chrome.kill();
     }
+    chrome.stdout?.destroy?.();
+    chrome.stderr?.destroy?.();
+    chrome.unref?.();
     for (let attempt = 0; attempt < 10; attempt += 1) {
       try {
         fs.rmSync(userDataDir, { recursive: true, force: true });

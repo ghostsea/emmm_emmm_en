@@ -74,9 +74,55 @@ assert.equal(activeTransport.rocketId, 42);
 assert.equal(activeTransport.fossil.status, "transported");
 assert.equal(activeTransport.delivered, false);
 assert.equal(chong.getActiveTransportForCard(transportState, "card-other"), null);
+assert.equal(
+  chong.listTransportArrivalEvents(
+    transportState,
+    [{ id: 42, kind: "chong-fossil", playerId: white.id, color: white.color, sectorX: 4, sectorY: 2 }],
+    () => ({ x: 4, y: 1 }),
+    { chongFossilKind: "chong-fossil" },
+  ).length,
+  0,
+);
+const arrivalEvents = chong.listTransportArrivalEvents(
+  transportState,
+  [
+    { id: 42, kind: "chong-fossil", playerId: white.id, color: white.color, sectorX: 4, sectorY: 1 },
+    { id: 43, kind: "chong-fossil", playerId: white.id, color: white.color, sectorX: 4, sectorY: 1 },
+  ],
+  (planetId) => (planetId === "earth" ? { x: 4, y: 1 } : null),
+  { chongFossilKind: "chong-fossil" },
+);
+assert.equal(arrivalEvents.length, 1);
+assert.deepEqual(
+  {
+    type: arrivalEvents[0].type,
+    planetId: arrivalEvents[0].planetId,
+    rocketId: arrivalEvents[0].rocketId,
+    tokenKind: arrivalEvents[0].tokenKind,
+    fossilId: arrivalEvents[0].fossilId,
+    synthetic: arrivalEvents[0].synthetic,
+  },
+  {
+    type: "visitPlanet",
+    planetId: "earth",
+    rocketId: 42,
+    tokenKind: "chong-fossil",
+    fossilId: fossil.fossilId,
+    synthetic: true,
+  },
+);
 const delivered = chong.markTransportedFossilDelivered(transportState, 42, "earth");
 assert.equal(delivered.ok, true);
 assert.equal(delivered.fossil.status, "delivered");
+assert.equal(
+  chong.listTransportArrivalEvents(
+    transportState,
+    [{ id: 42, kind: "chong-fossil", playerId: white.id, color: white.color, sectorX: 4, sectorY: 1 }],
+    () => ({ x: 4, y: 1 }),
+    { chongFossilKind: "chong-fossil" },
+  ).length,
+  0,
+);
 assert.equal(chong.getActiveTransportForCard(transportState, "card-0").delivered, true);
 assert.equal(transportState.chong.panelFossilSlots[1], undefined);
 const readyTransport = chong.getDeliveredTransportForCard(transportState, "card-0");

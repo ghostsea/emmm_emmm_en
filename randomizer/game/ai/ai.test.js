@@ -57,6 +57,42 @@ assert.ok(earlyCreditIncomeFit > 0);
 assert.ok(earlyExtraHandIncomeFit < 0);
 assert.ok(earlyCreditIncomeFit > earlyExtraHandIncomeFit + 8);
 assert.ok(firstHandIncomeFit > earlyExtraHandIncomeFit + 5);
+const zeroIncomeFirstMarkPenalty = valuation.estimateFinalTileZeroBasePenalty({
+  formulaId: "a2",
+  baseValue: 0,
+  threshold: 25,
+  roundNumber: 2,
+  finalRoundNumber: 4,
+  slotIndex: 1,
+});
+assert.ok(
+  zeroIncomeFirstMarkPenalty >= 8,
+  "zero-base A2 first mark should be penalized even at the 25-point threshold",
+);
+assert.equal(
+  valuation.estimateFinalTileZeroBasePenalty({
+    formulaId: "b1",
+    baseValue: 0,
+    threshold: 25,
+    roundNumber: 2,
+    finalRoundNumber: 4,
+    slotIndex: 1,
+  }),
+  0,
+  "non-income first marks keep the old early zero-base behavior",
+);
+assert.equal(
+  valuation.estimateFinalTileZeroBasePenalty({
+    formulaId: "a1",
+    baseValue: 1,
+    threshold: 25,
+    roundNumber: 2,
+    finalRoundNumber: 4,
+    slotIndex: 1,
+  }),
+  0,
+  "income formulas with real post-company income growth are not penalized",
+);
 const earlyHighCostScorePenalty = valuation.estimateHighCostPointConversionPenalty({
   roundNumber: 1,
   currentScore: 10,

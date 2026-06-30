@@ -371,6 +371,15 @@
       recoverFromActionLog,
       getPlanetStatsState: () => structuredClone(planetStatsState),
       getCurrentPlayer: () => structuredClone(getCurrentPlayer()),
+      getAiDebugState: () => structuredClone({
+        playerState,
+        turnState,
+        rocketState,
+        alienGameState,
+        finalScoringState,
+        cardState,
+        currentPlayerId: playerState.currentPlayerId,
+      }),
       getState: () => structuredClone({
         ...solarState,
         players: playerState.players,

@@ -818,6 +818,61 @@
     return null;
   }
 
+  function getRocketSectorCoordinate(rocket) {
+    if (!rocket) return null;
+    const coordinate = rocket.sectorCoordinate || rocket.sector || rocket.coordinate || null;
+    if (coordinate && Number.isFinite(Number(coordinate.x)) && Number.isFinite(Number(coordinate.y))) {
+      return { x: Math.round(Number(coordinate.x)), y: Math.round(Number(coordinate.y)) };
+    }
+    if (Number.isFinite(Number(rocket.sectorX)) && Number.isFinite(Number(rocket.sectorY))) {
+      return { x: Math.round(Number(rocket.sectorX)), y: Math.round(Number(rocket.sectorY)) };
+    }
+    return null;
+  }
+
+  function sameCoordinate(left, right) {
+    if (!left || !right) return false;
+    return Math.round(Number(left.x)) === Math.round(Number(right.x))
+      && Math.round(Number(left.y)) === Math.round(Number(right.y));
+  }
+
+  function listTransportArrivalEvents(alienState, rockets = [], getDestinationCoordinate = null, options = {}) {
+    if (!alienState || typeof getDestinationCoordinate !== "function") return [];
+    const chong = ensureChongState(alienState);
+    const requiredKind = options.chongFossilKind || null;
+    const source = options.source || "chong-transport-position";
+    const events = [];
+    for (const rocket of rockets || []) {
+      if (!rocket || (requiredKind && rocket.kind !== requiredKind)) continue;
+      const rocketId = Number(rocket.id);
+      if (!Number.isFinite(rocketId)) continue;
+      const task = chong.transportTasksByRocketId?.[String(rocketId)];
+      if (!task || !task.destinationPlanetId || task.delivered) continue;
+      const fossil = chong.fossilsById?.[task.fossilId];
+      if (!fossil || fossil.status !== "transported" || fossil.taskCompleted) continue;
+      const rocketCoordinate = getRocketSectorCoordinate(rocket);
+      let destinationCoordinate = null;
+      try {
+        destinationCoordinate = getDestinationCoordinate(task.destinationPlanetId, task, fossil, rocket);
+      } catch (_error) {
+        destinationCoordinate = null;
+      }
+      if (!sameCoordinate(rocketCoordinate, destinationCoordinate)) continue;
+      events.push({
+        type: "visitPlanet",
+        planetId: task.destinationPlanetId,
+        rocketId,
+        playerId: rocket.playerId || fossil.carriedByPlayerId || null,
+        playerColor: rocket.color || fossil.carriedByPlayerColor || null,
+        tokenKind: rocket.kind || requiredKind || null,
+        fossilId: fossil.fossilId,
+        source,
+        synthetic: true,
+      });
+    }
+    return events;
+  }
+
   function formatTraceLabel(traceType, position) {
     return `${placement.getTraceTypeLabel(traceType)} ${position}号位`;
   }
@@ -879,6 +934,7 @@
     getTransportTaskForRocket,
     getDeliveredTransportForCard,
     getActiveTransportForCard,
+    listTransportArrivalEvents,
     unlockBluePositionWithFossil,
     markerBelongsToPlayer,
     getPlayerKeys,

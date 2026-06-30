@@ -632,11 +632,28 @@
   function estimateFinalTileZeroBasePenalty(options = {}) {
     const baseValue = Math.max(0, numeric(options.baseValue));
     const threshold = Math.max(0, numeric(options.threshold));
-    if (baseValue > 0 || threshold < 50) return 0;
+    if (baseValue > 0) return 0;
 
     const round = Math.max(1, Math.round(numeric(options.roundNumber) || 1));
     const finalRound = Math.max(1, Math.round(numeric(options.finalRoundNumber) || FINAL_ROUND_NUMBER));
     const slotIndex = Math.max(1, Math.round(numeric(options.slotIndex) || 3));
+    const formulaId = String(options.formulaId || "");
+    if ((formulaId === "a1" || formulaId === "a2") && threshold < 50) {
+      const incomeRoundScale = round >= finalRound
+        ? 1.35
+        : round >= finalRound - 1
+          ? 1
+          : 0.75;
+      const incomeSlotScale = slotIndex === 1
+        ? 1.1
+        : slotIndex === 2
+          ? 0.9
+          : 0.72;
+      return roundValue(Math.min(14, 10 * incomeRoundScale * incomeSlotScale));
+    }
+
+    if (threshold < 50) return 0;
+
     const thresholdBase = threshold >= 70 ? 13 : 7;
     const roundScale = round >= finalRound
       ? 1.25

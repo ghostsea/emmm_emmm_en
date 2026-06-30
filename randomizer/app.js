@@ -7298,7 +7298,6 @@
     if (formulaId !== "c1" && formulaId !== "c2") return 0;
     const roundNumber = Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1));
     const threshold = Math.max(0, aiNumber(thresholdValue));
-    if (threshold < 50 && roundNumber <= 2) return 0;
 
     const cPipelineState = getAiFinalScoreCFormulaPipeline(formulaId, player, baseValue, demand);
     if (!cPipelineState) return 0;
@@ -7306,31 +7305,49 @@
     const currentBase = Math.max(0, cPipelineState.currentBase);
     const projectedBase = Math.max(currentBase, aiNumber(cPipelineState.projectedBase));
     const pipelineStrength = Math.max(0, cPipelineState.cPipeline + cPipelineState.demandPipeline);
+    const earlySpeculativeWindow = threshold < 50 && roundNumber <= 2;
+    if (earlySpeculativeWindow && currentBase > 0) return 0;
     const finalWindow = threshold >= 70 || roundNumber >= FINAL_ROUND_NUMBER;
-    const lateWindowScale = finalWindow ? 1 : threshold >= 50 || roundNumber >= 3 ? 0.72 : 0.38;
+    const lateWindowScale = finalWindow
+      ? 1
+      : threshold >= 50 || roundNumber >= 3
+        ? 0.72
+        : earlySpeculativeWindow
+          ? (slot === 1 ? 0.55 : slot === 2 ? 0.32 : 0.22)
+          : 0.38;
     if (lateWindowScale <= 0) return 0;
 
-    const targetBase = formulaId === "c1"
-      ? (slot === 1
-        ? (finalWindow ? 4.5 : 4)
-        : slot === 2
+    const targetBase = earlySpeculativeWindow
+      ? (formulaId === "c1"
+        ? (slot === 1 ? 2.1 : slot === 2 ? 1.55 : 1.2)
+        : (slot === 1 ? 1.65 : slot === 2 ? 1.25 : 1))
+      : (formulaId === "c1"
+        ? (slot === 1
+          ? (finalWindow ? 4.5 : 4)
+          : slot === 2
+            ? (finalWindow ? 3.5 : 3)
+            : (finalWindow ? 3 : 2.5))
+        : (slot === 1
           ? (finalWindow ? 3.5 : 3)
-          : (finalWindow ? 3 : 2.5))
-      : (slot === 1
-        ? (finalWindow ? 3.5 : 3)
-        : slot === 2
-          ? (finalWindow ? 3 : 2.5)
-          : (finalWindow ? 2.4 : 2));
-    const realizedTarget = formulaId === "c1"
-      ? (finalWindow ? 3 : 2.5)
-      : (finalWindow ? 2.2 : 1.8);
+          : slot === 2
+            ? (finalWindow ? 3 : 2.5)
+            : (finalWindow ? 2.4 : 2)));
+    const realizedTarget = earlySpeculativeWindow
+      ? (formulaId === "c1"
+        ? (slot === 1 ? 0.9 : 0.7)
+        : (slot === 1 ? 0.7 : 0.55))
+      : (formulaId === "c1"
+        ? (finalWindow ? 3 : 2.5)
+        : (finalWindow ? 2.2 : 1.8));
     const shortfall = Math.max(0, targetBase - projectedBase);
     const realizedShortfall = Math.max(0, realizedTarget - currentBase);
     if (shortfall <= 0 && realizedShortfall <= 0) return 0;
 
-    const weakPipelineLimit = formulaId === "c1"
-      ? (finalWindow ? 1.8 : 1.35)
-      : (finalWindow ? 1.45 : 1.1);
+    const weakPipelineLimit = earlySpeculativeWindow
+      ? (formulaId === "c1" ? 0.9 : 0.75)
+      : (formulaId === "c1"
+        ? (finalWindow ? 1.8 : 1.35)
+        : (finalWindow ? 1.45 : 1.1));
     let penalty = shortfall * (formulaId === "c1" ? 5.4 : 4.2) * lateWindowScale;
     penalty += realizedShortfall * (formulaId === "c1" ? 2.4 : 1.8) * lateWindowScale;
 
@@ -7348,6 +7365,41 @@
 
     if (slot >= 3) penalty *= 0.86;
     return Math.min(finalWindow ? 26 : 20, Math.max(0, penalty));
+  }
+
+  function getAiZeroBaseCFinalSpeculationScale(formulaId, player, slotIndex, thresholdValue, baseValue, demand = {}) {
+    if (formulaId !== "c1" && formulaId !== "c2") return null;
+    if (Math.max(0, aiNumber(baseValue)) > 0) return null;
+    const cPipelineState = getAiFinalScoreCFormulaPipeline(formulaId, player, baseValue, demand);
+    if (!cPipelineState) return null;
+
+    const roundNumber = Math.max(1, Math.round(aiNumber(turnState.roundNumber) || 1));
+    const threshold = Math.max(0, aiNumber(thresholdValue));
+    const slot = Math.max(1, Math.round(aiNumber(slotIndex) || 1));
+    const projectedBase = Math.max(0, aiNumber(cPipelineState.projectedBase));
+    const cPipeline = Math.max(0, aiNumber(cPipelineState.cPipeline));
+    const concretePipeline = Math.max(0,
+      aiNumber(cPipelineState.completedTaskCount)
+        + aiNumber(cPipelineState.reservedTaskCount)
+        + aiNumber(cPipelineState.type3Reserved)
+        + aiNumber(cPipelineState.handTaskCount) * 0.35
+        + aiNumber(cPipelineState.type3InHand) * 0.3,
+    );
+
+    if (threshold <= 25 && roundNumber <= 2 && slot === 1) {
+      const targetProjectedBase = formulaId === "c1" ? 2 : 2;
+      if (projectedBase >= targetProjectedBase || concretePipeline >= targetProjectedBase + 0.35) return null;
+      if (cPipeline >= (formulaId === "c1" ? 2 : 2.25)) return 0.34;
+      if (cPipeline >= (formulaId === "c1" ? 1.25 : 1.35)) return 0.26;
+      return 0.18;
+    }
+
+    if (threshold >= 50 || roundNumber >= 3) {
+      if (projectedBase <= 0 && cPipeline < 1) return 0.08;
+      if (projectedBase < (formulaId === "c1" ? 2 : 1) && cPipeline < 1.6) return 0.14;
+    }
+
+    return null;
   }
 
   function getAiB1FinalFormulaState(player) {
@@ -7620,13 +7672,24 @@
     const thresholdValue = aiNumber(pending.threshold);
     const isLateMarker = isLastThreshold || roundNumber >= 4;
     const speculationScale = isLateMarker ? 0.35 : 1;
-    const currentBaseSpeculationScale = baseValue > 0
+    const rawCurrentBaseSpeculationScale = baseValue > 0
       ? 1
       : (isLateMarker || thresholdValue >= 50)
         ? 0.18
         : roundNumber >= 3
           ? 0.1
           : 0.45;
+    const zeroBaseCSpeculationScale = getAiZeroBaseCFinalSpeculationScale(
+      formulaId,
+      player,
+      check.slotIndex,
+      thresholdValue,
+      baseValue,
+      demand,
+    );
+    const currentBaseSpeculationScale = zeroBaseCSpeculationScale == null
+      ? rawCurrentBaseSpeculationScale
+      : Math.min(rawCurrentBaseSpeculationScale, zeroBaseCSpeculationScale);
     const effectiveSpeculationScale = speculationScale * currentBaseSpeculationScale;
     const secondSlotSpeculationScale = baseValue > 0
       ? Math.max(0.5, effectiveSpeculationScale)
@@ -7635,13 +7698,19 @@
     const remainingRoundWeight = Math.min(1.6, 0.7 + getAiRemainingRoundWeight() * 0.15);
     const formulaPotentialScore = getAiFinalScoreFormulaPotential(formulaId) * remainingRoundWeight * effectiveSpeculationScale;
     const incomePotentialScore = 0;
+    const growthSpeculationFloor = (
+      (formulaId === "c1" || formulaId === "c2")
+      && baseValue <= 0
+    )
+      ? Math.max(0.08, currentBaseSpeculationScale)
+      : 0.45;
     const growthPotentialScore = scoreAiFinalScoreFormulaGrowth(
       formulaId,
       player,
       check.slotIndex,
       baseValue,
       demand,
-    ) * Math.max(0.45, effectiveSpeculationScale);
+    ) * Math.max(growthSpeculationFloor, effectiveSpeculationScale);
     const potentialScore = formulaPotentialScore + incomePotentialScore + growthPotentialScore;
     const firstSlotPriorityScore = Number(check.slotIndex) === 1
       ? 14 * effectiveSpeculationScale
@@ -7672,6 +7741,7 @@
     const thresholdScore = Math.max(0, aiNumber(pending.threshold)) * 0.015;
     const rawZeroBaseLatePenalty = aiValuation?.estimateFinalTileZeroBasePenalty
       ? aiValuation.estimateFinalTileZeroBasePenalty({
+        formulaId,
         baseValue,
         threshold: thresholdValue,
         roundNumber,
@@ -7755,6 +7825,10 @@
         incomePotentialScore: Math.round(incomePotentialScore * 100) / 100,
         growthPotentialScore: Math.round(growthPotentialScore * 100) / 100,
         speculationScale: Math.round(speculationScale * 100) / 100,
+        rawCurrentBaseSpeculationScale: Math.round(rawCurrentBaseSpeculationScale * 100) / 100,
+        zeroBaseCSpeculationScale: zeroBaseCSpeculationScale == null
+          ? null
+          : Math.round(zeroBaseCSpeculationScale * 100) / 100,
         currentBaseSpeculationScale: Math.round(currentBaseSpeculationScale * 100) / 100,
         effectiveSpeculationScale: Math.round(effectiveSpeculationScale * 100) / 100,
         slotPriorityScore: Math.round(slotPriorityScore * 100) / 100,
@@ -10101,7 +10175,18 @@
       buildCardTaskContext(),
       cardEffects,
     );
-    return cardTaskStateModule.getReadyType2Tasks(cardTaskState);
+    const regularTasks = cardTaskStateModule.getReadyType2Tasks(cardTaskState);
+    const readyByCardId = new Map((regularTasks || []).map((ready) => [ready?.card?.id, ready]));
+    for (const card of currentPlayer.reservedCards || []) {
+      const readyChongTask = getReadyChongTaskForReservedCard(card, currentPlayer);
+      const readyAmibaTask = readyChongTask ? null : getReadyAmibaTaskForReservedCard(card, currentPlayer);
+      const readyRunezuTask = readyChongTask || readyAmibaTask ? null : getReadyRunezuTaskForReservedCard(card, currentPlayer);
+      const readySpecialTask = readyChongTask || readyAmibaTask || readyRunezuTask;
+      if (readySpecialTask?.card?.id && !readyByCardId.has(readySpecialTask.card.id)) {
+        readyByCardId.set(readySpecialTask.card.id, readySpecialTask);
+      }
+    }
+    return [...readyByCardId.values()];
   }
 
   function refreshCardTaskState(options = {}) {
@@ -10539,6 +10624,38 @@
     return delivered;
   }
 
+  function getChongTransportDestinationCoordinate(planetId) {
+    if (!planetId) return null;
+    return planetId === "earth"
+      ? getEarthSectorCoordinate()
+      : getPlanetSectorCoordinate(planetId);
+  }
+
+  function getChongTransportArrivalEventKey(event) {
+    if (!event || event.type !== "visitPlanet") return null;
+    if ((event.tokenKind || "") !== rocketActions.ROCKET_KIND.CHONG_FOSSIL) return null;
+    if (!event.planetId || !Number.isFinite(Number(event.rocketId))) return null;
+    return `${Number(event.rocketId)}:${event.planetId}`;
+  }
+
+  function buildChongPositionArrivalEvents(existingEvents = []) {
+    if (!chong?.listTransportArrivalEvents) return [];
+    const existingKeys = new Set(
+      (existingEvents || [])
+        .map(getChongTransportArrivalEventKey)
+        .filter(Boolean),
+    );
+    return chong.listTransportArrivalEvents(
+      alienGameState,
+      rocketState.rockets || [],
+      getChongTransportDestinationCoordinate,
+      { chongFossilKind: rocketActions.ROCKET_KIND.CHONG_FOSSIL },
+    ).filter((event) => {
+      const key = getChongTransportArrivalEventKey(event);
+      return key && !existingKeys.has(key);
+    });
+  }
+
   function processRunezuTaskEvents(events = []) {
     if (!runezu || !events?.length) return [];
     const currentPlayer = getCurrentPlayer();
@@ -10602,7 +10719,10 @@
         : event
     ));
     const cardEventBonuses = type1Only ? [] : processCardEventBonuses(normalizedEvents);
-    const chongCompletions = type1Only ? [] : processChongTransportArrivalEvents(normalizedEvents);
+    const chongEvents = type1Only
+      ? []
+      : [...normalizedEvents, ...buildChongPositionArrivalEvents(normalizedEvents)];
+    const chongCompletions = type1Only ? [] : processChongTransportArrivalEvents(chongEvents);
     const runezuCompletions = type1Only ? [] : processRunezuTaskEvents(normalizedEvents);
     refreshCardTaskState({ render });
     const type1Result = skipType1 ? null : applyType1TriggerMatches(normalizedEvents);
