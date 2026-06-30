@@ -144,6 +144,8 @@
       minimizeFinalResultDialog,
       closeFinalResultDialog,
       blockManualAiSharedOverlayInputIfNeeded,
+      handleAiTakeoverFailsafe,
+      handleForceSkipTurnFailsafe,
       setDebugOpen,
       setDebugPlayerMenuOpen,
       switchCurrentPlayerColor,
@@ -232,6 +234,8 @@
     els.startAlienOptions?.addEventListener("change", handleStartAlienOptionChange);
     els.startIndustryOptions?.addEventListener("change", handleStartIndustryOptionChange);
     els.spinButton?.addEventListener("click", randomizeAll);
+    els.failsafeAiButton?.addEventListener("click", handleAiTakeoverFailsafe);
+    els.failsafeSkipButton?.addEventListener("click", handleForceSkipTurnFailsafe);
     els.actionBarMain?.addEventListener("click", handleMainActionButtonClick);
     els.techSelectionCancel?.addEventListener("click", cancelTechSelection);
     els.landTargetConfirm?.addEventListener("click", confirmLandTargetPicker);

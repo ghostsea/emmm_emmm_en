@@ -4922,6 +4922,55 @@ button.spin-button:hover {
   }
 }
 
+.failsafe-dock {
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  z-index: 1510;
+  width: 132px;
+  display: grid;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid rgba(134, 202, 255, 0.28);
+  border-radius: 8px;
+  background: rgba(5, 13, 24, 0.64);
+  box-shadow: 0 0 18px rgba(22, 102, 169, 0.22);
+  -webkit-backdrop-filter: blur(6px) saturate(1.12);
+  backdrop-filter: blur(6px) saturate(1.12);
+}
+
+.failsafe-button {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid rgba(134, 202, 255, 0.42);
+  border-radius: 6px;
+  background: rgba(28, 95, 139, 0.62);
+  color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  font: 700 13px/1 "Microsoft YaHei", "PingFang SC", sans-serif;
+  letter-spacing: 0;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.failsafe-button:hover {
+  border-color: rgba(154, 218, 255, 0.66);
+  background: rgba(44, 122, 171, 0.76);
+}
+
+.failsafe-button:active {
+  transform: scale(0.97);
+}
+
+.failsafe-skip-button {
+  border-color: rgba(255, 154, 126, 0.52);
+  background: rgba(143, 52, 44, 0.64);
+}
+
+.failsafe-skip-button:hover {
+  border-color: rgba(255, 190, 158, 0.72);
+  background: rgba(174, 70, 55, 0.78);
+}
+
 .debug-dock {
   position: fixed;
   left: 10px;
@@ -5349,6 +5398,19 @@ button.spin-button:hover {
 
   .app-wrap:not(.debug-collapsed) .debug-dock {
     width: min(72vw, 220px);
+  }
+
+  .failsafe-dock {
+    left: 6px;
+    top: 6px;
+    width: min(42vw, 128px);
+    padding: 6px;
+    gap: 6px;
+  }
+
+  .failsafe-button {
+    min-height: 32px;
+    font-size: 12px;
   }
 }
 

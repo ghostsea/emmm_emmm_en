@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=industry-pirates-1">
+  <link rel="stylesheet" href="./style.css?v=failsafe-controls-1">
 </head>
 <body>
   <div class="start-screen" id="start-screen" aria-label="开始界面">
@@ -590,6 +590,11 @@
       </section>
     </aside>
 
+    <aside class="failsafe-dock" id="failsafe-dock" aria-label="兜底控制">
+      <button class="failsafe-button failsafe-ai-button" type="button" id="failsafe-ai-button" title="把当前电脑玩家交还给 AI 自动操作">AI接管</button>
+      <button class="failsafe-button failsafe-skip-button" type="button" id="failsafe-skip-button" title="清理当前待处理流程并跳过当前回合">强制跳过</button>
+    </aside>
+
     <aside class="debug-dock" id="debug-dock">
       <button class="debug-toggle" type="button" id="debug-toggle" aria-controls="debug-panel" aria-expanded="false">调试</button>
       <div class="debug-panel" id="debug-panel">
@@ -735,11 +740,11 @@
   <script src="./game/ai/index.js?v=ai-auto-battle-1"></script>
   <script src="./app/dependencies.js?v=app-boundaries-5"></script>
   <script src="./app/constants.js?v=industry-pirates-1"></script>
-  <script src="./app/dom.js?v=start-screen-company-1"></script>
-  <script src="./app/events.js?v=industry-pirates-1"></script>
+  <script src="./app/dom.js?v=failsafe-controls-1"></script>
+  <script src="./app/events.js?v=failsafe-controls-1"></script>
   <script src="./app/action-log-export.js?v=action-log-export-1"></script>
   <script src="./app/public-api.js?v=app-boundaries-5"></script>
   <script src="./app/ai-controller.js?v=ai-pending-lock-1"></script>
-  <script src="./app.js?v=industry-pirates-1"></script>
+  <script src="./app.js?v=failsafe-controls-1"></script>
 </body>
 </html>

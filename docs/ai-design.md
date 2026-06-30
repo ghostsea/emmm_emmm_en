@@ -72,6 +72,7 @@ GameState 快照
 - 顶层行动候选仍由现有规则入口判断可用性，策略层优先读取 `actionGraph.net`，旧 `candidate.score` 只作为 fallback 与 tie-breaker。
 - 子决策以 `runAi*Decision()` 族函数处理；每个 AI pending 分支必须返回 `progressed`、`skipped` 或明确 `blocked`，不能把自动批跑永久停在需要人工点击的状态。
 - 任何跨弹窗延迟结算的 pending 都必须带 `playerId/playerColor` 或可解析 `effect`；AI 分发和确认 handler 均按 `pending owner -> effect owner -> current player` 解析执行玩家。若 pending owner 是人类玩家，AI 必须返回 `blocked` 等待人工处理；若 pending owner 是电脑玩家，人工入口必须拒绝并重新调度 AI，AI 调用确认 handler 时显式传入 `{ automated: true }`。不能因为当前可见玩家是人类而让人类控制 AI pending，也不能因为当前可见玩家是 AI 而代处理人类 pending。
+- 左侧兜底控制只用于恢复异常状态：`AI接管` 会把当前电脑 pending 或可恢复的电脑回合交回自动机并清除旧阻塞暂停，不清空现场 pending；`强制跳过` 会清理当前 pending UI 并把目标玩家标记为本回合已完成但不标记 PASS，用于脱离无法继续的执行卡死。
 - 共用 overlay 的 rare 效果也要有 AI 收口路径。`scanTargetOverlay` 除普通扫描外还承载移除标记、手牌角标奖励、任意弃牌收入、支付信用、重复角标、移除环绕放探测器、任务回手、探测器扇区扫描和探测器位置奖励；这些 pending 即使仍不作为 AI 主动打牌候选，也必须在被强制或触发进入时能自动选择、跳过或确认，不能停在弹窗上。
 - 1 类任务卡触发只在当前事件窗口内可选；AI 若因火箭上限、资源不足或无合法目标无法发动某个触发，应取消本次触发选择并等待下次同类事件，不得消耗触发槽，也不得把自动批跑阻塞在不可执行触发上。
 - AI 不直接改规则状态；真正执行仍走人类同路径的 `runAction()`、`beginScanAction()`、`beginPlayCardSelection()`、`researchTechForCurrentPlayer()`、`passForCurrentPlayer()` 等入口。

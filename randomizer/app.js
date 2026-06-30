@@ -26344,6 +26344,224 @@
     return { ok: true, player: targetPlayer, message: rocketState.statusNote };
   }
 
+  function getExplicitPendingOwnerPlayerForFailsafe(pending) {
+    if (!pending) return null;
+    const directOwner = resolvePlayerReference({
+      playerId: pending.player?.id || pending.playerId || pending.targetPlayerId,
+      playerColor: pending.player?.color || pending.playerColor || pending.targetPlayerColor,
+    });
+    if (directOwner) return directOwner;
+    return getExplicitEffectOwnerPlayer(pending.effect);
+  }
+
+  function getActionEffectOwnerPlayerForFailsafe() {
+    if (!pendingActionEffectFlow) return null;
+    const effect = getCurrentActionEffect();
+    return getExplicitEffectOwnerPlayer(effect)
+      || getPlayerById(pendingActionEffectFlow.activePlayerId)
+      || getPlayerById(pendingActionEffectFlow.playerId)
+      || getPlayerById(pendingActionEffectFlow.defaultPlayerId)
+      || null;
+  }
+
+  function getFailsafePendingOwnerPlayer() {
+    const effectOwner = getActionEffectOwnerPlayerForFailsafe();
+    if (effectOwner) return effectOwner;
+
+    const pendingEntries = [
+      pendingMovePayment,
+      pendingDiscardAction,
+      pendingCardSelectionAction,
+      pendingPassReserveSelection,
+      pendingScanTargetAction,
+      pendingProbeSectorScanAction,
+      pendingProbeLocationRewardAction,
+      pendingPublicScanQueue,
+      pendingHandScanAction,
+      pendingAlienTraceAction,
+      pendingLandTargetAction,
+      pendingDataPlaceAction,
+      pendingCardTriggerAction,
+      pendingCardTriggerFreeMove,
+      pendingCardTaskCompletion,
+      pendingJiuzheCardPlay,
+      pendingYichangdianCardGain,
+      pendingYichangdianCornerAction,
+      pendingBanrenmaCardGain,
+      pendingBanrenmaOpportunity,
+      pendingChongCardGain,
+      pendingChongFossilChoice,
+      pendingChongTaskCompletion,
+      pendingAmibaCardGain,
+      pendingAmibaSymbolChoice,
+      pendingAmibaTraceRemoval,
+      pendingAomomoCardGain,
+      pendingRunezuCardGain,
+      pendingRunezuSymbolBranch,
+      pendingRunezuFaceSymbolPlacement,
+      pendingStrategyPassiveSlotChoice,
+      pendingPiratesRaidPlacement,
+      industryFreeMoveState,
+    ];
+    for (const pending of pendingEntries) {
+      const owner = getExplicitPendingOwnerPlayerForFailsafe(pending);
+      if (owner) return owner;
+    }
+    return null;
+  }
+
+  function getRecoverableTurnPlayerForFailsafe() {
+    const activeIds = new Set(turnState.activePlayerIds || []);
+    const currentPlayer = players.getCurrentPlayer(playerState);
+    if (
+      currentPlayer?.id
+      && activeIds.has(currentPlayer.id)
+      && !isPlayerPassedThisRound(currentPlayer.id)
+      && !hasPlayerCompletedThisTurn(currentPlayer.id)
+    ) {
+      return currentPlayer;
+    }
+
+    const pendingTurnPlayerId = getRoundOrderPlayerIds()
+      .find((playerId) => (
+        activeIds.has(playerId)
+        && !isPlayerPassedThisRound(playerId)
+        && !hasPlayerCompletedThisTurn(playerId)
+      ));
+    if (pendingTurnPlayerId) return getPlayerById(pendingTurnPlayerId);
+
+    const firstEligiblePlayerId = getFirstEligiblePlayerId();
+    return firstEligiblePlayerId ? getPlayerById(firstEligiblePlayerId) : currentPlayer;
+  }
+
+  function getAiTakeoverTargetPlayer() {
+    const pendingOwner = getFailsafePendingOwnerPlayer();
+    if (pendingOwner?.id && isAiAutoBattlePlayer(pendingOwner.id)) return pendingOwner;
+
+    const currentPlayer = players.getCurrentPlayer(playerState);
+    if (currentPlayer?.id && isAiAutoBattlePlayer(currentPlayer.id)) return currentPlayer;
+
+    const recoverableTurnPlayer = getRecoverableTurnPlayerForFailsafe();
+    if (recoverableTurnPlayer?.id && isAiAutoBattlePlayer(recoverableTurnPlayer.id)) {
+      return recoverableTurnPlayer;
+    }
+
+    return getRoundOrderPlayerIds()
+      .map((playerId) => getPlayerById(playerId))
+      .find((player) => (
+        player?.id
+        && isAiAutoBattlePlayer(player.id)
+        && !isPlayerPassedThisRound(player.id)
+        && !hasPlayerCompletedThisTurn(player.id)
+      )) || null;
+  }
+
+  function renderAfterFailsafeControl(message, options = {}) {
+    if (message) rocketState.statusNote = message;
+    selectDefaultRocketForCurrentPlayer();
+    renderDebugPlayerSwitch();
+    renderRoundStatus();
+    syncCardSelectionChrome();
+    syncDiscardSelectionChrome();
+    syncPlayCardSelectionChrome();
+    syncTechSelectionChrome();
+    setTokenAssetSizes();
+    renderPlayerStats();
+    renderAlienPanels();
+    renderTechBoard();
+    renderRockets();
+    renderPublicCards();
+    renderReservedCards();
+    updatePublicCardControls();
+    updateActionButtons();
+    renderStateReadout();
+    schedulePersistentGameStateSave({ label: options.saveLabel || message || "兜底控制后状态" });
+  }
+
+  function resumeAiAutomationForFailsafe(targetPlayer) {
+    const snapshot = createAiControlSnapshot();
+    if (!snapshot?.enabled || !snapshot.playerIds?.length) {
+      return { ok: false, message: "当前没有电脑玩家配置" };
+    }
+    if (!snapshot.playerIds.includes(targetPlayer?.id)) {
+      return { ok: false, message: `${targetPlayer?.colorLabel || "该"}玩家不是电脑玩家` };
+    }
+    const restoreResult = restoreAiControlSnapshot(snapshot);
+    scheduleAiAutoStepIfNeeded();
+    return restoreResult;
+  }
+
+  function handleAiTakeoverFailsafe() {
+    if (isGameEnded()) {
+      rocketState.statusNote = "游戏已结束，无法 AI 接管";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const targetPlayer = getAiTakeoverTargetPlayer();
+    if (!targetPlayer) {
+      rocketState.statusNote = "当前没有可接管的电脑玩家";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    playerState.currentPlayerId = targetPlayer.id;
+    const resumeResult = resumeAiAutomationForFailsafe(targetPlayer);
+    if (!resumeResult?.ok) {
+      rocketState.statusNote = resumeResult?.message || "AI 接管失败";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const message = `${targetPlayer.colorLabel || "电脑"}玩家已交回 AI 接管`;
+    renderAfterFailsafeControl(message, { saveLabel: "AI 接管后状态" });
+    return { ok: true, player: targetPlayer, message };
+  }
+
+  function handleForceSkipTurnFailsafe() {
+    if (isGameEnded()) {
+      rocketState.statusNote = "游戏已结束，无法强制跳过";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const targetPlayer = getFailsafePendingOwnerPlayer()
+      || getRecoverableTurnPlayerForFailsafe()
+      || getCurrentPlayer();
+    if (!targetPlayer) {
+      rocketState.statusNote = "没有可跳过的玩家";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    clearTransientStateForRecovery();
+    playerState.currentPlayerId = targetPlayer.id;
+    const advanceResult = advanceTurnAfterPlayerAction(targetPlayer.id, { passed: false });
+    const roundStartResult = advanceResult.roundAdvanced
+      ? applyIndustryRoundStartBonuses(turnState.roundNumber, { appendLog: true })
+      : null;
+    const nextPlayer = getCurrentPlayer();
+    const displayedTurnNumber = getDisplayedTurnNumber();
+    const advanceMessage = advanceResult.gameEnded
+      ? `游戏结束${advanceResult.finalScoreLines?.length ? `：${advanceResult.finalScoreLines.join("；")}` : ""}`
+      : advanceResult.roundAdvanced
+        ? `进入第 ${turnState.roundNumber} 轮第 ${displayedTurnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`
+        : `进入第 ${turnState.roundNumber} 轮第 ${displayedTurnNumber} 回合，当前玩家：${nextPlayer?.colorLabel || ""}玩家`;
+    const message = [
+      `${targetPlayer.colorLabel || "当前"}玩家已强制跳过本回合（未 PASS）`,
+      advanceMessage,
+      roundStartResult?.message || null,
+    ].filter(Boolean).join("；");
+    renderAfterFailsafeControl(message, { saveLabel: "强制跳过后状态" });
+    if (!advanceResult.gameEnded) {
+      maybeStartFundamentalismRoundStartIncomeFlow(nextPlayer, turnState.roundNumber);
+      scheduleAiAutoStepIfNeeded();
+    } else {
+      maybeAutoOpenFinalResultDialog();
+    }
+    return { ok: true, player: targetPlayer, message };
+  }
+
   function getReferencePlacementKindLabel(kind) {
     return REFERENCE_PLACEMENT_KIND_LABELS[kind] || kind || "贴图";
   }
@@ -34074,6 +34292,8 @@
     minimizeFinalResultDialog,
     closeFinalResultDialog,
     blockManualAiSharedOverlayInputIfNeeded,
+    handleAiTakeoverFailsafe,
+    handleForceSkipTurnFailsafe,
     setDebugOpen,
     setDebugPlayerMenuOpen,
     switchCurrentPlayerColor,
@@ -34345,6 +34565,8 @@
     beginHandScan,
     replaceNebulaDataForCurrentPlayer,
     switchCurrentPlayerColor,
+    handleAiTakeoverFailsafe,
+    handleForceSkipTurnFailsafe,
     runPlaceDataToComputer,
     analyzeDataForCurrentPlayer,
     handleFinalScoreTileClick,
