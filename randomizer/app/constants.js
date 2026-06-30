@@ -21,7 +21,7 @@
     } = dependencies;
 
     const FINAL_SCORE_IDS = ["a", "b", "c", "d"];
-    const BOARD_VISUAL_SCALE = 1.15;
+    const BOARD_VISUAL_SCALE = 1.1;
 
     return {
       WHEEL_OFFSETS: [0, 0, 20, 11, 4],

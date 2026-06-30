@@ -268,18 +268,19 @@ body {
 }
 
 .app-wrap {
-  --board-visual-scale: 1.15;
+  --board-visual-scale: 1.1;
   position: relative;
   margin: 0 auto;
   width: 100%;
-  max-width: 2024px;
+  max-width: 1936px;
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(190px, 0.58fr) minmax(598px, 2.2fr) minmax(300px, 0.72fr);
+  grid-template-columns: minmax(190px, 0.58fr) minmax(572px, 2.2fr) minmax(300px, 0.72fr);
   grid-template-areas: "left center right";
   align-items: start;
   justify-content: center;
-  gap: clamp(12px, 1.2vw, 22px);
+  column-gap: clamp(18px, 2vw, 36px);
+  row-gap: clamp(12px, 1.2vw, 22px);
   padding: clamp(10px, 1.2vw, 22px);
 }
 
@@ -5004,7 +5005,7 @@ button.spin-button:hover {
   backdrop-filter: blur(6px) saturate(1.15);
   overflow: hidden;
   transform: translateY(-50%);
-  transition: width 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+  transition: right 0.18s ease, width 0.18s ease, border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
 }
 
 .report-dock-controls {
@@ -5050,11 +5051,17 @@ button.spin-button:hover {
 }
 
 .log-collapsed .report-dock {
+  right: -34px;
   width: 44px;
   height: 212px;
   border-color: rgba(134, 202, 255, 0.18);
   background: rgba(5, 13, 24, 0.32);
   box-shadow: 0 0 14px rgba(22, 102, 169, 0.2);
+}
+
+.log-collapsed .report-dock:hover,
+.log-collapsed .report-dock:focus-within {
+  right: 10px;
 }
 
 .log-collapsed .report-panel {
@@ -5068,7 +5075,7 @@ button.spin-button:hover {
 
 @media (max-width: 1180px) {
   .app-wrap {
-    max-width: 1058px;
+    max-width: 1012px;
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas:
       "center"
