@@ -13398,10 +13398,10 @@
     const targetCount = effect.options?.returnToHandIfSignalCount;
     if (!Number.isFinite(Number(targetCount))) return false;
     if (countMarkedSignalsInSectorX(sectorX) !== Number(targetCount)) return false;
-    const currentPlayer = getCurrentPlayer();
-    const playedCard = pendingActionEffectFlow?.card;
-    if (!currentPlayer || !playedCard) return false;
-    const discardIndex = (cardState.discardPile || []).findIndex((card) => card.id === playedCard.id);
+    const returnTarget = resolvePlayedCardReturnTarget(effect);
+    const currentPlayer = returnTarget.player;
+    if (!currentPlayer || !returnTarget.playedCard) return false;
+    const discardIndex = returnTarget.discardIndex;
     if (discardIndex < 0) return false;
     const beforePlayer = structuredClone(currentPlayer);
     const beforeCardState = {
@@ -14239,13 +14239,33 @@
   }
 
   function returnPlayedCardToHandFromDiscard(effect) {
-    const currentPlayer = getCurrentPlayer();
-    const playedCard = pendingActionEffectFlow?.card;
+    const returnTarget = resolvePlayedCardReturnTarget(effect);
+    const currentPlayer = returnTarget.player;
+    const playedCard = returnTarget.playedCard;
     if (!currentPlayer || !playedCard) {
-      return { ok: false, message: "没有可回手的当前卡牌" };
+      return finishAutomaticRewardEffect(effect, {
+        ok: true,
+        undoable: true,
+        skipped: true,
+        message: `${effect.label}：没有可回手的当前卡牌`,
+        payload: { conditionMet: true, returned: false },
+      });
     }
-    const discardIndex = (cardState.discardPile || []).findIndex((card) => card.id === playedCard.id);
-    if (discardIndex < 0) return { ok: false, message: "当前卡牌不在弃牌堆，无法回手" };
+    const discardIndex = returnTarget.discardIndex;
+    if (discardIndex < 0) {
+      return finishAutomaticRewardEffect(effect, {
+        ok: true,
+        undoable: true,
+        skipped: true,
+        message: `${effect.label}：当前卡牌不在弃牌堆，无法回手`,
+        payload: {
+          conditionMet: true,
+          returned: false,
+          cardId: returnTarget.sourceCardId,
+          instanceId: returnTarget.sourceInstanceId,
+        },
+      });
+    }
     const beforePlayer = structuredClone(currentPlayer);
     const beforeCardState = {
       publicCards: cardState.publicCards.slice(),
@@ -14268,8 +14288,41 @@
       ok: true,
       undoable: true,
       message: `${effect.label}：${cards.getCardLabel(card)} 返回手牌`,
-      payload: { cardId: card.id },
+      payload: { cardId: card.cardId || returnTarget.sourceCardId, instanceId: card.id },
     }, [renderPlayerHand]);
+  }
+
+  function resolvePlayedCardReturnTarget(effect) {
+    const flow = pendingActionEffectFlow || {};
+    const playedCard = flow.card || null;
+    const sourceInstanceId = playedCard?.id || flow.playCardEvent?.sourceCardInstanceId || null;
+    const sourceCardId = playedCard?.cardId || flow.playCardEvent?.cardId || null;
+    const discardPile = cardState.discardPile || [];
+    let discardIndex = -1;
+
+    if (sourceInstanceId) {
+      discardIndex = discardPile.findIndex((card) => card?.id === sourceInstanceId);
+    }
+    if (discardIndex < 0 && playedCard) {
+      discardIndex = discardPile.findIndex((card) => card === playedCard);
+    }
+    if (discardIndex < 0 && sourceCardId) {
+      for (let index = discardPile.length - 1; index >= 0; index -= 1) {
+        if (discardPile[index]?.cardId === sourceCardId) {
+          discardIndex = index;
+          break;
+        }
+      }
+    }
+    const resolvedPlayedCard = playedCard || (discardIndex >= 0 ? discardPile[discardIndex] : null);
+
+    return {
+      player: getEffectOwnerPlayer(effect),
+      playedCard: resolvedPlayedCard,
+      discardIndex,
+      sourceInstanceId,
+      sourceCardId,
+    };
   }
 
   function runtimeProbeAdjacentEarth(player) {
