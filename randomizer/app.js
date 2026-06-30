@@ -11011,6 +11011,11 @@
     return runezu.getReadyThreeTraceTask?.(card, alienGameState, player) || null;
   }
 
+  function getRunezuTaskProgressIndexes(card) {
+    if (!runezu?.isRunezuCard?.(card)) return [];
+    return runezu.getTaskProgressIndexes?.(card) || [];
+  }
+
   function incrementCompletedTaskCount(player) {
     if (!player) return 0;
     player.completedTaskCount = Math.max(0, Math.round(Number(player.completedTaskCount) || 0)) + 1;
@@ -15310,6 +15315,15 @@
   }
 
   function isReservedTaskCardUnfinished(card, effect = null) {
+    if (runezu?.isRunezuCard?.(card)) {
+      const cardTypes = new Set(
+        (effect?.options?.cardTypes || [1, 2])
+          .map((typeCode) => Math.round(Number(typeCode)))
+          .filter((typeCode) => Number.isFinite(typeCode)),
+      );
+      if (!cardTypes.has(getCardTypeCode(card))) return false;
+      return Boolean(runezu.isTaskUnfinished?.(card));
+    }
     return cardEffects.isReturnUnfinishedTaskTarget(card, {
       cardTypes: effect?.options?.cardTypes || [1, 2],
       isBanrenmaCard: (candidate) => Boolean(banrenma?.isBanrenmaCard?.(candidate)),
@@ -27753,6 +27767,10 @@
       : readyByCardId?.[card.id];
     const taskBlockReason = ready ? getCardTaskCompletionBlockReason() : null;
     const completedTriggerIndexes = cardEffects.getConsumedTriggerIndexes(card);
+    const runezuTaskProgressIndexes = getRunezuTaskProgressIndexes(card);
+    const completedProgressIndexes = completedTriggerIndexes.length
+      ? completedTriggerIndexes
+      : runezuTaskProgressIndexes;
     const button = document.createElement("button");
     button.type = "button";
     button.className = "reserved-card-button";
@@ -27773,10 +27791,10 @@
     button.append(image);
     attachCardHoverPreview(button, image.src, image.alt);
 
-    if (completedTriggerIndexes.length) {
+    if (completedProgressIndexes.length) {
       const badge = document.createElement("span");
       badge.className = "reserved-card-trigger-badge";
-      badge.textContent = `已完成 ${completedTriggerIndexes.join("/")}`;
+      badge.textContent = `已完成 ${completedProgressIndexes.join("/")}`;
       button.append(badge);
     }
 

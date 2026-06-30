@@ -357,6 +357,21 @@
     return structuredClone(task);
   }
 
+  function tasksEqual(left, right) {
+    return JSON.stringify(left || null) === JSON.stringify(right || null);
+  }
+
+  function ensureCardTask(card) {
+    if (!card || typeof card !== "object") return getCardTask(card);
+    const definitionTask = getCardDefinition(card)?.task;
+    if (!definitionTask) return null;
+    const canonicalTask = cloneTask(definitionTask);
+    if (!tasksEqual(card.runezuTask, canonicalTask)) {
+      card.runezuTask = canonicalTask;
+    }
+    return card.runezuTask;
+  }
+
   function cloneReward(reward) {
     if (!reward) return null;
     return {
@@ -977,6 +992,21 @@
     return card.runezuTaskProgress;
   }
 
+  function getTaskProgressIndexes(card) {
+    if (!card || typeof card !== "object") return [];
+    const task = ensureCardTask(card);
+    if (!task || task.kind === "three-trace-colors") return [];
+    const stepCount = Array.isArray(task.steps) ? task.steps.length : 0;
+    return getTaskProgress(card)
+      .map((_, index) => index + 1)
+      .filter((index) => index <= stepCount);
+  }
+
+  function isTaskUnfinished(card) {
+    const task = ensureCardTask(card);
+    return Boolean(task && !card?.runezuTaskCompleted);
+  }
+
   function eventMatchesTaskStep(event, step) {
     if (!event || !step) return false;
     if (step.event === "orbitOrLand") return event.type === "orbit" || event.type === "land" || event.type === "orbitOrLand";
@@ -986,7 +1016,8 @@
   }
 
   function consumeTaskEvents(card, events = []) {
-    const task = card?.runezuTask || getCardTask(card);
+    if (!card || typeof card !== "object") return null;
+    const task = ensureCardTask(card);
     if (!task || card.runezuTaskCompleted) return null;
     const progress = getTaskProgress(card);
     if (task.kind === "three-trace-colors") return null;
@@ -1021,7 +1052,7 @@
   }
 
   function getReadyThreeTraceTask(card, alienState, player) {
-    const task = card?.runezuTask || getCardTask(card);
+    const task = ensureCardTask(card);
     if (!task || task.kind !== "three-trace-colors" || card?.runezuTaskCompleted) return null;
     if (!playerHasAllTraceColors(alienState, player)) return null;
     const effects = (task.rewards || []).map((symbolId, index) => symbolRewardEffect(
@@ -1131,9 +1162,12 @@
     takeDisplayedCard,
     blindDrawCard,
     getCardTask,
+    ensureCardTask,
     getFinalCardRule,
     isRunezuCard,
     buildImmediateEffects,
+    getTaskProgressIndexes,
+    isTaskUnfinished,
     consumeTaskEvents,
     getReadyThreeTraceTask,
     completeRunezuTask,

@@ -86,6 +86,21 @@ assertRunezuTaskRewardEffect(orbitLandStep3, ["symbol_3"]);
 assert.equal(orbitLandStep3.completed, true);
 assert.equal(orbitLandCard.runezuTaskProgress.length, 3);
 assert.equal(orbitLandCard.runezuTaskCompleted, true);
+assert.equal(runezu.isTaskUnfinished(orbitLandCard), false);
+
+const staleOrbitOnlyCard = runezu.createAlienCard(2, 2);
+staleOrbitOnlyCard.runezuTask.steps = staleOrbitOnlyCard.runezuTask.steps.map((step) => ({
+  ...step,
+  event: "orbit",
+}));
+const migratedLandStep = runezu.consumeTaskEvents(staleOrbitOnlyCard, [{ type: "land" }]);
+assertRunezuTaskRewardEffect(migratedLandStep, ["symbol_4"]);
+assert.deepEqual(
+  staleOrbitOnlyCard.runezuTask.steps.map((step) => step.event),
+  ["orbitOrLand", "orbitOrLand", "orbitOrLand"],
+);
+assert.deepEqual(runezu.getTaskProgressIndexes(staleOrbitOnlyCard), [1]);
+assert.equal(runezu.isTaskUnfinished(staleOrbitOnlyCard), true);
 
 const techCard = runezu.createAlienCard(3, 1);
 assert.equal(techCard.runezuTask.id, "runezu-3-tech");
