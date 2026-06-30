@@ -432,7 +432,11 @@
     return effect(id, EFFECT_TYPES.CARD_LAND, label || "登陆", "land", {
       skipCost: options.skipCost !== false,
       allowDuplicateLanding: Boolean(options.allowDuplicateLanding),
+      allowDuplicateSatelliteLanding: Boolean(options.allowDuplicateSatelliteLanding),
       allowSatelliteWithoutTech: Boolean(options.allowSatelliteWithoutTech),
+      forceFirstLandingReward: Boolean(options.forceFirstLandingReward),
+      displayLandingSlot: options.displayLandingSlot,
+      referenceOffsetTokenWidths: options.referenceOffsetTokenWidths,
       grantRewards: options.grantRewards !== false,
       afterLandRewards: options.afterLandRewards ? Object.freeze(options.afterLandRewards.map((reward) => Object.freeze({
         planetIds: reward.planetIds ? Object.freeze([...reward.planetIds]) : undefined,
@@ -440,6 +444,7 @@
         effect: reward.effect,
       }))) : undefined,
       rememberPreLandingOwnMarker: Boolean(options.rememberPreLandingOwnMarker),
+      rememberPreLandingMarker: Boolean(options.rememberPreLandingMarker),
     });
   }
 
@@ -1090,7 +1095,10 @@
     "b_7.webp": withSource("b_7.webp", {
       cardType: 0,
       playEffects: Object.freeze([
-        drawCardsEffect("b7-draw", "盲抽 3 张牌", 3),
+        effect("b7-draw-scan", EFFECT_TYPES.DRAW_THEN_SCAN, "盲抽并弃牌扫描", "scan", {
+          repeat: 3,
+          discardDrawnOnSkip: true,
+        }),
       ]),
     }),
     "b_8.webp": withSource("b_8.webp", {
@@ -1360,6 +1368,11 @@
       playEffects: Object.freeze([
         cardLandEffect("b29-land", "登陆（可重复登陆并获得地点奖励）", {
           allowDuplicateLanding: true,
+          allowDuplicateSatelliteLanding: true,
+          allowSatelliteWithoutTech: true,
+          forceFirstLandingReward: true,
+          displayLandingSlot: 1,
+          referenceOffsetTokenWidths: 0.5,
           grantRewards: true,
         }),
       ]),
@@ -2158,8 +2171,8 @@
     "dlc_1.png": withSource("dlc_1.png", {
       cardType: 0,
       playEffects: Object.freeze([
-        cardLandEffect("dlc1-land", "登陆", { rememberPreLandingOwnMarker: true }),
-        returnPlayedCardToHandIfEffect("dlc1-return", "若登陆前该星球已有自己的登陆标记，本卡回手", { type: "lastLandingHadOwnMarker" }),
+        cardLandEffect("dlc1-land", "登陆", { rememberPreLandingMarker: true }),
+        returnPlayedCardToHandIfEffect("dlc1-return", "若登陆前该主星已有登陆标记，本卡回手", { type: "lastLandingHadAnyMarker" }),
       ]),
     }),
     "dlc_2.png": withSource("dlc_2.png", {

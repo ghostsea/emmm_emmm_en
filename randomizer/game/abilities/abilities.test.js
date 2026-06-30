@@ -457,6 +457,66 @@ function launchToPlanet(context, planetId) {
 }
 
 {
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
+  const player = currentPlayer(context);
+  assert.equal(planetStats.addPlanetLandingMarker(context.planetStatsState, "mars", { id: "p2", color: "white" }).ok, true);
+  launchToPlanet(context, "mars");
+  const options = abilities.planet.getLandOptions(context, {
+    allowDuplicateLanding: true,
+    forceFirstLandingReward: true,
+    displayLandingSlot: 1,
+    referenceOffsetTokenWidths: 0.5,
+  });
+  const choice = options.choices.find((item) => item.target.type === "planet");
+  assert.equal(choice.markerSequence, 2);
+  assert.equal(choice.rewardMarkerSequence, 1);
+  assert.match(choice.label, /首次登陆：额外获得 2 个数据/);
+  const result = abilities.executeAbility("landProbe", context, {
+    target: choice.target,
+    allowDuplicateLanding: true,
+    forceFirstLandingReward: true,
+    displayLandingSlot: 1,
+    referenceOffsetTokenWidths: 0.5,
+  });
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerSequence, 2);
+  assert.equal(result.rewardMarkerSequence, 1);
+  const marker = planetStats.getPlanetLandingMarkers(context.planetStatsState, "mars")[1];
+  assert.equal(marker.playerId, player.id);
+  assert.equal(marker.displaySlot, 1);
+  assert.equal(marker.referenceOffsetTokenWidths, 0.5);
+}
+
+{
+  const context = createContext({ resources: { credits: 10, energy: 10 } });
+  const player = currentPlayer(context);
+  assert.equal(planetStats.addSatelliteLandingMarker(context.planetStatsState, "jupiter", "io", { id: "p2", color: "white" }).ok, true);
+  launchToPlanet(context, "jupiter");
+  const options = abilities.planet.getLandOptions(context, {
+    allowSatelliteWithoutTech: true,
+    allowDuplicateSatelliteLanding: true,
+    referenceOffsetTokenWidths: 0.5,
+  });
+  assert.equal(options.ok, true, options.message);
+  const ioChoice = options.choices.find((choice) => choice.target.satelliteId === "io");
+  assert.ok(ioChoice);
+  assert.match(ioChoice.label, /可重复/);
+  const result = abilities.executeAbility("landProbe", context, {
+    target: ioChoice.target,
+    skipCost: true,
+    allowSatelliteWithoutTech: true,
+    allowDuplicateSatelliteLanding: true,
+    referenceOffsetTokenWidths: 0.5,
+  });
+  assert.equal(result.ok, true, result.message);
+  assert.equal(result.markerKind, "satellite");
+  const markers = planetStats.getSatelliteLandingMarkers(context.planetStatsState, "jupiter");
+  assert.equal(markers.length, 2);
+  assert.equal(markers[1].playerId, player.id);
+  assert.equal(markers[1].referenceOffsetTokenWidths, 0.5);
+}
+
+{
   const context = createContext({ resources: { credits: 10, energy: 0 } });
   launchToPlanet(context, "jupiter");
   const options = abilities.planet.getLandOptions(context, {

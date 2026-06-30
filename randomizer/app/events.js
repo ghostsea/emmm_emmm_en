@@ -80,6 +80,7 @@
       confirmProbeSectorScanSelection,
       handleProbeLocationRewardChoice,
       handleOptionalHandScanChoice,
+      handleDrawnHandScanSkip,
       handleRemovePlanetMarkerChoice,
       handleHandCornerChoice,
       handleConditionalSectorChoice,
@@ -396,7 +397,7 @@
 
       const cardTaskButton = event.target.closest("[data-card-task-complete]");
       if (cardTaskButton && !cardTaskButton.disabled) {
-        confirmCardTaskCompletion();
+        confirmCardTaskCompletion(cardTaskButton.dataset.cardTaskComplete);
         return;
       }
 
@@ -421,6 +422,12 @@
       const optionalHandScan = event.target.closest("[data-optional-hand-scan]");
       if (optionalHandScan && !optionalHandScan.disabled) {
         handleOptionalHandScanChoice(optionalHandScan.dataset.optionalHandScan);
+        return;
+      }
+
+      const drawnHandScanSkip = event.target.closest("[data-drawn-hand-scan-skip]");
+      if (drawnHandScanSkip && !drawnHandScanSkip.disabled) {
+        handleDrawnHandScanSkip();
         return;
       }
 
@@ -562,6 +569,10 @@
         cancelCardTriggerChoice();
         return;
       }
+      if (state.pendingScanTargetAction?.type === "hand_scan" && state.pendingScanTargetAction.discardDrawnOnSkip) {
+        handleDrawnHandScanSkip();
+        return;
+      }
       closeScanTargetPicker();
     });
     els.scanTargetOverlay?.addEventListener("click", (event) => {
@@ -631,6 +642,10 @@
         }
         if (state.pendingCardTriggerAction) {
           cancelCardTriggerChoice();
+          return;
+        }
+        if (state.pendingScanTargetAction?.type === "hand_scan" && state.pendingScanTargetAction.discardDrawnOnSkip) {
+          handleDrawnHandScanSkip();
           return;
         }
         closeScanTargetPicker();

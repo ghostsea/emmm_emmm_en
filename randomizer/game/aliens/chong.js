@@ -657,12 +657,13 @@
     fossil.taskCardId = options.cardId || null;
     fossil.taskCardLabel = options.cardLabel || null;
     fossil.destinationPlanetId = task.destinationPlanetId || options.destinationPlanetId || null;
+    fossil.suggestedDestinationPlanetId = fossil.destinationPlanetId;
     fossil.fossilRewardRepeat = Math.max(0, Math.round(Number(task.fossilRewardRepeat) || 0));
     fossil.taskGain = { ...(task.gain || {}) };
     fossil.taskDataCount = Math.max(0, Math.round(Number(task.dataCount) || 0));
     fossil.taskPickCard = Boolean(task.pickCard);
     fossil.taskCompleted = false;
-    return { ok: true, fossil, message: `拾取 ${fossilId}，目的地 ${fossil.destinationPlanetId || "无"}` };
+    return { ok: true, fossil, message: `拾取 ${fossilId}，推荐目的地 ${fossil.destinationPlanetId || "无"}` };
   }
 
   function attachTransportRocket(alienState, fossilId, rocketId) {
@@ -695,37 +696,19 @@
     const key = String(rocketId);
     const task = chong.transportTasksByRocketId?.[key];
     if (!task) return { ok: false, message: "没有虫族化石搬运任务" };
-    if (planetId && task.destinationPlanetId !== planetId) {
-      return { ok: false, message: "虫族化石尚未到达任务目的地" };
-    }
     const fossil = chong.fossilsById?.[task.fossilId];
     if (!fossil) return { ok: false, message: "搬运化石不存在" };
-    if (fossil.status === "delivered") {
-      return {
-        ok: true,
-        alreadyDelivered: true,
-        fossil,
-        task: buildTransportTaskFromFossil(fossil),
-        rocketId: Number(rocketId),
-        message: `${fossil.fossilId} 已送达 ${fossil.destinationPlanetId}，等待点击虫族任务牌完成`,
-      };
-    }
-    if (fossil.status !== "transported") {
+    if (fossil.status !== "transported" && fossil.status !== "delivered") {
       return { ok: false, message: "该化石不在搬运中" };
     }
-    fossil.status = "delivered";
-    fossil.location = "delivered";
-    fossil.deliveredPlanetId = task.destinationPlanetId || planetId || null;
-    fossil.deliveredRocketId = Number(rocketId);
-    fossil.readyToComplete = true;
-    task.delivered = true;
-    task.deliveredPlanetId = fossil.deliveredPlanetId;
+    fossil.lastVisitedPlanetId = planetId || null;
+    task.lastVisitedPlanetId = planetId || null;
     return {
       ok: true,
       fossil,
       task: buildTransportTaskFromFossil(fossil),
       rocketId: Number(rocketId),
-      message: `${fossil.fossilId} 已送达 ${fossil.destinationPlanetId}，点击对应虫族任务牌完成`,
+      message: `${fossil.fossilId} 到达 ${planetId || "星球"}，若有匹配虫族任务可点击保留牌完成`,
     };
   }
 
@@ -747,7 +730,7 @@
     return { ok: true, position };
   }
 
-  function completeTransportedFossil(alienState, rocketId) {
+  function completeTransportedFossil(alienState, rocketId, options = {}) {
     const chong = ensureChongState(alienState);
     const task = chong.transportTasksByRocketId?.[String(rocketId)];
     if (!task) return { ok: false, message: "没有虫族化石搬运任务" };
@@ -762,21 +745,23 @@
     fossil.deliveredRocketId = null;
     fossil.readyToComplete = false;
     fossil.taskCompleted = true;
+    fossil.completedByCardId = options.cardId || fossil.taskCardId || null;
+    fossil.completedDestinationPlanetId = options.destinationPlanetId || fossil.lastVisitedPlanetId || fossil.destinationPlanetId || null;
     delete chong.transportTasksByRocketId[String(rocketId)];
     const unlock = unlockBluePositionWithFossil(alienState, fossil.fossilId);
     chong.completedTransports.push({
       fossilId: fossil.fossilId,
-      destinationPlanetId: fossil.destinationPlanetId,
-      cardId: fossil.taskCardId,
+      destinationPlanetId: fossil.completedDestinationPlanetId,
+      cardId: fossil.completedByCardId,
       bluePosition: unlock.position || null,
       completedAt: Date.now(),
     });
     return {
       ok: true,
       fossil,
-      task: buildTransportTaskFromFossil(fossil),
+      task: options.task || buildTransportTaskFromFossil(fossil),
       bluePosition: unlock.position || null,
-      message: `${fossil.fossilId} 已送达 ${fossil.destinationPlanetId}，解锁虫族蓝色 ${unlock.position || "无"} 号位`,
+      message: `${fossil.fossilId} 已用于 ${fossil.completedDestinationPlanetId || "虫族任务"}，解锁虫族蓝色 ${unlock.position || "无"} 号位`,
     };
   }
 
@@ -873,6 +858,32 @@
     return events;
   }
 
+  function transportBelongsToPlayer(fossil, player = null) {
+    if (!player) return true;
+    const keys = getPlayerKeys(player);
+    return keys.has(fossil?.carriedByPlayerId)
+      || keys.has(fossil?.carriedByPlayerColor);
+  }
+
+  function listActiveTransports(alienState, player = null) {
+    const chong = ensureChongState(alienState);
+    const transports = [];
+    for (const [rocketId, task] of Object.entries(chong.transportTasksByRocketId || {})) {
+      const fossil = chong.fossilsById?.[task.fossilId];
+      if (!fossil || fossil.taskCompleted) continue;
+      if (fossil.status !== "transported" && fossil.status !== "delivered") continue;
+      if (!transportBelongsToPlayer(fossil, player)) continue;
+      transports.push({
+        rocketId: Number(rocketId),
+        fossil,
+        task: buildTransportTaskFromFossil(fossil),
+        originCardId: task.cardId || fossil.taskCardId || null,
+        delivered: fossil.status === "delivered" || Boolean(task.delivered),
+      });
+    }
+    return transports;
+  }
+
   function formatTraceLabel(traceType, position) {
     return `${placement.getTraceTypeLabel(traceType)} ${position}号位`;
   }
@@ -935,6 +946,7 @@
     getDeliveredTransportForCard,
     getActiveTransportForCard,
     listTransportArrivalEvents,
+    listActiveTransports,
     unlockBluePositionWithFossil,
     markerBelongsToPlayer,
     getPlayerKeys,

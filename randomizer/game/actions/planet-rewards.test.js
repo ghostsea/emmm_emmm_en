@@ -110,6 +110,16 @@ const rewards = require("./planet-rewards");
 }
 
 {
+  const mars = rewards.buildRewardEffectsForAction("land", {
+    markerKind: "land",
+    planetId: "mars",
+    markerSequence: 3,
+    rewardMarkerSequence: 1,
+  });
+  assert.equal(mars[0].label, "首次登陆：额外获得 2 个数据");
+}
+
+{
   const uranus = rewards.buildOrbitRewardEffects("uranus", 2);
   assert.equal(uranus[2].icon, "black_scan");
 }

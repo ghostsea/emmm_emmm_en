@@ -88,7 +88,22 @@
     return Math.max(0, planetReferenceLayout.getPlanetSlotCount(planetId, kind));
   }
 
+  function applyReferenceOffset(marker, options = {}) {
+    const offset = Number(options.referenceOffsetTokenWidths);
+    if (Number.isFinite(offset) && offset !== 0) {
+      marker.referenceOffsetTokenWidths = offset;
+    } else {
+      delete marker.referenceOffsetTokenWidths;
+    }
+    return marker;
+  }
+
   function updateMarkerDisplayState(marker, displayLimit) {
+    if (marker.forceDisplaySlot && Number.isFinite(Number(marker.displaySlot))) {
+      marker.displayed = true;
+      marker.displaySlot = Number(marker.displaySlot);
+      return marker;
+    }
     marker.displayed = marker.sequence <= displayLimit;
     marker.displaySlot = marker.displayed ? marker.sequence : null;
     return marker;
@@ -130,7 +145,7 @@
     return { ok: true, marker, message: null };
   }
 
-  function addPlanetLandingMarker(state, planetId, player) {
+  function addPlanetLandingMarker(state, planetId, player, options = {}) {
     if (!canAddLandingMarker(state, planetId)) {
       return { ok: false, marker: null, message: "星球不支持登陆标记" };
     }
@@ -138,11 +153,13 @@
     const record = getPlanetRecord(state, planetId);
     const normalizedPlayer = normalizePlayer(player);
     record.landings += 1;
-    const marker = updateMarkerDisplayState({
+    const marker = updateMarkerDisplayState(applyReferenceOffset({
       sequence: record.landings,
       playerId: normalizedPlayer.id,
       color: normalizedPlayer.color,
-    }, getPlanetMarkerDisplayLimit(planetId, "land"));
+      forceDisplaySlot: Boolean(options.forceDisplaySlot),
+      displaySlot: options.displaySlot != null ? Number(options.displaySlot) : undefined,
+    }, options), getPlanetMarkerDisplayLimit(planetId, "land"));
     record.landingMarkers.push(marker);
     return { ok: true, marker, message: null };
   }
@@ -209,31 +226,32 @@
     return record.satelliteLandings.some((marker) => marker.satelliteId === satelliteId);
   }
 
-  function getAvailableSatellitesForLanding(state, planetId) {
+  function getAvailableSatellitesForLanding(state, planetId, options = {}) {
     if (!planetReferenceLayout.hasSatellites(planetId)) return [];
+    if (options.allowDuplicate) return planetReferenceLayout.getSatellitesForPlanet(planetId);
     return planetReferenceLayout.getSatellitesForPlanet(planetId)
       .filter((satellite) => !isSatelliteLanded(state, planetId, satellite.satelliteId));
   }
 
-  function canLandOnSatellite(state, planetId, satelliteId) {
+  function canLandOnSatellite(state, planetId, satelliteId, options = {}) {
     if (!planetReferenceLayout.getSatellitePlacement(planetId, satelliteId)) return false;
-    return !isSatelliteLanded(state, planetId, satelliteId);
+    return Boolean(options.allowDuplicate) || !isSatelliteLanded(state, planetId, satelliteId);
   }
 
-  function addSatelliteLandingMarker(state, planetId, satelliteId, player) {
-    if (!canLandOnSatellite(state, planetId, satelliteId)) {
+  function addSatelliteLandingMarker(state, planetId, satelliteId, player, options = {}) {
+    if (!canLandOnSatellite(state, planetId, satelliteId, options)) {
       return { ok: false, marker: null, message: "该卫星已被登陆或不存在" };
     }
 
     const satellite = planetReferenceLayout.getSatellitePlacement(planetId, satelliteId);
     const record = getPlanetRecord(state, planetId);
     const normalizedPlayer = normalizePlayer(player);
-    const marker = {
+    const marker = applyReferenceOffset({
       satelliteId,
       satelliteName: satellite.satelliteName,
       playerId: normalizedPlayer.id,
       color: normalizedPlayer.color,
-    };
+    }, options);
     record.satelliteLandings.push(marker);
     return { ok: true, marker, message: null };
   }

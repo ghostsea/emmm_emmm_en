@@ -412,7 +412,10 @@
     if (result?.markerKind === "satellite") {
       return buildSatelliteLandRewardEffects(result.satelliteId);
     }
-    return buildPlanetLandRewardEffects(result?.planetId, result?.markerSequence);
+    return buildPlanetLandRewardEffects(
+      result?.planetId,
+      result?.rewardMarkerSequence ?? result?.markerSequence,
+    );
   }
 
   function buildRewardEffectsForAction(actionId, result) {

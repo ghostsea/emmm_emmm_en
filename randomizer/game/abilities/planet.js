@@ -207,6 +207,11 @@
       .filter(Boolean);
   }
 
+  function getLandRewardMarkerSequence(target, markerSequence, options = {}) {
+    if (target?.type === "planet" && options.forceFirstLandingReward) return 1;
+    return markerSequence;
+  }
+
   function buildLandRewardSummary(planetId, target, markerSequence, options = {}) {
     const effects = [];
     if (options.grantRewards !== false) {
@@ -215,7 +220,10 @@
           effects.push(...planetRewards.buildSatelliteLandRewardEffects(target.satelliteId));
         }
       } else if (typeof planetRewards?.buildPlanetLandRewardEffects === "function") {
-        effects.push(...planetRewards.buildPlanetLandRewardEffects(planetId, markerSequence));
+        effects.push(...planetRewards.buildPlanetLandRewardEffects(
+          planetId,
+          getLandRewardMarkerSequence(target, markerSequence, options),
+        ));
       }
     }
     effects.push(...getAfterLandRewardEffects(options, planetId, target?.type || "planet"));
@@ -300,6 +308,7 @@
       if (aomomoApi?.canAddLandingMarker?.(context.alienGameState)) {
         const target = targetWithRocketId({ type: "planet" }, placement.rocket.id);
         const markerSequence = getNextLandingMarkerSequence(context, planetId);
+        const rewardMarkerSequence = getLandRewardMarkerSequence(target, markerSequence, options);
         const rewardSummary = buildLandRewardSummary(planetId, target, markerSequence, options);
         choices.push({
           actionType: "land",
@@ -308,6 +317,7 @@
           planetId,
           planet: placement.planet,
           markerSequence,
+          rewardMarkerSequence,
           rewardSummary,
           energyCost,
           cost,
@@ -319,6 +329,7 @@
     if (planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       const target = targetWithRocketId({ type: "planet" }, placement.rocket.id);
       const markerSequence = getNextLandingMarkerSequence(context, planetId);
+      const rewardMarkerSequence = getLandRewardMarkerSequence(target, markerSequence, options);
       const rewardSummary = buildLandRewardSummary(planetId, target, markerSequence, options);
       choices.push({
         actionType: "land",
@@ -327,6 +338,7 @@
         planetId,
         planet: placement.planet,
         markerSequence,
+        rewardMarkerSequence,
         rewardSummary,
         energyCost,
         cost,
@@ -336,9 +348,14 @@
       });
     }
     if (canLandOnSatellites(placement.currentPlayer, { ...options, turnState: context.turnState, roundNumber: context.roundNumber, turnNumber: context.turnNumber })) {
-      for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId)) {
+      for (const satellite of planetStats.getAvailableSatellitesForLanding(context.planetStatsState, planetId, {
+        allowDuplicate: Boolean(options.allowDuplicateSatelliteLanding),
+      })) {
         const target = targetWithRocketId({ type: "satellite", satelliteId: satellite.satelliteId }, placement.rocket.id);
         const rewardSummary = buildLandRewardSummary(planetId, target, null, options);
+        const duplicateNote = options.allowDuplicateSatelliteLanding && planetStats.isSatelliteLanded(context.planetStatsState, planetId, satellite.satelliteId)
+          ? "可重复"
+          : null;
         choices.push({
           actionType: "land",
           target,
@@ -351,6 +368,7 @@
           cost,
           label: formatChoiceLabel("登陆", satellite.satelliteName, [
             placement.planet.name,
+            duplicateNote,
             rocketPart,
             costLabel,
           ], rewardSummary),
@@ -535,7 +553,9 @@
       && !planetStats.canAddLandingMarker(context.planetStatsState, planetId)) {
       return { ok: false, abilityId: "landProbe", message: `${placement.planet.name} 不支持主星登陆` };
     }
-    if (target.type === "satellite" && !planetStats.canLandOnSatellite(context.planetStatsState, planetId, target.satelliteId)) {
+    if (target.type === "satellite" && !planetStats.canLandOnSatellite(context.planetStatsState, planetId, target.satelliteId, {
+      allowDuplicate: Boolean(options.allowDuplicateSatelliteLanding),
+    })) {
       return { ok: false, abilityId: "landProbe", message: `${placement.planet.name} 的该卫星不可登陆` };
     }
     if (target.type === "satellite" && !canLandOnSatellites(currentPlayer, { ...options, turnState: context.turnState, roundNumber: context.roundNumber, turnNumber: context.turnNumber })) {
@@ -564,6 +584,7 @@
     let markerResult;
     let markerKind;
     let markerSequence = null;
+    let rewardMarkerSequence = null;
     let satelliteId = null;
     let targetLabel = placement.planet.name;
 
@@ -573,6 +594,10 @@
         planetId,
         target.satelliteId,
         currentPlayer,
+        {
+          allowDuplicate: Boolean(options.allowDuplicateSatelliteLanding),
+          referenceOffsetTokenWidths: options.referenceOffsetTokenWidths,
+        },
       );
       markerKind = "satellite";
       satelliteId = target.satelliteId;
@@ -581,12 +606,17 @@
       markerResult = aomomoApi.addLandingMarker(context.alienGameState, currentPlayer);
       markerKind = "aomomo-land";
       markerSequence = markerResult.marker?.sequence || null;
+      rewardMarkerSequence = getLandRewardMarkerSequence(target, markerSequence, options);
     } else {
       markerResult = planetStats.addPlanetLandingMarker(context.planetStatsState, planetId, currentPlayer, {
         allowDuplicate: Boolean(options.allowDuplicateLanding),
+        forceDisplaySlot: options.displayLandingSlot != null,
+        displaySlot: options.displayLandingSlot,
+        referenceOffsetTokenWidths: options.referenceOffsetTokenWidths,
       });
       markerKind = "land";
       markerSequence = markerResult.marker?.sequence || null;
+      rewardMarkerSequence = getLandRewardMarkerSequence(target, markerSequence, options);
     }
 
     if (!markerResult.ok) {
@@ -622,6 +652,7 @@
         landTarget: target,
         markerKind,
         markerSequence,
+        rewardMarkerSequence,
         satelliteId,
       },
       events: [{
@@ -638,6 +669,7 @@
       landTarget: target,
       markerKind,
       markerSequence,
+      rewardMarkerSequence,
       satelliteId,
     };
   }

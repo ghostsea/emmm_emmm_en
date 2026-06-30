@@ -111,29 +111,29 @@ assert.deepEqual(
     synthetic: true,
   },
 );
-const delivered = chong.markTransportedFossilDelivered(transportState, 42, "earth");
-assert.equal(delivered.ok, true);
-assert.equal(delivered.fossil.status, "delivered");
-assert.equal(
-  chong.listTransportArrivalEvents(
-    transportState,
-    [{ id: 42, kind: "chong-fossil", playerId: white.id, color: white.color, sectorX: 4, sectorY: 1 }],
-    () => ({ x: 4, y: 1 }),
-    { chongFossilKind: "chong-fossil" },
-  ).length,
-  0,
-);
-assert.equal(chong.getActiveTransportForCard(transportState, "card-0").delivered, true);
+const playerTransports = chong.listActiveTransports(transportState, white);
+assert.equal(playerTransports.length, 1);
+assert.equal(playerTransports[0].fossil.fossilId, fossil.fossilId);
+const visited = chong.markTransportedFossilDelivered(transportState, 42, "earth");
+assert.equal(visited.ok, true);
+assert.equal(visited.fossil.status, "transported");
+assert.equal(chong.getActiveTransportForCard(transportState, "card-0").delivered, false);
 assert.equal(transportState.chong.panelFossilSlots[1], undefined);
 const readyTransport = chong.getDeliveredTransportForCard(transportState, "card-0");
-assert.equal(readyTransport.rocketId, 42);
-assert.equal(readyTransport.fossil.fossilId, fossil.fossilId);
-const completed = chong.completeTransportedFossil(transportState, 42);
+assert.equal(readyTransport, null);
+const completed = chong.completeTransportedFossil(transportState, 42, {
+  cardId: "card-other",
+  destinationPlanetId: "mars",
+  task: chong.getCardTask(5),
+});
 assert.equal(completed.ok, true);
 assert.equal(chong.getActiveTransportForCard(transportState, "card-0"), null);
 assert.equal(completed.bluePosition, 1);
+assert.equal(completed.task.destinationPlanetId, "mars");
 assert.equal(transportState.chong.panelFossilSlots[1], fossil.fossilId);
 assert.equal(transportState.chong.unlockedBluePositions.includes(1), true);
+assert.equal(transportState.chong.completedTransports[0].cardId, "card-other");
+assert.equal(transportState.chong.completedTransports[0].destinationPlanetId, "mars");
 const completedFossilReward = chong.getFossilReward(fossil.fossilId);
 const completedBlueReward = chong.getTraceReward(transportState, "blue", 1);
 assert.equal(completedBlueReward.fossilId, fossil.fossilId);

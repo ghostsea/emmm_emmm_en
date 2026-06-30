@@ -4196,6 +4196,10 @@ body {
   filter: drop-shadow(0 0 6px var(--rocket-glow, rgba(77, 209, 255, 0.7))) drop-shadow(0 3px 5px rgba(0, 0, 0, 0.55));
 }
 
+.rocket-token.is-reference-placed.is-reference-offset {
+  transform: translate(calc(-50% + (var(--reference-land-width, 31px) * var(--reference-offset-token-widths, 0))), -50%);
+}
+
 .planets-token-layer .rocket-token.is-reference-orbit {
   width: var(--reference-orbit-width, 26px);
 }
