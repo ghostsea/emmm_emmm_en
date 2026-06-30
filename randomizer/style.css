@@ -270,6 +270,7 @@ body {
 .app-wrap {
   --board-visual-scale: 1.1;
   --alien-visual-scale: 1.1;
+  --round-status-visual-scale: 1.1;
   position: relative;
   margin: 0 auto;
   width: 100%;
@@ -394,7 +395,8 @@ body {
 }
 
 .round-status-panel {
-  width: 100%;
+  width: calc(100% * var(--round-status-visual-scale, 1));
+  margin-left: -5%;
   padding-block: 0;
 }
 
@@ -431,12 +433,12 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 26%;
-  min-width: 72px;
-  max-width: 118px;
+  min-width: calc(72px * var(--round-status-visual-scale, 1));
+  max-width: calc(118px * var(--round-status-visual-scale, 1));
   aspect-ratio: 1;
   display: grid;
   place-content: center;
-  gap: 5px;
+  gap: calc(5px * var(--round-status-visual-scale, 1));
   text-align: center;
   border: 2px solid rgba(236, 91, 54, 0.86);
   border-radius: 50%;
@@ -448,20 +450,32 @@ body {
 
 .round-status-title {
   color: rgba(255, 255, 255, 0.68);
-  font-size: clamp(10px, 2.2vw, 13px);
+  font-size: clamp(
+    calc(10px * var(--round-status-visual-scale, 1)),
+    calc(2.2vw * var(--round-status-visual-scale, 1)),
+    calc(13px * var(--round-status-visual-scale, 1))
+  );
   font-weight: 700;
   line-height: 1;
 }
 
 .round-status-value {
   color: #fff7df;
-  font-size: clamp(13px, 2.7vw, 18px);
+  font-size: clamp(
+    calc(13px * var(--round-status-visual-scale, 1)),
+    calc(2.7vw * var(--round-status-visual-scale, 1)),
+    calc(18px * var(--round-status-visual-scale, 1))
+  );
   font-weight: 800;
   line-height: 1;
 }
 
 .round-status-turn {
-  font-size: clamp(12px, 2.35vw, 16px);
+  font-size: clamp(
+    calc(12px * var(--round-status-visual-scale, 1)),
+    calc(2.35vw * var(--round-status-visual-scale, 1)),
+    calc(16px * var(--round-status-visual-scale, 1))
+  );
 }
 
 .public-card-panel {
@@ -5103,9 +5117,14 @@ button.spin-button:hover {
     grid-column: 1 / -1;
   }
 
+  .round-status-panel {
+    width: 100%;
+    margin-left: 0;
+  }
+
   .round-status-circle {
     width: 24%;
-    max-width: 108px;
+    max-width: calc(108px * var(--round-status-visual-scale, 1));
   }
 
   .alien-stack {
@@ -5265,8 +5284,8 @@ button.spin-button:hover {
 
   .round-status-circle {
     width: 28%;
-    min-width: 68px;
-    max-width: 96px;
+    min-width: calc(68px * var(--round-status-visual-scale, 1));
+    max-width: calc(96px * var(--round-status-visual-scale, 1));
   }
 
   .tech-row {
