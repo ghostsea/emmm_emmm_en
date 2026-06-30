@@ -18466,7 +18466,7 @@
     const boardHeight = h - 160;
     const baseBoardSize = Math.max(220, Math.min(boardWidth, boardHeight));
     const compactWidthCap = window.innerWidth <= 760 ? Math.max(220, window.innerWidth - 16) : Infinity;
-    const boardSize = Math.floor(Math.min(baseBoardSize * BOARD_VISUAL_SCALE, compactWidthCap));
+    const boardSize = Math.floor(Math.min(baseBoardSize * BOARD_VISUAL_SCALE, boardWidth, compactWidthCap));
     els.playerCommand.style.width = `${boardSize}px`;
     els.wheelWrap.style.width = `${boardSize}px`;
     els.wheelWrap.style.height = `${boardSize}px`;
@@ -25219,7 +25219,8 @@
 
     if (bottomGap <= 0) return;
 
-    const panelHeight = Math.ceil(firstPanel.height + bottomGap / panels.length);
+    const alignedPanelHeight = firstPanel.height + bottomGap / panels.length;
+    const panelHeight = Math.ceil(Math.max(firstPanel.height, alignedPanelHeight * 0.75));
     els.appWrap.style.setProperty("--alien-panel-min-height", `${panelHeight}px`);
   }
 
