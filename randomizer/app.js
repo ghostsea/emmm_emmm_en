@@ -5825,13 +5825,10 @@
     if (!industry?.shouldCompleteIncomeTaskCards?.(player)) return null;
     const typeCode = getCardTypeCode(card);
     if (typeCode !== 1 && typeCode !== 2) return null;
-    const scoreAwarded = 3;
-    players.gainResources(player, { score: scoreAwarded });
-    addPlayerScoreSource(player, SCORE_SOURCE_KEYS.INDUSTRY_EFFECT, scoreAwarded);
     return {
       typeCode,
       completedTaskCount: incrementCompletedTaskCount(player),
-      scoreAwarded,
+      scoreAwarded: 0,
     };
   }
 
@@ -5852,7 +5849,7 @@
     const incomeResult = applyIncomeGainWithImmediateRewards(player, gain, "income");
     const taskCompletion = maybeCompleteFundamentalismIncomeTaskCard(player, card);
     const taskMessage = taskCompletion
-      ? `；原教旨主义：${taskCompletion.typeCode}型任务视为完成，完成任务+1，分数+${taskCompletion.scoreAwarded}`
+      ? `；原教旨主义：${taskCompletion.typeCode}型任务视为完成，完成任务+1`
       : "";
     return {
       ok: true,

@@ -174,7 +174,7 @@ assert.equal(fundamentalismNodes[0].options.exchangeIndex, 1);
 const fundamentalismStartup = initialCards.getIndustryEffect("原教旨主义");
 assert.equal(fundamentalismStartup.resources.credits, 2);
 assert.equal(fundamentalismStartup.resources.energy, 2);
-assert.equal(fundamentalismStartup.resources.publicity, 3);
+assert.equal(fundamentalismStartup.resources.publicity, 2);
 assert.equal(fundamentalismStartup.blindDraw, 3);
 assert.equal(fundamentalismStartup.incomeIncreaseCount, 2);
 assert.deepEqual(fundamentalismStartup.baseIncome, { credits: 2, energy: 2 });

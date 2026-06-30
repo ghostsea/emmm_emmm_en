@@ -198,7 +198,7 @@
     }),
     "原教旨主义": Object.freeze({
       label: "原教旨主义",
-      resources: Object.freeze({ credits: 2, energy: 2, publicity: 3 }),
+      resources: Object.freeze({ credits: 2, energy: 2, publicity: 2 }),
       blindDraw: 3,
       incomeIncreaseCount: 2,
       baseIncome: Object.freeze({ credits: 2, energy: 2 }),
