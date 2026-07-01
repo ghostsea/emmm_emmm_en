@@ -587,6 +587,12 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     "updateActionButtons",
   ];
   for (const name of noopNames) context[name] = () => null;
+  if (options.recordPublicPick) {
+    context.pickPublicCardForCurrentPlayer = (slotIndex) => {
+      noteHandled({ type: "public-pick", slotIndex: Number(slotIndex) });
+      return { ok: true, progressed: true };
+    };
+  }
 
   context.finalizePendingDiscardSelection = () => {
     noteHandled({
@@ -3334,6 +3340,139 @@ function makeYichangdianAlienState(options = {}) {
     true,
     "158-score final low-hand player should still be inside the public refill window",
   );
+}
+
+{
+  const fillerCard = {
+    id: "plain-low-card",
+    cardName: "Plain low card",
+    price: 4,
+  };
+  const publicityCornerCard = {
+    id: "publicity-corner-card",
+    cardName: "Publicity corner card",
+    price: 4,
+    resourceReward: { gain: { publicity: 2 } },
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    cardSelectionActive: true,
+    recordPublicPick: true,
+    publicCards: [fillerCard, publicityCornerCard],
+    pendingCardSelectionAction: {
+      type: "trade",
+      player: null,
+    },
+    blueResources: { score: 118, credits: 0, energy: 0, publicity: 4, handSize: 0 },
+    blueOwnedTechTiles: {
+      orange1: true,
+      purple1: true,
+      blue1: true,
+      blue2: true,
+      blue3: true,
+      purple2: true,
+    },
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b2: {
+          id: "final_b2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_b2: "b2",
+      final_d2: "d2",
+    },
+    finalSlotMultipliers: {
+      d2: { 1: 8 },
+    },
+  });
+  harness.controller.configureAiAutoBattle({
+    playerIds: [harness.blue.id],
+    suppressAutoSchedule: true,
+  });
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should pick the non-runezu publicity corner setup card");
+  assert.deepEqual(harness.getHandled(), { type: "public-pick", slotIndex: 1 });
+}
+
+{
+  const fillerCard = {
+    id: "plain-low-card",
+    cardName: "Plain low card",
+    price: 4,
+  };
+  const publicityCornerCard = {
+    id: "publicity-corner-card",
+    cardName: "Publicity corner card",
+    price: 4,
+    resourceReward: { gain: { publicity: 2 } },
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    cardSelectionActive: true,
+    recordPublicPick: true,
+    runezuQuick: true,
+    publicCards: [fillerCard, publicityCornerCard],
+    pendingCardSelectionAction: {
+      type: "trade",
+      player: null,
+    },
+    blueResources: { score: 118, credits: 0, energy: 0, publicity: 4, handSize: 0 },
+    blueOwnedTechTiles: {
+      orange1: true,
+      purple1: true,
+      blue1: true,
+      blue2: true,
+      blue3: true,
+      purple2: true,
+    },
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b2: {
+          id: "final_b2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_b2: "b2",
+      final_d2: "d2",
+    },
+    finalSlotMultipliers: {
+      d2: { 1: 8 },
+    },
+  });
+  harness.controller.configureAiAutoBattle({
+    playerIds: [harness.blue.id],
+    suppressAutoSchedule: true,
+  });
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should not over-prioritize generic resource corners after runezu is revealed");
+  assert.deepEqual(harness.getHandled(), { type: "public-pick", slotIndex: 0 });
 }
 
 console.log("app/ai-controller.test.js ok");

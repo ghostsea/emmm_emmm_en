@@ -2423,6 +2423,60 @@
       };
     }
 
+    function scoreAiPublicityResearchTechSetupValue(gain = {}, player = getCurrentPlayer(), options = {}) {
+      if (!player || !gain || typeof gain !== "object") return 0;
+      const publicityGain = Math.max(0, aiNumber(gain.publicity));
+      if (publicityGain <= 0) return 0;
+
+      const researchCost = tech.resolver?.getResearchPublicityCost?.(player)
+        ?? tech.RESEARCH_PUBLICITY_COST
+        ?? 6;
+      const currentPublicity = Math.max(0, aiNumber(player.resources?.publicity));
+      const publicityLimit = players.RESOURCE_LIMITS?.publicity ?? 10;
+      const projectedPublicity = Math.min(publicityLimit, currentPublicity + publicityGain);
+      if (currentPublicity >= researchCost || projectedPublicity <= currentPublicity) return 0;
+
+      const round = getAiRoundNumber();
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const techCount = countAiPlayerTech(player);
+      const finalMarks = countAiFinalMarksForPlayer(player);
+      const markedTechFinalEntries = getAiMarkedFinalFormulaEntries(player)
+        .filter((entry) => entry.formulaId === "d1" || entry.formulaId === "d2");
+      const techFinalEntries = getAiPlanningFinalFormulaEntries(player, ["d1", "d2"]);
+      const hasMarkedTechFinal = markedTechFinalEntries.length > 0;
+      const hasTechFinalPlan = techFinalEntries.length > 0;
+      const lowTechTarget = round >= FINAL_ROUND_NUMBER ? 10 : round >= 3 ? 8 : 6;
+      const lowTechShortfall = Math.max(0, lowTechTarget - techCount);
+      const earlyTechEngineWindow = round <= 2 && techCount < 5;
+      const lowTailTechWindow = round >= 3
+        && lowTechShortfall > 0
+        && currentScore < (round >= FINAL_ROUND_NUMBER ? 170 : 125);
+      if (!hasMarkedTechFinal && !earlyTechEngineWindow && !lowTailTechWindow) return 0;
+
+      const beforeShortfall = Math.max(0, researchCost - currentPublicity);
+      const afterShortfall = Math.max(0, researchCost - projectedPublicity);
+      const crossesResearchCost = beforeShortfall > 0 && afterShortfall <= 0;
+      const closeToResearchCost = afterShortfall > 0 && afterShortfall <= 2;
+      if (!crossesResearchCost && !closeToResearchCost && !(earlyTechEngineWindow && afterShortfall <= 4)) return 0;
+
+      const bestTechMultiplier = techFinalEntries.reduce((best, entry) => (
+        Math.max(best, aiNumber(entry.multiplier))
+      ), 0);
+      let value = crossesResearchCost
+        ? 5.4 + bestTechMultiplier * 0.32
+        : afterShortfall <= 1
+          ? 3.8 + bestTechMultiplier * 0.22
+          : 2.4 + bestTechMultiplier * 0.14;
+
+      value += lowTechShortfall * (round >= FINAL_ROUND_NUMBER ? 0.72 : 0.45);
+      if (round >= 3 && finalMarks >= 2 && hasMarkedTechFinal) value += 1.4;
+      if (round >= FINAL_ROUND_NUMBER && currentScore < 160) value += Math.min(2.2, (160 - currentScore) * 0.035);
+      if (earlyTechEngineWindow && !hasTechFinalPlan) value *= 0.62;
+
+      const scale = options.scale == null ? 1 : Math.max(0, aiNumber(options.scale));
+      return roundAiScore(Math.min(12, Math.max(0, value)) * scale);
+    }
+
     function getAiMidgameResourceContinuationWeight() {
       const round = getAiRoundNumber();
       if (round <= 1) return 0.55;
@@ -2531,6 +2585,9 @@
 
         if (publicityGain > 0 && aiNumber(resources.publicity) < 3 && aiNumber(afterResources.publicity) >= 3) {
           value += Math.min(4.5, 2.4 + Math.max(0, 2 - (player.hand || []).length) * 0.65) * mainActionScale;
+        }
+        if (publicityGain > 0) {
+          value += scoreAiPublicityResearchTechSetupValue(gain, player, { scale: mainActionScale });
         }
 
         if (energyGain > 0 || creditGain > 0) {
@@ -2662,6 +2719,7 @@
       const fossilGain = Math.max(0, Math.round(aiNumber(gain.aomomoFossils)));
       if (fossilGain > 0) value += scoreAiAomomoFossilPlanBonus(fossilGain, player);
       value += scoreAiMidgameResourceContinuationValue(gain, player, { scale: 0.8 });
+      value += scoreAiPublicityResearchTechSetupValue(gain, player, { scale: 0.85 });
       if (directScore > 0) {
         value += scoreAiThresholdPressureForScoreGain(directScore, player) * 0.55;
       }
@@ -6351,7 +6409,8 @@
           return scoreAiIncomeOpportunityValue(player, bonus.gain || bonus.income || { credits: 1 });
         case "publicity":
           return scoreAiResourceBundle({ publicity: bonus.publicity || 1 })
-            + scoreAiMidgameResourceContinuationValue({ publicity: bonus.publicity || 1 }, player, { scale: 0.55 });
+            + scoreAiMidgameResourceContinuationValue({ publicity: bonus.publicity || 1 }, player, { scale: 0.55 })
+            + scoreAiPublicityResearchTechSetupValue({ publicity: bonus.publicity || 1 }, player, { scale: 0.7 });
         case "score":
           return scoreAiResourceBundle({ score: bonus.score || 1 })
             + scoreAiThresholdPressureForScoreGain(bonus.score || 1, player);
@@ -6650,10 +6709,24 @@
 
     function scoreAiCardCornerOpportunity(card) {
       let value = 0;
+      const runezuRevealed = runezu?.isRunezuRevealedSlot
+        && (aliens?.ALIEN_SLOT_IDS || []).some((alienSlotId) => (
+          runezu.isRunezuRevealedSlot(alienGameState, alienSlotId)
+        ));
+      const resourceReward = runezuRevealed ? null : cards.getDiscardActionRewardForCard?.(card);
+      if (resourceReward) {
+        const gain = { ...(resourceReward.gain || {}) };
+        const dataCount = Math.max(0, Math.round(aiNumber(resourceReward.dataCount)));
+        value += scoreAiResourceBundle(gain);
+        value += dataCount * AI_RESOURCE_VALUES.availableData;
+        value += scoreAiThresholdPressureForScoreGain(gain.score, getCurrentPlayer()) * 0.35;
+        value += scoreAiPublicityResearchTechSetupValue(gain, getCurrentPlayer(), { scale: 0.55 });
+      }
       const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
       if (moveReward) {
         value += aiNumber(moveReward.movementPoints || 1) * AI_RESOURCE_VALUES.additionalPublicScan;
         value += scoreAiResourceBundle(moveReward.gain || {});
+        value += scoreAiPublicityResearchTechSetupValue(moveReward.gain || {}, getCurrentPlayer(), { scale: 0.45 });
       }
       if (getPublicScanChoicesForCard(card).ok) value += 3;
       const incomeGain = cards.getIncomeGainForCard?.(card);
@@ -6689,6 +6762,7 @@
       const fossilGain = Math.max(0, Math.round(aiNumber(gain?.aomomoFossils)));
       return scoreAiResourceBundle(gain)
         + scoreAiMidgameResourceContinuationValue(gain, player)
+        + scoreAiPublicityResearchTechSetupValue(gain, player)
         + scoreAiThresholdPressureForScoreGain(gain.score, player)
         + scoreAiAomomoFossilPlanBonus(fossilGain, player);
     }
@@ -10161,6 +10235,10 @@
       const techCount = countAiPlayerTech(player);
       const finalMarks = countAiFinalMarksForPlayer(player);
       if (techCount >= (round >= FINAL_ROUND_NUMBER ? 11 : 9)) return 0;
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const markedDEntries = getAiMarkedFinalFormulaEntries(player)
+        .filter((entry) => entry.formulaId === "d1" || entry.formulaId === "d2");
+      const hasMarkedD2 = markedDEntries.some((entry) => entry.formulaId === "d2");
 
       let value = finalMarks >= 3 ? 2.4 : finalMarks >= 2 ? 1.4 : 0.6;
       value += Math.max(0, 8 - techCount) * (round >= FINAL_ROUND_NUMBER ? 1.25 : 0.9);
@@ -10173,6 +10251,14 @@
         const afterBase = Math.floor((techCount + 1) / 2);
         if (afterBase > beforeBase) value += Math.min(5, bestD2Multiplier * 0.85);
         else value += Math.min(2.5, bestD2Multiplier * 0.28);
+        if ((hasMarkedD2 || finalMarks >= 2) && techCount <= (round >= FINAL_ROUND_NUMBER ? 7 : 6)) {
+          value += Math.min(
+            round >= FINAL_ROUND_NUMBER ? 4.5 : 3,
+            1.2
+              + Math.max(0, 8 - techCount) * 0.55
+              + Math.max(0, (round >= FINAL_ROUND_NUMBER ? 170 : 120) - currentScore) * 0.025,
+          );
+        }
       }
 
       if (dEntries.some((entry) => entry.formulaId === "d1")) {
@@ -10185,7 +10271,8 @@
       }
 
       if (candidate?.bonusId === "bonus_3f") value += 1.2;
-      return roundAiScore(Math.min(13, Math.max(0, value)));
+      const cap = round >= FINAL_ROUND_NUMBER && techCount <= 7 ? 17 : 13;
+      return roundAiScore(Math.min(cap, Math.max(0, value)));
     }
 
     function scoreAiLowTechBoardCatchupValue(candidate, player = getCurrentPlayer()) {
@@ -10195,21 +10282,29 @@
       if (round < 3) return 0;
 
       const techCount = countAiPlayerTech(player);
-      const targetTechCount = round >= FINAL_ROUND_NUMBER ? 9 : 7;
-      if (techCount >= targetTechCount) return 0;
-
       const currentScore = Math.max(0, aiNumber(player.resources?.score));
       const finalMarks = countAiFinalMarksForPlayer(player);
       const dEntries = getAiPlanningFinalFormulaEntries(player, ["d1", "d2"]);
+      const markedDEntries = getAiMarkedFinalFormulaEntries(player)
+        .filter((entry) => entry.formulaId === "d1" || entry.formulaId === "d2");
       const hasTechFinalPlan = dEntries.length > 0;
-      const severeLowTech = techCount <= (round >= FINAL_ROUND_NUMBER ? 5 : 4);
-      const lowScoreTarget = round >= FINAL_ROUND_NUMBER ? 135 : 78;
+      const hasMarkedTechFinal = markedDEntries.length > 0;
+      const hasMarkedD2 = markedDEntries.some((entry) => entry.formulaId === "d2");
+      const targetTechCount = hasMarkedTechFinal
+        ? (round >= FINAL_ROUND_NUMBER ? (hasMarkedD2 ? 10 : 9) : 8)
+        : (round >= FINAL_ROUND_NUMBER ? 9 : 7);
+      if (techCount >= targetTechCount) return 0;
+
+      const severeLowTech = techCount <= (round >= FINAL_ROUND_NUMBER ? 6 : 4);
+      const lowScoreTarget = hasMarkedTechFinal
+        ? (round >= FINAL_ROUND_NUMBER ? 165 : 95)
+        : (round >= FINAL_ROUND_NUMBER ? 135 : 78);
       const lowScorePressure = currentScore < lowScoreTarget;
       const lowMarkPressure = finalMarks < (round >= FINAL_ROUND_NUMBER ? 3 : 2);
 
       if (!severeLowTech && !hasTechFinalPlan && !lowScorePressure && !lowMarkPressure) return 0;
 
-      let value = Math.max(0, targetTechCount - techCount) * (round >= FINAL_ROUND_NUMBER ? 0.8 : 0.55);
+      let value = Math.max(0, targetTechCount - techCount) * (round >= FINAL_ROUND_NUMBER ? 0.95 : 0.62);
       if (severeLowTech) value += round >= FINAL_ROUND_NUMBER ? 3 : 2;
       if (lowScorePressure) {
         value += Math.min(
@@ -10218,7 +10313,11 @@
         );
       }
       if (lowMarkPressure) value += round >= FINAL_ROUND_NUMBER ? 1.8 : 1.4;
-      if (hasTechFinalPlan) value += round >= FINAL_ROUND_NUMBER ? 2 : 1.2;
+      if (hasTechFinalPlan) {
+        value += hasMarkedTechFinal
+          ? (round >= FINAL_ROUND_NUMBER ? 2 : 1.2)
+          : (round >= FINAL_ROUND_NUMBER ? 0.9 : 0.45);
+      }
 
       if (dEntries.some((entry) => entry.formulaId === "d1")) {
         const counts = getAiPlayerTechTypeCounts(player);
@@ -10230,12 +10329,14 @@
       if (dEntries.some((entry) => entry.formulaId === "d2")) {
         const beforeBase = Math.floor(techCount / 2);
         const afterBase = Math.floor((techCount + 1) / 2);
-        value += afterBase > beforeBase ? 1.5 : 0.45;
+        value += afterBase > beforeBase
+          ? (hasMarkedD2 ? 2.2 : 1.6)
+          : (hasMarkedD2 ? 0.75 : 0.45);
       }
 
       if (candidate?.bonusId === "bonus_3f") value += 0.8;
       if (candidate?.firstTake) value += 0.45;
-      return roundAiScore(Math.min(10, Math.max(0, value)));
+      return roundAiScore(Math.min(hasMarkedTechFinal ? 13 : 10, Math.max(0, value)));
     }
 
     function scoreAiResearchTechValue(candidate, player = getCurrentPlayer()) {
