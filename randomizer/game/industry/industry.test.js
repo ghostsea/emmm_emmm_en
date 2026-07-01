@@ -208,6 +208,20 @@ assert.equal(passives.canUsePiratesRaidLaunchOnPlanet(piratesPlayer, "mars"), fa
 const piratesFlowBeforeRaid = abilities.buildActiveAbilityFlow(piratesPlayer, "星际海盗", 2);
 assert.equal(piratesFlowBeforeRaid.ok, false);
 const piratesNodes = abilities.buildPiratesRaidMarkerEffectNodes(piratesPlayer, "mars", "land");
+assert.equal(abilities.buildPiratesRaidMarkerEffectNodes(
+  piratesPlayer,
+  "jupiter",
+  "land",
+  { markerKind: "satellite", planetId: "jupiter", satelliteId: "io" },
+).length, 0);
+assert.equal(abilities.buildPiratesRaidMarkerEffectNodes(
+  piratesPlayer,
+  "venus",
+  "orbit",
+  { markerKind: "orbit", planetId: "venus" },
+).length, 2);
+assert.equal(abilities.isPiratesRaidMainPlanetMarkerAction("land", { markerKind: "satellite" }), false);
+assert.equal(abilities.isPiratesRaidMainPlanetMarkerAction("land", { markerKind: "land" }), true);
 assert.equal(piratesNodes.length, 2);
 assert.deepEqual(piratesNodes.map((node) => node.type), [
   "industry_pirates_raid_marker",

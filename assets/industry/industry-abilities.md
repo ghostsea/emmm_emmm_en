@@ -68,7 +68,7 @@
 | 宇宙战略集团 | `strategy_pick_card` | `strategy_pick` | 精选 1 张公共牌（无额外资源）；确认精选后清除 3 个被动奖励槽 token |
 | 未来跨度研究所 | `future_span_pick_advance` | `future_span_pick` | 若专属标记已有未达成目标牌：精选 1 张公共牌，并将目标分提高 3 |
 | 原教旨主义 | `fundamentalism_score_exchange` | `fundamentalism_score_exchange` | 启动 3 个 `industry_fundamentalism_exchange` 节点；每个节点可跳过、可撤销，可在 3 分与 1 信用/1 能量/1 精选之间兑换，或用 1 信用/1 能量/弃 1 手牌换 3 分 |
-| 星际海盗 | `pirates_raid_launch` | `pirates_raid_launch` | 启动 1 个 `industry_pirates_raid_launch` 节点；选择一个已有掠夺标记星球上的己方环绕/登陆/卫星登陆标记，移除并消耗 1 信用点，然后在该星球当前扇区免费发射 |
+| 星际海盗 | `pirates_raid_launch` | `pirates_raid_launch` | 启动 1 个 `industry_pirates_raid_launch` 节点；选择一个已有掠夺标记主星上的己方环绕/登陆标记，移除并消耗 1 信用点，然后在该星球当前扇区免费发射 |
 | 异星实验室 | — | — | **无 1x 圆标**（`EXCLUDED_INDUSTRY_LABELS`） |
 | 作弊实验室 | — | — | AI 专用；复用异星实验室牌图，开局获得 5 张盲抽和 5 次收入增加，**无 1x 圆标**，三色板块永久正面；每轮开始额外获得 1 能量和 1 盲抽 |
 
@@ -86,7 +86,7 @@
 - `applyIncomeResourcesFromCard`：任务中继站精选后的收入角标奖励（资源、数据与 `handSize` 盲抽）
 - `buildStratusPublicCornerEffectNodes`：生成层云核心快速行动队列节点 `type: "industry_stratus_corner"`
 - `buildFundamentalismScoreExchangeEffectNodes`：生成原教旨主义 3 个快速行动兑换节点 `type: "industry_fundamentalism_exchange"`
-- `buildPiratesRaidMarkerEffectNodes`：环绕/登陆未掠夺星球后生成必做的放置掠夺标记与 +3 宣传节点
+- `buildPiratesRaidMarkerEffectNodes`：环绕/登陆未掠夺主星后生成必做的放置掠夺标记与 +3 宣传节点
 - `buildPiratesRaidLaunchEffectNodes`：生成星际海盗 1x 快速行动节点 `type: "industry_pirates_raid_launch"`
 - `buildSentinelPlayCornerEffectNodes`：生成打牌队列节点 `type: "industry_sentinel_corner"`
 
@@ -118,7 +118,7 @@
 | `fundamentalism_disable_play_card_action` | 原教旨主义 | 不能使用标准“打牌”主要行动；九折等外星机制自己的打牌入口不受影响 | `beginPlayCardSelection` / `updateActionButtons` |
 | `fundamentalism_double_discard_corner` | 原教旨主义 | 手牌左上角弃牌快速行动的资源/数据/移动奖励翻倍；移动翻倍会启动一个快速行动效果队列节点，作为单个 2 移动力池由玩家分配；方舟 card2 与符文族符文角标等外星人专属弃牌奖励重复结算 2 次 | `getCardCornerQuickActionForCard` / `confirmCardCornerQuickAction` |
 | `fundamentalism_income_task_completion` | 原教旨主义 | 作为收入选择的 1/2 型任务牌视为完成任务，`completedTaskCount +1`，不额外获得分数；该任务可参与 final_c | `applyIncomeFromCard` |
-| `pirates_raid_markers` | 星际海盗 | 开局在 orange2-4、purple1-4 对应玩家科技板位置放掠夺标记并封锁这些科技；玩家环绕/登陆未掠夺星球后，必须选择一个掠夺标记移到该星球左侧，然后获得 3 宣传；移走标记后该科技恢复可研究 | `renderPiratesRaidTechMarkers` / `startPlanetRewardEffectFlow` / `industry_pirates_raid_marker` |
+| `pirates_raid_markers` | 星际海盗 | 开局在 orange2-4、purple1-4 对应玩家科技板位置放掠夺标记并封锁这些科技；玩家环绕/登陆未掠夺主星后，必须选择一个掠夺标记移到该星球左侧，然后获得 3 宣传；卫星登陆不会触发；移走标记后该科技恢复可研究 | `renderPiratesRaidTechMarkers` / `startPlanetRewardEffectFlow` / `industry_pirates_raid_marker` |
 | `alien_lab_panels` | 异星实验室 | 三色板块折扣：发射 1 信用点、扫描 2 能量、研究科技 4 宣传；正面板块可点击并等同触发对应主要行动；对应标准主行动后翻背，同色外星痕迹翻回正面 | `launch.js` / `scan-effects.js` / `tech/resolver.js` / `app.js` |
 | `cheat_lab_permanent_panels` | 作弊实验室 | AI 专用异星实验室强化：蓝/黄/粉三色板块永久按正面计费和渲染，执行发射/扫描/研究科技后不翻背 | `passives.js` / `render.js` / `app.js` / `ai-controller.js` |
 | `cheat_lab_round_start` | 作弊实验室 | 每轮开始获得 1 能量和 1 盲抽；包括第一轮初始选择结算后。开局公司即时效果另有 5 张盲抽和 5 次收入增加 | `applyIndustryRoundStartBonuses` |
@@ -139,7 +139,7 @@
 | `future_span_pick` | 公共牌精选 → 目标分 +3 |
 | `strategy_pick` | 公共牌精选 |
 | `fundamentalism_score_exchange` | 快速行动效果队列：3 个分数/资源兑换节点；精选分支确认补牌后该节点不可撤销 |
-| `pirates_raid_launch` | 快速行动效果队列：选择已有掠夺标记星球上的己方环绕/登陆/卫星登陆标记，消耗 1 信用点并在同星球当前扇区免费发射 |
+| `pirates_raid_launch` | 快速行动效果队列：选择已有掠夺标记主星上的己方环绕/登陆标记，消耗 1 信用点并在同星球当前扇区免费发射 |
 
 交互聚焦（`data-interaction-focus`）：仅在**进行中**的精选/手牌/科技/移动/掠夺标记放置流程时暗化其它区域；公司 1x 可放置时**不**自动全屏聚焦，仅用牌面高亮。
 

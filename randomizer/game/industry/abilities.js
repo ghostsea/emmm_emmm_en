@@ -26,6 +26,7 @@
   const FUNDAMENTALISM_EXCHANGE_COUNT = 3;
   const PIRATES_RAID_PUBLICITY_GAIN = 3;
   const PIRATES_RAID_ACTIVE_COST = Object.freeze({ credits: 1 });
+  const PIRATES_RAID_MAIN_MARKER_KINDS = Object.freeze(["orbit", "land", "aomomo-orbit", "aomomo-land"]);
 
   function isAlienCard(card) {
     const cardId = String(card?.cardId || card?.id || "");
@@ -385,7 +386,7 @@
           return { ok: false, message: `信用点不足，需要 ${PIRATES_RAID_ACTIVE_COST.credits} 信用点` };
         }
         if (!passives.hasAnyPiratesRaidPlanetMarker?.(player)) {
-          return { ok: false, message: `${prepared.label}：没有已有掠夺标记的星球` };
+          return { ok: false, message: `${prepared.label}：没有已有掠夺标记的主星` };
         }
         return {
           ok: true,
@@ -393,14 +394,21 @@
           flowType: "pirates_raid_launch",
           label: prepared.label,
           cost: { ...PIRATES_RAID_ACTIVE_COST },
-          message: `${prepared.label}：请选择一个已有掠夺标记星球上的己方环绕或登陆标记，消耗 1 信用点并在该星球免费发射`,
+          message: `${prepared.label}：请选择一个已有掠夺标记主星上的己方环绕或登陆标记，消耗 1 信用点并在该星球免费发射`,
         };
       default:
         return { ok: false, message: `未实现的公司 1x 行动：${abilityId}` };
     }
   }
 
-  function buildPiratesRaidMarkerEffectNodes(player, planetId, actionType = null) {
+  function isPiratesRaidMainPlanetMarkerAction(actionType = null, result = null) {
+    const markerKind = result?.markerKind || result?.payload?.markerKind || null;
+    if (markerKind) return PIRATES_RAID_MAIN_MARKER_KINDS.includes(markerKind);
+    return actionType === "orbit" || actionType === "land";
+  }
+
+  function buildPiratesRaidMarkerEffectNodes(player, planetId, actionType = null, result = null) {
+    if (!isPiratesRaidMainPlanetMarkerAction(actionType, result)) return [];
     if (!passives.shouldQueuePiratesRaidForPlanet?.(player, planetId)) return [];
     const playerId = player?.id || null;
     const playerColor = player?.color || null;
@@ -560,6 +568,7 @@
     FUNDAMENTALISM_EXCHANGE_COUNT,
     PIRATES_RAID_PUBLICITY_GAIN,
     PIRATES_RAID_ACTIVE_COST,
+    isPiratesRaidMainPlanetMarkerAction,
     isAlienCard,
     getCornerReward,
     buildStratusPublicCornerEffectNodes,

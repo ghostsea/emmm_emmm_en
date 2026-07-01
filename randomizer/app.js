@@ -11804,7 +11804,7 @@
   function startPlanetRewardEffectFlow(actionType, result) {
     const rewardEffects = [
       ...(planetRewards?.buildRewardEffectsForAction?.(actionType, result) || []),
-      ...(industry?.buildPiratesRaidMarkerEffectNodes?.(getCurrentPlayer(), result?.planetId, actionType) || []),
+      ...(industry?.buildPiratesRaidMarkerEffectNodes?.(getCurrentPlayer(), result?.planetId, actionType, result) || []),
     ];
     if (!rewardEffects.length) return false;
 
@@ -26151,7 +26151,7 @@
       },
     );
     if (started) {
-      rocketState.statusNote = flow.message || "星际海盗：请选择已有掠夺标记星球上的己方环绕或登陆标记";
+      rocketState.statusNote = flow.message || "星际海盗：请选择已有掠夺标记主星上的己方环绕或登陆标记";
       renderActionEffectBar();
       updateActionButtons();
       renderStateReadout();
@@ -26164,11 +26164,12 @@
     return buildPlanetMarkerRemovalChoices({
       options: {
         owner: "current",
-        markerKinds: ["orbit", "land", "satelliteLand"],
+        markerKinds: ["orbit", "land"],
         ...(effect.options || {}),
       },
     }).filter((choice) => (
       choice.planetId
+      && (choice.kind === "orbit" || choice.kind === "land")
       && industry?.canUsePiratesRaidLaunchOnPlanet?.(player, choice.planetId)
     ));
   }
@@ -26183,13 +26184,13 @@
     }
     const choices = buildPiratesRaidLaunchChoices(effect);
     if (!choices.length) {
-      rocketState.statusNote = "星际海盗：没有位于已掠夺星球的己方环绕或登陆标记";
+      rocketState.statusNote = "星际海盗：没有位于已掠夺主星的己方环绕或登陆标记";
       renderStateReadout();
       return { ok: false, message: rocketState.statusNote };
     }
     pendingScanTargetAction = { ...getPendingOwnerFields(effect, player), type: "industry_pirates_raid_launch", effect, choices };
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = effect.label || "星际海盗";
-    if (els.scanTargetSubtitle) els.scanTargetSubtitle.textContent = "选择一个已有掠夺标记星球上的己方环绕、登陆或卫星登陆标记，移除后消耗 1 信用点并在该星球当前扇区免费发射。";
+    if (els.scanTargetSubtitle) els.scanTargetSubtitle.textContent = "选择一个已有掠夺标记主星上的己方环绕或登陆标记，移除后消耗 1 信用点并在该星球当前扇区免费发射。";
     if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
     els.scanTargetActions.replaceChildren(...choices.map((choice) => {
       const button = document.createElement("button");
@@ -26200,7 +26201,7 @@
       return button;
     }));
     els.scanTargetOverlay.hidden = false;
-    rocketState.statusNote = `${effect.label}：请选择已有掠夺标记星球上要移除的己方标记`;
+    rocketState.statusNote = `${effect.label}：请选择已有掠夺标记主星上要移除的己方标记`;
     renderStateReadout();
     return { ok: true, pendingChoice: true, message: rocketState.statusNote };
   }
