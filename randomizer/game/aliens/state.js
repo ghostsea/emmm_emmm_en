@@ -22,6 +22,15 @@
     2: Object.freeze({ gain: Object.freeze({ score: 3, publicity: 1 }) }),
   });
   const EXTRA_TRACE_REWARD = Object.freeze({ gain: Object.freeze({ score: 3 }) });
+  const NEUTRAL_SCORE_TRACE_THRESHOLDS = Object.freeze([20, 30]);
+  const NEUTRAL_SCORE_TRACE_ORDER = Object.freeze([
+    Object.freeze({ alienSlotId: 1, traceType: "pink" }),
+    Object.freeze({ alienSlotId: 1, traceType: "yellow" }),
+    Object.freeze({ alienSlotId: 1, traceType: "blue" }),
+    Object.freeze({ alienSlotId: 2, traceType: "pink" }),
+    Object.freeze({ alienSlotId: 2, traceType: "yellow" }),
+    Object.freeze({ alienSlotId: 2, traceType: "blue" }),
+  ]);
 
   function createDefaultTraceSlot() {
     return {
@@ -48,6 +57,7 @@
   function createDefaultAlienState() {
     return {
       revealPoolAlienIds: null,
+      neutralScoreTraceMarks: {},
       aliens: {
         1: createDefaultAlienSlotState(),
         2: createDefaultAlienSlotState(),
@@ -66,6 +76,7 @@
 
   function firstTraceBelongsToPlayer(traceSlot, player) {
     if (!traceSlot?.firstPlaced || !player) return false;
+    if (traceSlot.neutral) return false;
     const playerIds = new Set([player.id, player.playerId].filter(Boolean).map(String));
     const playerColors = new Set([player.color, player.playerColor].filter(Boolean).map(String));
     return (
@@ -136,6 +147,7 @@
 
   function markerBelongsToPlayer(marker, player) {
     if (!marker || !player) return false;
+    if (marker.neutral) return false;
     const playerIds = new Set([player.id, player.playerId].filter(Boolean).map(String));
     const playerColors = new Set([player.color, player.playerColor].filter(Boolean).map(String));
     return (
@@ -223,6 +235,7 @@
 
     traceSlot.firstPlaced = true;
     traceSlot.ownerPlayerColor = playerColor || null;
+    traceSlot.neutral = false;
 
     const ready = isAlienReadyToReveal(alienSlot);
     return {
@@ -231,6 +244,79 @@
         + `${ready ? "，三种首标记已满，可揭示" : ""}`,
       extraOnly: false,
       readyToReveal: ready,
+    };
+  }
+
+  function ensureNeutralScoreTraceMarks(alienState) {
+    if (!alienState || typeof alienState !== "object") return {};
+    if (!alienState.neutralScoreTraceMarks || typeof alienState.neutralScoreTraceMarks !== "object") {
+      alienState.neutralScoreTraceMarks = {};
+    }
+    return alienState.neutralScoreTraceMarks;
+  }
+
+  function getNeutralScoreTraceMark(alienState, threshold) {
+    const marks = ensureNeutralScoreTraceMarks(alienState);
+    return marks[String(Math.round(Number(threshold) || 0))] || null;
+  }
+
+  function findNeutralScoreTraceTarget(alienState) {
+    for (const target of NEUTRAL_SCORE_TRACE_ORDER) {
+      const alienSlot = getAlienSlot(alienState, target.alienSlotId);
+      const traceSlot = alienSlot?.traces?.[target.traceType];
+      if (!alienSlot || alienSlot.revealed || traceSlot?.firstPlaced) continue;
+      return target;
+    }
+    return null;
+  }
+
+  function placeNeutralScoreTraceForThreshold(alienState, threshold, triggerPlayer, neutralPlayerColor, options = {}) {
+    const normalizedThreshold = Math.round(Number(threshold) || 0);
+    if (!NEUTRAL_SCORE_TRACE_THRESHOLDS.includes(normalizedThreshold)) {
+      return { ok: false, message: `未知中立分数痕迹阈值 ${threshold}` };
+    }
+    if (getNeutralScoreTraceMark(alienState, normalizedThreshold)) {
+      return { ok: false, alreadyPlaced: true, message: `${normalizedThreshold}分中立首痕迹已标记` };
+    }
+    if (!neutralPlayerColor) {
+      return { ok: false, noNeutralColor: true, message: "没有未参与游戏的中立颜色" };
+    }
+
+    const target = findNeutralScoreTraceTarget(alienState);
+    if (!target) {
+      return { ok: false, noAvailableSlot: true, message: "没有可标记的中立首痕迹空位" };
+    }
+
+    const result = placeFirstTrace(alienState, target.alienSlotId, target.traceType, neutralPlayerColor);
+    if (!result.ok || result.extraOnly) return result;
+
+    const traceSlot = getAlienSlot(alienState, target.alienSlotId)?.traces?.[target.traceType];
+    if (traceSlot) {
+      traceSlot.neutral = true;
+      traceSlot.neutralReason = "score_threshold";
+      traceSlot.neutralThreshold = normalizedThreshold;
+    }
+
+    const mark = {
+      threshold: normalizedThreshold,
+      alienSlotId: target.alienSlotId,
+      traceType: target.traceType,
+      neutralPlayerColor,
+      triggerPlayerId: triggerPlayer?.id || triggerPlayer?.playerId || null,
+      triggerPlayerColor: triggerPlayer?.color || triggerPlayer?.playerColor || null,
+      createdAt: options.createdAt || Date.now(),
+    };
+    ensureNeutralScoreTraceMarks(alienState)[String(normalizedThreshold)] = mark;
+
+    return {
+      ...result,
+      neutral: true,
+      threshold: normalizedThreshold,
+      mark,
+      alienSlotId: target.alienSlotId,
+      traceType: target.traceType,
+      playerColor: neutralPlayerColor,
+      message: `${normalizedThreshold}分中立首痕迹：${placement.getAlienSlotLabel(target.alienSlotId)} ${placement.getTraceTypeLabel(target.traceType)}`,
     };
   }
 
@@ -280,6 +366,8 @@
   }
 
   return Object.freeze({
+    NEUTRAL_SCORE_TRACE_THRESHOLDS,
+    NEUTRAL_SCORE_TRACE_ORDER,
     createDefaultAlienState,
     createDefaultAlienSlotState,
     createDefaultTraceSlot,
@@ -293,6 +381,9 @@
     isAlienReadyToReveal,
     getExtraTraceMarker,
     getExtraTraceOwnerColor,
+    getNeutralScoreTraceMark,
+    findNeutralScoreTraceTarget,
+    placeNeutralScoreTraceForThreshold,
     placeFirstTrace,
     addExtraTrace,
     revealAlien,

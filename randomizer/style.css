@@ -139,6 +139,12 @@ body {
   width: 100%;
 }
 
+.start-screen-option-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.95fr);
+  gap: 10px;
+}
+
 .start-screen-option {
   display: grid;
   grid-template-columns: minmax(92px, auto) minmax(0, 1fr);
@@ -151,6 +157,10 @@ body {
   background: rgba(5, 13, 24, 0.64);
   -webkit-backdrop-filter: blur(6px) saturate(1.1);
   backdrop-filter: blur(6px) saturate(1.1);
+}
+
+.start-screen-compact-option {
+  grid-template-columns: auto minmax(78px, 1fr);
 }
 
 .start-screen-toggle-option {
@@ -259,6 +269,12 @@ body {
   font-size: 13px;
   font-weight: 800;
   line-height: 1;
+}
+
+@media (max-width: 560px) {
+  .start-screen-option-row {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-aspect-ratio: 1501 / 1048) {

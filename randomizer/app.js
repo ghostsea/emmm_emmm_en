@@ -201,6 +201,7 @@
   };
   const startScreenState = {
     aiDifficulty: "laughable",
+    activePlayerCount: DEFAULT_ACTIVE_PLAYER_COUNT,
     debugToolsEnabled: false,
     selectedAlienIds: [...(aliens.ALIEN_TYPE_IDS || [])],
     selectedIndustryLabels: INDUSTRY_CARD_FILES.map(stripAssetExtension),
@@ -316,7 +317,7 @@
     cards.setSelectionActive(cardState, false);
     cards.setPlayCardSelectionActive(cardState, false);
     cards.setDiscardSelectionActive(cardState, false, 0);
-    for (const player of playerState.players) {
+    for (const player of getActivePlayers()) {
       cards.drawCardsToHand(cardState, playerState, player, handCount);
     }
     ensurePublicCardsFilledRespectingDelayedRefills();
@@ -2507,10 +2508,19 @@
     resize();
   }
 
+  function normalizeStartPlayerCount(value) {
+    const count = Math.round(Number(value) || DEFAULT_ACTIVE_PLAYER_COUNT);
+    return count === 3 ? 3 : DEFAULT_ACTIVE_PLAYER_COUNT;
+  }
+
   function applyStartScreenOptions() {
     syncStartScreenAlienOptions();
     syncStartScreenIndustryOptions();
     startScreenState.aiDifficulty = els.startAiDifficulty?.value || "laughable";
+    startScreenState.activePlayerCount = normalizeStartPlayerCount(els.startPlayerCount?.value);
+    if (els.startPlayerCount) {
+      els.startPlayerCount.value = String(startScreenState.activePlayerCount);
+    }
     setDebugToolsEnabled(Boolean(els.startDebugEnabled?.checked));
   }
 
@@ -2526,7 +2536,11 @@
   function startNewGameFromStartScreen() {
     startScreenState.entered = true;
     applyStartScreenOptions();
-    startNewGame({ clearStorage: true, message: "新游戏已开始，请完成初始选择。" });
+    startNewGame({
+      activePlayerCount: startScreenState.activePlayerCount,
+      clearStorage: true,
+      message: "新游戏已开始，请完成初始选择。",
+    });
     closeStartScreen();
   }
 
@@ -6972,6 +6986,94 @@
       || "../assets/tokens/normal_token.png";
   }
 
+  function getNeutralScoreTraceColor() {
+    const activeColors = new Set(getActivePlayers().map((player) => player.color).filter(Boolean));
+    return players.PLAYER_COLOR_IDS.find((colorId) => !activeColors.has(colorId)) || null;
+  }
+
+  function getCrossedNeutralScoreTraceThresholds(beforeScore, afterScore) {
+    const before = Number(beforeScore) || 0;
+    const after = Number(afterScore) || 0;
+    if (after <= before) return [];
+    return (aliens.NEUTRAL_SCORE_TRACE_THRESHOLDS || [20, 30]).filter((threshold) => (
+      before < Number(threshold)
+      && after >= Number(threshold)
+      && !aliens.getNeutralScoreTraceMark?.(alienGameState, threshold)
+    ));
+  }
+
+  function recordNeutralScoreTraceRestore(beforeAlienState, history = null) {
+    const command = historyCommands.createRestoreObjectCommand(
+      alienGameState,
+      beforeAlienState,
+      "恢复分数阈值中立首痕迹",
+    );
+    if (history === quickActionHistory) {
+      recordQuickHistoryCommand(command);
+    } else {
+      recordHistoryCommand(command);
+    }
+  }
+
+  function placeNeutralScoreTraceForThreshold(player, threshold, options = {}) {
+    const activePlayerIds = new Set(getActivePlayers().map((item) => item.id));
+    if (!player?.id || !activePlayerIds.has(player.id)) return null;
+    const neutralColor = getNeutralScoreTraceColor();
+    if (!neutralColor) return null;
+
+    const beforeAlienState = structuredClone(alienGameState);
+    const result = aliens.placeNeutralScoreTraceForThreshold?.(
+      alienGameState,
+      threshold,
+      player,
+      neutralColor,
+    );
+    if (!result?.ok) return result || null;
+
+    recordNeutralScoreTraceRestore(beforeAlienState, options.history || null);
+    renderAlienPanels();
+    return result;
+  }
+
+  function handlePlayerScoreChanged(player, payload = {}, options = {}) {
+    const thresholds = getCrossedNeutralScoreTraceThresholds(payload.beforeScore, payload.afterScore);
+    const placed = [];
+    for (const threshold of thresholds) {
+      const result = placeNeutralScoreTraceForThreshold(player, threshold, options);
+      if (result?.ok) placed.push(result);
+    }
+    return placed;
+  }
+
+  function recordNeutralScoreTracesFromScanResult(scanResult, history = null) {
+    const scoreAwarded = Number(
+      scanResult?.scoreAwarded
+      ?? scanResult?.replaced?.scoreAwarded
+      ?? scanResult?.payload?.replaced?.scoreAwarded
+      ?? 0,
+    );
+    if (scoreAwarded <= 0) return [];
+    const player = getScanScorePlayer(scanResult);
+    if (!player) return [];
+    const afterScore = Number(player.resources?.score) || 0;
+    return handlePlayerScoreChanged(player, {
+      gain: { score: scoreAwarded },
+      beforeScore: afterScore - scoreAwarded,
+      afterScore,
+      scoreDelta: scoreAwarded,
+    }, { history });
+  }
+
+  function recordNeutralScoreTracesFromAbilityResult(result, history = null) {
+    const scanResults = [
+      result,
+      result?.payload?.industryLaunchScan,
+    ].filter(Boolean);
+    return scanResults.flatMap((scanResult) => (
+      recordNeutralScoreTracesFromScanResult(scanResult, history)
+    ));
+  }
+
   function syncFinalScorePendingMarks() {
     const result = finalScoring.syncPendingMarks(finalScoringState, playerState.players);
     const currentPlayer = getCurrentPlayer();
@@ -9910,6 +10012,7 @@
     const commands = [];
     const turnVisitCommand = recordTurnVisitPlanetEvents(result.events);
     if (turnVisitCommand) commands.push(turnVisitCommand);
+    recordNeutralScoreTracesFromAbilityResult(result, history);
     commands.push(...(result.commands || []));
     if (commands.length) {
       for (const command of commands) {
@@ -19293,6 +19396,7 @@
     if (player) return `玩家${player.colorLabel || player.name || player.id}`;
     const ownerColor = traceSlot?.ownerPlayerColor || traceSlot?.playerColor || null;
     const colorLabel = players.getPlayerColorDefinition(ownerColor)?.label || ownerColor;
+    if (traceSlot?.neutral && colorLabel) return `中立${colorLabel}token`;
     if (colorLabel) return `玩家${colorLabel}`;
     const ownerId = traceSlot?.ownerPlayerId || traceSlot?.playerId || null;
     return ownerId ? `玩家${ownerId}` : "未知玩家";
@@ -26270,15 +26374,16 @@
     }
     if (!els.debugPlayerMenu) return;
 
-    els.debugPlayerMenu.replaceChildren(...players.PLAYER_COLOR_IDS.map((colorId) => {
-      const player = getPlayerByColor(colorId) || players.createPlayer({ color: colorId });
+    const menuPlayers = getActivePlayers();
+    els.debugPlayerMenu.replaceChildren(...menuPlayers.map((player) => {
+      const colorId = player.color;
       const color = players.getPlayerColorDefinition(colorId);
       const button = document.createElement("button");
       button.type = "button";
       button.className = "debug-player-option";
       button.dataset.playerColor = colorId;
-      button.style.setProperty("--player-color", color.uiColor);
-      button.textContent = `${color.label}（${getPlayerAgentLabel(player.id)}）`;
+      button.style.setProperty("--player-color", color?.uiColor || "#ffffff");
+      button.textContent = `${color?.label || player.colorLabel || colorId}（${getPlayerAgentLabel(player.id)}）`;
       button.classList.toggle("is-current", currentPlayer?.color === colorId);
       button.setAttribute("aria-pressed", String(currentPlayer?.color === colorId));
       button.title = `切换到${player.name}（${getPlayerAgentLabel(player.id)}）`;
@@ -34004,9 +34109,9 @@
         clearPersistentGameState();
       }
       resetGameStateForNewGame(options);
-      initializeCardGame(DEFAULT_INITIAL_HAND_COUNT);
       seedDefaultReferenceRockets();
       randomizeAll();
+      initializeCardGame(DEFAULT_INITIAL_HAND_COUNT);
       configureDefaultAiOpponent();
       startInitialSelection();
       rocketState.statusNote = options.message || "新游戏已开始，请完成初始选择。";
@@ -34383,6 +34488,9 @@
     renderSectorNebulaDataBoard,
     logAomomoDebugCoordinates,
     resize,
+  });
+  players.setScoreGainListener?.((player, payload) => {
+    handlePlayerScoreChanged(player, payload);
   });
   setTokenAssetSizes();
   syncStartScreenDebugOption();

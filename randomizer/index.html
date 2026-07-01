@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=failsafe-controls-1">
+  <link rel="stylesheet" href="./style.css?v=player-count-neutral-trace-1">
 </head>
 <body>
   <div class="start-screen" id="start-screen" aria-label="开始界面">
@@ -14,12 +14,21 @@
         <button class="start-screen-continue-button" type="button" id="start-screen-continue-button" disabled aria-disabled="true" hidden>继续游戏(beta)</button>
       </div>
       <div class="start-screen-options" aria-label="开始选项">
-        <label class="start-screen-option" for="start-ai-difficulty">
-          <span class="start-screen-option-label">电脑难度</span>
-          <select class="start-screen-select" id="start-ai-difficulty">
-            <option value="laughable">令人发笑的</option>
-          </select>
-        </label>
+        <div class="start-screen-option-row">
+          <label class="start-screen-option start-screen-compact-option" for="start-ai-difficulty">
+            <span class="start-screen-option-label">电脑难度</span>
+            <select class="start-screen-select" id="start-ai-difficulty">
+              <option value="laughable">令人发笑的</option>
+            </select>
+          </label>
+          <label class="start-screen-option start-screen-compact-option" for="start-player-count">
+            <span class="start-screen-option-label">人数</span>
+            <select class="start-screen-select" id="start-player-count">
+              <option value="4" selected>4人局</option>
+              <option value="3">3人局</option>
+            </select>
+          </label>
+        </div>
         <label class="start-screen-option start-screen-toggle-option" for="start-debug-enabled">
           <span class="start-screen-option-label">调试功能</span>
           <input class="start-screen-checkbox" type="checkbox" id="start-debug-enabled">
@@ -664,7 +673,7 @@
   <script src="./game/cards/effects.js?v=b29-b7-chong-1"></script>
   <script src="./game/cards/task-state.js?v=card-task-state-1"></script>
   <script src="./game/basic-cards.js?v=card-deck-1"></script>
-  <script src="./game/players.js?v=scan-effects-1"></script>
+  <script src="./game/players.js?v=player-count-neutral-trace-1"></script>
   <script src="./game/final-scoring.js?v=final-scoring-1"></script>
   <script src="./game/end-game-scoring.js?v=final-income-trace-1"></script>
   <script src="./game/rockets.js?v=planet-tokens-11"></script>
@@ -706,7 +715,7 @@
   <script src="./game/abilities/index.js?v=abilities-2"></script>
   <script src="./game/aliens/placement.js?v=aomomo-landing-order-1"></script>
   <script src="./game/aliens/catalog.js?v=aliens-2"></script>
-  <script src="./game/aliens/state.js?v=state-extra-score-1"></script>
+  <script src="./game/aliens/state.js?v=player-count-neutral-trace-1"></script>
   <script src="./game/aliens/jiuzhe.js?v=aliens-jiuzhe-6"></script>
   <script src="./game/aliens/yichangdian.js?v=aliens-yichangdian-trace-1"></script>
   <script src="./game/aliens/fangzhou.js?v=aliens-fangzhou-unlock-state-1"></script>
@@ -719,7 +728,7 @@
   <script src="./game/aliens/reveal-card-grants.js?v=alien-reveal-card-grants-1"></script>
   <script src="./game/aliens/randomizer.js?v=alien-pool-1"></script>
   <script src="./game/aliens/render.js?v=aliens-render-3"></script>
-  <script src="./game/aliens/index.js?v=state-extra-score-1"></script>
+  <script src="./game/aliens/index.js?v=player-count-neutral-trace-1"></script>
   <script src="./game/initial-cards.js?v=state-extra-score-1"></script>
   <script src="./game/industry/placement.js?v=industry-pirates-1"></script>
   <script src="./game/industry/state.js?v=industry-pirates-1"></script>
@@ -740,11 +749,11 @@
   <script src="./game/ai/index.js?v=ai-auto-battle-1"></script>
   <script src="./app/dependencies.js?v=app-boundaries-5"></script>
   <script src="./app/constants.js?v=industry-pirates-1"></script>
-  <script src="./app/dom.js?v=failsafe-controls-1"></script>
+  <script src="./app/dom.js?v=player-count-neutral-trace-1"></script>
   <script src="./app/events.js?v=failsafe-controls-1"></script>
   <script src="./app/action-log-export.js?v=action-log-export-1"></script>
   <script src="./app/public-api.js?v=app-boundaries-5"></script>
   <script src="./app/ai-controller.js?v=state-extra-score-1"></script>
-  <script src="./app.js?v=state-extra-score-1"></script>
+  <script src="./app.js?v=player-count-neutral-trace-1"></script>
 </body>
 </html>

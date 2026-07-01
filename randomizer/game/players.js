@@ -79,6 +79,7 @@
   });
   const CARD_BACK_SRC = "../assets/cards/card_back.png";
   let handCardSequence = 0;
+  let scoreGainListener = null;
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -316,6 +317,7 @@
 
   function gainResources(player, gain) {
     const reward = gain || {};
+    const beforeScore = Number(player?.resources?.score) || 0;
     if (reward.credits != null) player.resources.credits += reward.credits;
     if (reward.energy != null) player.resources.energy += reward.energy;
     if (reward.score != null) player.resources.score += reward.score;
@@ -352,7 +354,22 @@
       }
       syncHandSize(player);
     }
+    if (typeof scoreGainListener === "function" && reward.score != null) {
+      const afterScore = Number(player?.resources?.score) || 0;
+      if (afterScore !== beforeScore) {
+        scoreGainListener(player, {
+          gain: { ...reward },
+          beforeScore,
+          afterScore,
+          scoreDelta: afterScore - beforeScore,
+        });
+      }
+    }
     return player;
+  }
+
+  function setScoreGainListener(listener) {
+    scoreGainListener = typeof listener === "function" ? listener : null;
   }
 
   const IMMEDIATE_INCOME_RESOURCE_KEYS = Object.freeze([
@@ -510,6 +527,7 @@
     canAfford,
     spendResources,
     gainResources,
+    setScoreGainListener,
     gainIncome,
     incrementPlayerOrbitCount,
     isBorrowedTechActive,

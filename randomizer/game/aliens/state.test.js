@@ -85,6 +85,41 @@ assert(
   state.countTraceMarkersForPlayerOnSlot(splitOwnerState, 1, { color: "white" }, "pink") === 1,
   "extra marker owner should count the extra marker",
 );
+const neutralScoreState = state.createDefaultAlienState();
+result = state.placeNeutralScoreTraceForThreshold(
+  neutralScoreState,
+  20,
+  { id: "player-white", color: "white" },
+  "green",
+  { createdAt: 1 },
+);
+assert(result.ok, "20-score neutral trace should be placed");
+assert(result.alienSlotId === 1 && result.traceType === "pink", "first neutral trace should use alien 1 pink");
+assert(
+  state.getAlienSlot(neutralScoreState, 1).traces.pink.neutral === true,
+  "neutral trace slot should be marked as neutral",
+);
+assert(
+  state.countFirstTracesByPlayerOnSlot(neutralScoreState, 1, [{ id: "player-green", color: "green" }]).length === 0,
+  "neutral same-color token should not count as that player's first trace",
+);
+result = state.placeNeutralScoreTraceForThreshold(
+  neutralScoreState,
+  20,
+  { id: "player-blue", color: "blue" },
+  "green",
+  { createdAt: 2 },
+);
+assert(result.alreadyPlaced, "same threshold should not place a duplicate neutral trace");
+result = state.placeNeutralScoreTraceForThreshold(
+  neutralScoreState,
+  30,
+  { id: "player-blue", color: "blue" },
+  "green",
+  { createdAt: 3 },
+);
+assert(result.ok, "30-score neutral trace should be placed");
+assert(result.alienSlotId === 1 && result.traceType === "yellow", "second neutral trace should use alien 1 yellow");
 result = state.revealAlien(freshState, 2);
 assert(!result.ok, "reveal without assignment should fail");
 

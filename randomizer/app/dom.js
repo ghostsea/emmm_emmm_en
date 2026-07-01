@@ -18,6 +18,7 @@
       startScreenStartButton: documentRef.getElementById("start-screen-start-button"),
       startScreenContinueButton: documentRef.getElementById("start-screen-continue-button"),
       startAiDifficulty: documentRef.getElementById("start-ai-difficulty"),
+      startPlayerCount: documentRef.getElementById("start-player-count"),
       startDebugEnabled: documentRef.getElementById("start-debug-enabled"),
       startDebugToggleText: documentRef.getElementById("start-debug-toggle-text"),
       startAlienOptions: documentRef.getElementById("start-alien-options"),
