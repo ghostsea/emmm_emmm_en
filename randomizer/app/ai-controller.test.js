@@ -769,6 +769,16 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       return { ok: true, progressed: true };
     };
   }
+  if (options.recordCardCorner) {
+    context.handleHandCardCornerQuickAction = (handIndex) => {
+      noteHandled({ type: "card-corner", handIndex: Number(handIndex), confirmed: false });
+      return { ok: true, progressed: true };
+    };
+    context.confirmCardCornerQuickAction = () => {
+      noteHandled({ ...(handled || { type: "card-corner" }), confirmed: true });
+      return { ok: true, progressed: true };
+    };
+  }
   if (options.recordExecuteActionEffect) {
     context.executeActionEffect = (effect) => {
       noteHandled({
@@ -2616,6 +2626,84 @@ function makeYichangdianAlienState(options = {}) {
 }
 
 {
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    recordCardCorner: true,
+    blueResources: { score: 108, credits: 0, energy: 0, publicity: 4, availableData: 0, handSize: 1 },
+    blueHand: [{
+      id: "publicity-setup-corner",
+      cardName: "Publicity setup corner",
+      price: 0,
+      resourceReward: { gain: { publicity: 1 } },
+    }],
+    blueOwnedTechTiles: {
+      orange1: true,
+      orange2: true,
+      purple1: true,
+      purple2: true,
+      blue1: true,
+      blue2: true,
+    },
+    finalScoringState: {
+      tiles: {
+        final_a2: {
+          id: "final_a2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b2: {
+          id: "final_b2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a2: "a2",
+      final_b2: "b2",
+      final_d2: "d2",
+    },
+    finalSlotMultipliers: {
+      d2: { 1: 8 },
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should use the first publicity corner toward a low-tech D2 recovery chain");
+  assert.deepEqual(harness.getHandled(), { type: "card-corner", handIndex: 0, confirmed: true });
+  const cornerCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "cardCorner");
+  assert.ok(cornerCandidate, "staged publicity card-corner candidate should be enumerated");
+  assert.ok(
+    Number(cornerCandidate.valueBreakdown?.stagedTechSetupScore || 0) > 0,
+    "publicity corner should get stagedTechSetupScore before it fully unlocks research",
+  );
+  assert.equal(
+    Number(cornerCandidate.valueBreakdown?.followupMainActionScore || 0),
+    0,
+    "staged setup should be separate from the immediate research unlock score",
+  );
+}
+
+{
   const passCards = [
     {
       id: "reserve-low",
@@ -2666,6 +2754,46 @@ function makeYichangdianAlienState(options = {}) {
 
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI should resolve PASS reserve selection without entering full action scoring");
+  assert.deepEqual(harness.getHandled(), { type: "pass-reserve", cardId: "reserve-type3" });
+}
+
+{
+  const passCards = [
+    {
+      id: "reserve-low",
+      cardName: "Reserve low",
+      typeCode: 1,
+      price: 1,
+    },
+    {
+      id: "reserve-type3",
+      cardName: "Reserve type 3",
+      typeCode: 3,
+      price: 2,
+    },
+  ];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 1,
+    blueResources: { score: 18, credits: 0, energy: 1, publicity: 1, availableData: 0, handSize: 1 },
+    pendingPassReserveSelection: {
+      playerId: "player-blue",
+      roundNumber: 1,
+      effectId: "pass-reserve-pick",
+      selectedCardId: null,
+    },
+    passReserveCards: passCards,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should rank PASS reserve cards even without a C2 final mark");
   assert.deepEqual(harness.getHandled(), { type: "pass-reserve", cardId: "reserve-type3" });
 }
 

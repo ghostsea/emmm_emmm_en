@@ -1529,9 +1529,10 @@
         return { ok: false, blocked: true, message: `${player?.colorLabel || "当前玩家"}需要人工选择 PASS 预留牌` };
       }
       const pile = getPassReserveSelectionCards();
-      const useDynamicPassReserve = getAiMarkedFinalFormulaEntries(player)
-        .some((entry) => entry.formulaId === "c2");
-      const ranked = useDynamicPassReserve
+      const shouldRankPassReserve = getAiMarkedFinalFormulaEntries(player)
+        .some((entry) => entry.formulaId === "c2")
+        || (pile || []).some((card) => getCardTypeCode(card) === 3);
+      const ranked = shouldRankPassReserve
         ? (pile || [])
           .map((card) => ({ card, score: scoreAiPassReserveCard(card, player) }))
           .filter((entry) => entry.card && Number.isFinite(entry.score))
@@ -9168,7 +9169,8 @@
       const asteroidOrange2Bonus = content.kind === solar.layout.CONTENT_KIND.ASTEROID ? 0.85 : 0;
       const resourceValue = scoreAiResourceBundle({ publicity: publicityGain }) * baseScale * freeScale;
       const currentPublicity = Math.max(0, aiNumber(player.resources?.publicity));
-      const projectedPublicity = Math.min(players.RESOURCE_LIMITS.publicity, currentPublicity + publicityGain);
+      const publicityLimit = players.RESOURCE_LIMITS?.publicity ?? 10;
+      const projectedPublicity = Math.min(publicityLimit, currentPublicity + publicityGain);
       const selectionBridge = currentPublicity < 3 && projectedPublicity >= 3
         ? (round <= 2 ? 0.85 : round === 3 ? 1.15 : 1.45)
         : 0;
@@ -12175,7 +12177,8 @@
         ?? tech.RESEARCH_PUBLICITY_COST
         ?? 6;
       const currentPublicity = Math.max(0, aiNumber(player.resources?.publicity));
-      const projectedPublicity = Math.min(players.RESOURCE_LIMITS.publicity, currentPublicity + publicityGain);
+      const publicityLimit = players.RESOURCE_LIMITS?.publicity ?? 10;
+      const projectedPublicity = Math.min(publicityLimit, currentPublicity + publicityGain);
       if (currentPublicity >= researchCost || projectedPublicity < researchCost) return null;
       const round = getAiRoundNumber();
       const currentScore = Math.max(0, aiNumber(player.resources?.score));
@@ -12210,6 +12213,46 @@
           finalDeltaValue: roundAiScore(finalDeltaValue),
         },
       };
+    }
+
+    function scoreAiCardCornerStagedTechSetup(reward, player = getCurrentPlayer()) {
+      if (!player || !canStartMainAction()) return 0;
+      const gain = getAiCardCornerResourceGain(reward);
+      const publicityGain = Math.max(0, aiNumber(gain.publicity));
+      if (publicityGain <= 0) return 0;
+
+      const researchCost = tech.resolver?.getResearchPublicityCost?.(player)
+        ?? tech.RESEARCH_PUBLICITY_COST
+        ?? 6;
+      const currentPublicity = Math.max(0, aiNumber(player.resources?.publicity));
+      const publicityLimit = players.RESOURCE_LIMITS?.publicity ?? 10;
+      const projectedPublicity = Math.min(publicityLimit, currentPublicity + publicityGain);
+      if (currentPublicity >= researchCost || projectedPublicity >= researchCost) return 0;
+
+      const shortfallAfter = Math.max(0, researchCost - projectedPublicity);
+      if (shortfallAfter > 2) return 0;
+
+      const round = getAiRoundNumber();
+      if (round < 2) return 0;
+      const markedTechFinalEntries = getAiMarkedFinalFormulaEntries(player)
+        .filter((entry) => entry.formulaId === "d1" || entry.formulaId === "d2");
+      const techCount = countAiPlayerTech(player);
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const lowTechTarget = round >= FINAL_ROUND_NUMBER ? 10 : 8;
+      if (!markedTechFinalEntries.length && !(round >= 3 && techCount < 7 && currentScore < 130)) return 0;
+      if (techCount >= lowTechTarget && currentScore >= 150) return 0;
+
+      const bestMultiplier = markedTechFinalEntries.reduce((best, entry) => (
+        Math.max(best, aiNumber(entry.multiplier))
+      ), 0);
+      const urgency = round >= FINAL_ROUND_NUMBER ? 1 : 0.68;
+      const lowTechPressure = Math.max(0, lowTechTarget - techCount) * (round >= FINAL_ROUND_NUMBER ? 0.9 : 0.55);
+      const scorePressure = Math.max(0, (round >= FINAL_ROUND_NUMBER ? 165 : 105) - currentScore) * 0.025;
+      const shortfallScale = shortfallAfter <= 1 ? 1 : 0.62;
+      return roundAiScore(Math.min(
+        10,
+        (3.2 + lowTechPressure + bestMultiplier * 0.22 + scorePressure) * urgency * shortfallScale,
+      ));
     }
 
     function buildAiCardCornerQuickCandidate(card, handIndex, currentPlayer, options = {}) {
@@ -12301,14 +12344,17 @@
         : 0;
       const followupMainAction = scoreAiCardCornerFollowupMainUnlock(reward, currentPlayer);
       const followupMainActionScore = Math.max(0, aiNumber(followupMainAction?.score));
+      const stagedTechSetupScore = followupMainActionScore > 0
+        ? 0
+        : scoreAiCardCornerStagedTechSetup(reward, currentPlayer);
       const finalSecondMarkNoDirectSetupPenalty = scoreAiFinalSecondMarkNoDirectSetupPenalty(currentPlayer, {
         actionId: "cardCorner",
         directScoreGain,
         followupDirectScore: followupMainAction?.directScoreGain,
-        setupScore: reward.value + followupMainActionScore,
+        setupScore: reward.value + followupMainActionScore + stagedTechSetupScore,
         consumesHand: true,
         consumesLastHand: handSize <= 1,
-        noCashoutRoute: followupMainActionScore <= 0,
+        noCashoutRoute: followupMainActionScore <= 0 && stagedTechSetupScore <= 0,
       });
       const score = reward.value
         - discardCost
@@ -12322,12 +12368,14 @@
         + handPressure
         + lowValueBias
         + scorePaceBonus
-        + followupMainActionScore;
+        + followupMainActionScore
+        + stagedTechSetupScore;
       if (
         getAiRoundNumber() >= FINAL_ROUND_NUMBER
         && getAiNextMissingFinalScoreThreshold(currentPlayer)
         && directScoreGain <= 0
         && followupMainActionScore <= 0
+        && stagedTechSetupScore <= 0
         && score < 2.5
       ) {
         return null;
@@ -12348,7 +12396,7 @@
         followupMainAction,
         moveFollowupMainAction,
         directScoreGain,
-        gain: reward.value + scorePaceBonus + followupMainActionScore,
+        gain: reward.value + scorePaceBonus + followupMainActionScore + stagedTechSetupScore,
         cost: discardCost
           + preservePenalty
           + playablePenalty
@@ -12378,6 +12426,7 @@
           lowValueBias,
           scorePaceBonus,
           followupMainActionScore,
+          stagedTechSetupScore,
           finalSecondMarkNoDirectSetupPenalty,
         },
       };
