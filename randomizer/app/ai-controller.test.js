@@ -2804,6 +2804,47 @@ function makeYichangdianAlienState(options = {}) {
 }
 
 {
+  const passCards = [
+    {
+      id: "reserve-low-first",
+      cardName: "Reserve low first",
+      typeCode: 1,
+      price: 4,
+    },
+    {
+      id: "reserve-direct-score",
+      cardName: "Reserve direct score",
+      typeCode: 1,
+      price: 1,
+      playEffects: [{ type: "gain_resources", options: { gain: { score: 6 } } }],
+    },
+  ];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 1,
+    blueResources: { score: 18, credits: 1, energy: 1, publicity: 1, availableData: 0, handSize: 0 },
+    pendingPassReserveSelection: {
+      playerId: "player-blue",
+      roundNumber: 1,
+      effectId: "pass-reserve-pick",
+      selectedCardId: null,
+    },
+    passReserveCards: passCards,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should rank ordinary PASS reserve cards when the hand is empty");
+  assert.deepEqual(harness.getHandled(), { type: "pass-reserve", cardId: "reserve-direct-score" });
+}
+
+{
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     actionEffectFlowActive: true,

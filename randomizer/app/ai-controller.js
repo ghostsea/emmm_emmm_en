@@ -1529,9 +1529,11 @@
         return { ok: false, blocked: true, message: `${player?.colorLabel || "当前玩家"}需要人工选择 PASS 预留牌` };
       }
       const pile = getPassReserveSelectionCards();
+      const currentHandSize = Math.max(0, aiNumber(player?.resources?.handSize ?? (player?.hand || []).length));
       const shouldRankPassReserve = getAiMarkedFinalFormulaEntries(player)
         .some((entry) => entry.formulaId === "c2")
-        || (pile || []).some((card) => getCardTypeCode(card) === 3);
+        || (pile || []).some((card) => getCardTypeCode(card) === 3)
+        || currentHandSize <= 0;
       const ranked = shouldRankPassReserve
         ? (pile || [])
           .map((card) => ({ card, score: scoreAiPassReserveCard(card, player) }))
