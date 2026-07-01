@@ -33,6 +33,8 @@ assert.equal(state.chong.planetFossilIds.saturn.length, 3);
 assert.equal(Object.keys(state.chong.fossilsById).length, 7);
 assert.equal(Object.keys(state.chong.panelFossilSlots).length, 1);
 assert.deepEqual(state.chong.unlockedBluePositions, [7, 8, 9]);
+assert.equal(chong.getRemainingPlanetFossilCount(state, "jupiter"), 3);
+assert.equal(chong.getRemainingPlanetFossilCount(state, "saturn"), 3);
 
 assert.equal(chong.canPlaceChongTrace(state, 2, "blue", 1, white).ok, false);
 assert.equal(chong.canPlaceChongTrace(state, 2, "blue", 1, white, { debugOnly: true }).ok, false);
@@ -58,6 +60,20 @@ chong.initializeChongReveal(stateTraceTaskState, 2, white, () => 0);
 assert.equal(chong.countTraceMarkers(stateTraceTaskState, white, "blue"), 2);
 assert.equal(chong.isTraceTaskReady(stateTraceTaskState, white, chong.getCardTask(1)), true);
 
+const planetFossilCountState = createState();
+chong.initializeChongReveal(planetFossilCountState, 2, white, () => 0);
+const jupiterFossils = [...chong.getAvailablePlanetFossils(planetFossilCountState, "jupiter")];
+assert.equal(jupiterFossils.length, 3);
+for (const [index, availableFossil] of jupiterFossils.entries()) {
+  const result = chong.pickUpFossil(planetFossilCountState, availableFossil.fossilId, white, chong.getCardTask(0), {
+    cardId: `count-card-${index}`,
+  });
+  assert.equal(result.ok, true);
+}
+assert.equal(chong.getRemainingPlanetFossilCount(planetFossilCountState, "jupiter"), 0);
+assert.equal(chong.getRemainingPlanetFossilCount(planetFossilCountState, "saturn"), 3);
+assert.deepEqual(chong.getAvailablePlanetFossils(planetFossilCountState, "jupiter"), []);
+
 const transportState = createState();
 chong.initializeChongReveal(transportState, 2, white, () => 0);
 const fossil = chong.getAvailablePlanetFossils(transportState, "jupiter")[0];
@@ -74,6 +90,9 @@ assert.equal(activeTransport.rocketId, 42);
 assert.equal(activeTransport.fossil.status, "transported");
 assert.equal(activeTransport.delivered, false);
 assert.equal(chong.getActiveTransportForCard(transportState, "card-other"), null);
+const rocketTransport = chong.getTransportedFossilForRocket(transportState, 42, white);
+assert.equal(rocketTransport.fossil.fossilId, fossil.fossilId);
+assert.equal(rocketTransport.originCardId, "card-0");
 assert.equal(
   chong.listTransportArrivalEvents(
     transportState,
@@ -134,6 +153,7 @@ assert.equal(transportState.chong.panelFossilSlots[1], fossil.fossilId);
 assert.equal(transportState.chong.unlockedBluePositions.includes(1), true);
 assert.equal(transportState.chong.completedTransports[0].cardId, "card-other");
 assert.equal(transportState.chong.completedTransports[0].destinationPlanetId, "mars");
+assert.equal(chong.getTransportedFossilForRocket(transportState, 42, white), null);
 const completedFossilReward = chong.getFossilReward(fossil.fossilId);
 const completedBlueReward = chong.getTraceReward(transportState, "blue", 1);
 assert.equal(completedBlueReward.fossilId, fossil.fossilId);

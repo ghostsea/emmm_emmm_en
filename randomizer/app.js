@@ -17105,10 +17105,33 @@
       const sector = rocketActions.getRocketSectorCoordinate(rocket);
       const planet = planetLocations.find((item) => item.x === sector?.x && item.y === sector?.y);
       if (planet?.planetId === "jupiter" || planet?.planetId === "saturn") {
-        return { rocket, planetId: planet.planetId, planet };
+        const transported = (rocket.kind || rocketActions.ROCKET_KIND.STANDARD) === rocketActions.ROCKET_KIND.CHONG_FOSSIL
+          ? chong?.getTransportedFossilForRocket?.(alienGameState, rocket.id, currentPlayer)
+          : null;
+        return { rocket, planetId: planet.planetId, planet, transportedFossil: transported?.fossil || null };
       }
     }
     return null;
+  }
+
+  function listChongRewardFossilsAtPlacement(placement) {
+    if (!placement?.planetId || !chong?.getAvailablePlanetFossils) return [];
+    const choices = [];
+    const seen = new Set();
+    const addChoice = (fossil, source) => {
+      if (!fossil?.fossilId || seen.has(fossil.fossilId)) return;
+      seen.add(fossil.fossilId);
+      choices.push({
+        ...fossil,
+        currentPlanetId: placement.planetId,
+        rewardChoiceSource: source,
+      });
+    };
+    addChoice(placement.transportedFossil, "transport");
+    for (const fossil of chong.getAvailablePlanetFossils(alienGameState, placement.planetId)) {
+      addChoice(fossil, "planet");
+    }
+    return choices;
   }
 
   function getChongLandProbeOptions(effect, target) {
@@ -17389,7 +17412,7 @@
         message: "虫族化石：当前没有探测器或搬运化石停在木星/土星",
       });
     }
-    const fossils = chong.getAvailablePlanetFossils(alienGameState, placement.planetId);
+    const fossils = listChongRewardFossilsAtPlacement(placement);
     if (!fossils.length) {
       return finishAutomaticRewardEffect(effect, {
         ok: true,
@@ -17401,6 +17424,7 @@
       mode: "reward",
       player: getCurrentPlayer(),
       planetId: placement.planetId,
+      fossils,
       fromEffectFlow: true,
       effectLabel: effect.label,
       title: "查看并结算化石",
@@ -22465,7 +22489,9 @@
     for (const planetId of planetIds) {
       chong.revealPlanetFossilsToPlayer(alienGameState, planetId, player);
     }
-    const fossils = planetIds.flatMap((planetId) => chong.getAvailablePlanetFossils(alienGameState, planetId));
+    const fossils = Array.isArray(options.fossils)
+      ? options.fossils.filter(Boolean)
+      : planetIds.flatMap((planetId) => chong.getAvailablePlanetFossils(alienGameState, planetId));
     pendingChongFossilChoice = {
       mode: options.mode || "reward",
       playerId: player.id,
@@ -22492,14 +22518,19 @@
       button.type = "button";
       button.className = "scan-target-option-button chong-fossil-choice-button";
       button.dataset.chongFossilChoice = fossil.fossilId;
+      const fossilPlanetId = fossil.currentPlanetId || fossil.planetId || options.planetId || planetIds[0] || null;
+      const planetLabel = getChongPlanetLabel(fossilPlanetId);
+      const sourceLabel = fossil.rewardChoiceSource === "transport" || fossil.status === "transported"
+        ? `${planetLabel} 搬运化石`
+        : planetLabel;
       const summary = formatChongFossilRewardSummary(fossil.fossilId);
-      button.setAttribute("aria-label", `${getChongPlanetLabel(fossil.planetId)} ${fossil.fossilId}：${summary}`);
-      button.title = `${getChongPlanetLabel(fossil.planetId)} ${fossil.fossilId}：${summary}`;
+      button.setAttribute("aria-label", `${sourceLabel} ${fossil.fossilId}：${summary}`);
+      button.title = `${sourceLabel} ${fossil.fossilId}：${summary}`;
 
       const image = document.createElement("img");
       image.className = "chong-fossil-choice-image";
       image.src = chong.getFossilSrc(fossil.fossilId);
-      image.alt = `${getChongPlanetLabel(fossil.planetId)} ${fossil.fossilId}`;
+      image.alt = `${sourceLabel} ${fossil.fossilId}`;
       image.width = 128;
       image.height = 128;
       image.decoding = "async";
@@ -27264,9 +27295,15 @@
       activeKeys.add(key);
       let element = chongPlanetFossilMarkerElements.get(key);
       if (!element) {
-        element = document.createElement("img");
+        element = document.createElement("div");
         element.className = "chong-planet-fossil-marker";
-        element.draggable = false;
+        const image = document.createElement("img");
+        image.className = "chong-planet-fossil-marker-image";
+        image.draggable = false;
+        image.decoding = "async";
+        const count = document.createElement("span");
+        count.className = "chong-planet-fossil-count";
+        element.append(image, count);
         chongPlanetFossilMarkerElements.set(key, element);
         els.tokenLayer.appendChild(element);
       }
@@ -27274,8 +27311,23 @@
       const point = getChongPlanetFossilPoint(planetLocation);
       element.style.left = `${point.x / 10}%`;
       element.style.top = `${point.y / 10}%`;
-      element.src = chong.FOSSIL_BACK_SRC;
-      element.alt = `${getChongPlanetLabel(planetId)}化石背面`;
+      let image = element.querySelector(".chong-planet-fossil-marker-image");
+      if (!image) {
+        image = document.createElement("img");
+        image.className = "chong-planet-fossil-marker-image";
+        image.draggable = false;
+        image.decoding = "async";
+        element.prepend(image);
+      }
+      image.src = chong.FOSSIL_BACK_SRC;
+      image.alt = `${getChongPlanetLabel(planetId)}化石背面`;
+      let count = element.querySelector(".chong-planet-fossil-count");
+      if (!count) {
+        count = document.createElement("span");
+        count.className = "chong-planet-fossil-count";
+        element.appendChild(count);
+      }
+      count.textContent = String(fossils.length);
       element.dataset.chongPlanetId = planetId;
       element.dataset.chongPlanetFossilCount = String(fossils.length);
       element.title = `${getChongPlanetLabel(planetId)}化石背面 x${fossils.length}`;

@@ -633,6 +633,10 @@
     return fossils;
   }
 
+  function getRemainingPlanetFossilCount(alienState, planetId) {
+    return getAvailablePlanetFossils(alienState, planetId).length;
+  }
+
   function revealPlanetFossilsToPlayer(alienState, planetId, player) {
     const playerKey = getPlayerKey(player);
     const fossils = getAvailablePlanetFossils(alienState, planetId);
@@ -767,6 +771,25 @@
 
   function getTransportTaskForRocket(alienState, rocketId) {
     return ensureChongState(alienState).transportTasksByRocketId?.[String(rocketId)] || null;
+  }
+
+  function getTransportedFossilForRocket(alienState, rocketId, player = null) {
+    const normalizedRocketId = Math.round(Number(rocketId));
+    if (!Number.isInteger(normalizedRocketId)) return null;
+    const chong = ensureChongState(alienState);
+    const task = chong.transportTasksByRocketId?.[String(normalizedRocketId)];
+    if (!task) return null;
+    const fossil = chong.fossilsById?.[task.fossilId];
+    if (!fossil || fossil.taskCompleted) return null;
+    if (fossil.status !== "transported" && fossil.status !== "delivered") return null;
+    if (!transportBelongsToPlayer(fossil, player)) return null;
+    return {
+      rocketId: normalizedRocketId,
+      fossil,
+      task: buildTransportTaskFromFossil(fossil),
+      originCardId: task.cardId || fossil.taskCardId || null,
+      delivered: fossil.status === "delivered" || Boolean(task.delivered),
+    };
   }
 
   function getDeliveredTransportForCard(alienState, cardId) {
@@ -937,12 +960,14 @@
     isTraceTaskReady,
     countTraceMarkers,
     getAvailablePlanetFossils,
+    getRemainingPlanetFossilCount,
     revealPlanetFossilsToPlayer,
     pickUpFossil,
     attachTransportRocket,
     markTransportedFossilDelivered,
     completeTransportedFossil,
     getTransportTaskForRocket,
+    getTransportedFossilForRocket,
     getDeliveredTransportForCard,
     getActiveTransportForCard,
     listTransportArrivalEvents,
