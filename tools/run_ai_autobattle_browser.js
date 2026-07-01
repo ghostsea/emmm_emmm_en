@@ -519,7 +519,7 @@ async function main() {
       single: options.single,
       reset: options.single ? true : undefined,
     };
-    const timeoutMs = options.timeoutMs || Math.max(120000, options.games * options.maxSteps * 60);
+    const timeoutMs = options.timeoutMs || Math.max(300000, options.games * options.maxSteps * 180);
     const result = await runPageBatch(cdp, batchOptions, timeoutMs);
     const debugState = options.includeState ? await getPageAiDebugState(cdp) : null;
     const summary = summarizeResult(result);

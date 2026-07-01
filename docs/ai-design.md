@@ -355,7 +355,7 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 ```
 
 浏览器 smoke 与批跑入口使用 `runAiAutoBattleBatch`。
-本地浏览器可用 `randomizer/index.html?codexAiBatch=3&seed=codex-ai-batch` 触发受 URL 参数保护的 smoke，结果写入 `#codex-ai-batch-result`；需要复现离散种子时可传 `seeds=codex-ai-batch-wide%3A6`，需要快速出口时可配 `maxSteps=50`、`stopBeforeRound=4` 或 `activePlayerCount=1`。该入口默认跳过状态读数/行动日志 DOM 重绘，并在 `stepDelayMs=0` 时不再每步进入浏览器定时器队列以避开后台标签页节流；长批跑默认每 80 步让出一次事件循环，也可用 `yieldEverySteps=120` 调整诊断可读性。`tools/run_ai_autobattle_browser.js` 作为 CDP 包装器默认传入 `yieldEverySteps=20`，避免自动步骤过长时浏览器调试协议轮询超时；需要观察完整 UI 时传 `renderReadout=1`；长批跑建议传 `--tmpRoot C:\tmp` 或设置 `SETI_AI_TMP_ROOT`，把临时 Chrome profile 放到可控目录，避免用户 Temp 持续膨胀。
+本地浏览器可用 `randomizer/index.html?codexAiBatch=3&seed=codex-ai-batch` 触发受 URL 参数保护的 smoke，结果写入 `#codex-ai-batch-result`；需要复现离散种子时可传 `seeds=codex-ai-batch-wide%3A6`，需要快速出口时可配 `maxSteps=50`、`stopBeforeRound=4` 或 `activePlayerCount=1`。该入口默认跳过状态读数/行动日志 DOM 重绘，并在 `stepDelayMs=0` 时不再每步进入浏览器定时器队列以避开后台标签页节流；长批跑默认每 80 步让出一次事件循环，也可用 `yieldEverySteps=120` 调整诊断可读性。`tools/run_ai_autobattle_browser.js` 作为 CDP 包装器默认传入 `yieldEverySteps=20`，等待预算至少 5 分钟并按 `games * maxSteps * 180ms` 放大，避免慢局在普通效果流中被误报为卡死；需要观察完整 UI 时传 `renderReadout=1`，极慢诊断可显式传 `--timeoutMs`；长批跑建议传 `--tmpRoot C:\tmp` 或设置 `SETI_AI_TMP_ROOT`，把临时 Chrome profile 放到可控目录，避免用户 Temp 持续膨胀。
 
 ---
 
