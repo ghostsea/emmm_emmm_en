@@ -4340,6 +4340,166 @@
       return Math.max(0, target - Math.max(0, aiNumber(player.resources?.score)));
     }
 
+    function getAiProjectedFinalScore(player = getCurrentPlayer()) {
+      if (!player) return 0;
+      const breakdown = computePlayerFinalScoreBreakdown?.(player) || {};
+      return Math.max(
+        0,
+        aiNumber(breakdown.totalScore),
+        aiNumber(breakdown.finalScore),
+        aiNumber(player.resources?.score),
+      );
+    }
+
+    function getAiHighScorePushProfile(player = getCurrentPlayer()) {
+      if (!player || getAiRoundNumber() < FINAL_ROUND_NUMBER) {
+        return { active: false, strength: 0, projectedScore: 0, formulas: new Set() };
+      }
+      const finalMarks = countAiFinalMarksForPlayer(player);
+      const markedEntries = getAiMarkedFinalFormulaEntries(player);
+      const formulas = new Set(markedEntries.map((entry) => entry.formulaId));
+      const hasB2 = formulas.has("b2");
+      const hasD1 = formulas.has("d1");
+      const hasD2 = formulas.has("d2");
+      const hasTechFinal = hasD1 || hasD2;
+      const techCount = countAiPlayerTech(player);
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const projectedScore = getAiProjectedFinalScore(player);
+      const highProjectedScore = projectedScore >= (hasD2 ? 260 : 290);
+      const b2TechEngineReady = finalMarks >= 3
+        && hasB2
+        && hasTechFinal
+        && techCount >= 10
+        && currentScore >= (hasD2 ? 125 : 155)
+        && projectedScore >= (hasD2 ? 250 : 270);
+      if (!highProjectedScore && !b2TechEngineReady) {
+        return { active: false, strength: 0, projectedScore, formulas };
+      }
+      let strength = 0.35;
+      strength += Math.min(0.65, Math.max(0, projectedScore - 235) / 70);
+      if (b2TechEngineReady) strength += 0.25;
+      if (projectedScore >= 280) strength += 0.18;
+      if (currentScore >= 170) strength += 0.12;
+      return {
+        active: true,
+        strength: Math.min(1.25, strength),
+        projectedScore,
+        currentScore,
+        finalMarks,
+        formulas,
+        hasB2,
+        hasD1,
+        hasD2,
+        hasTechFinal,
+        techCount,
+      };
+    }
+
+    function scoreAiHighScorePushValue(player = getCurrentPlayer(), actionId = "", options = {}) {
+      const profile = getAiHighScorePushProfile(player);
+      if (!profile.active || !actionId) return 0;
+      const gapTo300 = Math.max(0, 300 - profile.projectedScore);
+      const closeness = Math.max(0, 1 - gapTo300 / 70);
+      const actionBase = {
+        scan: 7.2,
+        analyze: 6.8,
+        playCard: 6.2,
+        researchTech: 5.6,
+        land: 4.5,
+        orbit: 3.8,
+        move: 3.2,
+        placeData: 4.2,
+      }[actionId] || 0;
+      if (!actionBase) return 0;
+      let value = actionBase * profile.strength + closeness * 5;
+      const b2Bottleneck = profile.hasB2
+        ? getAiB2SectorBottleneck(player, { requireMarked: true })
+        : null;
+      if (actionId === "scan" && profile.hasB2) {
+        value += 2.5 + Math.min(10, aiNumber(b2Bottleneck?.deficit) * 1.8);
+      }
+      if (actionId === "researchTech" && profile.hasTechFinal) {
+        const nextTechCount = profile.techCount + 1;
+        value += 2.5 + (profile.formulas.has("d2") && Math.floor(nextTechCount / 2) > Math.floor(profile.techCount / 2) ? 3 : 0);
+      }
+      if (actionId === "analyze") {
+        value += Math.min(5, Math.max(0, aiNumber(player.resources?.availableData) - 2) * 1.2);
+      }
+      if (actionId === "playCard") {
+        value += Math.min(4, Math.max(0, aiNumber(player.resources?.handSize) - 1) * 0.8);
+        if (options.endGameExpectedScore > 0 || options.directScoreGain > 0) value += 2.2;
+      }
+      if (actionId === "move" && !options.followupCashout) value *= 0.55;
+      return roundAiScore(Math.min(24, Math.max(0, value)));
+    }
+
+    function getAiLowEngineCatchupProfile(player = getCurrentPlayer()) {
+      if (!player || getAiRoundNumber() < 3) {
+        return { active: false, strength: 0, projectedScore: 0 };
+      }
+      const projectedScore = getAiProjectedFinalScore(player);
+      if (projectedScore >= 230) return { active: false, strength: 0, projectedScore };
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      const techCount = countAiPlayerTech(player);
+      const placedCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      const taskCount = Math.max(0, Math.round(aiNumber(player.completedTaskCount)));
+      const markedEntries = getAiMarkedFinalFormulaEntries(player);
+      const formulas = new Set(markedEntries.map((entry) => entry.formulaId));
+      const engineShortfall = Math.max(0, 10 - techCount)
+        + Math.max(0, (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6) - placedCount) * 0.75
+        + Math.max(0, 2 - taskCount) * 1.15;
+      const scorePressure = Math.max(0, (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 180 : 115) - currentScore) / 40;
+      if (engineShortfall <= 1.2 && scorePressure <= 0) return { active: false, strength: 0, projectedScore };
+      return {
+        active: true,
+        strength: Math.min(1.25, 0.35 + engineShortfall * 0.08 + scorePressure * 0.18),
+        projectedScore,
+        currentScore,
+        techCount,
+        placedCount,
+        taskCount,
+        formulas,
+        hasB2: formulas.has("b2"),
+        hasTechFinal: formulas.has("d1") || formulas.has("d2"),
+      };
+    }
+
+    function scoreAiLowEngineCatchupValue(player = getCurrentPlayer(), actionId = "") {
+      const profile = getAiLowEngineCatchupProfile(player);
+      if (!profile.active || !actionId) return 0;
+      if (
+        getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && profile.currentScore >= 100
+        && !(
+          profile.currentScore < 160
+          && (
+            (actionId === "researchTech" && profile.techCount < 10)
+            || (actionId === "playCard" && profile.taskCount < 2)
+          )
+        )
+      ) {
+        return 0;
+      }
+      if (
+        actionId === "scan"
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && !profile.hasB2
+        && profile.currentScore >= 110
+      ) {
+        return 0;
+      }
+      const dataRoom = getAiAvailableDataRoom(player);
+      const actionBase = {
+        researchTech: Math.max(0, 10 - profile.techCount) * 1.15 + 2.5,
+        scan: Math.max(0, dataRoom) * 0.75 + Math.max(0, 6 - profile.placedCount) * 0.65 + 2.2,
+        analyze: hasAiAnalyzeReadyDataSlot(player) ? 7.5 : 1.5,
+        playCard: Math.max(0, 2 - profile.taskCount) * 1.6 + Math.max(0, aiNumber(player.resources?.handSize) - 2) * 0.45,
+        placeData: Math.max(0, aiNumber(player.resources?.availableData)) * 0.65 + Math.max(0, 6 - profile.placedCount) * 0.7,
+      }[actionId] || 0;
+      if (!actionBase) return 0;
+      return roundAiScore(Math.min(14, Math.max(0, actionBase * profile.strength)));
+    }
+
     function scoreAiPassAction(player = getCurrentPlayer()) {
       const deficit = getAiLiveScorePaceDeficit(player);
       const round = getAiRoundNumber();
@@ -8053,6 +8213,8 @@
         + applyAiStrategyWeight(Math.min(10, endGameExpectedScore * 0.55), "final", 0.6)
         + applyAiStrategyWeight(Math.max(0, aiNumber(routePlan?.score)), "playCard", 0.35)
         + applyAiStrategyWeight(playCardConversionPressure, "playCard", 0.65)
+        + scoreAiHighScorePushValue(player, "playCard", { endGameExpectedScore, directScoreGain })
+        + scoreAiLowEngineCatchupValue(player, "playCard")
         + Math.max(0, 4 - aiNumber(price)) * 0.5
         - costValue
         - cornerOpportunity * 0.45
@@ -10142,6 +10304,9 @@
       if (lateTechCatchupValue) value += applyAiStrategyWeight(lateTechCatchupValue, "tech", 0.75);
       const lowTechCatchupValue = scoreAiLowTechBoardCatchupValue(candidate, player);
       if (lowTechCatchupValue) value += applyAiStrategyWeight(lowTechCatchupValue, "tech", 0.65);
+
+      value += scoreAiHighScorePushValue(player, "researchTech", { techType });
+      value += scoreAiLowEngineCatchupValue(player, "researchTech");
       const finalPlanningValue = scoreAiResearchTechFinalPlanningValue(candidate, player);
       if (finalPlanningValue) {
         value += applyAiStrategyWeight(
@@ -10746,6 +10911,8 @@
         { actionId: "orbit" },
       );
       const orbitThenLandThresholdValue = scoreAiOrbitThenLandThresholdComboValue(candidate.planetId, currentPlayer);
+      const highScoreOrbitPushValue = scoreAiHighScorePushValue(currentPlayer, "orbit")
+        * (directScoreGain > 0 ? 1 : 0.45);
       const finalNoDirectOrbitPenalty = round >= FINAL_ROUND_NUMBER
         && nextThreshold
         && nextThreshold <= 50
@@ -10762,6 +10929,7 @@
         + thirdFinalMarkCashoutValue
         + secondFinalMarkNudgeValue
         + orbitThenLandThresholdValue
+        + highScoreOrbitPushValue
         + scoreAiPlanetMarkerEndGameValue(candidate.planetId, currentPlayer, { markerKind: "orbit" })
           * getAiStrategyWeight("final")
         + getAiMapDemand(demand.planetIds, candidate.planetId) * 0.8 * getAiStrategyWeight("route")
@@ -10839,6 +11007,8 @@
         energyCost,
         highScoreTarget: regularBestChoice?.choice?.target?.type === "satellite" && directScoreGain >= 20,
       }));
+      const highScoreLandPushValue = scoreAiHighScorePushValue(currentPlayer, "land")
+        * (directScoreGain > 0 ? 1 : 0.55);
       const rawScore = 12
         + (candidate.planetId === "mars" || candidate.planetId === "venus" ? 1.5 : 0)
         + rewardValue * rewardWeight
@@ -10846,6 +11016,7 @@
         + directScorePaceValue
         + thirdFinalMarkCashoutValue
         + secondFinalMarkNudgeValue
+        + highScoreLandPushValue
         + aiNumber(scoreAiPlanetMarkerEndGameValue(candidate.planetId, currentPlayer, { markerKind: "land" }))
           * getAiStrategyWeight("final")
         + getAiMapDemand(demand.planetIds, candidate.planetId) * 0.85 * getAiStrategyWeight("route")
@@ -10928,6 +11099,8 @@
         + firstThresholdCatchupBonus
         + readyAnalyzeWindowValue
         + lateFullDataAnalyzeRecovery
+        + scoreAiHighScorePushValue(player, "analyze")
+        + scoreAiLowEngineCatchupValue(player, "analyze")
         - getAiAnalyzeEnergyCost(player) * getAiResourceValuesForRound(player).energy * 0.35
         - postSecondFinalMarkPenalty;
       const weightedScore = applyAiStrategyWeight(
@@ -11366,6 +11539,22 @@
       return ranked[0]?.button || null;
     }
 
+    function chooseAiScanTargetChoice(choices = [], options = {}) {
+      return (choices || [])
+        .map((choice, index) => ({
+          choice,
+          index,
+          score: scoreAiNebulaScanChoice(choice, options),
+          directScoreGain: getAiNebulaScanChoiceDirectScore(choice),
+        }))
+        .filter((entry) => Number.isFinite(entry.score))
+        .sort((left, right) => (
+          right.score - left.score
+          || right.directScoreGain - left.directScoreGain
+          || left.index - right.index
+        ))[0]?.choice || null;
+    }
+
     function scoreAiScanEnergyReservationPenalty(player = getCurrentPlayer()) {
       if (!player || getAiRoundNumber() > 2) return 0;
       const resources = player.resources || {};
@@ -11527,13 +11716,15 @@
         0,
         lowCashoutScanPenalty - earlySetupScanBonus * 0.7 - b2SectorScanRecoveryValue * 0.6,
       );
-      const netBeforePace = value + earlyEngineValue * 0.55 + tracePressure + b2SectorScanRecoveryValue - costValue * costMultiplier;
+      const highScorePushValue = scoreAiHighScorePushValue(player, "scan");
+      const lowEngineCatchupValue = scoreAiLowEngineCatchupValue(player, "scan");
+      const netBeforePace = value + earlyEngineValue * 0.55 + tracePressure + b2SectorScanRecoveryValue + highScorePushValue + lowEngineCatchupValue - costValue * costMultiplier;
       const deficit = getAiLiveScorePaceDeficit(player);
       const paceBonus = netBeforePace > 4 && deficit > 15
         ? Math.min(getAiRoundNumber() >= 3 ? 9 : 5, (deficit - 15) * (getAiRoundNumber() >= 3 ? 0.18 : 0.1))
         : 0;
       return applyAiStrategyWeight(
-        value + earlyEngineValue * 0.55 + tracePressure + paceBonus + earlySetupScanBonus + b2SectorScanRecoveryValue,
+        value + earlyEngineValue * 0.55 + tracePressure + paceBonus + earlySetupScanBonus + b2SectorScanRecoveryValue + highScorePushValue + lowEngineCatchupValue,
         "scan",
         0.85,
       )
@@ -12438,8 +12629,14 @@
       const finalUncashableMovePenalty = baseFinalUncashableMovePenalty
         + finalMoveBlocksCurrentScanPenalty
         + finalSecondMarkUncashableMovePenalty;
+      const highScoreMovePushValue = Math.max(0, aiNumber(followupMainAction.score)) > 0
+        ? scoreAiHighScorePushValue(currentPlayer, "move", {
+          followupCashout: followupMainAction.timing === "immediate",
+        })
+        : 0;
       const movementGain = applyAiStrategyWeight(applyAiStrategyWeight(routeScoreForGain, "route", 0.7), "move", 0.8)
         + applyAiStrategyWeight(followupGain, "orbitLand", 0.5)
+        + highScoreMovePushValue
         + scoreAiMoveArrivalRewardValue(to, currentPlayer, {
           free: movePayment.energySpent <= 0 && movePayment.cardSpent <= 0,
         })
@@ -12526,6 +12723,7 @@
           movementCost,
           routeScore: routeScore.score,
           routeScoreForGain,
+          highScoreMovePushValue,
           routeScoreCap,
           insufficientCashoutAdjustment,
           followupScore: followupMainAction.score,
@@ -13243,7 +13441,7 @@
     }
 
     function runAiScanTargetDecision() {
-      if (!els.scanTargetOverlay || els.scanTargetOverlay.hidden) return null;
+      if (!state.pendingScanTargetAction && (!els.scanTargetOverlay || els.scanTargetOverlay.hidden)) return null;
       const probeSectorResult = runAiProbeSectorScanDecision();
       if (probeSectorResult) return probeSectorResult;
       const probeLocationResult = runAiProbeLocationRewardDecision();
@@ -13306,6 +13504,27 @@
         },
       );
       if (!button) {
+        let fallbackChoices = pending.choices || [];
+        if (!fallbackChoices.length && (pendingType === "public_scan" || pendingType === "hand_scan") && pending.card) {
+          const scanChoices = getPublicScanChoicesForCard(pending.card);
+          fallbackChoices = scanChoices?.ok ? (scanChoices.choices || []) : [];
+        }
+        const choice = chooseAiScanTargetChoice(fallbackChoices, {
+          player,
+          pendingType,
+          gainData: pending.gainData,
+        });
+        if (choice) {
+          recordAiAutoBattleLog("scan-target", `${player.colorLabel}AI 选择扫描目标`, {
+            logPlayerId: player.id,
+            pendingType,
+            nebulaId: choice.nebulaId || null,
+            sectorX: choice.sectorX ?? null,
+            label: choice.label || "",
+            source: "pending-choice-fallback",
+          });
+          return confirmScanTarget(choice.nebulaId, choice.sectorX);
+        }
         if (isActionEffectFlowActive()) {
           const effect = getCurrentActionEffect?.() || null;
           recordAiAutoBattleLog("scan-target", `${player.colorLabel}AI 跳过无目标扫描`, {

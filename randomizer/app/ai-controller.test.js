@@ -151,6 +151,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     get pendingProbeLocationRewardAction() { return options.probeLocationPending || null; },
     get pendingLandTargetAction() { return options.landTargetPending || null; },
     get pendingDataPlaceAction() { return options.dataPlacePending || null; },
+    get pendingCardSelectionAction() { return options.pendingCardSelectionAction || null; },
     get pendingDiscardAction() { return pendingDiscardAction; },
     get pendingPassReserveSelection() { return pendingPassReserveSelection; },
     get pendingMovePayment() { return options.pendingMovePayment || null; },
@@ -600,6 +601,21 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     noteHandled({ type: "data-placement", target, blueSlot });
     return { ok: true, progressed: true };
   };
+  context.confirmScanTarget = (nebulaId, sectorX) => {
+    noteHandled({
+      type: "scan-target",
+      nebulaId,
+      sectorX: sectorX == null ? null : Number(sectorX),
+    });
+    return { ok: true, progressed: true };
+  };
+  context.confirmPublicScanSelection = () => {
+    noteHandled({
+      type: "public-scan-confirm",
+      selectedSlots: [...(options.pendingCardSelectionAction?.selectedSlots || [])],
+    });
+    return { ok: true, progressed: true };
+  };
   context.confirmLandTargetPicker = () => {
     noteHandled({ type: "land-target", selectedIndex: Number(context.els.landTargetSelect.value) });
     return { ok: true, progressed: true };
@@ -681,6 +697,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   }
   if (options.currentPlayerDiscardPending || options.pendingDiscardAction) {
     context.isDiscardSelectionActive = () => true;
+  }
+  if (options.cardSelectionActive) {
+    context.isCardSelectionActive = () => true;
   }
   if (options.playCardSelectionActive) {
     context.isPlayCardSelectionActive = () => true;
@@ -784,6 +803,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     "getSectorXsMatchingCondition",
   ];
   for (const name of emptyArrayNames) context[name] = () => [];
+  if (options.getPublicScanChoicesForCard) {
+    context.getPublicScanChoicesForCard = options.getPublicScanChoicesForCard;
+  }
   if (options.readyCardTasks) {
     context.getReadyCardTasks = () => options.readyCardTasks;
   }
@@ -1254,6 +1276,90 @@ function makeYichangdianAlienState(options = {}) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI-owned probe-location pending should select the best legal rocket");
   assert.deepEqual(harness.getHandled(), { type: "probe-location", rocketId: 2 });
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    scanTargetHidden: true,
+    scanTargetPending: {
+      type: "public_scan",
+      playerColor: "blue",
+      choices: [
+        { nebulaId: "low-nebula", sectorX: 2, label: "Low nebula" },
+        { nebulaId: "high-nebula", sectorX: 4, label: "High nebula" },
+      ],
+    },
+    data: {
+      getNextReplaceableNebulaToken: (_state, nebulaId) => ({
+        slotIndex: nebulaId === "high-nebula" ? 3 : 1,
+      }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+      getNebulaColor: () => "blue",
+      listNebulaTokens: () => [{}, {}],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: () => ({}),
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve hidden-overlay scan pending from choices");
+  assert.deepEqual(harness.getHandled(), {
+    type: "scan-target",
+    nebulaId: "high-nebula",
+    sectorX: 4,
+  });
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    scanTargetHidden: true,
+    scanTargetPending: {
+      type: "public_scan",
+      playerColor: "blue",
+      card: { id: "scan-card", cardName: "Scan card" },
+    },
+    getPublicScanChoicesForCard: () => ({
+      ok: true,
+      choices: [
+        { nebulaId: "low-nebula", sectorX: 2, label: "Low nebula" },
+        { nebulaId: "high-nebula", sectorX: 4, label: "High nebula" },
+      ],
+    }),
+    data: {
+      getNextReplaceableNebulaToken: (_state, nebulaId) => ({
+        slotIndex: nebulaId === "high-nebula" ? 3 : 1,
+      }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+      getNebulaColor: () => "blue",
+      listNebulaTokens: () => [{}, {}],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: () => ({}),
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should recover public-scan target choices from the pending card");
+  assert.deepEqual(harness.getHandled(), {
+    type: "scan-target",
+    nebulaId: "high-nebula",
+    sectorX: 4,
+  });
 }
 
 {

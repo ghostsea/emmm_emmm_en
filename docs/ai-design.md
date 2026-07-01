@@ -272,6 +272,8 @@ Goal = {
 - PASS 预留精选属于 effect flow 内的轻量候选选择，只按类型 3、终局牌、任务、直接分、科技/扫描/抽牌、收入和牌价排序；不能复用完整 `playCard` 主行动估值，避免动态排序拖入路线搜索并阻塞浏览器批跑。
 - 虫族搬运任务一旦化石送达，AI 会把对应保留牌确认视作已兑现的高价值任务：评分直接读取搬运任务、化石奖励和虫族面板解锁价值，优先打开并确认，而不是继续按普通任务效果文本低估。普通任务、虫族、阿米巴和符文族的已满足任务现在合并进同一个 ready 列表，避免特殊外星任务只在保留区渲染时亮起、却被 AI 的任务确认轮询漏掉。虫族运输牌不再把普通登陆当作取化石收益；没有前置移动时，必须存在木星/土星且仍有化石的可登陆/环绕目标才打出。若前置移动后紧接虫族登陆，移动候选只允许走向有化石的木星/土星；化石送地球时优先向内圈移动，横向追地球只在已到地球环线后放开，避免围绕外圈付费追旋转。
 - 第 3 轮以后若玩家已经拿到 2-3 个终局标记但任务完成数仍为 0-1，且手牌/保留牌/终局板存在实际 C1/C2 或任务管线，会进入“低引擎尾盘恢复”压力：任务牌、C2 相关 3 型牌、终局计分牌、带科技/扫描/抽牌效果的打牌候选会获得额外 `lateCardEnginePressure`；已标/可能标 D1/D2 但科技数仍低于 8 时，研究科技候选会获得 `lateTechCatchupValue`。这条压力只抬高可兑现引擎行动，不再泛化压低天王星/海王星卫星、登陆/环绕等路线现金化。
+- 第 4 轮高分推送只在玩家已经接近 300 或 B2+D1/D2 引擎已成型时激活；D2 路线允许较早推进扫描、分析、科技和可兑现移动/登陆/环绕，D1 路线必须达到更高的当前分和预估分才进入冲分模式，避免为了单个高分玩家过早抢占公共牌与行动节奏。公共牌/手牌扫描若已建立 `pendingScanTargetAction` 但 overlay 不可见，AI 会从 pending choices 或 pending card 重新计算扫描目标并确认，避免效果流停在 `public_card_scan`。
+- 当前工作树固定 5 种子结果（`C:\tmp\seti-ai-current-verified-v1`）：`codex-continuation-baseline` = `223/279/229/166`（均分 `224.25`）、`codex-huanyu-varied-v3` = `290/198/317/317`（`280.5`）、`codex-runezu-income-single` = `257/234/253/238`（`245.5`）、`codex-runezu-income-full` = `218/212/330/172`（`233.0`）、`codex-chong-continuation-current-single` = `237/258/303/128`（`231.5`），20 个电脑席位总均分约 `242.95`，较本轮上一稳定样本 `238.75` 提升约 `+4.2`，`300+` 电脑为 `4` 个，均 `bugCount=0`、`blocked=false`。该轮仍未达到再次提升 `+10` 的目标，后续重点是 `runezu-full` 的 D1 高分抢节奏拖尾、`continuation/chong` 低尾任务和牌分不足。
 - 低预期的 3 型终局牌不再吃满低尾打牌压力：若该牌当前预期终局分低于 3，且玩家没有 C2 规划，`playCardConversionPressure` 与 `lateCardEnginePressure` 会被限制在很小的兜底值。这样保留有 C2、直接终局分或明确路线现金化的 3 型牌，同时避免“只值 1-2 分”的泛用终局牌在第 3/4 轮抢走信用点和主行动。
 - 主行动前的 `2张牌→1信用点` / `2能量→1信用点` 打牌解锁不再只限终局轮：第 2 轮以后若当前信用点为 0，且交易后能立刻打开明显更高价值的打牌候选，AI 会把该交易作为 quick 候选；评分仍扣除被弃牌/资源机会成本，并保护被解锁的高价值牌。终局轮 70-114 分、手牌不少于 3 张且当前没有任何可支付手牌时，允许 `2张牌→1信用点` 补第二个信用点，但仍必须通过同一套高价值打牌模拟，避免把正常路线玩家拉去做泛用资源交易。
 - 低尾发射不再只看“当前没有更好主行动”：第 3 轮若仍不高于 42 分、还没第 2 个终局标记，并且发射会花掉最后信用点且没有后续移动预案，AI 会重罚该发射；终局轮缺标记且无后续路线的发射也会降分，避免只因 PASS 惩罚更高而空耗信用点。
@@ -353,7 +355,7 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 ```
 
 浏览器 smoke 与批跑入口使用 `runAiAutoBattleBatch`。
-本地浏览器可用 `randomizer/index.html?codexAiBatch=3&seed=codex-ai-batch` 触发受 URL 参数保护的 smoke，结果写入 `#codex-ai-batch-result`；需要复现离散种子时可传 `seeds=codex-ai-batch-wide%3A6`，需要快速出口时可配 `maxSteps=50`、`stopBeforeRound=4` 或 `activePlayerCount=1`。该入口默认跳过状态读数/行动日志 DOM 重绘，并在 `stepDelayMs=0` 时不再每步进入浏览器定时器队列以避开后台标签页节流；长批跑默认每 80 步让出一次事件循环，也可用 `yieldEverySteps=120` 调整诊断可读性。`tools/run_ai_autobattle_browser.js` 作为 CDP 包装器默认传入 `yieldEverySteps=20`，避免自动步骤过长时浏览器调试协议轮询超时；需要观察完整 UI 时传 `renderReadout=1`。
+本地浏览器可用 `randomizer/index.html?codexAiBatch=3&seed=codex-ai-batch` 触发受 URL 参数保护的 smoke，结果写入 `#codex-ai-batch-result`；需要复现离散种子时可传 `seeds=codex-ai-batch-wide%3A6`，需要快速出口时可配 `maxSteps=50`、`stopBeforeRound=4` 或 `activePlayerCount=1`。该入口默认跳过状态读数/行动日志 DOM 重绘，并在 `stepDelayMs=0` 时不再每步进入浏览器定时器队列以避开后台标签页节流；长批跑默认每 80 步让出一次事件循环，也可用 `yieldEverySteps=120` 调整诊断可读性。`tools/run_ai_autobattle_browser.js` 作为 CDP 包装器默认传入 `yieldEverySteps=20`，避免自动步骤过长时浏览器调试协议轮询超时；需要观察完整 UI 时传 `renderReadout=1`；长批跑建议传 `--tmpRoot C:\tmp` 或设置 `SETI_AI_TMP_ROOT`，把临时 Chrome profile 放到可控目录，避免用户 Temp 持续膨胀。
 
 ---
 
