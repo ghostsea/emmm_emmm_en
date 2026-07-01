@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Package the standalone SETI browser build into a zip archive."""
+"""Package the complete standalone SETI browser build into a zip archive."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from pathlib import Path
 from zipfile import ZIP_DEFLATED, ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKAGE_DIRS = ("assets", "randomizer")
+FULL_PACKAGE_DIRS = ("assets", "randomizer")
 ARCHIVE_PREFIX = "seti单机版"
 
 
@@ -22,7 +22,7 @@ def iter_package_files(target: Path) -> list[Path]:
     files: list[Path] = []
     target = target.resolve()
 
-    for directory_name in PACKAGE_DIRS:
+    for directory_name in FULL_PACKAGE_DIRS:
         directory = ROOT / directory_name
         if not directory.is_dir():
             raise FileNotFoundError(f"Required package directory not found: {directory}")
@@ -31,6 +31,23 @@ def iter_package_files(target: Path) -> list[Path]:
                 files.append(path)
 
     return sorted(files, key=lambda path: path.relative_to(ROOT).as_posix())
+
+
+def validate_archive(archive_path: Path) -> int:
+    with ZipFile(archive_path, "r") as archive:
+        entries = [entry for entry in archive.namelist() if entry.strip()]
+    if not entries:
+        raise ValueError(f"archive is empty: {archive_path}")
+
+    allowed_roots = set(FULL_PACKAGE_DIRS)
+    unexpected = [
+        entry for entry in entries
+        if entry.replace("\\", "/").split("/", 1)[0] not in allowed_roots
+    ][:5]
+    if unexpected:
+        raise ValueError(f"archive contains unexpected entries: {', '.join(unexpected)}")
+
+    return len(entries)
 
 
 def build_archive(output_dir: Path) -> Path:
@@ -43,12 +60,13 @@ def build_archive(output_dir: Path) -> Path:
         for path in files:
             archive.write(path, path.relative_to(ROOT).as_posix())
 
+    validate_archive(archive_path)
     return archive_path
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Package assets/ and randomizer/ into seti单机版_日期_时间.zip.",
+        description="Full package: assets/ and randomizer/ into seti单机版_日期_时间.zip.",
     )
     parser.add_argument(
         "--output-dir",
@@ -60,6 +78,8 @@ def main() -> None:
 
     archive_path = build_archive(args.output_dir)
     print(f"wrote {archive_path}")
+    print(f"size {archive_path.stat().st_size} bytes")
+    print(f"entries {validate_archive(archive_path)}")
 
 
 if __name__ == "__main__":
