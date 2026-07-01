@@ -289,16 +289,16 @@
     ]);
     const AI_STRATEGY_WEIGHT_DEFAULTS = Object.freeze({
       ...AI_STRATEGY_WEIGHT_KEYS.reduce((weights, key) => ({ ...weights, [key]: 1 }), {}),
-      engine: 1.16,
-      playCard: 1.36,
-      tech: 1.24,
-      scan: 0.94,
-      route: 0.88,
-      move: 0.84,
-      orbitLand: 1.08,
-      task: 1.14,
-      final: 1.18,
-      pass: 0.86,
+      engine: 1.22,
+      playCard: 1.40,
+      tech: 1.14,
+      scan: 1.08,
+      route: 0.80,
+      move: 0.78,
+      orbitLand: 1.02,
+      task: 1.22,
+      final: 1.28,
+      pass: 0.82,
     });
     const AI_CHEAT_LAB_INDUSTRY_LABEL = "作弊实验室";
     const AI_CHEAT_LAB_INDUSTRY_ID = "industry:作弊实验室";
@@ -3415,11 +3415,11 @@
             - scoreAiRunezuSpendSymbolFinalPenalty(choice.symbolId, simulatedPlayer);
           return Math.max(best, futureScore);
         }, 0);
-        return total + Math.max(0, Math.min(8, bestFuturePlacement)) * 0.42 + 0.6;
+        return total + Math.max(0, Math.min(9, bestFuturePlacement)) * 0.62 + 0.9;
       }, 0);
       const round = getAiRoundNumber();
-      const roundScale = round <= 2 ? 1 : round === 3 ? 0.82 : 0.52;
-      return roundAiScore(Math.max(0, Math.min(7, unlockedValue * roundScale)));
+      const roundScale = round <= 2 ? 1 : round === 3 ? 0.9 : 0.62;
+      return roundAiScore(Math.max(0, Math.min(11, unlockedValue * roundScale)));
     }
 
     function scoreAiRunezuFaceSymbolPlacementChoice(position, symbolId, player = getCurrentPlayer()) {
@@ -4424,24 +4424,25 @@
       const techCount = countAiPlayerTech(player);
       const currentScore = Math.max(0, aiNumber(player.resources?.score));
       const projectedScore = getAiProjectedFinalScore(player);
-      const highProjectedScore = projectedScore >= (hasD2 ? 260 : 290);
+      const highProjectedScore = projectedScore >= (hasD2 ? 248 : 270);
       const b2TechEngineReady = finalMarks >= 3
         && hasB2
         && hasTechFinal
         && techCount >= 10
-        && currentScore >= (hasD2 ? 125 : 155)
-        && projectedScore >= (hasD2 ? 250 : 270);
+        && currentScore >= (hasD2 ? 115 : 140)
+        && projectedScore >= (hasD2 ? 235 : 250);
       if (!highProjectedScore && !b2TechEngineReady) {
         return { active: false, strength: 0, projectedScore, formulas };
       }
-      let strength = 0.35;
-      strength += Math.min(0.65, Math.max(0, projectedScore - 235) / 70);
-      if (b2TechEngineReady) strength += 0.25;
-      if (projectedScore >= 280) strength += 0.18;
-      if (currentScore >= 170) strength += 0.12;
+      let strength = 0.42;
+      strength += Math.min(0.72, Math.max(0, projectedScore - 225) / 75);
+      if (b2TechEngineReady) strength += 0.3;
+      if (projectedScore >= 270) strength += 0.12;
+      if (projectedScore >= 290) strength += 0.16;
+      if (currentScore >= 155) strength += 0.1;
       return {
         active: true,
-        strength: Math.min(1.25, strength),
+        strength: Math.min(1.45, strength),
         projectedScore,
         currentScore,
         finalMarks,
@@ -4460,14 +4461,14 @@
       const gapTo300 = Math.max(0, 300 - profile.projectedScore);
       const closeness = Math.max(0, 1 - gapTo300 / 70);
       const actionBase = {
-        scan: 7.2,
-        analyze: 6.8,
-        playCard: 6.2,
-        researchTech: 5.6,
-        land: 4.5,
-        orbit: 3.8,
-        move: 3.2,
-        placeData: 4.2,
+        scan: 8.6,
+        analyze: 8.1,
+        playCard: 7.4,
+        researchTech: 6.7,
+        land: 8.0,
+        orbit: 6.5,
+        move: 5.6,
+        placeData: 5.5,
       }[actionId] || 0;
       if (!actionBase) return 0;
       let value = actionBase * profile.strength + closeness * 5;
@@ -4475,21 +4476,22 @@
         ? getAiB2SectorBottleneck(player, { requireMarked: true })
         : null;
       if (actionId === "scan" && profile.hasB2) {
-        value += 2.5 + Math.min(10, aiNumber(b2Bottleneck?.deficit) * 1.8);
+        value += 3.2 + Math.min(12, aiNumber(b2Bottleneck?.deficit) * 2.2);
       }
       if (actionId === "researchTech" && profile.hasTechFinal) {
         const nextTechCount = profile.techCount + 1;
-        value += 2.5 + (profile.formulas.has("d2") && Math.floor(nextTechCount / 2) > Math.floor(profile.techCount / 2) ? 3 : 0);
+        value += 3 + (profile.formulas.has("d2") && Math.floor(nextTechCount / 2) > Math.floor(profile.techCount / 2) ? 3.5 : 0);
       }
       if (actionId === "analyze") {
-        value += Math.min(5, Math.max(0, aiNumber(player.resources?.availableData) - 2) * 1.2);
+        value += Math.min(6, Math.max(0, aiNumber(player.resources?.availableData) - 2) * 1.3);
+        if (hasAiAnalyzeReadyDataSlot(player)) value += 1.5;
       }
       if (actionId === "playCard") {
-        value += Math.min(4, Math.max(0, aiNumber(player.resources?.handSize) - 1) * 0.8);
-        if (options.endGameExpectedScore > 0 || options.directScoreGain > 0) value += 2.2;
+        value += Math.min(5, Math.max(0, aiNumber(player.resources?.handSize) - 1) * 0.9);
+        if (options.endGameExpectedScore > 0 || options.directScoreGain > 0) value += 2.6;
       }
       if (actionId === "move" && !options.followupCashout) value *= 0.55;
-      return roundAiScore(Math.min(24, Math.max(0, value)));
+      return roundAiScore(Math.min(40, Math.max(0, value)));
     }
 
     function getAiLowEngineCatchupProfile(player = getCurrentPlayer()) {
@@ -5330,6 +5332,7 @@
         requireMarked: true,
         trade: true,
       });
+      const highScorePushProfile = getAiHighScorePushProfile(player);
       const hasImmediateRouteRecovery = bestLaunchMoveRecoveryScore > 0 || bestPlanetCashoutRecoveryScore > 0;
       const finalLowHandScoreCeiling = 165;
       const finalLowScoreScanUnlockCeiling = 150;
@@ -5339,6 +5342,16 @@
         && currentScore < finalLowHandScoreCeiling
         && handSize <= 1
         && (credits >= 2 || energy >= 2 || publicity >= 3);
+      const finalHighScoreHandRefillWindow = getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && mainActionOpen
+        && finalMarks >= 3
+        && !recoveryThreshold
+        && highScorePushProfile.active
+        && highScorePushProfile.projectedScore >= 260
+        && highScorePushProfile.projectedScore < 305
+        && handSize <= 1
+        && (credits >= 2 || energy >= 2 || publicity >= 3)
+        && !(turnState.passedPlayerIds || []).includes(player.id);
       const finalLowScoreMainUnlockWindow = getAiRoundNumber() >= FINAL_ROUND_NUMBER
         && (!recoveryThreshold || finalMarks >= 3)
         && currentScore >= 70
@@ -5434,6 +5447,7 @@
         !recoveryThreshold
         && !hasImmediateRouteRecovery
         && !finalLowHandRefillWindow
+        && !finalHighScoreHandRefillWindow
         && !finalLowScoreScanUnlock
         && !b2SectorScanUnlock
       ) return [];
@@ -5448,6 +5462,7 @@
         && !closeThirdMarkScanSetup
         && !hasImmediateRouteRecovery
         && !finalLowHandRefillWindow
+        && !finalHighScoreHandRefillWindow
         && !finalLowScoreScanUnlock
       ) return [];
       const closeScanCashoutWindow = recoveryThreshold <= 50 ? 10 : 8;
@@ -5543,8 +5558,19 @@
           ? bestPublicTradeCardScore >= 0
           : bestPublicTradeCardScore >= 10
       );
+      const highScoreGapTo300 = Math.max(0, 300 - highScorePushProfile.projectedScore);
+      const finalHighScorePublicRefill = finalHighScoreHandRefillWindow
+        && bestPublicTradeCardScore >= (highScoreGapTo300 <= 10 ? 0 : 5);
+      const finalHighScoreRefillValue = finalHighScorePublicRefill
+        ? 8
+          + Math.max(0, 18 - highScoreGapTo300) * 0.45
+          + Math.min(9, bestPublicTradeCardScore * 0.32)
+          + Math.min(4, highScorePushProfile.strength * 2)
+        : 0;
       const finalLowHandCreditRefill = finalLowHandPublicRefill && credits >= 2;
       const finalLowHandEnergyRefill = finalLowHandPublicRefill && energy >= 2;
+      const finalHighScoreCreditRefill = finalHighScorePublicRefill && credits >= 2;
+      const finalHighScoreEnergyRefill = finalHighScorePublicRefill && energy >= 2;
       const secondMarkCreditRecovery = recoveryThreshold <= 50
         && finalMarks <= 1
         && credits <= 0
@@ -5624,10 +5650,15 @@
             && credits >= 2
             && handSize <= 1
             && !avoidCloseSecondMarkCreditCardTrap
-            && (recoveryThreshold || finalLowHandCreditRefill),
-          value: baseValue + (handSize <= 0 ? 6 : 3) + (credits >= 6 ? 2 : 0),
+            && (recoveryThreshold || finalLowHandCreditRefill || finalHighScoreCreditRefill),
+          value: baseValue
+            + (handSize <= 0 ? 6 : 3)
+            + (credits >= 6 ? 2 : 0)
+            + (finalHighScoreCreditRefill ? finalHighScoreRefillValue : 0),
           reason: finalLowHandCreditRefill
             ? "终局低手牌：信用点精选恢复打牌"
+            : finalHighScoreCreditRefill
+              ? "高分冲刺：信用点精选找最后得分牌"
             : "后期落后：信用点换牌恢复行动",
         },
         {
@@ -5711,14 +5742,17 @@
         },
         {
           tradeId: "energy-for-card",
-          enabled: secondMarkEnergyCardSearch || finalLowHandEnergyRefill,
+          enabled: secondMarkEnergyCardSearch || finalLowHandEnergyRefill || finalHighScoreEnergyRefill,
           value: baseValue
             + 5
             + Math.min(8, bestPublicTradeCardScore * 0.28)
             + Math.max(0, 7 - scoreToNextThreshold) * 0.5
-            + (finalLowHandEnergyRefill ? 3 + (handSize <= 0 ? 2 : 0) : 0),
+            + (finalLowHandEnergyRefill ? 3 + (handSize <= 0 ? 2 : 0) : 0)
+            + (finalHighScoreEnergyRefill ? finalHighScoreRefillValue : 0),
           reason: finalLowHandEnergyRefill
             ? "终局低手牌：能量精选恢复打牌"
+            : finalHighScoreEnergyRefill
+              ? "高分冲刺：能量精选找最后得分牌"
             : "终局第2标记：能量精选寻找得分牌",
         },
         {
@@ -5750,6 +5784,7 @@
           enabled: (mainActionOpen || canPrepareFinalThresholdAction) && publicity >= 3 && (
             (handSize <= 1 && hasUsefulPublicTradeCard)
             || finalLowHandPublicRefill
+            || finalHighScorePublicRefill
             || secondMarkCardSearch
             || closeSecondMarkCardSearch
           ),
@@ -5759,6 +5794,7 @@
             + (finalLowHandPublicRefill
               ? 4 + Math.min(8, bestPublicTradeCardScore * 0.35) + finalLowHandPressure * 0.035
               : 0)
+            + (finalHighScorePublicRefill ? finalHighScoreRefillValue : 0)
             + ((secondMarkCardSearch || closeSecondMarkCardSearch)
               ? 5 + Math.min(9, bestPublicTradeCardScore * 0.3)
               : 0),
@@ -5766,6 +5802,8 @@
             ? "终局第2标记：宣传精选寻找得分牌"
             : finalLowHandPublicRefill
               ? "终局低手牌：宣传精选恢复打牌"
+            : finalHighScorePublicRefill
+              ? "高分冲刺：宣传精选找最后得分牌"
             : "后期落后：宣传换牌恢复行动",
         },
       ];
@@ -5807,8 +5845,14 @@
               secondMarkCardSearch,
               closeSecondMarkCardSearch,
               finalLowHandPublicRefill,
+              finalHighScorePublicRefill,
+              finalHighScoreRefillValue: roundAiScore(finalHighScoreRefillValue),
+              highScoreProjectedScore: roundAiScore(highScorePushProfile.projectedScore),
+              highScoreGapTo300: roundAiScore(highScoreGapTo300),
               finalLowHandCreditRefill,
               finalLowHandEnergyRefill,
+              finalHighScoreCreditRefill,
+              finalHighScoreEnergyRefill,
               secondMarkEnergyCardSearch,
               desperateSecondMarkCardSearch,
               thresholdCreditRecovery,
