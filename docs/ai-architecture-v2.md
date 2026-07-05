@@ -219,6 +219,46 @@ Goal = {
 
 逐步消化 `canAiResolvePlayCardEffects` 的 `unsupportedTypes` 与外星人卡，**按对当前激活目标的价值排序**优先收口（先扫描/登陆/数据相关）。每收口一类在 `game/ai/ai.test.js` 加回归。
 
+---
+
+## 8. MCTS 全盘演化（规则引擎级）
+
+为避免“只在候选分上做一跳重排”，MCTS 在 app 决策链路中已升级为**规则引擎级多步演化**（同步/异步一致）：
+
+- 每个模拟节点持有独立 `simContext`（由 `createActionContext()` 克隆并重建 helper）。
+- `applyAction` 通过 `SetiActions` 真正执行主行动（`launch`/`orbit`/`land`/`researchTech`/`pass`），得到演化后的新盘面。
+- `getTransitionReward` 不再取静态候选分，而是取“演化前后状态价值差”。
+- `evaluateState` 以演化后的盘面状态估值为主，训练 value 头输出仅作小权重稳定项。
+
+状态价值口径（根玩家视角）采用：
+
+```
+stateValue = (rootPlayerEval - opponentAverageEval) / 100
+leafValue = 0.88 * stateValue + 0.12 * valueHead
+```
+
+其中 `rootPlayerEval` 与 `opponentAverageEval` 使用 `ai.evaluator.evaluatePlayerState` 直接对演化后的 `simContext` 计算。
+
+Entity transformer 自博弈路径使用异步 AlphaZero 式 MCTS：新扩展节点会把该节点的 `simContext` 重新编码为 compact entity observation，并调用 entity transformer 输出该节点的 policy prior 与 value。该路径不再使用 rollout value 作为主叶子估值，模型推理必须请求 CUDA execution provider；CUDA 不可用时应直接失败，不能静默回落 CPU。
+
+### 8.1 对手行为模型
+
+- 模拟树按 ply 交替 `rootPlayerId` 与 `opponentPlayerId`。
+- 对手节点同样走规则引擎合法行动枚举与执行。
+- 当前先使用“近似对抗”先验（对 root 先验取反并结合动作可行性），后续可替换为独立对手策略头。
+
+### 8.2 激进偏置与风险约束
+
+- MCTS 内核支持 `selfAggressiveBias` 与 `selfAggressiveNegativeScale`：
+  - root 正收益可放大，负收益惩罚可部分缓和。
+- 同时保留折现累计回报与叶子融合：`stepRewardWeight + leafValueWeight`。
+- 该组合用于“偏激进但不随机亏损”。
+
+### 8.3 适用范围与后续
+
+- 当前规则引擎级演化已覆盖主行动闭环（发射/环绕/登陆/科技/PASS）。
+- 快速行动与复杂卡牌连锁将按同一 `simContext` 机制逐步接入，保持“评分必须依据演化后状态”的约束不变。
+
 已完成的第一批覆盖：
 
 - 顶层行动选择已优先使用 `actionGraph.net`；运行时会记录 `gain/cost/finalMarginal/goalBonus/feasibility/net`，收入估值调用 `valuation.getIncomeNetValue()`，已标记终局公式会实时叠加边际分。

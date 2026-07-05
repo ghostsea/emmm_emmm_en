@@ -136,9 +136,13 @@
     }
 
     const active = getActiveRocketForPlayer(context);
-    if (!active.ok) {
-      const fallback = findPlayerRocketOnPlanet(context, currentPlayer);
-      if (!fallback) return active;
+    const activePlacement = active.ok
+      ? getRocketPlanetForRocket(context, active.rocket, active.currentPlayer)
+      : active;
+    if (activePlacement.ok) return activePlacement;
+
+    const fallback = findPlayerRocketOnPlanet(context, currentPlayer);
+    if (fallback) {
       return {
         ok: true,
         rocket: fallback.rocket,
@@ -149,7 +153,7 @@
       };
     }
 
-    return getRocketPlanetForRocket(context, active.rocket, active.currentPlayer);
+    return activePlacement;
   }
 
   function removeRocketFromState(context, rocketId) {

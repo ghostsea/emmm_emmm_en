@@ -410,9 +410,39 @@
       .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.option || null;
   }
 
+  function scoreSubflowCandidate(candidate) {
+    if (!candidate || candidate.available === false) return -Infinity;
+    const explicit = getFiniteScore(candidate.score);
+    if (explicit != null) return explicit;
+    if (candidate.choice === "cancel") return -100;
+    if (candidate.choice === "skip") return -10;
+    return 0;
+  }
+
+  function chooseSubflowAction(candidates = [], context = {}) {
+    const decisionType = String(context?.decisionType || "subflow");
+    if (decisionType === "alien-use") {
+      return chooseAlienUseOption(candidates);
+    }
+    return (candidates || [])
+      .map((candidate, index) => ({ candidate, index, score: scoreSubflowCandidate(candidate) }))
+      .filter((entry) => Number.isFinite(entry.score))
+      .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.candidate || null;
+  }
+
+  function chooseDecisionAction(candidates = [], context = {}) {
+    const actionLevel = String(context?.actionLevel || "turn");
+    if (actionLevel === "subflow") {
+      return chooseSubflowAction(candidates, context);
+    }
+    return chooseTurnAction(candidates, context);
+  }
+
   return Object.freeze({
     chooseInitialSelection,
     chooseTurnAction,
+    chooseDecisionAction,
+    chooseSubflowAction,
     chooseDiscardIndexes,
     choosePassReserveCard,
     chooseResearchTechTile,

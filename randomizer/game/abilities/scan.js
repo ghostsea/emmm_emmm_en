@@ -43,6 +43,11 @@
     if (typeof context.getPlayerTokenSrc === "function") {
       return context.getPlayerTokenSrc(player);
     }
+    if (context?.playerTokenSrcMode === "normal") {
+      return players.getPlayerColorDefinition(player?.color)?.normalTokenAsset
+        || context.defaultPlayerTokenSrc
+        || "../assets/tokens/normal_token.png";
+    }
     return players.getPlayerColorDefinition(player?.color)?.normalTokenAsset || null;
   }
 

@@ -574,10 +574,9 @@
   function resolveInitialSelectionEffects() {
     if (!initialCards?.resolveInitialSelections) return null;
 
-    const context = {
-      ...createActionContext(),
+    const context = Object.assign(createActionContext(), {
       alienGameState,
-    };
+    });
     const result = initialCards.resolveInitialSelections(context, {
       playerIds: getInitialSelectionPlayerIds(),
     });
@@ -822,6 +821,8 @@
     get pendingCardSelectionAction() { return pendingCardSelectionAction; },
     get pendingPassReserveSelection() { return pendingPassReserveSelection; },
     get pendingScanTargetAction() { return pendingScanTargetAction; },
+    get pendingProbeSectorScanAction() { return pendingProbeSectorScanAction; },
+    get pendingProbeLocationRewardAction() { return pendingProbeLocationRewardAction; },
     get pendingPublicScanQueue() { return pendingPublicScanQueue; },
     get pendingHandScanAction() { return pendingHandScanAction; },
     get pendingAlienTraceAction() { return pendingAlienTraceAction; },
@@ -840,6 +841,7 @@
     get pendingRunezuCardGain() { return pendingRunezuCardGain; },
     get pendingRunezuSymbolBranch() { return pendingRunezuSymbolBranch; },
     get pendingRunezuFaceSymbolPlacement() { return pendingRunezuFaceSymbolPlacement; },
+    get pendingStrategyPassiveSlotChoice() { return pendingStrategyPassiveSlotChoice; },
     get pendingCardTriggerAction() { return pendingCardTriggerAction; },
     get pendingCardTriggerFreeMove() { return pendingCardTriggerFreeMove; },
     get pendingCardTaskCompletion() { return pendingCardTaskCompletion; },
@@ -958,6 +960,8 @@
     getPlayerById,
     getPlayerLabelById,
     getPublicScanChoicesForCard,
+    listAiAlienTraceFallbackChoices,
+    applyAiAlienTraceFallbackChoice,
     getRequiredMovePointsForUi,
     getResearchTechSelectionOptions,
     getSectorContentForMove,
@@ -1038,6 +1042,9 @@
     configureDefaultAiOpponent,
     getAiAutoBattleAnalysis,
     getAiAutoBattleReport,
+    getAiAutoBattlePlayerDifficulty,
+    getAiAutoBattlePlayerDifficulties,
+    getAiAutoBattlePlayerIds,
     getAiMapDemand,
     getAiRemainingRoundWeight,
     getAiStrategyDemand,
@@ -1062,6 +1069,35 @@
 
   function getActionLogActionLabel(actionType, label) {
     return label || ACTION_LOG_DEFAULT_LABELS[actionType] || actionType || "本回合行动";
+  }
+
+  const AI_DIFFICULTY_OPTIONS = Object.freeze([
+    { value: "easy", label: "简单" },
+    { value: "normal", label: "普通" },
+    { value: "expert", label: "人工智障" },
+  ]);
+
+  function getAiDifficultySnapshot() {
+    return getAiAutoBattlePlayerDifficulties?.() || {};
+  }
+
+  function updateAiDifficultyForPlayer(playerId, difficulty) {
+    const playerIds = getAiAutoBattlePlayerIds?.() || [];
+    if (!playerIds.includes(playerId)) return { ok: false, message: "该玩家不是当前电脑玩家" };
+    const normalized = AI_DIFFICULTY_OPTIONS.some((option) => option.value === difficulty) ? difficulty : "easy";
+    const playerDifficulties = {
+      ...getAiDifficultySnapshot(),
+      [playerId]: normalized,
+    };
+    const result = configureAiAutoBattle({
+      playerIds,
+      playerDifficulties,
+      suppressAutoSchedule: true,
+    });
+    renderInitialSelectionArea();
+    renderDebugPlayerSwitch();
+    renderStateReadout();
+    return result;
   }
 
   function normalizeActionLogText(text) {
@@ -5591,12 +5627,11 @@
 
     const variant = finalScoring.getTileVariant(finalScoringState, tileId);
     const formulaId = endGameScoring.getFormulaId(tileId, variant);
-    const context = {
-      ...createActionContext(),
+    const context = Object.assign(createActionContext(), {
       finalScoringState,
       cardEffects,
       getCardTypeCode,
-    };
+    });
     const baseValue = Math.max(0, aiNumber(endGameScoring.getFormulaBaseValue(
       formulaId,
       player,
@@ -8423,7 +8458,18 @@
     const currentPlayer = getCurrentPlayer();
     const rocketsForPlayer = getMovableTokensForPlayer(currentPlayer?.id);
     if (!rocketsForPlayer.length) {
-      return { ok: false, message: "没有可移动的飞船" };
+      beginQuickActionStep("card-trigger-skip-move", `卡牌触发：${match?.effect?.label || "免费移动"}`);
+      if (match?.card && match?.trigger?.id != null) {
+        cardEffects.consumeTrigger(match.card, match.trigger.id);
+        discardReservedCardIfFinished(currentPlayer, match.card);
+      }
+      completeQuickActionStep();
+      rocketState.statusNote = "卡牌触发：没有可移动的飞船，已跳过";
+      renderPublicCards();
+      renderPlayerHand();
+      updateActionButtons();
+      renderStateReadout();
+      return { ok: true, skipped: true, message: rocketState.statusNote };
     }
     pendingCardTriggerFreeMove = {
       match,
@@ -9772,9 +9818,11 @@
     const currentPlayer = getCurrentPlayer();
     const rocketsForPlayer = getMovableTokensForPlayer(currentPlayer?.id);
     if (!rocketsForPlayer.length) {
-      rocketState.statusNote = "没有可移动的飞船";
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
+      return skipActionEffectWithMessage(
+        effect,
+        `${effect.label}：没有可移动的飞船，已跳过`,
+        { reason: "no_movable_rocket" },
+      );
     }
 
     if (!pendingActionEffectFlow.cardMoveEffect
@@ -10090,6 +10138,7 @@
             sectorX,
             gainData: effect.options?.gainData,
             returnToHandIfSignalCount: effect.options?.returnToHandIfSignalCount,
+            skipIfNoTarget: true,
           },
         });
       }
@@ -10173,9 +10222,12 @@
   function executeProbeSectorScanEffect(effect) {
     const choices = getProbeSectorScanRockets(effect);
     if (!choices.length) {
-      rocketState.statusNote = `${effect.label}：没有位于太阳系扇区的合法探测器`;
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
+      return finishAutomaticRewardEffect(effect, {
+        ok: true,
+        skipped: true,
+        undoable: true,
+        message: `${effect.label}：没有位于太阳系扇区的合法探测器，已跳过`,
+      });
     }
     const maxTargets = Math.max(1, Math.round(Number(effect.options?.maxTargets) || 1));
     if (choices.length === 1 && maxTargets === 1) {
@@ -10362,9 +10414,11 @@
   function openRemovePlanetMarkerPicker(effect) {
     const choices = buildPlanetMarkerRemovalChoices(effect);
     if (!choices.length) {
-      rocketState.statusNote = `${effect.label}：没有可移除的环绕或登陆标记`;
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          skipped: true,
+          message: `${effect.label}：没有可移除的环绕或登陆标记，已跳过`,
+        });
     }
     if (choices.length === 1) {
       return executeRemovePlanetMarkerChoice(effect, choices[0]);
@@ -10926,6 +10980,13 @@
   function executeChooseHandCornerRewardEffect(effect) {
     const currentPlayer = getCurrentPlayer();
     const counts = countHandCornerKinds(currentPlayer);
+      if (counts.publicity <= 0 && counts.data <= 0 && counts.move <= 0) {
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          skipped: true,
+          message: `${effect.label}：没有可选手牌角标奖励，已跳过`,
+        });
+      }
     if (!els.scanTargetOverlay || !els.scanTargetActions) {
       return applyHandCornerChoice(effect, "publicity");
     }
@@ -11377,9 +11438,11 @@
       .filter((card) => !effect.options?.excludeAlienCards || !isAlienFamilyCard(card))
       .filter((card) => cards.getDiscardActionRewardForCard(card) || cards.getDiscardActionMoveRewardForCard?.(card));
     if (!choices.length) {
-      rocketState.statusNote = `${effect.label}：没有可弃除并结算角标的非外星人卡`;
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          skipped: true,
+          message: `${effect.label}：没有可弃除并结算角标的非外星人卡，已跳过`,
+        });
     }
     pendingScanTargetAction = { type: "discard_corner_repeat", effect, choices };
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = effect.label;
@@ -11479,9 +11542,11 @@
   function executeRemoveOrbitToProbeEffect(effect) {
     const choices = buildOwnOrbitChoices();
     if (!choices.length) {
-      rocketState.statusNote = `${effect.label}：没有可移除的己方环绕标记`;
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
+      return skipActionEffectWithMessage(
+        effect,
+        `${effect.label}：没有可移除的己方环绕标记，已跳过`,
+        { reason: "no_orbit_marker" },
+      );
     }
     pendingScanTargetAction = { type: "remove_orbit_to_probe", effect, choices };
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = effect.label;
@@ -11587,9 +11652,11 @@
     const currentPlayer = getCurrentPlayer();
     const choices = (currentPlayer?.reservedCards || []).filter(isReservedTaskCardUnfinished);
     if (!choices.length) {
-      rocketState.statusNote = `${effect.label}：没有未完成的 1/2 型任务卡`;
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
+        return finishAutomaticRewardEffect(effect, {
+          ok: true,
+          skipped: true,
+          message: `${effect.label}：没有未完成的 1/2 型任务卡，已跳过`,
+        });
     }
     pendingScanTargetAction = { type: "return_unfinished_task", effect, choices };
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = effect.label;
@@ -14024,9 +14091,11 @@
       case scanEffects.EFFECT_TYPES.HAND_SCAN: {
         const currentPlayer = getCurrentPlayer();
         if (!currentPlayer?.hand?.length) {
-          rocketState.statusNote = "没有手牌可用于扫描";
+          effect.result = { ok: true, skipped: true, message: `${effect.label}：没有手牌，跳过` };
+          rocketState.statusNote = effect.result.message;
+          completeCurrentActionEffect("skipped");
           renderStateReadout();
-          return { ok: false, message: rocketState.statusNote };
+          return effect.result;
         }
         pendingHandScanAction = { type: "hand_scan", player: currentPlayer, fromEffectFlow: true };
         rocketState.statusNote = "手牌扫描：请选择一张手牌弃除并扫描";
@@ -14939,6 +15008,39 @@
         : `追加${traceLabel}额外痕迹`,
       title: "",
     };
+  }
+
+  function listAiAlienTraceFallbackChoices() {
+    const picker = alienTracePickerState || {};
+    const allowedTraceTypes = picker.allowedTraceTypes?.length
+      ? picker.allowedTraceTypes
+      : aliens.TRACE_TYPES;
+    const allowedAlienSlotIds = picker.allowedAlienSlotIds?.length
+      ? picker.allowedAlienSlotIds.map((alienSlotId) => Number(alienSlotId))
+      : aliens.ALIEN_SLOT_IDS;
+
+    const choices = [];
+    for (const alienSlotId of allowedAlienSlotIds) {
+      for (const traceType of allowedTraceTypes) {
+        const preview = getAlienTracePlacementPreview(alienSlotId, traceType);
+        if (!preview?.canPlace) continue;
+        const firstTraceReward = aliens.getFirstTraceRewardForSlot?.(alienSlotId) || null;
+        const rewardScore = Math.max(0, Number(firstTraceReward?.gain?.score || 0));
+        choices.push({
+          alienSlotId: Number(alienSlotId),
+          traceType,
+          rewardScore,
+          guaranteedThree: rewardScore >= 3,
+          description: preview.description || "",
+        });
+      }
+    }
+    return choices;
+  }
+
+  function applyAiAlienTraceFallbackChoice(choice) {
+    if (!choice) return { ok: false, message: "没有可用外星人痕迹保底目标" };
+    return confirmAlienTracePlacement(Number(choice.alienSlotId), String(choice.traceType || ""));
   }
 
   function getAlienTracePlayerKeys(player) {
@@ -22405,6 +22507,12 @@
 
     if (isInitialSelectionActive()) {
       const setupPlayer = getCurrentPlayer();
+      if (isAiAutoBattlePlayer(setupPlayer?.id)) {
+        els.initialSelectionArea.hidden = false;
+        els.initialSelectionArea.replaceChildren(createAiDifficultySettingsPanel());
+        syncInteractionFocusChrome();
+        return;
+      }
       if (!isAiAutoBattlePlayer(setupPlayer?.id)) {
         const offer = getInitialSelectionOffer(setupPlayer?.id);
         els.initialSelectionArea.hidden = false;
@@ -24215,6 +24323,7 @@
       selectedIds: offer.selectedInitialIds,
       disabled: confirmed,
     });
+    const aiSettings = createAiDifficultySettingsPanel();
 
     const footer = document.createElement("div");
     footer.className = "initial-selection-footer";
@@ -24232,8 +24341,62 @@
     confirm.addEventListener("click", confirmInitialSelectionForCurrentPlayer);
     footer.append(status, confirm);
 
-    wrap.append(industrySection, initialSection, footer);
+    wrap.append(industrySection, initialSection, aiSettings, footer);
     return wrap;
+  }
+
+  function createAiDifficultySettingsPanel() {
+    const panel = document.createElement("section");
+    panel.className = "initial-selection-section initial-selection-ai-settings";
+
+    const title = document.createElement("div");
+    title.className = "initial-selection-section-title";
+    title.textContent = "AI 难度";
+
+    const note = document.createElement("div");
+    note.className = "initial-selection-ai-settings-note";
+    note.textContent = isInitialSelectionActive() && isAiAutoBattlePlayer(getCurrentPlayer()?.id)
+      ? "电脑玩家的初始选择会自动进行，可在这里调档"
+      : "仅电脑玩家可调整难度";
+
+    const rows = document.createElement("div");
+    rows.className = "initial-selection-ai-settings-rows";
+    const playerIds = getAiAutoBattlePlayerIds?.() || turnState.activePlayerIds || [];
+    if (!playerIds.length) {
+      const empty = document.createElement("div");
+      empty.className = "initial-selection-empty";
+      empty.textContent = "当前没有电脑玩家。";
+      rows.append(empty);
+    } else {
+      for (const playerId of playerIds) {
+        const player = getPlayerById(playerId);
+        if (!player) continue;
+        const row = document.createElement("label");
+        row.className = "initial-selection-ai-setting-row";
+        const name = document.createElement("span");
+        name.className = "initial-selection-ai-setting-name";
+        name.textContent = `${player.colorLabel || player.name || player.id}（${getPlayerAgentLabel(player.id)}）`;
+        const select = document.createElement("select");
+        select.className = "initial-selection-ai-setting-select";
+        select.dataset.playerId = player.id;
+        for (const option of AI_DIFFICULTY_OPTIONS) {
+          const optionElement = document.createElement("option");
+          optionElement.value = option.value;
+          optionElement.textContent = option.label;
+          select.append(optionElement);
+        }
+        select.value = getAiAutoBattlePlayerDifficulty?.(player.id) || getAiDifficultySnapshot()?.[player.id] || "easy";
+        select.disabled = !isAiAutoBattlePlayer(player.id);
+        select.addEventListener("change", () => {
+          updateAiDifficultyForPlayer(player.id, select.value);
+        });
+        row.append(name, select);
+        rows.append(row);
+      }
+    }
+
+    panel.append(title, note, rows);
+    return panel;
   }
 
   function createInitialSelectionSection(options) {
@@ -24450,7 +24613,7 @@
 
   function createActionContext() {
     const contextPlayerState = getActionContextPlayerState();
-    return {
+    const context = {
       solarState,
       playerState: contextPlayerState,
       cardState,
@@ -24464,27 +24627,67 @@
       turnState,
       roundNumber: turnState.roundNumber,
       turnNumber: turnState.turnNumber,
-      getPlayerTokenSrc: (player) => getNormalTokenAssetForPlayer(player),
-      getEarthSectorCoordinate,
-      getPlanetLocations: () => solar.createSolarSnapshot(solarState).planetLocations,
-      rotateSolarOrbit: (count) => rotateSolarOrbit(count),
-      drawBasicCardToPlayer: (player) => drawBasicCardToPlayer(player),
-      drawBasicCard: () => drawCardForCurrentPlayer(),
-      blindDrawCard: (player) => blindDrawCardForPlayer(player),
-      launchRocketAtEarth: (player) => rocketActions.launchRocketAtSector(rocketState, getEarthSectorCoordinate(), {
-        playerId: player.id,
-        color: player.color,
-      }),
-      replenishPublicSlot: (slotIndex) => cards.replenishPublicSlot(cardState, playerState, slotIndex),
-      beginCardSelection: (pendingAction) => beginCardSelection(pendingAction),
-      beginDiscardSelection: (count, pendingAction) => beginDiscardSelection(count, pendingAction),
-      beginIncome: (options) => beginIncomeForCurrentPlayer(options),
-      ensurePlayerTechState: (player) => {
-        if (!player.techState) {
-          player.techState = players.normalizePlayerTechState(null);
-        }
-      },
+      playerTokenSrcMode: "normal",
+      defaultPlayerTokenSrc: "../assets/tokens/normal_token.png",
     };
+    Object.defineProperties(context, {
+      getEarthSectorCoordinate: {
+        enumerable: false,
+        value: () => getEarthSectorCoordinate(),
+      },
+      getPlanetLocations: {
+        enumerable: false,
+        value: () => solar.createSolarSnapshot(solarState).planetLocations,
+      },
+      rotateSolarOrbit: {
+        enumerable: false,
+        value: (count) => rotateSolarOrbit(count),
+      },
+      drawBasicCardToPlayer: {
+        enumerable: false,
+        value: (player) => drawBasicCardToPlayer(player),
+      },
+      drawBasicCard: {
+        enumerable: false,
+        value: () => drawCardForCurrentPlayer(),
+      },
+      blindDrawCard: {
+        enumerable: false,
+        value: (player) => blindDrawCardForPlayer(player),
+      },
+      launchRocketAtEarth: {
+        enumerable: false,
+        value: (player) => rocketActions.launchRocketAtSector(rocketState, getEarthSectorCoordinate(), {
+          playerId: player.id,
+          color: player.color,
+        }),
+      },
+      replenishPublicSlot: {
+        enumerable: false,
+        value: (slotIndex) => cards.replenishPublicSlot(cardState, playerState, slotIndex),
+      },
+      beginCardSelection: {
+        enumerable: false,
+        value: (pendingAction) => beginCardSelection(pendingAction),
+      },
+      beginDiscardSelection: {
+        enumerable: false,
+        value: (count, pendingAction) => beginDiscardSelection(count, pendingAction),
+      },
+      beginIncome: {
+        enumerable: false,
+        value: (options) => beginIncomeForCurrentPlayer(options),
+      },
+      ensurePlayerTechState: {
+        enumerable: false,
+        value: (player) => {
+          if (!player.techState) {
+            player.techState = players.normalizePlayerTechState(null);
+          }
+        },
+      },
+    });
+    return context;
   }
 
   function removeRocketElement(rocketId) {
@@ -27782,6 +27985,7 @@
     planetStatsState,
     techGameState,
     cardState,
+    aiController,
     actionHistory,
     setupSelectionState,
     randomizeAll,

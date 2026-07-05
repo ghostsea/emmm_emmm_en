@@ -7,6 +7,19 @@ const planner = require("./planner");
 const evaluator = require("./evaluator");
 const policy = require("./policy");
 const analytics = require("./battle-analytics");
+const seed = require("./seed");
+const observation = require("./observation");
+const environment = require("./environment");
+const legalActions = require("./legal-actions");
+const dataRecorder = require("./data-recorder");
+const mcts = require("./mcts");
+const belief = require("./belief");
+const policyNetwork = require("./policy-network");
+const valueNetwork = require("./value-network");
+const behaviorCloning = require("./behavior-cloning");
+const selfPlay = require("./self-play");
+const regressionEval = require("./regression-eval");
+const expertTrainedModels = require("./expert-trained-models");
 const appConstants = require("../../app/constants");
 const players = require("../players");
 const initialCards = require("../initial-cards");
@@ -360,6 +373,97 @@ assert.equal(policy.chooseAlienUseOption([
 assert.equal(policy.chooseAlienUseOption([
   { choice: "cancel" },
 ])?.choice, "cancel");
+
+const simpleObservationState = {
+  playerState: {
+    currentPlayerId: "p1",
+    players: [
+      { id: "p1", color: "white", colorLabel: "白", resources: { score: 10 } },
+      { id: "p2", color: "blue", colorLabel: "蓝", resources: { score: 8 } },
+    ],
+  },
+};
+const legalActionEntries = legalActions.buildLegalActionList({ playerState: simpleObservationState.playerState, rocketState: { rockets: [] }, techBoardState: {}, techUiState: {} }, {
+  actionIds: ["launch", "launch", "pass"],
+  canExecute(actionId) {
+    return actionId === "pass"
+      ? { ok: true, message: null }
+      : { ok: false, message: `${actionId} blocked` };
+  },
+});
+assert.deepEqual(legalActionEntries.map((entry) => entry.id), ["launch", "pass"]);
+assert.equal(legalActionEntries[0].available, false);
+assert.equal(legalActionEntries[1].available, true);
+assert.deepEqual(legalActions.buildLegalActionMask({ playerState: simpleObservationState.playerState, rocketState: { rockets: [] }, techBoardState: {}, techUiState: {} }, {
+  actionIds: ["launch", "pass"],
+  canExecute(actionId) {
+    return actionId === "pass"
+      ? { ok: true, message: null }
+      : { ok: false, message: `${actionId} blocked` };
+  },
+}), { launch: false, pass: true });
+
+const seededRandomA = seed.createSeededRandom("alpha");
+const seededRandomB = seed.createSeededRandom("alpha");
+assert.deepEqual(
+  [seededRandomA(), seededRandomA(), seededRandomA()],
+  [seededRandomB(), seededRandomB(), seededRandomB()],
+);
+assert.deepEqual(seed.seededShuffle([1, 2, 3, 4], "alpha"), seed.seededShuffle([1, 2, 3, 4], "alpha"));
+
+const observationState = {
+  turnState: { roundNumber: 2, turnNumber: 4, currentPlayerId: "p1", activePlayerIds: ["p1", "p2"], playerOrder: ["p1", "p2"] },
+  playerState: {
+    currentPlayerId: "p1",
+    players: [
+      { id: "p1", color: "white", colorLabel: "白", resources: { score: 10, credits: 3 }, hand: [{ id: "card-a" }], reservedCards: [{ id: "reserved-a" }], techState: { ownedTiles: { orange1: true } } },
+      { id: "p2", color: "blue", colorLabel: "蓝", resources: { score: 8, credits: 1 }, hand: [{ id: "hidden-card" }], reservedCards: [{ id: "hidden-reserved" }] },
+    ],
+  },
+  cardState: { publicCards: [{ id: "public-card" }], discardPile: [{ id: "discard-card" }] },
+  solarSystem: { wheel: 1 },
+  rockets: [{ id: 1 }],
+  planetStats: { markerCount: 2 },
+  setup: { difficulty: "hard" },
+};
+const obs = observation.buildObservation(observationState, "p1");
+assert.equal(obs.public.roundNumber, 2);
+assert.equal(obs.public.currentPlayerId, "p1");
+assert.equal(obs.public.players[0].handSize, 1);
+assert.equal(obs.private.currentPlayer.hand[0].id, "card-a");
+assert.equal(obs.hidden.opponents[0].handSize, 1);
+assert.equal(obs.hidden.opponents[0].reservedCardCount, 1);
+assert.equal(obs.hidden.currentPlayer.handSize, 1);
+
+const env = environment.createHeadlessEnvironment({
+  seed: "beta",
+  state: observationState,
+  getState() {
+    return this.state;
+  },
+  getCurrentPlayerId() {
+    return this.state.playerState.currentPlayerId;
+  },
+  getLegalActions() {
+    return [{ id: "pass", available: true }];
+  },
+  reset(payload) {
+    this.lastReset = payload;
+    return { ok: true, resetSeed: payload.seed };
+  },
+  step(action, payload) {
+    this.lastStep = { action, payload };
+    return { ok: true, actionId: action.id, playerId: "p1" };
+  },
+});
+const resetResult = env.reset({ seed: "gamma" });
+assert.equal(resetResult.ok, true);
+assert.equal(resetResult.seed, "gamma");
+assert.equal(resetResult.legalActions[0].id, "pass");
+assert.deepEqual(resetResult.legalActionMask, { pass: true });
+const stepResult = env.step({ id: "pass" });
+assert.equal(stepResult.actionId, "pass");
+assert.equal(stepResult.observation.public.currentPlayerId, "p1");
 
 const sampleBattleReport = {
   lastSummary: { ok: false, blocked: true, gameEnded: false, steps: 4, message: "sample" },
@@ -997,5 +1101,422 @@ assert.equal(pulledBackHistory.entries[1].selectedVariant, "baseline");
 assert.equal(pulledBackHistory.entries[1].abVerdict.improved, false);
 assert.ok(pulledBackHistory.targetWeights.tech < tunedOnlyHistory.targetWeights.tech);
 assert.ok(battleSummary.recommendations.some((entry) => entry.id === "score-pass-opportunity-cost"));
+
+const trainingDataset = dataRecorder.buildTrainingDataset(sampleBattleReport, {
+  generatedAt: "2025-01-01T00:00:00.000Z",
+});
+assert.equal(trainingDataset.version, 2);
+assert.equal(trainingDataset.seed, null);
+assert.equal(trainingDataset.generatedAt, "2025-01-01T00:00:00.000Z");
+assert.equal(trainingDataset.sampleCount, 7);
+assert.equal(trainingDataset.samples.length, 7);
+assert.equal(trainingDataset.samples[0].logType, "turn-action");
+assert.equal(trainingDataset.samples[0].policyTarget.id, "launch");
+assert.equal(trainingDataset.samples[0].actionLevel, "turn");
+assert.equal(trainingDataset.samples[0].policyTargetV2.actionLevel, "turn");
+assert.equal(trainingDataset.samples[0].finalScore, 24);
+assert.equal(trainingDataset.samples[0].finalRank, 1);
+assert.equal(trainingDataset.samples[1].playerId, "player-blue");
+assert.equal(trainingDataset.samples[1].finalRank, 2);
+assert.equal(trainingDataset.samples[2].logType, "play-card");
+assert.equal(trainingDataset.samples[2].policyTarget, null);
+assert.equal(trainingDataset.samples[2].details.selected.cardId, "b_25.webp");
+assert.equal(trainingDataset.samples[6].logType, "scan-target");
+
+const filteredTrainingDataset = dataRecorder.buildTrainingDataset(sampleBattleReport, {
+  logTypes: ["turn-action"],
+  seed: "seed-override",
+  generatedAt: "2025-01-01T00:00:00.000Z",
+});
+assert.equal(filteredTrainingDataset.seed, "seed-override");
+assert.equal(filteredTrainingDataset.sampleCount, 2);
+assert.equal(filteredTrainingDataset.samples[0].sampleId, "seed-override:1");
+assert.equal(filteredTrainingDataset.samples[1].sampleId, "seed-override:2");
+
+const trainingSummary = dataRecorder.summarizeTrainingDataset(trainingDataset);
+assert.equal(trainingSummary.sampleCount, 7);
+assert.equal(trainingSummary.byType["turn-action"], 2);
+assert.equal(trainingSummary.byType["play-card"], 1);
+assert.equal(trainingSummary.byPlayer["player-white"], 5);
+assert.equal(trainingSummary.byPlayer["player-blue"], 2);
+assert.equal(trainingSummary.gameEnded, false);
+assert.equal(trainingSummary.blocked, true);
+assert.equal(trainingSummary.ok, false);
+
+const trainingJsonl = dataRecorder.stringifyTrainingDatasetJsonl(filteredTrainingDataset);
+const jsonlLines = trainingJsonl.split("\n");
+assert.equal(jsonlLines.length, 2);
+assert.equal(JSON.parse(jsonlLines[0]).logType, "turn-action");
+assert.equal(JSON.parse(jsonlLines[1]).playerId, "player-blue");
+
+const mctsHooks = {
+  getCurrentPlayerId(state) {
+    return state.currentPlayerId;
+  },
+  getLegalActions(state, playerId) {
+    if (state.turn >= state.maxTurns) return [];
+    if (playerId === "player-a") {
+      return [
+        { id: "boost", available: true },
+        { id: "hold", available: true },
+      ];
+    }
+    return [
+      { id: "block", available: true },
+      { id: "wait", available: true },
+    ];
+  },
+  applyAction(state, action) {
+    const next = {
+      ...state,
+      turn: state.turn + 1,
+      currentPlayerId: state.currentPlayerId === "player-a" ? "player-b" : "player-a",
+      score: state.score,
+    };
+    if (state.currentPlayerId === "player-a") {
+      if (action.id === "boost") next.score += 2;
+      if (action.id === "hold") next.score += 1;
+    } else {
+      if (action.id === "block") next.score -= 1;
+    }
+    return next;
+  },
+  isTerminal(state) {
+    return state.turn >= state.maxTurns;
+  },
+  evaluateState(state) {
+    return state.score;
+  },
+};
+
+const mctsPlanner = mcts.createMctsPlanner({
+  seed: "mcts-sample",
+  simulations: 96,
+  maxDepth: 6,
+  cpuct: 1.4,
+  progressiveWidening: true,
+  progressiveWideningK: 4,
+  rolloutDepth: 4,
+});
+const mctsInitialState = {
+  turn: 0,
+  maxTurns: 4,
+  currentPlayerId: "player-a",
+  score: 0,
+};
+const mctsResultA = mctsPlanner.runSearch(mctsInitialState, mctsHooks, { rootPlayerId: "player-a" });
+assert.equal(mctsResultA.bestAction.id, "boost");
+assert.equal(mctsResultA.simulations, 96);
+assert.ok(mctsResultA.policy.some((entry) => entry.actionId === "boost"));
+assert.ok(mctsResultA.policy.some((entry) => entry.actionId === "hold"));
+assert.equal(mctsResultA.diagnostics.rootVisits, 96);
+assert.ok(mctsResultA.policy.every((entry) => entry.visits >= 0));
+
+const mctsResultB = mctsPlanner.runSearch(mctsInitialState, mctsHooks, { rootPlayerId: "player-a" });
+assert.equal(mctsResultB.bestAction.id, mctsResultA.bestAction.id);
+assert.deepStrictEqual(mctsResultB.policy, mctsResultA.policy);
+
+const mctsResultC = mctsPlanner.runSearch(mctsInitialState, mctsHooks, {
+  rootPlayerId: "player-a",
+  simulations: 20,
+});
+assert.equal(mctsResultC.diagnostics.rootVisits, 20);
+assert.equal(mctsResultC.simulations, 20);
+
+const beliefObservation = {
+  public: {
+    publicCards: [{ cardId: "card-public-1" }],
+    discardPile: [{ cardId: "card-discard-1" }],
+  },
+  private: {
+    currentPlayer: {
+      hand: [{ cardId: "card-hand-1" }],
+      reservedCards: [{ cardId: "card-reserved-1" }],
+    },
+  },
+  hidden: {
+    opponents: [
+      { id: "player-b", handSize: 2, reservedCardCount: 1 },
+      { id: "player-c", handSize: 1, reservedCardCount: 0 },
+    ],
+  },
+};
+const beliefPool = [
+  "card-public-1",
+  "card-discard-1",
+  "card-hand-1",
+  "card-reserved-1",
+  "card-u-1",
+  "card-u-2",
+  "card-u-3",
+  "card-u-4",
+  "card-u-5",
+  "card-u-6",
+];
+const unknownPool = belief.buildUnknownCardPool(beliefObservation, { cardPool: beliefPool });
+assert.equal(unknownPool.length, 6);
+assert.equal(unknownPool.includes("card-hand-1"), false);
+assert.equal(unknownPool.includes("card-u-1"), true);
+
+const beliefSampleA = belief.sampleBeliefState(beliefObservation, {
+  seed: "belief-sample",
+  sampleCount: 3,
+  drawPilePreviewCount: 2,
+  cardPool: beliefPool,
+});
+assert.equal(beliefSampleA.sampleCount, 3);
+assert.equal(beliefSampleA.unknownPoolSize, 6);
+assert.equal(beliefSampleA.samples.length, 3);
+assert.equal(beliefSampleA.samples[0].opponents[0].hand.length, 2);
+assert.equal(beliefSampleA.samples[0].opponents[0].reserved.length, 1);
+assert.equal(beliefSampleA.samples[0].opponents[1].hand.length, 1);
+assert.equal(beliefSampleA.samples[0].drawPilePreview.length, 2);
+
+const beliefSampleB = belief.sampleBeliefState(beliefObservation, {
+  seed: "belief-sample",
+  sampleCount: 3,
+  drawPilePreviewCount: 2,
+  cardPool: beliefPool,
+});
+assert.deepStrictEqual(beliefSampleB.samples, beliefSampleA.samples);
+
+const beliefSummary = belief.summarizeBeliefSamples(beliefSampleA);
+assert.equal(beliefSummary.sampleCount, 3);
+assert.equal(beliefSummary.opponentHandAverages["player-b"].hand, 2);
+assert.equal(beliefSummary.opponentHandAverages["player-c"].hand, 1);
+
+const policyObservation = {
+  public: {
+    roundNumber: 2,
+    turnNumber: 6,
+    currentPlayerId: "player-a",
+    publicCards: [{ cardId: "pc1" }, { cardId: "pc2" }],
+    discardPile: [{ cardId: "dc1" }],
+    rockets: [{ id: "r1" }],
+    players: [
+      { id: "player-a", resources: { score: 14, credits: 5, energy: 3, publicity: 2, availableData: 1 }, handSize: 3, reservedCardCount: 1 },
+      { id: "player-b", resources: { score: 11, credits: 3, energy: 2, publicity: 1, availableData: 0 }, handSize: 2, reservedCardCount: 0 },
+      { id: "player-c", resources: { score: 9, credits: 2, energy: 1, publicity: 1, availableData: 1 }, handSize: 2, reservedCardCount: 0 },
+    ],
+  },
+  private: {
+    currentPlayer: {
+      resources: { score: 14, credits: 5, energy: 3, publicity: 2, availableData: 1, additionalPublicScan: 1 },
+      hand: [{ id: "h1" }, { id: "h2" }, { id: "h3" }],
+      reservedCards: [{ id: "rv1" }],
+    },
+    turnState: { turnCounter: 6, consecutivePasses: 0 },
+  },
+  hidden: {
+    opponents: [{ id: "player-b" }, { id: "player-c" }],
+  },
+};
+const policyCandidates = [
+  { id: "pass", kind: "pass", available: true },
+  { id: "researchTech", kind: "main", available: true },
+  { id: "playCard", kind: "main", available: true },
+  { id: "launch", kind: "main", available: false },
+];
+const policyNet = policyNetwork.createPolicyNetwork({
+  seed: "policy-net-sample",
+  inputSize: 24,
+  hiddenSize: 48,
+  actionEmbeddingSize: 12,
+  temperature: 0.9,
+});
+const policyResultA = policyNet.predict(policyObservation, policyCandidates);
+assert.equal(policyResultA.feature.length, 24);
+assert.equal(policyResultA.probabilities.length, policyCandidates.length);
+assert.equal(policyResultA.probabilities[3], 0);
+const probSumA = policyResultA.probabilities.reduce((sum, value) => sum + value, 0);
+assert.ok(Math.abs(probSumA - 1) < 1e-9);
+assert.ok(policyResultA.bestAction);
+assert.equal(policyResultA.bestAction.available, true);
+
+const policyResultB = policyNet.predict(policyObservation, policyCandidates);
+assert.deepStrictEqual(policyResultB.probabilities, policyResultA.probabilities);
+assert.equal(policyResultB.bestAction.id, policyResultA.bestAction.id);
+
+const policyResultC = policyNetwork.buildActionPriors(policyObservation, policyCandidates, {
+  seed: "policy-net-sample",
+  inputSize: 24,
+  hiddenSize: 48,
+  actionEmbeddingSize: 12,
+  temperature: 0.9,
+});
+assert.deepStrictEqual(policyResultC.probabilities, policyResultA.probabilities);
+
+const valueNet = valueNetwork.createValueNetwork({
+  seed: "value-net-sample",
+  inputSize: 24,
+  hiddenSize: 32,
+  outputScale: 80,
+});
+const valueEvalA = valueNet.evaluate(policyObservation, { playerId: "player-a" });
+assert.equal(valueEvalA.features.length, 24);
+assert.ok(Number.isFinite(valueEvalA.raw));
+assert.ok(Number.isFinite(valueEvalA.value));
+assert.ok(Number.isFinite(valueEvalA.adjustedValue));
+assert.equal(valueEvalA.perspectivePlayerId, "player-a");
+assert.equal(valueEvalA.ranking.length, 3);
+assert.equal(valueEvalA.ranking[0].playerId, "player-a");
+assert.equal(valueEvalA.perspectiveRank, 1);
+
+const valueEvalB = valueNet.evaluate(policyObservation, { playerId: "player-a" });
+assert.equal(valueEvalB.value, valueEvalA.value);
+assert.equal(valueEvalB.adjustedValue, valueEvalA.adjustedValue);
+assert.deepStrictEqual(valueEvalB.ranking, valueEvalA.ranking);
+
+const valueEvalC = valueNetwork.evaluateObservationValue(policyObservation, {
+  seed: "value-net-sample",
+  inputSize: 24,
+  hiddenSize: 32,
+  outputScale: 80,
+  playerId: "player-a",
+});
+assert.equal(valueEvalC.value, valueEvalA.value);
+assert.equal(valueEvalC.adjustedValue, valueEvalA.adjustedValue);
+
+const behaviorCloneRecords = behaviorCloning.extractBehaviorCloneRecords(trainingDataset.samples, {
+  roundBucketSize: 2,
+});
+assert.equal(behaviorCloneRecords.length, 2);
+assert.equal(behaviorCloneRecords[0].targetActionId, "launch");
+assert.equal(behaviorCloneRecords[1].targetActionId, "pass");
+assert.ok(behaviorCloneRecords[0].candidateIds.includes("launch"));
+assert.ok(behaviorCloneRecords[0].candidateIds.includes("playCard"));
+
+const behaviorSummary = behaviorCloning.summarizeBehaviorCloneRecords(behaviorCloneRecords);
+assert.equal(behaviorSummary.count, 2);
+assert.equal(behaviorSummary.byAction.launch, 1);
+assert.equal(behaviorSummary.byAction.pass, 1);
+
+const behaviorTraining = behaviorCloning.trainBehaviorCloneModel(behaviorCloneRecords, {
+  validationRatio: 0,
+  trainedAt: "2026-01-01T00:00:00.000Z",
+});
+assert.equal(behaviorTraining.model.trainRecordCount, 2);
+assert.equal(behaviorTraining.model.validationRecordCount, 0);
+assert.equal(behaviorTraining.metrics.trainCount, 2);
+assert.equal(behaviorTraining.metrics.trainAccuracy, 1);
+
+const behaviorPredictedLaunch = behaviorCloning.predictBehaviorCloneAction(
+  behaviorTraining.model,
+  [{ id: "launch", available: true }, { id: "pass", available: true }],
+  { roundNumber: 0 },
+);
+assert.equal(behaviorPredictedLaunch, "launch");
+
+const behaviorPredictedFallback = behaviorCloning.predictBehaviorCloneAction(
+  behaviorTraining.model,
+  [{ id: "scan", available: true }, { id: "launch", available: true }],
+  { roundNumber: 8 },
+);
+assert.equal(behaviorPredictedFallback, "launch");
+
+const behaviorEval = behaviorCloning.evaluateBehaviorCloneModel(behaviorTraining.model, behaviorCloneRecords);
+assert.equal(behaviorEval.count, 2);
+assert.equal(behaviorEval.accuracy, 1);
+
+const expertModel = expertTrainedModels.getExpertBehaviorCloneModel();
+assert.ok(Number(expertModel.version) >= 1);
+assert.equal(expertModel.roundBucketSize, 1);
+assert.ok(Number(expertModel.metrics.trainAccuracy || 0) >= 0.8);
+const expertPick = behaviorCloning.predictBehaviorCloneAction(
+  expertModel,
+  [{ id: "launch", available: true }, { id: "pass", available: true }, { id: "scan", available: true }],
+  { roundNumber: 1, turnNumber: 1 },
+  { roundBucketSize: 1 },
+);
+assert.ok(["launch", "pass", "scan"].includes(expertPick));
+
+const selfPlayResult = selfPlay.runSelfPlayBatch({
+  runEpisode({ seed, episodeIndex }) {
+    return {
+      lastSummary: {
+        seed,
+        steps: 3 + episodeIndex,
+        ok: true,
+        blocked: false,
+        gameEnded: true,
+      },
+      logs: [
+        {
+          type: "turn-action",
+          playerId: "player-white",
+          roundNumber: 1,
+          turnNumber: 1,
+          details: {
+            action: { id: "launch", kind: "main" },
+            candidates: [{ id: "launch", available: true }, { id: "pass", available: true }],
+          },
+        },
+      ],
+      playerResults: [
+        { playerId: "player-white", finalScore: 10 + episodeIndex },
+        { playerId: "player-blue", finalScore: 8 + episodeIndex },
+      ],
+    };
+  },
+}, {
+  seed: "selfplay-sample",
+  episodeCount: 3,
+  generatedAt: "2026-01-01T00:00:00.000Z",
+});
+assert.equal(selfPlayResult.episodeCount, 3);
+assert.equal(selfPlayResult.episodes.length, 3);
+assert.equal(selfPlayResult.episodes[0].seed, "selfplay-sample:episode-1");
+assert.equal(selfPlayResult.episodes[0].sampleCount, 1);
+assert.equal(selfPlayResult.summary.episodeCount, 3);
+assert.equal(selfPlayResult.summary.completedCount, 3);
+assert.equal(selfPlayResult.summary.blockedCount, 0);
+assert.equal(selfPlayResult.summary.totalSamples, 3);
+assert.equal(selfPlayResult.summary.winnerCounts["player-white"], 3);
+
+const selfPlaySummary = selfPlay.summarizeSelfPlayBatch(selfPlayResult.episodes);
+assert.equal(selfPlaySummary.episodeCount, 3);
+assert.equal(selfPlaySummary.totalSamples, 3);
+
+const baselineBatchSample = {
+  gamesRequested: 2,
+  gamesRun: 2,
+  summary: {
+    blockedGames: 1,
+    averageWinnerScore: 22,
+    actionCategoryRatios: { engine: 0.2 },
+  },
+  samples: [
+    { bugCount: 1, summary: { steps: 20 } },
+    { bugCount: 0, summary: { steps: 18 } },
+  ],
+};
+const tunedBatchSample = {
+  gamesRequested: 2,
+  gamesRun: 2,
+  summary: {
+    blockedGames: 0,
+    averageWinnerScore: 27,
+    actionCategoryRatios: { engine: 0.3 },
+  },
+  samples: [
+    { bugCount: 0, summary: { steps: 16 } },
+    { bugCount: 0, summary: { steps: 15 } },
+  ],
+};
+const baselineMetrics = regressionEval.buildBenchmarkMetrics(baselineBatchSample);
+const tunedMetrics = regressionEval.buildBenchmarkMetrics(tunedBatchSample);
+assert.equal(baselineMetrics.gamesRun, 2);
+assert.equal(baselineMetrics.blockedGames, 1);
+assert.equal(tunedMetrics.blockedGames, 0);
+assert.equal(tunedMetrics.averageWinnerScore, 27);
+
+const regressionComparison = regressionEval.compareBenchmarkRuns(baselineBatchSample, tunedBatchSample);
+assert.equal(regressionComparison.deltas.averageWinnerScore, 5);
+assert.equal(regressionComparison.deltas.blockedGames, -1);
+assert.equal(regressionComparison.verdict.improved, true);
+
+const regressionReport = regressionEval.formatBenchmarkReport(regressionComparison);
+assert.equal(regressionReport.headline, "AI benchmark improved");
+assert.equal(regressionReport.verdict.improved, true);
 
 console.log("ai.test.js: all tests passed");

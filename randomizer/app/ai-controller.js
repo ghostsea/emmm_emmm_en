@@ -33,6 +33,7 @@
       cards,
       cardEffects,
       cardTaskStateModule,
+      initialCards,
       tech,
       data,
       aliens,
@@ -118,6 +119,8 @@
       getPlayerById,
       getPlayerLabelById,
       getPublicScanChoicesForCard,
+      listAiAlienTraceFallbackChoices,
+      applyAiAlienTraceFallbackChoice,
       getRequiredMovePointsForUi,
       getResearchTechSelectionOptions,
       getSectorContentForMove,
@@ -192,6 +195,17 @@
       enabled: false,
       running: false,
       playerIds: [],
+      playerDifficulties: {},
+      defaultDifficulty: "easy",
+      explorationEpsilon: 0,
+      explorationTemperature: 1,
+      mctsRootNoiseEnabled: false,
+      mctsRootNoiseAlpha: 0.3,
+      mctsRootNoiseWeight: 0.25,
+      mctsSimulationsPerMove: null,
+      mctsMaxDepth: null,
+      mctsCpuct: null,
+      mctsRolloutDepth: null,
       logs: [],
       bugs: [],
       bugCounts: {},
@@ -235,6 +249,40 @@
       "industry_helios_income",
       "discard_any_income",
     ]);
+    const aiSeed = root.SetiAISeed || (typeof require === "function" ? require("../game/ai/seed") : null);
+    const AI_DIFFICULTY_PROFILES = Object.freeze({
+      easy: Object.freeze({
+        mode: "legacy",
+        quickBeamWidth: 3,
+        mainBeamWidth: 6,
+        mctsSimulationsPerMove: 0,
+        mctsMaxDepth: 0,
+        mctsCpuct: 0,
+        mctsRolloutDepth: 0,
+        decisionTimeLimitMs: 0,
+      }),
+      normal: Object.freeze({
+        mode: "search",
+        quickBeamWidth: 3,
+        mainBeamWidth: 7,
+        mctsSimulationsPerMove: 64,
+        mctsMaxDepth: 4,
+        mctsCpuct: 1.8,
+        mctsRolloutDepth: 3,
+        decisionTimeLimitMs: 50,
+      }),
+      expert: Object.freeze({
+        mode: "search",
+        quickBeamWidth: 5,
+        mainBeamWidth: 10,
+        mctsSimulationsPerMove: 128,
+        mctsMaxDepth: 6,
+        mctsCpuct: 1.2,
+        mctsRolloutDepth: 0,
+        decisionTimeLimitMs: 250,
+      }),
+    });
+    const FORCE_PURE_RL_MODE = root.SetiForcePureRlMode === true;
     const AI_STRATEGY_WEIGHT_KEYS = Object.freeze([
       "engine",
       "playCard",
@@ -253,6 +301,26 @@
     let aiStrategyWeights = { ...AI_STRATEGY_WEIGHT_DEFAULTS };
     let aiStrategyDemandCache = null;
 
+    function cloneAiLogDetails(value) {
+      if (value == null) return value;
+      try {
+        if (typeof structuredClone === "function") return structuredClone(value);
+      } catch (_error) {
+        // Fall through to JSON-safe serialization.
+      }
+      const seen = new WeakSet();
+      return JSON.parse(JSON.stringify(value, (key, entry) => {
+        if (typeof entry === "function") {
+          return `[Function:${entry.name || "anonymous"}]`;
+        }
+        if (typeof entry === "object" && entry !== null) {
+          if (seen.has(entry)) return "[Circular]";
+          seen.add(entry);
+        }
+        return entry;
+      }));
+    }
+
     function createAiAutoBattleEntry(type, message, details = {}) {
       const currentPlayer = getCurrentPlayer();
       const rawTurnNumber = turnState.turnNumber;
@@ -265,7 +333,7 @@
         playerId: currentPlayer?.id || playerState.currentPlayerId || null,
         playerLabel: currentPlayer?.colorLabel || currentPlayer?.name || null,
         message: String(message || ""),
-        details: structuredClone(details || {}),
+        details: cloneAiLogDetails(details || {}),
         createdAt: new Date().toISOString(),
       };
     }
@@ -285,6 +353,36 @@
       });
       aiAutoBattleState.bugs.push(entry);
       return entry;
+    }
+
+    function logAiMctsSearchTrace(stage, details = {}) {
+      const message = `MCTS ${stage}`;
+      recordAiAutoBattleLog("mcts-search", message, details);
+      if (typeof console !== "undefined" && typeof console.info === "function") {
+        console.info(`[SetiAI][MCTS] ${stage}`, details);
+      }
+      const runtimeLogUrl = String(
+        root.SETI_AI_RUNTIME_LOG_URL
+        || (root.SETI_ENTITY_MODEL_SERVER_URL ? `${root.SETI_ENTITY_MODEL_SERVER_URL}/runtime-log` : "")
+        || "",
+      ).trim();
+      if (runtimeLogUrl && typeof fetch === "function") {
+        fetch(runtimeLogUrl, {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({
+            source: "ai-controller",
+            category: "mcts-search",
+            stage,
+            roundNumber: turnState.roundNumber,
+            turnNumber: turnState.turnNumber,
+            playerId: playerState.currentPlayerId,
+            details,
+          }),
+        }).catch(() => {
+          // Ignore runtime log transport failures.
+        });
+      }
     }
 
     function loadAiStrategyTuningHistory() {
@@ -593,6 +691,18 @@
       return aiAutoBattleState.playerIds.filter((playerId) => getPlayerById(playerId));
     }
 
+    function getAiAutoBattlePlayerDifficulties() {
+      return structuredClone(aiAutoBattleState.playerDifficulties || {});
+    }
+
+    function getAiAutoBattlePlayerDifficulty(playerId = playerState.currentPlayerId) {
+      return normalizeAiDifficulty(
+        aiAutoBattleState.playerDifficulties?.[playerId]
+        || aiAutoBattleState.defaultDifficulty
+        || "easy",
+      );
+    }
+
     function isAiAutoBattlePlayer(playerId = playerState.currentPlayerId) {
       return aiAutoBattleState.enabled
         && getAiAutoBattlePlayerIds().includes(playerId);
@@ -629,11 +739,13 @@
       if (!aiPlayerIds.length) return { ok: false, message: "没有可用的默认电脑玩家" };
       aiAutoBattleState.enabled = true;
       aiAutoBattleState.playerIds = aiPlayerIds;
+      configureAiAutoBattleDifficulties(aiPlayerIds, { difficulty: "expert" });
       aiAutoStepPausedOnBug = false;
       recordAiAutoBattleLog("config", `默认电脑玩家：${aiPlayerIds.map(getPlayerLabelById).join("、")}`, {
         playerIds: aiPlayerIds,
         humanPlayerId: getDefaultHumanPlayerId(),
         mode: "default-human-vs-ai",
+        playerDifficulties: { ...aiAutoBattleState.playerDifficulties },
       });
       return { ok: true, playerIds: [...aiPlayerIds], message: "默认人机对局已配置" };
     }
@@ -670,9 +782,20 @@
       }
       aiAutoBattleState.enabled = true;
       aiAutoBattleState.playerIds = playerIds;
+      const difficultyConfig = configureAiAutoBattleDifficulties(playerIds, options);
       aiAutoStepPausedOnBug = false;
-      recordAiAutoBattleLog("config", `电脑玩家：${playerIds.map(getPlayerLabelById).join("、")}`, { playerIds });
-      return { ok: true, playerIds: [...playerIds], message: "电脑玩家已配置" };
+      recordAiAutoBattleLog("config", `电脑玩家：${playerIds.map((playerId) => `${getPlayerLabelById(playerId)}(${getAiAutoBattlePlayerDifficulty(playerId)})`).join("、")}`, {
+        playerIds,
+        playerDifficulties: difficultyConfig.playerDifficulties,
+        defaultDifficulty: difficultyConfig.defaultDifficulty,
+      });
+      return {
+        ok: true,
+        playerIds: [...playerIds],
+        playerDifficulties: difficultyConfig.playerDifficulties,
+        defaultDifficulty: difficultyConfig.defaultDifficulty,
+        message: "电脑玩家已配置",
+      };
     }
 
     function getPendingAutomationPlayerId() {
@@ -708,13 +831,17 @@
       windowRef.setTimeout(runScheduledAiAutoStep, delay);
     }
 
-    function runScheduledAiAutoStep() {
+    async function runScheduledAiAutoStep() {
       aiAutoStepScheduled = false;
       if (!shouldAutoRunCurrentAiPlayer()) return;
 
       aiAutoStepInProgress = true;
-      const result = runAiAutomationStep();
-      aiAutoStepInProgress = false;
+      let result = null;
+      try {
+        result = await runAiAutomationStepAsync();
+      } finally {
+        aiAutoStepInProgress = false;
+      }
 
       if (result?.blocked || result?.ok === false) {
         aiAutoStepPausedOnBug = true;
@@ -748,6 +875,8 @@
         aiAutoBattleState.lastSummary = null;
       }
       aiAutoBattleState.turnMoveCounts = {};
+      aiAutoBattleState.playerDifficulties = {};
+      aiAutoBattleState.defaultDifficulty = "easy";
       clearTransientStateForRecovery();
       restoreMutableObject(solarState, solar.createBaselineState());
       restoreMutableObject(nebulaDataState, data.createDefaultNebulaDataState());
@@ -777,6 +906,7 @@
         ok: true,
         activePlayerCount,
         playerIds: [...turnState.activePlayerIds],
+        playerDifficulties: { ...aiAutoBattleState.playerDifficulties },
         message: "AI 自动对战新局已重置",
       };
     }
@@ -814,7 +944,50 @@
         if (options.maxMovesPerTurn != null) {
           aiAutoBattleState.maxMovesPerTurn = Math.max(0, Math.round(Number(options.maxMovesPerTurn) || 0));
         }
+        if (options.explorationEpsilon != null) {
+          aiAutoBattleState.explorationEpsilon = Math.max(0, Math.min(1, Number(options.explorationEpsilon) || 0));
+        }
+        if (options.explorationTemperature != null) {
+          aiAutoBattleState.explorationTemperature = Math.max(0.05, Number(options.explorationTemperature) || 1);
+        }
+        if (options.mctsRootNoiseEnabled != null) {
+          aiAutoBattleState.mctsRootNoiseEnabled = Boolean(options.mctsRootNoiseEnabled);
+        }
+        if (options.mctsRootNoiseAlpha != null) {
+          aiAutoBattleState.mctsRootNoiseAlpha = Math.max(1e-8, Number(options.mctsRootNoiseAlpha) || aiAutoBattleState.mctsRootNoiseAlpha);
+        }
+        if (options.mctsRootNoiseWeight != null) {
+          aiAutoBattleState.mctsRootNoiseWeight = Math.max(0, Math.min(1, Number(options.mctsRootNoiseWeight) || aiAutoBattleState.mctsRootNoiseWeight));
+        }
+        if (options.mctsSimulationsPerMove != null || options.simulations != null) {
+          const value = Number(options.mctsSimulationsPerMove ?? options.simulations);
+          aiAutoBattleState.mctsSimulationsPerMove = Math.max(1, Math.round(Number.isFinite(value) ? value : 1));
+        }
+        if (options.mctsMaxDepth != null || options.maxDepth != null) {
+          const value = Number(options.mctsMaxDepth ?? options.maxDepth);
+          aiAutoBattleState.mctsMaxDepth = Math.max(1, Math.round(Number.isFinite(value) ? value : 1));
+        }
+        if (options.mctsCpuct != null || options.cpuct != null) {
+          const value = Number(options.mctsCpuct ?? options.cpuct);
+          aiAutoBattleState.mctsCpuct = Math.max(0.1, Number.isFinite(value) ? value : 1);
+        }
+        if (options.mctsRolloutDepth != null || options.rolloutDepth != null) {
+          const value = Number(options.mctsRolloutDepth ?? options.rolloutDepth);
+          aiAutoBattleState.mctsRolloutDepth = Math.max(0, Math.round(Number.isFinite(value) ? value : 0));
+        }
         const configResult = setAiAutoBattlePlayers(options);
+        const diagnosticModel = ai?.expertTrainedModels?.getExpertBehaviorCloneModel?.()
+          || ai?.expertTrainedModels?.EXPERT_BEHAVIOR_CLONE_MODEL
+          || null;
+        const onnxDiagnostics = ai?.behaviorCloning?.getOnnxRuntimeDiagnostics?.(diagnosticModel, {
+          executionProviders: ["cuda"],
+        }) || null;
+        if (onnxDiagnostics) {
+          recordAiAutoBattleLog("onnx-diagnostics", "ONNX Runtime 诊断", onnxDiagnostics);
+          if (typeof console !== "undefined" && typeof console.info === "function") {
+            console.info("[SetiAI][ONNX]", onnxDiagnostics);
+          }
+        }
         updateActionButtons();
         renderStateReadout();
         return configResult;
@@ -824,6 +997,2396 @@
           scheduleAiAutoStepIfNeeded();
         }
       }
+    }
+
+    function cloneSimulationValue(value) {
+      if (value == null) return value;
+      if (typeof structuredClone === "function") return structuredClone(value);
+      return JSON.parse(JSON.stringify(value));
+    }
+
+    function buildRuleEngineSimulationContext(sourceContext = createActionContext()) {
+      const simContext = {
+        ...sourceContext,
+        solarState: cloneSimulationValue(sourceContext?.solarState || solarState),
+        playerState: cloneSimulationValue(sourceContext?.playerState || playerState),
+        cardState: cloneSimulationValue(sourceContext?.cardState || cardState),
+        rocketState: cloneSimulationValue(sourceContext?.rocketState || rocketState),
+        nebulaDataState: cloneSimulationValue(sourceContext?.nebulaDataState || nebulaDataState),
+        planetStatsState: cloneSimulationValue(sourceContext?.planetStatsState || planetStatsState),
+        alienGameState: cloneSimulationValue(sourceContext?.alienGameState || alienGameState),
+        finalScoringState: cloneSimulationValue(sourceContext?.finalScoringState || finalScoringState),
+        techBoardState: cloneSimulationValue(sourceContext?.techBoardState || techGameState?.board),
+        techUiState: cloneSimulationValue(sourceContext?.techUiState || techGameState?.ui),
+        techGameState: cloneSimulationValue(sourceContext?.techGameState || techGameState),
+        turnState: cloneSimulationValue(sourceContext?.turnState || turnState),
+      };
+
+      simContext.roundNumber = Number(simContext?.turnState?.roundNumber || sourceContext?.roundNumber || turnState.roundNumber || 1);
+      simContext.turnNumber = Number(simContext?.turnState?.turnNumber || sourceContext?.turnNumber || turnState.turnNumber || 1);
+      Object.defineProperties(simContext, {
+        getEarthSectorCoordinate: {
+          enumerable: false,
+          value: () => getEarthSectorCoordinate(),
+        },
+        getPlanetLocations: {
+          enumerable: false,
+          value: () => {
+            const snapshot = solar?.createSolarSnapshot?.(simContext.solarState);
+            return Array.isArray(snapshot?.planetLocations) ? snapshot.planetLocations : [];
+          },
+        },
+        launchRocketAtEarth: {
+          enumerable: false,
+          value: (player) => rocketActions.launchRocketAtSector(
+            simContext.rocketState,
+            simContext.getEarthSectorCoordinate(),
+            {
+              playerId: player.id,
+              color: player.color,
+            },
+          ),
+        },
+        ensurePlayerTechState: {
+          enumerable: false,
+          value: (player) => {
+            if (!player?.techState) {
+              player.techState = players.normalizePlayerTechState(null);
+            }
+          },
+        },
+      });
+
+      if (simContext.techGameState && typeof simContext.techGameState === "object") {
+        simContext.techGameState.board = simContext.techBoardState;
+        simContext.techGameState.ui = simContext.techUiState;
+      }
+      return simContext;
+    }
+
+    function evaluateRuleEngineBoardState(simContext, rootPlayerId) {
+      const evaluator = ai?.evaluator;
+      if (!evaluator?.evaluatePlayerState) return 0;
+      const evalState = {
+        playerState: simContext.playerState,
+        turnState: simContext.turnState,
+        rocketState: simContext.rocketState,
+        planetStats: simContext.planetStatsState,
+        techState: simContext.techGameState,
+        solarSystem: simContext.solarState,
+        finalScoringState: simContext.finalScoringState,
+        alienGameState: simContext.alienGameState,
+        cardEffects,
+        getCardTypeCode,
+      };
+      const rootValue = Number(evaluator.evaluatePlayerState(evalState, rootPlayerId) || 0);
+      const opponents = (simContext?.playerState?.players || []).filter((entry) => entry?.id && entry.id !== rootPlayerId);
+      const opponentValues = opponents
+        .map((entry) => Number(evaluator.evaluatePlayerState(evalState, entry.id) || 0))
+        .filter((entry) => Number.isFinite(entry));
+      const opponentAverage = opponentValues.length
+        ? opponentValues.reduce((sum, value) => sum + value, 0) / opponentValues.length
+        : 0;
+      return (rootValue - opponentAverage) / 100;
+    }
+
+    function getRuleEngineSimCurrentPlayer(simContext, playerId = null) {
+      if (!simContext?.playerState) return null;
+      if (playerId) simContext.playerState.currentPlayerId = playerId;
+      return players.getCurrentPlayer(simContext.playerState);
+    }
+
+    function getRuleEngineSimActivePlayerIds(simContext) {
+      const explicit = Array.isArray(simContext?.turnState?.activePlayerIds)
+        ? simContext.turnState.activePlayerIds.filter(Boolean)
+        : [];
+      if (explicit.length) return explicit;
+      return (simContext?.playerState?.players || [])
+        .map((entry) => entry?.id)
+        .filter(Boolean);
+    }
+
+    function advanceRuleEngineSimTurn(simContext, currentPlayerId) {
+      const activePlayerIds = getRuleEngineSimActivePlayerIds(simContext);
+      if (!activePlayerIds.length) {
+        return {
+          nextPlayerId: currentPlayerId,
+          wrapped: false,
+        };
+      }
+      const currentIndex = Math.max(0, activePlayerIds.indexOf(currentPlayerId));
+      const nextIndex = (currentIndex + 1) % activePlayerIds.length;
+      const wrapped = nextIndex <= currentIndex;
+      const nextPlayerId = activePlayerIds[nextIndex] || activePlayerIds[0];
+      if (simContext?.turnState) {
+        simContext.turnState.turnNumber = Math.max(1, Math.round(Number(simContext.turnState.turnNumber || 1))) + 1;
+        if (wrapped) {
+          simContext.turnState.roundNumber = Math.max(1, Math.round(Number(simContext.turnState.roundNumber || 1))) + 1;
+        }
+      }
+      simContext.roundNumber = Number(simContext?.turnState?.roundNumber || simContext?.roundNumber || 1);
+      simContext.turnNumber = Number(simContext?.turnState?.turnNumber || simContext?.turnNumber || 1);
+      if (simContext?.playerState) simContext.playerState.currentPlayerId = nextPlayerId;
+      return {
+        nextPlayerId,
+        wrapped,
+      };
+    }
+
+    function isRuleEngineMainActionId(actionId) {
+      return actionId === "launch"
+        || actionId === "orbit"
+        || actionId === "land"
+        || actionId === "researchTech"
+        || actionId === "scan"
+        || actionId === "analyze"
+        || actionId === "playCard"
+        || actionId === "pass";
+    }
+
+    function getRuleEngineMovePaymentCardIndex(player) {
+      const hand = Array.isArray(player?.hand) ? player.hand : [];
+      return hand.findIndex((card) => isMovePaymentCard(card));
+    }
+
+    function canRuleEnginePayMoveCost(player, requiredMovePoints = 1) {
+      const required = Math.max(1, Math.round(Number(requiredMovePoints) || 1));
+      let remainingEnergy = Math.max(0, Math.round(Number(player?.resources?.energy) || 0));
+      let remainingMoveCards = Math.max(0, (Array.isArray(player?.hand) ? player.hand : []).filter((card) => isMovePaymentCard(card)).length);
+      for (let index = 0; index < required; index += 1) {
+        if (remainingEnergy > 0) {
+          remainingEnergy -= 1;
+        } else if (remainingMoveCards > 0) {
+          remainingMoveCards -= 1;
+        } else {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function payRuleEngineMoveCost(player, simContext, requiredMovePoints = 1) {
+      const required = Math.max(1, Math.round(Number(requiredMovePoints) || 1));
+      for (let index = 0; index < required; index += 1) {
+        const energy = Math.max(0, Math.round(Number(player?.resources?.energy) || 0));
+        if (energy > 0) {
+          const paid = players.spendResources(player, { energy: 1 });
+          if (!paid?.ok) return paid;
+          continue;
+        }
+        const handIndex = getRuleEngineMovePaymentCardIndex(player);
+        if (handIndex < 0) return { ok: false, message: "移动支付失败：没有可用能量或移动牌" };
+        const discardResult = cards.discardFromHandAtIndex(player, handIndex);
+        if (!discardResult?.ok) return discardResult;
+        cards.addToDiscardPile(simContext.cardState, discardResult.card);
+      }
+      return { ok: true };
+    }
+
+    function applyRuleEnginePlacementBonuses(player, simContext, bonuses = []) {
+      for (const bonus of bonuses || []) {
+        if (!bonus) continue;
+        if (bonus.type === "publicity") players.gainResources(player, { publicity: Math.max(0, Math.round(Number(bonus.publicity) || 0)) });
+        else if (bonus.type === "score") players.gainResources(player, { score: Math.max(0, Math.round(Number(bonus.score) || 0)) });
+        else if (bonus.type === "credits") players.gainResources(player, { credits: Math.max(0, Math.round(Number(bonus.credits) || 0)) });
+        else if (bonus.type === "energy") players.gainResources(player, { energy: Math.max(0, Math.round(Number(bonus.energy) || 0)) });
+        else if (bonus.type === "income") players.gainResources(player, player?.income || {});
+        else if (bonus.type === "choose_card") cards.drawCardsToHand(simContext.cardState, simContext.playerState, player, 1);
+      }
+    }
+
+    function resolveRuleEngineActionParams(actionId, simContext) {
+      const currentPlayer = getRuleEngineSimCurrentPlayer(simContext);
+      if (!actionId || actionId === "pass" || actionId === "end-turn") return null;
+      if (actionId === "launch") return null;
+      if (actionId === "orbit") {
+        const options = actions?.orbit?.getOrbitOptions?.(simContext);
+        if (!options?.ok) return null;
+        return { rocketId: options.defaultRocketId };
+      }
+      if (actionId === "land") {
+        const options = actions?.land?.getLandOptions?.(simContext);
+        if (!options?.ok) return null;
+        return {
+          rocketId: options.defaultRocketId,
+          target: options.defaultTarget || null,
+        };
+      }
+      if (actionId === "researchTech") {
+        const options = actions?.researchTech?.canExecute?.(simContext);
+        const tile = Array.isArray(options?.takeable) ? options.takeable[0] : null;
+        if (!tile) return null;
+        return {
+          tileId: tile.tileId,
+          blueSlot: tile.blueSlot || null,
+        };
+      }
+      if (actionId === "move") {
+        const movable = rocketActions.getMovableTokensForPlayer(simContext.rocketState, currentPlayer?.id);
+        for (const rocket of movable) {
+          for (const direction of AI_MOVE_DIRECTIONS) {
+            const check = rocketActions.canMoveRocket(simContext.rocketState, rocket.id, direction.deltaX, direction.deltaY);
+            if (!check?.ok) continue;
+            const requiredMovePoints = 1;
+            if (!canRuleEnginePayMoveCost(currentPlayer, requiredMovePoints)) continue;
+            return {
+              rocketId: rocket.id,
+              deltaX: direction.deltaX,
+              deltaY: direction.deltaY,
+              requiredMovePoints,
+            };
+          }
+        }
+        return null;
+      }
+      if (actionId === "placeData") {
+        const check = data.canPlaceAnyData?.(currentPlayer);
+        const choice = check?.ok ? (check.choices || [])[0] : null;
+        if (!choice) return null;
+        return {
+          target: choice.target || null,
+          blueSlot: choice.blueSlot ?? null,
+        };
+      }
+      if (actionId === "cardCorner") {
+        const hand = Array.isArray(currentPlayer?.hand) ? currentPlayer.hand : [];
+        for (let handIndex = 0; handIndex < hand.length; handIndex += 1) {
+          const card = hand[handIndex];
+          if (cards.getDiscardActionRewardForCard(card) || cards.getDiscardActionMoveRewardForCard?.(card)) {
+            return { handIndex };
+          }
+        }
+        return null;
+      }
+      if (actionId === "playCard") {
+        const hand = Array.isArray(currentPlayer?.hand) ? currentPlayer.hand : [];
+        for (let handIndex = 0; handIndex < hand.length; handIndex += 1) {
+          const card = hand[handIndex];
+          if (!isAiSupportedHandPlayCard(card)) continue;
+          const cost = getCardPlayCost(card);
+          if (players.canAfford(currentPlayer, cost)) {
+            return { handIndex };
+          }
+        }
+        return null;
+      }
+      if (actionId === "industry") {
+        const industryCard = currentPlayer?.initialSelection?.industry || null;
+        if (!industryCard) return null;
+        return { industryCard };
+      }
+      return null;
+    }
+
+    function executeRuleEngineSimScan(simContext, currentPlayer) {
+      const cost = scanEffects.getStandardScanCost?.(currentPlayer) || scanEffects.SCAN_COST || { credits: 1, energy: 2 };
+      const check = scanEffects.canExecuteScan(currentPlayer, { standardAction: true, cost });
+      if (!check?.ok) return { ok: false, message: check?.message || "扫描条件不满足" };
+      const spend = players.spendResources(currentPlayer, cost);
+      if (!spend?.ok) return spend;
+      const queue = scanEffects.buildScanEffectQueue?.(currentPlayer, {
+        roundNumber: simContext.roundNumber,
+        turnNumber: simContext.turnNumber,
+      }) || [];
+      for (const effect of queue) {
+        const type = String(effect?.type || "");
+        if (
+          type === scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN
+          || type === scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN
+          || type === scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN
+        ) {
+          data.gainData(currentPlayer, { source: "sim_scan_sector" });
+          continue;
+        }
+        if (type === scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN) {
+          const publicSlot = (simContext.cardState?.publicCards || []).findIndex(Boolean);
+          if (publicSlot >= 0) {
+            cards.pickFromPublic(simContext.cardState, simContext.playerState, currentPlayer, publicSlot);
+          }
+          continue;
+        }
+        if (type === scanEffects.EFFECT_TYPES.HAND_SCAN) {
+          if (Array.isArray(currentPlayer?.hand) && currentPlayer.hand.length) {
+            const discard = cards.discardFromHandAtIndex(currentPlayer, 0);
+            if (discard?.ok) cards.addToDiscardPile(simContext.cardState, discard.card);
+          }
+          continue;
+        }
+        if (type === scanEffects.EFFECT_TYPES.SCAN_ACTION_4) {
+          const movable = rocketActions.getMovableTokensForPlayer(simContext.rocketState, currentPlayer?.id);
+          let moved = false;
+          for (const rocket of movable) {
+            for (const direction of AI_MOVE_DIRECTIONS) {
+              const canMove = rocketActions.canMoveRocket(simContext.rocketState, rocket.id, direction.deltaX, direction.deltaY);
+              if (!canMove?.ok) continue;
+              const moveResult = rocketActions.moveRocket(simContext.rocketState, rocket.id, direction.deltaX, direction.deltaY);
+              if (moveResult?.ok) {
+                moved = true;
+                break;
+              }
+            }
+            if (moved) break;
+          }
+          if (!moved && players.canAfford(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY || 1 })) {
+            const earth = simContext.getEarthSectorCoordinate();
+            const launchResult = rocketActions.launchRocketAtSector(simContext.rocketState, earth, {
+              playerId: currentPlayer.id,
+              color: currentPlayer.color,
+            });
+            if (launchResult?.ok) players.spendResources(currentPlayer, { energy: scanEffects.SCAN_ACTION_4_LAUNCH_ENERGY || 1 });
+          }
+        }
+      }
+      return { ok: true };
+    }
+
+    function executeRuleEngineSimCardScanEffect(simContext, currentPlayer, effect, eventSink = null) {
+      const options = effect?.options || {};
+      const repeat = Math.max(1, Math.round(Number(options.repeat || options.count || 1)));
+      const gainData = options.gainData !== false;
+      const type = String(effect?.type || "");
+      const fallbackNebulaId = options.color
+        ? ((cardEffects.NEBULA_IDS_BY_COLOR?.[options.color] || [])[0] || null)
+        : null;
+      const scanNebulaId = options.nebulaId || fallbackNebulaId || null;
+      const scanColor = options.color
+        || (scanNebulaId ? getRuleEngineNebulaColorForCardEvent(scanNebulaId) : null)
+        || null;
+      const scanSectorX = Number.isFinite(Number(options.sectorX))
+        ? Number(options.sectorX)
+        : getRuleEngineNebulaSectorX(simContext, scanNebulaId);
+      if (type === cardEffects.EFFECT_TYPES.PUBLIC_SCAN) {
+        for (let index = 0; index < repeat; index += 1) {
+          const publicSlot = (simContext.cardState?.publicCards || []).findIndex(Boolean);
+          if (publicSlot < 0) break;
+          cards.pickFromPublic(simContext.cardState, simContext.playerState, currentPlayer, publicSlot);
+        }
+        return { ok: true };
+      }
+      if (type === cardEffects.EFFECT_TYPES.HAND_SCAN || type === cardEffects.EFFECT_TYPES.OPTIONAL_DISCARD_SCAN) {
+        for (let index = 0; index < repeat; index += 1) {
+          if (!Array.isArray(currentPlayer?.hand) || !currentPlayer.hand.length) break;
+          const discard = cards.discardFromHandAtIndex(currentPlayer, 0);
+          if (discard?.ok) cards.addToDiscardPile(simContext.cardState, discard.card);
+          if (gainData) data.gainData(currentPlayer, { source: "sim_card_scan_hand" });
+        }
+        return { ok: true };
+      }
+      if (!gainData) return { ok: true };
+      for (let index = 0; index < repeat; index += 1) {
+        data.gainData(currentPlayer, { source: "sim_card_scan" });
+        if (Array.isArray(eventSink)) {
+          eventSink.push({
+            type: "signalMarked",
+            nebulaId: scanNebulaId,
+            sectorX: scanSectorX,
+            playerId: currentPlayer?.id || null,
+            color: scanColor,
+          });
+        }
+      }
+      return { ok: true };
+    }
+
+    function ensureRuleEngineSimCardMoveRewardState(simContext) {
+      if (!Array.isArray(simContext.__simCardEventRewardKeys)) simContext.__simCardEventRewardKeys = [];
+      if (!simContext.__simCardMoveDistinctEvents || typeof simContext.__simCardMoveDistinctEvents !== "object") {
+        simContext.__simCardMoveDistinctEvents = {};
+      }
+      return {
+        keys: simContext.__simCardEventRewardKeys,
+        distinct: simContext.__simCardMoveDistinctEvents,
+      };
+    }
+
+    function isRuleEngineMoveRewardEventMatch(reward = {}, event = {}) {
+      if (String(event?.type || "") !== String(reward?.eventType || "")) return false;
+      const includedPlanetIds = reward.includePlanetIds || reward.planetIds || [];
+      if (Array.isArray(includedPlanetIds) && includedPlanetIds.length && !includedPlanetIds.includes(event?.planetId)) return false;
+      if (Array.isArray(reward.excludePlanetIds) && reward.excludePlanetIds.length && reward.excludePlanetIds.includes(event?.planetId)) return false;
+      return true;
+    }
+
+    function executeRuleEngineSimCardMoveRewardEffect(simContext, currentPlayer, rewardEffect, eventSink = null) {
+      if (!rewardEffect) return { ok: false };
+      const result = executeRuleEngineSimPlayCardEffects(simContext, currentPlayer, null, [rewardEffect], eventSink);
+      return { ok: Boolean(result?.ok) };
+    }
+
+    function executeRuleEngineSimCardMoveEffect(simContext, currentPlayer, effect, eventSink = null) {
+      const options = effect?.options || {};
+      const movePoints = Math.max(1, Math.round(Number(options.movementPoints || options.count || 1)));
+      const allMoveEvents = [];
+      const movePayloads = [];
+      for (let step = 0; step < movePoints; step += 1) {
+        const movable = rocketActions.getMovableTokensForPlayer(simContext.rocketState, currentPlayer?.id);
+        let moved = false;
+        for (const rocket of movable) {
+          for (const direction of AI_MOVE_DIRECTIONS) {
+            const result = abilities?.rocket?.moveProbe
+              ? abilities.rocket.moveProbe(simContext, {
+                rocketId: rocket.id,
+                deltaX: direction.deltaX,
+                deltaY: direction.deltaY,
+                skipCost: true,
+                movementPoints: movePoints,
+                suppressArrivalRewards: Boolean(options.suppressArrivalRewards),
+                ignoreAsteroidRestriction: Boolean(options.ignoreAsteroidRestriction),
+                source: "card_move",
+              })
+              : rocketActions.moveRocket(simContext.rocketState, rocket.id, direction.deltaX, direction.deltaY);
+            if (result?.ok) {
+              if (result?.payload) movePayloads.push(result.payload);
+              if (Array.isArray(result?.events) && result.events.length) {
+                allMoveEvents.push(...result.events);
+              }
+              if (Array.isArray(eventSink) && Array.isArray(result?.events) && result.events.length) {
+                eventSink.push(...result.events.map((event) => ({ ...(event || {}) })));
+              }
+              moved = true;
+              break;
+            }
+          }
+          if (moved) break;
+        }
+        if (!moved) break;
+      }
+      const rewardState = ensureRuleEngineSimCardMoveRewardState(simContext);
+
+      if (options.sameRingReward) {
+        const sameRingKey = `${effect?.id || "card-move"}:same-ring`;
+        if (!rewardState.keys.includes(sameRingKey)) {
+          const hasSameRingMove = movePayloads.some((payload) => {
+            const fromY = payload?.from?.y ?? payload?.geometry?.from?.y;
+            const toY = payload?.to?.y ?? payload?.geometry?.to?.y;
+            const deltaX = Math.abs(Number(payload?.deltaX ?? payload?.geometry?.deltaX ?? 0));
+            return fromY != null && toY != null && Number(fromY) === Number(toY) && deltaX > 0;
+          });
+          if (hasSameRingMove) {
+            const applied = executeRuleEngineSimCardMoveRewardEffect(simContext, currentPlayer, options.sameRingReward, eventSink);
+            if (applied?.ok) rewardState.keys.push(sameRingKey);
+          }
+        }
+      }
+      const afterEventRewards = Array.isArray(options.afterEventRewards) ? options.afterEventRewards : [];
+      for (const reward of afterEventRewards) {
+        if (!allMoveEvents.some((event) => isRuleEngineMoveRewardEventMatch(reward, event))) continue;
+        if (reward.onceKey && rewardState.keys.includes(reward.onceKey)) continue;
+        const applied = executeRuleEngineSimCardMoveRewardEffect(simContext, currentPlayer, reward.effect, eventSink);
+        if (applied?.ok && reward.onceKey) rewardState.keys.push(reward.onceKey);
+      }
+
+      const distinctReward = options.distinctEventReward || null;
+      if (distinctReward?.eventType) {
+        const distinctBy = distinctReward.distinctBy || "planetId";
+        const distinctKey = distinctReward.onceKey || `${effect?.id || "card-move"}:distinct:${distinctReward.eventType}`;
+        if (!rewardState.keys.includes(distinctKey)) {
+          if (!Array.isArray(rewardState.distinct[distinctKey])) rewardState.distinct[distinctKey] = [];
+          const values = rewardState.distinct[distinctKey];
+          for (const event of allMoveEvents) {
+            if (String(event?.type || "") !== String(distinctReward.eventType || "")) continue;
+            const value = event?.[distinctBy];
+            if (value == null) continue;
+            if (!values.includes(value)) values.push(value);
+          }
+          const minCount = Math.max(1, Math.round(Number(distinctReward.minCount) || 1));
+          if (values.length >= minCount) {
+            const applied = executeRuleEngineSimCardMoveRewardEffect(simContext, currentPlayer, distinctReward.effect, eventSink);
+            if (applied?.ok) rewardState.keys.push(distinctKey);
+          }
+        }
+      }
+      return { ok: true };
+    }
+
+    function countRuleEngineOwnedTechByType(player, techType = null) {
+      return Object.keys(player?.techState?.ownedTiles || {})
+        .filter((tileId) => player.techState.ownedTiles[tileId]
+          && !player.techState.disabledTiles?.[tileId]
+          && (!techType || String(tileId).startsWith(techType)))
+        .length;
+    }
+
+    function countRuleEnginePlayerOrbitMarkers(simContext, currentPlayer) {
+      const playerId = currentPlayer?.id;
+      const playerColor = currentPlayer?.color;
+      let total = 0;
+      for (const planetId of planetStats.PLANET_IDS || []) {
+        const markers = planetStats.getPlanetOrbitMarkers(simContext.planetStatsState, planetId) || [];
+        total += markers.filter((marker) => marker?.playerId === playerId || marker?.playerColor === playerColor || marker?.color === playerColor).length;
+      }
+      return total;
+    }
+
+    function countRuleEnginePlayerLandingMarkers(simContext, currentPlayer) {
+      const playerId = currentPlayer?.id;
+      const playerColor = currentPlayer?.color;
+      let total = 0;
+      for (const planetId of planetStats.PLANET_IDS || []) {
+        const markers = planetStats.getPlanetLandingMarkers(simContext.planetStatsState, planetId) || [];
+        total += markers.filter((marker) => marker?.playerId === playerId || marker?.playerColor === playerColor || marker?.color === playerColor).length;
+      }
+      return total;
+    }
+
+    function isRuleEngineCardConditionMet(condition, simContext, currentPlayer) {
+      if (!condition) return true;
+      const type = String(condition.type || "");
+      if (type === "resourceThreshold") {
+        const resource = condition.resource || "score";
+        const count = Math.max(0, Math.round(Number(condition.count || 0)));
+        return Math.max(0, Math.round(Number(currentPlayer?.resources?.[resource]) || 0)) >= count;
+      }
+      if (type === "resourceEquals") {
+        const resource = condition.resource || "score";
+        const count = Math.round(Number(condition.count || 0));
+        return Math.round(Number(currentPlayer?.resources?.[resource]) || 0) === count;
+      }
+      if (type === "techCount") {
+        const count = Math.max(0, Math.round(Number(condition.count || 0)));
+        return countRuleEngineOwnedTechByType(currentPlayer, condition.techType || null) >= count;
+      }
+      if (type === "orbitCount") {
+        const count = Math.max(0, Math.round(Number(condition.count || 0)));
+        return countRuleEnginePlayerOrbitMarkers(simContext, currentPlayer) >= count;
+      }
+      if (type === "landingCount") {
+        const count = Math.max(0, Math.round(Number(condition.count || 0)));
+        return countRuleEnginePlayerLandingMarkers(simContext, currentPlayer) >= count;
+      }
+      if (type === "orbitOrLandCount") {
+        const count = Math.max(0, Math.round(Number(condition.count || 0)));
+        return (countRuleEnginePlayerOrbitMarkers(simContext, currentPlayer)
+          + countRuleEnginePlayerLandingMarkers(simContext, currentPlayer)) >= count;
+      }
+      return false;
+    }
+
+    function applyRuleEngineCardCornerRewardFromCard(simContext, currentPlayer, card, options = {}) {
+      const repeat = Math.max(1, Math.round(Number(options.repeat || 1)));
+      for (let index = 0; index < repeat; index += 1) {
+        const resourceReward = cards.getDiscardActionRewardForCard(card);
+        const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
+        if (resourceReward) {
+          players.gainResources(currentPlayer, resourceReward.gain || {});
+          const dataCount = Math.max(0, Math.round(Number(resourceReward.dataCount) || 0));
+          for (let dataIndex = 0; dataIndex < dataCount; dataIndex += 1) {
+            data.gainData(currentPlayer, { source: options.source || "sim_corner_reward" });
+          }
+        }
+        if (moveReward) {
+          executeRuleEngineSimCardMoveEffect(simContext, currentPlayer, {
+            options: { movementPoints: moveReward.movementPoints || 1 },
+          });
+          if (moveReward.gain && Object.keys(moveReward.gain).length) {
+            players.gainResources(currentPlayer, moveReward.gain);
+          }
+        }
+      }
+      return { ok: true };
+    }
+
+    function executeRuleEngineSimCardDrawThenDiscardAction(simContext, currentPlayer, effect) {
+      const count = Math.max(1, Math.round(Number(effect?.options?.count || 1)));
+      for (let index = 0; index < count; index += 1) {
+        const draw = cards.drawCardsToHand(simContext.cardState, simContext.playerState, currentPlayer, 1);
+        const drawnCard = draw?.cards?.[0] || null;
+        if (!drawnCard) continue;
+        const handIndex = (currentPlayer.hand || []).findIndex((card) => card?.id === drawnCard.id);
+        if (handIndex < 0) continue;
+        const discard = cards.discardFromHandAtIndex(currentPlayer, handIndex);
+        if (!discard?.ok) continue;
+        cards.addToDiscardPile(simContext.cardState, discard.card);
+        applyRuleEngineCardCornerRewardFromCard(simContext, currentPlayer, discard.card, {
+          source: "sim_draw_discard_corner",
+        });
+      }
+      return { ok: true };
+    }
+
+    function ensureRuleEngineEventBonusContainers(simContext) {
+      if (!Array.isArray(simContext?.turnState?.cardTurnEventBonuses)) {
+        simContext.turnState.cardTurnEventBonuses = [];
+      }
+      if (!Array.isArray(simContext.__simFlowEventBonuses)) {
+        simContext.__simFlowEventBonuses = [];
+      }
+      return {
+        turnBonuses: simContext.turnState.cardTurnEventBonuses,
+        flowBonuses: simContext.__simFlowEventBonuses,
+      };
+    }
+
+    function getRuleEngineNebulaColorForCardEvent(nebulaId) {
+      for (const [color, nebulaIds] of Object.entries(cardEffects.NEBULA_IDS_BY_COLOR || {})) {
+        if (Array.isArray(nebulaIds) && nebulaIds.includes(nebulaId)) return color;
+      }
+      return null;
+    }
+
+    function getRuleEngineNebulaSectorX(simContext, nebulaId) {
+      if (!nebulaId) return null;
+      const snapshot = solar?.createSolarSnapshot?.(simContext?.solarState);
+      const nebula = (snapshot?.nebulaLocations || []).find((item) => item?.id === nebulaId) || null;
+      if (!nebula) return null;
+      const x = Number(nebula.x);
+      return Number.isFinite(x) ? x : null;
+    }
+
+    function getRuleEngineCardEventBonusKey(event, bonus) {
+      if (!bonus?.distinctBy) return null;
+      return String(event?.[bonus.distinctBy] ?? "");
+    }
+
+    function getRuleEnginePlayerOwnerKeys(player) {
+      if (endGameScoring?.getPlayerKeys) return endGameScoring.getPlayerKeys(player);
+      return new Set([player?.id, player?.color].filter(Boolean));
+    }
+
+    function ruleEngineMarkerBelongsToPlayer(marker, player) {
+      const keys = getRuleEnginePlayerOwnerKeys(player);
+      return keys.has(marker?.playerId) || keys.has(marker?.color) || keys.has(marker?.playerColor);
+    }
+
+    function normalizeRuleEngineSimEvents(simContext, currentPlayer, events = []) {
+      return (events || []).map((event) => {
+        if (String(event?.type || "") !== "visitPlanet" || !event?.planetId) return event;
+        const hasOwnOrbit = planetStats
+          .getPlanetOrbitMarkers(simContext?.planetStatsState, event.planetId)
+          .some((marker) => ruleEngineMarkerBelongsToPlayer(marker, currentPlayer));
+        return {
+          ...(event || {}),
+          hasOwnOrbit,
+        };
+      });
+    }
+
+    function isRuleEngineEventMatchingBonus(event, bonus) {
+      if (!event || !bonus) return false;
+      if (String(event.type || "") !== String(bonus.eventType || "")) return false;
+      if (bonus.color && getRuleEngineNebulaColorForCardEvent(event.nebulaId) !== bonus.color) return false;
+      const includedPlanetIds = bonus.includePlanetIds || bonus.planetIds || [];
+      if (Array.isArray(includedPlanetIds) && includedPlanetIds.length && !includedPlanetIds.includes(event.planetId)) return false;
+      if (Array.isArray(bonus.excludePlanetIds) && bonus.excludePlanetIds.length && bonus.excludePlanetIds.includes(event.planetId)) return false;
+      if (bonus.requiresOwnOrbit && !event.hasOwnOrbit) return false;
+      return true;
+    }
+
+    function executeRuleEngineRegisterEventBonus(effect, simContext, currentPlayer) {
+      const bonus = {
+        ...(effect?.options?.bonus || {}),
+        id: effect?.id || null,
+        label: effect?.label || "",
+        playerId: currentPlayer?.id || null,
+        usedKeys: [],
+        claimedKeys: Array.isArray(effect?.options?.bonus?.claimedKeys)
+          ? [...effect.options.bonus.claimedKeys]
+          : [],
+      };
+      const containers = ensureRuleEngineEventBonusContainers(simContext);
+      if (bonus.duration === "turn") containers.turnBonuses.push(bonus);
+      else containers.flowBonuses.push(bonus);
+      return { ok: true };
+    }
+
+    function applyRuleEngineEventBonusesForEvent(simContext, currentPlayer, event = {}, eventSink = null) {
+      const containers = ensureRuleEngineEventBonusContainers(simContext);
+      if (!String(event.type || "")) return { ok: true };
+      const allBonuses = [...containers.turnBonuses, ...containers.flowBonuses];
+      for (const bonus of allBonuses) {
+        if (!bonus || bonus.playerId !== currentPlayer?.id) continue;
+        if (!isRuleEngineEventMatchingBonus(event, bonus)) continue;
+
+        const distinctKey = getRuleEngineCardEventBonusKey(event, bonus);
+        if (distinctKey) {
+          if (!Array.isArray(bonus.usedKeys)) bonus.usedKeys = [];
+          if (bonus.usedKeys.includes(distinctKey)) continue;
+          bonus.usedKeys.push(distinctKey);
+        }
+
+        const minCount = Math.max(0, Math.round(Number(bonus.minCount) || 0));
+        if (minCount > 0) {
+          const currentCount = distinctKey ? bonus.usedKeys.length : 1;
+          if (currentCount < minCount) continue;
+          if (!Array.isArray(bonus.claimedKeys)) bonus.claimedKeys = [];
+          const onceKey = bonus.onceKey || `${bonus.id || "card-event-bonus"}:min-count`;
+          if (bonus.claimedKeys.includes(onceKey)) continue;
+          bonus.claimedKeys.push(onceKey);
+        }
+
+        let pendingOnceKey = null;
+        if (minCount <= 0 && bonus.onceKey) {
+          if (!Array.isArray(bonus.claimedKeys)) bonus.claimedKeys = [];
+          if (bonus.claimedKeys.includes(bonus.onceKey)) continue;
+          pendingOnceKey = bonus.onceKey;
+        }
+
+        const rewards = bonus.rewards || [];
+        let appliedReward = false;
+        if (rewards.length) {
+          const result = executeRuleEngineSimPlayCardEffects(simContext, currentPlayer, null, rewards, eventSink);
+          if (!result?.ok) return result;
+          appliedReward = true;
+        }
+        if (appliedReward && pendingOnceKey) bonus.claimedKeys.push(pendingOnceKey);
+      }
+      return { ok: true };
+    }
+
+    function executeRuleEngineSimCardReward(simContext, currentPlayer, reward) {
+      if (!reward) return { ok: true };
+      if (reward.type && reward.options) {
+        return executeRuleEngineSimPlayCardEffects(simContext, currentPlayer, null, [reward]);
+      }
+      const gain = reward.gain || reward.resourceGain || reward;
+      if (gain && typeof gain === "object") {
+        players.gainResources(currentPlayer, gain);
+      }
+      const dataCount = Math.max(0, Math.round(Number(reward.dataCount || reward.availableData || 0)));
+      for (let index = 0; index < dataCount; index += 1) data.gainData(currentPlayer, { source: "sim_card_reward" });
+      const drawCount = Math.max(0, Math.round(Number(reward.drawCount || reward.handSize || 0)));
+      if (drawCount > 0) cards.drawCardsToHand(simContext.cardState, simContext.playerState, currentPlayer, drawCount);
+      return { ok: true };
+    }
+
+    function getRuleEngineSimCompanyBaseIncome(currentPlayer) {
+      const industry = currentPlayer?.initialSelection?.industry || null;
+      const industryEffect = initialCards?.getIndustryEffect?.(industry) || null;
+      return players.normalizeIncome(industryEffect?.baseIncome || null);
+    }
+
+    function countRuleEngineSimAliens(simContext) {
+      return Object.keys(simContext?.alienGameState?.aliens || {}).length;
+    }
+
+    function computeRuleEngineSimProbeLocationReward(simContext, effect, rocket) {
+      const coordinate = rocketActions.getRocketSectorCoordinate(rocket);
+      if (!coordinate) return { dataCount: 0, asteroid: false, adjacentAsteroids: 0 };
+      const content = getSectorContentForMove(coordinate);
+      const asteroid = isAsteroidContent(content);
+      const adjacentAsteroids = [-1, 1].reduce((total, deltaX) => {
+        const adjacent = { x: solar.mod8(coordinate.x + deltaX), y: coordinate.y };
+        return total + (isAsteroidContent(getSectorContentForMove(adjacent)) ? 1 : 0);
+      }, 0);
+      const dataCount = (asteroid ? Math.max(0, Number(effect?.options?.asteroidData) || 0) : 0)
+        + adjacentAsteroids * Math.max(0, Number(effect?.options?.adjacentAsteroidData) || 0);
+      return { dataCount, asteroid, adjacentAsteroids };
+    }
+
+    function countRuleEngineSimHandCornerKinds(currentPlayer) {
+      const counts = { publicity: 0, data: 0, move: 0 };
+      for (const handCard of currentPlayer?.hand || []) {
+        const resourceReward = cards.getDiscardActionRewardForCard(handCard);
+        const moveReward = cards.getDiscardActionMoveRewardForCard?.(handCard);
+        if (moveReward) {
+          counts.move += 1;
+        } else if (Math.max(0, Math.round(Number(resourceReward?.dataCount) || 0)) > 0) {
+          counts.data += 1;
+        } else if (resourceReward?.gain?.publicity) {
+          counts.publicity += 1;
+        }
+      }
+      return counts;
+    }
+
+    function buildRuleEngineSimMarkerRemovalChoices(simContext, currentPlayer, effect) {
+      const owner = effect?.options?.owner || "current";
+      const markerKinds = new Set(effect?.options?.markerKinds || ["orbit", "land"]);
+      const choices = [];
+      const canUseMarker = (marker) => owner === "any" || ruleEngineMarkerBelongsToPlayer(marker, currentPlayer);
+      const planetIds = planetStats.PLANET_IDS || [];
+      for (const planetId of planetIds) {
+        if (markerKinds.has("orbit")) {
+          for (const marker of planetStats.getPlanetOrbitMarkers(simContext.planetStatsState, planetId)) {
+            if (!canUseMarker(marker)) continue;
+            choices.push({ kind: "orbit", planetId, sequence: marker.sequence, marker });
+          }
+        }
+        if (markerKinds.has("land")) {
+          for (const marker of planetStats.getPlanetLandingMarkers(simContext.planetStatsState, planetId)) {
+            if (!canUseMarker(marker)) continue;
+            choices.push({ kind: "land", planetId, sequence: marker.sequence, marker });
+          }
+        }
+        if (markerKinds.has("satelliteLand")) {
+          for (const marker of planetStats.getSatelliteLandingMarkers(simContext.planetStatsState, planetId)) {
+            if (!canUseMarker(marker)) continue;
+            choices.push({ kind: "satelliteLand", planetId, satelliteId: marker.satelliteId, marker });
+          }
+        }
+      }
+      choices.sort((left, right) => {
+        const leftOwn = ruleEngineMarkerBelongsToPlayer(left.marker, currentPlayer);
+        const rightOwn = ruleEngineMarkerBelongsToPlayer(right.marker, currentPlayer);
+        if (owner === "any" && leftOwn !== rightOwn) return Number(leftOwn) - Number(rightOwn);
+        return String(left.planetId || "").localeCompare(String(right.planetId || ""));
+      });
+      return choices;
+    }
+
+    function appendRuleEngineSimEvents(eventSink, events = []) {
+      if (!Array.isArray(eventSink) || !Array.isArray(events) || !events.length) return;
+      eventSink.push(...events.map((event) => ({ ...(event || {}) })));
+    }
+
+    function hasRuleEngineSimEvent(events = [], eventType = "") {
+      return Array.isArray(events)
+        && events.some((event) => String(event?.type || "") === String(eventType || ""));
+    }
+
+    function executeRuleEngineSimPlayCardEffects(simContext, currentPlayer, card, overrideEffects = null, eventSink = null) {
+      const effects = Array.isArray(overrideEffects)
+        ? overrideEffects
+        : (cardEffects.buildPlayEffects?.(card) || []);
+      for (const effect of effects) {
+        const type = String(effect?.type || "");
+        const options = effect?.options || {};
+        if (type === planetRewards.EFFECT_TYPES?.GAIN_RESOURCES || type === "gain_resources") {
+          players.gainResources(currentPlayer, options.gain || {});
+          continue;
+        }
+        if (type === planetRewards.EFFECT_TYPES?.GAIN_DATA || type === "gain_data") {
+          const count = Math.max(1, Math.round(Number(options.count || 1)));
+          for (let index = 0; index < count; index += 1) data.gainData(currentPlayer, { source: "sim_play_effect" });
+          continue;
+        }
+        if (type === "draw_cards") {
+          const count = Math.max(1, Math.round(Number(options.count || 1)));
+          cards.drawCardsToHand(simContext.cardState, simContext.playerState, currentPlayer, count);
+          continue;
+        }
+        if (type === planetRewards.EFFECT_TYPES?.INCOME || type === "income") {
+          players.gainResources(currentPlayer, options.gain || options.income || currentPlayer?.income || {});
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.COUNT_HAND_INCOME_RESOURCE) {
+          const incomeCode = Number(options.incomeCode);
+          const resource = options.resource || "energy";
+          const per = Math.max(0, Number(options.per) || 1);
+          const count = (currentPlayer?.hand || [])
+            .filter((handCard) => Number(cards.getIncomeCodeForCard(handCard)) === incomeCode)
+            .length;
+          const total = Math.max(0, Math.round(count * per));
+          if (total > 0) players.gainResources(currentPlayer, { [resource]: total });
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.COUNT_CURRENT_INCOME_RESOURCE) {
+          const incomeKey = options.incomeKey || "credits";
+          const resource = options.resource || "score";
+          const per = Math.max(0, Number(options.per) || 1);
+          const currentIncomeCount = Math.max(0, Math.round(Number(currentPlayer?.income?.[incomeKey]) || 0));
+          const companyBaseIncome = getRuleEngineSimCompanyBaseIncome(currentPlayer);
+          const baseIncomeCount = Math.max(0, Math.round(Number(companyBaseIncome?.[incomeKey]) || 0));
+          const count = Math.max(0, currentIncomeCount - baseIncomeCount);
+          const total = Math.max(0, Math.round(count * per));
+          if (total > 0) players.gainResources(currentPlayer, { [resource]: total });
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.COUNT_ALIENS_RESOURCE) {
+          const alienCount = countRuleEngineSimAliens(simContext);
+          const gainPerAlien = options.gainPerAlien || {};
+          const gain = {};
+          for (const [resource, amount] of Object.entries(gainPerAlien)) {
+            gain[resource] = Math.max(0, Math.round(Number(amount) || 0)) * alienCount;
+          }
+          if (Object.values(gain).some((value) => Number(value) > 0)) {
+            players.gainResources(currentPlayer, gain);
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.COUNT_HAND_CORNER_MOVE) {
+          const counts = countRuleEngineSimHandCornerKinds(currentPlayer);
+          const moveCount = Math.max(0, counts.move || 0);
+          if (moveCount > 0) {
+            const moveResult = executeRuleEngineSimCardMoveEffect(simContext, currentPlayer, {
+              id: `${effect?.id || "hand-corner"}-move`,
+              options: { movementPoints: moveCount, historyLabel: effect?.label || "手牌角标移动" },
+            }, eventSink);
+            if (!moveResult?.ok) return moveResult;
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD) {
+          const counts = countRuleEngineSimHandCornerKinds(currentPlayer);
+          const scores = [
+            { choice: "publicity", score: Number(counts.publicity || 0) * Number(AI_RESOURCE_VALUES.publicity || 1), count: counts.publicity || 0 },
+            { choice: "data", score: Number(counts.data || 0) * Number(AI_RESOURCE_VALUES.availableData || 1), count: counts.data || 0 },
+            { choice: "move", score: Number(counts.move || 0) * Number(AI_RESOURCE_VALUES.movement || 1), count: counts.move || 0 },
+          ].sort((left, right) => Number(right.score || 0) - Number(left.score || 0));
+          const selected = scores.find((item) => Number(item.count || 0) > 0) || null;
+          if (!selected) continue;
+          if (selected.choice === "publicity") {
+            players.gainResources(currentPlayer, { publicity: selected.count });
+            continue;
+          }
+          if (selected.choice === "data") {
+            for (let index = 0; index < selected.count; index += 1) {
+              data.gainData(currentPlayer, { source: "hand_corner_choice" });
+            }
+            continue;
+          }
+          const moveResult = executeRuleEngineSimCardMoveEffect(simContext, currentPlayer, {
+            id: `${effect?.id || "hand-corner-choice"}-move`,
+            options: { movementPoints: selected.count, historyLabel: effect?.label || "手牌角标奖励" },
+          }, eventSink);
+          if (!moveResult?.ok) return moveResult;
+          continue;
+        }
+        if (type === "launch") {
+          if (actions?.launch?.canExecute?.(simContext)?.ok) {
+            const launchResult = actions.launch.execute(simContext);
+            appendRuleEngineSimEvents(eventSink, launchResult?.events || []);
+            if (launchResult?.ok && !hasRuleEngineSimEvent(launchResult?.events || [], "launch")) {
+              appendRuleEngineSimEvents(eventSink, [{ type: "launch", playerId: currentPlayer?.id || null }]);
+            }
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.CARD_ORBIT) {
+          const optionsOrbit = actions?.orbit?.getOrbitOptions?.(simContext);
+          if (optionsOrbit?.ok) {
+            const orbitResult = actions.orbit.execute(simContext, { rocketId: optionsOrbit.defaultRocketId });
+            appendRuleEngineSimEvents(eventSink, orbitResult?.events || []);
+            if (orbitResult?.ok && !hasRuleEngineSimEvent(orbitResult?.events || [], "orbit")) {
+              appendRuleEngineSimEvents(eventSink, [{
+                type: "orbit",
+                planetId: orbitResult?.planetId || orbitResult?.payload?.planetId || null,
+                playerId: currentPlayer?.id || null,
+              }]);
+            }
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.CARD_LAND) {
+          const optionsLand = actions?.land?.getLandOptions?.(simContext);
+          if (optionsLand?.ok) {
+            const landResult = actions.land.execute(simContext, {
+              rocketId: optionsLand.defaultRocketId,
+              target: optionsLand.defaultTarget || null,
+            });
+            appendRuleEngineSimEvents(eventSink, landResult?.events || []);
+            if (landResult?.ok && !hasRuleEngineSimEvent(landResult?.events || [], "land")) {
+              appendRuleEngineSimEvents(eventSink, [{
+                type: "land",
+                planetId: landResult?.planetId || landResult?.payload?.planetId || null,
+                playerId: currentPlayer?.id || null,
+              }]);
+            }
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.RESEARCH_TECH || type === "research_tech_select" || type === "card_research_tech") {
+          const check = actions?.researchTech?.canExecute?.(simContext);
+          const takeable = Array.isArray(check?.takeable) ? check.takeable : [];
+          if (takeable.length) {
+            const first = takeable[0];
+            const researchResult = actions.researchTech.execute(simContext, {
+              tileId: first.tileId,
+              blueSlot: first.blueSlot || null,
+            });
+            appendRuleEngineSimEvents(eventSink, researchResult?.events || []);
+            if (researchResult?.ok && !hasRuleEngineSimEvent(researchResult?.events || [], "researchTech")) {
+              appendRuleEngineSimEvents(eventSink, [{
+                type: "researchTech",
+                techType: researchResult?.payload?.techType || null,
+                playerId: currentPlayer?.id || null,
+              }]);
+            }
+          }
+          continue;
+        }
+        if (
+          type === cardEffects.EFFECT_TYPES.PUBLIC_SCAN
+          || type === cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN
+          || type === cardEffects.EFFECT_TYPES.SCAN_ACTION
+          || type === cardEffects.EFFECT_TYPES.SCAN_NEBULA
+          || type === cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE
+          || type === cardEffects.EFFECT_TYPES.SECTOR_X_SCAN
+          || type === cardEffects.EFFECT_TYPES.PLANET_SECTOR_SCAN
+          || type === cardEffects.EFFECT_TYPES.CONDITIONAL_SECTOR_SCAN
+          || type === cardEffects.EFFECT_TYPES.LANDING_SECTOR_SCAN
+          || type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN
+          || type === cardEffects.EFFECT_TYPES.HAND_SCAN
+          || type === cardEffects.EFFECT_TYPES.OPTIONAL_DISCARD_SCAN
+        ) {
+          executeRuleEngineSimCardScanEffect(simContext, currentPlayer, effect, eventSink);
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.CARD_MOVE || type === cardEffects.EFFECT_TYPES.FREE_MOVE) {
+          executeRuleEngineSimCardMoveEffect(simContext, currentPlayer, effect, eventSink);
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.PAY_CREDITS_FOR_REWARD) {
+          const creditCost = Math.max(0, Math.round(Number(options.creditCost || options.cost || 1)));
+          if (creditCost <= 0 || players.canAfford(currentPlayer, { credits: creditCost })) {
+            if (creditCost > 0) players.spendResources(currentPlayer, { credits: creditCost });
+            executeRuleEngineSimCardReward(simContext, currentPlayer, options.reward || null);
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.DISCARD_ANY_FOR_INCOME) {
+          if (Array.isArray(currentPlayer?.hand) && currentPlayer.hand.length) {
+            const discard = cards.discardFromHandAtIndex(currentPlayer, 0);
+            if (discard?.ok) {
+              cards.addToDiscardPile(simContext.cardState, discard.card);
+              const incomeGain = cards.getIncomeGainForCard(discard.card);
+              if (incomeGain) {
+                const gain = { ...incomeGain };
+                const dataCount = Math.max(0, Math.round(Number(gain.availableData || 0)));
+                delete gain.availableData;
+                if (Object.keys(gain).length) players.gainResources(currentPlayer, gain);
+                for (let index = 0; index < dataCount; index += 1) data.gainData(currentPlayer, { source: "sim_discard_income" });
+              }
+            }
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT) {
+          const hand = Array.isArray(currentPlayer?.hand) ? currentPlayer.hand : [];
+          const selected = hand.find((card) => (
+            (!options.excludeAlienCards || !isAiAlienMainPlayCard(card))
+            && (cards.getDiscardActionRewardForCard(card) || cards.getDiscardActionMoveRewardForCard?.(card))
+          )) || null;
+          if (selected) {
+            const handIndex = hand.findIndex((card) => card?.id === selected.id);
+            if (handIndex >= 0) {
+              const discard = cards.discardFromHandAtIndex(currentPlayer, handIndex);
+              if (discard?.ok) {
+                cards.addToDiscardPile(simContext.cardState, discard.card);
+                applyRuleEngineCardCornerRewardFromCard(simContext, currentPlayer, discard.card, {
+                  repeat: options.cornerRepeat || options.repeat || 1,
+                  source: "sim_corner_repeat",
+                });
+              }
+            }
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD) {
+          const publicSlot = (simContext.cardState?.publicCards || []).findIndex(Boolean);
+          if (publicSlot >= 0) {
+            const pick = cards.pickFromPublic(simContext.cardState, simContext.playerState, currentPlayer, publicSlot);
+            if (pick?.ok && pick.card) {
+              applyRuleEngineCardCornerRewardFromCard(simContext, currentPlayer, pick.card, {
+                source: "sim_pick_corner",
+              });
+            }
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION) {
+          executeRuleEngineSimCardDrawThenDiscardAction(simContext, currentPlayer, effect);
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.REGISTER_EVENT_BONUS) {
+          executeRuleEngineRegisterEventBonus(effect, simContext, currentPlayer);
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.CONDITIONAL_REWARD) {
+          const met = isRuleEngineCardConditionMet(options.condition || null, simContext, currentPlayer);
+          if (met && Array.isArray(options.rewards) && options.rewards.length) {
+            const result = executeRuleEngineSimPlayCardEffects(simContext, currentPlayer, null, options.rewards, eventSink);
+            if (!result?.ok) return result;
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.RETURN_PLAYED_CARD_TO_HAND_IF) {
+          const met = isRuleEngineCardConditionMet(options.condition || null, simContext, currentPlayer);
+          if (met) {
+            const playedCardId = simContext.__simLastPlayedCardId || null;
+            const discardPile = simContext.cardState?.discardPile || [];
+            const discardIndex = discardPile.findIndex((discardCard) => discardCard?.id === playedCardId);
+            if (discardIndex >= 0) {
+              const [cardToHand] = discardPile.splice(discardIndex, 1);
+              if (cardToHand) {
+                if (!Array.isArray(currentPlayer.hand)) currentPlayer.hand = [];
+                currentPlayer.hand.push(cardToHand);
+              }
+            }
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.COUNT_TECH_TYPES_REWARD) {
+          const count = Math.max(
+            countRuleEngineOwnedTechByType(currentPlayer, "orange"),
+            countRuleEngineOwnedTechByType(currentPlayer, "purple"),
+            countRuleEngineOwnedTechByType(currentPlayer, "blue"),
+          );
+          if (options.reward === "draw") {
+            cards.drawCardsToHand(simContext.cardState, simContext.playerState, currentPlayer, count);
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.COUNT_OWNED_TECH_REWARD) {
+          const count = countRuleEngineOwnedTechByType(currentPlayer, options.techType || null);
+          const total = Math.max(0, Math.round(count * Number(options.per || 1)));
+          if ((options.resource || "") === "data") {
+            for (let index = 0; index < total; index += 1) data.gainData(currentPlayer, { source: "sim_owned_tech_reward" });
+          } else if (total > 0) {
+            players.gainResources(currentPlayer, { [options.resource || "score"]: total });
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.COUNT_ROCKETS_REWARD) {
+          const count = cardEffects.countRocketsForReward(
+            simContext.rocketState?.rockets || [],
+            currentPlayer,
+            options,
+          );
+          const total = Math.max(0, Math.round(count * Number(options.per || 1)));
+          if (total > 0) players.gainResources(currentPlayer, { [options.resource || "energy"]: total });
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.DISCARD_ALL_HAND) {
+          while (Array.isArray(currentPlayer?.hand) && currentPlayer.hand.length) {
+            const discard = cards.discardFromHandAtIndex(currentPlayer, currentPlayer.hand.length - 1);
+            if (!discard?.ok) break;
+            cards.addToDiscardPile(simContext.cardState, discard.card);
+          }
+          if (Array.isArray(options.rewards) && options.rewards.length) {
+            const result = executeRuleEngineSimPlayCardEffects(simContext, currentPlayer, null, options.rewards, eventSink);
+            if (!result?.ok) return result;
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.PROBE_STACK_REWARD) {
+          const match = cardEffects.getProbeStackRewardMatch(
+            simContext.rocketState?.rockets || [],
+            currentPlayer,
+            {
+              getCoordinate: (rocket) => rocketActions.getRocketSectorCoordinate(rocket),
+            },
+          );
+          if (match?.conditionMet && Array.isArray(options.rewards) && options.rewards.length) {
+            const result = executeRuleEngineSimPlayCardEffects(simContext, currentPlayer, null, options.rewards, eventSink);
+            if (!result?.ok) return result;
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER) {
+          const choices = buildRuleEngineSimMarkerRemovalChoices(simContext, currentPlayer, effect);
+          if (!choices.length) {
+            return { ok: false, message: `${effect?.label || "移除标记"}：没有可移除的标记` };
+          }
+          const selected = choices[0];
+          let remove = null;
+          if (selected.kind === "orbit") {
+            remove = planetStats.removePlanetOrbitMarker(simContext.planetStatsState, selected.planetId, {
+              sequence: selected.sequence,
+              ...(effect?.options?.owner === "any" ? {} : { player: currentPlayer }),
+            });
+          } else if (selected.kind === "land") {
+            remove = planetStats.removePlanetLandingMarker(simContext.planetStatsState, selected.planetId, {
+              sequence: selected.sequence,
+              ...(effect?.options?.owner === "any" ? {} : { player: currentPlayer }),
+            });
+          } else if (selected.kind === "satelliteLand") {
+            remove = planetStats.removeSatelliteLandingMarker(simContext.planetStatsState, selected.planetId, selected.satelliteId,
+              effect?.options?.owner === "any" ? {} : { player: currentPlayer });
+          }
+          if (!remove?.ok) return { ok: false, message: remove?.message || "移除标记失败" };
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE) {
+          const orbitChoices = [];
+          for (const planetId of planetStats.PLANET_IDS || []) {
+            for (const marker of planetStats.getPlanetOrbitMarkers(simContext.planetStatsState, planetId)) {
+              if (!ruleEngineMarkerBelongsToPlayer(marker, currentPlayer)) continue;
+              orbitChoices.push({ planetId, sequence: marker.sequence, marker });
+            }
+          }
+          if (!orbitChoices.length) {
+            return { ok: false, message: `${effect?.label || "移除环绕并放置探测器"}：没有可移除的己方环绕标记` };
+          }
+          const selected = orbitChoices[0];
+          const removed = planetStats.removePlanetOrbitMarker(simContext.planetStatsState, selected.planetId, {
+            sequence: selected.sequence,
+            player: currentPlayer,
+          });
+          if (!removed?.ok) return { ok: false, message: removed?.message || "移除环绕失败" };
+          const coordinate = getPlanetSectorCoordinate(selected.planetId);
+          const launch = rocketActions.launchRocketAtSector(simContext.rocketState, coordinate, {
+            playerId: currentPlayer.id,
+            color: currentPlayer.color,
+          });
+          if (!launch?.ok) return { ok: false, message: launch?.message || "放置探测器失败" };
+          if (Array.isArray(eventSink)) {
+            eventSink.push({
+              type: "launch",
+              rocketId: launch?.rocket?.id || null,
+              playerId: currentPlayer?.id || null,
+              source: "card",
+            });
+          }
+          continue;
+        }
+        if (type === cardEffects.EFFECT_TYPES.PROBE_LOCATION_REWARD) {
+          const rockets = (simContext.rocketState?.rockets || [])
+            .filter((rocket) => rocket?.playerId === currentPlayer?.id)
+            .filter((rocket) => rocketActions.getRocketSectorCoordinate(rocket));
+          if (!rockets.length) continue;
+          const scored = rockets.map((rocket) => ({
+            rocket,
+            reward: computeRuleEngineSimProbeLocationReward(simContext, effect, rocket),
+          }));
+          scored.sort((left, right) => (
+            Number(right.reward?.dataCount || 0) - Number(left.reward?.dataCount || 0)
+            || Number(left.rocket?.id || 0) - Number(right.rocket?.id || 0)
+          ));
+          const selected = scored[0];
+          const dataCount = Math.max(0, Math.round(Number(selected?.reward?.dataCount) || 0));
+          for (let index = 0; index < dataCount; index += 1) {
+            data.gainData(currentPlayer, { source: "probe_location_reward" });
+          }
+          continue;
+        }
+        return { ok: false, message: `AI 深度模拟暂不支持效果 '${type || "unknown"}'` };
+      }
+      return { ok: true };
+    }
+
+    function executeRuleEngineSimPlayCard(simContext, currentPlayer, params = {}, eventSink = null) {
+      const handIndex = Number(params.handIndex);
+      if (!Number.isInteger(handIndex)) return { ok: false, message: "打牌缺少手牌索引" };
+      const card = currentPlayer?.hand?.[handIndex] || null;
+      if (!card || !isAiSupportedHandPlayCard(card)) return { ok: false, message: "无效的打牌目标" };
+      const cost = getCardPlayCost(card);
+      const spend = players.spendResources(currentPlayer, cost);
+      if (!spend?.ok) return spend;
+      const removed = cards.discardFromHandAtIndex(currentPlayer, handIndex);
+      if (!removed?.ok) return removed;
+      simContext.__simLastPlayedCardId = removed.card?.id || null;
+      const typeCode = getCardTypeCode(card);
+      const model = cardEffects.getCardModel?.(card) || null;
+      const reservesAfterPlay = doesAiCardReserveAfterPlay(card, typeCode, model);
+      if (reservesAfterPlay) {
+        if (!Array.isArray(currentPlayer.reservedCards)) currentPlayer.reservedCards = [];
+        currentPlayer.reservedCards.push(removed.card);
+      } else {
+        cards.addToDiscardPile(simContext.cardState, removed.card);
+      }
+      simContext.__simCardEventRewardKeys = [];
+      simContext.__simCardMoveDistinctEvents = {};
+      const effectResult = executeRuleEngineSimPlayCardEffects(simContext, currentPlayer, card, null, eventSink);
+      if (!effectResult?.ok) return effectResult;
+      return { ok: true };
+    }
+
+    function executeRuleEngineSimMove(simContext, currentPlayer, params = {}) {
+      const rocketId = Number(params.rocketId);
+      const deltaX = Number(params.deltaX || 0);
+      const deltaY = Number(params.deltaY || 0);
+      const requiredMovePoints = Math.max(1, Math.round(Number(params.requiredMovePoints) || 1));
+      if (!Number.isInteger(rocketId)) return { ok: false, message: "移动缺少火箭" };
+      const canMove = rocketActions.canMoveRocket(simContext.rocketState, rocketId, deltaX, deltaY);
+      if (!canMove?.ok) return canMove;
+      const pay = payRuleEngineMoveCost(currentPlayer, simContext, requiredMovePoints);
+      if (!pay?.ok) return pay;
+      return rocketActions.moveRocket(simContext.rocketState, rocketId, deltaX, deltaY);
+    }
+
+    function executeRuleEngineSimCardCorner(simContext, currentPlayer, params = {}) {
+      const handIndex = Number(params.handIndex);
+      if (!Number.isInteger(handIndex)) return { ok: false, message: "卡牌角标缺少手牌索引" };
+      const card = currentPlayer?.hand?.[handIndex] || null;
+      if (!card) return { ok: false, message: "卡牌角标目标无效" };
+
+      const resourceReward = cards.getDiscardActionRewardForCard(card);
+      const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
+      if (!resourceReward && !moveReward) return { ok: false, message: "该牌没有可执行角标" };
+
+      const removed = cards.discardFromHandAtIndex(currentPlayer, handIndex);
+      if (!removed?.ok) return removed;
+      cards.addToDiscardPile(simContext.cardState, removed.card);
+
+      if (resourceReward) {
+        players.gainResources(currentPlayer, resourceReward.gain || {});
+        const dataCount = Math.max(0, Math.round(Number(resourceReward.dataCount) || 0));
+        for (let index = 0; index < dataCount; index += 1) {
+          data.gainData(currentPlayer, { source: "sim_card_corner" });
+        }
+      }
+
+      if (moveReward) {
+        const movable = rocketActions.getMovableTokensForPlayer(simContext.rocketState, currentPlayer?.id);
+        let moved = false;
+        for (const rocket of movable) {
+          for (const direction of AI_MOVE_DIRECTIONS) {
+            const canMove = rocketActions.canMoveRocket(simContext.rocketState, rocket.id, direction.deltaX, direction.deltaY);
+            if (!canMove?.ok) continue;
+            const result = rocketActions.moveRocket(simContext.rocketState, rocket.id, direction.deltaX, direction.deltaY);
+            if (result?.ok) {
+              moved = true;
+              break;
+            }
+          }
+          if (moved) break;
+        }
+        players.gainResources(currentPlayer, moveReward.gain || {});
+      }
+      return { ok: true };
+    }
+
+    function executeRuleEngineSimPlaceData(simContext, currentPlayer, params = {}) {
+      const result = data.placeDataToComputer(currentPlayer, {
+        target: params.target,
+        blueSlot: params.blueSlot,
+      });
+      if (!result?.ok) return result;
+      applyRuleEnginePlacementBonuses(currentPlayer, simContext, result.slotBonuses || (result.slotBonus ? [result.slotBonus] : []));
+      return result;
+    }
+
+    function executeRuleEngineSimIndustry(simContext, currentPlayer, params = {}) {
+      const industryCard = params.industryCard || currentPlayer?.initialSelection?.industry;
+      if (!industryCard) return { ok: false, message: "没有公司牌" };
+      const check = industry.canMarkIndustryAction?.(currentPlayer, simContext.roundNumber, {
+        turnNumber: simContext.turnNumber,
+        hasMarker: Boolean(industry.getIndustryActionMarkerLayout?.(industryCard)),
+        industryCard,
+      });
+      if (!check?.ok) return check || { ok: false, message: "公司 1x 不可用" };
+      industry.markIndustryAction?.(currentPlayer, simContext.roundNumber, { turnNumber: simContext.turnNumber });
+
+      const definition = industry.getIndustryDefinition?.(industryCard);
+      const abilityId = definition?.activeAbilityId || null;
+      const publicityCost = industry.PUBLICITY_PICK_COST || 2;
+      if (abilityId === "mission_publicity_pick_income" || abilityId === "fenwick_publicity_pick_corner") {
+        if (!players.canAfford(currentPlayer, { publicity: publicityCost })) {
+          return { ok: false, message: "宣传不足，无法执行公司效果" };
+        }
+        players.spendResources(currentPlayer, { publicity: publicityCost });
+        const publicCards = simContext.cardState?.publicCards || [];
+        const slotIndex = publicCards.findIndex(Boolean);
+        if (slotIndex >= 0) cards.pickFromPublic(simContext.cardState, simContext.playerState, currentPlayer, slotIndex);
+      } else if (abilityId === "strategy_pick_card") {
+        const publicCards = simContext.cardState?.publicCards || [];
+        const slotIndex = publicCards.findIndex(Boolean);
+        if (slotIndex >= 0) cards.pickFromPublic(simContext.cardState, simContext.playerState, currentPlayer, slotIndex);
+      }
+
+      industry.buildActiveAbilityFlow?.(currentPlayer, definition?.label || industryCard?.label || "", simContext.roundNumber, simContext.turnNumber);
+      return { ok: true };
+    }
+
+    function buildRuleEngineLegalActions(simState) {
+      const simContext = simState?.simContext;
+      if (!simContext) return [];
+      simContext.playerState.currentPlayerId = simState.currentPlayerId;
+      if (simContext.turnState) simContext.turnState.currentPlayerId = simState.currentPlayerId;
+      simContext.roundNumber = Number(simContext?.turnState?.roundNumber || simContext.roundNumber || 1);
+      simContext.turnNumber = Number(simContext?.turnState?.turnNumber || simContext.turnNumber || 1);
+
+      const currentPlayer = getRuleEngineSimCurrentPlayer(simContext, simState.currentPlayerId);
+      if (!currentPlayer) return [];
+
+      const policyHintByActionId = simState.policyHintByActionId || {};
+      const scoreHintByActionId = simState.scoreHintByActionId || {};
+      const actorIsRoot = simState.currentPlayerId === simState.rootPlayerId;
+      const actionIds = [
+        "launch",
+        "orbit",
+        "land",
+        "researchTech",
+        "scan",
+        "analyze",
+        "playCard",
+        "move",
+        "cardCorner",
+        "industry",
+        "placeData",
+        "pass",
+        "end-turn",
+      ];
+      const legal = [];
+
+      for (const actionId of actionIds) {
+        if (actionId === "end-turn") {
+          if (!simState.pendingActionExecuted) continue;
+          legal.push({
+            id: "end-turn",
+            kind: "end-turn",
+            available: true,
+            params: null,
+            prior: Number(policyHintByActionId["end-turn"] || 0.03),
+            score: actorIsRoot ? Number(scoreHintByActionId["end-turn"] || 0.2) : -Number(scoreHintByActionId["end-turn"] || 0.2),
+          });
+          continue;
+        }
+
+        if (actionId === "pass") {
+          if (simState.pendingActionExecuted) continue;
+          legal.push({
+            id: "pass",
+            kind: "pass",
+            available: true,
+            params: null,
+            prior: Number(policyHintByActionId.pass || 0.1),
+            score: actorIsRoot ? Number(scoreHintByActionId.pass || 0) : -Number(scoreHintByActionId.pass || 0),
+          });
+          continue;
+        }
+
+        let available = false;
+        let params = null;
+
+        if (actionId === "scan") {
+          available = Boolean(scanEffects?.canExecuteScan?.(currentPlayer, { standardAction: true })?.ok);
+        } else if (actionId === "analyze") {
+          available = Boolean(data?.canAnalyzeData?.(currentPlayer)?.ok);
+        } else if (actionId === "playCard") {
+          params = resolveRuleEngineActionParams(actionId, simContext);
+          available = Boolean(params && Number.isInteger(Number(params.handIndex)));
+        } else if (actionId === "move") {
+          params = resolveRuleEngineActionParams(actionId, simContext);
+          available = Boolean(params && Number.isInteger(Number(params.rocketId)));
+        } else if (actionId === "cardCorner") {
+          params = resolveRuleEngineActionParams(actionId, simContext);
+          available = Boolean(params && Number.isInteger(Number(params.handIndex)));
+        } else if (actionId === "placeData") {
+          params = resolveRuleEngineActionParams(actionId, simContext);
+          available = Boolean(params && params.target);
+        } else if (actionId === "industry") {
+          params = resolveRuleEngineActionParams(actionId, simContext);
+          const industryCard = params?.industryCard || null;
+          const industryCheck = industryCard
+            ? industry.canMarkIndustryAction?.(currentPlayer, simContext.roundNumber, {
+              turnNumber: simContext.turnNumber,
+              hasMarker: Boolean(industry.getIndustryActionMarkerLayout?.(industryCard)),
+              industryCard,
+            })
+            : { ok: false };
+          available = Boolean(industryCheck?.ok);
+        } else {
+          const actionModule = actions?.[actionId];
+          if (actionModule?.canExecute) {
+            const check = actionModule.canExecute(simContext, {});
+            available = Boolean(check?.ok);
+            if (available) {
+              params = resolveRuleEngineActionParams(actionId, simContext);
+            }
+          }
+        }
+
+        if (!available) continue;
+
+        if (params == null) {
+          params = resolveRuleEngineActionParams(actionId, simContext);
+        }
+
+        const priorHint = Number(policyHintByActionId[actionId] || 0);
+        const scoreHint = Number(scoreHintByActionId[actionId] || 0);
+        legal.push({
+          id: actionId,
+          kind: isRuleEngineMainActionId(actionId) ? "main" : "quick",
+          available: true,
+          params,
+          prior: actorIsRoot ? priorHint : Math.max(1e-6, 1 - priorHint),
+          score: actorIsRoot ? scoreHint : -scoreHint,
+        });
+      }
+      return legal;
+    }
+
+    function applyRuleEngineSimAction(simState, action) {
+      const nextContext = buildRuleEngineSimulationContext(simState.simContext);
+      nextContext.playerState.currentPlayerId = simState.currentPlayerId;
+      if (nextContext.turnState) nextContext.turnState.currentPlayerId = simState.currentPlayerId;
+      nextContext.roundNumber = Number(nextContext?.turnState?.roundNumber || nextContext.roundNumber || 1);
+      nextContext.turnNumber = Number(nextContext?.turnState?.turnNumber || nextContext.turnNumber || 1);
+      const before = evaluateRuleEngineBoardState(nextContext, simState.rootPlayerId);
+      const currentPlayer = getRuleEngineSimCurrentPlayer(nextContext, simState.currentPlayerId);
+      let execution = { ok: true };
+      const actionId = action?.id || null;
+      let pendingActionExecuted = Boolean(simState.pendingActionExecuted);
+      let nextCurrentPlayerId = simState.currentPlayerId;
+      let passPendingPlayerId = simState.passPendingPlayerId || null;
+      const emittedEvents = [];
+
+      if (!actionId || !currentPlayer) {
+        execution = { ok: false, message: "simulation missing action or player" };
+      } else if (actionId === "pass") {
+        pendingActionExecuted = true;
+        passPendingPlayerId = simState.currentPlayerId;
+      } else if (actionId === "end-turn") {
+        const isPassEndingPlayer = passPendingPlayerId && passPendingPlayerId === simState.currentPlayerId;
+        if (
+          isPassEndingPlayer
+          && Number(nextContext?.turnState?.roundNumber || nextContext.roundNumber || 1) < FINAL_ROUND_NUMBER
+        ) {
+          players.gainResources(currentPlayer, currentPlayer?.income || {});
+        }
+        pendingActionExecuted = false;
+        passPendingPlayerId = null;
+        if (nextContext?.turnState) {
+          nextContext.turnState.cardTurnEventBonuses = [];
+        }
+        nextContext.__simFlowEventBonuses = [];
+        nextCurrentPlayerId = advanceRuleEngineSimTurn(nextContext, simState.currentPlayerId).nextPlayerId;
+      } else if (actionId === "scan") {
+        execution = executeRuleEngineSimScan(nextContext, currentPlayer);
+        if (execution?.ok) {
+          pendingActionExecuted = true;
+          emittedEvents.push({ type: "scanAction" });
+        }
+      } else if (actionId === "analyze") {
+        execution = data.analyzeData(currentPlayer);
+        if (execution?.ok) pendingActionExecuted = true;
+      } else if (actionId === "playCard") {
+        execution = executeRuleEngineSimPlayCard(nextContext, currentPlayer, action?.params || {}, emittedEvents);
+        if (execution?.ok) {
+          pendingActionExecuted = true;
+          emittedEvents.push({ type: "playCard" });
+        }
+      } else if (actionId === "move") {
+        execution = executeRuleEngineSimMove(nextContext, currentPlayer, action?.params || {});
+      } else if (actionId === "cardCorner") {
+        execution = executeRuleEngineSimCardCorner(nextContext, currentPlayer, action?.params || {});
+      } else if (actionId === "placeData") {
+        execution = executeRuleEngineSimPlaceData(nextContext, currentPlayer, action?.params || {});
+      } else if (actionId === "industry") {
+        execution = executeRuleEngineSimIndustry(nextContext, currentPlayer, action?.params || {});
+      } else {
+        const actionModule = actions?.[actionId];
+        if (!actionModule?.execute) {
+          execution = { ok: false, message: `unsupported simulated action '${actionId}'` };
+        } else {
+          execution = actionModule.execute(nextContext, action?.params || {});
+          if (execution?.ok && isRuleEngineMainActionId(actionId)) {
+            pendingActionExecuted = true;
+          }
+        }
+      }
+
+      if (execution?.ok) {
+        if (Array.isArray(execution?.events) && execution.events.length) {
+          emittedEvents.push(...execution.events.map((event) => ({ ...(event || {}) })));
+        }
+        const hasEvent = (eventType) => emittedEvents.some((event) => String(event?.type || "") === eventType);
+        if (actionId === "launch" && !hasEvent("launch")) {
+          emittedEvents.push({ type: "launch", playerId: currentPlayer?.id || null });
+        }
+        if (actionId === "orbit" && !hasEvent("orbit")) {
+          emittedEvents.push({ type: "orbit", playerId: currentPlayer?.id || null });
+        }
+        if (actionId === "land" && !hasEvent("land")) {
+          emittedEvents.push({ type: "land", playerId: currentPlayer?.id || null });
+        }
+        if (actionId === "researchTech" && !hasEvent("researchTech")) {
+          emittedEvents.push({
+            type: "researchTech",
+            techType: execution?.payload?.techType || null,
+            playerId: currentPlayer?.id || null,
+          });
+        }
+        const normalizedEvents = normalizeRuleEngineSimEvents(nextContext, currentPlayer, emittedEvents);
+        for (const event of normalizedEvents) {
+          const bonusResult = applyRuleEngineEventBonusesForEvent(nextContext, currentPlayer, event, emittedEvents);
+          if (!bonusResult?.ok) {
+            execution = bonusResult;
+            break;
+          }
+        }
+      }
+
+      const after = evaluateRuleEngineBoardState(nextContext, simState.rootPlayerId);
+      const actorIsRoot = simState.currentPlayerId === simState.rootPlayerId;
+      const reward = actorIsRoot ? (after - before) : (before - after);
+
+      if (nextContext?.playerState) nextContext.playerState.currentPlayerId = nextCurrentPlayerId;
+      if (nextContext?.turnState) nextContext.turnState.currentPlayerId = nextCurrentPlayerId;
+
+      return {
+        ...simState,
+        simContext: nextContext,
+        currentPlayerId: nextCurrentPlayerId,
+        pendingActionExecuted,
+        passPendingPlayerId,
+        chosenAction: action?.id || null,
+        ply: Number(simState?.ply || 0) + 1,
+        lastTransitionReward: reward,
+        blocked: execution?.ok === false,
+        blockedReason: execution?.ok === false ? (execution?.message || "simulation failed") : null,
+      };
+    }
+
+    function chooseAiTurnActionByDifficulty(candidates = [], graphState = {}, currentPlayer = getCurrentPlayer(), difficulty = "easy") {
+      const normalizedDifficulty = normalizeAiDifficulty(difficulty);
+      const profile = getAiDifficultyProfile(difficulty);
+      const pureRlMode = FORCE_PURE_RL_MODE === true;
+      if (!pureRlMode && (profile.mode === "legacy" || !ai?.planner?.buildTurnPlans)) {
+        return ai?.policy?.chooseTurnAction?.(candidates, {
+          playerState,
+          turnState,
+          currentPlayer,
+        }) || null;
+      }
+
+      const availableCandidates = (candidates || []).filter((candidate) => candidate?.available !== false);
+      if (!availableCandidates.length) return null;
+
+      const observationState = {
+        playerState,
+        turnState,
+        cardState,
+        techState: techGameState,
+        nebulaDataState,
+        alienGameState,
+        finalScoringState,
+        solarState,
+        rocketState,
+        planetStats: planetStatsState,
+        setup: typeof getSetupState === "function" ? getSetupState() : null,
+      };
+      const observation = ai?.observation?.buildObservation?.(observationState, currentPlayer?.id, {
+        hiddenNotes: { source: "runtime-ai" },
+      }) || null;
+      const compactObservation = ai?.observation?.buildCompactEntityObservation?.(observationState, currentPlayer?.id, {
+        decisionContext: {
+          actionLevel: "turn",
+          decisionType: "turn-action",
+        },
+        candidates: availableCandidates,
+      }) || null;
+
+      const priorResult = ai?.policyNetwork?.buildActionPriors?.(observation, availableCandidates, {
+        seed: `${turnState.roundNumber}:${turnState.turnNumber}:${currentPlayer?.id || "ai"}`,
+      }) || null;
+      const valueResult = ai?.valueNetwork?.evaluateObservationValue?.(observation, {
+        seed: `${turnState.roundNumber}:${turnState.turnNumber}:${currentPlayer?.id || "ai"}`,
+        playerId: currentPlayer?.id,
+      }) || null;
+      const requiresTrainedBehaviorModel = normalizedDifficulty === "expert" && !pureRlMode;
+      const trainedBehaviorModel = normalizedDifficulty === "expert"
+        ? ai?.expertTrainedModels?.getExpertBehaviorCloneModel?.()
+          || ai?.expertTrainedModels?.EXPERT_BEHAVIOR_CLONE_MODEL
+          || null
+          : null;
+      const requiresTrainedBehaviorHeads = requiresTrainedBehaviorModel
+        && ["pytorch-entity-transformer-v1", "pytorch-tiny-resnet-v1"].includes(String(trainedBehaviorModel?.modelType || ""));
+      if (requiresTrainedBehaviorModel && !trainedBehaviorModel) {
+        throw new Error(`AI difficulty '${difficulty}' requires a trained behavior model, but none is loaded`);
+      }
+      if (requiresTrainedBehaviorHeads && typeof ai?.behaviorCloning?.evaluateBehaviorCloneHeads !== "function") {
+        throw new Error("SetiAIBehaviorCloning.evaluateBehaviorCloneHeads is required for expert AI");
+      }
+      if (requiresTrainedBehaviorModel && typeof ai?.behaviorCloning?.predictBehaviorCloneAction !== "function") {
+        throw new Error("SetiAIBehaviorCloning.predictBehaviorCloneAction is required for expert AI");
+      }
+      const behaviorModelMeta = trainedBehaviorModel
+        ? {
+          source: "expert",
+          version: Number(trainedBehaviorModel.version || 0),
+          modelType: String(trainedBehaviorModel.modelType || "count-table-v1"),
+          trainedAt: trainedBehaviorModel.trainedAt || null,
+          roundBucketSize: Number(trainedBehaviorModel.roundBucketSize || 0),
+        }
+        : null;
+      const behaviorHeadEval = trainedBehaviorModel && typeof ai?.behaviorCloning?.evaluateBehaviorCloneHeads === "function"
+        ? ai.behaviorCloning.evaluateBehaviorCloneHeads(
+          trainedBehaviorModel,
+          availableCandidates,
+          {
+            roundNumber: turnState.roundNumber,
+            turnNumber: turnState.turnNumber,
+            observation: compactObservation || observation || null,
+          },
+          { roundBucketSize: 1 },
+        )
+        : null;
+      if (requiresTrainedBehaviorHeads && !behaviorHeadEval) {
+        throw new Error(`AI difficulty '${difficulty}' requires trained policy/value head outputs, but evaluation failed`);
+      }
+      const priorById = {};
+      for (let index = 0; index < (availableCandidates || []).length; index += 1) {
+        const candidate = availableCandidates[index];
+        const modelPrior = Number(behaviorHeadEval?.probabilityByActionId?.[candidate.id]);
+        if (requiresTrainedBehaviorHeads && !Number.isFinite(modelPrior)) {
+          throw new Error(`AI difficulty '${difficulty}' missing trained policy probability for action '${candidate.id}'`);
+        }
+        const fallbackPrior = Number(priorResult?.probabilities?.[index] || 0);
+        priorById[candidate.id] = Number.isFinite(modelPrior) ? modelPrior : fallbackPrior;
+      }
+      const behaviorPick = requiresTrainedBehaviorModel
+        ? ai.behaviorCloning.predictBehaviorCloneAction(
+          trainedBehaviorModel,
+          availableCandidates,
+          {
+            roundNumber: turnState.roundNumber,
+            turnNumber: turnState.turnNumber,
+            observation: compactObservation || observation || null,
+          },
+          { roundBucketSize: 1 },
+        )
+        : null;
+      const entityCount = Array.isArray(compactObservation?.compactEntities)
+        ? compactObservation.compactEntities.length
+        : 0;
+      const candidateCount = availableCandidates.length;
+      const maskedCandidateCount = availableCandidates.reduce((count, candidate) => (
+        count + (Number(priorById[candidate.id] || 0) > 0 ? 1 : 0)
+      ), 0);
+      const topPolicy = Object.entries(priorById)
+        .map(([actionId, probability]) => ({ actionId, probability: Number(probability || 0) }))
+        .sort((left, right) => Number(right.probability || 0) - Number(left.probability || 0))
+        .slice(0, 5);
+      const modelValueOffset = Number(behaviorHeadEval?.normalizedValue);
+      if (requiresTrainedBehaviorHeads && !Number.isFinite(modelValueOffset)) {
+        throw new Error(`AI difficulty '${difficulty}' missing trained value-head output`);
+      }
+      const valueOffset = Number.isFinite(modelValueOffset)
+        ? modelValueOffset
+        : Number(valueResult?.normalized || 0);
+      const priorWeight = pureRlMode
+        ? 12
+        : (profile.mctsCpuct || 0) * 10;
+      const pureRlBaseWeight = pureRlMode
+        ? Math.max(0, Math.min(1, Number(profile.pureRlBaseWeight ?? 0.22)))
+        : 1;
+      const baseScored = availableCandidates.map((candidate) => {
+        const baseRaw = Number.isFinite(Number(candidate?.net))
+          ? Number(candidate.net)
+          : Number.isFinite(Number(candidate?.score))
+            ? Number(candidate.score)
+            : 0;
+        const base = pureRlMode
+          ? Math.max(
+            -4,
+            Math.min(4, baseRaw * pureRlBaseWeight * (baseRaw < 0 ? 1.15 : 0.7)),
+          )
+          : baseRaw;
+        const prior = Number(priorById[candidate.id] || 0);
+        const behaviorBoost = behaviorPick && behaviorPick === candidate.id ? 2.5 : 0;
+        return {
+          ...candidate,
+          score: base + prior * priorWeight + valueOffset * 2 + behaviorBoost,
+          prior,
+          behaviorBoost,
+        };
+      });
+
+      const searchConfig = pureRlMode
+        ? {
+          simulations: Math.max(1, aiAutoBattleState.mctsSimulationsPerMove ?? profile.mctsSimulationsPerMove ?? 64),
+          maxDepth: Math.max(1, aiAutoBattleState.mctsMaxDepth ?? profile.mctsMaxDepth ?? 4),
+          cpuct: Math.max(0.1, aiAutoBattleState.mctsCpuct ?? profile.mctsCpuct ?? 1),
+          rolloutDepth: Math.max(0, aiAutoBattleState.mctsRolloutDepth ?? profile.mctsRolloutDepth ?? 0),
+          multiStepScoring: true,
+          valueDiscount: 0.95,
+          stepRewardWeight: 0.75,
+          leafValueWeight: 0.25,
+          selfAggressiveBias: 0.28,
+          selfAggressiveNegativeScale: 0.35,
+          simulatedPlies: 4,
+          rootNoiseEnabled: aiAutoBattleState.mctsRootNoiseEnabled === true,
+          rootNoiseAlpha: aiAutoBattleState.mctsRootNoiseAlpha,
+          rootNoiseWeight: aiAutoBattleState.mctsRootNoiseWeight,
+        }
+        : {
+          simulations: Math.max(1, aiAutoBattleState.mctsSimulationsPerMove ?? profile.mctsSimulationsPerMove ?? 1),
+          maxDepth: Math.max(1, aiAutoBattleState.mctsMaxDepth ?? profile.mctsMaxDepth ?? 1),
+          cpuct: Math.max(0.1, aiAutoBattleState.mctsCpuct ?? profile.mctsCpuct ?? 1),
+          rolloutDepth: Math.max(0, aiAutoBattleState.mctsRolloutDepth ?? profile.mctsRolloutDepth ?? 0),
+          multiStepScoring: true,
+          valueDiscount: 0.93,
+          stepRewardWeight: 0.7,
+          leafValueWeight: 0.3,
+          selfAggressiveBias: 0.18,
+          selfAggressiveNegativeScale: 0.35,
+          simulatedPlies: 3,
+          rootNoiseEnabled: false,
+          rootNoiseAlpha: aiAutoBattleState.mctsRootNoiseAlpha,
+          rootNoiseWeight: aiAutoBattleState.mctsRootNoiseWeight,
+        };
+
+      const plannerSearch = ai?.mcts?.createMctsPlanner?.({
+        seed: `${turnState.roundNumber}:${turnState.turnNumber}:${currentPlayer?.id || "ai"}`,
+        simulations: searchConfig.simulations,
+        maxDepth: searchConfig.maxDepth,
+        cpuct: searchConfig.cpuct,
+        rolloutDepth: searchConfig.rolloutDepth,
+        multiStepScoring: searchConfig.multiStepScoring,
+        valueDiscount: searchConfig.valueDiscount,
+        stepRewardWeight: searchConfig.stepRewardWeight,
+        leafValueWeight: searchConfig.leafValueWeight,
+        selfAggressiveBias: searchConfig.selfAggressiveBias,
+        selfAggressiveNegativeScale: searchConfig.selfAggressiveNegativeScale,
+      });
+      const mctsResult = plannerSearch?.runSearch?.({
+        rootPlayerId: currentPlayer?.id,
+        currentPlayerId: currentPlayer?.id,
+        opponentPlayerId: getActivePlayers().find((player) => player?.id && player.id !== currentPlayer?.id)?.id || `${currentPlayer?.id || "ai"}::opponent`,
+        simContext: buildRuleEngineSimulationContext(createActionContext()),
+        policyHintByActionId: priorById,
+        scoreHintByActionId: baseScored.reduce((map, candidate) => {
+          map[candidate.id] = Number(candidate.score || 0);
+          return map;
+        }, {}),
+        ply: 0,
+        maxSimulatedPlies: searchConfig.simulatedPlies,
+      }, {
+        getCurrentPlayerId(state) {
+          return state.currentPlayerId;
+        },
+        getLegalActions(state) {
+          return buildRuleEngineLegalActions(state);
+        },
+        applyAction(state, action) {
+          return applyRuleEngineSimAction(state, action);
+        },
+        getTransitionReward(_previousState, _action, nextState) {
+          return Number(nextState?.lastTransitionReward || 0);
+        },
+        isTerminal(state) {
+          return Boolean(state?.blocked)
+            || Number(state?.ply || 0) >= Number(state?.maxSimulatedPlies || 3);
+        },
+        evaluateState(state) {
+          const evolvedValue = evaluateRuleEngineBoardState(state?.simContext, state?.rootPlayerId);
+          return (evolvedValue * 0.88) + (valueOffset * 0.12);
+        },
+      }, {
+        rootPlayerId: currentPlayer?.id,
+      }) || null;
+
+      const mctsActionId = mctsResult?.bestAction?.id || null;
+      const mctsCandidate = mctsActionId
+        ? baseScored.find((candidate) => candidate.id === mctsActionId)
+        : null;
+      const selectedCandidate = mctsCandidate || baseScored.sort((left, right) => (
+        Number(right.score || 0) - Number(left.score || 0)
+        || String(left.id || "").localeCompare(String(right.id || ""))
+      ))[0] || null;
+
+      let finalCandidate = selectedCandidate;
+      const explorationEpsilon = Math.max(0, Math.min(1, Number(aiAutoBattleState.explorationEpsilon || 0)));
+      const explorationTemperature = Math.max(0.05, Number(aiAutoBattleState.explorationTemperature || 1));
+      let explorationMeta = null;
+      if (
+        pureRlMode
+        && selectedCandidate
+        && availableCandidates.length > 1
+        && explorationEpsilon > 0
+        && Math.random() < explorationEpsilon
+      ) {
+        const explorationPool = [...baseScored]
+          .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))
+          .slice(0, Math.min(5, baseScored.length));
+        if (explorationPool.length > 1) {
+          const maxScore = explorationPool.reduce((best, candidate) => Math.max(best, Number(candidate.score || 0)), -Infinity);
+          const logits = explorationPool.map((candidate) => (Number(candidate.score || 0) - maxScore) / explorationTemperature);
+          const expValues = logits.map((logit) => Math.exp(Math.max(-60, Math.min(60, logit))));
+          const total = expValues.reduce((sum, value) => sum + value, 0);
+          if (total > 0) {
+            let threshold = Math.random() * total;
+            let pickedIndex = 0;
+            for (let index = 0; index < expValues.length; index += 1) {
+              threshold -= expValues[index];
+              if (threshold <= 0) {
+                pickedIndex = index;
+                break;
+              }
+            }
+            finalCandidate = explorationPool[pickedIndex] || selectedCandidate;
+            explorationMeta = {
+              pickedActionId: finalCandidate?.id || null,
+              selectedActionId: selectedCandidate?.id || null,
+              epsilon: explorationEpsilon,
+              temperature: explorationTemperature,
+              poolSize: explorationPool.length,
+            };
+          }
+        }
+      }
+
+      if (finalCandidate) {
+        return {
+          ...finalCandidate,
+          difficulty: normalizedDifficulty,
+          decisionPlan: {
+            type: pureRlMode ? "pure-rl-mcts" : "mcts-policy-value",
+            profile,
+            pureRlMode,
+            pureRlBaseWeight,
+            modelType: String(behaviorModelMeta?.modelType || "none"),
+            entityCount,
+            candidateCount,
+            maskedCandidateCount,
+            topPolicy,
+            value: Number(valueOffset),
+            mcts: mctsResult,
+            behaviorPick,
+            behaviorHeadSource: behaviorHeadEval?.source || null,
+            behaviorHeadValue: Number.isFinite(Number(behaviorHeadEval?.value)) ? Number(behaviorHeadEval.value) : null,
+            behaviorModelMeta,
+            exploration: explorationMeta,
+          },
+          compactObservation,
+        };
+      }
+
+      const plans = ai.planner.buildTurnPlans(candidates, graphState, currentPlayer?.id, {
+        quickBeamWidth: profile.quickBeamWidth,
+        mainBeamWidth: profile.mainBeamWidth,
+        markedFormulas: graphState.aiMarkedFinalFormulas || [],
+        hasMarkedFinalTile: (graphState.aiMarkedFinalFormulas || []).length > 0,
+      });
+      const bestPlan = plans[0] || null;
+      const bestAction = bestPlan?.firstAction || null;
+      if (!bestAction) return null;
+      return {
+        ...bestAction,
+        difficulty: normalizedDifficulty,
+        decisionPlan: bestPlan,
+        compactObservation,
+      };
+    }
+
+    async function chooseAiTurnActionByDifficultyAsync(candidates = [], graphState = {}, currentPlayer = getCurrentPlayer(), difficulty = "easy") {
+      const normalizedDifficulty = normalizeAiDifficulty(difficulty);
+      const profile = getAiDifficultyProfile(difficulty);
+      const pureRlMode = FORCE_PURE_RL_MODE === true;
+      if (!pureRlMode && (profile.mode === "legacy" || !ai?.planner?.buildTurnPlans)) {
+        logAiMctsSearchTrace("skipped-legacy-path", {
+          difficulty: normalizedDifficulty,
+          pureRlMode,
+          profileMode: profile.mode,
+          plannerAvailable: Boolean(ai?.planner?.buildTurnPlans),
+        });
+        return chooseAiTurnActionByDifficulty(candidates, graphState, currentPlayer, difficulty);
+      }
+
+      const availableCandidates = (candidates || []).filter((candidate) => candidate?.available !== false);
+      if (!availableCandidates.length) {
+        logAiMctsSearchTrace("skipped-no-candidates", {
+          difficulty: normalizedDifficulty,
+          candidateCount: 0,
+        });
+        return null;
+      }
+      const candidateCount = availableCandidates.length;
+
+      const observationState = {
+        playerState,
+        turnState,
+        cardState,
+        techState: techGameState,
+        nebulaDataState,
+        alienGameState,
+        finalScoringState,
+        solarState,
+        rocketState,
+        planetStats: planetStatsState,
+        setup: typeof getSetupState === "function" ? getSetupState() : null,
+      };
+      const observation = ai?.observation?.buildObservation?.(observationState, currentPlayer?.id, {
+        hiddenNotes: { source: "runtime-ai" },
+      }) || null;
+      const compactObservation = ai?.observation?.buildCompactEntityObservation?.(observationState, currentPlayer?.id, {
+        decisionContext: {
+          actionLevel: "turn",
+          decisionType: "turn-action",
+        },
+        candidates: availableCandidates,
+      }) || null;
+
+      const priorResult = ai?.policyNetwork?.buildActionPriors?.(observation, availableCandidates, {
+        seed: `${turnState.roundNumber}:${turnState.turnNumber}:${currentPlayer?.id || "ai"}`,
+      }) || null;
+      const valueResult = ai?.valueNetwork?.evaluateObservationValue?.(observation, {
+        seed: `${turnState.roundNumber}:${turnState.turnNumber}:${currentPlayer?.id || "ai"}`,
+        playerId: currentPlayer?.id,
+      }) || null;
+      const requiresTrainedBehaviorModel = normalizedDifficulty === "expert" && !pureRlMode;
+      const trainedBehaviorModel = normalizedDifficulty === "expert"
+        ? ai?.expertTrainedModels?.getExpertBehaviorCloneModel?.()
+          || ai?.expertTrainedModels?.EXPERT_BEHAVIOR_CLONE_MODEL
+          || null
+          : null;
+      const requiresTrainedBehaviorHeads = requiresTrainedBehaviorModel
+        && ["pytorch-entity-transformer-v1", "pytorch-tiny-resnet-v1"].includes(String(trainedBehaviorModel?.modelType || ""));
+      if (requiresTrainedBehaviorModel && !trainedBehaviorModel) {
+        logAiMctsSearchTrace("error-pre-mcts", {
+          reason: "missing-trained-behavior-model",
+          difficulty: normalizedDifficulty,
+          pureRlMode,
+          candidateCount,
+        });
+        throw new Error(`AI difficulty '${difficulty}' requires a trained behavior model, but none is loaded`);
+      }
+      if (requiresTrainedBehaviorHeads && typeof ai?.behaviorCloning?.evaluateBehaviorCloneHeadsAsync !== "function") {
+        logAiMctsSearchTrace("error-pre-mcts", {
+          reason: "missing-evaluateBehaviorCloneHeadsAsync",
+          difficulty: normalizedDifficulty,
+          pureRlMode,
+          candidateCount,
+          modelType: String(trainedBehaviorModel?.modelType || ""),
+        });
+        throw new Error("SetiAIBehaviorCloning.evaluateBehaviorCloneHeadsAsync is required for Node ONNX AI");
+      }
+      if (requiresTrainedBehaviorModel && typeof ai?.behaviorCloning?.predictBehaviorCloneActionAsync !== "function") {
+        logAiMctsSearchTrace("error-pre-mcts", {
+          reason: "missing-predictBehaviorCloneActionAsync",
+          difficulty: normalizedDifficulty,
+          pureRlMode,
+          candidateCount,
+          modelType: String(trainedBehaviorModel?.modelType || ""),
+        });
+        throw new Error("SetiAIBehaviorCloning.predictBehaviorCloneActionAsync is required for Node ONNX AI");
+      }
+      const behaviorModelMeta = trainedBehaviorModel
+        ? {
+          source: "expert",
+          version: Number(trainedBehaviorModel.version || 0),
+          modelType: String(trainedBehaviorModel.modelType || "count-table-v1"),
+          trainedAt: trainedBehaviorModel.trainedAt || null,
+          roundBucketSize: Number(trainedBehaviorModel.roundBucketSize || 0),
+          onnxFileName: trainedBehaviorModel?.onnx?.fileName || null,
+        }
+        : null;
+      const behaviorModelType = String(trainedBehaviorModel?.modelType || "");
+      const behaviorOnnxOptions = {
+        roundBucketSize: 1,
+        ...(behaviorModelType === "pytorch-entity-transformer-v1" ? { executionProviders: ["cuda"] } : {}),
+      };
+      let behaviorHeadEval = null;
+      if (trainedBehaviorModel && typeof ai?.behaviorCloning?.evaluateBehaviorCloneHeadsAsync === "function") {
+        try {
+          behaviorHeadEval = await ai.behaviorCloning.evaluateBehaviorCloneHeadsAsync(
+            trainedBehaviorModel,
+            availableCandidates,
+            {
+              roundNumber: turnState.roundNumber,
+              turnNumber: turnState.turnNumber,
+              observation: compactObservation || observation || null,
+            },
+            behaviorOnnxOptions,
+          );
+        } catch (error) {
+          logAiMctsSearchTrace("error-pre-mcts", {
+            reason: "behavior-head-eval-throw",
+            difficulty: normalizedDifficulty,
+            pureRlMode,
+            candidateCount,
+            modelType: String(trainedBehaviorModel?.modelType || ""),
+            message: error?.message || String(error),
+            stack: error?.stack || null,
+          });
+          throw error;
+        }
+      }
+      if (requiresTrainedBehaviorHeads && !behaviorHeadEval) {
+        logAiMctsSearchTrace("error-pre-mcts", {
+          reason: "missing-trained-head-eval-result",
+          difficulty: normalizedDifficulty,
+          pureRlMode,
+          candidateCount,
+          modelType: String(trainedBehaviorModel?.modelType || ""),
+        });
+        throw new Error(`AI difficulty '${difficulty}' requires trained policy/value head outputs, but evaluation failed`);
+      }
+      const priorById = {};
+      for (let index = 0; index < (availableCandidates || []).length; index += 1) {
+        const candidate = availableCandidates[index];
+        const modelPrior = Number(behaviorHeadEval?.probabilityByActionId?.[candidate.id]);
+        if (requiresTrainedBehaviorHeads && !Number.isFinite(modelPrior)) {
+          logAiMctsSearchTrace("error-pre-mcts", {
+            reason: "missing-trained-policy-probability",
+            difficulty: normalizedDifficulty,
+            pureRlMode,
+            candidateCount,
+            actionId: candidate.id,
+            modelType: String(trainedBehaviorModel?.modelType || ""),
+          });
+          throw new Error(`AI difficulty '${difficulty}' missing trained policy probability for action '${candidate.id}'`);
+        }
+        const fallbackPrior = Number(priorResult?.probabilities?.[index] || 0);
+        priorById[candidate.id] = Number.isFinite(modelPrior) ? modelPrior : fallbackPrior;
+      }
+      let behaviorPick = null;
+      if (requiresTrainedBehaviorModel) {
+        try {
+          behaviorPick = await ai.behaviorCloning.predictBehaviorCloneActionAsync(
+            trainedBehaviorModel,
+            availableCandidates,
+            {
+              roundNumber: turnState.roundNumber,
+              turnNumber: turnState.turnNumber,
+              observation: compactObservation || observation || null,
+            },
+            behaviorOnnxOptions,
+          );
+        } catch (error) {
+          logAiMctsSearchTrace("error-pre-mcts", {
+            reason: "behavior-action-pick-throw",
+            difficulty: normalizedDifficulty,
+            pureRlMode,
+            candidateCount,
+            modelType: String(trainedBehaviorModel?.modelType || ""),
+            message: error?.message || String(error),
+            stack: error?.stack || null,
+          });
+          throw error;
+        }
+      }
+      const entityCount = Array.isArray(compactObservation?.compactEntities)
+        ? compactObservation.compactEntities.length
+        : 0;
+      const maskedCandidateCount = availableCandidates.reduce((count, candidate) => (
+        count + (Number(priorById[candidate.id] || 0) > 0 ? 1 : 0)
+      ), 0);
+      const topPolicy = Object.entries(priorById)
+        .map(([actionId, probability]) => ({ actionId, probability: Number(probability || 0) }))
+        .sort((left, right) => Number(right.probability || 0) - Number(left.probability || 0))
+        .slice(0, 5);
+      const modelValueOffset = Number(behaviorHeadEval?.normalizedValue);
+      if (requiresTrainedBehaviorHeads && !Number.isFinite(modelValueOffset)) {
+        logAiMctsSearchTrace("error-pre-mcts", {
+          reason: "missing-trained-value-head-output",
+          difficulty: normalizedDifficulty,
+          pureRlMode,
+          candidateCount,
+          modelType: String(trainedBehaviorModel?.modelType || ""),
+          normalizedValue: behaviorHeadEval?.normalizedValue,
+        });
+        throw new Error(`AI difficulty '${difficulty}' missing trained value-head output`);
+      }
+      const valueOffset = Number.isFinite(modelValueOffset)
+        ? modelValueOffset
+        : Number(valueResult?.normalized || 0);
+      const priorWeight = pureRlMode
+        ? 12
+        : (profile.mctsCpuct || 0) * 10;
+      const pureRlBaseWeight = pureRlMode
+        ? Math.max(0, Math.min(1, Number(profile.pureRlBaseWeight ?? 0.22)))
+        : 1;
+      const baseScored = availableCandidates.map((candidate) => {
+        const baseRaw = Number.isFinite(Number(candidate?.net))
+          ? Number(candidate.net)
+          : Number.isFinite(Number(candidate?.score))
+            ? Number(candidate.score)
+            : 0;
+        const base = pureRlMode
+          ? Math.max(
+            -4,
+            Math.min(4, baseRaw * pureRlBaseWeight * (baseRaw < 0 ? 1.15 : 0.7)),
+          )
+          : baseRaw;
+        const prior = Number(priorById[candidate.id] || 0);
+        const behaviorBoost = behaviorPick && behaviorPick === candidate.id ? 2.5 : 0;
+        return {
+          ...candidate,
+          score: base + prior * priorWeight + valueOffset * 2 + behaviorBoost,
+          prior,
+          behaviorBoost,
+        };
+      });
+
+      const searchConfig = pureRlMode
+        ? {
+          simulations: Math.max(1, aiAutoBattleState.mctsSimulationsPerMove ?? profile.mctsSimulationsPerMove ?? 64),
+          maxDepth: Math.max(1, aiAutoBattleState.mctsMaxDepth ?? profile.mctsMaxDepth ?? 4),
+          cpuct: Math.max(0.1, aiAutoBattleState.mctsCpuct ?? profile.mctsCpuct ?? 1),
+          rolloutDepth: Math.max(0, aiAutoBattleState.mctsRolloutDepth ?? profile.mctsRolloutDepth ?? 0),
+          multiStepScoring: true,
+          valueDiscount: 0.95,
+          stepRewardWeight: 0.75,
+          leafValueWeight: 0.25,
+          selfAggressiveBias: 0.28,
+          selfAggressiveNegativeScale: 0.35,
+          simulatedPlies: 4,
+          rootNoiseEnabled: aiAutoBattleState.mctsRootNoiseEnabled === true,
+          rootNoiseAlpha: aiAutoBattleState.mctsRootNoiseAlpha,
+          rootNoiseWeight: aiAutoBattleState.mctsRootNoiseWeight,
+        }
+        : {
+          simulations: Math.max(1, aiAutoBattleState.mctsSimulationsPerMove ?? profile.mctsSimulationsPerMove ?? 1),
+          maxDepth: Math.max(1, aiAutoBattleState.mctsMaxDepth ?? profile.mctsMaxDepth ?? 1),
+          cpuct: Math.max(0.1, aiAutoBattleState.mctsCpuct ?? profile.mctsCpuct ?? 1),
+          rolloutDepth: Math.max(0, aiAutoBattleState.mctsRolloutDepth ?? profile.mctsRolloutDepth ?? 0),
+          multiStepScoring: true,
+          valueDiscount: 0.93,
+          stepRewardWeight: 0.7,
+          leafValueWeight: 0.3,
+          selfAggressiveBias: 0.18,
+          selfAggressiveNegativeScale: 0.35,
+          simulatedPlies: 3,
+          rootNoiseEnabled: false,
+          rootNoiseAlpha: aiAutoBattleState.mctsRootNoiseAlpha,
+          rootNoiseWeight: aiAutoBattleState.mctsRootNoiseWeight,
+        };
+      const alphaZeroEntityMcts = behaviorModelType === "pytorch-entity-transformer-v1";
+      if (alphaZeroEntityMcts) {
+        searchConfig.rolloutDepth = 0;
+        searchConfig.leafValueWeight = 1;
+      }
+
+      logAiMctsSearchTrace("enter", {
+        difficulty: normalizedDifficulty,
+        pureRlMode,
+        alphaZeroEntityMcts,
+        candidateCount,
+        maskedCandidateCount,
+        searchConfig,
+      });
+
+      const plannerSearch = ai?.mcts?.createMctsPlanner?.({
+        seed: `${turnState.roundNumber}:${turnState.turnNumber}:${currentPlayer?.id || "ai"}`,
+        simulations: searchConfig.simulations,
+        maxDepth: searchConfig.maxDepth,
+        cpuct: searchConfig.cpuct,
+        rolloutDepth: searchConfig.rolloutDepth,
+        multiStepScoring: searchConfig.multiStepScoring,
+        valueDiscount: searchConfig.valueDiscount,
+        stepRewardWeight: searchConfig.stepRewardWeight,
+        leafValueWeight: searchConfig.leafValueWeight,
+        selfAggressiveBias: searchConfig.selfAggressiveBias,
+        selfAggressiveNegativeScale: searchConfig.selfAggressiveNegativeScale,
+      });
+      const initialMctsState = {
+        rootPlayerId: currentPlayer?.id,
+        currentPlayerId: currentPlayer?.id,
+        opponentPlayerId: getActivePlayers().find((player) => player?.id && player.id !== currentPlayer?.id)?.id || `${currentPlayer?.id || "ai"}::opponent`,
+        simContext: buildRuleEngineSimulationContext(createActionContext()),
+        policyHintByActionId: priorById,
+        scoreHintByActionId: baseScored.reduce((map, candidate) => {
+          map[candidate.id] = Number(candidate.score || 0);
+          return map;
+        }, {}),
+        ply: 0,
+        maxSimulatedPlies: searchConfig.simulatedPlies,
+      };
+      const mctsHooks = {
+        getCurrentPlayerId(state) {
+          return state.currentPlayerId;
+        },
+        getLegalActions(state) {
+          return buildRuleEngineLegalActions(state);
+        },
+        applyAction(state, action) {
+          return applyRuleEngineSimAction(state, action);
+        },
+        getTransitionReward(_previousState, _action, nextState) {
+          return Number(nextState?.lastTransitionReward || 0);
+        },
+        isTerminal(state) {
+          return Boolean(state?.blocked)
+            || Number(state?.ply || 0) >= Number(state?.maxSimulatedPlies || 3);
+        },
+        evaluateState(state) {
+          const evolvedValue = evaluateRuleEngineBoardState(state?.simContext, state?.rootPlayerId);
+          return (evolvedValue * 0.88) + (valueOffset * 0.12);
+        },
+        async evaluateNodeAsync(state, nodeCandidates) {
+          if (!alphaZeroEntityMcts) return null;
+          if (Number(state?.ply || 0) === 0 && behaviorHeadEval) {
+            return {
+              ...behaviorHeadEval,
+              source: "entity-transformer-onnx-mcts-cuda-root",
+            };
+          }
+          const simContext = state?.simContext || {};
+          const actorPlayerId = state?.currentPlayerId || state?.rootPlayerId || currentPlayer?.id || null;
+          const observationStateForNode = {
+            playerState: simContext.playerState,
+            turnState: simContext.turnState,
+            cardState: simContext.cardState,
+            techState: simContext.techGameState,
+            nebulaDataState: simContext.nebulaDataState,
+            alienGameState: simContext.alienGameState,
+            finalScoringState: simContext.finalScoringState,
+            solarState: simContext.solarState,
+            rocketState: simContext.rocketState,
+            planetStats: simContext.planetStatsState,
+            setup: typeof getSetupState === "function" ? getSetupState() : null,
+          };
+          const nodeObservation = ai?.observation?.buildCompactEntityObservation?.(observationStateForNode, actorPlayerId, {
+            decisionContext: {
+              actionLevel: "turn",
+              decisionType: "mcts-node",
+            },
+            candidates: nodeCandidates,
+          }) || null;
+          const nodeEval = await ai.behaviorCloning.evaluateBehaviorCloneHeadsAsync(
+            trainedBehaviorModel,
+            nodeCandidates,
+            {
+              roundNumber: simContext.roundNumber || simContext?.turnState?.roundNumber || turnState.roundNumber,
+              turnNumber: simContext.turnNumber || simContext?.turnState?.turnNumber || turnState.turnNumber,
+              observation: nodeObservation,
+            },
+            behaviorOnnxOptions,
+          );
+          if (!nodeEval) {
+            throw new Error("Entity transformer MCTS node evaluation returned no result");
+          }
+          const modelValue = Number(nodeEval.normalizedValue);
+          const rootRelativeValue = actorPlayerId && actorPlayerId !== state?.rootPlayerId
+            ? -modelValue
+            : modelValue;
+          return {
+            ...nodeEval,
+            value: Number.isFinite(rootRelativeValue) ? rootRelativeValue : 0,
+            normalizedValue: Number.isFinite(rootRelativeValue) ? rootRelativeValue : 0,
+            rawModelValue: nodeEval.value,
+            actorPlayerId,
+            rootPlayerId: state?.rootPlayerId || null,
+            source: "entity-transformer-onnx-mcts-cuda",
+          };
+        },
+      };
+      const mctsResult = alphaZeroEntityMcts && typeof plannerSearch?.runSearchAsync === "function"
+        ? await plannerSearch.runSearchAsync(initialMctsState, mctsHooks, {
+          rootPlayerId: currentPlayer?.id,
+        })
+        : plannerSearch?.runSearch?.(initialMctsState, mctsHooks, {
+        rootPlayerId: currentPlayer?.id,
+      }) || null;
+
+      logAiMctsSearchTrace("result", {
+        difficulty: normalizedDifficulty,
+        alphaZeroEntityMcts,
+        plannerAvailable: Boolean(plannerSearch),
+        usedAsyncSearch: alphaZeroEntityMcts && typeof plannerSearch?.runSearchAsync === "function",
+        bestActionId: mctsResult?.bestAction?.id || null,
+        diagnostics: mctsResult?.diagnostics || null,
+      });
+
+      const mctsActionId = mctsResult?.bestAction?.id || null;
+      const mctsCandidate = mctsActionId
+        ? baseScored.find((candidate) => candidate.id === mctsActionId)
+        : null;
+      const selectedCandidate = mctsCandidate || baseScored.sort((left, right) => (
+        Number(right.score || 0) - Number(left.score || 0)
+        || String(left.id || "").localeCompare(String(right.id || ""))
+      ))[0] || null;
+      if (!selectedCandidate) return null;
+
+      return {
+        ...selectedCandidate,
+        difficulty: normalizeAiDifficulty(difficulty),
+        decisionPlan: {
+          type: pureRlMode ? "pure-rl-mcts" : "mcts-policy-value",
+          alphaZeroEntityMcts,
+          profile,
+          pureRlMode,
+          pureRlBaseWeight,
+          modelType: String(behaviorModelMeta?.modelType || "none"),
+          entityCount,
+          candidateCount,
+          maskedCandidateCount,
+          topPolicy,
+          value: Number(valueOffset),
+          mcts: mctsResult,
+          behaviorPick,
+          behaviorHeadSource: behaviorHeadEval?.source || null,
+          behaviorHeadValue: Number.isFinite(Number(behaviorHeadEval?.value)) ? Number(behaviorHeadEval.value) : null,
+          behaviorModelMeta,
+          exploration: null,
+          asyncInference: true,
+        },
+        compactObservation,
+      };
     }
 
     function chooseInitialSelectionForAiPlayer() {
@@ -867,6 +3430,9 @@
       }
       const count = cards.getDiscardRemaining(cardState);
       const pendingType = state.pendingDiscardAction.type || null;
+        if (pendingType === "discard_any_income" && !(player?.hand || []).length) {
+          return { ok: true, progressed: true, skipped: true, message: "AI 跳过无手牌的收入弃牌" };
+        }
       const incomeGainByIndex = isAiIncomeDiscardType(pendingType)
         ? (player.hand || []).map((card) => cards.getIncomeGainForCard?.(card) || null)
         : null;
@@ -1307,6 +3873,7 @@
     }
 
     function hashAiSeed(seed) {
+      if (aiSeed?.hashSeed) return aiSeed.hashSeed(seed);
       const text = String(seed ?? "seti-ai");
       let hash = 2166136261;
       for (let index = 0; index < text.length; index += 1) {
@@ -1317,6 +3884,7 @@
     }
 
     function createAiSeededRandom(seed) {
+      if (aiSeed?.createSeededRandom) return aiSeed.createSeededRandom(seed);
       let state = hashAiSeed(seed);
       return function seededRandom() {
         state = (state + 0x6D2B79F5) >>> 0;
@@ -1324,6 +3892,47 @@
         value = Math.imul(value ^ (value >>> 15), value | 1);
         value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
         return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
+      };
+    }
+
+    function normalizeAiDifficulty(value) {
+      const difficulty = String(value || "easy").toLowerCase();
+      if (difficulty === "hard") return "expert";
+      return AI_DIFFICULTY_PROFILES[difficulty] ? difficulty : "easy";
+    }
+
+    function getAiDifficultyProfile(difficulty = "easy") {
+      return AI_DIFFICULTY_PROFILES[normalizeAiDifficulty(difficulty)] || AI_DIFFICULTY_PROFILES.easy;
+    }
+
+    function getAiDifficultyProfiles() {
+      return Object.freeze({
+        easy: getAiDifficultyProfile("easy"),
+        normal: getAiDifficultyProfile("normal"),
+        expert: getAiDifficultyProfile("expert"),
+      });
+    }
+
+    function configureAiAutoBattleDifficulties(playerIds = [], options = {}) {
+      const defaultDifficulty = normalizeAiDifficulty(
+        options.defaultDifficulty
+        || options.difficulty
+        || aiAutoBattleState.defaultDifficulty
+        || "easy",
+      );
+      const difficultyMap = {};
+      const source = {
+        ...(options.difficulties || {}),
+        ...(options.playerDifficulties || {}),
+      };
+      for (const playerId of playerIds || []) {
+        difficultyMap[playerId] = normalizeAiDifficulty(source[playerId] || defaultDifficulty);
+      }
+      aiAutoBattleState.defaultDifficulty = defaultDifficulty;
+      aiAutoBattleState.playerDifficulties = difficultyMap;
+      return {
+        defaultDifficulty,
+        playerDifficulties: { ...difficultyMap },
       };
     }
 
@@ -1418,7 +4027,10 @@
 
     function countAiFinalMarksForPlayer(player = getCurrentPlayer()) {
       if (!player) return 0;
-      finalScoring.ensureFinalScoringState(finalScoringState);
+      if (!finalScoringState || typeof finalScoringState !== "object") return 0;
+      if (typeof finalScoring?.ensureFinalScoringState === "function") {
+        finalScoring.ensureFinalScoringState(finalScoringState);
+      }
       return Object.values(finalScoringState.tiles || {})
         .reduce((total, tile) => (
           total + (tile?.marks || []).filter((mark) => (
@@ -1439,7 +4051,10 @@
 
     function getAiMarkedFinalFormulaEntries(player = getCurrentPlayer()) {
       if (!player || !endGameScoring?.getFormulaId || !finalScoring?.getTileVariant) return [];
-      finalScoring.ensureFinalScoringState(finalScoringState);
+      if (!finalScoringState || typeof finalScoringState !== "object") return [];
+      if (typeof finalScoring?.ensureFinalScoringState === "function") {
+        finalScoring.ensureFinalScoringState(finalScoringState);
+      }
       return Object.values(finalScoringState.tiles || {}).flatMap((tile) => {
         const variant = finalScoring.getTileVariant(finalScoringState, tile.id);
         const formulaId = endGameScoring.getFormulaId(tile.id, variant);
@@ -2195,7 +4810,13 @@
     }
 
     function addAiFinalTileDemand(demand, player, context) {
-      finalScoring.ensureFinalScoringState(finalScoringState);
+      if (!finalScoringState || typeof finalScoringState !== "object") {
+        void context;
+        return;
+      }
+      if (typeof finalScoring?.ensureFinalScoringState === "function") {
+        finalScoring.ensureFinalScoringState(finalScoringState);
+      }
       for (const tile of Object.values(finalScoringState.tiles || {})) {
         const mark = (tile.marks || []).find((entry) => entry.playerId === player?.id);
         if (!mark) continue;
@@ -2278,12 +4899,11 @@
         aiStrategyDemandCache = { key: cacheKey, value: demand };
         return demand;
       }
-      const context = {
-        ...createActionContext(),
+      const context = Object.assign(createActionContext(), {
         finalScoringState,
         cardEffects,
         getCardTypeCode,
-      };
+      });
       addAiFinalTileDemand(demand, player, context);
       for (const card of player.reservedCards || []) {
         addAiCardModelDemand(demand, card, cardEffects.getCardModel?.(card), 1, player, context);
@@ -2355,12 +4975,11 @@
           card,
         ],
       };
-      const context = {
-        ...createActionContext(),
+      const context = Object.assign(createActionContext(), {
         finalScoringState,
         cardEffects,
         getCardTypeCode,
-      };
+      });
       return Math.max(0, aiNumber(endGameScoring.scoreCardEndGameRule(
         model.endGameScoring,
         simulatedPlayer,
@@ -2677,7 +5296,10 @@
     function scoreAiFinalTileOrbitLandMarginal(player = getCurrentPlayer()) {
       if (!player || !endGameScoring?.countOrbitOrLandMarkers || !endGameScoring?.countSectorWins) return 0;
       let value = 0;
-      finalScoring.ensureFinalScoringState(finalScoringState);
+      if (!finalScoringState || typeof finalScoringState !== "object") return 0;
+      if (typeof finalScoring?.ensureFinalScoringState === "function") {
+        finalScoring.ensureFinalScoringState(finalScoringState);
+      }
       const currentOrbitLand = endGameScoring.countOrbitOrLandMarkers(player, planetStatsState, createActionContext());
       const sectorWins = endGameScoring.countSectorWins(player, nebulaDataState);
       if (currentOrbitLand >= sectorWins) return 0;
@@ -3566,6 +6188,77 @@
       return ranked[0]?.button || null;
     }
 
+    function parseAiButtonCount(text = "") {
+      const match = String(text || "").match(/(\d+)/);
+      return match ? Math.max(0, Number(match[1]) || 0) : 0;
+    }
+
+    function scoreAiHandCornerChoiceButton(button) {
+      if (!button || button.disabled) return -Infinity;
+      const choice = String(button.dataset.handCornerChoice || "");
+      const count = parseAiButtonCount(button.textContent || "");
+      if (choice === "move") {
+        return count * Number(AI_RESOURCE_VALUES.movement || 1.5);
+      }
+      if (choice === "data") {
+        return count * Number(AI_RESOURCE_VALUES.availableData || 1.5);
+      }
+      if (choice === "publicity") {
+        return count * Number(AI_RESOURCE_VALUES.publicity || 1.5);
+      }
+      return -Infinity;
+    }
+
+    function scoreAiRemovePlanetMarkerButton(button, currentPlayer) {
+      if (!button || button.disabled) return -Infinity;
+      const text = String(button.textContent || "");
+      const ownLabel = String(currentPlayer?.colorLabel || "");
+      const ownColor = String(currentPlayer?.color || "");
+      const ownPenalty = (ownLabel && text.includes(ownLabel)) || (ownColor && text.includes(ownColor)) ? 2 : 0;
+      const landBonus = /登陆|卫星/.test(text) ? 0.6 : 0;
+      const orbitBonus = /环绕/.test(text) ? 0.45 : 0;
+      return 1 + landBonus + orbitBonus - ownPenalty;
+    }
+
+    function scoreAiDiscardIncomeCardButton(button, currentPlayer) {
+      if (!button || button.disabled) return -Infinity;
+      const cardId = button.dataset.discardIncomeCardId;
+      const card = (currentPlayer?.hand || []).find((item) => item?.id === cardId) || null;
+      if (!card) return -Infinity;
+      const incomeGain = cards.getIncomeGainForCard?.(card) || null;
+      const incomeValue = incomeGain ? scoreAiIncomeOpportunityValue(currentPlayer, incomeGain) : 0;
+      const holdValue = Math.max(0, scoreAiPlayCardValue(card, { player: currentPlayer })) * 0.25;
+      const cornerHold = scoreAiCardCornerOpportunity(card) * 0.2;
+      return incomeValue - holdValue - cornerHold;
+    }
+
+    function scoreAiDiscardCornerRepeatButton(button, currentPlayer) {
+      if (!button || button.disabled) return -Infinity;
+      const cardId = button.dataset.discardCornerCardId;
+      const card = (currentPlayer?.hand || []).find((item) => item?.id === cardId) || null;
+      if (!card) return -Infinity;
+      const cornerValue = scoreAiCardCornerOpportunity(card);
+      const keepValue = Math.max(0, scoreAiPlayCardValue(card, { player: currentPlayer })) * 0.3;
+      return cornerValue - keepValue;
+    }
+
+    function scoreAiProbeSectorButton(button, currentPlayer) {
+      if (!button || button.disabled) return -Infinity;
+      const text = String(button.textContent || "");
+      const sectorMatch = text.match(/扇区\s*(\d+)/);
+      if (!sectorMatch) return 0;
+      const sectorX = solar.mod8(Number(sectorMatch[1]) || 0);
+      return getBestAiNebulaChoiceScore(buildSectorScanChoicesForX(sectorX), {
+        player: currentPlayer,
+        pendingType: "probe_sector_scan",
+      });
+    }
+
+    function scoreAiProbeLocationRewardButton(button) {
+      if (!button || button.disabled) return -Infinity;
+      return parseAiButtonCount(button.textContent || "") * Number(AI_RESOURCE_VALUES.availableData || 1.5);
+    }
+
     function scoreAiScanAction(player = getCurrentPlayer()) {
       const effects = scanEffects.buildScanEffectQueue(player, {
         fullScanAction: true,
@@ -3639,18 +6332,6 @@
       const context = createActionContext();
       const unsupportedTypes = new Set([
         "alien_trace",
-        cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER,
-        cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD,
-        cardEffects.EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD,
-        cardEffects.EFFECT_TYPES.DRAW_THEN_DISCARD_ACTION,
-        cardEffects.EFFECT_TYPES.DISCARD_ANY_FOR_INCOME,
-        cardEffects.EFFECT_TYPES.PAY_CREDITS_FOR_REWARD,
-        cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT,
-        cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE,
-        cardEffects.EFFECT_TYPES.RETURN_UNFINISHED_TASK_TO_HAND,
-        cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
-        cardEffects.EFFECT_TYPES.PROBE_LOCATION_REWARD,
-        cardEffects.EFFECT_TYPES.EARTH_SECTOR_CONTENT_MOVE,
       ]);
       for (let index = 0; index < playEffects.length; index += 1) {
         const effect = playEffects[index];
@@ -3717,6 +6398,16 @@
             nextEffect,
           });
           if (!moveCandidates.length) return { ok: false, message: "没有可移动的飞船" };
+        }
+        if (effect?.type === cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE) {
+          const currentPlayer = getCurrentPlayer();
+          const hasOwnOrbitMarker = (planetStats.PLANET_IDS || []).some((planetId) => (
+            planetStats.getPlanetOrbitMarkers(planetStatsState, planetId)
+              .some((marker) => ruleEngineMarkerBelongsToPlayer(marker, currentPlayer))
+          ));
+          if (!hasOwnOrbitMarker) {
+            return { ok: false, message: `${effect.label || "移除环绕并放置探测器"}：没有可移除的己方环绕标记` };
+          }
         }
         if (effect?.type === cardEffects.EFFECT_TYPES.CONDITIONAL_SECTOR_SCAN) {
           const sectorXs = getSectorXsMatchingCondition(effect.options?.condition)
@@ -4339,14 +7030,16 @@
       if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
         return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}需要人工选择登陆目标` };
       }
-      const optionCount = els.landTargetSelect?.options?.length || 0;
-      if (optionCount <= 0) {
-        return { ok: false, blocked: true, message: "AI 没有可选登陆目标" };
-      }
       const pending = state.pendingLandTargetAction || null;
       const options = typeof pending?.getOptions === "function"
         ? pending.getOptions()
         : abilities.planet.getLandOptions(createActionContext());
+      if (!options?.ok || !options?.choices?.length) {
+        const settleResult = confirmLandTargetPicker();
+        if (settleResult) return settleResult;
+        return null;
+      }
+      const optionCount = options.choices.length;
       const selected = options?.ok
         ? chooseAiLandChoice(options.choices || [], currentPlayer)
         : null;
@@ -4377,6 +7070,52 @@
       if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
         return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}需要人工选择扫描目标` };
       }
+
+      if (state.pendingStrategyPassiveSlotChoice) {
+        const slotButton = [...(els.scanTargetActions?.querySelectorAll("[data-strategy-slot-choice]") || [])]
+          .find((button) => !button.disabled) || null;
+        if (!slotButton) return { ok: false, blocked: true, message: "AI 没有可选宇宙战略集团奖励槽" };
+        slotButton.click();
+        return { ok: true, progressed: true, message: "AI 已选择宇宙战略集团奖励槽" };
+      }
+
+      if (state.pendingProbeSectorScanAction) {
+        const confirmButton = els.scanTargetActions?.querySelector("[data-probe-scan-confirm]");
+        if (confirmButton && !confirmButton.disabled) {
+          confirmButton.click();
+          return { ok: true, progressed: true, message: "AI 已确认探测器扫描选择" };
+        }
+        const probeButtons = [...(els.scanTargetActions?.querySelectorAll("[data-probe-scan-rocket-id]") || [])]
+          .filter((button) => !button.disabled);
+        const selectedButton = probeButtons
+          .map((button, index) => ({
+            button,
+            index,
+            score: scoreAiProbeSectorButton(button, currentPlayer),
+          }))
+          .filter((entry) => Number.isFinite(entry.score))
+          .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.button || probeButtons[0] || null;
+        if (!selectedButton) return { ok: false, blocked: true, message: "AI 没有可选探测器扫描目标" };
+        selectedButton.click();
+        return { ok: true, progressed: true, message: "AI 已选择探测器扫描目标" };
+      }
+
+      if (state.pendingProbeLocationRewardAction) {
+        const rewardButtons = [...(els.scanTargetActions?.querySelectorAll("[data-probe-location-reward-rocket-id]") || [])]
+          .filter((button) => !button.disabled);
+        const selectedButton = rewardButtons
+          .map((button, index) => ({
+            button,
+            index,
+            score: scoreAiProbeLocationRewardButton(button),
+          }))
+          .filter((entry) => Number.isFinite(entry.score))
+          .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.button || rewardButtons[0] || null;
+        if (!selectedButton) return { ok: false, blocked: true, message: "AI 没有可选探测器位置奖励目标" };
+        selectedButton.click();
+        return { ok: true, progressed: true, message: "AI 已选择探测器位置奖励目标" };
+      }
+
       const pendingType = state.pendingScanTargetAction?.type || null;
       if (pendingType === "optional_hand_scan") {
         const hasScannableHandCard = (currentPlayer?.hand || [])
@@ -4407,6 +7146,107 @@
         });
         return handleConditionalSectorChoice(button.dataset.conditionalSectorX);
       }
+
+      if (pendingType === "hand_corner_reward") {
+        const choiceButton = [...(els.scanTargetActions?.querySelectorAll("[data-hand-corner-choice]") || [])]
+          .filter((button) => !button.disabled)
+          .map((button, index) => ({
+            button,
+            index,
+            score: scoreAiHandCornerChoiceButton(button),
+          }))
+          .filter((entry) => Number.isFinite(entry.score))
+          .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.button || null;
+        if (!choiceButton) return { ok: true, progressed: true, skipped: true, message: "AI 跳过无可选手牌角标奖励" };
+        choiceButton.click();
+        return { ok: true, progressed: true, message: "AI 已选择手牌角标奖励" };
+      }
+
+      if (pendingType === "remove_planet_marker") {
+        const markerButton = [...(els.scanTargetActions?.querySelectorAll("[data-planet-marker-choice]") || [])]
+          .filter((button) => !button.disabled)
+          .map((button, index) => ({
+            button,
+            index,
+            score: scoreAiRemovePlanetMarkerButton(button, currentPlayer),
+          }))
+          .filter((entry) => Number.isFinite(entry.score))
+          .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.button || null;
+        if (!markerButton) return { ok: false, blocked: true, message: "AI 没有可选移除标记目标" };
+        markerButton.click();
+        return { ok: true, progressed: true, message: "AI 已选择移除标记目标" };
+      }
+
+      if (pendingType === "discard_any_income") {
+        const cardButtons = [...(els.scanTargetActions?.querySelectorAll("[data-discard-income-card-id]") || [])]
+          .filter((button) => !button.disabled);
+        const ranked = cardButtons
+          .map((button, index) => ({
+            button,
+            cardId: button.dataset.discardIncomeCardId || null,
+            index,
+            score: scoreAiDiscardIncomeCardButton(button, currentPlayer),
+          }))
+          .filter((entry) => Number.isFinite(entry.score) && entry.score > 0)
+          .sort((left, right) => right.score - left.score || left.index - right.index)
+          .slice(0, 2);
+        if (ranked.length) {
+          ranked.forEach((entry) => {
+            const liveButton = entry.cardId
+              ? els.scanTargetActions?.querySelector(`[data-discard-income-card-id="${entry.cardId}"]`)
+              : null;
+            if (liveButton && !liveButton.disabled) liveButton.click();
+          });
+        }
+        const confirmButton = els.scanTargetActions?.querySelector("[data-discard-income-confirm]");
+        if (confirmButton && !confirmButton.disabled) {
+          confirmButton.click();
+          return { ok: true, progressed: true, message: "AI 已确认收入弃牌" };
+        }
+        return { ok: false, blocked: true, message: "AI 无法确认收入弃牌" };
+      }
+
+      if (pendingType === "pay_credit_reward") {
+        const payButton = els.scanTargetActions?.querySelector('[data-pay-credit-choice="pay"]');
+        const skipButton = els.scanTargetActions?.querySelector('[data-pay-credit-choice="skip"]');
+        const canPay = players.canAfford(currentPlayer, { credits: 1 });
+        const selected = canPay ? payButton : skipButton;
+        if (!selected || selected.disabled) return { ok: false, blocked: true, message: "AI 没有可用信用支付选项" };
+        selected.click();
+        return { ok: true, progressed: true, message: canPay ? "AI 已选择支付信用" : "AI 已选择跳过信用支付" };
+      }
+
+      if (pendingType === "discard_corner_repeat") {
+        const cardButton = [...(els.scanTargetActions?.querySelectorAll("[data-discard-corner-card-id]") || [])]
+          .filter((button) => !button.disabled)
+          .map((button, index) => ({
+            button,
+            index,
+            score: scoreAiDiscardCornerRepeatButton(button, currentPlayer),
+          }))
+          .filter((entry) => Number.isFinite(entry.score))
+          .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.button || null;
+        if (!cardButton) return { ok: false, blocked: true, message: "AI 没有可选角标重复弃牌" };
+        cardButton.click();
+        return { ok: true, progressed: true, message: "AI 已选择角标重复弃牌" };
+      }
+
+      if (pendingType === "remove_orbit_to_probe") {
+        const orbitButton = [...(els.scanTargetActions?.querySelectorAll("[data-remove-orbit-to-probe]") || [])]
+          .find((button) => !button.disabled) || null;
+        if (!orbitButton) return { ok: false, blocked: true, message: "AI 没有可选环绕移除目标" };
+        orbitButton.click();
+        return { ok: true, progressed: true, message: "AI 已选择环绕移除目标" };
+      }
+
+      if (pendingType === "return_unfinished_task") {
+        const taskButton = [...(els.scanTargetActions?.querySelectorAll("[data-return-task-card-id]") || [])]
+          .find((button) => !button.disabled) || null;
+        if (!taskButton) return { ok: false, blocked: true, message: "AI 没有可选任务卡回手目标" };
+        taskButton.click();
+        return { ok: true, progressed: true, message: "AI 已选择任务卡回手目标" };
+      }
+
       if (!["sector_scan", "public_scan", "hand_scan"].includes(pendingType)) {
         return null;
       }
@@ -4744,8 +7584,15 @@
     }
 
     function getAiAlienTraceButtons(selector, roots = []) {
-      return [...(roots || [])]
-        .flatMap((root) => [...(root?.querySelectorAll?.(selector) || [])])
+      const localMatches = [...(roots || [])]
+        .flatMap((root) => {
+          if (!root) return [];
+          const direct = root?.matches?.(selector) ? [root] : [];
+          const descendants = [...(root?.querySelectorAll?.(selector) || [])];
+          return [...direct, ...descendants];
+        });
+      const documentMatches = [...(windowRef?.document?.querySelectorAll?.(selector) || [])];
+      return [...new Set([...localMatches, ...documentMatches])]
         .filter((button) => button && !button.disabled)
         .map((button) => button);
     }
@@ -5012,6 +7859,68 @@
       return score;
     }
 
+    function listAiAlienFallbackTargets() {
+      const fallbackSelectors = [
+        "[data-state-trace-slot]",
+        "[data-banrenma-trace-slot]",
+        "[data-yichangdian-trace-slot]",
+        "[data-fangzhou-trace-slot]",
+        "[data-chong-trace-slot]",
+        "[data-amiba-trace-slot]",
+        "[data-aomomo-trace-slot]",
+        "[data-runezu-trace-slot]",
+        "[data-jiuzhe-trace-slot]",
+      ].join(",");
+
+      return [
+        ...listAiAlienGridTraceTargets(),
+        ...listAiAlienStateTraceTargets(),
+        ...listAiAlienPickerTargets(),
+        ...getAiAlienTraceButtons(fallbackSelectors, els.alienTraceLayers || []).map((button) => ({ kind: "state-slot", button })),
+        ...getAiAlienTraceButtons(fallbackSelectors, els.alienJiuzheTraceLayers || []).map((button) => ({ kind: "grid-slot", button })),
+      ];
+    }
+
+    function scoreAiAlienTraceFallbackTarget(target, player, index = 0) {
+      if (!target?.button || target.button.disabled) return -Infinity;
+      const mode = String(state.alienTracePickerState?.mode || "");
+      const traceType = getAiAlienTraceTargetTraceType(target);
+      const position = getAiAlienTraceTargetPosition(target);
+      const reward = getAiAlienTraceTargetReward(mode, traceType, position);
+      const label = String(target.button.textContent || target.button.title || "");
+
+      const rewardScore = Math.max(0, aiNumber(reward?.score));
+      const explicitThreePointLabel = /(^|\D)3\s*分|得\s*3\s*分|score\s*3/i.test(label);
+      let score = rewardScore > 0 ? rewardScore * 20 : 0;
+      if (rewardScore >= 3 || explicitThreePointLabel) score += 100;
+      score += scoreAiAlienTraceTarget(target, player);
+      score += target.kind === "picker" ? 0.1 : 0;
+      score -= index * 0.0001;
+      return score;
+    }
+
+    function listAiAlienRuleTraceTargets() {
+      if (typeof listAiAlienTraceFallbackChoices !== "function") return [];
+      return (listAiAlienTraceFallbackChoices() || []).map((choice) => ({
+        kind: "rule-choice",
+        ruleChoice: choice,
+      }));
+    }
+
+    function scoreAiAlienRuleTraceTarget(target, player, index = 0) {
+      const choice = target?.ruleChoice;
+      if (!choice) return -Infinity;
+      const traceType = String(choice.traceType || "");
+      const alienSlotId = Number(choice.alienSlotId);
+      const traceDemand = getAiMapDemand(getAiStrategyDemand(player).traceTypes, traceType);
+      const guaranteedBonus = choice.guaranteedThree ? 200 : 0;
+      const rewardScore = Math.max(0, aiNumber(choice.rewardScore)) * 20;
+      const slotTiebreak = Number.isFinite(alienSlotId)
+        ? (10 - Math.min(10, Math.max(0, alienSlotId))) * 0.01
+        : 0;
+      return guaranteedBonus + rewardScore + traceDemand + slotTiebreak - index * 0.0001;
+    }
+
     function chooseAiAlienTraceTarget(player) {
       const pickerMode = String(state.alienTracePickerState?.mode || "");
       let targets = [];
@@ -5030,9 +7939,32 @@
       } else if (pickerMode || state.pendingAlienTraceAction) {
         targets = listAiAlienPickerTargets();
       }
-      return targets
+      const normalTarget = targets
         .map((target, index) => ({ ...target, index, score: scoreAiAlienTraceTarget(target, player) }))
         .filter((target) => Number.isFinite(target.score))
+        .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
+
+      const fallbackTarget = listAiAlienFallbackTargets()
+        .map((target, index) => ({
+          ...target,
+          index,
+          score: scoreAiAlienTraceFallbackTarget(target, player, index),
+          fallback: true,
+        }))
+        .filter((target) => Number.isFinite(target.score))
+        .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
+
+      const ruleTarget = listAiAlienRuleTraceTargets()
+        .map((target, index) => ({
+          ...target,
+          index,
+          score: scoreAiAlienRuleTraceTarget(target, player, index),
+        }))
+        .filter((target) => Number.isFinite(target.score))
+        .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
+
+      return [normalTarget, fallbackTarget, ruleTarget]
+        .filter((target) => target && Number.isFinite(target.score))
         .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
     }
 
@@ -5044,6 +7976,18 @@
       }
 
       const target = chooseAiAlienTraceTarget(player);
+      if (target?.kind === "rule-choice" && target.ruleChoice && typeof applyAiAlienTraceFallbackChoice === "function") {
+        recordAiAutoBattleLog("alien-trace", `${player.colorLabel}AI 选择外星人痕迹`, {
+          kind: target.kind,
+          mode: state.alienTracePickerState?.mode || null,
+          fallback: target.ruleChoice,
+          score: target.score,
+        });
+        const applied = applyAiAlienTraceFallbackChoice(target.ruleChoice);
+        if (applied?.ok) {
+          return { ok: true, progressed: true, message: "AI 已选择外星人痕迹" };
+        }
+      }
       if (!target?.button) {
         return { ok: false, blocked: true, message: "AI 没有可用外星人痕迹目标" };
       }
@@ -5751,11 +8695,7 @@
       return candidates;
     }
 
-    function runAiTurnActionDecision() {
-      const currentPlayer = getCurrentPlayer();
-      if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
-        return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}不是电脑玩家` };
-      }
+    function buildAiTurnDecisionCandidates(currentPlayer) {
       const rawCandidates = enumerateAiTurnActions();
       const markedFinalFormulas = getAiMarkedFinalFormulaEntries(currentPlayer);
       const graphState = {
@@ -5785,43 +8725,32 @@
           breakdown: candidate.breakdown,
         }))
         : rawCandidates;
-      const action = ai?.policy?.chooseTurnAction?.(candidates, {
-        playerState,
-        turnState,
-        currentPlayer,
-      }) || null;
+      return { candidates, graphState };
+    }
+
+    function applyAiTurnAction(action, candidates, difficulty, currentPlayer) {
       if (!action) {
         return { ok: false, blocked: true, message: "AI 没有可执行行动", candidates };
       }
-      recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI 执行 ${action.id}`, { action, candidates });
+      recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI(${difficulty}) 执行 ${action.id}`, {
+        action,
+        candidates,
+        difficulty,
+        decisionPlan: action.decisionPlan || null,
+        observation: action.compactObservation || null,
+      });
       if (action.id === "end-turn") {
         endCurrentTurn();
         return { ok: true, progressed: true, action };
       }
-      if (action.id === "launch") {
-        return runAction("launch");
-      }
-      if (action.id === "researchTech") {
-        return researchTechForCurrentPlayer();
-      }
-      if (action.id === "orbit") {
-        return orbitForCurrentPlayer();
-      }
-      if (action.id === "land") {
-        return landForCurrentPlayer();
-      }
-      if (action.id === "scan") {
-        return beginScanAction();
-      }
-      if (action.id === "analyze") {
-        return analyzeDataForCurrentPlayer();
-      }
-      if (action.id === "playCard") {
-        return beginPlayCardSelection();
-      }
-      if (action.id === "cardCorner") {
-        return runAiCardCornerQuickActionDecision(action);
-      }
+      if (action.id === "launch") return runAction("launch");
+      if (action.id === "researchTech") return researchTechForCurrentPlayer();
+      if (action.id === "orbit") return orbitForCurrentPlayer();
+      if (action.id === "land") return landForCurrentPlayer();
+      if (action.id === "scan") return beginScanAction();
+      if (action.id === "analyze") return analyzeDataForCurrentPlayer();
+      if (action.id === "playCard") return beginPlayCardSelection();
+      if (action.id === "cardCorner") return runAiCardCornerQuickActionDecision(action);
       if (action.id === "industry") {
         recordAiAutoBattleLog("industry", `${currentPlayer.colorLabel}AI 使用公司 1x：${action.companyLabel}`, {
           action,
@@ -5829,16 +8758,32 @@
         const result = handleCompanyActionMarkerClick(action.industryCard);
         return result || { ok: true, progressed: true, action };
       }
-      if (action.id === "move") {
-        return runAiMoveActionDecision(action);
+      if (action.id === "move") return runAiMoveActionDecision(action);
+      if (action.id === "placeData") return runPlaceDataToComputer();
+      if (action.id === "pass") return passForCurrentPlayer();
+      return { ok: false, blocked: true, message: `AI 尚不支持行动 ${action.id}`, action };
+    }
+
+    function runAiTurnActionDecision() {
+      const currentPlayer = getCurrentPlayer();
+      if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
+        return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}不是电脑玩家` };
       }
-      if (action.id === "placeData") {
-        return runPlaceDataToComputer();
+      const difficulty = getAiAutoBattlePlayerDifficulty(currentPlayer?.id);
+      const { candidates, graphState } = buildAiTurnDecisionCandidates(currentPlayer);
+      const action = chooseAiTurnActionByDifficulty(candidates, graphState, currentPlayer, difficulty);
+      return applyAiTurnAction(action, candidates, difficulty, currentPlayer);
+    }
+
+    async function runAiTurnActionDecisionAsync() {
+      const currentPlayer = getCurrentPlayer();
+      if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
+        return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}不是电脑玩家` };
       }
-      if (action.id === "pass") {
-        return passForCurrentPlayer();
-      }
-      return { ok: false, message: `AI 尚不支持行动 ${action.id}` };
+      const difficulty = getAiAutoBattlePlayerDifficulty(currentPlayer?.id);
+      const { candidates, graphState } = buildAiTurnDecisionCandidates(currentPlayer);
+      const action = await chooseAiTurnActionByDifficultyAsync(candidates, graphState, currentPlayer, difficulty);
+      return applyAiTurnAction(action, candidates, difficulty, currentPlayer);
     }
 
     function runAiActionEffectStep() {
@@ -5935,6 +8880,116 @@
 
         return runAiTurnActionDecision();
       } catch (error) {
+        logAiMctsSearchTrace("automation-error", {
+          roundNumber: turnState.roundNumber,
+          turnNumber: turnState.turnNumber,
+          currentPlayerId: playerState.currentPlayerId,
+          message: error?.message || String(error),
+          stack: error?.stack || null,
+        });
+        const entry = recordAiAutoBattleBug(error?.message || String(error), {
+          stack: error?.stack || null,
+        });
+        return { ok: false, blocked: true, bug: entry, message: entry.message };
+      }
+    }
+
+    async function runAiAutomationStepAsync() {
+      try {
+        if (!ai?.policy) return { ok: false, blocked: true, message: "SetiAI 未加载" };
+        if (isGameEnded()) {
+          return { ok: true, done: true, progressed: false, message: "游戏已结束" };
+        }
+
+        logAiMctsSearchTrace("automation-step-enter", {
+          roundNumber: turnState.roundNumber,
+          turnNumber: turnState.turnNumber,
+          currentPlayerId: playerState.currentPlayerId,
+          pendingSubFlow: hasActivePendingSubFlow(),
+        });
+
+        const initialResult = chooseInitialSelectionForAiPlayer();
+        if (initialResult) return initialResult;
+
+        const discardResult = runAiDiscardDecision();
+        if (discardResult) return discardResult;
+
+        const passReserveResult = runAiPassReserveDecision();
+        if (passReserveResult) return passReserveResult;
+
+        const finalScoreMarkResult = runAiFinalScoreMarkDecision();
+        if (finalScoreMarkResult) return finalScoreMarkResult;
+
+        const cardSelectionResult = runAiCardSelectionDecision();
+        if (cardSelectionResult) return cardSelectionResult;
+
+        const techSelectionResult = runAiResearchTechSelectionDecision();
+        if (techSelectionResult) return techSelectionResult;
+
+        const handScanResult = runAiHandScanDecision();
+        if (handScanResult) return handScanResult;
+
+        const playCardResult = runAiPlayCardSelectionDecision();
+        if (playCardResult) return playCardResult;
+
+        const movePaymentResult = runAiMovePaymentDecision();
+        if (movePaymentResult) return movePaymentResult;
+
+        const landTargetResult = runAiLandTargetDecision();
+        if (landTargetResult) return landTargetResult;
+
+        const dataPlacementResult = runAiDataPlacementDecision();
+        if (dataPlacementResult) return dataPlacementResult;
+
+        const scanTargetResult = runAiScanTargetDecision();
+        if (scanTargetResult) return scanTargetResult;
+
+        const effectMoveResult = runAiActionEffectMoveDecision();
+        if (effectMoveResult) return effectMoveResult;
+
+        const cardTriggerResult = runAiCardTriggerDecision();
+        if (cardTriggerResult) return cardTriggerResult;
+
+        const cardTriggerMoveResult = runAiCardTriggerFreeMoveDecision();
+        if (cardTriggerMoveResult) return cardTriggerMoveResult;
+
+        const cardCornerMoveResult = runAiCardCornerFreeMoveDecision();
+        if (cardCornerMoveResult) return cardCornerMoveResult;
+
+        const industryFreeMoveResult = runAiIndustryFreeMoveDecision();
+        if (industryFreeMoveResult) return industryFreeMoveResult;
+
+        const scanAction4Result = runAiScanAction4Decision();
+        if (scanAction4Result) return scanAction4Result;
+
+        const cardTaskResult = runAiCardTaskCompletionDecision();
+        if (cardTaskResult) return cardTaskResult;
+
+        const alienUseResult = runAiAlienUseDecision();
+        if (alienUseResult) return alienUseResult;
+
+        const alienTraceResult = runAiAlienTraceDecision();
+        if (alienTraceResult) return alienTraceResult;
+
+        const effectResult = runAiActionEffectStep();
+        if (effectResult) return effectResult;
+
+        if (hasActivePendingSubFlow()) {
+          logAiMctsSearchTrace("automation-blocked-pending-subflow", {
+            roundNumber: turnState.roundNumber,
+            turnNumber: turnState.turnNumber,
+            currentPlayerId: playerState.currentPlayerId,
+          });
+          return { ok: false, blocked: true, message: "AI 遇到尚未收口的 pending 流程" };
+        }
+
+        logAiMctsSearchTrace("automation-ready-for-turn-decision", {
+          roundNumber: turnState.roundNumber,
+          turnNumber: turnState.turnNumber,
+          currentPlayerId: playerState.currentPlayerId,
+        });
+        return await runAiTurnActionDecisionAsync();
+      } catch (error) {
         const entry = recordAiAutoBattleBug(error?.message || String(error), {
           stack: error?.stack || null,
         });
@@ -5945,6 +9000,77 @@
     function waitAiAutoBattleDelay(delayMs) {
       const delay = Math.max(0, Math.round(Number(delayMs) || 0));
       return new Promise((resolve) => windowRef.setTimeout(resolve, delay));
+    }
+
+    function incrementAiAutoBattleStepReason(reasonCounts, reason) {
+      if (!reasonCounts || !reason) return;
+      const key = String(reason);
+      reasonCounts[key] = (reasonCounts[key] || 0) + 1;
+    }
+
+    function getPrimaryAiPendingStepReason(pendingState) {
+      if (!pendingState) return null;
+      if (pendingState.actionEffectFlowActive && pendingState.currentEffect?.type) {
+        return `effect:${pendingState.currentEffect.type}`;
+      }
+      if (pendingState.pendingScanTargetType) return `scanTarget:${pendingState.pendingScanTargetType}`;
+      const pendingFlags = [
+        "pendingPublicScanQueue",
+        "pendingHandScan",
+        "pendingPassReserve",
+        "pendingCardSelection",
+        "pendingPlayCardSelection",
+        "pendingMovePayment",
+        "pendingCardTrigger",
+        "pendingCardTriggerFreeMove",
+        "pendingCardCornerFreeMove",
+        "pendingCardTaskCompletion",
+        "pendingDataPlacement",
+        "pendingAlienTrace",
+        "pendingLandTarget",
+        "pendingScanAction4",
+        "pendingIndustryAbility",
+        "pendingIndustryFreeMove",
+        "pendingIndustryHandSelection",
+        "pendingJiuzheCardPlay",
+        "pendingYichangdianCardGain",
+        "pendingYichangdianCornerAction",
+        "pendingBanrenmaCardGain",
+        "pendingBanrenmaOpportunity",
+        "pendingChongTaskCompletion",
+        "pendingChongCardGain",
+        "pendingChongFossilChoice",
+        "pendingAmibaCardGain",
+        "pendingAmibaSymbolChoice",
+        "pendingAmibaTraceRemoval",
+        "pendingAomomoCardGain",
+        "pendingRunezuCardGain",
+        "pendingRunezuSymbolBranch",
+        "pendingRunezuFaceSymbolPlacement",
+      ];
+      for (const key of pendingFlags) {
+        if (pendingState[key]) return key;
+      }
+      if (pendingState.actionEffectFlowActive) {
+        return "actionEffectFlowActive";
+      }
+      return null;
+    }
+
+    function getAiAutoBattleStepReason(result, beforePendingState, afterPendingState) {
+      if (result?.done) return "game-ended";
+      if (result?.blocked) return "blocked";
+      if (result?.ok === false) return "error";
+      if (result?.action) {
+        const actionKind = result.action.kind || "unknown";
+        const actionId = result.action.id || "unknown";
+        return `turn-action:${actionKind}:${actionId}`;
+      }
+      const pendingReason = getPrimaryAiPendingStepReason(beforePendingState)
+        || getPrimaryAiPendingStepReason(afterPendingState);
+      if (pendingReason) return `pending:${pendingReason}`;
+      if (result?.progressed) return "progressed:other";
+      return "no-progress";
     }
 
     async function runAiAutoBattle(options = {}) {
@@ -5971,6 +9097,7 @@
       const summary = {
         ok: true,
         steps: 0,
+        stepReasonCounts: {},
         stopped: false,
         blocked: false,
         gameEnded: false,
@@ -5980,9 +9107,15 @@
       recordAiAutoBattleLog("start", `AI 自动对战开始，最多 ${maxSteps} 步`, { maxSteps, seed: randomSeed });
 
       while (aiAutoBattleState.running && summary.steps < maxSteps) {
+        const beforePendingState = getAiAutoBattlePendingState();
         const beforeLogCount = aiAutoBattleState.logs.length;
-        const result = runAiAutomationStep();
+        const result = await runAiAutomationStepAsync();
         summary.steps += 1;
+        const afterPendingState = getAiAutoBattlePendingState();
+        incrementAiAutoBattleStepReason(
+          summary.stepReasonCounts,
+          getAiAutoBattleStepReason(result, beforePendingState, afterPendingState),
+        );
         if (result?.done || isGameEnded()) {
           summary.gameEnded = true;
           summary.message = result?.message || "游戏已结束";
@@ -6081,6 +9214,11 @@
       const samples = [];
       const analyses = [];
       const stopOnBlocked = options.stopOnBlocked !== false;
+      const batchCooldownMs = Math.max(0, Math.round(Number(options.batchCooldownMs) || 0));
+      const thermalMode = options.thermalMode === true;
+      const thermalCooldownEvery = Math.max(1, Math.round(Number(options.thermalCooldownEvery) || 10));
+      const thermalCooldownMs = Math.max(0, Math.round(Number(options.thermalCooldownMs) || 1200));
+      let cooldownCount = 0;
 
       for (let index = 0; index < games; index += 1) {
         const seed = getAiBatchSeed(options, index);
@@ -6105,6 +9243,16 @@
           || report.bugs?.length
         )) {
           break;
+        }
+
+        const hasNextGame = index + 1 < games;
+        if (hasNextGame && batchCooldownMs > 0) {
+          cooldownCount += 1;
+          await waitAiAutoBattleDelay(batchCooldownMs);
+        }
+        if (hasNextGame && thermalMode && (index + 1) % thermalCooldownEvery === 0 && thermalCooldownMs > 0) {
+          cooldownCount += 1;
+          await waitAiAutoBattleDelay(thermalCooldownMs);
         }
       }
 
@@ -6134,6 +9282,13 @@
         gamesRun: samples.length,
         stoppedEarly: samples.length < games || incompleteGames > 0,
         summary,
+        cooldownCount,
+        throttle: {
+          batchCooldownMs,
+          thermalMode,
+          thermalCooldownEvery,
+          thermalCooldownMs,
+        },
         strategyTuningHistoryEntry,
         strategyTuningRecommendation,
         samples,
@@ -6380,6 +9535,11 @@
       configureDefaultAiOpponent,
       getAiAutoBattleAnalysis,
       getAiAutoBattleReport,
+      getAiAutoBattlePlayerDifficulty,
+      getAiAutoBattlePlayerDifficulties,
+      getAiAutoBattlePlayerIds,
+      getAiDifficultyProfile,
+      getAiDifficultyProfiles,
       getAiMapDemand,
       getAiRemainingRoundWeight,
       getAiStrategyDemand,
