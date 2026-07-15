@@ -32,6 +32,54 @@
     return normalized ? { ...normalized } : null;
   }
 
+  function normalizeMovementPoints(node) {
+    return Math.max(1, Math.round(Number(node?.options?.movementPoints || 1)));
+  }
+
+  function hasMovementCost(node) {
+    return Object.values(node?.options?.cost || {})
+      .some((amount) => Math.max(0, Math.round(Number(amount) || 0)) > 0);
+  }
+
+  function stableSerialize(value) {
+    if (Array.isArray(value)) return `[${value.map(stableSerialize).join(",")}]`;
+    if (!value || typeof value !== "object") return JSON.stringify(value);
+    return `{${Object.keys(value).sort().map((key) => (
+      `${JSON.stringify(key)}:${stableSerialize(value[key])}`
+    )).join(",")}}`;
+  }
+
+  function getMovementMergeSignature(node) {
+    const options = { ...(node?.options || {}) };
+    delete options.movementPoints;
+    delete options.historyLabel;
+    delete options.source;
+    return stableSerialize(options);
+  }
+
+  function canMergeMovementNodes(target, incoming, moveType = "card_move") {
+    if (!target || !incoming || target === incoming) return false;
+    if (target.type !== moveType || incoming.type !== moveType) return false;
+    if (!["active", "pending"].includes(target.status)) return false;
+    if (hasMovementCost(target) || hasMovementCost(incoming)) return false;
+    if (target.playerId && incoming.playerId && target.playerId !== incoming.playerId) return false;
+    if (target.playerColor && incoming.playerColor && target.playerColor !== incoming.playerColor) return false;
+    if (Boolean(target.required) !== Boolean(incoming.required)) return false;
+    if (target.undoable === false || incoming.undoable === false) return false;
+    return getMovementMergeSignature(target) === getMovementMergeSignature(incoming);
+  }
+
+  function cloneMergedMovementContribution(contribution) {
+    if (!contribution || typeof contribution !== "object") return null;
+    return {
+      movementPoints: Math.max(0, Math.round(Number(contribution.movementPoints) || 0)),
+      source: cloneInsertionSource(contribution.source),
+      preHistoryCommands: Array.isArray(contribution.preHistoryCommands)
+        ? [...contribution.preHistoryCommands]
+        : [],
+    };
+  }
+
   function normalizeNode(node, index) {
     return {
       id: node.id || `ability-chain-node-${index}`,
@@ -50,6 +98,9 @@
       needsUserChoice: Boolean(node.needsUserChoice),
       result: node.result || null,
       insertedByEffect: cloneInsertionSource(node.insertedByEffect),
+      mergedMovementContributions: Array.isArray(node.mergedMovementContributions)
+        ? node.mergedMovementContributions.map(cloneMergedMovementContribution).filter(Boolean)
+        : [],
     };
   }
 
@@ -90,6 +141,32 @@
     };
   }
 
+  function mergePendingMovementNode(chain, incoming, source = null, options = {}) {
+    if (!chain?.effects?.length || !incoming) return { merged: false };
+    const moveType = options.moveType || "card_move";
+    const target = chain.effects.find((node) => canMergeMovementNodes(node, incoming, moveType));
+    if (!target) return { merged: false };
+
+    const addedMovementPoints = normalizeMovementPoints(incoming);
+    const movementPoints = normalizeMovementPoints(target) + addedMovementPoints;
+    target.options = { ...(target.options || {}), movementPoints };
+    target.badge = String(movementPoints);
+    if (!Array.isArray(target.preHistoryCommands)) target.preHistoryCommands = [];
+    const preHistoryCommands = Array.isArray(incoming.preHistoryCommands)
+      ? [...incoming.preHistoryCommands]
+      : [];
+    target.preHistoryCommands.push(...preHistoryCommands);
+    if (!Array.isArray(target.mergedMovementContributions)) {
+      target.mergedMovementContributions = [];
+    }
+    target.mergedMovementContributions.push({
+      movementPoints: addedMovementPoints,
+      source: cloneInsertionSource(source),
+      preHistoryCommands,
+    });
+    return { merged: true, target, addedMovementPoints, movementPoints };
+  }
+
   function insertionOriginMatchesSource(origin, source) {
     const normalizedOrigin = normalizeInsertionSource(origin);
     const normalizedSource = normalizeInsertionSource(source);
@@ -127,7 +204,37 @@
     if (!normalizedSource) return 0;
     let removed = 0;
     for (let index = chain.effects.length - 1; index >= 0; index -= 1) {
-      if (!insertionOriginMatchesSource(chain.effects[index]?.insertedByEffect, normalizedSource)) continue;
+      const node = chain.effects[index];
+      if (!insertionOriginMatchesSource(node?.insertedByEffect, normalizedSource)) {
+        const contributions = Array.isArray(node?.mergedMovementContributions)
+          ? node.mergedMovementContributions
+          : [];
+        const removedContributions = contributions.filter((contribution) => (
+          insertionOriginMatchesSource(contribution?.source, normalizedSource)
+        ));
+        if (!removedContributions.length) continue;
+        const removedMovementPoints = removedContributions.reduce(
+          (sum, contribution) => sum + Math.max(0, Math.round(Number(contribution.movementPoints) || 0)),
+          0,
+        );
+        node.mergedMovementContributions = contributions.filter((contribution) => (
+          !insertionOriginMatchesSource(contribution?.source, normalizedSource)
+        ));
+        const removedCommands = new Set(removedContributions.flatMap((contribution) => (
+          contribution.preHistoryCommands || []
+        )));
+        if (removedCommands.size && Array.isArray(node.preHistoryCommands)) {
+          node.preHistoryCommands = node.preHistoryCommands.filter((command) => !removedCommands.has(command));
+        }
+        const remainingMovementPoints = Math.max(
+          1,
+          normalizeMovementPoints(node) - removedMovementPoints,
+        );
+        node.options = { ...(node.options || {}), movementPoints: remainingMovementPoints };
+        node.badge = String(remainingMovementPoints);
+        removed += removedContributions.length;
+        continue;
+      }
       chain.effects.splice(index, 1);
       if (index < chain.currentIndex) {
         chain.currentIndex = Math.max(0, chain.currentIndex - 1);
@@ -206,6 +313,7 @@
     startAbilityChain,
     createInsertionSource,
     markInsertedNode,
+    mergePendingMovementNode,
     removeInsertedNodesBySource,
     activateNext,
     activateNextIfIdle,

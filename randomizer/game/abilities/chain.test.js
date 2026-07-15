@@ -99,4 +99,47 @@ const removedDynamicRewards = chain.removeInsertedNodesBySource(dynamicFlow, {
 assert.equal(removedDynamicRewards, 2);
 assert.deepEqual(dynamicFlow.effects.map((effect) => effect.id), ["b91-land", "tail-effect"]);
 
+const moveMergeFlow = chain.startAbilityChain("move-merge", "移动合并", [
+  { id: "reward-source", type: "gain_resources", label: "获得奖励" },
+  { id: "existing-move", type: "card_move", label: "2移动", options: { movementPoints: 2 } },
+  { id: "tail-score", type: "gain_resources", label: "后续分数" },
+]);
+chain.activateNext(moveMergeFlow);
+const moveMergeSource = chain.createInsertionSource(moveMergeFlow);
+const mergedMove = chain.mergePendingMovementNode(
+  moveMergeFlow,
+  { id: "new-move", type: "card_move", status: "pending", options: { movementPoints: 1 } },
+  moveMergeSource,
+);
+assert.equal(mergedMove.merged, true);
+assert.equal(mergedMove.target.id, "existing-move");
+assert.equal(mergedMove.target.options.movementPoints, 3);
+assert.equal(mergedMove.target.badge, "3");
+assert.equal(moveMergeFlow.effects.length, 3);
+
+const removedMergedMove = chain.removeInsertedNodesBySource(moveMergeFlow, moveMergeSource);
+assert.equal(removedMergedMove, 1);
+assert.equal(moveMergeFlow.effects[1].options.movementPoints, 2);
+assert.equal(moveMergeFlow.effects[1].badge, "2");
+
+const activeMoveFlow = chain.startAbilityChain("active-move-merge", "进行中移动合并", [
+  { id: "active-move", type: "card_move", label: "1移动", options: { movementPoints: 1 } },
+]);
+chain.activateNext(activeMoveFlow);
+const activeMoveMerge = chain.mergePendingMovementNode(
+  activeMoveFlow,
+  { id: "bonus-move", type: "card_move", status: "pending", options: { movementPoints: 2 } },
+);
+assert.equal(activeMoveMerge.merged, true);
+assert.equal(activeMoveFlow.effects[0].options.movementPoints, 3);
+
+const paidMoveFlow = chain.startAbilityChain("paid-move", "带费用移动", [
+  { id: "paid-move-1", type: "card_move", options: { movementPoints: 1, cost: { publicity: 1 } } },
+]);
+chain.activateNext(paidMoveFlow);
+assert.equal(chain.mergePendingMovementNode(
+  paidMoveFlow,
+  { id: "paid-move-2", type: "card_move", status: "pending", options: { movementPoints: 1, cost: { publicity: 1 } } },
+).merged, false);
+
 console.log("chain.test.js: all tests passed");

@@ -17335,10 +17335,19 @@
     };
   }
 
+  function syncMergedCardMoveEffect(mergeResult) {
+    if (!mergeResult?.merged || !mergeResult.target) return;
+    const activeMove = pendingActionEffectFlow?.cardMoveEffect;
+    if (activeMove?.effect === mergeResult.target) {
+      activeMove.poolRemaining += mergeResult.addedMovementPoints;
+      mergeResult.target.badge = String(activeMove.poolRemaining);
+    }
+  }
+
   function insertActionEffectsAfterCurrent(effects) {
     if (!pendingActionEffectFlow || !effects?.length) return;
     const insertedEffects = effects.filter(Boolean);
-    const insertIndex = Math.max(0, pendingActionEffectFlow.currentIndex + 1);
+    let insertIndex = Math.max(0, pendingActionEffectFlow.currentIndex + 1);
     const insertionSource = abilities.chain.createInsertionSource?.(pendingActionEffectFlow) || null;
     const currentOwner = getCurrentActionEffect()
       ? getEffectOwnerPlayer(getCurrentActionEffect())
@@ -17348,10 +17357,21 @@
       || pendingActionEffectFlow.defaultPlayerId
       || pendingActionEffectFlow.playerId
       || null;
-    pendingActionEffectFlow.effects.splice(insertIndex, 0, ...insertedEffects.map((effect, index) => {
+    insertedEffects.forEach((effect, index) => {
       const normalized = normalizeInsertedActionEffect(effect, ownerId, `inserted-card-effect-${insertIndex}-${index}`);
-      return abilities.chain.markInsertedNode?.(normalized, insertionSource) || normalized;
-    }));
+      const mergeResult = abilities.chain.mergePendingMovementNode?.(
+        pendingActionEffectFlow,
+        normalized,
+        insertionSource,
+      );
+      if (mergeResult?.merged) {
+        syncMergedCardMoveEffect(mergeResult);
+        return;
+      }
+      const inserted = abilities.chain.markInsertedNode?.(normalized, insertionSource) || normalized;
+      pendingActionEffectFlow.effects.splice(insertIndex, 0, inserted);
+      insertIndex += 1;
+    });
     pendingActionEffectFlow.completed = false;
   }
 
@@ -17373,9 +17393,21 @@
       || flow.playerId
       || getCurrentPlayer()?.id
       || null;
-    flow.effects.splice(insertIndex, 0, ...insertedEffects.map((effect, index) => (
-      normalizeInsertedActionEffect(effect, ownerId, `inserted-card-trigger-effect-${insertIndex}-${index}`)
-    )));
+    let nextInsertIndex = insertIndex;
+    insertedEffects.forEach((effect, index) => {
+      const normalized = normalizeInsertedActionEffect(
+        effect,
+        ownerId,
+        `inserted-card-trigger-effect-${insertIndex}-${index}`,
+      );
+      const mergeResult = abilities.chain.mergePendingMovementNode?.(flow, normalized);
+      if (mergeResult?.merged) {
+        syncMergedCardMoveEffect(mergeResult);
+        return;
+      }
+      flow.effects.splice(nextInsertIndex, 0, normalized);
+      nextInsertIndex += 1;
+    });
     flow.currentIndex = insertIndex;
     flow.completed = false;
     activateNextActionEffect();
