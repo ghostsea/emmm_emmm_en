@@ -5,19 +5,21 @@
 ## 当前加载层次
 
 1. `randomizer/index.html` 按传统 `<script>` 顺序加载，无构建步骤，也不使用 ES module。
-2. `randomizer/solar-system/**`、`randomizer/game/**` 先注册各自的 `window.Seti*` 全局模块。
-3. `randomizer/app/alien-trace-reward-flow.js` 编排痕迹奖励的方舟解锁、面板放置与无目标落空分支。
-4. `randomizer/app/dependencies.js` 收集并校验 app 层需要的全局模块。
-5. `randomizer/app/constants.js` 创建 app 层静态配置、图标路径、扫描/扇区奖励表和 UI 参数。
-6. `randomizer/app/dom.js` 集中查询页面上的固定 DOM 节点。
-7. `randomizer/app/events.js` 绑定页面事件、overlay 点击分发、拖拽回调和 resize 入口。
-8. `randomizer/app/action-log-export.js` 生成行动日志 Markdown 和下载文件名。
-9. `randomizer/app/public-api.js` 组装 `window.SetiRandomizer` 调试/外部脚本 API。
-10. `randomizer/app/ai-controller.js` 封装 AI 自动机、策略权重、批跑/AB 测试和 AI 决策控制器。
-11. `randomizer/app.js` 保留运行态、流程编排、效果队列、渲染调度、行动日志和各控制器接线。
+2. `randomizer/game/random.js` 最先注册统一随机源；普通游戏透传浏览器随机，每日游戏按本地日期固定种子。
+3. `randomizer/solar-system/**`、其余 `randomizer/game/**` 注册各自的 `window.Seti*` 全局模块。
+4. `randomizer/app/alien-trace-reward-flow.js` 编排痕迹奖励的方舟解锁、面板放置与无目标落空分支。
+5. `randomizer/app/dependencies.js` 收集并校验 app 层需要的全局模块。
+6. `randomizer/app/constants.js` 创建 app 层静态配置、图标路径、扫描/扇区奖励表和 UI 参数。
+7. `randomizer/app/dom.js` 集中查询页面上的固定 DOM 节点。
+8. `randomizer/app/events.js` 绑定页面事件、overlay 点击分发、拖拽回调和 resize 入口。
+9. `randomizer/app/action-log-export.js` 生成行动日志 Markdown 和下载文件名。
+10. `randomizer/app/public-api.js` 组装 `window.SetiRandomizer` 调试/外部脚本 API。
+11. `randomizer/app/ai-controller.js` 封装 AI 自动机、策略权重、批跑/AB 测试和 AI 决策控制器。
+12. `randomizer/app.js` 保留运行态、流程编排、效果队列、渲染调度、行动日志和各控制器接线。
 
 ## 文件职责
 
+- `randomizer/game/random.js`：统一接管本局 `Math.random`。普通模式调用浏览器原生随机；每日模式用日期种子生成可复现序列，并提供可保存、恢复的随机推进状态。
 - `randomizer/app/dependencies.js`：唯一的 app 入口依赖表。新增或删除 `window.Seti*` 依赖时先改这里，让脚本顺序错误能尽早报错。
 - `randomizer/app/alien-trace-reward-flow.js`：只决定痕迹奖励应进入方舟解锁、面板放置还是无目标落空；无目标时必须结束当前奖励节点，包括 `required` / 不可跳过节点。
 - `randomizer/app/constants.js`：只放静态常量和依赖派生常量。不要在这里读写游戏状态、DOM 或 pending 流程。

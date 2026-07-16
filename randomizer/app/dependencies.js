@@ -12,6 +12,7 @@
   "use strict";
 
   const REQUIRED_GLOBALS = Object.freeze([
+    Object.freeze({ key: "gameRandom", globalName: "SetiGameRandom" }),
     Object.freeze({ key: "alienTraceRewardFlow", globalName: "SetiAppAlienTraceRewardFlow" }),
     Object.freeze({ key: "solar", globalName: "SetiSolarSystem" }),
     Object.freeze({ key: "players", globalName: "SetiPlayers" }),

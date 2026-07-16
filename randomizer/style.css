@@ -75,14 +75,23 @@ body {
   display: grid;
   justify-items: center;
   gap: 10px;
+  width: 100%;
+}
+
+.start-screen-primary-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
 }
 
 .start-screen-start-button,
 .start-screen-continue-button {
   justify-self: center;
-  min-width: 190px;
+  width: 100%;
+  min-width: 0;
   min-height: 58px;
-  padding: 0 30px;
+  padding: 0 20px;
   border: 1px solid rgba(255, 223, 142, 0.78);
   border-radius: 8px;
   background: rgba(120, 78, 26, 0.76);
@@ -94,7 +103,15 @@ body {
   transition: background 0.16s ease, border-color 0.16s ease, color 0.16s ease, transform 0.12s ease;
 }
 
+.start-screen-daily-button {
+  border-color: rgba(147, 222, 255, 0.76);
+  background: rgba(27, 86, 114, 0.8);
+  color: #e9f9ff;
+  box-shadow: 0 0 26px rgba(61, 166, 205, 0.3);
+}
+
 .start-screen-continue-button {
+  width: min(240px, 100%);
   min-height: 42px;
   border-color: rgba(154, 218, 255, 0.48);
   background: rgba(6, 25, 39, 0.78);
@@ -117,6 +134,13 @@ body {
   border-color: rgba(172, 225, 255, 0.82);
   background: rgba(30, 88, 126, 0.86);
   color: #effaff;
+}
+
+.start-screen-daily-button:hover:not(:disabled),
+.start-screen-daily-button:focus-visible {
+  border-color: rgba(192, 239, 255, 0.96);
+  background: rgba(39, 118, 154, 0.9);
+  color: #f4fcff;
 }
 
 .start-screen-start-button:active,
@@ -272,6 +296,10 @@ body {
 }
 
 @media (max-width: 560px) {
+  .start-screen-primary-actions {
+    grid-template-columns: 1fr;
+  }
+
   .start-screen-option-row {
     grid-template-columns: 1fr;
   }

@@ -243,6 +243,7 @@ UI 布局：
 - 回合：一轮内的一次行动圈；每名未 PASS 玩家按本轮顺位最多行动一次，除非已经 PASS。所有未 PASS 玩家在当前行动圈都行动后，真实行动圈编号才递增。
 - `turnState` 位于 `randomizer/app.js`，记录 `roundNumber`（轮号）、`turnNumber`（内部行动序号，用 `getDisplayedTurnNumber()` 折算为界面/详细日志回合号）、`actionCycleNumber`（本轮内真实行动圈编号，所有未 PASS 玩家各行动一次后递增，用于行动简报分组和弹窗回合标题）、基础顺位 `turnOrderPlayerIds`、本轮起始玩家 `startPlayerId`、启用玩家 `activePlayerIds`、本轮已 PASS 玩家与当前行动圈已行动玩家。
 - 页面加载时会自动执行原 `set-button` 设置流程：白色玩家固定为初始首位，其余颜色玩家随机洗牌，并重置为第 1 轮第 1 回合。默认人机入口启用 4 名活跃玩家，其中白色为人类玩家，其余 3 个活跃席位为电脑玩家；开始界面可切换为 3 人局，此时白色玩家仍固定参与，其余颜色只随机启用 2 个电脑席位。
+- 开始界面的「开始每日」会按浏览器本地日期 `YYYY-MM-DD` 生成当日固定种子；同一天且开始选项相同时，玩家顺位、太阳系盘面、终局板块、科技奖励、起手、公司/初始牌选项、外星人随机揭示及后续牌序都会按相同随机序列复现。「开始游戏」仍使用普通随机。每日随机源的当前推进状态会随稳定恢复快照保存，恢复后继续沿用原牌序。
 - 新轮开始时，起始玩家按基础顺位顺延到上一轮第二顺位玩家。
 
 ### 行动日志状态
@@ -256,7 +257,7 @@ UI 布局：
 - 日志 step 会记录 `stepId`、`source`、`undoable`、`irreversibleReason`；打牌 step 额外记录 `playedCard` 快照用于在日志中高亮牌名并 hover/focus 预览牌面。撤销时按 `stepId` 精确删除 draft 中对应记录，避免主/快速行动交错时删错日志。
 - 撤销快速行动会删除 draft 中最近的快速行动记录；撤销主要行动效果会删除最近的主要行动记录；回滚整个主要行动会删除 draft 中所有主要行动记录但保留尚未撤销的快速行动记录。若最近步骤是不可撤销屏障，只提示原因，不会越过屏障撤销更早步骤。
 - 确认后不可撤销的精选/拿牌效果会写入不可撤销屏障，并在日志中显示原因；公司 1x 中任务中继站、芬威克、未来跨度、宇宙战略等公共牌精选补牌能力也按 quick 日志记录 `不可撤销：公共牌补牌翻出新牌`。
-- 每条已确认的稳定行动日志 entry 会附带 `recoverySnapshot`，保存该日志确认后的完整游戏状态切片（含隐藏牌序、外星人状态、火箭、科技、星云、玩家、任务状态、AI 控制配置等，不递归保存日志本身）。最后一名玩家确认初始选择后若进入“初始收入增加”效果流，该条日志会暂时不暴露恢复快照，直到初始收入全部完成后刷新为稳定恢复点。`window.SetiRandomizer.getActionLogRecoveryPackage()` 可导出含恢复快照的日志包；`window.SetiRandomizer.recoverFromActionLog(logOrPackage, { entryId/index })` 会取对应日志快照恢复局面，并清空所有进行中的 overlay/选择流程。恢复点定位为“某条已确认日志之后”的稳定局面；调试入口仍不保证完整日志语义。
+- 每条已确认的稳定行动日志 entry 会附带 `recoverySnapshot`，保存该日志确认后的完整游戏状态切片（含隐藏牌序、随机源推进状态、外星人状态、火箭、科技、星云、玩家、任务状态、AI 控制配置等，不递归保存日志本身）。最后一名玩家确认初始选择后若进入“初始收入增加”效果流，该条日志会暂时不暴露恢复快照，直到初始收入全部完成后刷新为稳定恢复点。`window.SetiRandomizer.getActionLogRecoveryPackage()` 可导出含恢复快照的日志包；`window.SetiRandomizer.recoverFromActionLog(logOrPackage, { entryId/index })` 会取对应日志快照恢复局面，并清空所有进行中的 overlay/选择流程。恢复点定位为“某条已确认日志之后”的稳定局面；调试入口仍不保证完整日志语义。
 - 浏览器会把最近稳定局面自动保存到本地 `localStorage`。保存点要求当前没有进行中的主行动、快速行动、效果队列或选择弹窗，因此若刷新发生在半步流程中，会回到上一个稳定保存点。页面加载时先显示开始界面，不会自动恢复或新开；点击「开始游戏」会清除本地进度并新开一局，点击「继续游戏(beta)」才会恢复上次保存的局面和当时的人类/电脑控制配置。旧存档若没有 AI 控制配置，或快照里的电脑席位无法解析，会按默认人机入口恢复白色人类与其余电脑席位；显式保存为全手动的快照仍按全手动恢复。旧的 AI 阻塞暂停不会跨继续游戏保留，避免修复后仍停在由玩家控制电脑的状态。没有可恢复局面时，「继续游戏(beta)」保持禁用。
 - 开始界面的「调试功能」默认关闭；关闭时左侧调试 dock 和日志中的「状态日志」页签都不显示，只保留「行动日志」。开启后恢复调试入口和状态日志页签。
 - 统计弹窗内保留「下载行动日志」入口；UI 调用 `window.SetiRandomizer.downloadActionLogMarkdown({ allowIncomplete: true })`，可随时以 Markdown 文件导出当前行动复盘。`window.SetiRandomizer.getActionLogMarkdown()` 返回同一份 Markdown 文本，方便 Playwright/控制台/外部 agent 读取；`downloadActionLogMarkdown()` 作为公开 API 默认仍只允许终局后下载，传 `{ allowIncomplete: true }` 可导出当前局面。Markdown 只包含游戏元信息、终局分数、玩家路线摘要和完整行动流水，不包含 `recoverySnapshot`、隐藏牌序或完整恢复状态；需要恢复局面时仍使用 `getActionLogRecoveryPackage()`。

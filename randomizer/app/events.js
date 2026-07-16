@@ -38,6 +38,7 @@
       alienGameState,
       randomizeAll,
       startNewGameFromStartScreen,
+      startDailyGameFromStartScreen,
       continueGameFromStartScreen,
       syncStartScreenDebugOption,
       syncStartScreenActionLogOption,
@@ -235,6 +236,7 @@
     }
 
     els.startScreenStartButton?.addEventListener("click", startNewGameFromStartScreen);
+    els.startScreenDailyButton?.addEventListener("click", startDailyGameFromStartScreen);
     els.startScreenContinueButton?.addEventListener("click", () => {
       if (els.startScreenContinueButton.disabled) return;
       continueGameFromStartScreen();

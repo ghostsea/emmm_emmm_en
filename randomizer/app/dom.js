@@ -16,6 +16,7 @@
       appWrap: documentRef.querySelector(".app-wrap"),
       startScreen: documentRef.getElementById("start-screen"),
       startScreenStartButton: documentRef.getElementById("start-screen-start-button"),
+      startScreenDailyButton: documentRef.getElementById("start-screen-daily-button"),
       startScreenContinueButton: documentRef.getElementById("start-screen-continue-button"),
       startAiDifficulty: documentRef.getElementById("start-ai-difficulty"),
       startPlayerCount: documentRef.getElementById("start-player-count"),

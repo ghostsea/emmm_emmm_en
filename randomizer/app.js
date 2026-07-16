@@ -3,6 +3,7 @@
 
   const dependencies = window.SetiAppDependencies.collectDependencies(window);
   const {
+    gameRandom,
     solar,
     players,
     rocketActions,
@@ -1744,6 +1745,7 @@
       },
       runtime: {
         aiControl: createAiControlSnapshot(),
+        random: gameRandom.getSnapshot(),
       },
     };
   }
@@ -2190,6 +2192,7 @@
     }
     getActionCycleNumber();
     clearTransientStateForRecovery();
+    gameRandom.restoreSnapshot(snapshot?.runtime?.random || null);
     const aiControlResult = restoreAiControlSnapshot(snapshot?.runtime?.aiControl || null, {
       missingMessage: "旧存档未包含电脑配置，已按默认人机对局恢复",
     });
@@ -3035,6 +3038,20 @@
       aiDifficulty: startScreenState.aiDifficulty,
       clearStorage: true,
       message: "新游戏已开始，请完成初始选择。",
+    });
+    closeStartScreen();
+  }
+
+  function startDailyGameFromStartScreen() {
+    const dateKey = gameRandom.normalizeDateKey(new Date());
+    startScreenState.entered = true;
+    applyStartScreenOptions();
+    startNewGame({
+      activePlayerCount: startScreenState.activePlayerCount,
+      aiDifficulty: startScreenState.aiDifficulty,
+      dailyDateKey: dateKey,
+      clearStorage: true,
+      message: `每日游戏 ${dateKey} 已开始，请完成初始选择。`,
     });
     closeStartScreen();
   }
@@ -35660,6 +35677,11 @@
   function startNewGame(options = {}) {
     persistentGameSaveSuspended = true;
     try {
+      if (options.dailyDateKey) {
+        gameRandom.useDailyRandom(options.dailyDateKey);
+      } else {
+        gameRandom.useNativeRandom();
+      }
       const aiDifficulty = normalizeAiDifficulty(options.aiDifficulty ?? startScreenState.aiDifficulty);
       startScreenState.aiDifficulty = aiDifficulty;
       if (els.startAiDifficulty) {
@@ -35865,6 +35887,7 @@
     alienGameState,
     randomizeAll,
     startNewGameFromStartScreen,
+    startDailyGameFromStartScreen,
     continueGameFromStartScreen,
     syncStartScreenDebugOption,
     syncStartScreenActionLogOption,

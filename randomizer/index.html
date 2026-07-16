@@ -4,13 +4,16 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=fangzhou-unlock-stats-1">
+  <link rel="stylesheet" href="./style.css?v=daily-game-1">
 </head>
 <body>
   <div class="start-screen" id="start-screen" aria-label="开始界面">
     <div class="start-screen-panel">
       <div class="start-screen-actions" aria-label="游戏入口">
-        <button class="start-screen-start-button" type="button" id="start-screen-start-button">开始游戏</button>
+        <div class="start-screen-primary-actions">
+          <button class="start-screen-start-button" type="button" id="start-screen-start-button">开始游戏</button>
+          <button class="start-screen-start-button start-screen-daily-button" type="button" id="start-screen-daily-button" title="按今天的日期使用固定随机种子">开始每日</button>
+        </div>
         <button class="start-screen-continue-button" type="button" id="start-screen-continue-button" disabled aria-disabled="true" hidden>继续游戏(beta)</button>
       </div>
       <div class="start-screen-options" aria-label="开始选项">
@@ -687,6 +690,7 @@
     </div>
   </div>
 
+  <script src="./game/random.js?v=daily-game-1"></script>
   <script src="./solar-system/layout.js?v=player-actions-4"></script>
   <script src="./solar-system/core.js?v=player-actions-4"></script>
   <script src="./game/card-catalog.js?v=card-catalog-sync-1"></script>
@@ -770,13 +774,13 @@
   <script src="./game/ai/battle-analytics.js?v=orange4-sensitive-diagnostics-1"></script>
   <script src="./game/ai/index.js?v=ai-race-model-1"></script>
   <script src="./app/alien-trace-reward-flow.js?v=trace-no-target-1"></script>
-  <script src="./app/dependencies.js?v=trace-no-target-1"></script>
+  <script src="./app/dependencies.js?v=daily-game-1"></script>
   <script src="./app/constants.js?v=industry-pirates-1"></script>
-  <script src="./app/dom.js?v=action-briefing-3"></script>
-  <script src="./app/events.js?v=sector-ai-trace-owner-1"></script>
+  <script src="./app/dom.js?v=daily-game-1"></script>
+  <script src="./app/events.js?v=daily-game-1"></script>
   <script src="./app/action-log-export.js?v=action-log-export-2"></script>
   <script src="./app/public-api.js?v=app-boundaries-5"></script>
   <script src="./app/ai-controller.js?v=huanyu-terminal-cashout-7"></script>
-  <script src="./app.js?v=effect-move-merge-1"></script>
+  <script src="./app.js?v=daily-game-1"></script>
 </body>
 </html>
