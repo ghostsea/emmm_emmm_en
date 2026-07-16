@@ -3809,6 +3809,164 @@ function makeYichangdianAlienState(options = {}) {
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
+    roundNumber: 5,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    blueInitialSelection: {
+      industry: { id: "industry:寰宇超动力", label: "寰宇超动力" },
+    },
+    blueResources: { score: 97, credits: 4, energy: 1, publicity: 6, availableData: 0, handSize: 5 },
+    blueHand: [
+      {
+        id: "final-unready-task-card",
+        cardId: "final-unready-task-card",
+        cardName: "Final unready task card",
+        price: 3,
+        typeCode: 2,
+        playEffects: [{
+          type: "card_research_tech",
+          options: { techTypes: ["orange"], skipCost: true },
+        }],
+        model: {
+          tasks: [{
+            id: "unready-yellow-task",
+            condition: { type: "allAliensHavePlayerTrace", traceType: "yellow" },
+            rewards: [{ type: "gain_resources", options: { gain: { score: 2 } } }],
+          }],
+        },
+      },
+      { id: "task-filler-a", cardName: "Task filler A", price: 4 },
+      { id: "task-filler-b", cardName: "Task filler B", price: 4 },
+      { id: "task-filler-c", cardName: "Task filler C", price: 4 },
+      { id: "task-filler-d", cardName: "Task filler D", price: 4 },
+    ],
+    takeableTechIds: ["orange1"],
+    techStacks: {
+      orange1: { techType: "orange", stackIndex: 1, remaining: 2 },
+    },
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_c2: {
+          id: "final_c2",
+          marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_c2: "c2",
+      final_d2: "d2",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  harness.controller.runAiAutomationStep();
+  const taskCardCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "playCard" && candidate.cardId === "final-unready-task-card");
+  assert.ok(taskCardCandidate, "terminal task card should remain playable for its real technology effect");
+  assert.equal(taskCardCandidate.valueBreakdown?.finalUnreadyTaskSetupSuppressed, true);
+  assert.equal(
+    taskCardCandidate.valueBreakdown?.cFinalTaskProgressValue,
+    0,
+    "an unready terminal task must not count as completed-task final progress",
+  );
+  assert.ok(
+    Number(taskCardCandidate.valueBreakdown?.playCardConversionPressure || 0) < 25,
+    "an unready terminal task must not create circular task conversion pressure",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 5,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    enableQuickTrades: true,
+    recordQuickTrade: true,
+    blueInitialSelection: {
+      industry: { id: "industry:寰宇超动力", label: "寰宇超动力" },
+    },
+    blueResources: { score: 97, credits: 1, energy: 1, publicity: 3, availableData: 0, handSize: 4 },
+    blueHand: [
+      {
+        id: "tail-route-card",
+        cardName: "Tail route card",
+        price: 2,
+        playEffects: [{ type: "free_move", options: { movementPoints: 2 } }],
+      },
+      { id: "route-filler-a", cardName: "Route filler A", price: 2 },
+      { id: "route-filler-b", cardName: "Route filler B", price: 2 },
+      { id: "route-filler-c", cardName: "Route filler C", price: 2 },
+    ],
+    rocketTokensByPlayer: {
+      "player-blue": [{ id: 201, playerId: "player-blue", sector: { x: 1, y: 2 } }],
+    },
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b1: {
+          id: "final_b1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d1: {
+          id: "final_d1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_b1: "b1",
+      final_d1: "d1",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  harness.controller.runAiAutomationStep();
+  assert.ok(turnChoices.length > 0, "AI should enumerate terminal choices before rejecting the route-card unlock trade");
+  assert.equal(
+    turnChoices.flat().some((candidate) => (
+      candidate.id === "quickTrade"
+      && candidate.tradeId === "cards-for-credit"
+      && candidate.valueBreakdown?.mainUnlockTrade
+    )),
+    false,
+    "low-tail terminal trade should reject route-only cards without measurable final scoring",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
     roundNumber: 3,
     turnNumber: 7,
     canStartMainAction: true,
@@ -6922,6 +7080,10 @@ function makeYichangdianAlienState(options = {}) {
   assert.ok(
     Number(tradeCandidate.valueBreakdown?.concreteFinalValue || 0) > 0,
     "tail unlock trade should still require concrete score/final value",
+  );
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.measurableFinalValue || 0) >= 4,
+    "tail unlock trade should retain cards with measurable terminal scoring",
   );
 }
 

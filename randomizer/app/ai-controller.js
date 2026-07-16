@@ -6747,6 +6747,13 @@
       ), 0);
       const currentFinalMarks = countAiFinalMarksForPlayer(player);
       const highScorePushProfile = getAiHighScorePushProfile(player);
+      const industryCard = getAiIndustryCard(player);
+      const huanyuWithoutCompletedTasks = Boolean(
+        (industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          || industryCard?.label === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL)
+        && Math.max(0, Math.round(aiNumber(player.completedTaskCount))) === 0
+        && highScorePushProfile.projectedScore < 150
+      );
       const finalLowTailOneCreditUnlock = (
         tradeId === "cards-for-credit"
         && currentCredits === 1
@@ -6809,6 +6816,11 @@
       const c2Type3ProgressValue = Math.max(0, aiNumber(breakdown.c2Type3ProgressValue));
       const cFinalTaskProgressValue = Math.max(0, aiNumber(breakdown.cFinalTaskProgressValue));
       const endGameExpectedScore = Math.max(0, aiNumber(breakdown.endGameExpectedScore));
+      const measurableFinalValue = directScoreGain
+        + Math.max(0, aiNumber(bestPlay.finalDeltaValue))
+        + c2Type3ProgressValue
+        + cFinalTaskProgressValue
+        + endGameExpectedScore;
       const concretePlanScore = bestPlay.plan?.actionId === "task" && cFinalTaskProgressValue <= 0
         ? 0
         : Math.max(0, aiNumber(breakdown.planScore));
@@ -6822,6 +6834,7 @@
       const finalMarks = currentFinalMarks;
       if (aiNumber(bestPlay.score) < 8) return null;
       if (finalMarks >= 3 && concreteFinalValue <= 0) return null;
+      if (finalLowTailOneCreditUnlock && huanyuWithoutCompletedTasks && measurableFinalValue < 4) return null;
       const weakRepeatedTradeOverOpenedMain = (
         tradeId === "cards-for-credit"
         && normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty) === AI_DIFFICULTY_WEAK_START
@@ -6873,7 +6886,9 @@
           nextFinalMarkThreshold: nextThreshold || null,
           thresholdBonus,
           concreteFinalValue: roundAiScore(concreteFinalValue),
+          measurableFinalValue: roundAiScore(measurableFinalValue),
           finalLowTailOneCreditUnlock,
+          huanyuWithoutCompletedTasks,
           finalHighScoreOneCreditUnlock,
           highScoreProjectedScore: roundAiScore(highScorePushProfile.projectedScore),
         },
@@ -10568,9 +10583,10 @@
       const hasResearchEffect = (playEffects || []).some((effect) => isAiResearchTechEffectType(effect?.type));
       const hasScanEffect = (playEffects || []).some((effect) => isAiCardScanEffectType(effect?.type));
       const hasDrawEffect = (playEffects || []).some((effect) => effect?.type === "draw_cards");
+      const suppressTaskSetup = Boolean(details.suppressTaskSetup);
       let fit = 0;
 
-      if (model?.tasks?.length) {
+      if (model?.tasks?.length && !suppressTaskSetup) {
         fit += 0.62 + model.tasks.length * 0.18 + (completedTasks <= 0 ? 0.18 : 0);
       }
       if (typeCode === 3 && (hasC2 || model?.endGameScoring || endGameExpectedScore > 0)) {
@@ -10588,7 +10604,7 @@
       }
       if (hasScanEffect) fit += getAiPlanningFinalFormulaEntries(player, ["b2"]).length ? 0.26 : 0.14;
       if (hasDrawEffect) fit += 0.12;
-      if (details.plan?.actionId === "task" || details.plan?.actionId === "final") fit += 0.12;
+      if ((!suppressTaskSetup && details.plan?.actionId === "task") || details.plan?.actionId === "final") fit += 0.12;
       if (fit <= 0) return 0;
       return roundAiScore(Math.min(22, basePressure * fit));
     }
@@ -10606,9 +10622,9 @@
       const endGameExpectedScore = details.endGameExpectedScore
         ?? scoreAiCardEndGameExpectedValue(card, model, player);
       const c2Type3ProgressValue = typeCode === 3 ? scoreAiC2Type3ProgressValue(player) : 0;
-      const cFinalTaskProgressValue = model?.tasks?.length
-        ? scoreAiCFinalTaskProgressValue(player, model.tasks.length)
-        : 0;
+      const cFinalTaskProgressValue = details.cFinalTaskProgressValue ?? (
+        model?.tasks?.length ? scoreAiCFinalTaskProgressValue(player, model.tasks.length) : 0
+      );
       const standardActionPremium = details.standardActionPremium
         ?? scoreAiCardStandardActionPremium(playEffects, player);
       const hasC2Plan = getAiPlanningFinalFormulaEntries(player, ["c2"]).length > 0;
@@ -10629,6 +10645,7 @@
           typeCode,
           endGameExpectedScore,
           plan: details.plan,
+          suppressTaskSetup: details.suppressTaskSetup,
         });
 
       let value = handPressure;
@@ -10640,7 +10657,7 @@
         && concreteRoutePlanScore <= 0
         && !model?.endGameScoring
         && typeCode !== 3;
-      if (model?.tasks?.length && !looseFinalTaskOnly) {
+      if (model?.tasks?.length && !looseFinalTaskOnly && !details.suppressTaskSetup) {
         value += 5 + Math.min(10, cFinalTaskProgressValue * 0.8);
       }
       if (typeCode === 3) {
@@ -11065,9 +11082,9 @@
       const standardActionPremium = details.standardActionPremium
         ?? scoreAiCardStandardActionPremium(playEffects, player);
       const c2Type3ProgressValue = typeCode === 3 ? scoreAiC2Type3ProgressValue(player) : 0;
-      const cFinalTaskProgressValue = model?.tasks?.length
-        ? scoreAiCFinalTaskProgressValue(player, model.tasks.length)
-        : 0;
+      const cFinalTaskProgressValue = details.cFinalTaskProgressValue ?? (
+        model?.tasks?.length ? scoreAiCFinalTaskProgressValue(player, model.tasks.length) : 0
+      );
       const chongTaskChainValue = details.chongTaskChainValue ?? scoreAiChongCardTaskChainValue(card, player);
       const banrenmaThresholdSetupValue = details.banrenmaThresholdSetupValue
         ?? scoreAiBanrenmaCardThresholdSetupValue(card, player);
@@ -15962,6 +15979,28 @@
         total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
       ), 0);
       const strategyPassivePlayValue = scoreAiStrategyPassiveCardPlayValue(card, currentPlayer);
+      const industryCard = getAiIndustryCard(currentPlayer);
+      const isHuanyuLowTailWithoutTasks = Boolean(
+        (industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          || industryCard?.label === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL)
+        && Math.max(0, Math.round(aiNumber(currentPlayer.completedTaskCount))) === 0
+        && getAiHighScorePushProfile(currentPlayer).projectedScore < 150
+      );
+      const finalUnreadyTaskSetupSuppressed = Boolean(
+        isHuanyuLowTailWithoutTasks
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && countAiFinalMarksForPlayer(currentPlayer) >= 3
+        && !getAiNextMissingFinalScoreThreshold(currentPlayer)
+        && aiNumber(currentPlayer.resources?.score) >= 70
+        && aiNumber(currentPlayer.resources?.score) < 155
+        && model?.tasks?.length
+        && readyTaskCashout.count <= 0
+        && !model?.endGameScoring
+        && typeCode !== 3
+      );
+      const cFinalTaskProgressValue = model?.tasks?.length && !finalUnreadyTaskSetupSuppressed
+        ? scoreAiCFinalTaskProgressValue(currentPlayer, model.tasks.length)
+        : 0;
       const lateCardEnginePressure = scoreAiLatePlayCardEnginePressure(card, {
         player: currentPlayer,
         model,
@@ -15969,6 +16008,7 @@
         typeCode,
         endGameExpectedScore,
         plan,
+        suppressTaskSetup: finalUnreadyTaskSetupSuppressed,
       });
       const playCardConversionPressure = scoreAiPlayCardConversionPressure(card, {
         player: currentPlayer,
@@ -15979,6 +16019,8 @@
         plan,
         standardActionPremium,
         lateCardEnginePressure,
+        cFinalTaskProgressValue,
+        suppressTaskSetup: finalUnreadyTaskSetupSuppressed,
       });
       const routePlanCashout = Boolean(
         plan?.movePreview?.followupLanding?.directScoreGain > 0
@@ -16003,9 +16045,6 @@
         routePlanCashout,
       });
       const c2Type3ProgressValue = typeCode === 3 ? scoreAiC2Type3ProgressValue(currentPlayer) : 0;
-      const cFinalTaskProgressValue = model?.tasks?.length
-        ? scoreAiCFinalTaskProgressValue(currentPlayer, model.tasks.length)
-        : 0;
       const chongTaskChainValue = scoreAiChongCardTaskChainValue(card, currentPlayer);
       const banrenmaThresholdSetupValue = scoreAiBanrenmaCardThresholdSetupValue(card, currentPlayer);
       const score = scoreAiPlayCardValue(card, {
@@ -16027,6 +16066,7 @@
         effectValue,
         standardActionPremium,
         strategyPassivePlayValue,
+        cFinalTaskProgressValue,
       });
       const hasPersistentModeledValue = Boolean(
         (reservesAfterPlay && (
@@ -16098,6 +16138,7 @@
           strategyPassivePlayValue,
           c2Type3ProgressValue,
           cFinalTaskProgressValue,
+          finalUnreadyTaskSetupSuppressed,
           readyTaskCashoutValue: readyTaskCashout.value,
           readyTaskCashoutDirectScore: readyTaskCashout.directScore,
           readyTaskCashoutCount: readyTaskCashout.count,
@@ -20276,6 +20317,7 @@
           cFinalTaskProgressValue: Math.max(0, aiNumber(bestPlayCardBreakdown.cFinalTaskProgressValue)),
           endGameExpectedScore: Math.max(0, aiNumber(bestPlayCardBreakdown.endGameExpectedScore)),
           playCardConversionPressure: Math.max(0, aiNumber(bestPlayCardBreakdown.playCardConversionPressure)),
+          finalUnreadyTaskSetupSuppressed: Boolean(bestPlayCardBreakdown.finalUnreadyTaskSetupSuppressed),
         },
       });
       const scanCandidate = candidates.find((candidate) => candidate?.id === "scan");
