@@ -808,6 +808,36 @@
       return Array.from(planetIds);
     }
 
+    function getAiPlayerWonSectorIds(player = getCurrentPlayer()) {
+      const playerKeys = new Set([
+        player?.id,
+        player?.playerId,
+        player?.color,
+        player?.playerColor,
+      ].filter(Boolean).map(String));
+      const wins = nebulaDataState?.sectorSettlements?.winsByPlayerId || {};
+      const sectorIds = new Set();
+      for (const [ownerKey, entries] of Object.entries(wins)) {
+        if (!playerKeys.has(String(ownerKey))) continue;
+        for (const win of entries || []) {
+          if (win?.sectorId) sectorIds.add(String(win.sectorId));
+        }
+      }
+      return sectorIds;
+    }
+
+    function getAiMissingSignalOrWinSectorIds(player = getCurrentPlayer()) {
+      if (!player) return [];
+      const allSectorIds = Object.values(
+        cardEffects?.NEBULA_IDS_BY_COLOR || endGameScoring?.NEBULA_IDS_BY_COLOR || {},
+      ).flat().map(String);
+      const wonSectorIds = getAiPlayerWonSectorIds(player);
+      return allSectorIds.filter((sectorId) => (
+        !wonSectorIds.has(sectorId)
+        && getAiNebulaSignalCounts(sectorId, player).ownCount <= 0
+      ));
+    }
+
     function getAiTaskConditionCurrentCount(condition = {}, player = null) {
       if (!condition || !player) return null;
       const type = condition.type || null;
@@ -820,6 +850,13 @@
         return condition.traceType
           ? aiNumber(endGameScoring?.countTraceMarkers?.(player, alienGameState, condition.traceType))
           : countAiTraceMarkersForPlayer(player);
+      }
+      if (type === "singleAlienTraceCount") {
+        return aiNumber(cardEffects?.countMaxSingleAlienTraceMarkers?.(
+          player,
+          alienGameState,
+          condition.traceTypes || null,
+        ));
       }
       if (type === "dataTotal") return aiNumber(player.resources?.availableData);
       if (type === "planetOrbitOrLand") {
@@ -859,17 +896,10 @@
         )).length;
       }
       if (type === "signalsOrWinsInAllSectors") {
-        const playerKeys = new Set([player.id, player.playerId, player.color, player.playerColor].filter(Boolean));
-        const wins = nebulaDataState?.sectorSettlements?.winsByPlayerId || {};
-        const wonSectors = new Set();
-        for (const key of playerKeys) {
-          for (const win of wins[key] || []) {
-            if (win?.sectorId) wonSectors.add(win.sectorId);
-          }
-        }
-        return Object.values(nebulaIdsByColor).flat().filter((nebulaId) => (
-          wonSectors.has(nebulaId) || getAiNebulaSignalCounts(nebulaId, player).ownCount > 0
-        )).length;
+        return Math.max(
+          0,
+          Object.values(nebulaIdsByColor).flat().length - getAiMissingSignalOrWinSectorIds(player).length,
+        );
       }
       if (type === "aomomoSignalCount") {
         return getAiNebulaSignalCounts(aomomo?.NEBULA_ID || "aomomo", player).ownCount;
@@ -908,6 +938,9 @@
         color: condition.color || null,
         traceType: condition.traceType || null,
         locationType: condition.locationType || null,
+        missingSectorIds: condition.type === "signalsOrWinsInAllSectors"
+          ? getAiMissingSignalOrWinSectorIds(player)
+          : undefined,
       };
     }
 
@@ -9470,6 +9503,17 @@
         const progress = getAiConditionalProgress(countAiTraceMarkersForPlayer(player), condition.count || 1);
         return progress.met ? progress : { ...progress, multiplier: missingMultiplier(progress.multiplier) };
       }
+      if (type === "singleAlienTraceCount") {
+        const progress = getAiConditionalProgress(
+          cardEffects?.countMaxSingleAlienTraceMarkers?.(
+            player,
+            alienGameState,
+            condition.traceTypes || null,
+          ),
+          condition.count || 1,
+        );
+        return progress.met ? progress : { ...progress, multiplier: missingMultiplier(progress.multiplier) };
+      }
       if (type === "dataTotal") {
         const progress = getAiConditionalProgress(player?.resources?.availableData, condition.count || 1);
         return progress.met ? progress : { ...progress, multiplier: missingMultiplier(progress.multiplier) };
@@ -9932,6 +9976,34 @@
       ));
     }
 
+    function scoreAiLastMissingSectorTaskCashout(nebulaId, player = getCurrentPlayer()) {
+      if (!nebulaId || !player) return 0;
+      const missingSectorIds = getAiMissingSignalOrWinSectorIds(player);
+      if (missingSectorIds.length !== 1 || missingSectorIds[0] !== String(nebulaId)) return 0;
+      const matchingTask = listAiUncompletedCardTasksForPlayer(player).find(({ task }) => (
+        task?.condition?.type === "signalsOrWinsInAllSectors"
+      ));
+      return matchingTask
+        ? Math.min(20, scoreAiTaskRouteCompletionValue(matchingTask.task, player))
+        : 0;
+    }
+
+    function scoreAiLastSectorWinTaskCashout(nebulaId, counts, player = getCurrentPlayer()) {
+      if (!nebulaId || !counts || !player || counts.openCount > 1) return 0;
+      if (getAiPlayerWonSectorIds(player).has(String(nebulaId))) return 0;
+      if (!getAiSectorScanWinState(counts).winsAfterScan) return 0;
+      const currentWins = Math.max(0, aiNumber(
+        endGameScoring?.countSectorWins?.(player, nebulaDataState),
+      ));
+      const matchingTask = listAiUncompletedCardTasksForPlayer(player).find(({ task }) => (
+        task?.condition?.type === "completedSectors"
+        && Math.max(0, Math.round(aiNumber(task.condition.count)) - currentWins) === 1
+      ));
+      return matchingTask
+        ? Math.min(20, scoreAiTaskRouteCompletionValue(matchingTask.task, player))
+        : 0;
+    }
+
     function getAiPendingTaskRouteCashout(player, predicate) {
       if (!player || typeof predicate !== "function") return { value: 0, directScore: 0, count: 0 };
       return listAiUncompletedCardTasksForPlayer(player)
@@ -10135,6 +10207,16 @@
         case "singleAlienTraceSet":
           for (const traceType of condition.traceTypes || []) addAiMapDemand(demand.traceTypes, traceType, amount * 0.6);
           break;
+        case "singleAlienTraceCount": {
+          const currentCount = Math.max(0, aiNumber(cardEffects?.countMaxSingleAlienTraceMarkers?.(
+            player,
+            alienGameState,
+            condition.traceTypes || null,
+          )));
+          const missing = getAiMissingCount(currentCount, condition.count || 1);
+          if (missing > 0) addAiAllTraceDemand(demand, amount * Math.min(1.2, 0.45 + missing * 0.25));
+          break;
+        }
         case "yichangdianAllTraceTypes":
         case "aomomoAllTraceTypes":
         case "aomomoFossilSpendingTrace":
@@ -11002,15 +11084,18 @@
       if (!readyTasks.length) return { count: 0, directScore: 0, rewardValue: 0, value: 0, taskIds: [] };
       const directScore = readyTasks.reduce((total, task) => total + Math.max(0, getAiTaskDirectScoreReward(task, player)), 0);
       const rewardValue = readyTasks.reduce((total, task) => total + Math.max(0, getAiTaskRewardValue(task, player)), 0);
-      if (directScore <= 0) {
-        return { count: readyTasks.length, directScore: 0, rewardValue: roundAiScore(rewardValue), value: 0, taskIds: readyTasks.map((task) => task.id) };
-      }
-      const value = Math.min(
-        32,
-        rewardValue * 1.05
-          + directScore * (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 1 : 0.65)
-          + scoreAiThresholdPressureForScoreGain(directScore, player) * 0.45,
+      const completionProgressValue = Math.max(
+        0,
+        scoreAiCFinalTaskProgressValue(player, readyTasks.length),
       );
+      const value = directScore > 0
+        ? Math.min(
+          32,
+          rewardValue * 1.05
+            + directScore * (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 1 : 0.65)
+            + scoreAiThresholdPressureForScoreGain(directScore, player) * 0.45,
+        )
+        : Math.min(24, rewardValue * 0.85 + completionProgressValue * 0.35);
       return {
         count: readyTasks.length,
         directScore: roundAiScore(directScore),
@@ -11084,6 +11169,7 @@
       const cornerOpportunity = scoreAiCardCornerOpportunity(card);
       const demandFit = scoreAiCardDemandFit(card, model, playEffects, player);
       const endGameExpectedScore = details.endGameExpectedScore ?? scoreAiCardEndGameExpectedValue(card, model, player);
+      const readyTaskCashoutValue = Math.max(0, aiNumber(details.readyTaskCashout?.value));
       const routePlan = details.plan || scoreAiPlayCardRoutePlan(card, model, playEffects, player);
       const standardActionPremium = details.standardActionPremium
         ?? scoreAiCardStandardActionPremium(playEffects, player);
@@ -11190,6 +11276,7 @@
         + secondFinalMarkNudgeValue
         + applyAiStrategyWeight(c2Type3ProgressValue, "final", 0.85)
         + applyAiStrategyWeight(Math.min(12, cFinalTaskProgressValue), "task", 0.75)
+        + applyAiStrategyWeight(Math.min(24, readyTaskCashoutValue), "task", 0.8)
         + applyAiStrategyWeight(chongTaskChainValue, "task", 0.7)
         + applyAiStrategyWeight(banrenmaThresholdSetupValue, "playCard", 0.65)
         + applyAiStrategyWeight(finalRoundEndGameCardUrgency, "final", 0.75)
@@ -15207,8 +15294,13 @@
 
       const capacity = Math.max(0, Math.round(aiNumber(data.getNebulaCapacity?.(nebulaId))));
       const counts = getAiNebulaSignalCounts(nebulaId, player);
+      const lastMissingSectorTaskCashout = scoreAiLastMissingSectorTaskCashout(nebulaId, player);
+      const lastSectorWinTaskCashout = extraMarkOnly || options.includeLastSectorWinTaskCashout === false
+        ? 0
+        : scoreAiLastSectorWinTaskCashout(nebulaId, counts, player);
       if (extraMarkOnly) {
-        return scoreAiFullSectorExtraMark(nebulaId, counts, player, options);
+        return scoreAiFullSectorExtraMark(nebulaId, counts, player, options)
+          + lastMissingSectorTaskCashout;
       }
       const slotScore = nextToken
         ? Math.max(0, aiNumber(data.getNebulaSlotScoreReward?.(nebulaId, nextToken.slotIndex)))
@@ -15232,6 +15324,8 @@
       value += getAiMapDemand(demand.actions, "scan") * 0.12 * getAiStrategyWeight("scan");
       value += getAiMapDemand(demand.traceTypes, "pink") * 0.42 * getAiStrategyWeight("scan");
       value += getAiMapDemand(demand.traceTypes, "blue") * (gainsData ? 0.34 : 0.12) * getAiStrategyWeight("scan");
+      value += lastMissingSectorTaskCashout;
+      value += lastSectorWinTaskCashout;
       value += scoreAiB2SectorScanFocus(nebulaId, counts, player);
       const runezuSectorSymbolValue = scoreAiRunezuSourceSymbolValue("sector", nebulaId, player);
       if (runezuSectorSymbolValue > 0) {
@@ -15308,7 +15402,10 @@
     function scoreAiScanCard(card, options = {}) {
       const scanChoices = getPublicScanChoicesForCard(card);
       if (!scanChoices.ok) return -Infinity;
-      const bestTargetScore = getBestAiNebulaChoiceScore(scanChoices.choices || [], options);
+      const bestTargetScore = getBestAiNebulaChoiceScore(scanChoices.choices || [], {
+        ...options,
+        includeLastSectorWinTaskCashout: false,
+      });
       if (!Number.isFinite(bestTargetScore)) return -Infinity;
       const handDiscardPenalty = options.fromHand
         ? Math.max(0, scoreAiPlayCardValue(card, { player: options.player || getCurrentPlayer() })) * 0.25
@@ -15320,7 +15417,10 @@
     function getAiScanCardDirectScoreGain(card, options = {}) {
       const scanChoices = getPublicScanChoicesForCard(card);
       if (!scanChoices.ok) return 0;
-      return Math.max(0, aiNumber(getBestAiNebulaChoiceEntry(scanChoices.choices || [], options)?.directScoreGain));
+      return Math.max(0, aiNumber(getBestAiNebulaChoiceEntry(scanChoices.choices || [], {
+        ...options,
+        includeLastSectorWinTaskCashout: false,
+      })?.directScoreGain));
     }
 
     function getAiBestPublicScanSlots(player = getCurrentPlayer(), options = {}) {
@@ -16073,6 +16173,7 @@
         standardActionPremium,
         strategyPassivePlayValue,
         cFinalTaskProgressValue,
+        readyTaskCashout,
       });
       const hasPersistentModeledValue = Boolean(
         (reservesAfterPlay && (

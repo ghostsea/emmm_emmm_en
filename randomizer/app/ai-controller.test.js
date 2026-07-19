@@ -2,6 +2,7 @@
 
 const assert = require("node:assert/strict");
 const { createAiController } = require("./ai-controller");
+const cardEffects = require("../game/cards/effects");
 const aomomo = require("../game/aliens/aomomo");
 const amiba = require("../game/aliens/amiba");
 const banrenma = require("../game/aliens/banrenma");
@@ -413,6 +414,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       ...(options.aiPlanner ? { planner: options.aiPlanner } : {}),
     },
     cardEffects: {
+      NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
         CARD_LAND: "card_land",
@@ -426,6 +428,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       buildPlayEffects: (card) => card?.playEffects || [],
       getCardModel: (card) => card?.model || null,
       ensureCardEffectState: () => null,
+      countMaxSingleAlienTraceMarkers: cardEffects.countMaxSingleAlienTraceMarkers,
     },
     finalScoring: {
       createFinalScoringState: () => ({}),
@@ -482,7 +485,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     turnState,
     rocketState: options.rocketState || {},
     solarState: {},
-    nebulaDataState: {},
+    nebulaDataState: options.nebulaDataState || {},
     alienGameState,
     finalScoringState: options.finalScoringState || {},
     planetStatsState: options.planetStatsState || {},
@@ -2528,6 +2531,138 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(
     aomomoNewScore > aomomoAlreadyScore && aomomoNewScore <= 6,
     "a new Aomomo participant should receive only the bounded actual fossil value",
+  );
+}
+
+{
+  const nebulaIdsByColor = { blue: ["covered-sector", "last-missing-sector"] };
+  const tokensByNebula = {
+    "covered-sector": [{ playerId: "player-blue", playerColor: "blue" }],
+    "last-missing-sector": [{ playerId: "player-white", playerColor: "white" }],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    nebulaIdsByColor,
+    nebulaDataState: {
+      sectorSettlements: { winsByPlayerId: {} },
+    },
+    blueReservedCards: [{
+      id: "all-sector-task-card",
+      cardName: "All sector task",
+      model: {
+        tasks: [{
+          id: "all-sector-task",
+          condition: { type: "signalsOrWinsInAllSectors" },
+          rewards: [{ type: "gain_resources", options: { gain: { score: 8 } } }],
+        }],
+      },
+    }],
+    data: {
+      getNextReplaceableNebulaToken: () => ({ slotIndex: 2 }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: () => 0,
+      getNebulaColor: () => "blue",
+      listNebulaTokens: (_state, nebulaId) => tokensByNebula[nebulaId] || [],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: (_state, nebulaId) => ({
+        blue: {
+          playerId: "player-blue",
+          playerColor: "blue",
+          count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-blue").length,
+        },
+        white: {
+          playerId: "player-white",
+          playerColor: "white",
+          count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-white").length,
+        },
+      }),
+      getSectorRanking: () => [],
+    },
+  });
+
+  const coveredScore = harness.controller.scoreAiNebulaScanChoice(
+    { nebulaId: "covered-sector" },
+    { player: harness.blue, pendingType: "public_scan" },
+  );
+  const lastMissingScore = harness.controller.scoreAiNebulaScanChoice(
+    { nebulaId: "last-missing-sector" },
+    { player: harness.blue, pendingType: "public_scan" },
+  );
+  assert.ok(
+    lastMissingScore > coveredScore + 8,
+    "the final missing sector should cash out the real eight-point task instead of repeating a covered sector",
+  );
+}
+
+{
+  const tokensByNebula = {
+    "winning-close-sector": [
+      { playerId: "player-blue", playerColor: "blue" },
+      { playerId: "player-white", playerColor: "white" },
+      {},
+    ],
+    "non-closing-sector": [
+      { playerId: "player-blue", playerColor: "blue" },
+      {},
+      {},
+    ],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    endGameScoring: {
+      countSectorWins: () => 2,
+    },
+    blueReservedCards: [{
+      id: "sector-win-task-card",
+      cardName: "Sector win task",
+      model: {
+        tasks: [{
+          id: "sector-win-task",
+          condition: { type: "completedSectors", count: 3 },
+          rewards: [{ type: "gain_resources", options: { gain: { publicity: 3 } } }],
+        }],
+      },
+    }],
+    data: {
+      getNextReplaceableNebulaToken: (_state, nebulaId) => (
+        (tokensByNebula[nebulaId] || []).some((token) => !token.playerId)
+          ? { slotIndex: 2 }
+          : null
+      ),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: () => 0,
+      getNebulaColor: () => "blue",
+      listNebulaTokens: (_state, nebulaId) => tokensByNebula[nebulaId] || [],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: (_state, nebulaId) => ({
+        blue: {
+          playerId: "player-blue",
+          playerColor: "blue",
+          count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-blue").length,
+        },
+        white: {
+          playerId: "player-white",
+          playerColor: "white",
+          count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-white").length,
+        },
+      }),
+      getSectorRanking: () => [],
+    },
+  });
+
+  const winningCloseScore = harness.controller.scoreAiNebulaScanChoice(
+    { nebulaId: "winning-close-sector" },
+    { player: harness.blue, pendingType: "sector_scan" },
+  );
+  const nonClosingScore = harness.controller.scoreAiNebulaScanChoice(
+    { nebulaId: "non-closing-sector" },
+    { player: harness.blue, pendingType: "sector_scan" },
+  );
+  assert.ok(
+    winningCloseScore > nonClosingScore + 8,
+    "a scan that wins the third sector should include the ready three-publicity task cashout",
   );
 }
 
@@ -5399,6 +5534,83 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(
     Number(readyTaskCandidate.valueBreakdown?.readyTaskTechReplacementValue || 0) > 0,
     "ready task research card should reuse a bounded research-tech replacement value",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordBeginPlayCard: true,
+    blueResources: { score: 110, credits: 2, energy: 1, publicity: 0, availableData: 0, handSize: 1 },
+    alienGameState: {
+      aliens: {
+        1: {
+          traces: {
+            yellow: {
+              firstPlaced: true,
+              ownerPlayerColor: "blue",
+              extraCount: 2,
+              extraMarkers: [
+                { ownerPlayerColor: "blue" },
+                { ownerPlayerColor: "blue" },
+              ],
+            },
+          },
+        },
+      },
+    },
+    blueHand: [{
+      id: "ready-single-alien-trace-task",
+      cardName: "Ready single alien trace task",
+      price: 2,
+      typeCode: 2,
+      playEffects: [{ type: "gain_resources", options: { gain: { publicity: 3 } } }],
+      model: {
+        tasks: [{
+          id: "ready-single-alien-trace",
+          condition: { type: "singleAlienTraceCount", count: 3 },
+          rewards: [{ type: "alien_trace", options: {} }],
+        }],
+      },
+    }],
+    aiValuation: {
+      estimateAlienTraceValue: () => 10,
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should enumerate the already-ready single-alien trace task card");
+  const readyTaskCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "playCard")
+    ?.playableCards?.[0] || null;
+  assert.ok(readyTaskCandidate, "ready single-alien trace task card should be playable");
+  assert.equal(
+    Number(readyTaskCandidate.valueBreakdown?.readyTaskCashoutCount || 0),
+    1,
+    "single-alien trace progress should mark the hand task as immediately ready",
+  );
+  assert.equal(
+    Number(readyTaskCandidate.valueBreakdown?.readyTaskCashoutDirectScore || 0),
+    0,
+    "alien trace cashout should remain a non-direct-score reward",
+  );
+  assert.ok(
+    Number(readyTaskCandidate.valueBreakdown?.readyTaskCashoutValue || 0) >= 8,
+    "the real alien trace reward should contribute bounded play value",
   );
 }
 

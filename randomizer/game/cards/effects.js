@@ -3215,12 +3215,19 @@
       .some(([slotId, slot]) => slotHasPlayerTraceSet(alienGameState, slotId, slot, playerKeys, traceTypes));
   }
 
-  function playerHasSingleAlienTraceCount(player, alienGameState, count, traceTypes = null) {
+  function countMaxSingleAlienTraceMarkers(player, alienGameState, traceTypes = null) {
     const playerKeys = getPlayerKeys(player);
+    return Object.entries(alienGameState?.aliens || {}).reduce((highest, [slotId, slot]) => (
+      Math.max(
+        highest,
+        countAlienSlotTraceMarkersForPlayer(alienGameState, slotId, slot, playerKeys, traceTypes),
+      )
+    ), 0);
+  }
+
+  function playerHasSingleAlienTraceCount(player, alienGameState, count, traceTypes = null) {
     const required = Math.max(1, Math.round(Number(count || 1)));
-    return Object.entries(alienGameState?.aliens || {}).some(([slotId, slot]) => (
-      countAlienSlotTraceMarkersForPlayer(alienGameState, slotId, slot, playerKeys, traceTypes) >= required
-    ));
+    return countMaxSingleAlienTraceMarkers(player, alienGameState, traceTypes) >= required;
   }
 
   function playerHasYichangdianAllTraceTypes(player, alienGameState) {
@@ -3450,6 +3457,7 @@
     collectReadyTasks,
     collectTemporaryTaskRewards,
     countTraceMarkers,
+    countMaxSingleAlienTraceMarkers,
     consolidateCardMoveEffects,
     countRocketsForReward,
     getProbeStackRewardMatch,

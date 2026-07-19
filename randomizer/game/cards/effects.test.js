@@ -1185,6 +1185,11 @@ const singleAlienTraceState = {
     2: { traces: {} },
   },
 };
+assert.equal(
+  cardEffects.countMaxSingleAlienTraceMarkers({ id: "p1", color: "red" }, singleAlienTraceState),
+  3,
+  "single-alien trace progress should expose the actual highest trace count",
+);
 assert.deepEqual(collectReadyTaskIds(
   { id: "p1", color: "red", reservedCards: [{ id: "card-b67", cardId: "b_67.webp" }] },
   { alienGameState: singleAlienTraceState },
@@ -1240,6 +1245,11 @@ const splitAlienTraceState = {
     },
   },
 };
+assert.equal(
+  cardEffects.countMaxSingleAlienTraceMarkers({ id: "p1", color: "red" }, splitAlienTraceState),
+  2,
+  "traces split across aliens must not be merged into single-alien task progress",
+);
 assert.deepEqual(collectReadyTaskIds(
   { id: "p1", color: "red", reservedCards: [{ id: "card-b67-split", cardId: "b_67.webp" }] },
   { alienGameState: splitAlienTraceState },
