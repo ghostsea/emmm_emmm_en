@@ -199,6 +199,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     get pendingDiscardAction() { return pendingDiscardAction; },
     get pendingPassReserveSelection() { return pendingPassReserveSelection; },
     get pendingCardTriggerAction() { return options.pendingCardTriggerAction || null; },
+    get pendingCardTaskCompletion() { return options.pendingCardTaskCompletion || null; },
     get pendingMovePayment() { return options.pendingMovePayment || null; },
     get pendingActionExecuted() { return Boolean(options.pendingActionExecuted); },
     get pendingActionEffectFlow() { return options.pendingActionEffectFlow || null; },
@@ -956,6 +957,16 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   if (options.recordOpenCardTask) {
     context.openCardTaskCompletionPicker = (card) => {
       noteHandled({ type: "open-card-task", cardId: card?.id || null });
+      return { ok: true, progressed: true };
+    };
+  }
+  if (options.recordConfirmCardTask) {
+    context.confirmCardTaskCompletion = (decision, confirmOptions = {}) => {
+      noteHandled({
+        type: "confirm-card-task",
+        decision,
+        automated: confirmOptions.automated === true,
+      });
       return { ok: true, progressed: true };
     };
   }
@@ -6291,6 +6302,64 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI should open delivered Chong transport tasks aggressively");
   assert.deepEqual(harness.getHandled(), { type: "open-card-task", cardId: "chong-ready" });
+}
+
+{
+  const ready = {
+    card: { id: "trace-no-target-ready", cardName: "Trace no target ready" },
+    task: { id: "trace-no-target-task" },
+    effects: [{ type: "alien_trace", options: { traceType: "yellow" } }],
+  };
+  const unavailableAlienState = {
+    aliens: {
+      1: { revealed: true, alienId: "no-supported-trace-target" },
+    },
+  };
+  const openHarness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    recordOpenCardTask: true,
+    readyCardTasks: [ready],
+    alienGameState: unavailableAlienState,
+  });
+  assert.equal(
+    openHarness.controller.configureAiAutoBattle({
+      playerIds: [openHarness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const openResult = openHarness.controller.runAiAutomationStep();
+  assert.equal(openResult.ok, true, "AI should open a ready task even when its trace reward must fall through");
+  assert.deepEqual(openHarness.getHandled(), {
+    type: "open-card-task",
+    cardId: "trace-no-target-ready",
+  });
+
+  const confirmHarness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    recordConfirmCardTask: true,
+    pendingCardTaskCompletion: {
+      playerId: "player-blue",
+      ready,
+    },
+    alienGameState: unavailableAlienState,
+  });
+  assert.equal(
+    confirmHarness.controller.configureAiAutoBattle({
+      playerIds: [confirmHarness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const confirmResult = confirmHarness.controller.runAiAutomationStep();
+  assert.equal(confirmResult.ok, true, "AI should confirm a ready task whose trace reward has no target");
+  assert.deepEqual(confirmHarness.getHandled(), {
+    type: "confirm-card-task",
+    decision: "confirm",
+    automated: true,
+  });
 }
 
 {

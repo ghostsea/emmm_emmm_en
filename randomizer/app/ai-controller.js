@@ -3075,14 +3075,6 @@
         return { ok: false, blocked: true, message: `${currentPlayer?.colorLabel || "当前玩家"}需要人工确认任务完成` };
       }
       const ready = state.pendingCardTaskCompletion.ready || null;
-      const unsupportedEffect = (ready?.effects || []).find((effect) => !canAiResolveAlienTraceEffect(effect, currentPlayer));
-      if (unsupportedEffect) {
-        return {
-          ok: false,
-          blocked: true,
-          message: `${currentPlayer.colorLabel}AI 跳过无合法目标的任务奖励 ${cards.getCardLabel(ready?.card)}`,
-        };
-      }
       recordAiAutoBattleLog("card-task", `${currentPlayer.colorLabel}AI 确认完成任务 ${cards.getCardLabel(ready?.card)}`, {
         cardLabel: cards.getCardLabel(ready?.card),
         effectTypes: (ready?.effects || []).map((effect) => effect?.type || null).filter(Boolean),
@@ -3092,9 +3084,10 @@
 
     function scoreAiReadyCardTask(ready, player = getCurrentPlayer()) {
       if (!ready) return -Infinity;
-      if ((ready.effects || []).some((effect) => !canAiResolveAlienTraceEffect(effect, player))) return -Infinity;
       const effectValue = (ready.effects || [])
-        .reduce((total, effect) => total + scoreAiEffectValue(effect, { player }), 0);
+        .reduce((total, effect) => (
+          total + (canAiResolveAlienTraceEffect(effect, player) ? scoreAiEffectValue(effect, { player }) : 0)
+        ), 0);
       const directScore = (ready.effects || [])
         .reduce((total, effect) => total + Math.max(0, aiNumber(effect?.options?.gain?.score)), 0);
       const paceBonus = directScore > 0
