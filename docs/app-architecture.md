@@ -5,6 +5,7 @@
 ## 当前加载层次
 
 1. `randomizer/index.html` 按传统 `<script>` 顺序加载，无构建步骤，也不使用 ES module。
+   - 修改脚本实现后必须同步提升对应 `?v=` 缓存版本；若一个功能跨多个全局模块新增接口（例如科技拿取同时依赖 resolver、ability 实现和 ability 注册表），这些脚本必须一起提升版本，避免浏览器混用新旧运行时。
 2. `randomizer/game/random.js` 最先注册统一随机源；普通游戏透传浏览器随机，每日游戏按本地日期固定种子。
 3. `randomizer/solar-system/**`、其余 `randomizer/game/**` 注册各自的 `window.Seti*` 全局模块。
 4. `randomizer/app/alien-trace-reward-flow.js` 编排痕迹奖励的方舟解锁、面板放置与无目标落空分支。
