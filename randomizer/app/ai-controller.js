@@ -11105,6 +11105,10 @@
       };
     }
 
+    function getAiReadyTaskCashoutTimingScale() {
+      return getAiRoundNumber() <= 1 ? 0.2 : 1;
+    }
+
     function scoreAiReadyTaskTechReplacementValue(playEffects = [], readyTaskCashout = null, player = getCurrentPlayer()) {
       if (!player || !readyTaskCashout || aiNumber(readyTaskCashout.directScore) < 9) return 0;
       if (getAiRoundNumber() < 3) return 0;
@@ -11170,6 +11174,7 @@
       const demandFit = scoreAiCardDemandFit(card, model, playEffects, player);
       const endGameExpectedScore = details.endGameExpectedScore ?? scoreAiCardEndGameExpectedValue(card, model, player);
       const readyTaskCashoutValue = Math.max(0, aiNumber(details.readyTaskCashout?.value));
+      const readyTaskCashoutTimingScale = getAiReadyTaskCashoutTimingScale();
       const routePlan = details.plan || scoreAiPlayCardRoutePlan(card, model, playEffects, player);
       const standardActionPremium = details.standardActionPremium
         ?? scoreAiCardStandardActionPremium(playEffects, player);
@@ -11276,7 +11281,11 @@
         + secondFinalMarkNudgeValue
         + applyAiStrategyWeight(c2Type3ProgressValue, "final", 0.85)
         + applyAiStrategyWeight(Math.min(12, cFinalTaskProgressValue), "task", 0.75)
-        + applyAiStrategyWeight(Math.min(24, readyTaskCashoutValue), "task", 0.8)
+        + applyAiStrategyWeight(
+          Math.min(24, readyTaskCashoutValue) * readyTaskCashoutTimingScale,
+          "task",
+          0.8,
+        )
         + applyAiStrategyWeight(chongTaskChainValue, "task", 0.7)
         + applyAiStrategyWeight(banrenmaThresholdSetupValue, "playCard", 0.65)
         + applyAiStrategyWeight(finalRoundEndGameCardUrgency, "final", 0.75)
@@ -16249,6 +16258,7 @@
           readyTaskCashoutValue: readyTaskCashout.value,
           readyTaskCashoutDirectScore: readyTaskCashout.directScore,
           readyTaskCashoutCount: readyTaskCashout.count,
+          readyTaskCashoutTimingScale: getAiReadyTaskCashoutTimingScale(),
           readyTaskTechReplacementValue,
           chongTaskChainValue,
           banrenmaThresholdSetupValue,

@@ -5531,9 +5531,62 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     9,
     "ready task cashout should record the direct score reward",
   );
+  assert.equal(
+    Number(readyTaskCandidate.valueBreakdown?.readyTaskCashoutTimingScale || 0),
+    1,
+    "ready task cashout should keep its full value after round one",
+  );
   assert.ok(
     Number(readyTaskCandidate.valueBreakdown?.readyTaskTechReplacementValue || 0) > 0,
     "ready task research card should reuse a bounded research-tech replacement value",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 1,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordBeginPlayCard: true,
+    blueResources: { score: 15, credits: 2, energy: 2, publicity: 8, availableData: 0, handSize: 1 },
+    blueHand: [{
+      id: "round-one-ready-task",
+      cardName: "Round one ready task",
+      price: 2,
+      typeCode: 2,
+      playEffects: [{ type: "gain_resources", options: { gain: { publicity: 1 } } }],
+      model: {
+        tasks: [{
+          id: "round-one-ready-publicity-score",
+          condition: { type: "resourceThreshold", resource: "publicity", count: 8 },
+          rewards: [{ type: "gain_resources", options: { gain: { score: 9 } } }],
+        }],
+      },
+    }],
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should still enumerate an already-ready round-one task card");
+  const readyTaskCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "playCard")
+    ?.playableCards?.[0] || null;
+  assert.ok(readyTaskCandidate, "round-one ready task card should remain playable");
+  assert.equal(
+    Number(readyTaskCandidate.valueBreakdown?.readyTaskCashoutTimingScale || 0),
+    0.2,
+    "round-one ready task cashout should be discounted when it can be deferred",
   );
 }
 
