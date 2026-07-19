@@ -157,6 +157,45 @@
     };
   }
 
+  function buildCompanyPerformanceSummary(playerProfiles = []) {
+    const groups = new Map();
+    for (const profile of playerProfiles || []) {
+      const companyLabel = String(profile?.companyLabel || "").trim();
+      if (!companyLabel || !Number.isFinite(Number(profile?.finalScore))) continue;
+      if (!groups.has(companyLabel)) groups.set(companyLabel, []);
+      groups.get(companyLabel).push(profile);
+    }
+    const averageMetric = (profiles, value) => profiles.length
+      ? roundRatio(profiles.reduce((total, profile) => total + numeric(value(profile)), 0) / profiles.length)
+      : 0;
+    const ranking = [...groups.entries()]
+      .map(([companyLabel, profiles]) => {
+        const scores = profiles.map((profile) => numeric(profile.finalScore));
+        return {
+          companyLabel,
+          sampleCount: profiles.length,
+          averageScore: averageMetric(profiles, (profile) => profile.finalScore),
+          minScore: roundRatio(Math.min(...scores)),
+          maxScore: roundRatio(Math.max(...scores)),
+          averageMainActionCount: averageMetric(profiles, (profile) => profile.metrics?.mainActionCount),
+          averageQuickStepCount: averageMetric(profiles, (profile) => profile.metrics?.quickStepCount),
+          scoreActionCorrelations: buildScoreActionCorrelations(profiles),
+        };
+      })
+      .sort((left, right) => (
+        numeric(right.averageScore) - numeric(left.averageScore)
+        || numeric(right.maxScore) - numeric(left.maxScore)
+        || left.companyLabel.localeCompare(right.companyLabel, "zh-Hans-CN")
+      ));
+    return {
+      sampleCount: ranking.reduce((total, entry) => total + entry.sampleCount, 0),
+      companyCount: ranking.length,
+      ranking,
+      highestAverage: ranking[0] || null,
+      lowestAverage: ranking[ranking.length - 1] || null,
+    };
+  }
+
   function nearestRankPercentile(values = [], ratio = 0.25) {
     const sorted = (values || [])
       .map(Number)
@@ -3232,6 +3271,7 @@
       profiles[key] = {
         playerId: playerId || null,
         playerLabel: playerLabel || playerId || "unknown",
+        companyLabel: null,
         finalScore: 0,
         baseScore: 0,
         tileScore: 0,
@@ -3816,6 +3856,7 @@
   }
 
   function attachPlayerResultToProfile(profile, result = {}) {
+    profile.companyLabel = result.companyLabel || profile.companyLabel || null;
     profile.finalScore = numeric(result.finalScore);
     profile.baseScore = numeric(result.baseScore);
     profile.tileScore = numeric(result.tileScore);
@@ -6699,6 +6740,7 @@
       .map((player) => ({
         playerId: player.playerId || player.id || null,
         playerLabel: player.playerLabel || player.label || player.name || player.playerId || "unknown",
+        companyLabel: player.companyLabel || player.industryLabel || null,
         finalScore: numeric(player.finalScore ?? player.totalScore ?? player.resources?.score),
         baseScore: numeric(player.baseScore ?? player.resources?.score),
         tileScore: numeric(player.tileScore),
@@ -7815,6 +7857,7 @@
 
     const playerProfiles = buildPlayerProfiles(logs, playerResults);
     const scoreActionCorrelations = buildScoreActionCorrelations(playerProfiles);
+    const companyPerformance = buildCompanyPerformanceSummary(playerProfiles);
     const winnerProfileComparison = compareWinnerProfile(playerProfiles);
     const roundPaceSummary = buildRoundPaceSummary(playerProfiles);
     const lowEngineThroughputSamples = buildLowEngineThroughputSamples(playerProfiles);
@@ -7930,6 +7973,7 @@
       actionCategoryRatios,
       playerActionCounts,
       scoreActionCorrelations,
+      companyPerformance,
       candidateStats,
       candidateScoreStats: finalizeCandidateScoreStats(candidateScoreStats),
       topScoreGaps: buildTopScoreGaps(candidateScoreStats),
@@ -8475,6 +8519,7 @@
     const winnerProfileDeltas = diffProfileMetrics(averageWinnerProfile, averageNonWinnerProfile);
     const paceSummary = buildPaceSummary(allProfiles);
     const scoreActionCorrelations = buildScoreActionCorrelations(allProfiles);
+    const companyPerformance = buildCompanyPerformanceSummary(allProfiles);
     const roundPaceSummary = buildRoundPaceSummary(allProfiles);
     const lowEngineThroughputSamples = buildLowEngineThroughputSamples(allProfiles);
     const highScoreNearMissSamples = sortHighScoreNearMissSamples(
@@ -8489,6 +8534,7 @@
       turnActionCount,
       actionCategoryRatios,
       scoreActionCorrelations,
+      companyPerformance,
       candidateStats: mergedCandidateStats,
       candidateScoreStats: finalizeCandidateScoreStats(mergedCandidateScoreStats),
       topScoreGaps: buildTopScoreGaps(mergedCandidateScoreStats),
@@ -8563,6 +8609,7 @@
       actionCategoryCounts: mergedActionCategoryCounts,
       actionCategoryRatios,
       scoreActionCorrelations,
+      companyPerformance,
       typeCounts: mergedTypeCounts,
       candidateStats: mergedCandidateStats,
       candidateScoreStats: finalizeCandidateScoreStats(mergedCandidateScoreStats),

@@ -1422,8 +1422,8 @@ const sampleBattleReport = {
   ],
   bugs: [{ message: "AI sample bug" }],
   playerResults: [
-    { playerId: "player-white", playerLabel: "白色", finalScore: 24, resources: { score: 18 }, techCount: 1 },
-    { playerId: "player-blue", playerLabel: "蓝色", finalScore: 19, resources: { score: 15 }, techCount: 0 },
+    { playerId: "player-white", playerLabel: "白色", companyLabel: "作弊实验室", finalScore: 24, resources: { score: 18 }, techCount: 1 },
+    { playerId: "player-blue", playerLabel: "蓝色", companyLabel: "宇宙大战略集团", finalScore: 19, resources: { score: 15 }, techCount: 0 },
   ],
 };
 const battleAnalysis = analytics.analyzeBattleReport(sampleBattleReport);
@@ -1471,6 +1471,11 @@ assert.equal(battleAnalysis.playerProfiles[0].metrics.idleTurnCount, 0);
 assert.equal(battleAnalysis.playerProfiles[1].metrics.idleTurnCount, 1);
 assert.equal(battleAnalysis.scoreActionCorrelations.sampleCount, 2);
 assert.equal(battleAnalysis.scoreActionCorrelations.mainActionCount, 1);
+assert.equal(battleAnalysis.companyPerformance.highestAverage.companyLabel, "作弊实验室");
+assert.equal(battleAnalysis.companyPerformance.highestAverage.averageScore, 24);
+assert.equal(battleAnalysis.companyPerformance.lowestAverage.companyLabel, "宇宙大战略集团");
+assert.equal(battleAnalysis.companyPerformance.lowestAverage.averageScore, 19);
+assert.equal(battleAnalysis.companyPerformance.ranking[0].averageMainActionCount, 1);
 assert.equal(battleAnalysis.paceSummary.lowTail.playerId, "player-blue");
 assert.equal(battleAnalysis.playerProfiles[0].metrics.engineRatio, 0);
 assert.equal(battleAnalysis.winnerProfileDeltas.finalScore, 5);
@@ -1485,6 +1490,9 @@ assert.ok(battleAnalysis.recommendations.some((entry) => entry.id === "inspect-p
 const sampleBattleSummary = analytics.summarizeBattleReports([sampleBattleReport]);
 assert.equal(sampleBattleSummary.scoreActionCorrelations.sampleCount, 2);
 assert.equal(sampleBattleSummary.scoreActionCorrelations.mainActionCount, 1);
+assert.equal(sampleBattleSummary.companyPerformance.sampleCount, 2);
+assert.equal(sampleBattleSummary.companyPerformance.highestAverage.companyLabel, "作弊实验室");
+assert.equal(sampleBattleSummary.companyPerformance.lowestAverage.companyLabel, "宇宙大战略集团");
 assert.equal(sampleBattleSummary.openingPlanNearMissSamples[0].playerLabel, "白色");
 assert.equal(sampleBattleSummary.openingPlanConversionSamples[0].playerLabel, "白色");
 assert.equal(sampleBattleSummary.passReserveResourcePressureMissSamples[0].playerLabel, "蓝色");

@@ -22451,6 +22451,8 @@
             turnActionCount: analysis.turnActionCount,
             actionCounts: analysis.actionCounts,
             actionCategoryRatios: analysis.actionCategoryRatios,
+            scoreActionCorrelations: analysis.scoreActionCorrelations,
+            companyPerformance: analysis.companyPerformance,
             playerProfiles: analysis.playerProfiles,
             opportunities: analysis.opportunities,
             passOpportunitySamples: analysis.passOpportunitySamples,
