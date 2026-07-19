@@ -16967,7 +16967,7 @@
       publicPickProfile = null,
       strategyPassiveSlots = null,
     ) {
-      if (player?.aiDifficulty !== AI_DIFFICULTY_WEAK_START) return 0;
+      if (![AI_DIFFICULTY_LAUGHABLE, AI_DIFFICULTY_WEAK_START].includes(player?.aiDifficulty)) return 0;
       if (getAiRoundNumber() > 2) return 0;
       if (!strategyPassiveSlots || strategyPassiveSlots.occupiedCount > 0) return 0;
       const bestCard = publicPickProfile?.bestCard || null;

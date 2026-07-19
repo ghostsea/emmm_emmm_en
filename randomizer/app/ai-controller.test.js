@@ -1252,7 +1252,7 @@ function makeYichangdianAlienState(options = {}) {
   );
 }
 
-{
+for (const aiDifficulty of ["laughable", "weak_start"]) {
   const turnChoices = [];
   const strategyIndustry = { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" };
   const lowSignalPublicCard = {
@@ -1269,7 +1269,7 @@ function makeYichangdianAlienState(options = {}) {
     realisticCanAfford: true,
     blueInitialSelection: { industry: strategyIndustry },
     blueIndustryStrategyPassiveSlots: { yellow: false, red: false, blue: false },
-    blueAiDifficulty: "weak_start",
+    blueAiDifficulty: aiDifficulty,
     blueResources: { score: 20, credits: 2, energy: 1, publicity: 2, handSize: 2 },
     publicCards: [lowSignalPublicCard],
     industry: {
@@ -1300,7 +1300,7 @@ function makeYichangdianAlienState(options = {}) {
   assert.equal(
     harness.controller.configureAiAutoBattle({
       playerIds: [harness.blue.id],
-      aiDifficulty: "weak_start",
+      aiDifficulty,
       suppressAutoSchedule: true,
     }).ok,
     true,
@@ -1313,7 +1313,7 @@ function makeYichangdianAlienState(options = {}) {
   assert.equal(
     industryCandidate,
     undefined,
-    "early empty grand strategy 1x should wait when the best public card has no concrete play chain",
+    `${aiDifficulty} early empty grand strategy 1x should wait when the best public card has no concrete play chain`,
   );
 }
 
