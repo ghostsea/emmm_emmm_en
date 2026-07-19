@@ -434,13 +434,18 @@
     return countPlanetRecordMarkers(player, record, "all");
   }
 
-  function countOrbitOrLandMarkers(player, planetStatsState, context = {}) {
+  function countPlanetMarkers(player, planetStatsState, kind = "all", context = {}) {
+    const markerKind = kind === "orbit" || kind === "land" ? kind : "all";
     const planets = planetStatsState?.planets || {};
     return Object.keys(planets).reduce((total, planetId) => {
       if (isAomomoPlanetId(planetId)) return total;
-      return total + countPlanetOrbitOrLand(player, planetStatsState, planetId, context);
-    }, countPlutoMarkers(player, context, "all")
-      + countAomomoOrLegacyPlanetRecordMarkers(player, planetStatsState, context, "all"));
+      return total + countPlanetRecordMarkers(player, planets[planetId], markerKind);
+    }, countPlutoMarkers(player, context, markerKind)
+      + countAomomoOrLegacyPlanetRecordMarkers(player, planetStatsState, context, markerKind));
+  }
+
+  function countOrbitOrLandMarkers(player, planetStatsState, context = {}) {
+    return countPlanetMarkers(player, planetStatsState, "all", context);
   }
 
   function countPlanetLandingPairs(player, planetStatsState, minCount = 2, context = {}) {
@@ -884,6 +889,7 @@
     countOwnedTech,
     countTotalOwnedTech,
     countPlanetOrbitOrLand,
+    countPlanetMarkers,
     countOrbitOrLandMarkers,
     countPlanetLandingPairs,
     countDistinctSignalSectors,

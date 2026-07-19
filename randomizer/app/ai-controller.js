@@ -830,10 +830,9 @@
           total + (endGameScoring?.countPlanetOrbitOrLand?.(player, planetStatsState, planetId) > 0 ? 1 : 0)
         ), 0);
       }
-      if (type === "orbitCount" || type === "orbitOrLandCount") {
-        return aiNumber(endGameScoring?.countOrbitOrLandMarkers?.(player, planetStatsState, createActionContext()));
-      }
-      if (type === "landingCount") return countAiLandingMarkers(player);
+      if (type === "orbitCount") return countAiTaskPlanetMarkers(player, "orbit");
+      if (type === "orbitOrLandCount") return countAiTaskPlanetMarkers(player, "all");
+      if (type === "landingCount") return countAiTaskPlanetMarkers(player, "land");
       if (type === "probesOnDifferentPlanets") {
         return getAiProbePlanetIds(player, condition.excludePlanetIds || []).length;
       }
@@ -9872,6 +9871,20 @@
       ), 0);
     }
 
+    function countAiTaskPlanetMarkers(player, kind = "all") {
+      if (!player) return 0;
+      const context = createActionContext();
+      if (typeof endGameScoring?.countPlanetMarkers === "function") {
+        return aiNumber(endGameScoring.countPlanetMarkers(player, planetStatsState, kind, context));
+      }
+      const orbitOrLandCount = aiNumber(
+        endGameScoring?.countOrbitOrLandMarkers?.(player, planetStatsState, context),
+      );
+      if (kind === "land") return countAiLandingMarkers(player);
+      if (kind === "orbit") return Math.max(0, orbitOrLandCount - countAiLandingMarkers(player));
+      return orbitOrLandCount;
+    }
+
     function getAiTaskRewardValue(task, player = getCurrentPlayer()) {
       return (task?.rewards || []).reduce((total, reward) => (
         total + scoreAiEffectValue(reward, { player })
@@ -10072,7 +10085,7 @@
           break;
         case "orbitCount": {
           const missing = getAiMissingCount(
-            endGameScoring.countOrbitOrLandMarkers(player, planetStatsState),
+            countAiTaskPlanetMarkers(player, "orbit"),
             condition.count || 1,
           );
           addAiActionDemand(demand, "orbit", amount * Math.max(1, missing));
@@ -10080,7 +10093,7 @@
           break;
         }
         case "landingCount": {
-          const missing = getAiMissingCount(countAiLandingMarkers(player), condition.count || 1);
+          const missing = getAiMissingCount(countAiTaskPlanetMarkers(player, "land"), condition.count || 1);
           const pressure = Math.max(1, missing);
           addAiActionDemand(demand, "land", amount * 1.35 * pressure);
           addAiActionDemand(demand, "move", amount * 0.55 * pressure);
@@ -10088,7 +10101,7 @@
         }
         case "orbitOrLandCount": {
           const missing = getAiMissingCount(
-            endGameScoring.countOrbitOrLandMarkers(player, planetStatsState),
+            countAiTaskPlanetMarkers(player, "all"),
             condition.count || 1,
           );
           const pressure = Math.max(1, missing);

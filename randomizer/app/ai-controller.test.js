@@ -485,7 +485,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     nebulaDataState: {},
     alienGameState,
     finalScoringState: options.finalScoringState || {},
-    planetStatsState: {},
+    planetStatsState: options.planetStatsState || {},
     techGameState: { board: options.techBoard || {}, ui: { ...(options.techUi || {}) } },
     cardState: { publicCards: options.publicCards || [] },
     cardTaskState: {},
@@ -6302,6 +6302,39 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI should open delivered Chong transport tasks aggressively");
   assert.deepEqual(harness.getHandled(), { type: "open-card-task", cardId: "chong-ready" });
+}
+
+{
+  const countedKinds = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    blueReservedCards: [{
+      id: "orbit-only-task-card",
+      cardName: "Orbit only task",
+      model: {
+        tasks: [{
+          id: "orbit-only-task",
+          condition: { type: "orbitCount", count: 2 },
+          rewards: [{ type: "gain_data", options: { count: 2 } }],
+        }],
+      },
+    }],
+    endGameScoring: {
+      countOrbitOrLandMarkers: () => 4,
+      countPlanetMarkers: (_player, _planetStatsState, kind) => {
+        countedKinds.push(kind);
+        return kind === "orbit" ? 0 : 4;
+      },
+    },
+  });
+
+  const demand = harness.controller.getAiStrategyDemand(harness.blue);
+  assert.ok(countedKinds.includes("orbit"), "orbit-count task demand should read orbit markers only");
+  assert.ok(
+    harness.controller.getAiMapDemand(demand.actions, "orbit")
+      > harness.controller.getAiMapDemand(demand.actions, "land"),
+    "landings must not satisfy or suppress an orbit-only task route",
+  );
 }
 
 {

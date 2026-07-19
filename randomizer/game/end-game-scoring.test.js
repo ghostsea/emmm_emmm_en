@@ -147,6 +147,16 @@ assert.equal(
   "global orbit/land marker count should include Pluto",
 );
 assert.equal(
+  endGameScoring.countPlanetMarkers(white, { planets: {} }, "orbit", {
+    plutoMarkers: [
+      { kind: "orbit", planetId: "pluto", playerId: "player-white" },
+      { kind: "land", planetId: "pluto", playerId: "player-white" },
+    ],
+  }),
+  1,
+  "kind-specific planet marker count should not treat Pluto landings as orbits",
+);
+assert.equal(
   endGameScoring.countPlanetLandingPairs(white, { planets: {} }, 2, {
     plutoMarkers: [
       { kind: "land", planetId: "pluto", playerId: "player-white", sequence: 1 },
@@ -184,6 +194,20 @@ assert.equal(
   }),
   3,
   "global orbit/land marker count should include Aomomo panel markers",
+);
+assert.equal(
+  endGameScoring.countPlanetMarkers(white, { planets: {} }, "orbit", {
+    alienGameState: aomomoMarkerState,
+  }),
+  1,
+  "kind-specific planet marker count should isolate Aomomo orbit markers",
+);
+assert.equal(
+  endGameScoring.countPlanetMarkers(white, { planets: {} }, "land", {
+    alienGameState: aomomoMarkerState,
+  }),
+  2,
+  "kind-specific planet marker count should isolate Aomomo landing markers",
 );
 assert.equal(
   endGameScoring.countPlanetLandingPairs(white, { planets: {} }, 2, {
