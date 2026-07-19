@@ -225,6 +225,11 @@ assert.equal(data.hasBlueBonusPlaceOptions(bluePlayer), true);
 const choices = data.listPlaceDataChoices(bluePlayer);
 assert.ok(choices.some((choice) => choice.target === data.PLACEMENT_KIND_COMPUTER));
 assert.ok(choices.some((choice) => choice.blueSlot === 2));
+const secondColumnSecondRowChoice = choices.find((choice) => choice.blueSlot === 2);
+assert.equal(secondColumnSecondRowChoice.label, "第二列第二行");
+assert.match(secondColumnSecondRowChoice.description, /^放入第二列第二行/);
+assert.doesNotMatch(secondColumnSecondRowChoice.label, /blue/i);
+assert.doesNotMatch(secondColumnSecondRowChoice.description, /blue/i);
 
 const bluePlace = data.placeDataToComputer(bluePlayer, {
   target: data.PLACEMENT_KIND_BLUE_BONUS,
@@ -234,6 +239,8 @@ assert.equal(bluePlace.ok, true);
 assert.equal(bluePlace.blueSlot, 2);
 assert.equal(bluePlace.blueTileId, "blue1");
 assert.deepEqual(bluePlace.slotBonus, { type: "credits", credits: 1 });
+assert.match(bluePlace.message, /第二列第二行/);
+assert.doesNotMatch(bluePlace.message, /blue1/i);
 assert.equal(data.listBlueBonusPlacedTokens(bluePlayer).length, 1);
 
 const dataBeforeTechPlayer = players.getCurrentPlayer(players.createPlayerState({

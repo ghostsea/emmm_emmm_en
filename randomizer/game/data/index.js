@@ -154,7 +154,8 @@
         const layout = placement.getBlueBonusDataSlotLayout(token.blueSlot);
         if (!layout) continue;
         lines.push(
-          `序号 ${token.index} 位置${token.blueSlot}蓝色科技 坐标 ${layout.percentX}%,${layout.percentY}%`,
+          `序号 ${token.index} ${placement.getBlueBonusDataPositionLabel(token.blueSlot)}`
+          + ` 坐标 ${layout.percentX}%,${layout.percentY}%`,
         );
       }
     }
@@ -165,7 +166,7 @@
         `[可放置蓝色科技附加] ${
           eligibleBlueSlots.map((slot) => {
             const required = placement.getRequiredComputerSlotForBlueBonus(slot);
-            return `位置${slot}(第一排${required}下方)`;
+            return `${placement.getBlueBonusDataPositionLabel(slot)}(第一排${required}下方)`;
           }).join(" ")
         }`,
       );
