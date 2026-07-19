@@ -369,11 +369,12 @@
     const slot = Number(blueSlot);
     if (!isBlueBonusSlotEligible(player, slot)) {
       const requiredComputerSlot = placement.getRequiredComputerSlotForBlueBonus(slot);
+      const positionLabel = placement.getBlueBonusDataPositionLabel(slot);
       return {
         ok: false,
         message: requiredComputerSlot
-          ? `位置${slot}蓝色科技不可放置（需蓝色科技在位且第一排第 ${requiredComputerSlot} 位已有数据）`
-          : `位置${slot}蓝色科技没有附加放置位`,
+          ? `${positionLabel}不可放置（需蓝色科技在位且第一排第 ${requiredComputerSlot} 位已有数据）`
+          : `${positionLabel}没有附加放置位`,
       };
     }
     return { ok: true, message: null, blueSlot: slot };
@@ -397,14 +398,15 @@
       const requiredComputerSlot = placement.getRequiredComputerSlotForBlueBonus(blueSlot);
       const layout = placement.getBlueBonusDataSlotLayout(blueSlot);
       const tileId = getBlueTechTileInBoardSlot(player, blueSlot);
+      const positionLabel = placement.getBlueBonusDataPositionLabel(blueSlot);
       choices.push({
         target: PLACEMENT_KIND_BLUE_BONUS,
         blueSlot,
         blueTileId: tileId,
         requiredComputerSlot,
-        label: tileId ? `${tileId} 下方` : `位置${blueSlot}蓝色科技`,
+        label: positionLabel,
         description:
-          `放入蓝色科技 ${blueSlot} 下方（第一排第 ${requiredComputerSlot} 位下方）`
+          `放入${positionLabel}`
           + describeBlueBonusPlacementReward(player, blueSlot),
         layout,
       });
@@ -522,6 +524,7 @@
       }
 
       const blueTileId = getBlueTechTileInBoardSlot(player, blueSlot);
+      const positionLabel = placement.getBlueBonusDataPositionLabel(blueSlot);
       const slotBonus = getBlueBonusPlacementReward(player, blueSlot);
       const slotBonuses = slotBonus ? [slotBonus] : [];
 
@@ -547,7 +550,7 @@
         layout,
         message:
           `放置数据：序号 ${poolToken.index} 自数据池槽位${poolToken.slotIndex}`
-          + ` → ${blueTileId || `位置${blueSlot}蓝色科技`} 下方 (${layout.percentX}%,${layout.percentY}%)`
+          + ` → ${positionLabel} (${layout.percentX}%,${layout.percentY}%)`
           + describePlacementBonuses(slotBonuses),
       };
     }

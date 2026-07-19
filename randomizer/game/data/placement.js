@@ -90,6 +90,13 @@
     Object.keys(BLUE_BONUS_DATA_SLOTS).map(Number).sort((a, b) => a - b),
   );
 
+  const BLUE_BONUS_DATA_POSITION_LABELS = Object.freeze({
+    1: "第一列第二行",
+    2: "第二列第二行",
+    3: "第三列第二行",
+    4: "第四列第二行",
+  });
+
   function getDataPoolSlotLayout(slotIndex) {
     return DATA_POOL_SLOTS[Number(slotIndex)] || null;
   }
@@ -105,6 +112,10 @@
 
   function getBlueBonusDataSlotLayout(blueSlot) {
     return BLUE_BONUS_DATA_SLOTS[Number(blueSlot)] || null;
+  }
+
+  function getBlueBonusDataPositionLabel(blueSlot) {
+    return BLUE_BONUS_DATA_POSITION_LABELS[Number(blueSlot)] || "第二行";
   }
 
   function getRequiredComputerSlotForBlueBonus(blueSlot) {
@@ -145,10 +156,12 @@
     BLUE_COLUMN_SCORE_BONUS,
     BLUE_BONUS_DATA_SLOTS,
     BLUE_BONUS_DATA_SLOT_IDS,
+    BLUE_BONUS_DATA_POSITION_LABELS,
     getDataPoolSlotLayout,
     getComputerDataSlotLayout,
     getComputerSlotBonus,
     getBlueBonusDataSlotLayout,
+    getBlueBonusDataPositionLabel,
     getRequiredComputerSlotForBlueBonus,
     getComputerSlotForBlueBoardSlot,
     getBlueBoardSlotForComputerSlot,

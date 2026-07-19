@@ -242,8 +242,10 @@
     element.dataset.dataTokenId = token.id;
     element.dataset.dataIndex = String(token.index);
     if (isBlueBonus) {
+      const positionLabel = placement.getBlueBonusDataPositionLabel(token.blueSlot);
       element.dataset.dataBlueSlot = String(token.blueSlot);
-      element.title = `已放置 ${token.index} @位置${token.blueSlot}蓝色科技 (${layout.percentX}%,${layout.percentY}%)`;
+      element.alt = `${positionLabel}数据 ${token.index}`;
+      element.title = `已放置 ${token.index} @${positionLabel} (${layout.percentX}%,${layout.percentY}%)`;
     } else {
       delete element.dataset.dataBlueSlot;
       element.dataset.dataPlacementSlot = String(token.placementSlot);
@@ -279,8 +281,8 @@
       const layout = placement.getBlueBonusDataSlotLayout(blueSlot);
       if (!layout) continue;
 
-      const tileId = state.getBlueTechTileInBoardSlot(player, blueSlot);
       const requiredComputerSlot = placement.getRequiredComputerSlotForBlueBonus(blueSlot);
+      const positionLabel = placement.getBlueBonusDataPositionLabel(blueSlot);
       const canPlace = eligible.has(blueSlot) && hasPoolData;
 
       const button = document.createElement("button");
@@ -290,7 +292,7 @@
       button.disabled = !canPlace;
       applyDropZoneStyle(button, layout);
       button.title = canPlace
-        ? `放置数据到 ${tileId || `位置${blueSlot}蓝色科技`} 下方`
+        ? `放置数据到${positionLabel}`
         : hasPoolData
           ? `需先在第一排第 ${requiredComputerSlot} 位放置数据`
           : "数据池没有可放置的数据";
