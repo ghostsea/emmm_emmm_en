@@ -181,8 +181,7 @@
   const HISTORY_SOURCE_MAIN = "main";
   const HISTORY_SOURCE_QUICK = "quick";
   const HISTORY_SOURCE_SETUP = "setup";
-  const ACTION_BRIEFING_MAX_ITEMS = 3;
-  const ACTION_BRIEFING_MAX_CYCLES = 8;
+  const ACTION_BRIEFING_MAX_QUEUE_ITEMS = 300;
   const ACTION_BRIEFING_MAIN_ACTION_TYPES = new Set([
     "launch",
     "orbit",
@@ -217,7 +216,9 @@
     activeReportTab: "action",
   };
   const actionBriefingState = {
-    aiMainActions: [],
+    mainActionQueue: [],
+    lastActionPointByPlayerId: {},
+    nextActionPoint: 1,
     lastShownTurnKey: null,
     pendingTurnKey: null,
     pendingAiResume: false,
@@ -2467,7 +2468,9 @@
   }
 
   function resetActionBriefingState() {
-    actionBriefingState.aiMainActions = [];
+    actionBriefingState.mainActionQueue = [];
+    actionBriefingState.lastActionPointByPlayerId = {};
+    actionBriefingState.nextActionPoint = 1;
     actionBriefingState.lastShownTurnKey = null;
     actionBriefingState.pendingTurnKey = null;
     actionBriefingState.pendingAiResume = false;
@@ -2478,7 +2481,6 @@
     return Boolean(
       entry?.playerId
       && ACTION_BRIEFING_MAIN_ACTION_TYPES.has(entry.actionType)
-      && isAiAutoBattlePlayer(entry.playerId)
     );
   }
 
@@ -2672,7 +2674,7 @@
       rawTurnNumber: entry.rawTurnNumber ?? entry.turnNumber,
       actionCycleNumber: entry.actionCycleNumber ?? null,
       playerId: entry.playerId,
-      playerLabel: player?.colorLabel || entry.playerLabel || getPlayerLabelById(entry.playerId) || "电脑玩家",
+      playerLabel: player?.colorLabel || entry.playerLabel || getPlayerLabelById(entry.playerId) || "玩家",
       playerColor: player?.color || null,
       playerColorValue: color?.uiColor || "rgba(232, 244, 255, 0.78)",
       actionType: entry.actionType,
@@ -2682,56 +2684,52 @@
     };
   }
 
-  function getActionBriefingCycleKey(roundNumber, actionCycleNumber, turnNumber = null) {
-    const cycleNumber = actionCycleNumber ?? (turnNumber != null ? `turn:${turnNumber}` : "");
-    return `${roundNumber ?? ""}:${cycleNumber}`;
-  }
-
-  function getActionBriefingItemCycleKey(item) {
-    return getActionBriefingCycleKey(item?.roundNumber, item?.actionCycleNumber, item?.turnNumber);
-  }
-
-  function getActionBriefingPlayerKey(item) {
-    return item?.playerId || item?.playerColor || item?.playerLabel || "";
-  }
-
-  function pruneActionBriefingHistory() {
-    const cycleKeys = [];
-    for (const item of actionBriefingState.aiMainActions) {
-      const cycleKey = getActionBriefingItemCycleKey(item);
-      if (cycleKey && !cycleKeys.includes(cycleKey)) cycleKeys.push(cycleKey);
-    }
-    if (cycleKeys.length <= ACTION_BRIEFING_MAX_CYCLES) return;
-    const keepCycleKeys = new Set(cycleKeys.slice(-ACTION_BRIEFING_MAX_CYCLES));
-    actionBriefingState.aiMainActions = actionBriefingState.aiMainActions
-      .filter((item) => keepCycleKeys.has(getActionBriefingItemCycleKey(item)));
+  function pruneActionBriefingQueue() {
+    if (actionBriefingState.mainActionQueue.length <= ACTION_BRIEFING_MAX_QUEUE_ITEMS) return;
+    actionBriefingState.mainActionQueue = actionBriefingState.mainActionQueue
+      .slice(-ACTION_BRIEFING_MAX_QUEUE_ITEMS);
   }
 
   function rememberActionBriefingEntry(entry) {
     const item = createActionBriefingItemFromEntry(entry);
     if (!item) return null;
-    const cycleKey = getActionBriefingItemCycleKey(item);
-    const playerKey = getActionBriefingPlayerKey(item);
-    actionBriefingState.aiMainActions = actionBriefingState.aiMainActions
-      .filter((existing) => {
-        if (existing.entryId === item.entryId) return false;
-        return !(
-          getActionBriefingItemCycleKey(existing) === cycleKey
-          && getActionBriefingPlayerKey(existing) === playerKey
-        );
-      });
-    actionBriefingState.aiMainActions.push(item);
-    pruneActionBriefingHistory();
+    const existing = actionBriefingState.mainActionQueue
+      .find((candidate) => candidate.entryId === item.entryId);
+    if (existing) {
+      const actionPoint = existing.actionPoint;
+      Object.assign(existing, item, { actionPoint });
+      if (existing.playerId) {
+        actionBriefingState.lastActionPointByPlayerId[existing.playerId] = actionPoint;
+      }
+      return existing;
+    }
+
+    item.actionPoint = actionBriefingState.nextActionPoint;
+    actionBriefingState.nextActionPoint += 1;
+    actionBriefingState.mainActionQueue.push(item);
+    if (item.playerId) {
+      actionBriefingState.lastActionPointByPlayerId[item.playerId] = item.actionPoint;
+    }
+    pruneActionBriefingQueue();
     return item;
   }
 
-  function getActionBriefingTurnKey(advanceResult = null) {
+  function getActionBriefingLastPointForPlayer(playerId) {
+    if (!playerId) return 0;
+    return Math.max(0, Math.round(Number(actionBriefingState.lastActionPointByPlayerId[playerId]) || 0));
+  }
+
+  function getActionBriefingQueueTailPoint() {
+    const latest = actionBriefingState.mainActionQueue[actionBriefingState.mainActionQueue.length - 1];
+    return Math.max(0, Math.round(Number(latest?.actionPoint) || 0));
+  }
+
+  function getActionBriefingTurnKey(player, items = []) {
     return [
-      turnState.roundNumber,
-      getDisplayedTurnNumber(),
-      advanceResult?.completedActionCycleRoundNumber || "",
-      advanceResult?.completedActionCycleNumber || "",
-      advanceResult?.completedActionCycleTurnNumber || "",
+      player?.id || "",
+      getActionBriefingLastPointForPlayer(player?.id),
+      items[0]?.actionPoint || "",
+      items[items.length - 1]?.actionPoint || getActionBriefingQueueTailPoint(),
     ].join(":");
   }
 
@@ -2813,51 +2811,28 @@
     return Boolean(els.actionBriefingOverlay && !els.actionBriefingOverlay.hidden);
   }
 
-  function getActionBriefingItemsForCompletedCycle(advanceResult) {
-    if (!advanceResult?.completedActionCycle) return [];
-    const roundNumber = advanceResult.completedActionCycleRoundNumber;
-    const turnNumber = advanceResult.completedActionCycleTurnNumber;
-    const cycleKey = getActionBriefingCycleKey(
-      roundNumber,
-      advanceResult.completedActionCycleNumber,
-      turnNumber,
-    );
-    const latestByPlayerKey = new Map();
-    for (const item of actionBriefingState.aiMainActions) {
-      if (getActionBriefingItemCycleKey(item) !== cycleKey) continue;
-      const playerKey = getActionBriefingPlayerKey(item);
-      if (!playerKey) continue;
-      latestByPlayerKey.set(playerKey, item);
-    }
-
-    const orderedItems = [];
-    for (const playerId of advanceResult.completedActionCyclePlayerIds || []) {
-      const player = getPlayerById(playerId);
-      const playerKey = getActionBriefingPlayerKey({
-        playerId,
-        playerColor: player?.color || null,
-        playerLabel: player?.colorLabel || null,
-      });
-      if (!playerKey || !latestByPlayerKey.has(playerKey)) continue;
-      orderedItems.push(latestByPlayerKey.get(playerKey));
-      latestByPlayerKey.delete(playerKey);
-    }
-
-    return [...orderedItems, ...latestByPlayerKey.values()]
-      .slice(0, ACTION_BRIEFING_MAX_ITEMS);
+  function isHumanActionBriefingPlayer(player) {
+    return Boolean(player?.id) && !isAiAutoBattlePlayer(player.id);
   }
 
-  function maybeOpenActionBriefingForCompletedCycle(advanceResult) {
+  function getActionBriefingItemsForHumanTurn(player = getCurrentPlayer()) {
+    if (!isHumanActionBriefingPlayer(player)) return [];
+    const lastActionPoint = getActionBriefingLastPointForPlayer(player.id);
+    return actionBriefingState.mainActionQueue
+      .filter((item) => item.actionPoint > lastActionPoint && item.playerId !== player.id);
+  }
+
+  function maybeOpenActionBriefingForHumanTurn(player = getCurrentPlayer()) {
     if (!isActionBriefingEnabled()) return false;
-    if (!advanceResult?.completedActionCycle || isGameEnded()) return false;
-    const items = getActionBriefingItemsForCompletedCycle(advanceResult);
+    if (!isHumanActionBriefingPlayer(player) || isGameEnded()) return false;
+    const items = getActionBriefingItemsForHumanTurn(player);
     if (!items.length) return false;
-    const turnKey = getActionBriefingTurnKey(advanceResult);
+    const turnKey = getActionBriefingTurnKey(player, items);
     if (actionBriefingState.lastShownTurnKey === turnKey) return false;
     const roundLabel = `第${getActionCycleNumber()}回合：`;
     if (!openActionBriefing(items, turnKey, {
       roundLabel,
-      resumeAiAfterClose: true,
+      resumeAiAfterClose: false,
     })) return false;
     actionBriefingState.lastShownTurnKey = turnKey;
     return true;
@@ -28109,7 +28084,7 @@
     renderAfterFailsafeControl(message, { saveLabel: "强制跳过后状态" });
     if (!advanceResult.gameEnded) {
       maybeStartFundamentalismRoundStartIncomeFlow(nextPlayer, turnState.roundNumber);
-      if (!maybeOpenActionBriefingForCompletedCycle(advanceResult)) {
+      if (!maybeOpenActionBriefingForHumanTurn(nextPlayer)) {
         scheduleAiAutoStepIfNeeded();
       }
     } else {
@@ -33367,7 +33342,9 @@
     renderStateReadout();
     if (!advanceResult.gameEnded) {
       maybeStartFundamentalismRoundStartIncomeFlow(nextPlayer, turnState.roundNumber);
-      maybeOpenActionBriefingForCompletedCycle(advanceResult);
+      if (!maybeOpenActionBriefingForHumanTurn(nextPlayer)) {
+        scheduleAiAutoStepIfNeeded();
+      }
     }
     refreshLatestActionLogRecoverySnapshot("回合结束后状态");
     if (advanceResult.gameEnded) {
