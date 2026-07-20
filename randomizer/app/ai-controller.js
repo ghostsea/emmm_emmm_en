@@ -11162,6 +11162,100 @@
       ), 0);
     }
 
+    function getAiStrategyPassiveRewardBundleForCard(card, player = getCurrentPlayer()) {
+      const slots = listAiStrategyPassiveSlotsForCard(card, player);
+      const selected = slots
+        .map((slotId) => ({ slotId, score: scoreAiStrategyPassiveSlotChoice(slotId, player) }))
+        .sort((left, right) => aiNumber(right.score) - aiNumber(left.score))[0] || null;
+      if (!selected) return null;
+      const reward = industry?.getStrategySlotReward?.(selected.slotId) || null;
+      if (!reward) return null;
+      return {
+        slotId: selected.slotId,
+        gain: {
+          credits: Math.max(0, aiNumber(reward.credits)),
+          publicity: Math.max(0, aiNumber(reward.publicity)),
+          availableData: Math.max(0, aiNumber(reward.data)),
+        },
+      };
+    }
+
+    function getAiImmediateResourceGainFromPlayEffects(playEffects = []) {
+      return (playEffects || []).reduce((total, effect) => {
+        const type = effect?.type;
+        if (type !== planetRewards.EFFECT_TYPES?.GAIN_RESOURCES && type !== "gain_resources") return total;
+        Object.entries(effect?.options?.gain || {}).forEach(([resourceKey, rawValue]) => {
+          const value = Math.max(0, aiNumber(rawValue));
+          if (value > 0) total[resourceKey] = aiNumber(total[resourceKey]) + value;
+        });
+        return total;
+      }, {});
+    }
+
+    function scoreAiGrandStrategyCreditBottleneckPenalty(card, details = {}) {
+      const player = details.player || getCurrentPlayer();
+      if (!player || details.actualHandPlay !== true || getAiRoundNumber() >= FINAL_ROUND_NUMBER) return 0;
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) return 0;
+      if (
+        Math.max(0, aiNumber(details.directScoreGain)) > 0
+        || Math.max(0, aiNumber(details.standardActionPremium)) > 0
+        || Math.max(0, aiNumber(details.readyTaskCashoutValue)) > 0
+        || details.routePlanCashout
+      ) return 0;
+
+      const cost = details.cost || getCardPlayCost(card);
+      const resources = player.resources || {};
+      const currentCredits = Math.max(0, aiNumber(resources.credits));
+      const currentEnergy = Math.max(0, aiNumber(resources.energy));
+      const creditCost = Math.max(0, aiNumber(cost.credits));
+      const energyCost = Math.max(0, aiNumber(cost.energy));
+      if (currentCredits < 2 || creditCost <= 0) return 0;
+      if (!scanEffects?.canExecuteScan?.(player, { standardAction: true })?.ok) return 0;
+
+      const cardGain = getAiImmediateResourceGainFromPlayEffects(details.playEffects || []);
+      const passiveReward = getAiStrategyPassiveRewardBundleForCard(card, player);
+      const combinedGain = { ...cardGain };
+      Object.entries(passiveReward?.gain || {}).forEach(([resourceKey, rawValue]) => {
+        combinedGain[resourceKey] = aiNumber(combinedGain[resourceKey]) + Math.max(0, aiNumber(rawValue));
+      });
+      const actualGain = getAiActualResourceGain(combinedGain, player);
+      const creditsAfterPlay = Math.max(
+        0,
+        currentCredits - creditCost + Math.max(0, aiNumber(actualGain.credits)),
+      );
+      const energyAfterPlay = Math.max(
+        0,
+        currentEnergy - energyCost + Math.max(0, aiNumber(actualGain.energy)),
+      );
+      if (creditsAfterPlay > 0) return 0;
+
+      const scanCost = scanEffects?.getStandardScanCost?.(player)
+        || scanEffects?.SCAN_COST
+        || { credits: 1, energy: 2 };
+      const scanCreditCost = Math.max(1, aiNumber(scanCost.credits));
+      const scanEnergyCost = Math.max(1, aiNumber(scanCost.energy));
+      const scanCapacityBefore = Math.min(
+        Math.floor(currentCredits / scanCreditCost),
+        Math.floor(currentEnergy / scanEnergyCost),
+      );
+      const scanCapacityAfter = Math.min(
+        Math.floor(creditsAfterPlay / scanCreditCost),
+        Math.floor(energyAfterPlay / scanEnergyCost),
+      );
+      const lostScanCapacity = Math.max(0, scanCapacityBefore - scanCapacityAfter);
+      if (lostScanCapacity < 2) return 0;
+
+      const pairedCreditOpportunity = Math.min(
+        4.5,
+        Math.max(3.5, aiNumber(getAiResourceValuesForRound().credits) * 0.65),
+      );
+      return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
+    }
+
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
@@ -11287,6 +11381,10 @@
           directScoreGain,
           routePlanCashout,
         });
+      const grandStrategyCreditBottleneckPenalty = Math.max(
+        0,
+        aiNumber(details.grandStrategyCreditBottleneckPenalty),
+      );
       return effectValue
         + reserveValue
         + endGameValue
@@ -11316,7 +11414,8 @@
         - costValue
         - cornerOpportunity * 0.45
         - finalSecondMarkNoDirectSetupPenalty
-        - finalRoundResourceDrainPenalty;
+        - finalRoundResourceDrainPenalty
+        - grandStrategyCreditBottleneckPenalty;
     }
 
     function getAiCircularDistanceX(leftX, rightX) {
@@ -16111,6 +16210,7 @@
         total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
       ), 0);
       const strategyPassivePlayValue = scoreAiStrategyPassiveCardPlayValue(card, currentPlayer);
+      const actualHandPlay = handIndex >= 0;
       const industryCard = getAiIndustryCard(currentPlayer);
       const isHuanyuLowTailWithoutTasks = Boolean(
         (industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
@@ -16160,6 +16260,16 @@
         || plan?.actionId === "land"
         || plan?.actionId === "orbit"
       );
+      const grandStrategyCreditBottleneckPenalty = scoreAiGrandStrategyCreditBottleneckPenalty(card, {
+        player: currentPlayer,
+        actualHandPlay,
+        playEffects,
+        cost,
+        directScoreGain,
+        standardActionPremium,
+        readyTaskCashoutValue: readyTaskCashout.value,
+        routePlanCashout,
+      });
       const finalSecondMarkNoDirectSetupPenalty = scoreAiFinalSecondMarkNoDirectSetupPenalty(currentPlayer, {
         actionId: "playCard",
         directScoreGain,
@@ -16198,6 +16308,7 @@
         effectValue,
         standardActionPremium,
         strategyPassivePlayValue,
+        grandStrategyCreditBottleneckPenalty,
         cFinalTaskProgressValue,
         readyTaskCashout,
       });
@@ -16269,6 +16380,7 @@
           directScoreGain,
           effectValue,
           strategyPassivePlayValue,
+          grandStrategyCreditBottleneckPenalty,
           c2Type3ProgressValue,
           cFinalTaskProgressValue,
           finalUnreadyTaskSetupSuppressed,

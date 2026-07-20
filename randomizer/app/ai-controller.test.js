@@ -3254,6 +3254,117 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const getStrategyPlayAction = ({
+    companyLabel = "宇宙大战略集团",
+    roundNumber = 2,
+    firstHumanScanActionCode = 1,
+  } = {}) => {
+    const turnChoices = [];
+    const strategyIndustry = { id: `industry:${companyLabel}`, label: companyLabel };
+    const newsCard = {
+      id: "b_99.webp",
+      cardId: "b_99.webp",
+      cardName: "新闻发言",
+      price: 1,
+      typeCode: 0,
+      scanActionCode: 1,
+      playEffects: [{ type: "gain_resources", options: { gain: { publicity: 3 } } }],
+    };
+    const firstHumanCard = {
+      id: "dlc_10.png",
+      cardId: "dlc_10.png",
+      cardName: "太空第一人",
+      price: 4,
+      typeCode: 3,
+      scanActionCode: firstHumanScanActionCode,
+      playEffects: [{ type: "gain_resources", options: { gain: { publicity: 10 } } }],
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordBeginPlayCard: true,
+      blueInitialSelection: { industry: strategyIndustry },
+      blueIndustryStrategyPassiveSlots: { yellow: false, red: false, blue: false },
+      blueResources: {
+        score: 27,
+        credits: 4,
+        energy: 7,
+        publicity: 2,
+        availableData: 0,
+        handSize: 2,
+      },
+      blueHand: [newsCard, firstHumanCard],
+      industry: {
+        STRATEGY_PASSIVE_SLOT_IDS: ["yellow", "red", "blue"],
+        playerHasStrategyPassive: () => true,
+        getStrategySlotReward: (slotId) => ({
+          yellow: { credits: 1 },
+          red: { publicity: 1 },
+          blue: { data: 1 },
+        }[slotId] || null),
+      },
+      scanEffects: {
+        SCAN_COST: { credits: 1, energy: 2 },
+        buildScanEffectQueue: () => [],
+        canExecuteScan: () => ({ ok: true }),
+        getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+    });
+    assert.equal(harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok, true);
+    const result = harness.controller.runAiAutomationStep();
+    assert.equal(result.ok, true, JSON.stringify(result));
+    return turnChoices.flat().find((candidate) => candidate.id === "playCard");
+  };
+
+  const grandStrategyPlay = getStrategyPlayAction();
+  const firstHumanCandidate = grandStrategyPlay?.playableCards
+    ?.find((candidate) => candidate.cardId === "dlc_10.png");
+  assert.ok(
+    Number(firstHumanCandidate?.valueBreakdown?.grandStrategyCreditBottleneckPenalty || 0) >= 11,
+    "spending every credit should price the real scan capacity stranded behind seven energy",
+  );
+  assert.equal(
+    grandStrategyPlay?.cardId,
+    "b_99.webp",
+    "grand strategy should preserve credits with the cheaper research bridge instead of exhausting them",
+  );
+
+  const ordinaryStrategyPlay = getStrategyPlayAction({ companyLabel: "宇宙战略集团" });
+  const ordinaryFirstHuman = ordinaryStrategyPlay?.playableCards
+    ?.find((candidate) => candidate.cardId === "dlc_10.png");
+  assert.equal(
+    ordinaryFirstHuman?.valueBreakdown?.grandStrategyCreditBottleneckPenalty,
+    0,
+    "the resource-lock correction should remain specific to the AI-only grand strategy company",
+  );
+
+  const finalRoundPlay = getStrategyPlayAction({ roundNumber: 4 });
+  const finalRoundFirstHuman = finalRoundPlay?.playableCards
+    ?.find((candidate) => candidate.cardId === "dlc_10.png");
+  assert.equal(
+    finalRoundFirstHuman?.valueBreakdown?.grandStrategyCreditBottleneckPenalty,
+    0,
+    "the midgame scan-capacity correction should not invent future scans in the final round",
+  );
+
+  const yellowRefundPlay = getStrategyPlayAction({ firstHumanScanActionCode: 0 });
+  const yellowRefundFirstHuman = yellowRefundPlay?.playableCards
+    ?.find((candidate) => candidate.cardId === "dlc_10.png");
+  assert.equal(
+    yellowRefundFirstHuman?.valueBreakdown?.grandStrategyCreditBottleneckPenalty,
+    0,
+    "a yellow strategy slot that returns one credit should prevent the false zero-credit bottleneck",
+  );
+}
+
+{
   const alienGameState = makeBanrenmaAlienState();
   alienGameState.banrenma.displayedCardIndex = 4;
   const harness = createAiControllerHarness(null, {
