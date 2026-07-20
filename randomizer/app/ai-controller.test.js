@@ -3205,6 +3205,55 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const getCappedResourceCardEffectValue = (resources, gain) => {
+    const turnChoices = [];
+    const card = {
+      id: `capped-resource-${resources.publicity}-${resources.availableData}`,
+      cardName: "Capped resource regression",
+      typeCode: 0,
+      price: 0,
+      playEffects: [{ type: "gain_resources", options: { gain } }],
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 4,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordBeginPlayCard: true,
+      blueResources: { score: 90, credits: 2, energy: 2, handSize: 1, ...resources },
+      blueHand: [card],
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+    });
+    assert.equal(harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok, true);
+    const result = harness.controller.runAiAutomationStep();
+    assert.equal(result.ok, true, JSON.stringify(result));
+    const playAction = turnChoices.flat().find((candidate) => candidate.id === "playCard");
+    const cardCandidate = playAction?.playableCards?.[0] || null;
+    return cardCandidate ? Number(cardCandidate.valueBreakdown?.effectValue) : null;
+  };
+
+  const uncappedValue = getCappedResourceCardEffectValue(
+    { publicity: 0, availableData: 0 },
+    { publicity: 10, availableData: 6 },
+  );
+  const cappedValue = getCappedResourceCardEffectValue(
+    { publicity: 8, availableData: 5 },
+    { publicity: 10, availableData: 6 },
+  );
+  const fullValue = getCappedResourceCardEffectValue(
+    { publicity: 10, availableData: 6 },
+    { publicity: 10, availableData: 6 },
+  );
+  assert.ok(uncappedValue > cappedValue, "resource rewards should value only the amount below each track limit");
+  assert.ok(cappedValue > 0, "partly available resource room should retain its actual marginal value");
+  assert.equal(fullValue, null, "fully capped publicity and data rewards should not create a playable pure-resource card");
+}
+
+{
   const alienGameState = makeBanrenmaAlienState();
   alienGameState.banrenma.displayedCardIndex = 4;
   const harness = createAiControllerHarness(null, {

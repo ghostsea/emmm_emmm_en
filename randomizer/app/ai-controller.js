@@ -3503,12 +3503,26 @@
       ), 0);
     }
 
+    function getAiActualResourceGain(gain = {}, player = getCurrentPlayer()) {
+      if (!gain || typeof gain !== "object") return {};
+      const actualGain = { ...gain };
+      const resourceLimits = players.RESOURCE_LIMITS || {};
+      for (const resourceKey of ["publicity", "availableData"]) {
+        const gainAmount = aiNumber(gain[resourceKey]);
+        const resourceLimit = aiNumber(resourceLimits[resourceKey]);
+        if (gainAmount <= 0 || resourceLimit <= 0) continue;
+        const currentAmount = Math.max(0, aiNumber(player?.resources?.[resourceKey]));
+        actualGain[resourceKey] = Math.min(gainAmount, Math.max(0, resourceLimit - currentAmount));
+      }
+      return actualGain;
+    }
+
     let aiResourceContinuationDepth = 0;
 
     function createAiPlayerAfterResourceGain(player = getCurrentPlayer(), gain = {}) {
       if (!player || !gain || typeof gain !== "object") return null;
       const resources = { ...(player.resources || {}) };
-      Object.entries(gain).forEach(([key, value]) => {
+      Object.entries(getAiActualResourceGain(gain, player)).forEach(([key, value]) => {
         resources[key] = aiNumber(resources[key]) + aiNumber(value);
       });
       return {
@@ -9461,11 +9475,12 @@
     }
 
     function scoreAiCountedResourceGain(gain = {}, player = getCurrentPlayer()) {
-      const fossilGain = Math.max(0, Math.round(aiNumber(gain?.aomomoFossils)));
-      return scoreAiResourceBundle(gain)
-        + scoreAiMidgameResourceContinuationValue(gain, player)
-        + scoreAiPublicityResearchTechSetupValue(gain, player)
-        + scoreAiThresholdPressureForScoreGain(gain.score, player)
+      const actualGain = getAiActualResourceGain(gain, player);
+      const fossilGain = Math.max(0, Math.round(aiNumber(actualGain?.aomomoFossils)));
+      return scoreAiResourceBundle(actualGain)
+        + scoreAiMidgameResourceContinuationValue(actualGain, player)
+        + scoreAiPublicityResearchTechSetupValue(actualGain, player)
+        + scoreAiThresholdPressureForScoreGain(actualGain.score, player)
         + scoreAiAomomoFossilPlanBonus(fossilGain, player);
     }
 
@@ -9627,8 +9642,10 @@
         case planetRewards.EFFECT_TYPES?.GAIN_DATA:
         case "gain_data": {
           const count = Math.max(0, Math.round(aiNumber(effectOptions.count || 1)));
-          return count * AI_RESOURCE_VALUES.availableData
-            + scoreAiMidgameResourceContinuationValue({ availableData: count }, player, { scale: 0.75 });
+          const actualGain = getAiActualResourceGain({ availableData: count }, player);
+          const actualCount = Math.max(0, aiNumber(actualGain.availableData));
+          return actualCount * AI_RESOURCE_VALUES.availableData
+            + scoreAiMidgameResourceContinuationValue(actualGain, player, { scale: 0.75 });
         }
         case planetRewards.EFFECT_TYPES?.INCOME:
         case "income":
