@@ -3455,6 +3455,49 @@ const nearCompleteTaskTargetReport = {
   lastSummary: { ok: true, blocked: false, gameEnded: true, steps: 1 },
   logs: [{
     type: "turn-action",
+    roundNumber: 2,
+    turnNumber: 5,
+    rawTurnNumber: 5,
+    playerId: "player-blue",
+    playerLabel: "蓝色",
+    playerResources: { score: 55, credits: 3, energy: 2, publicity: 1, availableData: 0, handSize: 2 },
+    details: {
+      action: {
+        id: "land",
+        kind: "main",
+        planetId: "jupiter",
+        planetName: "木星",
+        score: 35,
+        directScoreGain: 8,
+        actionGraph: { net: 35 },
+      },
+      candidates: [{
+        id: "land",
+        kind: "main",
+        available: true,
+        planetId: "jupiter",
+        planetName: "木星",
+        score: 35,
+        directScoreGain: 8,
+        actionGraph: { net: 35 },
+      }],
+    },
+  }, {
+    type: "pick-card",
+    roundNumber: 3,
+    turnNumber: 1,
+    rawTurnNumber: 6,
+    playerId: "player-blue",
+    playerLabel: "蓝色",
+    details: {
+      card: {
+        id: "card-jupiter-task",
+        cardId: "b_jupiter_test.webp",
+        cardName: "木星任务测试",
+      },
+    },
+  }, {
+    type: "turn-action",
     roundNumber: 3,
     turnNumber: 2,
     rawTurnNumber: 8,
@@ -3572,6 +3615,10 @@ const nearCompleteTaskTargetAnalysis = analytics.analyzeBattleReport(nearComplet
 const nearCompleteTaskTargetSample = nearCompleteTaskTargetAnalysis.nearCompleteTaskPressureSamples[0];
 assert.equal(nearCompleteTaskTargetSample.routeCandidateTurnCount, 2);
 assert.equal(nearCompleteTaskTargetSample.routeSelectedCount, 2);
+assert.equal(nearCompleteTaskTargetSample.card.cardInstanceId, "card-jupiter-task");
+assert.equal(nearCompleteTaskTargetSample.cardAvailableFrom.logIndex, 1);
+assert.equal(nearCompleteTaskTargetSample.cardAvailableFrom.sourceType, "pick-card");
+assert.equal(nearCompleteTaskTargetSample.bestRouteTurn.roundNumber, 3);
 assert.equal(nearCompleteTaskTargetSample.taskTarget.key, "planet:jupiter");
 assert.equal(nearCompleteTaskTargetSample.taskTarget.candidateTurnCount, 1);
 assert.equal(nearCompleteTaskTargetSample.taskTarget.selectedCount, 0);

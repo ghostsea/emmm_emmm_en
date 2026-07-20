@@ -4705,7 +4705,7 @@
     return {
       zone,
       cardId: card.cardId || card.id || null,
-      cardInstanceId: card.id || null,
+      cardInstanceId: card.cardInstanceId || card.id || null,
       label: card.label || card.cardName || card.cardLabel || null,
       price: roundRatio(card.price),
       typeCode,
@@ -4943,14 +4943,76 @@
     };
   }
 
-  function buildNearCompleteTaskRouteContext(logs = [], playerId = null, task = {}) {
+  function nearCompleteTaskCardMatches(candidate = {}, card = {}) {
+    if (!candidate || !card) return false;
+    const expectedInstanceId = card.cardInstanceId || null;
+    const candidateInstanceId = candidate.cardInstanceId || candidate.id || null;
+    if (expectedInstanceId && candidateInstanceId) {
+      return String(expectedInstanceId) === String(candidateInstanceId);
+    }
+    const expectedCardId = card.cardId || null;
+    const candidateCardId = candidate.cardId || null;
+    return Boolean(expectedCardId && candidateCardId && String(expectedCardId) === String(candidateCardId));
+  }
+
+  function turnActionShowsOwnedNearCompleteTaskCard(entry = {}, card = {}) {
+    const action = getSelectedAction(entry) || {};
+    const candidates = [action, ...(entry.details?.candidates || [])];
+    return candidates.some((candidate) => {
+      const actionId = getCandidateId(candidate);
+      if (!["playCard", "cardCorner"].includes(actionId)) return false;
+      if (nearCompleteTaskCardMatches(candidate, card)) return true;
+      return (candidate.playableCards || []).some((nested) => nearCompleteTaskCardMatches(nested, card));
+    });
+  }
+
+  function findNearCompleteTaskCardAvailableFrom(logs = [], playerId = null, card = {}) {
+    for (let logIndex = 0; logIndex < (logs || []).length; logIndex += 1) {
+      const entry = logs[logIndex];
+      if (entry?.playerId !== playerId) continue;
+      let sourceType = null;
+      if (entry.type === "pick-card" && nearCompleteTaskCardMatches(entry.details?.card, card)) {
+        sourceType = "pick-card";
+      } else if (
+        entry.type === "play-card"
+        && nearCompleteTaskCardMatches(entry.details?.selected || entry.details?.card, card)
+      ) {
+        sourceType = "play-card";
+      } else if (
+        entry.type === "discard"
+        && (entry.details?.selectedCards || []).some((candidate) => nearCompleteTaskCardMatches(candidate, card))
+      ) {
+        sourceType = "discard";
+      } else if (entry.type === "turn-action" && turnActionShowsOwnedNearCompleteTaskCard(entry, card)) {
+        sourceType = "turn-action";
+      }
+      if (!sourceType) continue;
+      return {
+        logIndex,
+        sourceType,
+        roundNumber: entry.roundNumber ?? null,
+        turnNumber: entry.turnNumber ?? null,
+        rawTurnNumber: entry.rawTurnNumber ?? entry.turnNumber ?? null,
+      };
+    }
+    return {
+      logIndex: 0,
+      sourceType: "unknown",
+      roundNumber: null,
+      turnNumber: null,
+      rawTurnNumber: null,
+    };
+  }
+
+  function buildNearCompleteTaskRouteContext(logs = [], playerId = null, task = {}, options = {}) {
     const routeActions = task.routeActions || [];
     const routeActionSet = new Set(routeActions || []);
     const routeActionCounts = {};
     const matchedTurns = [];
     const targetKey = getNearCompleteTaskTargetKey(task);
     const targetMatchedTurns = [];
-    for (let logIndex = 0; logIndex < (logs || []).length; logIndex += 1) {
+    const minLogIndex = Math.max(0, Math.round(numeric(options.minLogIndex)));
+    for (let logIndex = minLogIndex; logIndex < (logs || []).length; logIndex += 1) {
       const entry = logs[logIndex];
       if (entry?.type !== "turn-action" || entry.playerId !== playerId) continue;
       const selected = getSelectedAction(entry) || {};
@@ -5038,8 +5100,11 @@
         ...(result.reservedCards || []).map((card) => summarizeNearCompleteTaskCard(card, "reserved")),
       ].filter(Boolean);
       for (const card of cards) {
+        const cardAvailableFrom = findNearCompleteTaskCardAvailableFrom(logs, result.playerId || null, card);
         for (const task of card.tasks || []) {
-          const routeContext = buildNearCompleteTaskRouteContext(logs, result.playerId || null, task);
+          const routeContext = buildNearCompleteTaskRouteContext(logs, result.playerId || null, task, {
+            minLogIndex: cardAvailableFrom.logIndex,
+          });
           samples.push({
             playerId: result.playerId || null,
             playerLabel: result.playerLabel || result.playerId || "unknown",
@@ -5057,6 +5122,7 @@
               typeCode: card.typeCode,
               effectTypes: card.effectTypes,
             },
+            cardAvailableFrom,
             task,
             stillMissingAtFinal: !task.met,
             ...routeContext,
