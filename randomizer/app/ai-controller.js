@@ -8735,7 +8735,8 @@
         const directScoreGain = Math.max(0, aiNumber(rawCandidate.directScoreGain));
         const placedCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
         const scanCountThisRound = countAiStandardScansThisRound(player);
-        const canOpenAnalyze = placedCount >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6) - 1;
+        const canOpenAnalyze = placedCount >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6) - 1
+          || rawCandidate.valueBreakdown?.scanProjectedAnalyzeUnlock === true;
         if (directScoreGain <= 0 && !canOpenAnalyze) {
           goalBonusScale = Math.min(goalBonusScale, round <= 2 ? 0.38 : 0.22);
           urgencyPenalty += Math.min(16, goalBonus * (round <= 2 ? 0.34 : 0.52) + scanCountThisRound * 3.5);
@@ -15816,6 +15817,32 @@
       );
     }
 
+    function canAiGrandStrategyOpenAnalyzeWithProjectedScanData(player = getCurrentPlayer(), effects = null) {
+      if (!player || getAiRoundNumber() !== 1) return false;
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) return false;
+      const requiredComputerCount = Math.max(1, aiNumber(data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6));
+      const placedComputerCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      if (placedComputerCount !== requiredComputerCount - 2 || getAiAvailableDataRoom(player) < 2) return false;
+      const scanEffectsList = effects || scanEffects.buildScanEffectQueue(player, {
+        fullScanAction: true,
+        turnState,
+        roundNumber: turnState.roundNumber,
+        turnNumber: turnState.turnNumber,
+      });
+      const dataProducingTypes = new Set([
+        scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN,
+        scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN,
+        scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN,
+        scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN,
+        scanEffects.EFFECT_TYPES.HAND_SCAN,
+      ]);
+      return scanEffectsList.filter((effect) => dataProducingTypes.has(effect?.type)).length >= 2;
+    }
+
     function scoreAiLateScanResourceDrainPenalty(player = getCurrentPlayer()) {
       if (!player || getAiRoundNumber() < FINAL_ROUND_NUMBER) return 0;
       const currentScore = Math.max(0, aiNumber(player.resources?.score));
@@ -15897,7 +15924,9 @@
       const traceCount = countAiTraceMarkersForPlayer(player);
       const availableData = Math.max(0, aiNumber(player?.resources?.availableData));
       const dataRoom = getAiAvailableDataRoom(player);
-      const canOpenAnalyze = placedComputerCount >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6) - 1;
+      const scanProjectedAnalyzeUnlock = canAiGrandStrategyOpenAnalyzeWithProjectedScanData(player, effects);
+      const canOpenAnalyze = placedComputerCount >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6) - 1
+        || scanProjectedAnalyzeUnlock;
       const fullDataAnalyzeBacklogPenalty = getAiRoundNumber() >= 3
         && dataRoom <= 0
         && hasAiAnalyzeReadyDataSlot(player)
@@ -20478,9 +20507,15 @@
       if (weakFinalAnalyzeEnergyCap !== null) {
         scanScore = Math.min(scanScore, weakFinalAnalyzeEnergyCap);
       }
-      const scanEnergyReservationPenalty = scanCheck.ok
+      const rawScanEnergyReservationPenalty = scanCheck.ok
         ? scoreAiScanEnergyReservationPenalty(currentPlayer)
         : 0;
+      const scanProjectedAnalyzeUnlock = canAiGrandStrategyOpenAnalyzeWithProjectedScanData(currentPlayer);
+      const grandStrategyReservedScanAnalyzeUnlock = rawScanEnergyReservationPenalty > 0
+        && scanProjectedAnalyzeUnlock;
+      const scanEnergyReservationPenalty = grandStrategyReservedScanAnalyzeUnlock
+        ? 0
+        : rawScanEnergyReservationPenalty;
       if (scanEnergyReservationPenalty > 0) {
         scanScore = Math.max(0, scanScore - scanEnergyReservationPenalty);
       }
@@ -20522,6 +20557,9 @@
         valueBreakdown: {
           directScoreGain: scanDirectScoreGain,
           scanEnergyReservationPenalty,
+          rawScanEnergyReservationPenalty,
+          scanDataPlacementOpportunities: scanProjectedAnalyzeUnlock ? 2 : 0,
+          scanProjectedAnalyzeUnlock,
           weakFinalAnalyzeEnergyCap,
         },
       });
@@ -22995,6 +23033,7 @@
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,
       applyAiStrategyWeight,
+      canAiGrandStrategyOpenAnalyzeWithProjectedScanData,
       cardTriggerNeedsFreeMove,
       clearAiStrategyTuningHistory,
       configureAiAutoBattle,

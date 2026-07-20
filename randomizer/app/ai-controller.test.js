@@ -1142,6 +1142,65 @@ function makeYichangdianAlienState(options = {}) {
 }
 
 {
+  const scanTypes = {
+    EARTH_SECTOR_SCAN: "earth_sector_scan",
+    IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+    MERCURY_SECTOR_SCAN: "mercury_sector_scan",
+    PUBLIC_CARD_SCAN: "public_card_scan",
+    HAND_SCAN: "hand_scan",
+  };
+  const projectedScanEffects = [
+    { type: scanTypes.EARTH_SECTOR_SCAN },
+    { type: scanTypes.PUBLIC_CARD_SCAN },
+  ];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 1,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { credits: 2, energy: 4, availableData: 0 },
+    data: {
+      ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+      listComputerPlacedTokens: () => Array.from({ length: 4 }, (_, index) => ({ index })),
+    },
+    scanEffects: {
+      EFFECT_TYPES: scanTypes,
+      SCAN_COST: { credits: 1, energy: 2 },
+      buildScanEffectQueue: () => projectedScanEffects,
+      canExecuteScan: () => ({ ok: true }),
+      getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+    },
+  });
+  assert.equal(
+    harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue),
+    true,
+    "grand strategy should recognize two scan data placements that open the sixth computer slot in round one",
+  );
+  assert.equal(
+    harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(
+      harness.blue,
+      [{ type: scanTypes.EARTH_SECTOR_SCAN }],
+    ),
+    false,
+    "one projected scan data placement should not pre-credit the analyze unlock",
+  );
+  harness.turnState.roundNumber = 2;
+  assert.equal(
+    harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue),
+    false,
+    "the projected analyze correction should stay scoped to the first round",
+  );
+  harness.turnState.roundNumber = 1;
+  harness.blue.initialSelection.industry = { id: "industry:宇宙战略集团", label: "宇宙战略集团" };
+  assert.equal(
+    harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue),
+    false,
+    "the projected analyze correction should not alter the ordinary strategy company",
+  );
+}
+
+{
   const red = { id: "player-red", color: "red", colorLabel: "Red" };
   const yellow = { id: "player-yellow", color: "yellow", colorLabel: "Yellow" };
   const offers = Object.fromEntries(
