@@ -3822,6 +3822,72 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const selected = [];
   const alienGameState = {
     aliens: {
+      1: { revealed: true, alienId: fangzhou.ALIEN_ID, assignedAlienId: fangzhou.ALIEN_ID },
+    },
+    fangzhou: fangzhou.createFangzhouState(),
+  };
+  alienGameState.fangzhou.revealedSlotId = 1;
+  alienGameState.fangzhou.revealInitialized = true;
+  alienGameState.fangzhou.playerCard2ById["player-blue"] = {
+    unlockCount: 0,
+    cards: {
+      blue: { traceType: "blue", variant: 1, unlocked: false, status: "locked" },
+    },
+  };
+  fangzhou.ensureTraceGrid(alienGameState, 1);
+
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 1,
+    alienGameState,
+    pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+    alienTracePickerState: {
+      mode: "fangzhou-destination",
+      targetPlayerId: "player-blue",
+      selectedAlienSlotId: 1,
+      allowedTraceTypes: ["blue"],
+    },
+    alienPickerButtons: [
+      makeButton(
+        { alienPickerStep: "fangzhou-destination", alienSlot: "1", fangzhouDestination: "panel" },
+        "放到外星人面板 随后点击 state 或正面牌图；state额外位会自动解锁同色方舟牌",
+        false,
+        () => selected.push("panel"),
+      ),
+      makeButton(
+        {
+          alienPickerStep: "fangzhou-destination",
+          alienSlot: "1",
+          traceType: "blue",
+          fangzhouDestination: "unlock",
+        },
+        "解锁蓝色方舟牌 追加到 state 额外痕迹位，获得3分，并解锁卡牌加入手牌",
+        false,
+        () => selected.push("unlock"),
+      ),
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve the first Fangzhou destination choice");
+  assert.deepEqual(
+    selected,
+    ["unlock"],
+    "the direct Fangzhou unlock entry should receive the same early unlock value as the later use step",
+  );
+}
+
+{
+  const selected = [];
+  const alienGameState = {
+    aliens: {
       1: makeHiddenAlienSlot({ pink: "white" }),
       2: makeHiddenAlienSlot({ pink: "white" }),
     },
