@@ -4325,6 +4325,123 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   const turnChoices = [];
+  const runezuState = runezu.createRunezuState();
+  runezuState.revealedSlotId = 1;
+  runezuState.revealInitialized = true;
+  runezuState.sourceSymbolSlots["planet:mars"] = {
+    key: "planet:mars",
+    sourceType: "planet",
+    sourceId: "mars",
+    symbolId: runezu.SYMBOL_IDS[0],
+    claimedByPlayerId: null,
+    claimedByPlayerColor: null,
+    claimedAt: null,
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 2,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    alienGameState: {
+      aliens: {
+        1: { revealed: true, alienId: runezu.ALIEN_ID, assignedAlienId: runezu.ALIEN_ID },
+      },
+      runezu: runezuState,
+    },
+    blueInitialSelection: {
+      industry: { id: "industry:作弊实验室", label: "作弊实验室" },
+    },
+    blueResources: { score: 42, credits: 0, energy: 0, publicity: 0, availableData: 0, handSize: 4 },
+    blueHand: [
+      { id: "cheat-runezu-mars-filler-a", cardName: "Cheat Runezu Mars filler A", price: 3 },
+      { id: "cheat-runezu-mars-filler-b", cardName: "Cheat Runezu Mars filler B", price: 3 },
+      { id: "cheat-runezu-mars-keeper-a", cardName: "Cheat Runezu Mars keeper A", price: 5 },
+      runezu.createAlienCard(9, 1),
+    ],
+    movableTokens: [
+      { id: 2, playerId: "player-blue", sector: { x: 3, y: 2 } },
+    ],
+    planetLocations: [
+      { planetId: "mars", name: "Mars", x: 3, y: 2 },
+    ],
+    planetStats: {
+      canAddLandingMarker: () => true,
+      canAddOrbitMarker: () => false,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 1,
+      getPlanetOrbitCount: () => 0,
+    },
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 2,
+        getLandEnergyCost: () => 1,
+        getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 1,
+      },
+    },
+    planetRewards: {
+      EFFECT_TYPES: {
+        GAIN_RESOURCES: "gain_resources",
+        GAIN_DATA: "gain_data",
+        ALIEN_TRACE: "alien_trace",
+        DRAW_CARDS: "draw_cards",
+        PICK_CARD: "pick_card",
+        INCOME: "income",
+      },
+      buildPlanetLandRewardEffects: () => [
+        { type: "gain_resources", options: { gain: { score: 6, publicity: 2 } } },
+        { type: "alien_trace", options: { traceType: "yellow" } },
+      ],
+      buildOrbitRewardEffects: () => [],
+      buildSatelliteLandRewardEffects: () => [],
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "round-two Cheat Lab Runezu should cash out the second Mars landing");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-energy" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.ok(tradeCandidate, "Cheat Lab Runezu Mars landing unlock trade should be enumerated");
+  assert.equal(tradeCandidate.reason, "资源锁：交易解锁登陆");
+  assert.equal(tradeCandidate.valueBreakdown?.cheatLabRunezuRoundTwoMarsLandUnlock, true);
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "land");
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.planetId, "mars");
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.discardCost || 0) <= 6.5,
+    "the Mars landing unlock should preserve the high-value Runezu card",
+  );
+}
+
+{
+  const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     roundNumber: 5,

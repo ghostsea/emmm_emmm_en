@@ -7035,6 +7035,28 @@
         && aiNumber(planetCashoutPlan.afterTradeGap) <= 0
         && aiNumber(planetCashoutPlan.directScore) >= 5
         && aiNumber(planetCashoutRecovery?.score) >= 34;
+      const cheatLabRunezuRoundTwoMarsLandUnlock = allowExtendedResourceLock
+        && tradeId === "cards-for-energy"
+        && (
+          industryCard?.id === AI_CHEAT_LAB_INDUSTRY_ID
+          || industryCard?.label === AI_CHEAT_LAB_INDUSTRY_LABEL
+        )
+        && getAiRoundNumber() === 2
+        && currentScore >= 40
+        && currentScore < 50
+        && aiNumber(resources.credits) <= 0
+        && aiNumber(resources.energy) === 0
+        && handSize === 4
+        && handAfterTrade === 2
+        && planetCashoutPlan?.kind === "land"
+        && planetCashoutPlan?.planetId === "mars"
+        && aiNumber(planetCashoutPlan.targetEnergy) === 1
+        && aiNumber(planetCashoutPlan.afterTradeGap) <= 0
+        && aiNumber(planetCashoutPlan.directScore) >= 6
+        && aiNumber(planetCashoutRecovery?.score) >= 40
+        && scoreAiRunezuSourceSymbolValue("planet", "mars", player) > 0;
+      const resourceLockLandUnlock = grandFangzhouRoundTwoLandUnlock
+        || cheatLabRunezuRoundTwoMarsLandUnlock;
       const currentScanCheck = scanEffects?.canExecuteScan?.(player, { standardAction: true }) || { ok: false };
       const scanCheck = scanEffects?.canExecuteScan?.(simulatedPlayer, { standardAction: true }) || { ok: false };
       const currentScanScore = currentScanCheck.ok ? scoreAiScanAction(player) : 0;
@@ -7185,7 +7207,7 @@
         });
         postTradeMainActions.sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
       }
-      if (grandFangzhouRoundTwoLandUnlock) {
+      if (resourceLockLandUnlock) {
         postTradeMainActions.push({
           actionId: "land",
           score: aiNumber(planetCashoutRecovery.score),
@@ -7263,7 +7285,7 @@
         ? bestAction.discardCost
         : estimateAiTradeDiscardOpportunityCost(player, trade);
       if (!Number.isFinite(discardCost)) return null;
-      if (grandFangzhouRoundTwoLandUnlock && bestAction.actionId === "land" && discardCost > 6.5) return null;
+      if (resourceLockLandUnlock && bestAction.actionId === "land" && discardCost > 6.5) return null;
       if (weakStartFinalAnalyzeRecoveryUnlock && discardCost > 6.5) return null;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
       if (
@@ -7353,6 +7375,7 @@
           earlyLowScoreScanUnlock,
           directScoreScanUnlock,
           grandFangzhouRoundTwoLandUnlock,
+          cheatLabRunezuRoundTwoMarsLandUnlock,
           weakStartFinalDeadHandAnalyzeUnlock,
           weakStartFinalStrandedAnalyzeUnlock,
           weakStartAlienPlayUnlock: weakStartAlienPlayUnlockSafe,
