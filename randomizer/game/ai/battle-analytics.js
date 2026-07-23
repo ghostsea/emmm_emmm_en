@@ -294,8 +294,10 @@
   function candidateMatchesAction(candidate, action) {
     if (!candidate || !action) return false;
     if (getCandidateId(candidate) !== String(action.id || "")) return false;
+    if (action.tradeId != null && candidate.tradeId != null && action.tradeId !== candidate.tradeId) return false;
     if (action.rocketId != null && candidate.rocketId != null && action.rocketId !== candidate.rocketId) return false;
     if (action.direction != null && candidate.direction != null && action.direction !== candidate.direction) return false;
+    if (action.planetId != null && candidate.planetId != null && action.planetId !== candidate.planetId) return false;
     if (action.cardInstanceId != null && candidate.cardInstanceId != null && action.cardInstanceId !== candidate.cardInstanceId) return false;
     if (action.cardId != null && candidate.cardId != null && action.cardId !== candidate.cardId) return false;
     return true;
