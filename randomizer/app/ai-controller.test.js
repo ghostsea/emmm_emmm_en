@@ -9218,6 +9218,104 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
+    roundNumber: 2,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { score: 41, credits: 0, energy: 1, publicity: 1, availableData: 0, handSize: 4 },
+    blueHand: [
+      { id: "grand-fangzhou-land-filler-a", cardName: "Grand Fangzhou land filler A", price: 3 },
+      { ...fangzhou.createCard2Definition("pink", 4), id: "grand-fangzhou-land-pink-4" },
+      { id: "grand-fangzhou-land-filler-b", cardName: "Grand Fangzhou land filler B", price: 3 },
+      { ...fangzhou.createCard2Definition("blue", 2), id: "grand-fangzhou-land-blue-2" },
+    ],
+    movableTokens: [
+      { id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } },
+    ],
+    planetLocations: [
+      { planetId: "venus", name: "Venus", x: 2, y: 2 },
+    ],
+    planetStats: {
+      canAddLandingMarker: () => true,
+      canAddOrbitMarker: () => false,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 2,
+        getLandEnergyCost: () => 2,
+        getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 1,
+      },
+    },
+    planetRewards: {
+      EFFECT_TYPES: {
+        GAIN_RESOURCES: "gain_resources",
+        GAIN_DATA: "gain_data",
+        ALIEN_TRACE: "alien_trace",
+        DRAW_CARDS: "draw_cards",
+        PICK_CARD: "pick_card",
+        INCOME: "income",
+      },
+      buildPlanetLandRewardEffects: () => [
+        { type: "gain_resources", options: { gain: { score: 10, publicity: 2 } } },
+      ],
+      buildOrbitRewardEffects: () => [],
+      buildSatelliteLandRewardEffects: () => [],
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "round-two Grand Strategy Fangzhou should unlock a proven landing cashout");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-energy" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.ok(tradeCandidate, "Grand Strategy Fangzhou landing unlock trade should be enumerated");
+  assert.equal(tradeCandidate.reason, "资源锁：交易解锁登陆");
+  assert.equal(tradeCandidate.valueBreakdown?.grandFangzhouRoundTwoLandUnlock, true);
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "land");
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.planetId, "venus");
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.discardCost || 0) <= 6.5,
+    "the landing unlock should preserve both high-value Fangzhou cards",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
     roundNumber: 3,
     canStartMainAction: true,
     realisticCanAfford: true,

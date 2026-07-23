@@ -7014,6 +7014,27 @@
         ? scoreAiLaunchTurnCandidateValue(simulatedPlayer, postTradeLaunchPlan)
         : null;
       const launchScore = aiNumber(launchValue?.score);
+      const planetCashoutRecovery = scoreAiEnergyTradePlanetCashoutRecovery(player, tradeId);
+      const planetCashoutPlan = planetCashoutRecovery?.plan || null;
+      const industryCard = getAiIndustryCard(player);
+      const grandFangzhouRoundTwoLandUnlock = allowExtendedResourceLock
+        && tradeId === "cards-for-energy"
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && getAiRoundNumber() === 2
+        && currentScore >= 40
+        && currentScore < 50
+        && aiNumber(resources.credits) <= 0
+        && aiNumber(resources.energy) === 1
+        && handSize === 4
+        && handAfterTrade === 2
+        && countAiFangzhouCard2InHand(player) >= 2
+        && planetCashoutPlan?.kind === "land"
+        && aiNumber(planetCashoutPlan.afterTradeGap) <= 0
+        && aiNumber(planetCashoutPlan.directScore) >= 5
+        && aiNumber(planetCashoutRecovery?.score) >= 34;
       const currentScanCheck = scanEffects?.canExecuteScan?.(player, { standardAction: true }) || { ok: false };
       const scanCheck = scanEffects?.canExecuteScan?.(simulatedPlayer, { standardAction: true }) || { ok: false };
       const currentScanScore = currentScanCheck.ok ? scoreAiScanAction(player) : 0;
@@ -7164,6 +7185,22 @@
         });
         postTradeMainActions.sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
       }
+      if (grandFangzhouRoundTwoLandUnlock) {
+        postTradeMainActions.push({
+          actionId: "land",
+          score: aiNumber(planetCashoutRecovery.score),
+          currentScore: 0,
+          directScoreGain: Math.max(0, aiNumber(planetCashoutPlan.directScore)),
+          concreteValue: Math.max(
+            0,
+            aiNumber(planetCashoutPlan.directScore),
+            aiNumber(planetCashoutPlan.rewardValue) * 0.35,
+          ),
+          planetId: planetCashoutPlan.planetId || null,
+          planetName: planetCashoutPlan.planetName || null,
+        });
+        postTradeMainActions.sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
+      }
       const bestAction = postTradeMainActions[0] || null;
       if (!bestAction) return null;
       const weakStartFinalDeadHandAnalyzeUnlock = !allowExtendedResourceLock
@@ -7226,6 +7263,7 @@
         ? bestAction.discardCost
         : estimateAiTradeDiscardOpportunityCost(player, trade);
       if (!Number.isFinite(discardCost)) return null;
+      if (grandFangzhouRoundTwoLandUnlock && bestAction.actionId === "land" && discardCost > 6.5) return null;
       if (weakStartFinalAnalyzeRecoveryUnlock && discardCost > 6.5) return null;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
       if (
@@ -7270,7 +7308,15 @@
       if (score < (weakStartFinalAnalyzeRecoveryUnlock ? 6 : 7)) return null;
       const reason = bestAction.actionId === "analyze"
         ? (handCost > 0 ? "资源锁：弃牌换能量解锁分析" : "资源锁：信用点换能量解锁分析")
-        : `资源锁：交易解锁${bestAction.actionId === "scan" ? "扫描" : bestAction.actionId === "launch" ? "发射" : "打牌"}`;
+        : `资源锁：交易解锁${
+          bestAction.actionId === "scan"
+            ? "扫描"
+            : bestAction.actionId === "launch"
+              ? "发射"
+              : bestAction.actionId === "land"
+                ? "登陆"
+                : "打牌"
+        }`;
       return {
         id: "quickTrade",
         kind: "quick",
@@ -7291,6 +7337,8 @@
             cardId: bestAction.cardId || null,
             cardLabel: bestAction.cardLabel || null,
             handIndex: Number.isInteger(Number(bestAction.handIndex)) ? Number(bestAction.handIndex) : null,
+            planetId: bestAction.planetId || null,
+            planetName: bestAction.planetName || null,
           },
           currentScore,
           handSize,
@@ -7304,6 +7352,7 @@
           launchBonus: roundAiScore(launchBonus),
           earlyLowScoreScanUnlock,
           directScoreScanUnlock,
+          grandFangzhouRoundTwoLandUnlock,
           weakStartFinalDeadHandAnalyzeUnlock,
           weakStartFinalStrandedAnalyzeUnlock,
           weakStartAlienPlayUnlock: weakStartAlienPlayUnlockSafe,
