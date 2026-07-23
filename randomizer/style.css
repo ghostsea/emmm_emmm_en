@@ -358,6 +358,7 @@ body {
 .table-column-right > .public-card-panel,
 .table-column-right > .opponents-panel {
   width: var(--right-panel-width);
+  min-width: var(--right-panel-width);
   max-width: 100%;
   margin-inline: auto;
 }
@@ -527,7 +528,6 @@ body {
   --public-card-height: var(--right-panel-card-height);
   --public-card-width: var(--right-panel-card-width);
   --public-card-row-padding-x: var(--right-panel-row-padding-x);
-  min-width: var(--right-panel-width);
   padding-bottom: 12px;
   overflow: visible;
   -webkit-backdrop-filter: none;
