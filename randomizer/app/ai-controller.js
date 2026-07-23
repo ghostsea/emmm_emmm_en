@@ -19133,7 +19133,14 @@
       const traceType = getAiAlienTraceTargetTraceType(target);
       const position = getAiAlienTraceTargetPosition(target);
       const fangzhouUseChoice = target.button.dataset.fangzhouUse || null;
-      const isFangzhouUnlockChoice = mode === "fangzhou-use" && fangzhouUseChoice === "unlock";
+      const fangzhouDestinationChoice = target.button.dataset.fangzhouDestination || null;
+      const isFangzhouUnlockChoice = (
+        mode === "fangzhou-use"
+        && fangzhouUseChoice === "unlock"
+      ) || (
+        mode === "fangzhou-destination"
+        && fangzhouDestinationChoice === "unlock"
+      );
       const isStateExtraTraceTarget = target.kind === "state-slot"
         && target.button.dataset.stateTraceKind === "extra";
       const scoringMode = mode === "fangzhou-use" && fangzhouUseChoice === "place" && position != null
