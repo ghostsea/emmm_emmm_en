@@ -10085,9 +10085,32 @@
       const currentWins = Math.max(0, aiNumber(
         endGameScoring?.countSectorWins?.(player, nebulaDataState),
       ));
+      const nebulaColor = data.getNebulaColor?.(nebulaId) || null;
       const matchingTask = listAiUncompletedCardTasksForPlayer(player).find(({ task }) => (
-        task?.condition?.type === "completedSectors"
-        && Math.max(0, Math.round(aiNumber(task.condition.count)) - currentWins) === 1
+        (
+          task?.condition?.type === "completedSectors"
+          && Math.max(0, Math.round(aiNumber(task.condition.count)) - currentWins) === 1
+        )
+        || (
+          task?.condition?.type === "completedSectorsByColor"
+          && nebulaColor === task.condition.color
+          && Math.max(
+            0,
+            Math.round(aiNumber(task.condition.count))
+              - aiNumber(endGameScoring?.countSectorWinsByColor?.(player, nebulaDataState, nebulaColor)),
+          ) === 1
+        )
+        || (
+          task?.condition?.type === "completedSameSectorColor"
+          && nebulaColor
+          && Math.max(
+            0,
+            Math.round(aiNumber(task.condition.count))
+              - aiNumber(endGameScoring?.countSectorWinsByColor?.(player, nebulaDataState, nebulaColor)),
+          ) === 1
+          && aiNumber(getAiTaskConditionCurrentCount(task.condition, player))
+            < Math.max(1, Math.round(aiNumber(task.condition.count)))
+        )
       ));
       return matchingTask
         ? Math.min(20, scoreAiTaskRouteCompletionValue(matchingTask.task, player))
@@ -23154,6 +23177,7 @@
       scheduleAiAutoStepIfNeeded,
       scoreAiB2SectorScanFocus,
       scoreAiFullSectorExtraMark,
+      scoreAiLastSectorWinTaskCashout,
       scoreAiNebulaScanChoice,
       stopAiAutoBattle,
       sumAiDemandMap,

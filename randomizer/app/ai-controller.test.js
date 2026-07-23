@@ -2727,6 +2727,95 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   const tokensByNebula = {
+    "red-winning-close-sector": [
+      { playerId: "player-blue", playerColor: "blue" },
+      { playerId: "player-white", playerColor: "white" },
+      {},
+    ],
+    "blue-winning-close-sector": [
+      { playerId: "player-blue", playerColor: "blue" },
+      { playerId: "player-white", playerColor: "white" },
+      {},
+    ],
+  };
+  const buildTaskHarness = (condition) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    endGameScoring: {
+      countSectorWins: () => 2,
+      countSectorWinsByColor: (_player, _state, color) => (color === "red" ? 1 : 0),
+    },
+    blueReservedCards: [{
+      id: "color-sector-task-card",
+      cardName: "Color sector task",
+      model: {
+        tasks: [{
+          id: "color-sector-task",
+          condition,
+          rewards: [{ type: "gain_resources", options: { gain: { score: 9 } } }],
+        }],
+      },
+    }],
+    data: {
+      getNextReplaceableNebulaToken: () => ({ slotIndex: 2 }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: () => 0,
+      getNebulaColor: (nebulaId) => (nebulaId.startsWith("red-") ? "red" : "blue"),
+      listNebulaTokens: (_state, nebulaId) => tokensByNebula[nebulaId] || [],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: (_state, nebulaId) => ({
+        blue: {
+          playerId: "player-blue",
+          playerColor: "blue",
+          count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-blue").length,
+        },
+        white: {
+          playerId: "player-white",
+          playerColor: "white",
+          count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-white").length,
+        },
+      }),
+      getSectorRanking: () => [],
+    },
+  });
+
+  const sameColorHarness = buildTaskHarness({ type: "completedSameSectorColor", count: 2 });
+  const redCounts = {
+    ownCount: 1,
+    maxOtherCount: 1,
+    openCount: 1,
+  };
+  assert.ok(
+    sameColorHarness.controller.scoreAiLastSectorWinTaskCashout(
+      "red-winning-close-sector",
+      redCounts,
+      sameColorHarness.blue,
+    ) >= 9,
+    "a scan that wins the second sector of one color should include the nine-point same-color task cashout",
+  );
+  assert.equal(
+    sameColorHarness.controller.scoreAiLastSectorWinTaskCashout(
+      "blue-winning-close-sector",
+      redCounts,
+      sameColorHarness.blue,
+    ),
+    0,
+    "a first win in another color must not receive the same-color task cashout",
+  );
+
+  const fixedColorHarness = buildTaskHarness({ type: "completedSectorsByColor", color: "red", count: 2 });
+  assert.ok(
+    fixedColorHarness.controller.scoreAiLastSectorWinTaskCashout(
+      "red-winning-close-sector",
+      redCounts,
+      fixedColorHarness.blue,
+    ) >= 9,
+    "a scan that wins the final required sector of a named color should include its task cashout",
+  );
+}
+
+{
+  const tokensByNebula = {
     "full-owned": [
       { replacedByPlayerId: "player-blue", replacedByPlayerColor: "blue" },
       { replacedByPlayerId: "player-blue", replacedByPlayerColor: "blue" },
