@@ -4329,6 +4329,140 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { score: 96, credits: 1, energy: 1, publicity: 3, availableData: 0, handSize: 5 },
+    blueHand: [
+      {
+        id: "terminal-dead-trigger-card",
+        cardId: "terminal-dead-trigger-card",
+        cardName: "Terminal dead trigger card",
+        price: 0,
+        typeCode: 1,
+        playEffects: [],
+        model: {
+          triggers: [{
+            id: "future-blue-tech-data",
+            event: { type: "researchTech", techType: "blue" },
+            effect: { type: "gain_data", options: { count: 1 } },
+          }],
+        },
+      },
+      { id: "terminal-scan-filler-a", cardName: "Terminal scan filler A", price: 3 },
+      { id: "terminal-scan-filler-b", cardName: "Terminal scan filler B", price: 3 },
+      { id: "terminal-scan-filler-c", cardName: "Terminal scan filler C", price: 3 },
+      { id: "terminal-scan-filler-d", cardName: "Terminal scan filler D", price: 3 },
+    ],
+    publicCards: [{
+      id: "terminal-high-scan",
+      cardId: "terminal-high-scan",
+      cardName: "Terminal high scan",
+      scanActionCode: 2,
+    }],
+    scanEffects: {
+      EFFECT_TYPES: {
+        EARTH_SECTOR_SCAN: "earth_sector_scan",
+        IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+        MERCURY_SECTOR_SCAN: "mercury_sector_scan",
+        PUBLIC_CARD_SCAN: "public_card_scan",
+        HAND_SCAN: "hand_scan",
+        SCAN_ACTION_4: "scan_action_4",
+      },
+      SCAN_COST: { credits: 1, energy: 2 },
+      getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+      buildScanEffectQueue: () => [{ type: "earth_sector_scan" }],
+      canExecuteScan: (player) => (
+        Number(player?.resources?.credits || 0) >= 1 && Number(player?.resources?.energy || 0) >= 2
+          ? { ok: true }
+          : { ok: false, message: "scan resources missing" }
+      ),
+    },
+    buildSectorScanChoicesForX: (sectorX) => [{
+      nebulaId: "terminal-high-nebula",
+      sectorX,
+      label: "Terminal high nebula",
+    }],
+    getPublicScanChoicesForCard: () => ({
+      ok: true,
+      choices: [{ nebulaId: "terminal-high-nebula", sectorX: 4, label: "Terminal high nebula" }],
+    }),
+    data: {
+      getNextReplaceableNebulaToken: () => ({ slotIndex: 30 }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+      getNebulaColor: () => "blue",
+      listNebulaTokens: () => [],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: () => ({}),
+    },
+    finalScoringState: {
+      tiles: {
+        final_a2: {
+          id: "final_a2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b1: {
+          id: "final_b1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d1: {
+          id: "final_d1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a2: "a2",
+      final_b1: "b1",
+      final_d1: "d1",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "terminal Grand Strategy should trade dead trigger cards for a concrete scan");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-energy" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.ok(tradeCandidate, "terminal dead-play scan unlock trade should be enumerated");
+  assert.equal(tradeCandidate.valueBreakdown?.grandFinalDeadPlayScanUnlock, true);
+  assert.equal(tradeCandidate.valueBreakdown?.terminalDeadPlayCardId, "terminal-dead-trigger-card");
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "scan");
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.unlockedMainAction?.directScoreGain || 0) > 0,
+    "terminal dead-play scan unlock should require immediate scan score",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
     roundNumber: 5,
     canStartMainAction: true,
     realisticCanAfford: true,

@@ -6952,6 +6952,56 @@
         .sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
     }
 
+    function getAiTerminalDeadPlayProfile(playCardCandidate, player = getCurrentPlayer()) {
+      const playableCards = Array.isArray(playCardCandidate?.playableCards)
+        ? playCardCandidate.playableCards
+        : [];
+      const ranked = playableCards
+        .map((candidate) => {
+          const breakdown = candidate?.valueBreakdown || {};
+          const finalDeltaValue = Math.max(
+            0,
+            scoreAiFinalFormulaDeltaValue(candidate?.finalFormulaDeltas || {}, player, {
+              includePotential: true,
+              potentialScale: 0.45,
+            }),
+          );
+          const concretePlanScore = candidate?.plan?.actionId === "task"
+            ? 0
+            : Math.max(0, aiNumber(breakdown.planScore));
+          const concreteValue = Math.max(
+            0,
+            aiNumber(candidate?.directScoreGain),
+            aiNumber(breakdown.effectValue),
+            aiNumber(breakdown.strategyPassivePlayValue),
+            aiNumber(breakdown.c2Type3ProgressValue),
+            aiNumber(breakdown.cFinalTaskProgressValue),
+            aiNumber(breakdown.readyTaskCashoutValue),
+            aiNumber(breakdown.readyTaskTechReplacementValue),
+            aiNumber(breakdown.chongTaskChainValue),
+            aiNumber(breakdown.banrenmaThresholdSetupValue),
+            aiNumber(breakdown.endGameExpectedScore),
+            aiNumber(breakdown.standardActionPremium),
+            finalDeltaValue,
+            concretePlanScore,
+          );
+          return {
+            candidate,
+            score: aiNumber(candidate?.score),
+            concreteValue: roundAiScore(concreteValue),
+          };
+        })
+        .sort((left, right) => right.score - left.score);
+      const best = ranked[0] || null;
+      return {
+        best,
+        bestIsDead: Boolean(best && best.concreteValue <= 0),
+        bestNonDeadScore: ranked
+          .filter((entry) => entry.concreteValue > 0)
+          .reduce((value, entry) => Math.max(value, entry.score), 0),
+      };
+    }
+
     function buildAiResourceLockMainUnlockTradeCandidate(player = getCurrentPlayer(), tradeId = null, candidates = []) {
       if (
         !player
@@ -6971,8 +7021,34 @@
       const handSize = Math.max(0, Math.round(aiNumber(resources.handSize ?? (player.hand || []).length)));
       const allowExtendedResourceLock = player.aiDifficulty !== AI_DIFFICULTY_WEAK_START;
       const playCardCandidate = (candidates || []).find((candidate) => candidate?.id === "playCard");
-      if (!playCardCandidate || playCardCandidate.available !== false) return null;
-      if (!String(playCardCandidate.reason || "").includes("没有资源可支付")) return null;
+      const industryCard = getAiIndustryCard(player);
+      const terminalDeadPlayProfile = getAiTerminalDeadPlayProfile(playCardCandidate, player);
+      const grandFinalDeadPlayScanWindow = Boolean(
+        allowExtendedResourceLock
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && countAiFinalMarksForPlayer(player) >= 3
+        && !getAiNextMissingFinalScoreThreshold(player)
+        && currentScore >= 90
+        && currentScore < 110
+        && aiNumber(resources.credits) === 1
+        && aiNumber(resources.energy) === 1
+        && handSize >= 5
+        && terminalDeadPlayProfile.bestIsDead
+      );
+      const terminalDeadPlayOverrideActive = grandFinalDeadPlayScanWindow
+        && playCardCandidate?.available !== false;
+      if (
+        !playCardCandidate
+        || (playCardCandidate.available !== false && !terminalDeadPlayOverrideActive)
+      ) return null;
+      if (
+        playCardCandidate.available === false
+        && !String(playCardCandidate.reason || "").includes("没有资源可支付")
+      ) return null;
 
       const bestExistingScore = (candidates || [])
         .filter((candidate) => (
@@ -6980,6 +7056,7 @@
           && candidate.id !== "pass"
           && candidate.id !== "end-turn"
           && candidate.id !== "quickTrade"
+          && !(terminalDeadPlayOverrideActive && candidate.id === "playCard")
         ))
         .reduce((best, candidate) => Math.max(best, aiNumber(candidate.score)), -Infinity);
       if (bestExistingScore >= 12) return null;
@@ -7016,7 +7093,6 @@
       const launchScore = aiNumber(launchValue?.score);
       const planetCashoutRecovery = scoreAiEnergyTradePlanetCashoutRecovery(player, tradeId);
       const planetCashoutPlan = planetCashoutRecovery?.plan || null;
-      const industryCard = getAiIndustryCard(player);
       const grandFangzhouRoundTwoLandUnlock = allowExtendedResourceLock
         && tradeId === "cards-for-energy"
         && (
@@ -7074,6 +7150,13 @@
       const directScoreScanUnlock = (allowExtendedResourceLock || weakNoDiscardDirectScanUnlock)
         && scanDirectScoreGain > 0
         && scanScore >= (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 20 : 22);
+      const grandFinalDeadPlayScanUnlock = grandFinalDeadPlayScanWindow
+        && tradeId === "cards-for-energy"
+        && handAfterTrade >= 3
+        && scanCheck.ok
+        && scanDirectScoreGain > 0
+        && scanScore >= 20
+        && scanScore >= terminalDeadPlayProfile.bestNonDeadScore + 5;
       const currentPlayScore = aiNumber(playCardCandidate.score);
       const postTradePlayCandidates = handAfterTrade > 0
         ? (player.hand || [])
@@ -7165,7 +7248,7 @@
           : null,
         scanCheck.ok
           && scanScore > currentScanScore + 1
-          && (earlyLowScoreScanUnlock || directScoreScanUnlock)
+          && (earlyLowScoreScanUnlock || directScoreScanUnlock || grandFinalDeadPlayScanUnlock)
           ? {
             actionId: "scan",
             score: scanScore,
@@ -7187,7 +7270,13 @@
             discardCost: bestPlayDiscardCost,
           }
           : null,
-      ].filter(Boolean).sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
+      ].filter((candidate) => (
+        Boolean(candidate)
+        && (
+          !terminalDeadPlayOverrideActive
+          || (candidate.actionId === "scan" && grandFinalDeadPlayScanUnlock)
+        )
+      )).sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
       if (
         tradeId === "cards-for-credit"
         && canLaunchAfterTrade
@@ -7376,6 +7465,10 @@
           directScoreScanUnlock,
           grandFangzhouRoundTwoLandUnlock,
           cheatLabRunezuRoundTwoMarsLandUnlock,
+          grandFinalDeadPlayScanUnlock,
+          terminalDeadPlayCardId: terminalDeadPlayProfile.best?.candidate?.cardId || null,
+          terminalDeadPlayScore: roundAiScore(terminalDeadPlayProfile.best?.score),
+          terminalBestNonDeadPlayScore: roundAiScore(terminalDeadPlayProfile.bestNonDeadScore),
           weakStartFinalDeadHandAnalyzeUnlock,
           weakStartFinalStrandedAnalyzeUnlock,
           weakStartAlienPlayUnlock: weakStartAlienPlayUnlockSafe,
