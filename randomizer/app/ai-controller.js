@@ -3375,6 +3375,17 @@
       return Number.isFinite(number) ? number : 0;
     }
 
+    function getAiControllableRocketsForPlayer(playerId) {
+      if (!playerId) return [];
+      if (typeof rocketActions.getRocketsForPlayer === "function") {
+        return rocketActions.getRocketsForPlayer(rocketState, playerId) || [];
+      }
+      return (getMovableTokensForPlayer(playerId) || []).filter((rocket) => (
+        typeof rocketActions.isControllablePlayerRocket !== "function"
+        || rocketActions.isControllablePlayerRocket(rocket)
+      ));
+    }
+
     function roundAiScore(value) {
       return Math.round(aiNumber(value) * 1000) / 1000;
     }
@@ -14748,7 +14759,7 @@
         };
       };
 
-      const best = getMovableTokensForPlayer(player.id)
+      const best = getAiControllableRocketsForPlayer(player.id)
         .reduce((bestOpportunity, rocket) => {
           const coordinate = rocketActions.getRocketSectorCoordinate(rocket);
           const planet = getAiPlanetAtCoordinate(coordinate);

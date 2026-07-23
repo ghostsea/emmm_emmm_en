@@ -267,7 +267,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     rocketActions: {
       ROCKET_KIND: { STANDARD: "standard", CHONG_FOSSIL: "chong-fossil" },
       createRocketState: () => ({}),
-      getRocketsForPlayer: (_rocketState, playerId) => getHarnessRocketsForPlayer(playerId),
+      getRocketsForPlayer: (_rocketState, playerId) => getHarnessRocketsForPlayer(playerId)
+        .filter((rocket) => (rocket?.kind || "standard") === "standard"),
+      isControllablePlayerRocket: (rocket) => (rocket?.kind || "standard") === "standard",
       getRocketSectorCoordinate: (rocket) => rocket?.sector || null,
       findAvailableSlotIndex: options.findAvailableSlotIndex || (() => null),
       canMoveRocket: (_rocketState, rocketId, deltaX, deltaY) => {
@@ -8953,6 +8955,118 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(
     Number(tradeCandidate.valueBreakdown?.cardsForEnergyHandDrainPenalty || 0) >= 8,
     "low-score three-mark players should price the hand drain before trading two cards for energy",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    turnNumber: 3,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    movableTokens: [
+      {
+        id: 77,
+        kind: "chong-fossil",
+        playerId: "player-blue",
+        sector: { x: 2, y: 2 },
+      },
+    ],
+    planetLocations: [
+      { planetId: "jupiter", name: "Jupiter", x: 2, y: 2 },
+    ],
+    planetStats: {
+      canAddLandingMarker: () => true,
+      canAddOrbitMarker: () => false,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 2,
+        getLandEnergyCost: () => 2,
+        getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 3,
+      },
+    },
+    planetRewards: {
+      EFFECT_TYPES: {
+        GAIN_RESOURCES: "gain_resources",
+        GAIN_DATA: "gain_data",
+        ALIEN_TRACE: "alien_trace",
+        DRAW_CARDS: "draw_cards",
+        PICK_CARD: "pick_card",
+        INCOME: "income",
+      },
+      buildPlanetLandRewardEffects: () => [
+        { type: "gain_resources", options: { gain: { score: 10 } } },
+      ],
+      buildOrbitRewardEffects: () => [],
+      buildSatelliteLandRewardEffects: () => [],
+    },
+    blueResources: { score: 84, credits: 0, energy: 1, publicity: 1, availableData: 0, handSize: 3 },
+    blueHand: [
+      { id: "chong-fossil-a", cardName: "Chong fossil A", price: 0 },
+      { id: "chong-fossil-b", cardName: "Chong fossil B", price: 0 },
+      { id: "chong-fossil-c", cardName: "Chong fossil C", price: 0 },
+    ],
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b1: {
+          id: "final_b1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d1: {
+          id: "final_d1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_b1: "b1",
+      final_d1: "d1",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "end-turn") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  harness.controller.runAiAutomationStep();
+  const fossilCashoutTrade = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.equal(
+    fossilCashoutTrade,
+    undefined,
+    "transported Chong fossils must not be treated as rockets that can unlock a Jupiter landing",
   );
 }
 
