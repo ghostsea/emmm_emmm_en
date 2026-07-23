@@ -36028,6 +36028,7 @@
     blockManualAiSharedOverlayInputIfNeeded,
     handleAiTakeoverFailsafe,
     handleForceSkipTurnFailsafe,
+    handleRestartGameFailsafe,
     setDebugOpen,
     setDebugPlayerMenuOpen,
     switchCurrentPlayerColor,
