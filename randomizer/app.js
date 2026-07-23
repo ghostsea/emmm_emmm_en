@@ -47,6 +47,10 @@
   if (!actionLogExport) {
     throw new Error("Missing SETI app dependency: SetiAppActionLogExport");
   }
+  const settlementMinimize = window.SetiAppSettlementMinimize;
+  if (!settlementMinimize) {
+    throw new Error("Missing SETI app dependency: SetiAppSettlementMinimize");
+  }
 
   const appConstants = window.SetiAppConstants.createAppConstants(dependencies);
   const {
@@ -266,6 +270,15 @@
   };
 
   const els = window.SetiAppDom.collectElements(document);
+  const settlementMinimizeController = settlementMinimize.createController({
+    document,
+    appWrap: els.appWrap,
+    interactionShield: els.settlementInteractionShield,
+    resumeButton: els.settlementResumeButton,
+  });
+  if (!settlementMinimizeController) {
+    throw new Error("Missing SETI settlement minimize DOM");
+  }
 
   function getPlayerHandPanelTitleHint() {
     if (isDiscardSelectionActive()) {
@@ -2097,6 +2110,7 @@
     pendingPiratesRaidPlacement = null;
     pendingStrategyPassiveSlotChoice = null;
     industryFreeMoveState = null;
+    settlementMinimizeController?.reset();
     historyStepOrder.length = 0;
     actionHistory.commitSession();
     quickActionHistory.commitSession();

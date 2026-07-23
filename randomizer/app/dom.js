@@ -14,6 +14,8 @@
   function collectElements(documentRef) {
     return {
       appWrap: documentRef.querySelector(".app-wrap"),
+      settlementInteractionShield: documentRef.getElementById("settlement-interaction-shield"),
+      settlementResumeButton: documentRef.getElementById("settlement-resume-button"),
       startScreen: documentRef.getElementById("start-screen"),
       startScreenStartButton: documentRef.getElementById("start-screen-start-button"),
       startScreenDailyButton: documentRef.getElementById("start-screen-daily-button"),

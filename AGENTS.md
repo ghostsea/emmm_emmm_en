@@ -19,6 +19,7 @@
 - `randomizer/app/alien-trace-reward-flow.js`：外星人痕迹奖励的方舟解锁、面板放置与无目标落空编排。
 - `randomizer/app/constants.js`：app 层静态配置、图标路径、奖励表和 UI 参数。
 - `randomizer/app/dom.js`：固定 DOM 元素注册表。
+- `randomizer/app/settlement-minimize.js`：结算弹窗/选择面板最小化、只读盘面和恢复按钮。
 - `randomizer/app/events.js`：app 层事件绑定、overlay 点击分发、拖拽绑定与 resize 入口。
 - `randomizer/app/action-log-export.js`：终局行动日志 Markdown 导出格式与文件名生成。
 - `randomizer/app/public-api.js`：调试和外部脚本使用的 `window.SetiRandomizer` API 组装。

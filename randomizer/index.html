@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=daily-game-1">
+  <link rel="stylesheet" href="./style.css?v=settlement-minimize-1">
 </head>
 <body>
   <div class="start-screen" id="start-screen" aria-label="开始界面">
@@ -143,6 +143,9 @@
     </div>
   </div>
 
+  <div class="settlement-interaction-shield" id="settlement-interaction-shield" hidden aria-hidden="true"></div>
+  <button class="settlement-resume-button" id="settlement-resume-button" type="button" hidden>继续结算</button>
+
   <div class="app-wrap debug-collapsed log-collapsed debug-tools-disabled state-log-disabled" id="app-wrap">
     <aside class="table-column table-column-left" aria-label="左侧游戏区域">
       <section class="round-status-panel" aria-label="轮次信息">
@@ -232,8 +235,8 @@
       </section>
     </aside>
 
-    <div class="tech-blue-slot-overlay" id="tech-blue-slot-overlay" hidden>
-      <div class="tech-blue-slot-dialog" role="dialog" aria-modal="true" aria-labelledby="tech-blue-slot-title">
+    <div class="tech-blue-slot-overlay" id="tech-blue-slot-overlay" data-settlement-minimizable="tech-blue-slot" hidden>
+      <div class="tech-blue-slot-dialog" data-settlement-minimize-host role="dialog" aria-modal="true" aria-labelledby="tech-blue-slot-title">
         <p class="tech-blue-slot-title" id="tech-blue-slot-title">选择蓝色科技放置位置</p>
         <p class="tech-blue-slot-subtitle" id="tech-blue-slot-subtitle"></p>
         <div class="tech-blue-slot-actions" id="tech-blue-slot-actions"></div>
@@ -273,8 +276,8 @@
       </div>
     </div>
 
-    <div class="data-place-overlay" id="data-place-overlay" hidden>
-      <div class="data-place-dialog" role="dialog" aria-modal="true" aria-labelledby="data-place-title">
+    <div class="data-place-overlay" id="data-place-overlay" data-settlement-minimizable="data-place" hidden>
+      <div class="data-place-dialog" data-settlement-minimize-host role="dialog" aria-modal="true" aria-labelledby="data-place-title">
         <p class="data-place-title" id="data-place-title">选择数据放置位置</p>
         <p class="data-place-subtitle" id="data-place-subtitle"></p>
         <div class="data-place-actions" id="data-place-actions"></div>
@@ -282,8 +285,8 @@
       </div>
     </div>
 
-    <div class="scan-target-overlay" id="scan-target-overlay" hidden>
-      <div class="scan-target-dialog" role="dialog" aria-modal="true" aria-labelledby="scan-target-title">
+    <div class="scan-target-overlay" id="scan-target-overlay" data-settlement-minimizable="scan-target" hidden>
+      <div class="scan-target-dialog" data-settlement-minimize-host role="dialog" aria-modal="true" aria-labelledby="scan-target-title">
         <p class="scan-target-title" id="scan-target-title">选择扫描目标</p>
         <p class="scan-target-subtitle" id="scan-target-subtitle"></p>
         <div class="scan-target-actions" id="scan-target-actions"></div>
@@ -291,8 +294,8 @@
       </div>
     </div>
 
-    <div class="scan-target-overlay" id="alien-trace-overlay" hidden>
-      <div class="scan-target-dialog" role="dialog" aria-modal="true" aria-labelledby="alien-trace-title">
+    <div class="scan-target-overlay" id="alien-trace-overlay" data-settlement-minimizable="alien-trace" hidden>
+      <div class="scan-target-dialog" data-settlement-minimize-host role="dialog" aria-modal="true" aria-labelledby="alien-trace-title">
         <p class="scan-target-title" id="alien-trace-title">获取外星人标记</p>
         <p class="scan-target-subtitle" id="alien-trace-subtitle">选择外星人及痕迹颜色；首标记位空缺时自动放置，否则追加到额外痕迹位。</p>
         <div class="scan-target-actions" id="alien-trace-actions"></div>
@@ -300,8 +303,8 @@
       </div>
     </div>
 
-    <div class="scan-action-4-overlay" id="scan-action-4-overlay" hidden>
-      <div class="scan-target-dialog" role="dialog" aria-modal="true" aria-labelledby="scan-action-4-title">
+    <div class="scan-action-4-overlay" id="scan-action-4-overlay" data-settlement-minimizable="scan-action-4" hidden>
+      <div class="scan-target-dialog" data-settlement-minimize-host role="dialog" aria-modal="true" aria-labelledby="scan-action-4-title">
         <p class="scan-target-title" id="scan-action-4-title">紫4扫描效果</p>
         <p class="scan-target-subtitle" id="scan-action-4-subtitle">选择发射或移动，或取消跳过此效果。</p>
         <div class="scan-target-actions" id="scan-action-4-actions"></div>
@@ -309,8 +312,8 @@
       </div>
     </div>
 
-    <div class="land-target-overlay" id="land-target-overlay" hidden>
-      <div class="land-target-dialog" role="dialog" aria-modal="true" aria-labelledby="land-target-title">
+    <div class="land-target-overlay" id="land-target-overlay" data-settlement-minimizable="land-target" hidden>
+      <div class="land-target-dialog" data-settlement-minimize-host role="dialog" aria-modal="true" aria-labelledby="land-target-title">
         <p class="land-target-title" id="land-target-title">选择登陆目标</p>
         <label class="land-target-label" for="land-target-select">登陆到</label>
         <select class="land-target-select" id="land-target-select"></select>
@@ -421,8 +424,12 @@
             <div class="player-board-data-layer" id="player-board-data-layer" aria-hidden="true"></div>
           </div>
         </div>
-        <section class="table-panel player-hand-panel" id="player-hand-panel" aria-label="玩家手牌区">
-          <div class="player-hand-panel-header">
+        <section class="table-panel player-hand-panel" id="player-hand-panel" aria-label="玩家手牌区"
+          data-settlement-minimizable="hand-selection"
+          data-settlement-minimize-mode="panel"
+          data-settlement-label="手牌选择"
+          data-settlement-active-classes="discard-selection-active play-card-selection-active hand-scan-selection-active move-payment-selection-active industry-hand-selection-active">
+          <div class="player-hand-panel-header" data-settlement-minimize-host>
             <div class="panel-title player-hand-panel-title" id="player-hand-panel-title">
               <span class="player-hand-panel-title-label">玩家手牌区</span>
               <span class="player-hand-panel-title-count" id="player-hand-panel-hand-count" aria-label="当前手牌数"></span>
@@ -484,8 +491,12 @@
     </main>
 
     <aside class="table-column table-column-right" aria-label="右侧游戏区域">
-      <section class="table-panel tech-panel" id="tech-panel" aria-label="待拿取科技信息">
-        <div class="tech-panel-header">
+      <section class="table-panel tech-panel" id="tech-panel" aria-label="待拿取科技信息"
+        data-settlement-minimizable="tech-selection"
+        data-settlement-minimize-mode="panel"
+        data-settlement-label="科技选择"
+        data-settlement-active-classes="tech-selection-active">
+        <div class="tech-panel-header" data-settlement-minimize-host>
           <div class="panel-title" id="tech-panel-title">待拿取科技信息</div>
           <button class="tech-selection-cancel" type="button" id="tech-selection-cancel" hidden>取消</button>
         </div>
@@ -607,8 +618,12 @@
         </div>
       </section>
 
-      <section class="table-panel public-card-panel" id="public-card-panel" aria-label="公共牌区">
-        <div class="public-card-panel-header">
+      <section class="table-panel public-card-panel" id="public-card-panel" aria-label="公共牌区"
+        data-settlement-minimizable="public-card-selection"
+        data-settlement-minimize-mode="panel"
+        data-settlement-label="公共牌选择"
+        data-settlement-active-classes="card-selection-active">
+        <div class="public-card-panel-header" data-settlement-minimize-host>
           <div class="panel-title">公共牌区</div>
           <button class="public-blind-draw-button" type="button" id="public-blind-draw-button" disabled>盲抽</button>
           <button class="public-scan-confirm" type="button" id="public-scan-confirm" hidden>确认扫描</button>
@@ -776,11 +791,12 @@
   <script src="./app/alien-trace-reward-flow.js?v=trace-no-target-1"></script>
   <script src="./app/dependencies.js?v=daily-game-1"></script>
   <script src="./app/constants.js?v=industry-pirates-1"></script>
-  <script src="./app/dom.js?v=daily-game-1"></script>
+  <script src="./app/dom.js?v=settlement-minimize-1"></script>
+  <script src="./app/settlement-minimize.js?v=settlement-minimize-1"></script>
   <script src="./app/events.js?v=daily-game-1"></script>
   <script src="./app/action-log-export.js?v=action-log-export-2"></script>
   <script src="./app/public-api.js?v=app-boundaries-5"></script>
   <script src="./app/ai-controller.js?v=grand-projected-analyze-1"></script>
-  <script src="./app.js?v=action-briefing-window-1"></script>
+  <script src="./app.js?v=settlement-minimize-1"></script>
 </body>
 </html>

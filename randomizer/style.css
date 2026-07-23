@@ -592,6 +592,136 @@ body {
   display: none;
 }
 
+.settlement-minimize-button {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  margin-left: auto;
+  padding: 0;
+  border: 1px solid rgba(154, 218, 255, 0.46);
+  border-radius: 7px;
+  background: rgba(24, 40, 58, 0.94);
+  color: rgba(235, 247, 255, 0.96);
+  font: 800 22px/24px Arial, sans-serif;
+  cursor: pointer;
+}
+
+.settlement-minimize-button:hover,
+.settlement-minimize-button:focus-visible {
+  border-color: rgba(154, 218, 255, 0.82);
+  background: rgba(42, 68, 94, 0.98);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(98, 219, 255, 0.2);
+}
+
+[data-settlement-minimize-mode="panel"] [data-settlement-minimize-host] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+[data-settlement-minimizable]:not([data-settlement-minimize-mode="panel"]) > [role="dialog"] {
+  position: relative;
+}
+
+[data-settlement-minimizable]:not([data-settlement-minimize-mode="panel"]) > [role="dialog"] > .settlement-minimize-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+}
+
+[data-settlement-minimizable]:not([data-settlement-minimize-mode="panel"]) > [role="dialog"] > [id$="-title"]:first-of-type {
+  padding-right: 38px;
+}
+
+.settlement-interaction-shield {
+  position: fixed;
+  inset: 0;
+  z-index: 1580;
+  background: transparent;
+  cursor: not-allowed;
+}
+
+.settlement-interaction-shield[hidden],
+.settlement-resume-button[hidden] {
+  display: none;
+}
+
+.settlement-resume-button {
+  position: fixed;
+  top: max(12px, env(safe-area-inset-top));
+  left: 50%;
+  z-index: 1590;
+  transform: translateX(-50%);
+  max-width: min(520px, calc(100vw - 32px));
+  min-height: 42px;
+  padding: 9px 18px;
+  overflow: hidden;
+  border: 1px solid rgba(112, 222, 255, 0.76);
+  border-radius: 999px;
+  background: rgba(14, 34, 52, 0.97);
+  color: #f1fbff;
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.52),
+    0 0 20px rgba(75, 203, 255, 0.24);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.settlement-resume-button:hover,
+.settlement-resume-button:focus-visible {
+  border-color: rgba(164, 239, 255, 0.96);
+  background: rgba(22, 54, 78, 0.99);
+  outline: none;
+  box-shadow:
+    0 12px 34px rgba(0, 0, 0, 0.52),
+    0 0 0 3px rgba(75, 203, 255, 0.2),
+    0 0 24px rgba(75, 203, 255, 0.32);
+}
+
+.app-wrap.settlement-minimized [data-settlement-minimizable].is-settlement-minimized:not([data-settlement-minimize-mode="panel"]) {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  pointer-events: none;
+}
+
+.app-wrap.settlement-minimized [data-settlement-minimizable].is-settlement-minimized:not([data-settlement-minimize-mode="panel"]) > [role="dialog"] {
+  display: none;
+}
+
+.app-wrap.settlement-minimized .tech-selection-backdrop,
+.app-wrap.settlement-minimized .card-selection-backdrop,
+.app-wrap.settlement-minimized .discard-selection-backdrop {
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+.app-wrap.settlement-minimized[data-interaction-focus] .table-column-left,
+.app-wrap.settlement-minimized[data-interaction-focus] .board-column,
+.app-wrap.settlement-minimized[data-interaction-focus] .table-column-right,
+.app-wrap.settlement-minimized[data-interaction-focus] .player-command,
+.app-wrap.settlement-minimized[data-interaction-focus] .player-stats,
+.app-wrap.settlement-minimized[data-interaction-focus] .action-bar,
+.app-wrap.settlement-minimized[data-interaction-focus] .action-effect-bar,
+.app-wrap.settlement-minimized[data-interaction-focus] .quick-actions-panel,
+.app-wrap.settlement-minimized[data-interaction-focus] .player-board-panel,
+.app-wrap.settlement-minimized[data-interaction-focus] .player-hand-panel,
+.app-wrap.settlement-minimized[data-interaction-focus] .reserved-card-panel,
+.app-wrap.settlement-minimized[data-interaction-focus] .board-shell,
+.app-wrap.settlement-minimized[data-interaction-focus] .planets-reference,
+.app-wrap.settlement-minimized[data-interaction-focus] .tech-panel,
+.app-wrap.settlement-minimized[data-interaction-focus] .public-card-panel {
+  opacity: 1;
+  filter: none;
+}
+
 .pass-reserve-selection-overlay {
   position: fixed;
   inset: 0;

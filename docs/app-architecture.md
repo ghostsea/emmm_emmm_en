@@ -12,11 +12,12 @@
 5. `randomizer/app/dependencies.js` 收集并校验 app 层需要的全局模块。
 6. `randomizer/app/constants.js` 创建 app 层静态配置、图标路径、扫描/扇区奖励表和 UI 参数。
 7. `randomizer/app/dom.js` 集中查询页面上的固定 DOM 节点。
-8. `randomizer/app/events.js` 绑定页面事件、overlay 点击分发、拖拽回调和 resize 入口。
-9. `randomizer/app/action-log-export.js` 生成行动日志 Markdown 和下载文件名。
-10. `randomizer/app/public-api.js` 组装 `window.SetiRandomizer` 调试/外部脚本 API。
-11. `randomizer/app/ai-controller.js` 封装 AI 自动机、策略权重、批跑/AB 测试和 AI 决策控制器。
-12. `randomizer/app.js` 保留运行态、流程编排、效果队列、渲染调度、行动日志和各控制器接线。
+8. `randomizer/app/settlement-minimize.js` 统一管理结算窗口/选择面板的最小化、只读盘面和恢复入口。
+9. `randomizer/app/events.js` 绑定页面事件、overlay 点击分发、拖拽回调和 resize 入口。
+10. `randomizer/app/action-log-export.js` 生成行动日志 Markdown 和下载文件名。
+11. `randomizer/app/public-api.js` 组装 `window.SetiRandomizer` 调试/外部脚本 API。
+12. `randomizer/app/ai-controller.js` 封装 AI 自动机、策略权重、批跑/AB 测试和 AI 决策控制器。
+13. `randomizer/app.js` 保留运行态、流程编排、效果队列、渲染调度、行动日志和各控制器接线。
 
 ## 文件职责
 
@@ -25,6 +26,7 @@
 - `randomizer/app/alien-trace-reward-flow.js`：只决定痕迹奖励应进入方舟解锁、面板放置还是无目标落空；无目标时必须结束当前奖励节点，包括 `required` / 不可跳过节点。
 - `randomizer/app/constants.js`：只放静态常量和依赖派生常量。不要在这里读写游戏状态、DOM 或 pending 流程。
 - `randomizer/app/dom.js`：只收集固定 DOM 元素和 NodeList。新增 HTML id、overlay、按钮或常驻区域时先在这里登记。
+- `randomizer/app/settlement-minimize.js`：只管理结算 UI 的暂时收起与恢复，不清空或复制任何 `pending*` 规则状态。最小化期间 `app-wrap` 保持 `inert`，透明拦截层阻止盘面交互；原 overlay 保持打开状态，避免队列误判结算已经关闭。
 - `randomizer/app/events.js`：只做事件到 app 回调的路由。新增按钮、overlay、拖拽入口时优先改这里；不要在这里实现规则结算。
 - `randomizer/app/action-log-export.js`：只做纯 Markdown 格式化和文件名生成，不读 DOM、不读取隐藏牌序，也不触发浏览器下载。
 - `randomizer/app/public-api.js`：只组装 `window.SetiRandomizer` 暴露面。新增调试 API 时优先改这里，保持 API 与运行态编排分离。
