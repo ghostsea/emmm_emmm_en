@@ -11,6 +11,14 @@
 })(typeof globalThis !== "undefined" ? globalThis : window, function () {
   "use strict";
 
+  let nextHistoryFlowId = 1;
+
+  function createHistoryFlowId(chainId) {
+    const id = nextHistoryFlowId;
+    nextHistoryFlowId += 1;
+    return `${chainId || "ability-chain"}-flow-${id}`;
+  }
+
   function normalizeInsertionSource(source) {
     if (!source || typeof source !== "object") return null;
     const effectIndex = Number.isInteger(source.effectIndex) ? source.effectIndex : null;
@@ -107,6 +115,7 @@
   function startAbilityChain(chainId, label, nodes = []) {
     return {
       chainId,
+      historyFlowId: createHistoryFlowId(chainId),
       actionType: chainId,
       label: label || chainId,
       effects: nodes.map(normalizeNode),

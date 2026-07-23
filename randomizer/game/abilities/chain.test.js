@@ -65,6 +65,13 @@ assert.equal(chain.getCurrentChainNode(flow).abilityId, "payScanCost");
 const idleFlow = chain.startAbilityChain("inserted", "插入效果", [
   { abilityId: "alreadyDone", status: "completed" },
 ]);
+const sameNamedFlow = chain.startAbilityChain("scan", "另一次扫描", []);
+assert.ok(flow.historyFlowId);
+assert.notEqual(
+  flow.historyFlowId,
+  sameNamedFlow.historyFlowId,
+  "each effect flow needs a unique history identity",
+);
 idleFlow.effects.push({ abilityId: "insertedReward", status: "pending" });
 idleFlow.currentIndex = 0;
 idleFlow.completed = false;

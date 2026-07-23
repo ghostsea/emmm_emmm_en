@@ -174,7 +174,7 @@
   let pendingActionExecuted = false;
   let pendingPassPlayerId = null;
   let pendingActionEffectFlow = null;
-  let completedEffectFlowsForUndo = {};
+  const completedEffectFlowsForUndo = actionHistoryModule.createCompletedEffectFlowRegistry();
   let finalResultAutoOpened = false;
   let effectExecutionPlayerId = null;
   let autoExecutingActionEffects = false;
@@ -770,6 +770,7 @@
       effects,
     );
     pendingActionEffectFlow.actionType = "initialIncome";
+    initializeEffectFlowUndoContext(pendingActionEffectFlow, HISTORY_SOURCE_MAIN);
     pendingActionEffectFlow.playerId = effects[0]?.options?.playerId || null;
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
 
@@ -11141,6 +11142,13 @@
     return source === HISTORY_SOURCE_QUICK ? quickActionHistory : actionHistory;
   }
 
+  function initializeEffectFlowUndoContext(flow, source = HISTORY_SOURCE_MAIN) {
+    if (!flow) return flow;
+    flow.historySource = source || HISTORY_SOURCE_MAIN;
+    flow.originHistoryStepId = getHistoryForSource(flow.historySource).peekLastUndoableStep?.()?.id || null;
+    return flow;
+  }
+
   function getActiveEffectHistory() {
     if (effectStepActive) return getHistoryForSource(getEffectHistorySource());
     return actionHistory;
@@ -11191,6 +11199,7 @@
       removeActionLogStepsBySource(HISTORY_SOURCE_MAIN);
       effectStepActive = false;
     }
+    clearCompletedEffectFlowForUndo(HISTORY_SOURCE_MAIN);
     startActionLogDraft(actionType, label, { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession(actionType, label);
     actionHistory.beginStep({
@@ -11204,13 +11213,13 @@
   }
 
   function beginQuickActionStep(actionType, label, options = {}) {
-    clearCompletedEffectFlowForUndo(HISTORY_SOURCE_QUICK);
     ensureActionLogDraft({
       source: HISTORY_SOURCE_QUICK,
       actionType: actionLogState.draft?.actionType || "quick",
       label: actionLogState.draft?.actionType ? actionLogState.draft.actionLabel : ACTION_LOG_DEFAULT_LABELS.quick,
     });
     if (!quickActionHistory.hasSession()) {
+      clearCompletedEffectFlowForUndo(HISTORY_SOURCE_QUICK);
       quickActionHistory.beginSession("quick", "快速行动");
     }
     quickActionHistory.beginStep({
@@ -11288,10 +11297,13 @@
         : historyStepOrder[index];
       const source = entry.source;
       if (source === HISTORY_SOURCE_QUICK && quickActionHistory.hasSession()) {
-        return quickActionHistory.hasUndoableStep() ? source : null;
+        const step = quickActionHistory.peekLastUndoableStep?.() || null;
+        if (step && (!entry.stepId || entry.stepId === step.id)) return source;
+        continue;
       }
       if (source === HISTORY_SOURCE_MAIN && actionHistory.hasSession()) {
-        return actionHistory.hasUndoableStep() ? source : null;
+        const step = actionHistory.peekLastUndoableStep?.() || null;
+        if (step && (!entry.stepId || entry.stepId === step.id)) return source;
       }
     }
     if (quickActionHistory.hasUndoableStep()) return HISTORY_SOURCE_QUICK;
@@ -11331,7 +11343,6 @@
   }
 
   function startCardEffectFlow(chainId, label, effects, options = {}) {
-    clearCompletedEffectFlowForUndo(options.historySource || HISTORY_SOURCE_MAIN);
     const deferredEndEffects = Array.isArray(options.deferredEndEffects)
       ? options.deferredEndEffects.filter(Boolean)
       : [];
@@ -11341,6 +11352,10 @@
 
     const normalizedEffects = cardEffects.consolidateCardMoveEffects?.(initialEffects) || initialEffects;
     pendingActionEffectFlow = abilities.chain.startAbilityChain(chainId, label, normalizedEffects);
+    initializeEffectFlowUndoContext(
+      pendingActionEffectFlow,
+      options.historySource || HISTORY_SOURCE_MAIN,
+    );
     pendingActionEffectFlow.actionType = options.actionType || "playCard";
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
@@ -11350,7 +11365,6 @@
     pendingActionEffectFlow.playCardEvent = options.playCardEvent || null;
     pendingActionEffectFlow.industryPlayedCard = options.industryPlayedCard || options.card || null;
     pendingActionEffectFlow.futureSpanPlayedCard = Boolean(options.futureSpanPlayedCard || pendingFutureSpanPlayBeforePlayer);
-    pendingActionEffectFlow.historySource = options.historySource || HISTORY_SOURCE_MAIN;
     pendingActionEffectFlow.consumesMainAction = options.consumesMainAction !== false;
     pendingActionEffectFlow.deferredEndEffects = remainingDeferredEndEffects.map((effect) => ({
       ...effect,
@@ -11373,6 +11387,7 @@
       ),
     );
     if (pendingActionEffectFlow.historySource === HISTORY_SOURCE_QUICK && !quickActionHistory.hasSession()) {
+      clearCompletedEffectFlowForUndo(HISTORY_SOURCE_QUICK);
       quickActionHistory.beginSession("quick", "快速行动");
     }
 
@@ -11406,6 +11421,7 @@
   }
 
   function recordPlayCardStart(player, card, beforePlayer, beforeCardState, beforeAlienState = null) {
+    clearCompletedEffectFlowForUndo(HISTORY_SOURCE_MAIN);
     startActionLogDraft("playCard", "打牌行动", { source: HISTORY_SOURCE_MAIN, player });
     actionHistory.beginSession("playCard", "打牌行动");
     actionHistory.beginStep({
@@ -11915,7 +11931,8 @@
       }
     }
     if (messages.length) {
-      const source = pendingActionEffectFlow?.historySource
+      const triggeringEffectFlow = pendingActionEffectFlow;
+      const source = triggeringEffectFlow?.historySource
         || (quickActionHistory.hasSession() ? HISTORY_SOURCE_QUICK : HISTORY_SOURCE_MAIN);
       const history = ensureEffectHistorySession(source, "cardEventBonus", "卡牌事件触发奖励");
       history.beginStep({
@@ -11936,8 +11953,8 @@
         describe: "恢复卡牌事件触发计数",
         undo() {
           turnState.cardTurnEventBonuses = structuredClone(beforeTurnBonuses);
-          if (pendingActionEffectFlow) {
-            pendingActionEffectFlow.cardFlowEventBonuses = structuredClone(beforeFlowBonuses);
+          if (triggeringEffectFlow) {
+            triggeringEffectFlow.cardFlowEventBonuses = structuredClone(beforeFlowBonuses);
           }
         },
       });
@@ -12986,6 +13003,7 @@
     const rewardEffects = buildPlanetRewardEffectsWithIndustry(actionType, result, { player: actionOwner });
     if (!rewardEffects.length) return false;
 
+    clearCompletedEffectFlowForUndo(HISTORY_SOURCE_MAIN);
     const actionLabel = actionType === "orbit" ? "环绕" : "登陆";
     const isAomomoRewardFlow = result?.planetId === (aomomo?.PLANET_ID || "aomomo");
     startActionLogDraft(actionType, `${actionLabel}行动`, { source: HISTORY_SOURCE_MAIN });
@@ -13008,6 +13026,7 @@
       rewardEffects,
     );
     pendingActionEffectFlow.actionType = actionType;
+    initializeEffectFlowUndoContext(pendingActionEffectFlow, HISTORY_SOURCE_MAIN);
     pendingActionEffectFlow.playerId = actionOwner?.id || null;
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.consumesMainAction = true;
@@ -13050,6 +13069,7 @@
   }
 
   function beginResearchTechActionSession(result, options = {}) {
+    clearCompletedEffectFlowForUndo(HISTORY_SOURCE_MAIN);
     startActionLogDraft("researchTech", "科技行动", { source: HISTORY_SOURCE_MAIN });
     actionHistory.beginSession("researchTech", "科技行动");
     actionHistory.beginStep({
@@ -13092,7 +13112,7 @@
     );
     pendingActionEffectFlow.actionType = "researchTech";
     pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
-    pendingActionEffectFlow.historySource = HISTORY_SOURCE_MAIN;
+    initializeEffectFlowUndoContext(pendingActionEffectFlow, HISTORY_SOURCE_MAIN);
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.consumesMainAction = true;
 
@@ -13255,6 +13275,7 @@
       type: "effect",
       label: label || current?.label || "效果",
       effectId: hasEffectId ? meta.effectId : current?.id || null,
+      effectFlowId: meta.effectFlowId ?? pendingActionEffectFlow?.historyFlowId ?? null,
       effectIndex: hasEffectIndex ? meta.effectIndex : pendingActionEffectFlow?.currentIndex ?? null,
       effectType: meta.effectType ?? current?.type ?? null,
       logBefore: meta.logBefore || createActionLogImpactSnapshot(),
@@ -13328,6 +13349,7 @@
       type: "irreversible",
       label: effect?.label || "不可撤销效果",
       effectId: effect?.id || null,
+      effectFlowId: pendingActionEffectFlow?.historyFlowId || null,
       effectIndex: pendingActionEffectFlow?.currentIndex ?? null,
       effectType: effect?.type || null,
       undoable: false,
@@ -13398,21 +13420,28 @@
   }
 
   function revertEffectFlowAfterUndo(step) {
-    if (!pendingActionEffectFlow || !step) return;
+    if (!pendingActionEffectFlow || !step) return false;
 
     if (isMainActionOpeningStep(step)) {
       if (pendingActionEffectFlow.actionType === "researchTech") {
         clearResearchTechSelectionState();
       }
       clearActionEffectFlow();
-      return;
+      return true;
     }
 
-    if (!Number.isInteger(step.effectIndex)) return;
+    if (
+      step.effectFlowId
+      && pendingActionEffectFlow.historyFlowId
+      && step.effectFlowId !== pendingActionEffectFlow.historyFlowId
+    ) return false;
+    if (!Number.isInteger(step.effectIndex)) return false;
 
     const { effects } = pendingActionEffectFlow;
     const effect = effects[step.effectIndex];
-    if (!effect) return;
+    if (!effect) return false;
+    if (step.effectId && effect.id !== step.effectId) return false;
+    if (step.effectType && effect.type !== step.effectType) return false;
 
     pruneEndOfFlowSettlementEffectsAfterUndo(pendingActionEffectFlow, step.effectIndex);
     abilities.chain.removeInsertedNodesBySource?.(pendingActionEffectFlow, {
@@ -13437,6 +13466,7 @@
       restoreResearchTechSelectionAfterUndo(effect);
     }
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
+    return true;
   }
 
   function hasActiveEffectSubFlow() {
@@ -13658,47 +13688,54 @@
   }
 
   function shouldRememberCompletedEffectFlowForUndo(flow) {
-    if (!flow?.historySource) return false;
-    if (flow.historySource === HISTORY_SOURCE_QUICK) return true;
-    if (flow.historySource === HISTORY_SOURCE_MAIN) {
-      return Boolean(actionHistory.hasUndoableStep());
-    }
-    return false;
+    const source = flow?.historySource || null;
+    const history = getHistoryForSource(source);
+    if (!source || !flow?.historyFlowId || !history?.listSteps) return false;
+    return history.listSteps().some((step) => (
+      step.effectFlowId === flow.historyFlowId
+      && step.undoable !== false
+      && !step.irreversibleReason
+    ));
   }
 
   function clearCompletedEffectFlowForUndo(source = null) {
-    if (!source) {
-      completedEffectFlowsForUndo = {};
-      return;
-    }
-    completedEffectFlowsForUndo[source] = null;
+    completedEffectFlowsForUndo.clear(source);
   }
 
   function rememberCompletedEffectFlowForUndo(flow) {
     const source = flow?.historySource || null;
     if (!source) return;
-    completedEffectFlowsForUndo[source] = shouldRememberCompletedEffectFlowForUndo(flow)
-      ? flow
-      : null;
+    if (shouldRememberCompletedEffectFlowForUndo(flow)) {
+      completedEffectFlowsForUndo.remember(source, flow);
+    }
   }
 
   function takeCompletedEffectFlowForUndo(step, source) {
-    const flow = completedEffectFlowsForUndo[source];
-    const effectIndex = step?.effectIndex;
-    const effect = Number.isInteger(effectIndex) ? flow?.effects?.[effectIndex] : null;
-    if (!flow || flow.historySource !== source || !effect) return null;
-    if (step.effectType && effect.type !== step.effectType) return null;
-    clearCompletedEffectFlowForUndo(source);
-    return flow;
+    return completedEffectFlowsForUndo.take(source, step);
   }
 
-  function peekCompletedEffectFlowForUndo(step, source) {
-    const flow = completedEffectFlowsForUndo[source];
-    const effectIndex = step?.effectIndex;
-    const effect = Number.isInteger(effectIndex) ? flow?.effects?.[effectIndex] : null;
-    if (!flow || flow.historySource !== source || !effect) return null;
-    if (step.effectType && effect.type !== step.effectType) return null;
-    return flow;
+  function restoreEffectFlowAfterUndo(step, source) {
+    if (!step || !source) return false;
+
+    const activeFlow = pendingActionEffectFlow;
+    if (activeFlow && (activeFlow.historySource || HISTORY_SOURCE_MAIN) === source) {
+      if (revertEffectFlowAfterUndo(step)) return true;
+      if (step.id && step.id === activeFlow.originHistoryStepId) {
+        clearActionEffectFlow();
+        const previousFlow = takeCompletedEffectFlowForUndo(step, source);
+        if (!previousFlow) return true;
+        pendingActionEffectFlow = previousFlow;
+        els.appWrap?.classList.toggle("action-effect-flow-active", true);
+        revertEffectFlowAfterUndo(step);
+        return true;
+      }
+    }
+
+    const completedFlow = takeCompletedEffectFlowForUndo(step, source);
+    if (!completedFlow) return false;
+    pendingActionEffectFlow = completedFlow;
+    els.appWrap?.classList.toggle("action-effect-flow-active", true);
+    return revertEffectFlowAfterUndo(step);
   }
 
   function cancelActiveEffectSubFlows() {
@@ -19872,6 +19909,7 @@
       return check;
     }
 
+    clearCompletedEffectFlowForUndo(HISTORY_SOURCE_MAIN);
     startActionLogDraft("scan", "扫描行动", { source: HISTORY_SOURCE_MAIN, player: currentPlayer });
     actionHistory.beginSession("scan", "扫描行动");
     actionHistory.beginStep({ source: HISTORY_SOURCE_MAIN, type: "action-cost", label: "扫描费用" });
@@ -19912,6 +19950,7 @@
       }),
     );
     pendingActionEffectFlow.playerId = currentPlayer.id;
+    initializeEffectFlowUndoContext(pendingActionEffectFlow, HISTORY_SOURCE_MAIN);
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.scanRunId = scanRunId;
     pendingActionEffectFlow.scanActionEvent = {
@@ -31109,7 +31148,7 @@
     pendingActionEffectFlow.actionType = "launch";
     pendingActionEffectFlow.playerId = currentPlayer?.id || null;
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
-    pendingActionEffectFlow.historySource = HISTORY_SOURCE_MAIN;
+    initializeEffectFlowUndoContext(pendingActionEffectFlow, HISTORY_SOURCE_MAIN);
     pendingActionEffectFlow.consumesMainAction = true;
 
     els.appWrap?.classList.toggle("action-effect-flow-active", true);
@@ -33028,6 +33067,7 @@
 
   function beginPassActionSession(currentPlayer) {
     pendingPassPlayerId = currentPlayer.id;
+    clearCompletedEffectFlowForUndo(HISTORY_SOURCE_MAIN);
     startActionLogDraft("pass", "PASS", { source: HISTORY_SOURCE_MAIN, player: currentPlayer });
     actionHistory.beginSession("pass", "PASS");
     actionHistory.beginStep({
@@ -33176,7 +33216,7 @@
       pendingActionEffectFlow.playerId = currentPlayer.id;
       assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
       pendingActionEffectFlow.passEvent = createPassEvent(currentPlayer);
-      pendingActionEffectFlow.historySource = HISTORY_SOURCE_MAIN;
+      initializeEffectFlowUndoContext(pendingActionEffectFlow, HISTORY_SOURCE_MAIN);
       pendingActionEffectFlow.consumesMainAction = true;
       els.appWrap?.classList.toggle("action-effect-flow-active", true);
       rocketState.statusNote = "PASS：请依次点击必做效果";
@@ -33453,54 +33493,46 @@
       return;
     }
 
-    const latestUndoSource = getLatestUndoSource();
-
-    if (
-      !latestUndoSource
-      && pendingActionEffectFlow?.historySource === HISTORY_SOURCE_QUICK
-      && !pendingActionEffectFlow.preHistoryCommandsApplied
-      && pendingActionEffectFlow.preHistoryCommands?.length
-    ) {
-      const flowLabel = pendingActionEffectFlow.label || "快速行动效果";
-      for (let index = pendingActionEffectFlow.preHistoryCommands.length - 1; index >= 0; index -= 1) {
-        pendingActionEffectFlow.preHistoryCommands[index]?.undo?.();
+    if (pendingActionEffectFlow) {
+      const activeFlowSource = pendingActionEffectFlow.historySource || HISTORY_SOURCE_MAIN;
+      const activeFlowHistory = getHistoryForSource(activeFlowSource);
+      const activeFlowHasBarrier = activeFlowSource === HISTORY_SOURCE_MAIN
+        ? hasCurrentMainActionIrreversibleBarrier()
+        : activeFlowHistory.hasIrreversibleBarrier?.();
+      if (!activeFlowHistory.hasUndoableStep() && !activeFlowHasBarrier) {
+        const flowLabel = pendingActionEffectFlow.label || "效果流程";
+        if (
+          !pendingActionEffectFlow.preHistoryCommandsApplied
+          && pendingActionEffectFlow.preHistoryCommands?.length
+        ) {
+          for (let index = pendingActionEffectFlow.preHistoryCommands.length - 1; index >= 0; index -= 1) {
+            pendingActionEffectFlow.preHistoryCommands[index]?.undo?.();
+          }
+        }
+        effectStepActive = false;
+        clearActionEffectFlow();
+        if (activeFlowSource === HISTORY_SOURCE_QUICK && activeFlowHistory.hasSession()) {
+          activeFlowHistory.commitSession();
+          clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
+          clearCompletedEffectFlowForUndo(HISTORY_SOURCE_QUICK);
+        }
+        refreshAfterHistoryChange(`已撤销：${flowLabel}`);
+        return;
       }
-      effectStepActive = false;
-      if (quickActionHistory.hasSession() && !quickActionHistory.hasUndoableStep()) {
-        quickActionHistory.commitSession();
-        clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
-      }
-      clearActionEffectFlow();
-      refreshAfterHistoryChange(`已撤销：${flowLabel}`);
-      return;
     }
 
+    const latestUndoSource = getLatestUndoSource();
+
     if (latestUndoSource === HISTORY_SOURCE_QUICK) {
-      const undoingQuickEffectFlow = pendingActionEffectFlow?.historySource === HISTORY_SOURCE_QUICK;
       const result = quickActionHistory.undoLastStep();
       if (result.ok) {
         effectStepActive = false;
         forgetLastHistoryStep(HISTORY_SOURCE_QUICK, result.step?.id || null);
         removeLastActionLogStep(HISTORY_SOURCE_QUICK, result.step?.id || null);
-        const completedQuickEffectFlow = !pendingActionEffectFlow
-          ? takeCompletedEffectFlowForUndo(result.step, HISTORY_SOURCE_QUICK)
-          : null;
-        if (completedQuickEffectFlow) {
-          pendingActionEffectFlow = completedQuickEffectFlow;
-          els.appWrap?.classList.toggle("action-effect-flow-active", true);
-        }
-        if ((undoingQuickEffectFlow || completedQuickEffectFlow) && pendingActionEffectFlow) {
-          const effectIndex = result.step?.effectIndex;
-          const hasRevertibleEffectStep = Number.isInteger(effectIndex)
-            && Boolean(pendingActionEffectFlow.effects?.[effectIndex]);
-          if (hasRevertibleEffectStep) {
-            revertEffectFlowAfterUndo(result.step);
-          } else {
-            clearActionEffectFlow();
-          }
-        }
+        restoreEffectFlowAfterUndo(result.step, HISTORY_SOURCE_QUICK);
       }
       if (result.ok && !quickActionHistory.hasUndoableStep() && !isActionEffectFlowActive()) {
+        clearCompletedEffectFlowForUndo(HISTORY_SOURCE_QUICK);
         quickActionHistory.commitSession();
         clearHistoryStepOrderForSource(HISTORY_SOURCE_QUICK);
       }
@@ -33538,14 +33570,7 @@
         effectStepActive = false;
         forgetLastHistoryStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
         removeLastActionLogStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
-        const completedMainEffectFlow = !pendingActionEffectFlow
-          ? takeCompletedEffectFlowForUndo(result.step, HISTORY_SOURCE_MAIN)
-          : null;
-        if (completedMainEffectFlow) {
-          pendingActionEffectFlow = completedMainEffectFlow;
-          els.appWrap?.classList.toggle("action-effect-flow-active", true);
-        }
-        revertEffectFlowAfterUndo(result.step);
+        restoreEffectFlowAfterUndo(result.step, HISTORY_SOURCE_MAIN);
       }
       refreshAfterHistoryChange(result.ok ? result.message : result.message || "当前行动不能撤销");
       return;
@@ -33559,7 +33584,7 @@
           effectStepActive = false;
           forgetLastHistoryStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
           removeLastActionLogStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
-          revertEffectFlowAfterUndo(result.step);
+          restoreEffectFlowAfterUndo(result.step, HISTORY_SOURCE_MAIN);
           if (!isActionEffectFlowActive()) {
             clearFullyUndoneMainActionSession();
           }
@@ -33569,11 +33594,10 @@
       }
     }
 
-    const completedMainFlowUndoStep = actionHistory.peekLastUndoableStep?.() || null;
     if (
       latestUndoSource === HISTORY_SOURCE_MAIN
       && !isActionEffectFlowActive()
-      && peekCompletedEffectFlowForUndo(completedMainFlowUndoStep, HISTORY_SOURCE_MAIN)
+      && completedEffectFlowsForUndo.has(HISTORY_SOURCE_MAIN)
       && actionHistory.hasUndoableStep()
     ) {
       const result = actionHistory.undoLastStep();
@@ -33581,12 +33605,7 @@
         effectStepActive = false;
         forgetLastHistoryStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
         removeLastActionLogStep(HISTORY_SOURCE_MAIN, result.step?.id || null);
-        const completedMainEffectFlow = takeCompletedEffectFlowForUndo(result.step, HISTORY_SOURCE_MAIN);
-        if (completedMainEffectFlow) {
-          pendingActionEffectFlow = completedMainEffectFlow;
-          els.appWrap?.classList.toggle("action-effect-flow-active", true);
-          revertEffectFlowAfterUndo(result.step);
-        }
+        restoreEffectFlowAfterUndo(result.step, HISTORY_SOURCE_MAIN);
         if (!isActionEffectFlowActive()) {
           clearFullyUndoneMainActionSession();
         }

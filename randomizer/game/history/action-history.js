@@ -43,6 +43,87 @@
     return -1;
   }
 
+  function effectStepMatchesFlow(step, flow) {
+    if (!step || !flow) return false;
+    if (!step.effectFlowId || step.effectFlowId !== flow.historyFlowId) return false;
+    if (!Number.isInteger(step.effectIndex)) return false;
+    const effect = flow.effects?.[step.effectIndex] || null;
+    if (!effect) return false;
+    if (step.effectId && effect.id !== step.effectId) return false;
+    if (step.effectType && effect.type !== step.effectType) return false;
+    return true;
+  }
+
+  function createCompletedEffectFlowRegistry() {
+    const flowsBySource = new Map();
+
+    function getStack(source, create = false) {
+      if (!source) return null;
+      if (!flowsBySource.has(source) && create) {
+        flowsBySource.set(source, []);
+      }
+      return flowsBySource.get(source) || null;
+    }
+
+    function remember(source, flow) {
+      if (!source || !flow?.historyFlowId) return false;
+      const stack = getStack(source, true);
+      const existingIndex = stack.findIndex((item) => item?.historyFlowId === flow.historyFlowId);
+      if (existingIndex >= 0) stack.splice(existingIndex, 1);
+      stack.push(flow);
+      return true;
+    }
+
+    function findMatchingIndex(source, step) {
+      const stack = getStack(source);
+      if (!stack?.length) return -1;
+      for (let index = stack.length - 1; index >= 0; index -= 1) {
+        if (effectStepMatchesFlow(step, stack[index])) return index;
+      }
+      return -1;
+    }
+
+    function peek(source, step) {
+      const stack = getStack(source);
+      const index = findMatchingIndex(source, step);
+      return index >= 0 ? stack[index] : null;
+    }
+
+    function take(source, step) {
+      const stack = getStack(source);
+      const index = findMatchingIndex(source, step);
+      if (index < 0) return null;
+      const [flow] = stack.splice(index, 1);
+      if (!stack.length) flowsBySource.delete(source);
+      return flow;
+    }
+
+    function clear(source = null) {
+      if (source) {
+        flowsBySource.delete(source);
+      } else {
+        flowsBySource.clear();
+      }
+    }
+
+    function has(source) {
+      return Boolean(getStack(source)?.length);
+    }
+
+    function count(source) {
+      return getStack(source)?.length || 0;
+    }
+
+    return Object.freeze({
+      remember,
+      peek,
+      take,
+      clear,
+      has,
+      count,
+    });
+  }
+
   function createActionHistory() {
     let session = null;
 
@@ -68,6 +149,7 @@
         effectId: meta.effectId || null,
         effectIndex: meta.effectIndex ?? null,
         effectType: meta.effectType || null,
+        effectFlowId: meta.effectFlowId || null,
         undoable: meta.undoable !== false && !irreversibleReason,
         irreversibleCode: meta.irreversibleCode || meta.irreversible?.code || null,
         irreversibleReason,
@@ -295,6 +377,7 @@
         effectId: step.effectId,
         effectIndex: step.effectIndex,
         effectType: step.effectType,
+        effectFlowId: step.effectFlowId,
         undoable: step.undoable,
         irreversibleCode: step.irreversibleCode,
         irreversibleReason: step.irreversibleReason,
@@ -324,5 +407,6 @@
 
   return Object.freeze({
     createActionHistory,
+    createCompletedEffectFlowRegistry,
   });
 });

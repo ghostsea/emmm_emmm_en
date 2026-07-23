@@ -37,6 +37,54 @@ const undoCost = history.undoLastStep();
 assert.equal(undoCost.ok, true);
 assert.equal(value, -11);
 
+const completedFlows = actionHistory.createCompletedEffectFlowRegistry();
+const firstFlow = {
+  historyFlowId: "scan-flow-1",
+  historySource: "main",
+  effects: [{ id: "scan-sector", type: "scan", status: "completed" }],
+};
+const secondFlow = {
+  historyFlowId: "scan-flow-2",
+  historySource: "main",
+  effects: [{ id: "scan-sector", type: "scan", status: "completed" }],
+};
+const firstFlowStep = {
+  id: "first-flow-step",
+  effectFlowId: firstFlow.historyFlowId,
+  effectId: "scan-sector",
+  effectIndex: 0,
+  effectType: "scan",
+};
+const secondFlowStep = {
+  id: "second-flow-step",
+  effectFlowId: secondFlow.historyFlowId,
+  effectId: "scan-sector",
+  effectIndex: 0,
+  effectType: "scan",
+};
+const outsideQueueTriggerStep = {
+  id: "outside-trigger-step",
+  type: "card_event_bonus",
+  effectIndex: null,
+};
+assert.equal(completedFlows.remember("main", firstFlow), true);
+assert.equal(completedFlows.remember("main", secondFlow), true);
+assert.equal(completedFlows.count("main"), 2);
+assert.equal(
+  completedFlows.take("main", outsideQueueTriggerStep),
+  null,
+  "queue-external triggers must not consume a completed effect flow",
+);
+assert.equal(completedFlows.count("main"), 2);
+assert.equal(
+  completedFlows.take("main", secondFlowStep),
+  secondFlow,
+  "same-shaped effects must restore the exact flow instance",
+);
+assert.equal(completedFlows.peek("main", firstFlowStep), firstFlow);
+assert.equal(completedFlows.take("main", firstFlowStep), firstFlow);
+assert.equal(completedFlows.has("main"), false);
+
 history.beginSession("launch", "发射");
 history.beginStep({ label: "发射", effectIndex: 0 });
 history.record({
@@ -78,7 +126,12 @@ assert.equal(incremental.peekLastUndoableStep()?.label, "放置数据");
 
 const barrierHistory = actionHistory.createActionHistory();
 barrierHistory.beginSession("mixed", "交错行动");
-barrierHistory.beginStep({ source: "main", type: "effect", label: "主行动 A" });
+barrierHistory.beginStep({
+  source: "main",
+  type: "effect",
+  label: "主行动 A",
+  effectFlowId: "barrier-test-flow",
+});
 barrierHistory.record({
   label: "A",
   undo() {
@@ -88,6 +141,8 @@ barrierHistory.record({
 const stepA = barrierHistory.endStep();
 assert.ok(stepA.id, "step should have id");
 assert.equal(stepA.source, "main");
+assert.equal(stepA.effectFlowId, "barrier-test-flow");
+assert.equal(barrierHistory.listSteps()[0].effectFlowId, "barrier-test-flow");
 barrierHistory.beginStep({
   source: "quick",
   type: "effect",
