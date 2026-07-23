@@ -2166,6 +2166,13 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     selectedGains.filter((gain) => Number(gain.credits || 0) > 0).length <= 2,
     "multi-income selection should not spend all four choices on credit income",
   );
+  const discardLog = harness.controller.getAiAutoBattleReport().logs
+    .find((entry) => entry.type === "discard" && entry.details?.pendingType === "initial_income");
+  assert.equal(
+    discardLog?.details?.incomeDiscardPreview?.options?.length,
+    harness.blue.hand.length,
+    "initial-income discard logs should expose the same per-card preview as later income flows",
+  );
 }
 
 {

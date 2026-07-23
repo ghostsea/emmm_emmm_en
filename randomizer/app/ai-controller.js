@@ -1857,7 +1857,7 @@
       incomeFormulaEntries = null,
       selectedIndexes = [],
     ) {
-      if (pendingType !== "place_data_income" || !player?.hand?.length) return null;
+      if (!isAiIncomeDiscardType(pendingType) || !player?.hand?.length) return null;
       const target = Math.max(0, Math.round(aiNumber(count)));
       const handSize = Math.max(0, Math.round(aiNumber(player.resources?.handSize ?? player.hand.length)));
       const handScarcityCost = getAiIncomeDiscardHandScarcityCost(player);
