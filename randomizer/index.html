@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SETI 太阳系随机器</title>
-  <link rel="stylesheet" href="./style.css?v=settlement-minimize-1">
+  <link rel="stylesheet" href="./style.css?v=same-seed-restart-1">
 </head>
 <body>
   <div class="start-screen" id="start-screen" aria-label="开始界面">
@@ -641,6 +641,7 @@
     <aside class="failsafe-dock" id="failsafe-dock" aria-label="兜底控制">
       <button class="failsafe-button failsafe-ai-button" type="button" id="failsafe-ai-button" title="把当前电脑玩家交还给 AI 自动操作">AI接管</button>
       <button class="failsafe-button failsafe-skip-button" type="button" id="failsafe-skip-button" title="清理当前待处理流程并跳过当前回合">强制跳过</button>
+      <button class="failsafe-button failsafe-restart-button" type="button" id="failsafe-restart-button" title="清空当前进度并按本局随机种子重新开始">重新开始</button>
     </aside>
 
     <aside class="debug-dock" id="debug-dock">
@@ -705,7 +706,7 @@
     </div>
   </div>
 
-  <script src="./game/random.js?v=daily-game-1"></script>
+  <script src="./game/random.js?v=same-seed-restart-1"></script>
   <script src="./solar-system/layout.js?v=player-actions-4"></script>
   <script src="./solar-system/core.js?v=player-actions-4"></script>
   <script src="./game/card-catalog.js?v=card-catalog-sync-1"></script>
@@ -791,12 +792,12 @@
   <script src="./app/alien-trace-reward-flow.js?v=trace-no-target-1"></script>
   <script src="./app/dependencies.js?v=daily-game-1"></script>
   <script src="./app/constants.js?v=industry-pirates-1"></script>
-  <script src="./app/dom.js?v=settlement-minimize-1"></script>
+  <script src="./app/dom.js?v=same-seed-restart-1"></script>
   <script src="./app/settlement-minimize.js?v=settlement-minimize-1"></script>
-  <script src="./app/events.js?v=daily-game-1"></script>
+  <script src="./app/events.js?v=same-seed-restart-1"></script>
   <script src="./app/action-log-export.js?v=action-log-export-2"></script>
   <script src="./app/public-api.js?v=app-boundaries-5"></script>
   <script src="./app/ai-controller.js?v=grand-projected-analyze-1"></script>
-  <script src="./app.js?v=settlement-minimize-1"></script>
+  <script src="./app.js?v=same-seed-restart-1"></script>
 </body>
 </html>

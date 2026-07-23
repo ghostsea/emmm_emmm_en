@@ -6,7 +6,7 @@
 
 1. `randomizer/index.html` 按传统 `<script>` 顺序加载，无构建步骤，也不使用 ES module。
    - 修改脚本实现后必须同步提升对应 `?v=` 缓存版本；若一个功能跨多个全局模块新增接口（例如科技拿取同时依赖 resolver、ability 实现和 ability 注册表），这些脚本必须一起提升版本，避免浏览器混用新旧运行时。
-2. `randomizer/game/random.js` 最先注册统一随机源；普通游戏透传浏览器随机，每日游戏按本地日期固定种子。
+2. `randomizer/game/random.js` 最先注册统一随机源；普通游戏在开局时生成独立随机种子，每日游戏按本地日期固定种子，两者都可按本局种子从头复现。
 3. `randomizer/solar-system/**`、其余 `randomizer/game/**` 注册各自的 `window.Seti*` 全局模块。
 4. `randomizer/app/alien-trace-reward-flow.js` 编排痕迹奖励的方舟解锁、面板放置与无目标落空分支。
 5. `randomizer/app/dependencies.js` 收集并校验 app 层需要的全局模块。
@@ -21,7 +21,7 @@
 
 ## 文件职责
 
-- `randomizer/game/random.js`：统一接管本局 `Math.random`。普通模式调用浏览器原生随机；每日模式用日期种子生成可复现序列，并提供可保存、恢复的随机推进状态。
+- `randomizer/game/random.js`：统一接管本局 `Math.random`。普通模式用浏览器原生随机生成一次性本局种子后进入可复现序列；每日模式使用日期种子；两种模式都提供可保存、恢复和从种子起点重放的随机状态。
 - `randomizer/app/dependencies.js`：唯一的 app 入口依赖表。新增或删除 `window.Seti*` 依赖时先改这里，让脚本顺序错误能尽早报错。
 - `randomizer/app/alien-trace-reward-flow.js`：只决定痕迹奖励应进入方舟解锁、面板放置还是无目标落空；无目标时必须结束当前奖励节点，包括 `required` / 不可跳过节点。
 - `randomizer/app/constants.js`：只放静态常量和依赖派生常量。不要在这里读写游戏状态、DOM 或 pending 流程。

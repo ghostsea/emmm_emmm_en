@@ -151,6 +151,7 @@
       blockManualAiSharedOverlayInputIfNeeded,
       handleAiTakeoverFailsafe,
       handleForceSkipTurnFailsafe,
+      handleRestartGameFailsafe,
       setDebugOpen,
       setDebugPlayerMenuOpen,
       switchCurrentPlayerColor,
@@ -248,6 +249,7 @@
     els.spinButton?.addEventListener("click", randomizeAll);
     els.failsafeAiButton?.addEventListener("click", handleAiTakeoverFailsafe);
     els.failsafeSkipButton?.addEventListener("click", handleForceSkipTurnFailsafe);
+    els.failsafeRestartButton?.addEventListener("click", handleRestartGameFailsafe);
     els.actionBarMain?.addEventListener("click", handleMainActionButtonClick);
     els.techSelectionCancel?.addEventListener("click", cancelTechSelection);
     els.landTargetConfirm?.addEventListener("click", confirmLandTargetPicker);

@@ -7,6 +7,15 @@ assert.equal(gameRandom.normalizeDateKey(new Date(2026, 6, 16, 23, 59)), "2026-0
 assert.equal(gameRandom.createDailySeed("2026-07-16"), "seti-daily-v1:2026-07-16");
 assert.equal(Math.random, gameRandom.random);
 
+const generatedSeed = gameRandom.createRandomSeed();
+assert.match(generatedSeed, /^seti-game-v1:[a-z0-9]+:[a-z0-9]+$/);
+assert.equal(gameRandom.getSnapshot().mode, "native");
+
+gameRandom.useSeed(generatedSeed);
+const generatedSeedSequence = Array.from({ length: 8 }, () => Math.random());
+gameRandom.useSeed(generatedSeed);
+assert.deepEqual(Array.from({ length: 8 }, () => Math.random()), generatedSeedSequence);
+
 gameRandom.useDailyRandom("2026-07-16");
 const firstSequence = Array.from({ length: 8 }, () => Math.random());
 gameRandom.useDailyRandom("2026-07-16");

@@ -13,6 +13,7 @@
   "use strict";
 
   const DAILY_SEED_NAMESPACE = "seti-daily-v1";
+  const GAME_SEED_NAMESPACE = "seti-game-v1";
   const RANDOM_STATE_VERSION = 1;
   const nativeMathRandom = root.Math.random;
   const randomState = {
@@ -49,6 +50,14 @@
   function createDailySeed(value = new Date()) {
     const dateKey = normalizeDateKey(value);
     return dateKey ? `${DAILY_SEED_NAMESPACE}:${dateKey}` : null;
+  }
+
+  function createRandomSeed() {
+    const timestamp = Date.now().toString(36);
+    const entropy = Math.floor(nativeMathRandom() * 0x100000000)
+      .toString(36)
+      .padStart(7, "0");
+    return `${GAME_SEED_NAMESPACE}:${timestamp}:${entropy}`;
   }
 
   function useNativeRandom() {
@@ -131,10 +140,12 @@
 
   return {
     DAILY_SEED_NAMESPACE,
+    GAME_SEED_NAMESPACE,
     RANDOM_STATE_VERSION,
     hashSeed,
     normalizeDateKey,
     createDailySeed,
+    createRandomSeed,
     useNativeRandom,
     useSeed,
     useDailyRandom,

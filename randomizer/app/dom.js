@@ -108,6 +108,7 @@
       spinButton: documentRef.getElementById("spin-button"),
       failsafeAiButton: documentRef.getElementById("failsafe-ai-button"),
       failsafeSkipButton: documentRef.getElementById("failsafe-skip-button"),
+      failsafeRestartButton: documentRef.getElementById("failsafe-restart-button"),
       debugToggle: documentRef.getElementById("debug-toggle"),
       debugPlayerSwitchButton: documentRef.getElementById("debug-player-switch-button"),
       debugPlayerMenu: documentRef.getElementById("debug-player-menu"),

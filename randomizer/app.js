@@ -1760,6 +1760,7 @@
       runtime: {
         aiControl: createAiControlSnapshot(),
         random: gameRandom.getSnapshot(),
+        startScreen: structuredClone(startScreenState),
       },
     };
   }
@@ -2208,6 +2209,9 @@
     getActionCycleNumber();
     clearTransientStateForRecovery();
     gameRandom.restoreSnapshot(snapshot?.runtime?.random || null);
+    if (snapshot?.runtime?.startScreen) {
+      restoreMutableObject(startScreenState, snapshot.runtime.startScreen);
+    }
     const aiControlResult = restoreAiControlSnapshot(snapshot?.runtime?.aiControl || null, {
       missingMessage: "旧存档未包含电脑配置，已按默认人机对局恢复",
     });
@@ -28107,6 +28111,38 @@
     return { ok: true, player: targetPlayer, message };
   }
 
+  function handleRestartGameFailsafe() {
+    const randomSnapshot = gameRandom.getSnapshot();
+    const hasReplayableSeed = (
+      (randomSnapshot.mode === "seeded" || randomSnapshot.mode === "daily")
+      && Boolean(randomSnapshot.seed)
+    );
+    if (!hasReplayableSeed) {
+      rocketState.statusNote = "本局开始时未记录随机种子，无法按原局重新开始";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    const activePlayerCount = turnState.activePlayerCount || startScreenState.activePlayerCount;
+    const dailyDateKey = randomSnapshot.mode === "daily" ? randomSnapshot.dateKey : null;
+    const message = dailyDateKey
+      ? `每日游戏 ${dailyDateKey} 已按本局随机种子重新开始，请完成初始选择。`
+      : "已按本局随机种子重新开始，请完成初始选择。";
+    const result = startNewGame({
+      activePlayerCount,
+      aiDifficulty: startScreenState.aiDifficulty,
+      ...(dailyDateKey
+        ? { dailyDateKey }
+        : { randomSeed: randomSnapshot.seed }),
+      clearStorage: true,
+      message,
+    });
+    return {
+      ...result,
+      seed: randomSnapshot.seed,
+    };
+  }
+
   function getReferencePlacementKindLabel(kind) {
     return REFERENCE_PLACEMENT_KIND_LABELS[kind] || kind || "贴图";
   }
@@ -35670,8 +35706,10 @@
     try {
       if (options.dailyDateKey) {
         gameRandom.useDailyRandom(options.dailyDateKey);
+      } else if (options.randomSeed) {
+        gameRandom.useSeed(options.randomSeed);
       } else {
-        gameRandom.useNativeRandom();
+        gameRandom.useSeed(gameRandom.createRandomSeed());
       }
       const aiDifficulty = normalizeAiDifficulty(options.aiDifficulty ?? startScreenState.aiDifficulty);
       startScreenState.aiDifficulty = aiDifficulty;
@@ -36332,6 +36370,7 @@
     switchCurrentPlayerColor,
     handleAiTakeoverFailsafe,
     handleForceSkipTurnFailsafe,
+    handleRestartGameFailsafe,
     runPlaceDataToComputer,
     analyzeDataForCurrentPlayer,
     handleFinalScoreTileClick,

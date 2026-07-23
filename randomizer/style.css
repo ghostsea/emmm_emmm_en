@@ -5297,8 +5297,7 @@ button.spin-button:hover {
   left: 10px;
   top: 10px;
   z-index: 1510;
-  width: 132px;
-  display: grid;
+  display: flex;
   gap: 8px;
   padding: 8px;
   border: 1px solid rgba(134, 202, 255, 0.28);
@@ -5310,8 +5309,9 @@ button.spin-button:hover {
 }
 
 .failsafe-button {
-  width: 100%;
+  min-width: 82px;
   min-height: 34px;
+  padding: 0 12px;
   border: 1px solid rgba(134, 202, 255, 0.42);
   border-radius: 6px;
   background: rgba(28, 95, 139, 0.62);
@@ -5339,6 +5339,16 @@ button.spin-button:hover {
 .failsafe-skip-button:hover {
   border-color: rgba(255, 190, 158, 0.72);
   background: rgba(174, 70, 55, 0.78);
+}
+
+.failsafe-restart-button {
+  border-color: rgba(250, 203, 109, 0.52);
+  background: rgba(128, 92, 30, 0.68);
+}
+
+.failsafe-restart-button:hover {
+  border-color: rgba(255, 222, 142, 0.76);
+  background: rgba(157, 114, 38, 0.82);
 }
 
 .debug-dock {
@@ -5773,13 +5783,15 @@ button.spin-button:hover {
   .failsafe-dock {
     left: 6px;
     top: 6px;
-    width: min(42vw, 128px);
+    max-width: calc(100vw - 12px);
     padding: 6px;
     gap: 6px;
   }
 
   .failsafe-button {
+    min-width: 74px;
     min-height: 32px;
+    padding: 0 8px;
     font-size: 12px;
   }
 }
