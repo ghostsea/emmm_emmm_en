@@ -11,6 +11,14 @@ const REPO_ROOT = path.resolve(__dirname, "..");
 const DEFAULT_CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 const DEFAULT_CDP_TIMEOUT_MS = 45000;
 const MAX_BATCH_CDP_EVALUATE_TIMEOUT_MS = 300000;
+const CHROMIUM_RESTRICTED_PORTS = new Set([
+  1, 7, 9, 11, 13, 15, 17, 19, 20, 21, 22, 23, 25, 37, 42, 43, 53, 69, 77, 79,
+  87, 95, 101, 102, 103, 104, 109, 110, 111, 113, 115, 117, 119, 123, 135, 137,
+  139, 143, 161, 179, 389, 427, 465, 512, 513, 514, 515, 526, 530, 531, 532, 540,
+  548, 554, 556, 563, 587, 601, 636, 989, 990, 993, 995, 1719, 1720, 1723, 2049,
+  3659, 4045, 5060, 5061, 6000, 6566, 6697, 10080,
+  ...Array.from({ length: 5 }, (_item, index) => 6665 + index),
+]);
 
 class AiAutoBattleTimeoutError extends Error {
   constructor(message, state = null) {
@@ -165,37 +173,41 @@ function getContentType(filePath) {
   return "application/octet-stream";
 }
 
-function startStaticServer(rootDir) {
-  const server = http.createServer((request, response) => {
-    const url = new URL(request.url, "http://127.0.0.1");
-    const decoded = decodeURIComponent(url.pathname);
-    const relative = decoded === "/" ? "randomizer/index.html" : decoded.replace(/^\/+/, "");
-    const filePath = path.resolve(rootDir, relative);
-    if (!filePath.startsWith(rootDir)) {
-      response.writeHead(403);
-      response.end("Forbidden");
-      return;
-    }
-    fs.readFile(filePath, (error, data) => {
-      if (error) {
-        response.writeHead(404);
-        response.end("Not found");
+async function startStaticServer(rootDir) {
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const server = http.createServer((request, response) => {
+      const url = new URL(request.url, "http://127.0.0.1");
+      const decoded = decodeURIComponent(url.pathname);
+      const relative = decoded === "/" ? "randomizer/index.html" : decoded.replace(/^\/+/, "");
+      const filePath = path.resolve(rootDir, relative);
+      if (!filePath.startsWith(rootDir)) {
+        response.writeHead(403);
+        response.end("Forbidden");
         return;
       }
-      response.writeHead(200, { "content-type": getContentType(filePath) });
-      response.end(data);
-    });
-  });
-  return new Promise((resolve, reject) => {
-    server.once("error", reject);
-    server.listen(0, "127.0.0.1", () => {
-      server.off("error", reject);
-      resolve({
-        server,
-        port: server.address().port,
+      fs.readFile(filePath, (error, data) => {
+        if (error) {
+          response.writeHead(404);
+          response.end("Not found");
+          return;
+        }
+        response.writeHead(200, { "content-type": getContentType(filePath) });
+        response.end(data);
       });
     });
-  });
+    const port = await new Promise((resolve, reject) => {
+      server.once("error", reject);
+      server.listen(0, "127.0.0.1", () => {
+        server.off("error", reject);
+        resolve(server.address().port);
+      });
+    });
+    if (!CHROMIUM_RESTRICTED_PORTS.has(port)) {
+      return { server, port };
+    }
+    await new Promise((resolve) => server.close(resolve));
+  }
+  throw new Error("Unable to bind a Chromium-safe local server port");
 }
 
 function delay(ms) {

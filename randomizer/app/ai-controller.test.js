@@ -267,7 +267,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     rocketActions: {
       ROCKET_KIND: { STANDARD: "standard", CHONG_FOSSIL: "chong-fossil" },
       createRocketState: () => ({}),
-      getRocketsForPlayer: (_rocketState, playerId) => getHarnessRocketsForPlayer(playerId),
+      getRocketsForPlayer: (_rocketState, playerId) => getHarnessRocketsForPlayer(playerId)
+        .filter((rocket) => (rocket?.kind || "standard") === "standard"),
+      isControllablePlayerRocket: (rocket) => (rocket?.kind || "standard") === "standard",
       getRocketSectorCoordinate: (rocket) => rocket?.sector || null,
       findAvailableSlotIndex: options.findAvailableSlotIndex || (() => null),
       canMoveRocket: (_rocketState, rocketId, deltaX, deltaY) => {
@@ -2193,6 +2195,13 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     selectedGains.filter((gain) => Number(gain.credits || 0) > 0).length <= 2,
     "multi-income selection should not spend all four choices on credit income",
   );
+  const discardLog = harness.controller.getAiAutoBattleReport().logs
+    .find((entry) => entry.type === "discard" && entry.details?.pendingType === "initial_income");
+  assert.equal(
+    discardLog?.details?.incomeDiscardPreview?.options?.length,
+    harness.blue.hand.length,
+    "initial-income discard logs should expose the same per-card preview as later income flows",
+  );
 }
 
 {
@@ -2751,6 +2760,95 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(
     winningCloseScore > nonClosingScore + 8,
     "a scan that wins the third sector should include the ready three-publicity task cashout",
+  );
+}
+
+{
+  const tokensByNebula = {
+    "red-winning-close-sector": [
+      { playerId: "player-blue", playerColor: "blue" },
+      { playerId: "player-white", playerColor: "white" },
+      {},
+    ],
+    "blue-winning-close-sector": [
+      { playerId: "player-blue", playerColor: "blue" },
+      { playerId: "player-white", playerColor: "white" },
+      {},
+    ],
+  };
+  const buildTaskHarness = (condition) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    endGameScoring: {
+      countSectorWins: () => 2,
+      countSectorWinsByColor: (_player, _state, color) => (color === "red" ? 1 : 0),
+    },
+    blueReservedCards: [{
+      id: "color-sector-task-card",
+      cardName: "Color sector task",
+      model: {
+        tasks: [{
+          id: "color-sector-task",
+          condition,
+          rewards: [{ type: "gain_resources", options: { gain: { score: 9 } } }],
+        }],
+      },
+    }],
+    data: {
+      getNextReplaceableNebulaToken: () => ({ slotIndex: 2 }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: () => 0,
+      getNebulaColor: (nebulaId) => (nebulaId.startsWith("red-") ? "red" : "blue"),
+      listNebulaTokens: (_state, nebulaId) => tokensByNebula[nebulaId] || [],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: (_state, nebulaId) => ({
+        blue: {
+          playerId: "player-blue",
+          playerColor: "blue",
+          count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-blue").length,
+        },
+        white: {
+          playerId: "player-white",
+          playerColor: "white",
+          count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-white").length,
+        },
+      }),
+      getSectorRanking: () => [],
+    },
+  });
+
+  const sameColorHarness = buildTaskHarness({ type: "completedSameSectorColor", count: 2 });
+  const redCounts = {
+    ownCount: 1,
+    maxOtherCount: 1,
+    openCount: 1,
+  };
+  assert.ok(
+    sameColorHarness.controller.scoreAiLastSectorWinTaskCashout(
+      "red-winning-close-sector",
+      redCounts,
+      sameColorHarness.blue,
+    ) >= 9,
+    "a scan that wins the second sector of one color should include the nine-point same-color task cashout",
+  );
+  assert.equal(
+    sameColorHarness.controller.scoreAiLastSectorWinTaskCashout(
+      "blue-winning-close-sector",
+      redCounts,
+      sameColorHarness.blue,
+    ),
+    0,
+    "a first win in another color must not receive the same-color task cashout",
+  );
+
+  const fixedColorHarness = buildTaskHarness({ type: "completedSectorsByColor", color: "red", count: 2 });
+  assert.ok(
+    fixedColorHarness.controller.scoreAiLastSectorWinTaskCashout(
+      "red-winning-close-sector",
+      redCounts,
+      fixedColorHarness.blue,
+    ) >= 9,
+    "a scan that wins the final required sector of a named color should include its task cashout",
   );
 }
 
@@ -4269,6 +4367,140 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { score: 96, credits: 1, energy: 1, publicity: 3, availableData: 0, handSize: 5 },
+    blueHand: [
+      {
+        id: "terminal-dead-trigger-card",
+        cardId: "terminal-dead-trigger-card",
+        cardName: "Terminal dead trigger card",
+        price: 0,
+        typeCode: 1,
+        playEffects: [],
+        model: {
+          triggers: [{
+            id: "future-blue-tech-data",
+            event: { type: "researchTech", techType: "blue" },
+            effect: { type: "gain_data", options: { count: 1 } },
+          }],
+        },
+      },
+      { id: "terminal-scan-filler-a", cardName: "Terminal scan filler A", price: 3 },
+      { id: "terminal-scan-filler-b", cardName: "Terminal scan filler B", price: 3 },
+      { id: "terminal-scan-filler-c", cardName: "Terminal scan filler C", price: 3 },
+      { id: "terminal-scan-filler-d", cardName: "Terminal scan filler D", price: 3 },
+    ],
+    publicCards: [{
+      id: "terminal-high-scan",
+      cardId: "terminal-high-scan",
+      cardName: "Terminal high scan",
+      scanActionCode: 2,
+    }],
+    scanEffects: {
+      EFFECT_TYPES: {
+        EARTH_SECTOR_SCAN: "earth_sector_scan",
+        IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+        MERCURY_SECTOR_SCAN: "mercury_sector_scan",
+        PUBLIC_CARD_SCAN: "public_card_scan",
+        HAND_SCAN: "hand_scan",
+        SCAN_ACTION_4: "scan_action_4",
+      },
+      SCAN_COST: { credits: 1, energy: 2 },
+      getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+      buildScanEffectQueue: () => [{ type: "earth_sector_scan" }],
+      canExecuteScan: (player) => (
+        Number(player?.resources?.credits || 0) >= 1 && Number(player?.resources?.energy || 0) >= 2
+          ? { ok: true }
+          : { ok: false, message: "scan resources missing" }
+      ),
+    },
+    buildSectorScanChoicesForX: (sectorX) => [{
+      nebulaId: "terminal-high-nebula",
+      sectorX,
+      label: "Terminal high nebula",
+    }],
+    getPublicScanChoicesForCard: () => ({
+      ok: true,
+      choices: [{ nebulaId: "terminal-high-nebula", sectorX: 4, label: "Terminal high nebula" }],
+    }),
+    data: {
+      getNextReplaceableNebulaToken: () => ({ slotIndex: 30 }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+      getNebulaColor: () => "blue",
+      listNebulaTokens: () => [],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: () => ({}),
+    },
+    finalScoringState: {
+      tiles: {
+        final_a2: {
+          id: "final_a2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b1: {
+          id: "final_b1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d1: {
+          id: "final_d1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a2: "a2",
+      final_b1: "b1",
+      final_d1: "d1",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "terminal Grand Strategy should trade dead trigger cards for a concrete scan");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-energy" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.ok(tradeCandidate, "terminal dead-play scan unlock trade should be enumerated");
+  assert.equal(tradeCandidate.valueBreakdown?.grandFinalDeadPlayScanUnlock, true);
+  assert.equal(tradeCandidate.valueBreakdown?.terminalDeadPlayCardId, "terminal-dead-trigger-card");
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "scan");
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.unlockedMainAction?.directScoreGain || 0) > 0,
+    "terminal dead-play scan unlock should require immediate scan score",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
     roundNumber: 5,
     canStartMainAction: true,
     realisticCanAfford: true,
@@ -4349,6 +4581,123 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(
     Number(taskCardCandidate.valueBreakdown?.playCardConversionPressure || 0) < 25,
     "an unready terminal task must not create circular task conversion pressure",
+  );
+}
+
+{
+  const turnChoices = [];
+  const runezuState = runezu.createRunezuState();
+  runezuState.revealedSlotId = 1;
+  runezuState.revealInitialized = true;
+  runezuState.sourceSymbolSlots["planet:mars"] = {
+    key: "planet:mars",
+    sourceType: "planet",
+    sourceId: "mars",
+    symbolId: runezu.SYMBOL_IDS[0],
+    claimedByPlayerId: null,
+    claimedByPlayerColor: null,
+    claimedAt: null,
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 2,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    alienGameState: {
+      aliens: {
+        1: { revealed: true, alienId: runezu.ALIEN_ID, assignedAlienId: runezu.ALIEN_ID },
+      },
+      runezu: runezuState,
+    },
+    blueInitialSelection: {
+      industry: { id: "industry:作弊实验室", label: "作弊实验室" },
+    },
+    blueResources: { score: 42, credits: 0, energy: 0, publicity: 0, availableData: 0, handSize: 4 },
+    blueHand: [
+      { id: "cheat-runezu-mars-filler-a", cardName: "Cheat Runezu Mars filler A", price: 3 },
+      { id: "cheat-runezu-mars-filler-b", cardName: "Cheat Runezu Mars filler B", price: 3 },
+      { id: "cheat-runezu-mars-keeper-a", cardName: "Cheat Runezu Mars keeper A", price: 5 },
+      runezu.createAlienCard(9, 1),
+    ],
+    movableTokens: [
+      { id: 2, playerId: "player-blue", sector: { x: 3, y: 2 } },
+    ],
+    planetLocations: [
+      { planetId: "mars", name: "Mars", x: 3, y: 2 },
+    ],
+    planetStats: {
+      canAddLandingMarker: () => true,
+      canAddOrbitMarker: () => false,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 1,
+      getPlanetOrbitCount: () => 0,
+    },
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 2,
+        getLandEnergyCost: () => 1,
+        getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 1,
+      },
+    },
+    planetRewards: {
+      EFFECT_TYPES: {
+        GAIN_RESOURCES: "gain_resources",
+        GAIN_DATA: "gain_data",
+        ALIEN_TRACE: "alien_trace",
+        DRAW_CARDS: "draw_cards",
+        PICK_CARD: "pick_card",
+        INCOME: "income",
+      },
+      buildPlanetLandRewardEffects: () => [
+        { type: "gain_resources", options: { gain: { score: 6, publicity: 2 } } },
+        { type: "alien_trace", options: { traceType: "yellow" } },
+      ],
+      buildOrbitRewardEffects: () => [],
+      buildSatelliteLandRewardEffects: () => [],
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "round-two Cheat Lab Runezu should cash out the second Mars landing");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-energy" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.ok(tradeCandidate, "Cheat Lab Runezu Mars landing unlock trade should be enumerated");
+  assert.equal(tradeCandidate.reason, "资源锁：交易解锁登陆");
+  assert.equal(tradeCandidate.valueBreakdown?.cheatLabRunezuRoundTwoMarsLandUnlock, true);
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "land");
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.planetId, "mars");
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.discardCost || 0) <= 6.5,
+    "the Mars landing unlock should preserve the high-value Runezu card",
   );
 }
 
@@ -8650,6 +8999,118 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     roundNumber: 4,
+    turnNumber: 3,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    movableTokens: [
+      {
+        id: 77,
+        kind: "chong-fossil",
+        playerId: "player-blue",
+        sector: { x: 2, y: 2 },
+      },
+    ],
+    planetLocations: [
+      { planetId: "jupiter", name: "Jupiter", x: 2, y: 2 },
+    ],
+    planetStats: {
+      canAddLandingMarker: () => true,
+      canAddOrbitMarker: () => false,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 2,
+        getLandEnergyCost: () => 2,
+        getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 3,
+      },
+    },
+    planetRewards: {
+      EFFECT_TYPES: {
+        GAIN_RESOURCES: "gain_resources",
+        GAIN_DATA: "gain_data",
+        ALIEN_TRACE: "alien_trace",
+        DRAW_CARDS: "draw_cards",
+        PICK_CARD: "pick_card",
+        INCOME: "income",
+      },
+      buildPlanetLandRewardEffects: () => [
+        { type: "gain_resources", options: { gain: { score: 10 } } },
+      ],
+      buildOrbitRewardEffects: () => [],
+      buildSatelliteLandRewardEffects: () => [],
+    },
+    blueResources: { score: 84, credits: 0, energy: 1, publicity: 1, availableData: 0, handSize: 3 },
+    blueHand: [
+      { id: "chong-fossil-a", cardName: "Chong fossil A", price: 0 },
+      { id: "chong-fossil-b", cardName: "Chong fossil B", price: 0 },
+      { id: "chong-fossil-c", cardName: "Chong fossil C", price: 0 },
+    ],
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b1: {
+          id: "final_b1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d1: {
+          id: "final_d1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_b1: "b1",
+      final_d1: "d1",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "end-turn") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  harness.controller.runAiAutomationStep();
+  const fossilCashoutTrade = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.equal(
+    fossilCashoutTrade,
+    undefined,
+    "transported Chong fossils must not be treated as rockets that can unlock a Jupiter landing",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
     pendingActionExecuted: true,
     canPayForMove: true,
     realisticCanAfford: true,
@@ -9241,6 +9702,104 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(tradeCandidate, "resource-lock scan unlock trade should be enumerated");
   assert.equal(tradeCandidate.reason, "资源锁：交易解锁扫描");
   assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "scan");
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 2,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { score: 41, credits: 0, energy: 1, publicity: 1, availableData: 0, handSize: 4 },
+    blueHand: [
+      { id: "grand-fangzhou-land-filler-a", cardName: "Grand Fangzhou land filler A", price: 3 },
+      { ...fangzhou.createCard2Definition("pink", 4), id: "grand-fangzhou-land-pink-4" },
+      { id: "grand-fangzhou-land-filler-b", cardName: "Grand Fangzhou land filler B", price: 3 },
+      { ...fangzhou.createCard2Definition("blue", 2), id: "grand-fangzhou-land-blue-2" },
+    ],
+    movableTokens: [
+      { id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } },
+    ],
+    planetLocations: [
+      { planetId: "venus", name: "Venus", x: 2, y: 2 },
+    ],
+    planetStats: {
+      canAddLandingMarker: () => true,
+      canAddOrbitMarker: () => false,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 2,
+        getLandEnergyCost: () => 2,
+        getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 1,
+      },
+    },
+    planetRewards: {
+      EFFECT_TYPES: {
+        GAIN_RESOURCES: "gain_resources",
+        GAIN_DATA: "gain_data",
+        ALIEN_TRACE: "alien_trace",
+        DRAW_CARDS: "draw_cards",
+        PICK_CARD: "pick_card",
+        INCOME: "income",
+      },
+      buildPlanetLandRewardEffects: () => [
+        { type: "gain_resources", options: { gain: { score: 10, publicity: 2 } } },
+      ],
+      buildOrbitRewardEffects: () => [],
+      buildSatelliteLandRewardEffects: () => [],
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "round-two Grand Strategy Fangzhou should unlock a proven landing cashout");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-energy" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.ok(tradeCandidate, "Grand Strategy Fangzhou landing unlock trade should be enumerated");
+  assert.equal(tradeCandidate.reason, "资源锁：交易解锁登陆");
+  assert.equal(tradeCandidate.valueBreakdown?.grandFangzhouRoundTwoLandUnlock, true);
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "land");
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.planetId, "venus");
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.discardCost || 0) <= 6.5,
+    "the landing unlock should preserve both high-value Fangzhou cards",
+  );
 }
 
 {

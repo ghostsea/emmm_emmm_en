@@ -4248,6 +4248,47 @@ assert.equal(actionGraphAlignedAnalysis.opportunities.selectedBelowBestScore, 0)
 assert.equal(actionGraphAlignedAnalysis.candidateScoreStats.launch.selected, 1);
 assert.equal(actionGraphAlignedAnalysis.candidateScoreStats.playCard.missedAsBest, 0);
 
+const quickTradeIdentityAnalysis = analytics.analyzeBattleReport({
+  lastSummary: { ok: true, blocked: false, gameEnded: true, steps: 1 },
+  logs: [{
+    type: "turn-action",
+    playerId: "player-green",
+    details: {
+      action: {
+        id: "quickTrade",
+        kind: "quick",
+        available: true,
+        tradeId: "cards-for-energy",
+        score: 20,
+      },
+      candidates: [
+        {
+          id: "quickTrade",
+          kind: "quick",
+          available: false,
+          tradeId: "cards-for-credit",
+          score: 26,
+        },
+        {
+          id: "quickTrade",
+          kind: "quick",
+          available: true,
+          tradeId: "cards-for-energy",
+          score: 20,
+        },
+      ],
+    },
+  }],
+  bugs: [],
+  playerResults: [{ playerId: "player-green", playerLabel: "绿色", finalScore: 100 }],
+});
+assert.equal(
+  quickTradeIdentityAnalysis.opportunities.selectedUnavailableCandidate,
+  0,
+  "a selected quick trade must not match an unavailable candidate with another tradeId",
+);
+assert.equal(quickTradeIdentityAnalysis.candidateStats.quickTrade.selected, 1);
+
 const finalMarkReport = {
   logs: [
     {
