@@ -643,6 +643,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     "handleAmibaSymbolChoice",
     "handleAmibaTraceRemovalChoice",
     "handleAomomoCardGainChoice",
+    "handleAomomoFossilMoveLandCountChoice",
     "handleBanrenmaBonusChoice",
     "handleBanrenmaCardConditionChoice",
     "handleBanrenmaCardGainChoice",
@@ -792,6 +793,10 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   };
   context.handleDiscardCornerRepeatChoice = (cardId) => {
     noteHandled({ type: "discard-corner-repeat", cardId });
+    return { ok: true, progressed: true };
+  };
+  context.handleAomomoFossilMoveLandCountChoice = (count) => {
+    noteHandled({ type: "aomomo-fossil-move-land", count: Number(count) });
     return { ok: true, progressed: true };
   };
   context.handleProbeSectorScanChoice = (rocketId) => {
@@ -2037,6 +2042,30 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const result = harness.controller.runAiAutomationStep();
   assert.equal(result.ok, true, "AI-owned pay-credit pending should resolve even when current player is human");
   assert.deepEqual(harness.getHandled(), { type: "pay-credit", choice: "pay" });
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    scanTargetPending: {
+      type: "aomomo_fossil_move_land_count",
+      playerColor: "blue",
+      maxCount: 3,
+      costPerExchange: 1,
+      movementPerExchange: 2,
+      effect: { id: "aomomo-6-move-land" },
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI-owned Aomomo card 6 choice should resolve");
+  assert.deepEqual(harness.getHandled(), { type: "aomomo-fossil-move-land", count: 3 });
 }
 
 {
