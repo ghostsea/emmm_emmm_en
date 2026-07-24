@@ -36323,7 +36323,6 @@
                 message: entry.message,
                 resources: entry.playerResources,
                 action: entry.details?.action || null,
-                candidates: entry.details?.candidates || [],
                 details: entry.type === "tech-placement" ? entry.details : null,
               })),
           } : {}),
@@ -36416,6 +36415,7 @@
             if (step - lastProgressStep < 25 && round === lastProgressRound) return;
             lastProgressStep = step;
             lastProgressRound = round;
+            document.title = `SETI AI RUN step:${step} round:${round}`;
             output.textContent = JSON.stringify({
               running: true,
               steps: step,
@@ -36425,17 +36425,28 @@
             }, null, 2);
           },
         });
-        output.dataset.status = result?.ok ? "ok" : "failed";
-        output.textContent = JSON.stringify(summarizeCodexAiBatchResult(result, {
+        const summarizedResult = summarizeCodexAiBatchResult(result, {
           includeDiagnostics,
           includeActionLogs,
-        }), null, 2);
+        });
+        output.dataset.status = result?.ok ? "ok" : "failed";
+        output.textContent = JSON.stringify(summarizedResult, null, 2);
+        const titleScores = summarizedResult.samples
+          .flatMap((sample) => sample.players || [])
+          .map((entry) => Math.round(Number(entry.finalScore) || 0))
+          .join("/");
+        const titleBugCount = summarizedResult.samples
+          .reduce((total, sample) => total + Math.max(0, Number(sample.bugCount) || 0), 0);
+        const titleBlockedCount = summarizedResult.samples
+          .filter((sample) => sample.blocked).length;
+        document.title = `SETI AI ${summarizedResult.ok ? "OK" : "FAILED"} ${titleScores || "no-score"} bug:${titleBugCount} blocked:${titleBlockedCount}`;
       } catch (error) {
         output.dataset.status = "error";
         output.textContent = JSON.stringify({
           ok: false,
           message: String(error?.message || error),
         }, null, 2);
+        document.title = "SETI AI ERROR";
       } finally {
         codexAiBatchSuppressReadoutRender = previousSuppressReadoutRender;
       }
