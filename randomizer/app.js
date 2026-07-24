@@ -1184,6 +1184,7 @@
     handleAmibaSymbolChoice,
     handleAmibaTraceRemovalChoice,
     handleAomomoCardGainChoice,
+    handleAomomoFossilMoveLandCountChoice,
     handleBanrenmaBonusChoice,
     handleBanrenmaCardConditionChoice,
     handleBanrenmaCardGainChoice,
@@ -3682,11 +3683,12 @@
   }
 
   function getRequiredMovePointsForUi(player, rocketId, deltaX, deltaY, options = {}) {
+    const effectiveOptions = applyActiveCardMovementModifiers(options);
     const rocket = rocketState.rockets.find((item) => item.id === rocketId);
     const from = rocketActions.getRocketSectorCoordinate(rocket);
     if (!from) return 1;
     const fromContent = getSectorContentForMove(from);
-    if (!options.ignoreAsteroidRestriction
+    if (!effectiveOptions.ignoreAsteroidRestriction
       && isAsteroidContent(fromContent)
       && !players.playerOwnsTech(player, "orange2", turnState)) {
       return 2;
@@ -4060,7 +4062,7 @@
     }
 
     const moveResult = abilities.executeAbility("moveProbe", createActionContext(), {
-      ...moveOptions,
+      ...applyActiveCardMovementModifiers(moveOptions),
       rocketId: pending.rocketId,
       deltaX: pending.deltaX,
       deltaY: pending.deltaY,
@@ -4211,7 +4213,7 @@
 
     beginEffectHistoryStep(effect.options?.historyLabel || effect.label);
 
-    const result = abilities.executeAbility("moveProbe", createActionContext(), {
+    const result = abilities.executeAbility("moveProbe", createActionContext(), applyActiveCardMovementModifiers({
       cost: moveCost,
       movementPoints: terrainRequired,
       rocketId,
@@ -4221,7 +4223,7 @@
       historyLabel: effect.options?.historyLabel || effect.label,
       suppressArrivalRewards: Boolean(effect.options?.suppressArrivalRewards),
       ignoreAsteroidRestriction: Boolean(effect.options?.ignoreAsteroidRestriction),
-    });
+    }));
     if (result.rocket) renderRocketElement(result.rocket);
     if (!result.ok) {
       if (payment.discardCommand) payment.discardCommand.undo();
@@ -9256,9 +9258,14 @@
     const sectorFilter = options.nebulaIds
       ? new Set([...options.nebulaIds].map((sectorId) => String(sectorId)))
       : null;
-    return (data.NEBULA_IDS || [])
+    const readySectorIds = (data.NEBULA_IDS || [])
       .filter((sectorId) => (!sectorFilter || sectorFilter.has(String(sectorId))))
-      .filter((sectorId) => data.isSectorReadyToSettle(nebulaDataState, sectorId))
+      .filter((sectorId) => data.isSectorReadyToSettle(nebulaDataState, sectorId));
+    const priorityPlayer = resolvePlayerReference(options.priorityPlayer || {}) || getCurrentPlayer();
+    const orderedSectorIds = data.orderSectorIdsByPlayerWinPriority
+      ? data.orderSectorIdsByPlayerWinPriority(nebulaDataState, readySectorIds, priorityPlayer)
+      : readySectorIds;
+    return orderedSectorIds
       .map((sectorId) => {
         const target = getSectorFinishWinnerTarget(sectorId);
         return {
@@ -11818,8 +11825,23 @@
     ];
   }
 
+  function applyCardMovementModifiers(options = {}, bonuses = []) {
+    const ignoreAsteroidRestriction = bonuses.some((bonus) => (
+      bonus?.movementModifiers?.ignoreAsteroidRestriction
+    ));
+    return {
+      ...(options || {}),
+      ...(ignoreAsteroidRestriction ? { ignoreAsteroidRestriction: true } : {}),
+    };
+  }
+
+  function applyActiveCardMovementModifiers(options = {}) {
+    return applyCardMovementModifiers(options, getActiveCardEventBonuses());
+  }
+
   function eventMatchesCardBonus(event, bonus) {
     if (!event || !bonus || event.type !== bonus.eventType) return false;
+    if (bonus.sameRingOnly && !event.sameRing) return false;
     if (bonus.color && getNebulaColorForCardEvent(event.nebulaId) !== bonus.color) return false;
     const includedNebulaIds = bonus.nebulaIds || bonus.includeNebulaIds || [];
     if (includedNebulaIds.length && !includedNebulaIds.includes(event.nebulaId)) return false;
@@ -12807,14 +12829,14 @@
     }
 
     const energyCost = Math.max(0, Math.round(Number(payment.energyCost) || 0));
-    const result = abilities.executeAbility("moveProbe", createActionContext(), {
+    const result = abilities.executeAbility("moveProbe", createActionContext(), applyActiveCardMovementModifiers({
       cost: energyCost > 0 ? { energy: energyCost } : {},
       movementPoints: Math.max(terrainRequired, providedMovePoints + energyCost),
       rocketId,
       deltaX,
       deltaY,
       historyLabel: "卡牌触发：免费移动",
-    });
+    }));
     if (result.rocket) renderRocketElement(result.rocket);
     if (!result.ok) {
       if (payment.discardCommand) payment.discardCommand.undo();
@@ -12903,7 +12925,7 @@
     }
 
     const energyCost = Math.max(0, Math.round(Number(payment.energyCost) || 0));
-    const result = abilities.executeAbility("moveProbe", createActionContext(), {
+    const result = abilities.executeAbility("moveProbe", createActionContext(), applyActiveCardMovementModifiers({
       cost: energyCost > 0 ? { energy: energyCost } : {},
       movementPoints: Math.max(terrainRequired, providedMovePoints + energyCost),
       rocketId,
@@ -12911,7 +12933,7 @@
       deltaY,
       source: "card_corner",
       historyLabel: `卡牌快速行动：${pending.action.label}`,
-    });
+    }));
     if (result.rocket) renderRocketElement(result.rocket);
     if (!result.ok) {
       if (payment.discardCommand) payment.discardCommand.undo();
@@ -14447,14 +14469,14 @@
     const energyCost = Math.max(0, Math.round(Number(payment.energyCost) || 0));
     beginEffectHistoryStep("发射/移动");
 
-    const result = abilities.executeAbility("scanAction4", createActionContext(), {
+    const result = abilities.executeAbility("scanAction4", createActionContext(), applyActiveCardMovementModifiers({
       choice: "move",
       cost: energyCost > 0 ? { energy: energyCost } : {},
       movementPoints: Math.max(terrainRequired, providedMovePoints + energyCost),
       rocketId,
       deltaX,
       deltaY,
-    });
+    }));
     if (result.rocket) renderRocketElement(result.rocket);
     if (!result.ok) {
       if (payment.discardCommand) payment.discardCommand.undo();
@@ -19049,40 +19071,107 @@
     return executeCardLandEffect(effect);
   }
 
+  function getAomomoFossilMoveLandExchangeOptions(effect, fossilCount) {
+    const costPerExchange = Math.max(1, Math.round(Number(effect?.options?.costPerExchange) || 1));
+    const movementPerExchange = Math.max(1, Math.round(Number(effect?.options?.movementPerExchange) || 2));
+    const availableFossils = Math.max(0, Math.round(Number(fossilCount) || 0));
+    return {
+      costPerExchange,
+      movementPerExchange,
+      maxCount: Math.floor(availableFossils / costPerExchange),
+    };
+  }
+
+  function resolveAomomoFossilMoveLandExchange(pending, choice) {
+    const count = Math.round(Number(choice));
+    if (!Number.isInteger(count) || count < 0 || count > pending.maxCount) {
+      return { ok: false, message: "无效的奥陌陌化石兑换次数" };
+    }
+    return {
+      ok: true,
+      count,
+      totalCost: count * pending.costPerExchange,
+      movementPoints: count * pending.movementPerExchange,
+    };
+  }
+
   function executeAomomoFossilMoveAndLandEffect(effect) {
     const currentPlayer = getEffectOwnerPlayer(effect) || getCurrentPlayer();
-    const cost = Math.max(1, Math.round(Number(effect.options?.cost) || 1));
-    if (!players.canAfford(currentPlayer, { aomomoFossils: cost })) {
-      if (effect.options?.optional !== false) {
-        return finishAutomaticRewardEffect(effect, {
-          ok: true,
-          undoable: true,
-          message: `${effect.label}：没有足够化石，已跳过`,
+    const exchangeOptions = getAomomoFossilMoveLandExchangeOptions(
+      effect,
+      currentPlayer?.resources?.aomomoFossils,
+    );
+    pendingScanTargetAction = {
+      ...getPendingOwnerFields(effect, currentPlayer),
+      type: "aomomo_fossil_move_land_count",
+      effect,
+      ...exchangeOptions,
+    };
+    if (!els.scanTargetOverlay || !els.scanTargetActions) {
+      return handleAomomoFossilMoveLandCountChoice(0);
+    }
+    if (els.scanTargetTitle) els.scanTargetTitle.textContent = effect.label;
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = `选择兑换 0-${exchangeOptions.maxCount} 次；每次支付 ${exchangeOptions.costPerExchange} 化石获得 ${exchangeOptions.movementPerExchange} 移动力，选择后一次性移动，再执行登陆。`;
+    }
+    if (els.scanTargetCancel) els.scanTargetCancel.hidden = true;
+    const choices = Array.from({ length: exchangeOptions.maxCount + 1 }, (_item, count) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "scan-target-option-button";
+      button.dataset.aomomoFossilMoveCount = String(count);
+      button.innerHTML = count > 0
+        ? `兑换 ${count} 次<small>支付 ${count * exchangeOptions.costPerExchange} 化石，获得 ${count * exchangeOptions.movementPerExchange} 移动力，然后登陆</small>`
+        : "兑换 0 次<small>不支付化石、不产生移动效果，直接执行登陆</small>";
+      return button;
+    });
+    els.scanTargetActions.replaceChildren(...choices);
+    els.scanTargetOverlay.hidden = false;
+    rocketState.statusNote = `${effect.label}：请选择化石兑换次数（0-${exchangeOptions.maxCount}）`;
+    renderStateReadout();
+    return { ok: true, pendingChoice: true, message: rocketState.statusNote };
+  }
+
+  function handleAomomoFossilMoveLandCountChoice(choice) {
+    const pending = pendingScanTargetAction;
+    if (pending?.type !== "aomomo_fossil_move_land_count") {
+      return { ok: false, message: "没有待处理的奥陌陌化石兑换" };
+    }
+    const exchange = resolveAomomoFossilMoveLandExchange(pending, choice);
+    if (!exchange.ok) return exchange;
+    const effect = pending.effect;
+    closeScanTargetPicker();
+    return withPendingOwnerPlayer(pending, () => {
+      const currentPlayer = getCurrentPlayer();
+      if (exchange.totalCost > 0
+        && !players.canAfford(currentPlayer, { aomomoFossils: exchange.totalCost })) {
+        rocketState.statusNote = `化石不足：需要 ${exchange.totalCost} 化石`;
+        renderStateReadout();
+        return { ok: false, message: rocketState.statusNote };
+      }
+      const beforePlayer = structuredClone(currentPlayer);
+      beginEffectHistoryStep(effect.label);
+      if (exchange.totalCost > 0) {
+        players.spendResources(currentPlayer, { aomomoFossils: exchange.totalCost });
+      }
+      recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+        currentPlayer,
+        beforePlayer,
+        "恢复奥陌陌化石兑换前玩家状态",
+      ));
+      const followups = [];
+      if (exchange.movementPoints > 0) {
+        followups.push({
+          id: `${effect.id || "aomomo"}-move`,
+          type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+          playerId: currentPlayer?.id || null,
+          playerColor: currentPlayer?.color || null,
+          label: `奥陌陌：${exchange.movementPoints}移动`,
+          icon: "movement",
+          options: { movementPoints: exchange.movementPoints },
         });
       }
-      rocketState.statusNote = `化石不足：需要 ${cost} 化石`;
-      renderStateReadout();
-      return { ok: false, message: rocketState.statusNote };
-    }
-    const beforePlayer = structuredClone(currentPlayer);
-    beginEffectHistoryStep(effect.label);
-    players.spendResources(currentPlayer, { aomomoFossils: cost });
-    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
-      currentPlayer,
-      beforePlayer,
-      "恢复奥陌陌移动登陆前玩家状态",
-    ));
-    insertActionEffectsAfterCurrent([
-      {
-        id: `${effect.id || "aomomo"}-move`,
-        type: cardEffects.EFFECT_TYPES.CARD_MOVE,
-        playerId: currentPlayer?.id || null,
-        playerColor: currentPlayer?.color || null,
-        label: "奥陌陌：2移动",
-        icon: "movement",
-        options: { movementPoints: Math.max(1, Math.round(Number(effect.options?.movement) || 2)) },
-      },
-      {
+      followups.push({
         id: `${effect.id || "aomomo"}-land`,
         type: "aomomo_land_only",
         playerId: currentPlayer?.id || null,
@@ -19090,18 +19179,26 @@
         label: "奥陌陌：登陆",
         icon: "land",
         options: { skipCost: true },
-      },
-    ]);
-    effect.result = {
-      ok: true,
-      undoable: true,
-      message: `${effect.label}：支付${cost}化石，追加2移动与登陆`,
-    };
-    rocketState.statusNote = effect.result.message;
-    renderPlayerStats();
-    completeCurrentActionEffect();
-    renderStateReadout();
-    return effect.result;
+      });
+      insertActionEffectsAfterCurrent(followups);
+      effect.result = {
+        ok: true,
+        undoable: true,
+        message: exchange.count > 0
+          ? `${effect.label}：兑换${exchange.count}次，支付${exchange.totalCost}化石，追加${exchange.movementPoints}移动与登陆`
+          : `${effect.label}：兑换0次，不产生移动，追加登陆`,
+        payload: {
+          exchangeCount: exchange.count,
+          totalCost: exchange.totalCost,
+          movementPoints: exchange.movementPoints,
+        },
+      };
+      rocketState.statusNote = effect.result.message;
+      renderPlayerStats();
+      completeCurrentActionEffect();
+      renderStateReadout();
+      return effect.result;
+    });
   }
 
   function executeAomomoSpendFossilsScoreEffect(effect) {
@@ -30788,7 +30885,7 @@
       label: state.label,
     };
     const energyCost = Math.max(0, Math.round(Number(payment.energyCost) || 0));
-    const result = abilities.executeAbility("moveProbe", createActionContext(), {
+    const result = abilities.executeAbility("moveProbe", createActionContext(), applyActiveCardMovementModifiers({
       cost: energyCost > 0 ? { energy: energyCost } : {},
       movementPoints: Math.max(terrainRequired, providedMovePoints + energyCost),
       rocketId,
@@ -30796,7 +30893,7 @@
       deltaY,
       historyLabel: `${state.label}：免费移动`,
       source: "industry",
-    });
+    }));
     if (result.rocket) renderRocketElement(result.rocket);
     if (!result.ok) {
       if (payment.discardCommand) payment.discardCommand.undo();
@@ -35964,6 +36061,7 @@
     handleChongTaskCompletionChoice,
     handleAmibaCardGainChoice,
     handleAomomoCardGainChoice,
+    handleAomomoFossilMoveLandCountChoice,
     handleAmibaSymbolChoice,
     handleAmibaTraceRemovalChoice,
     handleRunezuCardGainChoice,

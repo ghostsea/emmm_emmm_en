@@ -137,6 +137,7 @@
       handleAmibaSymbolChoice,
       handleAmibaTraceRemovalChoice,
       handleAomomoCardGainChoice,
+      handleAomomoFossilMoveLandCountChoice,
       handleBanrenmaBonusChoice,
       handleBanrenmaCardConditionChoice,
       handleBanrenmaCardGainChoice,
@@ -18278,6 +18279,16 @@
           choice,
         });
         return handlePayCreditChoice(choice);
+      }
+
+      if (pendingType === "aomomo_fossil_move_land_count") {
+        const count = Math.max(0, Math.round(Number(pending.maxCount) || 0));
+        recordAiAutoBattleLog("rare-scan-target", `${player.colorLabel}AI 选择奥陌陌化石兑换 ${count} 次`, {
+          logPlayerId: player.id,
+          exchangeCount: count,
+          movementPoints: count * Math.max(1, Math.round(Number(pending.movementPerExchange) || 2)),
+        });
+        return handleAomomoFossilMoveLandCountChoice(count);
       }
 
       if (pendingType === "discard_corner_repeat") {
