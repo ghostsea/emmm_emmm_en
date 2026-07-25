@@ -839,6 +839,27 @@
     return cloneReward(FACE_REWARDS[Math.round(Number(position))]);
   }
 
+  function formatFaceReward(rewardOrPosition) {
+    const reward = typeof rewardOrPosition === "number" || typeof rewardOrPosition === "string"
+      ? getFaceReward(rewardOrPosition)
+      : cloneReward(rewardOrPosition);
+    if (!reward) return "无";
+    const gain = reward.gain || {};
+    const parts = [];
+    if (gain.score) parts.push(`${gain.score}分`);
+    if (gain.credits) parts.push(`${gain.credits}信用点`);
+    if (gain.energy) parts.push(`${gain.energy}能量`);
+    if (gain.publicity) parts.push(`${gain.publicity}宣传`);
+    if (gain.additionalPublicScan) parts.push(`${gain.additionalPublicScan}额外公共扫描`);
+    if (reward.dataCount) parts.push(`${reward.dataCount}数据`);
+    if (reward.drawCards) parts.push(`${reward.drawCards}盲抽`);
+    if (reward.pickCard) parts.push("精选1张牌");
+    if (reward.pickAlienCard) parts.push("1张符文族牌");
+    if (reward.panelSymbol) parts.push("1个面板符文");
+    if (reward.symbolId) parts.push(formatSymbolLabel(reward.symbolId));
+    return parts.join(" + ") || "无";
+  }
+
   function getTraceFaceRewardForSymbol(alienState, symbolId) {
     const runezu = ensureRunezuState(alienState);
     const entry = Object.values(runezu.faceSymbolSlots || {}).find((slot) => slot?.symbolId === symbolId);
@@ -853,6 +874,11 @@
       reward: getFaceReward(entry.position),
       message: `${formatSymbolLabel(symbolId)}位于${formatFaceSymbolSlotLabel(entry.position)}`,
     };
+  }
+
+  function getFaceRewardSummaryForSymbol(alienState, symbolId) {
+    const resolved = getTraceFaceRewardForSymbol(alienState, symbolId);
+    return resolved.ok ? formatFaceReward(resolved.reward) : "无";
   }
 
   function canPlaceFaceSymbol(alienState, position, player) {
@@ -1149,7 +1175,9 @@
     listPlaceablePlayerSymbolsForFace,
     placePlayerSymbolOnFace,
     getFaceReward,
+    formatFaceReward,
     getTraceFaceRewardForSymbol,
+    getFaceRewardSummaryForSymbol,
     getCardDefinition,
     getCardSrc,
     getSymbolSrc,

@@ -26423,12 +26423,31 @@
       button.type = "button";
       button.className = "scan-target-option-button runezu-symbol-branch-button";
       button.dataset.runezuSymbolBranch = String(index);
-      button.title = branch.label || (branch.symbolIds || []).map(runezu.formatSymbolLabel).join("+");
+      const symbolIds = branch.symbolIds || [];
+      const rewardSummaries = symbolIds.map((symbolId) => (
+        runezu.getFaceRewardSummaryForSymbol?.(alienGameState, symbolId) || "无"
+      ));
+      button.title = symbolIds.map((symbolId, symbolIndex) => (
+        `${runezu.formatSymbolLabel(symbolId)}：${rewardSummaries[symbolIndex]}`
+      )).join("；") || branch.label || "无";
       button.setAttribute("aria-label", button.title);
-      const icons = (branch.symbolIds || []).map((symbolId) => (
-        `<img class="runezu-face-symbol-choice-image runezu-symbol-branch-image" src="${runezu.getSymbolSrc(symbolId)}" alt="" aria-hidden="true">`
-      )).join("");
-      button.innerHTML = icons;
+      const symbols = document.createElement("span");
+      symbols.className = "runezu-symbol-branch-symbols";
+      symbolIds.forEach((symbolId, symbolIndex) => {
+        const item = document.createElement("span");
+        item.className = "runezu-symbol-branch-symbol";
+        const image = document.createElement("img");
+        image.className = "runezu-face-symbol-choice-image runezu-symbol-branch-image";
+        image.src = runezu.getSymbolSrc(symbolId);
+        image.alt = "";
+        image.setAttribute("aria-hidden", "true");
+        const reward = document.createElement("small");
+        reward.className = "runezu-symbol-branch-reward";
+        reward.textContent = rewardSummaries[symbolIndex];
+        item.append(image, reward);
+        symbols.append(item);
+      });
+      button.append(symbols);
       return button;
     });
     const cancel = document.createElement("button");

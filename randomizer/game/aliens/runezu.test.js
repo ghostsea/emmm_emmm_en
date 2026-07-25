@@ -219,6 +219,12 @@ assert.equal(
 );
 
 runezu.gainPlayerSymbol(player, "symbol_5");
+assert.deepEqual(
+  runezu.listPlaceablePlayerSymbolsForFace(alienState, player),
+  [{ symbolId: "symbol_5", count: 1, label: runezu.formatSymbolLabel("symbol_5") }],
+  "a distinct symbol gained this turn should be immediately available for a face-slot quick action",
+);
+assert.equal(runezu.canPlaceFaceSymbol(alienState, 5, player).ok, true);
 faceResult = runezu.placePlayerSymbolOnFace(alienState, 5, player, "symbol_5");
 assert.equal(faceResult.ok, true);
 assert.deepEqual(faceResult.reward.gain, { publicity: 1 });
@@ -259,6 +265,14 @@ assert.equal(rewardBySymbol.symbol_2.position, 6);
 assert.equal(rewardBySymbol.symbol_2.reward.dataCount, 1);
 assert.equal(rewardBySymbol.symbol_7.position, 7);
 assert.deepEqual(rewardBySymbol.symbol_7.reward.gain, { score: 3 });
+assert.equal(runezu.getFaceRewardSummaryForSymbol(rewardLookupState, "symbol_4"), "1能量");
+assert.equal(runezu.getFaceRewardSummaryForSymbol(rewardLookupState, "symbol_5"), "1额外公共扫描");
+assert.equal(runezu.getFaceRewardSummaryForSymbol(rewardLookupState, "symbol_3"), "1信用点");
+assert.equal(runezu.getFaceRewardSummaryForSymbol(rewardLookupState, "symbol_1"), "1盲抽");
+assert.equal(runezu.getFaceRewardSummaryForSymbol(rewardLookupState, "symbol_6"), "1宣传");
+assert.equal(runezu.getFaceRewardSummaryForSymbol(rewardLookupState, "symbol_2"), "1数据");
+assert.equal(runezu.getFaceRewardSummaryForSymbol(rewardLookupState, "symbol_7"), "3分");
+assert.equal(runezu.getFaceRewardSummaryForSymbol(alienState, "symbol_2"), "无");
 
 const threeTraceCard = runezu.createAlienCard(9, 1);
 const stateTraceAlienState = {
