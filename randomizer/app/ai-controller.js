@@ -4009,6 +4009,46 @@
       );
     }
 
+    function scoreAiChongProbePlanetFossilRewardValue(player = getCurrentPlayer()) {
+      if (!player || !chong?.getAvailablePlanetFossils) return 0;
+      const candidates = [
+        ...(rocketActions.getRocketsForPlayer?.(rocketState, player.id) || []),
+        ...(rocketActions.getMovableTokensForPlayer?.(rocketState, player.id) || []),
+      ];
+      const seen = new Set();
+      let bestValue = 0;
+      for (const rocket of candidates) {
+        if (!rocket || seen.has(rocket.id)) continue;
+        seen.add(rocket.id);
+        const eligible = rocketActions.isChongFossilRewardProbe
+          ? rocketActions.isChongFossilRewardProbe(rocket, player.id)
+          : rocket.playerId === player.id && !rocket.movementLocked;
+        if (!eligible) continue;
+        const coordinate = rocketActions.getRocketSectorCoordinate?.(rocket) || null;
+        const planetId = getAiPlanetAtCoordinate(coordinate)?.planetId || null;
+        if (!isAiChongPickupPlanetId(planetId)) continue;
+        bestValue = Math.max(
+          bestValue,
+          scoreAiExpectedChongPlanetFossilRewardValue(planetId, player),
+        );
+        const kind = rocket.kind || rocketActions.ROCKET_KIND?.STANDARD;
+        if (kind !== rocketActions.ROCKET_KIND?.CHONG_FOSSIL) continue;
+        const transported = chong.getTransportedFossilForRocket?.(
+          alienGameState,
+          rocket.id,
+          player,
+        );
+        bestValue = Math.max(
+          bestValue,
+          scoreAiAlienRewardBundle(
+            chong.getFossilReward?.(transported?.fossil?.fossilId),
+            player,
+          ),
+        );
+      }
+      return roundAiScore(Math.max(0, bestValue));
+    }
+
     function scoreAiChongPanelUnlockValue(player = getCurrentPlayer()) {
       if (!player || !chong?.LOCKED_BLUE_POSITIONS?.length) return 0;
       const panelSlots = alienGameState?.chong?.panelFossilSlots || {};
@@ -10029,9 +10069,10 @@
             : 0;
         }
         case chong?.EFFECT_TYPES?.CHONG_PICKUP_FOSSIL:
-        case chong?.EFFECT_TYPES?.CHONG_PROBE_PLANET_FOSSIL_REWARD:
         case chong?.EFFECT_TYPES?.CHONG_CHOOSE_PLANET_FOSSIL_REWARD:
           return 5.5 + scoreAiBestChongFossilRewardValue(player) * 0.45;
+        case chong?.EFFECT_TYPES?.CHONG_PROBE_PLANET_FOSSIL_REWARD:
+          return scoreAiChongProbePlanetFossilRewardValue(player);
         case chong?.EFFECT_TYPES?.CHONG_TASK_CLEANUP:
           return 1.5;
         case AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE:
@@ -16491,6 +16532,11 @@
       });
       const readyTaskCashout = getAiReadyHandTaskCashout(card, model, currentPlayer);
       const endGameExpectedScore = scoreAiCardEndGameExpectedValue(card, model, currentPlayer);
+      const chongProbeFossilRewardValue = playEffects.some(
+        (effect) => effect?.type === chong?.EFFECT_TYPES?.CHONG_PROBE_PLANET_FOSSIL_REWARD,
+      )
+        ? scoreAiChongProbePlanetFossilRewardValue(currentPlayer)
+        : null;
       const plan = scoreAiPlayCardRoutePlan(card, model, playEffects, currentPlayer);
       const directScoreGain = getAiRewardDirectScore(playEffects, currentPlayer, { immediate: true });
       const standardActionPremium = scoreAiCardStandardActionPremium(playEffects, currentPlayer);
@@ -16687,6 +16733,7 @@
           playCardConversionPressure,
           lateCardEnginePressure,
           endGameExpectedScore,
+          chongProbeFossilRewardValue,
           finalRoundEndGameCardUrgency: scoreAiFinalRoundEndGameCardUrgency(
             typeCode,
             model,

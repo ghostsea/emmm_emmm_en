@@ -5364,7 +5364,38 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   );
 
   const result = harness.controller.runAiAutomationStep();
-  assert.equal(result.ok, true, "AI should select a playable Chong alien card from hand");
+  assert.equal(result.ok, true, "AI should still allow Chong 2 for its persistent end-game value");
+  assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
+}
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    playCardSelectionActive: true,
+    blueHand: [chong.createAlienCard(2, 1)],
+    alienGameState: makeChongAvailableFossilAlienState({ planetId: "jupiter" }),
+    planetLocations: [
+      { planetId: "jupiter", label: "木星", name: "木星", x: 3, y: 3 },
+    ],
+    rocketTokensByPlayer: {
+      "player-blue": [{
+        id: 41,
+        kind: "standard",
+        playerId: "player-blue",
+        color: "blue",
+        sector: { x: 3, y: 3 },
+      }],
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should play Chong 2 when its probe can resolve a Jupiter fossil reward");
   assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
 }
 
