@@ -17285,6 +17285,45 @@
       return getAiCardCornerMoveCountThisTurn(playerId) < AI_MAX_CARD_CORNER_MOVES_PER_TURN;
     }
 
+    function scoreAiHuanyuRoundThreePostPassNoCashoutMoveCardPenalty(options = {}) {
+      const player = options.player || getCurrentPlayer();
+      if (!player || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty) !== AI_DIFFICULTY_LAUGHABLE) {
+        return 0;
+      }
+      const industryCard = getAiIndustryCard(player);
+      const isHuanyuSuperdrive = industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        || industryCard?.label === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL;
+      const alreadyPassed = (turnState.passedPlayerIds || []).includes(player.id)
+        || hasAiPassActionThisTurn(player.id);
+      if (
+        !isHuanyuSuperdrive
+        || getAiRoundNumber() !== 3
+        || !alreadyPassed
+        || !options.arrivedAtPlanetTarget
+        || Math.max(0, aiNumber(options.followupMainAction?.score)) > 0
+        || Math.max(0, aiNumber(options.movePayment?.cardSpent)) <= 0
+      ) {
+        return 0;
+      }
+      const routeTarget = options.routeTarget || null;
+      if (
+        routeTarget?.kind !== "planet"
+        || routeTarget.id === "earth"
+        || routeTarget.taskRouteCashout
+        || routeTarget.nearCompleteTaskRouteCashout
+        || routeTarget.satelliteOpportunity
+      ) {
+        return 0;
+      }
+      const resources = player.resources || {};
+      const score = Math.max(0, aiNumber(resources.score));
+      const credits = Math.max(0, aiNumber(resources.credits));
+      const energy = Math.max(0, aiNumber(resources.energy));
+      const handSize = Math.max(0, aiNumber(resources.handSize ?? player.hand?.length));
+      if (score < 80 || score > 110 || credits !== 1 || energy !== 0 || handSize !== 2) return 0;
+      return 7;
+    }
+
     function buildAiMoveCandidate(rocket, direction, index = 0) {
       const currentPlayer = getCurrentPlayer();
       const moveCheck = rocketActions.canMoveRocket(
@@ -17433,6 +17472,13 @@
       const finalUncashableMovePenalty = baseFinalUncashableMovePenalty
         + finalMoveBlocksCurrentScanPenalty
         + finalSecondMarkUncashableMovePenalty;
+      const huanyuRoundThreePostPassNoCashoutMoveCardPenalty = scoreAiHuanyuRoundThreePostPassNoCashoutMoveCardPenalty({
+        player: currentPlayer,
+        routeTarget: routeScore.target,
+        followupMainAction,
+        movePayment,
+        arrivedAtPlanetTarget,
+      });
       const highScoreMovePushValue = Math.max(0, aiNumber(followupMainAction.score)) > 0
         ? scoreAiHighScorePushValue(currentPlayer, "move", {
           followupCashout: followupMainAction.timing === "immediate",
@@ -17487,6 +17533,7 @@
       const movementCost = paymentCost
         + pathPenalty
         + finalUncashableMovePenalty
+        + huanyuRoundThreePostPassNoCashoutMoveCardPenalty
         + earlyLandingTraceBlockedPenalty
         + earlyOrbitOnlyTraceDelayPenalty;
       const moveScore = movementGain - movementCost - index * 0.1;
@@ -17542,6 +17589,7 @@
           baseFinalUncashableMovePenalty,
           finalMoveBlocksCurrentScanPenalty,
           finalSecondMarkUncashableMovePenalty,
+          huanyuRoundThreePostPassNoCashoutMoveCardPenalty,
           finalLowScoreDirectLandProgressMove,
           earlyLandingTraceBlockedPenalty,
           earlyOrbitOnlyTraceDelayPenalty,

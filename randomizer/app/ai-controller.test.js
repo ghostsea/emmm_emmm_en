@@ -897,6 +897,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   if (options.canPayForMove) {
     context.canPayForMove = () => ({ ok: true });
   }
+  if (options.movePaymentCards) {
+    context.isMovePaymentCard = (card) => Boolean(card?.movePayment);
+  }
   if (options.recordEffectMove) {
     context.executeCardMoveForEffect = (deltaX, deltaY, rocketId) => {
       noteHandled({
@@ -6977,6 +6980,92 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     cappedCorner.actionGraph?.net,
     -0.75,
     "cap should stay below end-turn after quick score floor runs",
+  );
+}
+
+{
+  const runRoundThreePostPassMove = (industryLabel) => {
+    const turnChoices = [];
+    const selectedActions = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 3,
+      turnNumber: 8,
+      pendingActionExecuted: true,
+      passedPlayerIds: ["player-blue"],
+      canPayForMove: true,
+      movePaymentCards: true,
+      recordMove: true,
+      allowedMoveDeltas: [{ deltaX: 0, deltaY: -1 }],
+      blueInitialSelection: {
+        industry: { id: `industry:${industryLabel}`, label: industryLabel },
+      },
+      blueResources: {
+        score: 92,
+        credits: 1,
+        energy: 0,
+        publicity: 0,
+        availableData: 0,
+        handSize: 2,
+      },
+      blueHand: [
+        { id: "post-pass-keeper", cardName: "Post-pass keeper", price: 3, movePayment: true },
+        { id: "post-pass-move-card", cardName: "Post-pass move card", price: 3, movePayment: true },
+      ],
+      movableTokens: [
+        { id: 78, playerId: "player-blue", color: "blue", kind: "standard", sector: { x: 7, y: 2 } },
+      ],
+      planetLocations: [
+        { planetId: "mercury", label: "水星", name: "水星", x: 7, y: 1 },
+      ],
+      planetStats: {
+        canAddLandingMarker: () => false,
+        canAddOrbitMarker: () => false,
+        getAvailableSatellitesForLanding: () => [],
+        getPlanetLandingCount: () => 0,
+        getPlanetOrbitCount: () => 0,
+      },
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+      onChooseTurnAction: (candidates, selected) => {
+        turnChoices.push(candidates);
+        selectedActions.push(selected);
+      },
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        strategyWeights: { route: 1.5, move: 1.5 },
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    assert.equal(harness.controller.runAiAutomationStep().ok, true);
+    return {
+      selected: selectedActions[0],
+      move: turnChoices[0]?.find((candidate) => candidate.id === "move") || null,
+    };
+  };
+
+  const huanyu = runRoundThreePostPassMove("寰宇超动力");
+  assert.equal(huanyu.selected?.id, "end-turn");
+  assert.equal(
+    huanyu.move?.valueBreakdown?.huanyuRoundThreePostPassNoCashoutMoveCardPenalty,
+    7,
+    `round-three Huanyu should keep two thin-hand cards after PASS when a paid planet arrival has no cashout: ${JSON.stringify(huanyu)}`,
+  );
+
+  const cheatLab = runRoundThreePostPassMove("作弊实验室");
+  assert.equal(
+    cheatLab.selected?.id,
+    "move",
+    `the Huanyu guard should not change another company: ${JSON.stringify(cheatLab)}`,
+  );
+  assert.equal(
+    cheatLab.move?.valueBreakdown?.huanyuRoundThreePostPassNoCashoutMoveCardPenalty,
+    0,
   );
 }
 
