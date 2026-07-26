@@ -64,6 +64,7 @@
       DEFAULT_ACTIVE_PLAYER_COUNT,
       DEFAULT_INITIAL_HAND_COUNT,
       DEFAULT_INITIAL_PLAYER_COLOR,
+      PASS_HAND_LIMIT = 4,
       FINAL_ROUND_NUMBER,
       FINAL_SCORE_IDS,
       INITIAL_SELECTION_REQUIRED,
@@ -6932,7 +6933,31 @@
         && hand.length >= 3
         && currentBestScore < 8
       );
-      if (currentCredits > 0 && !(finalLowTailOneCreditUnlock || finalHighScoreOneCreditUnlock)) return null;
+      const grandFangzhouRoundTwoOverflowWindow = Boolean(
+        tradeId === "cards-for-credit"
+        && currentCredits === 1
+        && getAiRoundNumber() === 2
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty) === AI_DIFFICULTY_LAUGHABLE
+        && currentScore >= 35
+        && currentScore < 70
+        && hand.length > PASS_HAND_LIMIT
+        && currentBestScore < 8
+        && Math.max(0, Math.round(aiNumber(player.completedTaskCount))) === 0
+      );
+      if (
+        currentCredits > 0
+        && !(
+          finalLowTailOneCreditUnlock
+          || finalHighScoreOneCreditUnlock
+          || grandFangzhouRoundTwoOverflowWindow
+        )
+      ) {
+        return null;
+      }
       const simulatedPlayer = createAiPlayerAfterQuickTrade(player, trade);
       if (!simulatedPlayer) return null;
       const postTradeCandidates = hand
@@ -7003,6 +7028,31 @@
       if (weakRepeatedTradeOverOpenedMain) return null;
       const discardCost = estimateAiTradeDiscardOpportunityCost(player, trade, bestPlay.handIndex);
       if (!Number.isFinite(discardCost)) return null;
+      const passOverflowDiscardCount = Math.max(0, hand.length - PASS_HAND_LIMIT);
+      const passOverflowDiscardIndexes = grandFangzhouRoundTwoOverflowWindow
+        ? (
+          ai?.policy?.chooseDiscardIndexes?.(hand, passOverflowDiscardCount, {
+            pendingType: "pass_hand_limit",
+          }) || []
+        )
+        : [];
+      const grandFangzhouRoundTwoOverflowUnlock = Boolean(
+        grandFangzhouRoundTwoOverflowWindow
+        && bestPlay.alienCard
+        && (bestPlay.effectTypes || []).includes(AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE)
+        && passOverflowDiscardIndexes.some((handIndex) => Number(handIndex) === Number(bestPlay.handIndex))
+        && discardCost <= 6
+      );
+      if (
+        grandFangzhouRoundTwoOverflowWindow
+        && !grandFangzhouRoundTwoOverflowUnlock
+        && !(finalLowTailOneCreditUnlock || finalHighScoreOneCreditUnlock)
+      ) {
+        return null;
+      }
+      const avoidedPassOverflowDiscardValue = grandFangzhouRoundTwoOverflowUnlock
+        ? Math.min(7, Math.max(0, aiNumber(bestPlay.score)) * 0.75)
+        : 0;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
       const thresholdBonus = nextThreshold && currentScore < nextThreshold && currentScore + directScoreGain >= nextThreshold
         ? (nextThreshold >= 70 ? 9 : 7)
@@ -7010,6 +7060,7 @@
       const score = bestPlay.continuationValue * 0.66
         + thresholdBonus
         + (finalMarks >= 3 ? Math.min(4, concreteFinalValue * 0.15) : 0)
+        + avoidedPassOverflowDiscardValue
         - discardCost * 0.35;
       if (score < 6.5) return null;
       return {
@@ -7046,6 +7097,10 @@
           huanyuWithoutCompletedTasks,
           finalHighScoreOneCreditUnlock,
           highScoreProjectedScore: roundAiScore(highScorePushProfile.projectedScore),
+          grandFangzhouRoundTwoOverflowUnlock,
+          passOverflowDiscardCount,
+          passOverflowDiscardIndexes,
+          avoidedPassOverflowDiscardValue: roundAiScore(avoidedPassOverflowDiscardValue),
         },
       };
     }

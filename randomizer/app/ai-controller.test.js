@@ -14,6 +14,7 @@ const runezu = require("../game/aliens/runezu");
 const yichangdian = require("../game/aliens/yichangdian");
 const alienCore = require("../game/aliens");
 const setiAi = require("../game/ai");
+const industryModule = require("../game/industry");
 
 function datasetKeyForSelector(selector) {
   const match = String(selector || "").match(/\[data-([a-z0-9-]+)\]/i);
@@ -407,6 +408,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
           }
           return selected;
         },
+        ...(options.useDefaultDiscardPolicy
+          ? { chooseDiscardIndexes: setiAi.policy.chooseDiscardIndexes }
+          : {}),
         ...(options.useDefaultAlienUsePolicy
           ? { chooseAlienUseOption: setiAi.policy.chooseAlienUseOption }
           : {}),
@@ -517,6 +521,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     DEFAULT_ACTIVE_PLAYER_COUNT: allPlayers.length,
     DEFAULT_INITIAL_HAND_COUNT: 5,
     DEFAULT_INITIAL_PLAYER_COLOR: "white",
+    PASS_HAND_LIMIT: 4,
     FINAL_ROUND_NUMBER: options.finalRoundNumber || 4,
     FINAL_SCORE_IDS: options.finalScoreIds || [],
     INITIAL_SELECTION_REQUIRED: { initial: options.initialSelectionRequired ?? 0 },
@@ -4595,6 +4600,68 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(
     Number(tradeCandidate.valueBreakdown?.unlockedMainAction?.directScoreGain || 0) > 0,
     "terminal dead-play scan unlock should require immediate scan score",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 2,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    enableQuickTrades: true,
+    recordQuickTrade: true,
+    useDefaultDiscardPolicy: true,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    industry: industryModule,
+    blueResources: { score: 55, credits: 1, energy: 0, publicity: 1, availableData: 0, handSize: 5 },
+    blueHand: [
+      { id: "overflow-filler-a", cardName: "终局填充牌 A", price: 3 },
+      { id: "overflow-filler-b", cardName: "终局填充牌 B", price: 3 },
+      { id: "overflow-filler-c", cardName: "终局填充牌 C", price: 3 },
+      {
+        ...fangzhou.createCard2Definition("blue", 2),
+        id: "grand-fangzhou-overflow-blue-2",
+        faceUp: true,
+        fangzhouCard2: true,
+        fangzhouTraceType: "blue",
+      },
+      { id: "overflow-filler-d", cardName: "终局填充牌 D", price: 3 },
+    ],
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.ok(result, `expected an AI action result; choices=${JSON.stringify(turnChoices)}`);
+  assert.equal(result.ok, true, "round-two Grand Strategy should cash out a Fangzhou card that PASS would discard");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-credit" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-credit");
+  assert.ok(tradeCandidate, "Fangzhou overflow unlock trade should be enumerated");
+  assert.equal(tradeCandidate.valueBreakdown?.grandFangzhouRoundTwoOverflowUnlock, true);
+  assert.deepEqual(tradeCandidate.valueBreakdown?.passOverflowDiscardIndexes, [3]);
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.avoidedPassOverflowDiscardValue || 0) > 0,
+    "the trade should value only the discounted Fangzhou card loss avoided at PASS",
+  );
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.discardCost || 0) <= 6,
+    "the trade should preserve the Fangzhou target and discard only low-value fillers",
   );
 }
 
