@@ -5016,6 +5016,90 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   let selectedTurnAction = null;
+  const turnChoices = [];
+  const placedTokens = Array.from({ length: 6 }, (_item, index) => ({ placementSlot: index + 1 }));
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    actionGraph: setiAi.actionGraph,
+    realisticCanAfford: true,
+    recordMove: true,
+    recordAnalyze: true,
+    canPayForMove: true,
+    blueResources: { score: 111, credits: 4, energy: 1, publicity: 2, availableData: 6, handSize: 2 },
+    data: {
+      ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+      ANALYZE_ENERGY_COST: 1,
+      canAnalyzeData: (player) => (
+        Number(player?.resources?.energy || 0) >= 1
+          ? { ok: true }
+          : { ok: false, message: "energy missing" }
+      ),
+      listComputerPlacedTokens: () => placedTokens,
+    },
+    onChooseTurnAction: (candidates, selected) => {
+      turnChoices.push(candidates);
+      selectedTurnAction = selected;
+    },
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    earthCoordinate: { x: 1, y: 1 },
+    alienGameState: makeChongTransportAlienState({
+      rocketId: 77,
+      fossilId: "fossil_01",
+      taskGain: { score: 3 },
+      taskDataCount: 3,
+    }),
+    movableTokens: [
+      {
+        id: 77,
+        kind: "chong-fossil",
+        playerId: "player-blue",
+        color: "blue",
+        sector: { x: 1, y: 3 },
+        sectorX: 1,
+        sectorY: 3,
+      },
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve the ready final analyze before paid Chong transport");
+  assert.equal(selectedTurnAction?.id, "analyze");
+  assert.deepEqual(harness.getHandled(), { type: "analyze" });
+  const candidates = turnChoices.flat();
+  const analyzeCandidate = candidates.find((candidate) => candidate.id === "analyze");
+  const chongMove = candidates.find((candidate) => (
+    candidate.id === "move"
+    && candidate.valueBreakdown?.chongTransportOnly
+  ));
+  assert.ok(analyzeCandidate, "ready analyze should be enumerated");
+  assert.ok(chongMove, "paid Chong transport should remain available after the main action");
+  assert.equal(chongMove.valueBreakdown?.moveEnergySpent, 1);
+  assert.equal(chongMove.valueBreakdown?.energyAfterMovePayment, 0);
+  assert.equal(chongMove.valueBreakdown?.preMainChongAnalyzeReservation, true);
+  assert.ok(
+    Number(chongMove.score || 0) < Number(analyzeCandidate.score || 0),
+    "Chong transport should preserve the last analyze energy until the main action cashes out",
+  );
+  assert.ok(
+    Number(chongMove.actionGraph?.net || 0) < Number(analyzeCandidate.actionGraph?.net || 0),
+    "the reservation should also keep action-graph selection behind analyze",
+  );
+}
+
+{
+  let selectedTurnAction = null;
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     pendingActionExecuted: true,

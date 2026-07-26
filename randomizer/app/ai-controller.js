@@ -4382,6 +4382,9 @@
           movementGain,
           paymentCost,
           movementCost,
+          moveEnergySpent: Math.max(0, aiNumber(input.moveEnergySpent)),
+          moveCardSpent: Math.max(0, aiNumber(input.moveCardSpent)),
+          energyAfterMovePayment: Math.max(0, aiNumber(input.energyAfterMovePayment)),
           oldDistance,
           newDistance,
           distanceGain,
@@ -17222,6 +17225,9 @@
           to,
           requiredMovePoints,
           paymentCost: movePayment.cost,
+          moveEnergySpent: movePayment.energySpent,
+          moveCardSpent: movePayment.cardSpent,
+          energyAfterMovePayment: movePayment.remainingEnergy,
         });
       }
       const routeScore = scoreAiMoveTowardTargets(from, to, currentPlayer, { rocket });
@@ -21157,6 +21163,20 @@
         ? Math.min(0.55, scanOverTechCardGap + 0.18)
         : 0;
       const directScorePlayPassFloor = getAiEarlyDirectScorePlayPassFloor(candidates, { roundNumber: round });
+      const readyAnalyzeCandidate = round >= FINAL_ROUND_NUMBER && !state.pendingActionExecuted
+        ? (candidates || []).find((candidate) => (
+          candidate?.id === "analyze"
+          && candidate.available !== false
+          && aiNumber(candidate.score) >= 8
+        )) || null
+        : null;
+      const readyAnalyzeEnergyCost = readyAnalyzeCandidate
+        ? Math.max(0, aiNumber(
+          readyAnalyzeCandidate.energyCost
+          ?? readyAnalyzeCandidate.valueBreakdown?.energyCost
+          ?? getAiAnalyzeEnergyCost(currentPlayer),
+        ))
+        : 0;
       const bestContinuation = (candidates || [])
         .filter((candidate) => (
           candidate?.available !== false
@@ -21265,6 +21285,48 @@
               weakStartTechCardTieBreak: roundAiScore(weakStartTechCardTieBreakBonus),
               scanNet: roundAiScore(scanNet),
               playCardNet: roundAiScore(playCardNet),
+            },
+          };
+        }
+        if (
+          readyAnalyzeCandidate
+          && readyAnalyzeEnergyCost > 0
+          && candidate.id === "move"
+          && candidate.valueBreakdown?.chongTransportOnly
+          && aiNumber(candidate.valueBreakdown?.moveEnergySpent) > 0
+          && aiNumber(candidate.valueBreakdown?.energyAfterMovePayment) < readyAnalyzeEnergyCost
+        ) {
+          const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+          const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+          const scoreCap = roundAiScore(analyzeScore - 0.25);
+          const netCap = roundAiScore(
+            (Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore) - 0.25,
+          );
+          const currentScore = aiNumber(adjusted.score);
+          const currentNet = Number(adjusted.actionGraph?.net);
+          adjusted = {
+            ...adjusted,
+            score: Math.min(currentScore, scoreCap),
+            actionGraph: adjusted.actionGraph
+              ? {
+                ...adjusted.actionGraph,
+                uncappedPreMainChongAnalyzeNet: adjusted.actionGraph.net,
+                net: Math.min(Number.isFinite(currentNet) ? currentNet : currentScore, netCap),
+              }
+              : adjusted.actionGraph,
+            selectionAdjustment: {
+              ...(adjusted.selectionAdjustment || {}),
+              preMainChongAnalyzeReservation: {
+                analyzeScore: roundAiScore(analyzeScore),
+                analyzeNet: roundAiScore(Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore),
+                analyzeEnergyCost: readyAnalyzeEnergyCost,
+                originalScore: roundAiScore(aiNumber(candidate.score)),
+                originalNet: Number.isFinite(graphNet) ? roundAiScore(graphNet) : null,
+              },
+            },
+            valueBreakdown: {
+              ...(adjusted.valueBreakdown || {}),
+              preMainChongAnalyzeReservation: true,
             },
           };
         }
