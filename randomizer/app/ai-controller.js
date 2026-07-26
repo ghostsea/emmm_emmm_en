@@ -64,6 +64,7 @@
       DEFAULT_ACTIVE_PLAYER_COUNT,
       DEFAULT_INITIAL_HAND_COUNT,
       DEFAULT_INITIAL_PLAYER_COLOR,
+      PASS_HAND_LIMIT = 4,
       FINAL_ROUND_NUMBER,
       FINAL_SCORE_IDS,
       INITIAL_SELECTION_REQUIRED,
@@ -1812,7 +1813,7 @@
         : null;
       const incomePlanningEntries = incomeGainByIndex ? getAiIncomeFinalFormulaEntries(player) : [];
       const dynamicIncomeIndexes = incomeGainByIndex
-        ? chooseAiIncomeDiscardIndexes(player, count, incomeGainByIndex, incomePlanningEntries)
+        ? chooseAiIncomeDiscardIndexes(player, count, incomeGainByIndex, incomePlanningEntries, pendingType)
         : null;
       const tradeDiscardIndexes = !dynamicIncomeIndexes && pendingType === "trade"
         ? chooseAiTradeDiscardIndexes(player, count, state.pendingDiscardAction)
@@ -1870,9 +1871,15 @@
           const incomeScore = scoreAiIncomeOpportunityValue(player, gain);
           const finalFormulaFit = scoreAiIncomeDiscardFinalFormulaFit(player, gain, incomeFormulaEntries);
           const routeEnergyFit = scoreAiIncomeDiscardRouteEnergyFit(player, gain);
+          const grandFangzhouCreditThroughputFit = scoreAiGrandFangzhouCreditIncomeThroughputFit(
+            player,
+            gain,
+            pendingType,
+            incomeFormulaEntries,
+          );
           const playValue = Math.max(0, scoreAiPlayCardValue(card, { player }));
           const discardOpportunityCost = scoreAiIncomeDiscardSelectionOpportunityCost(player, card, { playValue });
-          const value = incomeScore + finalFormulaFit + routeEnergyFit;
+          const value = incomeScore + finalFormulaFit + routeEnergyFit + grandFangzhouCreditThroughputFit;
           return {
             index,
             selected: selectedSet.has(index),
@@ -1882,6 +1889,7 @@
             incomeScore: roundAiScore(incomeScore),
             finalFormulaFit: roundAiScore(finalFormulaFit),
             routeEnergyFit: roundAiScore(routeEnergyFit),
+            grandFangzhouCreditThroughputFit: roundAiScore(grandFangzhouCreditThroughputFit),
             playValue: roundAiScore(playValue),
             discardOpportunityCost: roundAiScore(discardOpportunityCost),
             handScarcityCost: roundAiScore(handScarcityCost),
@@ -2063,7 +2071,13 @@
       return ownsSatelliteTech || hasNearPlanetRocket || getAiLiveScorePaceDeficit(player) > 25;
     }
 
-    function chooseAiIncomeDiscardIndexes(player, count, incomeGainByIndex = [], incomeFormulaEntries = null) {
+    function chooseAiIncomeDiscardIndexes(
+      player,
+      count,
+      incomeGainByIndex = [],
+      incomeFormulaEntries = null,
+      pendingType = null,
+    ) {
       const target = Math.max(0, Math.round(aiNumber(count)));
       const hand = player?.hand || [];
       if (!target || !hand.length) return null;
@@ -2083,6 +2097,12 @@
           const incomeScore = scoreAiIncomeOpportunityValue(simulatedPlayer, gain);
           const finalFormulaFit = scoreAiIncomeDiscardFinalFormulaFit(simulatedPlayer, gain, incomeFormulaEntries);
           const routeEnergyFit = scoreAiIncomeDiscardRouteEnergyFit(simulatedPlayer, gain);
+          const grandFangzhouCreditThroughputFit = scoreAiGrandFangzhouCreditIncomeThroughputFit(
+            simulatedPlayer,
+            gain,
+            pendingType,
+            incomeFormulaEntries,
+          );
           const sequenceFit = target > 1
             ? scoreAiMultiIncomeSequenceFit(simulatedPlayer, gain, target - selected.length)
             : 0;
@@ -2093,9 +2113,15 @@
             incomeScore,
             finalFormulaFit,
             routeEnergyFit,
+            grandFangzhouCreditThroughputFit,
             sequenceFit,
             playValue,
-            score: incomeScore + finalFormulaFit + routeEnergyFit + sequenceFit - discardOpportunityCost,
+            score: incomeScore
+              + finalFormulaFit
+              + routeEnergyFit
+              + grandFangzhouCreditThroughputFit
+              + sequenceFit
+              - discardOpportunityCost,
           };
         })
         .filter((entry) => entry && Number.isFinite(entry.score))
@@ -2153,6 +2179,42 @@
       if (players.playerOwnsTech(player, "orange4", createActionContext())) value += 3;
       if (getAiLiveScorePaceDeficit(player) > 25) value += 2;
       return value;
+    }
+
+    function scoreAiGrandFangzhouCreditIncomeThroughputFit(
+      player = getCurrentPlayer(),
+      incomeGain = {},
+      pendingType = null,
+      entries = null,
+    ) {
+      if (
+        !player
+        || pendingType !== "place_data_income"
+        || getAiRoundNumber() !== 3
+        || player.aiDifficulty === AI_DIFFICULTY_WEAK_START
+        || aiNumber(incomeGain?.credits) <= 0
+      ) return 0;
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) return 0;
+      const incomeFormulaEntries = entries || getAiIncomeFinalFormulaEntries(player);
+      if (!incomeFormulaEntries.some((entry) => entry.formulaId === "a1" && !entry.potential)) return 0;
+      const resources = player.resources || {};
+      const income = player.income || {};
+      if (
+        aiNumber(resources.credits) !== 0
+        || aiNumber(resources.energy) < 2
+        || (player.hand || []).length < 5
+        || countAiFangzhouCard2InHand(player) < 2
+        || aiNumber(income.credits) > 3
+        || aiNumber(income.energy) < aiNumber(income.credits) + 2
+      ) return 0;
+
+      // 第 3 轮的收入会立即结算一次，并在进入第 4 轮时再结算一次。
+      // 这两点信用可替代两次“2 张牌换 1 信用”，保住方舟高级牌和后续打牌入口。
+      return 7;
     }
 
     function scoreAiIncomeDiscardFinalFormulaFit(player = getCurrentPlayer(), incomeGain = {}, entries = null) {
@@ -3948,6 +4010,46 @@
       );
     }
 
+    function scoreAiChongProbePlanetFossilRewardValue(player = getCurrentPlayer()) {
+      if (!player || !chong?.getAvailablePlanetFossils) return 0;
+      const candidates = [
+        ...(rocketActions.getRocketsForPlayer?.(rocketState, player.id) || []),
+        ...(rocketActions.getMovableTokensForPlayer?.(rocketState, player.id) || []),
+      ];
+      const seen = new Set();
+      let bestValue = 0;
+      for (const rocket of candidates) {
+        if (!rocket || seen.has(rocket.id)) continue;
+        seen.add(rocket.id);
+        const eligible = rocketActions.isChongFossilRewardProbe
+          ? rocketActions.isChongFossilRewardProbe(rocket, player.id)
+          : rocket.playerId === player.id && !rocket.movementLocked;
+        if (!eligible) continue;
+        const coordinate = rocketActions.getRocketSectorCoordinate?.(rocket) || null;
+        const planetId = getAiPlanetAtCoordinate(coordinate)?.planetId || null;
+        if (!isAiChongPickupPlanetId(planetId)) continue;
+        bestValue = Math.max(
+          bestValue,
+          scoreAiExpectedChongPlanetFossilRewardValue(planetId, player),
+        );
+        const kind = rocket.kind || rocketActions.ROCKET_KIND?.STANDARD;
+        if (kind !== rocketActions.ROCKET_KIND?.CHONG_FOSSIL) continue;
+        const transported = chong.getTransportedFossilForRocket?.(
+          alienGameState,
+          rocket.id,
+          player,
+        );
+        bestValue = Math.max(
+          bestValue,
+          scoreAiAlienRewardBundle(
+            chong.getFossilReward?.(transported?.fossil?.fossilId),
+            player,
+          ),
+        );
+      }
+      return roundAiScore(Math.max(0, bestValue));
+    }
+
     function scoreAiChongPanelUnlockValue(player = getCurrentPlayer()) {
       if (!player || !chong?.LOCKED_BLUE_POSITIONS?.length) return 0;
       const panelSlots = alienGameState?.chong?.panelFossilSlots || {};
@@ -4321,6 +4423,9 @@
           movementGain,
           paymentCost,
           movementCost,
+          moveEnergySpent: Math.max(0, aiNumber(input.moveEnergySpent)),
+          moveCardSpent: Math.max(0, aiNumber(input.moveCardSpent)),
+          energyAfterMovePayment: Math.max(0, aiNumber(input.energyAfterMovePayment)),
           oldDistance,
           newDistance,
           distanceGain,
@@ -6828,7 +6933,31 @@
         && hand.length >= 3
         && currentBestScore < 8
       );
-      if (currentCredits > 0 && !(finalLowTailOneCreditUnlock || finalHighScoreOneCreditUnlock)) return null;
+      const grandFangzhouRoundTwoOverflowWindow = Boolean(
+        tradeId === "cards-for-credit"
+        && currentCredits === 1
+        && getAiRoundNumber() === 2
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty) === AI_DIFFICULTY_LAUGHABLE
+        && currentScore >= 35
+        && currentScore < 70
+        && hand.length > PASS_HAND_LIMIT
+        && currentBestScore < 8
+        && Math.max(0, Math.round(aiNumber(player.completedTaskCount))) === 0
+      );
+      if (
+        currentCredits > 0
+        && !(
+          finalLowTailOneCreditUnlock
+          || finalHighScoreOneCreditUnlock
+          || grandFangzhouRoundTwoOverflowWindow
+        )
+      ) {
+        return null;
+      }
       const simulatedPlayer = createAiPlayerAfterQuickTrade(player, trade);
       if (!simulatedPlayer) return null;
       const postTradeCandidates = hand
@@ -6899,6 +7028,31 @@
       if (weakRepeatedTradeOverOpenedMain) return null;
       const discardCost = estimateAiTradeDiscardOpportunityCost(player, trade, bestPlay.handIndex);
       if (!Number.isFinite(discardCost)) return null;
+      const passOverflowDiscardCount = Math.max(0, hand.length - PASS_HAND_LIMIT);
+      const passOverflowDiscardIndexes = grandFangzhouRoundTwoOverflowWindow
+        ? (
+          ai?.policy?.chooseDiscardIndexes?.(hand, passOverflowDiscardCount, {
+            pendingType: "pass_hand_limit",
+          }) || []
+        )
+        : [];
+      const grandFangzhouRoundTwoOverflowUnlock = Boolean(
+        grandFangzhouRoundTwoOverflowWindow
+        && bestPlay.alienCard
+        && (bestPlay.effectTypes || []).includes(AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE)
+        && passOverflowDiscardIndexes.some((handIndex) => Number(handIndex) === Number(bestPlay.handIndex))
+        && discardCost <= 6
+      );
+      if (
+        grandFangzhouRoundTwoOverflowWindow
+        && !grandFangzhouRoundTwoOverflowUnlock
+        && !(finalLowTailOneCreditUnlock || finalHighScoreOneCreditUnlock)
+      ) {
+        return null;
+      }
+      const avoidedPassOverflowDiscardValue = grandFangzhouRoundTwoOverflowUnlock
+        ? Math.min(7, Math.max(0, aiNumber(bestPlay.score)) * 0.75)
+        : 0;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
       const thresholdBonus = nextThreshold && currentScore < nextThreshold && currentScore + directScoreGain >= nextThreshold
         ? (nextThreshold >= 70 ? 9 : 7)
@@ -6906,6 +7060,7 @@
       const score = bestPlay.continuationValue * 0.66
         + thresholdBonus
         + (finalMarks >= 3 ? Math.min(4, concreteFinalValue * 0.15) : 0)
+        + avoidedPassOverflowDiscardValue
         - discardCost * 0.35;
       if (score < 6.5) return null;
       return {
@@ -6942,6 +7097,10 @@
           huanyuWithoutCompletedTasks,
           finalHighScoreOneCreditUnlock,
           highScoreProjectedScore: roundAiScore(highScorePushProfile.projectedScore),
+          grandFangzhouRoundTwoOverflowUnlock,
+          passOverflowDiscardCount,
+          passOverflowDiscardIndexes,
+          avoidedPassOverflowDiscardValue: roundAiScore(avoidedPassOverflowDiscardValue),
         },
       };
     }
@@ -9965,9 +10124,10 @@
             : 0;
         }
         case chong?.EFFECT_TYPES?.CHONG_PICKUP_FOSSIL:
-        case chong?.EFFECT_TYPES?.CHONG_PROBE_PLANET_FOSSIL_REWARD:
         case chong?.EFFECT_TYPES?.CHONG_CHOOSE_PLANET_FOSSIL_REWARD:
           return 5.5 + scoreAiBestChongFossilRewardValue(player) * 0.45;
+        case chong?.EFFECT_TYPES?.CHONG_PROBE_PLANET_FOSSIL_REWARD:
+          return scoreAiChongProbePlanetFossilRewardValue(player);
         case chong?.EFFECT_TYPES?.CHONG_TASK_CLEANUP:
           return 1.5;
         case AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE:
@@ -16427,6 +16587,11 @@
       });
       const readyTaskCashout = getAiReadyHandTaskCashout(card, model, currentPlayer);
       const endGameExpectedScore = scoreAiCardEndGameExpectedValue(card, model, currentPlayer);
+      const chongProbeFossilRewardValue = playEffects.some(
+        (effect) => effect?.type === chong?.EFFECT_TYPES?.CHONG_PROBE_PLANET_FOSSIL_REWARD,
+      )
+        ? scoreAiChongProbePlanetFossilRewardValue(currentPlayer)
+        : null;
       const plan = scoreAiPlayCardRoutePlan(card, model, playEffects, currentPlayer);
       const directScoreGain = getAiRewardDirectScore(playEffects, currentPlayer, { immediate: true });
       const standardActionPremium = scoreAiCardStandardActionPremium(playEffects, currentPlayer);
@@ -16623,6 +16788,7 @@
           playCardConversionPressure,
           lateCardEnginePressure,
           endGameExpectedScore,
+          chongProbeFossilRewardValue,
           finalRoundEndGameCardUrgency: scoreAiFinalRoundEndGameCardUrgency(
             typeCode,
             model,
@@ -17161,6 +17327,9 @@
           to,
           requiredMovePoints,
           paymentCost: movePayment.cost,
+          moveEnergySpent: movePayment.energySpent,
+          moveCardSpent: movePayment.cardSpent,
+          energyAfterMovePayment: movePayment.remainingEnergy,
         });
       }
       const routeScore = scoreAiMoveTowardTargets(from, to, currentPlayer, { rocket });
@@ -21096,6 +21265,20 @@
         ? Math.min(0.55, scanOverTechCardGap + 0.18)
         : 0;
       const directScorePlayPassFloor = getAiEarlyDirectScorePlayPassFloor(candidates, { roundNumber: round });
+      const readyAnalyzeCandidate = round >= FINAL_ROUND_NUMBER && !state.pendingActionExecuted
+        ? (candidates || []).find((candidate) => (
+          candidate?.id === "analyze"
+          && candidate.available !== false
+          && aiNumber(candidate.score) >= 8
+        )) || null
+        : null;
+      const readyAnalyzeEnergyCost = readyAnalyzeCandidate
+        ? Math.max(0, aiNumber(
+          readyAnalyzeCandidate.energyCost
+          ?? readyAnalyzeCandidate.valueBreakdown?.energyCost
+          ?? getAiAnalyzeEnergyCost(currentPlayer),
+        ))
+        : 0;
       const bestContinuation = (candidates || [])
         .filter((candidate) => (
           candidate?.available !== false
@@ -21204,6 +21387,48 @@
               weakStartTechCardTieBreak: roundAiScore(weakStartTechCardTieBreakBonus),
               scanNet: roundAiScore(scanNet),
               playCardNet: roundAiScore(playCardNet),
+            },
+          };
+        }
+        if (
+          readyAnalyzeCandidate
+          && readyAnalyzeEnergyCost > 0
+          && candidate.id === "move"
+          && candidate.valueBreakdown?.chongTransportOnly
+          && aiNumber(candidate.valueBreakdown?.moveEnergySpent) > 0
+          && aiNumber(candidate.valueBreakdown?.energyAfterMovePayment) < readyAnalyzeEnergyCost
+        ) {
+          const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+          const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+          const scoreCap = roundAiScore(analyzeScore - 0.25);
+          const netCap = roundAiScore(
+            (Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore) - 0.25,
+          );
+          const currentScore = aiNumber(adjusted.score);
+          const currentNet = Number(adjusted.actionGraph?.net);
+          adjusted = {
+            ...adjusted,
+            score: Math.min(currentScore, scoreCap),
+            actionGraph: adjusted.actionGraph
+              ? {
+                ...adjusted.actionGraph,
+                uncappedPreMainChongAnalyzeNet: adjusted.actionGraph.net,
+                net: Math.min(Number.isFinite(currentNet) ? currentNet : currentScore, netCap),
+              }
+              : adjusted.actionGraph,
+            selectionAdjustment: {
+              ...(adjusted.selectionAdjustment || {}),
+              preMainChongAnalyzeReservation: {
+                analyzeScore: roundAiScore(analyzeScore),
+                analyzeNet: roundAiScore(Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore),
+                analyzeEnergyCost: readyAnalyzeEnergyCost,
+                originalScore: roundAiScore(aiNumber(candidate.score)),
+                originalNet: Number.isFinite(graphNet) ? roundAiScore(graphNet) : null,
+              },
+            },
+            valueBreakdown: {
+              ...(adjusted.valueBreakdown || {}),
+              preMainChongAnalyzeReservation: true,
             },
           };
         }

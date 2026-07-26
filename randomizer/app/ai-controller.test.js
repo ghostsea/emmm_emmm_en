@@ -14,6 +14,7 @@ const runezu = require("../game/aliens/runezu");
 const yichangdian = require("../game/aliens/yichangdian");
 const alienCore = require("../game/aliens");
 const setiAi = require("../game/ai");
+const industryModule = require("../game/industry");
 
 function datasetKeyForSelector(selector) {
   const match = String(selector || "").match(/\[data-([a-z0-9-]+)\]/i);
@@ -407,6 +408,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
           }
           return selected;
         },
+        ...(options.useDefaultDiscardPolicy
+          ? { chooseDiscardIndexes: setiAi.policy.chooseDiscardIndexes }
+          : {}),
         ...(options.useDefaultAlienUsePolicy
           ? { chooseAlienUseOption: setiAi.policy.chooseAlienUseOption }
           : {}),
@@ -517,6 +521,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     DEFAULT_ACTIVE_PLAYER_COUNT: allPlayers.length,
     DEFAULT_INITIAL_HAND_COUNT: 5,
     DEFAULT_INITIAL_PLAYER_COLOR: "white",
+    PASS_HAND_LIMIT: 4,
     FINAL_ROUND_NUMBER: options.finalRoundNumber || 4,
     FINAL_SCORE_IDS: options.finalScoreIds || [],
     INITIAL_SELECTION_REQUIRED: { initial: options.initialSelectionRequired ?? 0 },
@@ -2328,6 +2333,107 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(
     Number(low.netAfterDiscard || 0) > Number(high.netAfterDiscard || 0),
     "income preview should use the same future-card opportunity cost as the selected discard",
+  );
+}
+
+{
+  const runGrandFangzhouIncomeChoice = (companyLabel) => {
+    const pendingDiscardAction = { type: "place_data_income", selectedIndexes: [] };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 3,
+      pendingDiscardAction,
+      discardCount: 1,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: { credits: 0, energy: 2, publicity: 4, handSize: 5, score: 71 },
+      blueIncome: { credits: 3, energy: 5, handSize: 2 },
+      blueHand: [
+        {
+          id: "fangzhou-pink-income",
+          cardId: "fangzhou_pink_4",
+          fangzhouCard2: true,
+          incomeGain: { energy: 1 },
+        },
+        {
+          id: "fangzhou-blue-income",
+          cardId: "fangzhou_blue_2",
+          fangzhouCard2: true,
+          incomeGain: { energy: 1 },
+        },
+        {
+          id: "credit-income-future-play",
+          incomeGain: { credits: 1 },
+          price: 3,
+          playEffects: [{ type: "gain_resources", options: { gain: { score: 12 } } }],
+        },
+        {
+          id: "hand-income-future-play",
+          incomeGain: { handSize: 1 },
+          price: 2,
+          playEffects: [{ type: "gain_resources", options: { gain: { score: 10 } } }],
+        },
+        {
+          id: "credit-income-fallback",
+          incomeGain: { credits: 1 },
+          price: 4,
+          playEffects: [{ type: "gain_resources", options: { gain: { score: 18 } } }],
+        },
+      ],
+      finalScoringState: {
+        tiles: {
+          a: {
+            id: "a",
+            marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }],
+          },
+        },
+      },
+      finalTileVariants: { a: 1 },
+      finalFormulaIds: { a: "a1" },
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    assert.equal(result.ok, true, "AI should resolve the Fangzhou income discard");
+    const selectedCard = harness.blue.hand[pendingDiscardAction.selectedIndexes[0]] || null;
+    const discardLog = harness.controller.getAiAutoBattleReport().logs
+      .find((entry) => entry.type === "discard" && entry.details?.pendingType === "place_data_income");
+    return {
+      selectedCard,
+      preview: discardLog?.details?.incomeDiscardPreview?.options || [],
+    };
+  };
+
+  const grand = runGrandFangzhouIncomeChoice("宇宙大战略集团");
+  assert.equal(
+    grand.selectedCard?.id,
+    "credit-income-future-play",
+    "round-three grand strategy should preserve two Fangzhou cards and replace later two-card credit trades",
+  );
+  assert.equal(
+    grand.preview.find((entry) => entry.cardId === "credit-income-future-play")
+      ?.grandFangzhouCreditThroughputFit,
+    7,
+    "income diagnostics should expose the company-and-alien-specific throughput value",
+  );
+
+  const ordinary = runGrandFangzhouIncomeChoice("宇宙战略集团");
+  assert.equal(
+    ordinary.selectedCard?.id,
+    "fangzhou-pink-income",
+    "the throughput correction should not alter the ordinary strategy company",
+  );
+  assert.equal(
+    ordinary.preview.find((entry) => entry.cardId === "credit-income-future-play")
+      ?.grandFangzhouCreditThroughputFit,
+    0,
+    "ordinary strategy diagnostics should not receive the grand-strategy correction",
   );
 }
 
@@ -4501,6 +4607,68 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
+    roundNumber: 2,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    enableQuickTrades: true,
+    recordQuickTrade: true,
+    useDefaultDiscardPolicy: true,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    industry: industryModule,
+    blueResources: { score: 55, credits: 1, energy: 0, publicity: 1, availableData: 0, handSize: 5 },
+    blueHand: [
+      { id: "overflow-filler-a", cardName: "终局填充牌 A", price: 3 },
+      { id: "overflow-filler-b", cardName: "终局填充牌 B", price: 3 },
+      { id: "overflow-filler-c", cardName: "终局填充牌 C", price: 3 },
+      {
+        ...fangzhou.createCard2Definition("blue", 2),
+        id: "grand-fangzhou-overflow-blue-2",
+        faceUp: true,
+        fangzhouCard2: true,
+        fangzhouTraceType: "blue",
+      },
+      { id: "overflow-filler-d", cardName: "终局填充牌 D", price: 3 },
+    ],
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.ok(result, `expected an AI action result; choices=${JSON.stringify(turnChoices)}`);
+  assert.equal(result.ok, true, "round-two Grand Strategy should cash out a Fangzhou card that PASS would discard");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-credit" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-credit");
+  assert.ok(tradeCandidate, "Fangzhou overflow unlock trade should be enumerated");
+  assert.equal(tradeCandidate.valueBreakdown?.grandFangzhouRoundTwoOverflowUnlock, true);
+  assert.deepEqual(tradeCandidate.valueBreakdown?.passOverflowDiscardIndexes, [3]);
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.avoidedPassOverflowDiscardValue || 0) > 0,
+    "the trade should value only the discounted Fangzhou card loss avoided at PASS",
+  );
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.discardCost || 0) <= 6,
+    "the trade should preserve the Fangzhou target and discard only low-value fillers",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
     roundNumber: 5,
     canStartMainAction: true,
     realisticCanAfford: true,
@@ -4915,6 +5083,90 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   let selectedTurnAction = null;
+  const turnChoices = [];
+  const placedTokens = Array.from({ length: 6 }, (_item, index) => ({ placementSlot: index + 1 }));
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    actionGraph: setiAi.actionGraph,
+    realisticCanAfford: true,
+    recordMove: true,
+    recordAnalyze: true,
+    canPayForMove: true,
+    blueResources: { score: 111, credits: 4, energy: 1, publicity: 2, availableData: 6, handSize: 2 },
+    data: {
+      ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+      ANALYZE_ENERGY_COST: 1,
+      canAnalyzeData: (player) => (
+        Number(player?.resources?.energy || 0) >= 1
+          ? { ok: true }
+          : { ok: false, message: "energy missing" }
+      ),
+      listComputerPlacedTokens: () => placedTokens,
+    },
+    onChooseTurnAction: (candidates, selected) => {
+      turnChoices.push(candidates);
+      selectedTurnAction = selected;
+    },
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    earthCoordinate: { x: 1, y: 1 },
+    alienGameState: makeChongTransportAlienState({
+      rocketId: 77,
+      fossilId: "fossil_01",
+      taskGain: { score: 3 },
+      taskDataCount: 3,
+    }),
+    movableTokens: [
+      {
+        id: 77,
+        kind: "chong-fossil",
+        playerId: "player-blue",
+        color: "blue",
+        sector: { x: 1, y: 3 },
+        sectorX: 1,
+        sectorY: 3,
+      },
+    ],
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should resolve the ready final analyze before paid Chong transport");
+  assert.equal(selectedTurnAction?.id, "analyze");
+  assert.deepEqual(harness.getHandled(), { type: "analyze" });
+  const candidates = turnChoices.flat();
+  const analyzeCandidate = candidates.find((candidate) => candidate.id === "analyze");
+  const chongMove = candidates.find((candidate) => (
+    candidate.id === "move"
+    && candidate.valueBreakdown?.chongTransportOnly
+  ));
+  assert.ok(analyzeCandidate, "ready analyze should be enumerated");
+  assert.ok(chongMove, "paid Chong transport should remain available after the main action");
+  assert.equal(chongMove.valueBreakdown?.moveEnergySpent, 1);
+  assert.equal(chongMove.valueBreakdown?.energyAfterMovePayment, 0);
+  assert.equal(chongMove.valueBreakdown?.preMainChongAnalyzeReservation, true);
+  assert.ok(
+    Number(chongMove.score || 0) < Number(analyzeCandidate.score || 0),
+    "Chong transport should preserve the last analyze energy until the main action cashes out",
+  );
+  assert.ok(
+    Number(chongMove.actionGraph?.net || 0) < Number(analyzeCandidate.actionGraph?.net || 0),
+    "the reservation should also keep action-graph selection behind analyze",
+  );
+}
+
+{
+  let selectedTurnAction = null;
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     pendingActionExecuted: true,
@@ -5179,7 +5431,38 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   );
 
   const result = harness.controller.runAiAutomationStep();
-  assert.equal(result.ok, true, "AI should select a playable Chong alien card from hand");
+  assert.equal(result.ok, true, "AI should still allow Chong 2 for its persistent end-game value");
+  assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
+}
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    playCardSelectionActive: true,
+    blueHand: [chong.createAlienCard(2, 1)],
+    alienGameState: makeChongAvailableFossilAlienState({ planetId: "jupiter" }),
+    planetLocations: [
+      { planetId: "jupiter", label: "木星", name: "木星", x: 3, y: 3 },
+    ],
+    rocketTokensByPlayer: {
+      "player-blue": [{
+        id: 41,
+        kind: "standard",
+        playerId: "player-blue",
+        color: "blue",
+        sector: { x: 3, y: 3 },
+      }],
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should play Chong 2 when its probe can resolve a Jupiter fossil reward");
   assert.deepEqual(harness.getHandled(), { type: "play-card", handIndex: 0, confirmed: true });
 }
 
