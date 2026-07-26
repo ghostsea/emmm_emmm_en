@@ -10176,6 +10176,76 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   const turnChoices = [];
+  const placedTokens = Array.from({ length: 6 }, (_item, index) => ({ placementSlot: index + 1 }));
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 1,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    whiteResources: { score: 100, credits: 0, energy: 0, publicity: 0, availableData: 0, handSize: 0 },
+    blueResources: { score: 17, credits: 1, energy: 0, publicity: 5, availableData: 6, handSize: 2 },
+    blueHand: [
+      { id: "grand-r1-analyze-filler-a", cardName: "Grand R1 analyze filler A", price: 2 },
+      { id: "grand-r1-analyze-filler-b", cardName: "Grand R1 analyze filler B", price: 2 },
+    ],
+    data: {
+      ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+      ANALYZE_ENERGY_COST: 1,
+      canAnalyzeData: (player) => (
+        Number(player?.resources?.energy || 0) >= 1
+          ? { ok: true }
+          : { ok: false, message: "energy missing" }
+      ),
+      listComputerPlacedTokens: () => placedTokens,
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "round-one Grand Strategy should cash out the ready analyze slot");
+  assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-energy" });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
+  assert.ok(tradeCandidate, "Grand Strategy ready-analyze trade should be enumerated");
+  assert.equal(tradeCandidate.reason, "资源锁：弃牌换能量解锁分析");
+  assert.equal(tradeCandidate.valueBreakdown?.grandStrategyRoundOneAnalyzeUnlock, true);
+  assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "analyze");
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.unlockedMainAction?.score || 0) >= 28,
+    "the ready analyze action should clear the empirically protected value floor",
+  );
+  assert.ok(
+    Number(tradeCandidate.valueBreakdown?.discardCost || 0) <= 6,
+    "the ready-analyze chain should only spend two low-opportunity cards",
+  );
+}
+
+{
+  const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     roundNumber: 3,
