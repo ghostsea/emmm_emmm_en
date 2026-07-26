@@ -2332,6 +2332,107 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const runGrandFangzhouIncomeChoice = (companyLabel) => {
+    const pendingDiscardAction = { type: "place_data_income", selectedIndexes: [] };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 3,
+      pendingDiscardAction,
+      discardCount: 1,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: { credits: 0, energy: 2, publicity: 4, handSize: 5, score: 71 },
+      blueIncome: { credits: 3, energy: 5, handSize: 2 },
+      blueHand: [
+        {
+          id: "fangzhou-pink-income",
+          cardId: "fangzhou_pink_4",
+          fangzhouCard2: true,
+          incomeGain: { energy: 1 },
+        },
+        {
+          id: "fangzhou-blue-income",
+          cardId: "fangzhou_blue_2",
+          fangzhouCard2: true,
+          incomeGain: { energy: 1 },
+        },
+        {
+          id: "credit-income-future-play",
+          incomeGain: { credits: 1 },
+          price: 3,
+          playEffects: [{ type: "gain_resources", options: { gain: { score: 12 } } }],
+        },
+        {
+          id: "hand-income-future-play",
+          incomeGain: { handSize: 1 },
+          price: 2,
+          playEffects: [{ type: "gain_resources", options: { gain: { score: 10 } } }],
+        },
+        {
+          id: "credit-income-fallback",
+          incomeGain: { credits: 1 },
+          price: 4,
+          playEffects: [{ type: "gain_resources", options: { gain: { score: 18 } } }],
+        },
+      ],
+      finalScoringState: {
+        tiles: {
+          a: {
+            id: "a",
+            marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }],
+          },
+        },
+      },
+      finalTileVariants: { a: 1 },
+      finalFormulaIds: { a: "a1" },
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    assert.equal(result.ok, true, "AI should resolve the Fangzhou income discard");
+    const selectedCard = harness.blue.hand[pendingDiscardAction.selectedIndexes[0]] || null;
+    const discardLog = harness.controller.getAiAutoBattleReport().logs
+      .find((entry) => entry.type === "discard" && entry.details?.pendingType === "place_data_income");
+    return {
+      selectedCard,
+      preview: discardLog?.details?.incomeDiscardPreview?.options || [],
+    };
+  };
+
+  const grand = runGrandFangzhouIncomeChoice("宇宙大战略集团");
+  assert.equal(
+    grand.selectedCard?.id,
+    "credit-income-future-play",
+    "round-three grand strategy should preserve two Fangzhou cards and replace later two-card credit trades",
+  );
+  assert.equal(
+    grand.preview.find((entry) => entry.cardId === "credit-income-future-play")
+      ?.grandFangzhouCreditThroughputFit,
+    7,
+    "income diagnostics should expose the company-and-alien-specific throughput value",
+  );
+
+  const ordinary = runGrandFangzhouIncomeChoice("宇宙战略集团");
+  assert.equal(
+    ordinary.selectedCard?.id,
+    "fangzhou-pink-income",
+    "the throughput correction should not alter the ordinary strategy company",
+  );
+  assert.equal(
+    ordinary.preview.find((entry) => entry.cardId === "credit-income-future-play")
+      ?.grandFangzhouCreditThroughputFit,
+    0,
+    "ordinary strategy diagnostics should not receive the grand-strategy correction",
+  );
+}
+
+{
   const harness = createAiControllerHarness(null, {
     scanTargetPending: {
       type: "remove_orbit_to_probe",

@@ -1812,7 +1812,7 @@
         : null;
       const incomePlanningEntries = incomeGainByIndex ? getAiIncomeFinalFormulaEntries(player) : [];
       const dynamicIncomeIndexes = incomeGainByIndex
-        ? chooseAiIncomeDiscardIndexes(player, count, incomeGainByIndex, incomePlanningEntries)
+        ? chooseAiIncomeDiscardIndexes(player, count, incomeGainByIndex, incomePlanningEntries, pendingType)
         : null;
       const tradeDiscardIndexes = !dynamicIncomeIndexes && pendingType === "trade"
         ? chooseAiTradeDiscardIndexes(player, count, state.pendingDiscardAction)
@@ -1870,9 +1870,15 @@
           const incomeScore = scoreAiIncomeOpportunityValue(player, gain);
           const finalFormulaFit = scoreAiIncomeDiscardFinalFormulaFit(player, gain, incomeFormulaEntries);
           const routeEnergyFit = scoreAiIncomeDiscardRouteEnergyFit(player, gain);
+          const grandFangzhouCreditThroughputFit = scoreAiGrandFangzhouCreditIncomeThroughputFit(
+            player,
+            gain,
+            pendingType,
+            incomeFormulaEntries,
+          );
           const playValue = Math.max(0, scoreAiPlayCardValue(card, { player }));
           const discardOpportunityCost = scoreAiIncomeDiscardSelectionOpportunityCost(player, card, { playValue });
-          const value = incomeScore + finalFormulaFit + routeEnergyFit;
+          const value = incomeScore + finalFormulaFit + routeEnergyFit + grandFangzhouCreditThroughputFit;
           return {
             index,
             selected: selectedSet.has(index),
@@ -1882,6 +1888,7 @@
             incomeScore: roundAiScore(incomeScore),
             finalFormulaFit: roundAiScore(finalFormulaFit),
             routeEnergyFit: roundAiScore(routeEnergyFit),
+            grandFangzhouCreditThroughputFit: roundAiScore(grandFangzhouCreditThroughputFit),
             playValue: roundAiScore(playValue),
             discardOpportunityCost: roundAiScore(discardOpportunityCost),
             handScarcityCost: roundAiScore(handScarcityCost),
@@ -2063,7 +2070,13 @@
       return ownsSatelliteTech || hasNearPlanetRocket || getAiLiveScorePaceDeficit(player) > 25;
     }
 
-    function chooseAiIncomeDiscardIndexes(player, count, incomeGainByIndex = [], incomeFormulaEntries = null) {
+    function chooseAiIncomeDiscardIndexes(
+      player,
+      count,
+      incomeGainByIndex = [],
+      incomeFormulaEntries = null,
+      pendingType = null,
+    ) {
       const target = Math.max(0, Math.round(aiNumber(count)));
       const hand = player?.hand || [];
       if (!target || !hand.length) return null;
@@ -2083,6 +2096,12 @@
           const incomeScore = scoreAiIncomeOpportunityValue(simulatedPlayer, gain);
           const finalFormulaFit = scoreAiIncomeDiscardFinalFormulaFit(simulatedPlayer, gain, incomeFormulaEntries);
           const routeEnergyFit = scoreAiIncomeDiscardRouteEnergyFit(simulatedPlayer, gain);
+          const grandFangzhouCreditThroughputFit = scoreAiGrandFangzhouCreditIncomeThroughputFit(
+            simulatedPlayer,
+            gain,
+            pendingType,
+            incomeFormulaEntries,
+          );
           const sequenceFit = target > 1
             ? scoreAiMultiIncomeSequenceFit(simulatedPlayer, gain, target - selected.length)
             : 0;
@@ -2093,9 +2112,15 @@
             incomeScore,
             finalFormulaFit,
             routeEnergyFit,
+            grandFangzhouCreditThroughputFit,
             sequenceFit,
             playValue,
-            score: incomeScore + finalFormulaFit + routeEnergyFit + sequenceFit - discardOpportunityCost,
+            score: incomeScore
+              + finalFormulaFit
+              + routeEnergyFit
+              + grandFangzhouCreditThroughputFit
+              + sequenceFit
+              - discardOpportunityCost,
           };
         })
         .filter((entry) => entry && Number.isFinite(entry.score))
@@ -2153,6 +2178,42 @@
       if (players.playerOwnsTech(player, "orange4", createActionContext())) value += 3;
       if (getAiLiveScorePaceDeficit(player) > 25) value += 2;
       return value;
+    }
+
+    function scoreAiGrandFangzhouCreditIncomeThroughputFit(
+      player = getCurrentPlayer(),
+      incomeGain = {},
+      pendingType = null,
+      entries = null,
+    ) {
+      if (
+        !player
+        || pendingType !== "place_data_income"
+        || getAiRoundNumber() !== 3
+        || player.aiDifficulty === AI_DIFFICULTY_WEAK_START
+        || aiNumber(incomeGain?.credits) <= 0
+      ) return 0;
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) return 0;
+      const incomeFormulaEntries = entries || getAiIncomeFinalFormulaEntries(player);
+      if (!incomeFormulaEntries.some((entry) => entry.formulaId === "a1" && !entry.potential)) return 0;
+      const resources = player.resources || {};
+      const income = player.income || {};
+      if (
+        aiNumber(resources.credits) !== 0
+        || aiNumber(resources.energy) < 2
+        || (player.hand || []).length < 5
+        || countAiFangzhouCard2InHand(player) < 2
+        || aiNumber(income.credits) > 3
+        || aiNumber(income.energy) < aiNumber(income.credits) + 2
+      ) return 0;
+
+      // 第 3 轮的收入会立即结算一次，并在进入第 4 轮时再结算一次。
+      // 这两点信用可替代两次“2 张牌换 1 信用”，保住方舟高级牌和后续打牌入口。
+      return 7;
     }
 
     function scoreAiIncomeDiscardFinalFormulaFit(player = getCurrentPlayer(), incomeGain = {}, entries = null) {
