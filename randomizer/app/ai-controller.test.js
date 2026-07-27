@@ -411,6 +411,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         ...(options.useDefaultDiscardPolicy
           ? { chooseDiscardIndexes: setiAi.policy.chooseDiscardIndexes }
           : {}),
+        ...(options.useDefaultMovePaymentPolicy
+          ? { chooseMovePaymentIndexes: setiAi.policy.chooseMovePaymentIndexes }
+          : {}),
         ...(options.useDefaultAlienUsePolicy
           ? { chooseAlienUseOption: setiAi.policy.chooseAlienUseOption }
           : {}),
@@ -6780,6 +6783,175 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     Number(cornerCandidate.valueBreakdown?.moveFollowupScoreScale || 0) > 0
       && Number(cornerCandidate.valueBreakdown?.moveFollowupScoreScale || 0) < 1,
     "deferred card-corner move followup should record a next-turn discount scale",
+  );
+}
+
+{
+  const turnChoices = [];
+  const ordinaryMoveCard = {
+    id: "grand-chong-pickup-setup-card",
+    cardId: "ordinary-move-card.webp",
+    cardName: "Ordinary move card",
+    typeCode: 1,
+    price: 3,
+    moveReward: { movementPoints: 1, gain: {} },
+  };
+  const chongPickupCard = {
+    ...chong.createAlienCard(9, 1),
+    moveReward: { movementPoints: 1, gain: { score: 1 } },
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 2,
+    pendingActionExecuted: true,
+    realisticCanAfford: true,
+    canPayForMove: true,
+    recordCardCorner: true,
+    findAvailableSlotIndex: () => 0,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { score: 22, credits: 6, energy: 1, publicity: 1, availableData: 0, handSize: 2 },
+    blueHand: [chongPickupCard, ordinaryMoveCard],
+    getCardTypeCode: (card) => card?.cardTypeCode ?? card?.typeCode ?? 0,
+    allowedMoveDeltas: [{ deltaX: 0, deltaY: 1 }],
+    movableTokens: [{
+      id: 902,
+      kind: "standard",
+      playerId: "player-blue",
+      color: "blue",
+      sector: { x: 0, y: 1 },
+      sectorX: 0,
+      sectorY: 1,
+    }],
+    planetLocations: [{ planetId: "jupiter", label: "木星", name: "木星", x: 0, y: 3 }],
+    planetStats: {
+      canAddLandingMarker: (_state, planetId) => planetId === "jupiter",
+      canAddOrbitMarker: (_state, planetId) => planetId === "jupiter",
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
+    alienGameState: makeChongAvailableFossilAlienState({ planetId: "jupiter" }),
+    industry: industryModule,
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => (
+      candidate.id === "cardCorner"
+      && candidate.cardInstanceId === ordinaryMoveCard.id
+    )) || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "Grand Strategy should stage an affordable Chong pickup two moves away");
+  assert.deepEqual(
+    harness.getHandled(),
+    { type: "card-corner", handIndex: 1, confirmed: true },
+    "the setup should spend the ordinary move corner instead of the Chong transport card",
+  );
+  const ordinaryCorner = turnChoices
+    .flat()
+    .find((candidate) => (
+      candidate.id === "cardCorner"
+      && candidate.cardInstanceId === ordinaryMoveCard.id
+    ));
+  const chongCorner = turnChoices
+    .flat()
+    .find((candidate) => (
+      candidate.id === "cardCorner"
+      && candidate.cardInstanceId === chongPickupCard.id
+    ));
+  assert.ok(
+    Number(ordinaryCorner?.valueBreakdown?.chongPickupSetupValue || 0) > 0,
+    "one-step staging toward Jupiter should expose the concrete Chong pickup setup value",
+  );
+  assert.equal(
+    Number(chongCorner?.valueBreakdown?.chongPickupSetupValue || 0),
+    0,
+    "the Chong transport card itself must not receive the setup bonus for discarding itself",
+  );
+}
+
+{
+  const chongPickupCard = {
+    ...chong.createAlienCard(9, 2),
+    movePayment: true,
+  };
+  const fallbackMoveCard = {
+    id: "grand-chong-pickup-payment-card",
+    cardId: "grand-chong-pickup-payment-card.webp",
+    cardName: "Fallback move payment card",
+    typeCode: 1,
+    price: 0,
+    movePayment: true,
+  };
+  const rocket = {
+    id: 903,
+    kind: "standard",
+    playerId: "player-blue",
+    color: "blue",
+    sector: { x: 0, y: 2 },
+    sectorX: 0,
+    sectorY: 2,
+  };
+  const pendingMovePayment = {
+    playerId: "player-blue",
+    rocketId: rocket.id,
+    deltaX: 0,
+    deltaY: 1,
+    requiredMovePoints: 1,
+    selectedHandIndices: [],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 2,
+    realisticCanAfford: true,
+    useDefaultMovePaymentPolicy: true,
+    pendingMovePayment,
+    movePaymentCards: true,
+    rocketState: { rockets: [rocket] },
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { score: 22, credits: 6, energy: 1, publicity: 1, availableData: 0, handSize: 2 },
+    blueHand: [chongPickupCard, fallbackMoveCard],
+    getCardTypeCode: (card) => card?.cardTypeCode ?? card?.typeCode ?? 0,
+    planetLocations: [{ planetId: "jupiter", label: "木星", name: "木星", x: 0, y: 3 }],
+    planetStats: {
+      canAddLandingMarker: (_state, planetId) => planetId === "jupiter",
+      canAddOrbitMarker: (_state, planetId) => planetId === "jupiter",
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
+    alienGameState: makeChongAvailableFossilAlienState({ planetId: "jupiter" }),
+    industry: industryModule,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "Grand Strategy should pay the final Jupiter step for a free Chong landing");
+  assert.deepEqual(
+    harness.getHandled(),
+    {
+      type: "move-payment",
+      automated: true,
+      playerId: null,
+      selectedHandIndices: [],
+    },
+    "the final setup step should spend energy and preserve the affordable Chong transport card",
   );
 }
 

@@ -4256,6 +4256,58 @@
         ), 0);
     }
 
+    function getAiAffordableChongPickupRouteAtCoordinate(player = getCurrentPlayer(), coordinate = null) {
+      if (!player || !coordinate) return null;
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+      const planet = getAiPlanetAtCoordinate(coordinate);
+      if (!planet || !isAiChongPickupPlanetId(planet.planetId)) return null;
+      const fossils = chong?.getAvailablePlanetFossils?.(alienGameState, planet.planetId) || [];
+      if (!fossils.length) return null;
+      const entry = listAiPlayableChongTransportCards(player)
+        .filter(({ card }) => players.canAfford(player, getCardPlayCost(card)))
+        .map(({ card, task }) => ({
+          card,
+          task,
+          value: scoreAiChongPickupRouteValue(planet.planetId, player, {
+            task,
+            card,
+          }),
+        }))
+        .sort((left, right) => aiNumber(right.value) - aiNumber(left.value))[0] || null;
+      return entry
+        ? {
+          ...entry,
+          planetId: planet.planetId,
+        }
+        : null;
+    }
+
+    function scoreAiChongPickupSetupAfterCardCorner(
+      card,
+      coordinate,
+      player = getCurrentPlayer(),
+    ) {
+      if (!card || !coordinate || !player || chong?.isChongCard?.(card)) return 0;
+      const requiredMovePoints = getAiRequiredMovePointsFromCoordinate(player, coordinate);
+      if (requiredMovePoints <= 0 || !canPayForMove(player, requiredMovePoints).ok) return 0;
+      const pickupRoute = ["jupiter", "saturn"]
+        .map((planetId) => {
+          const planetCoordinate = getAiPlanetCoordinateById(planetId);
+          if (!planetCoordinate || getAiSectorDistance(coordinate, planetCoordinate) !== 1) return null;
+          return getAiAffordableChongPickupRouteAtCoordinate(player, planetCoordinate);
+        })
+        .filter(Boolean)
+        .sort((left, right) => aiNumber(right.value) - aiNumber(left.value))[0] || null;
+      if (!pickupRoute) return 0;
+      return roundAiScore(Math.min(16, 6 + Math.max(0, aiNumber(pickupRoute.value)) * 0.55));
+    }
+
     function getAiChongTaskForEffect(effect) {
       if (!isAiChongTravelEffect(effect)) return null;
       const card = state.pendingActionEffectFlow?.card || null;
@@ -5300,6 +5352,7 @@
     }
 
     function shouldAiPreserveEnergyForRouteCashout(player, coordinate, options = {}) {
+      if (getAiAffordableChongPickupRouteAtCoordinate(player, coordinate)) return false;
       return shouldAiPreserveEnergyForSatelliteRoute(player, coordinate, options)
         || shouldAiPreserveEnergyForPlanetCashout(player, coordinate, options);
     }
@@ -17124,6 +17177,9 @@
       const stagedTechSetupScore = followupMainActionScore > 0
         ? 0
         : scoreAiCardCornerStagedTechSetup(reward, currentPlayer);
+      const chongPickupSetupValue = reward.moveReward
+        ? scoreAiChongPickupSetupAfterCardCorner(card, reward.bestMove?.to, currentPlayer)
+        : 0;
       const finalSecondMarkNoDirectSetupPenalty = scoreAiFinalSecondMarkNoDirectSetupPenalty(currentPlayer, {
         actionId: "cardCorner",
         directScoreGain,
@@ -17146,7 +17202,8 @@
         + lowValueBias
         + scorePaceBonus
         + followupMainActionScore
-        + stagedTechSetupScore;
+        + stagedTechSetupScore
+        + chongPickupSetupValue;
       if (
         getAiRoundNumber() >= FINAL_ROUND_NUMBER
         && getAiNextMissingFinalScoreThreshold(currentPlayer)
@@ -17173,7 +17230,11 @@
         followupMainAction,
         moveFollowupMainAction,
         directScoreGain,
-        gain: reward.value + scorePaceBonus + followupMainActionScore + stagedTechSetupScore,
+        gain: reward.value
+          + scorePaceBonus
+          + followupMainActionScore
+          + stagedTechSetupScore
+          + chongPickupSetupValue,
         cost: discardCost
           + preservePenalty
           + playablePenalty
@@ -17207,6 +17268,7 @@
           scorePaceBonus,
           followupMainActionScore,
           stagedTechSetupScore,
+          chongPickupSetupValue,
           finalSecondMarkNoDirectSetupPenalty,
         },
       };
