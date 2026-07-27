@@ -5279,6 +5279,97 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const rocket = {
+    id: 78,
+    kind: "standard",
+    playerId: "player-blue",
+    color: "blue",
+    sector: { x: 0, y: 1 },
+    sectorX: 0,
+    sectorY: 1,
+  };
+  const moveEffect = {
+    id: "b66-move",
+    type: "card_move",
+    options: { movementPoints: 4 },
+    result: {
+      rocket: { id: rocket.id },
+      payload: {
+        rocketId: rocket.id,
+        from: { x: 7, y: 1 },
+        to: { x: 0, y: 1 },
+      },
+    },
+  };
+  const pendingActionEffectFlow = {
+    currentIndex: 0,
+    effects: [moveEffect],
+    cardMoveEffect: {
+      effect: moveEffect,
+      poolRemaining: 3,
+      moved: true,
+      deferredType1Events: [],
+    },
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 2,
+    pendingActionEffectFlow,
+  });
+
+  assert.equal(
+    harness.controller.scoreAiEarlyLightsailEmptyBacktrackPenalty({
+      effect: moveEffect,
+      rocket,
+      to: { x: 7, y: 1 },
+      remainingPoolAfterStep: 2,
+    }),
+    12,
+    "early Lightsail movement should penalize an empty immediate backtrack",
+  );
+  pendingActionEffectFlow.cardMoveEffect.deferredType1Events.push({
+    type: "visitPlanet",
+    planetId: "venus",
+  });
+  assert.equal(
+    harness.controller.scoreAiEarlyLightsailEmptyBacktrackPenalty({
+      effect: moveEffect,
+      rocket,
+      to: { x: 7, y: 1 },
+      remainingPoolAfterStep: 2,
+    }),
+    0,
+    "Lightsail movement should preserve backtracking once the move pool has visited a planet",
+  );
+  assert.equal(
+    harness.controller.scoreAiEarlyLightsailEmptyBacktrackPenalty({
+      effect: { ...moveEffect, id: "b24-move" },
+      rocket,
+      to: { x: 7, y: 1 },
+      remainingPoolAfterStep: 2,
+    }),
+    0,
+    "the Lightsail exception must not change other multi-point movement cards",
+  );
+  pendingActionEffectFlow.cardMoveEffect.deferredType1Events = [];
+  const lateHarness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    pendingActionEffectFlow,
+  });
+  assert.equal(
+    lateHarness.controller.scoreAiEarlyLightsailEmptyBacktrackPenalty({
+      effect: moveEffect,
+      rocket,
+      to: { x: 7, y: 1 },
+      remainingPoolAfterStep: 2,
+    }),
+    0,
+    "the empty Lightsail backtrack penalty must stay limited to the first two rounds",
+  );
+}
+
+{
   const moveEffect = { id: "test-chong-card-move-away", type: "card_move", options: { movementPoints: 1 } };
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",

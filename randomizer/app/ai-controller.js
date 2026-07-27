@@ -13932,6 +13932,62 @@
       return Math.max(0, penalty);
     }
 
+    function scoreAiEarlyLightsailEmptyBacktrackPenalty(options = {}) {
+      const effect = options.effect || null;
+      const rocket = options.rocket || null;
+      const to = options.to || null;
+      if (
+        effect?.id !== "b66-move"
+        || effect?.type !== cardEffects.EFFECT_TYPES.CARD_MOVE
+        || getAiRoundNumber() > 2
+        || !rocket
+        || !to
+      ) {
+        return 0;
+      }
+
+      const ctx = state.pendingActionEffectFlow?.cardMoveEffect || null;
+      if (
+        !ctx
+        || ctx.effect?.id !== effect.id
+        || !ctx.moved
+        || (ctx.deferredType1Events || []).some((event) => event?.type === "visitPlanet")
+      ) {
+        return 0;
+      }
+
+      const previousResult = effect.result || null;
+      const previousPayload = previousResult?.payload || {};
+      const previousFrom = previousPayload.from || previousPayload.geometry?.from || null;
+      const previousTo = previousPayload.to || previousPayload.geometry?.to || null;
+      const previousRocketId = previousPayload.rocketId
+        ?? previousResult?.rocket?.id
+        ?? previousResult?.rocketId;
+      const current = rocketActions.getRocketSectorCoordinate(rocket);
+      if (
+        !previousFrom
+        || !previousTo
+        || !current
+        || Number(previousRocketId) !== Number(rocket.id)
+      ) {
+        return 0;
+      }
+
+      const sameCoordinate = (left, right) => (
+        left
+        && right
+        && solar.mod8(left.x) === solar.mod8(right.x)
+        && Math.round(aiNumber(left.y)) === Math.round(aiNumber(right.y))
+      );
+      if (!sameCoordinate(current, previousTo) || !sameCoordinate(to, previousFrom)) return 0;
+
+      const remainingPoolAfterStep = Math.max(
+        0,
+        Math.round(aiNumber(options.remainingPoolAfterStep)),
+      );
+      return Math.min(16, 10 + remainingPoolAfterStep);
+    }
+
     function scoreAiRotationTimingMovePenalty(options = {}) {
       const player = options.player || getCurrentPlayer();
       const routeTarget = options.routeTarget || null;
@@ -18966,7 +19022,18 @@
         nearestActionablePlanetPenalty,
         industryHuanyuMove: options.industryHuanyuMove,
       });
-      const movementCost = paymentCost + pathPenalty + finalSecondMarkNoDirectSetupPenalty;
+      const earlyLightsailEmptyBacktrackPenalty = scoreAiEarlyLightsailEmptyBacktrackPenalty({
+        player: currentPlayer,
+        effect,
+        rocket,
+        from,
+        to,
+        remainingPoolAfterStep,
+      });
+      const movementCost = paymentCost
+        + pathPenalty
+        + earlyLightsailEmptyBacktrackPenalty
+        + finalSecondMarkNoDirectSetupPenalty;
       return {
         id: options.id || "effectMove",
         kind: "effect",
@@ -18996,6 +19063,7 @@
           movementGain,
           paymentCost,
           pathPenalty,
+          earlyLightsailEmptyBacktrackPenalty,
           nearestActionablePlanetPenalty,
           finalSecondMarkNoDirectSetupPenalty,
           movementCost,
@@ -23815,6 +23883,7 @@
       runAiStrategyTuningCycle,
       scheduleAiAutoStepIfNeeded,
       scoreAiB2SectorScanFocus,
+      scoreAiEarlyLightsailEmptyBacktrackPenalty,
       scoreAiFullSectorExtraMark,
       scoreAiLastSectorWinTaskCashout,
       scoreAiNebulaScanChoice,
