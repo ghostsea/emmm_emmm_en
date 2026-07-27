@@ -32,6 +32,101 @@ function loadNamedFunction(functionName, dependencies = {}) {
 }
 
 {
+  const playerState = {
+    players: [
+      { id: "player-white", color: "white" },
+      { id: "player-blue", color: "blue" },
+      { id: "player-green", color: "green" },
+      { id: "player-brown", color: "brown" },
+    ],
+  };
+  const turnState = {
+    activePlayerCount: 3,
+    activePlayerIds: ["player-white", "player-blue", "player-green"],
+  };
+  let appliedOrder = null;
+  const randomizePlayerTurnOrder = loadNamedFunction("randomizePlayerTurnOrder", {
+    playerState,
+    turnState,
+    DEFAULT_ACTIVE_PLAYER_COUNT: 4,
+    DEFAULT_INITIAL_PLAYER_COLOR: "white",
+    shufflePlayerIds: (playerIds) => [...playerIds].reverse(),
+    setTurnStatePlayerOrder: (playerIds, options) => {
+      appliedOrder = { playerIds, options };
+    },
+  });
+  randomizePlayerTurnOrder();
+  assert.deepEqual(
+    appliedOrder,
+    {
+      playerIds: ["player-green", "player-brown", "player-white", "player-blue"],
+      options: { activePlayerCount: 3 },
+    },
+    "opening order should shuffle the active roster instead of pinning the human player to first",
+  );
+}
+
+{
+  const turnState = { roundNumber: 1 };
+  const industry = {
+    getAiRoundStartExtra(roundNumber) {
+      if (roundNumber === 3) return { resources: { energy: 1 }, blindDraw: 0 };
+      if (roundNumber === 4) return { resources: { credits: 1 }, blindDraw: 1 };
+      return { resources: {}, blindDraw: 0 };
+    },
+  };
+  const players = {
+    gainResources(player, gain) {
+      for (const [key, value] of Object.entries(gain || {})) {
+        player.resources[key] = (Number(player.resources[key]) || 0) + Number(value);
+      }
+    },
+    formatResourceCost(gain) {
+      return Object.entries(gain || {})
+        .map(([key, value]) => `${value}${key === "energy" ? "能量" : "信用点"}`)
+        .join(" + ");
+    },
+  };
+  const hasAiRoundStartExtraPending = loadNamedFunction("hasAiRoundStartExtraPending", {
+    turnState,
+    isAiAutoBattlePlayer: (playerId) => playerId === "player-blue",
+    industry,
+  });
+  const applyAiRoundStartExtraForPlayer = loadNamedFunction("applyAiRoundStartExtraForPlayer", {
+    turnState,
+    hasAiRoundStartExtraPending,
+    industry,
+    players,
+    blindDrawCardForPlayer: () => ({ ok: true, card: { id: "drawn-card" } }),
+  });
+  const computer = {
+    id: "player-blue",
+    colorLabel: "蓝色",
+    resources: { credits: 0, energy: 0 },
+    initialSelection: { industry: { label: "任意公司" } },
+  };
+  const human = {
+    id: "player-white",
+    resources: { credits: 0, energy: 0 },
+  };
+
+  assert.equal(applyAiRoundStartExtraForPlayer(computer, 1), null);
+  assert.equal(applyAiRoundStartExtraForPlayer(human, 3), null);
+  const round3 = applyAiRoundStartExtraForPlayer(computer, 3);
+  assert.equal(round3.ok, true);
+  assert.equal(computer.resources.energy, 1);
+  assert.equal(computer.resources.credits, 0);
+  assert.equal(round3.drawnCards.length, 0);
+  assert.equal(applyAiRoundStartExtraForPlayer(computer, 3), null);
+
+  const round4 = applyAiRoundStartExtraForPlayer(computer, 4);
+  assert.equal(round4.ok, true);
+  assert.equal(computer.resources.energy, 1);
+  assert.equal(computer.resources.credits, 1);
+  assert.equal(round4.drawnCards.length, 1);
+}
+
+{
   const applyCardMovementModifiers = loadNamedFunction("applyCardMovementModifiers");
   assert.deepEqual(
     applyCardMovementModifiers({ movementPoints: 1 }, []),
@@ -169,6 +264,22 @@ assert.doesNotMatch(
   /setActiveEffectFlowOwner/,
   "settling a sector must not hand the active flow to the sector winner",
 );
+assert.match(
+  extractNamedFunctionSource("applyIndustryRoundStartBonuses"),
+  /applyAiRoundStartExtraForPlayer/,
+  "every computer company should receive the shared round 3/4 extra through the round-start hook",
+);
+for (const functionName of [
+  "applyHuanyuSuperdriveRoundStartForPlayer",
+  "applyCheatLabRoundStartForPlayer",
+  "applyGrandStrategyRoundStartForPlayer",
+]) {
+  assert.match(
+    extractNamedFunctionSource(functionName),
+    /shouldGrantAiCompanyRoundStartResources/,
+    `${functionName} should suppress its company resource reward in round one`,
+  );
+}
 
 {
   const humanPlayer = { id: "player-white" };

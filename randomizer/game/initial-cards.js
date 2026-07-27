@@ -214,9 +214,9 @@
     }),
     "作弊实验室": Object.freeze({
       label: "作弊实验室",
-      resources: Object.freeze({ publicity: 1, credits: 2, energy: 2 }),
+      resources: Object.freeze({ publicity: 1, credits: 3, energy: 2 }),
       blindDraw: 5,
-      incomeIncreaseCount: 5,
+      incomeIncreaseCount: 4,
       baseIncome: Object.freeze({ credits: 2, energy: 1, handSize: 1 }),
     }),
     "宇宙战略集团": Object.freeze({
@@ -321,6 +321,10 @@
     if (player?.aiDifficulty === AI_DIFFICULTY_WEAK_START && effect.label === "作弊实验室") {
       return {
         ...effect,
+        resources: Object.freeze({
+          ...effect.resources,
+          credits: Math.max(0, (Number(effect.resources?.credits) || 0) - 1),
+        }),
         incomeIncreaseCount: 4,
       };
     }

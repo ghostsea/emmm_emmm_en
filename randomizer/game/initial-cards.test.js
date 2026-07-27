@@ -122,10 +122,10 @@ function initialCard(number) {
 
   assert.equal(result.ok, true);
   assert.equal(player.resources.publicity, 1);
-  assert.equal(player.resources.credits, 2);
+  assert.equal(player.resources.credits, 3);
   assert.equal(player.resources.energy, 2);
   assert.equal(player.resources.handSize, 5);
-  assert.equal(result.incomeIncreaseCount, 5);
+  assert.equal(result.incomeIncreaseCount, 4);
 }
 
 {

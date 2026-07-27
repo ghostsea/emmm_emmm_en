@@ -1047,17 +1047,17 @@ const forcedIndustryOffer = {
   ],
 };
 const unforcedOpening = policy.chooseInitialSelection(forcedIndustryOffer, { roundNumber: 1 });
-assert.equal(unforcedOpening.industry.label, "图灵系统");
+assert.equal(unforcedOpening.industry.label, "作弊实验室");
 const forcedOpening = policy.chooseInitialSelection(forcedIndustryOffer, {
   roundNumber: 1,
   forcedIndustryCard: forcedIndustryOffer.industryOptions[1],
 });
 assert.equal(forcedOpening.industry.label, "作弊实验室");
 assert.equal(forcedOpening.openingPlan.summary.hand, 5);
-assert.equal(forcedOpening.openingPlan.summary.credits, 2);
+assert.equal(forcedOpening.openingPlan.summary.credits, 3);
 assert.equal(forcedOpening.openingPlan.summary.energy, 2);
 assert.equal(forcedOpening.openingPlan.summary.baseIncomeCredits, 2);
-assert.equal(forcedOpening.openingPlan.summary.longTermCredits, 4);
+assert.equal(forcedOpening.openingPlan.summary.longTermCredits, 5);
 assert.ok(forcedOpening.openingPlan.topPlans.every((plan) => plan.industryLabel === "作弊实验室"));
 const weakForcedOpening = policy.chooseInitialSelection(forcedIndustryOffer, {
   roundNumber: 1,
@@ -1065,6 +1065,7 @@ const weakForcedOpening = policy.chooseInitialSelection(forcedIndustryOffer, {
   aiDifficulty: "weak_start",
 });
 assert.equal(weakForcedOpening.openingPlan.summary.incomeIncreases, 4);
+assert.equal(weakForcedOpening.openingPlan.summary.credits, 2);
 assert.equal(weakForcedOpening.openingPlan.goals.OPENING_INCOME, 6);
 assert.ok(weakForcedOpening.openingPlan.topPlans.every((plan) => plan.summary.incomeIncreases === 4));
 

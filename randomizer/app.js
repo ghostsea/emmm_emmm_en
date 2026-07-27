@@ -3121,11 +3121,24 @@
 
   function randomizePlayerTurnOrder() {
     const playerIds = playerState.players.map((player) => player.id);
-    const defaultPlayerId = playerState.players.find((player) => player.color === DEFAULT_INITIAL_PLAYER_COLOR)?.id;
-    const shuffledIds = shufflePlayerIds(playerIds.filter((playerId) => playerId !== defaultPlayerId));
-    const orderedIds = defaultPlayerId ? [defaultPlayerId, ...shuffledIds] : shufflePlayerIds(playerIds);
+    const activePlayerCount = Math.min(
+      Math.max(1, Math.round(Number(turnState.activePlayerCount) || DEFAULT_ACTIVE_PLAYER_COUNT)),
+      playerIds.length,
+    );
+    const humanPlayerId = playerState.players
+      .find((player) => player.color === DEFAULT_INITIAL_PLAYER_COLOR)?.id;
+    const otherPlayerIds = shufflePlayerIds(playerIds.filter((playerId) => playerId !== humanPlayerId));
+    const activeRoster = humanPlayerId
+      ? [humanPlayerId, ...otherPlayerIds.slice(0, Math.max(0, activePlayerCount - 1))]
+      : shufflePlayerIds(playerIds).slice(0, activePlayerCount);
+    const activePlayerIds = shufflePlayerIds(activeRoster);
+    const inactivePlayerIds = playerIds.filter((playerId) => !activeRoster.includes(playerId));
+    const orderedIds = [
+      ...activePlayerIds,
+      ...shufflePlayerIds(inactivePlayerIds),
+    ];
     setTurnStatePlayerOrder(orderedIds, {
-      activePlayerCount: turnState.activePlayerCount || DEFAULT_ACTIVE_PLAYER_COUNT,
+      activePlayerCount,
     });
   }
 
@@ -6759,6 +6772,10 @@
   function applyHuanyuSuperdriveRoundStartForPlayer(player, roundNumber = turnState.roundNumber) {
     if (!hasHuanyuSuperdriveRoundStartPending(player, roundNumber)) return null;
     const round = Math.max(1, Math.round(Number(roundNumber) || 1));
+    if (!industry?.shouldGrantAiCompanyRoundStartResources?.(round)) {
+      player.industryHuanyuSuperdriveRoundStartRound = round;
+      return null;
+    }
     const resourceGain = { energy: 1, publicity: 1 };
     players.gainResources(player, resourceGain);
     const shouldDraw = !isWeakStartAiDifficulty(player);
@@ -6793,6 +6810,10 @@
   function applyCheatLabRoundStartForPlayer(player, roundNumber = turnState.roundNumber) {
     if (!hasCheatLabRoundStartPending(player, roundNumber)) return null;
     const round = Math.max(1, Math.round(Number(roundNumber) || 1));
+    if (!industry?.shouldGrantAiCompanyRoundStartResources?.(round)) {
+      player.industryCheatLabRoundStartRound = round;
+      return null;
+    }
     players.gainResources(player, { energy: 1 });
     const shouldDraw = !isWeakStartAiDifficulty(player);
     const drawResult = shouldDraw ? blindDrawCardForPlayer(player) : { ok: true, card: null };
@@ -6836,6 +6857,10 @@
     industry?.clearStrategyPassiveSlots?.(player);
     player.industryGrandStrategyRoundStartRound = round;
 
+    if (!industry?.shouldGrantAiCompanyRoundStartResources?.(round)) {
+      return null;
+    }
+
     if (isWeakStartAiDifficulty(player)) {
       players.gainResources(player, { publicity: 1 });
       const message = `第${round}轮开始：清空奖励槽 ${clearedCount}/3；获得 1宣传`;
@@ -6870,6 +6895,59 @@
     };
   }
 
+  function hasAiRoundStartExtraPending(player, roundNumber = turnState.roundNumber) {
+    if (!player?.id || !isAiAutoBattlePlayer(player.id)) return false;
+    const round = Math.max(1, Math.round(Number(roundNumber) || 1));
+    const extra = industry?.getAiRoundStartExtra?.(round) || {};
+    const hasResources = Object.values(extra.resources || {}).some((value) => Number(value) > 0);
+    const hasBlindDraw = Math.max(0, Math.round(Number(extra.blindDraw) || 0)) > 0;
+    return (hasResources || hasBlindDraw) && player.aiRoundStartExtraRound !== round;
+  }
+
+  function applyAiRoundStartExtraForPlayer(player, roundNumber = turnState.roundNumber) {
+    if (!hasAiRoundStartExtraPending(player, roundNumber)) return null;
+    const round = Math.max(1, Math.round(Number(roundNumber) || 1));
+    const extra = industry?.getAiRoundStartExtra?.(round) || {};
+    const resourceGain = { ...(extra.resources || {}) };
+    const blindDrawCount = Math.max(0, Math.round(Number(extra.blindDraw) || 0));
+    players.gainResources(player, resourceGain);
+
+    const drawnCards = [];
+    let drawError = null;
+    for (let index = 0; index < blindDrawCount; index += 1) {
+      const drawResult = blindDrawCardForPlayer(player);
+      if (!drawResult?.ok || !drawResult.card) {
+        drawError = drawResult?.message || "未知错误";
+        break;
+      }
+      drawnCards.push(drawResult.card);
+    }
+    player.aiRoundStartExtraRound = round;
+
+    const resourceText = players.formatResourceCost(resourceGain);
+    const rewardParts = [
+      resourceText ? `获得 ${resourceText}` : null,
+      blindDrawCount > 0 ? `盲抽 ${drawnCards.length}/${blindDrawCount} 张` : null,
+      drawError ? `盲抽失败：${drawError}` : null,
+    ].filter(Boolean);
+    const message = `第${round}轮开始：电脑公司额外${rewardParts.join("；")}`;
+    const companyLabel = player.initialSelection?.industry?.label
+      || player.industryCard?.label
+      || "电脑公司";
+    return {
+      ok: !drawError,
+      playerId: player.id,
+      playerColorLabel: player.colorLabel || player.name || player.color || null,
+      effect: { label: `${companyLabel}轮次加成` },
+      message,
+      drawnCards,
+      irreversible: drawnCards.length > 0
+        ? { code: "hidden_card_reveal", reason: "盲抽翻出新牌" }
+        : null,
+      results: [{ message }],
+    };
+  }
+
   function appendIndustryRoundStartLog(result, roundNumber = turnState.roundNumber) {
     if (!result) return null;
     const player = getPlayerById(result.playerId);
@@ -6897,6 +6975,7 @@
         applyHuanyuSuperdriveRoundStartForPlayer(player, roundNumber),
         applyCheatLabRoundStartForPlayer(player, roundNumber),
         applyGrandStrategyRoundStartForPlayer(player, roundNumber),
+        applyAiRoundStartExtraForPlayer(player, roundNumber),
       ])
       .filter(Boolean);
     if (options.appendLog) {

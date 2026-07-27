@@ -36,6 +36,16 @@
   const FUNDAMENTALISM_DOUBLE_DISCARD_CORNER_PASSIVE_ID = "fundamentalism_double_discard_corner";
   const FUNDAMENTALISM_INCOME_TASK_COMPLETION_PASSIVE_ID = "fundamentalism_income_task_completion";
   const PIRATES_RAID_PASSIVE_ID = "pirates_raid_markers";
+  const AI_ROUND_START_EXTRAS = Object.freeze({
+    3: Object.freeze({
+      resources: Object.freeze({ energy: 1 }),
+      blindDraw: 0,
+    }),
+    4: Object.freeze({
+      resources: Object.freeze({ credits: 1 }),
+      blindDraw: 1,
+    }),
+  });
 
   function playerHasPassive(player, passiveId) {
     const definition = catalog.getPlayerIndustryDefinition(player);
@@ -60,6 +70,18 @@
 
   function hasGrandStrategyRoundStart(player) {
     return playerHasPassive(player, GRAND_STRATEGY_ROUND_START_PASSIVE_ID);
+  }
+
+  function shouldGrantAiCompanyRoundStartResources(roundNumber) {
+    return normalizeRoundNumber(roundNumber) > 1;
+  }
+
+  function getAiRoundStartExtra(roundNumber) {
+    const extra = AI_ROUND_START_EXTRAS[normalizeRoundNumber(roundNumber)];
+    return {
+      resources: { ...(extra?.resources || {}) },
+      blindDraw: Math.max(0, Math.round(Number(extra?.blindDraw) || 0)),
+    };
   }
 
   function hasFundamentalismRoundStartIncome(player) {
@@ -279,6 +301,8 @@
     shouldLaunchAfterPassWithHuanyuSuperdrive,
     hasCheatLabRoundStart,
     hasGrandStrategyRoundStart,
+    shouldGrantAiCompanyRoundStartResources,
+    getAiRoundStartExtra,
     hasFundamentalismRoundStartIncome,
     blocksStandardPlayCardAction,
     shouldDoubleDiscardCornerRewards,
