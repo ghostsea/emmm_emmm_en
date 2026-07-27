@@ -2841,8 +2841,13 @@
   function getActionBriefingItemsForHumanTurn(player = getCurrentPlayer()) {
     if (!isHumanActionBriefingPlayer(player)) return [];
     const lastActionPoint = getActionBriefingLastPointForPlayer(player.id);
+    const currentRoundNumber = Number(turnState.roundNumber) || 1;
     return actionBriefingState.mainActionQueue
-      .filter((item) => item.actionPoint > lastActionPoint && item.playerId !== player.id);
+      .filter((item) => (
+        Number(item.roundNumber) === currentRoundNumber
+        && item.actionPoint > lastActionPoint
+        && item.playerId !== player.id
+      ));
   }
 
   function maybeOpenActionBriefingForHumanTurn(player = getCurrentPlayer()) {
@@ -2852,7 +2857,7 @@
     if (!items.length) return false;
     const turnKey = getActionBriefingTurnKey(player, items);
     if (actionBriefingState.lastShownTurnKey === turnKey) return false;
-    const roundLabel = `第${getActionCycleNumber()}回合：`;
+    const roundLabel = `第${turnState.roundNumber}轮 第${getActionCycleNumber()}回合：`;
     if (!openActionBriefing(items, turnKey, {
       roundLabel,
       resumeAiAfterClose: false,

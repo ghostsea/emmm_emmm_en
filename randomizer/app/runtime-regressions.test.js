@@ -171,6 +171,58 @@ assert.doesNotMatch(
 );
 
 {
+  const humanPlayer = { id: "player-white" };
+  const actionBriefingState = {
+    mainActionQueue: [
+      { entryId: 1, roundNumber: 1, actionCycleNumber: 1, actionPoint: 2, playerId: "player-brown" },
+      { entryId: 2, roundNumber: 1, actionCycleNumber: 2, actionPoint: 3, playerId: "player-green" },
+      { entryId: 3, roundNumber: 2, actionCycleNumber: 1, actionPoint: 4, playerId: "player-brown" },
+      { entryId: 4, roundNumber: 2, actionCycleNumber: 1, actionPoint: 5, playerId: "player-green" },
+      { entryId: 5, roundNumber: 2, actionCycleNumber: 1, actionPoint: 6, playerId: "player-blue" },
+    ],
+  };
+  const getActionBriefingItemsForHumanTurn = loadNamedFunction("getActionBriefingItemsForHumanTurn", {
+    isHumanActionBriefingPlayer: (player) => player?.id === humanPlayer.id,
+    getActionBriefingLastPointForPlayer: () => 1,
+    actionBriefingState,
+    turnState: { roundNumber: 2 },
+  });
+  assert.deepEqual(
+    getActionBriefingItemsForHumanTurn(humanPlayer).map((item) => item.entryId),
+    [3, 4, 5],
+    "a player who passed in the previous round should only see current-round computer actions",
+  );
+  assert.deepEqual(
+    getActionBriefingItemsForHumanTurn({ id: "player-brown" }),
+    [],
+    "computer turns should never open the human action briefing",
+  );
+}
+
+{
+  const humanPlayer = { id: "player-white" };
+  const actionBriefingState = {
+    mainActionQueue: [
+      { entryId: 1, roundNumber: 2, actionCycleNumber: 1, actionPoint: 1, playerId: "player-brown" },
+      { entryId: 2, roundNumber: 2, actionCycleNumber: 1, actionPoint: 2, playerId: humanPlayer.id },
+      { entryId: 3, roundNumber: 2, actionCycleNumber: 1, actionPoint: 3, playerId: "player-green" },
+      { entryId: 4, roundNumber: 2, actionCycleNumber: 1, actionPoint: 4, playerId: "player-blue" },
+    ],
+  };
+  const getActionBriefingItemsForHumanTurn = loadNamedFunction("getActionBriefingItemsForHumanTurn", {
+    isHumanActionBriefingPlayer: (player) => player?.id === humanPlayer.id,
+    getActionBriefingLastPointForPlayer: () => 2,
+    actionBriefingState,
+    turnState: { roundNumber: 2 },
+  });
+  assert.deepEqual(
+    getActionBriefingItemsForHumanTurn(humanPlayer).map((item) => item.entryId),
+    [3, 4],
+    "normal same-round briefings should still include every computer action after the player's last action",
+  );
+}
+
+{
   const currentPlayer = {
     id: "player-white",
     color: "white",
