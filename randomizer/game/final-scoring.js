@@ -137,19 +137,19 @@
     ));
   }
 
-  function cleanupPendingMarks(state, playerList = []) {
+  function cleanupPendingMarks(state, playerList = [], options = {}) {
     const playersById = new Map(playerList.map((player) => [getPlayerId(player), player]));
     state.pendingMarks = (state.pendingMarks || []).filter((pending) => {
       const player = playersById.get(pending.playerId);
-      if (!player) return false;
+      if (!player) return options.preserveOtherPlayers === true;
       if (getPlayerScore(player) < Number(pending.threshold)) return false;
       return !hasPlayerClaimedThreshold(state, pending.playerId, pending.threshold);
     });
   }
 
-  function syncPendingMarks(state, playerList = []) {
+  function syncPendingMarks(state, playerList = [], options = {}) {
     ensureFinalScoringState(state);
-    cleanupPendingMarks(state, playerList);
+    cleanupPendingMarks(state, playerList, options);
 
     const added = [];
     for (const player of playerList) {

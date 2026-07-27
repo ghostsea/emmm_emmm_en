@@ -817,6 +817,7 @@
       completedTurnPlayerIds: [],
       cardTurnEventBonuses: [],
       visitedPlanetsByPlayerId: {},
+      finalScoreMarkingPlayerId: null,
       gameEnded: false,
       gameEndReason: null,
     };
@@ -2094,6 +2095,7 @@
     alienTracePickerState = null;
     closeAlienRevealConfirmationOverlay();
     pendingTurnEndAfterRevealContinuation = null;
+    turnState.finalScoreMarkingPlayerId = null;
     debugAlienTraceModeActive = false;
     pendingActionExecuted = false;
     pendingPassPlayerId = null;
@@ -7915,15 +7917,54 @@
     ));
   }
 
-  function syncFinalScorePendingMarks() {
-    const result = finalScoring.syncPendingMarks(finalScoringState, playerState.players);
-    const currentPlayer = getCurrentPlayer();
-    const currentAdded = (result.added || []).filter((pending) => pending.playerId === currentPlayer?.id);
+  function syncFinalScorePendingMarks(player = getCurrentPlayer()) {
+    if (!player) return { ok: false, added: [], pendingMarks: [] };
+    const result = finalScoring.syncPendingMarks(finalScoringState, [player], {
+      preserveOtherPlayers: true,
+    });
+    const currentAdded = (result.added || []).filter((pending) => pending.playerId === player.id);
     if (currentAdded.length) {
       const thresholds = currentAdded.map((pending) => `${pending.threshold}分`).join("、");
-      rocketState.statusNote = `${currentPlayer.colorLabel}玩家达到 ${thresholds}，请选择终局计分板块标记`;
+      rocketState.statusNote = `${player.colorLabel}玩家达到 ${thresholds}，请选择终局计分板块标记`;
     }
     return result;
+  }
+
+  function getTurnEndFinalScoreMarkingPlayer() {
+    return getPlayerById(turnState.finalScoreMarkingPlayerId) || null;
+  }
+
+  function isTurnEndFinalScoreMarkingActive(playerId = null) {
+    const markingPlayerId = turnState.finalScoreMarkingPlayerId || null;
+    return Boolean(markingPlayerId && (!playerId || markingPlayerId === playerId));
+  }
+
+  function getRemainingTurnEndFinalScoreMarks(player = getTurnEndFinalScoreMarkingPlayer()) {
+    if (!player || !isTurnEndFinalScoreMarkingActive(player.id)) return [];
+    return finalScoring.getPendingMarksForPlayer(finalScoringState, player.id);
+  }
+
+  function beginTurnEndFinalScoreMarking(player = getCurrentPlayer()) {
+    if (!player) return null;
+    const syncResult = syncFinalScorePendingMarks(player);
+    const pendingMarks = finalScoring.getPendingMarksForPlayer(finalScoringState, player.id);
+    if (!pendingMarks.length) return null;
+
+    turnState.finalScoreMarkingPlayerId = player.id;
+    const thresholds = pendingMarks.map((pending) => `${pending.threshold}分`).join("、");
+    rocketState.statusNote = `${player.colorLabel}玩家达到 ${thresholds}：请完成全部终局标记后确认标记`;
+    renderFinalScoreBoard();
+    updateActionButtons();
+    renderStateReadout();
+    scheduleAiAutoStepIfNeeded();
+    return {
+      ok: true,
+      awaitingFinalScoreMarks: true,
+      playerId: player.id,
+      pendingMarks,
+      added: syncResult.added || [],
+      message: rocketState.statusNote,
+    };
   }
 
   function getFinalScoreTokenPoint(mark) {
@@ -7958,7 +7999,10 @@
 
   function renderFinalScoreBoard() {
     const currentPlayer = getCurrentPlayer();
-    const pending = finalScoring.getNextPendingMarkForPlayer(finalScoringState, currentPlayer?.id);
+    const markingActive = isTurnEndFinalScoreMarkingActive(currentPlayer?.id);
+    const pending = markingActive
+      ? finalScoring.getNextPendingMarkForPlayer(finalScoringState, currentPlayer?.id)
+      : null;
 
     els.finalScoreTileWraps.forEach((wrap) => {
       const tileId = wrap.dataset.finalId;
@@ -8017,17 +8061,27 @@
     return step;
   }
 
-  function handleFinalScoreTileClick(tileId) {
-    const currentPlayer = getCurrentPlayer();
-    syncFinalScorePendingMarks();
+  function handleFinalScoreTileClick(tileId, options = {}) {
+    const currentPlayer = getTurnEndFinalScoreMarkingPlayer();
+    if (!currentPlayer || currentPlayer.id !== getCurrentPlayer()?.id) {
+      return { ok: false, message: "当前不在回合结束终局标记阶段" };
+    }
+    if (isAiAutoBattlePlayer(currentPlayer.id) && options.automated !== true) {
+      return blockManualAiAutomationInput(`${currentPlayer.colorLabel}AI 正在选择终局计分板块`, currentPlayer);
+    }
     const beforeFinalScoringState = structuredClone(finalScoringState);
 
     const result = finalScoring.markTile(finalScoringState, tileId, currentPlayer, {
       tokenSrc: getNormalTokenAssetForPlayer(currentPlayer),
     });
 
-    rocketState.statusNote = result.message;
     if (result.ok) recordFinalScoreMarkActionLog(result, currentPlayer, beforeFinalScoringState);
+    const remainingMarks = getRemainingTurnEndFinalScoreMarks(currentPlayer);
+    rocketState.statusNote = result.ok
+      ? remainingMarks.length
+        ? `${result.message}；还需放置 ${remainingMarks.length} 个终局标记`
+        : `${result.message}；终局标记已完成，请点击确认标记`
+      : result.message;
     renderFinalScoreBoard();
     renderPlayerStats();
     updateActionButtons();
@@ -9071,15 +9125,22 @@
   }
 
   function runAiFinalScoreMarkDecision() {
-    syncFinalScorePendingMarks();
-    const currentPlayer = getCurrentPlayer();
+    const currentPlayer = getTurnEndFinalScoreMarkingPlayer();
+    if (!currentPlayer || currentPlayer.id !== getCurrentPlayer()?.id) return null;
     const pending = finalScoring.getNextPendingMarkForPlayer(finalScoringState, currentPlayer?.id);
-    if (!pending) return null;
     if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
       return {
         ok: false,
         blocked: true,
         message: `${currentPlayer?.colorLabel || "当前玩家"}需要人工选择终局计分板块`,
+      };
+    }
+    if (!pending) {
+      endCurrentTurn({ automated: true });
+      return {
+        ok: true,
+        progressed: true,
+        message: `${currentPlayer.colorLabel}AI 已确认终局标记并结束回合`,
       };
     }
 
@@ -9093,7 +9154,7 @@
       };
     }
 
-    const result = handleFinalScoreTileClick(selected.tileId);
+    const result = handleFinalScoreTileClick(selected.tileId, { automated: true });
     recordAiAutoBattleLog("final-score-mark", `${currentPlayer.colorLabel}AI 标记终局板块 ${selected.tileId.toUpperCase()}`, {
       pending,
       selected,
@@ -9262,7 +9323,14 @@
     const readySectorIds = (data.NEBULA_IDS || [])
       .filter((sectorId) => (!sectorFilter || sectorFilter.has(String(sectorId))))
       .filter((sectorId) => data.isSectorReadyToSettle(nebulaDataState, sectorId));
-    const priorityPlayer = resolvePlayerReference(options.priorityPlayer || {}) || getCurrentPlayer();
+    const priorityPlayer = resolvePlayerReference(options.priorityPlayer || {})
+      || getPlayerById(options.priorityPlayer?.id)
+      || getPlayerByColor(options.priorityPlayer?.color)
+      || getCurrentPlayer();
+    const ownerPlayer = resolvePlayerReference(options.ownerPlayer || {})
+      || getPlayerById(options.ownerPlayer?.id)
+      || getPlayerByColor(options.ownerPlayer?.color)
+      || priorityPlayer;
     const orderedSectorIds = data.orderSectorIdsByPlayerWinPriority
       ? data.orderSectorIdsByPlayerWinPriority(nebulaDataState, readySectorIds, priorityPlayer)
       : readySectorIds;
@@ -9271,8 +9339,8 @@
         const target = getSectorFinishWinnerTarget(sectorId);
         return {
           type: scanEffects.EFFECT_TYPES.SECTOR_FINISH_SCAN,
-          playerId: target?.playerId || null,
-          playerColor: target?.playerColor || null,
+          playerId: ownerPlayer?.id || null,
+          playerColor: ownerPlayer?.color || null,
           icon: getSectorFinishIcon(sectorId),
           label: `完成扇区：${data.getNebulaLabel(sectorId)}`,
           required: true,
@@ -9281,8 +9349,6 @@
             sectorId,
             required: true,
             skippable: false,
-            targetPlayerId: target?.playerId || null,
-            targetPlayerColor: target?.playerColor || null,
             winnerPlayerId: target?.playerId || null,
             winnerPlayerColor: target?.playerColor || null,
           },
@@ -9407,8 +9473,15 @@
   }
 
   function buildScanFinalizeFollowupEffects(scanRunId, flow = pendingActionEffectFlow) {
+    const ownerPlayer = resolvePlayerReference({
+      playerId: flow?.playerId || flow?.defaultPlayerId || null,
+    }) || getCurrentPlayer();
     return [
-      ...buildReadySectorFinishEffects({ nebulaIds: getFlowMarkedNebulaIds(flow) }),
+      ...buildReadySectorFinishEffects({
+        nebulaIds: getFlowMarkedNebulaIds(flow),
+        priorityPlayer: ownerPlayer,
+        ownerPlayer,
+      }),
     ];
   }
 
@@ -9514,14 +9587,9 @@
     if (winner) {
       effect.options = {
         ...(effect.options || {}),
-        targetPlayerId: winner.id || null,
-        targetPlayerColor: winner.color || null,
         winnerPlayerId: winner.id || null,
         winnerPlayerColor: winner.color || null,
       };
-      effect.playerId = winner.id || effect.playerId || null;
-      effect.playerColor = winner.color || effect.playerColor || null;
-      setActiveEffectFlowOwner(effect);
     }
     const claim = winner
       ? runezu?.claimSectorSymbol?.(alienGameState, result.sectorId, winner)
@@ -9671,13 +9739,23 @@
   function buildEndOfFlowFollowupEffects(flow) {
     if (!flow || flow.actionType === "initialIncome") return [];
     const effects = [];
+    const ownerPlayer = resolvePlayerReference({
+      playerId: flow.playerId || flow.defaultPlayerId || null,
+    }) || getCurrentPlayer();
     const markedNebulaIds = getFlowMarkedNebulaIds(flow);
     if (markedNebulaIds.size) {
-      effects.push(...buildReadySectorFinishEffects({ nebulaIds: markedNebulaIds }));
+      effects.push(...buildReadySectorFinishEffects({
+        nebulaIds: markedNebulaIds,
+        priorityPlayer: ownerPlayer,
+        ownerPlayer,
+      }));
     }
     if (isScanRelatedEffectFlow(flow)) {
       const queuedSectorIds = new Set(effects.map((effect) => String(effect.options?.sectorId || "")));
-      for (const effect of buildReadySectorFinishEffects()) {
+      for (const effect of buildReadySectorFinishEffects({
+        priorityPlayer: ownerPlayer,
+        ownerPlayer,
+      })) {
         const sectorId = String(effect.options?.sectorId || "");
         if (queuedSectorIds.has(sectorId)) continue;
         queuedSectorIds.add(sectorId);
@@ -32348,7 +32426,6 @@
     const resources = currentPlayer.resources;
     const finalScoreBreakdown = computePlayerFinalScoreBreakdown(currentPlayer);
 
-    syncFinalScorePendingMarks();
     renderFinalScoreBoard();
 
     const mainStats = [
@@ -33010,6 +33087,7 @@
   function clearActionPending() {
     pendingActionExecuted = false;
     pendingPassPlayerId = null;
+    turnState.finalScoreMarkingPlayerId = null;
     clearCompletedEffectFlowForUndo(HISTORY_SOURCE_MAIN);
     pendingActionHasIrreversibleBarrier = false;
     pendingActionIrreversibleReason = null;
@@ -33559,11 +33637,10 @@
     }
   }
 
-  function endCurrentTurn() {
-    if (!pendingActionExecuted || isActionEffectFlowActive() || hasActivePendingSubFlow()) return;
-    const endingPlayer = getCurrentPlayer();
+  function finishCurrentTurnAfterFinalScoreMarks(endingPlayer) {
     const endingPlayerId = endingPlayer?.id || null;
     const didPass = pendingPassPlayerId === endingPlayerId;
+    turnState.finalScoreMarkingPlayerId = null;
 
     if (industry?.expireStrategyPlayInteractionOnTurnEnd?.(endingPlayer, turnState.roundNumber)?.cleared) {
       renderInitialSelectionArea();
@@ -33580,6 +33657,37 @@
       ...turnEndContext,
       turnEndReveal,
     });
+    return { ok: true, turnEnded: true };
+  }
+
+  function endCurrentTurn(options = {}) {
+    if (!pendingActionExecuted || isActionEffectFlowActive() || hasActivePendingSubFlow()) return;
+    const endingPlayer = getCurrentPlayer();
+    const endingPlayerId = endingPlayer?.id || null;
+    if (!endingPlayerId) return;
+
+    if (isTurnEndFinalScoreMarkingActive()) {
+      if (!isTurnEndFinalScoreMarkingActive(endingPlayerId)) {
+        return { ok: false, message: "终局标记玩家与当前玩家不一致" };
+      }
+      if (isAiAutoBattlePlayer(endingPlayerId) && options.automated !== true) {
+        return blockManualAiAutomationInput(`${endingPlayer.colorLabel}AI 正在确认终局标记`, endingPlayer);
+      }
+      const remainingMarks = getRemainingTurnEndFinalScoreMarks(endingPlayer);
+      if (remainingMarks.length) {
+        rocketState.statusNote = `请先完成剩余 ${remainingMarks.length} 个终局标记`;
+        renderFinalScoreBoard();
+        updateActionButtons();
+        renderStateReadout();
+        scheduleAiAutoStepIfNeeded();
+        return { ok: false, awaitingFinalScoreMarks: true, pendingMarks: remainingMarks, message: rocketState.statusNote };
+      }
+      return finishCurrentTurnAfterFinalScoreMarks(endingPlayer);
+    }
+
+    const markingResult = beginTurnEndFinalScoreMarking(endingPlayer);
+    if (markingResult) return markingResult;
+    return finishCurrentTurnAfterFinalScoreMarks(endingPlayer);
   }
 
   function undoPendingAction() {
@@ -33971,6 +34079,23 @@
   function updateTurnActionButtons() {
     const pendingBlockedReason = "请先回合结束或撤销当前行动";
     const effectBlockedReason = "请先完成当前行动的效果";
+    const finalScoreMarkingPlayer = getTurnEndFinalScoreMarkingPlayer();
+
+    if (els.actionConfirmButton) {
+      const markingActive = Boolean(finalScoreMarkingPlayer);
+      els.actionConfirmButton.textContent = markingActive ? "确认标记" : "回合结束";
+      els.actionConfirmButton.setAttribute("aria-label", markingActive ? "确认终局标记" : "回合结束");
+    }
+
+    if (finalScoreMarkingPlayer) {
+      const remainingMarks = getRemainingTurnEndFinalScoreMarks(finalScoreMarkingPlayer);
+      setTurnActionButtonState(els.actionPassButton, false);
+      setTurnActionButtonState(els.actionConfirmButton, remainingMarks.length === 0, remainingMarks.length === 0);
+      setTurnActionButtonState(els.actionUndoButton, false);
+      return remainingMarks.length
+        ? `请完成剩余 ${remainingMarks.length} 个终局标记`
+        : "终局标记已完成，请确认标记";
+    }
 
     if (isTechTilePickingActive()) {
       setTurnActionButtonState(els.actionPassButton, false);
@@ -34017,6 +34142,7 @@
       return;
     }
     if (isAiAutoBattlePlayer(playerState.currentPlayerId) && !isAiAutomationPaused()) {
+      updateTurnActionButtons();
       lockAllActionButtons("电脑玩家自动行动中");
       return;
     }
@@ -34044,6 +34170,21 @@
 
     const pendingBlockedReason = updateTurnActionButtons();
     const effectBlockedReason = effectFlowLocked ? "请先完成当前行动的效果" : pendingBlockedReason;
+
+    if (isTurnEndFinalScoreMarkingActive()) {
+      const markingReason = pendingBlockedReason || "请先确认终局标记";
+      setActionButtonState(els.actionLaunchButton, false, markingReason);
+      setActionButtonState(els.actionOrbitButton, false, markingReason);
+      setActionButtonState(els.actionLandButton, false, markingReason);
+      setActionButtonState(els.actionScanButton, false, markingReason);
+      setActionButtonState(els.actionAnalyzeButton, false, markingReason);
+      setActionButtonState(els.actionPlayCardButton, false, markingReason);
+      setActionButtonState(els.actionResearchTechButton, false, markingReason);
+      setQuickActionButtonEnabled(false, markingReason);
+      updateQuickPanel();
+      renderActionEffectBar();
+      return;
+    }
 
     if (techSelectionLocked || discardSelectionLocked || playCardSelectionLocked || movePaymentLocked) {
       setActionButtonState(els.actionLaunchButton, false, selectionBlockReason);

@@ -6,6 +6,7 @@ const path = require("node:path");
 
 const appPath = path.join(__dirname, "..", "app.js");
 const appSource = fs.readFileSync(appPath, "utf8");
+const finalScoring = require("../game/final-scoring");
 
 function extractNamedFunctionSource(functionName) {
   const start = appSource.indexOf(`function ${functionName}(`);
@@ -95,6 +96,7 @@ function loadNamedFunction(functionName, dependencies = {}) {
 
 {
   const currentPlayer = { id: "player-blue", color: "blue" };
+  const winningPlayer = { id: "player-green", color: "green" };
   const data = {
     NEBULA_IDS: ["sector-other", "sector-mine"],
     isSectorReadyToSettle: () => true,
@@ -108,17 +110,103 @@ function loadNamedFunction(functionName, dependencies = {}) {
   const buildReadySectorFinishEffects = loadNamedFunction("buildReadySectorFinishEffects", {
     data,
     nebulaDataState: {},
-    resolvePlayerReference: () => null,
+    resolvePlayerReference: (reference) => {
+      if (reference?.playerId === currentPlayer.id || reference?.id === currentPlayer.id) return currentPlayer;
+      return null;
+    },
+    getPlayerById: (playerId) => playerId === currentPlayer.id ? currentPlayer : null,
+    getPlayerByColor: (color) => color === currentPlayer.color ? currentPlayer : null,
     getCurrentPlayer: () => currentPlayer,
-    getSectorFinishWinnerTarget: () => null,
+    getSectorFinishWinnerTarget: () => ({
+      playerId: winningPlayer.id,
+      playerColor: winningPlayer.color,
+    }),
     scanEffects: { EFFECT_TYPES: { SECTOR_FINISH_SCAN: "sector_finish_scan" } },
     getSectorFinishIcon: () => "scan",
   });
+  const sectorEffects = buildReadySectorFinishEffects();
   assert.deepEqual(
-    buildReadySectorFinishEffects().map((effect) => effect.options.sectorId),
+    sectorEffects.map((effect) => effect.options.sectorId),
     ["sector-mine", "sector-other"],
     "app settlement nodes should preserve current-player-winner priority",
   );
+  assert.ok(
+    sectorEffects.every((effect) => effect.playerId === currentPlayer.id),
+    "sector completion nodes should stay owned by the player whose effect flow is resolving",
+  );
+  assert.ok(
+    sectorEffects.every((effect) => effect.options.winnerPlayerId === winningPlayer.id),
+    "sector winner metadata should remain available without taking over the completion node",
+  );
+  assert.ok(
+    sectorEffects.every((effect) => !effect.options.targetPlayerId),
+    "sector completion nodes should reserve target ownership for the inserted winner reward nodes",
+  );
+}
+
+assert.doesNotMatch(
+  extractNamedFunctionSource("renderPlayerStats"),
+  /syncFinalScorePendingMarks/,
+  "score rendering must not create final-score marks before the player ends the turn",
+);
+assert.doesNotMatch(
+  extractNamedFunctionSource("runAiFinalScoreMarkDecision"),
+  /syncFinalScorePendingMarks/,
+  "AI polling must not create final-score marks before it chooses to end the turn",
+);
+assert.match(
+  extractNamedFunctionSource("endCurrentTurn"),
+  /beginTurnEndFinalScoreMarking/,
+  "ending a turn should enter the final-score marking gate before turn advancement",
+);
+assert.match(
+  extractNamedFunctionSource("updateTurnActionButtons"),
+  /确认标记/,
+  "the turn confirmation button should become the final-score confirmation control while marking",
+);
+assert.doesNotMatch(
+  extractNamedFunctionSource("executeSectorFinishScanEffect"),
+  /setActiveEffectFlowOwner/,
+  "settling a sector must not hand the active flow to the sector winner",
+);
+
+{
+  const currentPlayer = {
+    id: "player-white",
+    color: "white",
+    colorLabel: "白色",
+    resources: { score: 70 },
+  };
+  const finalScoringState = finalScoring.createFinalScoringState(["a", "b", "c", "d"]);
+  const turnState = { finalScoreMarkingPlayerId: null };
+  const rocketState = { statusNote: "" };
+  let scheduled = 0;
+  const beginTurnEndFinalScoreMarking = loadNamedFunction("beginTurnEndFinalScoreMarking", {
+    getCurrentPlayer: () => currentPlayer,
+    syncFinalScorePendingMarks: (player) => finalScoring.syncPendingMarks(
+      finalScoringState,
+      [player],
+      { preserveOtherPlayers: true },
+    ),
+    finalScoring,
+    finalScoringState,
+    turnState,
+    rocketState,
+    renderFinalScoreBoard: () => {},
+    updateActionButtons: () => {},
+    renderStateReadout: () => {},
+    scheduleAiAutoStepIfNeeded: () => {
+      scheduled += 1;
+    },
+  });
+  const result = beginTurnEndFinalScoreMarking(currentPlayer);
+  assert.equal(turnState.finalScoreMarkingPlayerId, currentPlayer.id);
+  assert.deepEqual(
+    result.pendingMarks.map((pending) => pending.threshold),
+    [25, 50, 70],
+    "one end-turn click should open every newly reached final-score threshold",
+  );
+  assert.equal(scheduled, 1, "the final-score gate should hand computer-owned marking back to AI");
 }
 
 for (const functionName of [

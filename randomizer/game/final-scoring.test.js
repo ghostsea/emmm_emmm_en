@@ -22,6 +22,28 @@ white.resources.score = 70;
 sync = finalScoring.syncPendingMarks(state, [white]);
 assert.deepEqual(sync.added.map((item) => item.threshold), [25, 50, 70]);
 
+const preservedPendingState = finalScoring.createFinalScoringState(["a", "b"]);
+const preservedWhite = player("preserved-white", 25);
+const preservedBlue = player("preserved-blue", 50);
+finalScoring.syncPendingMarks(preservedPendingState, [preservedWhite, preservedBlue]);
+preservedWhite.resources.score = 70;
+const preservedSync = finalScoring.syncPendingMarks(
+  preservedPendingState,
+  [preservedWhite],
+  { preserveOtherPlayers: true },
+);
+assert.deepEqual(
+  preservedSync.added.map((item) => item.threshold),
+  [50, 70],
+  "turn-end sync should add every newly reached threshold for the ending player",
+);
+assert.deepEqual(
+  finalScoring.getPendingMarksForPlayer(preservedPendingState, preservedBlue.id)
+    .map((item) => item.threshold),
+  [25, 50],
+  "syncing one ending player should not discard another player's existing pending marks",
+);
+
 let first = finalScoring.markTile(state, "a", white, { tokenSrc: "white.png" });
 assert.equal(first.ok, true);
 assert.equal(first.mark.threshold, 25);

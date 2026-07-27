@@ -71,7 +71,7 @@ GameState 快照
 - `createAiControlSnapshot()` / `restoreAiControlSnapshot()` 只保存和恢复可持久化 AI 控制配置：是否启用、电脑席位、步进参数和策略权重；不恢复 `running`、已排队定时器、进行中的自动步骤或旧的阻塞暂停。旧存档缺失 AI 控制配置，或快照中的电脑席位无法解析时，按默认人机入口重建电脑席位；显式 `enabled:false` 的快照仍按全手动恢复。
 - 批跑 / A/B / 调参入口走 `configureAiAutoBattle()`、`runAiAutomationStep()`、`runAiAutoBattleBatch()`、`runAiStrategyABTest()`、`runAiStrategyTuningCycle()`；未显式传 `activePlayerCount` 时按 4 人局重置。
 - `runAiStrategyABTest()` 必须透传当前 `aiDifficulty`，`weak_start` 基线使用真实低难度默认权重；A/B 验收同时比较全席均分、每局最低分均值、P25、270+ 席位数、270+ 赢家局数、最高分、完成率、未完成局、阻塞和 bug。赢家均分单独上升、但全席或低尾下降时不得判定为改进；A/B 结束后必须恢复进入测试前的“难度默认权重 / 显式自定义权重”模式。
-- `runAiAutomationStep()` 是唯一推进器，先收口外星人使用、外星人痕迹和半人马就绪机会，再按“初始选择 / 弃牌 / PASS 预留 / 终局标记 / 公共牌选择 / 科技放置 / 扫描 / 打牌 / 移动支付 / 登陆 / 数据放置 / 共用扫描弹窗 / 效果链 / 顶层行动”的顺序推进其余 pending 状态。
+- `runAiAutomationStep()` 是唯一推进器，先收口外星人使用、外星人痕迹和半人马就绪机会，再按“初始选择 / 弃牌 / PASS 预留 / 回合结束终局标记锁定 / 公共牌选择 / 科技放置 / 扫描 / 打牌 / 移动支付 / 登陆 / 数据放置 / 共用扫描弹窗 / 效果链 / 顶层行动”的顺序推进其余 pending 状态。终局标记不会由普通 AI 轮询提前生成；AI 必须先在顶层选择结束回合，随后连续放完这次跨过的全部门槛并自动确认，才允许推进到下一玩家。
 - AI 专用强制公司牌（当前默认席位顺序为寰宇超动力、宇宙大战略集团、作弊实验室）必须作为开局规划的真实公司输入；初始牌组合、`openingPlan` 摘要、目标和 `aiStyle` 都按实际被确认的公司重算，避免使用未选择公司牌的资源结构污染后续策略。
 - 顶层行动候选仍由现有规则入口判断可用性，策略层优先读取 `actionGraph.net`，旧 `candidate.score` 只作为 fallback 与 tie-breaker。L3 规划器目前以影子模式对同一候选生成“快速 -> 主行动 -> 快速”的静态链，并把与实际策略的首行动分歧写入 `turn-action.plannerShadow`；在固定种子证明某类链能提升而不破坏高分局前，影子结果不直接改写实际选择。
 - 子决策以 `runAi*Decision()` 族函数处理；每个 AI pending 分支必须返回 `progressed`、`skipped` 或明确 `blocked`，不能把自动批跑永久停在需要人工点击的状态。
