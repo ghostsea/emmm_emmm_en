@@ -5567,6 +5567,89 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const getFangzhouCreditLockValues = (industryLabel) => {
+    const turnChoices = [];
+    const fangzhouCards = [
+      {
+        ...fangzhou.createCard2Definition("blue", 1),
+        id: "fangzhou-huanyu-early-blue",
+        faceUp: true,
+        fangzhouCard2: true,
+        fangzhouTraceType: "blue",
+      },
+      {
+        ...fangzhou.createCard2Definition("yellow", 3),
+        id: "fangzhou-huanyu-early-yellow",
+        faceUp: true,
+        fangzhouCard2: true,
+        fangzhouTraceType: "yellow",
+      },
+    ];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 2,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordBeginPlayCard: true,
+      blueInitialSelection: {
+        industry: {
+          id: `industry:${industryLabel}`,
+          label: industryLabel,
+        },
+      },
+      blueResources: {
+        score: 56,
+        credits: 5,
+        energy: 0,
+        publicity: 4,
+        handSize: 5,
+      },
+      blueHand: [
+        ...fangzhouCards,
+        {
+          id: "fangzhou-credit-lock-normal-card",
+          cardName: "高信用普通牌",
+          price: 4,
+          playEffects: [{ type: "gain_resources", options: { gain: { score: 5 } } }],
+        },
+        { id: "fangzhou-pressure-filler-1", cardName: "占位牌1", price: 9 },
+        { id: "fangzhou-pressure-filler-2", cardName: "占位牌2", price: 9 },
+      ],
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+    });
+    assert.equal(harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok, true);
+    const result = harness.controller.runAiAutomationStep();
+    assert.equal(result.ok, true, JSON.stringify(result));
+    const playAction = turnChoices.flat().find((candidate) => candidate.id === "playCard");
+    const fangzhouCandidate = playAction?.playableCards?.find(
+      (candidate) => candidate.cardId === fangzhouCards[0].cardId,
+    );
+    const normalCandidate = playAction?.playableCards?.find(
+      (candidate) => candidate.cardId === "fangzhou-credit-lock-normal-card",
+    );
+    return {
+      fangzhouPenalty: fangzhouCandidate?.valueBreakdown?.huanyuFangzhouCreditLockPenalty,
+      normalPenalty: normalCandidate?.valueBreakdown?.huanyuFangzhouCreditLockPenalty,
+    };
+  };
+
+  assert.deepEqual(
+    getFangzhouCreditLockValues("寰宇超动力"),
+    { fangzhouPenalty: 0, normalPenalty: 1 },
+    "round-two Huanyu should count the credit access lost by a normal card without inflating Fangzhou card value",
+  );
+  assert.deepEqual(
+    getFangzhouCreditLockValues("宇宙战略集团"),
+    { fangzhouPenalty: 0, normalPenalty: 0 },
+    "the Fangzhou credit-lock opportunity cost must stay scoped to Huanyu",
+  );
+}
+
+{
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     roundNumber: 4,

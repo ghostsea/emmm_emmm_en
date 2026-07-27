@@ -11242,6 +11242,44 @@
       return roundAiScore(Math.min(getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 38 : 24, Math.max(0, value)));
     }
 
+    function scoreAiHuanyuFangzhouCreditLockPenalty(card, player = getCurrentPlayer()) {
+      if (
+        !card
+        || !player
+        || fangzhou?.isFangzhouCard2?.(card)
+        || getAiRoundNumber() !== 2
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) return 0;
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+      ) return 0;
+      const resources = player.resources || {};
+      const score = Math.max(0, aiNumber(resources.score));
+      const credits = Math.max(0, aiNumber(resources.credits));
+      const energy = Math.max(0, aiNumber(resources.energy));
+      const handSize = Math.max(0, (player.hand || []).length);
+      const creditCost = Math.max(0, aiNumber(getCardPlayCost(card)?.credits));
+      if (
+        score < 50
+        || score >= 70
+        || credits < 4
+        || credits > 5
+        || energy > 1
+        || handSize < 4
+        || handSize > 6
+        || Math.max(0, Math.round(aiNumber(player.completedTaskCount))) > 0
+        || countAiFangzhouCard2InHand(player) < 2
+        || creditCost <= 0
+        || credits - creditCost >= Math.max(1, aiNumber(fangzhou?.CARD2_PLAY_COST?.credits || 2))
+      ) return 0;
+
+      // 只计入会封死下一张已解锁方舟牌的真实信用机会成本，不给方舟牌本身加通用常量。
+      return 1;
+    }
+
     function scoreAiCardLaunchRouteValue(effect, player = getCurrentPlayer()) {
       if (!effect || effect.type !== "launch" || !player) {
         return {
@@ -11750,6 +11788,8 @@
           plan: routePlan,
           standardActionPremium,
         });
+      const huanyuFangzhouCreditLockPenalty = details.huanyuFangzhouCreditLockPenalty
+        ?? scoreAiHuanyuFangzhouCreditLockPenalty(card, player);
       const finalRoundEndGameCardUrgency = scoreAiFinalRoundEndGameCardUrgency(
         typeCode,
         model,
@@ -11859,7 +11899,8 @@
         - cornerOpportunity * 0.45
         - finalSecondMarkNoDirectSetupPenalty
         - finalRoundResourceDrainPenalty
-        - grandStrategyCreditBottleneckPenalty;
+        - grandStrategyCreditBottleneckPenalty
+        - huanyuFangzhouCreditLockPenalty;
     }
 
     function getAiCircularDistanceX(leftX, rightX) {
@@ -16731,6 +16772,10 @@
         cFinalTaskProgressValue,
         suppressTaskSetup: finalUnreadyTaskSetupSuppressed,
       });
+      const huanyuFangzhouCreditLockPenalty = scoreAiHuanyuFangzhouCreditLockPenalty(
+        card,
+        currentPlayer,
+      );
       const routePlanCashout = Boolean(
         plan?.movePreview?.followupLanding?.directScoreGain > 0
         || plan?.postLaunchMovePlan?.followupDirectScore > 0
@@ -16778,6 +16823,7 @@
         plan,
         directScoreGain,
         playCardConversionPressure,
+        huanyuFangzhouCreditLockPenalty,
         finalSecondMarkNoDirectSetupPenalty,
         finalRoundResourceDrainPenalty,
         chongTaskChainValue,
@@ -16869,6 +16915,7 @@
           chongTaskChainValue,
           banrenmaThresholdSetupValue,
           playCardConversionPressure,
+          huanyuFangzhouCreditLockPenalty,
           lateCardEnginePressure,
           endGameExpectedScore,
           chongProbeFossilRewardValue,
