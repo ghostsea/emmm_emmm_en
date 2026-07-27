@@ -7,6 +7,7 @@ const path = require("node:path");
 const appPath = path.join(__dirname, "..", "app.js");
 const appSource = fs.readFileSync(appPath, "utf8");
 const finalScoring = require("../game/final-scoring");
+const actionHistoryModule = require("../game/history/action-history");
 
 function extractNamedFunctionSource(functionName) {
   const start = appSource.indexOf(`function ${functionName}(`);
@@ -29,6 +30,131 @@ function loadNamedFunction(functionName, dependencies = {}) {
     ...names,
     `"use strict"; return (${extractNamedFunctionSource(functionName)});`,
   )(...names.map((name) => dependencies[name]));
+}
+
+{
+  const actionHistory = actionHistoryModule.createActionHistory();
+  const quickActionHistory = actionHistoryModule.createActionHistory();
+  const historyStepOrder = [];
+  const HISTORY_SOURCE_MAIN = "main";
+  const HISTORY_SOURCE_QUICK = "quick";
+  let pendingActionIrreversibleReason = null;
+
+  quickActionHistory.beginSession("quick", "快速行动");
+  quickActionHistory.beginStep({
+    source: HISTORY_SOURCE_QUICK,
+    type: "place-data",
+    label: "放置数据",
+  });
+  const placeDataStep = quickActionHistory.endStep();
+  historyStepOrder.push({ source: HISTORY_SOURCE_QUICK, stepId: placeDataStep.id });
+
+  actionHistory.beginSession("analyze", "分析数据");
+  actionHistory.beginStep({
+    source: HISTORY_SOURCE_MAIN,
+    type: "action_start",
+    label: "分析数据",
+  });
+  const analyzeStep = actionHistory.endStep();
+  historyStepOrder.push({ source: HISTORY_SOURCE_MAIN, stepId: analyzeStep.id });
+  actionHistory.beginStep({
+    source: HISTORY_SOURCE_MAIN,
+    type: "irreversible",
+    label: "获取一张卡牌",
+    undoable: false,
+    irreversibleCode: "hidden_card_reveal",
+    irreversibleReason: "公共牌补牌翻出新牌",
+  });
+  const cardBarrier = actionHistory.endStep();
+  pendingActionIrreversibleReason = cardBarrier.irreversibleReason;
+  historyStepOrder.push({ source: HISTORY_SOURCE_MAIN, stepId: cardBarrier.id });
+
+  const getHistoryForSource = (source) => (
+    source === HISTORY_SOURCE_QUICK ? quickActionHistory : actionHistory
+  );
+  const hasCurrentMainActionIrreversibleBarrier = () => (
+    actionHistory.hasIrreversibleBarrier()
+  );
+  const getLatestHistoryBoundary = loadNamedFunction("getLatestHistoryBoundary", {
+    historyStepOrder,
+    HISTORY_SOURCE_QUICK,
+    HISTORY_SOURCE_MAIN,
+    quickActionHistory,
+    actionHistory,
+    hasCurrentMainActionIrreversibleBarrier,
+    pendingActionIrreversibleReason,
+  });
+  const canUndoPendingAction = loadNamedFunction("canUndoPendingAction", {
+    getLatestHistoryBoundary,
+    hasCurrentMainActionIrreversibleBarrier,
+    pendingActionExecuted: true,
+    isActionEffectFlowActive: () => false,
+  });
+
+  assert.deepEqual(
+    getLatestHistoryBoundary(),
+    {
+      source: HISTORY_SOURCE_MAIN,
+      step: actionHistory.listSteps().find((step) => step.id === cardBarrier.id),
+      undoable: false,
+      irreversibleReason: "公共牌补牌翻出新牌",
+    },
+    "a main-action hidden-information barrier must stay newer than an earlier place-data quick action",
+  );
+  assert.equal(
+    canUndoPendingAction(),
+    false,
+    "the undo button must be disabled instead of reaching across the barrier to undo placed data",
+  );
+
+  const boundaryWithoutHistoryStepOrder = [
+    { source: HISTORY_SOURCE_QUICK, stepId: placeDataStep.id },
+  ];
+  const rememberIrreversibleHistoryBoundary = loadNamedFunction(
+    "rememberIrreversibleHistoryBoundary",
+    {
+      historyStepOrder: boundaryWithoutHistoryStepOrder,
+      getHistoryForSource,
+    },
+  );
+  rememberIrreversibleHistoryBoundary(
+    HISTORY_SOURCE_MAIN,
+    "外星人牌获取翻开新牌",
+    "hidden_alien_card_reveal",
+  );
+  const getSyntheticHistoryBoundary = loadNamedFunction("getLatestHistoryBoundary", {
+    historyStepOrder: boundaryWithoutHistoryStepOrder,
+    HISTORY_SOURCE_QUICK,
+    HISTORY_SOURCE_MAIN,
+    quickActionHistory,
+    actionHistory,
+    hasCurrentMainActionIrreversibleBarrier,
+    pendingActionIrreversibleReason,
+  });
+  assert.deepEqual(
+    getSyntheticHistoryBoundary(),
+    {
+      source: HISTORY_SOURCE_MAIN,
+      step: null,
+      undoable: false,
+      irreversibleReason: "外星人牌获取翻开新牌",
+    },
+    "direct irreversible markers must also block earlier quick actions before a history step is finalized",
+  );
+
+  actionHistory.beginStep({
+    source: HISTORY_SOURCE_MAIN,
+    type: "effect",
+    label: "屏障后获得 1 宣传",
+  });
+  const afterBarrierStep = actionHistory.endStep();
+  historyStepOrder.push({ source: HISTORY_SOURCE_MAIN, stepId: afterBarrierStep.id });
+  assert.equal(
+    getLatestHistoryBoundary().step.id,
+    afterBarrierStep.id,
+    "a deterministic step after the barrier should remain independently undoable",
+  );
+  assert.equal(canUndoPendingAction(), true);
 }
 
 {

@@ -11437,6 +11437,27 @@
     historyStepOrder.push({ source, stepId });
   }
 
+  function rememberIrreversibleHistoryBoundary(source, reason, code = "irreversible") {
+    const latest = historyStepOrder[historyStepOrder.length - 1] || null;
+    if (latest?.source === source) {
+      if (latest.irreversibleReason) return latest;
+      const history = getHistoryForSource(source);
+      const latestStep = latest.stepId
+        ? history.listSteps?.().find((step) => step.id === latest.stepId) || null
+        : null;
+      if (latestStep?.undoable === false || latestStep?.irreversibleReason) return latest;
+    }
+    const boundary = {
+      source,
+      stepId: null,
+      undoable: false,
+      irreversibleCode: code,
+      irreversibleReason: reason || "该步骤产生不可撤销影响",
+    };
+    historyStepOrder.push(boundary);
+    return boundary;
+  }
+
   function forgetLastHistoryStep(source, stepId = null) {
     for (let index = historyStepOrder.length - 1; index >= 0; index -= 1) {
       const entry = typeof historyStepOrder[index] === "string"
@@ -11460,25 +11481,89 @@
     }
   }
 
-  function getLatestUndoSource() {
+  function getLatestHistoryBoundary() {
     for (let index = historyStepOrder.length - 1; index >= 0; index -= 1) {
       const entry = typeof historyStepOrder[index] === "string"
         ? { source: historyStepOrder[index], stepId: null }
         : historyStepOrder[index];
       const source = entry.source;
-      if (source === HISTORY_SOURCE_QUICK && quickActionHistory.hasSession()) {
-        const step = quickActionHistory.peekLastUndoableStep?.() || null;
-        if (step && (!entry.stepId || entry.stepId === step.id)) return source;
+      if (entry.undoable === false || entry.irreversibleReason) {
+        return {
+          source,
+          step: null,
+          undoable: false,
+          irreversibleReason: entry.irreversibleReason || "该步骤产生不可撤销影响",
+        };
+      }
+      const history = source === HISTORY_SOURCE_QUICK
+        ? quickActionHistory
+        : source === HISTORY_SOURCE_MAIN
+          ? actionHistory
+          : null;
+      if (!history?.hasSession?.()) {
+        historyStepOrder.splice(index, 1);
         continue;
       }
-      if (source === HISTORY_SOURCE_MAIN && actionHistory.hasSession()) {
-        const step = actionHistory.peekLastUndoableStep?.() || null;
-        if (step && (!entry.stepId || entry.stepId === step.id)) return source;
+
+      const orderedStep = entry.stepId
+        ? history.listSteps?.().find((step) => step.id === entry.stepId) || null
+        : null;
+      if (entry.stepId && !orderedStep) {
+        historyStepOrder.splice(index, 1);
+        continue;
+      }
+      if (orderedStep?.undoable === false || orderedStep?.irreversibleReason) {
+        return {
+          source,
+          step: orderedStep,
+          undoable: false,
+          irreversibleReason: orderedStep.irreversibleReason || "该步骤产生不可撤销影响",
+        };
+      }
+
+      const step = history.peekLastUndoableStep?.() || null;
+      if (step && (!entry.stepId || entry.stepId === step.id)) {
+        return { source, step, undoable: true, irreversibleReason: null };
       }
     }
-    if (quickActionHistory.hasUndoableStep()) return HISTORY_SOURCE_QUICK;
-    if (actionHistory.hasUndoableStep()) return HISTORY_SOURCE_MAIN;
+
+    if (hasCurrentMainActionIrreversibleBarrier()) {
+      return {
+        source: HISTORY_SOURCE_MAIN,
+        step: null,
+        undoable: false,
+        irreversibleReason: pendingActionIrreversibleReason || "当前行动已有不可撤销影响",
+      };
+    }
+    if (quickActionHistory.hasUndoableStep()) {
+      return {
+        source: HISTORY_SOURCE_QUICK,
+        step: quickActionHistory.peekLastUndoableStep?.() || null,
+        undoable: true,
+        irreversibleReason: null,
+      };
+    }
+    if (actionHistory.hasUndoableStep()) {
+      return {
+        source: HISTORY_SOURCE_MAIN,
+        step: actionHistory.peekLastUndoableStep?.() || null,
+        undoable: true,
+        irreversibleReason: null,
+      };
+    }
     return null;
+  }
+
+  function getLatestUndoSource() {
+    const boundary = getLatestHistoryBoundary();
+    return boundary?.undoable === true ? boundary.source : null;
+  }
+
+  function canUndoPendingAction() {
+    const boundary = getLatestHistoryBoundary();
+    if (boundary) return boundary.undoable === true;
+    if (hasCurrentMainActionIrreversibleBarrier()) return false;
+    return Boolean(pendingActionExecuted || isActionEffectFlowActive());
   }
 
   function recordQuickTradeCompletion(tradeId, player, beforeState) {
@@ -33145,6 +33230,11 @@
   function markCurrentActionIrreversible(reason, code = "irreversible") {
     pendingActionHasIrreversibleBarrier = true;
     pendingActionIrreversibleReason = reason || pendingActionIrreversibleReason || "该步骤产生不可撤销影响";
+    rememberIrreversibleHistoryBoundary(
+      HISTORY_SOURCE_MAIN,
+      pendingActionIrreversibleReason,
+      code,
+    );
     return {
       code,
       reason: pendingActionIrreversibleReason,
@@ -33228,12 +33318,6 @@
     if (!info || info.stepCount !== 0) return false;
     clearFullyUndoneMainActionSession();
     return true;
-  }
-
-  function canUndoCurrentMainAction() {
-    if (actionHistory.hasUndoableStep()) return true;
-    if (hasCurrentMainActionIrreversibleBarrier()) return false;
-    return Boolean(pendingActionExecuted || isActionEffectFlowActive());
   }
 
   function hasCurrentMainActionIrreversibleBarrier() {
@@ -34193,7 +34277,7 @@
       setTurnActionButtonState(els.actionConfirmButton, false);
       setTurnActionButtonState(
         els.actionUndoButton,
-        quickActionHistory.hasUndoableStep() || canUndoCurrentMainAction(),
+        canUndoPendingAction(),
         false,
       );
       return effectBlockedReason;
@@ -34205,7 +34289,7 @@
       setTurnActionButtonState(els.actionConfirmButton, true, true);
       setTurnActionButtonState(
         els.actionUndoButton,
-        quickActionHistory.hasUndoableStep() || canUndoCurrentMainAction(),
+        canUndoPendingAction(),
         !mainActionHasIrreversibleBarrier,
       );
       return pendingBlockedReason;
@@ -34213,7 +34297,10 @@
 
     setTurnActionButtonState(els.actionPassButton, canStartMainAction());
     setTurnActionButtonState(els.actionConfirmButton, false);
-    setTurnActionButtonState(els.actionUndoButton, quickActionHistory.hasUndoableStep());
+    setTurnActionButtonState(
+      els.actionUndoButton,
+      getLatestHistoryBoundary()?.undoable === true,
+    );
     return null;
   }
 
