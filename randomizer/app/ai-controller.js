@@ -21466,6 +21466,81 @@
           ?? getAiAnalyzeEnergyCost(currentPlayer),
         ))
         : 0;
+      const readyScanCandidate = round >= FINAL_ROUND_NUMBER && !state.pendingActionExecuted
+        ? (candidates || []).find((candidate) => (
+          candidate?.id === "scan"
+          && candidate.available !== false
+        )) || null
+        : null;
+      const finalAnalyzeBeforeRecoverableScanProfile = (() => {
+        if (
+          !readyAnalyzeCandidate
+          || !readyScanCandidate
+          || normalizeAiDifficulty(currentPlayer?.aiDifficulty || aiAutoBattleState.aiDifficulty)
+            !== AI_DIFFICULTY_LAUGHABLE
+          || countAiFinalMarksForPlayer(currentPlayer) < 3
+        ) {
+          return null;
+        }
+        const resources = currentPlayer?.resources || {};
+        const currentScore = Math.max(0, aiNumber(resources.score));
+        const credits = Math.max(0, aiNumber(resources.credits));
+        const energy = Math.max(0, aiNumber(resources.energy));
+        const handSize = Math.max(0, Math.round(aiNumber(resources.handSize)));
+        const availableData = Math.max(0, Math.round(aiNumber(resources.availableData)));
+        const scanCost = scanEffects?.getStandardScanCost?.(currentPlayer)
+          || scanEffects?.SCAN_COST
+          || { credits: 1, energy: 2 };
+        const scanCreditCost = Math.max(0, aiNumber(scanCost.credits));
+        const scanEnergyCost = Math.max(0, aiNumber(scanCost.energy));
+        const cardsForEnergyTrade = quickTrades?.getTradeAction?.("cards-for-energy");
+        const recoveryHandCost = Math.max(0, Math.round(aiNumber(cardsForEnergyTrade?.cost?.handSize)));
+        const recoveryEnergyGain = Math.max(0, aiNumber(cardsForEnergyTrade?.gain?.energy));
+        const energyAfterAnalyze = energy - readyAnalyzeEnergyCost;
+        const energyAfterRecovery = energyAfterAnalyze + recoveryEnergyGain;
+        const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+        const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+        const scanScore = aiNumber(readyScanCandidate.score);
+        const scanDirectScore = Math.max(0, aiNumber(readyScanCandidate.directScoreGain));
+        const analyzeDirectScore = Math.max(0, aiNumber(readyAnalyzeCandidate.directScoreGain));
+        if (
+          currentScore < 120
+          || currentScore >= 150
+          || scanCreditCost <= 0
+          || scanEnergyCost <= 0
+          || readyAnalyzeEnergyCost <= 0
+          || credits < scanCreditCost
+          || energy < scanEnergyCost
+          || energyAfterAnalyze >= scanEnergyCost
+          || recoveryHandCost <= 0
+          || handSize < recoveryHandCost
+          || recoveryEnergyGain <= 0
+          || energyAfterRecovery < scanEnergyCost
+          || availableData < 3
+          || analyzeScore < 18
+          || scanScore <= analyzeScore
+          || scanDirectScore > analyzeDirectScore
+        ) {
+          return null;
+        }
+        return {
+          analyzeScore: roundAiScore(analyzeScore),
+          analyzeNet: roundAiScore(Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore),
+          analyzeEnergyCost: readyAnalyzeEnergyCost,
+          scanScore: roundAiScore(scanScore),
+          scanDirectScore: roundAiScore(scanDirectScore),
+          analyzeDirectScore: roundAiScore(analyzeDirectScore),
+          scanCost: {
+            credits: scanCreditCost,
+            energy: scanEnergyCost,
+          },
+          energyAfterAnalyze: roundAiScore(energyAfterAnalyze),
+          recoveryTradeId: cardsForEnergyTrade.id || "cards-for-energy",
+          recoveryHandCost,
+          recoveryEnergyGain: roundAiScore(recoveryEnergyGain),
+          energyAfterRecovery: roundAiScore(energyAfterRecovery),
+        };
+      })();
       const bestContinuation = (candidates || [])
         .filter((candidate) => (
           candidate?.available !== false
@@ -21574,6 +21649,43 @@
               weakStartTechCardTieBreak: roundAiScore(weakStartTechCardTieBreakBonus),
               scanNet: roundAiScore(scanNet),
               playCardNet: roundAiScore(playCardNet),
+            },
+          };
+        }
+        if (
+          candidate.id === "scan"
+          && finalAnalyzeBeforeRecoverableScanProfile
+        ) {
+          const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+          const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+          const scoreCap = roundAiScore(analyzeScore - 0.25);
+          const netCap = roundAiScore(
+            (Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore) - 0.25,
+          );
+          const currentScore = aiNumber(adjusted.score);
+          const currentNet = Number(adjusted.actionGraph?.net);
+          adjusted = {
+            ...adjusted,
+            score: Math.min(currentScore, scoreCap),
+            scoreCapReason: "终局先分析再弃牌补能扫描",
+            actionGraph: adjusted.actionGraph
+              ? {
+                ...adjusted.actionGraph,
+                uncappedAnalyzeBeforeRecoverableScanNet: adjusted.actionGraph.net,
+                net: Math.min(Number.isFinite(currentNet) ? currentNet : currentScore, netCap),
+              }
+              : adjusted.actionGraph,
+            selectionAdjustment: {
+              ...(adjusted.selectionAdjustment || {}),
+              finalAnalyzeBeforeRecoverableScan: {
+                ...finalAnalyzeBeforeRecoverableScanProfile,
+                originalScore: roundAiScore(aiNumber(candidate.score)),
+                originalNet: Number.isFinite(graphNet) ? roundAiScore(graphNet) : null,
+              },
+            },
+            valueBreakdown: {
+              ...(adjusted.valueBreakdown || {}),
+              finalAnalyzeBeforeRecoverableScan: finalAnalyzeBeforeRecoverableScanProfile,
             },
           };
         }

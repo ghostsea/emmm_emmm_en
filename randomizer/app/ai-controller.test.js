@@ -6365,6 +6365,141 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   const turnChoices = [];
+  let selectedAction = null;
+  const placedTokens = Array.from({ length: 6 }, (_item, index) => ({ placementSlot: index + 1 }));
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    aiDifficulty: "laughable",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordAnalyze: true,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    blueResources: { score: 132, credits: 1, energy: 2, publicity: 2, availableData: 5, handSize: 2 },
+    blueHand: [
+      { id: "recoverable-scan-a", cardName: "Recoverable Scan A", price: 3 },
+      { id: "recoverable-scan-b", cardName: "Recoverable Scan B", price: 3 },
+    ],
+    publicCards: [{
+      id: "public-recoverable-scan",
+      cardId: "public-recoverable-scan",
+      cardName: "Recoverable scan setup",
+      scanActionCode: 2,
+    }],
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_c1: {
+          id: "final_c1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_c1: "c1",
+      final_d2: "d2",
+    },
+    scanEffects: {
+      EFFECT_TYPES: {
+        EARTH_SECTOR_SCAN: "earth_sector_scan",
+        IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+        MERCURY_SECTOR_SCAN: "mercury_sector_scan",
+        PUBLIC_CARD_SCAN: "public_card_scan",
+        HAND_SCAN: "hand_scan",
+        SCAN_ACTION_4: "scan_action_4",
+      },
+      SCAN_COST: { credits: 1, energy: 2 },
+      getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+      buildScanEffectQueue: () => [{ type: "public_card_scan" }],
+      canExecuteScan: (player) => (
+        Number(player?.resources?.credits || 0) >= 1 && Number(player?.resources?.energy || 0) >= 2
+          ? { ok: true }
+          : { ok: false, message: "scan resources missing" }
+      ),
+    },
+    getPublicScanChoicesForCard: () => ({
+      ok: true,
+      choices: [{ nebulaId: "recoverable-nebula", sectorX: 4, label: "Recoverable nebula" }],
+    }),
+    data: {
+      ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+      ANALYZE_ENERGY_COST: 1,
+      canAnalyzeData: (player) => (
+        Number(player?.resources?.energy || 0) >= 1
+          ? { ok: true }
+          : { ok: false, message: "energy missing" }
+      ),
+      listComputerPlacedTokens: () => placedTokens,
+      getNextReplaceableNebulaToken: () => ({ slotIndex: 30 }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+      getNebulaColor: () => "blue",
+      listNebulaTokens: () => [],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: () => ({}),
+    },
+    actionGraph: setiAi.actionGraph,
+    onChooseTurnAction: (candidates, selected) => {
+      turnChoices.push(candidates);
+      selectedAction = selected;
+    },
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => (
+        Number(right.actionGraph?.net ?? right.score ?? 0) - Number(left.actionGraph?.net ?? left.score ?? 0)
+      ))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  const candidates = turnChoices.flat();
+  const scanCandidate = candidates.find((candidate) => candidate.id === "scan");
+  const analyzeCandidate = candidates.find((candidate) => candidate.id === "analyze");
+  assert.ok(scanCandidate, "recoverable scan candidate should be enumerated");
+  assert.ok(analyzeCandidate, "ready analyze candidate should be enumerated");
+  assert.equal(scanCandidate.scoreCapReason, "终局先分析再弃牌补能扫描");
+  assert.equal(
+    scanCandidate.valueBreakdown?.finalAnalyzeBeforeRecoverableScan?.recoveryTradeId,
+    "cards-for-energy",
+  );
+  assert.ok(
+    Number(scanCandidate.score || 0) < Number(analyzeCandidate.score || 0),
+    "recoverable final scan should yield to analyze before spending its energy",
+  );
+  assert.ok(
+    Number(scanCandidate.actionGraph?.net || 0) < Number(analyzeCandidate.actionGraph?.net || 0),
+    "recoverable final scan graph should also yield to analyze",
+  );
+  assert.equal(result.ok, true, "laughable AI should analyze before the recoverable scan");
+  assert.deepEqual(harness.getHandled(), { type: "analyze" });
+  assert.equal(selectedAction?.id, "analyze");
+}
+
+{
+  const turnChoices = [];
   const placedTokens = Array.from({ length: 6 }, (_item, index) => ({ placementSlot: index + 1 }));
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
