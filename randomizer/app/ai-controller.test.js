@@ -9396,6 +9396,140 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildEarlyBlueHarness = (
+    alienIds,
+    {
+      roundNumber = 1,
+      targetTileId = "blue1",
+      useRevealPool = false,
+      resourceOverrides = {},
+    } = {},
+  ) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber,
+      canStartMainAction: true,
+      blueInitialSelection: {
+        industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+      },
+      blueResources: {
+        score: roundNumber === 1 ? 8 : 51,
+        credits: roundNumber === 1 ? 5 : 4,
+        energy: roundNumber === 1 ? 5 : 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: roundNumber === 1 ? 4 : 6,
+        ...resourceOverrides,
+      },
+      blueOwnedTechTiles: roundNumber === 2 ? { blue1: true } : {},
+      blueHand: [
+        { id: "early-blue-filler-a", cardName: "Early blue filler A", price: 2 },
+        { id: "early-blue-filler-b", cardName: "Early blue filler B", price: 2 },
+        { id: "early-blue-filler-c", cardName: "Early blue filler C", price: 2 },
+        { id: "early-blue-filler-d", cardName: "Early blue filler D", price: 2 },
+      ],
+      publicCards: [{ id: "early-blue-public", cardName: "Early blue public", price: 4 }],
+      alienSlotIds: [1, 2],
+      alienGameState: useRevealPool
+        ? { revealPoolAlienIds: alienIds }
+        : {
+          aliens: {
+            1: { assignedAlienId: alienIds[0] },
+            2: { assignedAlienId: alienIds[1] },
+          },
+        },
+      takeableTechIds: [targetTileId, "orange4"],
+      techStacks: {
+        [targetTileId]: {
+          techType: "blue",
+          stackIndex: targetTileId === "blue1" ? 1 : 2,
+          bonusId: "bonus_1p",
+        },
+        orange4: { techType: "orange", stackIndex: 4, bonusId: "bonus_1p" },
+      },
+      data: {
+        listComputerPlacedTokens: () => [],
+        getRequiredComputerSlotForBlueBonus: () => 1,
+        getBlueTileDataBonus: (tileId) => (
+          tileId === "blue1" ? { credits: 1 } : tileId === "blue2" ? { energy: 1 } : null
+        ),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    const researchCandidate = turnChoices.flat().find((candidate) => candidate.id === "researchTech");
+    return researchCandidate?.takeable?.find((candidate) => candidate.tileId === targetTileId) || null;
+  };
+
+  const dataPoorOpeningBlue1 = buildEarlyBlueHarness(["虫", "阿米巴"]);
+  assert.ok(
+    Number(dataPoorOpeningBlue1?.valueBreakdown?.grandStrategyEarlyBlueResourceValue || 0) >= 8,
+    "round-one data-poor Grand Strategy opening should value the blue1 credit loop",
+  );
+
+  const dataRichOpeningBlue1 = buildEarlyBlueHarness(
+    ["虫", "阿米巴"],
+    {
+      resourceOverrides: {
+        credits: 6,
+        energy: 3,
+        publicity: 6,
+        availableData: 3,
+      },
+    },
+  );
+  assert.equal(
+    dataRichOpeningBlue1?.valueBreakdown?.grandStrategyEarlyBlueResourceValue,
+    0,
+    "an opening that can immediately place three data must not receive the data-poor blue1 route value",
+  );
+
+  const unrevealedPoolBlue2 = buildEarlyBlueHarness(
+    ["方舟", "九折"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue2",
+      useRevealPool: true,
+    },
+  );
+  assert.equal(
+    unrevealedPoolBlue2?.valueBreakdown?.grandStrategyEarlyBlueResourceValue,
+    0,
+    "the unrevealed alien candidate pool must not count as a Fangzhou reveal",
+  );
+
+  const fangzhouBlue2 = buildEarlyBlueHarness(
+    ["方舟", "九折"],
+    { roundNumber: 2, targetTileId: "blue2" },
+  );
+  assert.ok(
+    Number(fangzhouBlue2?.valueBreakdown?.grandStrategyEarlyBlueResourceValue || 0) >= 6,
+    "round-two Grand Strategy should value the blue2 energy loop after blue1 and a Fangzhou reveal",
+  );
+
+  const otherAlienBlue2 = buildEarlyBlueHarness(
+    ["虫", "阿米巴"],
+    { roundNumber: 2, targetTileId: "blue2" },
+  );
+  assert.equal(
+    otherAlienBlue2?.valueBreakdown?.grandStrategyEarlyBlueResourceValue,
+    0,
+    "round-two blue2 follow-up must remain scoped to a revealed Fangzhou route",
+  );
+}
+
+{
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",

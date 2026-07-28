@@ -14171,6 +14171,92 @@
       return roundAiScore(Math.min(15, Math.max(0, value)));
     }
 
+    function hasAiRevealedAlienSpecies(alienId) {
+      if (!alienId) return false;
+      return (aliens.ALIEN_SLOT_IDS || []).some((alienSlotId) => {
+        const slot = aliens.getAlienSlot?.(alienGameState, alienSlotId);
+        return (slot?.alienId || slot?.assignedAlienId || null) === alienId;
+      });
+    }
+
+    function scoreAiGrandStrategyEarlyBlueResourceValue(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || !player
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return 0;
+      }
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) {
+        return 0;
+      }
+      const round = getAiRoundNumber();
+      const expectedTileId = round === 1 ? "blue1" : round === 2 ? "blue2" : null;
+      if (!expectedTileId || candidate.tileId !== expectedTileId) return 0;
+      const resources = player.resources || {};
+      if (round === 1) {
+        const dataPoorOpening = (
+          countAiPlayerTech(player) === 0
+          && Math.max(0, aiNumber(resources.availableData)) === 0
+          && aiNumber(resources.credits) >= 4
+          && aiNumber(resources.credits) <= 5
+          && aiNumber(resources.energy) >= 5
+          && aiNumber(resources.publicity) >= 6
+          && aiNumber(resources.score) >= 7
+          && aiNumber(resources.score) <= 12
+        );
+        if (!dataPoorOpening) return 0;
+      } else if (
+        !player.techState?.ownedTiles?.blue1
+        || !hasAiRevealedAlienSpecies(fangzhou?.ALIEN_ID || "方舟")
+        || Math.max(0, aiNumber(resources.availableData)) > 0
+        || aiNumber(resources.handSize ?? player.hand?.length) < 4
+      ) {
+        return 0;
+      }
+
+      const availableBlueSlots = tech.getAvailableBlueSlots?.(player.techState) || [];
+      const projectedBlueSlot = availableBlueSlots
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right)[0] || null;
+      if (!projectedBlueSlot) return 0;
+      const requiredComputerSlot = data.getRequiredComputerSlotForBlueBonus?.(projectedBlueSlot) || 1;
+      const placedComputerData = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      const availableData = Math.max(0, aiNumber(player.resources?.availableData));
+      const unlockDistance = Math.max(
+        1,
+        requiredComputerSlot - Math.min(requiredComputerSlot, placedComputerData + availableData),
+      );
+      const reward = data.getBlueTileDataBonus?.(candidate.tileId) || null;
+      const rewardValue = reward ? scoreAiResourceBundle(reward) : 0;
+      if (rewardValue <= 0) return 0;
+
+      const remainingCycles = Math.max(1, FINAL_ROUND_NUMBER - round);
+      const unlockReadiness = 1 / unlockDistance;
+      const repeatResourceValue = rewardValue
+        * (0.72 + remainingCycles * 0.22)
+        * (0.85 + unlockReadiness * 0.2);
+      const publicCardPaymentPressure = candidate.tileId === "blue1"
+        ? Math.min(
+          1.5,
+          Math.max(
+            0,
+            ...(cardState.publicCards || []).map((card) => getCardPrice(card)),
+          ) * 0.35,
+        )
+        : 0;
+      return roundAiScore(Math.min(11, repeatResourceValue + publicCardPaymentPressure));
+    }
+
     function scoreAiTechBonus(bonusId, player = getCurrentPlayer()) {
       const resources = player?.resources || {};
       if (bonusId === "bonus_3f") return getAiRoundNumber() <= 2 ? 2.2 : 3;
@@ -14613,6 +14699,7 @@
       if (candidate?.firstTake) {
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
+      value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
       value += Math.max(0, 5 - stackIndex) * 0.4;
       value += Math.max(0, getAiRemainingRoundWeight() - 1) * 0.4;
       value += getAiMapDemand(demand.techTypes, techType) * 0.85 * getAiStrategyWeight("tech");
@@ -20692,6 +20779,8 @@
         lateTechCatchupValue: scoreAiLateTechEngineCatchupValue(candidate, getCurrentPlayer()),
         lowTechCatchupValue: scoreAiLowTechBoardCatchupValue(candidate, getCurrentPlayer()),
         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),
+        grandStrategyEarlyBlueResourceValue:
+          scoreAiGrandStrategyEarlyBlueResourceValue(candidate, getCurrentPlayer()),
       };
       if (candidate.tileId === "orange4") {
         candidate.valueBreakdown.orange4SatelliteProfile = getAiOrange4SatellitePotentialProfile(getCurrentPlayer());
