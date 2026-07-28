@@ -11660,7 +11660,13 @@
       options.historySource || HISTORY_SOURCE_MAIN,
     );
     pendingActionEffectFlow.actionType = options.actionType || "playCard";
-    pendingActionEffectFlow.playerId = getCurrentPlayer()?.id || null;
+    const flowOwner = options.player
+      || resolvePlayerReference({
+        playerId: options.playerId,
+        playerColor: options.playerColor,
+      })
+      || getCurrentPlayer();
+    pendingActionEffectFlow.playerId = flowOwner?.id || null;
     assignEffectFlowOwner(pendingActionEffectFlow, pendingActionEffectFlow.playerId);
     pendingActionEffectFlow.scanRunId = options.scanRunId || null;
     pendingActionEffectFlow.card = options.card || null;
@@ -11877,21 +11883,20 @@
     );
   }
 
-  function getReadyCardTasks() {
-    const currentPlayer = getCurrentPlayer();
-    if (!currentPlayer) return [];
+  function getReadyCardTasks(player = getCurrentPlayer()) {
+    if (!player) return [];
     cardTaskStateModule.refreshTaskState(
       cardTaskState,
-      currentPlayer,
+      player,
       buildCardTaskContext(),
       cardEffects,
     );
     const regularTasks = cardTaskStateModule.getReadyType2Tasks(cardTaskState);
     const readyByCardId = new Map((regularTasks || []).map((ready) => [ready?.card?.id, ready]));
-    for (const card of currentPlayer.reservedCards || []) {
-      const readyChongTask = getReadyChongTaskForReservedCard(card, currentPlayer);
-      const readyAmibaTask = readyChongTask ? null : getReadyAmibaTaskForReservedCard(card, currentPlayer);
-      const readyRunezuTask = readyChongTask || readyAmibaTask ? null : getReadyRunezuTaskForReservedCard(card, currentPlayer);
+    for (const card of player.reservedCards || []) {
+      const readyChongTask = getReadyChongTaskForReservedCard(card, player);
+      const readyAmibaTask = readyChongTask ? null : getReadyAmibaTaskForReservedCard(card, player);
+      const readyRunezuTask = readyChongTask || readyAmibaTask ? null : getReadyRunezuTaskForReservedCard(card, player);
       const readySpecialTask = readyChongTask || readyAmibaTask || readyRunezuTask;
       if (readySpecialTask?.card?.id && !readyByCardId.has(readySpecialTask.card.id)) {
         readyByCardId.set(readySpecialTask.card.id, readySpecialTask);
@@ -12861,6 +12866,7 @@
         actionType: "cardTask",
         historySource: HISTORY_SOURCE_QUICK,
         consumesMainAction: false,
+        player: currentPlayer,
       },
     );
   }

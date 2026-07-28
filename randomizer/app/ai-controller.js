@@ -2021,14 +2021,19 @@
       ) {
         preserveIndexes.add(explicitPreserveHandIndex);
       }
+      const preserveCapacity = Math.max(0, hand.length - target);
       if (
         bestPostTradePlay
         && aiNumber(bestPostTradePlay.score) >= 8
         && hand.length > target
+        && (
+          !preserveIndexes.size
+          || preserveIndexes.has(bestPostTradePlay.handIndex)
+          || preserveIndexes.size < preserveCapacity
+        )
       ) {
         preserveIndexes.add(bestPostTradePlay.handIndex);
       }
-      const preserveCapacity = Math.max(0, hand.length - target);
       const ranked = hand
         .map((card, index) => {
           const postTradePlay = postTradeCandidates.get(index) || null;
@@ -3199,6 +3204,8 @@
       }
       const ready = state.pendingCardTaskCompletion.ready || null;
       recordAiAutoBattleLog("card-task", `${currentPlayer.colorLabel}AI 确认完成任务 ${cards.getCardLabel(ready?.card)}`, {
+        logPlayerId: currentPlayer.id || null,
+        logPlayerColor: currentPlayer.color || null,
         cardLabel: cards.getCardLabel(ready?.card),
         effectTypes: (ready?.effects || []).map((effect) => effect?.type || null).filter(Boolean),
       });
@@ -3233,23 +3240,33 @@
       if (state.pendingCardTaskCompletion || isActionEffectFlowActive() || hasActivePendingSubFlow()) return null;
       if (typeof getReadyCardTasks !== "function" || typeof openCardTaskCompletionPicker !== "function") return null;
       const currentPlayer = getCurrentPlayer();
-      if (!isAiAutoBattlePlayer(currentPlayer?.id)) return null;
-      const selected = (getReadyCardTasks() || [])
-        .map((ready, index) => ({
-          ready,
-          index,
-          score: scoreAiReadyCardTask(ready, currentPlayer),
-        }))
-        .filter((entry) => entry.ready?.card && Number.isFinite(Number(entry.score)))
-        .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
-      if (!selected) return null;
-      recordAiAutoBattleLog("card-task-ready", `${currentPlayer.colorLabel}AI 打开已满足任务 ${cards.getCardLabel(selected.ready.card)}`, {
-        cardLabel: cards.getCardLabel(selected.ready.card),
-        taskId: selected.ready.task?.id || null,
-        score: selected.score,
-        effectTypes: (selected.ready.effects || []).map((effect) => effect?.type || null).filter(Boolean),
-      });
-      return openCardTaskCompletionPicker(selected.ready.card, { player: currentPlayer });
+      const activeAiPlayers = (getActivePlayers?.() || [])
+        .filter((player) => player?.id && isAiAutoBattlePlayer(player.id));
+      const playersToCheck = [
+        ...(currentPlayer?.id && isAiAutoBattlePlayer(currentPlayer.id) ? [currentPlayer] : []),
+        ...activeAiPlayers.filter((player) => player.id !== currentPlayer?.id),
+      ];
+      for (const player of playersToCheck) {
+        const selected = (getReadyCardTasks(player) || [])
+          .map((ready, index) => ({
+            ready,
+            index,
+            score: scoreAiReadyCardTask(ready, player),
+          }))
+          .filter((entry) => entry.ready?.card && Number.isFinite(Number(entry.score)))
+          .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
+        if (!selected) continue;
+        recordAiAutoBattleLog("card-task-ready", `${player.colorLabel}AI 打开已满足任务 ${cards.getCardLabel(selected.ready.card)}`, {
+          logPlayerId: player.id || null,
+          logPlayerColor: player.color || null,
+          cardLabel: cards.getCardLabel(selected.ready.card),
+          taskId: selected.ready.task?.id || null,
+          score: selected.score,
+          effectTypes: (selected.ready.effects || []).map((effect) => effect?.type || null).filter(Boolean),
+        });
+        return openCardTaskCompletionPicker(selected.ready.card, { player });
+      }
+      return null;
     }
 
     function getAiBanrenmaOpportunityPlayers() {

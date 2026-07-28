@@ -34,6 +34,55 @@ function loadNamedFunction(functionName, dependencies = {}) {
 }
 
 {
+  const taskOwner = { id: "player-green", color: "green" };
+  const turnPlayer = { id: "player-brown", color: "brown" };
+  const flow = {
+    effects: [{ id: "task-reward", type: "gain_resources", options: {} }],
+  };
+  const startCardEffectFlow = loadNamedFunction("startCardEffectFlow", {
+    cardEffects: { consolidateCardMoveEffects: (effects) => effects },
+    abilities: { chain: { startAbilityChain: () => flow } },
+    initializeEffectFlowUndoContext: () => {},
+    HISTORY_SOURCE_MAIN: "main",
+    HISTORY_SOURCE_QUICK: "quick",
+    resolvePlayerReference: () => null,
+    getCurrentPlayer: () => turnPlayer,
+    assignEffectFlowOwner: (targetFlow, playerId) => {
+      targetFlow.defaultPlayerId = playerId;
+      targetFlow.playerId = playerId;
+      for (const effect of targetFlow.effects) effect.playerId = playerId;
+    },
+    pendingActionEffectFlow: null,
+    pendingFutureSpanPlayBeforePlayer: null,
+    pendingActionExecuted: false,
+    actionHistory: { hasSession: () => false },
+    quickActionHistory: { hasSession: () => false, beginSession: () => {} },
+    clearCompletedEffectFlowForUndo: () => {},
+    els: { appWrap: { classList: { toggle: () => {} } } },
+    renderReservedCardsFromTaskState: () => {},
+    rocketState: { statusNote: "" },
+    activateNextActionEffect: () => {},
+  });
+
+  assert.equal(
+    startCardEffectFlow(
+      "card-task-rewards",
+      "卡牌任务奖励",
+      flow.effects,
+      { actionType: "cardTask", player: taskOwner, activate: false },
+    ),
+    true,
+  );
+  assert.equal(flow.playerId, taskOwner.id);
+  assert.equal(flow.defaultPlayerId, taskOwner.id);
+  assert.equal(
+    flow.effects[0].playerId,
+    taskOwner.id,
+    "a task completed outside its owner's turn must still award every effect to the task owner",
+  );
+}
+
+{
   const HISTORY_SOURCE_QUICK = "quick";
   const getEffectFlowHistoryState = loadNamedFunction("getEffectFlowHistoryState");
   const canCancelPendingEffectFlowFromStart = loadNamedFunction(

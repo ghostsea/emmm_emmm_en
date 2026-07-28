@@ -976,8 +976,12 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     };
   }
   if (options.recordOpenCardTask) {
-    context.openCardTaskCompletionPicker = (card) => {
-      noteHandled({ type: "open-card-task", cardId: card?.id || null });
+    context.openCardTaskCompletionPicker = (card, openOptions = {}) => {
+      const event = { type: "open-card-task", cardId: card?.id || null };
+      if (options.recordOpenCardTaskOwner) {
+        event.playerId = openOptions.player?.id || null;
+      }
+      noteHandled(event);
       return { ok: true, progressed: true };
     };
   }
@@ -1014,6 +1018,11 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   }
   if (options.readyCardTasks) {
     context.getReadyCardTasks = () => options.readyCardTasks;
+  }
+  if (options.readyCardTasksByPlayer) {
+    context.getReadyCardTasks = (player) => (
+      options.readyCardTasksByPlayer[player?.id] || []
+    );
   }
   if (options.passReserveCards) {
     context.getPassReserveSelectionCards = () => options.passReserveCards;
@@ -8090,6 +8099,42 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const passedPlayerReadyTask = {
+    card: { id: "passed-player-ready", cardName: "Passed player ready" },
+    task: { id: "all-aliens-pink" },
+    effects: [{ type: "gain_resources", options: { gain: { score: 4, energy: 2 } } }],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    passedPlayerIds: ["player-white"],
+    recordOpenCardTask: true,
+    recordOpenCardTaskOwner: true,
+    readyCardTasksByPlayer: {
+      "player-white": [passedPlayerReadyTask],
+      "player-blue": [],
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.white.id, harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "an idle AI should open another AI player's newly-ready task");
+  assert.deepEqual(harness.getHandled(), {
+    type: "open-card-task",
+    cardId: "passed-player-ready",
+    playerId: "player-white",
+  });
+  const readyLog = harness.controller.getAiAutoBattleReport().logs
+    .find((entry) => entry.type === "card-task-ready");
+  assert.equal(readyLog?.playerId, "player-white");
+}
+
+{
   const chongTransportTask = {
     kind: "transport",
     destinationPlanetId: "earth",
@@ -8205,14 +8250,14 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     currentPlayerColor: "blue",
     recordConfirmCardTask: true,
     pendingCardTaskCompletion: {
-      playerId: "player-blue",
+      playerId: "player-white",
       ready,
     },
     alienGameState: unavailableAlienState,
   });
   assert.equal(
     confirmHarness.controller.configureAiAutoBattle({
-      playerIds: [confirmHarness.blue.id],
+      playerIds: [confirmHarness.white.id, confirmHarness.blue.id],
       suppressAutoSchedule: true,
     }).ok,
     true,
@@ -8225,6 +8270,13 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     decision: "confirm",
     automated: true,
   });
+  const completionLog = confirmHarness.controller.getAiAutoBattleReport().logs
+    .find((entry) => entry.type === "card-task");
+  assert.equal(
+    completionLog?.playerId,
+    "player-white",
+    "cross-player task confirmation logs must remain attributed to the task owner",
+  );
 }
 
 {
@@ -9687,18 +9739,21 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         gain: { credits: 1 },
       },
     },
-    blueResources: { score: 182, credits: 0, energy: 0, publicity: 5, availableData: 3, handSize: 5 },
+    blueResources: { score: 182, credits: 0, energy: 0, publicity: 5, availableData: 3, handSize: 3 },
     blueHand: [
-      { id: "analysis-filler-a", cardName: "Analysis filler A", price: 0 },
-      { id: "analysis-filler-b", cardName: "Analysis filler B", price: 0 },
-      { id: "analysis-filler-c", cardName: "Analysis filler C", price: 0 },
+      {
+        id: "post-energy-playable",
+        cardName: "Post-energy playable",
+        price: 0,
+        playEffects: [{ type: "gain_resources", options: { gain: { credits: 2 } } }],
+      },
       {
         id: "analysis-credit-target",
         cardName: "Analysis credit target",
         price: 1,
         playEffects: [{ type: "gain_resources", options: { gain: { score: 12 } } }],
       },
-      { id: "analysis-filler-d", cardName: "Analysis filler D", price: 0 },
+      { id: "analysis-filler", cardName: "Analysis filler", price: 0 },
     ],
     finalScoringState: {
       tiles: {
@@ -9750,10 +9805,15 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     .flat()
     .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
   assert.equal(tradeCandidate?.valueBreakdown?.finalAnalyzeEnergyTrade, true);
-  assert.equal(tradeCandidate.preserveHandIndex, 3);
-  assert.equal(tradeCandidate.valueBreakdown?.competingCreditUnlock?.bestPlayCard?.handIndex, 3);
+  assert.equal(tradeCandidate.preserveHandIndex, 1);
+  assert.equal(tradeCandidate.valueBreakdown?.competingCreditUnlock?.bestPlayCard?.handIndex, 1);
   assert.deepEqual(
-    tradeCandidate.valueBreakdown?.discardPlan?.executionSelectedIndexes?.includes(3),
+    tradeCandidate.valueBreakdown?.discardPlan?.executionSelectedIndexes,
+    [2, 0],
+    "the explicit credit-unlock target must win the only preserve slot over an automatic post-trade play",
+  );
+  assert.deepEqual(
+    tradeCandidate.valueBreakdown?.discardPlan?.executionSelectedIndexes?.includes(1),
     false,
     "final analyze energy trade should not discard the high-value credit-unlock play card",
   );
