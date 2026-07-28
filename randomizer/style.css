@@ -315,17 +315,24 @@ body {
   --board-visual-scale: 1.1;
   --alien-visual-scale: 1.1;
   --round-status-visual-scale: 1.1;
+  --right-panel-card-gap: clamp(8px, 1vw, 14px);
+  --right-panel-card-height: clamp(125px, 14.3vw, 172px);
+  --right-panel-card-width: calc(var(--right-panel-card-height) * 747 / 1040);
+  --right-panel-row-padding-x: 6px;
+  --right-panel-width: calc(
+    3 * var(--right-panel-card-width) + 2 * var(--right-panel-card-gap) + 2 * var(--right-panel-row-padding-x) + 4px
+  );
   position: relative;
   margin: 0 auto;
   width: 100%;
   max-width: 1936px;
   min-height: 100vh;
   display: grid;
-  grid-template-columns: minmax(190px, 0.58fr) minmax(572px, 2.2fr) minmax(300px, 0.72fr);
+  grid-template-columns: clamp(190px, 20vw, 380px) minmax(572px, 1fr) var(--right-panel-width);
   grid-template-areas: "left center right";
   align-items: start;
   justify-content: center;
-  column-gap: clamp(18px, 2vw, 36px);
+  column-gap: clamp(8px, 0.75vw, 14px);
   row-gap: clamp(12px, 1.2vw, 22px);
   padding: clamp(10px, 1.2vw, 22px);
 }
@@ -344,13 +351,6 @@ body {
 .table-column-right {
   grid-area: right;
   min-width: 0;
-  --right-panel-card-gap: clamp(8px, 1vw, 14px);
-  --right-panel-card-height: clamp(125px, 14.3vw, 172px);
-  --right-panel-card-width: calc(var(--right-panel-card-height) * 747 / 1040);
-  --right-panel-row-padding-x: 6px;
-  --right-panel-width: calc(
-    3 * var(--right-panel-card-width) + 2 * var(--right-panel-card-gap) + 2 * var(--right-panel-row-padding-x) + 4px
-  );
   align-items: center;
 }
 
