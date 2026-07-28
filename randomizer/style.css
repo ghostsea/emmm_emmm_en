@@ -332,7 +332,7 @@ body {
   grid-template-areas: "left center right";
   align-items: start;
   justify-content: center;
-  column-gap: clamp(8px, 0.75vw, 14px);
+  column-gap: clamp(5px, 0.5vw, 9px);
   row-gap: clamp(12px, 1.2vw, 22px);
   padding: clamp(10px, 1.2vw, 22px);
 }
