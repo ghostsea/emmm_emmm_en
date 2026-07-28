@@ -34,6 +34,96 @@ function loadNamedFunction(functionName, dependencies = {}) {
 }
 
 {
+  const HISTORY_SOURCE_QUICK = "quick";
+  const getEffectFlowHistoryState = loadNamedFunction("getEffectFlowHistoryState");
+  const canCancelPendingEffectFlowFromStart = loadNamedFunction(
+    "canCancelPendingEffectFlowFromStart",
+    { HISTORY_SOURCE_QUICK, getEffectFlowHistoryState },
+  );
+  const undoPendingEffectFlowStartCommands = loadNamedFunction(
+    "undoPendingEffectFlowStartCommands",
+  );
+  let industryMarkRound = 4;
+  const flow = {
+    historyFlowId: "industry-pirates-raid-launch-flow-test",
+    flowStartUndoCommands: [{
+      undo() {
+        industryMarkRound = 0;
+      },
+    }],
+    preHistoryCommands: [],
+    preHistoryCommandsApplied: false,
+  };
+  const previousQuickStep = {
+    id: "previous-quick-step",
+    effectFlowId: "another-flow",
+    undoable: true,
+  };
+  const history = {
+    listSteps: () => [previousQuickStep],
+    hasUndoableStep: () => true,
+  };
+
+  assert.deepEqual(
+    getEffectFlowHistoryState(flow, history),
+    { hasSteps: false, hasIrreversibleBarrier: false },
+    "history steps from an earlier quick action must not count as part of the active industry flow",
+  );
+  assert.equal(
+    canCancelPendingEffectFlowFromStart(flow, history, HISTORY_SOURCE_QUICK, false),
+    true,
+    "an industry flow at its first unresolved node should be cancellable without undoing an earlier quick action",
+  );
+
+  history.listSteps = () => [{
+    id: "pirates-effect-step",
+    effectFlowId: flow.historyFlowId,
+    undoable: true,
+  }];
+  assert.equal(
+    canCancelPendingEffectFlowFromStart(flow, history, HISTORY_SOURCE_QUICK, false),
+    false,
+    "a completed industry effect step must be undone before the company marker can be released",
+  );
+
+  history.listSteps = () => [{
+    id: "pirates-hidden-step",
+    effectFlowId: flow.historyFlowId,
+    undoable: false,
+    irreversibleReason: "翻出新牌",
+  }];
+  assert.equal(
+    canCancelPendingEffectFlowFromStart(flow, history, HISTORY_SOURCE_QUICK, false),
+    false,
+    "an irreversible step inside the industry flow must keep the company marker occupied",
+  );
+
+  history.listSteps = () => [previousQuickStep];
+  assert.equal(undoPendingEffectFlowStartCommands(flow), 1);
+  assert.equal(industryMarkRound, 0);
+  assert.deepEqual(flow.flowStartUndoCommands, []);
+
+  for (const functionName of [
+    "startIndustryStratusEffectFlow",
+    "startIndustryHuanyuMoveEffectFlow",
+    "startIndustryFundamentalismExchangeFlow",
+    "startIndustryPiratesRaidLaunchFlow",
+  ]) {
+    const source = extractNamedFunctionSource(functionName);
+    assert.match(
+      source,
+      /flowStartUndoCommands/,
+      `${functionName} should retain the 1x marker until the whole effect flow is cancelled`,
+    );
+    assert.doesNotMatch(
+      source,
+      /preHistoryCommands/,
+      `${functionName} must not release the 1x marker when only its first effect node is undone`,
+    );
+  }
+}
+
+{
   const player = { id: "player-white", color: "white" };
   const playerState = { players: [player] };
   const alienGameState = {

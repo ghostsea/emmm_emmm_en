@@ -11319,6 +11319,54 @@
     return flow;
   }
 
+  function getEffectFlowHistoryState(flow, history) {
+    const historyFlowId = flow?.historyFlowId || null;
+    if (!historyFlowId || !history?.listSteps) {
+      return { hasSteps: false, hasIrreversibleBarrier: false };
+    }
+    const steps = history.listSteps().filter((step) => step?.effectFlowId === historyFlowId);
+    return {
+      hasSteps: steps.length > 0,
+      hasIrreversibleBarrier: steps.some((step) => (
+        step.undoable === false || Boolean(step.irreversibleReason)
+      )),
+    };
+  }
+
+  function canCancelPendingEffectFlowFromStart(flow, history, source, activeFlowHasBarrier = false) {
+    const hasDeferredStartUndo = Array.isArray(flow?.flowStartUndoCommands)
+      && flow.flowStartUndoCommands.length > 0;
+    if (source === HISTORY_SOURCE_QUICK && hasDeferredStartUndo) {
+      const flowHistoryState = getEffectFlowHistoryState(flow, history);
+      return !flowHistoryState.hasSteps && !flowHistoryState.hasIrreversibleBarrier;
+    }
+    return !history?.hasUndoableStep?.() && !activeFlowHasBarrier;
+  }
+
+  function undoPendingEffectFlowStartCommands(flow) {
+    if (!flow) return 0;
+    const commands = Array.isArray(flow.flowStartUndoCommands)
+      ? flow.flowStartUndoCommands
+      : [];
+    let undone = 0;
+    for (let index = commands.length - 1; index >= 0; index -= 1) {
+      if (typeof commands[index]?.undo !== "function") continue;
+      commands[index].undo();
+      undone += 1;
+    }
+    flow.flowStartUndoCommands = [];
+
+    if (!flow.preHistoryCommandsApplied && flow.preHistoryCommands?.length) {
+      for (let index = flow.preHistoryCommands.length - 1; index >= 0; index -= 1) {
+        if (typeof flow.preHistoryCommands[index]?.undo !== "function") continue;
+        flow.preHistoryCommands[index].undo();
+        undone += 1;
+      }
+      flow.preHistoryCommandsApplied = true;
+    }
+    return undone;
+  }
+
   function getActiveEffectHistory() {
     if (effectStepActive) return getHistoryForSource(getEffectHistorySource());
     return actionHistory;
@@ -11634,6 +11682,9 @@
       ? options.preHistoryCommands
       : [];
     pendingActionEffectFlow.preHistoryCommandsApplied = false;
+    pendingActionEffectFlow.flowStartUndoCommands = Array.isArray(options.flowStartUndoCommands)
+      ? options.flowStartUndoCommands
+      : [];
     pendingActionEffectFlow.resumePendingActionExecuted = Boolean(
       pendingActionExecuted
       || (
@@ -27980,8 +28031,8 @@
       return false;
     }
 
-    const preHistoryCommands = [];
-    if (options.markerRestoreCommand) preHistoryCommands.push(options.markerRestoreCommand);
+    const flowStartUndoCommands = [];
+    if (options.markerRestoreCommand) flowStartUndoCommands.push(options.markerRestoreCommand);
     const started = startCardEffectFlow(
       "industry-pirates-raid-launch",
       flow.label || "星际海盗",
@@ -27990,7 +28041,7 @@
         actionType: "industryPiratesRaid",
         historySource: HISTORY_SOURCE_QUICK,
         consumesMainAction: false,
-        preHistoryCommands,
+        flowStartUndoCommands,
       },
     );
     if (started) {
@@ -30629,16 +30680,13 @@
     return Boolean(industryFreeMoveState);
   }
 
-  function createIndustryActionRestoreCommand(player, beforePlayer, companyLabel, options = {}) {
+  function createIndustryActionRestoreCommand(player, beforePlayer, companyLabel) {
     if (!player || !beforePlayer) return null;
     return {
       label: `撤销公司 1x：${companyLabel || "公司牌"}`,
       describe: `恢复${companyLabel || "公司牌"} 1x 行动前状态`,
       undo() {
         cancelIndustryAbilityFlow({ silent: true });
-        if (options.clearEffectFlow) {
-          clearActionEffectFlow();
-        }
         restoreObjectSnapshot(player, beforePlayer);
         renderInitialSelectionArea();
       },
@@ -30837,8 +30885,8 @@
       return false;
     }
 
-    const preHistoryCommands = [];
-    if (options.markerRestoreCommand) preHistoryCommands.push(options.markerRestoreCommand);
+    const flowStartUndoCommands = [];
+    if (options.markerRestoreCommand) flowStartUndoCommands.push(options.markerRestoreCommand);
     const started = startCardEffectFlow(
       "industry-stratus-public-corners",
       flow.label || "层云核心",
@@ -30847,7 +30895,7 @@
         actionType: "industryStratus",
         historySource: HISTORY_SOURCE_QUICK,
         consumesMainAction: false,
-        preHistoryCommands,
+        flowStartUndoCommands,
       },
     );
     if (started) {
@@ -30878,8 +30926,8 @@
       return false;
     }
 
-    const preHistoryCommands = [];
-    if (options.markerRestoreCommand) preHistoryCommands.push(options.markerRestoreCommand);
+    const flowStartUndoCommands = [];
+    if (options.markerRestoreCommand) flowStartUndoCommands.push(options.markerRestoreCommand);
     const started = startCardEffectFlow(
       "industry-fundamentalism-score-exchange",
       flow.label || "原教旨主义",
@@ -30888,7 +30936,7 @@
         actionType: "industryFundamentalism",
         historySource: HISTORY_SOURCE_QUICK,
         consumesMainAction: false,
-        preHistoryCommands,
+        flowStartUndoCommands,
       },
     );
     if (started) {
@@ -31069,8 +31117,8 @@
       return false;
     }
 
-    const preHistoryCommands = [];
-    if (options.markerRestoreCommand) preHistoryCommands.push(options.markerRestoreCommand);
+    const flowStartUndoCommands = [];
+    if (options.markerRestoreCommand) flowStartUndoCommands.push(options.markerRestoreCommand);
     const started = startCardEffectFlow(
       "industry-huanyu-free-moves",
       flow.label || "寰宇动力",
@@ -31079,7 +31127,7 @@
         actionType: "industryHuanyu",
         historySource: HISTORY_SOURCE_QUICK,
         consumesMainAction: false,
-        preHistoryCommands,
+        flowStartUndoCommands,
       },
     );
     if (started) {
@@ -32420,7 +32468,6 @@
         player,
         beforeIndustryPlayer,
         companyLabel,
-        { clearEffectFlow: true },
       );
       const started = startIndustryAbilityFlow(abilityFlow, { markerRestoreCommand });
       if (!started) {
@@ -33903,16 +33950,14 @@
       const activeFlowHasBarrier = activeFlowSource === HISTORY_SOURCE_MAIN
         ? hasCurrentMainActionIrreversibleBarrier()
         : activeFlowHistory.hasIrreversibleBarrier?.();
-      if (!activeFlowHistory.hasUndoableStep() && !activeFlowHasBarrier) {
+      if (canCancelPendingEffectFlowFromStart(
+        pendingActionEffectFlow,
+        activeFlowHistory,
+        activeFlowSource,
+        activeFlowHasBarrier,
+      )) {
         const flowLabel = pendingActionEffectFlow.label || "效果流程";
-        if (
-          !pendingActionEffectFlow.preHistoryCommandsApplied
-          && pendingActionEffectFlow.preHistoryCommands?.length
-        ) {
-          for (let index = pendingActionEffectFlow.preHistoryCommands.length - 1; index >= 0; index -= 1) {
-            pendingActionEffectFlow.preHistoryCommands[index]?.undo?.();
-          }
-        }
+        undoPendingEffectFlowStartCommands(pendingActionEffectFlow);
         effectStepActive = false;
         clearActionEffectFlow();
         if (activeFlowSource === HISTORY_SOURCE_QUICK && activeFlowHistory.hasSession()) {
