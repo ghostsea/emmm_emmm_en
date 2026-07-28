@@ -191,8 +191,16 @@ function initialCard(number) {
   assert.equal(player.resources.credits, 2);
   assert.equal(player.resources.energy, 2);
   assert.equal(player.resources.publicity, 2);
-  assert.equal(player.resources.handSize, 3);
+  assert.equal(player.resources.handSize, 2);
   assert.equal(result.incomeIncreaseCount, 2);
+  assert.deepEqual(player.income, {
+    credits: 2,
+    energy: 1,
+    handSize: 0,
+    publicity: 0,
+    availableData: 0,
+    additionalPublicScan: 0,
+  });
 }
 
 {
@@ -254,15 +262,15 @@ function initialCard(number) {
 
   assert.equal(result.ok, true);
   assert.equal(player.resources.credits, 3);
-  assert.equal(player.resources.energy, 2);
+  assert.equal(player.resources.energy, 3);
   assert.equal(player.resources.publicity, 0);
   assert.equal(player.resources.handSize, 1);
   assert.equal(context.launches.length, 1);
   assert.equal(result.incomeIncreaseCount, 2);
   assert.deepEqual(player.income, {
-    credits: 2,
-    energy: 2,
-    handSize: 1,
+    credits: 1,
+    energy: 1,
+    handSize: 2,
     publicity: 0,
     availableData: 0,
     additionalPublicScan: 0,

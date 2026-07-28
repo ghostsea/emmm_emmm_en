@@ -236,18 +236,18 @@
     "原教旨主义": Object.freeze({
       label: "原教旨主义",
       resources: Object.freeze({ credits: 2, energy: 2, publicity: 2 }),
-      blindDraw: 3,
+      blindDraw: 2,
       incomeIncreaseCount: 2,
-      baseIncome: Object.freeze({ credits: 2, energy: 2 }),
+      baseIncome: Object.freeze({ credits: 2, energy: 1 }),
     }),
     "星际海盗": Object.freeze({
       label: "星际海盗",
-      resources: Object.freeze({ credits: 3, energy: 2 }),
+      resources: Object.freeze({ credits: 3, energy: 3 }),
       blindDraw: 1,
       startupTechTileId: "orange1",
       launchCount: 1,
       incomeIncreaseCount: 2,
-      baseIncome: Object.freeze({ credits: 2, energy: 2, handSize: 1 }),
+      baseIncome: Object.freeze({ credits: 1, energy: 1, handSize: 2 }),
     }),
   });
 

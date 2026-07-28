@@ -198,9 +198,15 @@ const fundamentalismStartup = initialCards.getIndustryEffect("原教旨主义");
 assert.equal(fundamentalismStartup.resources.credits, 2);
 assert.equal(fundamentalismStartup.resources.energy, 2);
 assert.equal(fundamentalismStartup.resources.publicity, 2);
-assert.equal(fundamentalismStartup.blindDraw, 3);
+assert.equal(fundamentalismStartup.blindDraw, 2);
 assert.equal(fundamentalismStartup.incomeIncreaseCount, 2);
-assert.deepEqual(fundamentalismStartup.baseIncome, { credits: 2, energy: 2 });
+assert.deepEqual(fundamentalismStartup.baseIncome, { credits: 2, energy: 1 });
+
+const piratesStartup = initialCards.getIndustryEffect("星际海盗");
+assert.deepEqual(piratesStartup.resources, { credits: 3, energy: 3 });
+assert.equal(piratesStartup.blindDraw, 1);
+assert.equal(piratesStartup.incomeIncreaseCount, 2);
+assert.deepEqual(piratesStartup.baseIncome, { credits: 1, energy: 1, handSize: 2 });
 
 const piratesPlayer = {
   id: "pirates",
