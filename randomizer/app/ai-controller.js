@@ -366,11 +366,13 @@
     const AI_GRAND_STRATEGY_INDUSTRY_LABEL = "宇宙大战略集团";
     const AI_GRAND_STRATEGY_INDUSTRY_ID = "industry:宇宙大战略集团";
     const AI_GRAND_STRATEGY_INDUSTRY_SRC = "../assets/industry/宇宙战略集团.png";
+    const AI_HUMAN_GAME_PLAYER_COUNT = 4;
     const AI_STYLE_IDS = Object.freeze(["scanner", "route", "task", "tech", "balanced"]);
     const AI_STYLE_SEAT_ORDER = Object.freeze(["route", "scanner", "task", "tech", "balanced"]);
     let aiStrategyWeights = { ...AI_STRATEGY_WEIGHT_DEFAULTS };
     let aiStrategyWeightsUseDifficultyDefaults = true;
     let aiStrategyDemandCache = null;
+    const aiHumanGameRandomIndustryByOffer = new WeakMap();
 
     function getAiAutoBattleScoreSnapshot() {
       return getActivePlayers().map((player) => ({
@@ -1612,9 +1614,35 @@
       return orderedAiIds.indexOf(playerId);
     }
 
+    function isFourPlayerGameWithHumanParticipant() {
+      const activePlayerIds = [...new Set(
+        (turnState.activePlayerIds || []).filter((playerId) => getPlayerById(playerId)),
+      )];
+      return activePlayerIds.length === AI_HUMAN_GAME_PLAYER_COUNT
+        && activePlayerIds.some((playerId) => !isAiAutoBattlePlayer(playerId));
+    }
+
+    function getRandomHumanGameAiIndustryOffer(offer) {
+      if (!offer) return null;
+      let industryLabel = aiHumanGameRandomIndustryByOffer.get(offer);
+      if (!industryLabel) {
+        industryLabel = Math.random() < 0.5
+          ? AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+          : AI_CHEAT_LAB_INDUSTRY_LABEL;
+        aiHumanGameRandomIndustryByOffer.set(offer, industryLabel);
+      }
+      return industryLabel === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+        ? ensureAiHuanyuSuperdriveIndustryOffer(offer)
+        : ensureAiCheatLabIndustryOffer(offer);
+    }
+
     function getForcedAiIndustryOffer(playerId, offer) {
       const seatIndex = getForcedAiIndustrySeatIndex(playerId);
       if (seatIndex < 0) return null;
+      if (isFourPlayerGameWithHumanParticipant()) {
+        if (seatIndex === 1) return ensureAiGrandStrategyIndustryOffer(offer);
+        return getRandomHumanGameAiIndustryOffer(offer);
+      }
       if (seatIndex === 0) return ensureAiHuanyuSuperdriveIndustryOffer(offer);
       if (seatIndex === 1) return ensureAiGrandStrategyIndustryOffer(offer);
       return ensureAiCheatLabIndustryOffer(offer);

@@ -1219,43 +1219,94 @@ function makeYichangdianAlienState(options = {}) {
 }
 
 {
-  const red = { id: "player-red", color: "red", colorLabel: "Red" };
-  const yellow = { id: "player-yellow", color: "yellow", colorLabel: "Yellow" };
-  const offers = Object.fromEntries(
-    ["player-blue", "player-red", "player-yellow"].map((playerId) => [playerId, {
+  function runAiIndustryAssignments(options = {}) {
+    const red = { id: "player-red", color: "red", colorLabel: "Red" };
+    const yellow = { id: "player-yellow", color: "yellow", colorLabel: "Yellow" };
+    const playerIds = ["player-white", "player-blue", "player-red", "player-yellow"];
+    const offers = Object.fromEntries(playerIds.map((playerId) => [playerId, {
       industryOptions: [{ id: `industry:baseline-${playerId}`, label: "层云核心" }],
       initialOptions: [],
-    }]),
-  );
-  const harness = createAiControllerHarness(null, {
-    extraPlayers: [red, yellow],
-    initialSelectionActive: true,
-    initialSelectionOffers: offers,
-    recordInitialSelection: true,
-  });
-  assert.equal(
-    harness.controller.configureAiAutoBattle({
-      playerIds: [harness.blue.id, red.id, yellow.id],
-      suppressAutoSchedule: true,
-    }).ok,
-    true,
-  );
+    }]));
+    const harness = createAiControllerHarness(null, {
+      extraPlayers: [red, yellow],
+      initialSelectionActive: true,
+      initialSelectionOffers: offers,
+      recordInitialSelection: true,
+    });
+    const aiPlayerIds = options.allComputer
+      ? playerIds
+      : [harness.blue.id, red.id, yellow.id];
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: aiPlayerIds,
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
 
-  const expectedIndustries = [
-    [harness.blue.id, "industry:寰宇超动力", "寰宇超动力"],
-    [red.id, "industry:宇宙大战略集团", "宇宙大战略集团"],
-    [yellow.id, "industry:作弊实验室", "作弊实验室"],
-  ];
-  for (const [playerId, expectedId, expectedLabel] of expectedIndustries) {
-    harness.playerState.currentPlayerId = playerId;
-    const result = harness.controller.runAiAutomationStep();
-    assert.equal(result.ok, true, `${expectedLabel} AI initial selection should complete`);
-    assert.equal(offers[playerId].selectedIndustryId, expectedId);
-    const selected = offers[playerId].industryOptions
-      .find((card) => card.id === offers[playerId].selectedIndustryId);
-    assert.equal(selected?.label, expectedLabel);
-    assert.equal(selected?.aiOnly, true);
+    const randomValues = options.randomValues || [];
+    let randomCallCount = 0;
+    const originalRandom = Math.random;
+    Math.random = () => {
+      assert.ok(
+        randomCallCount < randomValues.length,
+        "company assignment consumed an unexpected random value",
+      );
+      const value = randomValues[randomCallCount];
+      randomCallCount += 1;
+      return value;
+    };
+    try {
+      for (const playerId of aiPlayerIds) {
+        harness.playerState.currentPlayerId = playerId;
+        const result = harness.controller.runAiAutomationStep();
+        assert.equal(result.ok, true, `${playerId} AI initial selection should complete`);
+      }
+    } finally {
+      Math.random = originalRandom;
+    }
+
+    return {
+      labels: aiPlayerIds.map((playerId) => {
+        const selected = offers[playerId].industryOptions
+          .find((card) => card.id === offers[playerId].selectedIndustryId);
+        assert.equal(selected?.aiOnly, true);
+        return selected?.label;
+      }),
+      randomCallCount,
+    };
   }
+
+  const twoHuanyuHumanGame = runAiIndustryAssignments({
+    randomValues: [0.25, 0.25],
+  });
+  assert.deepEqual(
+    twoHuanyuHumanGame.labels,
+    ["寰宇超动力", "宇宙大战略集团", "寰宇超动力"],
+    "human four-player games should allow both non-strategy computers to roll Huanyu",
+  );
+  assert.equal(twoHuanyuHumanGame.randomCallCount, 2);
+
+  const twoCheatLabHumanGame = runAiIndustryAssignments({
+    randomValues: [0.75, 0.75],
+  });
+  assert.deepEqual(
+    twoCheatLabHumanGame.labels,
+    ["作弊实验室", "宇宙大战略集团", "作弊实验室"],
+    "each non-strategy computer should independently use the 50% Cheat Lab branch",
+  );
+  assert.equal(twoCheatLabHumanGame.randomCallCount, 2);
+
+  const allComputerOptimization = runAiIndustryAssignments({
+    allComputer: true,
+    randomValues: [],
+  });
+  assert.deepEqual(
+    allComputerOptimization.labels,
+    ["寰宇超动力", "宇宙大战略集团", "作弊实验室", "作弊实验室"],
+    "four-computer optimization should keep exactly one Huanyu company",
+  );
+  assert.equal(allComputerOptimization.randomCallCount, 0);
 }
 
 {
