@@ -8,6 +8,7 @@ const appPath = path.join(__dirname, "..", "app.js");
 const appSource = fs.readFileSync(appPath, "utf8");
 const finalScoring = require("../game/final-scoring");
 const actionHistoryModule = require("../game/history/action-history");
+const historyCommands = require("../game/history/commands");
 
 function extractNamedFunctionSource(functionName) {
   const start = appSource.indexOf(`function ${functionName}(`);
@@ -30,6 +31,90 @@ function loadNamedFunction(functionName, dependencies = {}) {
     ...names,
     `"use strict"; return (${extractNamedFunctionSource(functionName)});`,
   )(...names.map((name) => dependencies[name]));
+}
+
+{
+  const player = { id: "player-white", color: "white" };
+  const playerState = { players: [player] };
+  const alienGameState = {
+    chong: {
+      fossilsById: {
+        fossil_01: { fossilId: "fossil_01", status: "available", planetId: "jupiter" },
+      },
+    },
+  };
+  const rocketState = { rockets: [], nextRocketId: 7, activeRocketId: null, statusNote: "" };
+  const beforeAlienState = structuredClone(alienGameState);
+  const beforePlayerState = structuredClone(playerState);
+  const beforeRocketState = structuredClone(rocketState);
+  const recordedCommands = [];
+  const pendingChongFossilChoice = {
+    mode: "pickup",
+    playerId: player.id,
+    fromEffectFlow: true,
+    effectLabel: "虫族：拾取化石",
+    task: { destinationPlanetId: "earth" },
+    card: { id: "chong-card-0", label: "虫族卡" },
+    beforeAlienState,
+    beforePlayerState,
+    beforeRocketState,
+  };
+  const restoreMutableObject = (target, snapshot) => {
+    for (const key of Object.keys(target)) delete target[key];
+    Object.assign(target, structuredClone(snapshot));
+  };
+  const chong = {
+    pickUpFossil(state, fossilId) {
+      const fossil = state.chong.fossilsById[fossilId];
+      fossil.status = "transported";
+      return { ok: true, fossil, message: `拾取 ${fossilId}` };
+    },
+  };
+  const handleChongFossilChoice = loadNamedFunction("handleChongFossilChoice", {
+    pendingChongFossilChoice,
+    failChongTaskCompletion: (message) => ({ ok: false, message }),
+    getPlayerById: () => player,
+    getCurrentPlayer: () => player,
+    closeChongFossilChoiceDialog: () => {},
+    finishChongFossilEffect: (message, payload) => ({ ok: true, message, payload }),
+    rocketState,
+    renderStateReadout: () => {},
+    effectStepActive: false,
+    beginEffectHistoryStep: () => {},
+    recordHistoryCommand: (command) => recordedCommands.push(command),
+    historyCommands,
+    alienGameState,
+    playerState,
+    chong,
+    cards: { getCardLabel: () => "虫族卡" },
+    restoreMutableObject,
+    createChongTransportTokenForFossil: (fossil) => {
+      const rocket = { id: 7, kind: "chong-fossil", fossilId: fossil.fossilId };
+      rocketState.rockets.push(rocket);
+      rocketState.nextRocketId = 8;
+      return { ok: true, rocket, message: "生成搬运化石" };
+    },
+    completeChongTraceTaskWithFossil: () => assert.fail("pickup should not complete a trace task"),
+    applyChongFossilRewardToPlayer: () => assert.fail("pickup should not resolve a fossil reward"),
+    openChongPickCardFollowUp: () => assert.fail("pickup should not open a card reward"),
+    renderPlayerStats: () => {},
+  });
+
+  const result = handleChongFossilChoice("fossil_01");
+  assert.equal(result.ok, true);
+  assert.equal(alienGameState.chong.fossilsById.fossil_01.status, "transported");
+  assert.equal(rocketState.rockets.length, 1);
+  for (const command of [...recordedCommands].reverse()) command.undo();
+  assert.deepEqual(
+    alienGameState,
+    beforeAlienState,
+    "undoing a Chong fossil pickup should restore the fossil to Jupiter or Saturn",
+  );
+  assert.deepEqual(
+    rocketState,
+    beforeRocketState,
+    "undoing a Chong fossil pickup should remove the generated transport token",
+  );
 }
 
 {
@@ -389,6 +474,16 @@ assert.doesNotMatch(
   extractNamedFunctionSource("executeSectorFinishScanEffect"),
   /setActiveEffectFlowOwner/,
   "settling a sector must not hand the active flow to the sector winner",
+);
+assert.match(
+  extractNamedFunctionSource("openChongFossilChoiceDialog"),
+  /beforeRocketState/,
+  "Chong fossil selection must snapshot the solar token state before a pickup",
+);
+assert.match(
+  extractNamedFunctionSource("handleChongFossilChoice"),
+  /createRestoreRocketStateCommand/,
+  "Chong fossil pickup must register solar token restoration with undo history",
 );
 assert.match(
   extractNamedFunctionSource("applyIndustryRoundStartBonuses"),

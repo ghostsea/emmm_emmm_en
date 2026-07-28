@@ -24184,6 +24184,7 @@
       effectLabel: options.effectLabel || "虫族化石",
       beforePlayerState: options.beforePlayerState || structuredClone(playerState),
       beforeAlienState: options.beforeAlienState || structuredClone(alienGameState),
+      beforeRocketState: options.beforeRocketState || structuredClone(rocketState),
       beforeCardState: options.beforeCardState || structuredClone(cardState),
     };
 
@@ -24502,6 +24503,7 @@
     const fossilId = String(choice || "");
     const beforeAlienState = pending.beforeAlienState;
     const beforePlayerState = pending.beforePlayerState;
+    const beforeRocketState = pending.beforeRocketState;
     if (pending.fromEffectFlow && !effectStepActive) {
       beginEffectHistoryStep(pending.effectLabel || "虫族化石");
     }
@@ -24519,6 +24521,14 @@
     }
 
     if (pending.mode === "pickup") {
+      recordHistoryCommand(historyCommands.createRestoreRocketStateCommand(
+        rocketState,
+        beforeRocketState,
+        "恢复虫族化石拾取前棋子状态",
+      ));
+    }
+
+    if (pending.mode === "pickup") {
       const pickup = chong.pickUpFossil(alienGameState, fossilId, player, pending.task || {}, {
         cardId: pending.card?.id || null,
         cardLabel: pending.card ? cards.getCardLabel(pending.card) : null,
@@ -24532,6 +24542,7 @@
       const tokenResult = createChongTransportTokenForFossil(pickup.fossil, player);
       if (!tokenResult.ok) {
         restoreMutableObject(alienGameState, beforeAlienState);
+        restoreMutableObject(rocketState, beforeRocketState);
         rocketState.statusNote = tokenResult.message;
         renderStateReadout();
         return tokenResult;
