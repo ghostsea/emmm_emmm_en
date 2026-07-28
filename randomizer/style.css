@@ -322,17 +322,28 @@ body {
   --right-panel-width: calc(
     3 * var(--right-panel-card-width) + 2 * var(--right-panel-card-gap) + 2 * var(--right-panel-row-padding-x) + 4px
   );
+  --main-column-gap: clamp(5px, 0.5vw, 9px);
+  --left-column-width: clamp(190px, 20vw, 380px);
+  /* Keep this height cap aligned with resize(): (innerHeight - 160px) * 1.1. */
+  --center-column-height-limit: calc(110vh - 176px);
+  --center-column-width-limit: calc(
+    100% - var(--left-column-width) - var(--right-panel-width) - 2 * var(--main-column-gap)
+  );
+  --center-column-width: max(
+    572px,
+    min(var(--center-column-height-limit), var(--center-column-width-limit))
+  );
   position: relative;
   margin: 0 auto;
   width: 100%;
   max-width: 1936px;
   min-height: 100vh;
   display: grid;
-  grid-template-columns: clamp(190px, 20vw, 380px) minmax(572px, 1fr) var(--right-panel-width);
+  grid-template-columns: var(--left-column-width) var(--center-column-width) var(--right-panel-width);
   grid-template-areas: "left center right";
   align-items: start;
   justify-content: center;
-  column-gap: clamp(5px, 0.5vw, 9px);
+  column-gap: var(--main-column-gap);
   row-gap: clamp(12px, 1.2vw, 22px);
   padding: clamp(10px, 1.2vw, 22px);
 }
