@@ -7527,6 +7527,31 @@
         && bestPlay.alienCard
         && aiNumber(bestPlay.score) >= 32
         && weakStartAlienPlayConcreteValue >= 10;
+      const grandFinalFangzhouCometPlayUnlock = allowExtendedResourceLock
+        && tradeId === "cards-for-credit"
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty) === AI_DIFFICULTY_LAUGHABLE
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && countAiFinalMarksForPlayer(player) >= 3
+        && !getAiNextMissingFinalScoreThreshold(player)
+        && currentScore >= 95
+        && currentScore < 110
+        && aiNumber(resources.credits) === 0
+        && aiNumber(resources.energy) === 0
+        && aiNumber(resources.publicity) === 0
+        && aiNumber(resources.availableData) === 0
+        && handSize === 3
+        && handAfterTrade === 1
+        && countAiFangzhouCard2InHand(player) >= 1
+        && bestPlay?.cardId === "b_24.webp"
+        && bestPlay?.plan?.actionId === "move"
+        && aiNumber(bestPlay.valueBreakdown?.planScore) > 0
+        && aiNumber(bestPlay.score) >= 10
+        && Number.isFinite(bestPlayDiscardCost)
+        && bestPlayDiscardCost <= 8.5;
       const playUnlockSafe = allowExtendedResourceLock
         && Boolean(bestPlay)
         && Number.isFinite(bestPlayDiscardCost)
@@ -7569,7 +7594,7 @@
             concreteValue: scanDirectScoreGain + Math.max(0, scoreAiScanPriorityFloor(player)) * 0.35,
           }
           : null,
-        (playUnlockSafe || weakStartAlienPlayUnlockSafe)
+        (playUnlockSafe || weakStartAlienPlayUnlockSafe || grandFinalFangzhouCometPlayUnlock)
           ? {
             actionId: "playCard",
             score: aiNumber(bestPlay.score),
@@ -7673,7 +7698,7 @@
               : 22
         )
         : bestAction.actionId === "playCard"
-          ? 17
+          ? (grandFinalFangzhouCometPlayUnlock ? 10 : 17)
           : bestAction.actionId === "launch"
             ? 18
             : weakStartFinalAnalyzeRecoveryUnlock
@@ -7704,6 +7729,7 @@
       if (grandStrategyRoundThreeDeadHandScanUnlock && discardCost > 6) return null;
       if (resourceLockLandUnlock && bestAction.actionId === "land" && discardCost > 6.5) return null;
       if (weakStartFinalAnalyzeRecoveryUnlock && discardCost > 6.5) return null;
+      if (grandFinalFangzhouCometPlayUnlock && discardCost > 8.5) return null;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
       if (
         handCost <= 0
@@ -7735,7 +7761,13 @@
         ? Math.min(4, 1.1 + Math.max(0, bestAction.planScore) * 0.16)
         : 0;
       const handBufferBonus = handAfterTrade >= 1 ? 1.5 : 0;
-      const score = bestAction.score * (weakStartFinalAnalyzeRecoveryUnlock ? 0.74 : 0.52)
+      const score = bestAction.score * (
+        weakStartFinalAnalyzeRecoveryUnlock
+          ? 0.74
+          : grandFinalFangzhouCometPlayUnlock
+            ? 0.8
+            : 0.52
+      )
         + bestAction.directScoreGain * 0.7
         + thresholdBonus
         + analyzeBonus
@@ -7744,7 +7776,13 @@
         + launchBonus
         + handBufferBonus
         - discardCost * 0.34;
-      if (score < (weakStartFinalAnalyzeRecoveryUnlock ? 6 : 7)) return null;
+      if (score < (
+        weakStartFinalAnalyzeRecoveryUnlock
+          ? 6
+          : grandFinalFangzhouCometPlayUnlock
+            ? 5
+            : 7
+      )) return null;
       const reason = bestAction.actionId === "analyze"
         ? (handCost > 0 ? "资源锁：弃牌换能量解锁分析" : "资源锁：信用点换能量解锁分析")
         : `资源锁：交易解锁${
@@ -7801,6 +7839,7 @@
           weakStartFinalDeadHandAnalyzeUnlock,
           weakStartFinalStrandedAnalyzeUnlock,
           grandStrategyRoundOneAnalyzeUnlock: grandStrategyRoundOneAnalyzeWindow,
+          grandFinalFangzhouCometPlayUnlock,
           weakStartAlienPlayUnlock: weakStartAlienPlayUnlockSafe,
           weakStartAlienPlayConcreteValue: roundAiScore(weakStartAlienPlayConcreteValue),
           bestExistingScore: Number.isFinite(bestExistingScore) ? roundAiScore(bestExistingScore) : null,

@@ -256,7 +256,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         .map(([key, value]) => `${value} ${key}`)
         .join(", "),
       normalizeIncome: (income = {}) => ({ ...(income || {}) }),
-      playerOwnsTech: () => false,
+      playerOwnsTech: options.playerOwnsTech || (() => false),
     },
     solar: {
       createBaselineState: () => ({}),
@@ -273,6 +273,13 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       isControllablePlayerRocket: (rocket) => (rocket?.kind || "standard") === "standard",
       getRocketSectorCoordinate: (rocket) => rocket?.sector || null,
       findAvailableSlotIndex: options.findAvailableSlotIndex || (() => null),
+      assignRocketToSlot: (rocket, sectorX, sectorY, slotIndex) => {
+        rocket.sector = { x: sectorX, y: sectorY };
+        rocket.sectorX = sectorX;
+        rocket.sectorY = sectorY;
+        rocket.slotIndex = slotIndex;
+        return rocket;
+      },
       canMoveRocket: (_rocketState, rocketId, deltaX, deltaY) => {
         const rocketPool = options.movableTokens || Object.values(options.rocketTokensByPlayer || {}).flat();
         const rocket = rocketPool.find((item) => Number(item.id) === Number(rocketId));
@@ -11208,6 +11215,186 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     ordinaryStrategy.tradeCandidate,
     undefined,
     "round-three dead-hand scan conversion should stay local to AI-only Grand Strategy",
+  );
+}
+
+{
+  const runGrandFinalFangzhouCometUnlock = (companyLabel, includeFangzhou = true) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 4,
+      aiDifficulty: "laughable",
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      quickTrades: {
+        "cards-for-credit": {
+          id: "cards-for-credit",
+          label: "2 cards -> 1 credit",
+          cost: { handSize: 2 },
+          gain: { credits: 1 },
+        },
+      },
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: { score: 101, credits: 0, energy: 0, publicity: 0, availableData: 0, handSize: 3 },
+      blueHand: [
+        includeFangzhou
+          ? { ...fangzhou.createCard2Definition("yellow", 4), id: "grand-final-fangzhou-yellow-4" }
+          : { id: "grand-final-dead-a", cardName: "Grand final dead A", price: 2 },
+        {
+          id: "grand-final-comet",
+          cardId: "b_24.webp",
+          cardName: "飞掠彗星",
+          price: 1,
+          cardTypeCode: 0,
+          model: {},
+          playEffects: [
+            { id: "b24-turn-comet-score", type: "card_register_event_bonus" },
+            { id: "b24-move", type: "card_move", options: { movementPoints: 2 } },
+          ],
+        },
+        { id: "grand-final-dead-b", cardName: "Grand final dead B", price: 4, typeCode: 3 },
+      ],
+      blueReservedCards: [{
+        id: "grand-final-neptune-task",
+        cardId: "b_126.webp",
+        cardName: "三叉戟号探测器",
+        model: {
+          tasks: [{
+            id: "b126-neptune-task",
+            condition: { type: "planetOrbitOrLand", planetId: "neptune" },
+            rewards: [{ type: "gain_resources", options: { gain: { score: 4 } } }],
+          }],
+        },
+      }],
+      movableTokens: [{
+        id: 87,
+        kind: "standard",
+        playerId: "player-blue",
+        sector: { x: 3, y: 1 },
+      }],
+      rocketState: {
+        rockets: [{
+          id: 87,
+          kind: "standard",
+          playerId: "player-blue",
+          sector: { x: 3, y: 1 },
+        }],
+      },
+      findAvailableSlotIndex: () => 0,
+      planetLocations: [{ planetId: "neptune", name: "海王星", x: 4, y: 4 }],
+      planetStats: {
+        canAddLandingMarker: () => false,
+        canAddOrbitMarker: (_state, planetId) => planetId === "neptune",
+        getAvailableSatellitesForLanding: (_state, planetId) => (
+          planetId === "neptune"
+            ? [{ satelliteId: "triton", satelliteName: "海卫一" }]
+            : []
+        ),
+        getPlanetLandingCount: () => 0,
+        getPlanetOrbitCount: () => 0,
+      },
+      playerOwnsTech: (_player, techId) => techId === "orange4",
+      planetRewards: {
+        EFFECT_TYPES: {
+          GAIN_RESOURCES: "gain_resources",
+          GAIN_DATA: "gain_data",
+          ALIEN_TRACE: "alien_trace",
+          DRAW_CARDS: "draw_cards",
+          PICK_CARD: "pick_card",
+          INCOME: "income",
+        },
+        buildSatelliteLandRewardEffects: (satelliteId) => (
+          satelliteId === "triton"
+            ? [{ type: "gain_resources", options: { gain: { score: 26 } } }]
+            : []
+        ),
+      },
+      finalScoringState: {
+        tiles: {
+          final_a2: {
+            id: "final_a2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+          },
+          final_b1: {
+            id: "final_b1",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+          },
+          final_d2: {
+            id: "final_d2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+          },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+        final_b1: "b1",
+        final_d2: "d2",
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    const report = harness.controller.getAiAutoBattleReport();
+    return {
+      result,
+      handled: harness.getHandled(),
+      choices: turnChoices,
+      resourceLockTradePreviews: report.logs
+        .find((entry) => entry.type === "turn-action" && entry.details?.action?.id === "pass")
+        ?.details?.resourceLockTradePreviews,
+      tradeCandidate: turnChoices
+        .flat()
+        .find((candidate) => (
+          candidate.id === "quickTrade"
+          && candidate.tradeId === "cards-for-credit"
+          && candidate.valueBreakdown?.grandFinalFangzhouCometPlayUnlock
+        )),
+    };
+  };
+
+  const grandStrategy = runGrandFinalFangzhouCometUnlock("宇宙大战略集团");
+  assert.equal(
+    grandStrategy.result?.ok,
+    true,
+    `expected a terminal comet unlock action; result=${JSON.stringify(grandStrategy.result)} choices=${JSON.stringify(grandStrategy.choices)} previews=${JSON.stringify(grandStrategy.resourceLockTradePreviews)}`,
+  );
+  assert.deepEqual(
+    grandStrategy.handled,
+    { type: "quick-trade", tradeId: "cards-for-credit" },
+    "terminal Grand Strategy should convert two stranded cards into the one-credit comet play",
+  );
+  assert.equal(grandStrategy.tradeCandidate?.valueBreakdown?.grandFinalFangzhouCometPlayUnlock, true);
+  assert.equal(grandStrategy.tradeCandidate?.valueBreakdown?.unlockedMainAction?.actionId, "playCard");
+  assert.equal(grandStrategy.tradeCandidate?.valueBreakdown?.unlockedMainAction?.cardId, "b_24.webp");
+  assert.equal(grandStrategy.tradeCandidate?.valueBreakdown?.handAfterTrade, 1);
+  assert.ok(Number(grandStrategy.tradeCandidate?.valueBreakdown?.discardCost || 0) <= 8.5);
+
+  const ordinaryStrategy = runGrandFinalFangzhouCometUnlock("宇宙战略集团");
+  assert.equal(
+    ordinaryStrategy.tradeCandidate,
+    undefined,
+    "terminal comet conversion should stay local to AI-only Grand Strategy",
+  );
+  const noFangzhou = runGrandFinalFangzhouCometUnlock("宇宙大战略集团", false);
+  assert.equal(
+    noFangzhou.tradeCandidate,
+    undefined,
+    "terminal comet conversion should require the observed stranded Fangzhou hand",
   );
 }
 
