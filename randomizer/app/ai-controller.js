@@ -14413,6 +14413,86 @@
       return roundAiScore(Math.min(11, repeatResourceValue + publicCardPaymentPressure));
     }
 
+    function getAiFinalHuanyuBlue1AnalyzeRefuelProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || !player
+        || candidate.tileId !== "blue1"
+        || candidate.bonusId !== "bonus_1p"
+        || getAiRoundNumber() !== FINAL_ROUND_NUMBER
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+      const resources = player.resources || {};
+      const currentScore = Math.max(0, aiNumber(resources.score));
+      const handSize = Math.max(0, aiNumber(resources.handSize ?? player.hand?.length));
+      const availableData = Math.max(0, aiNumber(resources.availableData));
+      if (
+        countAiFinalMarksForPlayer(player) < 3
+        || getAiNextMissingFinalScoreThreshold(player)
+        || currentScore < 110
+        || currentScore >= 140
+        || aiNumber(resources.credits) !== 0
+        || aiNumber(resources.energy) !== 0
+        || aiNumber(resources.publicity) < 6
+        || availableData < 2
+        || handSize > 1
+        || !player.techState?.ownedTiles?.blue2
+        || player.techState?.ownedTiles?.blue1
+        || !hasAiAnalyzeReadyDataSlot(player)
+      ) {
+        return null;
+      }
+
+      const simulatedPlayer = createAiPlayerAfterResourceGain(player, { energy: 1 });
+      if (!simulatedPlayer || !canAiAnalyzeData(simulatedPlayer).ok) return null;
+      const analyzeScore = Math.max(0, aiNumber(scoreAiAnalyzeAction(simulatedPlayer)));
+      if (analyzeScore < 7.5) return null;
+
+      const projectedBlueSlot = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right)[0] || null;
+      if (!projectedBlueSlot) return null;
+      const requiredComputerSlot = data.getRequiredComputerSlotForBlueBonus?.(projectedBlueSlot) || null;
+      const placedComputerData = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      if (!requiredComputerSlot || placedComputerData < requiredComputerSlot) return null;
+
+      const projectedCreditValue = scoreAiResourceBundle({ credits: 1 });
+      const value = Math.min(4.5, analyzeScore * 0.14 + projectedCreditValue * 0.3);
+      return {
+        value: roundAiScore(value),
+        analyzeScore: roundAiScore(analyzeScore),
+        projectedBlueSlot,
+        requiredComputerSlot,
+        placedComputerData,
+        availableData,
+        projectedCreditValue: roundAiScore(projectedCreditValue),
+      };
+    }
+
+    function scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      return Math.max(
+        0,
+        aiNumber(getAiFinalHuanyuBlue1AnalyzeRefuelProfile(candidate, player)?.value),
+      );
+    }
+
     function scoreAiTechBonus(bonusId, player = getCurrentPlayer()) {
       const resources = player?.resources || {};
       if (bonusId === "bonus_3f") return getAiRoundNumber() <= 2 ? 2.2 : 3;
@@ -14856,6 +14936,7 @@
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
       value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
+      value += scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(candidate, player);
       value += Math.max(0, 5 - stackIndex) * 0.4;
       value += Math.max(0, getAiRemainingRoundWeight() - 1) * 0.4;
       value += getAiMapDemand(demand.techTypes, techType) * 0.85 * getAiStrategyWeight("tech");
@@ -20937,6 +21018,8 @@
         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),
         grandStrategyEarlyBlueResourceValue:
           scoreAiGrandStrategyEarlyBlueResourceValue(candidate, getCurrentPlayer()),
+        finalHuanyuBlue1AnalyzeRefuel:
+          getAiFinalHuanyuBlue1AnalyzeRefuelProfile(candidate, getCurrentPlayer()),
       };
       if (candidate.tileId === "orange4") {
         candidate.valueBreakdown.orange4SatelliteProfile = getAiOrange4SatellitePotentialProfile(getCurrentPlayer());

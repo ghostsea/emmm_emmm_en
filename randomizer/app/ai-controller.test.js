@@ -468,7 +468,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         getStack: (_board, tileId) => getTechStack(tileId),
         getStackIndex: (tileId) => getTechStack(tileId).stackIndex || 1,
         getTechType: (tileId) => getTechStack(tileId).techType,
-        getAvailableBlueSlots: () => [1],
+        getAvailableBlueSlots: () => options.availableBlueSlots || [1],
         listTakeableTiles: (_board, _techState, filter = {}) => {
           const allowed = Array.isArray(filter.techTypes) ? new Set(filter.techTypes) : null;
           return takeableTechIds.filter((tileId) => (
@@ -10251,6 +10251,124 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.ok(
     Number(repeatedTrade?.valueBreakdown?.cardsForEnergyHandDrainPenalty || 0) >= 4.2,
     "the second two-card energy trade should price the concrete Runezu 7 alternative",
+  );
+}
+
+{
+  const buildFinalHuanyuBlue1Candidate = ({
+    companyLabel = "寰宇超动力",
+    placedComputerSlots = [1, 2, 3, 4, 5, 6],
+  } = {}) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 4,
+      canStartMainAction: true,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 120,
+        credits: 0,
+        energy: 0,
+        publicity: 6,
+        availableData: 2,
+        handSize: 1,
+      },
+      blueHand: [{ id: "final-huanyu-filler", cardName: "Final Huanyu filler", price: 3 }],
+      blueTechState: {
+        ownedTiles: { blue2: true },
+        blueBoardSlots: { blue2: 2 },
+      },
+      blueTechCounts: { orange: 3, purple: 2, blue: 2 },
+      availableBlueSlots: [3, 4],
+      takeableTechIds: ["blue1", "purple3"],
+      techStacks: {
+        blue1: {
+          techType: "blue",
+          stackIndex: 1,
+          bonusId: "bonus_1p",
+          remaining: 1,
+        },
+        purple3: {
+          techType: "purple",
+          stackIndex: 3,
+          bonusId: "bonus_1c",
+          remaining: 1,
+        },
+      },
+      finalScoringState: {
+        tiles: {
+          final_a1: { marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }] },
+          final_c2: { marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 50 }] },
+          final_d1: { marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }] },
+        },
+      },
+      data: {
+        ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+        ANALYZE_ENERGY_COST: 1,
+        listComputerPlacedTokens: () => placedComputerSlots.map((placementSlot) => ({ placementSlot })),
+        canAnalyzeData: (player) => (
+          Number(player?.resources?.energy || 0) >= 1
+            && placedComputerSlots.includes(6)
+            ? { ok: true }
+            : { ok: false, message: "analyze unavailable" }
+        ),
+        getRequiredComputerSlotForBlueBonus: (blueSlot) => (
+          Number(blueSlot) === 3 ? 5 : null
+        ),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    const researchCandidate = turnChoices.flat().find((candidate) => candidate.id === "researchTech");
+    return researchCandidate?.takeable?.find((candidate) => candidate.tileId === "blue1") || null;
+  };
+
+  const huanyuBlue1 = buildFinalHuanyuBlue1Candidate();
+  assert.deepEqual(
+    {
+      projectedBlueSlot: huanyuBlue1?.valueBreakdown?.finalHuanyuBlue1AnalyzeRefuel?.projectedBlueSlot,
+      requiredComputerSlot:
+        huanyuBlue1?.valueBreakdown?.finalHuanyuBlue1AnalyzeRefuel?.requiredComputerSlot,
+      placedComputerData:
+        huanyuBlue1?.valueBreakdown?.finalHuanyuBlue1AnalyzeRefuel?.placedComputerData,
+      availableData: huanyuBlue1?.valueBreakdown?.finalHuanyuBlue1AnalyzeRefuel?.availableData,
+    },
+    {
+      projectedBlueSlot: 3,
+      requiredComputerSlot: 5,
+      placedComputerData: 6,
+      availableData: 2,
+    },
+    "terminal Huanyu should recognize the third-column blue1 credit and ready-analyze chain",
+  );
+  assert.ok(
+    Number(huanyuBlue1?.valueBreakdown?.finalHuanyuBlue1AnalyzeRefuel?.value || 0) >= 2,
+    "terminal Huanyu should value blue1 when its energy bonus unlocks analyze and data unlocks credit",
+  );
+
+  assert.equal(
+    buildFinalHuanyuBlue1Candidate({ companyLabel: "作弊实验室" })
+      ?.valueBreakdown?.finalHuanyuBlue1AnalyzeRefuel,
+    null,
+    "the terminal blue1 continuation must remain local to Huanyu",
+  );
+  assert.equal(
+    buildFinalHuanyuBlue1Candidate({ placedComputerSlots: [1, 2, 3, 4, 5] })
+      ?.valueBreakdown?.finalHuanyuBlue1AnalyzeRefuel,
+    null,
+    "blue1 must not claim an analyze continuation before the sixth computer slot is ready",
   );
 }
 
