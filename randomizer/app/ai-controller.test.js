@@ -12278,6 +12278,110 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const runGrandStrategyLowTailDeadHandPick = (companyLabel) => {
+    const turnChoices = [];
+    const publicResourceChainCard = {
+      id: "public-grand-strategy-resource-chain-card",
+      cardName: "Public grand strategy resource-chain card",
+      price: 1,
+      playEffects: [{ type: "gain_resources", options: { gain: { score: 26, energy: 1 } } }],
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 4,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      quickTrades: {
+        "cards-for-pick-card": {
+          id: "cards-for-pick-card",
+          label: "2 cards -> public card",
+          cost: { handSize: 2 },
+          gain: { handSize: 1 },
+        },
+      },
+      publicCards: [publicResourceChainCard],
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 81,
+        credits: 3,
+        energy: 0,
+        publicity: 2,
+        availableData: 2,
+        handSize: 3,
+      },
+      blueHand: [
+        { id: "grand-strategy-stale-a", cardName: "Grand strategy stale A", price: 20 },
+        { id: "grand-strategy-stale-b", cardName: "Grand strategy stale B", price: 20 },
+        { id: "grand-strategy-stale-c", cardName: "Grand strategy stale C", price: 20 },
+      ],
+      finalScoringState: {
+        tiles: {
+          final_a1: {
+            id: "final_a1",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+          },
+          final_b2: {
+            id: "final_b2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+          },
+          final_d2: {
+            id: "final_d2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+          },
+        },
+      },
+      finalFormulaIds: {
+        final_a1: "a1",
+        final_b2: "b2",
+        final_d2: "d2",
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    return {
+      result,
+      handled: harness.getHandled(),
+      tradeCandidate: turnChoices
+        .flat()
+        .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-pick-card"),
+    };
+  };
+
+  const grandStrategy = runGrandStrategyLowTailDeadHandPick("宇宙大战略集团");
+  assert.equal(grandStrategy.result.ok, true);
+  assert.deepEqual(
+    grandStrategy.handled,
+    { type: "quick-trade", tradeId: "cards-for-pick-card" },
+    "grand strategy should turn three stale cards into an immediately playable late resource chain",
+  );
+  assert.equal(
+    grandStrategy.tradeCandidate?.valueBreakdown?.grandStrategyLowTailDeadHandPickRefill,
+    true,
+  );
+
+  const ordinaryStrategy = runGrandStrategyLowTailDeadHandPick("宇宙战略集团");
+  assert.equal(
+    ordinaryStrategy.tradeCandidate,
+    undefined,
+    "the low-tail dead-hand conversion should stay local to the AI-only grand strategy company",
+  );
+}
+
+{
   const turnChoices = [];
   const publicScoreCard = {
     id: "public-low-stale-score-card",

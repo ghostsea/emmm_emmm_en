@@ -7881,7 +7881,32 @@
         && credits <= 1
         && energy <= 1
         && !(turnState.passedPlayerIds || []).includes(player.id);
-      const finalLowStaleHandPlayableScore = finalLowStaleHandRefillBaseWindow
+      const industryCard = getAiIndustryCard(player);
+      const grandStrategyLowTailDeadHandPickBaseWindow = normalizeAiDifficulty(
+        player?.aiDifficulty || aiAutoBattleState.aiDifficulty,
+      ) === AI_DIFFICULTY_LAUGHABLE
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && mainActionOpen
+        && !state.pendingActionExecuted
+        && finalMarks >= 3
+        && !recoveryThreshold
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && currentScore >= 70
+        && currentScore < 105
+        && handSize === 3
+        && credits >= 2
+        && energy <= 0
+        && publicity < 3
+        && Math.max(0, aiNumber(resources.availableData)) >= 2
+        && bestImmediateMainCashoutScore <= 0
+        && !(turnState.passedPlayerIds || []).includes(player.id);
+      const finalLowStaleHandPlayableScore = (
+        finalLowStaleHandRefillBaseWindow
+        || grandStrategyLowTailDeadHandPickBaseWindow
+      )
         ? (player.hand || []).reduce((best, card, handIndex) => {
           const candidate = buildAiPlayCardCandidate(card, handIndex, player);
           return Math.max(best, aiNumber(candidate?.score));
@@ -8075,6 +8100,7 @@
         && !hasImmediateRouteRecovery
         && !finalLowHandRefillWindow
         && !finalLowStaleHandRefillBaseWindow
+        && !grandStrategyLowTailDeadHandPickBaseWindow
         && !finalHighScoreHandRefillWindow
         && !finalHighScoreDeadHandRefillBaseWindow
         && !finalPreMainCashoutHandRefillWindow
@@ -8095,6 +8121,7 @@
         && !hasImmediateRouteRecovery
         && !finalLowHandRefillWindow
         && !finalLowStaleHandRefillBaseWindow
+        && !grandStrategyLowTailDeadHandPickBaseWindow
         && !finalHighScoreHandRefillWindow
         && !finalHighScoreDeadHandRefillBaseWindow
         && !finalPreMainCashoutHandRefillWindow
@@ -8272,7 +8299,10 @@
       const cardsForPickCardCheck = cardsForPickCardTrade
         ? (quickTrades.canExecuteTrade?.("cards-for-pick-card", createActionContext()) || { ok: false })
         : { ok: false };
-      const cardsForPickCardDiscardPlan = finalHighScoreDeadHandRefillBaseWindow
+      const cardsForPickCardDiscardPlan = (
+        finalHighScoreDeadHandRefillBaseWindow
+        || grandStrategyLowTailDeadHandPickBaseWindow
+      )
         && cardsForPickCardTrade
         && cardsForPickCardCheck.ok
         ? summarizeAiTradeDiscardPlan(player, cardsForPickCardTrade, null, {
@@ -8298,6 +8328,16 @@
         && cardsForPickCardDiscardCost <= 8
         && bestPublicTradeCardScore >= 24
         && aiNumber(bestPublicTradeCardProfile.playScore) >= 18
+        && bestPublicTradeCardProfile.hasConcreteSignal;
+      const grandStrategyLowTailDeadHandPickRefill = grandStrategyLowTailDeadHandPickBaseWindow
+        && finalLowStaleHandPlayableScore < 7
+        && Boolean(cardsForPickCardCheck.ok)
+        && cardsForPickCardHandAfterTrade >= 2
+        && Number.isFinite(cardsForPickCardDiscardCost)
+        && cardsForPickCardDiscardCost <= 6
+        && bestPublicTradeCardScore >= 28
+        && aiNumber(bestPublicTradeCardProfile.playScore) >= 24
+        && getCardPrice(bestPublicTradeCard?.card) <= credits
         && bestPublicTradeCardProfile.hasConcreteSignal;
       const finalPreMainCashoutPublicRefill = finalPreMainCashoutHandRefillWindow
         && bestPublicTradeCardScore >= 12
@@ -8336,6 +8376,13 @@
           + Math.min(6, aiNumber(bestPublicTradeCardProfile.playScore) * 0.16)
           + Math.min(4, highScorePushProfile.strength * 1.8)
           - Math.min(5, cardsForPickCardDiscardCost * 0.45)
+        : 0;
+      const grandStrategyLowTailDeadHandPickValue = grandStrategyLowTailDeadHandPickRefill
+        ? 9
+          + Math.min(10, bestPublicTradeCardScore * 0.3)
+          + Math.min(8, aiNumber(bestPublicTradeCardProfile.playScore) * 0.2)
+          + Math.min(4, Math.max(0, aiNumber(resources.availableData)) * 0.8)
+          - Math.min(4, cardsForPickCardDiscardCost * 0.4)
         : 0;
       const preMainCashoutRefillValue = (finalPreMainCashoutPublicRefill || finalPreMainSecondCashoutPublicRefill)
         ? 10
@@ -8681,11 +8728,14 @@
         },
         {
           tradeId: "cards-for-pick-card",
-          enabled: finalHighScoreDeadHandPickRefill,
+          enabled: finalHighScoreDeadHandPickRefill || grandStrategyLowTailDeadHandPickRefill,
           value: baseValue
             + finalHighScoreDeadHandPickRefillValue
+            + grandStrategyLowTailDeadHandPickValue
             + Math.min(5, Math.max(0, 305 - highScorePushProfile.projectedScore) * 0.06),
-          reason: "高分冲刺：弃死手牌精选可打牌",
+          reason: grandStrategyLowTailDeadHandPickRefill
+            ? "大战略低尾：弃死手牌精选可立即打出的资源链"
+            : "高分冲刺：弃死手牌精选可打牌",
         },
         {
           tradeId: "publicity-for-card",
@@ -8829,6 +8879,9 @@
               finalHighScoreDeadHandRefillBaseWindow,
               finalHighScoreDeadHandPickRefill,
               finalHighScoreDeadHandPickRefillValue: roundAiScore(finalHighScoreDeadHandPickRefillValue),
+              grandStrategyLowTailDeadHandPickBaseWindow,
+              grandStrategyLowTailDeadHandPickRefill,
+              grandStrategyLowTailDeadHandPickValue: roundAiScore(grandStrategyLowTailDeadHandPickValue),
               cardsForPickCardHandAfterTrade,
               cardsForPickCardDiscardCost: Number.isFinite(cardsForPickCardDiscardCost)
                 ? roundAiScore(cardsForPickCardDiscardCost)
