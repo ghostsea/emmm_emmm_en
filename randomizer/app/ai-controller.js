@@ -6961,7 +6961,7 @@
       }];
     }
 
-    function countAiQuickTradesThisTurn(playerId = getCurrentPlayer()?.id) {
+    function countAiQuickTradesThisTurn(playerId = getCurrentPlayer()?.id, tradeId = null) {
       if (!playerId) return 0;
       return (aiAutoBattleState.logs || []).filter((entry) => (
         entry?.type === "turn-action"
@@ -6969,6 +6969,7 @@
         && entry.rawTurnNumber === turnState.turnNumber
         && entry.playerId === playerId
         && entry.details?.action?.id === "quickTrade"
+        && (!tradeId || entry.details.action.tradeId === tradeId)
       )).length;
     }
 
@@ -8563,6 +8564,57 @@
           || currentScore >= 60
         );
       const cardsForEnergyTrade = quickTrades.getTradeAction("cards-for-energy");
+      const bestImmediateRunezuBranchPlay = (candidates || [])
+        .filter((candidate) => candidate?.id === "playCard" && candidate.available !== false)
+        .flatMap((candidate) => candidate.playableCards || [])
+        .filter((candidate) => (
+          candidate?.alienCard
+          && candidate.cardId === "runezu_7.webp"
+          && (candidate.effectTypes || []).includes("runezu_symbol_branch")
+        ))
+        .sort((left, right) => aiNumber(right.score) - aiNumber(left.score))[0] || null;
+      const huanyuRunezuRepeatedEnergyTradePenalty = (() => {
+        if (
+          !cardsForEnergyTrade
+          || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+            !== AI_DIFFICULTY_LAUGHABLE
+          || getAiRoundNumber() !== FINAL_ROUND_NUMBER
+          || !mainActionOpen
+          || state.pendingActionExecuted
+          || finalMarks < 3
+          || recoveryThreshold
+          || currentScore < 100
+          || currentScore >= 120
+          || (
+            industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+            && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+          )
+          || credits !== 1
+          || energy !== 1
+          || publicity < 5
+          || Math.max(0, aiNumber(resources.availableData)) > 0
+          || handSize !== 3
+          || countAiQuickTradesThisTurn(player.id) !== 1
+          || countAiQuickTradesThisTurn(player.id, "cards-for-energy") !== 1
+          || aiNumber(bestImmediateRunezuBranchPlay?.score) < 14
+        ) {
+          return 0;
+        }
+        const planetPlan = planetCashoutRecoveryByTrade["cards-for-energy"]?.plan || null;
+        if (
+          planetPlan?.kind !== "land"
+          || planetPlan?.planetId !== "neptune"
+          || aiNumber(planetPlan.targetEnergy) !== 2
+          || aiNumber(planetPlan.afterTradeGap) > 0
+          || aiNumber(planetPlan.directScore) < 10
+        ) {
+          return 0;
+        }
+        // The first trade already opened a concrete route.  A second identical
+        // trade consumes the mapped Runezu branch for the same one-energy gain,
+        // so price exactly one current energy unit as opportunity cost.
+        return roundAiScore(aiNumber(getAiResourceValuesForRound().energy));
+      })();
       const cardsForEnergyHandDrainPenalty = (() => {
         if (!cardsForEnergyTrade) return 0;
         const highScoreProfile = getAiHighScorePushProfile(player);
@@ -8605,6 +8657,7 @@
         if (midgameHandDrain) {
           penalty += 2.5 + Math.max(0, 120 - currentScore) * 0.035;
         }
+        penalty += huanyuRunezuRepeatedEnergyTradePenalty;
         return roundAiScore(Math.min(22, Math.max(0, penalty)));
       })();
       const tradeSpecs = [
@@ -8970,6 +9023,9 @@
               scanProgressTradeValue,
               cardsForEnergyHandDrainPenalty: spec.tradeId === "cards-for-energy"
                 ? cardsForEnergyHandDrainPenalty
+                : 0,
+              huanyuRunezuRepeatedEnergyTradePenalty: spec.tradeId === "cards-for-energy"
+                ? huanyuRunezuRepeatedEnergyTradePenalty
                 : 0,
               launchMoveRecoveryScore: aiNumber(launchMoveRecoveryByTrade[spec.tradeId]?.score),
               planetCashoutRecoveryScore: aiNumber(planetCashoutRecoveryByTrade[spec.tradeId]?.score),

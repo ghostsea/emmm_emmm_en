@@ -10093,6 +10093,168 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const choiceBatches = [];
+  let decisionCount = 0;
+  const runezuBranchCard = runezu.createAlienCard(7, 9);
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    turnNumber: 6,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    runezuQuick: true,
+    runezuFaceSymbolSlots: {
+      3: "symbol_7",
+      4: "symbol_6",
+    },
+    getCardTypeCode: (card) => card?.cardTypeCode ?? 1,
+    quickTrades: {
+      "cards-for-energy": {
+        id: "cards-for-energy",
+        label: "2 cards -> 1 energy",
+        cost: { handSize: 2 },
+        gain: { energy: 1 },
+      },
+    },
+    blueInitialSelection: {
+      industry: { id: "industry:寰宇超动力", label: "寰宇超动力" },
+    },
+    blueResources: {
+      score: 108,
+      credits: 1,
+      energy: 0,
+      publicity: 5,
+      availableData: 0,
+      handSize: 5,
+    },
+    blueHand: [
+      { id: "repeat-energy-filler-a", cardName: "Repeat energy filler A", price: 3 },
+      { id: "repeat-energy-filler-b", cardName: "Repeat energy filler B", price: 3 },
+      runezuBranchCard,
+      { id: "repeat-energy-filler-c", cardName: "Repeat energy filler C", price: 1 },
+      { id: "repeat-energy-filler-d", cardName: "Repeat energy filler D", price: 1 },
+    ],
+    movableTokens: [
+      { id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } },
+    ],
+    planetLocations: [
+      { planetId: "neptune", name: "Neptune", x: 2, y: 2 },
+    ],
+    planetStats: {
+      canAddLandingMarker: () => true,
+      canAddOrbitMarker: () => true,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0,
+      getPlanetOrbitCount: () => 0,
+    },
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 2,
+        getLandEnergyCost: () => 2,
+        getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 3,
+      },
+    },
+    planetRewards: {
+      EFFECT_TYPES: {
+        GAIN_RESOURCES: "gain_resources",
+        GAIN_DATA: "gain_data",
+        ALIEN_TRACE: "alien_trace",
+        DRAW_CARDS: "draw_cards",
+        PICK_CARD: "pick_card",
+        INCOME: "income",
+      },
+      buildPlanetLandRewardEffects: () => [
+        { type: "gain_resources", options: { gain: { score: 10 } } },
+        { type: "gain_data", options: { count: 3 } },
+      ],
+      buildOrbitRewardEffects: () => [
+        { type: "gain_resources", options: { gain: { score: 7 } } },
+      ],
+      buildSatelliteLandRewardEffects: () => [],
+    },
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_c2: {
+          id: "final_c2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d1: {
+          id: "final_d1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_c2: "c2",
+      final_d1: "d1",
+    },
+    onChooseTurnAction: (candidates) => choiceBatches.push(candidates),
+    chooseTurnAction: (candidates) => {
+      const available = candidates.filter((candidate) => candidate.available !== false);
+      if (decisionCount === 0) {
+        decisionCount += 1;
+        return available.find((candidate) => (
+          candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy"
+        )) || null;
+      }
+      return available
+        .slice()
+        .sort((left, right) => (
+          Number(right.actionGraph?.net ?? right.score ?? 0)
+          - Number(left.actionGraph?.net ?? left.score ?? 0)
+        ))[0] || null;
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  assert.equal(harness.controller.runAiAutomationStep().ok, true);
+  harness.blue.resources.energy = 1;
+  harness.blue.resources.handSize = 3;
+  harness.blue.hand = [
+    runezuBranchCard,
+    { id: "repeat-energy-filler-c", cardName: "Repeat energy filler C", price: 1 },
+    { id: "repeat-energy-filler-d", cardName: "Repeat energy filler D", price: 1 },
+  ];
+  assert.equal(
+    harness.controller.runAiAutomationStep().ok,
+    true,
+    "Huanyu should keep a concrete Runezu branch play after one cards-for-energy trade",
+  );
+
+  const secondChoices = choiceBatches[choiceBatches.length - 1] || [];
+  const repeatedTrade = secondChoices.find((candidate) => (
+    candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy"
+  ));
+  const runezuPlay = secondChoices.find((candidate) => (
+    candidate.id === "playCard" && candidate.cardId === "runezu_7.webp"
+  ));
+  assert.equal(repeatedTrade?.valueBreakdown?.huanyuRunezuRepeatedEnergyTradePenalty, 4.2);
+  assert.ok(runezuPlay, "Runezu 7 should remain an executable main action");
+  assert.ok(
+    Number(repeatedTrade?.valueBreakdown?.cardsForEnergyHandDrainPenalty || 0) >= 4.2,
+    "the second two-card energy trade should price the concrete Runezu 7 alternative",
+  );
+}
+
+{
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
