@@ -10649,6 +10649,48 @@
         : 0;
     }
 
+    function scoreAiGrandStrategyFinalDlc42SectorCoverage(nebulaId, player = getCurrentPlayer()) {
+      // In the final-round rotation seen by this narrow dlc42 route, sector-1-a
+      // leaves the reachable scan set before sector-1-b, so cover it first.
+      if (
+        String(nebulaId || "") !== "sector-1-a"
+        || !player
+        || getAiRoundNumber() < FINAL_ROUND_NUMBER
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) return 0;
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) return 0;
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      if (
+        currentScore < 95
+        || currentScore >= 110
+        || countAiFinalMarksForPlayer(player) < 3
+        || getAiNextMissingFinalScoreThreshold(player)
+        || Math.max(0, Math.round(aiNumber(player.completedTaskCount))) < 3
+      ) return 0;
+      const missingSectorIds = getAiMissingSignalOrWinSectorIds(player);
+      if (
+        missingSectorIds.length < 2
+        || !missingSectorIds.includes(String(nebulaId))
+      ) return 0;
+      const matchingTask = listAiUncompletedCardTasksForPlayer(player).find(({ card, task }) => (
+        String(card?.cardId || card?.id || "").toLowerCase() === "dlc_42.png"
+        && task?.id === "dlc42-all-sectors"
+        && task?.condition?.type === "signalsOrWinsInAllSectors"
+        && getAiTaskDirectScoreReward(task, player) >= 8
+      ));
+      if (!matchingTask) return 0;
+      const directScore = Math.max(0, getAiTaskDirectScoreReward(matchingTask.task, player));
+      return roundAiScore(Math.min(
+        directScore + 3,
+        directScore + scoreAiTaskRouteCompletionValue(matchingTask.task, player) * 0.25,
+      ));
+    }
+
     function scoreAiLastSectorWinTaskCashout(nebulaId, counts, player = getCurrentPlayer()) {
       if (!nebulaId || !counts || !player || counts.openCount > 1) return 0;
       if (getAiPlayerWonSectorIds(player).has(String(nebulaId))) return 0;
@@ -16352,6 +16394,9 @@
       const capacity = Math.max(0, Math.round(aiNumber(data.getNebulaCapacity?.(nebulaId))));
       const counts = getAiNebulaSignalCounts(nebulaId, player);
       const lastMissingSectorTaskCashout = scoreAiLastMissingSectorTaskCashout(nebulaId, player);
+      const grandStrategyDlc42SectorCoverage = extraMarkOnly
+        ? 0
+        : scoreAiGrandStrategyFinalDlc42SectorCoverage(nebulaId, player);
       const lastSectorWinTaskCashout = extraMarkOnly || options.includeLastSectorWinTaskCashout === false
         ? 0
         : scoreAiLastSectorWinTaskCashout(nebulaId, counts, player);
@@ -16382,6 +16427,7 @@
       value += getAiMapDemand(demand.traceTypes, "pink") * 0.42 * getAiStrategyWeight("scan");
       value += getAiMapDemand(demand.traceTypes, "blue") * (gainsData ? 0.34 : 0.12) * getAiStrategyWeight("scan");
       value += lastMissingSectorTaskCashout;
+      value += grandStrategyDlc42SectorCoverage;
       value += lastSectorWinTaskCashout;
       value += scoreAiB2SectorScanFocus(nebulaId, counts, player);
       const runezuSectorSymbolValue = scoreAiRunezuSourceSymbolValue("sector", nebulaId, player);

@@ -2872,6 +2872,108 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const nebulaIdsByColor = {
+    blue: ["sector-1-a", "sector-1-b", "covered-sector-a", "covered-sector-b"],
+  };
+  const tokensByNebula = {
+    "sector-1-a": [{ playerId: "player-white", playerColor: "white" }],
+    "sector-1-b": [{ playerId: "player-white", playerColor: "white" }],
+    "covered-sector-a": [{ playerId: "player-blue", playerColor: "blue" }],
+    "covered-sector-b": [{ playerId: "player-blue", playerColor: "blue" }],
+  };
+  const buildHarness = (industryCard) => {
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 4,
+      nebulaIdsByColor,
+      blueInitialSelection: { industry: industryCard },
+      blueAiDifficulty: "laughable",
+      blueResources: { score: 101 },
+      finalScoringState: {
+        tiles: {
+          a: { id: "a", marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }] },
+          b: { id: "b", marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }] },
+          c: { id: "c", marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }] },
+        },
+      },
+      nebulaDataState: {
+        sectorSettlements: { winsByPlayerId: {} },
+      },
+      blueReservedCards: [{
+        id: "card-dlc42",
+        cardId: "dlc_42.png",
+        cardName: "Low-Frequency Array",
+        model: {
+          tasks: [{
+            id: "dlc42-all-sectors",
+            condition: { type: "signalsOrWinsInAllSectors" },
+            rewards: [{ type: "gain_resources", options: { gain: { score: 8 } } }],
+          }],
+        },
+      }],
+      data: {
+        getNextReplaceableNebulaToken: () => ({ slotIndex: 2 }),
+        getNebulaCapacity: () => 3,
+        getNebulaSlotScoreReward: () => 0,
+        getNebulaColor: () => "blue",
+        listNebulaTokens: (_state, nebulaId) => tokensByNebula[nebulaId] || [],
+        listSectorExtraMarks: () => [],
+        getSectorTokenStats: (_state, nebulaId) => ({
+          blue: {
+            playerId: "player-blue",
+            playerColor: "blue",
+            count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-blue").length,
+          },
+          white: {
+            playerId: "player-white",
+            playerColor: "white",
+            count: (tokensByNebula[nebulaId] || []).filter((token) => token.playerId === "player-white").length,
+          },
+        }),
+        getSectorRanking: () => [],
+      },
+    });
+    harness.blue.completedTaskCount = 3;
+    return harness;
+  };
+
+  const grandStrategyHarness = buildHarness({
+    id: "industry:宇宙大战略集团",
+    label: "宇宙大战略集团",
+  });
+  const grandStrategyTargetScore = grandStrategyHarness.controller.scoreAiNebulaScanChoice(
+    { nebulaId: "sector-1-a" },
+    { player: grandStrategyHarness.blue, pendingType: "sector_scan" },
+  );
+  const grandStrategyOtherMissingScore = grandStrategyHarness.controller.scoreAiNebulaScanChoice(
+    { nebulaId: "sector-1-b" },
+    { player: grandStrategyHarness.blue, pendingType: "sector_scan" },
+  );
+  assert.ok(
+    grandStrategyTargetScore > grandStrategyOtherMissingScore + 10,
+    "final grand strategy should price the scarce sector-1-a coverage before dlc42 becomes stranded",
+  );
+
+  const ordinaryHarness = buildHarness({
+    id: "industry:层云核心",
+    label: "层云核心",
+  });
+  const ordinaryTargetScore = ordinaryHarness.controller.scoreAiNebulaScanChoice(
+    { nebulaId: "sector-1-a" },
+    { player: ordinaryHarness.blue, pendingType: "sector_scan" },
+  );
+  const ordinaryOtherMissingScore = ordinaryHarness.controller.scoreAiNebulaScanChoice(
+    { nebulaId: "sector-1-b" },
+    { player: ordinaryHarness.blue, pendingType: "sector_scan" },
+  );
+  assert.equal(
+    ordinaryTargetScore,
+    ordinaryOtherMissingScore,
+    "the dlc42 scarce-sector correction must stay local to grand strategy",
+  );
+}
+
+{
   const tokensByNebula = {
     "winning-close-sector": [
       { playerId: "player-blue", playerColor: "blue" },
