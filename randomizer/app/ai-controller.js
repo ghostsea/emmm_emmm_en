@@ -22133,6 +22133,38 @@
             kind: candidate.kind || null,
           };
         }, { score: -Infinity, id: null, kind: null });
+      const stopActionBaseline = (candidates || [])
+        .filter((candidate) => (
+          candidate?.available !== false
+          && (candidate.id === "end-turn" || candidate.id === "pass")
+        ))
+        .reduce((best, candidate) => {
+          const graphNet = Number(candidate.actionGraph?.net);
+          const score = aiNumber(candidate.score);
+          const policyScore = Number.isFinite(graphNet) ? graphNet : score;
+          if (!Number.isFinite(policyScore) || policyScore <= best.policyScore) return best;
+          return {
+            id: candidate.id,
+            score,
+            graphNet: Number.isFinite(graphNet) ? graphNet : null,
+            policyScore,
+          };
+        }, {
+          id: null,
+          score: -Infinity,
+          graphNet: null,
+          policyScore: -Infinity,
+        });
+      const currentIndustryCard = currentPlayer?.initialSelection?.industry || null;
+      const grandC2Type3RepeatedCornerStop = Boolean(
+        round === 3
+        && (
+          currentIndustryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || currentIndustryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && getAiMarkedFinalFormulaEntries(currentPlayer)
+          .some((entry) => entry.formulaId === "c2")
+      );
 
       return (candidates || []).map((candidate) => {
         if (!candidate || candidate.available === false) return candidate;
@@ -22140,7 +22172,19 @@
         const explicitScore = aiNumber(candidate.score);
         const graphNet = Number(candidate.actionGraph?.net);
         if (shouldCapRepeatedNegativeResourceCardCorner(candidate, repeatedNegativeResourceCardCorners)) {
-          const cappedScore = Math.min(explicitScore, -0.5);
+          const card = (currentPlayer?.hand || [])[candidate.handIndex] || null;
+          const useStopBaseline = Boolean(
+            grandC2Type3RepeatedCornerStop
+            && repeatedNegativeResourceCardCorners >= 2
+            && getCardTypeCode(card) === 3
+          );
+          const stopScoreCap = useStopBaseline && Number.isFinite(stopActionBaseline.score)
+            ? stopActionBaseline.score - 0.25
+            : -0.5;
+          const stopNetCap = useStopBaseline && Number.isFinite(stopActionBaseline.policyScore)
+            ? stopActionBaseline.policyScore - 0.25
+            : -0.5;
+          const cappedScore = Math.min(explicitScore, -0.5, stopScoreCap);
           const currentNet = Number.isFinite(graphNet) ? graphNet : explicitScore;
           adjusted = {
             ...adjusted,
@@ -22149,7 +22193,7 @@
               ? {
                 ...adjusted.actionGraph,
                 uncappedNet: adjusted.actionGraph.net,
-                net: Math.min(currentNet, -0.5),
+                net: Math.min(currentNet, -0.5, stopNetCap),
               }
               : adjusted.actionGraph,
             selectionAdjustment: {
@@ -22157,10 +22201,27 @@
               repeatedNegativeResourceCardCornerCap: repeatedNegativeResourceCardCorners,
               originalScore: Math.round(explicitScore * 100) / 100,
               originalNet: Number.isFinite(graphNet) ? Math.round(graphNet * 100) / 100 : null,
+              stopActionBaseline: {
+                id: stopActionBaseline.id,
+                score: Number.isFinite(stopActionBaseline.score)
+                  ? roundAiScore(stopActionBaseline.score)
+                  : null,
+                graphNet: stopActionBaseline.graphNet == null
+                  ? null
+                  : roundAiScore(stopActionBaseline.graphNet),
+              },
+              grandC2Type3RepeatedCornerStop: useStopBaseline,
             },
             valueBreakdown: {
               ...(adjusted.valueBreakdown || {}),
               repeatedNegativeResourceCardCornerCap: repeatedNegativeResourceCardCorners,
+              repeatedNegativeResourceCardCornerStopScore: Number.isFinite(stopActionBaseline.score)
+                ? roundAiScore(stopActionBaseline.score)
+                : null,
+              repeatedNegativeResourceCardCornerStopNet: Number.isFinite(stopActionBaseline.policyScore)
+                ? roundAiScore(stopActionBaseline.policyScore)
+                : null,
+              grandC2Type3RepeatedCornerStop: useStopBaseline,
             },
           };
         }

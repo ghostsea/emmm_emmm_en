@@ -7443,17 +7443,32 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   };
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
-    roundNumber: 2,
+    roundNumber: 3,
     pendingActionExecuted: true,
     recordCardCorner: true,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
     blueResources: { score: 30, credits: 1, energy: 0, publicity: 0, availableData: 0, handSize: 6 },
     blueHand: Array.from({ length: 6 }, (_value, index) => ({
       id: `repeat-corner-${index}`,
       cardName: `Repeat corner ${index}`,
       price: 4,
+      cardTypeCode: 3,
       resourceReward: { gain: {} },
       incomeGain: { credits: 4, energy: 4, handSize: 2 },
     })),
+    getCardTypeCode: (card) => card?.cardTypeCode ?? 0,
+    finalScoringState: {
+      tiles: {
+        c: {
+          id: "c",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+      },
+    },
+    finalTileVariants: { c: 2 },
+    finalFormulaIds: { c: "c2" },
     actionGraph: {
       buildActionGraph: (candidates) => candidates.map((candidate) => {
         if (candidate.id === "cardCorner") {
@@ -7475,7 +7490,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
             finalMarginal: 0,
             goalBonus: 0,
             feasibility: 1,
-            net: 0,
+            net: -10,
           };
         }
         return {
@@ -7517,8 +7532,8 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   );
 
   const secondResult = harness.controller.runAiAutomationStep();
-  assert.equal(secondResult.ok, true, "AI should end the turn after the repeated no-cashout corner is capped");
-  assert.equal(selectedActions[1]?.id, "end-turn");
+  assert.equal(secondResult.ok, true, "AI should keep the existing one-repeat allowance before the C2 guard");
+  assert.equal(selectedActions[1]?.id, "cardCorner");
   const repeatedCorner = turnChoices[1].find((candidate) => candidate.id === "cardCorner");
   assert.ok(repeatedCorner, "repeated raw-negative resource corner should still be visible for diagnostics");
   assert.equal(
@@ -7529,7 +7544,42 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(
     repeatedCorner.actionGraph?.net,
     -0.5,
-    "cap should lower graph net below the normal end-turn candidate",
+    "the existing second-corner cap should remain unchanged",
+  );
+  assert.equal(
+    repeatedCorner.selectionAdjustment?.grandC2Type3RepeatedCornerStop,
+    false,
+    "the C2 stop baseline should not change the second negative corner",
+  );
+
+  const thirdResult = harness.controller.runAiAutomationStep();
+  assert.equal(thirdResult.ok, true, "AI should end the turn before a third no-cashout C2 type-3 discard");
+  assert.equal(selectedActions[2]?.id, "end-turn");
+  const thirdCorner = turnChoices[2].find((candidate) => candidate.id === "cardCorner");
+  assert.ok(thirdCorner, "third raw-negative resource corner should remain visible for diagnostics");
+  assert.equal(
+    thirdCorner.selectionAdjustment?.repeatedNegativeResourceCardCornerCap,
+    2,
+    "the C2 guard should record the two prior negative corners",
+  );
+  assert.equal(
+    thirdCorner.actionGraph?.net,
+    -10.25,
+    "cap should stay below a hand-pressure-depressed end-turn candidate",
+  );
+  assert.deepEqual(
+    thirdCorner.selectionAdjustment?.stopActionBaseline,
+    {
+      id: "end-turn",
+      score: -10,
+      graphNet: -10,
+    },
+    "diagnostics should expose the stop action used to cap the repeated corner",
+  );
+  assert.equal(
+    thirdCorner.selectionAdjustment?.grandC2Type3RepeatedCornerStop,
+    true,
+    "the relative stop baseline should be scoped to Grand Strategy C2 type-3 retention",
   );
 }
 
