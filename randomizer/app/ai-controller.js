@@ -7436,6 +7436,26 @@
       const directScoreScanUnlock = (allowExtendedResourceLock || weakNoDiscardDirectScanUnlock)
         && scanDirectScoreGain > 0
         && scanScore >= (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 20 : 22);
+      const grandStrategyRoundThreeDeadHandScanUnlock = allowExtendedResourceLock
+        && tradeId === "cards-for-credit"
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && getAiRoundNumber() === 3
+        && countAiFinalMarksForPlayer(player) >= 3
+        && !getAiNextMissingFinalScoreThreshold(player)
+        && currentScore >= 80
+        && currentScore < 100
+        && aiNumber(resources.credits) === 0
+        && aiNumber(resources.energy) === 2
+        && aiNumber(resources.publicity) <= 2
+        && aiNumber(resources.availableData) === 0
+        && handSize === 2
+        && handAfterTrade === 0
+        && scanCheck.ok
+        && scanDirectScoreGain <= 0
+        && scanScore >= 17;
       const grandFinalDeadPlayScanUnlock = grandFinalDeadPlayScanWindow
         && tradeId === "cards-for-energy"
         && handAfterTrade >= 3
@@ -7534,7 +7554,12 @@
           : null,
         scanCheck.ok
           && scanScore > currentScanScore + 1
-          && (earlyLowScoreScanUnlock || directScoreScanUnlock || grandFinalDeadPlayScanUnlock)
+          && (
+            earlyLowScoreScanUnlock
+            || directScoreScanUnlock
+            || grandStrategyRoundThreeDeadHandScanUnlock
+            || grandFinalDeadPlayScanUnlock
+          )
           ? {
             actionId: "scan",
             score: scanScore,
@@ -7638,7 +7663,9 @@
         || weakStartFinalStrandedAnalyzeUnlock;
       const minPostTradeScore = bestAction.actionId === "scan"
         ? (
-          getAiRoundNumber() <= 2 && currentScore < 70 && handAfterTrade >= 2
+          grandStrategyRoundThreeDeadHandScanUnlock
+            ? 17
+            : getAiRoundNumber() <= 2 && currentScore < 70 && handAfterTrade >= 2
             ? 15
             : getAiRoundNumber() >= FINAL_ROUND_NUMBER
               ? 20
@@ -7665,6 +7692,7 @@
         && !launchUnlockSafe
         && !weakStartFinalAnalyzeRecoveryUnlock
         && !grandStrategyRoundOneAnalyzeWindow
+        && !grandStrategyRoundThreeDeadHandScanUnlock
       ) return null;
 
       const discardCost = bestAction.actionId === "playCard" && Number.isFinite(bestAction.discardCost)
@@ -7672,6 +7700,7 @@
         : estimateAiTradeDiscardOpportunityCost(player, trade);
       if (!Number.isFinite(discardCost)) return null;
       if (grandStrategyRoundOneAnalyzeWindow && discardCost > 6) return null;
+      if (grandStrategyRoundThreeDeadHandScanUnlock && discardCost > 6) return null;
       if (resourceLockLandUnlock && bestAction.actionId === "land" && discardCost > 6.5) return null;
       if (weakStartFinalAnalyzeRecoveryUnlock && discardCost > 6.5) return null;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
@@ -7761,6 +7790,7 @@
           launchBonus: roundAiScore(launchBonus),
           earlyLowScoreScanUnlock,
           directScoreScanUnlock,
+          grandStrategyRoundThreeDeadHandScanUnlock,
           grandFangzhouRoundTwoLandUnlock,
           cheatLabRunezuRoundTwoMarsLandUnlock,
           grandFinalDeadPlayScanUnlock,

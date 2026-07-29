@@ -10803,6 +10803,135 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const runGrandStrategyRoundThreeDeadHandScan = (companyLabel) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 3,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      quickTrades: {
+        "cards-for-credit": {
+          id: "cards-for-credit",
+          label: "2 cards -> 1 credit",
+          cost: { handSize: 2 },
+          gain: { credits: 1 },
+        },
+      },
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: { score: 86, credits: 0, energy: 2, publicity: 1, availableData: 0, handSize: 2 },
+      blueHand: [
+        { id: "grand-r3-scan-dead-a", cardName: "Grand R3 scan dead A", price: 2 },
+        { id: "grand-r3-scan-dead-b", cardName: "Grand R3 scan dead B", price: 2 },
+      ],
+      publicCards: [{
+        id: "grand-r3-public-scan",
+        cardId: "grand-r3-public-scan",
+        cardName: "Grand R3 public scan",
+        scanActionCode: 2,
+      }],
+      finalScoringState: {
+        tiles: {
+          final_a2: {
+            id: "final_a2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+          },
+          final_c2: {
+            id: "final_c2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+          },
+          final_d2: {
+            id: "final_d2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+          },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+        final_c2: "c2",
+        final_d2: "d2",
+      },
+      scanEffects: {
+        EFFECT_TYPES: {
+          EARTH_SECTOR_SCAN: "earth_sector_scan",
+          IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+          MERCURY_SECTOR_SCAN: "mercury_sector_scan",
+          PUBLIC_CARD_SCAN: "public_card_scan",
+          HAND_SCAN: "hand_scan",
+          SCAN_ACTION_4: "scan_action_4",
+        },
+        SCAN_COST: { credits: 1, energy: 2 },
+        getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+        buildScanEffectQueue: () => [{ type: "public_card_scan" }],
+        canExecuteScan: (player) => (
+          Number(player?.resources?.credits || 0) >= 1 && Number(player?.resources?.energy || 0) >= 2
+            ? { ok: true }
+            : { ok: false, message: "scan resources missing" }
+        ),
+      },
+      getPublicScanChoicesForCard: () => ({
+        ok: true,
+        choices: [{ nebulaId: "grand-r3-nebula", sectorX: 4, label: "Grand R3 nebula" }],
+      }),
+      data: {
+        getNextReplaceableNebulaToken: () => ({ slotIndex: 30 }),
+        getNebulaCapacity: () => 3,
+        getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+        getNebulaColor: () => "blue",
+        listNebulaTokens: () => [],
+        listSectorExtraMarks: () => [],
+        getSectorTokenStats: () => ({}),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    return {
+      result,
+      handled: harness.getHandled(),
+      tradeCandidate: turnChoices
+        .flat()
+        .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-credit"),
+    };
+  };
+
+  const grandStrategy = runGrandStrategyRoundThreeDeadHandScan("宇宙大战略集团");
+  assert.equal(grandStrategy.result.ok, true);
+  assert.deepEqual(
+    grandStrategy.handled,
+    { type: "quick-trade", tradeId: "cards-for-credit" },
+    "round-three Grand Strategy should cash out two dead cards into an immediate scan",
+  );
+  assert.equal(
+    grandStrategy.tradeCandidate?.valueBreakdown?.grandStrategyRoundThreeDeadHandScanUnlock,
+    true,
+  );
+  assert.equal(grandStrategy.tradeCandidate?.valueBreakdown?.unlockedMainAction?.actionId, "scan");
+  assert.equal(grandStrategy.tradeCandidate?.valueBreakdown?.handAfterTrade, 0);
+  assert.ok(Number(grandStrategy.tradeCandidate?.valueBreakdown?.discardCost || 0) <= 6);
+
+  const ordinaryStrategy = runGrandStrategyRoundThreeDeadHandScan("宇宙战略集团");
+  assert.equal(
+    ordinaryStrategy.tradeCandidate,
+    undefined,
+    "round-three dead-hand scan conversion should stay local to AI-only Grand Strategy",
+  );
+}
+
+{
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
