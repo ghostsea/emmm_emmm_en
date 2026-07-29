@@ -10482,6 +10482,124 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildFinalHuanyuPurpleCashoutCandidates = (companyLabel = "寰宇超动力") => {
+    const turnChoices = [];
+    const finalCard = {
+      id: "final-huanyu-purple-cashout-card",
+      cardId: "b_40.webp",
+      cardName: "专项研究",
+      price: 3,
+      typeCode: 0,
+      playEffects: [{ type: "card_research_tech" }],
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 4,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 104,
+        credits: 0,
+        energy: 0,
+        publicity: 6,
+        availableData: 0,
+        handSize: 1,
+      },
+      blueHand: [finalCard],
+      blueTechState: {
+        ownedTiles: {
+          orange1: true,
+          orange2: true,
+          orange3: true,
+          orange4: true,
+          purple1: true,
+          blue1: true,
+          blue3: true,
+        },
+        blueBoardSlots: { blue1: 1, blue3: 2 },
+      },
+      blueTechCounts: { orange: 4, purple: 1, blue: 2 },
+      takeableTechIds: ["purple2", "purple4"],
+      techStacks: {
+        purple2: {
+          techType: "purple",
+          stackIndex: 2,
+          bonusId: "bonus_1p",
+          remaining: 2,
+        },
+        purple4: {
+          techType: "purple",
+          stackIndex: 4,
+          bonusId: "bonus_3f",
+          remaining: 1,
+        },
+      },
+      finalScoringState: {
+        tiles: {
+          final_a2: { marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }] },
+          final_b2: { marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }] },
+          final_d2: { marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 50 }] },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+        final_b2: "b2",
+        final_d2: "d2",
+      },
+      finalSlotMultipliers: {
+        a2: { 3: 5 },
+        b2: { 1: 8 },
+        d2: { 3: 3 },
+      },
+      data: {
+        listComputerPlacedTokens: () => [],
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    const researchCandidate = turnChoices.flat().find((candidate) => candidate.id === "researchTech");
+    return Object.fromEntries(
+      (researchCandidate?.takeable || []).map((candidate) => [candidate.tileId, candidate]),
+    );
+  };
+
+  const huanyuCandidates = buildFinalHuanyuPurpleCashoutCandidates();
+  assert.deepEqual(
+    huanyuCandidates.purple4?.valueBreakdown?.finalHuanyuPurple4Cashout,
+    {
+      value: 1.5,
+      directScoreGain: 3,
+      strandedEnergyAlternative: 1,
+      placedComputerData: 0,
+    },
+    "terminal Huanyu should cash out purple4 direct score over an unusable one-energy tech reward",
+  );
+  const ordinaryCandidates = buildFinalHuanyuPurpleCashoutCandidates("作弊实验室");
+  assert.equal(
+    ordinaryCandidates.purple4?.valueBreakdown?.finalHuanyuPurple4Cashout,
+    null,
+    "the terminal purple4 cashout must remain local to Huanyu",
+  );
+  assert.ok(
+    Number(ordinaryCandidates.purple2?.score) > Number(ordinaryCandidates.purple4?.score),
+    "ordinary company tech ordering should remain unchanged",
+  );
+}
+
+{
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
