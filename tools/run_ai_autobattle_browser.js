@@ -336,6 +336,41 @@ async function launchChrome(chromePath, remoteDebuggingPort, userDataDir, headle
   return child;
 }
 
+function waitForChildExit(child, timeoutMs = 5000) {
+  if (!child || child.exitCode != null || child.signalCode != null) return Promise.resolve(true);
+  return new Promise((resolve) => {
+    const onExit = () => {
+      clearTimeout(timer);
+      resolve(true);
+    };
+    const timer = setTimeout(() => {
+      child.off("exit", onExit);
+      resolve(false);
+    }, timeoutMs);
+    child.once("exit", onExit);
+  });
+}
+
+async function terminateChrome(chrome) {
+  if (!chrome?.pid || await waitForChildExit(chrome, 100)) return true;
+  if (process.platform === "win32") {
+    for (let attempt = 0; attempt < 3; attempt += 1) {
+      spawnSync("taskkill", ["/PID", String(chrome.pid), "/T", "/F"], {
+        stdio: "ignore",
+        timeout: 15000,
+        windowsHide: true,
+      });
+      if (await waitForChildExit(chrome, 1500)) return true;
+    }
+  }
+  try {
+    chrome.kill("SIGKILL");
+  } catch (_error) {
+    // The process may have exited between the last check and this fallback.
+  }
+  return waitForChildExit(chrome, 3000);
+}
+
 async function getPageWebSocket(debugPort) {
   const list = await waitForJson(`http://127.0.0.1:${debugPort}/json/list`, 15000);
   const page = list.find((target) => target.type === "page" && target.webSocketDebuggerUrl);
@@ -671,21 +706,18 @@ async function main() {
       throw error;
     }
   } finally {
-    if (cdp) cdp.close();
+    if (cdp) {
+      await cdp.send("Browser.close", {}, 5000).catch(() => null);
+      cdp.close();
+    }
     server.close();
-    if (chrome.pid && process.platform === "win32") {
-      const killResult = spawnSync("taskkill", ["/PID", String(chrome.pid), "/T", "/F"], {
-        stdio: "ignore",
-        timeout: 5000,
-      });
-      if (killResult.error) chrome.kill();
-    } else {
-      chrome.kill();
+    const chromeExited = await terminateChrome(chrome);
+    if (!chromeExited) {
+      process.stderr.write(`Warning: could not confirm Chrome process ${chrome.pid} exited\n`);
     }
     chrome.stdout?.destroy?.();
     chrome.stderr?.destroy?.();
     chrome.unref?.();
-    await delay(300);
     const cleanupAttempts = 20;
     for (let attempt = 0; attempt < cleanupAttempts; attempt += 1) {
       try {
