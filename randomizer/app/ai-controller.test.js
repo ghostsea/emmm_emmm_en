@@ -12924,6 +12924,82 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   const badPublicCard = {
+    id: "negative-cheat-299-public-card",
+    cardName: "Negative Cheat Lab 299 public card",
+    price: 4,
+  };
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordQuickTrade: true,
+    blueInitialSelection: {
+      industry: { id: "industry:作弊实验室", label: "作弊实验室" },
+    },
+    quickTrades: {
+      "publicity-for-card": {
+        id: "publicity-for-card",
+        label: "3 publicity -> public card",
+        cost: { publicity: 3 },
+        gain: { handSize: 1 },
+      },
+    },
+    publicCards: [badPublicCard],
+    blueResources: { score: 299, credits: 0, energy: 0, publicity: 5, availableData: 0, handSize: 1 },
+    blueHand: [{ id: "dead-cheat-299-card", cardName: "Dead Cheat 299 card", price: 1 }],
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b2: {
+          id: "final_b2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_b2: "b2",
+      final_d2: "d2",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "Cheat Lab at projected 299 should spend its single affordable blind refill");
+  assert.deepEqual(harness.getHandled(), {
+    type: "quick-trade",
+    tradeId: "publicity-for-card",
+    preferBlindDraw: true,
+  });
+  const tradeCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "publicity-for-card");
+  assert.equal(tradeCandidate?.valueBreakdown?.finalHighScoreBlindRefill, true);
+  assert.equal(tradeCandidate?.valueBreakdown?.finalHighScoreBlindRefillPublicityThreshold, 5);
+}
+
+{
+  const badPublicCard = {
     id: "negative-weak-highscore-public-card",
     cardName: "Negative weak highscore public card",
     price: 4,
@@ -12945,7 +13021,8 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
       },
     },
     publicCards: [badPublicCard],
-    blueResources: { score: 288, credits: 0, energy: 0, publicity: 3, availableData: 0, handSize: 0 },
+    blueResources: { score: 299, credits: 0, energy: 0, publicity: 5, availableData: 0, handSize: 1 },
+    blueHand: [{ id: "ordinary-299-dead-card", cardName: "Ordinary 299 dead card", price: 1 }],
     finalScoringState: {
       tiles: {
         final_a1: {
@@ -13062,7 +13139,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(
     tradeCandidate,
     undefined,
-    "default difficulty should keep the 6-publicity terminal blind-refill threshold",
+    "ordinary companies at projected 299 should keep the 6-publicity terminal blind-refill threshold",
   );
 }
 

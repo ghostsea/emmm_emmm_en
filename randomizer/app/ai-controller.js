@@ -7854,6 +7854,26 @@
         .sort((left, right) => aiNumber(right.score) - aiNumber(left.score));
     }
 
+    function getAiFinalHighScoreBlindRefillPublicityThreshold(player, options = {}) {
+      const difficulty = normalizeAiDifficulty(
+        player?.aiDifficulty || aiAutoBattleState.aiDifficulty,
+      );
+      if (difficulty === AI_DIFFICULTY_WEAK_START) return 3;
+      const industryCard = getAiIndustryCard(player);
+      const singleDrawToThreeHundred = difficulty === AI_DIFFICULTY_LAUGHABLE
+        && (
+          industryCard?.id === AI_CHEAT_LAB_INDUSTRY_ID
+          || industryCard?.label === AI_CHEAT_LAB_INDUSTRY_LABEL
+        )
+        && aiNumber(options.projectedScore) >= 299
+        && aiNumber(options.projectedScore) < 300
+        && aiNumber(options.credits) <= 0
+        && aiNumber(options.energy) <= 0
+        && aiNumber(options.publicity) === 5
+        && Math.max(0, Math.round(aiNumber(options.handSize))) <= 1;
+      return singleDrawToThreeHundred ? 5 : 6;
+    }
+
     function listAiLateResourceRecoveryTradeCandidates(player = getCurrentPlayer(), candidates = []) {
       if (
         !player
@@ -8338,9 +8358,14 @@
         && !bestPublicTradeCardProfile.hasConcreteSignal;
       const finalHighScorePublicRefill = finalHighScorePublicRefillBase
         && !finalHighScoreTerminalNoSignalPublicRefill;
-      const finalHighScoreBlindRefillPublicityThreshold = normalizeAiDifficulty(
-        player?.aiDifficulty || aiAutoBattleState.aiDifficulty,
-      ) === AI_DIFFICULTY_WEAK_START ? 3 : 6;
+      const finalHighScoreBlindRefillPublicityThreshold =
+        getAiFinalHighScoreBlindRefillPublicityThreshold(player, {
+          projectedScore: highScorePushProfile.projectedScore,
+          credits,
+          energy,
+          publicity,
+          handSize,
+        });
       const finalHighScoreBlindRefill = finalHighScoreHandRefillWindow
         && highScorePushProfile.projectedScore < 300
         && highScoreGapTo300 <= 32
@@ -22904,9 +22929,14 @@
         && !bestPublicTradeCardProfile.hasConcreteSignal;
       const finalHighScorePublicRefill = finalHighScorePublicRefillBase
         && !finalHighScoreTerminalNoSignalPublicRefill;
-      const finalHighScoreBlindRefillPublicityThreshold = normalizeAiDifficulty(
-        player?.aiDifficulty || aiAutoBattleState.aiDifficulty,
-      ) === AI_DIFFICULTY_WEAK_START ? 3 : 6;
+      const finalHighScoreBlindRefillPublicityThreshold =
+        getAiFinalHighScoreBlindRefillPublicityThreshold(player, {
+          projectedScore,
+          credits,
+          energy,
+          publicity,
+          handSize,
+        });
       const finalHighScoreBlindRefill = finalHighScoreNeedsCardRefill
         && projectedScore < 300
         && scoreTo300 <= 32
