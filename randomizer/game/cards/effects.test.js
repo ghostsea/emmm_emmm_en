@@ -64,6 +64,12 @@ const yellowScanMatches = cardEffects.collectMatchingTriggers(scanTriggerPlayer,
 });
 assert.equal(yellowScanMatches.length, 1);
 assert.equal(yellowScanMatches[0].trigger.id, "b25-yellow-scan-move");
+assert.equal(
+  yellowScanMatches[0].effect.type,
+  cardEffects.EFFECT_TYPES.CARD_MOVE,
+  "b_25 scan rewards should use the shared multi-point movement pool",
+);
+assert.equal(yellowScanMatches[0].effect.options.movementPoints, 1);
 cardEffects.consumeTrigger(b25ScanTriggerCard, yellowScanMatches[0].trigger.id);
 assert.equal(cardEffects.collectMatchingTriggers(scanTriggerPlayer, {
   type: "signalMarked",
@@ -75,6 +81,14 @@ const redScanMatches = cardEffects.collectMatchingTriggers(scanTriggerPlayer, {
 });
 assert.equal(redScanMatches.length, 1);
 assert.equal(redScanMatches[0].trigger.id, "b25-red-scan-move");
+cardEffects.consumeTrigger(b25ScanTriggerCard, redScanMatches[0].trigger.id);
+const blueScanMatches = cardEffects.collectMatchingTriggers(scanTriggerPlayer, {
+  type: "signalMarked",
+  nebulaId: "sector-1-a",
+});
+assert.equal(blueScanMatches.length, 1);
+assert.equal(blueScanMatches[0].trigger.id, "b25-blue-scan-move");
+assert.equal(blueScanMatches[0].effect.type, cardEffects.EFFECT_TYPES.CARD_MOVE);
 
 const b10 = { id: "card-b10", cardId: "b_10.webp" };
 const asteroidPlayer = { id: "p1", color: "red", reservedCards: [b10] };

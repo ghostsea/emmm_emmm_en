@@ -9,6 +9,8 @@ const appSource = fs.readFileSync(appPath, "utf8");
 const finalScoring = require("../game/final-scoring");
 const actionHistoryModule = require("../game/history/action-history");
 const historyCommands = require("../game/history/commands");
+const abilityChain = require("../game/abilities/chain");
+const cardEffects = require("../game/cards/effects");
 
 function extractNamedFunctionSource(functionName) {
   const start = appSource.indexOf(`function ${functionName}(`);
@@ -730,6 +732,149 @@ for (const functionName of [
     "one end-turn click should open every newly reached final-score threshold",
   );
   assert.equal(scheduled, 1, "the final-score gate should hand computer-owned marking back to AI");
+}
+
+{
+  const b25Match = {
+    card: { id: "b25-instance", cardId: "b_25.webp" },
+    trigger: { id: "b25-yellow-scan-move" },
+    event: { type: "signalMarked", nebulaId: "sector-3-a" },
+    effect: {
+      type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+      options: { movementPoints: 1 },
+    },
+  };
+  const ordinaryMatch = {
+    card: { id: "b2-instance", cardId: "b_2.webp" },
+    trigger: { id: "b2-energy" },
+    event: { type: "visitPlanet", planetId: "mars" },
+    effect: { type: "gain_resources", options: { gain: { energy: 1 } } },
+  };
+  const isControlCenterScanTriggerMatch = loadNamedFunction("isControlCenterScanTriggerMatch");
+  const shouldPromptForCardTriggerMatches = loadNamedFunction(
+    "shouldPromptForCardTriggerMatches",
+    { isControlCenterScanTriggerMatch },
+  );
+
+  assert.equal(shouldPromptForCardTriggerMatches([b25Match]), true);
+  assert.equal(shouldPromptForCardTriggerMatches([ordinaryMatch]), false);
+
+  const pendingType1TriggerEvents = [];
+  let openedMatches = null;
+  let appliedMatch = null;
+  const applyType1TriggerMatches = loadNamedFunction("applyType1TriggerMatches", {
+    getCurrentPlayer: () => ({ id: "player-white" }),
+    enqueueType1TriggerEvents: (events) => pendingType1TriggerEvents.push(...events),
+    hasActiveCardTriggerResolution: () => false,
+    isCardTriggerRewardFlowBusy: () => false,
+    pendingType1TriggerEvents,
+    getType1TriggerMatchesForEvent: () => [b25Match],
+    shouldPromptForCardTriggerMatches,
+    openCardTriggerPicker: (matches) => {
+      openedMatches = matches;
+      return { ok: true, awaitingChoice: true };
+    },
+    applyCardTriggerMatch: (match) => {
+      appliedMatch = match;
+      return { ok: true };
+    },
+  });
+  const result = applyType1TriggerMatches([b25Match.event]);
+  assert.equal(result.awaitingChoice, true);
+  assert.deepEqual(openedMatches, [b25Match]);
+  assert.equal(appliedMatch, null, "a single b_25 match must wait for the player's trigger choice");
+}
+
+{
+  const player = { id: "player-white", color: "white" };
+  const flow = {
+    chainId: "scan",
+    scanRunId: "scan-run-b25",
+    effects: [{
+      id: "scan-purple4",
+      type: "scan_action_4",
+      status: "active",
+      playerId: player.id,
+      options: { scanRunId: "scan-run-b25" },
+    }],
+    currentIndex: 0,
+    completed: false,
+  };
+  const createScanMovementPoolEffect = loadNamedFunction("createScanMovementPoolEffect", {
+    cardEffects,
+  });
+  const normalizeInsertedActionEffect = loadNamedFunction("normalizeInsertedActionEffect", {
+    assignEffectOwner: (effect, ownerId) => ({ ...effect, playerId: ownerId }),
+  });
+  const insertActionEffectsAtEnd = loadNamedFunction("insertActionEffectsAtEnd", {
+    pendingActionEffectFlow: flow,
+    getCurrentActionEffect: () => flow.effects[flow.currentIndex] || null,
+    getEffectOwnerPlayer: () => player,
+    getCurrentPlayer: () => player,
+    normalizeInsertedActionEffect,
+    abilities: { chain: abilityChain },
+    syncMergedCardMoveEffect: () => {},
+  });
+  const b25Move = createScanMovementPoolEffect({
+    id: "b25-yellow-scan-move-effect",
+    type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+    label: "扫描黄色扇区：1免费移动",
+    icon: "movement",
+    options: { movementPoints: 1 },
+  }, flow);
+  const purple4Move = createScanMovementPoolEffect({
+    id: "scan-purple4-move",
+    type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+    label: "发射/移动：1移动",
+    icon: "movement",
+    options: { movementPoints: 1 },
+  }, flow);
+
+  insertActionEffectsAtEnd([b25Move], { flow });
+  insertActionEffectsAtEnd([purple4Move], {
+    flow,
+    source: {
+      chainId: flow.chainId,
+      effectIndex: 0,
+      effectId: "scan-purple4",
+      effectType: "scan_action_4",
+    },
+  });
+
+  assert.equal(flow.effects.length, 2, "b_25 and purple4 should share one scan movement node");
+  assert.equal(flow.effects[1].type, cardEffects.EFFECT_TYPES.CARD_MOVE);
+  assert.equal(flow.effects[1].options.scanMovementPoolId, "scan-run-b25");
+  assert.equal(flow.effects[1].options.movementPoints, 2);
+  assert.equal(flow.effects[1].mergedMovementContributions.length, 1);
+  assert.equal(flow.effects[1].mergedMovementContributions[0].source.effectId, "scan-purple4");
+}
+
+{
+  let queuedMoveCount = 0;
+  let immediateMoveCount = 0;
+  const handleScanAction4Choice = loadNamedFunction("handleScanAction4Choice", {
+    closeScanAction4Picker: () => {},
+    launchRocketForScanAction4: () => ({ ok: true }),
+    rocketState: { statusNote: "" },
+    renderPlayerStats: () => {},
+    completeCurrentActionEffect: () => {},
+    renderStateReadout: () => {},
+    queueScanAction4MoveEffect: () => {
+      queuedMoveCount += 1;
+      return { ok: true, queued: true };
+    },
+    beginScanAction4FreeMove: () => {
+      immediateMoveCount += 1;
+      return { ok: true };
+    },
+    getCurrentActionEffect: () => ({ label: "发射/移动" }),
+    skipActionEffectWithMessage: () => ({ ok: true, skipped: true }),
+  });
+
+  const result = handleScanAction4Choice("move");
+  assert.equal(result.queued, true);
+  assert.equal(queuedMoveCount, 1);
+  assert.equal(immediateMoveCount, 0, "purple4 movement must be deferred into the scan movement pool");
 }
 
 for (const functionName of [

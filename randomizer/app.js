@@ -12050,6 +12050,22 @@
       ));
   }
 
+  function isControlCenterScanTriggerMatch(match) {
+    const cardId = String(
+      match?.card?.cardId
+      || match?.card?.image
+      || "",
+    ).toLowerCase();
+    return cardId === "b_25.webp"
+      && match?.event?.type === "signalMarked"
+      && String(match?.trigger?.id || "").startsWith("b25-");
+  }
+
+  function shouldPromptForCardTriggerMatches(matches = []) {
+    return matches.length > 1
+      || (matches.length === 1 && isControlCenterScanTriggerMatch(matches[0]));
+  }
+
   function applyType1TriggerMatches(events = []) {
     const currentPlayer = getCurrentPlayer();
     if (!currentPlayer) return null;
@@ -12060,7 +12076,9 @@
       const event = pendingType1TriggerEvents.shift();
       const matches = getType1TriggerMatchesForEvent(currentPlayer, event);
       if (!matches.length) continue;
-      return matches.length === 1 ? applyCardTriggerMatch(matches[0]) : openCardTriggerPicker(matches);
+      return shouldPromptForCardTriggerMatches(matches)
+        ? openCardTriggerPicker(matches)
+        : applyCardTriggerMatch(matches[0]);
     }
     return null;
   }
@@ -12690,6 +12708,26 @@
     return prepared;
   }
 
+  function createScanMovementPoolEffect(effect, flow = pendingActionEffectFlow) {
+    const movementPoints = Math.max(
+      1,
+      Math.round(Number(effect?.options?.movementPoints || 1)),
+    );
+    const scanMovementPoolId = flow?.scanRunId
+      || effect?.options?.scanMovementPoolId
+      || "scan-movement";
+    return {
+      ...effect,
+      type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+      label: "扫描行动：累计移动",
+      icon: "movement",
+      options: {
+        movementPoints,
+        scanMovementPoolId,
+      },
+    };
+  }
+
   function queueCardTriggerRewardEffects(match, effects = [match?.effect]) {
     if (!match?.card || !match?.trigger) return { ok: false, message: "没有可结算的卡牌触发" };
     const label = `卡牌触发：${match.effect?.label || "任务奖励"}`;
@@ -12700,12 +12738,35 @@
     renderReservedCardsFromTaskState();
 
     if (pendingActionEffectFlow) {
-      insertActionEffectsBeforeCurrent(preparedEffects);
-      rocketState.statusNote = `${label}：已加入效果队列`;
+      const useScanMovementPool = Boolean(
+        pendingActionEffectFlow.scanRunId
+        && isControlCenterScanTriggerMatch(match),
+      );
+      if (useScanMovementPool) {
+        insertActionEffectsAtEnd(
+          preparedEffects.map((effect) => createScanMovementPoolEffect(
+            effect,
+            pendingActionEffectFlow,
+          )),
+          { flow: pendingActionEffectFlow },
+        );
+        rocketState.statusNote = `${label}：已累加到本次扫描移动效果`;
+      } else {
+        insertActionEffectsBeforeCurrent(preparedEffects);
+        rocketState.statusNote = `${label}：已加入效果队列`;
+      }
       renderActionEffectBar();
       updateActionButtons();
       renderStateReadout();
-      return { ok: true, queued: true, message: rocketState.statusNote };
+      if (useScanMovementPool) {
+        continueAfterCardTriggerResolution();
+      }
+      return {
+        ok: true,
+        queued: true,
+        scanMovementPool: useScanMovementPool,
+        message: rocketState.statusNote,
+      };
     }
 
     const started = startCardEffectFlow(
@@ -12877,7 +12938,11 @@
 
     pendingCardTriggerAction = { matches };
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = "卡牌触发";
-    if (els.scanTargetSubtitle) els.scanTargetSubtitle.textContent = "选择 1 个满足条件的触发效果结算。";
+    if (els.scanTargetSubtitle) {
+      els.scanTargetSubtitle.textContent = matches.length === 1
+        ? "条件已满足：选择是否触发该效果。取消不会消耗任务槽。"
+        : "选择 1 个满足条件的触发效果结算，或取消本次触发。";
+    }
     if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
     els.scanTargetActions.replaceChildren(...matches.map((match, index) => {
       const button = document.createElement("button");
@@ -14665,7 +14730,7 @@
       choices.push({
         id: "move",
         label: "移动",
-        description: "选择飞船并移动，不消耗能量或手牌",
+        description: "累加 1 移动到本次扫描移动效果，扫描节点完成后统一结算",
       });
     }
 
@@ -14722,6 +14787,47 @@
     const current = getCurrentActionEffect();
     if (current) current.result = result;
     return result;
+  }
+
+  function queueScanAction4MoveEffect() {
+    const flow = pendingActionEffectFlow;
+    const current = getCurrentActionEffect();
+    if (!flow || !current || current.type !== scanEffects.EFFECT_TYPES.SCAN_ACTION_4) {
+      return { ok: false, message: "当前不是扫描发射/移动效果" };
+    }
+
+    const insertionSource = abilities.chain.createInsertionSource?.(flow, current) || null;
+    const moveEffect = createScanMovementPoolEffect({
+      id: `${current.id || "scan-purple4"}-movement`,
+      type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+      label: "发射/移动：1移动",
+      icon: "movement",
+      options: { movementPoints: 1 },
+    }, flow);
+
+    beginEffectHistoryStep("发射/移动");
+    const insertion = insertActionEffectsAtEnd([moveEffect], {
+      flow,
+      source: insertionSource,
+    });
+    current.result = {
+      ok: true,
+      undoable: true,
+      message: "发射/移动：已累加 1 移动到本次扫描移动效果",
+      payload: {
+        choice: "move",
+        movementPoints: 1,
+        scanMovementPoolId: moveEffect.options.scanMovementPoolId,
+        merged: insertion.mergedCount > 0,
+      },
+    };
+    rocketState.statusNote = current.result.message;
+    completeCurrentActionEffect();
+    renderStateReadout();
+    return {
+      ...current.result,
+      queued: true,
+    };
   }
 
   function beginScanAction4FreeMove() {
@@ -15636,7 +15742,7 @@
     }
 
     if (choiceId === "move") {
-      return beginScanAction4FreeMove();
+      return queueScanAction4MoveEffect();
     }
 
     if (choiceId === "skip") {
@@ -17716,6 +17822,50 @@
       activeMove.poolRemaining += mergeResult.addedMovementPoints;
       mergeResult.target.badge = String(activeMove.poolRemaining);
     }
+  }
+
+  function insertActionEffectsAtEnd(effects, options = {}) {
+    const flow = options.flow || pendingActionEffectFlow;
+    const insertedEffects = (effects || []).filter(Boolean);
+    if (!flow || !insertedEffects.length) {
+      return { insertedCount: 0, mergedCount: 0 };
+    }
+    const current = getCurrentActionEffect();
+    const ownerId = getEffectOwnerPlayer(current)?.id
+      || flow.activePlayerId
+      || flow.defaultPlayerId
+      || flow.playerId
+      || getCurrentPlayer()?.id
+      || null;
+    const insertionSource = options.source || null;
+    let insertedCount = 0;
+    let mergedCount = 0;
+
+    insertedEffects.forEach((effect, index) => {
+      const normalized = normalizeInsertedActionEffect(
+        effect,
+        ownerId,
+        `inserted-tail-effect-${flow.effects.length}-${index}`,
+      );
+      const mergeResult = abilities.chain.mergePendingMovementNode?.(
+        flow,
+        normalized,
+        insertionSource,
+      );
+      if (mergeResult?.merged) {
+        mergedCount += 1;
+        syncMergedCardMoveEffect(mergeResult);
+        return;
+      }
+      const inserted = abilities.chain.markInsertedNode?.(
+        normalized,
+        insertionSource,
+      ) || normalized;
+      flow.effects.push(inserted);
+      insertedCount += 1;
+    });
+    flow.completed = false;
+    return { insertedCount, mergedCount };
   }
 
   function insertActionEffectsAfterCurrent(effects) {

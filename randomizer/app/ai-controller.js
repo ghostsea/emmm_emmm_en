@@ -3050,6 +3050,7 @@
 
     function cardTriggerNeedsFreeMove(match) {
       return match?.effect?.type === cardEffects.EFFECT_TYPES.FREE_MOVE
+        || match?.effect?.type === cardEffects.EFFECT_TYPES.CARD_MOVE
         || (
           match?.effect?.type === cardEffects.EFFECT_TYPES.CARD_CORNER_EVENT_REWARD
           && Boolean(match.event?.moveReward)
@@ -19964,7 +19965,7 @@
       if (selected.choice === "launch") {
         return handleScanAction4Choice("launch");
       }
-      return executeFreeMoveForScanAction4(selected.deltaX, selected.deltaY, selected.rocketId);
+      return handleScanAction4Choice("move");
     }
 
     function getAiAlienTraceButtons(selector, roots = []) {

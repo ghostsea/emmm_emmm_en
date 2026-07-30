@@ -157,7 +157,26 @@
     if (!target) return { merged: false };
 
     const addedMovementPoints = normalizeMovementPoints(incoming);
-    const movementPoints = normalizeMovementPoints(target) + addedMovementPoints;
+    const targetMovementPoints = normalizeMovementPoints(target);
+    const targetInsertionSource = cloneInsertionSource(target.insertedByEffect);
+    const incomingSource = cloneInsertionSource(source);
+    if (
+      targetInsertionSource
+      && !insertionOriginMatchesSource(targetInsertionSource, incomingSource)
+    ) {
+      if (!Array.isArray(target.mergedMovementContributions)) {
+        target.mergedMovementContributions = [];
+      }
+      target.mergedMovementContributions.push({
+        movementPoints: targetMovementPoints,
+        source: targetInsertionSource,
+        preHistoryCommands: Array.isArray(target.preHistoryCommands)
+          ? [...target.preHistoryCommands]
+          : [],
+      });
+      target.insertedByEffect = null;
+    }
+    const movementPoints = targetMovementPoints + addedMovementPoints;
     target.options = { ...(target.options || {}), movementPoints };
     target.badge = String(movementPoints);
     if (!Array.isArray(target.preHistoryCommands)) target.preHistoryCommands = [];
@@ -235,10 +254,15 @@
         if (removedCommands.size && Array.isArray(node.preHistoryCommands)) {
           node.preHistoryCommands = node.preHistoryCommands.filter((command) => !removedCommands.has(command));
         }
-        const remainingMovementPoints = Math.max(
-          1,
-          normalizeMovementPoints(node) - removedMovementPoints,
-        );
+        const remainingMovementPoints = normalizeMovementPoints(node) - removedMovementPoints;
+        if (remainingMovementPoints <= 0) {
+          chain.effects.splice(index, 1);
+          if (index < chain.currentIndex) {
+            chain.currentIndex = Math.max(0, chain.currentIndex - 1);
+          }
+          removed += removedContributions.length;
+          continue;
+        }
         node.options = { ...(node.options || {}), movementPoints: remainingMovementPoints };
         node.badge = String(remainingMovementPoints);
         removed += removedContributions.length;

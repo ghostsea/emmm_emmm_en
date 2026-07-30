@@ -1756,6 +1756,22 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const harness = createAiControllerHarness(null);
+  assert.equal(
+    harness.controller.cardTriggerNeedsFreeMove({
+      card: { id: "b_25" },
+      trigger: { id: "b25-yellow" },
+      effect: {
+        type: cardEffects.EFFECT_TYPES.CARD_MOVE,
+        options: { movementPoints: 1 },
+      },
+    }),
+    true,
+    "b_25 pooled card_move reward should still use the AI movement-path guard",
+  );
+}
+
+{
   const harness = createAiControllerHarness("blue", { currentPlayerDiscardPending: true });
   assert.equal(
     harness.controller.configureAiAutoBattle({

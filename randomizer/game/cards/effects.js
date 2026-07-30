@@ -1362,7 +1362,7 @@
       ].map((item) => ({
         id: item.id,
         event: Object.freeze({ type: "signalMarked", color: item.color }),
-        effect: effect(`${item.id}-effect`, EFFECT_TYPES.FREE_MOVE, item.label, "movement", {
+        effect: cardMoveEffect(`${item.id}-effect`, item.label, {
           movementPoints: 1,
         }),
       }))),

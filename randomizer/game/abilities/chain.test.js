@@ -140,6 +140,43 @@ const activeMoveMerge = chain.mergePendingMovementNode(
 assert.equal(activeMoveMerge.merged, true);
 assert.equal(activeMoveFlow.effects[0].options.movementPoints, 3);
 
+const purpleMoveSource = {
+  chainId: "scan",
+  effectIndex: 2,
+  effectId: "scan-purple4",
+  effectType: "scan_action_4",
+};
+const purpleFirstMoveFlow = chain.startAbilityChain("scan", "紫4先加入移动", [
+  {
+    id: "scan-movement-pool",
+    type: "card_move",
+    label: "扫描行动：累计移动",
+    options: { movementPoints: 1, scanMovementPoolId: "scan-run-1" },
+  },
+]);
+purpleFirstMoveFlow.effects[0] = chain.markInsertedNode(
+  purpleFirstMoveFlow.effects[0],
+  purpleMoveSource,
+);
+const b25AfterPurpleMerge = chain.mergePendingMovementNode(
+  purpleFirstMoveFlow,
+  {
+    id: "b25-red-move",
+    type: "card_move",
+    status: "pending",
+    options: { movementPoints: 1, scanMovementPoolId: "scan-run-1" },
+  },
+);
+assert.equal(b25AfterPurpleMerge.merged, true);
+assert.equal(purpleFirstMoveFlow.effects[0].options.movementPoints, 2);
+chain.removeInsertedNodesBySource(purpleFirstMoveFlow, purpleMoveSource);
+assert.equal(
+  purpleFirstMoveFlow.effects.length,
+  1,
+  "undoing purple4 must preserve a later b_25 contribution in the shared movement pool",
+);
+assert.equal(purpleFirstMoveFlow.effects[0].options.movementPoints, 1);
+
 const paidMoveFlow = chain.startAbilityChain("paid-move", "带费用移动", [
   { id: "paid-move-1", type: "card_move", options: { movementPoints: 1, cost: { publicity: 1 } } },
 ]);
