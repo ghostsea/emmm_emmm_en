@@ -14075,6 +14075,239 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const runCheatLabSingleBlindLandBridge = ({
+    afterBlindDraw = false,
+    companyLabel = "作弊实验室",
+    includeYichangdian = true,
+  } = {}) => {
+    const turnChoices = [];
+    const hand = [
+      {
+        id: "cheat-final-blind-land-type-three",
+        cardName: "Cheat final blind land type three",
+        price: 2,
+        typeCode: 3,
+      },
+      ...(afterBlindDraw
+        ? [{
+          id: "cheat-final-blind-land-drawn",
+          cardName: "Cheat final blind land drawn",
+          price: 3,
+          typeCode: 0,
+        }]
+        : []),
+    ];
+    const ownedTiles = Object.fromEntries([
+      "orange1", "orange2", "orange3", "orange4",
+      "purple1", "purple2", "purple3",
+      "blue1", "blue2",
+    ].map((tileId) => [tileId, true]));
+    const alienGameState = {
+      aliens: {
+        1: { revealed: true, alienId: aomomo.ALIEN_ID, assignedAlienId: aomomo.ALIEN_ID },
+        ...(includeYichangdian
+          ? {
+            2: {
+              revealed: true,
+              alienId: yichangdian.ALIEN_ID,
+              assignedAlienId: yichangdian.ALIEN_ID,
+            },
+          }
+          : {}),
+      },
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 4,
+      aiDifficulty: "laughable",
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      quickTrades: {
+        "publicity-for-card": {
+          id: "publicity-for-card",
+          label: "3 publicity -> 1 card",
+          cost: { publicity: 3 },
+          gain: { handSize: 1 },
+        },
+        "cards-for-energy": {
+          id: "cards-for-energy",
+          label: "2 cards -> 1 energy",
+          cost: { handSize: 2 },
+          gain: { energy: 1 },
+        },
+      },
+      alienGameState,
+      alienSlotIds: [1, 2],
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 104,
+        credits: 0,
+        energy: 1,
+        publicity: afterBlindDraw ? 0 : 3,
+        availableData: 0,
+        handSize: hand.length,
+      },
+      blueHand: hand,
+      blueTechState: { ownedTiles },
+      blueTechCounts: { orange: 4, purple: 3, blue: 2 },
+      movableTokens: [
+        { id: 4, playerId: "player-blue", sector: { x: 4, y: 2 } },
+      ],
+      planetLocations: [
+        { planetId: "mars", name: "Mars", x: 4, y: 2 },
+      ],
+      planetStats: {
+        canAddLandingMarker: () => true,
+        canAddOrbitMarker: () => false,
+        getAvailableSatellitesForLanding: () => [],
+        getPlanetLandingCount: () => 0,
+        getPlanetOrbitCount: () => 0,
+      },
+      abilities: {
+        planet: {
+          DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+          BASE_LAND_ENERGY_COST: 2,
+          getLandEnergyCost: () => 2,
+          getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+          getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+        },
+        rocket: {
+          ORANGE1_ROCKET_LIMIT: 4,
+          getRocketLimitForPlayer: () => 2,
+        },
+      },
+      planetRewards: {
+        EFFECT_TYPES: {
+          GAIN_RESOURCES: "gain_resources",
+          GAIN_DATA: "gain_data",
+          ALIEN_TRACE: "alien_trace",
+          DRAW_CARDS: "draw_cards",
+          PICK_CARD: "pick_card",
+          INCOME: "income",
+        },
+        buildPlanetLandRewardEffects: () => [
+          { type: "gain_resources", options: { gain: { score: 9 } } },
+          { type: "gain_data", options: { count: 3 } },
+        ],
+        buildOrbitRewardEffects: () => [],
+        buildSatelliteLandRewardEffects: () => [],
+      },
+      publicCards: [{
+        id: "cheat-final-blind-land-dead-public",
+        cardName: "Cheat final blind land dead public",
+        price: 4,
+        typeCode: 0,
+      }],
+      finalScoringState: {
+        tiles: {
+          final_a1: {
+            id: "final_a1",
+            marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }],
+          },
+          final_b1: {
+            id: "final_b1",
+            marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 50 }],
+          },
+          final_c2: {
+            id: "final_c2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+          },
+        },
+      },
+      finalFormulaIds: {
+        final_a1: "a1",
+        final_b1: "b1",
+        final_c2: "c2",
+      },
+      computePlayerFinalScoreBreakdown: () => ({ totalScore: 153 }),
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    const expectedTradeId = afterBlindDraw ? "cards-for-energy" : "publicity-for-card";
+    const report = harness.controller.getAiAutoBattleReport();
+    return {
+      result,
+      handled: harness.getHandled(),
+      choices: turnChoices,
+      diagnostic: report.logs
+        .find((entry) => entry.type === "turn-action" && entry.details?.action?.id === "pass")
+        ?.details?.finalLowHandPassRecoveryDiagnostic,
+      tradeCandidate: turnChoices
+        .flat()
+        .find((candidate) => (
+          candidate.id === "quickTrade"
+          && candidate.tradeId === expectedTradeId
+          && (
+            !afterBlindDraw
+            || candidate.valueBreakdown?.cheatLabFinalBlindLandUnlock
+          )
+        )),
+    };
+  };
+
+  const blindDraw = runCheatLabSingleBlindLandBridge();
+  assert.equal(
+    blindDraw.result?.ok,
+    true,
+    `expected single-blind landing bridge; choices=${JSON.stringify(blindDraw.choices)} diagnostic=${JSON.stringify(blindDraw.diagnostic)}`,
+  );
+  assert.deepEqual(blindDraw.handled, {
+    type: "quick-trade",
+    tradeId: "publicity-for-card",
+    preferBlindDraw: true,
+  });
+  assert.equal(
+    blindDraw.tradeCandidate?.valueBreakdown?.cheatLabSingleBlindLandBridge?.beforeBlindDraw,
+    true,
+  );
+  assert.ok(
+    Number(
+      blindDraw.tradeCandidate?.valueBreakdown
+        ?.cheatLabSingleBlindLandBridge?.planetCashoutPlan?.directScore || 0,
+    ) >= 5,
+  );
+
+  const energyTrade = runCheatLabSingleBlindLandBridge({ afterBlindDraw: true });
+  assert.equal(
+    energyTrade.result?.ok,
+    true,
+    `expected post-blind energy-to-land bridge; choices=${JSON.stringify(energyTrade.choices)}`,
+  );
+  assert.deepEqual(energyTrade.handled, {
+    type: "quick-trade",
+    tradeId: "cards-for-energy",
+  });
+  assert.equal(energyTrade.tradeCandidate?.valueBreakdown?.cheatLabFinalBlindLandUnlock, true);
+  assert.equal(energyTrade.tradeCandidate?.valueBreakdown?.unlockedMainAction?.actionId, "land");
+
+  assert.equal(
+    runCheatLabSingleBlindLandBridge({ companyLabel: "异星实验室" }).tradeCandidate,
+    undefined,
+    "the single-blind landing bridge must stay local to AI-only Cheat Lab",
+  );
+  assert.equal(
+    runCheatLabSingleBlindLandBridge({ includeYichangdian: false }).tradeCandidate,
+    undefined,
+    "the single-blind landing bridge must require the observed public alien pair",
+  );
+}
+
+{
   const badPublicCard = {
     id: "negative-default-highscore-public-card",
     cardName: "Negative default highscore public card",
