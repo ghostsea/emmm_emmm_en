@@ -9348,6 +9348,24 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     0,
     "an extra sector win beyond the B2 orbit/land bottleneck has no score delta",
   );
+  assert.equal(
+    controller.isAiB2NearCloseLeadTieBreakVulnerable({
+      ownCount: 1,
+      openCount: 2,
+      maxOtherCount: 1,
+    }),
+    true,
+    "a one-signal lead with one slot left should remain vulnerable to the latest-placement tie-break",
+  );
+  assert.equal(
+    controller.isAiB2NearCloseLeadTieBreakVulnerable({
+      ownCount: 2,
+      openCount: 2,
+      maxOtherCount: 1,
+    }),
+    false,
+    "a two-signal lead should survive the only remaining replacement",
+  );
 }
 
 {
@@ -9388,6 +9406,57 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     ),
     0,
     "a B2 tie-break close should not invent value once sector wins reach orbit/land",
+  );
+  const vulnerable = buildB2FocusHarness(1, 6);
+  assert.equal(
+    vulnerable.controller.scoreAiB2SectorScanFocus(
+      "near-close-sector",
+      { ownCount: 1, openCount: 2, maxOtherCount: 1 },
+      vulnerable.blue,
+    ),
+    0,
+    "a final B2 scan should not price a temporary lead that the last replacement can take",
+  );
+  assert.ok(
+    vulnerable.controller.scoreAiB2SectorScanFocus(
+      "secure-near-close-sector",
+      { ownCount: 2, openCount: 2, maxOtherCount: 1 },
+      vulnerable.blue,
+    ) > 0,
+    "a final B2 scan should retain value when the remaining replacement cannot erase its lead",
+  );
+  const sameActionFollowup = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    pendingActionEffectFlow: {
+      currentIndex: 0,
+      effects: [
+        { type: "earth_sector_scan", status: "active" },
+        { type: "public_card_scan", status: "pending" },
+      ],
+    },
+    finalScoringState: {
+      tiles: {
+        final_b2: {
+          id: "final_b2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: { final_b2: "b2" },
+    finalSlotMultipliers: { b2: { 1: 8 } },
+    endGameScoring: {
+      countSectorWins: () => 1,
+      countOrbitOrLandMarkers: () => 6,
+    },
+  });
+  assert.ok(
+    sameActionFollowup.controller.scoreAiB2SectorScanFocus(
+      "near-close-sector",
+      { ownCount: 1, openCount: 2, maxOtherCount: 1 },
+      sameActionFollowup.blue,
+    ) > 0,
+    "a temporary lead should retain setup value when the same action has another scan to close it",
   );
 }
 

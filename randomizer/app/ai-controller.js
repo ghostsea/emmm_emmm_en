@@ -16479,6 +16479,33 @@
       };
     }
 
+    function isAiB2NearCloseLeadTieBreakVulnerable(counts = {}) {
+      const winState = getAiSectorScanWinState(counts);
+      return winState.openCount === 2
+        && winState.strictLeadAfterScan
+        && winState.ownAfterScan === winState.maxOtherCount + 1;
+    }
+
+    function hasAiRemainingSameActionNebulaScan() {
+      const flow = state.pendingActionEffectFlow;
+      if (!flow || !Array.isArray(flow.effects)) return false;
+      const currentIndex = Math.max(-1, Math.round(aiNumber(flow.currentIndex)));
+      const effectTypes = scanEffects?.EFFECT_TYPES || {};
+      const scanTargetTypes = new Set([
+        effectTypes.EARTH_SECTOR_SCAN || "earth_sector_scan",
+        effectTypes.IMPROVED_SECTOR_SCAN || "improved_sector_scan",
+        effectTypes.PUBLIC_CARD_SCAN || "public_card_scan",
+        effectTypes.MERCURY_SECTOR_SCAN || "mercury_sector_scan",
+        effectTypes.HAND_SCAN || "hand_scan",
+      ].filter(Boolean));
+      return flow.effects.slice(currentIndex + 1).some((effect) => (
+        effect
+        && effect.status !== "completed"
+        && effect.status !== "skipped"
+        && scanTargetTypes.has(effect.type)
+      ));
+    }
+
     function getAiClosedSectorControlMarginValue(counts = {}) {
       const winState = getAiSectorScanWinState(counts);
       if (winState.strictLeadAfterScan) return 10;
@@ -16525,6 +16552,20 @@
         active: b2Bottleneck.active,
         marked: b2Bottleneck.marked,
       });
+      const nearCloseLeadTieBreakVulnerable = isAiB2NearCloseLeadTieBreakVulnerable(counts);
+      if (
+        nearCloseLeadTieBreakVulnerable
+        && b2Bottleneck.active
+        && b2Bottleneck.marked
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && !hasAiRemainingSameActionNebulaScan()
+      ) {
+        // One open slot remains after this scan. A single opponent can fill it,
+        // tie the temporary 2:1-style lead and win via latest placement. Keep
+        // the setup value when this action still has another scan effect that
+        // can close the sector before control passes to an opponent.
+        return 0;
+      }
       let value = 0;
       if (closesSector) {
         if (scanWinState.tieBreakWinAfterScan) {
@@ -16826,6 +16867,8 @@
         winsAfterScan: counts.openCount <= 1
           ? ownAfterScan >= counts.maxOtherCount
           : ownAfterScan > counts.maxOtherCount,
+        nearCloseLeadTieBreakVulnerable: isAiB2NearCloseLeadTieBreakVulnerable(counts),
+        remainingSameActionNebulaScan: hasAiRemainingSameActionNebulaScan(),
         raceLost: isAiB2SectorScanRaceLost(counts, {
           roundNumber: getAiRoundNumber(),
           active: bottleneck.active,
@@ -24711,6 +24754,7 @@
       getCardTriggerFreeMoveEffect,
       getPlayerAgentLabel,
       getAiSectorScanWinState,
+      isAiB2NearCloseLeadTieBreakVulnerable,
       isAiB2SectorScanRaceLost,
       isAiAutomationPaused,
       isAiAutoBattlePlayer,
