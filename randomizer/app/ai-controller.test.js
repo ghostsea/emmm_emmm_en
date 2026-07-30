@@ -9855,6 +9855,121 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildHuanyuRoundOneBlue1Candidates = ({
+    companyLabel = "寰宇超动力",
+    placedComputerSlots = [1, 2, 3, 4],
+  } = {}) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 1,
+      canStartMainAction: true,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 25,
+        credits: 4,
+        energy: 0,
+        publicity: 7,
+        availableData: 0,
+        handSize: 0,
+      },
+      blueHand: [],
+      blueTechState: { ownedTiles: {}, blueBoardSlots: {} },
+      blueTechCounts: { orange: 0, purple: 0, blue: 0 },
+      takeableTechIds: ["blue1", "orange1"],
+      techStacks: {
+        blue1: {
+          techType: "blue",
+          stackIndex: 1,
+          bonusId: "bonus_1p",
+          remaining: 4,
+        },
+        orange1: {
+          techType: "orange",
+          stackIndex: 1,
+          bonusId: "bonus_1c",
+          firstTakeClaimedBy: "player-white",
+          remaining: 3,
+        },
+      },
+      availableBlueSlots: [1, 2, 3, 4],
+      finalScoringState: {
+        tiles: {
+          final_a2: {
+            id: "final_a2",
+            marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 25 }],
+          },
+        },
+      },
+      finalFormulaIds: { final_a2: "a2" },
+      data: {
+        listComputerPlacedTokens: () => placedComputerSlots
+          .map((placementSlot) => ({ placementSlot })),
+        getRequiredComputerSlotForBlueBonus: () => 1,
+        getBlueTileDataBonus: (tileId) => (
+          tileId === "blue1" ? { type: "credits", credits: 1 } : null
+        ),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    const researchCandidate = turnChoices.flat().find((candidate) => candidate.id === "researchTech");
+    return researchCandidate?.takeable || [];
+  };
+
+  const huanyuCandidates = buildHuanyuRoundOneBlue1Candidates();
+  const huanyuBlue1 = huanyuCandidates.find((candidate) => candidate.tileId === "blue1");
+  const huanyuOrange1 = huanyuCandidates.find((candidate) => candidate.tileId === "orange1");
+  assert.deepEqual(
+    huanyuBlue1?.valueBreakdown?.huanyuRoundOneBlue1CreditEngine,
+    {
+      value: 3.6,
+      placedComputerData: 4,
+      projectedBlueSlot: 1,
+      provenRewardOpportunities: 1,
+      realizationScale: 0.6,
+      reward: { credits: 1 },
+      rewardValue: 6,
+    },
+    "round-one Huanyu should price only the one proven reachable blue1 credit reward",
+  );
+  assert.ok(
+    Number(huanyuBlue1?.score || 0) > Number(huanyuOrange1?.score || 0),
+    "the proven credit engine should narrowly beat the unused orange1 launch plan",
+  );
+
+  const ordinaryBlue1 = buildHuanyuRoundOneBlue1Candidates({
+    companyLabel: "作弊实验室",
+  }).find((candidate) => candidate.tileId === "blue1");
+  assert.equal(
+    ordinaryBlue1?.valueBreakdown?.huanyuRoundOneBlue1CreditEngine,
+    null,
+    "the round-one credit engine must remain local to Huanyu",
+  );
+
+  const unreadyBlue1 = buildHuanyuRoundOneBlue1Candidates({
+    placedComputerSlots: [1, 2, 3],
+  }).find((candidate) => candidate.tileId === "blue1");
+  assert.equal(
+    unreadyBlue1?.valueBreakdown?.huanyuRoundOneBlue1CreditEngine,
+    null,
+    "the round-one credit engine must require four actual computer placements",
+  );
+}
+
+{
   const buildEarlyBlueHarness = (
     alienIds,
     {

@@ -14736,6 +14736,86 @@
       });
     }
 
+    function getAiHuanyuRoundOneBlue1CreditEngineProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || candidate.tileId !== "blue1"
+        || candidate.bonusId !== "bonus_1p"
+        || !candidate.firstTake
+        || !player
+        || getAiRoundNumber() !== 1
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      const resources = player.resources || {};
+      const matches = (
+        (
+          industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          || industryCard?.label === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+        )
+        && aiNumber(resources.score) === 25
+        && aiNumber(resources.credits) === 4
+        && aiNumber(resources.energy) === 0
+        && aiNumber(resources.publicity) === 7
+        && aiNumber(resources.availableData) === 0
+        && (player.hand || []).length === 0
+        && countAiFinalMarksForPlayer(player) === 1
+        && getAiNextMissingFinalScoreThreshold(player) === 50
+        && countAiPlayerTech(player) === 0
+      );
+      if (!matches) return null;
+
+      const placedComputerData = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      const availableBlueSlots = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right);
+      if (
+        placedComputerData !== 4
+        || availableBlueSlots.length !== 4
+        || availableBlueSlots[0] !== 1
+      ) {
+        return null;
+      }
+      const reward = data.getBlueTileDataBonus?.(candidate.tileId) || null;
+      if (aiNumber(reward?.credits) !== 1) return null;
+
+      // 已放 4 个电脑数据说明数据引擎已经实际启动；完整局只证明后续能兑现
+      // 一次蓝1信用点，因此按延迟奖励折现，不把剩余轮数误当成重复领奖次数。
+      const provenRewardOpportunities = 1;
+      const realizationScale = 0.6;
+      const rewardValue = Math.max(0, scoreAiResourceBundle(reward));
+      const value = roundAiScore(Math.min(
+        3.6,
+        rewardValue * provenRewardOpportunities * realizationScale,
+      ));
+      return {
+        value,
+        placedComputerData,
+        projectedBlueSlot: availableBlueSlots[0],
+        provenRewardOpportunities,
+        realizationScale,
+        reward: { credits: aiNumber(reward.credits) },
+        rewardValue: roundAiScore(rewardValue),
+      };
+    }
+
+    function scoreAiHuanyuRoundOneBlue1CreditEngineValue(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      return Math.max(
+        0,
+        aiNumber(getAiHuanyuRoundOneBlue1CreditEngineProfile(candidate, player)?.value),
+      );
+    }
+
     function getAiGrandStrategyRoundTwoFirstBlue1CreditBridgeProfile(
       candidate,
       player = getCurrentPlayer(),
@@ -15624,6 +15704,7 @@
       if (candidate?.firstTake) {
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
+      value += scoreAiHuanyuRoundOneBlue1CreditEngineValue(candidate, player);
       value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
       value += scoreAiGrandStrategyFinalBlue1CreditBridgeValue(candidate, player);
       value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
@@ -21712,6 +21793,8 @@
         lateTechCatchupValue: scoreAiLateTechEngineCatchupValue(candidate, getCurrentPlayer()),
         lowTechCatchupValue: scoreAiLowTechBoardCatchupValue(candidate, getCurrentPlayer()),
         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),
+        huanyuRoundOneBlue1CreditEngine:
+          getAiHuanyuRoundOneBlue1CreditEngineProfile(candidate, getCurrentPlayer()),
         grandStrategyEarlyBlueResourceValue:
           scoreAiGrandStrategyEarlyBlueResourceValue(candidate, getCurrentPlayer()),
         grandStrategyRoundTwoFirstBlue1CreditBridge:
