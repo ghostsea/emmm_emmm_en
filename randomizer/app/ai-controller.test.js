@@ -11994,6 +11994,196 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const runGrandStrategyRoundThreeAlienScanSetup = ({
+    companyLabel = "宇宙大战略集团",
+    alienIds = [aomomo.ALIEN_ID, yichangdian.ALIEN_ID],
+    placedComputerSlots = [1, 2],
+    projectedScanDataCount = 2,
+  } = {}) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 3,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      quickTrades: {
+        "energy-for-credit": {
+          id: "energy-for-credit",
+          label: "2 energy -> 1 credit",
+          cost: { energy: 2 },
+          gain: { credits: 1 },
+        },
+      },
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 57,
+        credits: 0,
+        energy: 4,
+        publicity: 5,
+        availableData: 0,
+        handSize: 5,
+      },
+      blueHand: Array.from({ length: 5 }, (_item, index) => ({
+        id: `grand-r3-alien-scan-${index}`,
+        cardName: `Grand R3 alien scan ${index}`,
+        price: 2,
+      })),
+      blueTechState: {
+        ownedTiles: {
+          orange1: true,
+          orange4: true,
+          purple1: true,
+          blue1: true,
+          blue3: true,
+        },
+        blueBoardSlots: { blue3: 1, blue1: 2 },
+      },
+      blueTechCounts: { orange: 2, purple: 1, blue: 2 },
+      alienSlotIds: [1, 2],
+      alienGameState: {
+        aliens: {
+          1: { assignedAlienId: alienIds[0] },
+          2: { assignedAlienId: alienIds[1] },
+        },
+      },
+      publicCards: [{
+        id: "grand-r3-alien-public-scan",
+        cardId: "grand-r3-alien-public-scan",
+        cardName: "Grand R3 alien public scan",
+        scanActionCode: 2,
+      }],
+      finalScoringState: {
+        tiles: {
+          final_a2: {
+            id: "final_a2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+          },
+          final_c2: {
+            id: "final_c2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+          },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+        final_c2: "c2",
+      },
+      scanEffects: {
+        EFFECT_TYPES: {
+          EARTH_SECTOR_SCAN: "earth_sector_scan",
+          IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+          MERCURY_SECTOR_SCAN: "mercury_sector_scan",
+          PUBLIC_CARD_SCAN: "public_card_scan",
+          HAND_SCAN: "hand_scan",
+          SCAN_ACTION_4: "scan_action_4",
+        },
+        SCAN_COST: { credits: 1, energy: 2 },
+        getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+        buildScanEffectQueue: () => Array.from(
+          { length: projectedScanDataCount },
+          () => ({ type: "public_card_scan" }),
+        ),
+        canExecuteScan: (player) => (
+          Number(player?.resources?.credits || 0) >= 1 && Number(player?.resources?.energy || 0) >= 2
+            ? { ok: true }
+            : { ok: false, message: "scan resources missing" }
+        ),
+      },
+      getPublicScanChoicesForCard: () => ({
+        ok: true,
+        choices: [{ nebulaId: "grand-r3-alien-nebula", sectorX: 4, label: "Grand R3 alien nebula" }],
+      }),
+      data: {
+        listComputerPlacedTokens: () => placedComputerSlots
+          .map((placementSlot) => ({ placementSlot })),
+        getNextReplaceableNebulaToken: () => ({ slotIndex: 30 }),
+        getNebulaCapacity: () => 3,
+        getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+        getNebulaColor: () => "blue",
+        listNebulaTokens: () => [],
+        listSectorExtraMarks: () => [],
+        getSectorTokenStats: () => ({}),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    return {
+      result,
+      handled: harness.getHandled(),
+      tradeCandidate: turnChoices
+        .flat()
+        .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "energy-for-credit"),
+    };
+  };
+
+  const grandStrategyAlienSetup = runGrandStrategyRoundThreeAlienScanSetup();
+  assert.equal(grandStrategyAlienSetup.result.ok, true);
+  assert.deepEqual(
+    grandStrategyAlienSetup.handled,
+    { type: "quick-trade", tradeId: "energy-for-credit" },
+    "round-three Grand Strategy should convert surplus energy into a two-data alien scan setup",
+  );
+  assert.equal(
+    grandStrategyAlienSetup.tradeCandidate?.valueBreakdown
+      ?.grandStrategyRoundThreeAlienScanSetupUnlock,
+    true,
+  );
+  assert.equal(
+    grandStrategyAlienSetup.tradeCandidate?.valueBreakdown?.projectedAlienScanDataCount,
+    2,
+  );
+  assert.equal(
+    grandStrategyAlienSetup.tradeCandidate?.valueBreakdown?.unlockedMainAction?.actionId,
+    "scan",
+  );
+
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      companyLabel: "宇宙战略集团",
+    }).tradeCandidate,
+    undefined,
+    "the alien scan setup must stay local to AI-only Grand Strategy",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      alienIds: [aomomo.ALIEN_ID, fangzhou.ALIEN_ID],
+    }).tradeCandidate,
+    undefined,
+    "the alien scan setup must require both Aomomo and Anomaly to be revealed",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      placedComputerSlots: [1],
+    }).tradeCandidate,
+    undefined,
+    "the alien scan setup must require exactly two occupied computer slots",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      projectedScanDataCount: 1,
+    }).tradeCandidate,
+    undefined,
+    "the alien scan setup must project at least two data placements",
+  );
+}
+
+{
   const runGrandFinalFangzhouCometUnlock = (companyLabel, includeFangzhou = true) => {
     const turnChoices = [];
     const harness = createAiControllerHarness(null, {

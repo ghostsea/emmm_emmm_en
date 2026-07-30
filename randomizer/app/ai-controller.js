@@ -7483,6 +7483,52 @@
         && scanCheck.ok
         && scanDirectScoreGain <= 0
         && scanScore >= 17;
+      const grandStrategyRoundThreeAlienScanSetupBase = allowExtendedResourceLock
+        && tradeId === "energy-for-credit"
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          === AI_DIFFICULTY_LAUGHABLE
+        && getAiRoundNumber() === 3
+        && countAiFinalMarksForPlayer(player) === 2
+        && getAiNextMissingFinalScoreThreshold(player) === 70
+        && currentScore >= 55
+        && currentScore < 60
+        && aiNumber(resources.credits) === 0
+        && aiNumber(resources.energy) === 4
+        && aiNumber(resources.publicity) === 5
+        && aiNumber(resources.availableData) === 0
+        && handSize === 5
+        && handAfterTrade === 5
+        && player.techState?.ownedTiles?.blue1
+        && player.techState?.ownedTiles?.blue3
+        && Number(player.techState?.blueBoardSlots?.blue3) === 1
+        && Number(player.techState?.blueBoardSlots?.blue1) === 2
+        && Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length) === 2
+        && countAiStandardScansThisRound(player) === 0
+        && hasAiRevealedAlienSpecies(aomomo?.ALIEN_ID || "奥陌陌")
+        && hasAiRevealedAlienSpecies(yichangdian?.ALIEN_ID || "异常点")
+        && scanCheck.ok
+        && scanDirectScoreGain <= 0
+        && scanScore >= 30;
+      const projectedAlienScanDataCount = grandStrategyRoundThreeAlienScanSetupBase
+        ? (scanEffects.buildScanEffectQueue?.(simulatedPlayer, {
+          fullScanAction: true,
+          turnState,
+          roundNumber: turnState.roundNumber,
+          turnNumber: turnState.turnNumber,
+        }) || []).filter((effect) => (
+          effect?.type === scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN
+          || effect?.type === scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN
+          || effect?.type === scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN
+          || effect?.type === scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN
+          || effect?.type === scanEffects.EFFECT_TYPES.HAND_SCAN
+        )).length
+        : 0;
+      const grandStrategyRoundThreeAlienScanSetupUnlock =
+        grandStrategyRoundThreeAlienScanSetupBase && projectedAlienScanDataCount >= 2;
       const grandFinalDeadPlayScanUnlock = grandFinalDeadPlayScanWindow
         && tradeId === "cards-for-energy"
         && handAfterTrade >= 3
@@ -7610,6 +7656,7 @@
             earlyLowScoreScanUnlock
             || directScoreScanUnlock
             || grandStrategyRoundThreeDeadHandScanUnlock
+            || grandStrategyRoundThreeAlienScanSetupUnlock
             || grandFinalDeadPlayScanUnlock
           )
           ? {
@@ -7767,6 +7814,7 @@
         && !weakNoDiscardDirectScanUnlock
         && !weakStartAlienPlayUnlockSafe
         && !huanyuAomomoRoundTwoFirstLandUnlock
+        && !grandStrategyRoundThreeAlienScanSetupUnlock
         && (
           getAiRoundNumber() !== 2
           || nextThreshold
@@ -7862,6 +7910,8 @@
           earlyLowScoreScanUnlock,
           directScoreScanUnlock,
           grandStrategyRoundThreeDeadHandScanUnlock,
+          grandStrategyRoundThreeAlienScanSetupUnlock,
+          projectedAlienScanDataCount,
           grandFangzhouRoundTwoLandUnlock,
           cheatLabRunezuRoundTwoMarsLandUnlock,
           huanyuAomomoRoundTwoFirstLandUnlock,
