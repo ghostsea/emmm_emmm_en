@@ -10541,6 +10541,121 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildHuanyuRoundTwoBlue4Candidates = (companyLabel = "寰宇超动力") => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 2,
+      canStartMainAction: true,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 26,
+        credits: 2,
+        energy: 0,
+        publicity: 7,
+        availableData: 2,
+        handSize: 1,
+      },
+      blueHand: [{ id: "huanyu-blue4-bridge-filler", cardName: "Huanyu blue4 bridge filler", price: 1 }],
+      blueTechState: {
+        ownedTiles: {
+          orange2: true,
+          blue3: true,
+        },
+        blueBoardSlots: { blue3: 1 },
+      },
+      blueTechCounts: { orange: 1, purple: 0, blue: 1 },
+      availableBlueSlots: [2, 3, 4],
+      takeableTechIds: ["blue4", "purple3"],
+      techStacks: {
+        blue4: {
+          techType: "blue",
+          stackIndex: 4,
+          bonusId: "bonus_3f",
+          remaining: 4,
+        },
+        purple3: {
+          techType: "purple",
+          stackIndex: 3,
+          bonusId: "bonus_1c",
+          remaining: 4,
+        },
+      },
+      finalScoringState: {
+        tiles: {
+          final_a2: { marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 25 }] },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+      },
+      data: {
+        listComputerPlacedTokens: () => [1, 2, 3, 4, 5, 6]
+          .map((placementSlot) => ({ placementSlot })),
+        getRequiredComputerSlotForBlueBonus: (blueSlot) => (
+          Number(blueSlot) === 2 ? 3 : null
+        ),
+        getBlueTileDataBonus: (tileId) => (
+          tileId === "blue4" ? { type: "publicity", publicity: 2 } : null
+        ),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    const researchCandidate = turnChoices.flat().find((candidate) => candidate.id === "researchTech");
+    return researchCandidate?.takeable || [];
+  };
+
+  const huanyuCandidates = buildHuanyuRoundTwoBlue4Candidates();
+  const huanyuBlue4 = huanyuCandidates.find((candidate) => candidate.tileId === "blue4");
+  const huanyuPurple3 = huanyuCandidates.find((candidate) => candidate.tileId === "purple3");
+  assert.deepEqual(
+    {
+      value: huanyuBlue4?.valueBreakdown?.huanyuRoundTwoBlue4PublicityBridge?.value,
+      projectedBlueSlot:
+        huanyuBlue4?.valueBreakdown?.huanyuRoundTwoBlue4PublicityBridge?.projectedBlueSlot,
+      requiredComputerSlot:
+        huanyuBlue4?.valueBreakdown?.huanyuRoundTwoBlue4PublicityBridge?.requiredComputerSlot,
+      placedComputerData:
+        huanyuBlue4?.valueBreakdown?.huanyuRoundTwoBlue4PublicityBridge?.placedComputerData,
+      reward: huanyuBlue4?.valueBreakdown?.huanyuRoundTwoBlue4PublicityBridge?.reward,
+    },
+    {
+      value: 2.1,
+      projectedBlueSlot: 2,
+      requiredComputerSlot: 3,
+      placedComputerData: 6,
+      reward: { type: "publicity", publicity: 2 },
+    },
+    "round-two Huanyu should price the immediately reachable blue4 publicity row",
+  );
+  assert.ok(
+    Number(huanyuBlue4?.score || 0) > Number(huanyuPurple3?.score || 0),
+    "the concrete publicity bridge should narrowly prefer blue4 over purple3",
+  );
+
+  const ordinaryCandidates = buildHuanyuRoundTwoBlue4Candidates("作弊实验室");
+  const ordinaryBlue4 = ordinaryCandidates.find((candidate) => candidate.tileId === "blue4");
+  assert.equal(
+    ordinaryBlue4?.valueBreakdown?.huanyuRoundTwoBlue4PublicityBridge,
+    null,
+    "the round-two blue4 bridge must remain local to Huanyu",
+  );
+}
+
+{
   const buildFinalHuanyuBlue1Candidate = ({
     companyLabel = "寰宇超动力",
     placedComputerSlots = [1, 2, 3, 4, 5, 6],

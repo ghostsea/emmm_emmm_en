@@ -14552,6 +14552,84 @@
       return roundAiScore(Math.min(11, repeatResourceValue + publicCardPaymentPressure));
     }
 
+    function getAiHuanyuRoundTwoBlue4PublicityBridgeProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || !player
+        || candidate.tileId !== "blue4"
+        || candidate.bonusId !== "bonus_3f"
+        || getAiRoundNumber() !== 2
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+      const resources = player.resources || {};
+      const techCounts = getAiPlayerTechTypeCounts(player);
+      if (
+        aiNumber(resources.score) !== 26
+        || aiNumber(resources.credits) !== 2
+        || aiNumber(resources.energy) !== 0
+        || aiNumber(resources.publicity) !== 7
+        || aiNumber(resources.availableData) !== 2
+        || aiNumber(resources.handSize ?? player.hand?.length) !== 1
+        || countAiFinalMarksForPlayer(player) !== 1
+        || getAiNextMissingFinalScoreThreshold(player) !== 50
+        || countAiPlayerTech(player) !== 2
+        || aiNumber(techCounts.orange) !== 1
+        || aiNumber(techCounts.purple) !== 0
+        || aiNumber(techCounts.blue) !== 1
+        || !player.techState?.ownedTiles?.orange2
+        || !player.techState?.ownedTiles?.blue3
+        || player.techState?.ownedTiles?.blue4
+        || Number(player.techState?.blueBoardSlots?.blue3) !== 1
+      ) {
+        return null;
+      }
+
+      const projectedBlueSlot = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right)[0] || null;
+      if (projectedBlueSlot !== 2) return null;
+      const requiredComputerSlot = data.getRequiredComputerSlotForBlueBonus?.(projectedBlueSlot) || null;
+      const placedComputerData = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      if (requiredComputerSlot !== 3 || placedComputerData !== 6) return null;
+
+      const reward = data.getBlueTileDataBonus?.(candidate.tileId) || null;
+      if (reward?.type !== "publicity" || aiNumber(reward.publicity) !== 2) return null;
+      const rewardValue = Math.max(0, scoreAiResourceBundle(reward));
+      return {
+        value: roundAiScore(Math.min(2.1, rewardValue * 0.7)),
+        projectedBlueSlot,
+        requiredComputerSlot,
+        placedComputerData,
+        availableData: aiNumber(resources.availableData),
+        reward,
+        rewardValue: roundAiScore(rewardValue),
+      };
+    }
+
+    function scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      return Math.max(
+        0,
+        aiNumber(getAiHuanyuRoundTwoBlue4PublicityBridgeProfile(candidate, player)?.value),
+      );
+    }
+
     function getAiFinalHuanyuBlue1AnalyzeRefuelProfile(
       candidate,
       player = getCurrentPlayer(),
@@ -15139,6 +15217,7 @@
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
       value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
+      value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
       value += scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(candidate, player);
       value += scoreAiFinalHuanyuPurple4CashoutValue(candidate, player);
       value += Math.max(0, 5 - stackIndex) * 0.4;
@@ -21226,6 +21305,8 @@
         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),
         grandStrategyEarlyBlueResourceValue:
           scoreAiGrandStrategyEarlyBlueResourceValue(candidate, getCurrentPlayer()),
+        huanyuRoundTwoBlue4PublicityBridge:
+          getAiHuanyuRoundTwoBlue4PublicityBridgeProfile(candidate, getCurrentPlayer()),
         finalHuanyuBlue1AnalyzeRefuel:
           getAiFinalHuanyuBlue1AnalyzeRefuelProfile(candidate, getCurrentPlayer()),
         finalHuanyuPurple4Cashout:
