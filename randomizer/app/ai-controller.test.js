@@ -9147,6 +9147,111 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildProfile = (companyLabel = "寰宇超动力", overrides = {}) => {
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: overrides.roundNumber || 1,
+      canStartMainAction: true,
+      blueAiDifficulty: "laughable",
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 4,
+        credits: 2,
+        energy: 3,
+        publicity: 4,
+        availableData: 0,
+        handSize: 3,
+        ...(overrides.resources || {}),
+      },
+    });
+    const scanCandidate = {
+      id: "scan",
+      kind: "main",
+      available: true,
+      score: 8.268,
+      directScoreGain: 0,
+      targetPreview: {
+        topChoices: [{ score: 6.919 }],
+      },
+      actionGraph: { net: 8.864 },
+      ...(overrides.scanCandidate || {}),
+    };
+    const moveCandidate = {
+      id: "move",
+      kind: "quick",
+      available: true,
+      score: 3.809,
+      routeTarget: {
+        id: "venus",
+        kind: "planet",
+        newDistance: 2,
+      },
+      followupMainAction: { score: 0 },
+      valueBreakdown: {
+        moveEnergySpent: 1,
+        moveCardSpent: 0,
+        energyAfterMovePayment: 2,
+      },
+      actionGraph: { net: 10.399 },
+      ...(overrides.moveCandidate || {}),
+    };
+    return harness.controller.getAiHuanyuRoundOneScanBeforePaidMoveProfile(
+      moveCandidate,
+      scanCandidate,
+      harness.blue,
+    );
+  };
+
+  const profile = buildProfile();
+  assert.deepEqual(
+    {
+      scanNet: profile?.scanNet,
+      moveNet: profile?.moveNet,
+      policyGap: profile?.policyGap,
+      scoreCap: profile?.scoreCap,
+      routeTargetId: profile?.routeTargetId,
+      routeDistance: profile?.routeDistance,
+    },
+    {
+      scanNet: 8.864,
+      moveNet: 10.399,
+      policyGap: 1.535,
+      scoreCap: 8.614,
+      routeTargetId: "venus",
+      routeDistance: 2,
+    },
+    "round-one Huanyu should keep the positive scan ahead of a narrowly better paid staging move",
+  );
+  assert.equal(
+    buildProfile("作弊实验室"),
+    null,
+    "the scan-before-move guard must remain local to Huanyu",
+  );
+  assert.equal(
+    buildProfile("寰宇超动力", {
+      moveCandidate: {
+        id: "move",
+        kind: "quick",
+        available: true,
+        score: 3.809,
+        routeTarget: { id: "venus", kind: "planet", newDistance: 3 },
+        followupMainAction: { score: 0 },
+        valueBreakdown: {
+          moveEnergySpent: 1,
+          moveCardSpent: 0,
+          energyAfterMovePayment: 2,
+        },
+        actionGraph: { net: 10.399 },
+      },
+    }),
+    null,
+    "a move that is not entering the two-step planet staging window should keep its normal ordering",
+  );
+}
+
+{
   const scale = createAiControllerHarness(null, { roundNumber: 4 })
     .controller.getAiTerminalResearchGoalBonusScale;
   assert.equal(scale({

@@ -22130,6 +22130,104 @@
       };
     }
 
+    function getAiHuanyuRoundOneScanBeforePaidMoveProfile(
+      moveCandidate,
+      scanCandidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !player
+        || moveCandidate?.id !== "move"
+        || moveCandidate.available === false
+        || scanCandidate?.id !== "scan"
+        || scanCandidate.available === false
+        || state.pendingActionExecuted
+        || !canStartMainAction()
+        || getAiRoundNumber() !== 1
+        || normalizeAiDifficulty(player?.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = player?.initialSelection?.industry || null;
+      if (
+        industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+
+      const resources = player.resources || {};
+      const currentScore = Math.max(0, aiNumber(resources.score));
+      const credits = Math.max(0, aiNumber(resources.credits));
+      const energy = Math.max(0, aiNumber(resources.energy));
+      const publicity = Math.max(0, aiNumber(resources.publicity));
+      const availableData = Math.max(0, Math.round(aiNumber(resources.availableData)));
+      const handSize = Math.max(0, Math.round(aiNumber(resources.handSize ?? player.hand?.length)));
+      const scanCost = scanEffects?.getStandardScanCost?.(player)
+        || scanEffects?.SCAN_COST
+        || { credits: 1, energy: 2 };
+      const scanCreditCost = Math.max(0, aiNumber(scanCost.credits));
+      const scanEnergyCost = Math.max(0, aiNumber(scanCost.energy));
+      const moveEnergySpent = Math.max(0, aiNumber(moveCandidate.valueBreakdown?.moveEnergySpent));
+      const moveCardSpent = Math.max(0, aiNumber(moveCandidate.valueBreakdown?.moveCardSpent));
+      const energyAfterMove = Math.max(0, aiNumber(moveCandidate.valueBreakdown?.energyAfterMovePayment));
+      const followupScore = Math.max(0, aiNumber(moveCandidate.followupMainAction?.score));
+      const routeTarget = moveCandidate.routeTarget || null;
+      const routeDistance = Math.max(0, Math.round(aiNumber(routeTarget?.newDistance)));
+      const scanScore = aiNumber(scanCandidate.score);
+      const scanNet = Number(scanCandidate.actionGraph?.net);
+      const moveNet = Number(moveCandidate.actionGraph?.net);
+      const scanTargetScore = Math.max(
+        0,
+        aiNumber(scanCandidate.targetPreview?.topChoices?.[0]?.score),
+      );
+      const policyGap = moveNet - scanNet;
+
+      if (
+        currentScore > 10
+        || credits < scanCreditCost
+        || energy !== scanEnergyCost + moveEnergySpent
+        || publicity < 3
+        || publicity > 5
+        || availableData !== 0
+        || handSize < 2
+        || handSize > 4
+        || scanEnergyCost <= 0
+        || moveEnergySpent <= 0
+        || moveCardSpent > 0
+        || energyAfterMove !== scanEnergyCost
+        || followupScore > 0
+        || routeTarget?.kind !== "planet"
+        || routeDistance !== 2
+        || scanScore < 6
+        || scanTargetScore < 5
+        || !Number.isFinite(scanNet)
+        || !Number.isFinite(moveNet)
+        || policyGap <= 0
+        || policyGap > 2
+      ) {
+        return null;
+      }
+
+      return {
+        scanScore: roundAiScore(scanScore),
+        scanNet: roundAiScore(scanNet),
+        moveNet: roundAiScore(moveNet),
+        policyGap: roundAiScore(policyGap),
+        scoreCap: roundAiScore(scanNet - 0.25),
+        scanCost: {
+          credits: scanCreditCost,
+          energy: scanEnergyCost,
+        },
+        moveEnergySpent,
+        energyAfterMove,
+        routeTargetId: routeTarget.id || null,
+        routeDistance,
+        scanTargetScore: roundAiScore(scanTargetScore),
+      };
+    }
+
     function applyAiTurnActionSelectionPressure(candidates = []) {
       const round = getAiRoundNumber();
       const currentPlayer = getCurrentPlayer();
@@ -22380,6 +22478,36 @@
             selectionAdjustment: {
               ...(adjusted.selectionAdjustment || {}),
               quickScoreFloor: Math.round((explicitScore - (Number.isFinite(graphNet) ? graphNet : 0)) * 100) / 100,
+            },
+          };
+        }
+        const huanyuRoundOneScanBeforePaidMove = getAiHuanyuRoundOneScanBeforePaidMoveProfile(
+          candidate,
+          scanCandidate,
+          currentPlayer,
+        );
+        if (huanyuRoundOneScanBeforePaidMove) {
+          const currentNet = Number(adjusted.actionGraph?.net);
+          adjusted = {
+            ...adjusted,
+            scoreCapReason: "寰宇首轮先扫描再规划付费移动",
+            actionGraph: adjusted.actionGraph
+              ? {
+                ...adjusted.actionGraph,
+                uncappedHuanyuRoundOneMoveNet: adjusted.actionGraph.net,
+                net: Math.min(
+                  Number.isFinite(currentNet) ? currentNet : aiNumber(adjusted.score),
+                  huanyuRoundOneScanBeforePaidMove.scoreCap,
+                ),
+              }
+              : adjusted.actionGraph,
+            selectionAdjustment: {
+              ...(adjusted.selectionAdjustment || {}),
+              huanyuRoundOneScanBeforePaidMove,
+            },
+            valueBreakdown: {
+              ...(adjusted.valueBreakdown || {}),
+              huanyuRoundOneScanBeforePaidMove,
             },
           };
         }
@@ -24564,6 +24692,7 @@
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
       getAiEarlyDirectScorePlayPassFloor,
+      getAiHuanyuRoundOneScanBeforePaidMoveProfile,
       getAiB2SectorWinExactDelta,
       getAiClosedSectorControlMarginValue,
       getAiFinalAnalyzeDirectScoreProtection,
