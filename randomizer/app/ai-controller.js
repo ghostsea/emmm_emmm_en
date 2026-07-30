@@ -14571,6 +14571,83 @@
       return roundAiScore(Math.min(11, repeatResourceValue + publicCardPaymentPressure));
     }
 
+    function getAiGrandStrategyFinalBlue1CreditBridgeProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || !player
+        || candidate.tileId !== "blue1"
+        || getAiRoundNumber() !== FINAL_ROUND_NUMBER
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+      const resources = player.resources || {};
+      const techCounts = getAiPlayerTechTypeCounts(player);
+      if (
+        countAiFinalMarksForPlayer(player) < 3
+        || aiNumber(resources.score) < 70
+        || aiNumber(resources.score) >= 110
+        || aiNumber(resources.credits) > 3
+        || aiNumber(resources.energy) < 4
+        || aiNumber(resources.publicity) > 3
+        || aiNumber(resources.availableData) !== 0
+        || aiNumber(resources.handSize ?? player.hand?.length) < 8
+        || aiNumber(techCounts.orange) < 4
+        || aiNumber(techCounts.purple) !== 0
+        || aiNumber(techCounts.blue) !== 2
+        || player.techState?.ownedTiles?.blue1
+        || !player.techState?.ownedTiles?.blue2
+        || !player.techState?.ownedTiles?.blue3
+        || Number(player.techState?.blueBoardSlots?.blue3) !== 1
+        || Number(player.techState?.blueBoardSlots?.blue2) !== 2
+      ) {
+        return null;
+      }
+
+      const projectedBlueSlot = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right)[0] || null;
+      if (projectedBlueSlot !== 3) return null;
+      const requiredComputerSlot = data.getRequiredComputerSlotForBlueBonus?.(projectedBlueSlot) || null;
+      const placedComputerData = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      if (requiredComputerSlot !== 5 || placedComputerData !== 4) return null;
+
+      const reward = data.getBlueTileDataBonus?.(candidate.tileId) || null;
+      if (aiNumber(reward?.credits) !== 1) return null;
+      const rewardValue = Math.max(0, scoreAiResourceBundle(reward));
+      return {
+        value: roundAiScore(Math.min(1.2, rewardValue * 0.4)),
+        projectedBlueSlot,
+        requiredComputerSlot,
+        placedComputerData,
+        availableData: aiNumber(resources.availableData),
+        reward,
+        rewardValue: roundAiScore(rewardValue),
+      };
+    }
+
+    function scoreAiGrandStrategyFinalBlue1CreditBridgeValue(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      return Math.max(
+        0,
+        aiNumber(getAiGrandStrategyFinalBlue1CreditBridgeProfile(candidate, player)?.value),
+      );
+    }
+
     function getAiHuanyuRoundTwoBlue4PublicityBridgeProfile(
       candidate,
       player = getCurrentPlayer(),
@@ -15236,6 +15313,7 @@
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
       value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
+      value += scoreAiGrandStrategyFinalBlue1CreditBridgeValue(candidate, player);
       value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
       value += scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(candidate, player);
       value += scoreAiFinalHuanyuPurple4CashoutValue(candidate, player);
@@ -21324,6 +21402,8 @@
         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),
         grandStrategyEarlyBlueResourceValue:
           scoreAiGrandStrategyEarlyBlueResourceValue(candidate, getCurrentPlayer()),
+        grandStrategyFinalBlue1CreditBridge:
+          getAiGrandStrategyFinalBlue1CreditBridgeProfile(candidate, getCurrentPlayer()),
         huanyuRoundTwoBlue4PublicityBridge:
           getAiHuanyuRoundTwoBlue4PublicityBridgeProfile(candidate, getCurrentPlayer()),
         finalHuanyuBlue1AnalyzeRefuel:

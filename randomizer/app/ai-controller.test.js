@@ -9973,6 +9973,164 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildGrandStrategyFinalBlue1BridgeCandidate = (
+    companyLabel = "宇宙大战略集团",
+    placedComputerSlots = [1, 2, 3, 4],
+  ) => {
+    const techEffect = {
+      id: "dlc8-blue-tech",
+      type: "card_research_tech",
+      label: "科技（只能选择蓝色）",
+      status: "active",
+      playerId: "player-blue",
+      options: { techTypes: ["blue"], skipCost: true },
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 4,
+      actionEffectFlowActive: true,
+      techTilePickingActive: true,
+      recordSupplyTechSelection: true,
+      currentActionEffect: techEffect,
+      pendingActionEffectFlow: {
+        playerId: "player-blue",
+        currentIndex: 0,
+        effects: [techEffect],
+      },
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 83,
+        credits: 3,
+        energy: 5,
+        publicity: 2,
+        availableData: 0,
+        handSize: 9,
+      },
+      blueHand: Array.from({ length: 9 }, (_item, index) => ({
+        id: `final-blue1-bridge-${index}`,
+        cardName: `Final blue1 bridge ${index}`,
+        price: 2,
+      })),
+      blueTechState: {
+        ownedTiles: {
+          orange1: true,
+          orange2: true,
+          orange3: true,
+          orange4: true,
+          blue2: true,
+          blue3: true,
+        },
+        blueBoardSlots: { blue3: 1, blue2: 2 },
+      },
+      blueTechCounts: { orange: 4, purple: 0, blue: 2 },
+      availableBlueSlots: [3, 4],
+      takeableTechIds: ["blue1", "blue4"],
+      techStacks: {
+        blue1: {
+          techType: "blue",
+          stackIndex: 1,
+          bonusId: "bonus_1m",
+          remaining: 1,
+        },
+        blue4: {
+          techType: "blue",
+          stackIndex: 4,
+          bonusId: "bonus_1c",
+          remaining: 2,
+        },
+      },
+      finalScoringState: {
+        tiles: {
+          final_a2: { marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }] },
+          final_c2: { marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 50 }] },
+          final_d2: { marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }] },
+        },
+      },
+      data: {
+        listComputerPlacedTokens: () => placedComputerSlots
+          .map((placementSlot) => ({ placementSlot })),
+        getRequiredComputerSlotForBlueBonus: (blueSlot) => (
+          Number(blueSlot) === 3 ? 5 : null
+        ),
+        getBlueTileDataBonus: (tileId) => (
+          tileId === "blue1"
+            ? { type: "credits", credits: 1 }
+            : tileId === "blue4"
+              ? { type: "publicity", publicity: 2 }
+              : null
+        ),
+      },
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    assert.notEqual(result?.blocked, true, "final blue1 bridge tech choice should remain executable");
+    const log = harness.controller.getAiAutoBattleReport().logs
+      .find((entry) => entry.type === "tech-placement" && entry.details?.selected);
+    return {
+      selectedTileId: harness.getHandled()?.tileId || null,
+      blue1: log?.details?.candidates?.find((candidate) => candidate.tileId === "blue1") || null,
+    };
+  };
+
+  const grandStrategyBridge = buildGrandStrategyFinalBlue1BridgeCandidate();
+  assert.equal(
+    grandStrategyBridge.selectedTileId,
+    "blue1",
+    "Grand Strategy should prefer the final-round blue1 credit bridge over blue4 publicity",
+  );
+  assert.deepEqual(
+    {
+      value: grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge?.value,
+      projectedBlueSlot:
+        grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge
+          ?.projectedBlueSlot,
+      requiredComputerSlot:
+        grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge
+          ?.requiredComputerSlot,
+      placedComputerData:
+        grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge
+          ?.placedComputerData,
+      reward:
+        grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge?.reward,
+    },
+    {
+      value: 1.2,
+      projectedBlueSlot: 3,
+      requiredComputerSlot: 5,
+      placedComputerData: 4,
+      reward: { type: "credits", credits: 1 },
+    },
+    "the bridge should price the real blue1 reward only when its third-column prerequisite is one data away",
+  );
+
+  const ordinaryCompanyBridge = buildGrandStrategyFinalBlue1BridgeCandidate("作弊实验室");
+  assert.equal(
+    ordinaryCompanyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge,
+    null,
+    "the final blue1 credit bridge must remain local to Grand Strategy",
+  );
+  const unreadyComputerBridge = buildGrandStrategyFinalBlue1BridgeCandidate(
+    "宇宙大战略集团",
+    [1, 2, 3],
+  );
+  assert.equal(
+    unreadyComputerBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge,
+    null,
+    "blue1 must not claim the bridge before the computer row is one placement from column three",
+  );
+}
+
+{
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
