@@ -9862,6 +9862,12 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
       targetTileId = "blue1",
       useRevealPool = false,
       resourceOverrides = {},
+      companyLabel = "宇宙大战略集团",
+      ownedTechTiles = null,
+      techCounts = null,
+      blueHandSize = 4,
+      placedComputerSlots = [],
+      availableBlueSlots = [1],
     } = {},
   ) => {
     const turnChoices = [];
@@ -9871,7 +9877,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
       roundNumber,
       canStartMainAction: true,
       blueInitialSelection: {
-        industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
       },
       blueResources: {
         score: roundNumber === 1 ? 8 : 51,
@@ -9882,13 +9888,14 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         handSize: roundNumber === 1 ? 4 : 6,
         ...resourceOverrides,
       },
-      blueOwnedTechTiles: roundNumber === 2 ? { blue1: true } : {},
+      blueOwnedTechTiles: ownedTechTiles || (roundNumber === 2 ? { blue1: true } : {}),
+      blueTechCounts: techCounts || {},
       blueHand: [
         { id: "early-blue-filler-a", cardName: "Early blue filler A", price: 2 },
         { id: "early-blue-filler-b", cardName: "Early blue filler B", price: 2 },
         { id: "early-blue-filler-c", cardName: "Early blue filler C", price: 2 },
         { id: "early-blue-filler-d", cardName: "Early blue filler D", price: 2 },
-      ],
+      ].slice(0, blueHandSize),
       publicCards: [{ id: "early-blue-public", cardName: "Early blue public", price: 4 }],
       alienSlotIds: [1, 2],
       alienGameState: useRevealPool
@@ -9908,8 +9915,9 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         },
         orange4: { techType: "orange", stackIndex: 4, bonusId: "bonus_1p" },
       },
+      availableBlueSlots,
       data: {
-        listComputerPlacedTokens: () => [],
+        listComputerPlacedTokens: () => placedComputerSlots.map((slot) => ({ slot })),
         getRequiredComputerSlotForBlueBonus: () => 1,
         getBlueTileDataBonus: (tileId) => (
           tileId === "blue1" ? { credits: 1 } : tileId === "blue2" ? { energy: 1 } : null
@@ -9985,6 +9993,275 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     otherAlienBlue2?.valueBreakdown?.grandStrategyEarlyBlueResourceValue,
     0,
     "round-two blue2 follow-up must remain scoped to a revealed Fangzhou route",
+  );
+
+  const roundTwoFirstBlue1Bridge = buildEarlyBlueHarness(
+    ["方舟", "虫"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue1",
+      resourceOverrides: {
+        score: 30,
+        credits: 3,
+        energy: 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: 3,
+      },
+      ownedTechTiles: { orange4: true, purple1: true },
+      techCounts: { orange: 1, purple: 1, blue: 0 },
+      blueHandSize: 3,
+      placedComputerSlots: [1, 2, 3, 4],
+      availableBlueSlots: [1, 2, 3, 4],
+    },
+  );
+  assert.deepEqual(
+    roundTwoFirstBlue1Bridge?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
+    {
+      value: 3,
+      placedComputerData: 4,
+      projectedBlueSlot: 1,
+      futureRewardOpportunities: 2,
+      reward: { credits: 1 },
+    },
+    "round-two Grand Strategy should price the two reachable blue1 credit rewards",
+  );
+
+  const ordinaryCompanyRoundTwoBlue1 = buildEarlyBlueHarness(
+    ["方舟", "虫"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue1",
+      resourceOverrides: {
+        score: 30,
+        credits: 3,
+        energy: 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: 3,
+      },
+      companyLabel: "作弊实验室",
+      ownedTechTiles: { orange4: true, purple1: true },
+      techCounts: { orange: 1, purple: 1, blue: 0 },
+      blueHandSize: 3,
+      placedComputerSlots: [1, 2, 3, 4],
+      availableBlueSlots: [1, 2, 3, 4],
+    },
+  );
+  assert.equal(
+    ordinaryCompanyRoundTwoBlue1?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
+    null,
+    "the round-two first-blue credit bridge must remain local to Grand Strategy",
+  );
+
+  const unreadyRoundTwoBlue1 = buildEarlyBlueHarness(
+    ["方舟", "虫"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue1",
+      resourceOverrides: {
+        score: 30,
+        credits: 3,
+        energy: 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: 3,
+      },
+      ownedTechTiles: { orange4: true, purple1: true },
+      techCounts: { orange: 1, purple: 1, blue: 0 },
+      blueHandSize: 3,
+      placedComputerSlots: [1, 2, 3],
+      availableBlueSlots: [1, 2, 3, 4],
+    },
+  );
+  assert.equal(
+    unreadyRoundTwoBlue1?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
+    null,
+    "blue1 must not claim the bridge before the computer row reaches four placements",
+  );
+
+  const otherAlienRoundTwoBlue1 = buildEarlyBlueHarness(
+    ["方舟", "九折"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue1",
+      resourceOverrides: {
+        score: 30,
+        credits: 3,
+        energy: 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: 3,
+      },
+      ownedTechTiles: { orange4: true, purple1: true },
+      techCounts: { orange: 1, purple: 1, blue: 0 },
+      blueHandSize: 3,
+      placedComputerSlots: [1, 2, 3, 4],
+      availableBlueSlots: [1, 2, 3, 4],
+    },
+  );
+  assert.equal(
+    otherAlienRoundTwoBlue1?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
+    null,
+    "the round-two first-blue credit bridge must remain scoped to Fangzhou and Chong",
+  );
+}
+
+{
+  const buildGrandStrategyFinalBlue1BridgeCandidate = (
+    companyLabel = "宇宙大战略集团",
+    placedComputerSlots = [1, 2, 3, 4],
+  ) => {
+    const techEffect = {
+      id: "dlc8-blue-tech",
+      type: "card_research_tech",
+      label: "科技（只能选择蓝色）",
+      status: "active",
+      playerId: "player-blue",
+      options: { techTypes: ["blue"], skipCost: true },
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 4,
+      actionEffectFlowActive: true,
+      techTilePickingActive: true,
+      recordSupplyTechSelection: true,
+      currentActionEffect: techEffect,
+      pendingActionEffectFlow: {
+        playerId: "player-blue",
+        currentIndex: 0,
+        effects: [techEffect],
+      },
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 83,
+        credits: 3,
+        energy: 5,
+        publicity: 2,
+        availableData: 0,
+        handSize: 9,
+      },
+      blueHand: Array.from({ length: 9 }, (_item, index) => ({
+        id: `final-blue1-bridge-${index}`,
+        cardName: `Final blue1 bridge ${index}`,
+        price: 2,
+      })),
+      blueTechState: {
+        ownedTiles: {
+          orange1: true,
+          orange2: true,
+          orange3: true,
+          orange4: true,
+          blue2: true,
+          blue3: true,
+        },
+        blueBoardSlots: { blue3: 1, blue2: 2 },
+      },
+      blueTechCounts: { orange: 4, purple: 0, blue: 2 },
+      availableBlueSlots: [3, 4],
+      takeableTechIds: ["blue1", "blue4"],
+      techStacks: {
+        blue1: {
+          techType: "blue",
+          stackIndex: 1,
+          bonusId: "bonus_1m",
+          remaining: 1,
+        },
+        blue4: {
+          techType: "blue",
+          stackIndex: 4,
+          bonusId: "bonus_1c",
+          remaining: 2,
+        },
+      },
+      finalScoringState: {
+        tiles: {
+          final_a2: { marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }] },
+          final_c2: { marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 50 }] },
+          final_d2: { marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }] },
+        },
+      },
+      data: {
+        listComputerPlacedTokens: () => placedComputerSlots
+          .map((placementSlot) => ({ placementSlot })),
+        getRequiredComputerSlotForBlueBonus: (blueSlot) => (
+          Number(blueSlot) === 3 ? 5 : null
+        ),
+        getBlueTileDataBonus: (tileId) => (
+          tileId === "blue1"
+            ? { type: "credits", credits: 1 }
+            : tileId === "blue4"
+              ? { type: "publicity", publicity: 2 }
+              : null
+        ),
+      },
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    assert.notEqual(result?.blocked, true, "final blue1 bridge tech choice should remain executable");
+    const log = harness.controller.getAiAutoBattleReport().logs
+      .find((entry) => entry.type === "tech-placement" && entry.details?.selected);
+    return {
+      selectedTileId: harness.getHandled()?.tileId || null,
+      blue1: log?.details?.candidates?.find((candidate) => candidate.tileId === "blue1") || null,
+    };
+  };
+
+  const grandStrategyBridge = buildGrandStrategyFinalBlue1BridgeCandidate();
+  assert.equal(
+    grandStrategyBridge.selectedTileId,
+    "blue1",
+    "Grand Strategy should prefer the final-round blue1 credit bridge over blue4 publicity",
+  );
+  assert.deepEqual(
+    {
+      value: grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge?.value,
+      projectedBlueSlot:
+        grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge
+          ?.projectedBlueSlot,
+      requiredComputerSlot:
+        grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge
+          ?.requiredComputerSlot,
+      placedComputerData:
+        grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge
+          ?.placedComputerData,
+      reward:
+        grandStrategyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge?.reward,
+    },
+    {
+      value: 1.2,
+      projectedBlueSlot: 3,
+      requiredComputerSlot: 5,
+      placedComputerData: 4,
+      reward: { type: "credits", credits: 1 },
+    },
+    "the bridge should price the real blue1 reward only when its third-column prerequisite is one data away",
+  );
+
+  const ordinaryCompanyBridge = buildGrandStrategyFinalBlue1BridgeCandidate("作弊实验室");
+  assert.equal(
+    ordinaryCompanyBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge,
+    null,
+    "the final blue1 credit bridge must remain local to Grand Strategy",
+  );
+  const unreadyComputerBridge = buildGrandStrategyFinalBlue1BridgeCandidate(
+    "宇宙大战略集团",
+    [1, 2, 3],
+  );
+  assert.equal(
+    unreadyComputerBridge.blue1?.valueBreakdown?.grandStrategyFinalBlue1CreditBridge,
+    null,
+    "blue1 must not claim the bridge before the computer row is one placement from column three",
   );
 }
 
@@ -11848,6 +12125,196 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     ordinaryStrategy.tradeCandidate,
     undefined,
     "round-three dead-hand scan conversion should stay local to AI-only Grand Strategy",
+  );
+}
+
+{
+  const runGrandStrategyRoundThreeAlienScanSetup = ({
+    companyLabel = "宇宙大战略集团",
+    alienIds = [aomomo.ALIEN_ID, yichangdian.ALIEN_ID],
+    placedComputerSlots = [1, 2],
+    projectedScanDataCount = 2,
+  } = {}) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 3,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      quickTrades: {
+        "energy-for-credit": {
+          id: "energy-for-credit",
+          label: "2 energy -> 1 credit",
+          cost: { energy: 2 },
+          gain: { credits: 1 },
+        },
+      },
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 57,
+        credits: 0,
+        energy: 4,
+        publicity: 5,
+        availableData: 0,
+        handSize: 5,
+      },
+      blueHand: Array.from({ length: 5 }, (_item, index) => ({
+        id: `grand-r3-alien-scan-${index}`,
+        cardName: `Grand R3 alien scan ${index}`,
+        price: 2,
+      })),
+      blueTechState: {
+        ownedTiles: {
+          orange1: true,
+          orange4: true,
+          purple1: true,
+          blue1: true,
+          blue3: true,
+        },
+        blueBoardSlots: { blue3: 1, blue1: 2 },
+      },
+      blueTechCounts: { orange: 2, purple: 1, blue: 2 },
+      alienSlotIds: [1, 2],
+      alienGameState: {
+        aliens: {
+          1: { assignedAlienId: alienIds[0] },
+          2: { assignedAlienId: alienIds[1] },
+        },
+      },
+      publicCards: [{
+        id: "grand-r3-alien-public-scan",
+        cardId: "grand-r3-alien-public-scan",
+        cardName: "Grand R3 alien public scan",
+        scanActionCode: 2,
+      }],
+      finalScoringState: {
+        tiles: {
+          final_a2: {
+            id: "final_a2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+          },
+          final_c2: {
+            id: "final_c2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+          },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+        final_c2: "c2",
+      },
+      scanEffects: {
+        EFFECT_TYPES: {
+          EARTH_SECTOR_SCAN: "earth_sector_scan",
+          IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+          MERCURY_SECTOR_SCAN: "mercury_sector_scan",
+          PUBLIC_CARD_SCAN: "public_card_scan",
+          HAND_SCAN: "hand_scan",
+          SCAN_ACTION_4: "scan_action_4",
+        },
+        SCAN_COST: { credits: 1, energy: 2 },
+        getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+        buildScanEffectQueue: () => Array.from(
+          { length: projectedScanDataCount },
+          () => ({ type: "public_card_scan" }),
+        ),
+        canExecuteScan: (player) => (
+          Number(player?.resources?.credits || 0) >= 1 && Number(player?.resources?.energy || 0) >= 2
+            ? { ok: true }
+            : { ok: false, message: "scan resources missing" }
+        ),
+      },
+      getPublicScanChoicesForCard: () => ({
+        ok: true,
+        choices: [{ nebulaId: "grand-r3-alien-nebula", sectorX: 4, label: "Grand R3 alien nebula" }],
+      }),
+      data: {
+        listComputerPlacedTokens: () => placedComputerSlots
+          .map((placementSlot) => ({ placementSlot })),
+        getNextReplaceableNebulaToken: () => ({ slotIndex: 30 }),
+        getNebulaCapacity: () => 3,
+        getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+        getNebulaColor: () => "blue",
+        listNebulaTokens: () => [],
+        listSectorExtraMarks: () => [],
+        getSectorTokenStats: () => ({}),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    return {
+      result,
+      handled: harness.getHandled(),
+      tradeCandidate: turnChoices
+        .flat()
+        .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "energy-for-credit"),
+    };
+  };
+
+  const grandStrategyAlienSetup = runGrandStrategyRoundThreeAlienScanSetup();
+  assert.equal(grandStrategyAlienSetup.result.ok, true);
+  assert.deepEqual(
+    grandStrategyAlienSetup.handled,
+    { type: "quick-trade", tradeId: "energy-for-credit" },
+    "round-three Grand Strategy should convert surplus energy into a two-data alien scan setup",
+  );
+  assert.equal(
+    grandStrategyAlienSetup.tradeCandidate?.valueBreakdown
+      ?.grandStrategyRoundThreeAlienScanSetupUnlock,
+    true,
+  );
+  assert.equal(
+    grandStrategyAlienSetup.tradeCandidate?.valueBreakdown?.projectedAlienScanDataCount,
+    2,
+  );
+  assert.equal(
+    grandStrategyAlienSetup.tradeCandidate?.valueBreakdown?.unlockedMainAction?.actionId,
+    "scan",
+  );
+
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      companyLabel: "宇宙战略集团",
+    }).tradeCandidate,
+    undefined,
+    "the alien scan setup must stay local to AI-only Grand Strategy",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      alienIds: [aomomo.ALIEN_ID, fangzhou.ALIEN_ID],
+    }).tradeCandidate,
+    undefined,
+    "the alien scan setup must require both Aomomo and Anomaly to be revealed",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      placedComputerSlots: [1],
+    }).tradeCandidate,
+    undefined,
+    "the alien scan setup must require exactly two occupied computer slots",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      projectedScanDataCount: 1,
+    }).tradeCandidate,
+    undefined,
+    "the alien scan setup must project at least two data placements",
   );
 }
 
@@ -14222,6 +14689,79 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(plannerShadow?.firstAction?.actionGraphNet, null);
   assert.equal(plannerShadow?.policyActionId, "researchTech");
   assert.equal(plannerShadow?.diverged, true);
+}
+
+{
+  const jupiterTaskCard = {
+    id: "closed-jupiter-task-card",
+    cardId: "b_60.webp",
+    cardName: "Juno Probe",
+    model: {
+      tasks: [{
+        id: "closed-jupiter-task",
+        condition: { type: "planetOrbitOrLand", planetId: "jupiter" },
+        rewards: [{ type: "gain_resources", options: { gain: { score: 7 } } }],
+      }],
+    },
+  };
+  const readJupiterMove = (planetOpen) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 2,
+      canStartMainAction: true,
+      canPayForMove: true,
+      allowedMoveDeltas: [{ deltaX: 0, deltaY: 1 }],
+      blueResources: {
+        score: 40,
+        credits: 5,
+        energy: 5,
+        publicity: 2,
+        availableData: 0,
+        handSize: 0,
+      },
+      blueReservedCards: [jupiterTaskCard],
+      movableTokens: [{
+        id: 990,
+        kind: "standard",
+        playerId: "player-blue",
+        sector: { x: 0, y: 1 },
+      }],
+      planetLocations: [{ planetId: "jupiter", name: "Jupiter", x: 0, y: 2 }],
+      planetStats: {
+        canAddLandingMarker: (_state, planetId) => planetOpen && planetId === "jupiter",
+        canAddOrbitMarker: (_state, planetId) => planetOpen && planetId === "jupiter",
+        getAvailableSatellitesForLanding: () => [],
+        getPlanetLandingCount: () => 0,
+        getPlanetOrbitCount: () => 0,
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    return turnChoices.flat().find((candidate) => candidate.id === "move") || null;
+  };
+
+  const openJupiterMove = readJupiterMove(true);
+  assert.equal(
+    openJupiterMove?.routeTarget?.taskRouteCashout?.count,
+    1,
+    "reachable Jupiter task should remain visible in the route target",
+  );
+
+  const closedJupiterMove = readJupiterMove(false);
+  assert.equal(
+    closedJupiterMove?.routeTarget?.taskRouteCashout || null,
+    null,
+    "full Jupiter should not advertise an orbit-or-land task cashout that can no longer resolve",
+  );
 }
 
 async function runAsyncControllerTests() {
