@@ -544,7 +544,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       },
     }),
     createTurnState: () => ({}),
-    computePlayerFinalScoreBreakdown: () => ({}),
+    computePlayerFinalScoreBreakdown: options.computePlayerFinalScoreBreakdown || (() => ({})),
     formatRocketLabel: () => "",
     getActivePlayers: () => allPlayers,
     getAlienTraceActionPlayer: (pending) => {
@@ -13902,6 +13902,176 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(tradeCandidate?.preferBlindDraw, true);
   assert.equal(tradeCandidate?.valueBreakdown?.finalHighScoreBlindRefill, true);
   assert.equal(tradeCandidate?.valueBreakdown?.finalHighScoreBlindRefillPublicityThreshold, 3);
+}
+
+{
+  const runCheatLabDoubleBlindAnalyzeBridge = ({
+    companyLabel = "作弊实验室",
+    handSize = 0,
+    publicity = 8,
+    placedComputerCount = 6,
+  } = {}) => {
+    const weakPublicCard = {
+      id: "b_94.webp",
+      cardId: "b_94.webp",
+      cardName: "行星猎手",
+      price: 1,
+      typeCode: 0,
+      playEffects: [
+        {
+          id: "b94-draw",
+          type: "draw_cards",
+          options: { count: 1 },
+        },
+        {
+          id: "b94-optional-scans",
+          type: "card_optional_discard_scan",
+          options: { count: 3 },
+        },
+      ],
+    };
+    const turnChoices = [];
+    const hand = Array.from({ length: handSize }, (_item, index) => ({
+      id: `double-blind-hand-${index}`,
+      cardName: `Double blind hand ${index}`,
+      price: 4,
+    }));
+    const ownedTiles = Object.fromEntries([
+      "orange1", "orange2", "orange3", "orange4",
+      "purple1", "purple2", "purple3", "purple4",
+      "blue1", "blue2", "blue3", "blue4",
+    ].map((tileId) => [tileId, true]));
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 4,
+      aiDifficulty: "laughable",
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      quickTrades: {
+        "publicity-for-card": {
+          id: "publicity-for-card",
+          label: "3 publicity -> public card",
+          cost: { publicity: 3 },
+          gain: { handSize: 1 },
+        },
+        "cards-for-energy": {
+          id: "cards-for-energy",
+          label: "2 cards -> 1 energy",
+          cost: { handSize: 2 },
+          gain: { energy: 1 },
+        },
+      },
+      publicCards: [weakPublicCard],
+      blueResources: {
+        score: 169,
+        credits: 1,
+        energy: 0,
+        publicity,
+        availableData: 0,
+        handSize,
+      },
+      blueHand: hand,
+      blueTechState: { ownedTiles },
+      blueTechCounts: { orange: 4, purple: 4, blue: 4 },
+      finalScoringState: {
+        tiles: {
+          final_a2: {
+            id: "final_a2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+          },
+          final_c2: {
+            id: "final_c2",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+          },
+          final_d1: {
+            id: "final_d1",
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+          },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+        final_c2: "c2",
+        final_d1: "d1",
+      },
+      computePlayerFinalScoreBreakdown: () => ({ totalScore: 277 }),
+      data: {
+        ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+        ANALYZE_ENERGY_COST: 1,
+        canAnalyzeData: (player) => (
+          Number(player?.resources?.energy || 0) >= 1
+            ? { ok: true }
+            : { ok: false, message: "energy missing" }
+        ),
+        listComputerPlacedTokens: () => Array.from(
+          { length: placedComputerCount },
+          (_item, index) => ({ placementSlot: index + 1 }),
+        ),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    return {
+      result,
+      handled: harness.getHandled(),
+      tradeCandidate: turnChoices
+        .flat()
+        .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "publicity-for-card"),
+    };
+  };
+
+  for (const state of [
+    { handSize: 0, publicity: 8, remainingBlindDraws: 2 },
+    { handSize: 1, publicity: 5, remainingBlindDraws: 1 },
+  ]) {
+    const bridge = runCheatLabDoubleBlindAnalyzeBridge(state);
+    assert.equal(bridge.result.ok, true);
+    assert.deepEqual(bridge.handled, {
+      type: "quick-trade",
+      tradeId: "publicity-for-card",
+      preferBlindDraw: true,
+    });
+    assert.equal(
+      bridge.tradeCandidate?.valueBreakdown?.cheatLabDoubleBlindAnalyzeBridge?.active,
+      true,
+    );
+    assert.equal(
+      bridge.tradeCandidate?.valueBreakdown
+        ?.cheatLabDoubleBlindAnalyzeBridge?.remainingBlindDraws,
+      state.remainingBlindDraws,
+    );
+  }
+
+  assert.equal(
+    runCheatLabDoubleBlindAnalyzeBridge({
+      companyLabel: "异星实验室",
+    }).tradeCandidate,
+    undefined,
+    "the double blind analyze bridge must stay local to AI-only Cheat Lab",
+  );
+  assert.equal(
+    runCheatLabDoubleBlindAnalyzeBridge({
+      placedComputerCount: 5,
+    }).tradeCandidate,
+    undefined,
+    "the double blind analyze bridge must require an analyze-ready computer",
+  );
 }
 
 {

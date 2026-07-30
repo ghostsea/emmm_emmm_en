@@ -7958,6 +7958,64 @@
       return singleDrawToThreeHundred ? 5 : 6;
     }
 
+    function getAiCheatLabDoubleBlindAnalyzeBridgeProfile(player = getCurrentPlayer(), options = {}) {
+      if (!player) return { active: false };
+      const handSize = Math.max(0, Math.round(aiNumber(options.handSize)));
+      const remainingBlindDraws = Math.max(0, 2 - handSize);
+      const requiredPublicity = remainingBlindDraws * 3;
+      const cardsForEnergyTrade = quickTrades?.getTradeAction?.("cards-for-energy") || null;
+      const cardsForEnergyHandCost = Math.max(
+        0,
+        Math.round(aiNumber(cardsForEnergyTrade?.cost?.handSize)),
+      );
+      const cardsForEnergyGain = Math.max(0, aiNumber(cardsForEnergyTrade?.gain?.energy));
+      const industryCard = getAiIndustryCard(player);
+      const formulas = options.formulas instanceof Set ? options.formulas : new Set(options.formulas || []);
+      const publicProfile = options.bestPublicTradeCardProfile || {};
+      const active = normalizeAiDifficulty(
+        player.aiDifficulty || aiAutoBattleState.aiDifficulty,
+      ) === AI_DIFFICULTY_LAUGHABLE
+        && (
+          industryCard?.id === AI_CHEAT_LAB_INDUSTRY_ID
+          || industryCard?.label === AI_CHEAT_LAB_INDUSTRY_LABEL
+        )
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && options.mainActionOpen !== false
+        && !state.pendingActionExecuted
+        && Math.max(0, Math.round(aiNumber(options.finalMarks))) >= 3
+        && !options.nextThreshold
+        && aiNumber(options.currentScore) >= 160
+        && aiNumber(options.currentScore) < 180
+        && aiNumber(options.projectedScore) >= 270
+        && aiNumber(options.projectedScore) < 290
+        && formulas.has("c2")
+        && formulas.has("d1")
+        && countAiPlayerTech(player) === 12
+        && aiNumber(options.credits) === 1
+        && aiNumber(options.energy) === 0
+        && aiNumber(options.publicity) >= requiredPublicity
+        && aiNumber(options.publicity) <= 8
+        && aiNumber(player.resources?.availableData) === 0
+        && handSize <= 1
+        && remainingBlindDraws >= 1
+        && hasAiAnalyzeReadyDataSlot(player)
+        && getAiAnalyzeEnergyCost(player) === 1
+        && cardsForEnergyHandCost === 2
+        && cardsForEnergyGain >= 1
+        && aiNumber(options.bestPublicTradeCardScore) >= 0
+        && aiNumber(options.bestPublicTradeCardScore) < 5
+        && aiNumber(publicProfile.playScore) <= 0
+        && aiNumber(publicProfile.directScoreGain) <= 0
+        && !(turnState.passedPlayerIds || []).includes(player.id);
+      return {
+        active,
+        remainingBlindDraws,
+        requiredPublicity,
+        cardsForEnergyHandCost,
+        cardsForEnergyGain: roundAiScore(cardsForEnergyGain),
+      };
+    }
+
     function listAiLateResourceRecoveryTradeCandidates(player = getCurrentPlayer(), candidates = []) {
       if (
         !player
@@ -8450,13 +8508,28 @@
           publicity,
           handSize,
         });
-      const finalHighScoreBlindRefill = finalHighScoreHandRefillWindow
+      const cheatLabDoubleBlindAnalyzeBridge = getAiCheatLabDoubleBlindAnalyzeBridgeProfile(player, {
+        mainActionOpen,
+        finalMarks,
+        nextThreshold,
+        currentScore,
+        projectedScore: highScorePushProfile.projectedScore,
+        formulas: highScorePushProfile.formulas,
+        credits,
+        energy,
+        publicity,
+        handSize,
+        bestPublicTradeCardScore,
+        bestPublicTradeCardProfile,
+      });
+      const finalHighScoreBlindRefill = (finalHighScoreHandRefillWindow
         && highScorePushProfile.projectedScore < 300
         && highScoreGapTo300 <= 32
         && publicity >= finalHighScoreBlindRefillPublicityThreshold
         && handSize <= 1
         && bestPublicTradeCardScore < (highScoreGapTo300 <= 10 ? 0 : 5)
-        && !bestPublicTradeCardProfile.hasConcreteSignal;
+        && !bestPublicTradeCardProfile.hasConcreteSignal)
+        || cheatLabDoubleBlindAnalyzeBridge.active;
       const weakStartPostMainPublicRefill = weakStartPostMainPublicRefillBaseWindow
         && bestPublicTradeCardScore >= 24
         && aiNumber(bestPublicTradeCardProfile.playScore) >= 18
@@ -9122,6 +9195,7 @@
               finalHighScoreBlindRefill,
               finalHighScoreBlindRefillValue: roundAiScore(finalHighScoreBlindRefillValue),
               finalHighScoreBlindRefillPublicityThreshold,
+              cheatLabDoubleBlindAnalyzeBridge,
               preferBlindDraw: Boolean(spec.preferBlindDraw),
               finalPreMainCashoutHandRefillWindow,
               finalPreMainCashoutPublicRefill,
@@ -23400,13 +23474,28 @@
           publicity,
           handSize,
         });
-      const finalHighScoreBlindRefill = finalHighScoreNeedsCardRefill
+      const cheatLabDoubleBlindAnalyzeBridge = getAiCheatLabDoubleBlindAnalyzeBridgeProfile(player, {
+        mainActionOpen: true,
+        finalMarks,
+        nextThreshold,
+        currentScore,
+        projectedScore,
+        formulas: highScorePushProfile.formulas,
+        credits,
+        energy,
+        publicity,
+        handSize,
+        bestPublicTradeCardScore,
+        bestPublicTradeCardProfile,
+      });
+      const finalHighScoreBlindRefill = (finalHighScoreNeedsCardRefill
         && projectedScore < 300
         && scoreTo300 <= 32
         && publicity >= finalHighScoreBlindRefillPublicityThreshold
         && handSize <= 1
         && bestPublicTradeCardScore < publicRefillScoreThreshold
-        && !bestPublicTradeCardProfile.hasConcreteSignal;
+        && !bestPublicTradeCardProfile.hasConcreteSignal)
+        || cheatLabDoubleBlindAnalyzeBridge.active;
       const cardsForPickCardPreview = publicPreview.cardsForPickCardPreview || null;
       const cardsForPickCardHandAfterTrade = Math.max(0, aiNumber(cardsForPickCardPreview?.handAfterTrade));
       const cardsForPickCardDiscardCost = Number.isFinite(Number(cardsForPickCardPreview?.discardCost))
@@ -23480,6 +23569,7 @@
           finalHighScorePublicRefill,
           finalHighScoreBlindRefill,
           finalHighScoreBlindRefillPublicityThreshold,
+          cheatLabDoubleBlindAnalyzeBridge,
           finalHighScoreDeadHandRefillBaseWindow,
           finalHighScoreDeadHandPickRefill,
           cardsForPickCardHandAfterTrade,
