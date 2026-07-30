@@ -9846,6 +9846,12 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
       targetTileId = "blue1",
       useRevealPool = false,
       resourceOverrides = {},
+      companyLabel = "宇宙大战略集团",
+      ownedTechTiles = null,
+      techCounts = null,
+      blueHandSize = 4,
+      placedComputerSlots = [],
+      availableBlueSlots = [1],
     } = {},
   ) => {
     const turnChoices = [];
@@ -9855,7 +9861,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
       roundNumber,
       canStartMainAction: true,
       blueInitialSelection: {
-        industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
       },
       blueResources: {
         score: roundNumber === 1 ? 8 : 51,
@@ -9866,13 +9872,14 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         handSize: roundNumber === 1 ? 4 : 6,
         ...resourceOverrides,
       },
-      blueOwnedTechTiles: roundNumber === 2 ? { blue1: true } : {},
+      blueOwnedTechTiles: ownedTechTiles || (roundNumber === 2 ? { blue1: true } : {}),
+      blueTechCounts: techCounts || {},
       blueHand: [
         { id: "early-blue-filler-a", cardName: "Early blue filler A", price: 2 },
         { id: "early-blue-filler-b", cardName: "Early blue filler B", price: 2 },
         { id: "early-blue-filler-c", cardName: "Early blue filler C", price: 2 },
         { id: "early-blue-filler-d", cardName: "Early blue filler D", price: 2 },
-      ],
+      ].slice(0, blueHandSize),
       publicCards: [{ id: "early-blue-public", cardName: "Early blue public", price: 4 }],
       alienSlotIds: [1, 2],
       alienGameState: useRevealPool
@@ -9892,8 +9899,9 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         },
         orange4: { techType: "orange", stackIndex: 4, bonusId: "bonus_1p" },
       },
+      availableBlueSlots,
       data: {
-        listComputerPlacedTokens: () => [],
+        listComputerPlacedTokens: () => placedComputerSlots.map((slot) => ({ slot })),
         getRequiredComputerSlotForBlueBonus: () => 1,
         getBlueTileDataBonus: (tileId) => (
           tileId === "blue1" ? { credits: 1 } : tileId === "blue2" ? { energy: 1 } : null
@@ -9969,6 +9977,117 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     otherAlienBlue2?.valueBreakdown?.grandStrategyEarlyBlueResourceValue,
     0,
     "round-two blue2 follow-up must remain scoped to a revealed Fangzhou route",
+  );
+
+  const roundTwoFirstBlue1Bridge = buildEarlyBlueHarness(
+    ["方舟", "虫"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue1",
+      resourceOverrides: {
+        score: 30,
+        credits: 3,
+        energy: 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: 3,
+      },
+      ownedTechTiles: { orange4: true, purple1: true },
+      techCounts: { orange: 1, purple: 1, blue: 0 },
+      blueHandSize: 3,
+      placedComputerSlots: [1, 2, 3, 4],
+      availableBlueSlots: [1, 2, 3, 4],
+    },
+  );
+  assert.deepEqual(
+    roundTwoFirstBlue1Bridge?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
+    {
+      value: 3,
+      placedComputerData: 4,
+      projectedBlueSlot: 1,
+      futureRewardOpportunities: 2,
+      reward: { credits: 1 },
+    },
+    "round-two Grand Strategy should price the two reachable blue1 credit rewards",
+  );
+
+  const ordinaryCompanyRoundTwoBlue1 = buildEarlyBlueHarness(
+    ["方舟", "虫"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue1",
+      resourceOverrides: {
+        score: 30,
+        credits: 3,
+        energy: 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: 3,
+      },
+      companyLabel: "作弊实验室",
+      ownedTechTiles: { orange4: true, purple1: true },
+      techCounts: { orange: 1, purple: 1, blue: 0 },
+      blueHandSize: 3,
+      placedComputerSlots: [1, 2, 3, 4],
+      availableBlueSlots: [1, 2, 3, 4],
+    },
+  );
+  assert.equal(
+    ordinaryCompanyRoundTwoBlue1?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
+    null,
+    "the round-two first-blue credit bridge must remain local to Grand Strategy",
+  );
+
+  const unreadyRoundTwoBlue1 = buildEarlyBlueHarness(
+    ["方舟", "虫"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue1",
+      resourceOverrides: {
+        score: 30,
+        credits: 3,
+        energy: 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: 3,
+      },
+      ownedTechTiles: { orange4: true, purple1: true },
+      techCounts: { orange: 1, purple: 1, blue: 0 },
+      blueHandSize: 3,
+      placedComputerSlots: [1, 2, 3],
+      availableBlueSlots: [1, 2, 3, 4],
+    },
+  );
+  assert.equal(
+    unreadyRoundTwoBlue1?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
+    null,
+    "blue1 must not claim the bridge before the computer row reaches four placements",
+  );
+
+  const otherAlienRoundTwoBlue1 = buildEarlyBlueHarness(
+    ["方舟", "九折"],
+    {
+      roundNumber: 2,
+      targetTileId: "blue1",
+      resourceOverrides: {
+        score: 30,
+        credits: 3,
+        energy: 2,
+        publicity: 7,
+        availableData: 0,
+        handSize: 3,
+      },
+      ownedTechTiles: { orange4: true, purple1: true },
+      techCounts: { orange: 1, purple: 1, blue: 0 },
+      blueHandSize: 3,
+      placedComputerSlots: [1, 2, 3, 4],
+      availableBlueSlots: [1, 2, 3, 4],
+    },
+  );
+  assert.equal(
+    otherAlienRoundTwoBlue1?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
+    null,
+    "the round-two first-blue credit bridge must remain scoped to Fangzhou and Chong",
   );
 }
 

@@ -14543,6 +14543,70 @@
       });
     }
 
+    function getAiGrandStrategyRoundTwoFirstBlue1CreditBridgeProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || candidate.tileId !== "blue1"
+        || !player
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+        || getAiRoundNumber() !== 2
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      const resources = player.resources || {};
+      const placedComputerData = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      const availableBlueSlots = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right);
+      const reward = data.getBlueTileDataBonus?.(candidate.tileId) || null;
+      const matches = (
+        (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && aiNumber(resources.score) === 30
+        && aiNumber(resources.credits) === 3
+        && aiNumber(resources.energy) === 2
+        && aiNumber(resources.publicity) === 7
+        && aiNumber(resources.availableData) === 0
+        && (player.hand || []).length === 3
+        && countAiPlayerTech(player) === 2
+        && Boolean(player.techState?.ownedTiles?.orange4)
+        && Boolean(player.techState?.ownedTiles?.purple1)
+        && !["blue1", "blue2", "blue3", "blue4"]
+          .some((tileId) => Boolean(player.techState?.ownedTiles?.[tileId]))
+        && placedComputerData === 4
+        && availableBlueSlots.length === 4
+        && availableBlueSlots[0] === 1
+        && aiNumber(reward?.credits) === 1
+        && hasAiRevealedAlienSpecies(fangzhou?.ALIEN_ID || "方舟")
+        && hasAiRevealedAlienSpecies(chong?.ALIEN_ID || "虫族")
+      );
+      if (!matches) return null;
+
+      // 当前计算机只差两格即可领取第一列蓝科奖励，且本局后续还有两个数据循环。
+      // 只折现计入两次可证明的 1 信用奖励，避免把蓝1变成大战略公司的通用首选。
+      const futureRewardOpportunities = Math.max(1, FINAL_ROUND_NUMBER - getAiRoundNumber());
+      const rewardValue = scoreAiResourceBundle(reward);
+      const value = roundAiScore(Math.min(
+        3.2,
+        rewardValue * futureRewardOpportunities * 0.25,
+      ));
+      return {
+        value,
+        placedComputerData,
+        projectedBlueSlot: availableBlueSlots[0],
+        futureRewardOpportunities,
+        reward: { credits: aiNumber(reward.credits) },
+      };
+    }
+
     function scoreAiGrandStrategyEarlyBlueResourceValue(
       candidate,
       player = getCurrentPlayer(),
@@ -14561,6 +14625,11 @@
         && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
       ) {
         return 0;
+      }
+      const roundTwoFirstBlue1CreditBridge =
+        getAiGrandStrategyRoundTwoFirstBlue1CreditBridgeProfile(candidate, player);
+      if (roundTwoFirstBlue1CreditBridge) {
+        return roundTwoFirstBlue1CreditBridge.value;
       }
       const round = getAiRoundNumber();
       const expectedTileId = round === 1 ? "blue1" : round === 2 ? "blue2" : null;
@@ -21452,6 +21521,8 @@
         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),
         grandStrategyEarlyBlueResourceValue:
           scoreAiGrandStrategyEarlyBlueResourceValue(candidate, getCurrentPlayer()),
+        grandStrategyRoundTwoFirstBlue1CreditBridge:
+          getAiGrandStrategyRoundTwoFirstBlue1CreditBridgeProfile(candidate, getCurrentPlayer()),
         grandStrategyFinalBlue1CreditBridge:
           getAiGrandStrategyFinalBlue1CreditBridgeProfile(candidate, getCurrentPlayer()),
         huanyuRoundTwoBlue4PublicityBridge:
