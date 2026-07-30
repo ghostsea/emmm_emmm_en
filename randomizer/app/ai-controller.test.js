@@ -14208,6 +14208,79 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(plannerShadow?.diverged, true);
 }
 
+{
+  const jupiterTaskCard = {
+    id: "closed-jupiter-task-card",
+    cardId: "b_60.webp",
+    cardName: "Juno Probe",
+    model: {
+      tasks: [{
+        id: "closed-jupiter-task",
+        condition: { type: "planetOrbitOrLand", planetId: "jupiter" },
+        rewards: [{ type: "gain_resources", options: { gain: { score: 7 } } }],
+      }],
+    },
+  };
+  const readJupiterMove = (planetOpen) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 2,
+      canStartMainAction: true,
+      canPayForMove: true,
+      allowedMoveDeltas: [{ deltaX: 0, deltaY: 1 }],
+      blueResources: {
+        score: 40,
+        credits: 5,
+        energy: 5,
+        publicity: 2,
+        availableData: 0,
+        handSize: 0,
+      },
+      blueReservedCards: [jupiterTaskCard],
+      movableTokens: [{
+        id: 990,
+        kind: "standard",
+        playerId: "player-blue",
+        sector: { x: 0, y: 1 },
+      }],
+      planetLocations: [{ planetId: "jupiter", name: "Jupiter", x: 0, y: 2 }],
+      planetStats: {
+        canAddLandingMarker: (_state, planetId) => planetOpen && planetId === "jupiter",
+        canAddOrbitMarker: (_state, planetId) => planetOpen && planetId === "jupiter",
+        getAvailableSatellitesForLanding: () => [],
+        getPlanetLandingCount: () => 0,
+        getPlanetOrbitCount: () => 0,
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    return turnChoices.flat().find((candidate) => candidate.id === "move") || null;
+  };
+
+  const openJupiterMove = readJupiterMove(true);
+  assert.equal(
+    openJupiterMove?.routeTarget?.taskRouteCashout?.count,
+    1,
+    "reachable Jupiter task should remain visible in the route target",
+  );
+
+  const closedJupiterMove = readJupiterMove(false);
+  assert.equal(
+    closedJupiterMove?.routeTarget?.taskRouteCashout || null,
+    null,
+    "full Jupiter should not advertise an orbit-or-land task cashout that can no longer resolve",
+  );
+}
+
 async function runAsyncControllerTests() {
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",

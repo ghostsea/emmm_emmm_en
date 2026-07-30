@@ -4907,7 +4907,14 @@
     if (task.planetId) {
       const planetIds = new Set();
       addCandidatePlanetIds(planetIds, candidate);
-      return planetIds.has(String(task.planetId));
+      if (!planetIds.has(String(task.planetId))) return false;
+      if (getCandidateId(candidate) !== "move") return true;
+      const taskRouteCashout = candidate.nearCompleteTaskRouteCashout
+        || candidate.taskRouteCashout
+        || candidate.routeTarget?.nearCompleteTaskRouteCashout
+        || candidate.routeTarget?.taskRouteCashout
+        || null;
+      return numeric(taskRouteCashout?.count) > 0;
     }
     if (task.techType) {
       const techTypes = new Set();

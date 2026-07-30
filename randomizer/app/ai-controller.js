@@ -10832,6 +10832,17 @@
       });
     }
 
+    function canAiCashOutPlanetTaskAt(planetId, player = getCurrentPlayer()) {
+      return Boolean(
+        planetId
+        && planetId !== "earth"
+        && (
+          canAiPlanetAcceptOrbit(planetId)
+          || canAiPlanetAcceptLanding(planetId, player)
+        )
+      );
+    }
+
     function getAiPendingLocationTaskRouteCashout(locationType, player = getCurrentPlayer()) {
       if (!locationType) return { value: 0, directScore: 0, count: 0 };
       return getAiPendingTaskRouteCashout(player, (condition) => {
@@ -13432,7 +13443,10 @@
       const context = createActionContext();
       const demand = getAiStrategyDemand(player);
       const planetDemand = getAiMapDemand(demand.planetIds, planet.planetId);
-      const taskRouteCashout = getAiPendingPlanetTaskRouteCashout(planet.planetId, player);
+      const canCashOutPlanetTask = canAiCashOutPlanetTaskAt(planet.planetId, player);
+      const taskRouteCashout = canCashOutPlanetTask
+        ? getAiPendingPlanetTaskRouteCashout(planet.planetId, player)
+        : { value: 0, directScore: 0, count: 0 };
       const chongPickupRouteValue = scoreAiChongPickupRouteValue(planet.planetId, player);
       const round = getAiRoundNumber();
       const resources = player?.resources || {};
@@ -13856,8 +13870,13 @@
         .filter((planet) => planet.planetId !== "earth")
         .map((planet) => {
           const satelliteOpportunity = getAiBestSatelliteLandingOpportunity(planet.planetId, player);
-          const taskRouteCashout = getAiPendingPlanetTaskRouteCashout(planet.planetId, player);
-          const nearCompleteTaskRouteCashout = getAiPendingNearCompletePlanetTaskRouteCashout(planet.planetId, player);
+          const canCashOutPlanetTask = canAiCashOutPlanetTaskAt(planet.planetId, player);
+          const taskRouteCashout = canCashOutPlanetTask
+            ? getAiPendingPlanetTaskRouteCashout(planet.planetId, player)
+            : { value: 0, directScore: 0, count: 0 };
+          const nearCompleteTaskRouteCashout = canCashOutPlanetTask
+            ? getAiPendingNearCompletePlanetTaskRouteCashout(planet.planetId, player)
+            : { value: 0, directScore: 0, count: 0 };
           return {
             id: planet.planetId,
             label: planet.name || planet.planetId,

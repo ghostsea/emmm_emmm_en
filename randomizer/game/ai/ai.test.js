@@ -3571,6 +3571,16 @@ const nearCompleteTaskTargetReport = {
         score: 18,
         directScoreGain: 6,
         actionGraph: { net: 18 },
+      }, {
+        id: "move",
+        kind: "quick",
+        available: true,
+        routeTarget: {
+          id: "jupiter",
+          kind: "planet",
+        },
+        score: 24,
+        actionGraph: { net: 24 },
       }],
     },
   }],
