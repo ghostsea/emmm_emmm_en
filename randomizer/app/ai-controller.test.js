@@ -5045,6 +5045,133 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildHuanyuAomomoFirstLandingHarness = (industryLabel = "寰宇超动力") => {
+    const turnChoices = [];
+    const alienGameState = makeAomomoAlienState();
+    alienGameState.aomomo.revealedSlotId = 1;
+    alienGameState.aomomo.revealInitialized = true;
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 2,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      quickTrades: {
+        "credits-for-energy": {
+          id: "credits-for-energy",
+          label: "2 credits -> 1 energy",
+          cost: { credits: 2 },
+          gain: { energy: 1 },
+        },
+      },
+      alienGameState,
+      blueInitialSelection: {
+        industry: { id: `industry:${industryLabel}`, label: industryLabel },
+      },
+      blueResources: {
+        score: 41,
+        credits: 2,
+        energy: 1,
+        publicity: 5,
+        availableData: 0,
+        handSize: 1,
+      },
+      blueHand: [
+        { id: "huanyu-aomomo-land-filler", cardName: "Huanyu Aomomo land filler", price: 3 },
+      ],
+      movableTokens: [
+        { id: 3, playerId: "player-blue", sector: { x: 5, y: 3 } },
+      ],
+      planetLocations: [
+        { planetId: aomomo.PLANET_ID, name: "奥陌陌", x: 5, y: 3 },
+      ],
+      planetStats: {
+        canAddLandingMarker: () => true,
+        canAddOrbitMarker: () => false,
+        getAvailableSatellitesForLanding: () => [],
+        getPlanetLandingCount: () => 0,
+        getPlanetOrbitCount: () => 0,
+      },
+      abilities: {
+        planet: {
+          DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+          BASE_LAND_ENERGY_COST: 2,
+          getLandEnergyCost: () => 2,
+          getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+          getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+        },
+        rocket: {
+          ORANGE1_ROCKET_LIMIT: 4,
+          getRocketLimitForPlayer: () => 1,
+        },
+      },
+      planetRewards: {
+        EFFECT_TYPES: {
+          GAIN_RESOURCES: "gain_resources",
+          GAIN_DATA: "gain_data",
+          ALIEN_TRACE: "alien_trace",
+          DRAW_CARDS: "draw_cards",
+          PICK_CARD: "pick_card",
+          INCOME: "income",
+        },
+        buildPlanetLandRewardEffects: (planetId) => (
+          planetId === aomomo.PLANET_ID
+            ? [
+              { type: "gain_resources", options: { gain: { score: 9, aomomoFossils: 2 } } },
+              { type: "gain_data", options: { count: 3 } },
+            ]
+            : []
+        ),
+        buildOrbitRewardEffects: () => [],
+        buildSatelliteLandRewardEffects: () => [],
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    const tradeCandidate = turnChoices
+      .flat()
+      .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "credits-for-energy");
+    return { harness, result, tradeCandidate };
+  };
+
+  const huanyu = buildHuanyuAomomoFirstLandingHarness();
+  assert.equal(huanyu.result.ok, true, "round-two Huanyu should cash out its uncontested first Aomomo landing");
+  assert.deepEqual(huanyu.harness.getHandled(), { type: "quick-trade", tradeId: "credits-for-energy" });
+  assert.ok(huanyu.tradeCandidate, "Huanyu Aomomo first-landing unlock trade should be enumerated");
+  assert.equal(huanyu.tradeCandidate.reason, "资源锁：交易解锁登陆");
+  assert.equal(huanyu.tradeCandidate.valueBreakdown?.huanyuAomomoRoundTwoFirstLandUnlock, true);
+  assert.equal(huanyu.tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "land");
+  assert.equal(
+    huanyu.tradeCandidate.valueBreakdown?.unlockedMainAction?.planetId,
+    aomomo.PLANET_ID,
+  );
+  assert.ok(
+    Number(huanyu.tradeCandidate.valueBreakdown?.unlockedMainAction?.directScoreGain || 0) >= 9,
+    "the Aomomo unlock should require its concrete nine-point landing",
+  );
+
+  const ordinaryCompany = buildHuanyuAomomoFirstLandingHarness("作弊实验室");
+  assert.equal(
+    ordinaryCompany.tradeCandidate,
+    undefined,
+    "the Aomomo first-landing credit trade must stay local to Huanyu",
+  );
+}
+
+{
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",

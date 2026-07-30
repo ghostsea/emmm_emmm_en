@@ -7418,8 +7418,34 @@
         && aiNumber(planetCashoutPlan.directScore) >= 6
         && aiNumber(planetCashoutRecovery?.score) >= 40
         && scoreAiRunezuSourceSymbolValue("planet", "mars", player) > 0;
+      const huanyuAomomoRoundTwoFirstLandUnlock = allowExtendedResourceLock
+        && tradeId === "credits-for-energy"
+        && (
+          industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          || industryCard?.label === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+        )
+        && normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          === AI_DIFFICULTY_LAUGHABLE
+        && getAiRoundNumber() === 2
+        && currentScore >= 40
+        && currentScore <= 45
+        && aiNumber(resources.credits) === 2
+        && aiNumber(resources.energy) === 1
+        && aiNumber(resources.publicity) === 5
+        && aiNumber(resources.availableData) === 0
+        && handSize === 1
+        && handAfterTrade === 1
+        && aomomo?.countLandingMarkers?.(alienGameState) === 0
+        && planetCashoutPlan?.kind === "land"
+        && planetCashoutPlan?.planetId === (aomomo?.PLANET_ID || "aomomo")
+        && aiNumber(planetCashoutPlan.targetEnergy) === 2
+        && aiNumber(planetCashoutPlan.afterTradeGap) <= 0
+        && aiNumber(planetCashoutPlan.directScore) >= 9
+        && aiNumber(planetCashoutPlan.rewardValue) >= 20
+        && aiNumber(planetCashoutRecovery?.score) >= 34;
       const resourceLockLandUnlock = grandFangzhouRoundTwoLandUnlock
-        || cheatLabRunezuRoundTwoMarsLandUnlock;
+        || cheatLabRunezuRoundTwoMarsLandUnlock
+        || huanyuAomomoRoundTwoFirstLandUnlock;
       const currentScanCheck = scanEffects?.canExecuteScan?.(player, { standardAction: true }) || { ok: false };
       const scanCheck = scanEffects?.canExecuteScan?.(simulatedPlayer, { standardAction: true }) || { ok: false };
       const currentScanScore = currentScanCheck.ok ? scoreAiScanAction(player) : 0;
@@ -7727,7 +7753,12 @@
       if (!Number.isFinite(discardCost)) return null;
       if (grandStrategyRoundOneAnalyzeWindow && discardCost > 6) return null;
       if (grandStrategyRoundThreeDeadHandScanUnlock && discardCost > 6) return null;
-      if (resourceLockLandUnlock && bestAction.actionId === "land" && discardCost > 6.5) return null;
+      if (
+        resourceLockLandUnlock
+        && !huanyuAomomoRoundTwoFirstLandUnlock
+        && bestAction.actionId === "land"
+        && discardCost > 6.5
+      ) return null;
       if (weakStartFinalAnalyzeRecoveryUnlock && discardCost > 6.5) return null;
       if (grandFinalFangzhouCometPlayUnlock && discardCost > 8.5) return null;
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player);
@@ -7735,6 +7766,7 @@
         handCost <= 0
         && !weakNoDiscardDirectScanUnlock
         && !weakStartAlienPlayUnlockSafe
+        && !huanyuAomomoRoundTwoFirstLandUnlock
         && (
           getAiRoundNumber() !== 2
           || nextThreshold
@@ -7832,6 +7864,7 @@
           grandStrategyRoundThreeDeadHandScanUnlock,
           grandFangzhouRoundTwoLandUnlock,
           cheatLabRunezuRoundTwoMarsLandUnlock,
+          huanyuAomomoRoundTwoFirstLandUnlock,
           grandFinalDeadPlayScanUnlock,
           terminalDeadPlayCardId: terminalDeadPlayProfile.best?.candidate?.cardId || null,
           terminalDeadPlayScore: roundAiScore(terminalDeadPlayProfile.best?.score),
