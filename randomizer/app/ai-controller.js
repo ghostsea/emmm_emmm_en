@@ -7444,9 +7444,21 @@
         && aiNumber(planetCashoutPlan.directScore) >= 9
         && aiNumber(planetCashoutPlan.rewardValue) >= 20
         && aiNumber(planetCashoutRecovery?.score) >= 34;
+      const cheatLabFinalBlindLandBridge =
+        getAiCheatLabSingleBlindLandBridgeProfile(player);
+      const cheatLabFinalBlindLandUnlock = allowExtendedResourceLock
+        && tradeId === "cards-for-energy"
+        && cheatLabFinalBlindLandBridge.afterBlindDraw
+        && planetCashoutPlan?.kind === "land"
+        && aiNumber(planetCashoutPlan.targetEnergy) === 2
+        && aiNumber(planetCashoutPlan.afterTradeGap) <= 0
+        && aiNumber(planetCashoutPlan.directScore) >= 5
+        && aiNumber(planetCashoutPlan.rewardValue) >= 12
+        && aiNumber(planetCashoutRecovery?.score) >= 34;
       const resourceLockLandUnlock = grandFangzhouRoundTwoLandUnlock
         || cheatLabRunezuRoundTwoMarsLandUnlock
-        || huanyuAomomoRoundTwoFirstLandUnlock;
+        || huanyuAomomoRoundTwoFirstLandUnlock
+        || cheatLabFinalBlindLandUnlock;
       const currentScanCheck = scanEffects?.canExecuteScan?.(player, { standardAction: true }) || { ok: false };
       const scanCheck = scanEffects?.canExecuteScan?.(simulatedPlayer, { standardAction: true }) || { ok: false };
       const currentScanScore = currentScanCheck.ok ? scoreAiScanAction(player) : 0;
@@ -7793,6 +7805,7 @@
         && !weakStartFinalAnalyzeRecoveryUnlock
         && !grandStrategyRoundOneAnalyzeWindow
         && !grandStrategyRoundThreeDeadHandScanUnlock
+        && !cheatLabFinalBlindLandUnlock
       ) return null;
 
       const discardCost = bestAction.actionId === "playCard" && Number.isFinite(bestAction.discardCost)
@@ -7916,6 +7929,8 @@
           grandFangzhouRoundTwoLandUnlock,
           cheatLabRunezuRoundTwoMarsLandUnlock,
           huanyuAomomoRoundTwoFirstLandUnlock,
+          cheatLabFinalBlindLandUnlock,
+          cheatLabFinalBlindLandBridge,
           grandFinalDeadPlayScanUnlock,
           terminalDeadPlayCardId: terminalDeadPlayProfile.best?.candidate?.cardId || null,
           terminalDeadPlayScore: roundAiScore(terminalDeadPlayProfile.best?.score),
@@ -7956,6 +7971,154 @@
         && aiNumber(options.publicity) === 5
         && Math.max(0, Math.round(aiNumber(options.handSize))) <= 1;
       return singleDrawToThreeHundred ? 5 : 6;
+    }
+
+    function getAiCheatLabDoubleBlindAnalyzeBridgeProfile(player = getCurrentPlayer(), options = {}) {
+      if (!player) return { active: false };
+      const handSize = Math.max(0, Math.round(aiNumber(options.handSize)));
+      const remainingBlindDraws = Math.max(0, 2 - handSize);
+      const requiredPublicity = remainingBlindDraws * 3;
+      const cardsForEnergyTrade = quickTrades?.getTradeAction?.("cards-for-energy") || null;
+      const cardsForEnergyHandCost = Math.max(
+        0,
+        Math.round(aiNumber(cardsForEnergyTrade?.cost?.handSize)),
+      );
+      const cardsForEnergyGain = Math.max(0, aiNumber(cardsForEnergyTrade?.gain?.energy));
+      const industryCard = getAiIndustryCard(player);
+      const formulas = options.formulas instanceof Set ? options.formulas : new Set(options.formulas || []);
+      const publicProfile = options.bestPublicTradeCardProfile || {};
+      const active = normalizeAiDifficulty(
+        player.aiDifficulty || aiAutoBattleState.aiDifficulty,
+      ) === AI_DIFFICULTY_LAUGHABLE
+        && (
+          industryCard?.id === AI_CHEAT_LAB_INDUSTRY_ID
+          || industryCard?.label === AI_CHEAT_LAB_INDUSTRY_LABEL
+        )
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && options.mainActionOpen !== false
+        && !state.pendingActionExecuted
+        && Math.max(0, Math.round(aiNumber(options.finalMarks))) >= 3
+        && !options.nextThreshold
+        && aiNumber(options.currentScore) >= 160
+        && aiNumber(options.currentScore) < 180
+        && aiNumber(options.projectedScore) >= 270
+        && aiNumber(options.projectedScore) < 290
+        && formulas.has("c2")
+        && formulas.has("d1")
+        && countAiPlayerTech(player) === 12
+        && aiNumber(options.credits) === 1
+        && aiNumber(options.energy) === 0
+        && aiNumber(options.publicity) >= requiredPublicity
+        && aiNumber(options.publicity) <= 8
+        && aiNumber(player.resources?.availableData) === 0
+        && handSize <= 1
+        && remainingBlindDraws >= 1
+        && hasAiAnalyzeReadyDataSlot(player)
+        && getAiAnalyzeEnergyCost(player) === 1
+        && cardsForEnergyHandCost === 2
+        && cardsForEnergyGain >= 1
+        && aiNumber(options.bestPublicTradeCardScore) >= 0
+        && aiNumber(options.bestPublicTradeCardScore) < 5
+        && aiNumber(publicProfile.playScore) <= 0
+        && aiNumber(publicProfile.directScoreGain) <= 0
+        && !(turnState.passedPlayerIds || []).includes(player.id);
+      return {
+        active,
+        remainingBlindDraws,
+        requiredPublicity,
+        cardsForEnergyHandCost,
+        cardsForEnergyGain: roundAiScore(cardsForEnergyGain),
+      };
+    }
+
+    function getAiCheatLabSingleBlindLandBridgeProfile(player = getCurrentPlayer(), options = {}) {
+      if (!player) return { active: false, beforeBlindDraw: false, afterBlindDraw: false };
+      const resources = player.resources || {};
+      const handSize = Math.max(
+        0,
+        Math.round(aiNumber(options.handSize ?? resources.handSize ?? (player.hand || []).length)),
+      );
+      const publicity = Math.max(0, aiNumber(options.publicity ?? resources.publicity));
+      const beforeBlindDraw = publicity === 3 && handSize === 1;
+      const afterBlindDraw = publicity === 0 && handSize === 2;
+      const cardsForEnergyTrade = quickTrades?.getTradeAction?.("cards-for-energy") || null;
+      const cardsForEnergyHandCost = Math.max(
+        0,
+        Math.round(aiNumber(cardsForEnergyTrade?.cost?.handSize)),
+      );
+      const cardsForEnergyGain = Math.max(0, aiNumber(cardsForEnergyTrade?.gain?.energy));
+      const highScoreProfile = getAiHighScorePushProfile(player);
+      const projectedScore = aiNumber(options.projectedScore ?? highScoreProfile.projectedScore);
+      const formulas = options.formulas instanceof Set
+        ? options.formulas
+        : new Set(options.formulas || highScoreProfile.formulas || []);
+      const techCounts = getAiPlayerTechTypeCounts(player);
+      const industryCard = getAiIndustryCard(player);
+      const planetCashoutRecovery = scoreAiEnergyTradePlanetCashoutRecovery(
+        player,
+        "cards-for-energy",
+      );
+      const planetCashoutPlan = planetCashoutRecovery?.plan || null;
+      const hasObservedTypeThreeCard = (player.hand || []).some((card) => (
+        Number(card?.cardTypeCode ?? card?.typeCode) === 3
+        && getCardPrice(card) === 2
+      ));
+      const publicProfile = options.bestPublicTradeCardProfile || null;
+      const publicCardGate = !beforeBlindDraw || (
+        aiNumber(options.bestPublicTradeCardScore) < 0
+        && aiNumber(publicProfile?.playScore) <= 0
+        && aiNumber(publicProfile?.directScoreGain) <= 0
+      );
+      const active = normalizeAiDifficulty(
+        player.aiDifficulty || aiAutoBattleState.aiDifficulty,
+      ) === AI_DIFFICULTY_LAUGHABLE
+        && (
+          industryCard?.id === AI_CHEAT_LAB_INDUSTRY_ID
+          || industryCard?.label === AI_CHEAT_LAB_INDUSTRY_LABEL
+        )
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && options.mainActionOpen !== false
+        && !state.pendingActionExecuted
+        && countAiFinalMarksForPlayer(player) >= 3
+        && !getAiNextMissingFinalScoreThreshold(player)
+        && aiNumber(resources.score) >= 100
+        && aiNumber(resources.score) < 110
+        && projectedScore >= 145
+        && projectedScore < 165
+        && formulas.has("a1")
+        && formulas.has("b1")
+        && formulas.has("c2")
+        && countAiPlayerTech(player) === 9
+        && aiNumber(techCounts.orange) === 4
+        && aiNumber(techCounts.purple) === 3
+        && aiNumber(techCounts.blue) === 2
+        && aiNumber(resources.credits) === 0
+        && aiNumber(resources.energy) === 1
+        && aiNumber(resources.availableData) === 0
+        && (beforeBlindDraw || afterBlindDraw)
+        && hasObservedTypeThreeCard
+        && cardsForEnergyHandCost === 2
+        && cardsForEnergyGain >= 1
+        && hasAiRevealedAlienSpecies(aomomo?.ALIEN_ID || "奥陌陌")
+        && hasAiRevealedAlienSpecies(yichangdian?.ALIEN_ID || "异常点")
+        && planetCashoutPlan?.kind === "land"
+        && aiNumber(planetCashoutPlan.targetEnergy) === 2
+        && aiNumber(planetCashoutPlan.afterTradeGap) <= 0
+        && aiNumber(planetCashoutPlan.directScore) >= 5
+        && aiNumber(planetCashoutPlan.rewardValue) >= 12
+        && aiNumber(planetCashoutRecovery?.score) >= 34
+        && publicCardGate
+        && !(turnState.passedPlayerIds || []).includes(player.id);
+      return {
+        active,
+        beforeBlindDraw: active && beforeBlindDraw,
+        afterBlindDraw: active && afterBlindDraw,
+        cardsForEnergyHandCost,
+        cardsForEnergyGain: roundAiScore(cardsForEnergyGain),
+        projectedScore: roundAiScore(projectedScore),
+        planetCashoutScore: roundAiScore(planetCashoutRecovery?.score),
+        planetCashoutPlan,
+      };
     }
 
     function listAiLateResourceRecoveryTradeCandidates(player = getCurrentPlayer(), candidates = []) {
@@ -8450,13 +8613,38 @@
           publicity,
           handSize,
         });
-      const finalHighScoreBlindRefill = finalHighScoreHandRefillWindow
+      const cheatLabDoubleBlindAnalyzeBridge = getAiCheatLabDoubleBlindAnalyzeBridgeProfile(player, {
+        mainActionOpen,
+        finalMarks,
+        nextThreshold,
+        currentScore,
+        projectedScore: highScorePushProfile.projectedScore,
+        formulas: highScorePushProfile.formulas,
+        credits,
+        energy,
+        publicity,
+        handSize,
+        bestPublicTradeCardScore,
+        bestPublicTradeCardProfile,
+      });
+      const cheatLabSingleBlindLandBridge = getAiCheatLabSingleBlindLandBridgeProfile(player, {
+        mainActionOpen,
+        projectedScore: highScorePushProfile.projectedScore,
+        formulas: highScorePushProfile.formulas,
+        publicity,
+        handSize,
+        bestPublicTradeCardScore,
+        bestPublicTradeCardProfile,
+      });
+      const finalHighScoreBlindRefill = (finalHighScoreHandRefillWindow
         && highScorePushProfile.projectedScore < 300
         && highScoreGapTo300 <= 32
         && publicity >= finalHighScoreBlindRefillPublicityThreshold
         && handSize <= 1
         && bestPublicTradeCardScore < (highScoreGapTo300 <= 10 ? 0 : 5)
-        && !bestPublicTradeCardProfile.hasConcreteSignal;
+        && !bestPublicTradeCardProfile.hasConcreteSignal)
+        || cheatLabDoubleBlindAnalyzeBridge.active
+        || cheatLabSingleBlindLandBridge.beforeBlindDraw;
       const weakStartPostMainPublicRefill = weakStartPostMainPublicRefillBaseWindow
         && bestPublicTradeCardScore >= 24
         && aiNumber(bestPublicTradeCardProfile.playScore) >= 18
@@ -8999,7 +9187,9 @@
               ? 5 + Math.min(9, bestPublicTradeCardScore * 0.3)
               : 0),
           preferBlindDraw: finalHighScoreBlindRefill,
-          reason: secondMarkCardSearch || closeSecondMarkCardSearch
+          reason: cheatLabSingleBlindLandBridge.beforeBlindDraw
+            ? "作弊实验室终局：盲抽补牌换能量解锁登陆"
+            : secondMarkCardSearch || closeSecondMarkCardSearch
             ? "终局第2标记：宣传精选寻找得分牌"
             : finalLowHandPublicRefill
               ? "终局低手牌：宣传精选恢复打牌"
@@ -9122,6 +9312,8 @@
               finalHighScoreBlindRefill,
               finalHighScoreBlindRefillValue: roundAiScore(finalHighScoreBlindRefillValue),
               finalHighScoreBlindRefillPublicityThreshold,
+              cheatLabDoubleBlindAnalyzeBridge,
+              cheatLabSingleBlindLandBridge,
               preferBlindDraw: Boolean(spec.preferBlindDraw),
               finalPreMainCashoutHandRefillWindow,
               finalPreMainCashoutPublicRefill,
@@ -14544,6 +14736,86 @@
       });
     }
 
+    function getAiHuanyuRoundOneBlue1CreditEngineProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || candidate.tileId !== "blue1"
+        || candidate.bonusId !== "bonus_1p"
+        || !candidate.firstTake
+        || !player
+        || getAiRoundNumber() !== 1
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      const resources = player.resources || {};
+      const matches = (
+        (
+          industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          || industryCard?.label === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+        )
+        && aiNumber(resources.score) === 25
+        && aiNumber(resources.credits) === 4
+        && aiNumber(resources.energy) === 0
+        && aiNumber(resources.publicity) === 7
+        && aiNumber(resources.availableData) === 0
+        && (player.hand || []).length === 0
+        && countAiFinalMarksForPlayer(player) === 1
+        && getAiNextMissingFinalScoreThreshold(player) === 50
+        && countAiPlayerTech(player) === 0
+      );
+      if (!matches) return null;
+
+      const placedComputerData = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      const availableBlueSlots = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right);
+      if (
+        placedComputerData !== 4
+        || availableBlueSlots.length !== 4
+        || availableBlueSlots[0] !== 1
+      ) {
+        return null;
+      }
+      const reward = data.getBlueTileDataBonus?.(candidate.tileId) || null;
+      if (aiNumber(reward?.credits) !== 1) return null;
+
+      // 已放 4 个电脑数据说明数据引擎已经实际启动；完整局只证明后续能兑现
+      // 一次蓝1信用点，因此按延迟奖励折现，不把剩余轮数误当成重复领奖次数。
+      const provenRewardOpportunities = 1;
+      const realizationScale = 0.6;
+      const rewardValue = Math.max(0, scoreAiResourceBundle(reward));
+      const value = roundAiScore(Math.min(
+        3.6,
+        rewardValue * provenRewardOpportunities * realizationScale,
+      ));
+      return {
+        value,
+        placedComputerData,
+        projectedBlueSlot: availableBlueSlots[0],
+        provenRewardOpportunities,
+        realizationScale,
+        reward: { credits: aiNumber(reward.credits) },
+        rewardValue: roundAiScore(rewardValue),
+      };
+    }
+
+    function scoreAiHuanyuRoundOneBlue1CreditEngineValue(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      return Math.max(
+        0,
+        aiNumber(getAiHuanyuRoundOneBlue1CreditEngineProfile(candidate, player)?.value),
+      );
+    }
+
     function getAiGrandStrategyRoundTwoFirstBlue1CreditBridgeProfile(
       candidate,
       player = getCurrentPlayer(),
@@ -15432,6 +15704,7 @@
       if (candidate?.firstTake) {
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
+      value += scoreAiHuanyuRoundOneBlue1CreditEngineValue(candidate, player);
       value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
       value += scoreAiGrandStrategyFinalBlue1CreditBridgeValue(candidate, player);
       value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
@@ -21520,6 +21793,8 @@
         lateTechCatchupValue: scoreAiLateTechEngineCatchupValue(candidate, getCurrentPlayer()),
         lowTechCatchupValue: scoreAiLowTechBoardCatchupValue(candidate, getCurrentPlayer()),
         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),
+        huanyuRoundOneBlue1CreditEngine:
+          getAiHuanyuRoundOneBlue1CreditEngineProfile(candidate, getCurrentPlayer()),
         grandStrategyEarlyBlueResourceValue:
           scoreAiGrandStrategyEarlyBlueResourceValue(candidate, getCurrentPlayer()),
         grandStrategyRoundTwoFirstBlue1CreditBridge:
@@ -23191,6 +23466,19 @@
       const finalMarks = countAiFinalMarksForPlayer(player);
       const nextThreshold = getAiNextMissingFinalScoreThreshold(player) || null;
       const bestPublicTradeCardScore = publicTradeCards[0]?.tradeScore ?? 0;
+      const bestPublicTradeCard = Number.isInteger(Number(publicTradeCards[0]?.slotIndex))
+        ? cardState.publicCards?.[Number(publicTradeCards[0].slotIndex)] || null
+        : null;
+      const highScoreProfile = getAiHighScorePushProfile(player);
+      const cheatLabSingleBlindLandBridge = getAiCheatLabSingleBlindLandBridgeProfile(player, {
+        mainActionOpen: true,
+        projectedScore: highScoreProfile.projectedScore,
+        formulas: highScoreProfile.formulas,
+        publicity: resources.publicity,
+        handSize,
+        bestPublicTradeCardScore,
+        bestPublicTradeCardProfile: getAiPublicPickConcreteProfile(bestPublicTradeCard, player),
+      });
       const finalLowHandRefillWindow = getAiRoundNumber() >= FINAL_ROUND_NUMBER
         && canStartMainAction()
         && currentScore < 165
@@ -23293,6 +23581,7 @@
         publicity: roundAiScore(resources.publicity),
         bestPublicTradeCardScore,
         topPublicTradeCards: publicTradeCards,
+        cheatLabSingleBlindLandBridge,
         cardsForPickCardPreview,
         tradeChecks,
         lateRecoveryGate: {
@@ -23400,13 +23689,28 @@
           publicity,
           handSize,
         });
-      const finalHighScoreBlindRefill = finalHighScoreNeedsCardRefill
+      const cheatLabDoubleBlindAnalyzeBridge = getAiCheatLabDoubleBlindAnalyzeBridgeProfile(player, {
+        mainActionOpen: true,
+        finalMarks,
+        nextThreshold,
+        currentScore,
+        projectedScore,
+        formulas: highScorePushProfile.formulas,
+        credits,
+        energy,
+        publicity,
+        handSize,
+        bestPublicTradeCardScore,
+        bestPublicTradeCardProfile,
+      });
+      const finalHighScoreBlindRefill = (finalHighScoreNeedsCardRefill
         && projectedScore < 300
         && scoreTo300 <= 32
         && publicity >= finalHighScoreBlindRefillPublicityThreshold
         && handSize <= 1
         && bestPublicTradeCardScore < publicRefillScoreThreshold
-        && !bestPublicTradeCardProfile.hasConcreteSignal;
+        && !bestPublicTradeCardProfile.hasConcreteSignal)
+        || cheatLabDoubleBlindAnalyzeBridge.active;
       const cardsForPickCardPreview = publicPreview.cardsForPickCardPreview || null;
       const cardsForPickCardHandAfterTrade = Math.max(0, aiNumber(cardsForPickCardPreview?.handAfterTrade));
       const cardsForPickCardDiscardCost = Number.isFinite(Number(cardsForPickCardPreview?.discardCost))
@@ -23480,6 +23784,7 @@
           finalHighScorePublicRefill,
           finalHighScoreBlindRefill,
           finalHighScoreBlindRefillPublicityThreshold,
+          cheatLabDoubleBlindAnalyzeBridge,
           finalHighScoreDeadHandRefillBaseWindow,
           finalHighScoreDeadHandPickRefill,
           cardsForPickCardHandAfterTrade,
