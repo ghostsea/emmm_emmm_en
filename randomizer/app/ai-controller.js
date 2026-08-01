@@ -13373,9 +13373,8 @@
       const options = effect?.options || {};
       const candidates = listAiResearchTechCandidates(options);
       if (!candidates.length) return 0;
-      return candidates.reduce((best, candidate) => (
-        Math.max(best, getAiResearchTechDirectScoreGain(candidate, options, player))
-      ), 0);
+      const selected = selectAiResearchTechCandidateForEffect(candidates, player, effect);
+      return selected ? getAiResearchTechDirectScoreGain(selected, options, player) : 0;
     }
 
     function getAiOrbitDirectScoreGain(planetId, player = getCurrentPlayer()) {
@@ -21924,6 +21923,21 @@
         .filter((candidate) => candidate.available !== false);
     }
 
+    function selectAiResearchTechCandidateForEffect(
+      candidates = [],
+      player = getCurrentPlayer(),
+      effect = null,
+    ) {
+      const available = (candidates || []).filter((candidate) => candidate?.available !== false);
+      if (!available.length) return null;
+      return ai?.policy?.chooseResearchTechTile?.(available, {
+        currentPlayer: player,
+        turnState,
+        techGameState,
+        effect,
+      }) || available[0] || null;
+    }
+
     function getAiResearchTechCandidateExecutionCheck(candidate, player = getCurrentPlayer(), selectionOptionsOverride = null) {
       const tileId = candidate?.tileId || null;
       if (!tileId) return { ok: false, message: "科技候选缺少 tileId" };
@@ -22010,12 +22024,11 @@
       const candidates = techGameState.ui.industryBorrowMode
         ? listAiBorrowTechCandidates(currentPlayer)
         : listAiResearchTechCandidates(selectionOptions);
-      const policySelected = ai?.policy?.chooseResearchTechTile?.(candidates, {
+      const policySelected = selectAiResearchTechCandidateForEffect(
+        candidates,
         currentPlayer,
-        turnState,
-        techGameState,
         effect,
-      }) || null;
+      );
       const policyCheck = policySelected
         ? getAiResearchTechCandidateExecutionCheck(policySelected, currentPlayer, selectionOptions)
         : null;
@@ -22344,6 +22357,7 @@
           rawScanEnergyReservationPenalty,
           scanDataPlacementOpportunities: scanProjectedAnalyzeUnlock ? 2 : 0,
           scanProjectedAnalyzeUnlock,
+          analyzeCashoutScore,
           weakFinalAnalyzeEnergyCap,
         },
       });
@@ -22850,6 +22864,113 @@
           energyAfterRecovery: roundAiScore(energyAfterRecovery),
         };
       })();
+      const grandStrategyFinalAnalyzeReloadCycleProfile = (() => {
+        if (
+          !readyAnalyzeCandidate
+          || !readyScanCandidate
+          || round !== FINAL_ROUND_NUMBER
+          || normalizeAiDifficulty(currentPlayer?.aiDifficulty || aiAutoBattleState.aiDifficulty)
+            !== AI_DIFFICULTY_LAUGHABLE
+          || countAiFinalMarksForPlayer(currentPlayer) !== 3
+        ) {
+          return null;
+        }
+        const industryCard = getAiIndustryCard(currentPlayer);
+        if (
+          industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+          && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        ) {
+          return null;
+        }
+        const resources = currentPlayer?.resources || {};
+        const currentScore = Math.max(0, aiNumber(resources.score));
+        const credits = Math.max(0, aiNumber(resources.credits));
+        const energy = Math.max(0, aiNumber(resources.energy));
+        const availableData = Math.max(0, Math.round(aiNumber(resources.availableData)));
+        const requiredSlot = Math.max(1, Math.round(aiNumber(data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6)));
+        const placedCount = Math.max(0, (data.listComputerPlacedTokens?.(currentPlayer) || []).length);
+        const analyzeEnergyCost = Math.max(0, aiNumber(
+          readyAnalyzeCandidate.energyCost
+          ?? readyAnalyzeCandidate.valueBreakdown?.energyCost
+          ?? getAiAnalyzeEnergyCost(currentPlayer),
+        ));
+        const scanCost = scanEffects?.getStandardScanCost?.(currentPlayer)
+          || scanEffects?.SCAN_COST
+          || { credits: 1, energy: 2 };
+        const scanCreditCost = Math.max(0, aiNumber(scanCost.credits));
+        const scanEnergyCost = Math.max(0, aiNumber(scanCost.energy));
+        const energyAfterAnalyze = energy - analyzeEnergyCost;
+        const energyAfterAnalyzeAndScan = energyAfterAnalyze - scanEnergyCost;
+        const scanEffectsList = scanEffects.buildScanEffectQueue(currentPlayer, {
+          fullScanAction: true,
+          turnState,
+          roundNumber: turnState.roundNumber,
+          turnNumber: turnState.turnNumber,
+        });
+        const dataProducingTypes = new Set([
+          scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN,
+          scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN,
+          scanEffects.EFFECT_TYPES.MERCURY_SECTOR_SCAN,
+          scanEffects.EFFECT_TYPES.PUBLIC_CARD_SCAN,
+          scanEffects.EFFECT_TYPES.HAND_SCAN,
+        ]);
+        const projectedScanDataEffects = scanEffectsList
+          .filter((effect) => dataProducingTypes.has(effect?.type))
+          .length;
+        const projectedScanDataPlacements = Math.min(
+          Math.max(0, requiredSlot - availableData),
+          projectedScanDataEffects,
+        );
+        const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+        const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+        const scanScore = aiNumber(readyScanCandidate.score);
+        const scanGraphNet = Number(readyScanCandidate.actionGraph?.net);
+        const scanDirectScore = Math.max(0, aiNumber(readyScanCandidate.directScoreGain));
+        const analyzeDirectScore = Math.max(0, aiNumber(readyAnalyzeCandidate.directScoreGain));
+        const policyGap = scanGraphNet - analyzeGraphNet;
+        if (
+          currentScore < 80
+          || currentScore > 100
+          || placedCount !== requiredSlot
+          || availableData !== requiredSlot - 2
+          || analyzeEnergyCost <= 0
+          || scanCreditCost <= 0
+          || scanEnergyCost <= 0
+          || credits < scanCreditCost
+          || energyAfterAnalyzeAndScan < analyzeEnergyCost
+          || projectedScanDataPlacements !== 2
+          || analyzeScore < 18
+          || !Number.isFinite(analyzeGraphNet)
+          || !Number.isFinite(scanGraphNet)
+          || policyGap <= 0
+          || policyGap > 12
+          || scanDirectScore > analyzeDirectScore
+        ) {
+          return null;
+        }
+        return {
+          analyzeScore: roundAiScore(analyzeScore),
+          analyzeNet: roundAiScore(analyzeGraphNet),
+          analyzeEnergyCost,
+          scanScore: roundAiScore(scanScore),
+          scanNet: roundAiScore(scanGraphNet),
+          scanDirectScore: roundAiScore(scanDirectScore),
+          analyzeDirectScore: roundAiScore(analyzeDirectScore),
+          policyGap: roundAiScore(policyGap),
+          requiredSlot,
+          placedCount,
+          reloadDataPlacements: availableData,
+          projectedScanDataEffects,
+          projectedScanDataPlacements,
+          projectedReloadedSlots: availableData + projectedScanDataPlacements,
+          scanCost: {
+            credits: scanCreditCost,
+            energy: scanEnergyCost,
+          },
+          energyAfterAnalyze: roundAiScore(energyAfterAnalyze),
+          energyAfterAnalyzeAndScan: roundAiScore(energyAfterAnalyzeAndScan),
+        };
+      })();
       const bestContinuation = (candidates || [])
         .filter((candidate) => (
           candidate?.available !== false
@@ -23054,6 +23175,49 @@
         }
         if (
           candidate.id === "scan"
+          && readyAnalyzeCandidate
+          && aiNumber(candidate.valueBreakdown?.analyzeCashoutScore) > 0
+        ) {
+          const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+          const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+          const currentScore = aiNumber(adjusted.score);
+          const currentNet = Number(adjusted.actionGraph?.net);
+          const graphGap = currentNet - analyzeGraphNet;
+          if (
+            currentScore < analyzeScore
+            && Number.isFinite(currentNet)
+            && Number.isFinite(analyzeGraphNet)
+            && graphGap >= 0
+            && graphGap <= 1
+          ) {
+            adjusted = {
+              ...adjusted,
+              actionGraph: adjusted.actionGraph
+                ? {
+                  ...adjusted.actionGraph,
+                  uncappedAnalyzeCashoutNet: adjusted.actionGraph.net,
+                  net: roundAiScore(analyzeGraphNet - 0.25),
+                }
+                : adjusted.actionGraph,
+              selectionAdjustment: {
+                ...(adjusted.selectionAdjustment || {}),
+                analyzeCashoutGraphCap: {
+                  analyzeScore: roundAiScore(analyzeScore),
+                  analyzeNet: roundAiScore(analyzeGraphNet),
+                  originalScanScore: roundAiScore(currentScore),
+                  originalScanNet: roundAiScore(currentNet),
+                  graphGap: roundAiScore(graphGap),
+                },
+              },
+              valueBreakdown: {
+                ...(adjusted.valueBreakdown || {}),
+                analyzeCashoutGraphCap: true,
+              },
+            };
+          }
+        }
+        if (
+          candidate.id === "scan"
           && finalAnalyzeBeforeRecoverableScanProfile
         ) {
           const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
@@ -23086,6 +23250,43 @@
             valueBreakdown: {
               ...(adjusted.valueBreakdown || {}),
               finalAnalyzeBeforeRecoverableScan: finalAnalyzeBeforeRecoverableScanProfile,
+            },
+          };
+        }
+        if (
+          candidate.id === "scan"
+          && grandStrategyFinalAnalyzeReloadCycleProfile
+        ) {
+          const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+          const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+          const scoreCap = roundAiScore(analyzeScore - 0.25);
+          const netCap = roundAiScore(
+            (Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore) - 0.25,
+          );
+          const currentScore = aiNumber(adjusted.score);
+          const currentNet = Number(adjusted.actionGraph?.net);
+          adjusted = {
+            ...adjusted,
+            score: Math.min(currentScore, scoreCap),
+            scoreCapReason: "宇宙大战略终局先分析清槽再扫描回填",
+            actionGraph: adjusted.actionGraph
+              ? {
+                ...adjusted.actionGraph,
+                uncappedGrandStrategyAnalyzeReloadNet: adjusted.actionGraph.net,
+                net: Math.min(Number.isFinite(currentNet) ? currentNet : currentScore, netCap),
+              }
+              : adjusted.actionGraph,
+            selectionAdjustment: {
+              ...(adjusted.selectionAdjustment || {}),
+              grandStrategyFinalAnalyzeReloadCycle: {
+                ...grandStrategyFinalAnalyzeReloadCycleProfile,
+                originalScore: roundAiScore(aiNumber(candidate.score)),
+                originalNet: Number.isFinite(graphNet) ? roundAiScore(graphNet) : null,
+              },
+            },
+            valueBreakdown: {
+              ...(adjusted.valueBreakdown || {}),
+              grandStrategyFinalAnalyzeReloadCycle: grandStrategyFinalAnalyzeReloadCycleProfile,
             },
           };
         }

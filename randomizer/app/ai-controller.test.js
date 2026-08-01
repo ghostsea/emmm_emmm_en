@@ -421,6 +421,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         ...(options.useDefaultMovePaymentPolicy
           ? { chooseMovePaymentIndexes: setiAi.policy.chooseMovePaymentIndexes }
           : {}),
+        ...(options.useDefaultResearchTechPolicy
+          ? { chooseResearchTechTile: setiAi.policy.chooseResearchTechTile }
+          : {}),
         ...(options.useDefaultAlienUsePolicy
           ? { chooseAlienUseOption: setiAi.policy.chooseAlienUseOption }
           : {}),
@@ -6899,6 +6902,311 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(result.ok, true, "laughable AI should analyze before the recoverable scan");
   assert.deepEqual(harness.getHandled(), { type: "analyze" });
   assert.equal(selectedAction?.id, "analyze");
+}
+
+{
+  const turnChoices = [];
+  let selectedAction = null;
+  const placedTokens = Array.from({ length: 6 }, (_item, index) => ({ placementSlot: index + 1 }));
+  const scanTypes = {
+    EARTH_SECTOR_SCAN: "earth_sector_scan",
+    IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+    MERCURY_SECTOR_SCAN: "mercury_sector_scan",
+    PUBLIC_CARD_SCAN: "public_card_scan",
+    HAND_SCAN: "hand_scan",
+    SCAN_ACTION_4: "scan_action_4",
+  };
+  const reloadCycleOptions = {
+    currentPlayerColor: "blue",
+    aiDifficulty: "laughable",
+    roundNumber: 4,
+    turnNumber: 7,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordAnalyze: true,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { score: 88, credits: 1, energy: 4, publicity: 3, availableData: 4, handSize: 2 },
+    blueHand: [
+      { id: "reload-cycle-a", cardName: "Reload cycle A", price: 3 },
+      { id: "reload-cycle-b", cardName: "Reload cycle B", price: 3 },
+    ],
+    publicCards: [{ id: "reload-cycle-public", cardName: "Reload cycle public", price: 3 }],
+    finalScoringState: {
+      tiles: {
+        final_a1: {
+          id: "final_a1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_b1: {
+          id: "final_b1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d1: {
+          id: "final_d1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a1: "a1",
+      final_b1: "b1",
+      final_d1: "d1",
+    },
+    scanEffects: {
+      EFFECT_TYPES: scanTypes,
+      SCAN_COST: { credits: 1, energy: 2 },
+      getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+      buildScanEffectQueue: () => [
+        { type: scanTypes.PUBLIC_CARD_SCAN },
+        { type: scanTypes.PUBLIC_CARD_SCAN },
+      ],
+      canExecuteScan: (player) => (
+        Number(player?.resources?.credits || 0) >= 1 && Number(player?.resources?.energy || 0) >= 2
+          ? { ok: true }
+          : { ok: false, message: "scan resources missing" }
+      ),
+    },
+    getPublicScanChoicesForCard: () => ({
+      ok: true,
+      choices: [{ nebulaId: "reload-cycle-nebula", sectorX: 4, label: "Reload cycle nebula" }],
+    }),
+    data: {
+      ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+      ANALYZE_ENERGY_COST: 1,
+      canAnalyzeData: (player) => (
+        Number(player?.resources?.energy || 0) >= 1
+          ? { ok: true }
+          : { ok: false, message: "energy missing" }
+      ),
+      listComputerPlacedTokens: () => placedTokens,
+      getNextReplaceableNebulaToken: () => ({ slotIndex: 4 }),
+      getNebulaCapacity: () => 3,
+      getNebulaSlotScoreReward: (_nebulaId, slotIndex) => Number(slotIndex || 0),
+      getNebulaColor: () => "blue",
+      listNebulaTokens: () => [],
+      listSectorExtraMarks: () => [],
+      getSectorTokenStats: () => ({}),
+    },
+    actionGraph: setiAi.actionGraph,
+    onChooseTurnAction: (candidates, selected) => {
+      turnChoices.push(candidates);
+      selectedAction = selected;
+    },
+    chooseTurnAction: (candidates) => candidates
+      .slice()
+      .filter((candidate) => candidate.available !== false)
+      .sort((left, right) => (
+        Number(right.actionGraph?.net ?? right.score ?? 0) - Number(left.actionGraph?.net ?? left.score ?? 0)
+      ))[0] || null,
+  };
+  const harness = createAiControllerHarness(null, reloadCycleOptions);
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  const candidates = turnChoices.flat();
+  const scanCandidate = candidates.find((candidate) => candidate.id === "scan");
+  const analyzeCandidate = candidates.find((candidate) => candidate.id === "analyze");
+  assert.ok(scanCandidate, "Grand Strategy reload-cycle scan should be enumerated");
+  assert.ok(analyzeCandidate, "Grand Strategy reload-cycle analyze should be enumerated");
+  assert.equal(scanCandidate.scoreCapReason, "宇宙大战略终局先分析清槽再扫描回填");
+  assert.equal(
+    scanCandidate.valueBreakdown?.grandStrategyFinalAnalyzeReloadCycle?.projectedScanDataPlacements,
+    2,
+  );
+  assert.ok(
+    Number(scanCandidate.score || 0) < Number(analyzeCandidate.score || 0),
+    "Grand Strategy should clear six occupied slots before a two-data scan refills the last two slots",
+  );
+  assert.ok(
+    Number(scanCandidate.actionGraph?.net || 0) < Number(analyzeCandidate.actionGraph?.net || 0),
+    "reload-cycle ordering should also suppress the scan action graph below analyze",
+  );
+  assert.equal(result.ok, true, "Grand Strategy reload-cycle ordering should execute analyze");
+  assert.deepEqual(harness.getHandled(), { type: "analyze" });
+  assert.equal(selectedAction?.id, "analyze");
+
+  const ordinaryTurnChoices = [];
+  const ordinaryHarness = createAiControllerHarness(null, {
+    ...reloadCycleOptions,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙战略集团", label: "宇宙战略集团" },
+    },
+    onChooseTurnAction: (ordinaryCandidates) => ordinaryTurnChoices.push(ordinaryCandidates),
+  });
+  assert.equal(
+    ordinaryHarness.controller.configureAiAutoBattle({
+      playerIds: [ordinaryHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  ordinaryHarness.controller.runAiAutomationStep();
+  const ordinaryScanCandidate = ordinaryTurnChoices
+    .flat()
+    .find((candidate) => candidate.id === "scan");
+  assert.ok(ordinaryScanCandidate, "ordinary company scan should remain enumerated");
+  assert.notEqual(
+    ordinaryScanCandidate.scoreCapReason,
+    "宇宙大战略终局先分析清槽再扫描回填",
+    "the reload-cycle ordering must stay local to Grand Strategy",
+  );
+  assert.equal(
+    ordinaryScanCandidate.valueBreakdown?.grandStrategyFinalAnalyzeReloadCycle,
+    undefined,
+  );
+
+  const lowEnergyTurnChoices = [];
+  const lowEnergyHarness = createAiControllerHarness(null, {
+    ...reloadCycleOptions,
+    blueResources: {
+      ...reloadCycleOptions.blueResources,
+      energy: 3,
+    },
+    onChooseTurnAction: (lowEnergyCandidates) => lowEnergyTurnChoices.push(lowEnergyCandidates),
+  });
+  assert.equal(
+    lowEnergyHarness.controller.configureAiAutoBattle({
+      playerIds: [lowEnergyHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  lowEnergyHarness.controller.runAiAutomationStep();
+  const lowEnergyScanCandidate = lowEnergyTurnChoices
+    .flat()
+    .find((candidate) => candidate.id === "scan");
+  assert.ok(lowEnergyScanCandidate, "low-energy Grand Strategy scan should remain enumerated");
+  assert.notEqual(
+    lowEnergyScanCandidate.scoreCapReason,
+    "宇宙大战略终局先分析清槽再扫描回填",
+    "the reload-cycle ordering must not trigger without energy for analyze, scan, then analyze",
+  );
+  assert.equal(
+    lowEnergyScanCandidate.valueBreakdown?.grandStrategyFinalAnalyzeReloadCycle,
+    undefined,
+  );
+
+  const oneDataTurnChoices = [];
+  const oneDataHarness = createAiControllerHarness(null, {
+    ...reloadCycleOptions,
+    scanEffects: {
+      ...reloadCycleOptions.scanEffects,
+      buildScanEffectQueue: () => [{ type: scanTypes.PUBLIC_CARD_SCAN }],
+    },
+    onChooseTurnAction: (oneDataCandidates) => oneDataTurnChoices.push(oneDataCandidates),
+  });
+  assert.equal(
+    oneDataHarness.controller.configureAiAutoBattle({
+      playerIds: [oneDataHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  oneDataHarness.controller.runAiAutomationStep();
+  const oneDataScanCandidate = oneDataTurnChoices
+    .flat()
+    .find((candidate) => candidate.id === "scan");
+  assert.ok(oneDataScanCandidate, "one-data Grand Strategy scan should remain enumerated");
+  assert.notEqual(
+    oneDataScanCandidate.scoreCapReason,
+    "宇宙大战略终局先分析清槽再扫描回填",
+    "the reload-cycle ordering must not trigger when the scan cannot refill both missing data",
+  );
+  assert.equal(
+    oneDataScanCandidate.valueBreakdown?.grandStrategyFinalAnalyzeReloadCycle,
+    undefined,
+  );
+
+  const cashoutTurnChoices = [];
+  let cashoutSelectedAction = null;
+  const cashoutHarness = createAiControllerHarness(null, {
+    ...reloadCycleOptions,
+    blueResources: {
+      ...reloadCycleOptions.blueResources,
+      score: 94,
+      energy: 2,
+      availableData: 5,
+    },
+    data: {
+      ...reloadCycleOptions.data,
+      getNebulaSlotScoreReward: () => 0.5,
+    },
+    onChooseTurnAction: (cashoutCandidates, selected) => {
+      cashoutTurnChoices.push(cashoutCandidates);
+      cashoutSelectedAction = selected;
+    },
+  });
+  assert.equal(
+    cashoutHarness.controller.configureAiAutoBattle({
+      playerIds: [cashoutHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  const cashoutResult = cashoutHarness.controller.runAiAutomationStep();
+  const cashoutCandidates = cashoutTurnChoices.flat();
+  const cashoutScanCandidate = cashoutCandidates.find((candidate) => candidate.id === "scan");
+  const cashoutAnalyzeCandidate = cashoutCandidates.find((candidate) => candidate.id === "analyze");
+  assert.ok(cashoutScanCandidate, "final two-energy scan should remain enumerated");
+  assert.ok(cashoutAnalyzeCandidate, "final ready analyze should remain enumerated");
+  assert.equal(cashoutScanCandidate.scoreCapReason, "优先兑现数据分析");
+  assert.equal(cashoutScanCandidate.valueBreakdown?.analyzeCashoutGraphCap, true);
+  assert.ok(
+    Number(cashoutScanCandidate.actionGraph?.net || 0)
+      < Number(cashoutAnalyzeCandidate.actionGraph?.net || 0),
+    "analyze cashout score cap must not be reversed by the scan action-graph goal bonus",
+  );
+  assert.equal(cashoutResult.ok, true, "final two-energy AI should cash out ready analyze");
+  assert.deepEqual(cashoutHarness.getHandled(), { type: "analyze" });
+  assert.equal(cashoutSelectedAction?.id, "analyze");
+
+  const largeGapTurnChoices = [];
+  let largeGapSelectedAction = null;
+  const largeGapHarness = createAiControllerHarness(null, {
+    ...reloadCycleOptions,
+    blueResources: {
+      ...reloadCycleOptions.blueResources,
+      score: 94,
+      energy: 2,
+      availableData: 5,
+    },
+    onChooseTurnAction: (largeGapCandidates, selected) => {
+      largeGapTurnChoices.push(largeGapCandidates);
+      largeGapSelectedAction = selected;
+    },
+  });
+  assert.equal(
+    largeGapHarness.controller.configureAiAutoBattle({
+      playerIds: [largeGapHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  largeGapHarness.controller.runAiAutomationStep();
+  const largeGapScanCandidate = largeGapTurnChoices
+    .flat()
+    .find((candidate) => candidate.id === "scan");
+  assert.ok(largeGapScanCandidate, "large-goal-gap scan should remain enumerated");
+  assert.equal(
+    largeGapScanCandidate.valueBreakdown?.analyzeCashoutGraphCap,
+    undefined,
+    "analyze cashout graph synchronization must stay local to a near-tie graph reversal",
+  );
+  assert.equal(largeGapSelectedAction?.id, "scan");
 }
 
 {
@@ -15279,6 +15587,78 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     closedJupiterMove?.routeTarget?.taskRouteCashout || null,
     null,
     "full Jupiter should not advertise an orbit-or-land task cashout that can no longer resolve",
+  );
+}
+
+{
+  const turnChoices = [];
+  const blueTechCard = {
+    id: "blue-tech-selection-score-card",
+    cardId: "blue-tech-selection-score-card",
+    cardName: "Blue tech selection score card",
+    price: 0,
+    typeCode: 0,
+    playEffects: [{
+      id: "blue-tech-selection-score-effect",
+      type: "card_research_tech",
+      options: { techTypes: ["blue"], skipCost: true },
+    }],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 1,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordBeginPlayCard: true,
+    useDefaultResearchTechPolicy: true,
+    takeableTechIds: ["blue1", "blue2"],
+    techStacks: {
+      blue1: {
+        techType: "blue",
+        stackIndex: 1,
+        bonusId: "bonus_3f",
+        firstTakeClaimedBy: null,
+        remaining: 4,
+      },
+      blue2: {
+        techType: "blue",
+        stackIndex: 2,
+        bonusId: "bonus_1c",
+        firstTakeClaimedBy: null,
+        remaining: 4,
+      },
+    },
+    blueResources: {
+      score: 22,
+      credits: 3,
+      energy: 0,
+      publicity: 2,
+      availableData: 0,
+      handSize: 1,
+    },
+    blueHand: [blueTechCard],
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, JSON.stringify(result));
+  const cardCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "playCard")
+    ?.playableCards
+    ?.find((candidate) => candidate.cardId === blueTechCard.cardId);
+  assert.ok(cardCandidate, "restricted blue-tech card should remain a playable candidate");
+  assert.equal(
+    cardCandidate.directScoreGain,
+    2,
+    "play-card direct score must follow the selected blue2 candidate instead of the maximum score-only blue1 option",
   );
 }
 
