@@ -7286,6 +7286,81 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     "analyze cashout graph synchronization must stay local to a near-tie graph reversal",
   );
   assert.equal(largeGapSelectedAction?.id, "scan");
+
+  const unrecoverableScanTurnChoices = [];
+  let unrecoverableScanSelectedAction = null;
+  const unrecoverableScanOptions = {
+    ...reloadCycleOptions,
+    blueInitialSelection: {
+      industry: { id: "industry:寰宇超动力", label: "寰宇超动力" },
+    },
+    blueResources: {
+      ...reloadCycleOptions.blueResources,
+      score: 141,
+      energy: 2,
+      publicity: 5,
+      availableData: 5,
+      handSize: 1,
+    },
+    blueHand: [{ id: "unrecoverable-scan-card", cardName: "Unrecoverable scan card", price: 3 }],
+    onChooseTurnAction: (unrecoverableCandidates, selected) => {
+      unrecoverableScanTurnChoices.push(unrecoverableCandidates);
+      unrecoverableScanSelectedAction = selected;
+    },
+  };
+  const unrecoverableScanHarness = createAiControllerHarness(null, unrecoverableScanOptions);
+  assert.equal(
+    unrecoverableScanHarness.controller.configureAiAutoBattle({
+      playerIds: [unrecoverableScanHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  unrecoverableScanHarness.controller.runAiAutomationStep();
+  const unrecoverableScanCandidate = unrecoverableScanTurnChoices
+    .flat()
+    .find((candidate) => candidate.id === "scan");
+  assert.ok(unrecoverableScanCandidate, "unrecoverable full-computer scan should remain enumerated");
+  assert.equal(
+    unrecoverableScanCandidate.valueBreakdown?.finalFullComputerAnalyzeEnergyDrain,
+    true,
+    "a full computer must cash out before an unrecoverable scan drains the last analyze energy",
+  );
+  assert.equal(unrecoverableScanSelectedAction?.id, "analyze");
+
+  const sustainableScanTurnChoices = [];
+  let sustainableScanSelectedAction = null;
+  const sustainableScanHarness = createAiControllerHarness(null, {
+    ...unrecoverableScanOptions,
+    blueResources: {
+      ...unrecoverableScanOptions.blueResources,
+      energy: 3,
+    },
+    onChooseTurnAction: (sustainableCandidates, selected) => {
+      sustainableScanTurnChoices.push(sustainableCandidates);
+      sustainableScanSelectedAction = selected;
+    },
+  });
+  assert.equal(
+    sustainableScanHarness.controller.configureAiAutoBattle({
+      playerIds: [sustainableScanHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  sustainableScanHarness.controller.runAiAutomationStep();
+  const sustainableScanCandidate = sustainableScanTurnChoices
+    .flat()
+    .find((candidate) => candidate.id === "scan");
+  assert.ok(sustainableScanCandidate, "energy-sustainable scan should remain enumerated");
+  assert.equal(
+    sustainableScanCandidate.valueBreakdown?.finalFullComputerAnalyzeEnergyDrain,
+    undefined,
+    "the analyze-first cap must stay off when scan leaves enough energy to analyze",
+  );
+  assert.equal(sustainableScanSelectedAction?.id, "scan");
 }
 
 {

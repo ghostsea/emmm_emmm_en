@@ -22977,6 +22977,89 @@
           && candidate.available !== false
         )) || null
         : null;
+      const finalFullComputerAnalyzeEnergyDrainProfile = (() => {
+        if (
+          !readyAnalyzeCandidate
+          || !readyScanCandidate
+          || round !== FINAL_ROUND_NUMBER
+          || normalizeAiDifficulty(currentPlayer?.aiDifficulty || aiAutoBattleState.aiDifficulty)
+            !== AI_DIFFICULTY_LAUGHABLE
+          || countAiFinalMarksForPlayer(currentPlayer) < 3
+        ) {
+          return null;
+        }
+        const resources = currentPlayer?.resources || {};
+        const currentScore = Math.max(0, aiNumber(resources.score));
+        const credits = Math.max(0, aiNumber(resources.credits));
+        const energy = Math.max(0, aiNumber(resources.energy));
+        const publicity = Math.max(0, aiNumber(resources.publicity));
+        const handSize = Math.max(0, Math.round(aiNumber(resources.handSize)));
+        const availableData = Math.max(0, Math.round(aiNumber(resources.availableData)));
+        const requiredSlot = Math.max(1, Math.round(aiNumber(data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6)));
+        const placedCount = Math.max(0, (data.listComputerPlacedTokens?.(currentPlayer) || []).length);
+        const scanCost = scanEffects?.getStandardScanCost?.(currentPlayer)
+          || scanEffects?.SCAN_COST
+          || { credits: 1, energy: 2 };
+        const scanCreditCost = Math.max(0, aiNumber(scanCost.credits));
+        const scanEnergyCost = Math.max(0, aiNumber(scanCost.energy));
+        const creditsAfterScan = credits - scanCreditCost;
+        const energyAfterScan = energy - scanEnergyCost;
+        const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+        const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+        const scanScore = aiNumber(readyScanCandidate.score);
+        const scanGraphNet = Number(readyScanCandidate.actionGraph?.net);
+        const scanDirectScore = Math.max(0, aiNumber(readyScanCandidate.directScoreGain));
+        const analyzeDirectScore = Math.max(0, aiNumber(readyAnalyzeCandidate.directScoreGain));
+        const recoveryTrade = ["credits-for-energy", "cards-for-energy"]
+          .map((tradeId) => quickTrades?.getTradeAction?.(tradeId) || null)
+          .find((trade) => {
+            if (!trade) return false;
+            const cost = trade.cost || {};
+            const gain = trade.gain || {};
+            return creditsAfterScan >= Math.max(0, aiNumber(cost.credits))
+              && handSize >= Math.max(0, Math.round(aiNumber(cost.handSize)))
+              && publicity >= Math.max(0, aiNumber(cost.publicity))
+              && energyAfterScan >= Math.max(0, aiNumber(cost.energy))
+              && energyAfterScan
+                - Math.max(0, aiNumber(cost.energy))
+                + Math.max(0, aiNumber(gain.energy)) >= readyAnalyzeEnergyCost;
+          }) || null;
+        if (
+          currentScore < 120
+          || placedCount < requiredSlot
+          || availableData < 3
+          || readyAnalyzeEnergyCost <= 0
+          || scanEnergyCost <= 0
+          || creditsAfterScan < 0
+          || energy < scanEnergyCost
+          || energyAfterScan >= readyAnalyzeEnergyCost
+          || recoveryTrade
+          || analyzeScore < 18
+          || scanScore >= analyzeScore
+          || scanDirectScore > analyzeDirectScore + 2
+        ) {
+          return null;
+        }
+        return {
+          currentScore: roundAiScore(currentScore),
+          analyzeScore: roundAiScore(analyzeScore),
+          analyzeNet: roundAiScore(Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore),
+          analyzeEnergyCost: readyAnalyzeEnergyCost,
+          scanScore: roundAiScore(scanScore),
+          scanNet: roundAiScore(Number.isFinite(scanGraphNet) ? scanGraphNet : scanScore),
+          scanDirectScore: roundAiScore(scanDirectScore),
+          analyzeDirectScore: roundAiScore(analyzeDirectScore),
+          requiredSlot,
+          placedCount,
+          availableData,
+          scanCost: {
+            credits: scanCreditCost,
+            energy: scanEnergyCost,
+          },
+          creditsAfterScan: roundAiScore(creditsAfterScan),
+          energyAfterScan: roundAiScore(energyAfterScan),
+        };
+      })();
       const finalAnalyzeBeforeRecoverableScanProfile = (() => {
         if (
           !readyAnalyzeCandidate
@@ -23397,6 +23480,43 @@
               },
             };
           }
+        }
+        if (
+          candidate.id === "scan"
+          && finalFullComputerAnalyzeEnergyDrainProfile
+        ) {
+          const analyzeScore = aiNumber(readyAnalyzeCandidate.score);
+          const analyzeGraphNet = Number(readyAnalyzeCandidate.actionGraph?.net);
+          const scoreCap = roundAiScore(analyzeScore - 0.25);
+          const netCap = roundAiScore(
+            (Number.isFinite(analyzeGraphNet) ? analyzeGraphNet : analyzeScore) - 0.25,
+          );
+          const currentScore = aiNumber(adjusted.score);
+          const currentNet = Number(adjusted.actionGraph?.net);
+          adjusted = {
+            ...adjusted,
+            score: Math.min(currentScore, scoreCap),
+            scoreCapReason: "终局满计算机先分析，避免扫描耗尽能量",
+            actionGraph: adjusted.actionGraph
+              ? {
+                ...adjusted.actionGraph,
+                uncappedFullComputerAnalyzeEnergyDrainNet: adjusted.actionGraph.net,
+                net: Math.min(Number.isFinite(currentNet) ? currentNet : currentScore, netCap),
+              }
+              : adjusted.actionGraph,
+            selectionAdjustment: {
+              ...(adjusted.selectionAdjustment || {}),
+              finalFullComputerAnalyzeEnergyDrain: {
+                ...finalFullComputerAnalyzeEnergyDrainProfile,
+                originalScore: roundAiScore(aiNumber(candidate.score)),
+                originalNet: Number.isFinite(graphNet) ? roundAiScore(graphNet) : null,
+              },
+            },
+            valueBreakdown: {
+              ...(adjusted.valueBreakdown || {}),
+              finalFullComputerAnalyzeEnergyDrain: true,
+            },
+          };
         }
         if (
           candidate.id === "scan"
