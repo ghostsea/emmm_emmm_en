@@ -7600,6 +7600,7 @@
       const directScoreScanUnlock = (allowExtendedResourceLock || weakNoDiscardDirectScanUnlock)
         && scanDirectScoreGain > 0
         && scanScore >= (getAiRoundNumber() >= FINAL_ROUND_NUMBER ? 20 : 22);
+      const placedComputerCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
       const grandStrategyRoundThreeDeadHandScanUnlock = allowExtendedResourceLock
         && tradeId === "cards-for-credit"
         && (
@@ -7643,14 +7644,43 @@
         && player.techState?.ownedTiles?.blue3
         && Number(player.techState?.blueBoardSlots?.blue3) === 1
         && Number(player.techState?.blueBoardSlots?.blue1) === 2
-        && Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length) === 2
+        && placedComputerCount === 2
         && countAiStandardScansThisRound(player) === 0
         && hasAiRevealedAlienSpecies(aomomo?.ALIEN_ID || "奥陌陌")
         && hasAiRevealedAlienSpecies(yichangdian?.ALIEN_ID || "异常点")
         && scanCheck.ok
         && scanDirectScoreGain <= 0
         && scanScore >= 30;
-      const projectedAlienScanDataCount = grandStrategyRoundThreeAlienScanSetupBase
+      const grandStrategyRoundThreeAmibaAnalyzeCycleBase = allowExtendedResourceLock
+        && tradeId === "energy-for-credit"
+        && (
+          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
+          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        && normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          === AI_DIFFICULTY_LAUGHABLE
+        && getAiRoundNumber() === 3
+        && countAiFinalMarksForPlayer(player) >= 3
+        && !getAiNextMissingFinalScoreThreshold(player)
+        && currentScore >= 70
+        && currentScore < 80
+        && aiNumber(resources.credits) === 0
+        && aiNumber(resources.energy) === 5
+        && aiNumber(resources.publicity) <= 2
+        && aiNumber(resources.availableData) === 0
+        && handSize === 3
+        && handAfterTrade === 3
+        && player.techState?.ownedTiles?.blue3
+        && placedComputerCount === 4
+        && hasAiRevealedAlienSpecies(amiba?.ALIEN_ID || "阿米巴")
+        && hasAiRevealedAlienSpecies(yichangdian?.ALIEN_ID || "异常点")
+        && scanCheck.ok
+        && scanDirectScoreGain <= 0
+        && scanScore >= 22;
+      const projectedAlienScanDataCount = (
+        grandStrategyRoundThreeAlienScanSetupBase
+        || grandStrategyRoundThreeAmibaAnalyzeCycleBase
+      )
         ? (scanEffects.buildScanEffectQueue?.(simulatedPlayer, {
           fullScanAction: true,
           turnState,
@@ -7666,6 +7696,14 @@
         : 0;
       const grandStrategyRoundThreeAlienScanSetupUnlock =
         grandStrategyRoundThreeAlienScanSetupBase && projectedAlienScanDataCount >= 2;
+      const grandStrategyRoundThreeAmibaAnalyzeCycleUnlock = Boolean(
+        grandStrategyRoundThreeAmibaAnalyzeCycleBase
+        && projectedAlienScanDataCount >= 2
+        && placedComputerCount + projectedAlienScanDataCount >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6)
+        && aiNumber(simulatedPlayer.resources?.energy)
+          - aiNumber((scanEffects?.getStandardScanCost?.(simulatedPlayer) || scanEffects?.SCAN_COST || {}).energy)
+          >= getAiAnalyzeEnergyCost(simulatedPlayer)
+      );
       const grandFinalDeadPlayScanUnlock = grandFinalDeadPlayScanWindow
         && tradeId === "cards-for-energy"
         && handAfterTrade >= 3
@@ -7794,6 +7832,7 @@
             || directScoreScanUnlock
             || grandStrategyRoundThreeDeadHandScanUnlock
             || grandStrategyRoundThreeAlienScanSetupUnlock
+            || grandStrategyRoundThreeAmibaAnalyzeCycleUnlock
             || grandFinalDeadPlayScanUnlock
           )
           ? {
@@ -7953,6 +7992,7 @@
         && !weakStartAlienPlayUnlockSafe
         && !huanyuAomomoRoundTwoFirstLandUnlock
         && !grandStrategyRoundThreeAlienScanSetupUnlock
+        && !grandStrategyRoundThreeAmibaAnalyzeCycleUnlock
         && (
           getAiRoundNumber() !== 2
           || nextThreshold
@@ -8049,6 +8089,7 @@
           directScoreScanUnlock,
           grandStrategyRoundThreeDeadHandScanUnlock,
           grandStrategyRoundThreeAlienScanSetupUnlock,
+          grandStrategyRoundThreeAmibaAnalyzeCycleUnlock,
           projectedAlienScanDataCount,
           grandFangzhouRoundTwoLandUnlock,
           cheatLabRunezuRoundTwoMarsLandUnlock,

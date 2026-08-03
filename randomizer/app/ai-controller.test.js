@@ -12636,6 +12636,11 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     alienIds = [aomomo.ALIEN_ID, yichangdian.ALIEN_ID],
     placedComputerSlots = [1, 2],
     projectedScanDataCount = 2,
+    score = 57,
+    energy = 4,
+    publicity = 5,
+    handSize = 5,
+    finalMarkThresholds = [25, 50],
   } = {}) => {
     const turnChoices = [];
     const harness = createAiControllerHarness(null, {
@@ -12657,14 +12662,14 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         industry: { id: `industry:${companyLabel}`, label: companyLabel },
       },
       blueResources: {
-        score: 57,
+        score,
         credits: 0,
-        energy: 4,
-        publicity: 5,
+        energy,
+        publicity,
         availableData: 0,
-        handSize: 5,
+        handSize,
       },
-      blueHand: Array.from({ length: 5 }, (_item, index) => ({
+      blueHand: Array.from({ length: handSize }, (_item, index) => ({
         id: `grand-r3-alien-scan-${index}`,
         cardName: `Grand R3 alien scan ${index}`,
         price: 2,
@@ -12694,21 +12699,18 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         scanActionCode: 2,
       }],
       finalScoringState: {
-        tiles: {
-          final_a2: {
-            id: "final_a2",
-            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        tiles: Object.fromEntries(finalMarkThresholds.map((threshold, index) => [
+          `final_${index}`,
+          {
+            id: `final_${index}`,
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold }],
           },
-          final_c2: {
-            id: "final_c2",
-            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
-          },
-        },
+        ])),
       },
-      finalFormulaIds: {
-        final_a2: "a2",
-        final_c2: "c2",
-      },
+      finalFormulaIds: Object.fromEntries(finalMarkThresholds.map((_threshold, index) => [
+        `final_${index}`,
+        index === 0 ? "a2" : index === 1 ? "c2" : "d2",
+      ])),
       scanEffects: {
         EFFECT_TYPES: {
           EARTH_SECTOR_SCAN: "earth_sector_scan",
@@ -12817,6 +12819,58 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     }).tradeCandidate,
     undefined,
     "the alien scan setup must project at least two data placements",
+  );
+
+  const amibaAnalyzeCycleOptions = {
+    alienIds: [amiba.ALIEN_ID, yichangdian.ALIEN_ID],
+    placedComputerSlots: [1, 2, 3, 4],
+    score: 71,
+    energy: 5,
+    publicity: 1,
+    handSize: 3,
+    finalMarkThresholds: [25, 50, 70],
+  };
+  const grandStrategyAmibaAnalyzeCycle = runGrandStrategyRoundThreeAlienScanSetup(
+    amibaAnalyzeCycleOptions,
+  );
+  assert.deepEqual(
+    grandStrategyAmibaAnalyzeCycle.handled,
+    { type: "quick-trade", tradeId: "energy-for-credit" },
+    "round-three Grand Strategy should open a two-data scan that immediately refills analyze",
+  );
+  assert.equal(
+    grandStrategyAmibaAnalyzeCycle.tradeCandidate?.valueBreakdown
+      ?.grandStrategyRoundThreeAmibaAnalyzeCycleUnlock,
+    true,
+  );
+  assert.equal(
+    grandStrategyAmibaAnalyzeCycle.tradeCandidate?.valueBreakdown?.unlockedMainAction?.actionId,
+    "scan",
+  );
+
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      ...amibaAnalyzeCycleOptions,
+      alienIds: [aomomo.ALIEN_ID, yichangdian.ALIEN_ID],
+    }).tradeCandidate,
+    undefined,
+    "the analyze-cycle bridge must require the fixed Amiba and Anomaly combination",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      ...amibaAnalyzeCycleOptions,
+      projectedScanDataCount: 1,
+    }).tradeCandidate,
+    undefined,
+    "the analyze-cycle bridge must project enough data to refill the sixth computer slot",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      ...amibaAnalyzeCycleOptions,
+      energy: 4,
+    }).tradeCandidate,
+    undefined,
+    "the analyze-cycle bridge must preserve one real energy after trade and scan",
   );
 }
 
