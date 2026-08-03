@@ -2680,6 +2680,43 @@
           + (typeCode === 3 ? 1 : 0)
           - unreachablePenalty;
       }
+      const lateGrandStrategyConversionPick = pendingType === "industry_strategy_pick"
+        && getAiRoundNumber() >= 3;
+      if (lateGrandStrategyConversionPick) {
+        const playCandidate = buildAiPlayCardCandidate(card, -1, player);
+        const immediatePlayValue = Math.max(0, aiNumber(playCandidate?.score));
+        const directScoreGain = Math.max(0, aiNumber(playCandidate?.directScoreGain));
+        const price = Math.max(0, aiNumber(getCardPrice(card)));
+        const credits = Math.max(0, aiNumber(player?.resources?.credits));
+        const creditShortfall = Math.max(0, price - credits);
+        const hasPersistentValue = Boolean(
+          model?.tasks?.length
+          || model?.triggers?.length
+          || model?.endGameScoring
+          || model?.pluto
+          || typeCode === 3
+          || isAiAlienMainPlayCard(card)
+        );
+        const finalRound = getAiRoundNumber() >= FINAL_ROUND_NUMBER;
+        const deferredValue = playCandidate
+          ? playableValue * 0.12
+          : playableValue * (finalRound ? 0.12 : 0.28);
+        const affordabilityPenalty = playCandidate
+          ? 0
+          : Math.min(
+            finalRound ? 24 : 16,
+            (finalRound ? 8 : 4)
+              + creditShortfall * 4
+              + (hasPersistentValue ? 0 : 4),
+          );
+        return immediatePlayValue * 0.85
+          + directScoreGain * 0.45
+          + deferredValue
+          + cornerValue * 0.18
+          + incomeValue * 0.12
+          + (typeCode === 3 ? 1.2 : 0)
+          - affordabilityPenalty;
+      }
       if (finalRoundTradePick) {
         const playCandidate = buildAiPlayCardCandidate(card, -1, player);
         const immediatePlayValue = Math.max(0, aiNumber(playCandidate?.score));

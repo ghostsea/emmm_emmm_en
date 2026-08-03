@@ -1555,6 +1555,72 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const turnChoices = [];
+  const strategyIndustry = { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" };
+  const unreachableDeferredCard = {
+    id: "strategy-round-three-unreachable",
+    cardId: "strategy-round-three-unreachable",
+    cardName: "Round-three unreachable project",
+    price: 3,
+    typeCode: 2,
+    playEffects: [{ type: "gain_resources", options: { gain: { score: 12 } } }],
+  };
+  const immediateConversionCard = {
+    id: "strategy-round-three-conversion",
+    cardId: "strategy-round-three-conversion",
+    cardName: "Round-three immediate conversion",
+    price: 0,
+    typeCode: 1,
+    playEffects: [{ type: "gain_resources", options: { gain: { score: 4, credits: 1 } } }],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    blueInitialSelection: { industry: strategyIndustry },
+    blueIndustryStrategyPassiveSlots: { yellow: false, red: false, blue: false },
+    blueResources: { score: 64, credits: 0, energy: 6, publicity: 1, handSize: 1 },
+    publicCards: [unreachableDeferredCard, immediateConversionCard],
+    industry: {
+      STRATEGY_PASSIVE_SLOT_IDS: ["yellow", "red", "blue"],
+      getIndustryActionMarkerLayout: () => ({ percentX: 9, percentY: 77, radiusPercent: 4.9 }),
+      canMarkIndustryAction: () => ({ ok: true }),
+      getIndustryDefinition: () => ({
+        label: "宇宙大战略集团",
+        activeAbilityId: "strategy_pick_card",
+        passiveIds: ["strategy_passive_reward_slots", "grand_strategy_round_start"],
+      }),
+      playerHasStrategyPassive: () => true,
+      hasGrandStrategyRoundStart: () => true,
+      getStrategySlotReward: () => null,
+      getStrategySlotRewardLabel: () => "",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "industry") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "round-three grand strategy pick should remain executable");
+  const industryCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "industry" && candidate.abilityId === "strategy_pick_card");
+  assert.equal(
+    industryCandidate.valueBreakdown?.industryPublicPick?.bestCard?.cardId,
+    "strategy-round-three-conversion",
+    "round-three grand strategy should prefer a playable resource conversion over an unaffordable theoretical project",
+  );
+}
+
+{
   const makeSolarPanelCard = () => ({
     id: "dlc_27.png",
     cardId: "dlc_27.png",
