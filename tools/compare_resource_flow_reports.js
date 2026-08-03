@@ -38,7 +38,7 @@ const ACTIONABLE_METRICS = new Set([
   "utilizationPublicity",
   "utilizationAvailableData",
   "utilizationHandSize",
-  "sameRoundReinvestmentWeighted",
+  "sameRoundReinvestmentRate",
 ]);
 
 const METRIC_LABELS = Object.freeze({
@@ -61,6 +61,7 @@ const METRIC_LABELS = Object.freeze({
   utilizationAvailableData: "数据利用率",
   utilizationHandSize: "手牌利用率",
   sameRoundReinvestmentWeighted: "同轮再投入价值",
+  sameRoundReinvestmentRate: "非收入资源同轮再投入率",
 });
 
 function average(values) {
@@ -92,6 +93,10 @@ function getPlayerMetric(player, metric) {
   if (metric === "sameRoundReinvestmentWeighted") {
     return weightedResources(player.sameRoundReinvestment);
   }
+  if (metric === "sameRoundReinvestmentRate") {
+    const denominator = Number(player.nonIncomeGainWeighted) || 0;
+    return denominator > 0 ? weightedResources(player.sameRoundReinvestment) / denominator : null;
+  }
   return player?.[metric];
 }
 
@@ -109,6 +114,7 @@ function summarizePlayers(players = []) {
     "utilizationAvailableData",
     "utilizationHandSize",
     "sameRoundReinvestmentWeighted",
+    "sameRoundReinvestmentRate",
   ];
   for (const metric of metrics) {
     result[metric] = round(average(rows.map((player) => getPlayerMetric(player, metric))));
@@ -350,7 +356,12 @@ function formatMetric(value) {
 }
 
 function renderMetricTable(reference, ai, deltas) {
-  const metrics = ["averageFinalScore", ...DIRECT_METRICS, "sameRoundReinvestmentWeighted"];
+  const metrics = [
+    "averageFinalScore",
+    ...DIRECT_METRICS,
+    "sameRoundReinvestmentWeighted",
+    "sameRoundReinvestmentRate",
+  ];
   return [
     "| 指标 | 真人 | 电脑 | 真人-电脑 |",
     "| --- | ---: | ---: | ---: |",
@@ -360,14 +371,35 @@ function renderMetricTable(reference, ai, deltas) {
   ].join("\n");
 }
 
-function renderGroupList(title, referenceGroups, aiGroups) {
-  const referenceKeys = Object.keys(referenceGroups || {});
-  const aiKeys = Object.keys(aiGroups || {});
+function renderPlayerGroups(title, referenceGroups, aiGroups) {
+  const renderRows = (side, groups) => Object.entries(groups || {}).map(([group, row]) => (
+    `| ${side} | ${group} | ${formatMetric(row.playerCount)} | ${formatMetric(row.averageFinalScore)} | ${formatMetric(row.incomeGainWeighted)} | ${formatMetric(row.nonIncomeGainWeighted)} | ${formatMetric(row.mainActionsPerWeightedCost)} | ${formatMetric(row.fullDataCycleCount)} |`
+  ));
   return [
     `### ${title}`,
     "",
-    `- 真人：${referenceKeys.length ? referenceKeys.join("、") : "无"}`,
-    `- 电脑：${aiKeys.length ? aiKeys.join("、") : "无"}`,
+    "| 样本 | 分组 | 人数 | 平均分 | 收入价值 | 非收入价值 | 单位资源主行动 | 完整数据循环 |",
+    "| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ...renderRows("真人", referenceGroups),
+    ...renderRows("电脑", aiGroups),
+  ].join("\n");
+}
+
+function renderRoundGroups(referenceGroups, aiGroups) {
+  const roundIds = [...new Set([
+    ...Object.keys(referenceGroups || {}),
+    ...Object.keys(aiGroups || {}),
+  ])].sort((left, right) => Number(left) - Number(right));
+  return [
+    "### 按轮次",
+    "",
+    "| 轮次 | 真人收入价值/人 | 电脑收入价值/人 | 真人非收入价值/人 | 电脑非收入价值/人 | 真人分析/人 | 电脑分析/人 | 真人数据放置/人 | 电脑数据放置/人 |",
+    "| ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |",
+    ...roundIds.map((roundId) => {
+      const reference = referenceGroups?.[roundId] || {};
+      const ai = aiGroups?.[roundId] || {};
+      return `| ${roundId} | ${formatMetric(reference.incomeGainWeighted)} | ${formatMetric(ai.incomeGainWeighted)} | ${formatMetric(reference.nonIncomeGainWeighted)} | ${formatMetric(ai.nonIncomeGainWeighted)} | ${formatMetric(reference.analysisCount)} | ${formatMetric(ai.analysisCount)} | ${formatMetric(reference.dataPlacementCount)} | ${formatMetric(ai.dataPlacementCount)} |`;
+    }),
   ].join("\n");
 }
 
@@ -401,9 +433,11 @@ function renderMarkdown(comparison) {
       comparison.deltas.bottomQuartile,
     ),
     "",
-    renderGroupList("公司", comparison.reference.byIndustry, comparison.ai.byIndustry),
+    renderPlayerGroups("按公司", comparison.reference.byIndustry, comparison.ai.byIndustry),
     "",
-    renderGroupList("外星人", comparison.reference.byAlien, comparison.ai.byAlien),
+    renderPlayerGroups("按外星人", comparison.reference.byAlien, comparison.ai.byAlien),
+    "",
+    renderRoundGroups(comparison.reference.byRound, comparison.ai.byRound),
     "",
     "### 证据结论",
     "",

@@ -70,6 +70,17 @@ const markdown = renderMarkdown(comparison);
 assert.match(markdown, /资源更多但完整数据循环更少/);
 assert.match(markdown, /高分四分位/);
 assert.match(markdown, /公司/);
+assert.match(markdown, /按外星人/);
+assert.match(markdown, /按轮次/);
+assert.equal(
+  comparison.largestGaps.some((entry) => [
+    "setupGainWeighted",
+    "incomeGainWeighted",
+    "nonIncomeGainWeighted",
+    "sameRoundReinvestmentWeighted",
+  ].includes(entry.metric)),
+  false,
+);
 
 const derivedAiMainActions = compareResourceFlowReports(reference, {
   result: { samples: [{ resourceFlow: {
