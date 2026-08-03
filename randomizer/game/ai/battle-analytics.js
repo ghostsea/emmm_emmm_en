@@ -3788,7 +3788,17 @@
 
   function recordTurnCandidateScores(candidateScoreStats, candidates = [], action = null) {
     const scoredAvailable = [];
-    let selectedEntry = null;
+    const selectedActionHasOwnScore = Boolean(action) && (
+      getCandidateActionGraphNet(action) != null
+      || getFiniteScore(action?.score) != null
+    );
+    let selectedEntry = selectedActionHasOwnScore
+      ? {
+        actionId: getCandidateId(action),
+        candidate: action,
+        score: getCandidatePolicyScore(action),
+      }
+      : null;
     for (const candidate of candidates || []) {
       const actionId = getCandidateId(candidate);
       const score = getCandidatePolicyScore(candidate);
@@ -3800,7 +3810,7 @@
         addScoreStatValue(stat, "availableScoreTotal", score);
         if (score != null) scoredAvailable.push({ actionId, candidate, score });
       }
-      if (candidateMatchesAction(candidate, action)) {
+      if (!selectedActionHasOwnScore && candidateMatchesAction(candidate, action)) {
         selectedEntry = { actionId, candidate, score };
       }
     }

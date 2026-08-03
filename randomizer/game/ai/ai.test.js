@@ -4259,6 +4259,27 @@ assert.equal(actionGraphAlignedAnalysis.opportunities.selectedBelowBestScore, 0)
 assert.equal(actionGraphAlignedAnalysis.candidateScoreStats.launch.selected, 1);
 assert.equal(actionGraphAlignedAnalysis.candidateScoreStats.playCard.missedAsBest, 0);
 
+const compactDuplicateActionAnalysis = analytics.analyzeBattleReport({
+  lastSummary: { ok: true, blocked: false, gameEnded: true, steps: 1 },
+  logs: [{
+    type: "turn-action",
+    playerId: "player-blue",
+    details: {
+      action: { id: "move", score: 16.966 },
+      candidates: [
+        { id: "playCard", available: true, score: 11.999 },
+        { id: "move", available: true, score: 16.966 },
+        { id: "move", available: true, score: 4.615 },
+      ],
+    },
+  }],
+  bugs: [],
+  playerResults: [{ playerId: "player-blue", playerLabel: "蓝色", finalScore: 227 }],
+});
+assert.equal(compactDuplicateActionAnalysis.opportunities.selectedBelowBestScore, 1);
+assert.equal(compactDuplicateActionAnalysis.scoreOpportunities.totalGap, 0.033);
+assert.equal(compactDuplicateActionAnalysis.candidateScoreStats.move.averageSelectedScore, 16.966);
+
 const quickTradeIdentityAnalysis = analytics.analyzeBattleReport({
   lastSummary: { ok: true, blocked: false, gameEnded: true, steps: 1 },
   logs: [{
