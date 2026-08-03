@@ -112,6 +112,7 @@
       finishIndustryAbilityFlow,
       formatRocketLabel,
       getActivePlayers,
+      getActionLogEntries,
       getAlienTraceActionPlayer,
       getCardPlayCost,
       getCardPrice,
@@ -244,6 +245,7 @@
       strategyTuningHistory: [],
       strategyTuningHistoryLoaded: false,
       nextStrategyTuningHistoryId: 1,
+      resourceFlowInitialPlayerStates: null,
     };
     let aiAutoStepScheduled = false;
     let aiAutoStepInProgress = false;
@@ -518,6 +520,21 @@
         };
       }
       return compactAiAutoBattleLogValue(details || {});
+    }
+
+    function captureAiResourceFlowInitialPlayerStates() {
+      return Object.fromEntries(getActivePlayers().map((player) => [player.id, {
+        id: player.id,
+        color: player.color || null,
+        playerLabel: player.colorLabel || player.name || player.color || player.id,
+        resources: { ...(player.resources || {}) },
+        income: { ...(player.income || {}) },
+        hand: (player.hand || []).map((card) => ({
+          id: card?.id || card?.cardInstanceId || card?.cardId || null,
+          label: card?.label || card?.cardName || card?.name || null,
+        })),
+        initialSelection: player.initialSelection || null,
+      }]));
     }
 
     function summarizeAiAutoBattleLogCard(card = {}) {
@@ -1115,6 +1132,16 @@
         report.lowMarkPlayerDiagnostics = lowMarkPlayerDiagnosticsList[0] || null;
         report.lowMarkPlayerDiagnosticsList = lowMarkPlayerDiagnosticsList;
       }
+      if (ai?.resourceFlow?.analyzeStructuredActionLog && typeof getActionLogEntries === "function") {
+        report.resourceFlow = ai.resourceFlow.analyzeStructuredActionLog(
+          getActionLogEntries({ includeRecovery: true }),
+          {
+            gameId: report.lastSummary?.seed || "ai-game",
+            initialPlayerStates: aiAutoBattleState.resourceFlowInitialPlayerStates,
+            playerResults: report.playerResults,
+          },
+        );
+      }
       return report;
     }
 
@@ -1535,6 +1562,7 @@
       state.effectStepActive = false;
       if (typeof resetScanRunSequence === "function") resetScanRunSequence();
       resetActionLog();
+      aiAutoBattleState.resourceFlowInitialPlayerStates = captureAiResourceFlowInitialPlayerStates();
       initializeCardGame(DEFAULT_INITIAL_HAND_COUNT);
       randomizeAll();
       startInitialSelection();
@@ -24981,6 +25009,7 @@
         seed: report?.lastSummary?.seed || null,
         bugCount: Array.isArray(report?.bugs) ? report.bugs.length : 0,
         playerResults: report?.playerResults || [],
+        resourceFlow: report?.resourceFlow || null,
         pendingState: report?.pendingState || null,
         lowMarkPlayerDiagnostics: lowMarkPlayerDiagnosticsList[0] || null,
         lowMarkPlayerDiagnosticsList,
@@ -25115,6 +25144,14 @@
       const summary = retainAnalysis && ai?.analytics?.summarizeBattleAnalyses
         ? ai.analytics.summarizeBattleAnalyses(analyses, { sequenceWindowTurns: options.sequenceWindowTurns })
         : null;
+      const resourceFlow = ai?.resourceFlow?.summarizeResourceFlowAnalyses
+        ? ai.resourceFlow.summarizeResourceFlowAnalyses(
+          samples.map((sample) => sample.resourceFlow).filter(Boolean),
+        )
+        : null;
+      if (summary && resourceFlow?.headline) {
+        summary.resourceFlowHeadline = resourceFlow.headline;
+      }
       const blockedGames = samples.filter((sample) => sample.summary?.blocked || sample.bugCount > 0).length;
       const incompleteGames = samples.filter((sample) => (
         (!sample.summary?.gameEnded && !sample.summary?.stoppedBeforeRound)
@@ -25143,6 +25180,7 @@
         summary,
         strategyTuningHistoryEntry,
         strategyTuningRecommendation,
+        resourceFlow,
         samples,
       });
     }

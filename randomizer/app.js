@@ -1160,6 +1160,7 @@
     finishIndustryAbilityFlow,
     formatRocketLabel,
     getActivePlayers,
+    getActionLogEntries: (options = {}) => getRecoverableActionLog(options),
     getAlienTraceActionPlayer,
     getCardPlayCost,
     getCardPrice,

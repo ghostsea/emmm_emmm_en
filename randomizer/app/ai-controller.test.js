@@ -431,6 +431,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       ...(options.aiValuation ? { valuation: options.aiValuation } : {}),
       ...(options.actionGraph ? { actionGraph: options.actionGraph } : {}),
       ...(options.aiPlanner ? { planner: options.aiPlanner } : {}),
+      ...(options.aiResourceFlow ? { resourceFlow: options.aiResourceFlow } : {}),
     },
     cardEffects: {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
@@ -574,6 +575,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       return null;
     },
     getInitialSelectionOffer: (playerId) => options.initialSelectionOffers?.[playerId] || null,
+    getActionLogEntries: options.getActionLogEntries || (() => []),
     getMovableTokensForPlayer: (playerId) => getHarnessRocketsForPlayer(playerId),
     getPendingPlayCardSelection: () => null,
     getPlanetSectorCoordinate: (planetId) => {
@@ -15660,6 +15662,31 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     2,
     "play-card direct score must follow the selected blue2 candidate instead of the maximum score-only blue1 option",
   );
+}
+
+{
+  const observed = [];
+  const harness = createAiControllerHarness(null, {
+    aiResourceFlow: {
+      analyzeStructuredActionLog: (entries, analysisOptions) => {
+        observed.push({ entries, analysisOptions });
+        return {
+          coverage: { weighted: 1 },
+          reconciliation: { residualMagnitude: 0 },
+          players: [],
+        };
+      },
+      summarizeResourceFlowAnalyses: (items) => ({
+        gameCount: items.length,
+        headline: { gameCount: items.length },
+      }),
+    },
+    getActionLogEntries: () => [{ id: 1, recoverySnapshot: { secret: true } }],
+  });
+  const report = harness.controller.getAiAutoBattleReport({ includeAnalysis: false });
+  assert.equal(observed.length, 1);
+  assert.equal(report.resourceFlow.coverage.weighted, 1);
+  assert.equal(JSON.stringify(report.resourceFlow).includes("secret"), false);
 }
 
 async function runAsyncControllerTests() {

@@ -529,6 +529,7 @@ function summarizeResult(result) {
       bugCount: Array.isArray(result.bugs) ? result.bugs.length : 0,
       actionCounts: result.analysis?.actionCounts || null,
       opportunities: result.analysis?.opportunities || null,
+      resourceFlow: result.resourceFlow?.headline || result.resourceFlow?.coverage || null,
       message: result.lastSummary.message || null,
     };
   }
@@ -574,6 +575,7 @@ function summarizeResult(result) {
     opportunities: result.summary?.opportunities || null,
     bugCounts: result.summary?.bugCounts || null,
     topScoreGaps: result.summary?.topScoreGaps || null,
+    resourceFlow: result.resourceFlow?.headline || result.resourceFlow?.coverage || null,
   };
 }
 

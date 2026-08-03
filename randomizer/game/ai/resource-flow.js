@@ -653,6 +653,7 @@
     ].filter(Boolean).join(" ");
     const lowerText = text.toLowerCase();
 
+    if (/第\d+轮开始/.test(text) && includesAny(text, INDUSTRY_LABELS)) return "industry";
     if (pace === "setup" || /初始选择|选择公司|初始效果/.test(text)) return "setup";
     if (pace === "pass" || /获得本轮收入|pass\s*收入|回合收入/i.test(text)) {
       return "pass_income";
@@ -684,6 +685,7 @@
     ) {
       return "card";
     }
+    if (context.actionType === "researchTech") return "tech_bonus_other";
     if (/放置数据|数据放置|投入数据|数据槽/.test(text)) return "data_placement";
     if (/分析数据|执行分析|分析行动/.test(text)) return "analysis";
     if (/交易|兑换|资源转换|资源转化/.test(text)) return "trade_conversion";
@@ -696,6 +698,707 @@
     }
     if (lowerText.includes("analysis")) return "analysis";
     return "unclassified";
+  }
+
+  const STRUCTURED_COLOR_LABELS = Object.freeze({
+    white: "白色",
+    brown: "棕色",
+    green: "绿色",
+    blue: "蓝色",
+  });
+
+  function normalizeStructuredPlayerState(player = {}) {
+    const hand = Array.isArray(player.hand) ? player.hand : [];
+    return {
+      playerId: player.id || null,
+      playerLabel: player.playerLabel
+        || player.label
+        || STRUCTURED_COLOR_LABELS[player.color]
+        || player.name
+        || player.id
+        || null,
+      resources: normalizeResourceMap({
+        ...(player.resources || {}),
+        handSize: hand.length,
+      }),
+      income: normalizeResourceMap(player.income || {}),
+      hand: hand.map((card, index) => ({
+        key: String(card?.id || card?.key || card?.label || `hand-${index + 1}`),
+        label: card?.label || card?.name || card?.id || card?.key || `手牌${index + 1}`,
+      })),
+      industryId: player.initialSelection?.industry?.label
+        || player.initialSelection?.industry?.id
+        || null,
+    };
+  }
+
+  function extractStructuredSnapshotStates(entry) {
+    const players = entry?.recoverySnapshot?.state?.playerState?.players;
+    if (!Array.isArray(players)) return null;
+    return new Map(players.map((player) => {
+      const normalized = normalizeStructuredPlayerState(player);
+      return [normalized.playerId, normalized];
+    }).filter(([playerId]) => playerId));
+  }
+
+  function normalizeInitialStructuredStates(initialPlayerStates) {
+    if (!initialPlayerStates || typeof initialPlayerStates !== "object") return null;
+    const rows = Array.isArray(initialPlayerStates)
+      ? initialPlayerStates
+      : Object.entries(initialPlayerStates).map(([playerId, player]) => ({
+        ...player,
+        id: player?.id || playerId,
+      }));
+    return new Map(rows.map((player) => {
+      const normalized = normalizeStructuredPlayerState(player);
+      return [normalized.playerId, normalized];
+    }).filter(([playerId]) => playerId));
+  }
+
+  function diffResourceMaps(after = {}, before = {}) {
+    const result = {};
+    for (const key of TRACKED_RESOURCE_KEYS) {
+      const delta = (Number(after?.[key]) || 0) - (Number(before?.[key]) || 0);
+      if (delta) result[key] = delta;
+    }
+    return result;
+  }
+
+  function addResourceMaps(...maps) {
+    const result = {};
+    for (const map of maps) {
+      for (const [key, value] of Object.entries(map || {})) {
+        const numericValue = Number(value) || 0;
+        if (!numericValue) continue;
+        result[key] = (Number(result[key]) || 0) + numericValue;
+        if (!result[key]) delete result[key];
+      }
+    }
+    return result;
+  }
+
+  function findStructuredPlayerId(entry, step, snapshotStates) {
+    const text = String(step?.text || "");
+    const candidates = [...(snapshotStates?.values?.() || [])];
+    for (const player of candidates) {
+      if (!player.playerLabel) continue;
+      const escapedLabel = player.playerLabel.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const explicitDelta = new RegExp(
+        `${escapedLabel}\\s+(?:分数|信用点|能量|宣传|数据|手牌)\\s*[+-]\\d`,
+      );
+      const explicitGain = new RegExp(`${escapedLabel}(?:获得|得到)\\s*\\d`);
+      const explicitOwner = new RegExp(`(?:^|[：；;,，])\\s*${escapedLabel}(?!奖励槽)`);
+      if (explicitDelta.test(text) || explicitGain.test(text) || explicitOwner.test(text)) {
+        return player.playerId;
+      }
+    }
+    return entry.playerId || null;
+  }
+
+  function findStructuredAlienId(text) {
+    return ALIEN_LABELS.find((alien) => String(text || "").includes(alien)) || null;
+  }
+
+  function extractStructuredStepCards(step, sourceCategory) {
+    const cards = [];
+    if (step?.playedCard) {
+      const played = step.playedCard;
+      cards.push({
+        key: String(played.id || played.key || played.label || "played-card"),
+        label: played.label || played.name || played.id || "打出的牌",
+        change: "play",
+        origin: "normal",
+      });
+    }
+    const text = String(step?.text || "");
+    const income = text.match(/收入：弃掉\s+([^，；]+)/);
+    if (income) {
+      cards.push({ key: income[1], label: income[1], change: "income", origin: "normal" });
+    } else if (/弃牌换1移动/.test(text)) {
+      cards.push({
+        key: `move-payment:${step?.stepId || text}`,
+        label: "未知弃牌",
+        change: "move_payment",
+        origin: "normal",
+      });
+    } else if (/弃牌|弃掉|弃除手牌/.test(text)) {
+      const discarded = text.match(/(?:弃牌|弃掉|弃除手牌)\s*([^，；：]*)/);
+      const label = discarded?.[1]?.trim() || "未知弃牌";
+      cards.push({ key: label, label, change: "discard", origin: "normal" });
+    }
+    return cards.map((card) => ({
+      ...card,
+      origin: card.change === "play"
+        ? card.origin
+        : (sourceCategory === "alien" ? "alien" : card.origin),
+    }));
+  }
+
+  function getStructuredPlayerResult(options, playerId, playerLabel) {
+    return (options.playerResults || []).find((player) => (
+      player.playerId === playerId || player.id === playerId || player.playerLabel === playerLabel
+    )) || null;
+  }
+
+  function collectStructuredUnsignedRewards(text, target) {
+    const rewardPattern = /(?:获取奖励|获得|得到|奖励)\s*[:：]?\s*([^；;]+)/g;
+    const tokenPattern = /(\d+(?:\.\d+)?)\s*(分数|分|信用点|能量|宣传|数据|手牌)/g;
+    const signedDeltas = { ...target };
+    let rewardMatch;
+    while ((rewardMatch = rewardPattern.exec(String(text || "")))) {
+      const body = rewardMatch[1];
+      tokenPattern.lastIndex = 0;
+      let tokenMatch;
+      while ((tokenMatch = tokenPattern.exec(body))) {
+        const preceding = body[tokenMatch.index - 1] || "";
+        if (preceding === "+" || preceding === "-") continue;
+        const label = tokenMatch[2] === "分" ? "分数" : tokenMatch[2];
+        const key = RESOURCE_LABEL_TO_KEY[label];
+        if (Number(signedDeltas[key]) === Number(tokenMatch[1])) continue;
+        addParsedDelta(target, label, tokenMatch[1]);
+      }
+    }
+  }
+
+  function parseStructuredCostDeltas(text) {
+    const result = {};
+    const costPattern = /(?:消耗|支付|花费|成本)\s*[:：]?\s*([^；;]+)/g;
+    const tokenPattern = /([+-]?\d+(?:\.\d+)?)\s*(信用点|能量|宣传|数据|手牌)/g;
+    let costMatch;
+    while ((costMatch = costPattern.exec(String(text || "")))) {
+      tokenPattern.lastIndex = 0;
+      let tokenMatch;
+      while ((tokenMatch = tokenPattern.exec(costMatch[1]))) {
+        addParsedDelta(result, tokenMatch[2], -Math.abs(Number(tokenMatch[1])));
+      }
+    }
+    return result;
+  }
+
+  function collectStructuredSetupIncome(text, incomeDeltas, resourceDeltas) {
+    const englishIncome = /初始收入水平\s+([^；;]+)/g;
+    const englishKeyMap = { credits: "credits", energy: "energy", handSize: "handSize" };
+    let englishMatch;
+    while ((englishMatch = englishIncome.exec(text))) {
+      const tokenPattern = /(credits|energy|handSize)\s*\+(\d+(?:\.\d+)?)/g;
+      let tokenMatch;
+      while ((tokenMatch = tokenPattern.exec(englishMatch[1]))) {
+        addResourceValue(incomeDeltas, englishKeyMap[tokenMatch[1]], Number(tokenMatch[2]));
+      }
+    }
+
+    const chineseIncome = /收入\s*\+(\d+(?:\.\d+)?)\s*(信用点|能量|数据|盲抽|手牌)/g;
+    const chineseKeyMap = {
+      信用点: "credits",
+      能量: "energy",
+      数据: "availableData",
+      盲抽: "handSize",
+      手牌: "handSize",
+    };
+    let chineseMatch;
+    while ((chineseMatch = chineseIncome.exec(text))) {
+      const key = chineseKeyMap[chineseMatch[2]];
+      const value = Number(chineseMatch[1]);
+      addResourceValue(incomeDeltas, key, value);
+      if (Number(resourceDeltas[key])) {
+        addResourceValue(resourceDeltas, key, -value);
+        if (!resourceDeltas[key]) delete resourceDeltas[key];
+      }
+    }
+  }
+
+  function collapseStructuredDuplicateSignedDeltas(text, resourceDeltas) {
+    const occurrences = new Map();
+    const patterns = [
+      { regex: /(分数|信用点|能量|宣传|数据|手牌)\s*([+-]\d+(?:\.\d+)?)/g, label: 1, value: 2 },
+      { regex: /([+-]\d+(?:\.\d+)?)\s*(分数|信用点|能量|宣传|数据|手牌)/g, label: 2, value: 1 },
+    ];
+    for (const pattern of patterns) {
+      let match;
+      while ((match = pattern.regex.exec(text))) {
+        const key = RESOURCE_LABEL_TO_KEY[match[pattern.label]];
+        const value = Number(match[pattern.value]);
+        const occurrenceKey = `${key}:${value}`;
+        occurrences.set(occurrenceKey, (occurrences.get(occurrenceKey) || 0) + 1);
+      }
+    }
+    for (const [occurrenceKey, count] of occurrences) {
+      if (count < 2) continue;
+      const separator = occurrenceKey.lastIndexOf(":");
+      const key = occurrenceKey.slice(0, separator);
+      const value = Number(occurrenceKey.slice(separator + 1));
+      if (Number(resourceDeltas[key]) === value * count) resourceDeltas[key] = value;
+    }
+  }
+
+  function parseStructuredStepDeltas(step, sourceCategory) {
+    const text = String(step?.text || "");
+    const parsed = parseDeltaText(text);
+    if (!Number(parsed.resourceDeltas.score)) {
+      const signedShortScorePattern = /([+-]\d+(?:\.\d+)?)\s*分(?!数)/g;
+      let signedShortScoreMatch;
+      while ((signedShortScoreMatch = signedShortScorePattern.exec(text))) {
+        addParsedDelta(parsed.resourceDeltas, "分数", signedShortScoreMatch[1]);
+      }
+    }
+    collapseStructuredDuplicateSignedDeltas(text, parsed.resourceDeltas);
+    collectStructuredUnsignedRewards(text, parsed.resourceDeltas);
+    let resourceDeltas = sourceCategory === "cost"
+      ? parseStructuredCostDeltas(text)
+      : { ...parsed.resourceDeltas };
+    let incomeDeltas = sourceCategory === "pass_income" ? {} : { ...parsed.incomeDeltas };
+    if (sourceCategory === "pass_income" || sourceCategory === "income_upgrade_immediate") {
+      resourceDeltas = addResourceMaps(resourceDeltas, parsed.incomeDeltas);
+    }
+    if (sourceCategory === "income_upgrade_immediate" && /收入：弃掉/.test(text)) {
+      addResourceValue(resourceDeltas, "handSize", -1);
+    }
+    if (sourceCategory === "setup") {
+      collectStructuredSetupIncome(text, incomeDeltas, resourceDeltas);
+    }
+    const implicitDataGains = (text.match(/获得数据/g) || []).length;
+    const recordedDataGains = Math.max(0, Number(resourceDeltas.availableData) || 0);
+    if (implicitDataGains > recordedDataGains) {
+      addResourceValue(resourceDeltas, "availableData", implicitDataGains - recordedDataGains);
+    }
+    if (/^放置数据/.test(text)) {
+      addResourceValue(resourceDeltas, "availableData", -1);
+    }
+    const discardReward = text.match(/弃牌换\s*(\d+(?:\.\d+)?)\s*(信用点|能量|宣传|数据)/);
+    if (discardReward) {
+      addParsedDelta(resourceDeltas, discardReward[2], discardReward[1]);
+    }
+    return {
+      resourceDeltas,
+      incomeDeltas,
+    };
+  }
+
+  function buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options) {
+    const playerId = findStructuredPlayerId(entry, step, snapshotStates);
+    const snapshotPlayer = snapshotStates?.get(playerId) || null;
+    const playerLabel = snapshotPlayer?.playerLabel || entry.playerLabel || playerId;
+    const sourceCategory = classifySourceCategory({
+      pace: step?.source,
+      text: step?.text,
+      actionLabel: entry.actionLabel,
+      actionType: entry.actionType,
+    });
+    const parsed = parseStructuredStepDeltas(step, sourceCategory);
+    const playerResult = getStructuredPlayerResult(options, playerId, playerLabel);
+    const techMatch = String(step?.text || "").match(/选择科技：([a-z]+\d+)/i);
+    return {
+      gameId: options.gameId || "ai-game",
+      entryId: entry.id ?? entry.entryId ?? null,
+      stepIndex,
+      playerId,
+      playerLabel,
+      finalScore: Number(playerResult?.finalScore) || 0,
+      roundNumber: Number(entry.roundNumber) || 0,
+      turnNumber: Number(entry.turnNumber) || 0,
+      pace: step?.source || null,
+      sourceCategory,
+      sourceDetail: String(step?.text || ""),
+      resourceDeltas: parsed.resourceDeltas,
+      incomeDeltas: parsed.incomeDeltas,
+      cards: extractStructuredStepCards(step, sourceCategory),
+      techIds: techMatch ? [techMatch[1].toLowerCase()] : [],
+      alienId: findStructuredAlienId(step?.text),
+      industryId: snapshotPlayer?.industryId || null,
+      isDataPlacement: /^放置数据/.test(String(step?.text || "")),
+      confidence: 1,
+    };
+  }
+
+  function getStructuredHandAdditions(beforePlayer, afterPlayer) {
+    const beforeKeys = new Set((beforePlayer?.hand || []).map((card) => card.key));
+    return (afterPlayer?.hand || []).filter((card) => !beforeKeys.has(card.key));
+  }
+
+  function attachStructuredHandGains(events, beforeStates, afterStates, entry) {
+    if (!beforeStates || !afterStates) return;
+    const entryId = entry.id ?? entry.entryId ?? null;
+    for (const [playerId, afterPlayer] of afterStates) {
+      const additions = getStructuredHandAdditions(beforeStates.get(playerId), afterPlayer);
+      if (!additions.length) continue;
+      const playerEvents = events.filter((event) => (
+        event.entryId === entryId && event.playerId === playerId
+      ));
+      const targetEvent = [...playerEvents].reverse().find((event) => event.sourceCategory !== "cost")
+        || playerEvents[playerEvents.length - 1];
+      const anyEntryAlienEvent = events.find((event) => (
+        event.entryId === entryId && event.sourceCategory === "alien"
+      ));
+      const anyEntryIndustryEvent = events.find((event) => (
+        event.entryId === entryId && event.sourceCategory === "industry"
+      ));
+      const sourceCategory = targetEvent?.sourceCategory
+        || (anyEntryAlienEvent ? "alien" : (anyEntryIndustryEvent ? "industry" : "card"));
+      const eventForCards = targetEvent || {
+        gameId: events[0]?.gameId || "ai-game",
+        entryId,
+        stepIndex: Number.MAX_SAFE_INTEGER - 1,
+        playerId,
+        playerLabel: afterPlayer.playerLabel,
+        finalScore: 0,
+        roundNumber: Number(entry.roundNumber) || 0,
+        turnNumber: Number(entry.turnNumber) || 0,
+        pace: entry.actionType || null,
+        sourceCategory,
+        sourceDetail: "snapshot hand gain",
+        resourceDeltas: {},
+        incomeDeltas: {},
+        cards: [],
+        techIds: [],
+        alienId: anyEntryAlienEvent?.alienId || null,
+        industryId: afterPlayer.industryId,
+        confidence: 0.9,
+        syntheticHandGain: true,
+      };
+      if (!targetEvent) events.push(eventForCards);
+      const recordedHandGain = playerEvents.reduce(
+        (total, event) => total + Math.max(0, Number(event.resourceDeltas?.handSize) || 0),
+        0,
+      );
+      const unrecordedHandGain = Math.max(0, additions.length - recordedHandGain);
+      if (unrecordedHandGain > 0) {
+        addResourceValue(eventForCards.resourceDeltas, "handSize", unrecordedHandGain);
+      }
+      const existingKeys = new Set((eventForCards.cards || []).map((card) => card.key));
+      const origin = eventForCards.sourceCategory === "setup"
+        ? "setup"
+        : (eventForCards.sourceCategory === "alien"
+          ? "alien"
+          : (eventForCards.sourceCategory === "industry" ? "industry" : "normal"));
+      for (const card of additions) {
+        if (existingKeys.has(card.key)) continue;
+        eventForCards.cards.push({ ...card, change: "gain", origin });
+      }
+    }
+  }
+
+  function sumStructuredEntryEvents(events, entryId, playerId, field) {
+    return events
+      .filter((event) => event.entryId === entryId && event.playerId === playerId)
+      .reduce((total, event) => addResourceMaps(total, event[field]), {});
+  }
+
+  function isSetupStructuredEntry(entry) {
+    const steps = Array.isArray(entry?.steps) ? entry.steps : [];
+    return steps.length > 0 && steps.every((step) => step?.source === "setup");
+  }
+
+  function appendStructuredSetupResiduals(events, entry, beforeStates, afterStates, options) {
+    if (!beforeStates || !afterStates || !isSetupStructuredEntry(entry)) return;
+    const entryId = entry.id ?? entry.entryId ?? null;
+    for (const [playerId, afterPlayer] of afterStates) {
+      const beforePlayer = beforeStates.get(playerId);
+      if (!beforePlayer) continue;
+      const actualResources = {
+        handSize: (Number(afterPlayer.resources.handSize) || 0)
+          - (Number(beforePlayer.resources.handSize) || 0),
+      };
+      const actualIncome = {};
+      const parsedResources = sumStructuredEntryEvents(events, entryId, playerId, "resourceDeltas");
+      const parsedIncome = {};
+      const residualResources = addResourceMaps(actualResources, Object.fromEntries(
+        [["handSize", -(Number(parsedResources.handSize) || 0)]],
+      ));
+      const residualIncome = addResourceMaps(actualIncome, Object.fromEntries(
+        Object.entries(parsedIncome).map(([key, value]) => [key, -value]),
+      ));
+      if (!Object.keys(residualResources).length && !Object.keys(residualIncome).length) continue;
+      const playerResult = getStructuredPlayerResult(options, playerId, afterPlayer.playerLabel);
+      events.push({
+        gameId: options.gameId || "ai-game",
+        entryId,
+        stepIndex: Number.MAX_SAFE_INTEGER,
+        playerId,
+        playerLabel: afterPlayer.playerLabel,
+        finalScore: Number(playerResult?.finalScore) || 0,
+        roundNumber: Number(entry.roundNumber) || 0,
+        turnNumber: Number(entry.turnNumber) || 0,
+        pace: "setup",
+        sourceCategory: "setup",
+        sourceDetail: "setup snapshot residual",
+        resourceDeltas: residualResources,
+        incomeDeltas: residualIncome,
+        cards: getStructuredHandAdditions(beforePlayer, afterPlayer).map((card) => ({
+          ...card,
+          change: "gain",
+          origin: "setup",
+        })),
+        techIds: [],
+        alienId: null,
+        industryId: afterPlayer.industryId,
+        confidence: 1,
+        syntheticSetupResidual: true,
+      });
+    }
+  }
+
+  function appendStructuredResearchCostInference(events, entry, beforeStates, afterStates, options) {
+    if (!beforeStates || !afterStates || isSetupStructuredEntry(entry)) return;
+    const text = (entry.steps || []).map((step) => String(step?.text || "")).join(" ");
+    if (!/科技行动/.test(text) || !/选择科技：/.test(text)) return;
+    const entryId = entry.id ?? entry.entryId ?? null;
+    const playerId = entry.playerId || null;
+    const beforePlayer = beforeStates.get(playerId);
+    const afterPlayer = afterStates.get(playerId);
+    if (!beforePlayer || !afterPlayer) return;
+    const actualPublicity = (Number(afterPlayer.resources.publicity) || 0)
+      - (Number(beforePlayer.resources.publicity) || 0);
+    const eventPublicity = Number(
+      sumStructuredEntryEvents(events, entryId, playerId, "resourceDeltas").publicity,
+    ) || 0;
+    const missingCost = actualPublicity - eventPublicity;
+    if (missingCost >= 0) return;
+    const playerResult = getStructuredPlayerResult(options, playerId, afterPlayer.playerLabel);
+    events.push({
+      gameId: options.gameId || "ai-game",
+      entryId,
+      stepIndex: Number.MAX_SAFE_INTEGER - 2,
+      playerId,
+      playerLabel: afterPlayer.playerLabel,
+      finalScore: Number(playerResult?.finalScore) || 0,
+      roundNumber: Number(entry.roundNumber) || 0,
+      turnNumber: Number(entry.turnNumber) || 0,
+      pace: "main",
+      sourceCategory: "cost",
+      sourceDetail: "research tech snapshot cost",
+      resourceDeltas: { publicity: missingCost },
+      incomeDeltas: {},
+      cards: [],
+      techIds: [],
+      alienId: null,
+      industryId: afterPlayer.industryId,
+      confidence: 1,
+      syntheticResearchCost: true,
+    });
+  }
+
+  function chooseStructuredSnapshotInferenceSource(entryEvents, allEntryEvents, key, delta) {
+    if (delta < 0) {
+      if (key === "availableData" && entryEvents.some((event) => event.sourceCategory === "data_placement")) {
+        return "data_placement";
+      }
+      if (key === "handSize") return "card";
+      return "cost";
+    }
+    const candidates = entryEvents.length ? entryEvents : allEntryEvents;
+    const priority = [
+      "alien",
+      "settlement",
+      "industry",
+      "card",
+      "planet_board",
+      "data_placement",
+      "analysis",
+      "trade_conversion",
+    ];
+    return priority.find((source) => candidates.some((event) => event.sourceCategory === source))
+      || "unclassified";
+  }
+
+  function appendStructuredSnapshotInferences(events, entry, beforeStates, afterStates, options) {
+    if (!beforeStates || !afterStates || isSetupStructuredEntry(entry)) return 0;
+    const entryId = entry.id ?? entry.entryId ?? null;
+    const allEntryEvents = events.filter((event) => event.entryId === entryId);
+    let inferredMagnitude = 0;
+    for (const [playerId, afterPlayer] of afterStates) {
+      const beforePlayer = beforeStates.get(playerId);
+      if (!beforePlayer) continue;
+      const entryEvents = allEntryEvents.filter((event) => event.playerId === playerId);
+      const actualResources = diffResourceMaps(afterPlayer.resources, beforePlayer.resources);
+      const eventResources = sumStructuredEntryEvents(events, entryId, playerId, "resourceDeltas");
+      delete actualResources.score;
+      delete eventResources.score;
+      const residualResources = addResourceMaps(actualResources, Object.fromEntries(
+        Object.entries(eventResources).map(([key, value]) => [key, -value]),
+      ));
+      const actualIncome = diffResourceMaps(afterPlayer.income, beforePlayer.income);
+      const eventIncome = sumStructuredEntryEvents(events, entryId, playerId, "incomeDeltas");
+      const residualIncome = addResourceMaps(actualIncome, Object.fromEntries(
+        Object.entries(eventIncome).map(([key, value]) => [key, -value]),
+      ));
+      const groups = new Map();
+      const ensureGroup = (sourceCategory) => {
+        if (!groups.has(sourceCategory)) {
+          groups.set(sourceCategory, { resourceDeltas: {}, incomeDeltas: {} });
+        }
+        return groups.get(sourceCategory);
+      };
+      for (const [key, delta] of Object.entries(residualResources)) {
+        if (!delta) continue;
+        const sourceCategory = chooseStructuredSnapshotInferenceSource(
+          entryEvents,
+          allEntryEvents,
+          key,
+          delta,
+        );
+        ensureGroup(sourceCategory).resourceDeltas[key] = delta;
+        inferredMagnitude += Math.abs(delta);
+      }
+      for (const [key, delta] of Object.entries(residualIncome)) {
+        if (!delta) continue;
+        const sourceCategory = entryEvents.some((event) => (
+          event.sourceCategory === "income_upgrade_immediate"
+        )) ? "income_upgrade_immediate" : "unclassified";
+        ensureGroup(sourceCategory).incomeDeltas[key] = delta;
+        inferredMagnitude += Math.abs(delta);
+      }
+      const playerResult = getStructuredPlayerResult(options, playerId, afterPlayer.playerLabel);
+      let groupIndex = 0;
+      for (const [sourceCategory, deltas] of groups) {
+        events.push({
+          gameId: options.gameId || "ai-game",
+          entryId,
+          stepIndex: Number.MAX_SAFE_INTEGER - 10 + groupIndex,
+          playerId,
+          playerLabel: afterPlayer.playerLabel,
+          finalScore: Number(playerResult?.finalScore) || 0,
+          roundNumber: Number(entry.roundNumber) || 0,
+          turnNumber: Number(entry.turnNumber) || 0,
+          pace: entry.actionType || null,
+          sourceCategory,
+          sourceDetail: `snapshot inference: ${sourceCategory}`,
+          ...deltas,
+          cards: [],
+          techIds: [],
+          alienId: sourceCategory === "alien"
+            ? findStructuredAlienId((entry.steps || []).map((step) => step?.text).join(" "))
+            : null,
+          industryId: afterPlayer.industryId,
+          confidence: 0.8,
+          syntheticSnapshotInference: true,
+        });
+        groupIndex += 1;
+      }
+    }
+    return inferredMagnitude;
+  }
+
+  function normalizeEntriesAndSnapshots(entries = [], options = {}) {
+    const events = [];
+    let previousStates = normalizeInitialStructuredStates(options.initialPlayerStates);
+    let setupResidualAvailable = true;
+    let inferredMagnitude = 0;
+    for (const entry of entries || []) {
+      const snapshotStates = extractStructuredSnapshotStates(entry);
+      for (const [stepIndex, step] of (entry.steps || []).entries()) {
+        events.push(buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options));
+      }
+      if (setupResidualAvailable) {
+        appendStructuredSetupResiduals(events, entry, previousStates, snapshotStates, options);
+      }
+      appendStructuredResearchCostInference(events, entry, previousStates, snapshotStates, options);
+      attachStructuredHandGains(events, previousStates, snapshotStates, entry);
+      inferredMagnitude += appendStructuredSnapshotInferences(
+        events,
+        entry,
+        previousStates,
+        snapshotStates,
+        options,
+      );
+      if (snapshotStates) {
+        previousStates = snapshotStates;
+        setupResidualAvailable = false;
+      }
+    }
+    return { events, finalStates: previousStates, inferredMagnitude };
+  }
+
+  function normalizeStructuredActionLog(entries = [], options = {}) {
+    return normalizeEntriesAndSnapshots(entries, options).events;
+  }
+
+  function getResidualMagnitude(resourceDeltas, incomeDeltas) {
+    return [resourceDeltas, incomeDeltas].reduce((total, deltas) => (
+      total + Object.values(deltas || {}).reduce(
+        (subtotal, value) => subtotal + Math.abs(Number(value) || 0),
+        0,
+      )
+    ), 0);
+  }
+
+  function reconcileStructuredEvents(entries = [], events = [], options = {}) {
+    const residuals = [];
+    const baselineMissing = [];
+    let previousStates = normalizeInitialStructuredStates(options.initialPlayerStates);
+    for (const entry of entries || []) {
+      const currentStates = extractStructuredSnapshotStates(entry);
+      if (!currentStates) continue;
+      const entryId = entry.id ?? entry.entryId ?? null;
+      if (isSetupStructuredEntry(entry)) {
+        previousStates = currentStates;
+        continue;
+      }
+      for (const [playerId, currentPlayer] of currentStates) {
+        const previousPlayer = previousStates?.get(playerId);
+        if (!previousPlayer) {
+          baselineMissing.push({ entryId, playerId });
+          continue;
+        }
+        const actualResources = diffResourceMaps(currentPlayer.resources, previousPlayer.resources);
+        const actualIncome = diffResourceMaps(currentPlayer.income, previousPlayer.income);
+        const eventResources = sumStructuredEntryEvents(events, entryId, playerId, "resourceDeltas");
+        const eventIncome = sumStructuredEntryEvents(events, entryId, playerId, "incomeDeltas");
+        delete actualResources.score;
+        delete eventResources.score;
+        const residualResources = addResourceMaps(actualResources, Object.fromEntries(
+          Object.entries(eventResources).map(([key, value]) => [key, -value]),
+        ));
+        const residualIncome = addResourceMaps(actualIncome, Object.fromEntries(
+          Object.entries(eventIncome).map(([key, value]) => [key, -value]),
+        ));
+        const magnitude = getResidualMagnitude(residualResources, residualIncome);
+        if (magnitude > 0) {
+          residuals.push({
+            entryId,
+            playerId,
+            playerLabel: currentPlayer.playerLabel,
+            resourceDeltas: residualResources,
+            incomeDeltas: residualIncome,
+            magnitude,
+          });
+        }
+      }
+      previousStates = currentStates;
+    }
+    return {
+      residualMagnitude: residuals.reduce((total, residual) => total + residual.magnitude, 0),
+      residuals,
+      baselineMissing,
+      baselineMissingCount: baselineMissing.length,
+    };
+  }
+
+  function buildStructuredEndingInventories(finalStates, gameId) {
+    if (!finalStates) return undefined;
+    return Object.fromEntries([...finalStates].map(([playerId, player]) => [
+      `${gameId}:${playerId}`,
+      player.resources,
+    ]));
+  }
+
+  function analyzeStructuredActionLog(entries = [], options = {}) {
+    const normalized = normalizeEntriesAndSnapshots(entries, options);
+    const gameId = options.gameId || "ai-game";
+    const events = normalized.events;
+    const reconciliation = reconcileStructuredEvents(entries, events, options);
+    reconciliation.inferredMagnitude = normalized.inferredMagnitude;
+    reconciliation.inferredEventCount = events.filter(
+      (event) => event.syntheticSnapshotInference || event.syntheticResearchCost,
+    ).length;
+    return {
+      ...summarizeResourceEvents(events, {
+        ...options,
+        endingInventories: options.endingInventories
+          || buildStructuredEndingInventories(normalized.finalStates, gameId),
+      }),
+      events,
+      reconciliation,
+    };
   }
 
   function summarizeResourceFlowAnalyses(analyses = []) {
@@ -735,5 +1438,8 @@
     classifySourceCategory,
     summarizeResourceEvents,
     summarizeResourceFlowAnalyses,
+    normalizeStructuredActionLog,
+    reconcileStructuredEvents,
+    analyzeStructuredActionLog,
   });
 });
