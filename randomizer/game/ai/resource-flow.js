@@ -1381,6 +1381,22 @@
     ]));
   }
 
+  function buildStructuredProductiveMainActionCounts(entries = []) {
+    const counts = {};
+    for (const entry of entries || []) {
+      const actionType = String(entry?.actionType || "").toLowerCase();
+      const steps = Array.isArray(entry?.steps) ? entry.steps : [];
+      const isPass = entry?.passed === true
+        || actionType === "pass"
+        || steps.some((step) => /(?:^|\s)PASS(?:\s|$)/i.test(String(step?.text || "")));
+      const isSetup = steps.length > 0 && steps.every((step) => step?.source === "setup");
+      const hasMainStep = steps.some((step) => step?.source === "main");
+      if (!entry?.playerId || isPass || isSetup || actionType === "quick" || !hasMainStep) continue;
+      counts[entry.playerId] = (Number(counts[entry.playerId]) || 0) + 1;
+    }
+    return counts;
+  }
+
   function analyzeStructuredActionLog(entries = [], options = {}) {
     const normalized = normalizeEntriesAndSnapshots(entries, options);
     const gameId = options.gameId || "ai-game";
@@ -1393,6 +1409,8 @@
     return {
       ...summarizeResourceEvents(events, {
         ...options,
+        productiveMainActionCounts: options.productiveMainActionCounts
+          || buildStructuredProductiveMainActionCounts(entries),
         endingInventories: options.endingInventories
           || buildStructuredEndingInventories(normalized.finalStates, gameId),
       }),

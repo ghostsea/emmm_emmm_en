@@ -1,0 +1,482 @@
+"use strict";
+
+const fs = require("fs");
+const path = require("path");
+
+const RESOURCE_VALUES = Object.freeze({
+  credits: 3,
+  energy: 3,
+  publicity: 1,
+  availableData: 1.5,
+  handSize: 3,
+});
+
+const DIRECT_METRICS = Object.freeze([
+  "setupGainWeighted",
+  "incomeGainWeighted",
+  "nonIncomeGainWeighted",
+  "weightedActionCost",
+  "mainActionsPerWeightedCost",
+  "dataTurnoverCount",
+  "fullDataCycleCount",
+  "drawToPlayRate",
+  "incomeCardConversionRate",
+  "alienCardToPlayRate",
+  "blue1CreditGain",
+  "blue2EnergyGain",
+]);
+
+const ACTIONABLE_METRICS = new Set([
+  "mainActionsPerWeightedCost",
+  "dataTurnoverCount",
+  "fullDataCycleCount",
+  "drawToPlayRate",
+  "incomeCardConversionRate",
+  "alienCardToPlayRate",
+  "utilizationCredits",
+  "utilizationEnergy",
+  "utilizationPublicity",
+  "utilizationAvailableData",
+  "utilizationHandSize",
+  "sameRoundReinvestmentWeighted",
+]);
+
+const METRIC_LABELS = Object.freeze({
+  averageFinalScore: "平均分",
+  setupGainWeighted: "开局资源价值",
+  incomeGainWeighted: "收入资源价值",
+  nonIncomeGainWeighted: "非收入资源价值",
+  weightedActionCost: "行动资源消耗价值",
+  mainActionsPerWeightedCost: "单位资源主行动数",
+  dataTurnoverCount: "数据回填次数",
+  fullDataCycleCount: "完整数据循环",
+  drawToPlayRate: "新牌打出率",
+  incomeCardConversionRate: "收益牌转化率",
+  alienCardToPlayRate: "外星人牌打出率",
+  blue1CreditGain: "蓝1信用点",
+  blue2EnergyGain: "蓝2能量",
+  utilizationCredits: "信用点利用率",
+  utilizationEnergy: "能量利用率",
+  utilizationPublicity: "宣传利用率",
+  utilizationAvailableData: "数据利用率",
+  utilizationHandSize: "手牌利用率",
+  sameRoundReinvestmentWeighted: "同轮再投入价值",
+});
+
+function average(values) {
+  const numeric = values.map(Number).filter(Number.isFinite);
+  return numeric.length
+    ? numeric.reduce((total, value) => total + value, 0) / numeric.length
+    : null;
+}
+
+function round(value, digits = 6) {
+  if (!Number.isFinite(Number(value))) return null;
+  const scale = 10 ** digits;
+  return Math.round(Number(value) * scale) / scale;
+}
+
+function weightedResources(resources = {}) {
+  return Object.entries(RESOURCE_VALUES).reduce(
+    (total, [key, weight]) => total + (Number(resources?.[key]) || 0) * weight,
+    0,
+  );
+}
+
+function getPlayerMetric(player, metric) {
+  if (metric.startsWith("utilization")) {
+    const suffix = metric.slice("utilization".length);
+    const resourceKey = suffix.charAt(0).toLowerCase() + suffix.slice(1);
+    return player.utilizationRate?.[resourceKey];
+  }
+  if (metric === "sameRoundReinvestmentWeighted") {
+    return weightedResources(player.sameRoundReinvestment);
+  }
+  return player?.[metric];
+}
+
+function summarizePlayers(players = []) {
+  const rows = (players || []).filter(Boolean);
+  const result = {
+    playerCount: rows.length,
+    averageFinalScore: round(average(rows.map((player) => player.finalScore))),
+  };
+  const metrics = [
+    ...DIRECT_METRICS,
+    "utilizationCredits",
+    "utilizationEnergy",
+    "utilizationPublicity",
+    "utilizationAvailableData",
+    "utilizationHandSize",
+    "sameRoundReinvestmentWeighted",
+  ];
+  for (const metric of metrics) {
+    result[metric] = round(average(rows.map((player) => getPlayerMetric(player, metric))));
+  }
+  return result;
+}
+
+function getQuartilePlayers(players = [], side) {
+  const sorted = [...players].filter(Boolean).sort((left, right) => (
+    (Number(left.finalScore) || 0) - (Number(right.finalScore) || 0)
+    || String(left.playerId || "").localeCompare(String(right.playerId || ""), "zh-CN")
+  ));
+  if (!sorted.length) return [];
+  const count = Math.max(1, Math.ceil(sorted.length * 0.25));
+  return side === "top" ? sorted.slice(-count) : sorted.slice(0, count);
+}
+
+function groupPlayers(players = [], valuesForPlayer) {
+  const groups = new Map();
+  for (const player of players) {
+    for (const value of valuesForPlayer(player)) {
+      if (!value) continue;
+      if (!groups.has(value)) groups.set(value, []);
+      groups.get(value).push(player);
+    }
+  }
+  return Object.fromEntries([...groups].map(([key, rows]) => [key, summarizePlayers(rows)]));
+}
+
+function summarizeRoundGroups(flows = [], playerCount = 0) {
+  const byRound = new Map();
+  for (const flow of flows) {
+    for (const [roundId, row] of Object.entries(flow?.groups?.byRound || {})) {
+      if (!byRound.has(roundId)) byRound.set(roundId, []);
+      byRound.get(roundId).push(row);
+    }
+  }
+  const denominator = Math.max(1, Number(playerCount) || 0);
+  return Object.fromEntries([...byRound].map(([roundId, rows]) => {
+    const totals = {};
+    for (const row of rows) {
+      for (const [key, value] of Object.entries(row || {})) {
+        if (!Number.isFinite(Number(value))) continue;
+        totals[key] = (Number(totals[key]) || 0) + Number(value);
+      }
+    }
+    return [roundId, Object.fromEntries(Object.entries(totals).map(([key, value]) => [
+      key,
+      round(value / denominator),
+    ]))];
+  }));
+}
+
+function extractReference(reference) {
+  const summary = reference?.summary || reference || {};
+  return {
+    players: summary.players || [],
+    flows: [{ groups: summary.groups || {} }],
+    coverage: summary.coverage || null,
+    duplicateFileCount: Number(reference?.duplicateFiles?.length ?? reference?.duplicateFileCount) || 0,
+  };
+}
+
+function enrichAiFlowPlayers(flow = {}) {
+  const entriesByPlayer = new Map();
+  for (const event of flow.events || []) {
+    if (!event?.playerId || event.pace !== "main") continue;
+    const key = `${event.playerId}:${event.entryId}`;
+    if (!entriesByPlayer.has(key)) entriesByPlayer.set(key, []);
+    entriesByPlayer.get(key).push(event);
+  }
+  const mainActionCounts = {};
+  for (const events of entriesByPlayer.values()) {
+    if (events.some((event) => event.sourceCategory === "pass_income")) continue;
+    if (events.every((event) => event.sourceCategory === "setup")) continue;
+    const playerId = events[0].playerId;
+    mainActionCounts[playerId] = (Number(mainActionCounts[playerId]) || 0) + 1;
+  }
+  return (flow.players || []).map((player) => {
+    const weightedCost = Number(player.weightedActionCost) || 0;
+    const derived = weightedCost > 0
+      ? (Number(mainActionCounts[player.playerId]) || 0) / weightedCost
+      : 0;
+    return {
+      ...player,
+      mainActionsPerWeightedCost: Number(player.mainActionsPerWeightedCost) > 0
+        ? player.mainActionsPerWeightedCost
+        : derived,
+    };
+  });
+}
+
+function extractAi(ai) {
+  const result = ai?.result || ai || {};
+  let flows = [];
+  if (Array.isArray(result.samples)) {
+    flows = result.samples.map((sample) => sample?.resourceFlow).filter(Boolean);
+  } else if (result.resourceFlow) {
+    flows = [result.resourceFlow];
+  } else if (ai?.resourceFlow) {
+    flows = [ai.resourceFlow];
+  }
+  return {
+    players: flows.flatMap(enrichAiFlowPlayers),
+    flows,
+    coverage: result.resourceFlow?.coverage || result.resourceFlow?.headline || null,
+    gamesRun: Number(result.gamesRun) || flows.length,
+    maxReconciliationResidual: Math.max(
+      0,
+      ...flows.map((flow) => Number(flow?.reconciliation?.residualMagnitude) || 0),
+    ),
+    inferredMagnitude: flows.reduce(
+      (total, flow) => total + (Number(flow?.reconciliation?.inferredMagnitude) || 0),
+      0,
+    ),
+  };
+}
+
+function buildSideSummary(extracted) {
+  const players = extracted.players || [];
+  return {
+    playerCount: players.length,
+    allPlayers: summarizePlayers(players),
+    topQuartile: summarizePlayers(getQuartilePlayers(players, "top")),
+    bottomQuartile: summarizePlayers(getQuartilePlayers(players, "bottom")),
+    byIndustry: groupPlayers(players, (player) => [player.industryId]),
+    byAlien: groupPlayers(players, (player) => player.alienIds || []),
+    byRound: summarizeRoundGroups(extracted.flows, players.length),
+    coverage: extracted.coverage,
+    ...(extracted.duplicateFileCount != null
+      ? { duplicateFileCount: extracted.duplicateFileCount }
+      : {}),
+    ...(extracted.gamesRun != null ? { gamesRun: extracted.gamesRun } : {}),
+    ...(extracted.maxReconciliationResidual != null
+      ? { maxReconciliationResidual: extracted.maxReconciliationResidual }
+      : {}),
+    ...(extracted.inferredMagnitude != null
+      ? { inferredMagnitude: extracted.inferredMagnitude }
+      : {}),
+  };
+}
+
+function subtractMetricRows(referenceRow = {}, aiRow = {}) {
+  const result = {};
+  for (const key of new Set([...Object.keys(referenceRow), ...Object.keys(aiRow)])) {
+    if (key === "playerCount") continue;
+    const referenceValue = Number(referenceRow[key]);
+    const aiValue = Number(aiRow[key]);
+    result[key] = Number.isFinite(referenceValue) && Number.isFinite(aiValue)
+      ? round(referenceValue - aiValue)
+      : null;
+  }
+  return result;
+}
+
+function compareSharedGroups(referenceGroups = {}, aiGroups = {}) {
+  const shared = Object.keys(referenceGroups).filter((key) => aiGroups[key]);
+  return Object.fromEntries(shared.map((key) => [
+    key,
+    subtractMetricRows(referenceGroups[key], aiGroups[key]),
+  ]));
+}
+
+function buildDeltas(reference, ai) {
+  return {
+    allPlayers: subtractMetricRows(reference.allPlayers, ai.allPlayers),
+    topQuartile: subtractMetricRows(reference.topQuartile, ai.topQuartile),
+    bottomQuartile: subtractMetricRows(reference.bottomQuartile, ai.bottomQuartile),
+    byIndustry: compareSharedGroups(reference.byIndustry, ai.byIndustry),
+    byAlien: compareSharedGroups(reference.byAlien, ai.byAlien),
+    byRound: compareSharedGroups(reference.byRound, ai.byRound),
+  };
+}
+
+function buildLargestGaps(deltas) {
+  const gaps = [];
+  for (const group of ["allPlayers", "topQuartile", "bottomQuartile"]) {
+    for (const [metric, delta] of Object.entries(deltas[group] || {})) {
+      if (!ACTIONABLE_METRICS.has(metric) || !Number.isFinite(Number(delta))) continue;
+      gaps.push({
+        group,
+        metric,
+        label: METRIC_LABELS[metric] || metric,
+        delta,
+        absoluteDelta: Math.abs(delta),
+        direction: delta > 0 ? "human_higher" : delta < 0 ? "ai_higher" : "equal",
+      });
+    }
+  }
+  return gaps.sort((left, right) => (
+    right.absoluteDelta - left.absoluteDelta
+    || left.group.localeCompare(right.group)
+    || left.metric.localeCompare(right.metric)
+  ));
+}
+
+function buildEvidence(reference, ai, deltas) {
+  const evidence = [];
+  if (
+    Number(ai.topQuartile.nonIncomeGainWeighted) > Number(reference.topQuartile.nonIncomeGainWeighted)
+    && Number(ai.topQuartile.fullDataCycleCount) < Number(reference.topQuartile.fullDataCycleCount)
+  ) {
+    evidence.push("电脑收入外资源更多但完整数据循环更少，优先检查资源到分析/回填行动的转化，而不是提高资源静态价值。");
+  }
+  if (
+    Number(ai.allPlayers.setupGainWeighted) > Number(reference.allPlayers.setupGainWeighted)
+    && Number(ai.allPlayers.mainActionsPerWeightedCost) < Number(reference.allPlayers.mainActionsPerWeightedCost)
+  ) {
+    evidence.push("电脑开局资源更多但单位资源形成的主行动更少，应检查行动链和资源保留，而不是继续补开局资源。");
+  }
+  if (Number(deltas.topQuartile.drawToPlayRate) > 0) {
+    evidence.push("真人高分组的新牌打出率更高，优先检查外星人补牌、精选和盲抽后的同轮打出机会。");
+  }
+  if (Number(deltas.topQuartile.incomeCardConversionRate) > 0) {
+    evidence.push("真人高分组更常把新牌转成收益牌，需检查手牌价值与收入升级的时序。");
+  }
+  return evidence;
+}
+
+function compareResourceFlowReports(referenceInput, aiInput) {
+  const referenceExtracted = extractReference(referenceInput);
+  const aiExtracted = extractAi(aiInput);
+  const reference = buildSideSummary(referenceExtracted);
+  const ai = buildSideSummary(aiExtracted);
+  const deltas = buildDeltas(reference, ai);
+  return {
+    generatedAt: new Date().toISOString(),
+    deltaDirection: "human_minus_ai",
+    reference,
+    ai,
+    deltas,
+    largestGaps: buildLargestGaps(deltas),
+    evidence: buildEvidence(reference, ai, deltas),
+  };
+}
+
+function formatMetric(value) {
+  return Number.isFinite(Number(value)) ? String(round(value, 4)) : "-";
+}
+
+function renderMetricTable(reference, ai, deltas) {
+  const metrics = ["averageFinalScore", ...DIRECT_METRICS, "sameRoundReinvestmentWeighted"];
+  return [
+    "| 指标 | 真人 | 电脑 | 真人-电脑 |",
+    "| --- | ---: | ---: | ---: |",
+    ...metrics.map((metric) => (
+      `| ${METRIC_LABELS[metric] || metric} | ${formatMetric(reference[metric])} | ${formatMetric(ai[metric])} | ${formatMetric(deltas[metric])} |`
+    )),
+  ].join("\n");
+}
+
+function renderGroupList(title, referenceGroups, aiGroups) {
+  const referenceKeys = Object.keys(referenceGroups || {});
+  const aiKeys = Object.keys(aiGroups || {});
+  return [
+    `### ${title}`,
+    "",
+    `- 真人：${referenceKeys.length ? referenceKeys.join("、") : "无"}`,
+    `- 电脑：${aiKeys.length ? aiKeys.join("、") : "无"}`,
+  ].join("\n");
+}
+
+function renderMarkdown(comparison) {
+  const sections = [
+    "## 真人与电脑资源转化差距",
+    "",
+    `差值方向固定为真人减电脑。真人样本 ${comparison.reference.playerCount} 人，电脑样本 ${comparison.ai.playerCount} 人。`,
+    "",
+    "### 全体玩家",
+    "",
+    renderMetricTable(
+      comparison.reference.allPlayers,
+      comparison.ai.allPlayers,
+      comparison.deltas.allPlayers,
+    ),
+    "",
+    "### 高分四分位",
+    "",
+    renderMetricTable(
+      comparison.reference.topQuartile,
+      comparison.ai.topQuartile,
+      comparison.deltas.topQuartile,
+    ),
+    "",
+    "### 低分四分位",
+    "",
+    renderMetricTable(
+      comparison.reference.bottomQuartile,
+      comparison.ai.bottomQuartile,
+      comparison.deltas.bottomQuartile,
+    ),
+    "",
+    renderGroupList("公司", comparison.reference.byIndustry, comparison.ai.byIndustry),
+    "",
+    renderGroupList("外星人", comparison.reference.byAlien, comparison.ai.byAlien),
+    "",
+    "### 证据结论",
+    "",
+    ...(comparison.evidence.length
+      ? comparison.evidence.map((item) => `- ${item}`)
+      : ["- 当前样本未形成明确的资源转化方向，需扩大固定种子样本。"]),
+    "",
+    "### 优先检查的转化差距",
+    "",
+    ...comparison.largestGaps.slice(0, 10).map((gap) => (
+      `- ${gap.group} / ${gap.label}：${formatMetric(gap.delta)}（真人-电脑）`
+    )),
+  ];
+  return `${sections.join("\n")}\n`;
+}
+
+function parseArgs(argv) {
+  const options = {};
+  for (let index = 0; index < argv.length; index += 1) {
+    const arg = argv[index];
+    if (!arg.startsWith("--")) continue;
+    const [key, inlineValue] = arg.slice(2).split("=");
+    const value = inlineValue == null ? argv[++index] : inlineValue;
+    if (!["reference", "ai", "out", "markdown"].includes(key)) {
+      throw new Error(`Unknown option --${key}`);
+    }
+    options[key] = value;
+  }
+  return options;
+}
+
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(path.resolve(filePath), "utf8"));
+}
+
+function writeFile(filePath, content) {
+  if (!filePath) return;
+  const resolved = path.resolve(filePath);
+  fs.mkdirSync(path.dirname(resolved), { recursive: true });
+  fs.writeFileSync(resolved, content);
+}
+
+function main(argv = process.argv.slice(2)) {
+  const options = parseArgs(argv);
+  if (!options.reference || !options.ai) {
+    throw new Error("--reference and --ai are required");
+  }
+  const comparison = compareResourceFlowReports(
+    readJson(options.reference),
+    readJson(options.ai),
+  );
+  writeFile(options.out, `${JSON.stringify(comparison, null, 2)}\n`);
+  writeFile(options.markdown, renderMarkdown(comparison));
+  process.stdout.write(`${JSON.stringify({
+    referencePlayers: comparison.reference.playerCount,
+    aiPlayers: comparison.ai.playerCount,
+    largestGap: comparison.largestGaps[0] || null,
+    evidence: comparison.evidence,
+  }, null, 2)}\n`);
+  return comparison;
+}
+
+module.exports = {
+  compareResourceFlowReports,
+  renderMarkdown,
+  summarizePlayers,
+};
+
+if (require.main === module) {
+  try {
+    main();
+  } catch (error) {
+    console.error(error?.stack || error?.message || String(error));
+    process.exitCode = 1;
+  }
+}

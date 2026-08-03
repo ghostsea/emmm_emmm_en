@@ -204,6 +204,7 @@ const structured = flow.analyzeStructuredActionLog(structuredEntries, {
 assert.equal(structured.reconciliation.residualMagnitude, 0);
 assert.equal(structured.players[0].blue1CreditGain, 1);
 assert.equal(structured.players[0].cardUse.played, 1);
+assert.equal(structured.players[0].mainActionsPerWeightedCost, 1 / 6);
 assert.equal(JSON.stringify(structured).includes("recoverySnapshot"), false);
 
 const brokenStructuredEvents = structured.events.map((event) => ({ ...event }));
