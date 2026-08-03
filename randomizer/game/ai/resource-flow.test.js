@@ -96,6 +96,38 @@ const incomeCards = flow.summarizeResourceEvents([
 assert.equal(incomeCards.players[0].cardUse.incomeFromGains, 1);
 assert.equal(incomeCards.players[0].incomeCardConversionRate, 1);
 
+const mixedBlueAndIncome = flow.summarizeResourceEvents([{
+  gameId: "g4", playerId: "p4", playerLabel: "棕色", finalScore: 240,
+  roundNumber: 2, turnNumber: 2, pace: "quick", sourceCategory: "tech_bonus_blue1",
+  resourceDeltas: { credits: 2, handSize: -1 },
+  incomeDeltas: { credits: 1 },
+  confidence: 1,
+}]);
+assert.equal(mixedBlueAndIncome.players[0].incomeGain.credits, 1);
+assert.equal(mixedBlueAndIncome.players[0].nonIncomeGain.credits, 1);
+assert.equal(mixedBlueAndIncome.players[0].blue1CreditGain, 1);
+assert.equal(mixedBlueAndIncome.players[0].endingInventory.credits, 2);
+assert.equal(mixedBlueAndIncome.players[0].endingInventory.publicity, null);
+
+const conversionDenominator = flow.summarizeResourceEvents([
+  ...["a", "b", "unused"].map((key, index) => ({
+    gameId: "g5", playerId: "p5", roundNumber: 1, turnNumber: index + 1,
+    pace: "quick", sourceCategory: "card", resourceDeltas: { handSize: 1 },
+    incomeDeltas: {}, cards: [{ key, label: key, change: "gain", origin: "normal" }],
+  })),
+  {
+    gameId: "g5", playerId: "p5", roundNumber: 1, turnNumber: 4,
+    pace: "main", sourceCategory: "card", resourceDeltas: { handSize: -1 },
+    incomeDeltas: {}, cards: [{ key: "a", label: "a", change: "play", origin: "normal" }],
+  },
+  {
+    gameId: "g5", playerId: "p5", roundNumber: 1, turnNumber: 5,
+    pace: "quick", sourceCategory: "income_upgrade_immediate", resourceDeltas: { handSize: -1 },
+    incomeDeltas: {}, cards: [{ key: "b", label: "b", change: "income", origin: "normal" }],
+  },
+]);
+assert.equal(conversionDenominator.players[0].incomeCardConversionRate, 0.5);
+
 assert.deepEqual(
   flow.parseDeltaText("打出：测试牌：资源：信用点-2、手牌-1；收入：信用点+1"),
   {
@@ -105,8 +137,18 @@ assert.deepEqual(
     duplicateSuppressed: 0,
   },
 );
+assert.deepEqual(
+  flow.parseDeltaText("蓝色奖励槽：+1 信用点；资源：信用点+1"),
+  {
+    resourceDeltas: { credits: 1 },
+    incomeDeltas: {},
+    matchedMagnitude: 1,
+    duplicateSuppressed: 1,
+  },
+);
 assert.equal(flow.classifySourceCategory({ pace: "setup", text: "选择公司" }), "setup");
 assert.equal(flow.classifySourceCategory({ pace: "pass", text: "获得本轮收入" }), "pass_income");
+assert.notEqual(flow.classifySourceCategory({ text: "选择科技：blue1" }), "tech_bonus_blue1");
 assert.equal(flow.classifySourceCategory({ text: "放置数据：蓝1 +1信用点" }), "tech_bonus_blue1");
 assert.equal(flow.classifySourceCategory({ text: "放置数据：蓝2 +1能量" }), "tech_bonus_blue2");
 assert.equal(flow.classifySourceCategory({ text: "半人马顶部奖励：外星人牌" }), "alien");

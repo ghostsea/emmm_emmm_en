@@ -64,6 +64,7 @@
     "哨兵探测网络",
     "寰宇动力",
     "寰宇超动力",
+    "赫利昂",
     "赫利昂联合体",
     "任务中继站",
     "芬威克研究中心",
@@ -151,16 +152,20 @@
     for (const resourceKey of TRACKED_RESOURCE_KEYS) {
       const delta = Number(event.resourceDeltas?.[resourceKey]) || 0;
       if (delta > 0) {
-        addResourceValue(sourceTotals, resourceKey, delta);
         if (event.sourceCategory === "setup") {
+          addResourceValue(sourceTotals, resourceKey, delta);
           addResourceValue(row.setupGain, resourceKey, delta);
         } else {
           addResourceValue(row.grossGain, resourceKey, delta);
-          addResourceValue(
-            isIncomeSource(event.sourceCategory) ? row.incomeGain : row.nonIncomeGain,
-            resourceKey,
-            delta,
-          );
+          const embeddedIncome = isIncomeSource(event.sourceCategory)
+            ? delta
+            : Math.min(delta, Math.max(0, Number(event.incomeDeltas?.[resourceKey]) || 0));
+          const nonIncome = delta - embeddedIncome;
+          if (embeddedIncome > 0) addResourceValue(row.incomeGain, resourceKey, embeddedIncome);
+          if (nonIncome > 0) {
+            addResourceValue(row.nonIncomeGain, resourceKey, nonIncome);
+            addResourceValue(sourceTotals, resourceKey, nonIncome);
+          }
         }
       } else if (delta < 0) {
         addResourceValue(row.spent, resourceKey, Math.abs(delta));
@@ -184,7 +189,12 @@
       for (const resourceKey of TRACKED_RESOURCE_KEYS) {
         const delta = Number(event.resourceDeltas?.[resourceKey]) || 0;
         if (delta > 0 && event.sourceCategory !== "setup" && !isIncomeSource(event.sourceCategory)) {
-          lotsByResource[resourceKey].push(delta);
+          const embeddedIncome = Math.min(
+            delta,
+            Math.max(0, Number(event.incomeDeltas?.[resourceKey]) || 0),
+          );
+          const nonIncome = delta - embeddedIncome;
+          if (nonIncome > 0) lotsByResource[resourceKey].push(nonIncome);
           continue;
         }
         if (delta >= 0) continue;
@@ -216,7 +226,7 @@
         awaitingPlacement = true;
         placedAfterAnalysis = false;
       } else if (
-        event.sourceCategory === "data_placement"
+        (event.sourceCategory === "data_placement" || event.isDataPlacement)
         && awaitingPlacement
         && !placedAfterAnalysis
       ) {
@@ -299,14 +309,28 @@
 
   function finalizePlayerRow(row, options = {}) {
     const { events, ...compactRow } = row;
-    const endingInventory = normalizeResourceMap(options.endingInventories?.[row.playerId]);
+    const compositePlayerKey = `${row.gameId}:${row.playerId}`;
+    const unreconciledResourceKeys = new Set(options.unreconciledResourceKeys || []);
+    const providedEndingInventory = options.endingInventories?.[compositePlayerKey]
+      ?? options.endingInventories?.[row.playerId];
+    const endingInventory = providedEndingInventory
+      ? normalizeResourceMap(providedEndingInventory)
+      : Object.fromEntries(TRACKED_RESOURCE_KEYS.map((key) => [
+        key,
+        unreconciledResourceKeys.has(key)
+          ? null
+          : (key === "score"
+          ? row.finalScore
+          : (key === "publicity"
+            ? null
+            : Math.max(0, row.setupGain[key] + row.grossGain[key] - row.spent[key]))),
+      ]));
     const utilizationRate = emptyResourceMap();
     const nonIncomeShare = emptyResourceMap();
     for (const key of TRACKED_RESOURCE_KEYS) {
-      utilizationRate[key] = divideOrNull(
-        row.spent[key],
-        row.setupGain[key] + row.grossGain[key],
-      );
+      utilizationRate[key] = unreconciledResourceKeys.has(key)
+        ? null
+        : divideOrNull(row.spent[key], row.setupGain[key] + row.grossGain[key]);
       nonIncomeShare[key] = divideOrNull(
         row.nonIncomeGain[key],
         row.incomeGain[key] + row.nonIncomeGain[key],
@@ -330,7 +354,10 @@
       nonIncomeGainWeighted: weightedResourceMap(row.nonIncomeGain),
       weightedActionCost,
       mainActionsPerWeightedCost: divideOrNull(
-        Number(options.productiveMainActionCounts?.[row.playerId]) || 0,
+        Number(
+          options.productiveMainActionCounts?.[compositePlayerKey]
+          ?? options.productiveMainActionCounts?.[row.playerId],
+        ) || 0,
         weightedActionCost,
       ),
       blue1CreditGain: row.sourceTotals.tech_bonus_blue1.credits,
@@ -339,7 +366,13 @@
       ...cycles,
       cardUse,
       drawToPlayRate: divideOrNull(cardUse.playedFromGains, cardUse.gainedInGame),
-      incomeCardConversionRate: divideOrNull(cardUse.incomeFromGains, cardUse.gainedInGame),
+      incomeCardConversionRate: divideOrNull(
+        cardUse.incomeFromGains,
+        cardUse.playedFromGains
+          + cardUse.incomeFromGains
+          + cardUse.discardedFromGains
+          + cardUse.movePaymentsFromGains,
+      ),
       alienCardToPlayRate: divideOrNull(
         cardUse.alienPlayedFromGains,
         cardUse.alienGainedInGame,
@@ -428,8 +461,16 @@
         Math.max(0, -(Number(event.resourceDeltas?.[key]) || 0)),
       ]));
       if (event.sourceCategory !== "setup") {
-        row[isIncomeSource(event.sourceCategory) ? "incomeGainWeighted" : "nonIncomeGainWeighted"]
-          += weightedResourceMap(positive);
+        const incomePositive = emptyResourceMap();
+        const nonIncomePositive = emptyResourceMap();
+        for (const key of TRACKED_RESOURCE_KEYS) {
+          incomePositive[key] = isIncomeSource(event.sourceCategory)
+            ? positive[key]
+            : Math.min(positive[key], Math.max(0, Number(event.incomeDeltas?.[key]) || 0));
+          nonIncomePositive[key] = positive[key] - incomePositive[key];
+        }
+        row.incomeGainWeighted += weightedResourceMap(incomePositive);
+        row.nonIncomeGainWeighted += weightedResourceMap(nonIncomePositive);
       }
       row.spentWeighted += weightedResourceMap(negative);
       if (event.sourceCategory === "tech_bonus_blue1") {
@@ -439,7 +480,9 @@
         row.blue2EnergyGain += positive.energy;
       }
       if (event.sourceCategory === "analysis") row.analysisCount += 1;
-      if (event.sourceCategory === "data_placement") row.dataPlacementCount += 1;
+      if (event.sourceCategory === "data_placement" || event.isDataPlacement) {
+        row.dataPlacementCount += 1;
+      }
     }
     return Object.fromEntries(rounds);
   }
@@ -494,6 +537,8 @@
   function collectDeltaTokens(text, target, acceptedRange = null, occupiedRanges = []) {
     let matchedMagnitude = 0;
     let duplicateSuppressed = 0;
+    const matchedMagnitudeByKey = {};
+    const matchCountByKey = {};
     const seenRanges = new Set();
     const patterns = [
       { regex: DELTA_TOKEN_RE, labelIndex: 1, valueIndex: 2 },
@@ -516,14 +561,22 @@
           continue;
         }
         seenRanges.add(rangeKey);
-        matchedMagnitude += addParsedDelta(
-          target,
-          match[pattern.labelIndex],
-          match[pattern.valueIndex],
-        );
+        const label = match[pattern.labelIndex];
+        const key = RESOURCE_LABEL_TO_KEY[label];
+        const magnitude = addParsedDelta(target, label, match[pattern.valueIndex]);
+        matchedMagnitude += magnitude;
+        if (key && magnitude > 0) {
+          matchedMagnitudeByKey[key] = (matchedMagnitudeByKey[key] || 0) + magnitude;
+          matchCountByKey[key] = (matchCountByKey[key] || 0) + 1;
+        }
       }
     }
-    return { matchedMagnitude, duplicateSuppressed };
+    return {
+      matchedMagnitude,
+      duplicateSuppressed,
+      matchedMagnitudeByKey,
+      matchCountByKey,
+    };
   }
 
   function parseDeltaText(text = "") {
@@ -550,14 +603,25 @@
       duplicateSuppressed += result.duplicateSuppressed;
     }
 
+    const genericDeltas = {};
     const generic = collectDeltaTokens(
       normalizedText,
-      resourceDeltas,
+      genericDeltas,
       null,
       explicitRanges,
     );
-    matchedMagnitude += generic.matchedMagnitude;
     duplicateSuppressed += generic.duplicateSuppressed;
+    for (const [key, value] of Object.entries(genericDeltas)) {
+      if (
+        Object.prototype.hasOwnProperty.call(resourceDeltas, key)
+        && Number(resourceDeltas[key]) === Number(value)
+      ) {
+        duplicateSuppressed += generic.matchCountByKey[key] || 0;
+        continue;
+      }
+      resourceDeltas[key] = (Number(resourceDeltas[key]) || 0) + Number(value);
+      matchedMagnitude += generic.matchedMagnitudeByKey[key] || 0;
+    }
 
     return {
       resourceDeltas,
@@ -593,29 +657,43 @@
     if (pace === "pass" || /获得本轮收入|pass\s*收入|回合收入/i.test(text)) {
       return "pass_income";
     }
-    if (/蓝(?:色)?\s*1(?:\s|号|奖励|槽|科技|$)|blue\s*1/i.test(text)) {
+    if (
+      /(?:放置数据|奖励|奖励槽|槽位).*?(?:蓝(?:色)?\s*1|blue\s*1)|(?:蓝(?:色)?\s*1|blue\s*1).*?(?:奖励|奖励槽|槽位)/i.test(text)
+    ) {
       return "tech_bonus_blue1";
     }
-    if (/蓝(?:色)?\s*2(?:\s|号|奖励|槽|科技|$)|blue\s*2/i.test(text)) {
+    if (
+      /(?:放置数据|奖励|奖励槽|槽位).*?(?:蓝(?:色)?\s*2|blue\s*2)|(?:蓝(?:色)?\s*2|blue\s*2).*?(?:奖励|奖励槽|槽位)/i.test(text)
+    ) {
       return "tech_bonus_blue2";
     }
     if (
-      /收入(?:提升|增加|升级|调整)|(?:提升|增加|升级).*收入|income[_\s-]*upgrade/i.test(text)
+      /收入(?:提升|增加|升级|调整)|(?:提升|增加|升级).*收入|收入：.*(?:弃掉|弃牌).*已即时获得|income[_\s-]*upgrade/i.test(text)
     ) {
       return "income_upgrade_immediate";
     }
     if (context.industryId || includesAny(text, INDUSTRY_LABELS)) return "industry";
-    if (context.alienId || includesAny(text, ALIEN_LABELS)) return "alien";
+    if (context.alienId || includesAny(text, ALIEN_LABELS) || /化石奖励|繁殖样本|首次接触/.test(text)) {
+      return "alien";
+    }
     if (/科技(?:奖励|加成|bonus)|技术奖励|tech[_\s-]*bonus/i.test(text)) {
       return "tech_bonus_other";
     }
-    if (/打出|打牌|卡牌|弃牌|手牌收入|收益牌/.test(text)) return "card";
+    if (
+      /打出|打牌|卡牌|弃牌|弃掉|手牌收入|收益牌|盲抽|精选|补牌|完成任务|拥有\d+个.*科技/.test(text)
+    ) {
+      return "card";
+    }
     if (/放置数据|数据放置|投入数据|数据槽/.test(text)) return "data_placement";
     if (/分析数据|执行分析|分析行动/.test(text)) return "analysis";
     if (/交易|兑换|资源转换|资源转化/.test(text)) return "trade_conversion";
-    if (/环绕|登陆|着陆|发射|移动|星球|卫星/.test(text)) return "planet_board";
     if (/支付|花费|消耗|费用|成本/.test(text)) return "cost";
-    if (/结算|终局|得分|计分/.test(text)) return "settlement";
+    if (/环绕|登陆|着陆|发射|移动|星球|卫星|扫描|旋转|彗星|小行星/.test(text)) {
+      return "planet_board";
+    }
+    if (/结算|终局|得分|计分|赢家奖励|参与奖励|完成\d+个.*扇区/.test(text)) {
+      return "settlement";
+    }
     if (lowerText.includes("analysis")) return "analysis";
     return "unclassified";
   }
