@@ -1015,6 +1015,11 @@
     return (afterPlayer?.hand || []).filter((card) => !beforeKeys.has(card.key));
   }
 
+  function getStructuredHandRemovals(beforePlayer, afterPlayer) {
+    const afterKeys = new Set((afterPlayer?.hand || []).map((card) => card.key));
+    return (beforePlayer?.hand || []).filter((card) => !afterKeys.has(card.key));
+  }
+
   function attachStructuredHandGains(events, beforeStates, afterStates, entry) {
     if (!beforeStates || !afterStates) return;
     const entryId = entry.id ?? entry.entryId ?? null;
@@ -1073,6 +1078,51 @@
       for (const card of additions) {
         if (existingKeys.has(card.key)) continue;
         eventForCards.cards.push({ ...card, change: "gain", origin });
+      }
+    }
+  }
+
+  function attachStructuredHandUses(events, beforeStates, afterStates, entry) {
+    if (!beforeStates || !afterStates) return;
+    const entryId = entry.id ?? entry.entryId ?? null;
+    for (const [playerId, beforePlayer] of beforeStates) {
+      const removals = getStructuredHandRemovals(beforePlayer, afterStates.get(playerId));
+      if (!removals.length) continue;
+      const playerEvents = events.filter((event) => (
+        event.entryId === entryId && event.playerId === playerId
+      ));
+      const remaining = [...removals];
+      const takeRemoval = (card) => {
+        const key = getCardIdentity(card);
+        let index = remaining.findIndex((candidate) => candidate.key === key);
+        if (index < 0 && card?.label) {
+          index = remaining.findIndex((candidate) => candidate.label === card.label);
+        }
+        if (index < 0) index = 0;
+        return remaining.splice(index, 1)[0] || null;
+      };
+      for (const event of playerEvents) {
+        for (const card of event.cards || []) {
+          if (card.change !== "play" || !remaining.length) continue;
+          const identity = getCardIdentity(card);
+          const index = remaining.findIndex((candidate) => candidate.key === identity);
+          if (index >= 0) remaining.splice(index, 1);
+        }
+      }
+      for (const event of playerEvents) {
+        for (let index = 0; index < (event.cards || []).length; index += 1) {
+          const card = event.cards[index];
+          if (!["income", "discard", "move_payment"].includes(card.change) || !remaining.length) {
+            continue;
+          }
+          const removal = takeRemoval(card);
+          if (!removal) continue;
+          event.cards[index] = {
+            ...card,
+            key: removal.key,
+            label: removal.label || card.label,
+          };
+        }
       }
     }
   }
@@ -1293,6 +1343,7 @@
       }
       appendStructuredResearchCostInference(events, entry, previousStates, snapshotStates, options);
       attachStructuredHandGains(events, previousStates, snapshotStates, entry);
+      attachStructuredHandUses(events, previousStates, snapshotStates, entry);
       inferredMagnitude += appendStructuredSnapshotInferences(
         events,
         entry,

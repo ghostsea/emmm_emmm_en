@@ -414,4 +414,40 @@ assert.equal(structuredMoveInference.players[0].spent.energy, 1);
 assert.equal(structuredMoveInference.players[0].nonIncomeGain.publicity, 1);
 assert.equal(structuredMoveInference.reconciliation.inferredMagnitude, 2);
 
+const gainedIncomeCard = flow.analyzeStructuredActionLog([
+  {
+    id: 10, roundNumber: 1, turnNumber: 7, playerId: "p1", playerLabel: "白色",
+    actionType: "analyze", actionLabel: "分析数据",
+    steps: [{
+      source: "main",
+      text: "分析：获得虫族牌：收益牌；资源：手牌+1",
+    }],
+    recoverySnapshot: { state: { playerState: { players: [{
+      id: "p1", color: "white", resources: { credits: 0 },
+      hand: [{ id: "alien-income-card", label: "收益牌" }], income: {},
+    }] } } },
+  },
+  {
+    id: 11, roundNumber: 1, turnNumber: 8, playerId: "p1", playerLabel: "白色",
+    actionType: "quick", actionLabel: "收益牌",
+    steps: [{
+      source: "quick",
+      text: "获得 1 次收入：收入：弃掉 收益牌，信用点+1（已即时获得）",
+    }],
+    recoverySnapshot: { state: { playerState: { players: [{
+      id: "p1", color: "white", resources: { credits: 1 }, hand: [], income: { credits: 1 },
+    }] } } },
+  },
+], {
+  gameId: "ai-income-card-identity",
+  initialPlayerStates: {
+    p1: { color: "white", resources: { credits: 0 }, hand: [], income: {} },
+  },
+});
+assert.equal(gainedIncomeCard.reconciliation.residualMagnitude, 0);
+assert.equal(gainedIncomeCard.players[0].cardUse.gainedInGame, 1);
+assert.equal(gainedIncomeCard.players[0].cardUse.income, 1);
+assert.equal(gainedIncomeCard.players[0].cardUse.incomeFromGains, 1);
+assert.equal(gainedIncomeCard.players[0].incomeCardConversionRate, 1);
+
 console.log("resource-flow.test.js: all tests passed");
