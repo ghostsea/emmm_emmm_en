@@ -17929,7 +17929,26 @@
         : { ok: false, message: "当前没有可拾取化石的木星/土星登陆或环绕目标" };
     }
 
-    function canAiResolvePlayCardEffects(playEffects = [], player = getCurrentPlayer()) {
+    function getAiCappedOptionalLaunchProfile(effect, player = getCurrentPlayer()) {
+      if (
+        effect?.type !== "launch"
+        || effect.required
+        || effect.options?.skippable === false
+        || effect.options?.ignoreRocketLimit
+        || !player
+      ) {
+        return null;
+      }
+      const rocketLimit = Math.max(
+        0,
+        Math.round(aiNumber(abilities.rocket.getRocketLimitForPlayer(player, createActionContext()))),
+      );
+      const activeRocketCount = rocketActions.getRocketsForPlayer(rocketState, player.id).length;
+      if (activeRocketCount < rocketLimit) return null;
+      return { activeRocketCount, rocketLimit };
+    }
+
+    function canAiResolvePlayCardEffects(playEffects = [], player = getCurrentPlayer(), options = {}) {
       const context = createActionContext();
       const effectPlayer = player || getCurrentPlayer();
       const unsupportedTypes = new Set([
@@ -17971,12 +17990,13 @@
           const chongCheck = canAiResolveChongTravelEffect(effect, previousEffect);
           if (!chongCheck.ok) return chongCheck;
         }
-        if (effect?.type === "launch" && !effect.options?.ignoreRocketLimit) {
-          const rocketLimit = abilities.rocket.getRocketLimitForPlayer(effectPlayer, context);
-          const activeRocketCount = rocketActions.getRocketsForPlayer(rocketState, effectPlayer.id).length;
-          if (activeRocketCount >= rocketLimit) {
-            return { ok: false, message: `火箭数量已达上限（${activeRocketCount}/${rocketLimit}）` };
-          }
+        const cappedOptionalLaunch = getAiCappedOptionalLaunchProfile(effect, effectPlayer);
+        if (cappedOptionalLaunch) {
+          if (options.allowCappedOptionalLaunchSkip) continue;
+          return {
+            ok: false,
+            message: `火箭数量已达上限（${cappedOptionalLaunch.activeRocketCount}/${cappedOptionalLaunch.rocketLimit}）`,
+          };
         }
         if (effect?.type === cardEffects.EFFECT_TYPES.CARD_ORBIT) {
           const check = actions.canExecute("orbit", context);
@@ -18065,9 +18085,6 @@
       const typeCode = getCardTypeCode(card);
       const model = cardEffects.getCardModel?.(card) || null;
       const playEffects = getAiPlayEffectsForCard(card);
-      const effectCheck = canAiResolvePlayCardEffects(playEffects, currentPlayer);
-      if (!effectCheck.ok) return null;
-      if (getAiRunezuPrematureSymbolCardReason(card, playEffects, currentPlayer)) return null;
       const reservesAfterPlay = doesAiCardReserveAfterPlay(card, typeCode, model);
       const finalFormulaDeltas = getAiPlayCardFinalFormulaDeltas(card, {
         player: currentPlayer,
@@ -18076,21 +18093,33 @@
         reservesAfterPlay,
       });
       const readyTaskCashout = getAiReadyHandTaskCashout(card, model, currentPlayer);
+      const skippedCappedLaunchEffects = readyTaskCashout.count > 0
+        ? playEffects.filter((effect) => getAiCappedOptionalLaunchProfile(effect, currentPlayer))
+        : [];
+      const skippedCappedLaunchSet = new Set(skippedCappedLaunchEffects);
+      const valuationPlayEffects = skippedCappedLaunchSet.size > 0
+        ? playEffects.filter((effect) => !skippedCappedLaunchSet.has(effect))
+        : playEffects;
+      const effectCheck = canAiResolvePlayCardEffects(playEffects, currentPlayer, {
+        allowCappedOptionalLaunchSkip: skippedCappedLaunchSet.size > 0,
+      });
+      if (!effectCheck.ok) return null;
+      if (getAiRunezuPrematureSymbolCardReason(card, playEffects, currentPlayer)) return null;
       const endGameExpectedScore = scoreAiCardEndGameExpectedValue(card, model, currentPlayer);
-      const chongProbeFossilRewardValue = playEffects.some(
+      const chongProbeFossilRewardValue = valuationPlayEffects.some(
         (effect) => effect?.type === chong?.EFFECT_TYPES?.CHONG_PROBE_PLANET_FOSSIL_REWARD,
       )
         ? scoreAiChongProbePlanetFossilRewardValue(currentPlayer)
         : null;
-      const plan = scoreAiPlayCardRoutePlan(card, model, playEffects, currentPlayer);
-      const directScoreGain = getAiRewardDirectScore(playEffects, currentPlayer, { immediate: true });
-      const standardActionPremium = scoreAiCardStandardActionPremium(playEffects, currentPlayer);
+      const plan = scoreAiPlayCardRoutePlan(card, model, valuationPlayEffects, currentPlayer);
+      const directScoreGain = getAiRewardDirectScore(valuationPlayEffects, currentPlayer, { immediate: true });
+      const standardActionPremium = scoreAiCardStandardActionPremium(valuationPlayEffects, currentPlayer);
       const readyTaskTechReplacementValue = scoreAiReadyTaskTechReplacementValue(
-        playEffects,
+        valuationPlayEffects,
         readyTaskCashout,
         currentPlayer,
       );
-      const effectValue = playEffects.reduce((total, effect) => (
+      const effectValue = valuationPlayEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
       ), 0);
       const strategyPassivePlayValue = scoreAiStrategyPassiveCardPlayValue(card, currentPlayer);
@@ -18120,7 +18149,7 @@
       const lateCardEnginePressure = scoreAiLatePlayCardEnginePressure(card, {
         player: currentPlayer,
         model,
-        playEffects,
+        playEffects: valuationPlayEffects,
         typeCode,
         endGameExpectedScore,
         plan,
@@ -18129,7 +18158,7 @@
       const playCardConversionPressure = scoreAiPlayCardConversionPressure(card, {
         player: currentPlayer,
         model,
-        playEffects,
+        playEffects: valuationPlayEffects,
         typeCode,
         endGameExpectedScore,
         plan,
@@ -18151,7 +18180,7 @@
       const grandStrategyCreditBottleneckPenalty = scoreAiGrandStrategyCreditBottleneckPenalty(card, {
         player: currentPlayer,
         actualHandPlay,
-        playEffects,
+        playEffects: valuationPlayEffects,
         cost,
         directScoreGain,
         standardActionPremium,
@@ -18180,7 +18209,7 @@
       const score = scoreAiPlayCardValue(card, {
         player: currentPlayer,
         model,
-        playEffects,
+        playEffects: valuationPlayEffects,
         cost,
         price,
         typeCode,
@@ -18278,6 +18307,8 @@
           readyTaskCashoutCount: readyTaskCashout.count,
           readyTaskCashoutTimingScale: getAiReadyTaskCashoutTimingScale(),
           readyTaskTechReplacementValue,
+          skippedUnresolvableLaunchForReadyTask: skippedCappedLaunchSet.size > 0,
+          skippedUnresolvableLaunchCount: skippedCappedLaunchSet.size,
           chongTaskChainValue,
           banrenmaThresholdSetupValue,
           playCardConversionPressure,
@@ -24552,6 +24583,21 @@
         });
         activateNextActionEffect?.();
         return { ok: true, progressed: true, advancedCompletedEffect: true };
+      }
+      const cappedOptionalLaunch = getAiCappedOptionalLaunchProfile(
+        effect,
+        getEffectOwnerPlayer(effect) || getCurrentPlayer(),
+      );
+      if (cappedOptionalLaunch) {
+        const message = `${effect.label || "发射"}：火箭数量已达上限（${cappedOptionalLaunch.activeRocketCount}/${cappedOptionalLaunch.rocketLimit}），已跳过`;
+        recordAiAutoBattleLog("effect-skip", message, {
+          logPlayerId: playerId || null,
+          effectId: effect.id || null,
+          effectType: effect.type || null,
+          reason: "rocket-limit",
+        });
+        const skipped = skipCurrentActionEffect?.();
+        return skipped || { ok: true, progressed: true, skipped: true, message };
       }
       if (
         effect.type === cardEffects.EFFECT_TYPES.CARD_MOVE

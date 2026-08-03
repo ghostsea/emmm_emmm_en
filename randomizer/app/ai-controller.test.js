@@ -7579,6 +7579,157 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   const turnChoices = [];
+  const rockets = [
+    { id: 201, kind: "standard", playerId: "player-blue", sector: { x: 1, y: 1 } },
+    { id: 202, kind: "standard", playerId: "player-blue", sector: { x: 2, y: 1 } },
+  ];
+  const cappedAbilities = {
+    planet: {
+      DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+      BASE_LAND_ENERGY_COST: 3,
+      getLandEnergyCost: () => 3,
+      getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+      getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+    },
+    rocket: {
+      ORANGE1_ROCKET_LIMIT: 4,
+      getRocketLimitForPlayer: () => 2,
+    },
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordBeginPlayCard: true,
+    blueResources: { score: 111, credits: 6, energy: 0, publicity: 5, availableData: 0, handSize: 1 },
+    movableTokens: rockets,
+    abilities: cappedAbilities,
+    blueHand: [{
+      id: "ready-task-capped-launch",
+      cardName: "Ready task with capped launch",
+      price: 2,
+      typeCode: 2,
+      playEffects: [{ type: "launch", options: { skipCost: true } }],
+      model: {
+        tasks: [{
+          id: "ready-task-capped-launch-score",
+          condition: { type: "resourceThreshold", resource: "publicity", count: 5 },
+          rewards: [{ type: "gain_resources", options: { gain: { score: 4 } } }],
+        }],
+      },
+    }],
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  const result = harness.controller.runAiAutomationStep();
+  const readyLaunchTaskCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "playCard")
+    ?.playableCards?.[0] || null;
+  assert.equal(result.ok, true, "AI should play a ready task even when its optional launch is capped");
+  assert.ok(readyLaunchTaskCandidate, "ready launch task should remain a playable candidate at the rocket limit");
+  assert.equal(
+    readyLaunchTaskCandidate.valueBreakdown?.skippedUnresolvableLaunchForReadyTask,
+    true,
+    "ready task valuation should record that the capped optional launch contributes no value",
+  );
+  assert.deepEqual(harness.getHandled(), { type: "begin-play-card" });
+
+  const unreadyTurnChoices = [];
+  const unreadyHarness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    blueResources: { score: 111, credits: 6, energy: 0, publicity: 4, availableData: 0, handSize: 1 },
+    movableTokens: rockets,
+    abilities: cappedAbilities,
+    blueHand: [{
+      id: "unready-task-capped-launch",
+      cardName: "Unready task with capped launch",
+      price: 2,
+      typeCode: 2,
+      playEffects: [{ type: "launch", options: { skipCost: true } }],
+      model: {
+        tasks: [{
+          id: "unready-task-capped-launch-score",
+          condition: { type: "resourceThreshold", resource: "publicity", count: 5 },
+          rewards: [{ type: "gain_resources", options: { gain: { score: 4 } } }],
+        }],
+      },
+    }],
+    onChooseTurnAction: (candidates) => unreadyTurnChoices.push(candidates),
+  });
+  assert.equal(
+    unreadyHarness.controller.configureAiAutoBattle({
+      playerIds: [unreadyHarness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  unreadyHarness.controller.runAiAutomationStep();
+  assert.equal(
+    unreadyTurnChoices.flat().find((candidate) => candidate.id === "playCard")?.available,
+    false,
+    "an unfinished task card must not discard its only capped launch effect",
+  );
+}
+
+{
+  const launchEffect = {
+    id: "ready-task-capped-launch-effect",
+    type: "launch",
+    label: "Ready task optional launch",
+    status: "active",
+    options: { skipCost: true },
+  };
+  const rockets = [
+    { id: 211, kind: "standard", playerId: "player-blue", sector: { x: 1, y: 1 } },
+    { id: 212, kind: "standard", playerId: "player-blue", sector: { x: 2, y: 1 } },
+  ];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    actionEffectFlowActive: true,
+    pendingActionEffectFlow: { playerId: "player-blue", effects: [launchEffect] },
+    currentActionEffect: launchEffect,
+    recordSkipCurrentActionEffect: true,
+    movableTokens: rockets,
+    abilities: {
+      planet: {
+        DEFAULT_ORBIT_COST: { credits: 1, energy: 1 },
+        BASE_LAND_ENERGY_COST: 3,
+        getLandEnergyCost: () => 3,
+        getLandOptions: () => ({ ok: false, message: "land disabled in harness" }),
+        getOrbitOptions: () => ({ ok: false, message: "orbit disabled in harness" }),
+      },
+      rocket: {
+        ORANGE1_ROCKET_LIMIT: 4,
+        getRocketLimitForPlayer: () => 2,
+      },
+    },
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "AI should skip an optional launch that is already at the rocket limit");
+  assert.deepEqual(harness.getHandled(), { type: "skip-effect" });
+}
+
+{
+  const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     roundNumber: 1,
