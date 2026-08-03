@@ -2373,6 +2373,11 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     "number",
     "compact income diagnostics should preserve each discarded card's playable value",
   );
+  assert.equal(
+    typeof discardLog?.details?.incomeDiscardPreview?.options?.[0]?.playableNow,
+    "boolean",
+    "compact income diagnostics should distinguish real current plays from theoretical card value",
+  );
 }
 
 {

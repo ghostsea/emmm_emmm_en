@@ -562,6 +562,9 @@
                 routeEnergyFit: option?.routeEnergyFit ?? null,
                 grandFangzhouCreditThroughputFit: option?.grandFangzhouCreditThroughputFit ?? null,
                 playValue: option?.playValue ?? null,
+                playableNow: option?.playableNow === true,
+                playScoreNow: option?.playScoreNow ?? null,
+                playDirectScoreNow: option?.playDirectScoreNow ?? null,
                 discardOpportunityCost: option?.discardOpportunityCost ?? null,
                 handScarcityCost: option?.handScarcityCost ?? null,
                 netAfterDiscard: option?.netAfterDiscard ?? null,
@@ -1985,6 +1988,7 @@
             pendingType,
             incomeFormulaEntries,
           );
+          const playCandidate = buildAiPlayCardCandidate(card, index, player);
           const playValue = Math.max(0, scoreAiPlayCardValue(card, { player }));
           const discardOpportunityCost = scoreAiIncomeDiscardSelectionOpportunityCost(player, card, { playValue });
           const value = incomeScore + finalFormulaFit + routeEnergyFit + grandFangzhouCreditThroughputFit;
@@ -1999,6 +2003,9 @@
             routeEnergyFit: roundAiScore(routeEnergyFit),
             grandFangzhouCreditThroughputFit: roundAiScore(grandFangzhouCreditThroughputFit),
             playValue: roundAiScore(playValue),
+            playableNow: Boolean(playCandidate),
+            playScoreNow: playCandidate ? roundAiScore(aiNumber(playCandidate.score)) : null,
+            playDirectScoreNow: playCandidate ? roundAiScore(aiNumber(playCandidate.directScoreGain)) : null,
             discardOpportunityCost: roundAiScore(discardOpportunityCost),
             handScarcityCost: roundAiScore(handScarcityCost),
             netAfterDiscard: roundAiScore(value - discardOpportunityCost - handScarcityCost),
