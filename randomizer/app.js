@@ -1160,7 +1160,11 @@
     finishIndustryAbilityFlow,
     formatRocketLabel,
     getActivePlayers,
-    getActionLogEntries: (options = {}) => getRecoverableActionLog(options),
+    getActionLogEntries: (options = {}) => (
+      options.readOnlyInternal === true
+        ? actionLogState.entries
+        : getRecoverableActionLog(options)
+    ),
     getAlienTraceActionPlayer,
     getCardPlayCost,
     getCardPrice,

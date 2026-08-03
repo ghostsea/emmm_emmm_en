@@ -1134,7 +1134,7 @@
       }
       if (ai?.resourceFlow?.analyzeStructuredActionLog && typeof getActionLogEntries === "function") {
         report.resourceFlow = ai.resourceFlow.analyzeStructuredActionLog(
-          getActionLogEntries({ includeRecovery: true }),
+          getActionLogEntries({ includeRecovery: true, readOnlyInternal: true }),
           {
             gameId: report.lastSummary?.seed || "ai-game",
             initialPlayerStates: aiAutoBattleState.resourceFlowInitialPlayerStates,

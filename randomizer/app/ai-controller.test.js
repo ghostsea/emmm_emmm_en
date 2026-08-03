@@ -15666,6 +15666,8 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 
 {
   const observed = [];
+  const requestedOptions = [];
+  const actionLogEntries = [{ id: 1, recoverySnapshot: { secret: true } }];
   const harness = createAiControllerHarness(null, {
     aiResourceFlow: {
       analyzeStructuredActionLog: (entries, analysisOptions) => {
@@ -15681,10 +15683,15 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         headline: { gameCount: items.length },
       }),
     },
-    getActionLogEntries: () => [{ id: 1, recoverySnapshot: { secret: true } }],
+    getActionLogEntries: (options) => {
+      requestedOptions.push(options);
+      return actionLogEntries;
+    },
   });
   const report = harness.controller.getAiAutoBattleReport({ includeAnalysis: false });
   assert.equal(observed.length, 1);
+  assert.deepEqual(requestedOptions, [{ includeRecovery: true, readOnlyInternal: true }]);
+  assert.equal(observed[0].entries, actionLogEntries);
   assert.equal(report.resourceFlow.coverage.weighted, 1);
   assert.equal(JSON.stringify(report.resourceFlow).includes("secret"), false);
 }
