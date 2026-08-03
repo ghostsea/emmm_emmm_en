@@ -238,6 +238,49 @@
     return { dataTurnoverCount, fullDataCycleCount };
   }
 
+  function applyBlueTechRewardEvent(summary, ownedTechIds, event) {
+    for (const techId of event.techIds || []) {
+      if (techId) ownedTechIds.add(String(techId).toLowerCase());
+    }
+    const nonIncomePositive = (resourceKey) => {
+      const positive = Math.max(0, Number(event.resourceDeltas?.[resourceKey]) || 0);
+      const embeddedIncome = isIncomeSource(event.sourceCategory)
+        ? positive
+        : Math.min(
+          positive,
+          Math.max(0, Number(event.incomeDeltas?.[resourceKey]) || 0),
+        );
+      return positive - embeddedIncome;
+    };
+    const credits = nonIncomePositive("credits");
+    const energy = nonIncomePositive("energy");
+    const isDataPlacement = event.isDataPlacement
+      || /放置数据|蓝色奖励槽/.test(String(event.sourceDetail || ""));
+    if (
+      credits > 0
+      && (event.sourceCategory === "tech_bonus_blue1"
+        || (isDataPlacement && ownedTechIds.has("blue1")))
+    ) {
+      summary.blue1CreditGain += credits;
+    }
+    if (
+      energy > 0
+      && (event.sourceCategory === "tech_bonus_blue2"
+        || (isDataPlacement && ownedTechIds.has("blue2")))
+    ) {
+      summary.blue2EnergyGain += energy;
+    }
+  }
+
+  function summarizeBlueTechRewards(events = []) {
+    const summary = { blue1CreditGain: 0, blue2EnergyGain: 0 };
+    const ownedTechIds = new Set();
+    for (const event of events) {
+      applyBlueTechRewardEvent(summary, ownedTechIds, event);
+    }
+    return summary;
+  }
+
   function getCardIdentity(card = {}) {
     return String(card.key || card.id || card.label || "").trim();
   }
@@ -342,6 +385,7 @@
     );
     const cycles = summarizeDataCycles(events);
     const cardUse = summarizeCardUse(events);
+    const blueTechRewards = summarizeBlueTechRewards(events);
     return {
       ...compactRow,
       alienIds: [...row.alienIds],
@@ -360,8 +404,7 @@
         ) || 0,
         weightedActionCost,
       ),
-      blue1CreditGain: row.sourceTotals.tech_bonus_blue1.credits,
-      blue2EnergyGain: row.sourceTotals.tech_bonus_blue2.energy,
+      ...blueTechRewards,
       sameRoundReinvestment: summarizeSameRoundReinvestment(events),
       ...cycles,
       cardUse,
@@ -436,6 +479,7 @@
 
   function buildRoundResourceSummaries(events = []) {
     const rounds = new Map();
+    const ownedTechIdsByPlayer = new Map();
     for (const event of events) {
       const round = String(Number(event.roundNumber) || 0);
       if (!rounds.has(round)) {
@@ -451,6 +495,14 @@
         });
       }
       const row = rounds.get(round);
+      const playerKey = `${event.gameId || "game"}:${event.playerId || "unknown"}`;
+      if (!ownedTechIdsByPlayer.has(playerKey)) ownedTechIdsByPlayer.set(playerKey, new Set());
+      const blueTechRewards = { blue1CreditGain: 0, blue2EnergyGain: 0 };
+      applyBlueTechRewardEvent(
+        blueTechRewards,
+        ownedTechIdsByPlayer.get(playerKey),
+        event,
+      );
       row.eventCount += 1;
       const positive = Object.fromEntries(TRACKED_RESOURCE_KEYS.map((key) => [
         key,
@@ -473,12 +525,8 @@
         row.nonIncomeGainWeighted += weightedResourceMap(nonIncomePositive);
       }
       row.spentWeighted += weightedResourceMap(negative);
-      if (event.sourceCategory === "tech_bonus_blue1") {
-        row.blue1CreditGain += positive.credits;
-      }
-      if (event.sourceCategory === "tech_bonus_blue2") {
-        row.blue2EnergyGain += positive.energy;
-      }
+      row.blue1CreditGain += blueTechRewards.blue1CreditGain;
+      row.blue2EnergyGain += blueTechRewards.blue2EnergyGain;
       if (event.sourceCategory === "analysis") row.analysisCount += 1;
       if (event.sourceCategory === "data_placement" || event.isDataPlacement) {
         row.dataPlacementCount += 1;
@@ -1568,6 +1616,7 @@
     RESOURCE_VALUES,
     parseDeltaText,
     classifySourceCategory,
+    summarizeBlueTechRewards,
     summarizeResourceEvents,
     summarizeResourceFlowAnalyses,
     normalizeStructuredActionLog,

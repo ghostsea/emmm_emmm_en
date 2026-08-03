@@ -94,6 +94,36 @@ const derivedAiMainActions = compareResourceFlowReports(reference, {
   } }] },
 });
 assert.equal(derivedAiMainActions.ai.allPlayers.mainActionsPerWeightedCost, 0.1);
+const derivedAiBlueRewards = compareResourceFlowReports(reference, {
+  result: { samples: [{ resourceFlow: {
+    players: [{
+      playerId: "blue-derived", finalScore: 100, weightedActionCost: 10,
+      blue1CreditGain: 0, blue2EnergyGain: 0,
+    }],
+    events: [
+      {
+        entryId: 1, playerId: "blue-derived", sourceCategory: "tech_bonus_other",
+        sourceDetail: "选择科技：blue1", resourceDeltas: {}, techIds: ["blue1"],
+      },
+      {
+        entryId: 2, playerId: "blue-derived", sourceCategory: "data_placement",
+        sourceDetail: "放置数据：资源：信用点+1", resourceDeltas: { credits: 1 },
+        isDataPlacement: true,
+      },
+      {
+        entryId: 3, playerId: "blue-derived", sourceCategory: "tech_bonus_other",
+        sourceDetail: "选择科技：blue2", resourceDeltas: {}, techIds: ["blue2"],
+      },
+      {
+        entryId: 4, playerId: "blue-derived", sourceCategory: "card",
+        sourceDetail: "放置数据：资源：能量+1", resourceDeltas: { energy: 1 },
+        isDataPlacement: true,
+      },
+    ],
+  } }] },
+});
+assert.equal(derivedAiBlueRewards.ai.allPlayers.blue1CreditGain, 1);
+assert.equal(derivedAiBlueRewards.ai.allPlayers.blue2EnergyGain, 1);
 const unavailableMetrics = summarizePlayers([{
   playerId: "missing",
   finalScore: 1,

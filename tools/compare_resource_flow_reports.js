@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { summarizeBlueTechRewards } = require("../randomizer/game/ai/resource-flow");
 
 const RESOURCE_VALUES = Object.freeze({
   credits: 3,
@@ -184,7 +185,12 @@ function extractReference(reference) {
 
 function enrichAiFlowPlayers(flow = {}) {
   const entriesByPlayer = new Map();
+  const eventsByPlayer = new Map();
   for (const event of flow.events || []) {
+    if (event?.playerId) {
+      if (!eventsByPlayer.has(event.playerId)) eventsByPlayer.set(event.playerId, []);
+      eventsByPlayer.get(event.playerId).push(event);
+    }
     if (!event?.playerId || event.pace !== "main") continue;
     const key = `${event.playerId}:${event.entryId}`;
     if (!entriesByPlayer.has(key)) entriesByPlayer.set(key, []);
@@ -202,11 +208,19 @@ function enrichAiFlowPlayers(flow = {}) {
     const derived = weightedCost > 0
       ? (Number(mainActionCounts[player.playerId]) || 0) / weightedCost
       : 0;
+    const playerEvents = eventsByPlayer.get(player.playerId) || [];
+    const blueTechRewards = playerEvents.length
+      ? summarizeBlueTechRewards(playerEvents)
+      : {
+        blue1CreditGain: player.blue1CreditGain,
+        blue2EnergyGain: player.blue2EnergyGain,
+      };
     return {
       ...player,
       mainActionsPerWeightedCost: Number(player.mainActionsPerWeightedCost) > 0
         ? player.mainActionsPerWeightedCost
         : derived,
+      ...blueTechRewards,
     };
   });
 }

@@ -207,6 +207,33 @@ assert.equal(structured.players[0].cardUse.played, 1);
 assert.equal(structured.players[0].mainActionsPerWeightedCost, 1 / 6);
 assert.equal(JSON.stringify(structured).includes("recoverySnapshot"), false);
 
+const implicitOwnedBlueRewards = flow.summarizeResourceEvents([
+  {
+    gameId: "blue-owned", entryId: 1, playerId: "p1", playerLabel: "白色",
+    roundNumber: 1, sourceCategory: "tech_bonus_other", sourceDetail: "选择科技：blue1",
+    resourceDeltas: {}, incomeDeltas: {}, techIds: ["blue1"], cards: [],
+  },
+  {
+    gameId: "blue-owned", entryId: 2, playerId: "p1", playerLabel: "白色",
+    roundNumber: 1, sourceCategory: "data_placement", sourceDetail: "放置数据：资源：信用点+1",
+    resourceDeltas: { credits: 1, availableData: -1 }, incomeDeltas: {},
+    techIds: [], cards: [], isDataPlacement: true,
+  },
+  {
+    gameId: "blue-owned", entryId: 3, playerId: "p1", playerLabel: "白色",
+    roundNumber: 1, sourceCategory: "tech_bonus_other", sourceDetail: "选择科技：blue2",
+    resourceDeltas: {}, incomeDeltas: {}, techIds: ["blue2"], cards: [],
+  },
+  {
+    gameId: "blue-owned", entryId: 4, playerId: "p1", playerLabel: "白色",
+    roundNumber: 1, sourceCategory: "card", sourceDetail: "放置数据：资源：能量+1",
+    resourceDeltas: { energy: 1, availableData: -1 }, incomeDeltas: {},
+    techIds: [], cards: [], isDataPlacement: true,
+  },
+]);
+assert.equal(implicitOwnedBlueRewards.players[0].blue1CreditGain, 1);
+assert.equal(implicitOwnedBlueRewards.players[0].blue2EnergyGain, 1);
+
 const brokenStructuredEvents = structured.events.map((event) => ({ ...event }));
 brokenStructuredEvents[0].resourceDeltas = { credits: 0, handSize: -1 };
 assert.equal(flow.reconcileStructuredEvents(structuredEntries, brokenStructuredEvents, {
