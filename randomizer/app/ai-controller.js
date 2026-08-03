@@ -519,6 +519,58 @@
             : [],
         };
       }
+      if (type === "discard" && isAiIncomeDiscardType(details.pendingType)) {
+        const preview = details.incomeDiscardPreview || null;
+        const summarizeIncomeGain = (gain) => gain && typeof gain === "object"
+          ? {
+            credits: aiNumber(gain.credits),
+            energy: aiNumber(gain.energy),
+            handSize: aiNumber(gain.handSize),
+            publicity: aiNumber(gain.publicity),
+          }
+          : null;
+        return {
+          pendingType: details.pendingType || null,
+          selectedIndexes: Array.isArray(details.selectedIndexes)
+            ? details.selectedIndexes.slice(0, 8)
+            : [],
+          selectedCards: Array.isArray(details.selectedCards)
+            ? details.selectedCards.slice(0, 8).map((card) => ({
+              handIndex: card?.handIndex ?? null,
+              cardId: card?.cardId || null,
+              cardInstanceId: card?.cardInstanceId || null,
+              cardLabel: card?.cardLabel || null,
+            }))
+            : [],
+          incomeGainByIndex: Array.isArray(details.incomeGainByIndex)
+            ? details.incomeGainByIndex.slice(0, 10).map(summarizeIncomeGain)
+            : [],
+          incomeDiscardPreview: preview ? {
+            pendingType: preview.pendingType || details.pendingType || null,
+            count: preview.count ?? null,
+            handSize: preview.handSize ?? null,
+            resources: preview.resources ? { ...preview.resources } : null,
+            options: Array.isArray(preview.options)
+              ? preview.options.slice(0, 10).map((option) => ({
+                index: option?.index ?? null,
+                selected: option?.selected === true,
+                cardId: option?.cardId || null,
+                cardLabel: option?.cardLabel || null,
+                incomeGain: summarizeIncomeGain(option?.incomeGain),
+                incomeScore: option?.incomeScore ?? null,
+                finalFormulaFit: option?.finalFormulaFit ?? null,
+                routeEnergyFit: option?.routeEnergyFit ?? null,
+                grandFangzhouCreditThroughputFit: option?.grandFangzhouCreditThroughputFit ?? null,
+                playValue: option?.playValue ?? null,
+                discardOpportunityCost: option?.discardOpportunityCost ?? null,
+                handScarcityCost: option?.handScarcityCost ?? null,
+                netAfterDiscard: option?.netAfterDiscard ?? null,
+              }))
+              : [],
+          } : null,
+          tradeId: details.tradeId || null,
+        };
+      }
       return compactAiAutoBattleLogValue(details || {});
     }
 
@@ -25025,10 +25077,10 @@
           rewardLabel: entry.details.rewardLabel || null,
           choices: entry.details.choices || [],
         })) : [];
-      const initialIncomeDiscardDecisions = includeDiagnostics ? reportLogs
+      const incomeDiscardDecisions = includeDiagnostics ? reportLogs
         .filter((entry) => (
           entry?.type === "discard"
-          && entry.details?.pendingType === "initial_income"
+          && isAiIncomeDiscardType(entry.details?.pendingType)
         ))
         .map((entry) => ({
           roundNumber: entry.roundNumber ?? null,
@@ -25040,6 +25092,8 @@
           incomeGainByIndex: entry.details?.incomeGainByIndex || [],
           incomeDiscardPreview: entry.details?.incomeDiscardPreview || null,
         })) : [];
+      const initialIncomeDiscardDecisions = incomeDiscardDecisions
+        .filter((entry) => entry.incomeDiscardPreview?.pendingType === "initial_income");
       return {
         gameIndex,
         summary: report?.lastSummary || null,
@@ -25053,6 +25107,7 @@
         finalScoreMarkDecisions,
         grandStrategyPickDecisions,
         grandStrategyPassiveDecisions,
+        incomeDiscardDecisions,
         initialIncomeDiscardDecisions,
         tailLogs: Array.isArray(report?.logs) ? report.logs.slice(-5) : [],
         ...(options.includeLogs && Array.isArray(report?.logs) ? { logs: report.logs } : {}),

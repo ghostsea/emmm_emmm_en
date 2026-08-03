@@ -2338,6 +2338,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     harness.controller.configureAiAutoBattle({
       playerIds: [harness.blue.id],
       suppressAutoSchedule: true,
+      compactLogs: true,
     }).ok,
     true,
   );
@@ -2365,7 +2366,12 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(
     discardLog?.details?.incomeDiscardPreview?.options?.length,
     harness.blue.hand.length,
-    "initial-income discard logs should expose the same per-card preview as later income flows",
+    "compact initial-income discard logs should preserve the per-card preview needed by batch diagnostics",
+  );
+  assert.equal(
+    typeof discardLog?.details?.incomeDiscardPreview?.options?.[0]?.playValue,
+    "number",
+    "compact income diagnostics should preserve each discarded card's playable value",
   );
 }
 
