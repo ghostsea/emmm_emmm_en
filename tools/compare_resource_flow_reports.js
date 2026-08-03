@@ -65,13 +65,17 @@ const METRIC_LABELS = Object.freeze({
 });
 
 function average(values) {
-  const numeric = values.map(Number).filter(Number.isFinite);
+  const numeric = values
+    .filter((value) => value !== null && value !== undefined && value !== "")
+    .map(Number)
+    .filter(Number.isFinite);
   return numeric.length
     ? numeric.reduce((total, value) => total + value, 0) / numeric.length
     : null;
 }
 
 function round(value, digits = 6) {
+  if (value === null || value === undefined || value === "") return null;
   if (!Number.isFinite(Number(value))) return null;
   const scale = 10 ** digits;
   return Math.round(Number(value) * scale) / scale;
@@ -261,8 +265,12 @@ function subtractMetricRows(referenceRow = {}, aiRow = {}) {
   const result = {};
   for (const key of new Set([...Object.keys(referenceRow), ...Object.keys(aiRow)])) {
     if (key === "playerCount") continue;
-    const referenceValue = Number(referenceRow[key]);
-    const aiValue = Number(aiRow[key]);
+    const referenceValue = referenceRow[key] === null || referenceRow[key] === undefined
+      ? NaN
+      : Number(referenceRow[key]);
+    const aiValue = aiRow[key] === null || aiRow[key] === undefined
+      ? NaN
+      : Number(aiRow[key]);
     result[key] = Number.isFinite(referenceValue) && Number.isFinite(aiValue)
       ? round(referenceValue - aiValue)
       : null;
@@ -352,6 +360,7 @@ function compareResourceFlowReports(referenceInput, aiInput) {
 }
 
 function formatMetric(value) {
+  if (value === null || value === undefined || value === "") return "-";
   return Number.isFinite(Number(value)) ? String(round(value, 4)) : "-";
 }
 

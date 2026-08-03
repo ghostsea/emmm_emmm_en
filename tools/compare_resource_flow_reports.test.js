@@ -4,6 +4,7 @@ const assert = require("node:assert/strict");
 const {
   compareResourceFlowReports,
   renderMarkdown,
+  summarizePlayers,
 } = require("./compare_resource_flow_reports");
 
 const reference = { summary: { players: [
@@ -93,5 +94,13 @@ const derivedAiMainActions = compareResourceFlowReports(reference, {
   } }] },
 });
 assert.equal(derivedAiMainActions.ai.allPlayers.mainActionsPerWeightedCost, 0.1);
+const unavailableMetrics = summarizePlayers([{
+  playerId: "missing",
+  finalScore: 1,
+  utilizationRate: { publicity: null },
+  alienCardToPlayRate: null,
+}]);
+assert.equal(unavailableMetrics.utilizationPublicity, null);
+assert.equal(unavailableMetrics.alienCardToPlayRate, null);
 
 console.log("compare_resource_flow_reports.test.js: all tests passed");
