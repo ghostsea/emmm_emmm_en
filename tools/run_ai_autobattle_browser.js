@@ -36,6 +36,8 @@ function getBatchCdpEvaluateTimeoutMs(timeoutMs) {
 }
 
 function parseArgs(argv) {
+  let seedOptionSeen = false;
+  let seedsOptionSeen = false;
   const options = {
     seed: "ai-v2-baseline",
     seeds: null,
@@ -74,9 +76,11 @@ function parseArgs(argv) {
     if (inlineValue == null && value != null && !String(value).startsWith("--")) index += 1;
     switch (rawKey) {
       case "seed":
+        seedOptionSeen = true;
         options.seed = value;
         break;
       case "seeds":
+        seedsOptionSeen = true;
         options.seeds = String(value || "")
           .split(",")
           .map((item) => item.trim())
@@ -156,6 +160,16 @@ function parseArgs(argv) {
       default:
         throw new Error(`Unknown option --${rawKey}`);
     }
+  }
+  if (options.single && seedOptionSeen && seedsOptionSeen) {
+    throw new Error("--single accepts either --seed or --seeds, not both");
+  }
+  if (options.single && seedsOptionSeen) {
+    if (options.seeds.length !== 1) {
+      throw new Error("--single requires exactly one seed when using --seeds");
+    }
+    [options.seed] = options.seeds;
+    options.seeds = null;
   }
   return options;
 }
@@ -736,9 +750,15 @@ async function main() {
   }
 }
 
-main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error.stack || error.message || String(error));
-    process.exit(1);
-  });
+if (require.main === module) {
+  main()
+    .then(() => process.exit(0))
+    .catch((error) => {
+      console.error(error.stack || error.message || String(error));
+      process.exit(1);
+    });
+}
+
+module.exports = {
+  parseArgs,
+};
