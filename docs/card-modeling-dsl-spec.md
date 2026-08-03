@@ -117,6 +117,7 @@ agent 最终应把人工描述转换成以下规范对象。当前实现可以�
 | DSL | 参数 | 说明 |
 | --- | --- | --- |
 | `gain_resources` | `credits`、`energy`、`publicity`、`score` | 自动节点。 |
+| `card_reset_resource` | `resource`、`value`（当前固定为 `0`） | 自动节点。将指定资源清零；与后续选择节点分开，以便独立撤销。 |
 | `gain_data` | `count` | 自动节点，逐个获得数据。 |
 | `draw_cards` | `count` | 自动节点，但通常不可撤销。 |
 | `pick_public_card` | `count`、`allowBlindDraw` | 选择节点。 |

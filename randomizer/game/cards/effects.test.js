@@ -265,7 +265,17 @@ assert.equal(dlc6LandingScan.options.gainData, true);
 assert.deepEqual(cardEffects.buildPlayEffects({ cardId: "dlc_13.png" })[1].options.gain, { additionalPublicScan: 1 });
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_15.png" })[0].options.afterResearchReward.kind, "repeatBonus");
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_17.png" })[0].type, cardEffects.EFFECT_TYPES.PAY_CREDITS_FOR_REWARD);
-assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_18.png" })[0].options.requireCondition.type, "resourceEquals");
+const dlc18Effects = cardEffects.buildPlayEffects({ cardId: "dlc_18.png" });
+assert.equal(dlc18Effects.length, 2);
+assert.equal(dlc18Effects[0].type, cardEffects.EFFECT_TYPES.RESET_RESOURCE);
+assert.equal(dlc18Effects[0].options.resource, "publicity");
+assert.equal(dlc18Effects[0].options.value, 0);
+assert.equal(dlc18Effects[1].type, cardEffects.EFFECT_TYPES.RESEARCH_TECH);
+assert.equal(dlc18Effects[1].options.researchedByOthersOnly, true);
+assert.equal(dlc18Effects[1].options.skipCost, true);
+assert.equal(dlc18Effects[1].options.skipRotate, true);
+assert.equal(dlc18Effects[1].options.skipBonus, true);
+assert.equal(dlc18Effects[1].options.requireCondition, undefined);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_19.png" })[0].type, cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE);
 const dlc20RepeatCorner = cardEffects.buildPlayEffects({ cardId: "dlc_20.png" })
   .find((effect) => effect.type === cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT);

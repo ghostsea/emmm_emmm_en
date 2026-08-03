@@ -908,4 +908,34 @@ assert.ok(
   "Aomomo card 6 choice handler should be defined and wired to both event and AI controllers",
 );
 
+{
+  const player = {
+    id: "player-white",
+    color: "white",
+    colorLabel: "白色",
+    resources: { publicity: 7 },
+  };
+  const resetEffect = cardEffects.buildPlayEffects({ cardId: "dlc_18.png" })[0];
+  const recordedCommands = [];
+  const executeResetResourceEffect = loadNamedFunction("executeResetResourceEffect", {
+    getEffectTargetPlayer: () => player,
+    structuredClone,
+    beginEffectHistoryStep: () => {},
+    recordHistoryCommand: (command) => recordedCommands.push(command),
+    historyCommands,
+    finishAutomaticRewardEffect: (effect, result) => {
+      effect.result = result;
+      effect.status = "completed";
+      return result;
+    },
+  });
+
+  const result = executeResetResourceEffect(resetEffect);
+  assert.equal(result.ok, true);
+  assert.equal(player.resources.publicity, 0, "dlc_18 must clear non-zero publicity before tech selection");
+  assert.equal(recordedCommands.length, 1);
+  recordedCommands[0].undo();
+  assert.equal(player.resources.publicity, 7, "undo must restore the publicity cleared by dlc_18");
+}
+
 console.log("runtime-regressions.test.js: all tests passed");

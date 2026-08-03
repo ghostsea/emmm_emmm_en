@@ -18,6 +18,7 @@
     ANY_SECTOR_SCAN: "card_any_sector_scan",
     SCAN_ACTION: "card_scan_action",
     RESEARCH_TECH: "card_research_tech",
+    RESET_RESOURCE: "card_reset_resource",
     CARD_ORBIT: "card_orbit",
     CARD_LAND: "card_land",
     REMOVE_PLANET_MARKER: "card_remove_planet_marker",
@@ -379,6 +380,13 @@
   function gainResourcesEffect(id, label, gain) {
     return effect(id, REWARD_TYPES.GAIN_RESOURCES, label, gain.score ? "score" : gain.energy ? "energy" : "publicity", {
       gain,
+    });
+  }
+
+  function resetResourceEffect(id, label, resource) {
+    return effect(id, EFFECT_TYPES.RESET_RESOURCE, label, resource, {
+      resource,
+      value: 0,
     });
   }
 
@@ -2354,7 +2362,15 @@
     }),
     "dlc_18.png": withSource("dlc_18.png", {
       cardType: 0,
-      playEffects: Object.freeze([effect("dlc18-shared-tech", EFFECT_TYPES.RESEARCH_TECH, "0宣传时研究已被拿取科技", "research_tech", { skipCost: true, skipRotate: true, skipBonus: true, researchedByOthersOnly: true, requireCondition: Object.freeze({ type: "resourceEquals", resource: "publicity", count: 0 }) })]),
+      playEffects: Object.freeze([
+        resetResourceEffect("dlc18-reset-publicity", "宣传清零", "publicity"),
+        effect("dlc18-shared-tech", EFFECT_TYPES.RESEARCH_TECH, "选择其他玩家已研究的科技", "research_tech", {
+          skipCost: true,
+          skipRotate: true,
+          skipBonus: true,
+          researchedByOthersOnly: true,
+        }),
+      ]),
     }),
     "dlc_19.png": withSource("dlc_19.png", {
       cardType: 0,

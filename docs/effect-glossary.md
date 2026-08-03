@@ -34,6 +34,7 @@
 | 信用点 | 增加玩家信用点。 | 通常可撤销；科技 bonus 阶段不可撤销。 | `assets/symbol/effect/credits.webp` |
 | 能量 | 增加玩家能量。 | 通常可撤销；科技 bonus 阶段不可撤销。 | `assets/symbol/effect/energy.webp` |
 | 宣传 | 增加玩家宣传，受宣传上限限制。 | 通常可撤销；科技 bonus 阶段不可撤销。 | `assets/symbol/effect/publicity.webp` |
+| 资源清零 | 将指定玩家资源直接设为 0；例如 `dlc_18.png` 先将宣传清零，再进入他人已研究科技的选择。 | 可撤销 | 对应资源图标 |
 | 数据 | 获得指定数量数据，进入玩家数据池；数据池满时改为弃置计数。 | 可撤销 | `assets/symbol/effect/data.webp` |
 | 按手牌收入计数奖励 | 按手牌中指定收入角标牌数量获得资源。 | 可撤销 | 对应资源图标 |
 | 按当前收入计数奖励 | 按当前高于公司模型 `baseIncome` 的收入数量获得资源。 | 可撤销 | 对应资源图标 |

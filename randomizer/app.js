@@ -17425,6 +17425,35 @@
     });
   }
 
+  function executeResetResourceEffect(effect) {
+    const currentPlayer = getEffectTargetPlayer(effect);
+    const resource = String(effect.options?.resource || "").trim();
+    if (!currentPlayer?.resources || !resource || !Object.prototype.hasOwnProperty.call(currentPlayer.resources, resource)) {
+      return finishAutomaticRewardEffect(effect, {
+        ok: false,
+        skipped: true,
+        message: `${effect.label}：资源不存在，已跳过`,
+      });
+    }
+
+    const value = Math.max(0, Math.round(Number(effect.options?.value) || 0));
+    const beforePlayer = structuredClone(currentPlayer);
+    const previousValue = Math.max(0, Math.round(Number(currentPlayer.resources[resource]) || 0));
+    beginEffectHistoryStep(effect.label);
+    currentPlayer.resources[resource] = value;
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      currentPlayer,
+      beforePlayer,
+      "恢复资源清零前玩家状态",
+    ));
+    return finishAutomaticRewardEffect(effect, {
+      ok: true,
+      undoable: true,
+      message: `${effect.label}：${currentPlayer.colorLabel || currentPlayer.name || "玩家"} ${previousValue}→${value}`,
+      payload: { resource, previousValue, value },
+    });
+  }
+
   function finishGainDataRewardEffect(effect, currentPlayer, count, source, options = {}) {
     if (!effectStepActive) beginEffectHistoryStep(effect.label);
     const results = [];
@@ -19700,6 +19729,8 @@
         return expandCardScanActionEffect(effect);
       case types.RESEARCH_TECH:
         return executeCardResearchTechEffect(effect);
+      case types.RESET_RESOURCE:
+        return executeResetResourceEffect(effect);
       case types.CARD_ORBIT:
         return executeCardOrbitEffect(effect);
       case types.CARD_LAND:
