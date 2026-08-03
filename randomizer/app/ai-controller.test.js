@@ -15773,6 +15773,42 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(JSON.stringify(report.resourceFlow).includes("secret"), false);
 }
 
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    canStartMainAction: true,
+    actionGraph: {
+      buildActionGraph: (candidates) => candidates.map((candidate) => ({
+        ...candidate,
+        gain: 0,
+        cost: 0,
+        finalMarginal: 0,
+        goalBonus: 0,
+        feasibility: 1,
+        net: candidate.id === "pass" ? -2.7 : Number(candidate.score || 0),
+      })),
+    },
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+      compactLogs: true,
+    }).ok,
+    true,
+  );
+  harness.controller.runAiAutomationStep();
+  const compactTurnLog = harness.controller.getAiAutoBattleReport({ includeAnalysis: false }).logs
+    .find((entry) => entry.type === "turn-action");
+  assert.equal(compactTurnLog?.details?.action?.id, "pass");
+  assert.equal(
+    compactTurnLog?.details?.action?.policyScore,
+    -2.7,
+    "compact turn logs should retain the exact action-graph score used by the policy",
+  );
+}
+
 async function runAsyncControllerTests() {
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",

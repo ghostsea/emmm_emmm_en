@@ -268,6 +268,8 @@
 
   function getCandidatePolicyScore(candidate) {
     if (!candidate) return null;
+    const explicitPolicyScore = getFiniteScore(candidate.policyScore);
+    if (explicitPolicyScore != null) return explicitPolicyScore;
     const graphNet = getCandidateActionGraphNet(candidate);
     if (graphNet != null) return graphNet;
     const actionId = getCandidateId(candidate);
@@ -284,7 +286,18 @@
   }
 
   function getCandidateActionGraphNet(candidate) {
-    return getFiniteScore(candidate?.actionGraph?.net ?? candidate?.net);
+    const graphNet = getFiniteScore(candidate?.actionGraph?.net ?? candidate?.net);
+    if (graphNet != null) return graphNet;
+    const compactBreakdownNet = getFiniteScore(candidate?.breakdown?.net);
+    const explicitScore = getFiniteScore(candidate?.score);
+    if (
+      compactBreakdownNet != null
+      && explicitScore != null
+      && Math.abs(compactBreakdownNet - explicitScore) <= 0.001
+    ) {
+      return explicitScore;
+    }
+    return null;
   }
 
   function isCandidateAvailable(candidate) {

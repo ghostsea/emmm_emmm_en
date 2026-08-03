@@ -24787,6 +24787,7 @@
 
     function summarizeAiTurnActionCandidate(candidate = {}) {
       const breakdown = candidate.breakdown || candidate.valueBreakdown || null;
+      const policyScore = roundAiScore(getAiCandidateRankScore(candidate));
       const compactBreakdown = breakdown
         ? Object.fromEntries(Object.entries(breakdown).filter(([, value]) => (
           Number.isFinite(Number(value)) || typeof value === "string" || typeof value === "boolean"
@@ -24801,7 +24802,8 @@
         label: candidate.label || getAiCardDisplayLabel(candidate) || candidate.planetName || null,
         cardId: candidate.cardId || null,
         cardInstanceId: candidate.cardInstanceId || null,
-        score: roundAiScore(getAiCandidateRankScore(candidate)),
+        score: policyScore,
+        policyScore,
         directScoreGain: roundAiScore(candidate.directScoreGain || 0),
         finalMarginal: roundAiScore(candidate.actionGraph?.finalMarginal ?? candidate.finalMarginal ?? 0),
         goalBonus: roundAiScore(candidate.actionGraph?.goalBonus ?? candidate.goalBonus ?? 0),
