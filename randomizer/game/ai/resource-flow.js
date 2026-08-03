@@ -1020,27 +1020,27 @@
     return (beforePlayer?.hand || []).filter((card) => !afterKeys.has(card.key));
   }
 
-  function attachStructuredHandGains(events, beforeStates, afterStates, entry) {
+  function attachStructuredHandGains(entryEvents, beforeStates, afterStates, entry) {
     if (!beforeStates || !afterStates) return;
     const entryId = entry.id ?? entry.entryId ?? null;
     for (const [playerId, afterPlayer] of afterStates) {
       const additions = getStructuredHandAdditions(beforeStates.get(playerId), afterPlayer);
       if (!additions.length) continue;
-      const playerEvents = events.filter((event) => (
+      const playerEvents = entryEvents.filter((event) => (
         event.entryId === entryId && event.playerId === playerId
       ));
       const targetEvent = [...playerEvents].reverse().find((event) => event.sourceCategory !== "cost")
         || playerEvents[playerEvents.length - 1];
-      const anyEntryAlienEvent = events.find((event) => (
+      const anyEntryAlienEvent = entryEvents.find((event) => (
         event.entryId === entryId && event.sourceCategory === "alien"
       ));
-      const anyEntryIndustryEvent = events.find((event) => (
+      const anyEntryIndustryEvent = entryEvents.find((event) => (
         event.entryId === entryId && event.sourceCategory === "industry"
       ));
       const sourceCategory = targetEvent?.sourceCategory
         || (anyEntryAlienEvent ? "alien" : (anyEntryIndustryEvent ? "industry" : "card"));
       const eventForCards = targetEvent || {
-        gameId: events[0]?.gameId || "ai-game",
+        gameId: entryEvents[0]?.gameId || "ai-game",
         entryId,
         stepIndex: Number.MAX_SAFE_INTEGER - 1,
         playerId,
@@ -1060,7 +1060,7 @@
         confidence: 0.9,
         syntheticHandGain: true,
       };
-      if (!targetEvent) events.push(eventForCards);
+      if (!targetEvent) entryEvents.push(eventForCards);
       const recordedHandGain = playerEvents.reduce(
         (total, event) => total + Math.max(0, Number(event.resourceDeltas?.handSize) || 0),
         0,
@@ -1082,13 +1082,13 @@
     }
   }
 
-  function attachStructuredHandUses(events, beforeStates, afterStates, entry) {
+  function attachStructuredHandUses(entryEvents, beforeStates, afterStates, entry) {
     if (!beforeStates || !afterStates) return;
     const entryId = entry.id ?? entry.entryId ?? null;
     for (const [playerId, beforePlayer] of beforeStates) {
       const removals = getStructuredHandRemovals(beforePlayer, afterStates.get(playerId));
       if (!removals.length) continue;
-      const playerEvents = events.filter((event) => (
+      const playerEvents = entryEvents.filter((event) => (
         event.entryId === entryId && event.playerId === playerId
       ));
       const remaining = [...removals];
@@ -1138,7 +1138,7 @@
     return steps.length > 0 && steps.every((step) => step?.source === "setup");
   }
 
-  function appendStructuredSetupResiduals(events, entry, beforeStates, afterStates, options) {
+  function appendStructuredSetupResiduals(entryEvents, entry, beforeStates, afterStates, options) {
     if (!beforeStates || !afterStates || !isSetupStructuredEntry(entry)) return;
     const entryId = entry.id ?? entry.entryId ?? null;
     for (const [playerId, afterPlayer] of afterStates) {
@@ -1149,7 +1149,12 @@
           - (Number(beforePlayer.resources.handSize) || 0),
       };
       const actualIncome = {};
-      const parsedResources = sumStructuredEntryEvents(events, entryId, playerId, "resourceDeltas");
+      const parsedResources = sumStructuredEntryEvents(
+        entryEvents,
+        entryId,
+        playerId,
+        "resourceDeltas",
+      );
       const parsedIncome = {};
       const residualResources = addResourceMaps(actualResources, Object.fromEntries(
         [["handSize", -(Number(parsedResources.handSize) || 0)]],
@@ -1159,7 +1164,7 @@
       ));
       if (!Object.keys(residualResources).length && !Object.keys(residualIncome).length) continue;
       const playerResult = getStructuredPlayerResult(options, playerId, afterPlayer.playerLabel);
-      events.push({
+      entryEvents.push({
         gameId: options.gameId || "ai-game",
         entryId,
         stepIndex: Number.MAX_SAFE_INTEGER,
@@ -1187,7 +1192,13 @@
     }
   }
 
-  function appendStructuredResearchCostInference(events, entry, beforeStates, afterStates, options) {
+  function appendStructuredResearchCostInference(
+    entryEvents,
+    entry,
+    beforeStates,
+    afterStates,
+    options,
+  ) {
     if (!beforeStates || !afterStates || isSetupStructuredEntry(entry)) return;
     const text = (entry.steps || []).map((step) => String(step?.text || "")).join(" ");
     if (!/科技行动/.test(text) || !/选择科技：/.test(text)) return;
@@ -1199,12 +1210,12 @@
     const actualPublicity = (Number(afterPlayer.resources.publicity) || 0)
       - (Number(beforePlayer.resources.publicity) || 0);
     const eventPublicity = Number(
-      sumStructuredEntryEvents(events, entryId, playerId, "resourceDeltas").publicity,
+      sumStructuredEntryEvents(entryEvents, entryId, playerId, "resourceDeltas").publicity,
     ) || 0;
     const missingCost = actualPublicity - eventPublicity;
     if (missingCost >= 0) return;
     const playerResult = getStructuredPlayerResult(options, playerId, afterPlayer.playerLabel);
-    events.push({
+    entryEvents.push({
       gameId: options.gameId || "ai-game",
       entryId,
       stepIndex: Number.MAX_SAFE_INTEGER - 2,
@@ -1250,24 +1261,40 @@
       || "unclassified";
   }
 
-  function appendStructuredSnapshotInferences(events, entry, beforeStates, afterStates, options) {
+  function appendStructuredSnapshotInferences(
+    entryEvents,
+    entry,
+    beforeStates,
+    afterStates,
+    options,
+  ) {
     if (!beforeStates || !afterStates || isSetupStructuredEntry(entry)) return 0;
     const entryId = entry.id ?? entry.entryId ?? null;
-    const allEntryEvents = events.filter((event) => event.entryId === entryId);
+    const allEntryEvents = entryEvents;
     let inferredMagnitude = 0;
     for (const [playerId, afterPlayer] of afterStates) {
       const beforePlayer = beforeStates.get(playerId);
       if (!beforePlayer) continue;
-      const entryEvents = allEntryEvents.filter((event) => event.playerId === playerId);
+      const playerEvents = allEntryEvents.filter((event) => event.playerId === playerId);
       const actualResources = diffResourceMaps(afterPlayer.resources, beforePlayer.resources);
-      const eventResources = sumStructuredEntryEvents(events, entryId, playerId, "resourceDeltas");
+      const eventResources = sumStructuredEntryEvents(
+        playerEvents,
+        entryId,
+        playerId,
+        "resourceDeltas",
+      );
       delete actualResources.score;
       delete eventResources.score;
       const residualResources = addResourceMaps(actualResources, Object.fromEntries(
         Object.entries(eventResources).map(([key, value]) => [key, -value]),
       ));
       const actualIncome = diffResourceMaps(afterPlayer.income, beforePlayer.income);
-      const eventIncome = sumStructuredEntryEvents(events, entryId, playerId, "incomeDeltas");
+      const eventIncome = sumStructuredEntryEvents(
+        playerEvents,
+        entryId,
+        playerId,
+        "incomeDeltas",
+      );
       const residualIncome = addResourceMaps(actualIncome, Object.fromEntries(
         Object.entries(eventIncome).map(([key, value]) => [key, -value]),
       ));
@@ -1281,7 +1308,7 @@
       for (const [key, delta] of Object.entries(residualResources)) {
         if (!delta) continue;
         const sourceCategory = chooseStructuredSnapshotInferenceSource(
-          entryEvents,
+          playerEvents,
           allEntryEvents,
           key,
           delta,
@@ -1291,7 +1318,7 @@
       }
       for (const [key, delta] of Object.entries(residualIncome)) {
         if (!delta) continue;
-        const sourceCategory = entryEvents.some((event) => (
+        const sourceCategory = playerEvents.some((event) => (
           event.sourceCategory === "income_upgrade_immediate"
         )) ? "income_upgrade_immediate" : "unclassified";
         ensureGroup(sourceCategory).incomeDeltas[key] = delta;
@@ -1300,7 +1327,7 @@
       const playerResult = getStructuredPlayerResult(options, playerId, afterPlayer.playerLabel);
       let groupIndex = 0;
       for (const [sourceCategory, deltas] of groups) {
-        events.push({
+        allEntryEvents.push({
           gameId: options.gameId || "ai-game",
           entryId,
           stepIndex: Number.MAX_SAFE_INTEGER - 10 + groupIndex,
@@ -1335,22 +1362,35 @@
     let inferredMagnitude = 0;
     for (const entry of entries || []) {
       const snapshotStates = extractStructuredSnapshotStates(entry);
-      for (const [stepIndex, step] of (entry.steps || []).entries()) {
-        events.push(buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options));
-      }
+      const entryEvents = (entry.steps || []).map((step, stepIndex) => (
+        buildStructuredStepEvent(entry, step, stepIndex, snapshotStates, options)
+      ));
       if (setupResidualAvailable) {
-        appendStructuredSetupResiduals(events, entry, previousStates, snapshotStates, options);
+        appendStructuredSetupResiduals(
+          entryEvents,
+          entry,
+          previousStates,
+          snapshotStates,
+          options,
+        );
       }
-      appendStructuredResearchCostInference(events, entry, previousStates, snapshotStates, options);
-      attachStructuredHandGains(events, previousStates, snapshotStates, entry);
-      attachStructuredHandUses(events, previousStates, snapshotStates, entry);
-      inferredMagnitude += appendStructuredSnapshotInferences(
-        events,
+      appendStructuredResearchCostInference(
+        entryEvents,
         entry,
         previousStates,
         snapshotStates,
         options,
       );
+      attachStructuredHandGains(entryEvents, previousStates, snapshotStates, entry);
+      attachStructuredHandUses(entryEvents, previousStates, snapshotStates, entry);
+      inferredMagnitude += appendStructuredSnapshotInferences(
+        entryEvents,
+        entry,
+        previousStates,
+        snapshotStates,
+        options,
+      );
+      events.push(...entryEvents);
       if (snapshotStates) {
         previousStates = snapshotStates;
         setupResidualAvailable = false;
@@ -1372,9 +1412,21 @@
     ), 0);
   }
 
+  function indexStructuredEventsByEntryAndPlayer(events = []) {
+    const index = new Map();
+    for (const event of events) {
+      if (!index.has(event.entryId)) index.set(event.entryId, new Map());
+      const entryEvents = index.get(event.entryId);
+      if (!entryEvents.has(event.playerId)) entryEvents.set(event.playerId, []);
+      entryEvents.get(event.playerId).push(event);
+    }
+    return index;
+  }
+
   function reconcileStructuredEvents(entries = [], events = [], options = {}) {
     const residuals = [];
     const baselineMissing = [];
+    const eventIndex = indexStructuredEventsByEntryAndPlayer(events);
     let previousStates = normalizeInitialStructuredStates(options.initialPlayerStates);
     for (const entry of entries || []) {
       const currentStates = extractStructuredSnapshotStates(entry);
@@ -1390,10 +1442,21 @@
           baselineMissing.push({ entryId, playerId });
           continue;
         }
+        const playerEntryEvents = eventIndex.get(entryId)?.get(playerId) || [];
         const actualResources = diffResourceMaps(currentPlayer.resources, previousPlayer.resources);
         const actualIncome = diffResourceMaps(currentPlayer.income, previousPlayer.income);
-        const eventResources = sumStructuredEntryEvents(events, entryId, playerId, "resourceDeltas");
-        const eventIncome = sumStructuredEntryEvents(events, entryId, playerId, "incomeDeltas");
+        const eventResources = sumStructuredEntryEvents(
+          playerEntryEvents,
+          entryId,
+          playerId,
+          "resourceDeltas",
+        );
+        const eventIncome = sumStructuredEntryEvents(
+          playerEntryEvents,
+          entryId,
+          playerId,
+          "incomeDeltas",
+        );
         delete actualResources.score;
         delete eventResources.score;
         const residualResources = addResourceMaps(actualResources, Object.fromEntries(
