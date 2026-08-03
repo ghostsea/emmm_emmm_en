@@ -268,6 +268,8 @@
 
   function getCandidatePolicyScore(candidate) {
     if (!candidate) return null;
+    const explicitPolicyScore = getFiniteScore(candidate.policyScore);
+    if (explicitPolicyScore != null) return explicitPolicyScore;
     const graphNet = getCandidateActionGraphNet(candidate);
     if (graphNet != null) return graphNet;
     const actionId = getCandidateId(candidate);
@@ -284,7 +286,18 @@
   }
 
   function getCandidateActionGraphNet(candidate) {
-    return getFiniteScore(candidate?.actionGraph?.net ?? candidate?.net);
+    const graphNet = getFiniteScore(candidate?.actionGraph?.net ?? candidate?.net);
+    if (graphNet != null) return graphNet;
+    const compactBreakdownNet = getFiniteScore(candidate?.breakdown?.net);
+    const explicitScore = getFiniteScore(candidate?.score);
+    if (
+      compactBreakdownNet != null
+      && explicitScore != null
+      && Math.abs(compactBreakdownNet - explicitScore) <= 0.001
+    ) {
+      return explicitScore;
+    }
+    return null;
   }
 
   function isCandidateAvailable(candidate) {
@@ -3788,7 +3801,17 @@
 
   function recordTurnCandidateScores(candidateScoreStats, candidates = [], action = null) {
     const scoredAvailable = [];
-    let selectedEntry = null;
+    const selectedActionHasOwnScore = Boolean(action) && (
+      getCandidateActionGraphNet(action) != null
+      || getFiniteScore(action?.score) != null
+    );
+    let selectedEntry = selectedActionHasOwnScore
+      ? {
+        actionId: getCandidateId(action),
+        candidate: action,
+        score: getCandidatePolicyScore(action),
+      }
+      : null;
     for (const candidate of candidates || []) {
       const actionId = getCandidateId(candidate);
       const score = getCandidatePolicyScore(candidate);
@@ -3800,7 +3823,7 @@
         addScoreStatValue(stat, "availableScoreTotal", score);
         if (score != null) scoredAvailable.push({ actionId, candidate, score });
       }
-      if (candidateMatchesAction(candidate, action)) {
+      if (!selectedActionHasOwnScore && candidateMatchesAction(candidate, action)) {
         selectedEntry = { actionId, candidate, score };
       }
     }

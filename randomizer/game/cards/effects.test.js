@@ -273,8 +273,8 @@ assert.equal(dlc18Effects[0].options.value, 0);
 assert.equal(dlc18Effects[1].type, cardEffects.EFFECT_TYPES.RESEARCH_TECH);
 assert.equal(dlc18Effects[1].options.researchedByOthersOnly, true);
 assert.equal(dlc18Effects[1].options.skipCost, true);
-assert.equal(dlc18Effects[1].options.skipRotate, true);
-assert.equal(dlc18Effects[1].options.skipBonus, true);
+assert.equal(dlc18Effects[1].options.skipRotate, undefined);
+assert.equal(dlc18Effects[1].options.skipBonus, undefined);
 assert.equal(dlc18Effects[1].options.requireCondition, undefined);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "dlc_19.png" })[0].type, cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE);
 const dlc20RepeatCorner = cardEffects.buildPlayEffects({ cardId: "dlc_20.png" })

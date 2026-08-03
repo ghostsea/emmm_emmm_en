@@ -2366,8 +2366,6 @@
         resetResourceEffect("dlc18-reset-publicity", "宣传清零", "publicity"),
         effect("dlc18-shared-tech", EFFECT_TYPES.RESEARCH_TECH, "选择其他玩家已研究的科技", "research_tech", {
           skipCost: true,
-          skipRotate: true,
-          skipBonus: true,
           researchedByOthersOnly: true,
         }),
       ]),

@@ -431,6 +431,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       ...(options.aiValuation ? { valuation: options.aiValuation } : {}),
       ...(options.actionGraph ? { actionGraph: options.actionGraph } : {}),
       ...(options.aiPlanner ? { planner: options.aiPlanner } : {}),
+      ...(options.aiResourceFlow ? { resourceFlow: options.aiResourceFlow } : {}),
     },
     cardEffects: {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
@@ -574,6 +575,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       return null;
     },
     getInitialSelectionOffer: (playerId) => options.initialSelectionOffers?.[playerId] || null,
+    getActionLogEntries: options.getActionLogEntries || (() => []),
     getMovableTokensForPlayer: (playerId) => getHarnessRocketsForPlayer(playerId),
     getPendingPlayCardSelection: () => null,
     getPlanetSectorCoordinate: (planetId) => {
@@ -1553,6 +1555,72 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const turnChoices = [];
+  const strategyIndustry = { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" };
+  const unreachableDeferredCard = {
+    id: "strategy-round-three-unreachable",
+    cardId: "strategy-round-three-unreachable",
+    cardName: "Round-three unreachable project",
+    price: 3,
+    typeCode: 2,
+    playEffects: [{ type: "gain_resources", options: { gain: { score: 12 } } }],
+  };
+  const immediateConversionCard = {
+    id: "strategy-round-three-conversion",
+    cardId: "strategy-round-three-conversion",
+    cardName: "Round-three immediate conversion",
+    price: 0,
+    typeCode: 1,
+    playEffects: [{ type: "gain_resources", options: { gain: { score: 4, credits: 1 } } }],
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 3,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    blueInitialSelection: { industry: strategyIndustry },
+    blueIndustryStrategyPassiveSlots: { yellow: false, red: false, blue: false },
+    blueResources: { score: 64, credits: 0, energy: 6, publicity: 1, handSize: 1 },
+    publicCards: [unreachableDeferredCard, immediateConversionCard],
+    industry: {
+      STRATEGY_PASSIVE_SLOT_IDS: ["yellow", "red", "blue"],
+      getIndustryActionMarkerLayout: () => ({ percentX: 9, percentY: 77, radiusPercent: 4.9 }),
+      canMarkIndustryAction: () => ({ ok: true }),
+      getIndustryDefinition: () => ({
+        label: "宇宙大战略集团",
+        activeAbilityId: "strategy_pick_card",
+        passiveIds: ["strategy_passive_reward_slots", "grand_strategy_round_start"],
+      }),
+      playerHasStrategyPassive: () => true,
+      hasGrandStrategyRoundStart: () => true,
+      getStrategySlotReward: () => null,
+      getStrategySlotRewardLabel: () => "",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "industry") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+
+  const result = harness.controller.runAiAutomationStep();
+  assert.equal(result.ok, true, "round-three grand strategy pick should remain executable");
+  const industryCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "industry" && candidate.abilityId === "strategy_pick_card");
+  assert.equal(
+    industryCandidate.valueBreakdown?.industryPublicPick?.bestCard?.cardId,
+    "strategy-round-three-conversion",
+    "round-three grand strategy should prefer a playable resource conversion over an unaffordable theoretical project",
+  );
+}
+
+{
   const makeSolarPanelCard = () => ({
     id: "dlc_27.png",
     cardId: "dlc_27.png",
@@ -2270,6 +2338,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     harness.controller.configureAiAutoBattle({
       playerIds: [harness.blue.id],
       suppressAutoSchedule: true,
+      compactLogs: true,
     }).ok,
     true,
   );
@@ -2297,7 +2366,17 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(
     discardLog?.details?.incomeDiscardPreview?.options?.length,
     harness.blue.hand.length,
-    "initial-income discard logs should expose the same per-card preview as later income flows",
+    "compact initial-income discard logs should preserve the per-card preview needed by batch diagnostics",
+  );
+  assert.equal(
+    typeof discardLog?.details?.incomeDiscardPreview?.options?.[0]?.playValue,
+    "number",
+    "compact income diagnostics should preserve each discarded card's playable value",
+  );
+  assert.equal(
+    typeof discardLog?.details?.incomeDiscardPreview?.options?.[0]?.playableNow,
+    "boolean",
+    "compact income diagnostics should distinguish real current plays from theoretical card value",
   );
 }
 
@@ -7207,6 +7286,81 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     "analyze cashout graph synchronization must stay local to a near-tie graph reversal",
   );
   assert.equal(largeGapSelectedAction?.id, "scan");
+
+  const unrecoverableScanTurnChoices = [];
+  let unrecoverableScanSelectedAction = null;
+  const unrecoverableScanOptions = {
+    ...reloadCycleOptions,
+    blueInitialSelection: {
+      industry: { id: "industry:寰宇超动力", label: "寰宇超动力" },
+    },
+    blueResources: {
+      ...reloadCycleOptions.blueResources,
+      score: 141,
+      energy: 2,
+      publicity: 5,
+      availableData: 5,
+      handSize: 1,
+    },
+    blueHand: [{ id: "unrecoverable-scan-card", cardName: "Unrecoverable scan card", price: 3 }],
+    onChooseTurnAction: (unrecoverableCandidates, selected) => {
+      unrecoverableScanTurnChoices.push(unrecoverableCandidates);
+      unrecoverableScanSelectedAction = selected;
+    },
+  };
+  const unrecoverableScanHarness = createAiControllerHarness(null, unrecoverableScanOptions);
+  assert.equal(
+    unrecoverableScanHarness.controller.configureAiAutoBattle({
+      playerIds: [unrecoverableScanHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  unrecoverableScanHarness.controller.runAiAutomationStep();
+  const unrecoverableScanCandidate = unrecoverableScanTurnChoices
+    .flat()
+    .find((candidate) => candidate.id === "scan");
+  assert.ok(unrecoverableScanCandidate, "unrecoverable full-computer scan should remain enumerated");
+  assert.equal(
+    unrecoverableScanCandidate.valueBreakdown?.finalFullComputerAnalyzeEnergyDrain,
+    true,
+    "a full computer must cash out before an unrecoverable scan drains the last analyze energy",
+  );
+  assert.equal(unrecoverableScanSelectedAction?.id, "analyze");
+
+  const sustainableScanTurnChoices = [];
+  let sustainableScanSelectedAction = null;
+  const sustainableScanHarness = createAiControllerHarness(null, {
+    ...unrecoverableScanOptions,
+    blueResources: {
+      ...unrecoverableScanOptions.blueResources,
+      energy: 3,
+    },
+    onChooseTurnAction: (sustainableCandidates, selected) => {
+      sustainableScanTurnChoices.push(sustainableCandidates);
+      sustainableScanSelectedAction = selected;
+    },
+  });
+  assert.equal(
+    sustainableScanHarness.controller.configureAiAutoBattle({
+      playerIds: [sustainableScanHarness.blue.id],
+      aiDifficulty: "laughable",
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  sustainableScanHarness.controller.runAiAutomationStep();
+  const sustainableScanCandidate = sustainableScanTurnChoices
+    .flat()
+    .find((candidate) => candidate.id === "scan");
+  assert.ok(sustainableScanCandidate, "energy-sustainable scan should remain enumerated");
+  assert.equal(
+    sustainableScanCandidate.valueBreakdown?.finalFullComputerAnalyzeEnergyDrain,
+    undefined,
+    "the analyze-first cap must stay off when scan leaves enough energy to analyze",
+  );
+  assert.equal(sustainableScanSelectedAction?.id, "scan");
 }
 
 {
@@ -7968,6 +8122,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     harness.controller.configureAiAutoBattle({
       playerIds: [harness.blue.id],
       suppressAutoSchedule: true,
+      compactLogs: true,
     }).ok,
     true,
   );
@@ -12557,6 +12712,11 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     alienIds = [aomomo.ALIEN_ID, yichangdian.ALIEN_ID],
     placedComputerSlots = [1, 2],
     projectedScanDataCount = 2,
+    score = 57,
+    energy = 4,
+    publicity = 5,
+    handSize = 5,
+    finalMarkThresholds = [25, 50],
   } = {}) => {
     const turnChoices = [];
     const harness = createAiControllerHarness(null, {
@@ -12578,14 +12738,14 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         industry: { id: `industry:${companyLabel}`, label: companyLabel },
       },
       blueResources: {
-        score: 57,
+        score,
         credits: 0,
-        energy: 4,
-        publicity: 5,
+        energy,
+        publicity,
         availableData: 0,
-        handSize: 5,
+        handSize,
       },
-      blueHand: Array.from({ length: 5 }, (_item, index) => ({
+      blueHand: Array.from({ length: handSize }, (_item, index) => ({
         id: `grand-r3-alien-scan-${index}`,
         cardName: `Grand R3 alien scan ${index}`,
         price: 2,
@@ -12615,21 +12775,18 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         scanActionCode: 2,
       }],
       finalScoringState: {
-        tiles: {
-          final_a2: {
-            id: "final_a2",
-            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        tiles: Object.fromEntries(finalMarkThresholds.map((threshold, index) => [
+          `final_${index}`,
+          {
+            id: `final_${index}`,
+            marks: [{ playerId: "player-blue", slotIndex: 1, threshold }],
           },
-          final_c2: {
-            id: "final_c2",
-            marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
-          },
-        },
+        ])),
       },
-      finalFormulaIds: {
-        final_a2: "a2",
-        final_c2: "c2",
-      },
+      finalFormulaIds: Object.fromEntries(finalMarkThresholds.map((_threshold, index) => [
+        `final_${index}`,
+        index === 0 ? "a2" : index === 1 ? "c2" : "d2",
+      ])),
       scanEffects: {
         EFFECT_TYPES: {
           EARTH_SECTOR_SCAN: "earth_sector_scan",
@@ -12738,6 +12895,58 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     }).tradeCandidate,
     undefined,
     "the alien scan setup must project at least two data placements",
+  );
+
+  const amibaAnalyzeCycleOptions = {
+    alienIds: [amiba.ALIEN_ID, yichangdian.ALIEN_ID],
+    placedComputerSlots: [1, 2, 3, 4],
+    score: 71,
+    energy: 5,
+    publicity: 1,
+    handSize: 3,
+    finalMarkThresholds: [25, 50, 70],
+  };
+  const grandStrategyAmibaAnalyzeCycle = runGrandStrategyRoundThreeAlienScanSetup(
+    amibaAnalyzeCycleOptions,
+  );
+  assert.deepEqual(
+    grandStrategyAmibaAnalyzeCycle.handled,
+    { type: "quick-trade", tradeId: "energy-for-credit" },
+    "round-three Grand Strategy should open a two-data scan that immediately refills analyze",
+  );
+  assert.equal(
+    grandStrategyAmibaAnalyzeCycle.tradeCandidate?.valueBreakdown
+      ?.grandStrategyRoundThreeAmibaAnalyzeCycleUnlock,
+    true,
+  );
+  assert.equal(
+    grandStrategyAmibaAnalyzeCycle.tradeCandidate?.valueBreakdown?.unlockedMainAction?.actionId,
+    "scan",
+  );
+
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      ...amibaAnalyzeCycleOptions,
+      alienIds: [aomomo.ALIEN_ID, yichangdian.ALIEN_ID],
+    }).tradeCandidate,
+    undefined,
+    "the analyze-cycle bridge must require the fixed Amiba and Anomaly combination",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      ...amibaAnalyzeCycleOptions,
+      projectedScanDataCount: 1,
+    }).tradeCandidate,
+    undefined,
+    "the analyze-cycle bridge must project enough data to refill the sixth computer slot",
+  );
+  assert.equal(
+    runGrandStrategyRoundThreeAlienScanSetup({
+      ...amibaAnalyzeCycleOptions,
+      energy: 4,
+    }).tradeCandidate,
+    undefined,
+    "the analyze-cycle bridge must preserve one real energy after trade and scan",
   );
 }
 
@@ -15659,6 +15868,74 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     cardCandidate.directScoreGain,
     2,
     "play-card direct score must follow the selected blue2 candidate instead of the maximum score-only blue1 option",
+  );
+}
+
+{
+  const observed = [];
+  const requestedOptions = [];
+  const actionLogEntries = [{ id: 1, recoverySnapshot: { secret: true } }];
+  const harness = createAiControllerHarness(null, {
+    aiResourceFlow: {
+      analyzeStructuredActionLog: (entries, analysisOptions) => {
+        observed.push({ entries, analysisOptions });
+        return {
+          coverage: { weighted: 1 },
+          reconciliation: { residualMagnitude: 0 },
+          players: [],
+        };
+      },
+      summarizeResourceFlowAnalyses: (items) => ({
+        gameCount: items.length,
+        headline: { gameCount: items.length },
+      }),
+    },
+    getActionLogEntries: (options) => {
+      requestedOptions.push(options);
+      return actionLogEntries;
+    },
+  });
+  const report = harness.controller.getAiAutoBattleReport({ includeAnalysis: false });
+  assert.equal(observed.length, 1);
+  assert.deepEqual(requestedOptions, [{ includeRecovery: true, readOnlyInternal: true }]);
+  assert.equal(observed[0].entries, actionLogEntries);
+  assert.equal(report.resourceFlow.coverage.weighted, 1);
+  assert.equal(JSON.stringify(report.resourceFlow).includes("secret"), false);
+}
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    canStartMainAction: true,
+    actionGraph: {
+      buildActionGraph: (candidates) => candidates.map((candidate) => ({
+        ...candidate,
+        gain: 0,
+        cost: 0,
+        finalMarginal: 0,
+        goalBonus: 0,
+        feasibility: 1,
+        net: candidate.id === "pass" ? -2.7 : Number(candidate.score || 0),
+      })),
+    },
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+      compactLogs: true,
+    }).ok,
+    true,
+  );
+  harness.controller.runAiAutomationStep();
+  const compactTurnLog = harness.controller.getAiAutoBattleReport({ includeAnalysis: false }).logs
+    .find((entry) => entry.type === "turn-action");
+  assert.equal(compactTurnLog?.details?.action?.id, "pass");
+  assert.equal(
+    compactTurnLog?.details?.action?.policyScore,
+    -2.7,
+    "compact turn logs should retain the exact action-graph score used by the policy",
   );
 }
 
