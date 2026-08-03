@@ -8047,6 +8047,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     harness.controller.configureAiAutoBattle({
       playerIds: [harness.blue.id],
       suppressAutoSchedule: true,
+      compactLogs: true,
     }).ok,
     true,
   );

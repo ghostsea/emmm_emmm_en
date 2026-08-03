@@ -233,6 +233,7 @@
       playerIds: [],
       aiDifficulty: AI_DIFFICULTY_LAUGHABLE,
       logs: [],
+      turnActionHistory: [],
       bugs: [],
       bugCounts: {},
       turnMoveCounts: {},
@@ -638,6 +639,21 @@
     function recordAiAutoBattleLog(type, message, details = {}) {
       const entry = createAiAutoBattleEntry(type, message, details);
       aiAutoBattleState.logs.push(entry);
+      if (type === "turn-action") {
+        const action = details?.action || {};
+        aiAutoBattleState.turnActionHistory.push({
+          type,
+          roundNumber: entry.roundNumber,
+          rawTurnNumber: entry.rawTurnNumber,
+          playerId: entry.playerId,
+          action: {
+            id: action.id || null,
+            tradeId: action.tradeId || null,
+            actionKind: action.actionKind || null,
+            score: aiNumber(action.score),
+          },
+        });
+      }
       return entry;
     }
 
@@ -1589,6 +1605,7 @@
       );
       if (options.clearLogs !== false) {
         aiAutoBattleState.logs = [];
+        aiAutoBattleState.turnActionHistory = [];
         aiAutoBattleState.bugs = [];
         aiAutoBattleState.bugCounts = {};
         aiAutoBattleState.lastSummary = null;
@@ -7088,13 +7105,13 @@
 
     function countAiQuickTradesThisTurn(playerId = getCurrentPlayer()?.id, tradeId = null) {
       if (!playerId) return 0;
-      return (aiAutoBattleState.logs || []).filter((entry) => (
+      return (aiAutoBattleState.turnActionHistory || []).filter((entry) => (
         entry?.type === "turn-action"
         && entry.roundNumber === turnState.roundNumber
         && entry.rawTurnNumber === turnState.turnNumber
         && entry.playerId === playerId
-        && entry.details?.action?.id === "quickTrade"
-        && (!tradeId || entry.details.action.tradeId === tradeId)
+        && entry.action?.id === "quickTrade"
+        && (!tradeId || entry.action.tradeId === tradeId)
       )).length;
     }
 
@@ -9572,11 +9589,11 @@
     function countAiStandardScansThisRound(player = getCurrentPlayer()) {
       if (!player) return 0;
       const round = getAiRoundNumber();
-      return (aiAutoBattleState.logs || []).filter((entry) => (
+      return (aiAutoBattleState.turnActionHistory || []).filter((entry) => (
         entry?.type === "turn-action"
         && entry.roundNumber === round
         && entry.playerId === player.id
-        && entry.details?.action?.id === "scan"
+        && entry.action?.id === "scan"
       )).length;
     }
 
@@ -22689,12 +22706,12 @@
 
     function countAiRepeatedNegativeResourceCardCornersThisTurn(playerId = getCurrentPlayer()?.id) {
       if (!playerId) return 0;
-      return (aiAutoBattleState.logs || []).filter((entry) => (
+      return (aiAutoBattleState.turnActionHistory || []).filter((entry) => (
         entry?.type === "turn-action"
         && entry.roundNumber === turnState.roundNumber
         && entry.rawTurnNumber === turnState.turnNumber
         && entry.playerId === playerId
-        && isRawNegativeResourceCardCornerAction(entry.details?.action)
+        && isRawNegativeResourceCardCornerAction(entry.action)
       )).length;
     }
 
@@ -22714,12 +22731,12 @@
 
     function hasAiPassActionThisTurn(playerId = getCurrentPlayer()?.id) {
       if (!playerId) return false;
-      return (aiAutoBattleState.logs || []).some((entry) => (
+      return (aiAutoBattleState.turnActionHistory || []).some((entry) => (
         entry?.type === "turn-action"
         && entry.roundNumber === turnState.roundNumber
         && entry.rawTurnNumber === turnState.turnNumber
         && entry.playerId === playerId
-        && entry.details?.action?.id === "pass"
+        && entry.action?.id === "pass"
       ));
     }
 
