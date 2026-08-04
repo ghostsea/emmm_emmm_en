@@ -439,6 +439,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         CARD_MOVE: "card_move",
         CARD_LAND: "card_land",
         FREE_MOVE: "free_move",
+        SCAN_COLOR_CHOICE: "card_scan_color_choice",
         RESEARCH_TECH: "card_research_tech",
         PAY_CREDITS_FOR_REWARD: "card_pay_credits_for_reward",
         CARD_CORNER_EVENT_REWARD: "card_corner_event_reward",
@@ -7684,6 +7685,114 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    recordBeginPlayCard: true,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueResources: { score: 116, credits: 1, energy: 0, publicity: 0, availableData: 0, handSize: 1 },
+    finalScoringState: {
+      tiles: {
+        a: { marks: [{ playerId: "player-blue" }] },
+        b: { marks: [{ playerId: "player-blue" }] },
+        c: { marks: [{ playerId: "player-blue" }] },
+      },
+    },
+    movableTokens: [],
+    blueHand: [{
+      id: "move-then-scan-without-rocket",
+      cardName: "Move then scan without rocket",
+      price: 1,
+      typeCode: 0,
+      playEffects: [
+        { id: "optional-move", type: "card_move", options: { movementPoints: 1 } },
+        { id: "later-scan", type: "card_scan_color_choice", options: { color: "yellow", gainData: true } },
+      ],
+    }],
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "playCard") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  const result = harness.controller.runAiAutomationStep();
+  const playCardCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "playCard")
+    ?.playableCards?.[0] || null;
+  assert.equal(result.ok, true, "AI should play the later scan when its optional move has no rocket");
+  assert.ok(playCardCandidate, "a skippable empty move must not hide a later playable scan");
+  assert.equal(
+    playCardCandidate.valueBreakdown?.skippedUnresolvableMoveBeforeLaterEffect,
+    true,
+    "card valuation should record that the empty move contributes no value",
+  );
+  assert.deepEqual(harness.getHandled(), { type: "begin-play-card" });
+
+  const blockedChoices = [];
+  const blockedHarness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    blueResources: { score: 116, credits: 1, energy: 0, handSize: 3 },
+    movableTokens: [],
+    blueHand: [
+      {
+        id: "required-move-then-reward",
+        cardName: "Required move then reward",
+        price: 1,
+        typeCode: 0,
+        playEffects: [
+          { id: "required-move", type: "card_move", required: true, options: { movementPoints: 1 } },
+          { id: "later-reward", type: "gain_resources", options: { gain: { score: 4 } } },
+        ],
+      },
+      {
+        id: "empty-move-only",
+        cardName: "Empty move only",
+        price: 1,
+        typeCode: 0,
+        playEffects: [{ id: "only-move", type: "card_move", options: { movementPoints: 1 } }],
+      },
+      {
+        id: "ordinary-company-move-then-scan",
+        cardName: "Ordinary company move then scan",
+        price: 1,
+        typeCode: 0,
+        playEffects: [
+          { id: "ordinary-optional-move", type: "card_move", options: { movementPoints: 1 } },
+          { id: "ordinary-later-scan", type: "card_scan_color_choice", options: { color: "yellow", gainData: true } },
+        ],
+      },
+    ],
+    onChooseTurnAction: (candidates) => blockedChoices.push(candidates),
+  });
+  assert.equal(
+    blockedHarness.controller.configureAiAutoBattle({
+      playerIds: [blockedHarness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  blockedHarness.controller.runAiAutomationStep();
+  assert.equal(
+    blockedChoices.flat().find((candidate) => candidate.id === "playCard")?.available,
+    false,
+    "required or standalone empty moves must remain unplayable",
+  );
+}
+
+{
   const launchEffect = {
     id: "ready-task-capped-launch-effect",
     type: "launch",
@@ -13278,6 +13387,97 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     noFangzhou.tradeCandidate,
     undefined,
     "terminal comet conversion should require the observed stranded Fangzhou hand",
+  );
+}
+
+{
+  const runHuanyuLowTailDeadHandPick = (companyLabel) => {
+    const turnChoices = [];
+    const publicHighYieldCard = {
+      id: "public-huanyu-high-yield-card",
+      cardName: "Public Huanyu high-yield card",
+      price: 1,
+      playEffects: [{ type: "gain_resources", options: { gain: { score: 40 } } }],
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      roundNumber: 4,
+      aiDifficulty: "laughable",
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      recordQuickTrade: true,
+      quickTrades: {
+        "cards-for-pick-card": {
+          id: "cards-for-pick-card",
+          label: "2 cards -> public card",
+          cost: { handSize: 2 },
+          gain: { handSize: 1 },
+        },
+      },
+      publicCards: [publicHighYieldCard],
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 102,
+        credits: 1,
+        energy: 0,
+        publicity: 0,
+        availableData: 0,
+        handSize: 2,
+      },
+      blueHand: [
+        { id: "huanyu-stale-a", cardName: "Huanyu stale A", price: 20 },
+        { id: "huanyu-stale-b", cardName: "Huanyu stale B", price: 20 },
+      ],
+      finalScoringState: {
+        tiles: {
+          final_a1: { marks: [{ playerId: "player-blue", threshold: 25 }] },
+          final_b2: { marks: [{ playerId: "player-blue", threshold: 50 }] },
+          final_d2: { marks: [{ playerId: "player-blue", threshold: 70 }] },
+        },
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates
+        .slice()
+        .filter((candidate) => candidate.available !== false)
+        .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0] || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    const result = harness.controller.runAiAutomationStep();
+    return {
+      result,
+      handled: harness.getHandled(),
+      turnChoices,
+      tradeCandidate: turnChoices
+        .flat()
+        .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-pick-card"),
+    };
+  };
+
+  const huanyu = runHuanyuLowTailDeadHandPick("寰宇超动力");
+  assert.ok(huanyu.result, `expected Huanyu recovery action; choices=${JSON.stringify(huanyu.turnChoices)}`);
+  assert.equal(huanyu.result.ok, true);
+  assert.deepEqual(
+    huanyu.handled,
+    { type: "quick-trade", tradeId: "cards-for-pick-card" },
+    "low-tail Huanyu should convert exactly two stale cards into a payable high-yield card",
+  );
+  assert.equal(huanyu.tradeCandidate?.valueBreakdown?.huanyuLowTailDeadHandPickRefill, true);
+  assert.equal(huanyu.tradeCandidate?.valueBreakdown?.cardsForPickCardHandAfterTrade, 1);
+
+  const ordinaryCompany = runHuanyuLowTailDeadHandPick("普通公司");
+  assert.equal(
+    ordinaryCompany.tradeCandidate,
+    undefined,
+    "the two-card high-yield recovery must stay local to Huanyu Superdrive",
   );
 }
 

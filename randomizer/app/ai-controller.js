@@ -8422,9 +8422,31 @@
         && Math.max(0, aiNumber(resources.availableData)) >= 2
         && bestImmediateMainCashoutScore <= 0
         && !(turnState.passedPlayerIds || []).includes(player.id);
+      const huanyuLowTailDeadHandPickBaseWindow = normalizeAiDifficulty(
+        player?.aiDifficulty || aiAutoBattleState.aiDifficulty,
+      ) === AI_DIFFICULTY_LAUGHABLE
+        && getAiRoundNumber() >= FINAL_ROUND_NUMBER
+        && mainActionOpen
+        && !state.pendingActionExecuted
+        && finalMarks >= 3
+        && !recoveryThreshold
+        && (
+          industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          || industryCard?.label === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+        )
+        && currentScore >= 95
+        && currentScore < 120
+        && handSize === 2
+        && credits === 1
+        && energy <= 0
+        && publicity < 3
+        && Math.max(0, aiNumber(resources.availableData)) <= 0
+        && bestImmediateMainCashoutScore <= 0
+        && !(turnState.passedPlayerIds || []).includes(player.id);
       const finalLowStaleHandPlayableScore = (
         finalLowStaleHandRefillBaseWindow
         || grandStrategyLowTailDeadHandPickBaseWindow
+        || huanyuLowTailDeadHandPickBaseWindow
       )
         ? (player.hand || []).reduce((best, card, handIndex) => {
           const candidate = buildAiPlayCardCandidate(card, handIndex, player);
@@ -8620,6 +8642,7 @@
         && !finalLowHandRefillWindow
         && !finalLowStaleHandRefillBaseWindow
         && !grandStrategyLowTailDeadHandPickBaseWindow
+        && !huanyuLowTailDeadHandPickBaseWindow
         && !finalHighScoreHandRefillWindow
         && !finalHighScoreDeadHandRefillBaseWindow
         && !finalPreMainCashoutHandRefillWindow
@@ -8641,6 +8664,7 @@
         && !finalLowHandRefillWindow
         && !finalLowStaleHandRefillBaseWindow
         && !grandStrategyLowTailDeadHandPickBaseWindow
+        && !huanyuLowTailDeadHandPickBaseWindow
         && !finalHighScoreHandRefillWindow
         && !finalHighScoreDeadHandRefillBaseWindow
         && !finalPreMainCashoutHandRefillWindow
@@ -8851,6 +8875,7 @@
       const cardsForPickCardDiscardPlan = (
         finalHighScoreDeadHandRefillBaseWindow
         || grandStrategyLowTailDeadHandPickBaseWindow
+        || huanyuLowTailDeadHandPickBaseWindow
       )
         && cardsForPickCardTrade
         && cardsForPickCardCheck.ok
@@ -8886,6 +8911,16 @@
         && cardsForPickCardDiscardCost <= 6
         && bestPublicTradeCardScore >= 28
         && aiNumber(bestPublicTradeCardProfile.playScore) >= 24
+        && getCardPrice(bestPublicTradeCard?.card) <= credits
+        && bestPublicTradeCardProfile.hasConcreteSignal;
+      const huanyuLowTailDeadHandPickRefill = huanyuLowTailDeadHandPickBaseWindow
+        && finalLowStaleHandPlayableScore < 7
+        && Boolean(cardsForPickCardCheck.ok)
+        && cardsForPickCardHandAfterTrade >= 1
+        && Number.isFinite(cardsForPickCardDiscardCost)
+        && cardsForPickCardDiscardCost <= 6
+        && bestPublicTradeCardScore >= 32
+        && aiNumber(bestPublicTradeCardProfile.playScore) >= 30
         && getCardPrice(bestPublicTradeCard?.card) <= credits
         && bestPublicTradeCardProfile.hasConcreteSignal;
       const finalPreMainCashoutPublicRefill = finalPreMainCashoutHandRefillWindow
@@ -8931,6 +8966,12 @@
           + Math.min(10, bestPublicTradeCardScore * 0.3)
           + Math.min(8, aiNumber(bestPublicTradeCardProfile.playScore) * 0.2)
           + Math.min(4, Math.max(0, aiNumber(resources.availableData)) * 0.8)
+          - Math.min(4, cardsForPickCardDiscardCost * 0.4)
+        : 0;
+      const huanyuLowTailDeadHandPickValue = huanyuLowTailDeadHandPickRefill
+        ? 10
+          + Math.min(12, bestPublicTradeCardScore * 0.3)
+          + Math.min(9, aiNumber(bestPublicTradeCardProfile.playScore) * 0.2)
           - Math.min(4, cardsForPickCardDiscardCost * 0.4)
         : 0;
       const preMainCashoutRefillValue = (finalPreMainCashoutPublicRefill || finalPreMainSecondCashoutPublicRefill)
@@ -9329,12 +9370,17 @@
         },
         {
           tradeId: "cards-for-pick-card",
-          enabled: finalHighScoreDeadHandPickRefill || grandStrategyLowTailDeadHandPickRefill,
+          enabled: finalHighScoreDeadHandPickRefill
+            || grandStrategyLowTailDeadHandPickRefill
+            || huanyuLowTailDeadHandPickRefill,
           value: baseValue
             + finalHighScoreDeadHandPickRefillValue
             + grandStrategyLowTailDeadHandPickValue
+            + huanyuLowTailDeadHandPickValue
             + Math.min(5, Math.max(0, 305 - highScorePushProfile.projectedScore) * 0.06),
-          reason: grandStrategyLowTailDeadHandPickRefill
+          reason: huanyuLowTailDeadHandPickRefill
+            ? "寰宇低尾：弃两张死手牌精选可支付的高收益牌"
+            : grandStrategyLowTailDeadHandPickRefill
             ? "大战略低尾：弃死手牌精选可立即打出的资源链"
             : "高分冲刺：弃死手牌精选可打牌",
         },
@@ -9485,6 +9531,9 @@
               grandStrategyLowTailDeadHandPickBaseWindow,
               grandStrategyLowTailDeadHandPickRefill,
               grandStrategyLowTailDeadHandPickValue: roundAiScore(grandStrategyLowTailDeadHandPickValue),
+              huanyuLowTailDeadHandPickBaseWindow,
+              huanyuLowTailDeadHandPickRefill,
+              huanyuLowTailDeadHandPickValue: roundAiScore(huanyuLowTailDeadHandPickValue),
               cardsForPickCardHandAfterTrade,
               cardsForPickCardDiscardCost: Number.isFinite(cardsForPickCardDiscardCost)
                 ? roundAiScore(cardsForPickCardDiscardCost)
@@ -17948,6 +17997,42 @@
       return { activeRocketCount, rocketLimit };
     }
 
+    function getAiSkippableUnresolvableMoveProfile(
+      effect,
+      nextEffect,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        effect?.type !== cardEffects.EFFECT_TYPES.CARD_MOVE
+        || effect.required
+        || effect.options?.skippable === false
+        || !nextEffect
+        || isAiLandingEffect(nextEffect)
+        || !player
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      const currentScore = Math.max(0, Math.round(aiNumber(player.resources?.score)));
+      if (
+        getAiRoundNumber() < FINAL_ROUND_NUMBER
+        || (
+          industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+          && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+        )
+        || countAiFinalMarksForPlayer(player) < 3
+        || currentScore < 100
+        || currentScore > 170
+        || Math.max(0, Math.round(aiNumber(player.resources?.credits))) !== 1
+        || Math.max(0, Math.round(aiNumber(player.resources?.energy))) !== 0
+      ) {
+        return null;
+      }
+      const movableTokens = getMovableTokensForPlayer(player.id);
+      if (movableTokens.length) return null;
+      return { nextEffectType: nextEffect.type || null };
+    }
+
     function canAiResolvePlayCardEffects(playEffects = [], player = getCurrentPlayer(), options = {}) {
       const context = createActionContext();
       const effectPlayer = player || getCurrentPlayer();
@@ -18066,7 +18151,15 @@
             poolRemaining: effect?.options?.movementPoints ?? 1,
             nextEffect,
           });
-          if (!moveCandidates.length) return { ok: false, message: "没有可移动的飞船" };
+          if (!moveCandidates.length) {
+            const skippableMove = getAiSkippableUnresolvableMoveProfile(
+              effect,
+              nextEffect,
+              effectPlayer,
+            );
+            if (skippableMove && options.allowUnresolvableMoveSkip) continue;
+            return { ok: false, message: "没有可移动的飞船" };
+          }
         }
         if (effect?.type === cardEffects.EFFECT_TYPES.CONDITIONAL_SECTOR_SCAN) {
           const sectorXs = getSectorXsMatchingCondition(effect.options?.condition)
@@ -18097,11 +18190,20 @@
         ? playEffects.filter((effect) => getAiCappedOptionalLaunchProfile(effect, currentPlayer))
         : [];
       const skippedCappedLaunchSet = new Set(skippedCappedLaunchEffects);
-      const valuationPlayEffects = skippedCappedLaunchSet.size > 0
-        ? playEffects.filter((effect) => !skippedCappedLaunchSet.has(effect))
+      const skippedUnresolvableMoveEffects = playEffects.filter((effect, index) => (
+        getAiSkippableUnresolvableMoveProfile(effect, playEffects[index + 1] || null, currentPlayer)
+      ));
+      const skippedUnresolvableMoveSet = new Set(skippedUnresolvableMoveEffects);
+      const skippedUnresolvableEffectSet = new Set([
+        ...skippedCappedLaunchSet,
+        ...skippedUnresolvableMoveSet,
+      ]);
+      const valuationPlayEffects = skippedUnresolvableEffectSet.size > 0
+        ? playEffects.filter((effect) => !skippedUnresolvableEffectSet.has(effect))
         : playEffects;
       const effectCheck = canAiResolvePlayCardEffects(playEffects, currentPlayer, {
         allowCappedOptionalLaunchSkip: skippedCappedLaunchSet.size > 0,
+        allowUnresolvableMoveSkip: skippedUnresolvableMoveSet.size > 0,
       });
       if (!effectCheck.ok) return null;
       if (getAiRunezuPrematureSymbolCardReason(card, playEffects, currentPlayer)) return null;
@@ -18309,6 +18411,8 @@
           readyTaskTechReplacementValue,
           skippedUnresolvableLaunchForReadyTask: skippedCappedLaunchSet.size > 0,
           skippedUnresolvableLaunchCount: skippedCappedLaunchSet.size,
+          skippedUnresolvableMoveBeforeLaterEffect: skippedUnresolvableMoveSet.size > 0,
+          skippedUnresolvableMoveCount: skippedUnresolvableMoveSet.size,
           chongTaskChainValue,
           banrenmaThresholdSetupValue,
           playCardConversionPressure,
