@@ -16175,6 +16175,148 @@
         - postSecondFinalMarkPenalty;
     }
 
+    function getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile(
+      player = getCurrentPlayer(),
+      postLaunchMovePlan = null,
+    ) {
+      if (
+        !player
+        || getAiRoundNumber() !== FINAL_ROUND_NUMBER
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+        || countAiFinalMarksForPlayer(player) < 3
+        || getMovableTokensForPlayer(player.id).length > 0
+      ) {
+        return null;
+      }
+      const industryCard = player.initialSelection?.industry || null;
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+
+      const resources = player.resources || {};
+      const currentScore = Math.max(0, aiNumber(resources.score));
+      if (currentScore < 80 || currentScore > 150) return null;
+
+      const routeTarget = postLaunchMovePlan?.routeTarget || null;
+      const satelliteOpportunity = routeTarget?.satelliteOpportunity || null;
+      const taskCashout = routeTarget?.nearCompleteTaskRouteCashout || null;
+      const routeOldDistance = Math.max(0, Math.round(aiNumber(routeTarget?.oldDistance)));
+      const routeDistance = Math.max(0, Math.round(aiNumber(routeTarget?.newDistance)));
+      if (
+        routeTarget?.kind !== "planet"
+        || !["uranus", "neptune"].includes(String(routeTarget.id || ""))
+        || routeOldDistance !== 3
+        || routeDistance !== 2
+        || Math.max(0, aiNumber(routeTarget.value)) < 50
+        || Math.max(0, aiNumber(satelliteOpportunity?.directScore)) < 20
+        || Math.max(0, aiNumber(satelliteOpportunity?.score)) <= 0
+        || Math.max(0, aiNumber(satelliteOpportunity?.energyShortfall)) > 0
+        || Math.max(0, Math.round(aiNumber(taskCashout?.count))) < 1
+        || Math.max(0, aiNumber(taskCashout?.directScore)) < 5
+      ) {
+        return null;
+      }
+
+      const launchTriggerCard = (player.reservedCards || []).find((card) => (
+        String(card?.cardId || card?.id || "") === "b_20.webp"
+      )) || null;
+      const launchTriggers = launchTriggerCard
+        ? (cardEffects.getCardModel?.(launchTriggerCard)?.triggers || []).filter((trigger) => (
+          trigger?.event?.type === "launch"
+          && ["card_free_move", "card_move"].includes(String(trigger?.effect?.type || ""))
+        ))
+        : [];
+      const launchFreeMovePoints = launchTriggers.reduce((best, trigger) => Math.max(
+        best,
+        Math.max(1, Math.round(aiNumber(trigger?.effect?.options?.movementPoints || 1))),
+      ), 0);
+      if (!launchTriggerCard || launchFreeMovePoints !== 1) return null;
+
+      const movementCard = (player.hand || []).find((card) => (
+        String(card?.cardId || card?.id || "") === "b_18.webp"
+      )) || null;
+      if (!movementCard) return null;
+      const movementCardEffects = cardEffects.buildPlayEffects?.(movementCard) || [];
+      const movementCardMoveEffect = movementCardEffects.find((effect) => (
+        ["card_move", "card_free_move"].includes(String(effect?.type || ""))
+      )) || null;
+      const movementCardMovePoints = Math.max(
+        0,
+        Math.round(aiNumber(movementCardMoveEffect?.options?.movementPoints || 0)),
+      );
+      const deferredPaidMovePoints = Math.max(
+        0,
+        routeDistance - movementCardMovePoints,
+      );
+      if (movementCardMovePoints !== 1 || deferredPaidMovePoints !== 1) return null;
+      const launchPayment = getAiLaunchPaymentCost();
+      const cardPrice = Math.max(0, Math.round(aiNumber(movementCard.price)));
+      const launchCreditCost = Math.max(0, aiNumber(launchPayment.credits));
+      const landingEnergyCost = Math.max(0, aiNumber(satelliteOpportunity.energyCost));
+      const requiredCredits = launchCreditCost + cardPrice;
+      const requiredEnergy = landingEnergyCost;
+      if (
+        Math.max(0, aiNumber(resources.credits)) < requiredCredits
+        || Math.max(0, aiNumber(resources.energy)) < requiredEnergy
+        || Math.max(0, Math.round(aiNumber(resources.handSize ?? player.hand?.length))) < 3
+      ) {
+        return null;
+      }
+
+      const resourceValues = getAiResourceValuesForRound();
+      const routeTargetValue = Math.max(0, aiNumber(routeTarget.value));
+      const deferredMoveCost = deferredPaidMovePoints * Math.max(
+        0,
+        Math.min(aiNumber(resourceValues.energy), aiNumber(resourceValues.handSize)),
+      );
+      const cardPlayCost = cardPrice * aiNumber(resourceValues.credits);
+      const movementCardEffectValue = movementCardEffects
+        .filter((effect) => effect !== movementCardMoveEffect)
+        .reduce((total, effect) => total + Math.max(0, scoreAiEffectValue(effect, { player })), 0);
+      const strategyPassiveValue = Math.max(0, scoreAiStrategyPassiveCardPlayValue(movementCard, player));
+      const bridgeValue = Math.max(
+        0,
+        routeTargetValue
+          - deferredMoveCost
+          - cardPlayCost
+          + strategyPassiveValue
+          + movementCardEffectValue,
+      );
+      const lateLaunchPenaltyRelief = Math.max(
+        0,
+        scoreAiLateLaunchDeadEndPenalty(player, postLaunchMovePlan),
+      );
+
+      return {
+        launchTriggerCardId: "b_20.webp",
+        movementCardId: "b_18.webp",
+        targetPlanetId: routeTarget.id,
+        routeOldDistance,
+        routeDistance,
+        launchFreeMovePoints,
+        movementCardMovePoints,
+        routeTargetValue: roundAiScore(routeTargetValue),
+        satelliteDirectScore: roundAiScore(Math.max(0, aiNumber(satelliteOpportunity.directScore))),
+        taskDirectScore: roundAiScore(Math.max(0, aiNumber(taskCashout.directScore))),
+        projectedDirectScoreGain: roundAiScore(
+          Math.max(0, aiNumber(satelliteOpportunity.directScore))
+            + Math.max(0, aiNumber(taskCashout.directScore)),
+        ),
+        requiredCredits: roundAiScore(requiredCredits),
+        requiredEnergy: roundAiScore(requiredEnergy),
+        deferredMoveCost: roundAiScore(deferredMoveCost),
+        cardPlayCost: roundAiScore(cardPlayCost),
+        strategyPassiveValue: roundAiScore(strategyPassiveValue),
+        movementCardEffectValue: roundAiScore(movementCardEffectValue),
+        lateLaunchPenaltyRelief: roundAiScore(lateLaunchPenaltyRelief),
+        bridgeValue: roundAiScore(bridgeValue),
+      };
+    }
+
     function scoreAiLaunchTurnCandidateValue(player = getCurrentPlayer(), postLaunchMovePlan = null) {
       const launchCost = scoreAiLaunchPaymentCost();
       const launchReservePenalty = scoreAiResourceReservePenaltyForCost(
@@ -16182,13 +16324,23 @@
         getAiLaunchPaymentCost(),
         { actionId: "launch" },
       );
-      const lateLaunchPenalty = scoreAiLateLaunchDeadEndPenalty(player, postLaunchMovePlan);
+      const rawLateLaunchPenalty = scoreAiLateLaunchDeadEndPenalty(player, postLaunchMovePlan);
+      const launchTriggerRouteBridge = getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile(
+        player,
+        postLaunchMovePlan,
+      );
+      const lateLaunchPenaltyRelief = Math.min(
+        rawLateLaunchPenalty,
+        Math.max(0, aiNumber(launchTriggerRouteBridge?.lateLaunchPenaltyRelief)),
+      );
+      const lateLaunchPenalty = Math.max(0, rawLateLaunchPenalty - lateLaunchPenaltyRelief);
       const extraLaunchPacePenalty = scoreAiExtraLaunchPacePenalty(player);
       const finalSecondMarkExtraLaunchPenalty = scoreAiFinalSecondMarkExtraLaunchPenalty(player, postLaunchMovePlan);
       const noRouteLaunchPenalty = scoreAiNoRouteLaunchPenalty(player, postLaunchMovePlan);
       const weakEarlyPostLaunchRoutePenalty = scoreAiWeakEarlyPostLaunchRoutePenalty(player, postLaunchMovePlan);
       const launchGain = scoreAiLaunchAction(player)
         + applyAiStrategyWeight(Math.max(0, aiNumber(postLaunchMovePlan?.score)), "move", 0.45)
+        + Math.max(0, aiNumber(launchTriggerRouteBridge?.bridgeValue))
         - lateLaunchPenalty
         - extraLaunchPacePenalty
         - finalSecondMarkExtraLaunchPenalty
@@ -16200,6 +16352,9 @@
         launchCost,
         launchReservePenalty,
         lateLaunchPenalty,
+        rawLateLaunchPenalty,
+        lateLaunchPenaltyRelief,
+        launchTriggerRouteBridge,
         extraLaunchPacePenalty,
         finalSecondMarkExtraLaunchPenalty,
         noRouteLaunchPenalty,
@@ -22514,6 +22669,9 @@
           launchReservePenalty: launchValue.launchReservePenalty || 0,
           postLaunchMovePlanScore: postLaunchMovePlan?.score || 0,
           lateLaunchPenalty: launchValue.lateLaunchPenalty || 0,
+          rawLateLaunchPenalty: launchValue.rawLateLaunchPenalty || 0,
+          lateLaunchPenaltyRelief: launchValue.lateLaunchPenaltyRelief || 0,
+          grandStrategyFinalLaunchTriggerRouteBridge: launchValue.launchTriggerRouteBridge || null,
           extraLaunchPacePenalty: launchValue.extraLaunchPacePenalty || 0,
           finalSecondMarkExtraLaunchPenalty: launchValue.finalSecondMarkExtraLaunchPenalty || 0,
           noRouteLaunchPenalty: launchValue.noRouteLaunchPenalty || 0,
@@ -25956,6 +26114,7 @@
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
       getAiEarlyDirectScorePlayPassFloor,
+      getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
       getAiB2SectorWinExactDelta,
       getAiClosedSectorControlMarginValue,

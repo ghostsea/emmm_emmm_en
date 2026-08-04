@@ -438,6 +438,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
         CARD_LAND: "card_land",
+        LANDING_SECTOR_SCAN: "card_landing_sector_scan",
         FREE_MOVE: "free_move",
         SCAN_COLOR_CHOICE: "card_scan_color_choice",
         RESEARCH_TECH: "card_research_tech",
@@ -16407,6 +16408,148 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(observed[0].entries, actionLogEntries);
   assert.equal(report.resourceFlow.coverage.weighted, 1);
   assert.equal(JSON.stringify(report.resourceFlow).includes("secret"), false);
+}
+
+{
+  const launchTriggerCard = {
+    id: "grand-strategy-final-cape-canaveral",
+    cardId: "b_20.webp",
+    cardName: "卡纳维拉尔角太空军基地",
+    model: {
+      triggers: [{
+        id: "b20-launch-move-1",
+        event: { type: "launch" },
+        effect: { type: cardEffects.EFFECT_TYPES.FREE_MOVE, options: { movementPoints: 1 } },
+      }],
+    },
+  };
+  const movementCard = {
+    id: "grand-strategy-final-observe-sirius",
+    cardId: "b_18.webp",
+    cardName: "观测天狼星A",
+    price: 1,
+    scanActionCode: 1,
+    playEffects: [
+      { type: cardEffects.EFFECT_TYPES.CARD_MOVE, options: { movementPoints: 1 } },
+      { type: cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE, options: { color: "yellow", gainData: true } },
+    ],
+  };
+  const strategyRewards = {
+    yellow: { credits: 1 },
+    red: { publicity: 1 },
+    blue: { data: 1 },
+  };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    aiDifficulty: "laughable",
+    roundNumber: 4,
+    turnNumber: 9,
+    blueInitialSelection: {
+      industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
+    },
+    blueIndustryStrategyPassiveSlots: { yellow: false, red: false, blue: false },
+    blueResources: {
+      score: 95,
+      credits: 5,
+      energy: 4,
+      publicity: 2,
+      availableData: 0,
+      handSize: 4,
+    },
+    blueTechCounts: { orange: 4, purple: 2, blue: 2 },
+    blueHand: [
+      movementCard,
+      { id: "grand-strategy-final-filler-a", price: 3 },
+      { id: "grand-strategy-final-filler-b", price: 3 },
+      { id: "grand-strategy-final-filler-c", price: 3 },
+    ],
+    blueReservedCards: [launchTriggerCard],
+    finalScoringState: {
+      tiles: {
+        final_a1: { marks: [{ playerId: "player-blue", slotIndex: 1 }] },
+        final_c1: { marks: [{ playerId: "player-blue", slotIndex: 2 }] },
+        final_d2: { marks: [{ playerId: "player-blue", slotIndex: 3 }] },
+      },
+    },
+    industry: {
+      STRATEGY_PASSIVE_SLOT_IDS: ["yellow", "red", "blue"],
+      playerHasStrategyPassive: () => true,
+      getStrategySlotReward: (slotId) => strategyRewards[slotId] || null,
+    },
+  });
+  const launchPlan = {
+    score: 2.178,
+    requiredMovePoints: 1,
+    paymentCost: 4.2,
+    routeTarget: {
+      id: "uranus",
+      kind: "planet",
+      value: 78.334,
+      oldDistance: 3,
+      newDistance: 2,
+      satelliteOpportunity: {
+        directScore: 25,
+        score: 29.76,
+        energyCost: 1,
+        energyShortfall: 0,
+      },
+      nearCompleteTaskRouteCashout: {
+        value: 14.643,
+        directScore: 5,
+        count: 1,
+      },
+    },
+  };
+
+  const profile = harness.controller.getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile(
+    harness.blue,
+    launchPlan,
+  );
+  assert.ok(profile, "Grand Strategy should recognize the complete trigger-move-card-move-land cashout");
+  assert.equal(profile.launchTriggerCardId, "b_20.webp");
+  assert.equal(profile.movementCardId, "b_18.webp");
+  assert.equal(profile.targetPlanetId, "uranus");
+  assert.equal(profile.satelliteDirectScore, 25);
+  assert.equal(profile.taskDirectScore, 5);
+  assert.equal(profile.launchFreeMovePoints, 1);
+  assert.equal(profile.strategyPassiveValue, 1.5);
+  assert.ok(profile.movementCardEffectValue >= 4.5, JSON.stringify(profile));
+  assert.ok(profile.bridgeValue > 75, JSON.stringify(profile));
+  assert.equal(
+    harness.controller.getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile({
+      ...harness.blue,
+      initialSelection: { industry: { id: "industry:作弊实验室", label: "作弊实验室" } },
+    }, launchPlan),
+    null,
+    "the two-turn bridge must remain local to Grand Strategy",
+  );
+  assert.equal(
+    harness.controller.getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile(harness.blue, {
+      ...launchPlan,
+      routeTarget: {
+        ...launchPlan.routeTarget,
+        nearCompleteTaskRouteCashout: null,
+      },
+    }),
+    null,
+    "the bridge must require a concrete near-complete task cashout",
+  );
+  assert.equal(
+    harness.controller.getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile(harness.blue, {
+      ...launchPlan,
+      routeTarget: { ...launchPlan.routeTarget, newDistance: 3 },
+    }),
+    null,
+    "the bridge must not value a route the launch trigger, movement card, and paid move cannot close",
+  );
+  assert.equal(
+    harness.controller.getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile({
+      ...harness.blue,
+      reservedCards: [],
+    }, launchPlan),
+    null,
+    "the bridge must require the proven launch-triggered free move",
+  );
 }
 
 {
