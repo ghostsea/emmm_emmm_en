@@ -15381,7 +15381,7 @@
         || currentScore >= 140
         || aiNumber(resources.credits) !== 0
         || aiNumber(resources.energy) !== 0
-        || aiNumber(resources.publicity) < 6
+        || aiNumber(resources.publicity) !== 6
         || availableData < 2
         || handSize > 1
         || !player.techState?.ownedTiles?.blue2
@@ -15489,6 +15489,73 @@
       return Math.max(
         0,
         aiNumber(getAiFinalHuanyuPurple4CashoutProfile(candidate, player)?.value),
+      );
+    }
+
+    function getAiGrandStrategyFinalStrandedEnergyCashoutProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || !player
+        || candidate.tileId !== "purple4"
+        || candidate.bonusId !== "bonus_3f"
+        || getAiRoundNumber() !== FINAL_ROUND_NUMBER
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_GRAND_STRATEGY_INDUSTRY_ID
+        && industryCard?.label !== AI_GRAND_STRATEGY_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+      const resources = player.resources || {};
+      const hand = player.hand || [];
+      const techCounts = getAiPlayerTechTypeCounts(player);
+      if (
+        countAiFinalMarksForPlayer(player) < 3
+        || getAiNextMissingFinalScoreThreshold(player)
+        || aiNumber(resources.score) < 140
+        || aiNumber(resources.score) >= 160
+        || aiNumber(resources.credits) !== 0
+        || aiNumber(resources.energy) !== 0
+        || aiNumber(resources.publicity) < 6
+        || aiNumber(resources.availableData) !== 0
+        || aiNumber(resources.handSize ?? hand.length) !== 1
+        || hand.length !== 1
+        || countAiPlayerTech(player) !== 9
+        || aiNumber(techCounts.orange) !== 4
+        || aiNumber(techCounts.purple) !== 1
+        || aiNumber(techCounts.blue) !== 4
+      ) {
+        return null;
+      }
+
+      const simulatedPlayer = createAiPlayerAfterResourceGain(player, { energy: 1 });
+      const projectedAnalyzeAvailable = Boolean(
+        simulatedPlayer && canAiAnalyzeData(simulatedPlayer).ok,
+      );
+      if (projectedAnalyzeAvailable) return null;
+      return {
+        value: 1,
+        directScoreGain: 3,
+        strandedEnergyAlternative: 1,
+        projectedAnalyzeAvailable,
+      };
+    }
+
+    function scoreAiGrandStrategyFinalStrandedEnergyCashoutValue(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      return Math.max(
+        0,
+        aiNumber(getAiGrandStrategyFinalStrandedEnergyCashoutProfile(candidate, player)?.value),
       );
     }
 
@@ -15940,6 +16007,7 @@
       value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
       value += scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(candidate, player);
       value += scoreAiFinalHuanyuPurple4CashoutValue(candidate, player);
+      value += scoreAiGrandStrategyFinalStrandedEnergyCashoutValue(candidate, player);
       value += Math.max(0, 5 - stackIndex) * 0.4;
       value += Math.max(0, getAiRemainingRoundWeight() - 1) * 0.4;
       value += getAiMapDemand(demand.techTypes, techType) * 0.85 * getAiStrategyWeight("tech");
@@ -22123,6 +22191,8 @@
           getAiFinalHuanyuBlue1AnalyzeRefuelProfile(candidate, getCurrentPlayer()),
         finalHuanyuPurple4Cashout:
           getAiFinalHuanyuPurple4CashoutProfile(candidate, getCurrentPlayer()),
+        grandStrategyFinalStrandedEnergyCashout:
+          getAiGrandStrategyFinalStrandedEnergyCashoutProfile(candidate, getCurrentPlayer()),
       };
       if (candidate.tileId === "orange4") {
         candidate.valueBreakdown.orange4SatelliteProfile = getAiOrange4SatellitePotentialProfile(getCurrentPlayer());

@@ -13482,6 +13482,161 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildFinalGrandStrategyPurpleCashoutCandidates = ({
+    companyLabel = "宇宙大战略集团",
+    analyzeAfterEnergy = false,
+  } = {}) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 4,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 147,
+        credits: 0,
+        energy: 0,
+        publicity: 6,
+        availableData: 0,
+        handSize: 1,
+      },
+      whiteResources: { score: 154, credits: 1, energy: 0, publicity: 3, availableData: 3 },
+      extraPlayers: [
+        {
+          id: "player-green",
+          color: "green",
+          colorLabel: "Green",
+          resources: { score: 191, credits: 3, energy: 0, publicity: 7, availableData: 0 },
+        },
+        {
+          id: "player-brown",
+          color: "brown",
+          colorLabel: "Brown",
+          resources: { score: 117, credits: 1, energy: 3, publicity: 0, availableData: 3 },
+        },
+      ],
+      blueHand: [{ id: "final-grand-strategy-filler", cardName: "Final filler", price: 3 }],
+      blueTechState: {
+        ownedTiles: {
+          orange1: true,
+          orange2: true,
+          orange3: true,
+          orange4: true,
+          purple2: true,
+          blue1: true,
+          blue2: true,
+          blue3: true,
+          blue4: true,
+        },
+        blueBoardSlots: { blue4: 1, blue1: 2, blue2: 3, blue3: 4 },
+      },
+      blueTechCounts: { orange: 4, purple: 1, blue: 4 },
+      takeableTechIds: ["purple3", "purple4"],
+      techStacks: {
+        purple3: {
+          techType: "purple",
+          stackIndex: 3,
+          bonusId: "bonus_1p",
+          firstTakeClaimedBy: "player-green",
+          remaining: 1,
+        },
+        purple4: {
+          techType: "purple",
+          stackIndex: 4,
+          bonusId: "bonus_3f",
+          firstTakeClaimedBy: "player-green",
+          remaining: 1,
+        },
+      },
+      finalScoringState: {
+        tiles: {
+          final_a2: { id: "final_a2", marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }] },
+          final_b2: { id: "final_b2", marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }] },
+          final_d2: { id: "final_d2", marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 50 }] },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+        final_b2: "b2",
+        final_d2: "d2",
+      },
+      finalSlotMultipliers: {
+        a2: { 3: 5 },
+        b2: { 1: 8 },
+        d2: { 3: 3 },
+      },
+      data: {
+        ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+        ANALYZE_ENERGY_COST: 1,
+        listComputerPlacedTokens: () => (
+          analyzeAfterEnergy ? [{ placementSlot: 6 }] : []
+        ),
+        canAnalyzeData: (player) => (
+          analyzeAfterEnergy && Number(player?.resources?.energy || 0) >= 1
+            ? { ok: true }
+            : { ok: false, message: "analyze unavailable" }
+        ),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    const researchCandidate = turnChoices.flat().find((candidate) => candidate.id === "researchTech");
+    return Object.fromEntries(
+      (researchCandidate?.takeable || []).map((candidate) => [candidate.tileId, candidate]),
+    );
+  };
+
+  const strandedCandidates = buildFinalGrandStrategyPurpleCashoutCandidates();
+  assert.deepEqual(
+    strandedCandidates.purple4?.valueBreakdown?.grandStrategyFinalStrandedEnergyCashout,
+    {
+      value: 1,
+      directScoreGain: 3,
+      strandedEnergyAlternative: 1,
+      projectedAnalyzeAvailable: false,
+    },
+    "terminal Grand Strategy should cash out three score when one energy cannot enable analyze",
+  );
+  assert.ok(
+    Number(strandedCandidates.purple4?.score) > Number(strandedCandidates.purple3?.score),
+    `the proven terminal Grand Strategy state should prefer three score over stranded energy: ${JSON.stringify({
+      purple3: strandedCandidates.purple3?.score,
+      purple4: strandedCandidates.purple4?.score,
+      purple3Breakdown: strandedCandidates.purple3?.valueBreakdown,
+      purple4Breakdown: strandedCandidates.purple4?.valueBreakdown,
+    })}`,
+  );
+
+  const analyzeReadyCandidates = buildFinalGrandStrategyPurpleCashoutCandidates({
+    analyzeAfterEnergy: true,
+  });
+  assert.equal(
+    analyzeReadyCandidates.purple4?.valueBreakdown?.grandStrategyFinalStrandedEnergyCashout,
+    null,
+    "direct score cashout must not suppress energy that enables a final analyze action",
+  );
+  assert.equal(
+    buildFinalGrandStrategyPurpleCashoutCandidates({ companyLabel: "作弊实验室" })
+      .purple4?.valueBreakdown?.grandStrategyFinalStrandedEnergyCashout,
+    null,
+    "the terminal stranded-energy correction must remain local to Grand Strategy",
+  );
+}
+
+{
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
