@@ -9466,7 +9466,6 @@
             return true;
           })();
           const genericFinalResourceRecovery = getAiRoundNumber() >= FINAL_ROUND_NUMBER
-            && canPrepareFinalThresholdAction
             && ["credits-for-energy", "cards-for-energy", "energy-for-credit"].includes(spec.tradeId)
             && String(spec.reason || "").startsWith("后期落后：");
           if (genericFinalResourceRecovery && !concreteRecoverySignal) return null;

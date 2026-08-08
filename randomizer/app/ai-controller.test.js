@@ -11240,22 +11240,22 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
         gain: { credits: 1 },
       },
     },
-    blueResources: { score: 47, credits: 5, energy: 5, publicity: 2, availableData: 0, handSize: 6 },
-    blueHand: Array.from({ length: 6 }, (_item, index) => ({
-      id: `terminal-trade-filler-${index}`,
-      cardName: `Terminal trade filler ${index}`,
-      price: 3,
-      typeCode: 1,
-      playEffects: [],
-    })),
+    blueResources: { score: 117, credits: 2, energy: 0, publicity: 4, availableData: 0, handSize: 0 },
+    blueHand: [],
     finalScoringState: {
       tiles: {
         final_a1: {
           id: "final_a1",
           marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
         },
-        final_b1: { id: "final_b1", marks: [] },
-        final_d1: { id: "final_d1", marks: [] },
+        final_b1: {
+          id: "final_b1",
+          marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 50 }],
+        },
+        final_d1: {
+          id: "final_d1",
+          marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }],
+        },
       },
     },
     finalFormulaIds: {
@@ -11283,7 +11283,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.equal(
     harness.controller.configureAiAutoBattle({
       playerIds: [harness.blue.id],
-      aiDifficulty: "weak_start",
+      aiDifficulty: "laughable",
       suppressAutoSchedule: true,
     }).ok,
     true,
@@ -11302,7 +11302,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.deepEqual(
     genericRecoveryTrades,
     [],
-    "final round should not exchange resources without a concrete immediate recovery signal",
+    "a three-mark final-round player should not strand energy from a trade without a concrete recovery signal",
   );
 }
 
