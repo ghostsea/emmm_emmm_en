@@ -12000,6 +12000,139 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildFinalHuanyuUncashableTechPickCandidates = (
+    companyLabel = "寰宇超动力",
+  ) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 4,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 102,
+        credits: 1,
+        energy: 0,
+        publicity: 6,
+        availableData: 0,
+        handSize: 1,
+      },
+      blueHand: [{ id: "stranded-hand-card", cardName: "Stranded hand card", price: 3 }],
+      publicCards: [
+        { id: "stranded-public-a", cardName: "Stranded public A", price: 2, faceUp: true },
+        { id: "stranded-public-b", cardName: "Stranded public B", price: 2, faceUp: true },
+        { id: "stranded-public-c", cardName: "Stranded public C", price: 4, faceUp: true },
+      ],
+      blueTechState: {
+        ownedTiles: {
+          orange1: true,
+          orange2: true,
+          orange3: true,
+          orange4: true,
+          purple1: true,
+          purple2: true,
+          purple4: true,
+        },
+        blueBoardSlots: {},
+      },
+      blueTechCounts: { orange: 4, purple: 3, blue: 0 },
+      takeableTechIds: ["purple3", "blue2", "blue3"],
+      techStacks: {
+        purple3: {
+          techType: "purple",
+          stackIndex: 3,
+          bonusId: "bonus_1c",
+          firstTakeClaimedBy: "player-white",
+          remaining: 1,
+        },
+        blue2: {
+          techType: "blue",
+          stackIndex: 2,
+          bonusId: "bonus_1c",
+          firstTakeClaimedBy: "player-white",
+          remaining: 2,
+        },
+        blue3: {
+          techType: "blue",
+          stackIndex: 3,
+          bonusId: "bonus_3f",
+          firstTakeClaimedBy: "player-white",
+          remaining: 2,
+        },
+      },
+      finalScoringState: {
+        tiles: {
+          final_a1: { marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 50 }] },
+          final_c1: { marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }] },
+          final_d2: { marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }] },
+        },
+      },
+      finalFormulaIds: {
+        final_a1: "a1",
+        final_c1: "c1",
+        final_d2: "d2",
+      },
+      data: {
+        listComputerPlacedTokens: () => [1, 2, 3]
+          .map((placementSlot) => ({ placementSlot })),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    const researchCandidate = turnChoices.flat().find((candidate) => candidate.id === "researchTech");
+    return researchCandidate?.takeable || [];
+  };
+
+  const huanyuCandidates = buildFinalHuanyuUncashableTechPickCandidates();
+  const purple3 = huanyuCandidates.find((candidate) => candidate.tileId === "purple3");
+  const blue2 = huanyuCandidates.find((candidate) => candidate.tileId === "blue2");
+  const blue3 = huanyuCandidates.find((candidate) => candidate.tileId === "blue3");
+  assert.deepEqual(
+    purple3?.valueBreakdown?.finalHuanyuUncashableTechPick,
+    {
+      penalty: 4.2,
+      credits: 1,
+      handPrice: 3,
+      minimumPublicCardPrice: 2,
+      placedComputerData: 3,
+    },
+    "final Huanyu should remove the static value of an unaffordable technology pick",
+  );
+  assert.ok(
+    Number(blue2?.valueBreakdown?.finalHuanyuUncashableTechPick?.penalty || 0) === 4.2,
+    "the same unaffordable pick penalty should cover blue technology candidates",
+  );
+  assert.ok(
+    Number(blue3?.score || 0) > Math.max(
+      Number(purple3?.score || 0),
+      Number(blue2?.score || 0),
+    ),
+    "three direct points should beat every technology pick that remains unaffordable",
+  );
+
+  const ordinaryPurple3 = buildFinalHuanyuUncashableTechPickCandidates("作弊实验室")
+    .find((candidate) => candidate.tileId === "purple3");
+  assert.equal(
+    ordinaryPurple3?.valueBreakdown?.finalHuanyuUncashableTechPick,
+    null,
+    "the final stranded pick correction must remain local to Huanyu",
+  );
+}
+
+{
   const buildFinalHuanyuBlue1Candidate = ({
     companyLabel = "寰宇超动力",
     placedComputerSlots = [1, 2, 3, 4, 5, 6],

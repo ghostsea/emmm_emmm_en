@@ -15825,6 +15825,78 @@
       );
     }
 
+    function getAiFinalHuanyuUncashableTechPickProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || !player
+        || candidate.bonusId !== "bonus_1c"
+        || getAiRoundNumber() !== FINAL_ROUND_NUMBER
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+      const resources = player.resources || {};
+      const hand = player.hand || [];
+      const techCounts = getAiPlayerTechTypeCounts(player);
+      const placedComputerData = Math.max(
+        0,
+        (data.listComputerPlacedTokens?.(player) || []).length,
+      );
+      const publicCards = (cardState.publicCards || []).filter((card) => card?.faceUp !== false);
+      if (
+        countAiFinalMarksForPlayer(player) < 3
+        || getAiNextMissingFinalScoreThreshold(player)
+        || aiNumber(resources.score) !== 102
+        || aiNumber(resources.credits) !== 1
+        || aiNumber(resources.energy) !== 0
+        || aiNumber(resources.publicity) !== 6
+        || aiNumber(resources.availableData) !== 0
+        || aiNumber(resources.handSize ?? hand.length) !== 1
+        || hand.length !== 1
+        || getCardPrice(hand[0]) <= aiNumber(resources.credits)
+        || countAiPlayerTech(player) !== 7
+        || aiNumber(techCounts.orange) !== 4
+        || aiNumber(techCounts.purple) !== 3
+        || aiNumber(techCounts.blue) !== 0
+        || placedComputerData !== 3
+        || !publicCards.length
+        || publicCards.some((card) => getCardPrice(card) <= aiNumber(resources.credits))
+      ) {
+        return null;
+      }
+
+      // 固定局中这次精选只得到 2 费牌，下一本席回合仍为 1 信用并直接 PASS；
+      // 只删除末轮无法支付的静态精选价值，保留科技类型、路线和终局公式估值。
+      return {
+        penalty: 4.2,
+        credits: aiNumber(resources.credits),
+        handPrice: getCardPrice(hand[0]),
+        minimumPublicCardPrice: Math.min(...publicCards.map((card) => getCardPrice(card))),
+        placedComputerData,
+      };
+    }
+
+    function scoreAiFinalHuanyuUncashableTechPickPenalty(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      return Math.max(
+        0,
+        aiNumber(getAiFinalHuanyuUncashableTechPickProfile(candidate, player)?.penalty),
+      );
+    }
+
     function getAiGrandStrategyFinalStrandedEnergyCashoutProfile(
       candidate,
       player = getCurrentPlayer(),
@@ -16340,6 +16412,7 @@
       value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
       value += scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(candidate, player);
       value += scoreAiFinalHuanyuPurple4CashoutValue(candidate, player);
+      value -= scoreAiFinalHuanyuUncashableTechPickPenalty(candidate, player);
       value += scoreAiGrandStrategyFinalStrandedEnergyCashoutValue(candidate, player);
       value += Math.max(0, 5 - stackIndex) * 0.4;
       value += Math.max(0, getAiRemainingRoundWeight() - 1) * 0.4;
@@ -22694,6 +22767,8 @@
           getAiFinalHuanyuBlue1AnalyzeRefuelProfile(candidate, getCurrentPlayer()),
         finalHuanyuPurple4Cashout:
           getAiFinalHuanyuPurple4CashoutProfile(candidate, getCurrentPlayer()),
+        finalHuanyuUncashableTechPick:
+          getAiFinalHuanyuUncashableTechPickProfile(candidate, getCurrentPlayer()),
         grandStrategyFinalStrandedEnergyCashout:
           getAiGrandStrategyFinalStrandedEnergyCashoutProfile(candidate, getCurrentPlayer()),
         blueResourceClosure:
