@@ -12379,21 +12379,84 @@
       return roundAiScore(Math.min(28, Math.max(0, value)));
     }
 
+    function createAiPlayerAfterDeterministicCardSetup(card, player = getCurrentPlayer()) {
+      if (!card || !player) return player || null;
+      const simulatedPlayer = {
+        ...player,
+        hand: (player.hand || []).filter((heldCard) => heldCard !== card),
+        resources: { ...(player.resources || {}) },
+      };
+      for (const [resource, amount] of Object.entries(getCardPlayCost(card) || {})) {
+        if (!Object.prototype.hasOwnProperty.call(simulatedPlayer.resources, resource)) continue;
+        simulatedPlayer.resources[resource] = Math.max(
+          0,
+          aiNumber(simulatedPlayer.resources[resource]) - Math.max(0, aiNumber(amount)),
+        );
+      }
+      for (const effect of getAiPlayEffectsForCard(card)) {
+        const effectOptions = effect?.options || {};
+        if (
+          effect?.type === planetRewards.EFFECT_TYPES?.GAIN_RESOURCES
+          || effect?.type === "gain_resources"
+        ) {
+          const gain = getAiActualResourceGain(effectOptions.gain || {}, simulatedPlayer);
+          for (const [resource, amount] of Object.entries(gain)) {
+            simulatedPlayer.resources[resource] = aiNumber(simulatedPlayer.resources[resource])
+              + aiNumber(amount);
+          }
+        } else if (effect?.type === cardEffects.EFFECT_TYPES.RESET_RESOURCE) {
+          const resource = effectOptions.resource || null;
+          if (resource) simulatedPlayer.resources[resource] = 0;
+        } else if (effect?.type === "draw_cards") {
+          const count = Math.max(0, Math.round(aiNumber(effectOptions.count || 1)));
+          for (let index = 0; index < count; index += 1) {
+            simulatedPlayer.hand.push({ id: `ai-simulated-draw-${index}` });
+          }
+        }
+      }
+      simulatedPlayer.resources.handSize = simulatedPlayer.hand.length;
+      return simulatedPlayer;
+    }
+
     function getAiReadyHandTaskCashout(card, model = null, player = getCurrentPlayer()) {
       const cardModel = model || cardEffects.getCardModel?.(card) || null;
       const tasks = cardModel?.tasks || [];
       if (!card || !player || !tasks.length) return { count: 0, directScore: 0, rewardValue: 0, value: 0, taskIds: [] };
       const completedTaskIds = new Set(card?.cardEffectState?.completedTaskIds || []);
+      const postPlayPlayer = createAiPlayerAfterDeterministicCardSetup(card, player);
+      const readyBeforePlayTaskIds = tasks
+        .filter((task) => (
+          task?.id
+          && !completedTaskIds.has(task.id)
+          && summarizeAiTaskCondition(task.condition || {}, player)?.met === true
+        ))
+        .map((task) => task.id);
       const readyTasks = tasks.filter((task) => {
         if (!task?.id || completedTaskIds.has(task.id)) return false;
-        return summarizeAiTaskCondition(task.condition || {}, player)?.met === true;
+        return summarizeAiTaskCondition(task.condition || {}, postPlayPlayer)?.met === true;
       });
-      if (!readyTasks.length) return { count: 0, directScore: 0, rewardValue: 0, value: 0, taskIds: [] };
-      const directScore = readyTasks.reduce((total, task) => total + Math.max(0, getAiTaskDirectScoreReward(task, player)), 0);
-      const rewardValue = readyTasks.reduce((total, task) => total + Math.max(0, getAiTaskRewardValue(task, player)), 0);
+      const readyAfterPlayTaskIds = readyTasks.map((task) => task.id);
+      const blockedByPlayEffectTaskIds = readyBeforePlayTaskIds
+        .filter((taskId) => !readyAfterPlayTaskIds.includes(taskId));
+      const newlyReadyAfterPlayTaskIds = readyAfterPlayTaskIds
+        .filter((taskId) => !readyBeforePlayTaskIds.includes(taskId));
+      if (!readyTasks.length) {
+        return {
+          count: 0,
+          directScore: 0,
+          rewardValue: 0,
+          value: 0,
+          taskIds: [],
+          readyBeforePlayTaskIds,
+          blockedByPlayEffectTaskIds,
+          newlyReadyAfterPlayTaskIds,
+        };
+      }
+      const directScore = readyTasks.reduce((total, task) => total + Math.max(0, getAiTaskDirectScoreReward(task, postPlayPlayer)), 0);
+      const rewardValue = readyTasks.reduce((total, task) => total + Math.max(0, getAiTaskRewardValue(task, postPlayPlayer)), 0);
       const completionProgressValue = Math.max(
         0,
-        scoreAiCFinalTaskProgressValue(player, readyTasks.length),
+        scoreAiCFinalTaskProgressValue(postPlayPlayer, readyTasks.length),
       );
       const value = directScore > 0
         ? Math.min(
@@ -12408,12 +12471,101 @@
         directScore: roundAiScore(directScore),
         rewardValue: roundAiScore(rewardValue),
         value: roundAiScore(value),
-        taskIds: readyTasks.map((task) => task.id),
+        taskIds: readyAfterPlayTaskIds,
+        readyBeforePlayTaskIds,
+        blockedByPlayEffectTaskIds,
+        newlyReadyAfterPlayTaskIds,
       };
     }
 
     function getAiReadyTaskCashoutTimingScale() {
       return getAiRoundNumber() <= 1 ? 0.2 : 1;
+    }
+
+    function getAiFinalSelfBlockingPublicityTrapProfile(card, details = {}) {
+      const player = details.player || getCurrentPlayer();
+      const model = details.model || cardEffects.getCardModel?.(card) || null;
+      const playEffects = details.playEffects || getAiPlayEffectsForCard(card);
+      const readyTaskCashout = details.readyTaskCashout || null;
+      if (!card || !player || getAiRoundNumber() < FINAL_ROUND_NUMBER) return null;
+      if (
+        normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+        !== AI_DIFFICULTY_LAUGHABLE
+      ) return null;
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+      ) return null;
+      const currentScore = Math.max(0, aiNumber(player.resources?.score));
+      if (
+        currentScore < 100
+        || currentScore >= 170
+        || countAiFinalMarksForPlayer(player) < 3
+        || getAiNextMissingFinalScoreThreshold(player)
+      ) return null;
+
+      const blockedTaskIds = new Set(readyTaskCashout?.blockedByPlayEffectTaskIds || []);
+      const selfBlockingTaskIds = (model?.tasks || [])
+        .filter((task) => (
+          blockedTaskIds.has(task?.id)
+          && task?.condition?.type === "resourceEquals"
+          && task?.condition?.resource === "publicity"
+          && aiNumber(task?.condition?.count) === 0
+        ))
+        .map((task) => task.id);
+      if (!selfBlockingTaskIds.length) return null;
+
+      const immediateGain = getAiImmediateResourceGainFromPlayEffects(playEffects);
+      const publicityGain = Math.max(0, aiNumber(immediateGain.publicity));
+      const hasOtherImmediateGain = Object.entries(immediateGain)
+        .some(([resource, amount]) => resource !== "publicity" && aiNumber(amount) > 0);
+      const onlyImmediatePublicityEffects = playEffects.every((effect) => (
+        effect?.type === planetRewards.EFFECT_TYPES?.GAIN_RESOURCES
+        || effect?.type === "gain_resources"
+      ));
+      if (publicityGain <= 0 || hasOtherImmediateGain || !onlyImmediatePublicityEffects) return null;
+
+      const postPlayPlayer = createAiPlayerAfterDeterministicCardSetup(card, player);
+      const postResources = postPlayPlayer?.resources || {};
+      const postPublicity = Math.max(0, aiNumber(postResources.publicity));
+      if (
+        postPublicity <= 0
+        || postPublicity >= getAiResearchTechPublicityCostForPlayer(postPlayPlayer)
+        || aiNumber(postResources.credits) > 0
+        || aiNumber(postResources.energy) > 0
+        || aiNumber(postResources.availableData) > 0
+        || scanEffects?.canExecuteScan?.(postPlayPlayer, { standardAction: true })?.ok
+        || canAiAnalyzeData(postPlayPlayer)?.ok
+      ) return null;
+      const playableHandCount = (postPlayPlayer.hand || []).filter((heldCard) => (
+        heldCard?.id
+        && !String(heldCard.id).startsWith("ai-simulated-draw-")
+        && isAiSupportedHandPlayCard(heldCard)
+        && players.canAfford(postPlayPlayer, getCardPlayCost(heldCard))
+      )).length;
+      const affordablePublicCardCount = (cardState.publicCards || []).filter((publicCard) => (
+        isAiSupportedHandPlayCard(publicCard)
+        && players.canAfford(postPlayPlayer, getCardPlayCost(publicCard))
+      )).length;
+      if (playableHandCount > 0 || affordablePublicCardCount > 0) return null;
+
+      const publicityEffectValue = playEffects.reduce((total, effect) => (
+        total + Math.max(0, scoreAiEffectValue(effect, { player, immediate: true }))
+      ), 0);
+      const penalty = roundAiScore(Math.min(
+        Math.max(0, aiNumber(details.effectValue ?? publicityEffectValue)),
+        publicityEffectValue,
+      ));
+      if (penalty <= 0) return null;
+      return {
+        penalty,
+        publicityGain: roundAiScore(publicityGain),
+        postPublicity: roundAiScore(postPublicity),
+        playableHandCount,
+        affordablePublicCardCount,
+        selfBlockingTaskIds,
+      };
     }
 
     function scoreAiReadyTaskTechReplacementValue(playEffects = [], readyTaskCashout = null, player = getCurrentPlayer()) {
@@ -12677,6 +12829,10 @@
         0,
         aiNumber(details.grandStrategyCreditBottleneckPenalty),
       );
+      const finalSelfBlockingPublicityTrapPenalty = Math.max(
+        0,
+        aiNumber(details.finalSelfBlockingPublicityTrap?.penalty),
+      );
       return effectValue
         + reserveValue
         + endGameValue
@@ -12708,6 +12864,7 @@
         - finalSecondMarkNoDirectSetupPenalty
         - finalRoundResourceDrainPenalty
         - grandStrategyCreditBottleneckPenalty
+        - finalSelfBlockingPublicityTrapPenalty
         - huanyuFangzhouCreditLockPenalty;
     }
 
@@ -18623,6 +18780,13 @@
       const effectValue = valuationPlayEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
       ), 0);
+      const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
+        player: currentPlayer,
+        model,
+        playEffects: valuationPlayEffects,
+        readyTaskCashout,
+        effectValue,
+      });
       const strategyPassivePlayValue = scoreAiStrategyPassiveCardPlayValue(card, currentPlayer);
       const actualHandPlay = handIndex >= 0;
       const industryCard = getAiIndustryCard(currentPlayer);
@@ -18728,6 +18892,7 @@
         standardActionPremium,
         strategyPassivePlayValue,
         grandStrategyCreditBottleneckPenalty,
+        finalSelfBlockingPublicityTrap,
         cFinalTaskProgressValue,
         readyTaskCashout,
       });
@@ -18800,6 +18965,9 @@
           effectValue,
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
+          finalSelfBlockingPublicityTrap,
+          finalSelfBlockingPublicityTrapPenalty:
+            finalSelfBlockingPublicityTrap?.penalty || 0,
           c2Type3ProgressValue,
           cFinalTaskProgressValue,
           finalUnreadyTaskSetupSuppressed,
@@ -18807,6 +18975,10 @@
           readyTaskCashoutDirectScore: readyTaskCashout.directScore,
           readyTaskCashoutCount: readyTaskCashout.count,
           readyTaskCashoutTimingScale: getAiReadyTaskCashoutTimingScale(),
+          readyTaskBlockedByPlayEffectTaskIds:
+            readyTaskCashout.blockedByPlayEffectTaskIds || [],
+          newlyReadyAfterPlayTaskIds:
+            readyTaskCashout.newlyReadyAfterPlayTaskIds || [],
           readyTaskTechReplacementValue,
           skippedUnresolvableLaunchForReadyTask: skippedCappedLaunchSet.size > 0,
           skippedUnresolvableLaunchCount: skippedCappedLaunchSet.size,

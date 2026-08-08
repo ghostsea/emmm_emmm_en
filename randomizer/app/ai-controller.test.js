@@ -4882,6 +4882,92 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const turnChoices = [];
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
+    roundNumber: 4,
+    canStartMainAction: true,
+    realisticCanAfford: true,
+    blueInitialSelection: {
+      industry: { id: "industry:寰宇超动力", label: "寰宇超动力" },
+    },
+    blueResources: { score: 128, credits: 2, energy: 0, publicity: 0, availableData: 0, handSize: 1 },
+    blueHand: [{
+      id: "self-blocking-ready-task",
+      cardName: "Self-blocking ready task",
+      price: 2,
+      typeCode: 2,
+      playEffects: [{ type: "gain_resources", options: { gain: { publicity: 4 } } }],
+      model: {
+        tasks: [{
+          id: "zero-publicity-after-play",
+          condition: { type: "resourceEquals", resource: "publicity", count: 0 },
+          rewards: [{ type: "gain_resources", options: { gain: { score: 2, publicity: 1 } } }],
+        }],
+      },
+    }],
+    finalScoringState: {
+      tiles: {
+        final_a2: {
+          id: "final_a2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }],
+        },
+        final_c1: {
+          id: "final_c1",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 50 }],
+        },
+        final_d2: {
+          id: "final_d2",
+          marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 70 }],
+        },
+      },
+    },
+    finalFormulaIds: {
+      final_a2: "a2",
+      final_c1: "c1",
+      final_d2: "d2",
+    },
+    onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+    chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+  });
+  assert.equal(
+    harness.controller.configureAiAutoBattle({
+      playerIds: [harness.blue.id],
+      suppressAutoSchedule: true,
+    }).ok,
+    true,
+  );
+  harness.controller.runAiAutomationStep();
+  const selfBlockingCandidate = turnChoices
+    .flat()
+    .find((candidate) => candidate.id === "playCard")
+    ?.playableCards?.[0] || null;
+  assert.ok(selfBlockingCandidate, "self-blocking task card should remain a legal play candidate");
+  assert.equal(
+    selfBlockingCandidate.valueBreakdown?.readyTaskCashoutCount,
+    0,
+    "task readiness must be evaluated after deterministic play effects",
+  );
+  assert.deepEqual(
+    selfBlockingCandidate.valueBreakdown?.readyTaskBlockedByPlayEffectTaskIds,
+    ["zero-publicity-after-play"],
+    "the model should expose the task invalidated by its own publicity gain",
+  );
+  assert.deepEqual(
+    selfBlockingCandidate.valueBreakdown?.finalSelfBlockingPublicityTrap,
+    {
+      penalty: selfBlockingCandidate.valueBreakdown?.effectValue,
+      publicityGain: 4,
+      postPublicity: 4,
+      playableHandCount: 0,
+      affordablePublicCardCount: 0,
+      selfBlockingTaskIds: ["zero-publicity-after-play"],
+    },
+    "terminal Huanyu should remove the value of publicity that blocks its task and opens no action",
+  );
+}
+
+{
+  const turnChoices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
     roundNumber: 2,
     canStartMainAction: true,
     realisticCanAfford: true,
