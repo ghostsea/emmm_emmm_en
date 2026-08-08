@@ -101,6 +101,104 @@
     return Math.max(0, finalRound - round - (includeCurrentRound ? 0 : 1));
   }
 
+  function estimateBlueRewardTriggerCount(input = {}) {
+    const finalRound = Math.max(
+      1,
+      Math.round(numeric(input.finalRoundNumber) || FINAL_ROUND_NUMBER),
+    );
+    const round = Math.min(
+      finalRound,
+      Math.max(1, Math.round(numeric(input.roundNumber) || 1)),
+    );
+    const requiredComputerSlot = Math.max(
+      0,
+      Math.round(numeric(input.requiredComputerSlot)),
+    );
+    const analyzeRequiredComputerSlot = Math.max(
+      requiredComputerSlot,
+      Math.round(numeric(input.analyzeRequiredComputerSlot) || 6),
+    );
+    const placedComputerData = Math.max(
+      0,
+      Math.round(numeric(input.placedComputerData)),
+    );
+    const availableData = Math.max(0, numeric(input.availableData));
+    const projectedAdditionalData = Math.max(0, numeric(input.projectedAdditionalData));
+    const completedDataCycles = Math.max(
+      0,
+      Math.round(numeric(input.completedDataCycles)),
+    );
+    const remainingCycleWindows = Math.max(0, finalRound - round + 1);
+    const knownDataBudget = Math.max(0, availableData + projectedAdditionalData);
+    const currentTriggerDataCost = requiredComputerSlot > 0
+      ? Math.max(0, requiredComputerSlot - placedComputerData) + 1
+      : 0;
+    const firstRepeatTriggerDataCost = requiredComputerSlot > 0
+      ? Math.max(
+        0,
+        analyzeRequiredComputerSlot - Math.max(placedComputerData, requiredComputerSlot),
+      ) + requiredComputerSlot + 1
+      : 0;
+    const steadyRepeatTriggerDataCost = requiredComputerSlot > 0
+      ? analyzeRequiredComputerSlot + 1
+      : 0;
+    const canAnalyzeRepeatCycle = input.canAnalyzeRepeatCycle !== false;
+
+    let securedTriggerCount = 0;
+    if (
+      currentTriggerDataCost > 0
+      && remainingCycleWindows > 0
+      && knownDataBudget >= currentTriggerDataCost
+    ) {
+      securedTriggerCount = 1;
+      let remainingKnownData = knownDataBudget - currentTriggerDataCost;
+      if (
+        canAnalyzeRepeatCycle
+        && securedTriggerCount < remainingCycleWindows
+        && firstRepeatTriggerDataCost > 0
+        && remainingKnownData >= firstRepeatTriggerDataCost
+      ) {
+        securedTriggerCount += 1;
+        remainingKnownData -= firstRepeatTriggerDataCost;
+      }
+      while (
+        canAnalyzeRepeatCycle
+        && securedTriggerCount < remainingCycleWindows
+        && steadyRepeatTriggerDataCost > 0
+        && remainingKnownData >= steadyRepeatTriggerDataCost
+      ) {
+        securedTriggerCount += 1;
+        remainingKnownData -= steadyRepeatTriggerDataCost;
+      }
+    }
+
+    const observedCycleRate = completedDataCycles / Math.max(1, round);
+    const throughputTriggerCount = Math.min(
+      remainingCycleWindows,
+      Math.floor(observedCycleRate * remainingCycleWindows),
+    );
+    const expectedTriggerCount = requiredComputerSlot > 0
+      ? Math.min(
+        remainingCycleWindows,
+        Math.max(securedTriggerCount, throughputTriggerCount),
+      )
+      : 0;
+
+    return {
+      expectedTriggerCount,
+      securedTriggerCount,
+      throughputTriggerCount,
+      triggerUpperBound: requiredComputerSlot > 0 ? remainingCycleWindows : 0,
+      currentTriggerDataCost,
+      firstRepeatTriggerDataCost,
+      steadyRepeatTriggerDataCost,
+      knownDataBudget: roundValue(knownDataBudget),
+      completedDataCycles,
+      remainingCycleWindows,
+      canAnalyzeRepeatCycle,
+    };
+  }
+
   function isAlienCard(card) {
     const cardId = String(card?.cardId || card?.id || card?.set || "");
     return Boolean(card?.alienCard || card?.isAlienCard || cardId.startsWith("alien:"))
@@ -831,6 +929,7 @@
     getLaunchPaymentCost,
     getMovePaymentCost,
     getRemainingIncomeMultiplier,
+    estimateBlueRewardTriggerCount,
     getCardValue,
     getDiscardedCardValue,
     getIncomeRawValue,

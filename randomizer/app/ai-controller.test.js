@@ -10669,6 +10669,27 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     },
     "round-one Huanyu should price only the one proven reachable blue1 credit reward",
   );
+  assert.deepEqual(
+    {
+      projectedBlueSlot:
+        huanyuBlue1?.valueBreakdown?.blueResourceClosure?.projectedBlueSlot,
+      requiredComputerSlot:
+        huanyuBlue1?.valueBreakdown?.blueResourceClosure?.requiredComputerSlot,
+      placedComputerData:
+        huanyuBlue1?.valueBreakdown?.blueResourceClosure?.placedComputerData,
+      expectedTriggerCount:
+        huanyuBlue1?.valueBreakdown?.blueResourceClosure?.expectedTriggerCount,
+      reward: huanyuBlue1?.valueBreakdown?.blueResourceClosure?.reward,
+    },
+    {
+      projectedBlueSlot: 1,
+      requiredComputerSlot: 1,
+      placedComputerData: 4,
+      expectedTriggerCount: 0,
+      reward: { type: "credits", credits: 1 },
+    },
+    "blue candidates should expose the actual target slot and a conservative reward trigger forecast",
+  );
   assert.ok(
     Number(huanyuBlue1?.score || 0) > Number(huanyuOrange1?.score || 0),
     "the proven credit engine should narrowly beat the unused orange1 launch plan",

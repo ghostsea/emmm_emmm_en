@@ -14958,6 +14958,182 @@
       return roundAiScore(Math.min(15, Math.max(0, value)));
     }
 
+    function countAiCompletedDataCycles(player = getCurrentPlayer()) {
+      if (!player) return 0;
+      return (aiAutoBattleState.turnActionHistory || []).filter((entry) => (
+        entry?.type === "turn-action"
+        && entry.playerId === player.id
+        && entry.action?.id === "analyze"
+      )).length;
+    }
+
+    function getAiBlueTechRewardResourceGain(reward = {}) {
+      if (!reward || typeof reward !== "object") return {};
+      if (reward.type === "choose_card") return { handSize: 1, cardSelection: 1 };
+      return ["credits", "energy", "publicity", "availableData"]
+        .reduce((gain, resourceKey) => {
+          const amount = aiNumber(reward[resourceKey]);
+          if (amount > 0) gain[resourceKey] = amount;
+          return gain;
+        }, {});
+    }
+
+    function countAiAffordableHandCards(player = getCurrentPlayer()) {
+      if (!player) return 0;
+      return (player.hand || []).filter((card) => (
+        isAiSupportedHandPlayCard(card)
+        && players.canAfford(player, getCardPlayCost(card) || {})
+      )).length;
+    }
+
+    function getAiResourceGainUnlockDiagnostic(gain = {}, player = getCurrentPlayer()) {
+      const simulatedPlayer = createAiPlayerAfterResourceGain(player, gain);
+      if (!player || !simulatedPlayer) {
+        return {
+          unlockedActions: [],
+          playableCardDelta: 0,
+          fullDataCycleDelta: 0,
+          planetCashoutValue: 0,
+        };
+      }
+      const unlockedActions = [];
+      const scanBefore = Boolean(
+        scanEffects?.canExecuteScan?.(player, { standardAction: true })?.ok,
+      );
+      const scanAfter = Boolean(
+        scanEffects?.canExecuteScan?.(simulatedPlayer, { standardAction: true })?.ok,
+      );
+      if (!scanBefore && scanAfter) unlockedActions.push("scan");
+
+      const analyzeBefore = Boolean(canAiAnalyzeData(player).ok);
+      const analyzeAfter = Boolean(canAiAnalyzeData(simulatedPlayer).ok);
+      if (!analyzeBefore && analyzeAfter) unlockedActions.push("analyze");
+
+      const playableCardDelta = Math.max(
+        0,
+        countAiAffordableHandCards(simulatedPlayer) - countAiAffordableHandCards(player),
+      );
+      if (playableCardDelta > 0) unlockedActions.push("playCardPayment");
+
+      const researchCost = tech.resolver?.getResearchPublicityCost?.(player)
+        ?? tech.RESEARCH_PUBLICITY_COST
+        ?? 6;
+      if (
+        aiNumber(player.resources?.publicity) < researchCost
+        && aiNumber(simulatedPlayer.resources?.publicity) >= researchCost
+      ) {
+        unlockedActions.push("researchTech");
+      }
+
+      const planetCashoutValue = scoreAiPlanetCashoutUnlockAfterResourceGain(player, gain);
+      if (planetCashoutValue > 0) unlockedActions.push("planetCashout");
+      return {
+        unlockedActions,
+        playableCardDelta,
+        fullDataCycleDelta: !analyzeBefore && analyzeAfter ? 1 : 0,
+        planetCashoutValue: roundAiScore(planetCashoutValue),
+      };
+    }
+
+    function listAiRevealedAlienIds() {
+      return (aliens.ALIEN_SLOT_IDS || []).map((alienSlotId) => {
+        const slot = aliens.getAlienSlot?.(alienGameState, alienSlotId);
+        return slot?.alienId || slot?.assignedAlienId || null;
+      }).filter(Boolean);
+    }
+
+    function getAiBlueTechResourceClosureDiagnostic(candidate, player = getCurrentPlayer()) {
+      if (!candidate || candidate.techType !== "blue" || !player) return null;
+      const availableBlueSlots = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right);
+      const projectedBlueSlot = ai?.policy?.chooseBlueTechSlot?.(availableBlueSlots, {
+        currentPlayer: player,
+        techGameState,
+        tileId: candidate.tileId,
+      }) || availableBlueSlots[0] || null;
+      const requiredComputerSlot = projectedBlueSlot == null
+        ? null
+        : data.getRequiredComputerSlotForBlueBonus?.(projectedBlueSlot) || null;
+      const placedComputerData = Math.max(
+        0,
+        (data.listComputerPlacedTokens?.(player) || []).length,
+      );
+      const availableData = Math.max(0, aiNumber(player.resources?.availableData));
+      const round = getAiRoundNumber();
+      const remainingIncomePayouts = Math.max(0, FINAL_ROUND_NUMBER - round);
+      const incomeDataPerRound = Math.max(
+        0,
+        aiNumber(player.income?.availableData ?? player.income?.data),
+      );
+      const projectedAdditionalData = incomeDataPerRound * remainingIncomePayouts;
+      const completedDataCycles = countAiCompletedDataCycles(player);
+      const reward = data.getBlueTileDataBonus?.(candidate.tileId) || null;
+      const resourceGain = getAiBlueTechRewardResourceGain(reward);
+      const projectedAnalysisEnergy = Math.max(0, aiNumber(player.resources?.energy))
+        + Math.max(0, aiNumber(resourceGain.energy))
+        + Math.max(0, aiNumber(player.income?.energy)) * remainingIncomePayouts;
+      const canAnalyzeRepeatCycle = completedDataCycles > 0 || projectedAnalysisEnergy >= 1;
+      const triggerPrediction = ai?.valuation?.estimateBlueRewardTriggerCount?.({
+        roundNumber: round,
+        finalRoundNumber: FINAL_ROUND_NUMBER,
+        requiredComputerSlot,
+        analyzeRequiredComputerSlot: data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6,
+        placedComputerData,
+        availableData,
+        projectedAdditionalData,
+        completedDataCycles,
+        canAnalyzeRepeatCycle,
+      }) || {
+        expectedTriggerCount: 0,
+        securedTriggerCount: 0,
+        throughputTriggerCount: 0,
+        triggerUpperBound: 0,
+        currentTriggerDataCost: 0,
+        knownDataBudget: availableData + projectedAdditionalData,
+        completedDataCycles,
+        remainingCycleWindows: Math.max(0, FINAL_ROUND_NUMBER - round + 1),
+      };
+      const unlock = getAiResourceGainUnlockDiagnostic(resourceGain, player);
+      const perTriggerContinuationValue = scoreAiMidgameResourceContinuationValue(
+        resourceGain,
+        player,
+      );
+      const expectedTriggerCount = Math.max(
+        0,
+        aiNumber(triggerPrediction.expectedTriggerCount),
+      );
+      const industryCard = getAiIndustryCard(player);
+      return {
+        candidateKind: "blue-tech",
+        companyId: industryCard?.id || industryCard?.label || null,
+        revealedAlienIds: listAiRevealedAlienIds(),
+        projectedBlueSlot,
+        requiredComputerSlot,
+        placedComputerData,
+        availableData,
+        incomeDataPerRound,
+        remainingIncomePayouts,
+        projectedAdditionalData,
+        projectedAnalysisEnergy,
+        reward,
+        resourceGain,
+        ...triggerPrediction,
+        remainingMainActionWindows: triggerPrediction.remainingCycleWindows,
+        unlockedActions: unlock.unlockedActions,
+        playableCardDelta: unlock.playableCardDelta,
+        fullDataCycleDelta: unlock.fullDataCycleDelta,
+        planetCashoutValue: unlock.planetCashoutValue,
+        perTriggerContinuationValue: roundAiScore(perTriggerContinuationValue),
+        expectedContinuationValue: roundAiScore(
+          perTriggerContinuationValue * expectedTriggerCount,
+        ),
+        sharedOpportunityPenalty: null,
+        displacedValue: null,
+      };
+    }
+
     function hasAiRevealedAlienSpecies(alienId) {
       if (!alienId) return false;
       return (aliens.ALIEN_SLOT_IDS || []).some((alienSlotId) => {
@@ -22348,6 +22524,8 @@
           getAiFinalHuanyuPurple4CashoutProfile(candidate, getCurrentPlayer()),
         grandStrategyFinalStrandedEnergyCashout:
           getAiGrandStrategyFinalStrandedEnergyCashoutProfile(candidate, getCurrentPlayer()),
+        blueResourceClosure:
+          getAiBlueTechResourceClosureDiagnostic(candidate, getCurrentPlayer()),
       };
       if (candidate.tileId === "orange4") {
         candidate.valueBreakdown.orange4SatelliteProfile = getAiOrange4SatellitePotentialProfile(getCurrentPlayer());

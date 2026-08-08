@@ -22,6 +22,73 @@ const constants = appConstants.createAppConstants({
 });
 assert.equal(constants.DEFAULT_ACTIVE_PLAYER_COUNT, 4);
 
+assert.deepStrictEqual(
+  valuation.estimateBlueRewardTriggerCount({
+    roundNumber: 1,
+    requiredComputerSlot: 1,
+    placedComputerData: 0,
+    availableData: 2,
+    completedDataCycles: 0,
+  }),
+  {
+    expectedTriggerCount: 1,
+    securedTriggerCount: 1,
+    throughputTriggerCount: 0,
+    triggerUpperBound: 4,
+    currentTriggerDataCost: 2,
+    firstRepeatTriggerDataCost: 7,
+    steadyRepeatTriggerDataCost: 7,
+    knownDataBudget: 2,
+    completedDataCycles: 0,
+    remainingCycleWindows: 4,
+    canAnalyzeRepeatCycle: true,
+  },
+);
+assert.equal(valuation.estimateBlueRewardTriggerCount({
+  roundNumber: 2,
+  requiredComputerSlot: 5,
+  placedComputerData: 4,
+  availableData: 2,
+  completedDataCycles: 0,
+}).expectedTriggerCount, 1);
+assert.equal(valuation.estimateBlueRewardTriggerCount({
+  roundNumber: 1,
+  requiredComputerSlot: 1,
+  placedComputerData: 3,
+  availableData: 3,
+  completedDataCycles: 0,
+}).expectedTriggerCount, 1);
+assert.equal(valuation.estimateBlueRewardTriggerCount({
+  roundNumber: 3,
+  requiredComputerSlot: 5,
+  placedComputerData: 6,
+  availableData: 1,
+  projectedAdditionalData: 6,
+  completedDataCycles: 2,
+}).expectedTriggerCount, 2);
+assert.equal(valuation.estimateBlueRewardTriggerCount({
+  roundNumber: 2,
+  requiredComputerSlot: 3,
+  placedComputerData: 0,
+  availableData: 0,
+  completedDataCycles: 0,
+}).expectedTriggerCount, 0);
+assert.equal(valuation.estimateBlueRewardTriggerCount({
+  roundNumber: 4,
+  requiredComputerSlot: 1,
+  placedComputerData: 1,
+  availableData: 12,
+  completedDataCycles: 4,
+}).expectedTriggerCount, 1);
+assert.equal(valuation.estimateBlueRewardTriggerCount({
+  roundNumber: 2,
+  requiredComputerSlot: 1,
+  placedComputerData: 1,
+  availableData: 10,
+  completedDataCycles: 0,
+  canAnalyzeRepeatCycle: false,
+}).expectedTriggerCount, 1);
+
 const lowRoundTailDiagnostic = analytics.analyzeBattleReport({
   lastSummary: { gameEnded: true, steps: 6 },
   playerResults: [
