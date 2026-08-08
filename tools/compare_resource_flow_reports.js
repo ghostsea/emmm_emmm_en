@@ -174,12 +174,17 @@ function summarizeRoundGroups(flows = [], playerCount = 0) {
 }
 
 function extractReference(reference) {
-  const summary = reference?.summary || reference || {};
+  const hasHumanSummary = Boolean(reference?.humanSummary);
+  const summary = reference?.humanSummary || reference?.summary || reference || {};
   return {
     players: summary.players || [],
     flows: [{ groups: summary.groups || {} }],
     coverage: summary.coverage || null,
     duplicateFileCount: Number(reference?.duplicateFiles?.length ?? reference?.duplicateFileCount) || 0,
+    referenceSource: hasHumanSummary ? "humanSummary" : "legacy_summary",
+    warnings: hasHumanSummary
+      ? []
+      : ["参考报告缺少 humanSummary，已回退到旧 summary；该口径可能混入日志内电脑座位。"],
   };
 }
 
@@ -365,6 +370,8 @@ function compareResourceFlowReports(referenceInput, aiInput) {
   return {
     generatedAt: new Date().toISOString(),
     deltaDirection: "human_minus_ai",
+    referenceSource: referenceExtracted.referenceSource,
+    warnings: referenceExtracted.warnings,
     reference,
     ai,
     deltas,
@@ -430,6 +437,9 @@ function renderMarkdown(comparison) {
   const sections = [
     "## 真人与电脑资源转化差距",
     "",
+    ...(comparison.warnings?.length
+      ? ["### 口径告警", "", ...comparison.warnings.map((warning) => `- ${warning}`), ""]
+      : []),
     `差值方向固定为真人减电脑。真人样本 ${comparison.reference.playerCount} 人，电脑样本 ${comparison.ai.playerCount} 人。`,
     "",
     "### 全体玩家",
@@ -512,6 +522,9 @@ function main(argv = process.argv.slice(2)) {
     readJson(options.reference),
     readJson(options.ai),
   );
+  for (const warning of comparison.warnings || []) {
+    process.stderr.write(`WARNING: ${warning}\n`);
+  }
   writeFile(options.out, `${JSON.stringify(comparison, null, 2)}\n`);
   writeFile(options.markdown, renderMarkdown(comparison));
   process.stdout.write(`${JSON.stringify({

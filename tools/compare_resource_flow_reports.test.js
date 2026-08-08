@@ -7,7 +7,7 @@ const {
   summarizePlayers,
 } = require("./compare_resource_flow_reports");
 
-const reference = { summary: { players: [
+const humanPlayers = [
   {
     playerId: "h1", finalScore: 300,
     setupGainWeighted: 20, incomeGainWeighted: 12, nonIncomeGainWeighted: 30,
@@ -26,7 +26,14 @@ const reference = { summary: { players: [
     alienCardToPlayRate: 0.25, blue1CreditGain: 2, blue2EnergyGain: 1,
     industryId: "真人公司B", alienIds: ["虫"],
   },
-] } };
+];
+const reference = {
+  humanSummary: { players: humanPlayers },
+  summary: { players: [
+    ...humanPlayers,
+    { playerId: "computer-seat", finalScore: 999, industryId: "日志内电脑" },
+  ] },
+};
 const ai = { result: { samples: [{ resourceFlow: {
   coverage: { weighted: 1 },
   reconciliation: { residualMagnitude: 0 },
@@ -53,6 +60,9 @@ const ai = { result: { samples: [{ resourceFlow: {
 } }] } };
 
 const comparison = compareResourceFlowReports(reference, ai);
+assert.equal(comparison.reference.playerCount, 2);
+assert.equal(comparison.referenceSource, "humanSummary");
+assert.deepEqual(comparison.warnings, []);
 assert.equal(comparison.reference.topQuartile.averageFinalScore, 300);
 assert.equal(comparison.ai.topQuartile.averageFinalScore, 280);
 assert.equal(comparison.deltas.topQuartile.fullDataCycleCount, 1);
@@ -132,5 +142,10 @@ const unavailableMetrics = summarizePlayers([{
 }]);
 assert.equal(unavailableMetrics.utilizationPublicity, null);
 assert.equal(unavailableMetrics.alienCardToPlayRate, null);
+
+const legacyComparison = compareResourceFlowReports({ summary: { players: humanPlayers } }, ai);
+assert.equal(legacyComparison.referenceSource, "legacy_summary");
+assert.match(legacyComparison.warnings[0], /humanSummary/);
+assert.match(renderMarkdown(legacyComparison), /口径告警/);
 
 console.log("compare_resource_flow_reports.test.js: all tests passed");

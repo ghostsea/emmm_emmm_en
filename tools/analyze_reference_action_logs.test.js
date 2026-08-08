@@ -75,6 +75,36 @@ assert.equal(deduped.summary.coverage.weighted, 1);
 assert.equal(deduped.summary.players[0].endingInventory.availableData, null);
 assert.equal(deduped.summary.players[0].utilizationRate.availableData, null);
 
+const twoPlayerMarkdown = markdown
+  .replace("| 白色 | 300 |", "| 白色 | 300 |\n| 棕色 | 200 |")
+  .replace(
+    "| 白色 | 科技行动 -> 分析数据 | 3 | 4 | R1 |",
+    "| 白色 | 科技行动 -> 分析数据 | 3 | 4 | R1 |\n| 棕色 | 扫描行动 | 2 | 2 | R1 |",
+  )
+  .concat(`
+
+### #4 初始选择 - 棕色 - 初始选择
+- [setup] 选择公司：寰宇超动力
+- [setup] 结算初始效果：获得 3信用点、3能量；资源：信用点+3、能量+3
+`);
+const cohortResult = analyzeReferenceDocuments([
+  { fileName: "cohort.md", markdown: twoPlayerMarkdown },
+]);
+assert.equal(cohortResult.humanPlayerLabel, "白色");
+assert.deepEqual(cohortResult.humanSummary.players.map((player) => player.playerLabel), ["白色"]);
+assert.deepEqual(cohortResult.opponentSummary.players.map((player) => player.playerLabel), ["棕色"]);
+assert.equal(
+  cohortResult.humanSummary.players.length + cohortResult.opponentSummary.players.length,
+  cohortResult.summary.players.length,
+);
+
+const customHumanResult = analyzeReferenceDocuments([
+  { fileName: "cohort.md", markdown: twoPlayerMarkdown },
+], { humanPlayerLabel: "棕色" });
+assert.equal(customHumanResult.humanPlayerLabel, "棕色");
+assert.deepEqual(customHumanResult.humanSummary.players.map((player) => player.playerLabel), ["棕色"]);
+assert.deepEqual(customHumanResult.opponentSummary.players.map((player) => player.playerLabel), ["白色"]);
+
 assert.throws(() => analyzeReferenceDocuments([{
   fileName: "bad.md",
   markdown: markdown

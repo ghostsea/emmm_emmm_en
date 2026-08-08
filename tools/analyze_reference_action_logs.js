@@ -20,6 +20,7 @@ const KNOWN_ALIENS = Object.freeze([
   "符文族",
 ]);
 const KNOWN_PLAYER_LABELS = Object.freeze(["白色", "棕色", "绿色", "蓝色"]);
+const DEFAULT_HUMAN_PLAYER_LABEL = "白色";
 
 function addResourceMaps(...maps) {
   const result = {};
@@ -547,19 +548,42 @@ function analyzeReferenceDocuments(documents = [], options = {}) {
     },
   ));
   const events = games.flatMap((game) => game.events);
-  const summary = resourceFlow.summarizeResourceEvents(events, {
+  const productiveMainActionCounts = {
+    ...buildProductiveMainActionCounts(games),
+    ...(options.productiveMainActionCounts || {}),
+  };
+  const summaryOptions = {
     endingInventories: options.endingInventories,
     unreconciledResourceKeys: ["publicity", "availableData"],
-    productiveMainActionCounts: {
-      ...buildProductiveMainActionCounts(games),
-      ...(options.productiveMainActionCounts || {}),
-    },
-  });
+    productiveMainActionCounts,
+  };
+  const humanPlayerLabel = String(
+    options.humanPlayerLabel || DEFAULT_HUMAN_PLAYER_LABEL,
+  ).trim();
+  const summary = resourceFlow.summarizeResourceEvents(events, summaryOptions);
+  const humanSummary = resourceFlow.summarizeResourceEvents(
+    events.filter((event) => event.playerLabel === humanPlayerLabel),
+    summaryOptions,
+  );
+  const opponentSummary = resourceFlow.summarizeResourceEvents(
+    events.filter((event) => event.playerLabel !== humanPlayerLabel),
+    summaryOptions,
+  );
   const minCoverage = Number(options.minCoverage);
-  if (Number.isFinite(minCoverage) && summary.coverage.weighted < minCoverage) {
-    const samples = summary.unclassifiedSamples.slice(0, 10);
+  const checkedSummaries = [
+    ["all", summary],
+    ["human", humanSummary],
+    ["opponent", opponentSummary],
+  ].filter(([, cohortSummary]) => cohortSummary.players.length > 0);
+  const failedCoverage = checkedSummaries.find(
+    ([, cohortSummary]) => cohortSummary.coverage.weighted < minCoverage,
+  );
+  if (Number.isFinite(minCoverage) && failedCoverage) {
+    const [cohort, failedSummary] = failedCoverage;
+    const samples = failedSummary.unclassifiedSamples.slice(0, 10);
     throw new Error(
-      `Resource-flow coverage ${summary.coverage.weighted.toFixed(4)} is below ${minCoverage.toFixed(4)}; `
+      `Resource-flow coverage ${failedSummary.coverage.weighted.toFixed(4)} for ${cohort} `
+      + `is below ${minCoverage.toFixed(4)}; `
       + `unclassified=${JSON.stringify(samples)}`,
     );
   }
@@ -569,7 +593,10 @@ function analyzeReferenceDocuments(documents = [], options = {}) {
     inputFiles: documents.map((document) => document.fileName),
     duplicateFiles,
     games,
+    humanPlayerLabel,
     summary,
+    humanSummary,
+    opponentSummary,
   };
 }
 
@@ -592,7 +619,7 @@ function quantile(values, fraction) {
 }
 
 function compactCliSummary(result) {
-  const scores = result.games.flatMap((game) => game.playerResults.map((player) => player.finalScore));
+  const scores = result.humanSummary.players.map((player) => player.finalScore);
   const sourceCounts = new Map();
   for (const sample of result.summary.unclassifiedSamples) {
     const key = sample.sourceDetail || "unknown";
@@ -602,8 +629,13 @@ function compactCliSummary(result) {
     inputFileCount: result.inputFiles.length,
     duplicateFileCount: result.duplicateFiles.length,
     gameCount: result.games.length,
-    playerCount: result.summary.players.length,
+    humanPlayerLabel: result.humanPlayerLabel,
+    playerCount: result.humanSummary.players.length,
+    opponentPlayerCount: result.opponentSummary.players.length,
+    totalPlayerCount: result.summary.players.length,
     coverage: result.summary.coverage,
+    humanCoverage: result.humanSummary.coverage,
+    opponentCoverage: result.opponentSummary.coverage,
     scoreQuartiles: {
       min: quantile(scores, 0),
       p25: quantile(scores, 0.25),
@@ -619,12 +651,18 @@ function compactCliSummary(result) {
 }
 
 function parseCliArgs(argv) {
-  const args = { dir: "参考行动日志", out: null, minCoverage: 0 };
+  const args = {
+    dir: "参考行动日志",
+    out: null,
+    minCoverage: 0,
+    humanPlayerLabel: DEFAULT_HUMAN_PLAYER_LABEL,
+  };
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
     if (arg === "--dir") args.dir = argv[++index];
     else if (arg === "--out") args.out = argv[++index];
     else if (arg === "--minCoverage") args.minCoverage = Number(argv[++index]);
+    else if (arg === "--humanPlayer") args.humanPlayerLabel = argv[++index];
     else throw new Error(`Unknown argument: ${arg}`);
   }
   return args;
@@ -637,7 +675,10 @@ function runCli(argv = process.argv.slice(2)) {
     .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".md"))
     .map((entry) => path.join(directory, entry.name))
     .sort((left, right) => left.localeCompare(right, "zh-CN"));
-  const result = analyzeReferenceFiles(filePaths, { minCoverage: args.minCoverage });
+  const result = analyzeReferenceFiles(filePaths, {
+    minCoverage: args.minCoverage,
+    humanPlayerLabel: args.humanPlayerLabel,
+  });
   if (args.out) {
     const outputPath = path.resolve(args.out);
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
