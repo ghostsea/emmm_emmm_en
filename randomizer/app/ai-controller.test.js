@@ -16792,6 +16792,81 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue",
+    roundNumber: 4,
+    blueResources: {
+      score: 163,
+      credits: 2,
+      energy: 0,
+      publicity: 4,
+      availableData: 0,
+      handSize: 1,
+    },
+    blueHand: [{ id: "terminal-launch-move-payment" }],
+    finalScoringState: {
+      tiles: {
+        final_a1: { marks: [{ playerId: "player-blue", slotIndex: 1 }] },
+        final_c1: { marks: [{ playerId: "player-blue", slotIndex: 2 }] },
+        final_d2: { marks: [{ playerId: "player-blue", slotIndex: 3 }] },
+      },
+    },
+  });
+  const stagingOnlyPlan = {
+    score: 8.45,
+    movePayment: {
+      cardSpent: 1,
+      energySpent: 0,
+      remainingEnergy: 0,
+    },
+    routeTarget: {
+      id: "mars",
+      kind: "planet",
+      value: 40.624,
+      oldDistance: 1,
+      newDistance: 0,
+    },
+    projectedFollowupMainAction: {
+      score: 0,
+      actionId: null,
+    },
+  };
+
+  assert.equal(
+    harness.controller.scoreAiTerminalStagingOnlyLaunchPenalty(harness.blue, stagingOnlyPlan),
+    14,
+    "a final three-mark launch should not spend its last credits and card merely to arrive at a planet",
+  );
+  assert.equal(
+    harness.controller.scoreAiTerminalStagingOnlyLaunchPenalty(harness.blue, {
+      ...stagingOnlyPlan,
+      routeTarget: {
+        ...stagingOnlyPlan.routeTarget,
+        taskRouteCashout: { value: 8, directScore: 5, count: 1 },
+      },
+    }),
+    0,
+    "a concrete planet task cashout must preserve the launch route",
+  );
+  assert.equal(
+    harness.controller.scoreAiTerminalStagingOnlyLaunchPenalty(harness.blue, {
+      ...stagingOnlyPlan,
+      projectedFollowupMainAction: { score: 12, actionId: "orbit" },
+    }),
+    0,
+    "an affordable projected orbit or landing must preserve the launch route",
+  );
+  assert.equal(
+    harness.controller.scoreAiTerminalStagingOnlyLaunchPenalty({
+      ...harness.blue,
+      resources: { ...harness.blue.resources, publicity: 6 },
+    }, stagingOnlyPlan),
+    0,
+    "enough publicity to rebuild two cards should keep a recoverable route out of the hard guard",
+  );
+}
+
+{
   const launchTriggerCard = {
     id: "grand-strategy-final-cape-canaveral",
     cardId: "b_20.webp",

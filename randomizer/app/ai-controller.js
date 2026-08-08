@@ -16825,6 +16825,7 @@
       const finalSecondMarkExtraLaunchPenalty = scoreAiFinalSecondMarkExtraLaunchPenalty(player, postLaunchMovePlan);
       const noRouteLaunchPenalty = scoreAiNoRouteLaunchPenalty(player, postLaunchMovePlan);
       const weakEarlyPostLaunchRoutePenalty = scoreAiWeakEarlyPostLaunchRoutePenalty(player, postLaunchMovePlan);
+      const terminalStagingOnlyLaunchPenalty = scoreAiTerminalStagingOnlyLaunchPenalty(player, postLaunchMovePlan);
       const launchGain = scoreAiLaunchAction(player)
         + applyAiStrategyWeight(Math.max(0, aiNumber(postLaunchMovePlan?.score)), "move", 0.45)
         + Math.max(0, aiNumber(launchTriggerRouteBridge?.bridgeValue))
@@ -16832,7 +16833,8 @@
         - extraLaunchPacePenalty
         - finalSecondMarkExtraLaunchPenalty
         - noRouteLaunchPenalty
-        - weakEarlyPostLaunchRoutePenalty;
+        - weakEarlyPostLaunchRoutePenalty
+        - terminalStagingOnlyLaunchPenalty;
       return {
         score: launchGain - launchCost - launchReservePenalty,
         launchGain,
@@ -16846,7 +16848,61 @@
         finalSecondMarkExtraLaunchPenalty,
         noRouteLaunchPenalty,
         weakEarlyPostLaunchRoutePenalty,
+        terminalStagingOnlyLaunchPenalty,
       };
+    }
+
+    function getAiProjectedResourcesAfterLaunchMove(player = getCurrentPlayer(), postLaunchMovePlan = null) {
+      if (!player || !postLaunchMovePlan?.movePayment) return null;
+      const resources = player.resources || {};
+      const launchPayment = getAiLaunchPaymentCost();
+      const currentHandSize = Math.max(0, Math.round(aiNumber(resources.handSize ?? player.hand?.length)));
+      const movePayment = postLaunchMovePlan.movePayment;
+      return {
+        ...resources,
+        credits: Math.max(0, aiNumber(resources.credits) - Math.max(0, aiNumber(launchPayment.credits))),
+        energy: Math.max(
+          0,
+          aiNumber(movePayment.remainingEnergy) - Math.max(0, aiNumber(launchPayment.energy)),
+        ),
+        publicity: Math.max(0, aiNumber(resources.publicity) - Math.max(0, aiNumber(launchPayment.publicity))),
+        handSize: Math.max(
+          0,
+          currentHandSize
+            - Math.max(0, Math.round(aiNumber(movePayment.cardSpent)))
+            - Math.max(0, Math.round(aiNumber(launchPayment.handSize))),
+        ),
+      };
+    }
+
+    function scoreAiTerminalStagingOnlyLaunchPenalty(player = getCurrentPlayer(), postLaunchMovePlan = null) {
+      if (!player || getAiRoundNumber() < FINAL_ROUND_NUMBER) return 0;
+      const routeTarget = postLaunchMovePlan?.routeTarget || null;
+      if (
+        routeTarget?.kind !== "planet"
+        || routeTarget.id === "earth"
+        || Math.max(0, Math.round(aiNumber(routeTarget.newDistance))) !== 0
+        || routeTarget.taskRouteCashout
+        || routeTarget.nearCompleteTaskRouteCashout
+        || routeTarget.satelliteOpportunity
+      ) {
+        return 0;
+      }
+      if (Math.max(0, aiNumber(postLaunchMovePlan?.projectedFollowupMainAction?.score)) > 0) return 0;
+      if (countAiFinalMarksForPlayer(player) < 3) return 0;
+
+      const projectedResources = getAiProjectedResourcesAfterLaunchMove(player, postLaunchMovePlan);
+      if (!projectedResources) return 0;
+      const projectedEnergy = Math.max(0, aiNumber(projectedResources.energy));
+      const projectedCredits = Math.max(0, aiNumber(projectedResources.credits));
+      const projectedHandSize = Math.max(0, Math.round(aiNumber(projectedResources.handSize)));
+      const projectedPublicity = Math.max(0, aiNumber(projectedResources.publicity));
+      const searchableCards = Math.floor(projectedPublicity / 3);
+      const canRecoverEnergy = projectedEnergy > 0
+        || projectedCredits >= 2
+        || projectedHandSize + searchableCards >= 2;
+      if (canRecoverEnergy) return 0;
+      return 14;
     }
 
     function scoreAiLateLaunchDeadEndPenalty(player = getCurrentPlayer(), postLaunchMovePlan = null) {
@@ -17002,6 +17058,20 @@
           const movePayment = estimateAiMovePayment(player, requiredMovePoints, {
             preserveEnergy: preserveEnergyForRouteCashout,
           });
+          const projectedResourcesAfterLaunchMove = getAiProjectedResourcesAfterLaunchMove(player, {
+            movePayment,
+          });
+          const projectedPlayerAfterLaunchMove = projectedResourcesAfterLaunchMove
+            ? {
+              ...player,
+              resources: projectedResourcesAfterLaunchMove,
+            }
+            : player;
+          const projectedFollowupMainAction = scoreAiFollowupMainActionAfterMove(
+            to,
+            projectedPlayerAfterLaunchMove,
+            { ignoreMainActionUsed: true },
+          );
           const paymentCost = movePayment.cost;
           const nearestActionablePlanetPenalty = scoreAiNearestActionablePlanetTimingPenalty({
             player,
@@ -17045,6 +17115,9 @@
             pathPenalty,
             nearestActionablePlanetPenalty,
             preserveEnergyForRouteCashout,
+            movePayment,
+            projectedResourcesAfterLaunchMove,
+            projectedFollowupMainAction,
           };
         })
         .filter(Boolean)
@@ -23184,6 +23257,7 @@
           finalSecondMarkExtraLaunchPenalty: launchValue.finalSecondMarkExtraLaunchPenalty || 0,
           noRouteLaunchPenalty: launchValue.noRouteLaunchPenalty || 0,
           weakEarlyPostLaunchRoutePenalty: launchValue.weakEarlyPostLaunchRoutePenalty || 0,
+          terminalStagingOnlyLaunchPenalty: launchValue.terminalStagingOnlyLaunchPenalty || 0,
         },
       };
       candidates.push(launchCandidate);
@@ -26660,6 +26734,7 @@
       scoreAiFullSectorExtraMark,
       scoreAiLastSectorWinTaskCashout,
       scoreAiNebulaScanChoice,
+      scoreAiTerminalStagingOnlyLaunchPenalty,
       stopAiAutoBattle,
       sumAiDemandMap,
     };
