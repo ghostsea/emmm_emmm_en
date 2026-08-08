@@ -12251,6 +12251,147 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
+  const buildFinalHuanyuBlue2SubstitutionCandidates = ({
+    companyLabel = "寰宇超动力",
+    placedComputerSlots = [1, 2, 3, 4, 5],
+    canScan = true,
+  } = {}) => {
+    const turnChoices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      aiDifficulty: "laughable",
+      roundNumber: 4,
+      canStartMainAction: true,
+      realisticCanAfford: true,
+      blueInitialSelection: {
+        industry: { id: `industry:${companyLabel}`, label: companyLabel },
+      },
+      blueResources: {
+        score: 79,
+        credits: 2,
+        energy: 8,
+        publicity: 6,
+        availableData: 0,
+        handSize: 3,
+      },
+      blueHand: [
+        { id: "huanyu-blue2-a", cardName: "A", price: 1 },
+        { id: "huanyu-blue2-b", cardName: "B", price: 1 },
+        { id: "huanyu-blue2-c", cardName: "C", price: 1 },
+      ],
+      blueTechState: {
+        ownedTiles: {
+          orange1: true,
+          orange2: true,
+          orange3: true,
+          orange4: true,
+          purple1: true,
+          purple2: true,
+          purple3: true,
+        },
+        blueBoardSlots: {},
+      },
+      blueTechCounts: { orange: 4, purple: 3, blue: 0 },
+      availableBlueSlots: [1, 2, 3, 4],
+      takeableTechIds: ["blue2", "purple4"],
+      techStacks: {
+        blue2: {
+          techType: "blue",
+          stackIndex: 2,
+          bonusId: "bonus_3f",
+          firstTakeClaimedBy: "player-white",
+          remaining: 1,
+        },
+        purple4: {
+          techType: "purple",
+          stackIndex: 4,
+          bonusId: "bonus_1p",
+          firstTakeClaimedBy: "player-white",
+          remaining: 2,
+        },
+      },
+      finalScoringState: {
+        tiles: {
+          final_a2: { id: "final_a2", marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 25 }] },
+          final_c1: { id: "final_c1", marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 70 }] },
+          final_d2: { id: "final_d2", marks: [{ playerId: "player-blue", slotIndex: 3, threshold: 50 }] },
+        },
+      },
+      finalFormulaIds: {
+        final_a2: "a2",
+        final_c1: "c1",
+        final_d2: "d2",
+      },
+      scanEffects: {
+        SCAN_COST: { credits: 1, energy: 2 },
+        buildScanEffectQueue: () => [],
+        canExecuteScan: () => ({ ok: canScan }),
+        getStandardScanCost: () => ({ credits: 1, energy: 2 }),
+      },
+      data: {
+        listComputerPlacedTokens: () => placedComputerSlots.map((placementSlot) => ({ placementSlot })),
+        getRequiredComputerSlotForBlueBonus: (blueSlot) => (Number(blueSlot) === 1 ? 1 : null),
+        getBlueTileDataBonus: (tileId) => (
+          tileId === "blue2" ? { type: "energy", energy: 1 } : null
+        ),
+      },
+      onChooseTurnAction: (candidates) => turnChoices.push(candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass") || null,
+    });
+    assert.equal(
+      harness.controller.configureAiAutoBattle({
+        playerIds: [harness.blue.id],
+        aiDifficulty: "laughable",
+        suppressAutoSchedule: true,
+      }).ok,
+      true,
+    );
+    harness.controller.runAiAutomationStep();
+    const researchCandidate = turnChoices.flat().find((candidate) => candidate.id === "researchTech");
+    return Object.fromEntries(
+      (researchCandidate?.takeable || []).map((candidate) => [candidate.tileId, candidate]),
+    );
+  };
+
+  const huanyuCandidates = buildFinalHuanyuBlue2SubstitutionCandidates();
+  assert.deepEqual(
+    huanyuCandidates.blue2?.valueBreakdown?.finalHuanyuBlue2DelayedEnergySubstitution,
+    {
+      value: 2.1,
+      projectedBlueSlot: 1,
+      requiredComputerSlot: 1,
+      placedComputerData: 5,
+      scanCost: { credits: 1, energy: 2 },
+      reward: { type: "energy", energy: 1 },
+      rewardValue: 4.2,
+    },
+    "final Huanyu should count blue2 energy only when a payable scan can reach its first column",
+  );
+  assert.ok(
+    Number(huanyuCandidates.blue2?.score || 0) > Number(huanyuCandidates.purple4?.score || 0),
+    "three direct points plus the delayed blue2 energy should beat a substitutable immediate energy bonus",
+  );
+  assert.equal(
+    buildFinalHuanyuBlue2SubstitutionCandidates({ companyLabel: "作弊实验室" })
+      .blue2?.valueBreakdown?.finalHuanyuBlue2DelayedEnergySubstitution,
+    null,
+    "the delayed blue2 substitution must remain local to Huanyu",
+  );
+  assert.equal(
+    buildFinalHuanyuBlue2SubstitutionCandidates({ placedComputerSlots: [1, 2, 3, 4] })
+      .blue2?.valueBreakdown?.finalHuanyuBlue2DelayedEnergySubstitution,
+    null,
+    "blue2 must not claim the substitution before the computer is one data from completion",
+  );
+  assert.equal(
+    buildFinalHuanyuBlue2SubstitutionCandidates({ canScan: false })
+      .blue2?.valueBreakdown?.finalHuanyuBlue2DelayedEnergySubstitution,
+    null,
+    "blue2 must not claim delayed energy without a payable scan data source",
+  );
+}
+
+{
   const buildFinalHuanyuPurpleCashoutCandidates = (companyLabel = "寰宇超动力") => {
     const turnChoices = [];
     const finalCard = {

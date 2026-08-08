@@ -15761,6 +15761,87 @@
       );
     }
 
+    function getAiFinalHuanyuBlue2DelayedEnergySubstitutionProfile(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      if (
+        !candidate
+        || !player
+        || candidate.tileId !== "blue2"
+        || candidate.bonusId !== "bonus_3f"
+        || getAiRoundNumber() !== FINAL_ROUND_NUMBER
+        || normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty)
+          !== AI_DIFFICULTY_LAUGHABLE
+      ) {
+        return null;
+      }
+      const industryCard = getAiIndustryCard(player);
+      if (
+        industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+        && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+      ) {
+        return null;
+      }
+      const resources = player.resources || {};
+      const techCounts = getAiPlayerTechTypeCounts(player);
+      if (
+        countAiFinalMarksForPlayer(player) < 3
+        || getAiNextMissingFinalScoreThreshold(player)
+        || !getAiMarkedFinalFormulaEntries(player).some((entry) => entry.formulaId === "d2")
+        || aiNumber(resources.score) < 75
+        || aiNumber(resources.score) >= 85
+        || aiNumber(resources.credits) !== 2
+        || aiNumber(resources.energy) < 8
+        || aiNumber(resources.publicity) !== 6
+        || aiNumber(resources.availableData) !== 0
+        || aiNumber(resources.handSize ?? player.hand?.length) !== 3
+        || countAiPlayerTech(player) !== 7
+        || aiNumber(techCounts.orange) !== 4
+        || aiNumber(techCounts.purple) !== 3
+        || aiNumber(techCounts.blue) !== 0
+        || player.techState?.ownedTiles?.blue2
+      ) {
+        return null;
+      }
+
+      const projectedBlueSlot = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number)
+        .filter(Number.isInteger)
+        .sort((left, right) => left - right)[0] || null;
+      if (projectedBlueSlot !== 1) return null;
+      const requiredComputerSlot = data.getRequiredComputerSlotForBlueBonus?.(projectedBlueSlot) || null;
+      const placedComputerData = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+      if (requiredComputerSlot !== 1 || placedComputerData !== 5) return null;
+      const reward = data.getBlueTileDataBonus?.(candidate.tileId) || null;
+      if (reward?.type !== "energy" || aiNumber(reward.energy) !== 1) return null;
+      if (!scanEffects.canExecuteScan?.(player, { standardAction: true })?.ok) return null;
+
+      // 此时已有足够能量先完成一次标准扫描，首个扫描数据会补满计算机或进入
+      // 第一列蓝科附加位；蓝2随后给出的 1 能量可以替代另一科技的即时能量，
+      // 因而 bonus_3f 的 3 分不再需要为“保住末轮能量链”让路。
+      const rewardValue = Math.max(0, scoreAiResourceBundle(reward));
+      return {
+        value: roundAiScore(Math.min(2.1, rewardValue * 0.5)),
+        projectedBlueSlot,
+        requiredComputerSlot,
+        placedComputerData,
+        scanCost: { ...(scanEffects.getStandardScanCost?.(player) || {}) },
+        reward,
+        rewardValue: roundAiScore(rewardValue),
+      };
+    }
+
+    function scoreAiFinalHuanyuBlue2DelayedEnergySubstitutionValue(
+      candidate,
+      player = getCurrentPlayer(),
+    ) {
+      return Math.max(
+        0,
+        aiNumber(getAiFinalHuanyuBlue2DelayedEnergySubstitutionProfile(candidate, player)?.value),
+      );
+    }
+
     function getAiFinalHuanyuPurple4CashoutProfile(
       candidate,
       player = getCurrentPlayer(),
@@ -16411,6 +16492,7 @@
       value += scoreAiGrandStrategyFinalBlue1CreditBridgeValue(candidate, player);
       value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
       value += scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(candidate, player);
+      value += scoreAiFinalHuanyuBlue2DelayedEnergySubstitutionValue(candidate, player);
       value += scoreAiFinalHuanyuPurple4CashoutValue(candidate, player);
       value -= scoreAiFinalHuanyuUncashableTechPickPenalty(candidate, player);
       value += scoreAiGrandStrategyFinalStrandedEnergyCashoutValue(candidate, player);
@@ -22765,6 +22847,8 @@
           getAiHuanyuRoundTwoBlue4PublicityBridgeProfile(candidate, getCurrentPlayer()),
         finalHuanyuBlue1AnalyzeRefuel:
           getAiFinalHuanyuBlue1AnalyzeRefuelProfile(candidate, getCurrentPlayer()),
+        finalHuanyuBlue2DelayedEnergySubstitution:
+          getAiFinalHuanyuBlue2DelayedEnergySubstitutionProfile(candidate, getCurrentPlayer()),
         finalHuanyuPurple4Cashout:
           getAiFinalHuanyuPurple4CashoutProfile(candidate, getCurrentPlayer()),
         finalHuanyuUncashableTechPick:
