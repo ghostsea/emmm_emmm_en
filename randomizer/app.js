@@ -16523,7 +16523,7 @@
     }
     pendingScanTargetAction = { ...getPendingOwnerFields(effect), type: "discard_any_income", effect, selectedCardIds: [] };
     if (els.scanTargetTitle) els.scanTargetTitle.textContent = effect.label;
-    if (els.scanTargetSubtitle) els.scanTargetSubtitle.textContent = "选择任意数量手牌，确认后弃掉并逐张结算收入图标。";
+    if (els.scanTargetSubtitle) els.scanTargetSubtitle.textContent = "选择任意数量手牌，确认后弃掉并逐张获得收入图标对应资源（不增加收入）。";
     if (els.scanTargetCancel) els.scanTargetCancel.hidden = false;
     renderDiscardIncomePicker();
     els.scanTargetOverlay.hidden = false;
@@ -16559,6 +16559,7 @@
       discardPile: (cardState.discardPile || []).slice(),
     };
     const discarded = [];
+    const incomeIconRewards = [];
     let irreversible = null;
     for (let index = (currentPlayer.hand || []).length - 1; index >= 0; index -= 1) {
       if (!selected.has(currentPlayer.hand[index].id)) continue;
@@ -16566,8 +16567,21 @@
       if (result.ok) {
         cards.addToDiscardPile(cardState, result.card);
         discarded.push(result.card);
-        const incomeResult = applyIncomeFromCard(currentPlayer, result.card);
-        if (incomeResult.irreversible) irreversible = incomeResult.irreversible;
+        const incomeResult = industry.applyIncomeResourcesFromCard(
+          cards,
+          players,
+          data,
+          currentPlayer,
+          result.card,
+          {
+            blindDraw: blindDrawCardForPlayer,
+            dataSource: "card_income_resource",
+            drawErrorMessage: "重组盲抽收入角标结算失败",
+          },
+        );
+        incomeIconRewards.push({ card: result.card, ...incomeResult });
+        const incomeIrreversible = getBlindDrawIrreversible(incomeResult.drawnCards?.length || 0);
+        if (incomeIrreversible) irreversible = incomeIrreversible;
       }
     }
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
@@ -16584,8 +16598,10 @@
       ok: true,
       undoable: !irreversible,
       irreversible,
-      message: `${effect.label}：弃掉 ${discarded.length} 张手牌`,
-      payload: { discardedCount: discarded.length },
+      message: discarded.length
+        ? `${effect.label}：弃掉 ${discarded.length} 张手牌，按收入角标获得 ${incomeIconRewards.map((entry) => entry.message).join("、")}`
+        : `${effect.label}：未弃牌`,
+      payload: { discardedCount: discarded.length, incomeIconRewards },
     }, [renderPlayerHand]);
     });
   }
@@ -24915,6 +24931,8 @@
       probeLocations: probeLocationData.index,
       probeLocationDetails: probeLocationData.details,
       getPlayerCompanyBaseIncome,
+      countAlienTraceMarkersForSlot: endGameScoring?.countTraceMarkersForAlienSlot,
+      countPlayerAlienTraceMarkers: endGameScoring?.countTraceMarkers,
     };
   }
 

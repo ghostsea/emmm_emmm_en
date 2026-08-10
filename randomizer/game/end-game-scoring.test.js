@@ -380,6 +380,113 @@ assert.equal(jiuzheNoPenaltyFinal.jiuzheCardScore, 12);
 assert.equal(jiuzheNoPenaltyFinal.jiuzhePenaltyApplied, false);
 assert.equal(jiuzheNoPenaltyFinal.totalScore, 112, "completed Jiuzhe cards should add to final total when no threat penalty applies");
 
+const sharedSpeciesTraceState = {
+  aliens: {
+    1: {
+      revealed: true,
+      alienId: jiuzhe.ALIEN_ID,
+      assignedAlienId: jiuzhe.ALIEN_ID,
+      traces: {
+        pink: {
+          firstPlaced: true,
+          ownerPlayerColor: "blue",
+          extraCount: 1,
+          extraMarkers: [{ ownerPlayerColor: "blue" }],
+        },
+        yellow: { firstPlaced: true, ownerPlayerColor: "brown", extraCount: 0 },
+        blue: { firstPlaced: true, ownerPlayerColor: "blue", extraCount: 0 },
+      },
+    },
+    2: {
+      revealed: true,
+      alienId: fangzhou.ALIEN_ID,
+      assignedAlienId: fangzhou.ALIEN_ID,
+      traces: {
+        pink: {
+          firstPlaced: true,
+          ownerPlayerColor: "blue",
+          extraCount: 1,
+          extraMarkers: [{ ownerPlayerColor: "green" }],
+        },
+        yellow: { firstPlaced: true, ownerPlayerColor: "brown", extraCount: 0 },
+        blue: { firstPlaced: true, ownerPlayerColor: "blue", extraCount: 0 },
+      },
+    },
+  },
+};
+jiuzhe.ensureJiuzheState(sharedSpeciesTraceState).revealedSlotId = 1;
+const sharedJiuzheGrid = jiuzhe.ensureTraceGrid(sharedSpeciesTraceState, 1);
+sharedJiuzheGrid.pink[1] = { playerColor: "blue" };
+sharedJiuzheGrid.yellow[1] = { playerColor: "green" };
+fangzhou.ensureFangzhouState(sharedSpeciesTraceState).revealedSlotId = 2;
+const sharedFangzhouGrid = fangzhou.ensureTraceGrid(sharedSpeciesTraceState, 2);
+sharedFangzhouGrid.pink[1] = { playerColor: "blue" };
+sharedFangzhouGrid.yellow[1] = { playerColor: "green" };
+
+assert.equal(
+  endGameScoring.countTraceMarkersForAlienSlot(sharedSpeciesTraceState, 1),
+  6,
+  "Jiuzhe species trace count should include discovery, extra, and revealed-panel positions",
+);
+assert.equal(
+  endGameScoring.countTraceMarkersForAlienSlot(sharedSpeciesTraceState, 2),
+  6,
+  "other species trace count should include discovery, extra, and species-panel positions",
+);
+
+const sharedSpeciesTracePlayer = player({
+  id: "player-shared-species",
+  color: "white",
+  resources: { score: 100 },
+});
+jiuzhe.getPlayerJiuzheState(sharedSpeciesTraceState, sharedSpeciesTracePlayer, true).cards = [
+  { index: 0, threat: 0, score: 7, label: "九折有6个痕迹", played: true },
+  { index: 9, threat: 9, score: 20, label: "另一个外星人有6个痕迹", played: true },
+];
+const sharedSpeciesTraceFinal = endGameScoring.computePlayerFinalScore({
+  currentPlayer: sharedSpeciesTracePlayer,
+  players: [sharedSpeciesTracePlayer],
+  finalScoringState: finalScoring.createFinalScoringState(),
+  nebulaDataState: { sectorSettlements: { winsByPlayerId: {} }, nebulae: {}, sectorExtraMarks: {} },
+  alienGameState: sharedSpeciesTraceState,
+  planetStatsState: { planets: {} },
+  cardEffects,
+  getCardTypeCode: (card) => cardEffects.getRuntimeCardTypeCode(card, 0),
+});
+assert.equal(
+  sharedSpeciesTraceFinal.jiuzheCardScore,
+  27,
+  "Jiuzhe species-wide trace cards should score regardless of which players own the six markers",
+);
+assert.deepEqual(
+  sharedSpeciesTraceFinal.jiuzheCards.map((card) => card.achieved),
+  [true, true],
+);
+
+const sameColorPanelTracePlayer = player({
+  id: "player-same-color-panel",
+  color: "blue",
+  resources: { score: 100 },
+});
+jiuzhe.getPlayerJiuzheState(sharedSpeciesTraceState, sameColorPanelTracePlayer, true).cards = [
+  { index: 8, threat: 1, score: 8, label: "拥有5个相同颜色外星人痕迹", played: true },
+];
+const sameColorPanelTraceFinal = endGameScoring.computePlayerFinalScore({
+  currentPlayer: sameColorPanelTracePlayer,
+  players: [sameColorPanelTracePlayer],
+  finalScoringState: finalScoring.createFinalScoringState(),
+  nebulaDataState: { sectorSettlements: { winsByPlayerId: {} }, nebulae: {}, sectorExtraMarks: {} },
+  alienGameState: sharedSpeciesTraceState,
+  planetStatsState: { planets: {} },
+  cardEffects,
+  getCardTypeCode: (card) => cardEffects.getRuntimeCardTypeCode(card, 0),
+});
+assert.equal(
+  sameColorPanelTraceFinal.jiuzheCardScore,
+  8,
+  "same-color Jiuzhe scoring should include owned traces on every species panel",
+);
+
 const revealedStateTracePlayer = player();
 const revealedStateTraceState = {
   aliens: {

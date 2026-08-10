@@ -2427,7 +2427,7 @@
     }),
     "dlc_28.png": withSource("dlc_28.png", {
       cardType: 2,
-      playEffects: Object.freeze([discardAnyForIncomeEffect("dlc28-discard-income", "弃任意数量手牌并按收入图标结算")]),
+      playEffects: Object.freeze([discardAnyForIncomeEffect("dlc28-discard-income", "弃任意数量手牌并按收入图标获得资源")]),
       tasks: Object.freeze([{
         id: "dlc28-empty-resources-hand",
         condition: Object.freeze({ type: "resourcesAndHandEmpty", resources: Object.freeze(["credits", "energy"]) }),

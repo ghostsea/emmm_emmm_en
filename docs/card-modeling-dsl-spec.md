@@ -124,7 +124,7 @@ agent 最终应把人工描述转换成以下规范对象。当前实现可以�
 | `income` | 无或 `count` | 选择/弃牌节点，弃手牌后按收入角标加收入。 |
 | `public_scan_marker` | `additionalPublicScan` | 自动节点。卡牌写“公共牌区扫描的标记”时建模为获得 `additionalPublicScan` 资源，不立刻执行公共牌区扫描。 |
 | `return_played_card_to_hand_if` | `condition` | 自动节点。按运行时条件把本次打出的卡从弃牌堆移回手牌；`lastLandingHadAnyMarker` 可读取本次登陆目标上任意玩家的既有登陆标记（含奥陌陌面板登陆器）。 |
-| `discard_any_for_income` | 无 | 选择节点。弃任意数量手牌，并按这些牌的收入角标逐张增加收入。 |
+| `discard_any_for_income` | 无 | 选择节点。弃任意数量手牌，并按这些牌的收入角标逐张即时获得对应资源；不增加收入轨。 |
 | `pay_credits_for_reward` | `reward` | 展开/选择节点。按当前信用生成可跳过支付节点，每支付 1 信用结算一次奖励。 |
 | `discard_card_corner_repeat` | `cornerRepeat` | 选择节点。弃 1 张非外星人手牌，并重复结算该牌左上角快速行动奖励。 |
 

@@ -11,6 +11,7 @@ const actionHistoryModule = require("../game/history/action-history");
 const historyCommands = require("../game/history/commands");
 const abilityChain = require("../game/abilities/chain");
 const cardEffects = require("../game/cards/effects");
+const industryAbilities = require("../game/industry/abilities");
 
 function extractNamedFunctionSource(functionName) {
   const start = appSource.indexOf(`function ${functionName}(`);
@@ -936,6 +937,72 @@ assert.ok(
   assert.equal(recordedCommands.length, 1);
   recordedCommands[0].undo();
   assert.equal(player.resources.publicity, 7, "undo must restore the publicity cleared by dlc_18");
+}
+
+{
+  const incomeCard = { id: "income-credit-card", cardName: "信用点收入牌", incomeCode: 0 };
+  const player = {
+    id: "player-white",
+    color: "white",
+    hand: [incomeCard],
+    resources: { credits: 0, energy: 0 },
+    income: { credits: 2, energy: 1, handSize: 1 },
+  };
+  const incomeBefore = structuredClone(player.income);
+  const cardState = { publicCards: [], discardPile: [] };
+  const effect = { id: "dlc28-discard-income", label: "重组" };
+  const pendingScanTargetAction = {
+    type: "discard_any_income",
+    effect,
+    selectedCardIds: [incomeCard.id],
+  };
+  const cards = {
+    getIncomeGainForCard: (card) => (card.incomeCode === 0 ? { credits: 1 } : null),
+    getCardLabel: (card) => card.cardName,
+    discardFromHandAtIndex(targetPlayer, index) {
+      const [card] = targetPlayer.hand.splice(index, 1);
+      return { ok: true, card };
+    },
+    addToDiscardPile(targetCardState, card) {
+      targetCardState.discardPile.push(card);
+    },
+  };
+  const players = {
+    gainResources(targetPlayer, gain) {
+      for (const [key, value] of Object.entries(gain || {})) {
+        targetPlayer.resources[key] = (targetPlayer.resources[key] || 0) + value;
+      }
+      return targetPlayer;
+    },
+  };
+  const confirmDiscardAnyForIncome = loadNamedFunction("confirmDiscardAnyForIncome", {
+    pendingScanTargetAction,
+    closeScanTargetPicker: () => {},
+    withPendingOwnerPlayer: (_pending, callback) => callback(),
+    getCurrentPlayer: () => player,
+    beginEffectHistoryStep: () => {},
+    cardState,
+    cards,
+    industry: industryAbilities,
+    players,
+    data: { gainData: () => ({ ok: true }) },
+    blindDrawCardForPlayer: () => ({ ok: false, message: "unexpected draw" }),
+    getBlindDrawIrreversible: () => null,
+    recordHistoryCommand: () => {},
+    historyCommands: {
+      createRestorePlayerCommand: () => ({}),
+      createRestorePublicCardsCommand: () => ({}),
+    },
+    finishAutomaticRewardEffect: (_effect, result) => result,
+    renderPlayerHand: () => {},
+  });
+
+  const result = confirmDiscardAnyForIncome();
+  assert.equal(result.ok, true);
+  assert.equal(player.resources.credits, 1, "Reorganization should grant the discarded card's income resource");
+  assert.deepEqual(player.income, incomeBefore, "Reorganization must not increase the player's income tracks");
+  assert.equal(player.hand.length, 0);
+  assert.equal(cardState.discardPile.length, 1);
 }
 
 console.log("runtime-regressions.test.js: all tests passed");

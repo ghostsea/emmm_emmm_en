@@ -316,7 +316,13 @@ const missionDataStub = {
     return { ok: true, source: options.source || null };
   },
 };
-const missionCreditPlayer = { id: "mission-credit", hand: [], resources: { credits: 0, handSize: 0 } };
+const missionCreditPlayer = {
+  id: "mission-credit",
+  hand: [],
+  resources: { credits: 0, handSize: 0 },
+  income: { credits: 2, energy: 1, handSize: 1 },
+};
+const missionCreditIncomeBefore = structuredClone(missionCreditPlayer.income);
 const missionCreditIncome = abilities.applyIncomeResourcesFromCard(
   missionCardsStub,
   missionPlayersStub,
@@ -326,6 +332,11 @@ const missionCreditIncome = abilities.applyIncomeResourcesFromCard(
 );
 assert.equal(missionCreditIncome.ok, true);
 assert.equal(missionCreditPlayer.resources.credits, 1);
+assert.deepEqual(
+  missionCreditPlayer.income,
+  missionCreditIncomeBefore,
+  "income-icon resource rewards such as Reorganization must not increase income tracks",
+);
 assert.match(missionCreditIncome.message, /信用点/);
 
 const missionBlindPlayer = { id: "mission-blind", hand: [], resources: { handSize: 0, availableData: 0 } };

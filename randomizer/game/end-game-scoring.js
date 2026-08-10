@@ -243,100 +243,79 @@
     return count;
   }
 
-  function stateTraceBelongsToPlayer(traceSlot, playerKeys) {
-    return playerKeys.has(traceSlot?.ownerPlayerId)
-      || playerKeys.has(traceSlot?.playerId)
-      || playerKeys.has(traceSlot?.ownerPlayerColor)
-      || playerKeys.has(traceSlot?.playerColor)
-      || playerKeys.has(traceSlot?.color);
+  const ALIEN_TRACE_TYPES = Object.freeze(["pink", "yellow", "blue"]);
+
+  function listStateTraceMarkers(slot, traceType = null) {
+    const traceTypes = traceType == null
+      ? ALIEN_TRACE_TYPES
+      : (ALIEN_TRACE_TYPES.includes(traceType) ? [traceType] : []);
+    const markers = [];
+    for (const type of traceTypes) {
+      const traceSlot = slot?.traces?.[type];
+      if (!traceSlot?.firstPlaced) continue;
+      markers.push(traceSlot);
+      const extraCount = Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
+      const extraMarkers = Array.isArray(traceSlot.extraMarkers) ? traceSlot.extraMarkers : [];
+      for (let index = 0; index < extraCount; index += 1) {
+        markers.push(extraMarkers[index] || { ownerPlayerColor: traceSlot.ownerPlayerColor || null });
+      }
+    }
+    return markers;
   }
 
-  function countStateTraceMarkersForPlayer(slot, traceType, playerKeys) {
-    const traceSlot = slot?.traces?.[traceType];
-    if (!traceSlot?.firstPlaced) return 0;
-    let count = stateTraceBelongsToPlayer(traceSlot, playerKeys) ? 1 : 0;
-    const extraCount = Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
-    const markers = Array.isArray(traceSlot.extraMarkers) ? traceSlot.extraMarkers : [];
-    for (let index = 0; index < extraCount; index += 1) {
-      const marker = markers[index] || { ownerPlayerColor: traceSlot.ownerPlayerColor || null };
-      if (stateTraceBelongsToPlayer(marker, playerKeys)) count += 1;
+  function listPanelTraceMarkers(alienGameState, alienSlotId, traceType = null) {
+    const normalizedSlotId = Number(alienSlotId);
+    const jiuzheModule = getJiuzheModule();
+    if (jiuzheModule && Number(alienGameState?.jiuzhe?.revealedSlotId) === normalizedSlotId) {
+      const traceTypes = traceType == null
+        ? (jiuzheModule.TRACE_TYPES || ALIEN_TRACE_TYPES)
+        : [traceType];
+      const grid = jiuzheModule.getTraceGrid(alienGameState, alienSlotId);
+      const entries = [];
+      for (const type of traceTypes) {
+        for (const position of jiuzheModule.TRACE_POSITIONS || []) {
+          const entry = grid?.[type]?.[position];
+          if (entry) entries.push(entry);
+        }
+      }
+      return entries;
     }
-    return count;
+
+    const panelModules = [
+      [getYichangdianModule(), alienGameState?.yichangdian],
+      [getFangzhouModule(), alienGameState?.fangzhou],
+      [getBanrenmaModule(), alienGameState?.banrenma],
+      [getChongModule(), alienGameState?.chong],
+      [getAmibaModule(), alienGameState?.amiba],
+      [getAomomoModule(), alienGameState?.aomomo],
+      [getRunezuModule(), alienGameState?.runezu],
+    ];
+    const match = panelModules.find(([module, alienState]) => (
+      module?.listTraceEntries
+      && Number(alienState?.revealedSlotId) === normalizedSlotId
+    ));
+    return match ? match[0].listTraceEntries(alienGameState, alienSlotId, traceType) : [];
+  }
+
+  function listTraceMarkersForAlienSlot(alienGameState, alienSlotId, traceType = null) {
+    const slot = alienGameState?.aliens?.[alienSlotId] || alienGameState?.aliens?.[String(alienSlotId)];
+    return [
+      ...listStateTraceMarkers(slot, traceType),
+      ...listPanelTraceMarkers(alienGameState, alienSlotId, traceType),
+    ];
+  }
+
+  function countTraceMarkersForAlienSlot(alienGameState, alienSlotId, traceType = null) {
+    return listTraceMarkersForAlienSlot(alienGameState, alienSlotId, traceType).length;
   }
 
   function countTraceMarkers(player, alienGameState, traceType) {
     const playerKeys = getPlayerKeys(player);
     let count = 0;
-    const jiuzheModule = getJiuzheModule();
-    const jiuzheSlotId = alienGameState?.jiuzhe?.revealedSlotId;
-    const yichangdianModule = getYichangdianModule();
-    const yichangdianSlotId = alienGameState?.yichangdian?.revealedSlotId;
-    const fangzhouModule = getFangzhouModule();
-    const fangzhouSlotId = alienGameState?.fangzhou?.revealedSlotId;
-    const banrenmaModule = getBanrenmaModule();
-    const banrenmaSlotId = alienGameState?.banrenma?.revealedSlotId;
-    const chongModule = getChongModule();
-    const chongSlotId = alienGameState?.chong?.revealedSlotId;
-    const amibaModule = getAmibaModule();
-    const amibaSlotId = alienGameState?.amiba?.revealedSlotId;
-    const aomomoModule = getAomomoModule();
-    const aomomoSlotId = alienGameState?.aomomo?.revealedSlotId;
-    const runezuModule = getRunezuModule();
-    const runezuSlotId = alienGameState?.runezu?.revealedSlotId;
-    for (const [slotId, slot] of Object.entries(alienGameState?.aliens || {})) {
-      const stateTraceCount = countStateTraceMarkersForPlayer(slot, traceType, playerKeys);
-      if (jiuzheModule && jiuzheSlotId != null && Number(slotId) === Number(jiuzheSlotId)) {
-        count += stateTraceCount;
-        const grid = jiuzheModule.getTraceGrid(alienGameState, jiuzheSlotId);
-        for (const position of jiuzheModule.TRACE_POSITIONS || []) {
-          const entry = grid?.[traceType]?.[position];
-          if (entry && markerBelongsToPlayer(entry, playerKeys)) count += 1;
-        }
-        continue;
-      }
-      if (yichangdianModule && yichangdianSlotId != null && Number(slotId) === Number(yichangdianSlotId)) {
-        count += stateTraceCount;
-        const entries = yichangdianModule.listTraceEntries(alienGameState, yichangdianSlotId, traceType);
-        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
-        continue;
-      }
-      if (fangzhouModule && fangzhouSlotId != null && Number(slotId) === Number(fangzhouSlotId)) {
-        count += stateTraceCount;
-        const entries = fangzhouModule.listTraceEntries(alienGameState, fangzhouSlotId, traceType);
-        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
-        continue;
-      }
-      if (banrenmaModule && banrenmaSlotId != null && Number(slotId) === Number(banrenmaSlotId)) {
-        count += stateTraceCount;
-        const entries = banrenmaModule.listTraceEntries(alienGameState, banrenmaSlotId, traceType);
-        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
-        continue;
-      }
-      if (chongModule && chongSlotId != null && Number(slotId) === Number(chongSlotId)) {
-        count += stateTraceCount;
-        const entries = chongModule.listTraceEntries(alienGameState, chongSlotId, traceType);
-        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
-        continue;
-      }
-      if (amibaModule && amibaSlotId != null && Number(slotId) === Number(amibaSlotId)) {
-        count += stateTraceCount;
-        const entries = amibaModule.listTraceEntries(alienGameState, amibaSlotId, traceType);
-        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
-        continue;
-      }
-      if (aomomoModule && aomomoSlotId != null && Number(slotId) === Number(aomomoSlotId)) {
-        count += stateTraceCount;
-        const entries = aomomoModule.listTraceEntries(alienGameState, aomomoSlotId, traceType);
-        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
-        continue;
-      }
-      if (runezuModule && runezuSlotId != null && Number(slotId) === Number(runezuSlotId)) {
-        count += stateTraceCount;
-        const entries = runezuModule.listTraceEntries(alienGameState, runezuSlotId, traceType);
-        count += entries.filter((entry) => markerBelongsToPlayer(entry, playerKeys)).length;
-        continue;
-      }
-      count += stateTraceCount;
+    for (const slotId of Object.keys(alienGameState?.aliens || {})) {
+      count += listTraceMarkersForAlienSlot(alienGameState, slotId, traceType)
+        .filter((entry) => markerBelongsToPlayer(entry, playerKeys))
+        .length;
     }
     return count;
   }
@@ -821,7 +800,11 @@
   function computePlayerJiuzheScore(player, context = {}) {
     const jiuzheModule = getJiuzheModule();
     if (!jiuzheModule || !context.alienGameState) return { total: 0, cards: [] };
-    return jiuzheModule.scorePlayedCards(context.alienGameState, player, context);
+    return jiuzheModule.scorePlayedCards(context.alienGameState, player, {
+      ...context,
+      countAlienTraceMarkersForSlot: context.countAlienTraceMarkersForSlot || countTraceMarkersForAlienSlot,
+      countPlayerAlienTraceMarkers: context.countPlayerAlienTraceMarkers || countTraceMarkers,
+    });
   }
 
   function computePlayerRunezuSymbolScore(player, context = {}) {
@@ -885,6 +868,8 @@
     getPlayerKeys,
     countSectorWinsByColor,
     countSectorWins,
+    listTraceMarkersForAlienSlot,
+    countTraceMarkersForAlienSlot,
     countTraceMarkers,
     countOwnedTech,
     countTotalOwnedTech,

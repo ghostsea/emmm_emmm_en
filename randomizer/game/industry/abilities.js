@@ -328,12 +328,13 @@
     if (gain.credits) resourceGain.credits = gain.credits;
     if (gain.energy) resourceGain.energy = gain.energy;
     if (gain.publicity) resourceGain.publicity = gain.publicity;
+    if (gain.additionalPublicScan) resourceGain.additionalPublicScan = gain.additionalPublicScan;
     if (Object.keys(resourceGain).length) {
       players.gainResources(player, resourceGain);
     }
     const dataCount = Math.max(0, Math.round(Number(gain.availableData) || 0));
     for (let index = 0; index < dataCount; index += 1) {
-      dataResults.push(data.gainData(player, { source: "industry_income" }));
+      dataResults.push(data.gainData(player, { source: options.dataSource || "industry_income" }));
     }
     const handCount = Math.max(0, Math.round(Number(gain.handSize) || 0));
     if (handCount > 0) {
@@ -343,7 +344,7 @@
           if (!result?.ok) {
             return {
               ok: false,
-              message: result?.message || "任务中继站盲抽收入结算失败",
+              message: result?.message || options.drawErrorMessage || "收入角标盲抽结算失败",
               gain,
               dataResults,
               drawnCards,
@@ -360,6 +361,7 @@
       credits: "信用点",
       energy: "能量",
       publicity: "宣传",
+      additionalPublicScan: "额外公共扫描",
       availableData: "数据",
     };
     const parts = Object.entries(resourceGain).map(([key, value]) => `${value}${labels[key] || key}`);

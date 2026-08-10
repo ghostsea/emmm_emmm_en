@@ -704,14 +704,27 @@
     ), 0);
   }
 
-  function countJiuzheTraces(alienState, player, alienSlotId = alienState?.jiuzhe?.revealedSlotId) {
-    const grid = getTraceGrid(alienState, alienSlotId);
-    const playerKeys = getPlayerKeys(player);
+  function countStateTraceMarkersOnSlot(alienState, alienSlotId, traceType = null) {
+    const slot = alienState?.aliens?.[alienSlotId] || alienState?.aliens?.[String(alienSlotId)];
+    const traceTypes = traceType == null
+      ? TRACE_TYPES
+      : (TRACE_TYPES.includes(traceType) ? [traceType] : []);
     let count = 0;
+    for (const type of traceTypes) {
+      const traceSlot = slot?.traces?.[type];
+      if (!traceSlot?.firstPlaced) continue;
+      count += 1 + Math.max(0, Math.round(Number(traceSlot.extraCount) || 0));
+    }
+    return count;
+  }
+
+  function countJiuzheTraces(alienState, _player, alienSlotId = alienState?.jiuzhe?.revealedSlotId) {
+    const grid = getTraceGrid(alienState, alienSlotId);
+    let count = countStateTraceMarkersOnSlot(alienState, alienSlotId);
     for (const traceType of TRACE_TYPES) {
       for (const position of TRACE_POSITIONS) {
         const entry = grid?.[traceType]?.[position];
-        if (entry && markerBelongsToPlayer(entry, playerKeys)) count += 1;
+        if (entry) count += 1;
       }
     }
     return count;
@@ -764,13 +777,14 @@
     return count;
   }
 
-  function countOtherAlienTraces(player, alienState) {
+  function countOtherAlienTraces(player, alienState, context = {}) {
     const revealedSlotId = alienState?.jiuzhe?.revealedSlotId;
-    let count = 0;
-    for (const traceType of TRACE_TYPES) {
-      count += countGenericTraceMarkers(player, alienState, traceType, { excludeSlotId: revealedSlotId });
-    }
-    return count;
+    const otherSlotIds = Object.keys(alienState?.aliens || {})
+      .filter((slotId) => Number(slotId) !== Number(revealedSlotId));
+    const countForSlot = typeof context.countAlienTraceMarkersForSlot === "function"
+      ? (slotId) => context.countAlienTraceMarkersForSlot(alienState, slotId)
+      : (slotId) => countStateTraceMarkersOnSlot(alienState, slotId);
+    return Math.max(0, ...otherSlotIds.map(countForSlot));
   }
 
   function getCardConditionProgress(cardOrDefinition, player, context = {}) {
@@ -783,7 +797,12 @@
     let current = 0;
     switch (condition.type) {
       case "jiuzheTraceCount":
-        current = countJiuzheTraces(context.alienGameState, player);
+        current = typeof context.countAlienTraceMarkersForSlot === "function"
+          ? context.countAlienTraceMarkersForSlot(
+            context.alienGameState,
+            context.alienGameState?.jiuzhe?.revealedSlotId,
+          )
+          : countJiuzheTraces(context.alienGameState, player);
         break;
       case "samePlanetOrbitOrLand":
         current = maxSamePlanetOrbitOrLand(player, context.planetStatsState, context);
@@ -803,11 +822,13 @@
         break;
       case "sameColorTraceCount":
         current = Math.max(0, ...TRACE_TYPES.map((traceType) => (
-          countAllTraceMarkersByColor(player, context.alienGameState, traceType)
+          typeof context.countPlayerAlienTraceMarkers === "function"
+            ? context.countPlayerAlienTraceMarkers(player, context.alienGameState, traceType)
+            : countAllTraceMarkersByColor(player, context.alienGameState, traceType)
         )));
         break;
       case "otherAlienTraceCount":
-        current = countOtherAlienTraces(player, context.alienGameState);
+        current = countOtherAlienTraces(player, context.alienGameState, context);
         break;
       case "orbitCount":
         current = countOrbitMarkers(player, context.planetStatsState, context) + countPlutoMarkers(player, context, "orbit");
