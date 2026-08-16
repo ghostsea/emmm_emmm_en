@@ -619,6 +619,7 @@ assert.equal(cardEffects.collectReadyTasks({ id: "p1", color: "red", reservedCar
 
 const b88Effects = cardEffects.buildPlayEffects({ cardId: "b_88.webp" });
 assert.equal(b88Effects[0].type, cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN);
+assert.equal(b88Effects[0].options.distinctSectors, true);
 assert.equal(b88Effects[0].options.returnToHandIfSignalCount, 1);
 
 const b95 = { id: "card-b95", cardId: "b_95.webp" };

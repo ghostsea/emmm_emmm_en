@@ -480,6 +480,122 @@ function loadNamedFunction(functionName, dependencies = {}) {
 }
 
 {
+  const currentPlayer = { id: "player-white", color: "white" };
+  const rocketState = {
+    rockets: [
+      { id: 1, playerId: currentPlayer.id, sectorX: 2, sectorY: 2 },
+      { id: 2, playerId: currentPlayer.id, sectorX: 2, sectorY: 4 },
+      { id: 3, playerId: currentPlayer.id, sectorX: 5, sectorY: 3 },
+    ],
+  };
+  const getProbeSectorScanRockets = loadNamedFunction("getProbeSectorScanRockets", {
+    getCurrentPlayer: () => currentPlayer,
+    rocketState,
+    rocketActions: {
+      getRocketSectorCoordinate: (rocket) => ({ x: rocket.sectorX, y: rocket.sectorY }),
+    },
+    solar: { mod8: (value) => ((Number(value) % 8) + 8) % 8 },
+  });
+  const b88Effect = cardEffects.buildPlayEffects({ cardId: "b_88.webp" })[0];
+  const b50Effect = cardEffects.buildPlayEffects({ cardId: "b_50.webp" })[0];
+
+  assert.deepEqual(
+    getProbeSectorScanRockets(b88Effect).map((choice) => choice.sector.x),
+    [2, 5],
+    "b_88 should offer each sector only once when multiple own probes share it",
+  );
+  assert.equal(
+    getProbeSectorScanRockets(b50Effect).length,
+    3,
+    "probe-based cards without distinctSectors must keep selecting individual probes",
+  );
+}
+
+{
+  const player = {
+    id: "player-white",
+    color: "white",
+    hand: [],
+    resources: { handSize: 0 },
+  };
+  const playedCard = { id: "b88-instance", cardId: "b_88.webp", cardName: "入轨拉格朗日点" };
+  const nebulaDataState = {
+    nebulae: {
+      "sector-test": {
+        tokens: [
+          { replacedByPlayerId: player.id, replacedByPlayerColor: player.color },
+          { replacedByPlayerId: "player-green", replacedByPlayerColor: "green" },
+          { playerId: "player-blue", playerColor: "blue" },
+        ],
+      },
+    },
+    sectorExtraMarks: {
+      "sector-test": [{ playerId: "player-brown", playerColor: "brown" }],
+    },
+  };
+  const data = {
+    listNebulaTokens: (state, nebulaId) => state.nebulae[nebulaId]?.tokens || [],
+    listSectorExtraMarks: (state, nebulaId) => state.sectorExtraMarks[nebulaId] || [],
+  };
+  const signalOwnerMatches = loadNamedFunction("signalOwnerMatches", {
+    getPlayerOwnerKeys: (targetPlayer) => new Set([targetPlayer?.id, targetPlayer?.color].filter(Boolean)),
+  });
+  const countPlayerSignalsInNebula = loadNamedFunction("countPlayerSignalsInNebula", {
+    data,
+    nebulaDataState,
+    signalOwnerMatches,
+  });
+  const countPlayerSignalsInSectorX = loadNamedFunction("countPlayerSignalsInSectorX", {
+    buildSectorScanChoicesForX: () => [{ nebulaId: "sector-test" }],
+    countPlayerSignalsInNebula,
+  });
+
+  assert.equal(
+    countPlayerSignalsInSectorX(player, 3),
+    1,
+    "other players' signals in the selected sector must not count toward b_88's return condition",
+  );
+
+  const cardState = { publicCards: [], discardPile: [playedCard] };
+  const recordedCommands = [];
+  const maybeReturnPlayedCardToHandAfterSectorScan = loadNamedFunction(
+    "maybeReturnPlayedCardToHandAfterSectorScan",
+    {
+      countPlayerSignalsInSectorX,
+      resolvePlayedCardReturnTarget: () => ({ player, playedCard, discardIndex: cardState.discardPile.indexOf(playedCard) }),
+      structuredClone,
+      cardState,
+      recordHistoryCommand: (command) => recordedCommands.push(command),
+      historyCommands: {
+        createRestorePlayerCommand: () => ({ undo() {} }),
+        createRestorePublicCardsCommand: () => ({ undo() {} }),
+      },
+      rocketState: { statusNote: "扇区扫描完成" },
+      cards: { getCardLabel: (card) => card.cardName },
+      renderPlayerHand: () => {},
+      renderPlayerStats: () => {},
+    },
+  );
+  const effect = cardEffects.buildPlayEffects({ cardId: "b_88.webp" })[0];
+  assert.equal(maybeReturnPlayedCardToHandAfterSectorScan(effect, 3), true);
+  assert.deepEqual(player.hand, [playedCard]);
+  assert.deepEqual(cardState.discardPile, []);
+  assert.equal(recordedCommands.length, 2);
+
+  player.hand.length = 0;
+  player.resources.handSize = 0;
+  cardState.discardPile.push(playedCard);
+  nebulaDataState.sectorExtraMarks["sector-test"].push({ playerId: player.id, playerColor: player.color });
+  assert.equal(countPlayerSignalsInSectorX(player, 3), 2);
+  assert.equal(
+    maybeReturnPlayedCardToHandAfterSectorScan(effect, 3),
+    false,
+    "b_88 must stay discarded when the current player has two signals in the selected sector",
+  );
+  assert.deepEqual(cardState.discardPile, [playedCard]);
+}
+
+{
   const applyCardMovementModifiers = loadNamedFunction("applyCardMovementModifiers");
   assert.deepEqual(
     applyCardMovementModifiers({ movementPoints: 1 }, []),

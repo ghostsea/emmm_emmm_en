@@ -507,6 +507,7 @@
       maxTargets: Math.max(1, Math.round(Number(options.maxTargets || 1))),
       repeat: Math.max(1, Math.round(Number(options.repeat || 1))),
       includeAdjacent: Boolean(options.includeAdjacent),
+      distinctSectors: Boolean(options.distinctSectors),
       gainData: options.gainData !== false,
       returnToHandIfSignalCount: Number.isFinite(Number(options.returnToHandIfSignalCount))
         ? Math.max(0, Math.round(Number(options.returnToHandIfSignalCount)))
@@ -1951,7 +1952,10 @@
     }),
     "b_88.webp": withSource("b_88.webp", {
       cardType: 0,
-      playEffects: Object.freeze([probeSectorScanEffect("b88-probe-sector-scan", "选择己方探测器所在扇区扫描", { returnToHandIfSignalCount: 1 })]),
+      playEffects: Object.freeze([probeSectorScanEffect("b88-probe-sector-scan", "选择己方探测器所在扇区扫描", {
+        distinctSectors: true,
+        returnToHandIfSignalCount: 1,
+      })]),
     }),
     "b_89.webp": withSource("b_89.webp", {
       cardType: 0,

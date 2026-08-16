@@ -139,7 +139,7 @@ agent 最终应把人工描述转换成以下规范对象。当前实现可以�
 | `public_card_scan` | `maxSelectable`、`minSelectable` | `choice` | 选公共牌，按该牌扫描角标选星云；扫描行动的额外公共扫描可在上限内少选，卡牌多次公共扫描通常要求选满牌面次数。弃牌先留下空公共牌位，等对应扫描相关 flow 收尾统一补牌。 |
 | `hand_card_scan` | `count` | `choice` | 选手牌，按该牌扫描角标选星云，确认后弃牌。 |
 | `expand_scan_action` | `skipBaseCost` | `expand` | 插入扫描行动后续节点。卡牌来源必须 `skipBaseCost: true`，除非牌明确要求支付扫描费；紫2/紫3/紫4等科技追加费用仍正常支付或消耗。 |
-| `probe_sector_scan` | `owner`、`repeat`、`includeAdjacent`、`gainData` | `choice`/`expand` | 选择探测器，扫描其所在扇区；可扫描左右相邻扇区或禁用得数据。 |
+| `probe_sector_scan` | `owner`、`repeat`、`includeAdjacent`、`distinctSectors`、`gainData`、`returnToHandIfSignalCount` | `choice`/`expand` | 选择探测器，扫描其所在扇区；可扫描左右相邻扇区或禁用得数据。`distinctSectors` 会把同扇区的多枚探测器合并为一个扇区选项；`returnToHandIfSignalCount` 只统计效果所有者在所选扇区的信号，其他玩家信号不计。 |
 | `planet_sector_scan` | `planetId`、`repeat`、`gainData` | `expand` | 扫描指定行星当前所在扇区，重复次数会展开为多个节点。 |
 | `optional_discard_scan` | `count` | `expand` | 展开至多 N 次可跳过手牌扫描。 |
 | `conditional_sector_scan` | `condition`、`repeat`、`gainData`、`allMatching` | `choice`/`expand` | 按条件筛出扇区，例如指定颜色、自己至少 N 个信号、有自己信号的所有扇区；该节点的 `repeat` 由执行器内部处理，不参与通用 repeat 展开。 |
@@ -169,7 +169,7 @@ agent 最终应把人工描述转换成以下规范对象。当前实现可以�
 | `card_land` | `allowDuplicateLanding`、`allowSatelliteWithoutTech`、`grantRewards` | `choice` | 卡牌来源的登陆效果；普通主星登陆本身可重复，`allowDuplicateLanding` 仅保留旧模型/特殊目标兼容；无橙4登陆卫星是少数特殊牌例外，必须显式声明 `allowSatelliteWithoutTech`，否则卫星目标仍需橙4，并按登陆位置结算奖励。 |
 | `remove_planet_marker` | `owner`、`markerKinds` | `choice`/`auto` | 选择并移除环绕、主星登陆或卫星登陆标记；普通主星标记移除后重排序号，环绕/登陆计数不受参考图贴图数限制。 |
 | `remove_orbit_to_probe` | 无 | `choice` | 选择己方环绕标记，移除后在该星球当前太阳系位置放置探测器，可忽略火箭数量上限。 |
-| `probe_sector_scan` | `owner`、`maxTargets`、`repeat`、`includeAdjacent` | `choice`/`auto` | 选择己方或任意玩家探测器，扫描其所在扇区；可扩展到左右相邻扇区。 |
+| `probe_sector_scan` | `owner`、`maxTargets`、`repeat`、`includeAdjacent`、`distinctSectors`、`returnToHandIfSignalCount` | `choice`/`auto` | 选择己方或任意玩家探测器，扫描其所在扇区；可扩展到左右相邻扇区。`distinctSectors` 按扇区去重候选；条件回手只读取当前效果所有者在所选扇区的信号数。 |
 | `probe_stack_reward` | `rewards` | `auto` | 当前玩家至少 1 个探测器与任意玩家探测器处于同一扇区时追加奖励；对手探测器计入同位置数量。 |
 | `planet_sector_scan` | `planetId`、`repeat` | `auto`/`choice` | 扫描指定星球当前所在扇区。 |
 | `register_event_bonus` | `eventType`、`duration`、`rewards`、`distinctBy` | `auto` | 注册本次卡牌流程或本回合的后续事件奖励，如访问不同星球得分。 |

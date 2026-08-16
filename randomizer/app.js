@@ -15196,28 +15196,13 @@
     return result;
   }
 
-  function countMarkedSignalsInSectorX(sectorX) {
-    const choices = buildSectorScanChoicesForX(sectorX).filter((choice) => choice.nebulaId);
-    let count = 0;
-    for (const choice of choices) {
-      const nebulaId = choice.nebulaId;
-      count += data.listNebulaTokens(nebulaDataState, nebulaId)
-        .filter((token) => token.replacedByPlayerId || token.replacedByPlayerColor || token.playerId || token.playerColor)
-        .length;
-      if (typeof data.listSectorExtraMarks === "function") {
-        count += data.listSectorExtraMarks(nebulaDataState, nebulaId).length;
-      }
-    }
-    return count;
-  }
-
   function maybeReturnPlayedCardToHandAfterSectorScan(effect, sectorX) {
     const targetCount = effect.options?.returnToHandIfSignalCount;
     if (!Number.isFinite(Number(targetCount))) return false;
-    if (countMarkedSignalsInSectorX(sectorX) !== Number(targetCount)) return false;
     const returnTarget = resolvePlayedCardReturnTarget(effect);
     const currentPlayer = returnTarget.player;
     if (!currentPlayer || !returnTarget.playedCard) return false;
+    if (countPlayerSignalsInSectorX(currentPlayer, sectorX) !== Number(targetCount)) return false;
     const discardIndex = returnTarget.discardIndex;
     if (discardIndex < 0) return false;
     const beforePlayer = structuredClone(currentPlayer);
@@ -15247,11 +15232,19 @@
   function getProbeSectorScanRockets(effect) {
     const currentPlayer = getCurrentPlayer();
     const owner = effect.options?.owner || "current";
-    return (rocketState.rockets || [])
+    const choices = (rocketState.rockets || [])
       .filter((rocket) => owner === "any" || rocket.playerId === currentPlayer?.id)
       .map((rocket) => ({ rocket, sector: rocketActions.getRocketSectorCoordinate(rocket) }))
       .filter((entry) => entry.sector)
       .sort((left, right) => Number(left.rocket.id) - Number(right.rocket.id));
+    if (!effect.options?.distinctSectors) return choices;
+    const seenSectorXs = new Set();
+    return choices.filter(({ sector }) => {
+      const sectorX = solar.mod8(sector.x);
+      if (seenSectorXs.has(sectorX)) return false;
+      seenSectorXs.add(sectorX);
+      return true;
+    });
   }
 
   function buildSectorScanEffectsForProbe(effect, rocket) {
