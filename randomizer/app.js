@@ -12206,16 +12206,23 @@
   function applyPublicityMoveFollowupBonus(event, bonus, messages) {
     const currentPlayer = getCurrentPlayer();
     if (!currentPlayer || !bonus.publicityToMoveFollowup) return false;
-    if (Math.max(0, Number(event.publicityReward) || 0) <= 0) return false;
+    const publicityReward = Math.max(0, Math.round(Number(event.publicityReward) || 0));
+    if (publicityReward <= 0) return false;
+    const recordedPublicityGained = Number(event.publicityGained);
+    const replacedPublicity = Number.isFinite(recordedPublicityGained)
+      ? Math.min(publicityReward, Math.max(0, Math.round(recordedPublicityGained)))
+      : publicityReward;
     const moveEffect = {
-      id: `${bonus.id || "card-event"}-pay-publicity-move-${event.planetId || "planet"}`,
+      id: `${bonus.id || "card-event"}-replace-publicity-with-move-${event.planetId || "planet"}`,
       type: cardEffects.EFFECT_TYPES.CARD_MOVE,
-      label: `${bonus.label || "卡牌事件"}：支付1宣传，1移动`,
+      label: `${bonus.label || "卡牌事件"}：选择1移动而非本次宣传`,
       icon: "movement",
       options: {
-        cost: { publicity: 1 },
+        cost: replacedPublicity > 0 ? { publicity: replacedPublicity } : {},
         movementPoints: 1,
         historyLabel: bonus.label || "卡牌事件移动",
+        visitPublicityReplacement: true,
+        replacedPublicity,
       },
     };
     if (pendingActionEffectFlow) {
@@ -12227,7 +12234,7 @@
         consumesMainAction: false,
       });
     }
-    messages.push(`${bonus.label || "卡牌事件"}：追加1宣传换1移动`);
+    messages.push(`${bonus.label || "卡牌事件"}：追加一次“1移动而非本次宣传”选择`);
     return true;
   }
 

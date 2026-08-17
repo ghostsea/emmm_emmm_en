@@ -1600,7 +1600,7 @@
     "b_49.webp": withSource("b_49.webp", {
       cardType: 0,
       playEffects: Object.freeze([
-        registerEventBonusEffect("b49-visit-publicity-move-followup", "本回合访问非地球行星可支付1宣传获得1移动", {
+        registerEventBonusEffect("b49-visit-publicity-move-followup", "本回合每次访问非地球行星可获得1移动而非1宣传", {
           duration: "turn",
           eventType: "visitPlanet",
           excludePlanetIds: ["earth"],

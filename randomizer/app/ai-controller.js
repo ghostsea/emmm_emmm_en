@@ -21168,7 +21168,7 @@
           return null;
         }
       }
-      const isB49PublicityMoveFollowup = /b49-visit-publicity-move-followup-pay-publicity-move/.test(String(effect?.id || ""));
+      const isB49PublicityMoveFollowup = effect?.options?.visitPublicityReplacement === true;
       if (
         isB49PublicityMoveFollowup
         && !landingRequiredThisStep

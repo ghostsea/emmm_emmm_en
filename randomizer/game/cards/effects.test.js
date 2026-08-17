@@ -906,6 +906,7 @@ assert.equal(b49PublicityMoveBonus.onceKey, undefined);
 assert.equal(b49PublicityMoveBonus.eventType, "visitPlanet");
 assert.equal(b49PublicityMoveBonus.publicityToMoveFollowup, true);
 assert.deepEqual(b49PublicityMoveBonus.excludePlanetIds, ["earth"]);
+assert.match(cardEffects.buildPlayEffects({ cardId: "b_49.webp" })[0].label, /1移动而非1宣传/);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_50.webp" })[0].options.owner, "any");
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_50.webp" })[0].options.maxTargets, 3);
 assert.equal(cardEffects.buildPlayEffects({ cardId: "b_55.webp" })[0].options.researchedByOthersOnly, true);

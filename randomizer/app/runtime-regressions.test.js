@@ -6,6 +6,7 @@ const path = require("node:path");
 
 const appPath = path.join(__dirname, "..", "app.js");
 const appSource = fs.readFileSync(appPath, "utf8");
+const aiControllerSource = fs.readFileSync(path.join(__dirname, "ai-controller.js"), "utf8");
 const finalScoring = require("../game/final-scoring");
 const actionHistoryModule = require("../game/history/action-history");
 const historyCommands = require("../game/history/commands");
@@ -593,6 +594,79 @@ function loadNamedFunction(functionName, dependencies = {}) {
     "b_88 must stay discarded when the current player has two signals in the selected sector",
   );
   assert.deepEqual(cardState.discardPile, [playedCard]);
+}
+
+{
+  const currentPlayer = { id: "player-white", color: "white" };
+  const insertedEffects = [];
+  const applyPublicityMoveFollowupBonus = loadNamedFunction(
+    "applyPublicityMoveFollowupBonus",
+    {
+      getCurrentPlayer: () => currentPlayer,
+      cardEffects,
+      pendingActionEffectFlow: {},
+      insertActionEffectsAfterCurrent: (effects) => insertedEffects.push(...effects),
+      startCardEffectFlow: () => assert.fail("an active effect flow should receive the follow-up inline"),
+      HISTORY_SOURCE_QUICK: "quick",
+    },
+  );
+  const registration = cardEffects.buildPlayEffects({ cardId: "b_49.webp" })[0];
+  const bonus = {
+    ...registration.options.bonus,
+    id: registration.id,
+    label: registration.label,
+  };
+  const messages = [];
+
+  assert.equal(
+    applyPublicityMoveFollowupBonus(
+      { type: "visitPlanet", planetId: "mars", publicityReward: 1, publicityGained: 1 },
+      bonus,
+      messages,
+    ),
+    true,
+  );
+  assert.deepEqual(insertedEffects[0].options.cost, { publicity: 1 });
+  assert.equal(insertedEffects[0].options.replacedPublicity, 1);
+  assert.equal(insertedEffects[0].options.visitPublicityReplacement, true);
+  assert.match(insertedEffects[0].id, /replace-publicity-with-move-mars$/);
+  assert.match(insertedEffects[0].label, /1移动而非本次宣传/);
+
+  assert.equal(
+    applyPublicityMoveFollowupBonus(
+      { type: "visitPlanet", planetId: "venus", publicityReward: 1, publicityGained: 0 },
+      bonus,
+      messages,
+    ),
+    true,
+  );
+  assert.deepEqual(
+    insertedEffects[1].options.cost,
+    {},
+    "replacing a capped visit reward must not deduct publicity owned before the visit",
+  );
+  assert.equal(insertedEffects[1].options.replacedPublicity, 0);
+  assert.equal(insertedEffects.length, 2, "each qualifying visit should append another replacement choice");
+  assert.equal(
+    applyPublicityMoveFollowupBonus(
+      { type: "visitPlanet", planetId: "earth", publicityReward: 0, publicityGained: 0 },
+      bonus,
+      messages,
+    ),
+    false,
+  );
+  assert.equal(insertedEffects.length, 2);
+
+  const eventMatchesCardBonus = loadNamedFunction("eventMatchesCardBonus", {
+    getNebulaColorForCardEvent: () => null,
+  });
+  assert.equal(eventMatchesCardBonus({ type: "visitPlanet", planetId: "earth" }, bonus), false);
+  assert.equal(eventMatchesCardBonus({ type: "visitPlanet", planetId: "mars" }, bonus), true);
+  assert.match(
+    aiControllerSource,
+    /effect\?\.options\?\.visitPublicityReplacement === true/,
+    "AI should recognize the b_49 follow-up by semantic metadata instead of a stale effect id",
+  );
 }
 
 {
