@@ -69,7 +69,7 @@
 | 宇宙战略集团 | `strategy_pick_card` | `strategy_pick` | 精选 1 张公共牌（无额外资源）；确认精选后清除 3 个被动奖励槽 token |
 | 宇宙大战略集团 | `strategy_pick_card` | `strategy_pick` | AI 专用，默认分配给第 2 个 AI 电脑，不进入开始界面公司池；以宇宙战略集团为模板，精选 1 张公共牌（无额外资源），确认精选后清除 3 个被动奖励槽 token；每轮开始还会额外清空 3 个被动奖励槽 |
 | 未来跨度研究所 | `future_span_pick_advance` | `future_span_pick` | 若专属标记已有尚未打出的目标牌：精选 1 张公共牌，并将目标分提高 2 |
-| 原教旨主义 | `fundamentalism_score_exchange` | `fundamentalism_score_exchange` | 启动 3 个 `industry_fundamentalism_exchange` 节点；每个节点可跳过、可撤销，可在 3 分与 1 信用/1 能量/1 精选之间兑换，或用 1 信用/1 能量/弃 1 手牌换 3 分 |
+| 原教旨主义 | `fundamentalism_score_exchange` | `fundamentalism_score_exchange` | 启动 3 个 `industry_fundamentalism_exchange` 节点；每个节点可跳过、可撤销，可在 3 分与 1 信用/1 能量/1 精选（选择公共牌或盲抽）之间兑换，或用 1 信用/1 能量/弃 1 手牌换 3 分 |
 | 星际海盗 | `pirates_raid_launch` | `pirates_raid_launch` | 启动 1 个 `industry_pirates_raid_launch` 节点；选择一个已有掠夺标记主星上的己方环绕/登陆标记，移除并消耗 1 信用点，然后在该星球当前扇区免费发射 |
 | 异星实验室 | — | — | **无 1x 圆标**（`EXCLUDED_INDUSTRY_LABELS`） |
 | 作弊实验室 | — | — | AI 专用；复用异星实验室牌图，开局获得 5 张盲抽。“令人发笑的”难度开局 3 信用点、4 次收入增加，从第 2 轮开始每轮额外获得 1 能量和 1 盲抽；“开始弱小的”难度开局 2 信用点、4 次收入增加，从第 2 轮开始每轮只额外获得 1 能量；**无 1x 圆标**，三色板块永久正面 |
@@ -142,7 +142,7 @@
 | `deepspace_swap` | 手牌选择 → 公共牌选择交换 |
 | `future_span_pick` | 公共牌精选 → 目标分 +2 |
 | `strategy_pick` | 公共牌精选 |
-| `fundamentalism_score_exchange` | 快速行动效果队列：3 个分数/资源兑换节点；精选分支确认补牌后该节点不可撤销 |
+| `fundamentalism_score_exchange` | 快速行动效果队列：3 个分数/资源兑换节点；精选分支可选择公共牌或盲抽，确认后该节点不可撤销 |
 | `pirates_raid_launch` | 快速行动效果队列：选择已有掠夺标记主星上的己方环绕/登陆标记，消耗 1 信用点并在同星球当前扇区免费发射 |
 
 交互聚焦（`data-interaction-focus`）：仅在**进行中**的精选/手牌/科技/移动/掠夺标记放置流程时暗化其它区域；公司 1x 可放置时**不**自动全屏聚焦，仅用牌面高亮。

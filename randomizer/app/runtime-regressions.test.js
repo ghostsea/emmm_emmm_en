@@ -977,6 +977,64 @@ for (const functionName of [
 }
 
 {
+  const player = { id: "player-white", resources: { score: 9 } };
+  const cardState = { publicCards: [{ id: "public-card" }], discardPile: [] };
+  const rocketState = { statusNote: "" };
+  let selectionRequest = null;
+  const startFundamentalismPickExchange = loadNamedFunction(
+    "startFundamentalismPickExchange",
+    {
+      cardState,
+      rocketState,
+      spendFundamentalismExchangeCost: () => ({ ok: true }),
+      beginCardSelection: (pending) => {
+        selectionRequest = pending;
+        return { ok: true };
+      },
+      renderPlayerStats: () => {},
+      renderStateReadout: () => {},
+    },
+  );
+
+  const result = startFundamentalismPickExchange(
+    { label: "原教旨主义：兑换 1/3" },
+    player,
+    { id: "score_to_pick", label: "3分换1精选", cost: { score: 3 } },
+  );
+
+  assert.equal(result.ok, true);
+  assert.equal(
+    selectionRequest.allowBlindDraw,
+    true,
+    "Fundamentalism pick exchanges should allow the normal blind-draw alternative",
+  );
+  assert.match(rocketState.statusNote, /请选择公共牌或盲抽/);
+}
+
+{
+  const getFundamentalismExchangeChoiceSpecs = loadNamedFunction(
+    "getFundamentalismExchangeChoiceSpecs",
+    {
+      getCurrentPlayer: () => null,
+      cardState: { publicCards: [] },
+      canBlindDraw: () => true,
+    },
+  );
+  const choices = getFundamentalismExchangeChoiceSpecs({
+    resources: { score: 9, credits: 0, energy: 0 },
+    hand: [],
+  });
+  const pickChoice = choices.find((choice) => choice.id === "score_to_card");
+
+  assert.equal(
+    pickChoice.disabled,
+    false,
+    "Fundamentalism should still offer the pick exchange when only a blind draw is available",
+  );
+  assert.match(pickChoice.description, /公共牌或盲抽/);
+}
+
+{
   const player = { id: "player-white", color: "white" };
   const flow = {
     chainId: "scan",

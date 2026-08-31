@@ -6616,7 +6616,7 @@
       : pendingAction?.type === "industry_deepspace_public"
         ? "深空探测：请选择 1 张公共牌完成交换"
       : pendingAction?.type === "fundamentalism_exchange_pick"
-        ? "原教旨主义：精选 1 张公共牌"
+        ? "原教旨主义：精选 1 张牌（选择公共牌或盲抽）"
       : allowsBlindDrawInSelection()
       ? "精选：从公共牌区选一张牌，或点击盲抽"
       : "精选：从公共牌区选一张牌";
@@ -16718,7 +16718,8 @@
     const credits = Number(player?.resources?.credits) || 0;
     const energy = Number(player?.resources?.energy) || 0;
     const handCount = Array.isArray(player?.hand) ? player.hand.length : 0;
-    const publicCount = Array.isArray(cardState.publicCards) ? cardState.publicCards.length : 0;
+    const hasPublicCard = Array.isArray(cardState.publicCards) && cardState.publicCards.some(Boolean);
+    const canPickCard = hasPublicCard || canBlindDraw();
     return [
       {
         id: "score_to_credits",
@@ -16739,10 +16740,10 @@
       {
         id: "score_to_card",
         label: "3分换1精选",
-        description: "消耗3分，精选1张公共牌",
+        description: "消耗3分，精选1张牌（可选择公共牌或盲抽）",
         cost: { score: 3 },
         pickCard: true,
-        disabled: score < 3 || publicCount <= 0,
+        disabled: score < 3 || !canPickCard,
       },
       {
         id: "credits_to_score",
@@ -16880,7 +16881,7 @@
       beforePlayerState: beforePlayer,
       beforeCardState,
       choiceId: choice.id,
-      allowBlindDraw: false,
+      allowBlindDraw: true,
       fromEffectFlow: true,
     });
     if (!result.ok) {
@@ -16890,7 +16891,7 @@
       renderStateReadout();
       return result;
     }
-    rocketState.statusNote = `原教旨主义：${choice.label}，请选择公共牌`;
+    rocketState.statusNote = `原教旨主义：${choice.label}，请选择公共牌或盲抽`;
     renderPlayerStats();
     renderStateReadout();
     return result;
