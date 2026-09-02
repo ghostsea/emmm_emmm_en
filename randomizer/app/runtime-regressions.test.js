@@ -13,6 +13,8 @@ const historyCommands = require("../game/history/commands");
 const abilityChain = require("../game/abilities/chain");
 const cardEffects = require("../game/cards/effects");
 const industryAbilities = require("../game/industry/abilities");
+const playerModule = require("../game/players");
+const dataModule = require("../game/data");
 
 function extractNamedFunctionSource(functionName) {
   const start = appSource.indexOf(`function ${functionName}(`);
@@ -1251,6 +1253,199 @@ assert.ok(
   assert.deepEqual(player.income, incomeBefore, "Reorganization must not increase the player's income tracks");
   assert.equal(player.hand.length, 0);
   assert.equal(cardState.discardPile.length, 1);
+}
+
+{
+  const player = {
+    id: "player-white",
+    color: "white",
+    hand: [],
+    resources: {
+      score: 0,
+      credits: 0,
+      energy: 0,
+      publicity: 0,
+      availableData: 0,
+      additionalPublicScan: 0,
+      handSize: 0,
+    },
+    income: {
+      credits: 0,
+      energy: 0,
+      publicity: 0,
+      availableData: 2,
+      additionalPublicScan: 0,
+      handSize: 0,
+    },
+    dataState: dataModule.createDefaultDataState(),
+  };
+  const buildIncomeResourceGain = loadNamedFunction("buildIncomeResourceGain", {
+    players: playerModule,
+  });
+  const formatIncomeResourceSummary = loadNamedFunction("formatIncomeResourceSummary");
+  const applyIncomeResourcesForPlayer = loadNamedFunction("applyIncomeResourcesForPlayer", {
+    players: playerModule,
+    data: dataModule,
+    buildIncomeResourceGain,
+    blindDrawCardForPlayer: () => assert.fail("data-only income must not draw a card"),
+    formatIncomeResourceSummary,
+  });
+
+  const result = applyIncomeResourcesForPlayer(player, { label: "PASS 收入" });
+  assert.equal(result.ok, true);
+  assert.equal(result.dataResults.length, 2);
+  assert.equal(player.resources.availableData, 2);
+  assert.equal(
+    dataModule.listPoolTokens(player).length,
+    2,
+    "PASS data income must create physical pool tokens instead of only changing the resource number",
+  );
+}
+
+{
+  const human = { id: "player-white", color: "white", colorLabel: "白色", hand: [] };
+  const computer = { id: "player-blue", color: "blue", colorLabel: "蓝色", hand: [] };
+  const pendingCardSelectionAction = {
+    type: "yichangdian_anomaly_pick",
+    player: human,
+  };
+  const getCardSelectionPlayer = loadNamedFunction("getCardSelectionPlayer", {
+    pendingCardSelectionAction,
+    resolvePlayerReference: () => null,
+    getCurrentPlayer: () => computer,
+  });
+  assert.equal(
+    getCardSelectionPlayer(),
+    human,
+    "a cross-turn anomaly selection must be controlled by the reward owner",
+  );
+
+  let publicPickPlayer = null;
+  const pickPublicCardForCurrentPlayer = loadNamedFunction("pickPublicCardForCurrentPlayer", {
+    getCardSelectionPlayer,
+    cards: {
+      pickFromPublic(_cardState, _playerState, player) {
+        publicPickPlayer = player;
+        return { ok: true, card: { id: "public-card" } };
+      },
+    },
+    cardState: {},
+    playerState: {},
+    finalizeCardSelectionResult: (result) => result,
+  });
+  assert.equal(pickPublicCardForCurrentPlayer(0).ok, true);
+  assert.equal(publicPickPlayer, human, "the selected public card must enter the anomaly winner's hand");
+
+  let blindDrawPlayer = null;
+  const drawCardForCurrentPlayer = loadNamedFunction("drawCardForCurrentPlayer", {
+    getCardSelectionPlayer,
+    getCurrentPlayer: () => computer,
+    blindDrawCardForPlayer(player) {
+      blindDrawPlayer = player;
+      return { ok: true, card: { id: "blind-card" } };
+    },
+    rocketState: { statusNote: "" },
+    renderStateReadout: () => {},
+    finalizeCardSelectionResult: (result) => result,
+    cards: { getCardLabel: () => "盲抽牌" },
+    renderPlayerStats: () => {},
+    renderPublicCards: () => {},
+    updatePublicCardControls: () => {},
+  });
+  assert.equal(drawCardForCurrentPlayer({ fromSelection: true }).ok, true);
+  assert.equal(blindDrawPlayer, human, "the anomaly winner must also own the blind-draw alternative");
+}
+
+{
+  const human = { id: "player-white", color: "white", colorLabel: "白色" };
+  const trigger = {
+    player: human,
+    anomaly: { markerId: "b_2", sectorX: 3, triggeredCount: 2 },
+    reward: { traceType: "yellow", gain: {}, dataCount: 0, pickCard: true },
+  };
+  const effectType = "yichangdian_anomaly_reward";
+  const createYichangdianAnomalyRewardEffect = loadNamedFunction(
+    "createYichangdianAnomalyRewardEffect",
+    { YICHANGDIAN_ANOMALY_REWARD_EFFECT_TYPE: effectType },
+  );
+  const effect = createYichangdianAnomalyRewardEffect(trigger, 0);
+  assert.equal(effect.type, effectType);
+  assert.equal(effect.playerId, human.id);
+  assert.equal(effect.options.targetPlayerId, human.id);
+  assert.equal(effect.options.skippable, false);
+
+  let insertedEffects = null;
+  const queueYichangdianAnomalyRewardEffects = loadNamedFunction(
+    "queueYichangdianAnomalyRewardEffects",
+    {
+      createYichangdianAnomalyRewardEffect,
+      isActionEffectFlowActive: () => true,
+      insertActionEffectsAfterCurrent: (effects) => {
+        insertedEffects = effects;
+      },
+      startCardEffectFlow: () => assert.fail("active rotation flow must receive inserted anomaly nodes"),
+      getPlayerById: () => human,
+    },
+  );
+  const queueResult = queueYichangdianAnomalyRewardEffects([
+    trigger,
+    {
+      ...trigger,
+      anomaly: { markerId: "c_1", sectorX: 6, triggeredCount: 1 },
+      reward: { traceType: "blue", gain: {}, dataCount: 1, pickCard: false },
+    },
+  ]);
+  assert.equal(queueResult.count, 2);
+  assert.deepEqual(
+    insertedEffects.map((queuedEffect) => queuedEffect.options.anomaly.markerId),
+    ["b_2", "c_1"],
+    "multiple rotations must preserve anomaly reward order in the effect queue",
+  );
+
+  let selectionRequest = null;
+  let rewardPlayer = null;
+  const activeEffect = { ...effect, status: "active" };
+  const executeYichangdianAnomalyRewardEffect = loadNamedFunction(
+    "executeYichangdianAnomalyRewardEffect",
+    {
+      getEffectOwnerPlayer: () => human,
+      yichangdian: { getAnomalyReward: () => trigger.reward },
+      rocketState: { statusNote: "" },
+      renderStateReadout: () => {},
+      beginEffectHistoryStep: () => {},
+      applyYichangdianRewardToPlayer(player) {
+        rewardPlayer = player;
+        return { ok: true, message: "异常奖励：精选1张牌" };
+      },
+      addScoreSourceFromGain: () => {},
+      SCORE_SOURCE_KEYS: { ALIEN_EFFECT: "alienEffectScore" },
+      recordHistoryCommand: () => {},
+      historyCommands: { createRestorePlayerCommand: () => ({}) },
+      beginCardSelection(pending) {
+        selectionRequest = pending;
+        return { ok: true };
+      },
+      renderPlayerStats: () => {},
+      completeCurrentActionEffect: () => assert.fail("pick reward must wait for the owner selection"),
+    },
+  );
+  const executeResult = executeYichangdianAnomalyRewardEffect(activeEffect);
+  assert.equal(executeResult.awaitingCardSelection, true);
+  assert.equal(rewardPlayer, human);
+  assert.equal(selectionRequest.player, human);
+  assert.equal(selectionRequest.playerId, human.id);
+  assert.equal(selectionRequest.fromEffectFlow, true);
+
+  assert.doesNotMatch(
+    extractNamedFunctionSource("triggerYichangdianAnomalyForEarthX"),
+    /applyYichangdianRewardToPlayer|beginCardSelection/,
+    "rotation detection must defer anomaly settlement to the effect queue",
+  );
+  assert.match(
+    extractNamedFunctionSource("rotateSolarOrbit"),
+    /queueYichangdianAnomalyRewardEffects\(anomalyTriggers\)/,
+    "solar rotation must enqueue every detected anomaly reward",
+  );
 }
 
 console.log("runtime-regressions.test.js: all tests passed");

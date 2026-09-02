@@ -96,6 +96,7 @@
   } = appConstants;
   const BANRENMA_PANEL_BONUS_EFFECT_TYPE = "banrenma_panel_bonus";
   const JIUZHE_THRESHOLD_CARD_EFFECT_TYPE = "jiuzhe_threshold_card";
+  const YICHANGDIAN_ANOMALY_REWARD_EFFECT_TYPE = "yichangdian_anomaly_reward";
   const FUNDAMENTALISM_ROUND_START_ROUNDS = Object.freeze([2, 3, 4]);
   const AI_DIFFICULTY_LAUGHABLE = "laughable";
   const AI_DIFFICULTY_WEAK_START = "weak_start";
@@ -6738,9 +6739,17 @@
     const resourceIncome = buildIncomeResourceGain(income);
     const cardCount = Math.max(0, Math.round(income.handSize || 0));
     const drawnCards = [];
+    const dataResults = [];
     let drawError = null;
 
-    players.gainResources(player, resourceIncome);
+    const directResourceIncome = { ...resourceIncome };
+    delete directResourceIncome.availableData;
+    players.gainResources(player, directResourceIncome);
+
+    const dataCount = Math.max(0, Math.round(Number(resourceIncome.availableData) || 0));
+    for (let index = 0; index < dataCount; index += 1) {
+      dataResults.push(data.gainData(player, { source: options.dataSource || "pass_income" }));
+    }
 
     for (let index = 0; index < cardCount; index += 1) {
       const drawResult = blindDrawCardForPlayer(player);
@@ -6762,6 +6771,7 @@
       income: { ...income },
       resourceIncome,
       drawnCards,
+      dataResults,
       drawError,
       summary,
       message,
@@ -7572,10 +7582,19 @@
     return drawBasicCardToPlayer(player);
   }
 
+  function getCardSelectionPlayer() {
+    return pendingCardSelectionAction?.player
+      || resolvePlayerReference({
+        playerId: pendingCardSelectionAction?.playerId || pendingCardSelectionAction?.targetPlayerId,
+        playerColor: pendingCardSelectionAction?.playerColor || pendingCardSelectionAction?.targetPlayerColor,
+      })
+      || getCurrentPlayer();
+  }
+
   function drawCardForCurrentPlayer(options = {}) {
-    const currentPlayer = getCurrentPlayer();
     const fromSelection = Boolean(options.fromSelection);
-    const drawResult = blindDrawCardForPlayer(currentPlayer);
+    const targetPlayer = fromSelection ? getCardSelectionPlayer() : getCurrentPlayer();
+    const drawResult = blindDrawCardForPlayer(targetPlayer);
 
     if (!drawResult.ok) {
       rocketState.statusNote = drawResult.message;
@@ -7596,8 +7615,8 @@
   }
 
   function pickPublicCardForCurrentPlayer(slotIndex) {
-    const currentPlayer = getCurrentPlayer();
-    const pickResult = cards.pickFromPublic(cardState, playerState, currentPlayer, slotIndex);
+    const targetPlayer = getCardSelectionPlayer();
+    const pickResult = cards.pickFromPublic(cardState, playerState, targetPlayer, slotIndex);
     return finalizeCardSelectionResult(pickResult);
   }
 
@@ -18655,6 +18674,64 @@
     return { ok: true, message: rewardResult.message };
   }
 
+  function executeYichangdianAnomalyRewardEffect(effect) {
+    const player = getEffectOwnerPlayer(effect);
+    const anomaly = effect.options?.anomaly || null;
+    const reward = effect.options?.reward || (anomaly ? yichangdian.getAnomalyReward(anomaly.markerId) : null);
+    if (!player || !anomaly || !reward) {
+      rocketState.statusNote = "没有可结算的异常奖励";
+      renderStateReadout();
+      return { ok: false, message: rocketState.statusNote };
+    }
+
+    beginEffectHistoryStep(effect.label);
+    const beforePlayer = structuredClone(player);
+    const rewardResult = applyYichangdianRewardToPlayer(
+      player,
+      reward,
+      `旋转触发异常 ${anomaly.markerId}`,
+    );
+    if (rewardResult.ok) addScoreSourceFromGain(player, SCORE_SOURCE_KEYS.ALIEN_EFFECT, reward.gain);
+    recordHistoryCommand(historyCommands.createRestorePlayerCommand(
+      player,
+      beforePlayer,
+      "恢复旋转异常奖励前玩家状态",
+    ));
+
+    const effectResult = {
+      ok: rewardResult.ok,
+      undoable: true,
+      message: rewardResult.message,
+      payload: { anomaly, reward, playerId: player.id, playerColor: player.color },
+    };
+    effect.result = effectResult;
+    rocketState.statusNote = rewardResult.message;
+
+    if (reward.pickCard) {
+      const selectionResult = beginCardSelection({
+        type: "yichangdian_anomaly_pick",
+        player,
+        playerId: player.id,
+        playerColor: player.color,
+        allowBlindDraw: true,
+        fromEffectFlow: true,
+        effectResult,
+      });
+      if (selectionResult.ok) {
+        rocketState.statusNote = `${rewardResult.message}；请由${player.colorLabel || player.name || player.color}玩家精选`;
+        renderPlayerStats();
+        renderStateReadout();
+        return { ok: true, awaitingCardSelection: true, message: rocketState.statusNote };
+      }
+      effect.result.message = `${rewardResult.message}；${selectionResult.message || "无法打开精选"}`;
+    }
+
+    completeCurrentActionEffect();
+    renderPlayerStats();
+    renderStateReadout();
+    return effect.result;
+  }
+
   function resolveYichangdianNextAnomalyFromCurrentEarth() {
     if (!yichangdian || !alienGameState.yichangdian?.revealInitialized) {
       return { nextSectorX: null, anomaly: null };
@@ -20293,6 +20370,10 @@
 
     if (banrenma && effect.type === BANRENMA_PANEL_BONUS_EFFECT_TYPE) {
       return executeBanrenmaPanelBonusEffect(effect);
+    }
+
+    if (yichangdian && effect.type === YICHANGDIAN_ANOMALY_REWARD_EFFECT_TYPE) {
+      return executeYichangdianAnomalyRewardEffect(effect);
     }
 
     switch (effect.type) {
@@ -25987,18 +26068,7 @@
       };
     }
 
-    const rewardResult = applyYichangdianRewardToPlayer(
-      player,
-      reward,
-      `旋转触发异常 ${anomaly.markerId}`,
-    );
-    if (reward?.pickCard) {
-      beginCardSelection({
-        type: "yichangdian_anomaly_pick",
-        player,
-        allowBlindDraw: true,
-      });
-    }
+    const playerLabel = player.colorLabel || player.name || player.color || "获奖";
     return {
       ok: true,
       anomaly,
@@ -26011,7 +26081,65 @@
         playerId: player.id,
         playerColor: player.color,
       }],
-      message: `${rewardResult.message}${reward?.pickCard ? "，请选择公共牌" : ""}`,
+      message: `旋转触发异常 ${anomaly.markerId}：等待${playerLabel}玩家结算`,
+    };
+  }
+
+  function createYichangdianAnomalyRewardEffect(trigger, index = 0) {
+    const player = trigger?.player || null;
+    const anomaly = trigger?.anomaly || null;
+    const reward = trigger?.reward || null;
+    if (!player || !anomaly || !reward) return null;
+    const icon = reward.pickCard
+      ? "pick_card"
+      : reward.dataCount > 0
+        ? "data"
+        : Object.keys(reward.gain || {})[0] || "alien_trace";
+    return {
+      id: `yichangdian-anomaly-${anomaly.markerId}-${anomaly.triggeredCount || 0}-${index}`,
+      type: YICHANGDIAN_ANOMALY_REWARD_EFFECT_TYPE,
+      icon,
+      label: `异常奖励 ${anomaly.markerId}：${player.colorLabel || player.name || player.color}玩家`,
+      playerId: player.id || null,
+      playerColor: player.color || null,
+      required: true,
+      undoable: true,
+      options: {
+        targetPlayerId: player.id || null,
+        targetPlayerColor: player.color || null,
+        anomaly: structuredClone(anomaly),
+        reward: structuredClone(reward),
+        required: true,
+        skippable: false,
+      },
+    };
+  }
+
+  function queueYichangdianAnomalyRewardEffects(triggers = []) {
+    const effects = triggers
+      .map((trigger, index) => createYichangdianAnomalyRewardEffect(trigger, index))
+      .filter(Boolean);
+    if (!effects.length) return { queued: false, count: 0, message: null };
+
+    if (isActionEffectFlowActive()) {
+      insertActionEffectsAfterCurrent(effects);
+    } else {
+      startCardEffectFlow(
+        "yichangdian-anomaly-rewards",
+        "异常奖励",
+        effects,
+        {
+          actionType: "yichangdianAnomaly",
+          player: effects[0].playerId ? getPlayerById(effects[0].playerId) : null,
+          consumesMainAction: false,
+        },
+      );
+    }
+    return {
+      queued: true,
+      count: effects.length,
+      effects,
+      message: `异常奖励已加入效果队列（${effects.length}项）`,
     };
   }
 
@@ -33794,23 +33922,6 @@
       "恢复 PASS 旋转前牌区",
     ));
 
-    const anomalyPickOpen = isCardSelectionActive()
-      && pendingCardSelectionAction?.type === "yichangdian_anomaly_pick";
-    if (anomalyPickOpen) {
-      pendingCardSelectionAction.fromEffectFlow = true;
-      pendingCardSelectionAction.effectResult = {
-        ok: result.ok,
-        undoable: true,
-        message: result.message,
-        payload: result.payload || null,
-        events: result.events || [],
-      };
-      rocketState.statusNote = result.message;
-      updateActionButtons();
-      renderStateReadout();
-      return result;
-    }
-
     effect.result = {
       ok: result.ok,
       undoable: true,
@@ -36531,6 +36642,8 @@
       }
     }
 
+    const anomalyRewardQueue = queueYichangdianAnomalyRewardEffects(anomalyTriggers);
+
     const lastSettlement = rotationSettlements[rotationSettlements.length - 1];
     const lastAnomaly = anomalyTriggers[anomalyTriggers.length - 1];
     renderWheels();
@@ -36544,7 +36657,7 @@
     return {
       ok: true,
       message: lastAnomaly?.message || lastSettlement?.message || "太阳系旋转",
-      payload: { rotationSettlements, anomalyTriggers },
+      payload: { rotationSettlements, anomalyTriggers, anomalyRewardQueue },
       events,
     };
   }
