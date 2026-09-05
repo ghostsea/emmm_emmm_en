@@ -301,6 +301,18 @@
   }
 
   function getGoalSupportMultiplier(candidate = {}, goal = {}, state = {}, options = {}) {
+    if (goal.id === GOAL_IDS.OPENING_INCOME
+      && getActionId(candidate) === "cardCorner" && candidate.actionKind === "resource") {
+      const player = getPlayer(state, options.playerId);
+      const company = String(player?.initialSelection?.industry?.label || player?.initialSelection?.industry?.id || "");
+      if (!company.includes("寰宇超动力") && !company.includes("宇宙大战略集团")) return 1;
+      const details = candidate.valueBreakdown || {};
+      const followup = candidate.followupMainAction;
+      const hasConversion = numeric(followup?.score) > 0
+        || numeric(details.followupMainActionScore) > 0
+        || numeric(details.stagedTechSetupScore) > 0;
+      return hasConversion ? 1 : 0;
+    }
     if (goal.id !== GOAL_IDS.GRAB_TRACE_YELLOW) return 1;
     const actionId = getActionId(candidate);
     const planAction = getPlanActionId(candidate);
@@ -325,7 +337,7 @@
       const goal = normalizeGoal(rawGoal);
       if (!candidateSupportsGoal(candidate, goal.id)) return total;
       const remainingProgress = 1 - clamp01(goal.progress);
-      const supportMultiplier = getGoalSupportMultiplier(candidate, goal, state, options);
+      const supportMultiplier = getGoalSupportMultiplier(candidate, goal, state, { ...options, playerId });
       const weighted = goal.value * goal.priority * goal.feasibility * supportMultiplier * Math.max(0.2, remainingProgress);
       return total + weighted;
     }, 0);
