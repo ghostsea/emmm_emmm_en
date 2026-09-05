@@ -254,5 +254,12 @@
       "baseline": "verify-base-8.json",
       "candidate": "verify-candidate-8.json"
     }
-  ]
+  ],
+  "phaseCandidate": {
+    "commit": "22fde25fb45b44f1328d504022f6343f19b07f3c",
+    "fingerprint": "96bd8baf36ca6677497ce6e31c45fc05b356943182f9bf4c4162bd23c17c152f",
+    "frozenAt": "2026-09-05T23:26:55.528Z",
+    "scope": "Price each future self-income payout at its actual round. Existing early prices apply to rounds 1/2 only; all other income valuations retain baseline behavior.",
+    "reason": "Original self-income candidate initial 4 pairs mean -7, top quartile -20.25. It multiplied early resource prices into later rounds."
+  }
 }
