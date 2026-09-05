@@ -17497,77 +17497,55 @@
 
   function finishGainDataRewardEffect(effect, currentPlayer, count, source, options = {}) {
     if (!effectStepActive) beginEffectHistoryStep(effect.label);
-    const results = [];
-    if (!options.skipGain) {
-      for (let index = 0; index < count; index += 1) {
-        const gainResult = data.gainData(currentPlayer, { source });
-        results.push(gainResult);
-        if (!options.restoreRecorded) {
-          recordHistoryCommand(historyCommands.createGainDataCommand(currentPlayer, gainResult));
+    const results = options.results || [];
+    let skippedCount = options.skippedCount || 0;
+    const placementMessages = options.placementMessages || [];
+    while (results.length + skippedCount < count) {
+      if (isDataPoolFull(currentPlayer)) {
+        const placeCheck = getAutoDataPlacementCheck(currentPlayer);
+        if (!placeCheck.ok) {
+          skippedCount = count - results.length;
+          break;
         }
+        return openAutoDataPlacementPrompt(effect, currentPlayer, {
+          onAfterPlacement: ({ messages, restoreRecorded }) => finishGainDataRewardEffect(
+            effect, currentPlayer, count, source, {
+              results,
+              skippedCount,
+              placementMessages: [...placementMessages, ...messages],
+              restoreRecorded: options.restoreRecorded || restoreRecorded,
+            },
+          ),
+          onSkip: () => finishGainDataRewardEffect(effect, currentPlayer, count, source, {
+            ...options, results, placementMessages, skippedCount: skippedCount + 1,
+          }),
+        });
+      }
+      const gainResult = data.gainData(currentPlayer, { source });
+      results.push(gainResult);
+      if (!options.restoreRecorded) {
+        recordHistoryCommand(historyCommands.createGainDataCommand(currentPlayer, gainResult));
       }
     }
     const gained = results.filter((item) => item.ok).length;
-    const discarded = results.filter((item) => item.discarded).length;
-    const placementText = options.placementMessages?.length
-      ? `；${options.placementMessages.join("；")}`
-      : "";
-    const message = options.skipGain
-      ? `${effect.label}：数据池已满，已跳过本次数据获得`
-      : `${effect.label}：${currentPlayer?.colorLabel || currentPlayer?.name || "玩家"}获得 ${gained}/${count} 个数据${discarded ? `，弃置 ${discarded} 个溢出数据` : ""}${placementText}`;
+    const placementText = placementMessages.length ? `；${placementMessages.join("；")}` : "";
+    const message = `${effect.label}：${currentPlayer?.colorLabel || currentPlayer?.name || "玩家"}获得 ${gained}/${count} 个数据${skippedCount ? `，跳过 ${skippedCount} 个无法领取的数据` : ""}${placementText}`;
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: true,
-      skipped: Boolean(options.skipGain),
+      skipped: gained === 0 && skippedCount > 0,
       message,
-      payload: { results, placementMessages: options.placementMessages || [] },
+      payload: { results, skippedCount, placementMessages },
     });
   }
 
   function executeGainDataRewardEffect(effect) {
-    const currentPlayer = getEffectTargetPlayer(effect);
-    const count = Math.max(0, Math.round(effect.options?.count || 0));
-    const source = effect.options?.source || "planet_reward";
-    if (count > 0 && isDataPoolFull(currentPlayer)) {
-      const placeCheck = getAutoDataPlacementCheck(currentPlayer);
-      if (placeCheck.ok) {
-        return openAutoDataPlacementPrompt(effect, currentPlayer, {
-          onAfterPlacement: ({ messages, restoreRecorded }) => finishGainDataRewardEffect(
-            effect,
-            currentPlayer,
-            count,
-            source,
-            { placementMessages: messages, restoreRecorded },
-          ),
-          onSkip: () => {
-            beginEffectHistoryStep(effect.label);
-            effect.result = {
-              ok: true,
-              undoable: true,
-              skipped: true,
-              message: `${effect.label}：数据池已满，已跳过本次数据获得`,
-            };
-            rocketState.statusNote = effect.result.message;
-            completeCurrentActionEffect("skipped");
-            renderStateReadout();
-            return effect.result;
-          },
-        });
-      }
-      beginEffectHistoryStep(effect.label);
-      effect.result = {
-        ok: true,
-        undoable: true,
-        skipped: true,
-        message: `${effect.label}：${placeCheck.message || "数据池已满且无法放置，未获得数据"}`,
-      };
-      rocketState.statusNote = effect.result.message;
-      completeCurrentActionEffect("skipped");
-      renderStateReadout();
-      return effect.result;
-    }
-    beginEffectHistoryStep(effect.label);
-    return finishGainDataRewardEffect(effect, currentPlayer, count, source);
+    return finishGainDataRewardEffect(
+      effect,
+      getEffectTargetPlayer(effect),
+      Math.max(0, Math.round(effect.options?.count || 0)),
+      effect.options?.source || "planet_reward",
+    );
   }
 
   function executeLaunchRewardEffect(effect) {

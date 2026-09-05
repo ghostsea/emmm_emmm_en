@@ -10411,5 +10411,519 @@
       ],
       "harnessHash": "4253af344f56b56c19babd04a277bb5028002f0b31546a3c975c460ac1e53897"
     }
+  },
+  "multiDataRewardFix": {
+    "status": "runtime-verified-full-game-pairs-running",
+    "before": [
+      {
+        "initialData": 0,
+        "finalData": 2,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-6",
+              "index": 1,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-7",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            }
+          ],
+          "placedTokens": [],
+          "discardedCount": 0
+        },
+        "immediateValue": 4.7780000000000005,
+        "bugs": []
+      },
+      {
+        "initialData": 5,
+        "finalData": 6,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-8",
+              "index": 1,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-9",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-10",
+              "index": 3,
+              "slotIndex": 3,
+              "percentX": 25.86,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-11",
+              "index": 4,
+              "slotIndex": 4,
+              "percentX": 17.74,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-12",
+              "index": 5,
+              "slotIndex": 5,
+              "percentX": 21.77,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-13",
+              "index": 6,
+              "slotIndex": 6,
+              "percentX": 25.86,
+              "percentY": 78.23
+            }
+          ],
+          "placedTokens": [],
+          "discardedCount": 1
+        },
+        "immediateValue": 3.801,
+        "bugs": []
+      },
+      {
+        "initialData": 6,
+        "finalData": 6,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-15",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-16",
+              "index": 3,
+              "slotIndex": 3,
+              "percentX": 25.86,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-17",
+              "index": 4,
+              "slotIndex": 4,
+              "percentX": 17.74,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-18",
+              "index": 5,
+              "slotIndex": 5,
+              "percentX": 21.77,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-19",
+              "index": 6,
+              "slotIndex": 6,
+              "percentX": 25.86,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-20",
+              "index": 7,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            }
+          ],
+          "placedTokens": [
+            {
+              "id": "data-token-14",
+              "index": 1,
+              "placementKind": "computer",
+              "placementSlot": 1,
+              "percentX": 34.66,
+              "percentY": 67.61
+            }
+          ],
+          "discardedCount": 1
+        },
+        "immediateValue": 0,
+        "bugs": []
+      }
+    ],
+    "after": [
+      {
+        "initialData": 0,
+        "finalData": 2,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-10",
+              "index": 1,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-11",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            }
+          ],
+          "placedTokens": [],
+          "discardedCount": 0
+        },
+        "bugs": []
+      },
+      {
+        "initialData": 5,
+        "finalData": 6,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-13",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-14",
+              "index": 3,
+              "slotIndex": 3,
+              "percentX": 25.86,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-15",
+              "index": 4,
+              "slotIndex": 4,
+              "percentX": 17.74,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-16",
+              "index": 5,
+              "slotIndex": 5,
+              "percentX": 21.77,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-17",
+              "index": 6,
+              "slotIndex": 6,
+              "percentX": 25.86,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-18",
+              "index": 7,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            }
+          ],
+          "placedTokens": [
+            {
+              "id": "data-token-12",
+              "index": 1,
+              "placementKind": "computer",
+              "placementSlot": 1,
+              "percentX": 34.66,
+              "percentY": 67.61
+            }
+          ],
+          "discardedCount": 0
+        },
+        "bugs": []
+      },
+      {
+        "initialData": 6,
+        "finalData": 6,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-20",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-21",
+              "index": 3,
+              "slotIndex": 3,
+              "percentX": 25.86,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-22",
+              "index": 4,
+              "slotIndex": 4,
+              "percentX": 17.74,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-23",
+              "index": 5,
+              "slotIndex": 5,
+              "percentX": 21.77,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-24",
+              "index": 6,
+              "slotIndex": 6,
+              "percentX": 25.86,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-26",
+              "index": 8,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            }
+          ],
+          "placedTokens": [
+            {
+              "id": "data-token-19",
+              "index": 1,
+              "placementKind": "computer",
+              "placementSlot": 1,
+              "percentX": 34.66,
+              "percentY": 67.61
+            },
+            {
+              "id": "data-token-25",
+              "index": 7,
+              "placementKind": "computer",
+              "placementSlot": 2,
+              "percentX": 41.74,
+              "percentY": 68.76
+            }
+          ],
+          "discardedCount": 0
+        },
+        "bugs": []
+      }
+    ],
+    "tests": "52 randomizer test files passed; runtime regression verifies sequential gains, skips, full board, owner and undo",
+    "scope": "Common gain_data effect only. Other direct data.gainData callers are not claimed covered.",
+    "interpretationCorrection": "Previous purple1 fixture checked only final pool size. It did not prove zero acquisition at a full pool; before fix one token was placed and another silently discarded.",
+    "incomeContinuationProof": [
+      {
+        "initialData": 0,
+        "finalData": 2,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-3",
+              "index": 1,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-4",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            }
+          ],
+          "placedTokens": [],
+          "discardedCount": 0
+        },
+        "income": {
+          "credits": 3,
+          "energy": 2,
+          "handSize": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        },
+        "hand": [],
+        "bugs": []
+      },
+      {
+        "initialData": 5,
+        "finalData": 6,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-6",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-7",
+              "index": 3,
+              "slotIndex": 3,
+              "percentX": 25.86,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-8",
+              "index": 4,
+              "slotIndex": 4,
+              "percentX": 17.74,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-9",
+              "index": 5,
+              "slotIndex": 5,
+              "percentX": 21.77,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-10",
+              "index": 6,
+              "slotIndex": 6,
+              "percentX": 25.86,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-11",
+              "index": 7,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            }
+          ],
+          "placedTokens": [
+            {
+              "id": "data-token-5",
+              "index": 1,
+              "placementKind": "computer",
+              "placementSlot": 1,
+              "percentX": 34.66,
+              "percentY": 67.61
+            }
+          ],
+          "discardedCount": 0
+        },
+        "income": {
+          "credits": 3,
+          "energy": 2,
+          "handSize": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        },
+        "hand": [],
+        "bugs": []
+      },
+      {
+        "initialData": 6,
+        "finalData": 6,
+        "dataState": {
+          "poolTokens": [
+            {
+              "id": "data-token-13",
+              "index": 2,
+              "slotIndex": 2,
+              "percentX": 21.77,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-14",
+              "index": 3,
+              "slotIndex": 3,
+              "percentX": 25.86,
+              "percentY": 66.08
+            },
+            {
+              "id": "data-token-15",
+              "index": 4,
+              "slotIndex": 4,
+              "percentX": 17.74,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-16",
+              "index": 5,
+              "slotIndex": 5,
+              "percentX": 21.77,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-17",
+              "index": 6,
+              "slotIndex": 6,
+              "percentX": 25.86,
+              "percentY": 78.23
+            },
+            {
+              "id": "data-token-21",
+              "index": 10,
+              "slotIndex": 1,
+              "percentX": 17.74,
+              "percentY": 66.08
+            }
+          ],
+          "placedTokens": [
+            {
+              "id": "data-token-12",
+              "index": 1,
+              "placementKind": "computer",
+              "placementSlot": 1,
+              "percentX": 34.66,
+              "percentY": 67.61
+            },
+            {
+              "id": "data-token-18",
+              "index": 7,
+              "placementKind": "computer",
+              "placementSlot": 2,
+              "percentX": 41.74,
+              "percentY": 68.76
+            },
+            {
+              "id": "data-token-19",
+              "index": 8,
+              "placementKind": "computer",
+              "placementSlot": 3,
+              "percentX": 49.32,
+              "percentY": 67.32
+            },
+            {
+              "id": "data-token-20",
+              "index": 9,
+              "placementKind": "computer",
+              "placementSlot": 4,
+              "percentX": 56.31,
+              "percentY": 68.18
+            }
+          ],
+          "discardedCount": 0
+        },
+        "income": {
+          "credits": 3,
+          "energy": 2,
+          "handSize": 3,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        },
+        "hand": [
+          "b_90.webp"
+        ],
+        "bugs": []
+      }
+    ]
   }
 }

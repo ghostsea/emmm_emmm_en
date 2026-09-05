@@ -1485,4 +1485,72 @@ assert.ok(
   assert.deepEqual(player.resources, beforeResources);
 }
 
+{
+  function exerciseDataReward(initialData, count, { skipFirst = false, fullComputer = false } = {}) {
+    const player = { id: "data-owner", name: "奖励归属玩家", resources: { availableData: 0 },
+      dataState: dataModule.createDefaultDataState(), techState: { ownedTiles: {}, boardSlots: {} } };
+    if (fullComputer) {
+      for (let index = 0; index < 6; index += 1) {
+        dataModule.gainData(player);
+        assert.equal(dataModule.placeDataToComputer(player).ok, true);
+      }
+    }
+    for (let index = 0; index < initialData; index += 1) dataModule.gainData(player);
+    const before = structuredClone(player);
+    const commands = [];
+    let pending = null;
+    let result = null;
+    let prompts = 0;
+    const finish = loadNamedFunction("finishGainDataRewardEffect", {
+      effectStepActive: true,
+      beginEffectHistoryStep: () => assert.fail("existing effect step must be reused"),
+      data: dataModule,
+      historyCommands,
+      recordHistoryCommand: (command) => commands.push(command),
+      isDataPoolFull: (owner) => owner.resources.availableData >= 6,
+      getAutoDataPlacementCheck: (owner) => dataModule.canPlaceAnyData(owner),
+      openAutoDataPlacementPrompt: (_effect, owner, options) => {
+        assert.equal(owner, player, "overflow placement must keep the reward owner");
+        prompts += 1;
+        pending = options;
+        return { ok: true, awaitingDataPlacement: true };
+      },
+      finishAutomaticRewardEffect: (_effect, value) => { result = value; return value; },
+    });
+    finish({ label: "连续数据" }, player, count, "runtime-test");
+    while (pending) {
+      const next = pending;
+      pending = null;
+      if (skipFirst) {
+        skipFirst = false;
+        next.onSkip();
+      } else {
+        commands.push(historyCommands.createRestorePlayerCommand(player, structuredClone(player)));
+        assert.equal(dataModule.placeDataToComputer(player).ok, true);
+        // The real UI can pause for an income/card bonus before resuming here.
+        next.onAfterPlacement({ messages: ["放置数据完成"], restoreRecorded: true });
+      }
+    }
+    assert.ok(result?.ok);
+    assert.equal(player.dataState.discardedCount, 0, "legal placements must prevent silent overflow losses");
+    const after = structuredClone(player);
+    for (const command of commands.reverse()) command.undo();
+    assert.deepEqual(player, before, "undo must restore all grants and every intervening placement");
+    return { after, result, prompts };
+  }
+  for (const initialData of [0, 5, 6]) {
+    const run = exerciseDataReward(initialData, 3);
+    assert.equal(run.result.payload.results.filter((result) => result.ok).length, 3);
+    assert.equal(run.after.dataState.poolTokens.length + run.after.dataState.placedTokens.length, initialData + 3);
+    assert.equal(run.prompts, Math.max(0, initialData + 3 - 6));
+  }
+  const skipped = exerciseDataReward(6, 2, { skipFirst: true });
+  assert.equal(skipped.result.payload.skippedCount, 1);
+  assert.equal(skipped.result.payload.results.length, 1, "skipping one token must still offer the next token");
+  const blocked = exerciseDataReward(6, 3, { fullComputer: true });
+  assert.equal(blocked.prompts, 0);
+  assert.equal(blocked.result.payload.skippedCount, 3);
+  assert.equal(blocked.result.skipped, true);
+}
+
 console.log("runtime-regressions.test.js: all tests passed");
