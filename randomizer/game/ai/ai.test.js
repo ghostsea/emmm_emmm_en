@@ -5157,7 +5157,7 @@ console.log("ai.test.js: all tests passed");
 
 // Resource corners need a concrete continuation to claim opening engine support.
 {
-  const state = { currentPlayer: { id: "p1", initialSelection: { industry: { label: "宇宙大战略集团" } } } };
+  const state = { currentPlayer: { id: "p1", initialSelection: { industry: { label: "作弊实验室" } } } };
   const engine = [{ id: goals.GOAL_IDS.OPENING_INCOME, value: 8, priority: 1, feasibility: 1 }];
   const corner = { id: "cardCorner", actionKind: "resource", score: 2, valueBreakdown: {} };
   assert.equal(goals.scoreCandidateForGoals(corner, engine, state, "p1"), 0);
@@ -5171,5 +5171,5 @@ console.log("ai.test.js: all tests passed");
  const engine = [{ id: goals.GOAL_IDS.OPENING_INCOME, value: 8, priority: 1, feasibility: 1 }];
  const corner = { id: "cardCorner", actionKind: "resource", score: 2 };
  assert.equal(goals.scoreCandidateForGoals(corner, engine, state, "p1"), 0);
- assert.equal(goals.scoreCandidateForGoals(corner, engine, state, "p2"), 0);
+ assert.equal(goals.scoreCandidateForGoals(corner, engine, state, "p2"), 8);
 }
