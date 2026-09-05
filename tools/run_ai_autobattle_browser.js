@@ -611,9 +611,31 @@ function summarizeTimeoutState(state = null, error = null) {
   };
 }
 
+function parseDevToolsPort(text) {
+  const port = Number(String(text).split(/\r?\n/, 1)[0]);
+  if (!Number.isInteger(port) || port <= 0 || port > 65535 || CHROMIUM_RESTRICTED_PORTS.has(port)) {
+    throw new Error(`Invalid or restricted Chrome debugging port: ${port}`);
+  }
+  return port;
+}
+
+async function getChromeDebugPort(userDataDir) {
+  const portFile = path.join(userDataDir, "DevToolsActivePort");
+  const port = await waitFor(() => {
+    try {
+      const text = fs.readFileSync(portFile, "utf8");
+      return text.trim() ? parseDevToolsPort(text) : null;
+    } catch (error) {
+      if (error.code === "ENOENT") return null;
+      throw error;
+    }
+  });
+  if (!port) throw new Error("Chrome did not publish its debugging port before startup timed out");
+  return port;
+}
+
 async function main() {
   const options = parseArgs(process.argv.slice(2));
-  const debugPort = 10000 + Math.floor(Math.random() * 30000);
   const tmpRoot = path.resolve(options.tmpRoot || os.tmpdir());
   const repoRoot = path.resolve(options.root || REPO_ROOT);
   if (!fs.existsSync(path.join(repoRoot, "randomizer", "index.html"))) {
@@ -622,12 +644,15 @@ async function main() {
   fs.mkdirSync(tmpRoot, { recursive: true });
   const userDataDir = fs.mkdtempSync(path.join(tmpRoot, "seti-ai-chrome-"));
   const { server, port: httpPort } = await startStaticServer(repoRoot);
-  const chrome = await launchChrome(options.chrome, debugPort, userDataDir, options.headless);
+  // Chrome binds an OS-selected free port and publishes it in this fresh profile.
+  // Random ports could collide or select fetch-blocked ports such as 10080.
+  const chrome = await launchChrome(options.chrome, 0, userDataDir, options.headless);
   let cdp = null;
   const pageUrl = `http://127.0.0.1:${httpPort}/randomizer/index.html?aiRun=${Date.now()}`;
   const consoleMessages = [];
 
   try {
+    const debugPort = await getChromeDebugPort(userDataDir);
     const wsUrl = await getPageWebSocket(debugPort);
     cdp = new CdpClient(wsUrl);
     await cdp.open();
@@ -761,4 +786,5 @@ if (require.main === module) {
 
 module.exports = {
   parseArgs,
+  parseDevToolsPort,
 };
