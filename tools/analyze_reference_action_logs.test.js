@@ -319,4 +319,8 @@ assert.deepEqual(
   {},
 );
 
+for (const text of ["获得卡牌：水熊虫研究", "获得卡牌：宇航员训练体验，公共区已补牌：水熊虫研究"]) {
+  assert.equal(normalizeReferenceStep(text, { pace: "quick", actionLabel: "放置数据" }).sourceCategory, "card");
+}
+
 console.log("analyze_reference_action_logs.test.js: all tests passed");

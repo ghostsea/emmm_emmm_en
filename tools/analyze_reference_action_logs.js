@@ -9,16 +9,6 @@ const ROUND_RE = /^第(\d+)轮 第(\d+)回合$/;
 const STEP_RE = /^- \[(setup|main|quick)\] (.+)$/;
 const SCORE_ROW_RE = /^\|\s*([^|]+?)\s*\|\s*(-?\d+(?:\.\d+)?)\s*\|/;
 const ROUTE_ROW_RE = /^\|\s*([^|]+?)\s*\|\s*([^|]*?)\s*\|\s*(\d+)\s*\|\s*(\d+)\s*\|/;
-const KNOWN_ALIENS = Object.freeze([
-  "九折",
-  "异常点",
-  "半人马",
-  "方舟",
-  "虫",
-  "阿米巴",
-  "奥陌陌",
-  "符文族",
-]);
 const KNOWN_PLAYER_LABELS = Object.freeze(["白色", "棕色", "绿色", "蓝色"]);
 const DEFAULT_HUMAN_PLAYER_LABEL = "白色";
 
@@ -46,7 +36,7 @@ function hashMarkdown(markdown) {
 }
 
 function findKnownAlien(text) {
-  return KNOWN_ALIENS.find((alien) => String(text || "").includes(alien)) || null;
+  return resourceFlow.findAlienIdInLogText(text);
 }
 
 function findExplicitRecipientDelta(text) {

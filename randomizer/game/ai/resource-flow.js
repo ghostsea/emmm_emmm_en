@@ -724,7 +724,7 @@
       return "income_upgrade_immediate";
     }
     if (context.industryId || includesAny(text, INDUSTRY_LABELS)) return "industry";
-    if (context.alienId || includesAny(text, ALIEN_LABELS) || /化石奖励|繁殖样本|首次接触/.test(text)) {
+    if (context.alienId || findStructuredAlienId(text) || /化石奖励|繁殖样本|首次接触/.test(text)) {
       return "alien";
     }
     if (/科技(?:奖励|加成|bonus)|技术奖励|tech[_\s-]*bonus/i.test(text)) {
@@ -846,7 +846,10 @@
   }
 
   function findStructuredAlienId(text) {
-    return ALIEN_LABELS.find((alien) => String(text || "").includes(alien)) || null;
+    // The ordinary card 水熊虫研究 is not a mention of the alien species 虫.
+    // It can also occur as a public-row refill beside a different gained card.
+    const sourceText = String(text || "").replaceAll("水熊虫研究", "");
+    return ALIEN_LABELS.find((alien) => sourceText.includes(alien)) || null;
   }
 
   function extractStructuredStepCards(step, sourceCategory) {
@@ -1618,6 +1621,7 @@
     RESOURCE_VALUES,
     parseDeltaText,
     classifySourceCategory,
+    findAlienIdInLogText: findStructuredAlienId,
     summarizeBlueTechRewards,
     summarizeResourceEvents,
     summarizeResourceFlowAnalyses,

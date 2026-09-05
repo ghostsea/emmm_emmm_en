@@ -11376,5 +11376,59 @@
       }
     ],
     "patch": "2026-09-06-data-capacity-candidate.patch"
+  },
+  "alienNameClassificationCorrection": {
+    "ordinaryCard": "水熊虫研究",
+    "referenceBefore": {
+      "playerCount": 15,
+      "averageFinalScore": 298.8,
+      "setupGainWeighted": 37.3,
+      "incomeGainWeighted": 112.233333,
+      "nonIncomeGainWeighted": 168.9,
+      "weightedActionCost": 319.333333,
+      "mainActionsPerWeightedCost": 0.116045,
+      "dataTurnoverCount": 5.466667,
+      "fullDataCycleCount": 4.733333,
+      "drawToPlayRate": 0.373671,
+      "incomeCardConversionRate": 0.142386,
+      "alienCardToPlayRate": 0.737179,
+      "blue1CreditGain": 3.066667,
+      "blue2EnergyGain": 2.8,
+      "utilizationCredits": 0.878868,
+      "utilizationEnergy": 0.695944,
+      "utilizationPublicity": null,
+      "utilizationAvailableData": null,
+      "utilizationHandSize": 0.919424,
+      "sameRoundReinvestmentWeighted": 135.233333,
+      "sameRoundReinvestmentRate": 0.798552
+    },
+    "referenceAfter": {
+      "playerCount": 15,
+      "averageFinalScore": 298.8,
+      "setupGainWeighted": 37.3,
+      "incomeGainWeighted": 112.233333,
+      "nonIncomeGainWeighted": 168.9,
+      "weightedActionCost": 319.333333,
+      "mainActionsPerWeightedCost": 0.116045,
+      "dataTurnoverCount": 5.466667,
+      "fullDataCycleCount": 4.733333,
+      "drawToPlayRate": 0.373671,
+      "incomeCardConversionRate": 0.142386,
+      "alienCardToPlayRate": 0.737179,
+      "blue1CreditGain": 3.066667,
+      "blue2EnergyGain": 2.8,
+      "utilizationCredits": 0.878868,
+      "utilizationEnergy": 0.695944,
+      "utilizationPublicity": null,
+      "utilizationAvailableData": null,
+      "utilizationHandSize": 0.919424,
+      "sameRoundReinvestmentWeighted": 135.233333,
+      "sameRoundReinvestmentRate": 0.798552
+    },
+    "oldAiEventAudit": {
+      "changes": 14,
+      "rateDiffs": []
+    },
+    "tests": "resource-flow, reference parser, resource comparison, card resource returns passed"
   }
 }

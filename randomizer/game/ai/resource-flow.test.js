@@ -1,6 +1,13 @@
 const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
+for (const text of ["获得卡牌：水熊虫研究", "获得卡牌：宇航员训练体验，公共区已补牌：水熊虫研究"]) {
+  assert.equal(flow.findAlienIdInLogText(text), null);
+  assert.equal(flow.classifySourceCategory({ text }), "card");
+}
+assert.equal(flow.findAlienIdInLogText("虫族奖励：获得虫3"), "虫");
+assert.equal(flow.findAlienIdInLogText("半人马奖励：获得卡牌，公共区已补牌：水熊虫研究"), "半人马");
+
 {
   const summarize = (score) => flow.summarizeResourceEvents([
     { gameId: "score-separation", playerId: "p", roundNumber: 1,
