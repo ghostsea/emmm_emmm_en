@@ -1,0 +1,53 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..0eb3c6df 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -10188,9 +10188,13 @@
+           : 0;
+       const banrenmaEnergyPlanValue = scoreAiBanrenmaEnergyIncomeValue(player, gain) * incomeUseScale;
+       const markedFinalValue = scoreAiMarkedIncomeFinalValue(player, gain);
++      const industry = getAiIndustryCard(player);
++      const immediateIncomeValue = industry?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
++        || industry?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
++          ? scoreAiResourceBundle(getAiImmediateIncomeRewardGain(player, gain)) : 0;
+       return Math.max(
+         0,
+-        netValue
++        netValue + immediateIncomeValue
+           + creditNeed
+           + energyNeed
+           + handNeed
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index 7180de46..c98b0cc8 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -17102,6 +17102,29 @@ async function runAsyncControllerTests() {
+   }
+ }
+ 
++{
++  const incomeOpportunity = (companyLabel) => {
++    const decisions = [];
++    const harness = createAiControllerHarness(null, {
++      currentPlayerColor: "blue", roundNumber: 2, canStartMainAction: true,
++      blueInitialSelection: { industry: { id: "industry:" + companyLabel, label: companyLabel } },
++      blueHand: [{ id: "income-scope", price: 0, incomeGain: { energy: 1 },
++        playEffects: [{ type: "gain_resources", options: { gain: { score: 30 } } }] }],
++      onChooseTurnAction: (candidates) => decisions.push(...candidates),
++    });
++    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
++    harness.controller.runAiAutomationStep();
++    const card = decisions.find((entry) => entry.id === "playCard")?.playableCards?.[0];
++    assert.ok(card);
++    return card.valueBreakdown.cornerOpportunity;
++  };
++  const control = incomeOpportunity("测试公司");
++  assert.equal(incomeOpportunity("作弊实验室"), control, "this experiment must preserve other company income values");
++  assert.equal(incomeOpportunity("寰宇超动力"), control, "Huanyu remains a control company");
++  assert.ok(incomeOpportunity("宇宙大战略集团") > control,
++    "Grand Strategy includes the immediate resource in the income option value");
++}
++
+ runAsyncControllerTests()
+   .then(() => console.log("app/ai-controller.test.js ok"))
+   .catch((error) => {

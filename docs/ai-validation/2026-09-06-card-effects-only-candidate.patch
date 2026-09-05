@@ -1,0 +1,206 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..320f2e72 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -3941,9 +3941,9 @@
+       return roundAiScore(Math.min(12, Math.max(0, best)));
+     }
+ 
+-    function scoreAiMidgameResourceContinuationValue(gain = {}, player = getCurrentPlayer(), options = {}) {
+-      if (!gain || typeof gain !== "object" || !player) return 0;
+-      const weight = getAiMidgameResourceContinuationWeight();
++    function scoreAiMidgameResourceContinuationValue(gain = {}, player = getCurrentPlayer(), options = {}) {
++      if (!gain || typeof gain !== "object" || !player) return 0;
++      const weight = getAiMidgameResourceContinuationWeight();
+       if (weight <= 0) return 0;
+ 
+       const simulatedPlayer = createAiPlayerAfterResourceGain(player, gain);
+@@ -10714,9 +10714,24 @@
+       return { met: false, multiplier: missingMultiplier(0.18) };
+     }
+ 
+-    function isAiIncomeRewardEffect(effect) {
+-      return effect?.type === planetRewards.EFFECT_TYPES?.INCOME || effect?.type === "income";
+-    }
++    function isAiIncomeRewardEffect(effect) {
++      return effect?.type === planetRewards.EFFECT_TYPES?.INCOME
++        || effect?.type === "income"
++        || effect?.type === cardEffects.EFFECT_TYPES.INCOME;
++    }
++
++    function scoreAiCardPlayEffects(card, effects, player = getCurrentPlayer()) {
++      // The played card has already left the hand when an income choice opens.
++      // Keep indexes stable so several income rewards cannot reuse one card.
++      const usedIncomeCardIndexes = new Set();
++      const playedIndex = (player?.hand || []).indexOf(card);
++      if (playedIndex >= 0) usedIncomeCardIndexes.add(playedIndex);
++      return (effects || []).reduce((total, effect) => total + (
++        isAiIncomeRewardEffect(effect)
++          ? scoreAiIncomeRewardOpportunityValue(player, effect.options || {}, usedIncomeCardIndexes)
++          : scoreAiEffectValue(effect, { player, card, immediate: true })
++      ), 0);
++    }
+ 
+     function scoreAiIncomeRewardOpportunityValue(player = getCurrentPlayer(), effectOptions = {}, usedCardIndexes = null) {
+       if (!player) return 0;
+@@ -10821,11 +10836,23 @@
+           return actualCount * AI_RESOURCE_VALUES.availableData
+             + scoreAiMidgameResourceContinuationValue(actualGain, player, { scale: 0.75 });
+         }
+-        case planetRewards.EFFECT_TYPES?.INCOME:
+-        case "income":
+-          return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
+-        case banrenma?.EFFECT_GAIN_INCOME:
+-          return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
++        case planetRewards.EFFECT_TYPES?.INCOME:
++        case "income":
++        case cardEffects.EFFECT_TYPES.INCOME:
++          return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
++        case banrenma?.EFFECT_GAIN_INCOME:
++          return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
++        case cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME: {
++          const gain = cards.getIncomeGainForCard?.(options.card);
++          if (!gain) return 0;
++          // This uses the already played card, with no second hand-card payment.
++          const remainingUses = ai?.valuation?.getRemainingIncomeMultiplier
++            ? ai.valuation.getRemainingIncomeMultiplier(getAiRoundNumber(), { finalRoundNumber: FINAL_ROUND_NUMBER })
++            : Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber());
++          return scoreAiResourceBundle(getAiImmediateIncomeRewardGain(player, gain))
++            + scoreAiResourceBundle(gain) * remainingUses
++            + scoreAiMarkedIncomeFinalValue(player, gain);
++        }
+         case planetRewards.EFFECT_TYPES?.ALIEN_TRACE:
+         case "alien_trace":
+           return scoreAiAlienTraceValue({
+@@ -10910,13 +10937,29 @@
+             * getAiConditionRewardMultiplier(effectOptions.condition, player, {
+               immediate: options.immediate === true,
+             }).multiplier;
+-        case cardEffects.EFFECT_TYPES.COUNT_ROCKETS_REWARD: {
++        case cardEffects.EFFECT_TYPES.COUNT_ROCKETS_REWARD: {
+           const count = countAiRocketsForReward(player, effectOptions);
+           const total = Math.max(0, Math.round(count * aiNumber(effectOptions.per || 1)));
+           if (total <= 0) return 0;
+           const resource = effectOptions.resource === "data" ? "availableData" : (effectOptions.resource || "energy");
+-          return scoreAiCountedResourceGain({ [resource]: total }, player);
+-        }
++          return scoreAiCountedResourceGain({ [resource]: total }, player);
++        }
++        case cardEffects.EFFECT_TYPES.COUNT_TECH_TYPES_REWARD: {
++          if (effectOptions.reward !== "draw") return 0;
++          const ownedTiles = player?.techState?.ownedTiles || {};
++          const count = Math.max(0, ...AI_TECH_TYPES.map((techType) => Object.keys(ownedTiles)
++            .filter((tileId) => ownedTiles[tileId] && tileId.startsWith(techType)).length));
++          return count * AI_RESOURCE_VALUES.handSize;
++        }
++        case cardEffects.EFFECT_TYPES.COUNT_OWNED_TECH_REWARD: {
++          const ownedTiles = player?.techState?.ownedTiles || {};
++          const count = Object.keys(ownedTiles).filter((tileId) => ownedTiles[tileId]
++            && (!effectOptions.techType || tileId.startsWith(effectOptions.techType))).length;
++          const total = Math.max(0, Math.round(count * aiNumber(effectOptions.per || 1)));
++          const resource = effectOptions.resource === "data" ? "availableData" : (effectOptions.resource || "score");
++          if (aiNumber(getAiActualResourceGain({ [resource]: total }, player)[resource]) <= 0) return 0;
++          return scoreAiCountedResourceGain({ [resource]: total }, player);
++        }
+         case "yichangdian_next_anomaly_reward":
+           return scoreAiYichangdianNextAnomalyRewardValue(player);
+         case "yichangdian_next_anomaly_scan":
+@@ -12707,9 +12750,7 @@
+       const reservesAfterPlay = details.reservesAfterPlay ?? (
+         [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay)
+       );
+-      const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
+-        total + scoreAiEffectValue(effect, { player, immediate: true })
+-      ), 0);
++      const effectValue = details.effectValue ?? scoreAiCardPlayEffects(card, playEffects, player);
+       const hasPersistentModeledValue = Boolean(
+         model?.tasks?.length
+         || model?.triggers?.length
+@@ -19012,9 +19053,7 @@
+         readyTaskCashout,
+         currentPlayer,
+       );
+-      const effectValue = valuationPlayEffects.reduce((total, effect) => (
+-        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
+-      ), 0);
++      const effectValue = scoreAiCardPlayEffects(card, valuationPlayEffects, currentPlayer);
+       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
+         player: currentPlayer,
+         model,
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index 7180de46..f975bbba 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -446,6 +446,10 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
+         CARD_CORNER_EVENT_REWARD: "card_corner_event_reward",
+         CONDITIONAL_REWARD: "card_conditional_reward",
+         COUNT_ROCKETS_REWARD: "card_count_rockets_reward",
++        INCOME: cardEffects.EFFECT_TYPES.INCOME,
++        COUNT_TECH_TYPES_REWARD: cardEffects.EFFECT_TYPES.COUNT_TECH_TYPES_REWARD,
++        COUNT_OWNED_TECH_REWARD: cardEffects.EFFECT_TYPES.COUNT_OWNED_TECH_REWARD,
++        TUCK_PLAYED_CARD_TO_INCOME: cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME,
+       },
+       buildPlayEffects: (card) => card?.playEffects || [],
+       getCardModel: (card) => card?.model || null,
+@@ -17102,6 +17106,61 @@ async function runAsyncControllerTests() {
+   }
+ }
+ 
++{
++  const valueFor = (effects, { ownedTiles = {}, otherCards = [], availableData = 0, roundNumber = 2 } = {}) => {
++    const decisions = [];
++    const card = { id: "dlc_34.png", price: 0, incomeGain: { credits: 9 },
++      playEffects: [{ type: "gain_resources", options: { gain: { score: 30 } } }, ...effects] };
++    const harness = createAiControllerHarness(null, {
++      currentPlayerColor: "blue", roundNumber, canStartMainAction: true,
++      blueHand: [card, ...otherCards], blueOwnedTechTiles: ownedTiles,
++      blueResources: { availableData },
++      onChooseTurnAction: (candidates) => decisions.push(...candidates),
++    });
++    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
++    const before = JSON.stringify(harness.blue);
++    harness.controller.runAiAutomationStep();
++    const candidate = decisions.find((entry) => entry.id === "playCard")?.playableCards
++      ?.find((entry) => entry.cardId === card.id);
++    assert.ok(candidate, "the actual card effect must reach the play candidate valuation");
++    assert.deepEqual(harness.blue.hand, [card, ...otherCards], "valuation must not consume the income card");
++    assert.equal(JSON.stringify(harness.blue), before, "valuation must preserve the real player");
++    return candidate.valueBreakdown.effectValue;
++  };
++  const privateEffects = cardEffects.buildPlayEffects({ cardId: "dlc_34.png" });
++  assert.deepEqual(privateEffects.map((effect) => effect.type), ["card_income", "card_count_tech_types_reward"]);
++  const anchor = valueFor([]);
++  assert.equal(valueFor(privateEffects), anchor, "the played investment cannot discard itself for income");
++  const tiles = { blue1: true, blue2: true, orange1: true, purple1: false };
++  const drawTwo = valueFor([{ type: "draw_cards", options: { count: 2 } }], { ownedTiles: tiles });
++  assert.equal(valueFor(privateEffects, { ownedTiles: tiles }), drawTwo,
++    "count the largest owned color, not all tiles, unlocked stacks or false entries");
++  const incomeCard = { id: "income-alternative", incomeGain: { energy: 1 } };
++  const withIncome = valueFor(privateEffects, { ownedTiles: tiles, otherCards: [incomeCard] });
++  assert.ok(withIncome > drawTwo, "another held card makes investment income usable");
++  const once = valueFor([privateEffects[0]], { otherCards: [incomeCard] });
++  assert.equal(valueFor([privateEffects[0], privateEffects[0]], { otherCards: [incomeCard] }), once,
++    "several income effects cannot reuse the one remaining card");
++  const blueData = cardEffects.buildPlayEffects({ cardId: "dlc_30.png" })
++    .filter((effect) => effect.type === "card_count_owned_tech_reward");
++  assert.equal(blueData.length, 1);
++  assert.equal(valueFor(blueData, { ownedTiles: tiles, availableData: 6 }),
++    valueFor([], { ownedTiles: tiles, availableData: 6 }),
++    "data at capacity has no reward value");
++  assert.equal(valueFor(blueData, { ownedTiles: tiles, availableData: 5 }),
++    valueFor([{ type: "gain_resources", options: { gain: { availableData: 1 } } }],
++      { ownedTiles: tiles, availableData: 5 }), "only the one available data space counts");
++  const tuck = cardEffects.buildPlayEffects({ cardId: "b_47.webp" })
++    .filter((effect) => effect.type === "card_tuck_played_card_to_income");
++  assert.equal(tuck.length, 1);
++  const tuckValue = valueFor(tuck);
++  assert.ok(tuckValue > anchor, "the already played card increases income without another card");
++  assert.equal(valueFor(tuck, { otherCards: [incomeCard] }), tuckValue,
++    "tucking the played card must not charge a second hand-card cost");
++  assert.ok(valueFor(tuck, { roundNumber: 4 }) > valueFor([], { roundNumber: 4 }),
++    "last-round self-tucking still has its immediate payout");
++}
++
+ runAsyncControllerTests()
+   .then(() => console.log("app/ai-controller.test.js ok"))
+   .catch((error) => {

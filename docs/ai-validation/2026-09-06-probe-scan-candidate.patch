@@ -1,0 +1,200 @@
+diff --git a/randomizer/app.js b/randomizer/app.js
+index d1871391..2437479c 100644
+--- a/randomizer/app.js
++++ b/randomizer/app.js
+@@ -1141,7 +1141,8 @@
+     confirmMovePayment,
+     confirmPassReserveSelection,
+     confirmPlayCardSelection,
+-    confirmProbeSectorScanSelection,
++    confirmProbeSectorScanSelection,
++    getProbeSectorScanRockets,
+     confirmPublicScanSelection,
+     confirmScanTarget,
+     confirmStrategyPassiveSlotChoice,
+@@ -15255,8 +15256,7 @@
+     return true;
+   }
+ 
+-  function getProbeSectorScanRockets(effect) {
+-    const currentPlayer = getCurrentPlayer();
++  function getProbeSectorScanRockets(effect, currentPlayer = getCurrentPlayer()) {
+     const owner = effect.options?.owner || "current";
+     const choices = (rocketState.rockets || [])
+       .filter((rocket) => owner === "any" || rocket.playerId === currentPlayer?.id)
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..1fbda21d 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -92,7 +92,8 @@
+       confirmMovePayment,
+       confirmPassReserveSelection,
+       confirmPlayCardSelection,
+-      confirmProbeSectorScanSelection,
++      confirmProbeSectorScanSelection,
++      getProbeSectorScanRockets,
+       confirmPublicScanSelection,
+       confirmScanTarget,
+       confirmStrategyPassiveSlotChoice,
+@@ -10864,8 +10865,14 @@
+           const rewardValue = scoreAiLandRewardValueForTarget(check.planet?.planetId, target, player);
+           return Math.max(11, rewardValue * 0.7 + directScore * 0.45 + scoreAiPaceValueForDirectScore(directScore, player));
+         }
+-        case cardEffects.EFFECT_TYPES.PUBLIC_SCAN:
+-          return 4.5;
++        case cardEffects.EFFECT_TYPES.PUBLIC_SCAN:
++          return 4.5;
++        case cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN: {
++          const pending = { effect, playerId: player?.id,
++            choices: getAiLegalProbeSectorScanChoices(effect, player) };
++          return chooseAiProbeSectorScanChoices(pending).reduce((total, choice) => total
++            + scoreAiProbeSectorScanChoice(choice, effect, player), 0);
++        }
+         case cardEffects.EFFECT_TYPES.HAND_SCAN:
+           return effectOptions.optional ? 2 : 3;
+         case cardEffects.EFFECT_TYPES.COUNT_HAND_INCOME_RESOURCE: {
+@@ -18837,8 +18844,7 @@
+         cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT,
+         cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE,
+         cardEffects.EFFECT_TYPES.RETURN_UNFINISHED_TASK_TO_HAND,
+-        cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
+-        cardEffects.EFFECT_TYPES.PROBE_LOCATION_REWARD,
++        cardEffects.EFFECT_TYPES.PROBE_LOCATION_REWARD,
+         cardEffects.EFFECT_TYPES.EARTH_SECTOR_CONTENT_MOVE,
+       ]);
+       for (let index = 0; index < playEffects.length; index += 1) {
+@@ -18849,6 +18855,10 @@
+         if (unsupportedTypes.has(effect?.type)) {
+           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };
+         }
++        if (effect?.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN
++          && !getAiLegalProbeSectorScanChoices(effect, effectPlayer).length) {
++          return { ok: false, message: "当前没有可完成扫描的探测器目标" };
++        }
+         if (
+           effect?.type === cardEffects.EFFECT_TYPES.PAY_CREDITS_FOR_REWARD
+         ) {
+@@ -20605,18 +20615,37 @@
+         .sort((left, right) => right.score - left.score || left.index - right.index)[0]?.card || null;
+     }
+ 
+-    function chooseAiProbeSectorScanChoices(pending) {
++    function getAiProbeScanSectorXs(choice, effect) {
++      const x = choice?.sector?.x;
++      if (x == null) return [];
++      return (effect?.options?.includeAdjacent ? [x - 1, x, x + 1] : [x])
++        .map((sectorX) => solar.mod8(sectorX));
++    }
++
++    function getAiLegalProbeSectorScanChoices(effect, player = getCurrentPlayer()) {
++      return (getProbeSectorScanRockets?.(effect, player) || []).filter((choice) => {
++        const xs = getAiProbeScanSectorXs(choice, effect);
++        return xs.length > 0 && xs.every((x) => (buildSectorScanChoicesForX(x) || [])
++          .some((target) => target.nebulaId && !target.disabled));
++      });
++    }
++
++    function scoreAiProbeSectorScanChoice(choice, effect, player = getCurrentPlayer()) {
++      const repeat = Math.max(1, Math.round(aiNumber(effect?.options?.repeat || 1)));
++      return getAiProbeScanSectorXs(choice, effect).reduce((total, x) => {
++        const score = getBestAiNebulaChoiceScore(buildSectorScanChoicesForX(x), {
++          player, pendingType: "probe_sector_scan", gainData: effect?.options?.gainData,
++        });
++        return total + (Number.isFinite(score) ? Math.max(0, score) * repeat : 0);
++      }, 0);
++    }
++
++    function chooseAiProbeSectorScanChoices(pending) {
+       const maxTargets = Math.max(1, Math.round(aiNumber(pending?.effect?.options?.maxTargets || 1)));
+       return (pending?.choices || [])
+         .map((choice, index) => {
+-          const sectorX = choice?.sector?.x;
+-          const scanScore = sectorX == null
+-            ? 0
+-            : getBestAiNebulaChoiceScore(buildSectorScanChoicesForX(sectorX), {
+-              player: getAiPendingDecisionPlayer(pending),
+-              pendingType: "probe_sector_scan",
+-              gainData: pending?.effect?.options?.gainData,
+-            });
++          const scanScore = scoreAiProbeSectorScanChoice(choice, pending?.effect,
++            getAiPendingDecisionPlayer(pending));
+           return {
+             choice,
+             index,
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index 7180de46..38f9dd82 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -446,6 +446,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
+         CARD_CORNER_EVENT_REWARD: "card_corner_event_reward",
+         CONDITIONAL_REWARD: "card_conditional_reward",
+         COUNT_ROCKETS_REWARD: "card_count_rockets_reward",
++        PROBE_SECTOR_SCAN: cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
+       },
+       buildPlayEffects: (card) => card?.playEffects || [],
+       getCardModel: (card) => card?.model || null,
+@@ -559,6 +560,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
+       return allPlayers.find((player) => player.id === playerId || player.color === playerColor) || null;
+     },
+     getCardPlayCost: (card) => (card?.price ? { credits: card.price } : {}),
++    getProbeSectorScanRockets: options.getProbeSectorScanRockets || (() => []),
+     getCardPrice: (card) => card?.price || 0,
+     getCardTypeCode: (card) => (typeof options.getCardTypeCode === "function"
+       ? options.getCardTypeCode(card)
+@@ -17102,6 +17104,56 @@ async function runAsyncControllerTests() {
+   }
+ }
+ 
++{
++  const scanData = {
++    getNextReplaceableNebulaToken: () => ({ slotIndex: 1 }),
++    getNebulaCapacity: () => 3,
++    getNebulaSlotScoreReward: (id) => Number(id.split("-")[1]) === 4 ? 20 : 1,
++    getNebulaColor: () => "blue", listNebulaTokens: () => [{}, {}],
++    listSectorExtraMarks: () => [], getSectorTokenStats: () => ({}),
++  };
++  const choice = { rocket: { id: 1 }, sector: { x: 0, y: 2 } };
++  const preview = (cardId, choices, invalidSector = null) => {
++    const decisions = [], inspected = [];
++    const harness = createAiControllerHarness(null, {
++      currentPlayerColor: "blue", roundNumber: 2, canStartMainAction: true,
++      blueHand: [{ id: cardId, price: 0, playEffects: cardEffects.buildPlayEffects({ cardId })
++        .filter((effect) => effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN) }],
++      getProbeSectorScanRockets: (effect, player) => {
++        assert.equal(player.id, "player-blue");
++        return choices;
++      },
++      buildSectorScanChoicesForX: (x) => {
++        inspected.push(x);return [{ nebulaId: "nebula-" + x, disabled: x === invalidSector }];
++      },
++      data: scanData, onChooseTurnAction: (candidates) => decisions.push(...candidates),
++    });
++    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
++    harness.controller.runAiAutomationStep();
++    return { candidate: decisions.find((entry) => entry.id === "playCard"), inspected };
++  };
++  assert.equal(preview("b_58.webp", []).candidate.available, false, "no probe means no legal card play");
++  assert.equal(preview("b_58.webp", [choice], 7).candidate.available, false,
++    "every compulsory adjacent sector must be resolvable before playing");
++  const single = preview("b_53.webp", [choice]);
++  const adjacent = preview("b_58.webp", [choice]);
++  assert.equal(single.candidate.available, true);
++  assert.equal(adjacent.candidate.available, true);
++  assert.ok(adjacent.inspected.includes(7) && adjacent.inspected.includes(1), "adjacent scans wrap around 0");
++  assert.ok(adjacent.candidate.playableCards[0].valueBreakdown.effectValue
++    > single.candidate.playableCards[0].valueBreakdown.effectValue,
++    "the complete three-sector scan belongs in the play value");
++  const pending = createAiControllerHarness(null, {
++    probeSectorPending: { playerColor: "blue", effect: { options: { maxTargets: 1, includeAdjacent: true } },
++      choices: [{ rocket: { id: 1 }, sector: { x: 0 } }, { rocket: { id: 2 }, sector: { x: 3 } }] },
++    buildSectorScanChoicesForX: (x) => [{ nebulaId: "nebula-" + x }], data: scanData,
++  });
++  pending.controller.configureAiAutoBattle({ playerIds: [pending.blue.id], suppressAutoSchedule: true });
++  pending.controller.runAiAutomationStep();
++  assert.equal(pending.getHandledEvents().find((event) => event.type === "probe-sector-choice").rocketId, 2,
++    "the pending choice must include the valuable neighboring sector, matching the play preview");
++}
++
+ runAsyncControllerTests()
+   .then(() => console.log("app/ai-controller.test.js ok"))
+   .catch((error) => {

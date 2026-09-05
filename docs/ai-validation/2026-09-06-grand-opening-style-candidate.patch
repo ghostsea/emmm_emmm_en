@@ -1,0 +1,49 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..5a780ded 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -1762,7 +1762,6 @@
+     function inferAiStyleFromOpening(openingPlan = null, industryCard = null, player = null) {
+       const industryLabel = String(industryCard?.label || "");
+       if (industryLabel === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return "route";
+-      if (industryLabel === AI_GRAND_STRATEGY_INDUSTRY_LABEL) return "task";
+ 
+       const summary = openingPlan?.summary || {};
+       const goals = openingPlan?.goals || {};
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index 7180de46..514cf419 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -402,6 +402,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
+             .sort((left, right) => Number(right.score || 0) - Number(left.score || 0))[0]
+           || null
+         ),
++        chooseInitialSelection: options.chooseInitialSelection,
+         chooseTurnAction: (candidates) => {
+           const selected = options.chooseTurnAction
+             ? options.chooseTurnAction(candidates)
+@@ -17102,6 +17103,24 @@ async function runAsyncControllerTests() {
+   }
+ }
+ 
++{
++  const runOpening = (summary, currentPlayerColor = "blue") => {
++    const offer = { industryOptions: [{ id: "company", label: "company" }], initialOptions: [] };
++    const harness = createAiControllerHarness(null, {
++      currentPlayerColor, initialSelectionActive: true, recordInitialSelection: true,
++      initialSelectionOffers: { "player-blue": offer, "player-white": offer },
++      chooseInitialSelection: () => ({ openingPlan: { summary, goals: {} } }),
++    });
++    harness.controller.configureAiAutoBattle({ playerIds: [harness.white.id, harness.blue.id], suppressAutoSchedule: true });
++    harness.controller.runAiAutomationStep();
++    return currentPlayerColor === "blue" ? harness.blue.aiStyle : harness.white.aiStyle;
++  };
++  assert.equal(runOpening({ scan: 3, hand: 1 }), "scanner", "Grand Strategy may follow a scanning opening");
++  assert.equal(runOpening({ hand: 8, incomeIncreases: 3 }), "task", "a card-heavy opening still supports task style");
++  assert.equal(runOpening({ orbits: 3 }), "route", "orbit-heavy openings retain their route option");
++  assert.equal(runOpening({ scan: 3 }, "white"), "route", "this candidate preserves Huanyu's existing style");
++}
++
+ runAsyncControllerTests()
+   .then(() => console.log("app/ai-controller.test.js ok"))
+   .catch((error) => {
