@@ -25,6 +25,13 @@
       "goalsHash": "87af09ac79dc02d2772c89ab3f949734b5b8b6e4ff5bd481af42e5fd9b1101e7",
       "controllerHash": "c304e63d2d8752825812a1fac2267e7e23860feb43b59c6caf7612eeaf9b2ddd",
       "runtimeHash": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f"
+    },
+    "cheat": {
+      "commit": "daeb7d5c0afb876b18f1a4335387d4fbf955e1c3",
+      "fingerprint": "83c86a2c0cb41c3a261937f588aff0dd024a55a0ac7b937de66048ee6c626d5d",
+      "frozenAt": "2026-09-05T23:22:24.677Z",
+      "sourceCommit": "b6bac512a226825ccd25b011fa177817853f21e3",
+      "scope": "Apply strict resource-corner opening goal support only to Cheat Lab. Huanyu and Grand Strategy keep baseline support."
     }
   },
   "audit": {
@@ -333,5 +340,7 @@
       "baseline": "verify-base-8.json",
       "candidate": "verify-candidate-8.json"
     }
-  ]
+  ],
+  "followupReason": "All-company initial 4 pairs +2.5, but Grand -27.5; low-company variant -8.875 with Grand -24.25. Test Cheat independently; no acceptance claim.",
+  "handCapAudit": "74 of 75 unannotated early resource-corner events happened above 4-card PASS hand cap; missing continuation is not proof of waste. Baseline seed1 Grand later used data for blue3 and analysis refill."
 }

@@ -1,0 +1,407 @@
+{
+  "phase": "seen-development",
+  "indices": [
+    2,
+    3,
+    6,
+    7
+  ],
+  "report": {
+    "baseline": {
+      "games": 4,
+      "seats": 16,
+      "mean": 212.75,
+      "min": 128,
+      "p10": 170,
+      "p25": 179.75,
+      "median": 196.5,
+      "p75": 240.25,
+      "max": 322,
+      "topQuartileMean": 284.25,
+      "winnerMean": 272.25,
+      "minimumPerGameMean": 162.75,
+      "seats270Plus": 3,
+      "seats300Plus": 2,
+      "companies": {
+        "寰宇超动力": {
+          "seats": 4,
+          "mean": 187.25,
+          "min": 166
+        },
+        "宇宙大战略集团": {
+          "seats": 4,
+          "mean": 186.25,
+          "min": 128
+        },
+        "作弊实验室": {
+          "seats": 8,
+          "mean": 238.75,
+          "min": 174
+        }
+      }
+    },
+    "candidate": {
+      "games": 4,
+      "seats": 16,
+      "mean": 205.75,
+      "min": 128,
+      "p10": 153,
+      "p25": 178.5,
+      "median": 199.5,
+      "p75": 236,
+      "max": 301,
+      "topQuartileMean": 264,
+      "winnerMean": 251.5,
+      "minimumPerGameMean": 153.5,
+      "seats270Plus": 1,
+      "seats300Plus": 1,
+      "companies": {
+        "寰宇超动力": {
+          "seats": 4,
+          "mean": 192,
+          "min": 166
+        },
+        "宇宙大战略集团": {
+          "seats": 4,
+          "mean": 168.25,
+          "min": 128
+        },
+        "作弊实验室": {
+          "seats": 8,
+          "mean": 231.375,
+          "min": 174
+        }
+      }
+    },
+    "companies": {
+      "寰宇超动力": {
+        "seats": 4,
+        "baseline": 187.25,
+        "candidate": 192,
+        "meanDelta": 4.75,
+        "minimumDelta": 0
+      },
+      "宇宙大战略集团": {
+        "seats": 4,
+        "baseline": 186.25,
+        "candidate": 168.25,
+        "meanDelta": -18,
+        "minimumDelta": 0
+      },
+      "作弊实验室": {
+        "seats": 8,
+        "baseline": 238.75,
+        "candidate": 231.375,
+        "meanDelta": -7.375,
+        "minimumDelta": 0
+      }
+    },
+    "delta": {
+      "mean": -7,
+      "min": 0,
+      "p10": -17,
+      "p25": -1.25,
+      "median": 3,
+      "p75": -4.25,
+      "max": -21,
+      "topQuartileMean": -20.25,
+      "winnerMean": -20.75,
+      "minimumPerGameMean": -9.25,
+      "seats270Plus": -2,
+      "seats300Plus": -1
+    },
+    "pairedGameMeanDeltaStandardError": 3.395769426801531,
+    "gamesImproved": 0,
+    "gamesRegressed": 3,
+    "pairs": [
+      {
+        "seed": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "meanDelta": -8.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 217,
+            "candidate": 194,
+            "delta": -23
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 128,
+            "candidate": 128,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 302,
+            "candidate": 301,
+            "delta": -1
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 272,
+            "candidate": 262,
+            "delta": -10
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "meanDelta": -15.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 241,
+            "candidate": 233,
+            "delta": -8
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 240,
+            "candidate": 205,
+            "delta": -35
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 200,
+            "candidate": 181,
+            "delta": -19
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 181,
+            "candidate": 180,
+            "delta": -1
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "meanDelta": -3.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 322,
+            "candidate": 248,
+            "delta": -74
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 176,
+            "candidate": 245,
+            "delta": 69
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 185,
+            "candidate": 228,
+            "delta": 43
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 193,
+            "candidate": 140,
+            "delta": -53
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 174,
+            "candidate": 174,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 183,
+            "candidate": 183,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 224,
+            "candidate": 224,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 166,
+            "candidate": 166,
+            "delta": 0
+          }
+        ]
+      }
+    ]
+  },
+  "resources": {
+    "baseline": {
+      "寰宇超动力": {
+        "playerCount": 4,
+        "averageFinalScore": 187.25,
+        "setupGainWeighted": 32.625,
+        "incomeGainWeighted": 115.5,
+        "nonIncomeGainWeighted": 135.375,
+        "weightedActionCost": 274.625,
+        "mainActionsPerWeightedCost": 0.095708,
+        "dataTurnoverCount": 1.75,
+        "fullDataCycleCount": 0.75,
+        "drawToPlayRate": 0.366633,
+        "incomeCardConversionRate": 0.077152,
+        "alienCardToPlayRate": 0.25,
+        "blue1CreditGain": 0.5,
+        "blue2EnergyGain": 0.5,
+        "utilizationCredits": 1,
+        "utilizationEnergy": 0.972464,
+        "utilizationPublicity": 0.975214,
+        "utilizationAvailableData": 0.986111,
+        "utilizationHandSize": 0.938041,
+        "sameRoundReinvestmentWeighted": 119.5,
+        "sameRoundReinvestmentRate": 0.884976,
+        "confirmedMainActions": 26.25
+      },
+      "宇宙大战略集团": {
+        "playerCount": 4,
+        "averageFinalScore": 186.25,
+        "setupGainWeighted": 50.125,
+        "incomeGainWeighted": 120.375,
+        "nonIncomeGainWeighted": 189,
+        "weightedActionCost": 350.25,
+        "mainActionsPerWeightedCost": 0.08628,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4.25,
+        "drawToPlayRate": 0.384151,
+        "incomeCardConversionRate": 0.0125,
+        "alienCardToPlayRate": 0.25,
+        "blue1CreditGain": 1,
+        "blue2EnergyGain": 2,
+        "utilizationCredits": 0.992857,
+        "utilizationEnergy": 1,
+        "utilizationPublicity": 0.906424,
+        "utilizationAvailableData": 1,
+        "utilizationHandSize": 0.96039,
+        "sameRoundReinvestmentWeighted": 159.625,
+        "sameRoundReinvestmentRate": 0.837901,
+        "confirmedMainActions": 30
+      },
+      "作弊实验室": {
+        "playerCount": 8,
+        "averageFinalScore": 238.75,
+        "setupGainWeighted": 48.5,
+        "incomeGainWeighted": 137.4375,
+        "nonIncomeGainWeighted": 192.6875,
+        "weightedActionCost": 370,
+        "mainActionsPerWeightedCost": 0.090473,
+        "dataTurnoverCount": 5.125,
+        "fullDataCycleCount": 4.625,
+        "drawToPlayRate": 0.312615,
+        "incomeCardConversionRate": 0.006579,
+        "alienCardToPlayRate": 0.214286,
+        "blue1CreditGain": 1.25,
+        "blue2EnergyGain": 2.125,
+        "utilizationCredits": 0.977077,
+        "utilizationEnergy": 1,
+        "utilizationPublicity": 0.900582,
+        "utilizationAvailableData": 1,
+        "utilizationHandSize": 0.983669,
+        "sameRoundReinvestmentWeighted": 167.875,
+        "sameRoundReinvestmentRate": 0.871377,
+        "confirmedMainActions": 33.25
+      }
+    },
+    "candidate": {
+      "寰宇超动力": {
+        "playerCount": 4,
+        "averageFinalScore": 192,
+        "setupGainWeighted": 32.625,
+        "incomeGainWeighted": 115.5,
+        "nonIncomeGainWeighted": 146.75,
+        "weightedActionCost": 288.25,
+        "mainActionsPerWeightedCost": 0.092368,
+        "dataTurnoverCount": 2.5,
+        "fullDataCycleCount": 1.5,
+        "drawToPlayRate": 0.319353,
+        "incomeCardConversionRate": 0.056319,
+        "alienCardToPlayRate": 0.125,
+        "blue1CreditGain": 0.25,
+        "blue2EnergyGain": 1,
+        "utilizationCredits": 0.957501,
+        "utilizationEnergy": 1,
+        "utilizationPublicity": 0.957004,
+        "utilizationAvailableData": 0.986111,
+        "utilizationHandSize": 0.983929,
+        "sameRoundReinvestmentWeighted": 127.5,
+        "sameRoundReinvestmentRate": 0.876114,
+        "confirmedMainActions": 26.5
+      },
+      "宇宙大战略集团": {
+        "playerCount": 4,
+        "averageFinalScore": 168.25,
+        "setupGainWeighted": 50.125,
+        "incomeGainWeighted": 120.375,
+        "nonIncomeGainWeighted": 172.5,
+        "weightedActionCost": 332,
+        "mainActionsPerWeightedCost": 0.089826,
+        "dataTurnoverCount": 4.25,
+        "fullDataCycleCount": 3.75,
+        "drawToPlayRate": 0.395725,
+        "incomeCardConversionRate": 0.014706,
+        "alienCardToPlayRate": 0.222222,
+        "blue1CreditGain": 0,
+        "blue2EnergyGain": 1.75,
+        "utilizationCredits": 0.981771,
+        "utilizationEnergy": 0.975694,
+        "utilizationPublicity": 0.941384,
+        "utilizationAvailableData": 1,
+        "utilizationHandSize": 0.944587,
+        "sameRoundReinvestmentWeighted": 145.875,
+        "sameRoundReinvestmentRate": 0.842192,
+        "confirmedMainActions": 29.5
+      },
+      "作弊实验室": {
+        "playerCount": 8,
+        "averageFinalScore": 231.375,
+        "setupGainWeighted": 48.5,
+        "incomeGainWeighted": 137.4375,
+        "nonIncomeGainWeighted": 197.6875,
+        "weightedActionCost": 372.25,
+        "mainActionsPerWeightedCost": 0.091985,
+        "dataTurnoverCount": 4.75,
+        "fullDataCycleCount": 4.125,
+        "drawToPlayRate": 0.328567,
+        "incomeCardConversionRate": 0.008929,
+        "alienCardToPlayRate": 0.333333,
+        "blue1CreditGain": 1.75,
+        "blue2EnergyGain": 2.125,
+        "utilizationCredits": 0.961767,
+        "utilizationEnergy": 0.995833,
+        "utilizationPublicity": 0.907804,
+        "utilizationAvailableData": 1,
+        "utilizationHandSize": 0.965818,
+        "sameRoundReinvestmentWeighted": 172.625,
+        "sameRoundReinvestmentRate": 0.872935,
+        "confirmedMainActions": 34.125
+      }
+    }
+  },
+  "ledgerIssues": [],
+  "decision": "rejected-development-mean-and-high-score-regression"
+}
