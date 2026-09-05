@@ -1,0 +1,290 @@
+diff --git a/randomizer/app.js b/randomizer/app.js
+index d1871391..e909f53d 100644
+--- a/randomizer/app.js
++++ b/randomizer/app.js
+@@ -1141,7 +1141,8 @@
+     confirmMovePayment,
+     confirmPassReserveSelection,
+     confirmPlayCardSelection,
+-    confirmProbeSectorScanSelection,
++    confirmProbeSectorScanSelection,
++    getAlienTraceRewardTargets,
+     confirmPublicScanSelection,
+     confirmScanTarget,
+     confirmStrategyPassiveSlotChoice,
+@@ -20148,6 +20149,19 @@
+     });
+   }
+ 
++  function getAlienTraceRewardTargets(effect, player = getCurrentPlayer()) {
++    const types = effect?.options?.traceType ? [effect.options.traceType]
++      : (effect?.options?.allowedTraceTypes?.length ? effect.options.allowedTraceTypes : aliens.TRACE_TYPES);
++    const eligible = getEligibleAlienSlotIdsForTraceEffect(effect, player, types);
++    const slotIds = eligible == null ? aliens.ALIEN_SLOT_IDS : eligible;
++    return slotIds.flatMap((alienSlotId) => types.map((traceType) => ({
++      alienSlotId, traceType,
++      canPlaceOnPanel: hasAlienTracePanelPlacementTarget([alienSlotId], [traceType], player),
++      canUnlockCard: Boolean(fangzhou?.isFangzhouRevealedSlot?.(alienGameState, alienSlotId)
++        && getFangzhouUnlockableTraceTypes(alienSlotId, [traceType], player).length),
++    })).filter((target) => target.canPlaceOnPanel || target.canUnlockCard));
++  }
++
+   function openAlienTraceRewardEffect(effect) {
+     const traceType = effect.options?.traceType || null;
+     const allowedTraceTypes = traceType
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..2fcfff04 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -92,7 +92,8 @@
+       confirmMovePayment,
+       confirmPassReserveSelection,
+       confirmPlayCardSelection,
+-      confirmProbeSectorScanSelection,
++      confirmProbeSectorScanSelection,
++      getAlienTraceRewardTargets,
+       confirmPublicScanSelection,
+       confirmScanTarget,
+       confirmStrategyPassiveSlotChoice,
+@@ -10827,7 +10828,10 @@
+         case banrenma?.EFFECT_GAIN_INCOME:
+           return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
+         case planetRewards.EFFECT_TYPES?.ALIEN_TRACE:
+-        case "alien_trace":
++        case "alien_trace":
++          if (options.card && typeof getAlienTraceRewardTargets === "function") {
++            return scoreAiCardAlienTraceEffect(effect, player);
++          }
+           return scoreAiAlienTraceValue({
+             player,
+             traceType: effectOptions.traceType || effectOptions.traceTypes?.[0],
+@@ -12708,7 +12712,7 @@
+         [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay)
+       );
+       const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
+-        total + scoreAiEffectValue(effect, { player, immediate: true })
++        total + scoreAiEffectValue(effect, { player, card, immediate: true })
+       ), 0);
+       const hasPersistentModeledValue = Boolean(
+         model?.tasks?.length
+@@ -18828,7 +18832,6 @@
+       const context = createActionContext();
+       const effectPlayer = player || getCurrentPlayer();
+       const unsupportedTypes = new Set([
+-        "alien_trace",
+         cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER,
+         cardEffects.EFFECT_TYPES.PICK_CARD_CORNER_REWARD,
+         cardEffects.EFFECT_TYPES.CHOOSE_HAND_CORNER_REWARD,
+@@ -18849,6 +18852,10 @@
+         if (unsupportedTypes.has(effect?.type)) {
+           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };
+         }
++        if (effect?.type === "alien_trace" && (effect.options?.targetRule !== "playerHasSameTrace"
++          || !getAlienTraceRewardTargets?.(effect, effectPlayer)?.length)) {
++          return { ok: false, message: "当前没有受支持且满足同色痕迹条件的卡牌目标" };
++        }
+         if (
+           effect?.type === cardEffects.EFFECT_TYPES.PAY_CREDITS_FOR_REWARD
+         ) {
+@@ -19013,7 +19020,7 @@
+         currentPlayer,
+       );
+       const effectValue = valuationPlayEffects.reduce((total, effect) => (
+-        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
++        total + scoreAiEffectValue(effect, { player: currentPlayer, card, immediate: true })
+       ), 0);
+       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
+         player: currentPlayer,
+@@ -21778,28 +21785,30 @@
+       });
+     }
+ 
+-    function getAiBestSimpleGridTraceDirectScore(alienModule, mode, alienSlotId, traceType, options = {}) {
++    function getAiBestSimpleGridTraceDirectScore(alienModule, mode, alienSlotId, traceType, options = {}) {
+       if (!alienModule || !traceType) return 0;
+       const grid = alienModule.getTraceGrid?.(alienGameState, alienSlotId);
+       return getAiAlienModuleTracePositions(alienModule, traceType).reduce((best, rawPosition) => {
+         const position = Number(rawPosition);
+         if (options.stackPosition !== position && grid?.[traceType]?.[position]) return best;
+         const reward = getAiAlienTraceTargetReward(mode, traceType, position);
+-        return Math.max(best, Math.max(0, aiNumber(reward?.gain?.score)));
++        const value = options.rewardValue ? options.rewardValue(mode, traceType, position, reward) : reward?.gain?.score;
++        return Math.max(best, Math.max(0, aiNumber(value)));
+       }, 0);
+     }
+ 
+-    function getAiBestCheckedGridTraceDirectScore(alienModule, mode, alienSlotId, traceType, canPlace) {
++    function getAiBestCheckedGridTraceDirectScore(alienModule, mode, alienSlotId, traceType, canPlace, rewardValue = null) {
+       if (!alienModule || !traceType || typeof canPlace !== "function") return 0;
+       return getAiAlienModuleTracePositions(alienModule, traceType).reduce((best, rawPosition) => {
+         const position = Number(rawPosition);
+         if (!canPlace(traceType, position)) return best;
+         const reward = getAiAlienTraceTargetReward(mode, traceType, position);
+-        return Math.max(best, Math.max(0, aiNumber(reward?.gain?.score)));
++        const value = rewardValue ? rewardValue(mode, traceType, position, reward) : reward?.gain?.score;
++        return Math.max(best, Math.max(0, aiNumber(value)));
+       }, 0);
+     }
+ 
+-    function getAiBestBanrenmaTraceDirectScore(alienSlotId, traceType, player) {
++    function getAiBestBanrenmaTraceDirectScore(alienSlotId, traceType, player, rewardValue = null) {
+       if (!banrenma?.isBanrenmaRevealedSlot?.(alienGameState, alienSlotId)) return 0;
+       const grid = banrenma.getTraceGrid?.(alienGameState, alienSlotId);
+       const availableData = getAiAvailableDataTokenCount(player);
+@@ -21807,49 +21816,70 @@
+         const reward = banrenma.getTraceReward?.(item, Number(position));
+         const requiredData = Math.max(0, Math.round(aiNumber(reward?.payData)));
+         if (requiredData > availableData) return false;
+-        return Number(position) === 1 || !grid?.[item]?.[position];
+-      });
++        return Number(position) === 1 || !grid?.[item]?.[position];
++      }, rewardValue);
+     }
+ 
+-    function getAiBestRevealedAlienTraceDirectScoreForSlot(player, alienSlotId, traceType) {
++    function getAiBestRevealedAlienTraceDirectScoreForSlot(player, alienSlotId, traceType, rewardValue = null) {
+       if (jiuzhe?.isJiuzheRevealedSlot?.(alienGameState, alienSlotId)) {
+-        return getAiBestSimpleGridTraceDirectScore(jiuzhe, "jiuzhe-grid", alienSlotId, traceType);
++        return getAiBestSimpleGridTraceDirectScore(jiuzhe, "jiuzhe-grid", alienSlotId, traceType, { rewardValue });
+       }
+       if (yichangdian?.isYichangdianRevealedSlot?.(alienGameState, alienSlotId)) {
+-        return getAiBestSimpleGridTraceDirectScore(yichangdian, "yichangdian-grid", alienSlotId, traceType, { stackPosition: 1 });
++        return getAiBestSimpleGridTraceDirectScore(yichangdian, "yichangdian-grid", alienSlotId, traceType, { stackPosition: 1, rewardValue });
+       }
+       if (fangzhou?.isFangzhouRevealedSlot?.(alienGameState, alienSlotId)) {
+         return getAiBestCheckedGridTraceDirectScore(fangzhou, "fangzhou-grid", alienSlotId, traceType, (item, position) => (
+-          fangzhou.canPlaceFangzhouTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
+-        ));
++          fangzhou.canPlaceFangzhouTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
++        ), rewardValue);
+       }
+       if (banrenma?.isBanrenmaRevealedSlot?.(alienGameState, alienSlotId)) {
+-        return getAiBestBanrenmaTraceDirectScore(alienSlotId, traceType, player);
++        return getAiBestBanrenmaTraceDirectScore(alienSlotId, traceType, player, rewardValue);
+       }
+       if (chong?.isChongRevealedSlot?.(alienGameState, alienSlotId)) {
+         return getAiBestCheckedGridTraceDirectScore(chong, "chong-grid", alienSlotId, traceType, (item, position) => (
+-          chong.canPlaceChongTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
+-        ));
++          chong.canPlaceChongTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
++        ), rewardValue);
+       }
+       if (amiba?.isAmibaRevealedSlot?.(alienGameState, alienSlotId)) {
+         return getAiBestCheckedGridTraceDirectScore(amiba, "amiba-grid", alienSlotId, traceType, (item, position) => (
+-          amiba.canPlaceAmibaTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
+-        ));
++          amiba.canPlaceAmibaTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
++        ), rewardValue);
+       }
+       if (aomomo?.isAomomoRevealedSlot?.(alienGameState, alienSlotId)) {
+         return getAiBestCheckedGridTraceDirectScore(aomomo, "aomomo-grid", alienSlotId, traceType, (item, position) => (
+-          aomomo.canPlaceAomomoTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
+-        ));
++          aomomo.canPlaceAomomoTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
++        ), rewardValue);
+       }
+       if (runezu?.isRunezuRevealedSlot?.(alienGameState, alienSlotId)) {
+         return getAiBestCheckedGridTraceDirectScore(runezu, "runezu-grid", alienSlotId, traceType, (item, position) => (
+-          runezu.canPlaceRunezuTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
+-        ));
++          runezu.canPlaceRunezuTrace?.(alienGameState, alienSlotId, item, position, player)?.ok
++        ), rewardValue);
+       }
+       return 0;
+     }
+ 
+-    function hasAiFeasibleRevealedAlienTraceTarget(alienSlotId, allowedTraceTypes, player) {
++    function scoreAiCardAlienTraceEffect(effect, player = getCurrentPlayer()) {
++      return (getAlienTraceRewardTargets?.(effect, player) || []).reduce((best, target) => {
++        const { alienSlotId, traceType } = target;
++        const slot = getAiAlienSlot(alienSlotId);
++        const firstPlaced = slot?.traces?.[traceType]?.firstPlaced;
++        let value = firstPlaced ? 3 : scoreAiAlienTraceValue({ player, alienSlotId, traceType });
++        if (slot?.revealed) {
++          const gridValue = getAiBestRevealedAlienTraceDirectScoreForSlot(player, alienSlotId, traceType,
++            (mode, color, position, reward) => scoreAiAlienTraceValue({
++              player, alienSlotId, traceType: color, mode, position,
++              reward: getAiAlienTraceRewardForValuation(mode, reward, player),
++            }));
++          value = Math.max(firstPlaced ? 3 : 0, gridValue);
++        }
++        if (target.canUnlockCard) {
++          value = Math.max(value, 3 + getAiAlienCardExpectedValue(player, { alienSlotId }));
++        }
++        return Math.max(best, value + aiNumber(scoreAiB1TraceMarginalValue(player, traceType)?.score));
++      }, 0);
++    }
++
++    function hasAiFeasibleRevealedAlienTraceTarget(alienSlotId, allowedTraceTypes, player) {
+       if (jiuzhe?.isJiuzheRevealedSlot?.(alienGameState, alienSlotId)) {
+         return hasAiFeasibleSimpleGridTraceTarget(jiuzhe, alienSlotId, allowedTraceTypes);
+       }
+@@ -21951,8 +21981,11 @@
+       return Boolean(traceSlot) && !traceSlot.firstPlaced;
+     }
+ 
+-    function canAiResolveAlienTraceEffect(effect, player = getCurrentPlayer()) {
+-      if (effect?.type !== "alien_trace") return true;
++    function canAiResolveAlienTraceEffect(effect, player = getCurrentPlayer()) {
++      if (effect?.type !== "alien_trace") return true;
++      if (typeof getAlienTraceRewardTargets === "function") {
++        return getAlienTraceRewardTargets(effect, player).length > 0;
++      }
+       const traceType = effect.options?.traceType || null;
+       const allowedTraceTypes = traceType
+         ? [traceType]
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index 7180de46..f9f96632 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -559,6 +559,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
+       return allPlayers.find((player) => player.id === playerId || player.color === playerColor) || null;
+     },
+     getCardPlayCost: (card) => (card?.price ? { credits: card.price } : {}),
++    getAlienTraceRewardTargets: options.getAlienTraceRewardTargets,
+     getCardPrice: (card) => card?.price || 0,
+     getCardTypeCode: (card) => (typeof options.getCardTypeCode === "function"
+       ? options.getCardTypeCode(card)
+@@ -17102,6 +17103,42 @@ async function runAsyncControllerTests() {
+   }
+ }
+ 
++{
++  const preview = (alienGameState, legal = true) => {
++    const decisions = [];
++    const effects = cardEffects.buildPlayEffects({ cardId: "b_35.webp" });
++    const harness = createAiControllerHarness(null, {
++      currentPlayerColor: "blue", roundNumber: 3, canStartMainAction: true,
++      alienGameState, aiValuation: setiAi.valuation,
++      blueHand: [{ id: "b_35.webp", price: 0, playEffects: [
++        { type: "gain_resources", options: { gain: { score: 30 } } }, ...effects] }],
++      getAlienTraceRewardTargets: (effect, player) => {
++        if (effect.options?.targetRule !== "playerHasSameTrace") return [];
++        assert.equal(player.id, "player-blue");
++        assert.deepEqual(effect.options.allowedTraceTypes, ["blue"]);
++        return legal ? [{ alienSlotId: 1, traceType: "blue", canPlaceOnPanel: true, canUnlockCard: false }] : [];
++      },
++      onChooseTurnAction: (candidates) => decisions.push(...candidates),
++    });
++    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
++    harness.controller.runAiAutomationStep();
++    return decisions.find((entry) => entry.id === "playCard");
++  };
++  const state = makeBanrenmaAlienState();
++  state.aliens[1].traces = { blue: { firstPlaced: true, ownerPlayerColor: "blue", extraCount: 0 } };
++  assert.equal(preview(state, false).available, false, "a same-color trace card requires a real legal destination");
++  const open = preview(state);
++  assert.equal(open.available, true, "a supported same-color trace card reaches the action choice");
++  const closed = structuredClone(state);
++  const grid = banrenma.getTraceGrid(closed, 1);
++  for (const position of banrenma.TRACE_POSITIONS) grid.blue[position] = { playerColor: "white" };
++  const extraOnly = preview(closed);
++  assert.equal(extraOnly.available, true, "the state extra-trace destination remains available");
++  assert.ok(open.playableCards[0].valueBreakdown.effectValue
++    > extraOnly.playableCards[0].valueBreakdown.effectValue,
++    "the card values a legal alien-card reward and does not value occupied or unaffordable positions");
++}
++
+ runAsyncControllerTests()
+   .then(() => console.log("app/ai-controller.test.js ok"))
+   .catch((error) => {

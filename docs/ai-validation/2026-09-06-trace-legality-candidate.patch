@@ -1,0 +1,62 @@
+diff --git a/randomizer/app.js b/randomizer/app.js
+index d1871391..e909f53d 100644
+--- a/randomizer/app.js
++++ b/randomizer/app.js
+@@ -1141,7 +1141,8 @@
+     confirmMovePayment,
+     confirmPassReserveSelection,
+     confirmPlayCardSelection,
+-    confirmProbeSectorScanSelection,
++    confirmProbeSectorScanSelection,
++    getAlienTraceRewardTargets,
+     confirmPublicScanSelection,
+     confirmScanTarget,
+     confirmStrategyPassiveSlotChoice,
+@@ -20148,6 +20149,19 @@
+     });
+   }
+ 
++  function getAlienTraceRewardTargets(effect, player = getCurrentPlayer()) {
++    const types = effect?.options?.traceType ? [effect.options.traceType]
++      : (effect?.options?.allowedTraceTypes?.length ? effect.options.allowedTraceTypes : aliens.TRACE_TYPES);
++    const eligible = getEligibleAlienSlotIdsForTraceEffect(effect, player, types);
++    const slotIds = eligible == null ? aliens.ALIEN_SLOT_IDS : eligible;
++    return slotIds.flatMap((alienSlotId) => types.map((traceType) => ({
++      alienSlotId, traceType,
++      canPlaceOnPanel: hasAlienTracePanelPlacementTarget([alienSlotId], [traceType], player),
++      canUnlockCard: Boolean(fangzhou?.isFangzhouRevealedSlot?.(alienGameState, alienSlotId)
++        && getFangzhouUnlockableTraceTypes(alienSlotId, [traceType], player).length),
++    })).filter((target) => target.canPlaceOnPanel || target.canUnlockCard));
++  }
++
+   function openAlienTraceRewardEffect(effect) {
+     const traceType = effect.options?.traceType || null;
+     const allowedTraceTypes = traceType
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..055f1b06 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -92,7 +92,8 @@
+       confirmMovePayment,
+       confirmPassReserveSelection,
+       confirmPlayCardSelection,
+-      confirmProbeSectorScanSelection,
++      confirmProbeSectorScanSelection,
++      getAlienTraceRewardTargets,
+       confirmPublicScanSelection,
+       confirmScanTarget,
+       confirmStrategyPassiveSlotChoice,
+@@ -21951,8 +21952,11 @@
+       return Boolean(traceSlot) && !traceSlot.firstPlaced;
+     }
+ 
+-    function canAiResolveAlienTraceEffect(effect, player = getCurrentPlayer()) {
+-      if (effect?.type !== "alien_trace") return true;
++    function canAiResolveAlienTraceEffect(effect, player = getCurrentPlayer()) {
++      if (effect?.type !== "alien_trace") return true;
++      if (typeof getAlienTraceRewardTargets === "function") {
++        return getAlienTraceRewardTargets(effect, player).length > 0;
++      }
+       const traceType = effect.options?.traceType || null;
+       const allowedTraceTypes = traceType
+         ? [traceType]
