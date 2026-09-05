@@ -4,8 +4,14 @@ const assert = require("assert");
 const { parseArgs, parseDevToolsPort, getChromeDebugPort, launchChromeWithSafeDebugPort } = require("./run_ai_autobattle_browser.js");
 
 assert.equal(parseDevToolsPort("49161\r\n/devtools/browser/example\r\n"), 49161);
-for (const value of ["10080", "6000", "0", "65536", "not-a-port"]) {
+for (const value of ["10080", "6000", "4190", "6679", "0", "65536", "not-a-port"]) {
   assert.throws(() => parseDevToolsPort(value), /Invalid or restricted/);
+}
+
+for (const port of [4190, 6679]) {
+  assert.throws(() => parseDevToolsPort(String(port)),
+    (error) => error.code === "CHROME_RESTRICTED_DEBUG_PORT",
+    "Node fetch restricted ports must enter the bounded browser startup retry");
 }
 
 {
