@@ -17070,6 +17070,38 @@ async function runAsyncControllerTests() {
   );
 }
 
+{
+  for (const [wins, markers, expectedDelta] of [[0, 9, 0], [4, 4, 0], [4, 3, 1]]) {
+    const decisions = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue",
+      canStartMainAction: true,
+      roundNumber: 4,
+      blueResources: { score: 100, credits: 0, energy: 0, handSize: 0 },
+      finalScoringState: {
+        tiles: { final_b2: { id: "final_b2", marks: [{ playerId: "player-blue", slotIndex: 2, threshold: 70 }] } },
+      },
+      finalFormulaIds: { final_b2: "b2" },
+      finalSlotMultipliers: { b2: { 2: 6 } },
+      endGameScoring: {
+        countSectorWins: () => wins,
+        countOrbitOrLandMarkers: () => markers,
+      },
+      actionGraph: setiAi.actionGraph,
+      onChooseTurnAction: (candidates) => decisions.push(...candidates),
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    for (const actionId of ["orbit", "land"]) {
+      const candidate = decisions.find((entry) => entry.id === actionId);
+      assert.ok(candidate, `${actionId} must reach the action graph`);
+      assert.equal(candidate.finalFormulaDeltas.b2, expectedDelta);
+      assert.equal(candidate.actionGraph.finalMarginal, expectedDelta * 6,
+        `${actionId}: B2 must only grow when orbit/landing is the smaller count (${wins}/${markers})`);
+    }
+  }
+}
+
 runAsyncControllerTests()
   .then(() => console.log("app/ai-controller.test.js ok"))
   .catch((error) => {

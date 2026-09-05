@@ -295,6 +295,59 @@
       ],
       "meanDelta": -7.75,
       "reason": "寰宇上涨33分，全桌下跌31分，未合入"
+    },
+    {
+      "name": "寰宇2.0及大战略1.7打牌权重",
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "meanDelta": -2.75,
+      "topQuartileMeanDelta": -3.8000000000000114,
+      "reason": "五局均分下降2.75，高分四分位下降3.8，未合入"
+    },
+    {
+      "name": "PASS普通预留牌全部按现有轻量评分排序",
+      "seeds": [
+        2,
+        5
+      ],
+      "meanDelta": -0.375,
+      "topQuartileMeanDelta": -23,
+      "reason": "均分未提升且高分回落，未合入"
     }
-  ]
+  ],
+  "modelCorrections": {
+    "b2OrbitLand": {
+      "formula": "min(wins, markers + 1) - min(wins, markers)",
+      "evidence": "固定seed5，R4寰宇的扇区胜利为0，环绕登陆已超过7，旧行动图仍为登陆增加6分终局边际",
+      "runs": [
+        {
+          "seed": "codex-ai-current-default:2",
+          "scores": [
+            300,
+            240,
+            308,
+            178
+          ],
+          "bugs": 0,
+          "ended": true
+        },
+        {
+          "seed": "codex-ai-current-default:5",
+          "scores": [
+            179,
+            249,
+            198,
+            177
+          ],
+          "bugs": 0,
+          "ended": true
+        }
+      ]
+    }
+  }
 }

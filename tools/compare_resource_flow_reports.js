@@ -257,9 +257,12 @@ function enrichAiFlowPlayers(flow = {}, decisionLogs = []) {
 
 function extractAi(ai) {
   const result = ai?.result || ai || {};
+  const samplesWithFlow = Array.isArray(result.samples)
+    ? result.samples.filter((sample) => sample?.resourceFlow)
+    : null;
   let flows = [];
   if (Array.isArray(result.samples)) {
-    flows = result.samples.map((sample) => sample?.resourceFlow).filter(Boolean);
+    flows = samplesWithFlow.map((sample) => sample.resourceFlow);
   } else if (result.resourceFlow) {
     flows = [result.resourceFlow];
   } else if (ai?.resourceFlow) {
@@ -267,7 +270,7 @@ function extractAi(ai) {
   }
   return {
     players: flows.flatMap((flow, index) => enrichAiFlowPlayers(flow,
-      (Array.isArray(result.samples) ? result.samples[index]?.logs : result.logs) || [])),
+      (samplesWithFlow ? samplesWithFlow[index].logs : result.logs) || [])),
     flows,
     coverage: result.resourceFlow?.coverage || result.resourceFlow?.headline || null,
     gamesRun: Number(result.gamesRun) || flows.length,

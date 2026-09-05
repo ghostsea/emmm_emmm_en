@@ -13934,6 +13934,14 @@
         .length;
     }
 
+    function getAiOrbitLandFinalFormulaDeltas(player = getCurrentPlayer()) {
+      const markers = Math.max(0, aiNumber(endGameScoring?.countOrbitOrLandMarkers?.(
+        player, planetStatsState, createActionContext(),
+      )));
+      const wins = Math.max(0, aiNumber(endGameScoring?.countSectorWins?.(player, nebulaDataState)));
+      return { b2: Math.min(wins, markers + 1) - Math.min(wins, markers) };
+    }
+
     function scoreAiFinalTileOrbitLandMarginal(player = getCurrentPlayer()) {
       if (!player || !endGameScoring?.countOrbitOrLandMarkers || !endGameScoring?.countSectorWins) return 0;
       let value = 0;
@@ -23277,6 +23285,7 @@
       orbitCandidate.valueBreakdown = {
         directScoreGain: orbitCandidate.directScoreGain,
       };
+      orbitCandidate.finalFormulaDeltas = getAiOrbitLandFinalFormulaDeltas(currentPlayer);
       orbitCandidate.score = scoreAiOrbitAction(orbitCandidate);
       candidates.push(orbitCandidate);
       const landCheck = actions.canExecute("land", context);
@@ -23297,6 +23306,7 @@
       landCandidate.valueBreakdown = {
         directScoreGain: landCandidate.directScoreGain,
       };
+      landCandidate.finalFormulaDeltas = getAiOrbitLandFinalFormulaDeltas(currentPlayer);
       landCandidate.score = scoreAiLandAction(landCandidate);
       candidates.push(landCandidate);
       const researchTechCheck = actions.canExecute("researchTech", context);

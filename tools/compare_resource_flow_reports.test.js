@@ -150,6 +150,16 @@ const runtimeCounts = compareResourceFlowReports(reference, { result: {
   ],
 } });
 assert.equal(runtimeCounts.ai.allPlayers.mainActionsPerWeightedCost, 0.05);
+const missingFirstFlow = compareResourceFlowReports(reference, { result: { samples: [
+  { logs: [] },
+  {
+    resourceFlow: { players: [{ playerId: "p", finalScore: 100, weightedActionCost: 20,
+      mainActionsPerWeightedCost: 0.4 }] },
+    logs: [{ playerId: "p", type: "turn-action", details: { action: { id: "playCard", kind: "main" } } }],
+  },
+] } });
+assert.equal(missingFirstFlow.ai.allPlayers.mainActionsPerWeightedCost, 0.05,
+  "a missing sample ledger must not shift later ledgers onto another game's action logs");
 assert.equal(unavailableMetrics.utilizationPublicity, null);
 assert.equal(unavailableMetrics.alienCardToPlayRate, null);
 
