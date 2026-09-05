@@ -11761,5 +11761,63 @@
       "bugs": []
     },
     "roundStartTests": "Runtime regression checks incremental snapshot order; real browser reaches round 2 with correct per-company gains, zero negative inferred costs, all resource balances exact and zero bugs"
+  },
+  "controlledTerminalTradeFinal": {
+    "status": "development-below-target-positive",
+    "games": 8,
+    "baseline": 221.3125,
+    "candidate": 228.71875,
+    "delta": {
+      "mean": 7.40625,
+      "min": 5,
+      "p10": 0,
+      "p25": -0.75,
+      "median": 8.5,
+      "p75": 2,
+      "max": 28,
+      "topQuartileMean": 12,
+      "winnerMean": 12,
+      "minimumPerGameMean": 5.625,
+      "seats270Plus": 1,
+      "seats300Plus": 1
+    },
+    "companies": {
+      "寰宇超动力": {
+        "seats": 8,
+        "baseline": 192.625,
+        "candidate": 198.25,
+        "meanDelta": 5.625,
+        "minimumDelta": 5
+      },
+      "作弊实验室": {
+        "seats": 16,
+        "baseline": 257.125,
+        "candidate": 265,
+        "meanDelta": 7.875,
+        "minimumDelta": 0
+      },
+      "宇宙大战略集团": {
+        "seats": 8,
+        "baseline": 178.375,
+        "candidate": 186.625,
+        "meanDelta": 8.25,
+        "minimumDelta": 0
+      }
+    },
+    "pairedGameMeanDeltaStandardError": 4.001377413511145
+  },
+  "combinedIncomeTerminal": {
+    "status": "frozen-development-running",
+    "baseline": "ledger-v2",
+    "candidate": "combined-income-terminal",
+    "scope": "Union of Grand-only immediate income preservation and terminal conversion candidate, both on current runtime/accounting fixes",
+    "tests": "52 randomizer tests passed; controller and runtime tests repeated after round-start log fix",
+    "patch": "2026-09-06-combined-income-terminal-candidate.patch",
+    "hashes": {
+      "randomizer/app/ai-controller.js": "3977fa3e19e879e0439f8b2adbb517f8e1b21f2cbcf0b349b079aca3c5bb3f1c",
+      "randomizer/app.js": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f",
+      "randomizer/game/ai/valuation.js": "c46399bf87f2c8bd5d05b1e5d61561859bca5bb87452b83cf192e487d1e8ce2c",
+      "randomizer/game/ai/resource-flow.js": "bec6396de77e2c5bec9bbd7422140173eb98847b8da99594029fdc238562dbf0"
+    }
   }
 }

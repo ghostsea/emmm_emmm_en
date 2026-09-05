@@ -188,4 +188,15 @@ assert.match(renderMarkdown(legacyComparison), /口径告警/);
   assert.equal(migratedFlow.ai.byRound[1].nonIncomeGainWeighted, 12);
 }
 
+{
+  const incomplete = compareResourceFlowReports(reference, { resourceFlow: {
+    reconciliation: { residualMagnitude: 0 },
+    players: [{ playerId: "p", setupGain: { credits: 2 }, grossGain: { credits: 3 },
+      spent: { credits: 6 }, endingInventory: { credits: 0 }, utilizationRate: { credits: 1.2 } }],
+  } });
+  assert.equal(incomplete.ai.allPlayers.utilizationCredits, null);
+  assert.ok(incomplete.warnings.some(warning => /AI 有 1 席.*最终库存不符/.test(warning)),
+    "old zero-residual reports must still reveal their incomplete cumulative resource ledger");
+}
+
 console.log("compare_resource_flow_reports.test.js: all tests passed");

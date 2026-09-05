@@ -89,6 +89,20 @@ function weightedResources(resources = {}) {
   );
 }
 
+function getPlayerBalanceResiduals(player) {
+  if (player.balanceResiduals && typeof player.balanceResiduals === "object") return player.balanceResiduals;
+  if (!player.endingInventory || !player.setupGain || !player.spent
+    || (!player.grossGain && (!player.incomeGain || !player.nonIncomeGain))) return null;
+  return Object.fromEntries(Object.keys(RESOURCE_VALUES).flatMap(key => {
+    if (player.endingInventory[key] == null) return [];
+    const gross = player.grossGain ? Number(player.grossGain[key]) || 0
+      : (Number(player.incomeGain[key]) || 0) + (Number(player.nonIncomeGain[key]) || 0);
+    const residual = (Number(player.setupGain[key]) || 0) + gross
+      - (Number(player.spent[key]) || 0) - Number(player.endingInventory[key]);
+    return Math.abs(residual) > 1e-9 ? [[key, residual]] : [];
+  }));
+}
+
 function getPlayerMetric(player, metric) {
   const resourceMapKey = {
     setupGainWeighted: "setupGain",
@@ -102,6 +116,7 @@ function getPlayerMetric(player, metric) {
   if (metric.startsWith("utilization")) {
     const suffix = metric.slice("utilization".length);
     const resourceKey = suffix.charAt(0).toLowerCase() + suffix.slice(1);
+    if (getPlayerBalanceResiduals(player)?.[resourceKey]) return null;
     return player.utilizationRate?.[resourceKey];
   }
   if (metric === "sameRoundReinvestmentWeighted") {
@@ -273,9 +288,14 @@ function extractAi(ai) {
   } else if (ai?.resourceFlow) {
     flows = [ai.resourceFlow];
   }
+  const players = flows.flatMap((flow, index) => enrichAiFlowPlayers(flow,
+    (samplesWithFlow ? samplesWithFlow[index].logs : result.logs) || []));
+  const incompletePlayers = players.filter(player => Object.keys(getPlayerBalanceResiduals(player) || {}).length);
   return {
-    players: flows.flatMap((flow, index) => enrichAiFlowPlayers(flow,
-      (samplesWithFlow ? samplesWithFlow[index].logs : result.logs) || [])),
+    players,
+    warnings: incompletePlayers.length
+      ? [`AI 有 ${incompletePlayers.length} 席的累计资源流水与最终库存不符；旧日志可能缺少开局收入等记录。相关利用率不展示，获取/消耗总量仅代表已记录流水，逐步对账为零不代表总账完整。`]
+      : [],
     flows,
     coverage: result.resourceFlow?.coverage || result.resourceFlow?.headline || null,
     gamesRun: Number(result.gamesRun) || flows.length,
@@ -405,7 +425,7 @@ function compareResourceFlowReports(referenceInput, aiInput) {
     generatedAt: new Date().toISOString(),
     deltaDirection: "human_minus_ai",
     referenceSource: referenceExtracted.referenceSource,
-    warnings: referenceExtracted.warnings,
+    warnings: [...referenceExtracted.warnings, ...aiExtracted.warnings],
     reference,
     ai,
     deltas,
