@@ -11703,6 +11703,63 @@
           "handSize": 4
         }
       }
-    ]
+    ],
+    "roundStartProof": {
+      "round": 2,
+      "events": [
+        {
+          "playerId": "player-blue",
+          "category": "industry",
+          "delta": {
+            "handSize": 1
+          }
+        },
+        {
+          "playerId": "player-green",
+          "category": "industry",
+          "delta": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "playerId": "player-brown",
+          "category": "industry",
+          "delta": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "playerId": "player-white",
+          "category": "industry",
+          "delta": {
+            "energy": 1,
+            "handSize": 1
+          }
+        }
+      ],
+      "players": [
+        {
+          "id": "player-brown",
+          "balance": {}
+        },
+        {
+          "id": "player-blue",
+          "balance": {}
+        },
+        {
+          "id": "player-green",
+          "balance": {}
+        },
+        {
+          "id": "player-white",
+          "balance": {}
+        }
+      ],
+      "bugs": []
+    },
+    "roundStartTests": "Runtime regression checks incremental snapshot order; real browser reaches round 2 with correct per-company gains, zero negative inferred costs, all resource balances exact and zero bugs"
   }
 }

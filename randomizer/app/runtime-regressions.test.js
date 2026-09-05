@@ -1600,4 +1600,25 @@ assert.ok(
   assert.ok(entries[0].steps.every(step => step.undoable === false));
 }
 
+{
+  let granted = 0;
+  const captured = [];
+  const award = player => { granted += 1; return { ok: true, playerId: player.id, message: "奖励" }; };
+  const apply = loadNamedFunction("applyIndustryRoundStartBonuses", {
+    getActivePlayers: () => [{ id: "p1" }, { id: "p2" }],
+    applyHuanyuSuperdriveRoundStartForPlayer: award,
+    applyCheatLabRoundStartForPlayer: () => null,
+    applyGrandStrategyRoundStartForPlayer: () => null,
+    applyAiRoundStartExtraForPlayer: award,
+    appendIndustryRoundStartLog: result => captured.push([result.playerId, granted]),
+    getPlayerLabelById: id => id,
+    renderPlayerStats: () => {}, renderPlayerHand: () => {},
+    renderInitialSelectionArea: () => {}, renderStateReadout: () => {},
+  });
+  const result = apply(3, { appendLog: true });
+  assert.equal(result.results.length, 4);
+  assert.deepEqual(captured, [["p1", 1], ["p1", 2], ["p2", 3], ["p2", 4]],
+    "each log snapshot precedes the next player's or next bonus's resource mutation");
+}
+
 console.log("runtime-regressions.test.js: all tests passed");

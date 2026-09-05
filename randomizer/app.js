@@ -7011,16 +7011,18 @@
   }
 
   function applyIndustryRoundStartBonuses(roundNumber = turnState.roundNumber, options = {}) {
-    const results = getActivePlayers()
-      .flatMap((player) => [
-        applyHuanyuSuperdriveRoundStartForPlayer(player, roundNumber),
-        applyCheatLabRoundStartForPlayer(player, roundNumber),
-        applyGrandStrategyRoundStartForPlayer(player, roundNumber),
-        applyAiRoundStartExtraForPlayer(player, roundNumber),
-      ])
-      .filter(Boolean);
-    if (options.appendLog) {
-      for (const result of results) appendIndustryRoundStartLog(result, roundNumber);
+    const results = [];
+    for (const player of getActivePlayers()) {
+      for (const applyBonus of [
+        applyHuanyuSuperdriveRoundStartForPlayer, applyCheatLabRoundStartForPlayer,
+        applyGrandStrategyRoundStartForPlayer, applyAiRoundStartExtraForPlayer,
+      ]) {
+        const result = applyBonus(player, roundNumber);
+        if (!result) continue;
+        results.push(result);
+        // Each recovery/accounting point must contain only the rewards logged so far.
+        if (options.appendLog) appendIndustryRoundStartLog(result, roundNumber);
+      }
     }
     if (results.length) {
       renderPlayerStats();
