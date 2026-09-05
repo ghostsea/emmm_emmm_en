@@ -3740,14 +3740,14 @@
       return `${baseSeed}:${index + 1}`;
     }
 
-    function getAiResourceValuesForRound() {
+    function getAiResourceValuesForRound(roundNumber = getAiRoundNumber()) {
       if (ai?.valuation?.getPhaseResourceValues) {
-        return ai.valuation.getPhaseResourceValues(getAiRoundNumber(), {
+        return ai.valuation.getPhaseResourceValues(roundNumber, {
           resourceValues: AI_RESOURCE_VALUES,
           earlyResourceValues: { credits: 6, energy: 6.2, handSize: 5.4 },
         });
       }
-      return getAiRoundNumber() <= 2
+      return roundNumber <= 2
         ? {
           ...AI_RESOURCE_VALUES,
           credits: Math.max(AI_RESOURCE_VALUES.credits, 6),
@@ -10829,12 +10829,13 @@
         case cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME: {
           const gain = cards.getIncomeGainForCard?.(options.card);
           if (!gain) return 0;
-          const remainingUses = ai?.valuation?.getRemainingIncomeMultiplier
-            ? ai.valuation.getRemainingIncomeMultiplier(getAiRoundNumber(), { finalRoundNumber: FINAL_ROUND_NUMBER })
-            : Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber());
+          let futureValue = 0;
+          for (let round = getAiRoundNumber() + 1; round <= FINAL_ROUND_NUMBER; round += 1) {
+            futureValue += scoreAiResourceBundle(gain, { resourceValues: getAiResourceValuesForRound(round) });
+          }
           // The played card supplies its own income icon; no second discard.
           return scoreAiResourceBundle(getAiImmediateIncomeRewardGain(player, gain))
-            + scoreAiResourceBundle(gain) * remainingUses
+            + futureValue
             + scoreAiMarkedIncomeFinalValue(player, gain);
         }
         case planetRewards.EFFECT_TYPES?.ALIEN_TRACE:

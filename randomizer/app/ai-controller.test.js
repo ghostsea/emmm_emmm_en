@@ -17121,6 +17121,8 @@ async function runAsyncControllerTests() {
  const early = valueFor(tuck) - valueFor([]);
  const final = valueFor(tuck, 4) - valueFor([], 4);
  assert.ok(early > final && final > 0, "self-income includes future cycles and final-round immediate payout");
+ assert.equal(early, 6 + final * 2, "round 2 income uses one early payout and two later-round prices");
+ assert.equal(valueFor(tuck, 1) - valueFor([], 1), 12 + final * 2, "round 1 keeps the round 2 early payout but prices later payouts separately");
  assert.equal(valueFor(tuck, 2, [{ id: "another", incomeGain: { energy: 2 } }]), valueFor(tuck), "no second hand-card cost");
 }
 
