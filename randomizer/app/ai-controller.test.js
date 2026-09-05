@@ -17102,6 +17102,60 @@ async function runAsyncControllerTests() {
   }
 }
 
+{
+  const buildTerminalChain = (credits, roundNumber = 4, energy = 0) => {
+    const decisions = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber, canStartMainAction: true,
+      realisticCanAfford: true, recordQuickTrade: true,
+      blueResources: { score: 120, credits, energy, publicity: 0, handSize: 0 },
+      quickTrades: { "credits-for-energy": {
+        id: "credits-for-energy", cost: { credits: 2 }, gain: { energy: 1 },
+      } },
+      data: {
+        ANALYZE_ENERGY_COST: 2, ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
+        listComputerPlacedTokens: () => Array.from({ length: 6 }, (_, index) => ({ placementSlot: index + 1 })),
+        canAnalyzeData: (player) => ({ ok: player.resources.energy >= 2 }),
+      },
+      onChooseTurnAction: (candidates) => decisions.push(...candidates),
+      chooseTurnAction: (candidates) => candidates.find((candidate) => candidate.id === "pass"),
+    });
+    const before = JSON.stringify(harness.blue.resources);
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    assert.equal(JSON.stringify(harness.blue.resources), before, "projecting chained trades must not mutate the player");
+    return decisions.find((candidate) => candidate.valueBreakdown?.terminalCreditEnergyChain);
+  };
+  assert.equal(buildTerminalChain(5)?.valueBreakdown?.remainingTrades, 2,
+    "terminal resource conversion must consider the whole payable energy chain");
+  assert.equal(buildTerminalChain(3), undefined, "one affordable trade is insufficient for a two-trade target");
+  assert.equal(buildTerminalChain(5, 3), undefined, "terminal salvage must not replace earlier income planning");
+  assert.equal(buildTerminalChain(5, 4, 2), undefined, "an available analyze needs no preparatory trade");
+}
+
+{
+  const incomeOpportunity = (companyLabel) => {
+    const decisions = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: 2, canStartMainAction: true,
+      blueInitialSelection: { industry: { id: "industry:" + companyLabel, label: companyLabel } },
+      blueHand: [{ id: "income-scope", price: 0, incomeGain: { energy: 1 },
+        playEffects: [{ type: "gain_resources", options: { gain: { score: 30 } } }] }],
+      onChooseTurnAction: (candidates) => decisions.push(...candidates),
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    const card = decisions.find((entry) => entry.id === "playCard")?.playableCards?.[0];
+    assert.ok(card);
+    return card.valueBreakdown.cornerOpportunity;
+  };
+  const control = incomeOpportunity("测试公司");
+  assert.equal(incomeOpportunity("作弊实验室"), control, "this experiment must preserve other company income values");
+  assert.equal(incomeOpportunity("寰宇超动力"), control, "Huanyu remains a control company");
+  assert.ok(incomeOpportunity("宇宙大战略集团") > control,
+    "Grand Strategy includes the immediate resource in the income option value");
+}
+
 runAsyncControllerTests()
   .then(() => console.log("app/ai-controller.test.js ok"))
   .catch((error) => {
