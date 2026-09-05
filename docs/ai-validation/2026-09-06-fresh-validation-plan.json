@@ -1,0 +1,36 @@
+{
+  "phase": "fresh-random-validation",
+  "frozenAt": "2026-09-05T22:28:58.518Z",
+  "sourceCommit": "bb4156ffb14ced7c55841aa3b4bdce79b26b1b8d",
+  "plannedPairs": 8,
+  "rule": "Generate fresh seeds after candidate freeze and completed fixed-development paired review; finish all 8 pairs before any acceptance decision. No tuning using partial validation outcomes.",
+  "primaryTarget": "Observed paired mean score delta at least +10; investigate +20 if the improvement is achieved quickly.",
+  "secondaryMetrics": [
+    "topQuartileMean",
+    "winnerMean",
+    "max",
+    "p10",
+    "minimumPerGameMean"
+  ],
+  "randomControl": "independent-slots-v1",
+  "seedGenerationPending": true,
+  "models": {
+    "base": {
+      "fingerprint": "4450a28ba8d3557bd15747a6ff220056b7a3ebb7aaeaff45570c57325bbb4b49",
+      "controller": "c304e63d2d8752825812a1fac2267e7e23860feb43b59c6caf7612eeaf9b2ddd",
+      "runtime": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f",
+      "resourceFlow": "e9f935f3f3e98549751842f2d1a6bd76f67a214d9f6e088fc3dc73fd477b077e"
+    },
+    "candidate": {
+      "fingerprint": "773c5287aa90ca334ec5411714fb1bd1f5e00c8ac75a29921a61f7c128ce7c5f",
+      "controller": "3977fa3e19e879e0439f8b2adbb517f8e1b21f2cbcf0b349b079aca3c5bb3f1c",
+      "runtime": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f",
+      "resourceFlow": "e9f935f3f3e98549751842f2d1a6bd76f67a214d9f6e088fc3dc73fd477b077e"
+    }
+  },
+  "candidatePatch": "2026-09-06-combined-income-terminal-candidate.patch",
+  "harnessHashes": {
+    "tools/run_ai_autobattle_browser.js": "678a936160452b34991a502a53714fa2de598a07383ebe99cf139c3a94d3a87e",
+    "tools/ai_alien_seed.js": "4253af344f56b56c19babd04a277bb5028002f0b31546a3c975c460ac1e53897"
+  }
+}
