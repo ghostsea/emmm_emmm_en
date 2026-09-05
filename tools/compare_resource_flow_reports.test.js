@@ -199,4 +199,17 @@ assert.match(renderMarkdown(legacyComparison), /口径告警/);
     "old zero-residual reports must still reveal their incomplete cumulative resource ledger");
 }
 
+{
+  const confirmed = compareResourceFlowReports(reference, { result: {
+    resourceFlow: { resourceWeighting: "spendable-only-v2", players: [{ playerId: "p",
+      weightedActionCost: 6, spent: { credits: 2 }, mainActionsPerWeightedCost: 1 / 6 }] },
+    logs: [
+      { playerId: "p", type: "turn-action", details: { action: { id: "playCard", kind: "main" } } },
+      { playerId: "p", type: "turn-action", details: { action: { id: "scan", kind: "main" } } },
+    ],
+  } });
+  assert.equal(confirmed.ai.allPlayers.mainActionsPerWeightedCost, 0.166667,
+    "one confirmed history entry must not become two actions because a selection was attempted first");
+}
+
 console.log("compare_resource_flow_reports.test.js: all tests passed");

@@ -119,6 +119,11 @@
     return sourceCategory === "pass_income" || sourceCategory === "income_upgrade_immediate";
   }
 
+  function isInitialSetupResourceEvent(event) {
+    return event.sourceCategory === "setup"
+      || (event.pace === "setup" && Number(event.roundNumber) <= 1);
+  }
+
   function getOrCreatePlayerRow(playersByKey, key, event) {
     if (!playersByKey.has(key)) {
       playersByKey.set(key, {
@@ -326,7 +331,7 @@
     for (const event of events) {
       for (const card of event.cards || []) {
         if (card.change === "gain") {
-          if (event.sourceCategory === "setup" || card.origin === "setup") continue;
+          if (isInitialSetupResourceEvent(event) || card.origin === "setup") continue;
           const identity = getCardIdentity(card);
           if (!identity) continue;
           if (!gainedCards.has(identity)) gainedCards.set(identity, []);
@@ -401,6 +406,10 @@
       (total, key) => total + row.spent[key] * RESOURCE_VALUES[key],
       0,
     );
+    const productiveMainActionCount = Number(
+      options.productiveMainActionCounts?.[compositePlayerKey]
+      ?? options.productiveMainActionCounts?.[row.playerId],
+    ) || 0;
     const cycles = summarizeDataCycles(events);
     const cardUse = summarizeCardUse(events);
     const blueTechRewards = summarizeBlueTechRewards(events);
@@ -416,11 +425,9 @@
       incomeGainWeighted: weightedResourceMap(row.incomeGain),
       nonIncomeGainWeighted: weightedResourceMap(row.nonIncomeGain),
       weightedActionCost,
+      productiveMainActionCount,
       mainActionsPerWeightedCost: divideOrNull(
-        Number(
-          options.productiveMainActionCounts?.[compositePlayerKey]
-          ?? options.productiveMainActionCounts?.[row.playerId],
-        ) || 0,
+        productiveMainActionCount,
         weightedActionCost,
       ),
       ...blueTechRewards,
@@ -1148,7 +1155,7 @@
         addResourceValue(eventForCards.resourceDeltas, "handSize", unrecordedHandGain);
       }
       const existingKeys = new Set((eventForCards.cards || []).map((card) => card.key));
-      const origin = eventForCards.sourceCategory === "setup"
+      const origin = isInitialSetupResourceEvent(eventForCards)
         ? "setup"
         : (eventForCards.sourceCategory === "alien"
           ? "alien"

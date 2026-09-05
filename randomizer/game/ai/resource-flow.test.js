@@ -527,6 +527,7 @@ assert.equal(gainedIncomeCard.players[0].incomeCardConversionRate, 1);
   assert.equal(row.incomeGain.credits, 1);
   assert.equal(row.incomeGain.handSize, 1, "drawing while discarding is a real gross gain");
   assert.equal(row.spent.handSize, 2, "both income cards were consumed despite a replacement draw");
+  assert.equal(row.cardUse.gainedInGame, 0, "cards drawn during initial income remain opening cards");
   assert.deepEqual(row.balanceResiduals, {});
   assert.equal(result.reconciliation.residualMagnitude, 0);
   assert.equal(row.mainActionsPerWeightedCost, 0, "setup income is not a productive main action");

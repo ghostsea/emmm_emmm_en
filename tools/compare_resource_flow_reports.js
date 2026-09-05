@@ -122,6 +122,10 @@ function getPlayerMetric(player, metric) {
   if (metric === "sameRoundReinvestmentWeighted") {
     return weightedResources(player.sameRoundReinvestment);
   }
+  if (metric === "mainActionsPerWeightedCost" && Number.isFinite(player.productiveMainActionCount) && player.spent) {
+    const cost = weightedResources(player.spent);
+    return cost > 0 ? player.productiveMainActionCount / cost : null;
+  }
   if (metric === "sameRoundReinvestmentRate") {
     const denominator = Number(getPlayerMetric(player, "nonIncomeGainWeighted")) || 0;
     return denominator > 0 ? weightedResources(player.sameRoundReinvestment) / denominator : null;
@@ -253,6 +257,11 @@ function enrichAiFlowPlayers(flow = {}, decisionLogs = []) {
   for (const entry of mainDecisions) decisionCounts[entry.playerId] = (decisionCounts[entry.playerId] || 0) + 1;
   return (flow.players || []).map((player) => {
     const weightedCost = Number(player.weightedActionCost) || 0;
+    const storedCount = player.productiveMainActionCount
+      ?? (flow.resourceWeighting === "spendable-only-v2" && Number(player.mainActionsPerWeightedCost) >= 0
+        ? Number(player.mainActionsPerWeightedCost) * weightedCost : null);
+    const confirmedCount = storedCount != null && Number.isFinite(storedCount)
+      && Math.abs(storedCount - Math.round(storedCount)) < 1e-6 ? Math.round(storedCount) : null;
     const derived = weightedCost > 0
       ? (Number(mainActionCounts[player.playerId]) || 0) / weightedCost
       : 0;
@@ -265,7 +274,10 @@ function enrichAiFlowPlayers(flow = {}, decisionLogs = []) {
       };
     return {
       ...player,
-      mainActionsPerWeightedCost: mainDecisions.length && weightedCost > 0
+      ...(confirmedCount != null ? { productiveMainActionCount: confirmedCount } : {}),
+      mainActionsPerWeightedCost: confirmedCount != null && weightedCost > 0
+        ? confirmedCount / weightedCost
+        : mainDecisions.length && weightedCost > 0
         ? (decisionCounts[player.playerId] || 0) / weightedCost
         : Number(player.mainActionsPerWeightedCost) > 0
         ? player.mainActionsPerWeightedCost
