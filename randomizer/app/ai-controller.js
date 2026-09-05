@@ -10826,6 +10826,17 @@
           return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
         case banrenma?.EFFECT_GAIN_INCOME:
           return scoreAiIncomeRewardOpportunityValue(player, effectOptions);
+        case cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME: {
+          const gain = cards.getIncomeGainForCard?.(options.card);
+          if (!gain) return 0;
+          const remainingUses = ai?.valuation?.getRemainingIncomeMultiplier
+            ? ai.valuation.getRemainingIncomeMultiplier(getAiRoundNumber(), { finalRoundNumber: FINAL_ROUND_NUMBER })
+            : Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber());
+          // The played card supplies its own income icon; no second discard.
+          return scoreAiResourceBundle(getAiImmediateIncomeRewardGain(player, gain))
+            + scoreAiResourceBundle(gain) * remainingUses
+            + scoreAiMarkedIncomeFinalValue(player, gain);
+        }
         case planetRewards.EFFECT_TYPES?.ALIEN_TRACE:
         case "alien_trace":
           return scoreAiAlienTraceValue({
@@ -12708,7 +12719,7 @@
         [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay)
       );
       const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
-        total + scoreAiEffectValue(effect, { player, immediate: true })
+        total + scoreAiEffectValue(effect, { player, card, immediate: true })
       ), 0);
       const hasPersistentModeledValue = Boolean(
         model?.tasks?.length
@@ -19013,7 +19024,7 @@
         currentPlayer,
       );
       const effectValue = valuationPlayEffects.reduce((total, effect) => (
-        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
+        total + scoreAiEffectValue(effect, { player: currentPlayer, card, immediate: true })
       ), 0);
       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
         player: currentPlayer,

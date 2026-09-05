@@ -446,6 +446,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         CARD_CORNER_EVENT_REWARD: "card_corner_event_reward",
         CONDITIONAL_REWARD: "card_conditional_reward",
         COUNT_ROCKETS_REWARD: "card_count_rockets_reward",
+        TUCK_PLAYED_CARD_TO_INCOME: cardEffects.EFFECT_TYPES.TUCK_PLAYED_CARD_TO_INCOME,
       },
       buildPlayEffects: (card) => card?.playEffects || [],
       getCardModel: (card) => card?.model || null,
@@ -17100,6 +17101,27 @@ async function runAsyncControllerTests() {
         `${actionId}: B2 must only grow when orbit/landing is the smaller count (${wins}/${markers})`);
     }
   }
+}
+
+{
+ const tuck = cardEffects.buildPlayEffects({ cardId: "b_47.webp" }).filter(effect => effect.type === "card_tuck_played_card_to_income");
+ const valueFor = (effects, roundNumber = 2, otherCards = []) => {
+   const decisions = [];
+   const card = { id: "b_47.webp", price: 0, incomeGain: { credits: 1 }, playEffects: [{ type: "gain_resources", options: { gain: { score: 30 } } }, ...effects] };
+   const harness = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber, canStartMainAction: true, blueHand: [card, ...otherCards], onChooseTurnAction: candidates => decisions.push(...candidates) });
+   harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+   const before = JSON.stringify(harness.blue);
+   harness.controller.runAiAutomationStep();
+   const candidate = decisions.find(entry => entry.id === "playCard")?.playableCards?.find(entry => entry.cardId === card.id);
+   assert.ok(candidate, "self-income reaches actual play candidate valuation");
+   assert.equal(JSON.stringify(harness.blue), before, "valuation preserves player and hand");
+   return candidate.valueBreakdown.effectValue;
+ };
+ assert.equal(tuck.length, 1);
+ const early = valueFor(tuck) - valueFor([]);
+ const final = valueFor(tuck, 4) - valueFor([], 4);
+ assert.ok(early > final && final > 0, "self-income includes future cycles and final-round immediate payout");
+ assert.equal(valueFor(tuck, 2, [{ id: "another", incomeGain: { energy: 2 } }]), valueFor(tuck), "no second hand-card cost");
 }
 
 runAsyncControllerTests()
