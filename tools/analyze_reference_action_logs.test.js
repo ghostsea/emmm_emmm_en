@@ -38,6 +38,15 @@ assert.equal(game.playerResults[0].finalScore, 300);
 assert.equal(game.routeSummary["白色"].mainActionCount, 3);
 assert.equal(game.productiveMainActionCounts["白色"], 2, "do not copy old route summary totals");
 assert.equal(game.accounting.inferredResearchCostCount, 1);
+assert.equal(game.accounting.inferredAnalyzeCostCount, 0);
+{
+  const omittedAnalysisPayment = markdown.replace("分析数据：资源：能量-1", "分析数据");
+  const ordinary = parseReferenceActionLog(omittedAnalysisPayment);
+  assert.equal(ordinary.accounting.inferredAnalyzeCostCount, 1);
+  assert.equal(ordinary.events.find((event) => event.syntheticAnalyzeCost).resourceDeltas.energy, -1);
+  const deepspace = parseReferenceActionLog(omittedAnalysisPayment.replace("选择公司：宇宙战略集团", "选择公司：深空探测"));
+  assert.equal(deepspace.accounting.inferredAnalyzeCostCount, 0, "Deepspace analyzes without energy");
+}
 assert.equal(game.events.find((event) => event.syntheticResearchCost).resourceDeltas.publicity, -6);
 assert.equal(game.events.findIndex((event) => event.syntheticResearchCost)
   < game.events.findIndex((event) => event.sourceCategory === "tech_bonus_blue1"), true,
@@ -137,6 +146,30 @@ assert.throws(() => analyzeReferenceDocuments([{
 }], { minCoverage: 1 }), /coverage/i);
 
 const realSyntaxCases = [
+  {
+    text: "盲抽 1/2 张；资源：手牌+1",
+    context: { actionLabel: "打牌行动" },
+    deltas: { handSize: 1 },
+    source: "card",
+  },
+  {
+    text: "放置数据：资源：能量+1、手牌-1；收入：能量+1",
+    context: { pace: "quick" },
+    deltas: { energy: 1, handSize: -1 },
+    source: "data_placement",
+  },
+  {
+    text: "获得 1 个数据：白色获得 0/1 个数据",
+    context: { actionLabel: "打牌行动" },
+    deltas: { availableData: 0 },
+    source: "card",
+  },
+  {
+    text: "符文族2：环绕或登陆，符文3奖励 符文3(黑圈6)：1/2数据",
+    context: { actionLabel: "打牌行动" },
+    deltas: { availableData: 1 },
+    source: "alien",
+  },
   {
     text: "半人马6：1数据：白色获得 1/1 个数据",
     context: { actionLabel: "打牌行动" },

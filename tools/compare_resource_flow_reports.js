@@ -197,6 +197,11 @@ function extractReference(reference) {
   const warnings = hasHumanSummary ? []
     : ["参考报告缺少 humanSummary，已回退到旧 summary；该口径可能混入日志内电脑座位。"];
   if (uncertainResearchCosts > 0) warnings.push(`真人日志中有 ${uncertainResearchCosts} 次科技支付缺少公司面板状态，未推测其宣传成本；资源消耗与转换率仍是估计，来源分类覆盖率不代表账本完整。`);
+  const missingDataAcquisitionPlayers = (reference?.humanSummary?.players || []).filter((player) => (
+    Number(player.spent?.availableData || 0) > Number(player.setupGain?.availableData || 0)
+      + Number(player.incomeGain?.availableData || 0) + Number(player.nonIncomeGain?.availableData || 0)
+  )).length;
+  if (missingDataAcquisitionPlayers > 0) warnings.push(`真人日志中有 ${missingDataAcquisitionPlayers} 席的已记录数据消耗超过已记录获取；旧日志省略部分符文等资源奖励，获取量仅代表可见流水，不能用总量差推定人机完整资源差距。`);
   return {
     players: summary.players || [],
     flows: [{ groups: summary.groups || {}, resourceWeighting: summary.resourceWeighting }],

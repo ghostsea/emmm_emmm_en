@@ -112,7 +112,7 @@ function extractCards(text, sourceCategory) {
   while ((blind = blindPattern.exec(text))) {
     const progress = blind[1].match(/^(\d+)\/(\d+)\s*张/);
     if (progress) {
-      for (let index = 0; index < Number(progress[2]); index += 1) {
+      for (let index = 0; index < Number(progress[1]); index += 1) {
         blindIndex += 1;
         pushCard({
           key: `unknown-blind:${blindIndex}:${text}`,
@@ -182,7 +182,7 @@ function countBlindDraws(text) {
   let match;
   while ((match = pattern.exec(text))) {
     const progress = match[1].match(/^(\d+)\/(\d+)\s*张/);
-    count += progress ? Number(progress[2]) : 1;
+    count += progress ? Number(progress[1]) : 1;
   }
   return count;
 }
@@ -201,7 +201,12 @@ function normalizeReferenceStep(text, context = {}) {
     }
     : fullParsed;
   const incomeDeltas = { ...parsed.incomeDeltas };
-  const resourceDeltas = addResourceMaps(parsed.resourceDeltas, incomeDeltas);
+  const resourceDeltas = { ...parsed.resourceDeltas };
+  // Income rewards also grant their icon immediately. Modern logs print that
+  // grant in resources already; older logs only print the income-track change.
+  for (const [key, amount] of Object.entries(incomeDeltas)) {
+    if (!Object.prototype.hasOwnProperty.call(resourceDeltas, key)) resourceDeltas[key] = amount;
+  }
   const initialIncome = text.match(/初始收入水平\s+([^；;]+)/);
   if (initialIncome) {
     const incomePattern = /(credits|energy|publicity|availableData|handSize)\+(-?\d+(?:\.\d+)?)/g;
@@ -227,7 +232,8 @@ function normalizeReferenceStep(text, context = {}) {
     }
   }
 
-  const dataProgress = text.match(/获得\s+(?:\d+\/)?(\d+)\s*个数据/);
+  const dataProgress = text.match(/获得\s+(\d+)\/\d+\s*个数据/)
+    || text.match(/获得\s+(\d+)\s*个数据/);
   if (dataProgress && !Number(resourceDeltas.availableData)) {
     resourceDeltas.availableData = Number(dataProgress[1]);
   }
@@ -235,12 +241,12 @@ function normalizeReferenceStep(text, context = {}) {
     const cardTriggerData = text.match(/卡牌触发[^；;]*?[，：]\s*(\d+)\s*数据/);
     if (cardTriggerData) resourceDeltas.availableData = Number(cardTriggerData[1]);
   }
-  if (!Number(resourceDeltas.availableData) && /symbol_\d+/.test(text)) {
-    const symbolDataPattern = /symbol_\d+：\s*(\d+)\/(\d+)\s*数据/g;
+  if (!Number(resourceDeltas.availableData) && /symbol_\d+|符文\d+/.test(text)) {
+    const symbolDataPattern = /(?:symbol_\d+|符文\d+(?:\(黑圈\d+\))?)：\s*(\d+)\/\d+\s*数据/g;
     let symbolData;
     let symbolDataTotal = 0;
     while ((symbolData = symbolDataPattern.exec(text))) {
-      symbolDataTotal += Number(symbolData[2]);
+      symbolDataTotal += Number(symbolData[1]);
     }
     if (symbolDataTotal > 0) resourceDeltas.availableData = symbolDataTotal;
   }
@@ -488,6 +494,7 @@ function parseReferenceActionLog(markdown, options = {}) {
 
   const productiveMainActionCounts = {};
   let inferredResearchCostCount = 0;
+  let inferredAnalyzeCostCount = 0;
   let uncertainResearchCostCount = 0;
   const uncertainResearchCostByPlayer = {};
   for (const action of actionEntries) {
@@ -495,10 +502,27 @@ function parseReferenceActionLog(markdown, options = {}) {
       && action.steps.some((step) => step.pace === "main");
     if (!isMainAction) continue;
     productiveMainActionCounts[action.playerLabel] = (productiveMainActionCounts[action.playerLabel] || 0) + 1;
-    if (action.actionLabel !== "科技行动" || !action.selectedTechId) continue;
     const mainEvents = events.filter((event) => event.entryId === action.sequence && event.pace === "main");
-    if (mainEvents.some((event) => Number(event.resourceDeltas.publicity) < 0)) continue;
     const industryId = playerMetadata[action.playerLabel]?.industryId || null;
+    if (action.actionLabel === "分析数据" && industryId && !/深空探测/.test(industryId)
+      && action.steps.some((step) => step.pace === "main" && /^分析数据(?:：|$)/.test(step.text))
+      && !mainEvents.some((event) => Number(event.resourceDeltas.energy) < 0)) {
+      inferredAnalyzeCostCount += 1;
+      events.push({
+        gameId: options.gameId || options.fileName || "reference-game",
+        entryId: action.sequence,
+        stepIndex: action.steps.findIndex((step) => /^分析数据(?:：|$)/.test(step.text)) - 0.5,
+        playerId: action.playerLabel, playerLabel: action.playerLabel,
+        finalScore: playerResults.find((p) => p.playerLabel === action.playerLabel)?.finalScore || 0,
+        roundNumber: action.roundNumber, turnNumber: action.turnNumber,
+        pace: "main", actionLabel: action.actionLabel, sourceCategory: "cost",
+        sourceDetail: "分析主行动：补记规则确定的1能量成本",
+        resourceDeltas: { energy: -1 }, incomeDeltas: {}, cards: [], techIds: [],
+        industryId, confidence: 1, syntheticAnalyzeCost: true,
+      });
+    }
+    if (action.actionLabel !== "科技行动" || !action.selectedTechId) continue;
+    if (mainEvents.some((event) => Number(event.resourceDeltas.publicity) < 0)) continue;
     // Human exports omit the publicity payment. Ordinary companies always pay 6;
     // alien labs need their panel state, which these old text exports do not retain.
     if (!industryId || /异星实验室|作弊实验室/.test(industryId)) {
@@ -555,7 +579,7 @@ function parseReferenceActionLog(markdown, options = {}) {
     playerMetadata,
     routeSummary,
     productiveMainActionCounts,
-    accounting: { inferredResearchCostCount, uncertainResearchCostCount, uncertainResearchCostByPlayer },
+    accounting: { inferredResearchCostCount, inferredAnalyzeCostCount, uncertainResearchCostCount, uncertainResearchCostByPlayer },
     revealedAliens,
     events: [...syntheticSetupEvents, ...events],
   };

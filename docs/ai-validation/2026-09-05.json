@@ -15,7 +15,7 @@
       "averageFinalScore": 298.8,
       "setupGainWeighted": 37.3,
       "incomeGainWeighted": 112.233333,
-      "nonIncomeGainWeighted": 183.1,
+      "nonIncomeGainWeighted": 168.9,
       "weightedActionCost": 319.333333,
       "mainActionsPerWeightedCost": 0.116045,
       "dataTurnoverCount": 5.466667,
@@ -23,15 +23,49 @@
       "drawToPlayRate": 0.373671,
       "incomeCardConversionRate": 0.142386,
       "alienCardToPlayRate": 0.737179,
-      "blue1CreditGain": 4.533333,
-      "blue2EnergyGain": 4.2,
-      "utilizationCredits": 0.816748,
-      "utilizationEnergy": 0.633005,
+      "blue1CreditGain": 3.066667,
+      "blue2EnergyGain": 2.8,
+      "utilizationCredits": 0.878868,
+      "utilizationEnergy": 0.695944,
       "utilizationPublicity": null,
       "utilizationAvailableData": null,
       "utilizationHandSize": 0.919424,
-      "sameRoundReinvestmentWeighted": 143.833333,
-      "sameRoundReinvestmentRate": 0.782562
+      "sameRoundReinvestmentWeighted": 135.233333,
+      "sameRoundReinvestmentRate": 0.798552
+    },
+    "accountingWarnings": [
+      "真人日志中有 19 次科技支付缺少公司面板状态，未推测其宣传成本；资源消耗与转换率仍是估计，来源分类覆盖率不代表账本完整。",
+      "真人日志中有 15 席的已记录数据消耗超过已记录获取；旧日志省略部分符文等资源奖励，获取量仅代表可见流水，不能用总量差推定人机完整资源差距。"
+    ],
+    "visibleResourceMeans": {
+      "setupGain": {
+        "credits": 3.8,
+        "energy": 2.1333333333333333,
+        "publicity": 4.2,
+        "availableData": 0.4666666666666667,
+        "handSize": 4.866666666666666
+      },
+      "incomeGain": {
+        "credits": 17.666666666666668,
+        "energy": 12.333333333333334,
+        "publicity": 1.1333333333333333,
+        "availableData": 0.6,
+        "handSize": 6.733333333333333
+      },
+      "nonIncomeGain": {
+        "credits": 6.733333333333333,
+        "energy": 10.666666666666666,
+        "publicity": 26.8,
+        "availableData": 25,
+        "handSize": 17.466666666666665
+      },
+      "spent": {
+        "credits": 24.733333333333334,
+        "energy": 17.466666666666665,
+        "publicity": 50.53333333333333,
+        "availableData": 42,
+        "handSize": 26.4
+      }
     }
   },
   "baseline": {
@@ -318,6 +352,16 @@
       "meanDelta": -0.375,
       "topQuartileMeanDelta": -23,
       "reason": "均分未提升且高分回落，未合入"
+    },
+    {
+      "name": "PASS普通预留牌全量净资源成本排序",
+      "seeds": [
+        2,
+        3,
+        5
+      ],
+      "meanDelta": 0.5,
+      "reason": "三局均分增幅不足，最高四分位在先跑两局中下降10分，未合入"
     }
   ],
   "modelCorrections": {
