@@ -1,6 +1,27 @@
 const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
+{
+  const summarize = (score) => flow.summarizeResourceEvents([
+    { gameId: "score-separation", playerId: "p", roundNumber: 1,
+      sourceCategory: "setup", resourceDeltas: { credits: 2, score } },
+    { gameId: "score-separation", playerId: "p", roundNumber: 1,
+      sourceCategory: "card", resourceDeltas: { energy: 2, score } },
+    { gameId: "score-separation", playerId: "p", roundNumber: 1,
+      sourceCategory: "cost", resourceDeltas: { energy: -1, score: -score } },
+  ]);
+  const zero = summarize(0);
+  const scored = summarize(30);
+  assert.equal(scored.resourceWeighting, "spendable-only-v2");
+  for (const key of ["setupGainWeighted", "grossGainWeighted", "incomeGainWeighted",
+    "nonIncomeGainWeighted", "weightedActionCost"]) {
+    assert.equal(scored.players[0][key], zero.players[0][key], key);
+  }
+  assert.equal(scored.players[0].nonIncomeGain.score, 30, "score remains separately traceable");
+  assert.equal(scored.groups.byRound[1].nonIncomeGainWeighted, 6);
+  assert.equal(scored.groups.byRound[1].spentWeighted, 3);
+}
+
 const analysis = flow.summarizeResourceEvents([
   {
     gameId: "g1", playerId: "p1", playerLabel: "白色", finalScore: 300,

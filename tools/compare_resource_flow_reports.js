@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { summarizeBlueTechRewards } = require("../randomizer/game/ai/resource-flow");
+const { summarizeBlueTechRewards, summarizeResourceEvents } = require("../randomizer/game/ai/resource-flow");
 
 const RESOURCE_VALUES = Object.freeze({
   credits: 3,
@@ -90,6 +90,15 @@ function weightedResources(resources = {}) {
 }
 
 function getPlayerMetric(player, metric) {
+  const resourceMapKey = {
+    setupGainWeighted: "setupGain",
+    incomeGainWeighted: "incomeGain",
+    nonIncomeGainWeighted: "nonIncomeGain",
+    weightedActionCost: "spent",
+  }[metric];
+  if (resourceMapKey && player[resourceMapKey]) {
+    return weightedResources(player[resourceMapKey]);
+  }
   if (metric.startsWith("utilization")) {
     const suffix = metric.slice("utilization".length);
     const resourceKey = suffix.charAt(0).toLowerCase() + suffix.slice(1);
@@ -99,7 +108,7 @@ function getPlayerMetric(player, metric) {
     return weightedResources(player.sameRoundReinvestment);
   }
   if (metric === "sameRoundReinvestmentRate") {
-    const denominator = Number(player.nonIncomeGainWeighted) || 0;
+    const denominator = Number(getPlayerMetric(player, "nonIncomeGainWeighted")) || 0;
     return denominator > 0 ? weightedResources(player.sameRoundReinvestment) / denominator : null;
   }
   return player?.[metric];
@@ -152,9 +161,16 @@ function groupPlayers(players = [], valuesForPlayer) {
 function summarizeRoundGroups(flows = [], playerCount = 0) {
   const byRound = new Map();
   for (const flow of flows) {
-    for (const [roundId, row] of Object.entries(flow?.groups?.byRound || {})) {
+    const roundGroups = flow.events?.length
+      ? summarizeResourceEvents(flow.events).groups.byRound
+      : flow?.groups?.byRound || {};
+    for (const [roundId, row] of Object.entries(roundGroups)) {
       if (!byRound.has(roundId)) byRound.set(roundId, []);
-      byRound.get(roundId).push(row);
+      // Legacy round aggregates have no raw resource maps to remove score from.
+      // Keep their counts, but do not mix obsolete weighted sums into v2 reports.
+      byRound.get(roundId).push(flow.events?.length || flow.resourceWeighting === "spendable-only-v2"
+        ? row
+        : Object.fromEntries(Object.entries(row).filter(([key]) => !key.endsWith("Weighted"))));
     }
   }
   const denominator = Math.max(1, Number(playerCount) || 0);
@@ -178,7 +194,7 @@ function extractReference(reference) {
   const summary = reference?.humanSummary || reference?.summary || reference || {};
   return {
     players: summary.players || [],
-    flows: [{ groups: summary.groups || {} }],
+    flows: [{ groups: summary.groups || {}, resourceWeighting: summary.resourceWeighting }],
     coverage: summary.coverage || null,
     duplicateFileCount: Number(reference?.duplicateFiles?.length ?? reference?.duplicateFileCount) || 0,
     referenceSource: hasHumanSummary ? "humanSummary" : "legacy_summary",

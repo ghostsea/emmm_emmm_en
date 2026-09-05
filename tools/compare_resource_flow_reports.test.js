@@ -148,4 +148,24 @@ assert.equal(legacyComparison.referenceSource, "legacy_summary");
 assert.match(legacyComparison.warnings[0], /humanSummary/);
 assert.match(renderMarkdown(legacyComparison), /口径告警/);
 
+{
+  const migrated = summarizePlayers([{
+    finalScore: 300,
+    setupGain: { credits: 2, score: 20 }, setupGainWeighted: 26,
+    incomeGain: { energy: 2 }, incomeGainWeighted: 6,
+    nonIncomeGain: { credits: 4, score: 90 }, nonIncomeGainWeighted: 102,
+    sameRoundReinvestment: { credits: 2 },
+  }]);
+  assert.equal(migrated.setupGainWeighted, 6);
+  assert.equal(migrated.nonIncomeGainWeighted, 12);
+  assert.equal(migrated.sameRoundReinvestmentRate, 0.5);
+  const migratedFlow = compareResourceFlowReports(reference, { resourceFlow: {
+    players: [{ playerId: "p", finalScore: 90 }],
+    groups: { byRound: { 1: { nonIncomeGainWeighted: 102 } } },
+    events: [{ playerId: "p", roundNumber: 1, sourceCategory: "card",
+      resourceDeltas: { credits: 4, score: 90 } }],
+  } });
+  assert.equal(migratedFlow.ai.byRound[1].nonIncomeGainWeighted, 12);
+}
+
 console.log("compare_resource_flow_reports.test.js: all tests passed");

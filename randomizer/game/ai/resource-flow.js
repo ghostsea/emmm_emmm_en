@@ -104,7 +104,8 @@
   }
 
   function weightedResourceMap(resources = {}) {
-    return TRACKED_RESOURCE_KEYS.reduce(
+    // Score is an outcome, not a resource that finances another action.
+    return SPENDABLE_RESOURCE_KEYS.reduce(
       (total, key) => total + (Number(resources?.[key]) || 0) * RESOURCE_VALUES[key],
       0,
     );
@@ -566,6 +567,7 @@
     }
     const players = [...playersByKey.values()].map((row) => finalizePlayerRow(row, options));
     return {
+      resourceWeighting: "spendable-only-v2",
       coverage: buildCoverage(events),
       totals: summarizePlayerRows(players),
       players,
