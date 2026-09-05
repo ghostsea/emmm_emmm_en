@@ -1,0 +1,337 @@
+{
+  "phase": "seen-development",
+  "frozenAt": "2026-09-05T23:03:09.362Z",
+  "sourceCommit": "f0738e5ef82a0d128fd9000f417f1e4c77ea1ab3",
+  "initialIndices": [
+    1,
+    3,
+    5,
+    8
+  ],
+  "rule": "Compare each candidate against cached same-runtime verify-base. All these seeds are now seen; not independent validation.",
+  "candidateRule": "Only for resource cardCorner actions: OPENING_INCOME support requires positive followupMainAction score or stagedTechSetupScore. low variant applies only to Huanyu/Grand; all variant applies to all companies. Other goal support and runtime are unchanged.",
+  "limitation": "Existing continuation diagnostics primarily cover publicity-to-research paths. Missing diagnostics do not prove a resource can never support a later action; this is a strict experimental filter, not a rule-correctness fix.",
+  "models": {
+    "all": {
+      "commit": "b6bac512a226825ccd25b011fa177817853f21e3",
+      "fingerprint": "61a59dd25224a3a7964377e94c26ce1fe7c96c25654025b6138b094e2c11cef6",
+      "goalsHash": "a69de4d1c018cb6932b1ad791df44f9765c5c43e922832a524f0c010ecaf82aa",
+      "controllerHash": "c304e63d2d8752825812a1fac2267e7e23860feb43b59c6caf7612eeaf9b2ddd",
+      "runtimeHash": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f"
+    },
+    "low": {
+      "commit": "2ae913cfd92d9ed60146b4a7b51fc9d3aa5b0a35",
+      "fingerprint": "35a62f1e628702dcac6058bb712ca473599ff5932ff8da305362822757caeb31",
+      "goalsHash": "87af09ac79dc02d2772c89ab3f949734b5b8b6e4ff5bd481af42e5fd9b1101e7",
+      "controllerHash": "c304e63d2d8752825812a1fac2267e7e23860feb43b59c6caf7612eeaf9b2ddd",
+      "runtimeHash": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f"
+    }
+  },
+  "audit": {
+    "作弊实验室": {
+      "events": 49,
+      "noFollowup": 47,
+      "negativeBase": 46,
+      "examples": [
+        {
+          "n": 1,
+          "id": 83,
+          "round": 1,
+          "card": "跟踪与数据中继卫星",
+          "reward": {
+            "code": 1,
+            "label": "弃牌换1数据",
+            "gain": {},
+            "dataCount": 1
+          },
+          "gain": -2.3700000000000006,
+          "cost": 3,
+          "goalBonus": 4.507,
+          "net": -0.383,
+          "resources": {
+            "score": 9,
+            "credits": 7,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 0,
+            "handSize": 6
+          }
+        },
+        {
+          "n": 1,
+          "id": 329,
+          "round": 2,
+          "card": "飞掠木星",
+          "reward": {
+            "code": 0,
+            "label": "弃牌换1宣传",
+            "gain": {
+              "publicity": 1
+            },
+            "dataCount": 0
+          },
+          "gain": -0.4912000000000003,
+          "cost": 3,
+          "goalBonus": 6.04,
+          "net": 3.6337999999999995,
+          "resources": {
+            "score": 34,
+            "credits": 3,
+            "energy": 3,
+            "publicity": 4,
+            "availableData": 0,
+            "handSize": 8
+          }
+        },
+        {
+          "n": 1,
+          "id": 331,
+          "round": 2,
+          "card": "最佳发射窗口",
+          "reward": {
+            "code": 1,
+            "label": "弃牌换1数据",
+            "gain": {},
+            "dataCount": 1
+          },
+          "gain": -0.9363999999999999,
+          "cost": 3,
+          "goalBonus": 6.04,
+          "net": 2.104,
+          "resources": {
+            "score": 34,
+            "credits": 3,
+            "energy": 3,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 7
+          }
+        }
+      ]
+    },
+    "宇宙大战略集团": {
+      "events": 22,
+      "noFollowup": 22,
+      "negativeBase": 22,
+      "examples": [
+        {
+          "n": 1,
+          "id": 212,
+          "round": 1,
+          "card": "低功耗微处理器",
+          "reward": {
+            "code": 1,
+            "label": "弃牌换1数据",
+            "gain": {},
+            "dataCount": 1
+          },
+          "gain": -2.2160000000000006,
+          "cost": 3,
+          "goalBonus": 12.393,
+          "net": 7.751,
+          "resources": {
+            "score": 29,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 7,
+            "availableData": 1,
+            "handSize": 7
+          }
+        },
+        {
+          "n": 1,
+          "id": 214,
+          "round": 1,
+          "card": "轨道加注",
+          "reward": {
+            "code": 1,
+            "label": "弃牌换1数据",
+            "gain": {},
+            "dataCount": 1
+          },
+          "gain": -2.2160000000000006,
+          "cost": 3,
+          "goalBonus": 12.393,
+          "net": 7.751,
+          "resources": {
+            "score": 29,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 7,
+            "availableData": 2,
+            "handSize": 6
+          }
+        },
+        {
+          "n": 1,
+          "id": 254,
+          "round": 1,
+          "card": "计算机模拟",
+          "reward": {
+            "code": 4,
+            "label": "弃牌换1数据+1分",
+            "gain": {
+              "score": 1
+            },
+            "dataCount": 1
+          },
+          "gain": -0.8560000000000005,
+          "cost": 5.5,
+          "goalBonus": 11.267,
+          "net": 6.654,
+          "resources": {
+            "score": 31,
+            "credits": 1,
+            "energy": 1,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 6
+          }
+        }
+      ]
+    },
+    "寰宇超动力": {
+      "events": 6,
+      "noFollowup": 6,
+      "negativeBase": 6,
+      "examples": [
+        {
+          "n": 3,
+          "id": 420,
+          "round": 2,
+          "card": "凌日系外行星巡天卫星",
+          "reward": {
+            "code": 0,
+            "label": "弃牌换1宣传",
+            "gain": {
+              "publicity": 1
+            },
+            "dataCount": 0
+          },
+          "gain": -2.24,
+          "cost": 3,
+          "goalBonus": 5.56,
+          "net": 1.57,
+          "resources": {
+            "score": 43,
+            "credits": 5,
+            "energy": 1,
+            "publicity": 6,
+            "availableData": 0,
+            "handSize": 6
+          }
+        },
+        {
+          "n": 4,
+          "id": 307,
+          "round": 2,
+          "card": "业余天文学家",
+          "reward": {
+            "code": 0,
+            "label": "弃牌换1宣传",
+            "gain": {
+              "publicity": 1
+            },
+            "dataCount": 0
+          },
+          "gain": -1.42,
+          "cost": 3,
+          "goalBonus": 2.58,
+          "net": -1.84,
+          "resources": {
+            "score": 24,
+            "credits": 7,
+            "energy": 2,
+            "publicity": 2,
+            "availableData": 0,
+            "handSize": 6
+          }
+        },
+        {
+          "n": 4,
+          "id": 425,
+          "round": 2,
+          "card": "建造欧几里得望远锐",
+          "reward": {
+            "code": 0,
+            "label": "弃牌换1宣传",
+            "gain": {
+              "publicity": 1
+            },
+            "dataCount": 0
+          },
+          "gain": 1.4053833599999994,
+          "cost": 3,
+          "goalBonus": 7.733,
+          "net": 6.139,
+          "resources": {
+            "score": 32,
+            "credits": 2,
+            "energy": 2,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 6
+          }
+        }
+      ]
+    }
+  },
+  "pairs": [
+    {
+      "index": 1,
+      "seed": "codex-ai-verify-20260906:ade5b1f264282c81",
+      "alienSeed": "codex-ai-verify-20260906:ade5b1f264282c81:aliens:v1",
+      "baseline": "verify-base-1.json",
+      "candidate": "verify-candidate-1.json"
+    },
+    {
+      "index": 2,
+      "seed": "codex-ai-verify-20260906:80cd2b7c089defe6",
+      "alienSeed": "codex-ai-verify-20260906:80cd2b7c089defe6:aliens:v1",
+      "baseline": "verify-base-2.json",
+      "candidate": "verify-candidate-2.json"
+    },
+    {
+      "index": 3,
+      "seed": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+      "alienSeed": "codex-ai-verify-20260906:3c9723b84dd9bbc2:aliens:v1",
+      "baseline": "verify-base-3.json",
+      "candidate": "verify-candidate-3.json"
+    },
+    {
+      "index": 4,
+      "seed": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+      "alienSeed": "codex-ai-verify-20260906:17aeef4bc2fe16a7:aliens:v1",
+      "baseline": "verify-base-4.json",
+      "candidate": "verify-candidate-4.json"
+    },
+    {
+      "index": 5,
+      "seed": "codex-ai-verify-20260906:123bbf02166670f4",
+      "alienSeed": "codex-ai-verify-20260906:123bbf02166670f4:aliens:v1",
+      "baseline": "verify-base-5.json",
+      "candidate": "verify-candidate-5.json"
+    },
+    {
+      "index": 6,
+      "seed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+      "alienSeed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3:aliens:v1",
+      "baseline": "verify-base-6.json",
+      "candidate": "verify-candidate-6.json"
+    },
+    {
+      "index": 7,
+      "seed": "codex-ai-verify-20260906:24ffa94231d2397f",
+      "alienSeed": "codex-ai-verify-20260906:24ffa94231d2397f:aliens:v1",
+      "baseline": "verify-base-7.json",
+      "candidate": "verify-candidate-7.json"
+    },
+    {
+      "index": 8,
+      "seed": "codex-ai-verify-20260906:5e506c27b4798d0f",
+      "alienSeed": "codex-ai-verify-20260906:5e506c27b4798d0f:aliens:v1",
+      "baseline": "verify-base-8.json",
+      "candidate": "verify-candidate-8.json"
+    }
+  ]
+}
