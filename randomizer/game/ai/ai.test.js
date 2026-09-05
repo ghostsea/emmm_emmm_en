@@ -5154,3 +5154,22 @@ assert.ok(pulledBackHistory.targetWeights.tech < tunedOnlyHistory.targetWeights.
 assert.ok(battleSummary.recommendations.some((entry) => entry.id === "score-pass-opportunity-cost"));
 
 console.log("ai.test.js: all tests passed");
+
+// Resource corners need a concrete continuation to claim opening engine support.
+{
+  const state = { currentPlayer: { id: "p1", initialSelection: { industry: { label: "宇宙大战略集团" } } } };
+  const engine = [{ id: goals.GOAL_IDS.OPENING_INCOME, value: 8, priority: 1, feasibility: 1 }];
+  const corner = { id: "cardCorner", actionKind: "resource", score: 2, valueBreakdown: {} };
+  assert.equal(goals.scoreCandidateForGoals(corner, engine, state, "p1"), 0);
+  assert.equal(goals.scoreCandidateForGoals({ ...corner, valueBreakdown: { followupMainActionScore: 6 } }, engine, state, "p1"), 8);
+  assert.equal(goals.scoreCandidateForGoals({ ...corner, valueBreakdown: { stagedTechSetupScore: 4 } }, engine, state, "p1"), 8);
+  assert.equal(goals.scoreCandidateForGoals({ id: "playCard", effectTypes: ["gain_resources"] }, engine, state, "p1"), 8);
+}
+
+{
+ const state = { playerState: { players: [{ id: "p1", initialSelection: { industry: { label: "作弊实验室" } } }, { id: "p2", initialSelection: { industry: { label: "寰宇超动力" } } }] } };
+ const engine = [{ id: goals.GOAL_IDS.OPENING_INCOME, value: 8, priority: 1, feasibility: 1 }];
+ const corner = { id: "cardCorner", actionKind: "resource", score: 2 };
+ assert.equal(goals.scoreCandidateForGoals(corner, engine, state, "p1"), 0);
+ assert.equal(goals.scoreCandidateForGoals(corner, engine, state, "p2"), 0);
+}

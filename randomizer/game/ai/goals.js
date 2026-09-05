@@ -301,6 +301,15 @@
   }
 
   function getGoalSupportMultiplier(candidate = {}, goal = {}, state = {}, options = {}) {
+    if (goal.id === GOAL_IDS.OPENING_INCOME
+      && getActionId(candidate) === "cardCorner" && candidate.actionKind === "resource") {
+      const details = candidate.valueBreakdown || {};
+      const followup = candidate.followupMainAction;
+      const hasConversion = numeric(followup?.score) > 0
+        || numeric(details.followupMainActionScore) > 0
+        || numeric(details.stagedTechSetupScore) > 0;
+      return hasConversion ? 1 : 0;
+    }
     if (goal.id !== GOAL_IDS.GRAB_TRACE_YELLOW) return 1;
     const actionId = getActionId(candidate);
     const planAction = getPlanActionId(candidate);
