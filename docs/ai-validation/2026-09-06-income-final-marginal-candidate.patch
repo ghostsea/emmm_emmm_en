@@ -1,0 +1,55 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..e9abe183 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -19599,8 +19599,8 @@
+           + finalSecondMarkNoDirectSetupPenalty,
+         score,
+         finalFormulaDeltas: {
+-          a1: reward.resourceReward || reward.moveReward ? 0.25 : 0,
+-          a2: reward.resourceReward || reward.moveReward ? 0.25 : 0,
++          a1: 0,
++          a2: 0,
+         },
+         valueBreakdown: {
+           rewardValue: reward.value,
+diff --git a/randomizer/game/ai/ai.test.js b/randomizer/game/ai/ai.test.js
+index 141ab574..65d11be4 100644
+--- a/randomizer/game/ai/ai.test.js
++++ b/randomizer/game/ai/ai.test.js
+@@ -534,8 +534,8 @@ const cornerGraph = actionGraph.buildActionGraph([
+ ], {}, "p1", {
+   markedFormulas: [{ formulaId: "a1", multiplier: 6 }],
+ });
+-assert.ok(cornerGraph[0].finalMarginal > 0);
+-assert.ok(cornerGraph[0].net > 2);
++assert.equal(cornerGraph[0].finalMarginal, 0);
++
+ assert.equal(valuation.getNextMissingFinalScoreThreshold(47, 1), 50);
+ assert.equal(valuation.getNextMissingFinalScoreThreshold(51, 2), 70);
+ assert.equal(valuation.getNextMissingFinalScoreThreshold(72, 3), null);
+@@ -5154,3 +5154,10 @@ assert.ok(pulledBackHistory.targetWeights.tech < tunedOnlyHistory.targetWeights.
+ assert.ok(battleSummary.recommendations.some((entry) => entry.id === "score-pass-opportunity-cost"));
+ 
+ console.log("ai.test.js: all tests passed");
++
++for (const actionId of ["playCard", "cardCorner"]) {
++  for (const formulaId of ["a1", "a2"]) {
++    assert.equal(valuation.estimateFinalMarginalForAction({ id: actionId }, {}, "p1", { markedFormulas: [{ formulaId, multiplier: 11 }] }), 0);
++    assert.equal(valuation.estimateFinalMarginalForAction({ id: actionId, finalFormulaDeltas: { [formulaId]: 1 } }, {}, "p1", { markedFormulas: [{ formulaId, multiplier: 11 }] }), 11);
++  }
++}
+diff --git a/randomizer/game/ai/valuation.js b/randomizer/game/ai/valuation.js
+index f7a3f047..04997e6c 100644
+--- a/randomizer/game/ai/valuation.js
++++ b/randomizer/game/ai/valuation.js
+@@ -898,7 +898,8 @@
+     if (formulaId === "d1" && actionId === "researchTech") return 0.5;
+     if (formulaId === "d2" && actionId === "researchTech") return 0.5;
+     if (formulaId === "b1" && (actionId === "alien-trace" || effectTypes.includes("alien_trace"))) return 1;
+-    if ((formulaId === "a1" || formulaId === "a2") && (actionId === "playCard" || actionId === "cardCorner")) return 0.25;
++    // Playing or discarding a card does not itself raise the income track.
++    // Actual income rewards already carry their modeled income value.
+     return 0;
+   }
+ 
