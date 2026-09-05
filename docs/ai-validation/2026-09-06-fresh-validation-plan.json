@@ -13,7 +13,7 @@
     "minimumPerGameMean"
   ],
   "randomControl": "independent-slots-v1",
-  "seedGenerationPending": true,
+  "seedGenerationPending": false,
   "models": {
     "base": {
       "fingerprint": "4450a28ba8d3557bd15747a6ff220056b7a3ebb7aaeaff45570c57325bbb4b49",
@@ -25,12 +25,116 @@
       "fingerprint": "773c5287aa90ca334ec5411714fb1bd1f5e00c8ac75a29921a61f7c128ce7c5f",
       "controller": "3977fa3e19e879e0439f8b2adbb517f8e1b21f2cbcf0b349b079aca3c5bb3f1c",
       "runtime": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f",
-      "resourceFlow": "e9f935f3f3e98549751842f2d1a6bd76f67a214d9f6e088fc3dc73fd477b077e"
+      "resourceFlow": "e9f935f3f3e98549751842f2d1a6bd76f67a214d9f6e088fc3dc73fd477b077e",
+      "commit": "e1a6e6f47c72ccc9ebbe38d0a15c0ab9c57817a3",
+      "branch": "codex/ai-income-terminal-validation-20260906"
     }
   },
   "candidatePatch": "2026-09-06-combined-income-terminal-candidate.patch",
   "harnessHashes": {
     "tools/run_ai_autobattle_browser.js": "678a936160452b34991a502a53714fa2de598a07383ebe99cf139c3a94d3a87e",
     "tools/ai_alien_seed.js": "4253af344f56b56c19babd04a277bb5028002f0b31546a3c975c460ac1e53897"
+  },
+  "seedGeneratedAt": "2026-09-05T22:33:58.408Z",
+  "pairs": [
+    {
+      "index": 1,
+      "seed": "codex-ai-verify-20260906:ade5b1f264282c81",
+      "alienSeed": "codex-ai-verify-20260906:ade5b1f264282c81:aliens:v1",
+      "baseline": "verify-base-1.json",
+      "candidate": "verify-candidate-1.json"
+    },
+    {
+      "index": 2,
+      "seed": "codex-ai-verify-20260906:80cd2b7c089defe6",
+      "alienSeed": "codex-ai-verify-20260906:80cd2b7c089defe6:aliens:v1",
+      "baseline": "verify-base-2.json",
+      "candidate": "verify-candidate-2.json"
+    },
+    {
+      "index": 3,
+      "seed": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+      "alienSeed": "codex-ai-verify-20260906:3c9723b84dd9bbc2:aliens:v1",
+      "baseline": "verify-base-3.json",
+      "candidate": "verify-candidate-3.json"
+    },
+    {
+      "index": 4,
+      "seed": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+      "alienSeed": "codex-ai-verify-20260906:17aeef4bc2fe16a7:aliens:v1",
+      "baseline": "verify-base-4.json",
+      "candidate": "verify-candidate-4.json"
+    },
+    {
+      "index": 5,
+      "seed": "codex-ai-verify-20260906:123bbf02166670f4",
+      "alienSeed": "codex-ai-verify-20260906:123bbf02166670f4:aliens:v1",
+      "baseline": "verify-base-5.json",
+      "candidate": "verify-candidate-5.json"
+    },
+    {
+      "index": 6,
+      "seed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+      "alienSeed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3:aliens:v1",
+      "baseline": "verify-base-6.json",
+      "candidate": "verify-candidate-6.json"
+    },
+    {
+      "index": 7,
+      "seed": "codex-ai-verify-20260906:24ffa94231d2397f",
+      "alienSeed": "codex-ai-verify-20260906:24ffa94231d2397f:aliens:v1",
+      "baseline": "verify-base-7.json",
+      "candidate": "verify-candidate-7.json"
+    },
+    {
+      "index": 8,
+      "seed": "codex-ai-verify-20260906:5e506c27b4798d0f",
+      "alienSeed": "codex-ai-verify-20260906:5e506c27b4798d0f:aliens:v1",
+      "baseline": "verify-base-8.json",
+      "candidate": "verify-candidate-8.json"
+    }
+  ],
+  "fixedDevelopment": {
+    "games": 8,
+    "baseline": 221.3125,
+    "candidate": 232.625,
+    "delta": {
+      "mean": 11.3125,
+      "min": 11,
+      "p10": 18.80000000000001,
+      "p25": 5.75,
+      "median": 13,
+      "p75": -4.25,
+      "max": 31,
+      "topQuartileMean": 17.375,
+      "winnerMean": 10.875,
+      "minimumPerGameMean": 10.5,
+      "seats270Plus": -1,
+      "seats300Plus": 2
+    },
+    "companies": {
+      "寰宇超动力": {
+        "seats": 8,
+        "baseline": 192.625,
+        "candidate": 198.375,
+        "meanDelta": 5.75,
+        "minimumDelta": 24
+      },
+      "作弊实验室": {
+        "seats": 16,
+        "baseline": 257.125,
+        "candidate": 263.3125,
+        "meanDelta": 6.1875,
+        "minimumDelta": 9
+      },
+      "宇宙大战略集团": {
+        "seats": 8,
+        "baseline": 178.375,
+        "candidate": 205.5,
+        "meanDelta": 27.125,
+        "minimumDelta": 2
+      }
+    },
+    "pairedGameMeanDeltaStandardError": 4.263306375338277
   }
 }
