@@ -1,0 +1,258 @@
+{
+  "phase": "seen-development",
+  "frozenAt": "2026-09-05T23:12:59.008Z",
+  "sourceCommit": "2fb00041ed7027b5935305496143a429d0216f71",
+  "initialIndices": [
+    2,
+    3,
+    6,
+    7
+  ],
+  "commit": "448304b6704396360398be09b72e7e7e3d8332d8",
+  "fingerprint": "7eb35d9a06af348e40a68b7bac50202bfff54978e96b98880cb6ec60418f27b8",
+  "controllerHash": "611abdf48906f9ec64ff659479a8664a369fe577224f48efec75e9b017ed6c34",
+  "runtimeHash": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f",
+  "scope": "Only card_tuck_played_card_to_income: immediate own-icon gain + remaining income cycles + marked income scoring; card identity passed at both play-effect valuation call sites. Does not change generic income upgrade values or other card count effects. Does not pay another hand card.",
+  "testEvidence": "52 regression files passed; actual play candidate tests cover early versus final round, immediate payout, no second card cost and no mutation of player/hand.",
+  "opportunities": [
+    {
+      "n": 1,
+      "company": "寰宇超动力",
+      "id": 518,
+      "round": 2,
+      "card": "建造燃料箱",
+      "cardId": "b_41.webp",
+      "score": 3.5734200000000005,
+      "effects": [
+        "card_count_hand_income_resource"
+      ],
+      "effectValue": 15.036000000000001,
+      "chosen": "land",
+      "resources": {
+        "score": 36,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 3
+      }
+    },
+    {
+      "n": 2,
+      "company": "作弊实验室",
+      "id": 283,
+      "round": 2,
+      "card": "聚娈反应堆",
+      "cardId": "b_42.webp",
+      "score": -9.5075,
+      "effects": [
+        "card_count_current_income_resource",
+        "card_tuck_played_card_to_income"
+      ],
+      "effectValue": 16.16,
+      "chosen": "researchTech",
+      "resources": {
+        "score": 17,
+        "credits": 6,
+        "energy": 4,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 5
+      }
+    },
+    {
+      "n": 3,
+      "company": "宇宙大战略集团",
+      "id": 316,
+      "round": 2,
+      "card": "政府资助",
+      "cardId": "b_47.webp",
+      "score": 10.0786,
+      "effects": [
+        "card_count_current_income_resource",
+        "card_tuck_played_card_to_income"
+      ],
+      "effectValue": 23.060000000000002,
+      "chosen": "industry",
+      "resources": {
+        "score": 16,
+        "credits": 5,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 4
+      }
+    },
+    {
+      "n": 4,
+      "company": "作弊实验室",
+      "id": 251,
+      "round": 2,
+      "card": "建造燃料箱",
+      "cardId": "b_41.webp",
+      "score": -6.0375876,
+      "effects": [
+        "card_count_hand_income_resource"
+      ],
+      "effectValue": 7.41,
+      "chosen": "land",
+      "resources": {
+        "score": 20,
+        "credits": 4,
+        "energy": 4,
+        "publicity": 0,
+        "availableData": 0,
+        "handSize": 7
+      }
+    },
+    {
+      "n": 5,
+      "company": "宇宙大战略集团",
+      "id": 57,
+      "round": 1,
+      "card": "私营部门投资",
+      "cardId": "dlc_34.png",
+      "score": -18.2785,
+      "effects": [
+        "card_income",
+        "card_count_tech_types_reward"
+      ],
+      "effectValue": 4,
+      "chosen": "researchTech",
+      "resources": {
+        "score": 7,
+        "credits": 6,
+        "energy": 3,
+        "publicity": 8,
+        "availableData": 2,
+        "handSize": 4
+      }
+    },
+    {
+      "n": 6,
+      "company": "作弊实验室",
+      "id": 294,
+      "round": 2,
+      "card": "政府资助",
+      "cardId": "b_47.webp",
+      "score": -4.685450000000001,
+      "effects": [
+        "card_count_current_income_resource",
+        "card_tuck_played_card_to_income"
+      ],
+      "effectValue": 19.775,
+      "chosen": "playCard",
+      "resources": {
+        "score": 29,
+        "credits": 4,
+        "energy": 4,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 8
+      }
+    },
+    {
+      "n": 7,
+      "company": "作弊实验室",
+      "id": 311,
+      "round": 2,
+      "card": "聚娈反应堆",
+      "cardId": "b_42.webp",
+      "score": -10.890671840000001,
+      "effects": [
+        "card_count_current_income_resource",
+        "card_tuck_played_card_to_income"
+      ],
+      "effectValue": 16.16,
+      "chosen": "playCard",
+      "resources": {
+        "score": 20,
+        "credits": 5,
+        "energy": 5,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 9
+      }
+    },
+    {
+      "n": 7,
+      "company": "作弊实验室",
+      "id": 465,
+      "round": 2,
+      "card": "建造燃料箱",
+      "cardId": "b_41.webp",
+      "score": -1.0205560000000005,
+      "effects": [
+        "card_count_hand_income_resource"
+      ],
+      "effectValue": 6.2,
+      "chosen": "playCard",
+      "resources": {
+        "score": 35,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 3
+      }
+    }
+  ],
+  "pairs": [
+    {
+      "index": 1,
+      "seed": "codex-ai-verify-20260906:ade5b1f264282c81",
+      "alienSeed": "codex-ai-verify-20260906:ade5b1f264282c81:aliens:v1",
+      "baseline": "verify-base-1.json",
+      "candidate": "verify-candidate-1.json"
+    },
+    {
+      "index": 2,
+      "seed": "codex-ai-verify-20260906:80cd2b7c089defe6",
+      "alienSeed": "codex-ai-verify-20260906:80cd2b7c089defe6:aliens:v1",
+      "baseline": "verify-base-2.json",
+      "candidate": "verify-candidate-2.json"
+    },
+    {
+      "index": 3,
+      "seed": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+      "alienSeed": "codex-ai-verify-20260906:3c9723b84dd9bbc2:aliens:v1",
+      "baseline": "verify-base-3.json",
+      "candidate": "verify-candidate-3.json"
+    },
+    {
+      "index": 4,
+      "seed": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+      "alienSeed": "codex-ai-verify-20260906:17aeef4bc2fe16a7:aliens:v1",
+      "baseline": "verify-base-4.json",
+      "candidate": "verify-candidate-4.json"
+    },
+    {
+      "index": 5,
+      "seed": "codex-ai-verify-20260906:123bbf02166670f4",
+      "alienSeed": "codex-ai-verify-20260906:123bbf02166670f4:aliens:v1",
+      "baseline": "verify-base-5.json",
+      "candidate": "verify-candidate-5.json"
+    },
+    {
+      "index": 6,
+      "seed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+      "alienSeed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3:aliens:v1",
+      "baseline": "verify-base-6.json",
+      "candidate": "verify-candidate-6.json"
+    },
+    {
+      "index": 7,
+      "seed": "codex-ai-verify-20260906:24ffa94231d2397f",
+      "alienSeed": "codex-ai-verify-20260906:24ffa94231d2397f:aliens:v1",
+      "baseline": "verify-base-7.json",
+      "candidate": "verify-candidate-7.json"
+    },
+    {
+      "index": 8,
+      "seed": "codex-ai-verify-20260906:5e506c27b4798d0f",
+      "alienSeed": "codex-ai-verify-20260906:5e506c27b4798d0f:aliens:v1",
+      "baseline": "verify-base-8.json",
+      "candidate": "verify-candidate-8.json"
+    }
+  ]
+}
