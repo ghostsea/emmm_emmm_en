@@ -614,24 +614,47 @@ function summarizeTimeoutState(state = null, error = null) {
 function parseDevToolsPort(text) {
   const port = Number(String(text).split(/\r?\n/, 1)[0]);
   if (!Number.isInteger(port) || port <= 0 || port > 65535 || CHROMIUM_RESTRICTED_PORTS.has(port)) {
-    throw new Error(`Invalid or restricted Chrome debugging port: ${port}`);
+    const error = new Error(`Invalid or restricted Chrome debugging port: ${port}`);
+    if (CHROMIUM_RESTRICTED_PORTS.has(port)) error.code = "CHROME_RESTRICTED_DEBUG_PORT";
+    throw error;
   }
   return port;
 }
 
-async function getChromeDebugPort(userDataDir) {
+async function getChromeDebugPort(userDataDir, readPortFile = (file) => fs.readFileSync(file, "utf8")) {
   const portFile = path.join(userDataDir, "DevToolsActivePort");
   const port = await waitFor(() => {
     try {
-      const text = fs.readFileSync(portFile, "utf8");
+      const text = readPortFile(portFile);
       return text.trim() ? parseDevToolsPort(text) : null;
     } catch (error) {
-      if (error.code === "ENOENT") return null;
+      if (error.code === "ENOENT" || error.code === "EBUSY") return null;
       throw error;
     }
   });
   if (!port) throw new Error("Chrome did not publish its debugging port before startup timed out");
   return port;
+}
+
+async function launchChromeWithSafeDebugPort(options, userDataDir, overrides = {}) {
+  const runtime = { launchChrome, getChromeDebugPort, terminateChrome,
+    clearPortFile: () => fs.rmSync(path.join(userDataDir, "DevToolsActivePort"), { force: true }),
+    ...overrides };
+  for (let attempt = 0; attempt < 5; attempt += 1) {
+    const chrome = await runtime.launchChrome(options.chrome, 0, userDataDir, options.headless);
+    try {
+      const debugPort = await runtime.getChromeDebugPort(userDataDir);
+      return { chrome, debugPort };
+    } catch (error) {
+      const exited = await runtime.terminateChrome(chrome);
+      chrome.stdout?.destroy?.();
+      chrome.stderr?.destroy?.();
+      chrome.unref?.();
+      if (!exited) throw new Error(`Could not stop failed Chrome startup ${chrome.pid}`, { cause: error });
+      if (error.code !== "CHROME_RESTRICTED_DEBUG_PORT" || attempt === 4) throw error;
+      runtime.clearPortFile();
+    }
+  }
 }
 
 async function main() {
@@ -646,13 +669,15 @@ async function main() {
   const { server, port: httpPort } = await startStaticServer(repoRoot);
   // Chrome binds an OS-selected free port and publishes it in this fresh profile.
   // Random ports could collide or select fetch-blocked ports such as 10080.
-  const chrome = await launchChrome(options.chrome, 0, userDataDir, options.headless);
+  let chrome = null;
   let cdp = null;
   const pageUrl = `http://127.0.0.1:${httpPort}/randomizer/index.html?aiRun=${Date.now()}`;
   const consoleMessages = [];
 
   try {
-    const debugPort = await getChromeDebugPort(userDataDir);
+    const started = await launchChromeWithSafeDebugPort(options, userDataDir);
+    chrome = started.chrome;
+    const debugPort = started.debugPort;
     const wsUrl = await getPageWebSocket(debugPort);
     cdp = new CdpClient(wsUrl);
     await cdp.open();
@@ -752,13 +777,13 @@ async function main() {
       cdp.close();
     }
     server.close();
-    const chromeExited = await terminateChrome(chrome);
+    const chromeExited = chrome ? await terminateChrome(chrome) : true;
     if (!chromeExited) {
       process.stderr.write(`Warning: could not confirm Chrome process ${chrome.pid} exited\n`);
     }
-    chrome.stdout?.destroy?.();
-    chrome.stderr?.destroy?.();
-    chrome.unref?.();
+    chrome?.stdout?.destroy?.();
+    chrome?.stderr?.destroy?.();
+    chrome?.unref?.();
     const cleanupAttempts = 20;
     for (let attempt = 0; attempt < cleanupAttempts; attempt += 1) {
       try {
@@ -787,4 +812,6 @@ if (require.main === module) {
 module.exports = {
   parseArgs,
   parseDevToolsPort,
+  getChromeDebugPort,
+  launchChromeWithSafeDebugPort,
 };
