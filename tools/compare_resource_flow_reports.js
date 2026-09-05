@@ -192,19 +192,22 @@ function summarizeRoundGroups(flows = [], playerCount = 0) {
 function extractReference(reference) {
   const hasHumanSummary = Boolean(reference?.humanSummary);
   const summary = reference?.humanSummary || reference?.summary || reference || {};
+  const uncertainResearchCosts = (reference?.games || []).reduce((sum, game) => sum
+    + (Number(game.accounting?.uncertainResearchCostByPlayer?.[reference.humanPlayerLabel || "白色"]) || 0), 0);
+  const warnings = hasHumanSummary ? []
+    : ["参考报告缺少 humanSummary，已回退到旧 summary；该口径可能混入日志内电脑座位。"];
+  if (uncertainResearchCosts > 0) warnings.push(`真人日志中有 ${uncertainResearchCosts} 次科技支付缺少公司面板状态，未推测其宣传成本；资源消耗与转换率仍是估计，来源分类覆盖率不代表账本完整。`);
   return {
     players: summary.players || [],
     flows: [{ groups: summary.groups || {}, resourceWeighting: summary.resourceWeighting }],
     coverage: summary.coverage || null,
     duplicateFileCount: Number(reference?.duplicateFiles?.length ?? reference?.duplicateFileCount) || 0,
     referenceSource: hasHumanSummary ? "humanSummary" : "legacy_summary",
-    warnings: hasHumanSummary
-      ? []
-      : ["参考报告缺少 humanSummary，已回退到旧 summary；该口径可能混入日志内电脑座位。"],
+    warnings,
   };
 }
 
-function enrichAiFlowPlayers(flow = {}) {
+function enrichAiFlowPlayers(flow = {}, decisionLogs = []) {
   const entriesByPlayer = new Map();
   const eventsByPlayer = new Map();
   for (const event of flow.events || []) {
@@ -224,6 +227,10 @@ function enrichAiFlowPlayers(flow = {}) {
     const playerId = events[0].playerId;
     mainActionCounts[playerId] = (Number(mainActionCounts[playerId]) || 0) + 1;
   }
+  const mainDecisions = decisionLogs.filter((entry) => entry.type === "turn-action"
+    && entry.details?.action?.kind === "main");
+  const decisionCounts = {};
+  for (const entry of mainDecisions) decisionCounts[entry.playerId] = (decisionCounts[entry.playerId] || 0) + 1;
   return (flow.players || []).map((player) => {
     const weightedCost = Number(player.weightedActionCost) || 0;
     const derived = weightedCost > 0
@@ -238,7 +245,9 @@ function enrichAiFlowPlayers(flow = {}) {
       };
     return {
       ...player,
-      mainActionsPerWeightedCost: Number(player.mainActionsPerWeightedCost) > 0
+      mainActionsPerWeightedCost: mainDecisions.length && weightedCost > 0
+        ? (decisionCounts[player.playerId] || 0) / weightedCost
+        : Number(player.mainActionsPerWeightedCost) > 0
         ? player.mainActionsPerWeightedCost
         : derived,
       ...blueTechRewards,
@@ -257,7 +266,8 @@ function extractAi(ai) {
     flows = [ai.resourceFlow];
   }
   return {
-    players: flows.flatMap(enrichAiFlowPlayers),
+    players: flows.flatMap((flow, index) => enrichAiFlowPlayers(flow,
+      (Array.isArray(result.samples) ? result.samples[index]?.logs : result.logs) || [])),
     flows,
     coverage: result.resourceFlow?.coverage || result.resourceFlow?.headline || null,
     gamesRun: Number(result.gamesRun) || flows.length,

@@ -345,6 +345,7 @@ function parseReferenceActionLog(markdown, options = {}) {
   const playerResults = [];
   const playerMetadata = {};
   const routeSummary = {};
+  const actionEntries = [];
   const revealedAliens = [];
   const revealedAlienSet = new Set();
   const events = [];
@@ -398,7 +399,9 @@ function parseReferenceActionLog(markdown, options = {}) {
         actionLabel: entryMatch[4].trim(),
         selectedTechId: null,
         lastClassifiedSourceCategory: null,
+        steps: [],
       };
+      actionEntries.push(entry);
       if (!playerMetadata[entry.playerLabel]) playerMetadata[entry.playerLabel] = {};
       continue;
     }
@@ -408,6 +411,7 @@ function parseReferenceActionLog(markdown, options = {}) {
     if (!stepMatch) continue;
     const pace = stepMatch[1];
     const text = stepMatch[2].trim();
+    entry.steps.push({ pace, text });
     const companyMatch = text.match(/选择公司：(.+)$/);
     if (companyMatch) {
       playerMetadata[entry.playerLabel].industryId = companyMatch[1].trim();
@@ -460,6 +464,8 @@ function parseReferenceActionLog(markdown, options = {}) {
     const playerResult = playerResults.find((result) => result.playerLabel === playerLabel);
     events.push({
       gameId: options.gameId || options.fileName || "reference-game",
+      entryId: entry.sequence,
+      stepIndex: entry.steps.length - 1,
       playerId: playerLabel,
       playerLabel,
       finalScore: Number(playerResult?.finalScore) || 0,
@@ -479,6 +485,43 @@ function parseReferenceActionLog(markdown, options = {}) {
       confidence: 1,
     });
   }
+
+  const productiveMainActionCounts = {};
+  let inferredResearchCostCount = 0;
+  let uncertainResearchCostCount = 0;
+  const uncertainResearchCostByPlayer = {};
+  for (const action of actionEntries) {
+    const isMainAction = /^(科技行动|扫描行动|打牌行动|登陆行动|环绕行动|分析数据|发射\s)/.test(action.actionLabel)
+      && action.steps.some((step) => step.pace === "main");
+    if (!isMainAction) continue;
+    productiveMainActionCounts[action.playerLabel] = (productiveMainActionCounts[action.playerLabel] || 0) + 1;
+    if (action.actionLabel !== "科技行动" || !action.selectedTechId) continue;
+    const mainEvents = events.filter((event) => event.entryId === action.sequence && event.pace === "main");
+    if (mainEvents.some((event) => Number(event.resourceDeltas.publicity) < 0)) continue;
+    const industryId = playerMetadata[action.playerLabel]?.industryId || null;
+    // Human exports omit the publicity payment. Ordinary companies always pay 6;
+    // alien labs need their panel state, which these old text exports do not retain.
+    if (!industryId || /异星实验室|作弊实验室/.test(industryId)) {
+      uncertainResearchCostCount += 1;
+      uncertainResearchCostByPlayer[action.playerLabel] = (uncertainResearchCostByPlayer[action.playerLabel] || 0) + 1;
+      continue;
+    }
+    inferredResearchCostCount += 1;
+    events.push({
+      gameId: options.gameId || options.fileName || "reference-game",
+      entryId: action.sequence,
+      stepIndex: action.steps.findIndex((step) => /选择科技：/.test(step.text)) - 0.5,
+      playerId: action.playerLabel, playerLabel: action.playerLabel,
+      finalScore: playerResults.find((p) => p.playerLabel === action.playerLabel)?.finalScore || 0,
+      roundNumber: action.roundNumber, turnNumber: action.turnNumber,
+      pace: "main", actionLabel: action.actionLabel, sourceCategory: "cost",
+      sourceDetail: "普通公司科技主行动：补记规则确定的6宣传成本",
+      resourceDeltas: { publicity: -6 }, incomeDeltas: {}, cards: [], techIds: [],
+      industryId, confidence: 1, syntheticResearchCost: true,
+    });
+  }
+
+  events.sort((left, right) => left.entryId - right.entryId || left.stepIndex - right.stepIndex);
 
   const syntheticSetupEvents = playerResults.map((player) => ({
     gameId: options.gameId || options.fileName || "reference-game",
@@ -511,6 +554,8 @@ function parseReferenceActionLog(markdown, options = {}) {
     playerResults,
     playerMetadata,
     routeSummary,
+    productiveMainActionCounts,
+    accounting: { inferredResearchCostCount, uncertainResearchCostCount, uncertainResearchCostByPlayer },
     revealedAliens,
     events: [...syntheticSetupEvents, ...events],
   };
@@ -519,8 +564,8 @@ function parseReferenceActionLog(markdown, options = {}) {
 function buildProductiveMainActionCounts(games) {
   const result = {};
   for (const game of games) {
-    for (const [playerLabel, route] of Object.entries(game.routeSummary || {})) {
-      result[`${game.gameId}:${playerLabel}`] = Number(route.mainActionCount) || 0;
+    for (const [playerLabel, count] of Object.entries(game.productiveMainActionCounts || {})) {
+      result[`${game.gameId}:${playerLabel}`] = count;
     }
   }
   return result;

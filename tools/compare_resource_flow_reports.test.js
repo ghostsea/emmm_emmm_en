@@ -140,6 +140,16 @@ const unavailableMetrics = summarizePlayers([{
   utilizationRate: { publicity: null },
   alienCardToPlayRate: null,
 }]);
+const runtimeCounts = compareResourceFlowReports(reference, { result: {
+  resourceFlow: { players: [{ playerId: "p", finalScore: 100, weightedActionCost: 20,
+    mainActionsPerWeightedCost: 0.4 }] },
+  logs: [
+    { playerId: "p", type: "turn-action", details: { action: { id: "playCard", kind: "main" } } },
+    { playerId: "p", type: "turn-action", details: { action: { id: "pass", kind: "pass" } } },
+    { playerId: "p", type: "turn-action", details: { action: { id: "placeData", kind: "quick" } } },
+  ],
+} });
+assert.equal(runtimeCounts.ai.allPlayers.mainActionsPerWeightedCost, 0.05);
 assert.equal(unavailableMetrics.utilizationPublicity, null);
 assert.equal(unavailableMetrics.alienCardToPlayRate, null);
 

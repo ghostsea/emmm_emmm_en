@@ -36,6 +36,30 @@ const markdown = `# SETI 行动日志
 const game = parseReferenceActionLog(markdown, { gameId: "human-1", fileName: "sample.md" });
 assert.equal(game.playerResults[0].finalScore, 300);
 assert.equal(game.routeSummary["白色"].mainActionCount, 3);
+assert.equal(game.productiveMainActionCounts["白色"], 2, "do not copy old route summary totals");
+assert.equal(game.accounting.inferredResearchCostCount, 1);
+assert.equal(game.events.find((event) => event.syntheticResearchCost).resourceDeltas.publicity, -6);
+assert.equal(game.events.findIndex((event) => event.syntheticResearchCost)
+  < game.events.findIndex((event) => event.sourceCategory === "tech_bonus_blue1"), true,
+"charge research before subsequent data rewards for the reinvestment ledger");
+
+{
+  const withNonActions = parseReferenceActionLog(markdown + `
+### #4 第1轮 第3回合 - 白色 - PASS
+- [main] PASS
+### #5 第2轮 第1回合 - 白色 - 轮开始
+- [main] 轮开始：能量+3
+### #6 第2轮 第1回合 - 白色 - 本回合行动
+- [main] 开普勒22赢家奖励：白色 +3分
+`);
+  assert.equal(withNonActions.productiveMainActionCounts["白色"], 2);
+  const explicit = parseReferenceActionLog(markdown.replace("- [main] 选择科技：blue1",
+    "- [main] 科技支付：宣传-6\n- [main] 选择科技：blue1"));
+  assert.equal(explicit.accounting.inferredResearchCostCount, 0, "do not double count explicit payment");
+  const alienLab = parseReferenceActionLog(markdown.replace("选择公司：宇宙战略集团", "选择公司：异星实验室"));
+  assert.equal(alienLab.accounting.inferredResearchCostCount, 0);
+  assert.equal(alienLab.accounting.uncertainResearchCostCount, 1, "do not invent missing panel state");
+}
 assert.equal(
   game.events.find((event) => event.sourceDetail === "默认初始手牌").resourceDeltas.handSize,
   4,
