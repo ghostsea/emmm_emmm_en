@@ -17309,12 +17309,14 @@
     const currentPlayer = getCurrentPlayer();
     const count = countOwnedTechByType(currentPlayer, effect.options?.techType);
     const total = Math.max(0, Math.round(count * Number(effect.options?.per || 1)));
+    if (effect.options?.resource === "data") {
+      return finishGainDataRewardEffect(effect, currentPlayer, total, "owned_tech_reward", {
+        payload: { count, total },
+      });
+    }
     beginEffectHistoryStep(effect.label);
     const beforePlayer = structuredClone(currentPlayer);
-    const dataResults = [];
-    if (effect.options?.resource === "data") {
-      for (let index = 0; index < total; index += 1) dataResults.push(data.gainData(currentPlayer, { source: "owned_tech_reward" }));
-    } else if (total > 0) {
+    if (total > 0) {
       const gain = { [effect.options?.resource || "score"]: total };
       players.gainResources(currentPlayer, gain);
       recordScoreSourceForGainEffect(currentPlayer, effect, gain);
@@ -17327,9 +17329,7 @@
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: true,
-      message: effect.options?.resource === "data"
-        ? `${effect.label}：获得 ${dataResults.filter((item) => item.ok).length}/${total} 数据`
-        : `${effect.label}：获得 ${total}`,
+      message: `${effect.label}：获得 ${total}`,
       payload: { count, total },
     });
   }
@@ -17510,6 +17510,7 @@
         return openAutoDataPlacementPrompt(effect, currentPlayer, {
           onAfterPlacement: ({ messages, restoreRecorded }) => finishGainDataRewardEffect(
             effect, currentPlayer, count, source, {
+              ...options,
               results,
               skippedCount,
               placementMessages: [...placementMessages, ...messages],
@@ -17529,14 +17530,14 @@
     }
     const gained = results.filter((item) => item.ok).length;
     const placementText = placementMessages.length ? `；${placementMessages.join("；")}` : "";
-    const message = `${effect.label}：${currentPlayer?.colorLabel || currentPlayer?.name || "玩家"}获得 ${gained}/${count} 个数据${skippedCount ? `，跳过 ${skippedCount} 个无法领取的数据` : ""}${placementText}`;
+    const message = `${effect.label}：${options.messagePrefix || ""}${currentPlayer?.colorLabel || currentPlayer?.name || "玩家"}获得 ${gained}/${count} 个数据${skippedCount ? `，跳过 ${skippedCount} 个数据` : ""}${placementText}`;
     return finishAutomaticRewardEffect(effect, {
       ok: true,
       undoable: true,
       skipped: gained === 0 && skippedCount > 0,
       message,
-      payload: { results, skippedCount, placementMessages },
-    });
+      payload: { ...options.payload, results, skippedCount, placementMessages },
+    }, options.renderers || []);
   }
 
   function executeGainDataRewardEffect(effect) {
@@ -19550,22 +19551,17 @@
     beginEffectHistoryStep(effect.label);
     players.spendResources(currentPlayer, { aomomoFossils: cost });
     const dataCount = Math.max(0, Math.round(Number(effect.options?.dataCount) || 1));
-    const results = [];
-    for (let index = 0; index < dataCount; index += 1) {
-      results.push(data.gainData(currentPlayer, { source: "aomomo_card" }));
-    }
     recordHistoryCommand(historyCommands.createRestorePlayerCommand(
       currentPlayer,
       beforePlayer,
       "恢复奥陌陌化石换数据前玩家状态",
     ));
-    const gained = results.filter((item) => item.ok).length;
-    return finishAutomaticRewardEffect(effect, {
-      ok: true,
-      undoable: true,
-      message: `${effect.label}：支付${cost}化石，获得${gained}/${dataCount}数据`,
-      payload: { results },
-    }, [renderPlayerHand]);
+    return finishGainDataRewardEffect(effect, currentPlayer, dataCount, "aomomo_card", {
+      restoreRecorded: true,
+      messagePrefix: `支付${cost}化石，`,
+      payload: { cost },
+      renderers: [renderPlayerHand],
+    });
   }
 
   function openAomomoFossilAnyScanEffect(effect) {

@@ -1486,8 +1486,8 @@ assert.ok(
 }
 
 {
-  function exerciseDataReward(initialData, count, { skipFirst = false, fullComputer = false } = {}) {
-    const player = { id: "data-owner", name: "奖励归属玩家", resources: { availableData: 0 },
+  function exerciseDataReward(initialData, count, { skipFirst = false, fullComputer = false, source = "direct" } = {}) {
+    const player = { id: "data-owner", name: "奖励归属玩家", resources: { availableData: 0, aomomoFossils: 2 },
       dataState: dataModule.createDefaultDataState(), techState: { ownedTiles: {}, boardSlots: {} } };
     if (fullComputer) {
       for (let index = 0; index < 6; index += 1) {
@@ -1517,7 +1517,27 @@ assert.ok(
       },
       finishAutomaticRewardEffect: (_effect, value) => { result = value; return value; },
     });
-    finish({ label: "连续数据" }, player, count, "runtime-test");
+    if (source === "owned-tech") {
+      const execute = loadNamedFunction("executeCountOwnedTechRewardEffect", {
+        getCurrentPlayer: () => player,
+        countOwnedTechByType: () => count,
+        finishGainDataRewardEffect: finish,
+      });
+      execute({ label: "按科技领取数据", options: { resource: "data", per: 1 } });
+    } else if (source === "fossil") {
+      const execute = loadNamedFunction("executeAomomoFossilForDataEffect", {
+        getCurrentPlayer: () => player,
+        players: playerModule,
+        beginEffectHistoryStep: () => {},
+        historyCommands,
+        recordHistoryCommand: (command) => commands.push(command),
+        finishGainDataRewardEffect: finish,
+        renderPlayerHand: () => {},
+      });
+      execute({ label: "化石换数据", options: { cost: 2, dataCount: count } });
+    } else {
+      finish({ label: "连续数据" }, player, count, "runtime-test");
+    }
     while (pending) {
       const next = pending;
       pending = null;
@@ -1551,6 +1571,14 @@ assert.ok(
   assert.equal(blocked.prompts, 0);
   assert.equal(blocked.result.payload.skippedCount, 3);
   assert.equal(blocked.result.skipped, true);
+  const counted = exerciseDataReward(6, 3, { source: "owned-tech" });
+  assert.equal(counted.result.payload.results.length, 3);
+  assert.equal(counted.result.payload.total, 3, "counted-reward metadata must survive repeated placement prompts");
+  const paid = exerciseDataReward(6, 3, { source: "fossil" });
+  assert.equal(paid.result.payload.results.length, 3);
+  assert.equal(paid.after.resources.aomomoFossils, 0, "pay the fossil cost once before the first token");
+  assert.equal(paid.result.payload.cost, 2);
+  assert.match(paid.result.message, /支付2化石/);
 }
 
 console.log("runtime-regressions.test.js: all tests passed");

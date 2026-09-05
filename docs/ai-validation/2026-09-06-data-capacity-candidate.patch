@@ -1,0 +1,38 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..f4a4272d 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -3778,6 +3778,23 @@
+       return actualGain;
+     }
+ 
++    function getAiDataRewardAcquisitionCount(count, player = getCurrentPlayer()) {
++      const poolRoom = getAiAvailableDataRoom(player);
++      if (count <= poolRoom) return count;
++      if (!data.COMPUTER_DATA_SLOTS) return Math.min(count, poolRoom);
++      const placed = player?.dataState?.placedTokens || [];
++      const computerSlots = Object.keys(data.COMPUTER_DATA_SLOTS).map(Number);
++      const openComputerSlots = computerSlots.filter((slot) => !placed.some((token) => (
++        token.placementKind === data.PLACEMENT_KIND_COMPUTER && Number(token.placementSlot) === slot
++      ))).length;
++      const previewPlayer = structuredClone(player);
++      const openBlueSlots = Object.keys(data.BLUE_BONUS_DATA_SLOTS || {}).map(Number).filter((slot) => (
++        data.hasBlueTechInBoardSlot?.(previewPlayer, slot)
++        && !placed.some((token) => token.placementKind === data.PLACEMENT_KIND_BLUE_BONUS && Number(token.blueSlot) === slot)
++      )).length;
++      return Math.min(count, poolRoom + openComputerSlots + openBlueSlots);
++    }
++
+     let aiResourceContinuationDepth = 0;
+ 
+     function createAiPlayerAfterResourceGain(player = getCurrentPlayer(), gain = {}) {
+@@ -10817,7 +10834,8 @@
+         case "gain_data": {
+           const count = Math.max(0, Math.round(aiNumber(effectOptions.count || 1)));
+           const actualGain = getAiActualResourceGain({ availableData: count }, player);
+-          const actualCount = Math.max(0, aiNumber(actualGain.availableData));
++          const actualCount = getAiDataRewardAcquisitionCount(count, player);
++          if (actualCount <= 0) return 0;
+           return actualCount * AI_RESOURCE_VALUES.availableData
+             + scoreAiMidgameResourceContinuationValue(actualGain, player, { scale: 0.75 });
+         }
