@@ -9,6 +9,11 @@ const run = (seed, scores) => ({
 const pair = { seed: "fixed:1", baseline: run("fixed:1", [300, 100]), candidate: run("fixed:1", [290, 150]) };
 pair.candidate.result.playerResults.reverse();
 const report = comparePairs([pair]);
+for (const option of ["alienSeed", "alienRandomMode"]) {
+  const mismatched = structuredClone(pair);
+  mismatched.candidate.options[option] = "different";
+  assert.throws(() => comparePairs([mismatched]), /外星人随机配置不一致/);
+}
 assert.equal(report.delta.mean, 20);
 assert.equal(report.delta.max, -10);
 assert.equal(report.delta.min, 50);

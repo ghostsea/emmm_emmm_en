@@ -1,0 +1,32 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..9a90a2bb 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -9645,6 +9645,18 @@
+       )).length;
+     }
+ 
++    function countAiStandardScansSinceAnalyze(player = getCurrentPlayer()) {
++      if (!player) return 0;
++      const round = getAiRoundNumber();
++      let count = 0;
++      for (const entry of aiAutoBattleState.turnActionHistory || []) {
++        if (entry.playerId !== player.id || entry.roundNumber !== round) continue;
++        if (entry.action?.id === "analyze") count = 0;
++        else if (entry.action?.id === "scan") count += 1;
++      }
++      return count;
++    }
++
+     function getAiFinalRoundProgressPenaltyScale(actionId, rawCandidate = {}, graphCandidate = {}, player = getCurrentPlayer()) {
+       const round = getAiRoundNumber();
+       if (!player || round < FINAL_ROUND_NUMBER) return 1;
+@@ -18627,7 +18639,7 @@
+             + (b2SectorScanRecoveryValue > 0 ? 3 : 0),
+         )
+         : 0;
+-      const repeatedScanPenalty = Math.max(0, scanCountThisRound) * (getAiRoundNumber() <= 2 ? 7 : 10);
++      const repeatedScanPenalty = countAiStandardScansSinceAnalyze(player) * (getAiRoundNumber() <= 2 ? 7 : 10);
+       const earlySetupScanBonus = (
+         getAiRoundNumber() <= 2
+         && scanCountThisRound <= 0

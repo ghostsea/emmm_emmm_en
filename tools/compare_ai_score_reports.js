@@ -68,6 +68,11 @@ function comparePairs(pairs) {
     seeds.add(seed);
     const before = validateRun(baseline, seed);
     const after = validateRun(candidate, seed);
+    for (const option of ["alienSeed", "alienRandomMode"]) {
+      if ((baseline.options[option] ?? null) !== (candidate.options[option] ?? null)) {
+        throw new Error(`${seed} 外星人随机配置不一致：${option}`);
+      }
+    }
     const afterById = new Map(after.map((p) => [p.playerId, p]));
     if (before.length !== after.length) throw new Error(`${seed} 两版席位数不一致`);
     const seats = before.map((p) => {

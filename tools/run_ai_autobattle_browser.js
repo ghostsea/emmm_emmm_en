@@ -6,6 +6,7 @@ const http = require("http");
 const os = require("os");
 const path = require("path");
 const { spawn, spawnSync } = require("child_process");
+const { buildIndependentAlienSeedScript } = require("./ai_alien_seed.js");
 
 const REPO_ROOT = path.resolve(__dirname, "..");
 const DEFAULT_CHROME = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
@@ -41,6 +42,7 @@ function parseArgs(argv) {
   let seedsOptionSeen = false;
   const options = {
     seed: "ai-v2-baseline",
+    alienSeed: null,
     seeds: null,
     games: 5,
     activePlayerCount: 4,
@@ -79,6 +81,10 @@ function parseArgs(argv) {
       case "seed":
         seedOptionSeen = true;
         options.seed = value;
+        break;
+      case "alienSeed":
+        if (!value || String(value).startsWith("--")) throw new Error("--alienSeed requires a value");
+        options.alienSeed = String(value);
         break;
       case "seeds":
         seedsOptionSeen = true;
@@ -172,6 +178,7 @@ function parseArgs(argv) {
     [options.seed] = options.seeds;
     options.seeds = null;
   }
+  if (options.alienSeed !== null && !options.single) throw new Error("--alienSeed requires --single");
   return options;
 }
 
@@ -692,6 +699,11 @@ async function main() {
     await cdp.send("Network.enable");
     await cdp.send("Network.setCacheDisabled", { cacheDisabled: true });
     await cdp.send("Runtime.enable");
+    if (options.alienSeed !== null) {
+      await cdp.send("Page.addScriptToEvaluateOnNewDocument", {
+        source: buildIndependentAlienSeedScript(options.alienSeed),
+      });
+    }
     await cdp.send("Page.navigate", { url: pageUrl });
     const pageReady = await waitFor(async () => {
       const ready = await cdp.send("Runtime.evaluate", {
@@ -717,6 +729,7 @@ async function main() {
 
     const batchOptions = {
       seed: options.seed,
+      ...(options.alienSeed !== null ? { alienSeed: options.alienSeed, alienRandomMode: "independent-slots-v1" } : {}),
       seeds: options.seeds?.length ? options.seeds : undefined,
       games: options.games,
       activePlayerCount: options.activePlayerCount,

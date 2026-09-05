@@ -1,0 +1,37 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..ba5503fe 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -16452,6 +16452,12 @@
+       };
+     }
+ 
++    function scoreAiPurple1ImmediateDataValue(player = getCurrentPlayer()) {
++      const gain = getAiActualResourceGain({ availableData: 2 }, player);
++      if (aiNumber(gain.availableData) <= 0) return 0;
++      return scoreAiEffectValue({ type: "gain_data", options: { count: 2 } }, { player });
++    }
++
+     function scoreAiResearchTechValue(candidate, player = getCurrentPlayer()) {
+       const techType = candidate?.techType || "";
+       const stackIndex = Math.max(1, Math.round(aiNumber(candidate?.stackIndex) || 1));
+@@ -16488,7 +16494,9 @@
+           value -= routeDistance >= 99 ? 0.65 : 0.45;
+         }
+       }
+-      if (candidate?.tileId === "purple1") value += 1.5;
++      if (candidate?.tileId === "purple1") {
++        value += scoreAiPurple1ImmediateDataValue(player);
++      }
+       value += scoreAiTechBonus(candidate?.bonusId, player);
+       if (candidate?.firstTake) value += 2;
+       if (candidate?.firstTake) {
+@@ -22912,6 +22920,8 @@
+       candidate.finalFormulaDeltas = getAiResearchTechFinalFormulaDeltas(candidate, getCurrentPlayer());
+       candidate.directScoreGain = getAiResearchTechDirectScoreGain(candidate);
+       candidate.valueBreakdown = {
++        purple1ImmediateDataValue: candidate.tileId === "purple1"
++          ? scoreAiPurple1ImmediateDataValue(getCurrentPlayer()) : 0,
+         lateTechCatchupValue: scoreAiLateTechEngineCatchupValue(candidate, getCurrentPlayer()),
+         lowTechCatchupValue: scoreAiLowTechBoardCatchupValue(candidate, getCurrentPlayer()),
+         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),

@@ -4,6 +4,9 @@ const assert = require("assert");
 const { parseArgs, parseDevToolsPort, getChromeDebugPort, launchChromeWithSafeDebugPort } = require("./run_ai_autobattle_browser.js");
 
 assert.equal(parseDevToolsPort("49161\r\n/devtools/browser/example\r\n"), 49161);
+assert.equal(parseArgs(["--single", "--alienSeed", "paired:1"]).alienSeed, "paired:1");
+assert.throws(() => parseArgs(["--alienSeed", "paired:1"]), /requires --single/);
+assert.throws(() => parseArgs(["--single", "--alienSeed"]), /requires a value/);
 for (const value of ["10080", "6000", "4190", "6679", "0", "65536", "not-a-port"]) {
   assert.throws(() => parseDevToolsPort(value), /Invalid or restricted/);
 }
