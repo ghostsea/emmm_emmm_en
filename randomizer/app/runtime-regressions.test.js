@@ -1448,4 +1448,41 @@ assert.ok(
   );
 }
 
+{
+  const rockets = require("../game/rockets");
+  const abilities = require("../game/abilities");
+  const playerState = playerModule.createPlayerState();
+  const player = playerModule.getCurrentPlayer(playerState);
+  const rocketState = rockets.createRocketState();
+  const earth = { x: 6, y: 1 };
+  while (rockets.findAvailableSlotIndex(rocketState, earth.x, earth.y) !== null) {
+    assert.equal(rockets.launchRocketAtSector(rocketState, earth, {
+      playerId: "other-player", color: "green",
+    }).ok, true);
+  }
+  const beforeResources = structuredClone(player.resources);
+  const beforeCount = rocketState.rockets.length;
+  let historyOpen = false;
+  let skipped = false;
+  const execute = loadNamedFunction("executeHuanyuSuperdrivePassLaunchEffect", {
+    abilities,
+    createActionContext: () => ({ playerState, rocketState, getEarthSectorCoordinate: () => earth }),
+    beginEffectHistoryStep: () => { historyOpen = true; },
+    endEffectHistoryStep: () => { historyOpen = false; },
+    skipActionEffectWithMessage: (effect, message, details) => {
+      assert.equal(historyOpen, false);
+      assert.match(details.reason, /已满/);
+      effect.status = "skipped";
+      skipped = true;
+      return { ok: true, skipped: true, message };
+    },
+    recordAbilityCommands: () => assert.fail("failed launch must not record commands"),
+  });
+  const effect = { type: "industry_huanyu_superdrive_launch", status: "active", options: {} };
+  assert.equal(execute(effect).ok, true);
+  assert.equal(skipped, true, "a full Earth sector must release the PASS effect queue");
+  assert.equal(rocketState.rockets.length, beforeCount);
+  assert.deepEqual(player.resources, beforeResources);
+}
+
 console.log("runtime-regressions.test.js: all tests passed");

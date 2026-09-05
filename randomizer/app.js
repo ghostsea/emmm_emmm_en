@@ -17608,9 +17608,11 @@
     });
     if (!result.ok) {
       endEffectHistoryStep();
-      rocketState.statusNote = result.message;
-      renderStateReadout();
-      return result;
+      return skipActionEffectWithMessage(
+        effect,
+        `${effect.label || "寰宇超动力发射"}：${result.message || "无法发射"}，已跳过`,
+        { reason: result.message || null, abilityId: result.abilityId || "launchProbe" },
+      );
     }
     recordAbilityCommands(result);
     if (result.rocket) renderRocketElement(result.rocket);

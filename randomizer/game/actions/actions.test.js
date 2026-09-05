@@ -160,6 +160,22 @@ const fullOrbitContext = createContext();
 for (let index = 0; index < 5; index += 1) {
   assert.equal(planetStats.addPlanetOrbitMarker(fullOrbitContext.planetStatsState, "mars", players.getCurrentPlayer(fullOrbitContext.playerState)).ok, true);
 }
+
+{
+  const context = createContext();
+  const earth = context.getEarthSectorCoordinate();
+  while (rockets.findAvailableSlotIndex(context.rocketState, earth.x, earth.y) !== null) {
+    rockets.launchRocketAtSector(context.rocketState, earth, { playerId: "other", color: "green" });
+  }
+  const player = players.getCurrentPlayer(context.playerState);
+  const beforeResources = structuredClone(player.resources);
+  assert.equal(actions.canExecute("launch", context).ok, false);
+  assert.equal(actions.execute("launch", context).ok, false);
+  assert.deepEqual(player.resources, beforeResources);
+  rockets.removeRocket(context.rocketState, context.rocketState.rockets[0].id);
+  assert.equal(actions.canExecute("launch", context).ok, true);
+  assert.equal(actions.execute("launch", context).ok, true);
+}
 launchToPlanet(fullOrbitContext, "mars");
 assert.equal(actions.canExecute("orbit", fullOrbitContext).ok, true);
 const overflowOrbit = actions.execute("orbit", fullOrbitContext);

@@ -61,6 +61,10 @@
     if (!players.canAfford(currentPlayer, cost)) {
       return { ok: false, message: formatLaunchCostMessage(cost) };
     }
+    const earthSector = context.getEarthSectorCoordinate();
+    if (rockets.findAvailableSlotIndex(context.rocketState, earthSector.x, earthSector.y) === null) {
+      return { ok: false, message: `扇区[${earthSector.x},${earthSector.y}]已满，无法发射` };
+    }
     return { ok: true, message: null };
   }
 
