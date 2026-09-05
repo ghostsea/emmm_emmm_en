@@ -11352,7 +11352,7 @@
     }
   },
   "dataCapacityCandidate": {
-    "status": "isolated-development-running",
+    "status": "four-development-pairs-no-score-change",
     "scope": "gain_data estimates actual receiveable count using pool, computer and active blue slot capacity; resource-pool continuation projection remains capped",
     "tests": "52 test files passed before final zero-gain guard; controller tests repeated after guard; real b_39 play receives 2, 1 or 0 tokens according to remaining placement capacity",
     "runtimeProof": [
@@ -11375,7 +11375,9 @@
         "bugs": []
       }
     ],
-    "patch": "2026-09-06-data-capacity-candidate.patch"
+    "patch": "2026-09-06-data-capacity-candidate.patch",
+    "pairedGames": 4,
+    "meanDelta": 0
   },
   "alienNameClassificationCorrection": {
     "ordinaryCard": "水熊虫研究",
@@ -11430,5 +11432,142 @@
       "rateDiffs": []
     },
     "tests": "resource-flow, reference parser, resource comparison, card resource returns passed"
+  },
+  "controlledGrandIncomeFinal": {
+    "status": "development-only-below-target",
+    "games": 8,
+    "baseline": 221.3125,
+    "candidate": 224.71875,
+    "delta": {
+      "mean": 3.40625,
+      "min": 17,
+      "p10": 16.80000000000001,
+      "p25": 2,
+      "median": 2,
+      "p75": -19.25,
+      "max": 15,
+      "topQuartileMean": 6.75,
+      "winnerMean": 4,
+      "minimumPerGameMean": 7.25,
+      "seats270Plus": -2,
+      "seats300Plus": 2
+    },
+    "companies": {
+      "寰宇超动力": {
+        "seats": 8,
+        "baseline": 192.625,
+        "candidate": 194.375,
+        "meanDelta": 1.75,
+        "minimumDelta": 17
+      },
+      "作弊实验室": {
+        "seats": 16,
+        "baseline": 257.125,
+        "candidate": 249.0625,
+        "meanDelta": -8.0625,
+        "minimumDelta": -9
+      },
+      "宇宙大战略集团": {
+        "seats": 8,
+        "baseline": 178.375,
+        "candidate": 206.375,
+        "meanDelta": 28,
+        "minimumDelta": 23
+      }
+    },
+    "pairedGameMeanDeltaStandardError": 5.823470350198655,
+    "notes": "Grand company +28 but full table +3.40625; not accepted as default. All 8 species-paired games finish normally with zero bugs."
+  },
+  "cardTechValueCandidate": {
+    "status": "isolated-frozen-development-awaiting-games",
+    "scope": "Replace flat 10 research effect value with the selected legal technology candidate score; recursion guarded; existing execution selection reused",
+    "patch": "2026-09-06-card-tech-value-candidate.patch",
+    "tests": "52 randomizer test files; unit restricted color, actual selection policy, unavailable technology, finite nested evaluation; real browser b_43 grants 3 data and blue1 with zero bugs",
+    "runtimeProof": {
+      "effectValue": 40.92470350799999,
+      "choices": [
+        {
+          "tile": "blue1",
+          "score": 34.567703507999994,
+          "allowed": [
+            "blue1",
+            "blue2",
+            "blue3",
+            "blue4"
+          ]
+        },
+        {
+          "tile": "blue1",
+          "score": 34.567703507999994,
+          "allowed": [
+            "blue1",
+            "blue2",
+            "blue3",
+            "blue4"
+          ]
+        },
+        {
+          "tile": "blue1",
+          "score": 35.970593828000005,
+          "allowed": [
+            "blue1",
+            "blue2",
+            "blue3",
+            "blue4"
+          ]
+        }
+      ],
+      "acquiredTech": [
+        "blue1"
+      ],
+      "data": 3,
+      "bugs": []
+    },
+    "hashes": {
+      "randomizer/app/ai-controller.js": "dbfcf0be6540f06fa788935c25d13149a9303857001cc40349d45f6dbb4d29d2",
+      "randomizer/app.js": "cea1aec0c9d3a6d39b809c0b122f9bee2fcb4143dcf5e5bcb5dad386b4a2d504",
+      "randomizer/game/ai/valuation.js": "c46399bf87f2c8bd5d05b1e5d61561859bca5bb87452b83cf192e487d1e8ce2c"
+    }
+  },
+  "controlledScanCycle": {
+    "status": "four-pairs-negative-not-adopted",
+    "games": 4,
+    "delta": {
+      "mean": -6.6875,
+      "min": 0,
+      "p10": 2.5,
+      "p25": 2,
+      "median": 5,
+      "p75": -25.75,
+      "max": -48,
+      "topQuartileMean": -19.5,
+      "winnerMean": -26,
+      "minimumPerGameMean": -5.75,
+      "seats270Plus": -1,
+      "seats300Plus": -1
+    },
+    "companies": {
+      "寰宇超动力": {
+        "seats": 4,
+        "baseline": 171.75,
+        "candidate": 172.25,
+        "meanDelta": 0.5,
+        "minimumDelta": 0
+      },
+      "作弊实验室": {
+        "seats": 8,
+        "baseline": 266.5,
+        "candidate": 248.375,
+        "meanDelta": -18.125,
+        "minimumDelta": -9
+      },
+      "宇宙大战略集团": {
+        "seats": 4,
+        "baseline": 184.5,
+        "candidate": 193.5,
+        "meanDelta": 9,
+        "minimumDelta": 22
+      }
+    }
   }
 }

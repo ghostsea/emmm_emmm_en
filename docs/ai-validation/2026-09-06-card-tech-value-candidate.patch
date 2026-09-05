@@ -1,0 +1,89 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 185366fb..c6f9b7fd 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -10790,6 +10790,20 @@
+       )).length;
+     }
+ 
++    let aiCardTechValueDepth = 0;
++
++    function scoreAiCardResearchTechEffect(effect, player = getCurrentPlayer()) {
++      if (aiCardTechValueDepth > 0) return 10;
++      aiCardTechValueDepth += 1;
++      try {
++        const candidates = listAiResearchTechCandidates(effect?.options || {});
++        const selected = selectAiResearchTechCandidateForEffect(candidates, player, effect);
++        return selected ? Math.max(0, aiNumber(selected.score)) : 0;
++      } finally {
++        aiCardTechValueDepth -= 1;
++      }
++    }
++
+     function scoreAiEffectValue(effect, options = {}) {
+       if (!effect) return 0;
+       const type = effect.type;
+@@ -10841,7 +10855,7 @@
+           return 6;
+         case "research_tech_select":
+         case cardEffects.EFFECT_TYPES.RESEARCH_TECH:
+-          return 10;
++          return scoreAiCardResearchTechEffect(effect, player);
+         case "research_tech_bonus":
+           return 3;
+         case cardEffects.EFFECT_TYPES.CARD_MOVE:
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index 7180de46..598ee645 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -421,6 +421,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
+         ...(options.useDefaultMovePaymentPolicy
+           ? { chooseMovePaymentIndexes: setiAi.policy.chooseMovePaymentIndexes }
+           : {}),
++        ...(options.chooseResearchTechTile ? { chooseResearchTechTile: options.chooseResearchTechTile } : {}),
+         ...(options.useDefaultResearchTechPolicy
+           ? { chooseResearchTechTile: setiAi.policy.chooseResearchTechTile }
+           : {}),
+@@ -17102,6 +17103,42 @@ async function runAsyncControllerTests() {
+   }
+ }
+ 
++{
++  for (const allowed of [["blue"], ["purple"], ["orange"]]) {
++    const decisions = [], selections = [];
++    const harness = createAiControllerHarness(null, {
++      currentPlayerColor: "blue", roundNumber: 2, canStartMainAction: true,
++      recordBeginPlayCard: true, realisticCanAfford: true,
++      blueResources: { score: 30, credits: 5, energy: 3, publicity: 0, handSize: 1 },
++      blueHand: [{ id: "tech-value-card", price: 0,
++        playEffects: [{ type: "card_research_tech", options: { techTypes: allowed, skipCost: true } }] }],
++      takeableTechIds: ["blue1", "blue2", "purple1"],
++      chooseResearchTechTile: (candidates, context) => {
++        if (context.effect?.type === "card_research_tech") {
++          assert.ok(candidates.every(candidate => allowed.includes(candidate.techType)));
++          const selected = candidates[candidates.length - 1];
++          selections.push(selected);
++          return selected;
++        }
++        return candidates[0];
++      },
++      onChooseTurnAction: candidates => decisions.push(...candidates),
++      chooseTurnAction: candidates => candidates.find(c => c.id === "playCard") || null,
++    });
++    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
++    harness.controller.runAiAutomationStep();
++    const card = decisions.find(c => c.id === "playCard")?.playableCards?.find(c => c.cardId === "tech-value-card");
++    if (allowed[0] === "orange") {
++      assert.equal(card, undefined, "a card without a legal technology must not gain invented research value");
++    } else {
++      assert.ok(card && selections.length, "card evaluation must consult the actual technology selection policy");
++      assert.ok(Number.isFinite(card.valueBreakdown.effectValue), "nested card and technology valuation must terminate");
++      assert.equal(card.valueBreakdown.effectValue, selections[selections.length - 1].score,
++        "card research uses the selected technology value, including when policy selects the last candidate");
++    }
++  }
++}
++
+ runAsyncControllerTests()
+   .then(() => console.log("app/ai-controller.test.js ok"))
+   .catch((error) => {
