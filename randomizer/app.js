@@ -603,6 +603,22 @@
     });
   }
 
+  function recordInitialIncomeActionLog(flow) {
+    const steps = (flow?.effects || []).filter((effect) => effect.type === "initial_income")
+      .map((effect) => ({
+        source: HISTORY_SOURCE_SETUP,
+        text: `${getPlayerLabelById(effect.options?.playerId)} 初始收入增加：${effect.result?.message || "未结算"}`,
+        undoable: false,
+      }));
+    if (!steps.length) return;
+    appendConfirmedActionLogEntry({
+      title: "初始收入增加",
+      actionType: "initialIncome",
+      actionLabel: "初始收入增加",
+      steps,
+    });
+  }
+
   function confirmInitialSelectionForCurrentPlayer() {
     if (!isInitialSelectionActive()) return;
 
@@ -699,7 +715,17 @@
     }
     if (isInitialIncomeFlowActive()) {
       const latestEntry = actionLogState.entries[actionLogState.entries.length - 1];
-      if (latestEntry) delete latestEntry.recoverySnapshot;
+      if (latestEntry) {
+        latestEntry.accountingSnapshot = {
+          players: structuredClone(playerState.players.map((player) => ({
+            id: player.id, color: player.color, resources: player.resources,
+            income: player.income,
+            hand: (player.hand || []).map((card) => ({ id: card.id, label: cards.getCardLabel(card) })),
+            initialSelection: { industry: player.initialSelection?.industry || null },
+          }))),
+        };
+        delete latestEntry.recoverySnapshot;
+      }
       renderActionLog();
     } else {
       refreshLatestActionLogRecoverySnapshot("初始选择后状态");
@@ -14641,6 +14667,7 @@
       effectStepActive = false;
       playerState.currentPlayerId = turnState.startPlayerId || playerState.currentPlayerId;
       rocketState.statusNote = "初始收入增加完成，游戏开始。";
+      recordInitialIncomeActionLog(finishedFlow);
       renderDebugPlayerSwitch();
       renderPlayerStats();
       renderPlayerHand();

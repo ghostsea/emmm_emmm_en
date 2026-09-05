@@ -394,7 +394,7 @@ const structuredSetupIncome = flow.normalizeStructuredActionLog([{
 }], { gameId: "ai-setup-income" });
 assert.deepEqual(
   structuredSetupIncome[0].resourceDeltas,
-  { publicity: 3, credits: 2, energy: 2, availableData: 2 },
+  { publicity: 3, credits: 2, energy: 2, availableData: 3 },
 );
 assert.deepEqual(
   structuredSetupIncome[0].incomeDeltas,
@@ -504,5 +504,46 @@ assert.equal(gainedIncomeCard.players[0].cardUse.gainedInGame, 1);
 assert.equal(gainedIncomeCard.players[0].cardUse.income, 1);
 assert.equal(gainedIncomeCard.players[0].cardUse.incomeFromGains, 1);
 assert.equal(gainedIncomeCard.players[0].incomeCardConversionRate, 1);
+
+{
+  const before = { id: "p1", color: "white", resources: { credits: 2 },
+    income: {}, hand: [{ id: "a" }, { id: "b" }] };
+  const after = { ...before, resources: { credits: 3 },
+    income: { credits: 1, handSize: 1 }, hand: [{ id: "c" }] };
+  const entries = [{ id: 1, roundNumber: 1, playerId: "p1", actionType: "initialSelection",
+    steps: [{ source: "setup", text: "结算初始效果：白色 获得 2信用点" }],
+    accountingSnapshot: { players: [before] },
+  }, { id: 2, roundNumber: 1, playerId: "p1", actionType: "initialIncome",
+    steps: [
+      { source: "setup", text: "白色 初始收入增加：收入：弃掉 a，手牌+1（已即时获得）" },
+      { source: "setup", text: "白色 初始收入增加：收入：弃掉 b，信用点+1（已即时获得）" },
+    ], recoverySnapshot: { state: { playerState: { players: [after] } } },
+  }];
+  const result = flow.analyzeStructuredActionLog(entries, {
+    initialPlayerStates: { p1: { ...before, resources: {}, hand: [] } },
+  });
+  const row = result.players[0];
+  assert.equal(row.setupGain.credits, 2);
+  assert.equal(row.incomeGain.credits, 1);
+  assert.equal(row.incomeGain.handSize, 1, "drawing while discarding is a real gross gain");
+  assert.equal(row.spent.handSize, 2, "both income cards were consumed despite a replacement draw");
+  assert.deepEqual(row.balanceResiduals, {});
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+  assert.equal(row.mainActionsPerWeightedCost, 0, "setup income is not a productive main action");
+  const truncated = flow.analyzeStructuredActionLog(entries.slice(0, 1), {
+    initialPlayerStates: { p1: { ...before, resources: {}, hand: [] } },
+    endingInventories: { p1: { credits: 3, handSize: 2 } },
+  });
+  assert.equal(truncated.players[0].balanceResiduals.credits, -1);
+  assert.equal(truncated.players[0].utilizationRate.credits, null,
+    "a missing opening reward must not produce a purportedly reconciled utilization rate");
+  const roundStart = flow.analyzeStructuredActionLog([{
+    id: 3, roundNumber: 2, playerId: "p1", actionType: "setup",
+    steps: [{ source: "setup", text: "寰宇超动力：第2轮开始：获得 1能量" }],
+    accountingSnapshot: { players: [{ ...after, resources: { credits: 3, energy: 2 } }] },
+  }], { initialPlayerStates: { p1: after } });
+  assert.equal(roundStart.players[0].nonIncomeGain.energy, 2,
+    "round-start setup steps participate in resource snapshot reconciliation");
+}
 
 console.log("resource-flow.test.js: all tests passed");

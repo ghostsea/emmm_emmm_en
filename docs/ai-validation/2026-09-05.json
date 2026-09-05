@@ -11479,7 +11479,7 @@
     "notes": "Grand company +28 but full table +3.40625; not accepted as default. All 8 species-paired games finish normally with zero bugs."
   },
   "cardTechValueCandidate": {
-    "status": "isolated-frozen-development-awaiting-games",
+    "status": "four-pairs-negative-not-adopted",
     "scope": "Replace flat 10 research effect value with the selected legal technology candidate score; recursion guarded; existing execution selection reused",
     "patch": "2026-09-06-card-tech-value-candidate.patch",
     "tests": "52 randomizer test files; unit restricted color, actual selection policy, unavailable technology, finite nested evaluation; real browser b_43 grants 3 data and blue1 with zero bugs",
@@ -11527,6 +11527,46 @@
       "randomizer/app/ai-controller.js": "dbfcf0be6540f06fa788935c25d13149a9303857001cc40349d45f6dbb4d29d2",
       "randomizer/app.js": "cea1aec0c9d3a6d39b809c0b122f9bee2fcb4143dcf5e5bcb5dad386b4a2d504",
       "randomizer/game/ai/valuation.js": "c46399bf87f2c8bd5d05b1e5d61561859bca5bb87452b83cf192e487d1e8ce2c"
+    },
+    "development": {
+      "games": 4,
+      "delta": {
+        "mean": -21.875,
+        "min": -3,
+        "p10": -13,
+        "p25": -3.75,
+        "median": -9,
+        "p75": -35.25,
+        "max": -78,
+        "topQuartileMean": -47.25,
+        "winnerMean": -46.25,
+        "minimumPerGameMean": -8.5,
+        "seats270Plus": -4,
+        "seats300Plus": -1
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 4,
+          "baseline": 171.75,
+          "candidate": 166.75,
+          "meanDelta": -5,
+          "minimumDelta": -3
+        },
+        "作弊实验室": {
+          "seats": 8,
+          "baseline": 266.5,
+          "candidate": 228.5,
+          "meanDelta": -38,
+          "minimumDelta": -26
+        },
+        "宇宙大战略集团": {
+          "seats": 4,
+          "baseline": 184.5,
+          "candidate": 178,
+          "meanDelta": -6.5,
+          "minimumDelta": -5
+        }
+      }
     }
   },
   "controlledScanCycle": {
@@ -11569,5 +11609,100 @@
         "minimumDelta": 22
       }
     }
+  },
+  "initialIncomeLedgerCorrection": {
+    "status": "runtime-and-accounting-fixed",
+    "oldReports": "Initial income choices absent from action log; old income and spend totals incomplete despite zero per-step residual. Historical score comparisons remain valid.",
+    "scope": [
+      "Keep initialIncome setup entry with owner-specific result messages",
+      "Non-restorable accounting snapshot for setup before income",
+      "Round-start setup participates in reconciliation",
+      "Income card hand turnover counts both draw and discard",
+      "Initial-card income icon immediate data gain",
+      "Balance residuals suppress unreliable utilization rates"
+    ],
+    "tests": "52 randomizer test files passed; resource comparison and reference parser tests passed; real browser four-player setup ledger balances all five spendable resources",
+    "runtimeProof": [
+      {
+        "playerId": "player-green",
+        "balanceResiduals": {},
+        "incomeGain": {
+          "score": 0,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 1
+        },
+        "spent": {
+          "score": 0,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 2
+        }
+      },
+      {
+        "playerId": "player-blue",
+        "balanceResiduals": {},
+        "incomeGain": {
+          "score": 0,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 1
+        },
+        "spent": {
+          "score": 0,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      {
+        "playerId": "player-brown",
+        "balanceResiduals": {},
+        "incomeGain": {
+          "score": 0,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 1
+        },
+        "spent": {
+          "score": 0,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 3
+        }
+      },
+      {
+        "playerId": "player-white",
+        "balanceResiduals": {},
+        "incomeGain": {
+          "score": 0,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 1
+        },
+        "spent": {
+          "score": 0,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    ]
   }
 }

@@ -1581,4 +1581,23 @@ assert.ok(
   assert.match(paid.result.message, /支付2化石/);
 }
 
+{
+  const entries = [];
+  const record = loadNamedFunction("recordInitialIncomeActionLog", {
+    HISTORY_SOURCE_SETUP: "setup",
+    getPlayerLabelById: id => ({ p1: "白色", p2: "蓝色" }[id]),
+    appendConfirmedActionLogEntry: entry => entries.push(entry),
+  });
+  record({ effects: [
+    { type: "initial_income", options: { playerId: "p1" }, result: { message: "收入：弃掉 A，信用点+1（已即时获得）" } },
+    { type: "initial_income", options: { playerId: "p2" }, result: { message: "没有手牌，已跳过" } },
+  ] });
+  assert.equal(entries.length, 1);
+  assert.equal(entries[0].actionType, "initialIncome");
+  assert.deepEqual(entries[0].steps.map(step => step.source), ["setup", "setup"]);
+  assert.match(entries[0].steps[0].text, /^白色 初始收入增加/);
+  assert.match(entries[0].steps[1].text, /^蓝色 初始收入增加.*已跳过/);
+  assert.ok(entries[0].steps.every(step => step.undoable === false));
+}
+
 console.log("runtime-regressions.test.js: all tests passed");

@@ -142,6 +142,14 @@
     return playersByKey.get(key);
   }
 
+  function getIncomeCardHandTurnover(event, resourceKey) {
+    return resourceKey === "handSize"
+      && event.sourceCategory === "income_upgrade_immediate"
+      && /收入：弃掉/.test(String(event.sourceDetail || ""))
+      ? Math.min(1, Math.max(0, Number(event.incomeDeltas?.handSize) || 0))
+      : 0;
+  }
+
   function applyEventToPlayerRow(row, event) {
     row.events.push(event);
     if (event.playerLabel) row.playerLabel = event.playerLabel;
@@ -152,24 +160,28 @@
 
     for (const resourceKey of TRACKED_RESOURCE_KEYS) {
       const delta = Number(event.resourceDeltas?.[resourceKey]) || 0;
-      if (delta > 0) {
+      const turnover = getIncomeCardHandTurnover(event, resourceKey);
+      const gained = Math.max(0, delta) + turnover;
+      const spent = Math.max(0, -delta) + turnover;
+      if (gained > 0) {
         if (event.sourceCategory === "setup") {
-          addResourceValue(sourceTotals, resourceKey, delta);
-          addResourceValue(row.setupGain, resourceKey, delta);
+          addResourceValue(sourceTotals, resourceKey, gained);
+          addResourceValue(row.setupGain, resourceKey, gained);
         } else {
-          addResourceValue(row.grossGain, resourceKey, delta);
+          addResourceValue(row.grossGain, resourceKey, gained);
           const embeddedIncome = isIncomeSource(event.sourceCategory)
-            ? delta
-            : Math.min(delta, Math.max(0, Number(event.incomeDeltas?.[resourceKey]) || 0));
-          const nonIncome = delta - embeddedIncome;
+            ? gained
+            : Math.min(gained, Math.max(0, Number(event.incomeDeltas?.[resourceKey]) || 0));
+          const nonIncome = gained - embeddedIncome;
           if (embeddedIncome > 0) addResourceValue(row.incomeGain, resourceKey, embeddedIncome);
           if (nonIncome > 0) {
             addResourceValue(row.nonIncomeGain, resourceKey, nonIncome);
             addResourceValue(sourceTotals, resourceKey, nonIncome);
           }
         }
-      } else if (delta < 0) {
-        addResourceValue(row.spent, resourceKey, Math.abs(delta));
+      }
+      if (spent > 0) {
+        addResourceValue(row.spent, resourceKey, spent);
       }
     }
   }
@@ -371,8 +383,13 @@
       ]));
     const utilizationRate = emptyResourceMap();
     const nonIncomeShare = emptyResourceMap();
+    const balanceResiduals = providedEndingInventory
+      ? Object.fromEntries(SPENDABLE_RESOURCE_KEYS.map((key) => [key,
+        row.setupGain[key] + row.grossGain[key] - row.spent[key] - endingInventory[key],
+      ]).filter(([, value]) => Math.abs(value) > 1e-9))
+      : null;
     for (const key of TRACKED_RESOURCE_KEYS) {
-      utilizationRate[key] = unreconciledResourceKeys.has(key)
+      utilizationRate[key] = unreconciledResourceKeys.has(key) || Boolean(balanceResiduals?.[key])
         ? null
         : divideOrNull(row.spent[key], row.setupGain[key] + row.grossGain[key]);
       nonIncomeShare[key] = divideOrNull(
@@ -391,6 +408,7 @@
       ...compactRow,
       alienIds: [...row.alienIds],
       endingInventory,
+      balanceResiduals,
       utilizationRate,
       nonIncomeShare,
       setupGainWeighted: weightedResourceMap(row.setupGain),
@@ -704,6 +722,7 @@
     const lowerText = text.toLowerCase();
 
     if (/第\d+轮开始/.test(text) && includesAny(text, INDUSTRY_LABELS)) return "industry";
+    if (/初始收入增加/.test(text)) return "income_upgrade_immediate";
     if (pace === "setup" || /初始选择|选择公司|初始效果/.test(text)) return "setup";
     if (pace === "pass" || /获得本轮收入|pass\s*收入|回合收入/i.test(text)) {
       return "pass_income";
@@ -783,7 +802,8 @@
   }
 
   function extractStructuredSnapshotStates(entry) {
-    const players = entry?.recoverySnapshot?.state?.playerState?.players;
+    const players = entry?.recoverySnapshot?.state?.playerState?.players
+      || entry?.accountingSnapshot?.players;
     if (!Array.isArray(players)) return null;
     return new Map(players.map((player) => {
       const normalized = normalizeStructuredPlayerState(player);
@@ -957,6 +977,8 @@
         addResourceValue(resourceDeltas, key, -value);
         if (!resourceDeltas[key]) delete resourceDeltas[key];
       }
+      // Initial-card income increases grant the icon resource immediately.
+      if (/结算初始效果/.test(text)) addResourceValue(resourceDeltas, key, value);
     }
   }
 
@@ -1011,8 +1033,10 @@
     }
     const implicitDataGains = (text.match(/获得数据/g) || []).length;
     const recordedDataGains = Math.max(0, Number(resourceDeltas.availableData) || 0);
-    if (implicitDataGains > recordedDataGains) {
-      addResourceValue(resourceDeltas, "availableData", implicitDataGains - recordedDataGains);
+    const setupIncomeDataGain = sourceCategory === "setup" && /结算初始效果/.test(text)
+      ? Math.max(0, Number(incomeDeltas.availableData) || 0) : 0;
+    if (implicitDataGains + setupIncomeDataGain > recordedDataGains) {
+      addResourceValue(resourceDeltas, "availableData", implicitDataGains + setupIncomeDataGain - recordedDataGains);
     }
     if (/^放置数据/.test(text)) {
       addResourceValue(resourceDeltas, "availableData", -1);
@@ -1115,7 +1139,8 @@
       };
       if (!targetEvent) entryEvents.push(eventForCards);
       const recordedHandGain = playerEvents.reduce(
-        (total, event) => total + Math.max(0, Number(event.resourceDeltas?.handSize) || 0),
+        (total, event) => total + Math.max(0, Number(event.resourceDeltas?.handSize) || 0)
+          + getIncomeCardHandTurnover(event, "handSize"),
         0,
       );
       const unrecordedHandGain = Math.max(0, additions.length - recordedHandGain);
@@ -1187,6 +1212,7 @@
   }
 
   function isSetupStructuredEntry(entry) {
+    if (entry?.actionType === "initialIncome" || Number(entry?.roundNumber) > 1) return false;
     const steps = Array.isArray(entry?.steps) ? entry.steps : [];
     return steps.length > 0 && steps.every((step) => step?.source === "setup");
   }
