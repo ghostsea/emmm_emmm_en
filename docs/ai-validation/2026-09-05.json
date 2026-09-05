@@ -362,6 +362,112 @@
       ],
       "meanDelta": 0.5,
       "reason": "三局均分增幅不足，最高四分位在先跑两局中下降10分，未合入"
+    },
+    {
+      "name": "huanyu-mobility",
+      "runs": [
+        {
+          "seed": "codex-ai-current-default:1",
+          "scores": [
+            178,
+            239,
+            198,
+            207
+          ],
+          "bugs": 0,
+          "ended": true
+        },
+        {
+          "seed": "codex-ai-current-default:2",
+          "scores": [
+            300,
+            240,
+            308,
+            178
+          ],
+          "bugs": 0,
+          "ended": true
+        },
+        {
+          "seed": "codex-ai-current-default:3",
+          "scores": [
+            223,
+            216,
+            275,
+            186
+          ],
+          "bugs": 0,
+          "ended": true
+        },
+        {
+          "seed": "codex-ai-current-default:5",
+          "scores": [
+            249,
+            243,
+            213,
+            221
+          ],
+          "bugs": 0,
+          "ended": true
+        }
+      ],
+      "reason": "首轮无折扣未来移动价值会伤害原本适合橙4的开局；seed1全桌-107，seed5+123，不合入"
+    },
+    {
+      "name": "blue-immediate",
+      "runs": [
+        {
+          "seed": "codex-ai-current-default:2",
+          "scores": [
+            277,
+            244,
+            273,
+            175
+          ],
+          "bugs": 0,
+          "ended": true
+        },
+        {
+          "seed": "codex-ai-current-default:5",
+          "scores": [
+            188,
+            245,
+            207,
+            182
+          ],
+          "bugs": 0,
+          "ended": true
+        }
+      ],
+      "reason": "把即时蓝科技兑现加值推广至所有轮，两局均分-4.75，不合入"
+    },
+    {
+      "name": "scan-economy",
+      "runs": [
+        {
+          "seed": "codex-ai-current-default:2",
+          "scores": [
+            203,
+            249,
+            252,
+            256
+          ],
+          "bugs": 0,
+          "ended": true
+        },
+        {
+          "seed": "codex-ai-current-default:5",
+          "scores": [
+            146,
+            255,
+            182,
+            234
+          ],
+          "bugs": 0,
+          "ended": true
+        }
+      ],
+      "reason": "扫描权重1.18提高至1.5，两局结果不支持合入"
     }
   ],
   "modelCorrections": {
@@ -390,6 +496,324 @@
           ],
           "bugs": 0,
           "ended": true
+        }
+      ]
+    }
+  },
+  "currentCandidate": {
+    "name": "candidate-v1",
+    "status": "frozen-awaiting-unseen-random-validation-not-merged",
+    "changes": [
+      "寰宇橙2首轮未来移动价值上限2.6，后续轮仍5.2",
+      "末轮蓝科技只追加已满足槽位及1数据支付条件的即时奖励净值，及实际可解锁分析的延续收益"
+    ],
+    "fixed": {
+      "baseline": {
+        "games": 5,
+        "seats": 20,
+        "mean": 230.65,
+        "min": 177,
+        "p10": 178.9,
+        "p25": 195,
+        "median": 221,
+        "p75": 269,
+        "max": 308,
+        "topQuartileMean": 292,
+        "winnerMean": 281.8,
+        "minimumPerGameMean": 185.6,
+        "seats270Plus": 5,
+        "seats300Plus": 3,
+        "companies": {
+          "宇宙大战略集团": {
+            "seats": 5,
+            "mean": 251.2,
+            "min": 177
+          },
+          "作弊实验室": {
+            "seats": 10,
+            "mean": 236.4,
+            "min": 185
+          },
+          "寰宇超动力": {
+            "seats": 5,
+            "mean": 198.6,
+            "min": 178
+          }
+        }
+      },
+      "candidate": {
+        "games": 5,
+        "seats": 20,
+        "mean": 238.45,
+        "min": 176,
+        "p10": 184.3,
+        "p25": 213.25,
+        "median": 237,
+        "p75": 260.25,
+        "max": 308,
+        "topQuartileMean": 290.4,
+        "winnerMean": 279.6,
+        "minimumPerGameMean": 191.6,
+        "seats270Plus": 4,
+        "seats300Plus": 3,
+        "companies": {
+          "宇宙大战略集团": {
+            "seats": 5,
+            "mean": 255.6,
+            "min": 202
+          },
+          "作弊实验室": {
+            "seats": 10,
+            "mean": 246.2,
+            "min": 185
+          },
+          "寰宇超动力": {
+            "seats": 5,
+            "mean": 205.8,
+            "min": 176
+          }
+        }
+      },
+      "delta": {
+        "mean": 7.799999999999983,
+        "min": -1,
+        "p10": 5.400000000000006,
+        "p25": 18.25,
+        "median": 16,
+        "p75": -8.75,
+        "max": 0,
+        "topQuartileMean": -1.6000000000000227,
+        "winnerMean": -2.1999999999999886,
+        "minimumPerGameMean": 6,
+        "seats270Plus": -1,
+        "seats300Plus": 0
+      },
+      "pairedGameMeanDeltaStandardError": 7.250603423164171,
+      "gamesImproved": 2,
+      "gamesRegressed": 0,
+      "pairs": [
+        {
+          "seed": "codex-ai-current-default:1",
+          "meanDelta": 0,
+          "seats": [
+            {
+              "playerId": "player-blue",
+              "company": "宇宙大战略集团",
+              "baseline": 202,
+              "candidate": 202,
+              "delta": 0
+            },
+            {
+              "playerId": "player-green",
+              "company": "作弊实验室",
+              "baseline": 275,
+              "candidate": 275,
+              "delta": 0
+            },
+            {
+              "playerId": "player-brown",
+              "company": "作弊实验室",
+              "baseline": 233,
+              "candidate": 233,
+              "delta": 0
+            },
+            {
+              "playerId": "player-white",
+              "company": "寰宇超动力",
+              "baseline": 219,
+              "candidate": 219,
+              "delta": 0
+            }
+          ]
+        },
+        {
+          "seed": "codex-ai-current-default:2",
+          "meanDelta": 0,
+          "seats": [
+            {
+              "playerId": "player-blue",
+              "company": "宇宙大战略集团",
+              "baseline": 300,
+              "candidate": 300,
+              "delta": 0
+            },
+            {
+              "playerId": "player-green",
+              "company": "作弊实验室",
+              "baseline": 240,
+              "candidate": 240,
+              "delta": 0
+            },
+            {
+              "playerId": "player-brown",
+              "company": "作弊实验室",
+              "baseline": 308,
+              "candidate": 308,
+              "delta": 0
+            },
+            {
+              "playerId": "player-white",
+              "company": "寰宇超动力",
+              "baseline": 178,
+              "candidate": 178,
+              "delta": 0
+            }
+          ]
+        },
+        {
+          "seed": "codex-ai-current-default:3",
+          "meanDelta": 2.25,
+          "seats": [
+            {
+              "playerId": "player-blue",
+              "company": "作弊实验室",
+              "baseline": 223,
+              "candidate": 258,
+              "delta": 35
+            },
+            {
+              "playerId": "player-green",
+              "company": "寰宇超动力",
+              "baseline": 216,
+              "candidate": 176,
+              "delta": -40
+            },
+            {
+              "playerId": "player-brown",
+              "company": "宇宙大战略集团",
+              "baseline": 275,
+              "candidate": 241,
+              "delta": -34
+            },
+            {
+              "playerId": "player-white",
+              "company": "作弊实验室",
+              "baseline": 186,
+              "candidate": 234,
+              "delta": 48
+            }
+          ]
+        },
+        {
+          "seed": "codex-ai-current-default:4",
+          "meanDelta": 0,
+          "seats": [
+            {
+              "playerId": "player-blue",
+              "company": "作弊实验室",
+              "baseline": 267,
+              "candidate": 267,
+              "delta": 0
+            },
+            {
+              "playerId": "player-green",
+              "company": "宇宙大战略集团",
+              "baseline": 302,
+              "candidate": 302,
+              "delta": 0
+            },
+            {
+              "playerId": "player-brown",
+              "company": "作弊实验室",
+              "baseline": 185,
+              "candidate": 185,
+              "delta": 0
+            },
+            {
+              "playerId": "player-white",
+              "company": "寰宇超动力",
+              "baseline": 201,
+              "candidate": 201,
+              "delta": 0
+            }
+          ]
+        },
+        {
+          "seed": "codex-ai-current-default:5",
+          "meanDelta": 36.75,
+          "seats": [
+            {
+              "playerId": "player-blue",
+              "company": "寰宇超动力",
+              "baseline": 179,
+              "candidate": 255,
+              "delta": 76
+            },
+            {
+              "playerId": "player-green",
+              "company": "作弊实验室",
+              "baseline": 249,
+              "candidate": 245,
+              "delta": -4
+            },
+            {
+              "playerId": "player-brown",
+              "company": "作弊实验室",
+              "baseline": 198,
+              "candidate": 217,
+              "delta": 19
+            },
+            {
+              "playerId": "player-white",
+              "company": "宇宙大战略集团",
+              "baseline": 177,
+              "candidate": 233,
+              "delta": 56
+            }
+          ]
+        }
+      ]
+    },
+    "randomManifest": {
+      "phase": "unseen-random-validation",
+      "createdAt": "2026-09-05T16:59:32.382Z",
+      "baselineRevision": "36017a8b",
+      "candidateRevision": "38213250 plus frozen candidate-v1 patch",
+      "controllerHashes": {
+        "baseline": "b9314f1e751a110a7c95384f1a2b532475af39a65980fff9ab31abcc23c8f5f0",
+        "candidate": "ddf1b296c018f1a60fb3cb507234a705cb9fa757fab9a121b502588db8718300"
+      },
+      "experiment": "Huanyu R1 movement option capped 2.6 plus final round immediately payable blue tech reward",
+      "pairs": [
+        {
+          "seed": "codex-ai-holdout-20260906:0e7b99fc72c8a698",
+          "baseline": "random-v1-base-1.json",
+          "candidate": "random-v1-candidate-1.json"
+        },
+        {
+          "seed": "codex-ai-holdout-20260906:81565bec6a2846bc",
+          "baseline": "random-v1-base-2.json",
+          "candidate": "random-v1-candidate-2.json"
+        },
+        {
+          "seed": "codex-ai-holdout-20260906:72c4ea3af2d84bb3",
+          "baseline": "random-v1-base-3.json",
+          "candidate": "random-v1-candidate-3.json"
+        },
+        {
+          "seed": "codex-ai-holdout-20260906:0d457010d4e9a12a",
+          "baseline": "random-v1-base-4.json",
+          "candidate": "random-v1-candidate-4.json"
+        },
+        {
+          "seed": "codex-ai-holdout-20260906:5a41f051552b3a93",
+          "baseline": "random-v1-base-5.json",
+          "candidate": "random-v1-candidate-5.json"
+        },
+        {
+          "seed": "codex-ai-holdout-20260906:6ba3adc61f11a6a5",
+          "baseline": "random-v1-base-6.json",
+          "candidate": "random-v1-candidate-6.json"
+        },
+        {
+          "seed": "codex-ai-holdout-20260906:30f84e76bafba740",
+          "baseline": "random-v1-base-7.json",
+          "candidate": "random-v1-candidate-7.json"
+        },
+        {
+          "seed": "codex-ai-holdout-20260906:ff21d7619ffd3f5f",
+          "baseline": "random-v1-base-8.json",
+          "candidate": "random-v1-candidate-8.json"
         }
       ]
     }
