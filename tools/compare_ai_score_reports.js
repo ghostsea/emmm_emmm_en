@@ -92,6 +92,11 @@ function comparePairs(pairs) {
     : null;
   return {
     baseline, candidate,
+    companies: Object.fromEntries(Object.entries(baseline.companies).map(([company, before]) => {
+      const after = candidate.companies[company];
+      return [company, { seats: before.seats, baseline: before.mean, candidate: after.mean,
+        meanDelta: after.mean - before.mean, minimumDelta: after.min - before.min }];
+    })),
     delta: Object.fromEntries(Object.entries(baseline)
       .filter(([key, value]) => typeof value === "number" && !["games", "seats"].includes(key))
       .map(([key, value]) => [key, candidate[key] - value])),
@@ -113,7 +118,8 @@ function main(argv) {
   })));
   if (outputFile) fs.writeFileSync(outputFile, JSON.stringify({ ...manifest, report }, null, 2) + "\n");
   console.log(JSON.stringify({ baseline: report.baseline.mean, candidate: report.candidate.mean,
-    delta: report.delta, gamesImproved: report.gamesImproved, gamesRegressed: report.gamesRegressed }, null, 2));
+    delta: report.delta, companies: report.companies,
+    gamesImproved: report.gamesImproved, gamesRegressed: report.gamesRegressed }, null, 2));
 }
 
 module.exports = { comparePairs, validateRun };
