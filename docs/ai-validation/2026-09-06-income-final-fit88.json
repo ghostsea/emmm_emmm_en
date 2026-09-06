@@ -1,0 +1,30 @@
+{
+  "scope": "88个已见基线，收入弃牌只有一个已选选项且记录净值最高与实际相同。离线扣除finalFormulaFit，保留incomeScore内现有真实倍率边际及其他成本收益；比较实际收入类型是否改变。未模拟后续状态与收入次数，不是得分预测。",
+  "groups": {
+    "寰宇超动力": {
+      "estimatedChangedChoices": 44,
+      "games": 36,
+      "changes": {
+        "[[\"energy\",1]] -> [[\"handSize\",1]]": 8,
+        "[[\"energy\",1]] -> [[\"credits\",1]]": 8,
+        "[[\"credits\",1]] -> [[\"energy\",1]]": 13,
+        "[[\"credits\",1]] -> [[\"handSize\",1]]": 9,
+        "[[\"handSize\",1]] -> [[\"energy\",1]]": 6
+      }
+    },
+    "宇宙大战略集团": {
+      "estimatedChangedChoices": 80,
+      "games": 57,
+      "changes": {
+        "[[\"handSize\",1]] -> [[\"energy\",1]]": 7,
+        "[[\"credits\",1]] -> [[\"energy\",1]]": 20,
+        "[[\"credits\",1]] -> [[\"handSize\",1]]": 19,
+        "[[\"energy\",1]] -> [[\"handSize\",1]]": 8,
+        "[[\"energy\",1]] -> [[\"credits\",1]]": 12,
+        "[[\"handSize\",1]] -> [[\"credits\",1]]": 12,
+        "[[\"credits\",1]] -> [[\"availableData\",1]]": 1,
+        "[[\"energy\",1]] -> [[\"availableData\",1]]": 1
+      }
+    }
+  }
+}

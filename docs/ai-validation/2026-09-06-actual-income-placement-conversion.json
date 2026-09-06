@@ -1,0 +1,4180 @@
+{
+  "scope": "完整24组已见开发候选。预览与随后的同玩家同回合收入弃牌比较，未把收入升级次数当成实际累计收入量。放入数据本身会使可用数据减少，可能轻微改变后续弃牌估值；同牌按牌库ID而非实体实例判断。",
+  "groups": {
+    "寰宇超动力": {
+      "placements": 53,
+      "withIncomeChoice": 51,
+      "matchedCard": 50,
+      "matchedIncome": 51,
+      "missingDiscard": 0
+    },
+    "宇宙大战略集团": {
+      "placements": 78,
+      "withIncomeChoice": 78,
+      "matchedCard": 78,
+      "matchedIncome": 78,
+      "missingDiscard": 0
+    }
+  },
+  "maxAbsoluteNetDifference": 0.030000000000001137,
+  "rows": [
+    {
+      "case": 1,
+      "company": "寰宇超动力",
+      "id": 396,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_31.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 16.2237152,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 18.89038186666667,
+        "value": 18.89
+      },
+      "actual": {
+        "logId": 397,
+        "cardId": "b_31.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 18.89
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 1,
+      "company": "寰宇超动力",
+      "id": 918,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 4.65,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 0.7000501920000001,
+        "handScarcityCost": 0,
+        "net": 10.449949808,
+        "value": 10.45
+      },
+      "actual": {
+        "logId": 919,
+        "cardId": "b_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 10.427
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.022999999999999687
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "id": 98,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_79.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 22.54128,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 24.04128,
+        "value": 24.041
+      },
+      "actual": {
+        "logId": 99,
+        "cardId": "b_79.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 24.041
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "id": 259,
+      "round": 1,
+      "turn": 6,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_33.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 34.1,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 45.6,
+        "value": 45.6
+      },
+      "actual": {
+        "logId": 260,
+        "cardId": "dlc_33.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 45.6
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "id": 474,
+      "round": 2,
+      "turn": 3,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_118.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 16.656666666666666,
+        "finalFormulaFit": 4.666666666666666,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 21.32333333333333,
+        "value": 21.323
+      },
+      "actual": {
+        "logId": 475,
+        "cardId": "b_118.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 21.323
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "id": 637,
+      "round": 2,
+      "turn": 8,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "chong_4.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 19.91,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 9,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 35.91,
+        "value": 35.91
+      },
+      "actual": {
+        "logId": 638,
+        "cardId": "chong_4.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 35.91
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "id": 877,
+      "round": 3,
+      "turn": 5,
+      "preview": {
+        "handIndex": 6,
+        "cardId": "runezu_9.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 9.04876,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.5332389600000002,
+        "handScarcityCost": 0,
+        "net": 22.515521040000003,
+        "value": 22.516
+      },
+      "actual": {
+        "logId": 878,
+        "cardId": "runezu_9.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 22.532
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.01600000000000179
+    },
+    {
+      "case": 2,
+      "company": "寰宇超动力",
+      "id": 266,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_10.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 22.9,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 14,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 36.9,
+        "value": 36.9
+      },
+      "actual": {
+        "logId": 267,
+        "cardId": "b_10.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 36.9
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "id": 142,
+      "round": 1,
+      "turn": 3,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_115.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 30.750000000000004,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 1.0933360680960003,
+        "handScarcityCost": 6,
+        "net": 23.656663931904003,
+        "value": 23.657
+      },
+      "actual": {
+        "logId": 143,
+        "cardId": "b_115.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 23.657
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "id": 591,
+      "round": 2,
+      "turn": 10,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "amiba_7.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 17.05,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 18.55,
+        "value": 18.55
+      },
+      "actual": {
+        "logId": 592,
+        "cardId": "amiba_7.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 18.55
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "id": 1011,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_133.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 6.1499999999999995,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0.2096166912000001,
+        "handScarcityCost": 10,
+        "net": 7.940383308799998,
+        "value": 7.94
+      },
+      "actual": {
+        "logId": 1012,
+        "cardId": "b_133.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 7.917
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.023000000000000576
+    },
+    {
+      "case": 3,
+      "company": "寰宇超动力",
+      "id": 406,
+      "round": 2,
+      "turn": 3,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_59.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 15.905999999999999,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 14.405999999999999,
+        "value": 14.406
+      },
+      "actual": {
+        "logId": 407,
+        "cardId": "b_59.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 14.406
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "id": 151,
+      "round": 1,
+      "turn": 4,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_42.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 25.120800000000003,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.39127031660927974,
+        "handScarcityCost": 6,
+        "net": 26.729529683390723,
+        "value": 26.73
+      },
+      "actual": {
+        "logId": 152,
+        "cardId": "dlc_42.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 26.724
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.006000000000000227
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "id": 283,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 4,
+        "cardId": "b_8.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 14.662666666666667,
+        "finalFormulaFit": 4.666666666666666,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.3445426270860001,
+        "handScarcityCost": 0,
+        "net": 18.98479070624733,
+        "value": 18.985
+      },
+      "actual": {
+        "logId": 284,
+        "cardId": "b_8.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 18.985
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "id": 803,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_116.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 9.59876,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 8,
+        "handScarcityCost": 2.5,
+        "net": 13.098759999999999,
+        "value": 13.099
+      },
+      "actual": {
+        "logId": 804,
+        "cardId": "b_116.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 13.099
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "id": 907,
+      "round": 3,
+      "turn": 9,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_65.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 6.696666666666666,
+        "finalFormulaFit": 4.666666666666666,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 1.575591463296,
+        "handScarcityCost": 0,
+        "net": 21.787741870037333,
+        "value": 21.788
+      },
+      "actual": {
+        "logId": 908,
+        "cardId": "b_65.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 21.794
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.006000000000000227
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "id": 47,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_10.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 27.530299999999997,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 33.0303,
+        "value": 33.03
+      },
+      "actual": {
+        "logId": 48,
+        "cardId": "dlc_10.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 33.03
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "id": 682,
+      "round": 3,
+      "turn": 1,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_140.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 5.31,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.9884039999999998,
+        "handScarcityCost": 0,
+        "net": 11.321596,
+        "value": 11.322
+      },
+      "actual": {
+        "logId": 683,
+        "cardId": "b_140.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 11.322
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "id": 913,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_49.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 6.316666666666667,
+        "finalFormulaFit": 4.666666666666666,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 2.453896367999999,
+        "handScarcityCost": 0,
+        "net": 8.529436965333336,
+        "value": 8.529
+      },
+      "actual": {
+        "logId": 914,
+        "cardId": "b_49.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 8.539
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.009999999999999787
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "id": 89,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 22.37752,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 25.04418666666667,
+        "value": 25.044
+      },
+      "actual": {
+        "logId": 90,
+        "cardId": "b_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 25.044
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "id": 282,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_57.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 24.180300000000003,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 32.1803,
+        "value": 32.18
+      },
+      "actual": {
+        "logId": 283,
+        "cardId": "b_57.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 32.18
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "id": 482,
+      "round": 2,
+      "turn": 5,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "amiba_7.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 23.41,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 30.41,
+        "value": 30.41
+      },
+      "actual": {
+        "logId": 483,
+        "cardId": "amiba_7.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 30.41
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "id": 963,
+      "round": 3,
+      "turn": 7,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "amiba_0.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 8.04944,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.8125382400000003,
+        "handScarcityCost": 0,
+        "net": 21.236901760000002,
+        "value": 21.237
+      },
+      "actual": {
+        "logId": 964,
+        "cardId": "amiba_0.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 21.266
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.028999999999999915
+    },
+    {
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "id": 101,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 25.52272,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 5,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 33.189386666666664,
+        "value": 33.189
+      },
+      "actual": {
+        "logId": 102,
+        "cardId": "b_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 33.189
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "id": 500,
+      "round": 2,
+      "turn": 6,
+      "preview": {
+        "handIndex": 4,
+        "cardId": "dlc_17.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 25.229999999999997,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 29.229999999999997,
+        "value": 29.23
+      },
+      "actual": {
+        "logId": 501,
+        "cardId": "dlc_17.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 29.23
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 5,
+      "company": "寰宇超动力",
+      "id": 169,
+      "round": 1,
+      "turn": 4,
+      "preview": {
+        "value": 0,
+        "reason": "no-available-income-card"
+      },
+      "actual": null,
+      "sameCard": false,
+      "sameIncome": false,
+      "netDifference": null
+    },
+    {
+      "case": 5,
+      "company": "寰宇超动力",
+      "id": 545,
+      "round": 2,
+      "turn": 6,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_14.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 18.12,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 1.4113151347199997,
+        "handScarcityCost": 2.5,
+        "net": 24.87535153194667,
+        "value": 24.875
+      },
+      "actual": {
+        "logId": 546,
+        "cardId": "b_14.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 24.875
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 5,
+      "company": "寰宇超动力",
+      "id": 858,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "dlc_22.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 6.8237000000000005,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 2.778876744,
+        "handScarcityCost": 0,
+        "net": 12.044823256,
+        "value": 12.045
+      },
+      "actual": {
+        "logId": 859,
+        "cardId": "dlc_22.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 12.022
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.022999999999999687
+    },
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "id": 464,
+      "round": 2,
+      "turn": 2,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_63.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 19.950000000000003,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 19.950000000000003,
+        "value": 19.95
+      },
+      "actual": {
+        "logId": 465,
+        "cardId": "b_63.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 19.95
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "id": 850,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_106.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 7.199999999999999,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 1.9392239999999998,
+        "handScarcityCost": 0,
+        "net": 17.260776,
+        "value": 17.261
+      },
+      "actual": {
+        "logId": 851,
+        "cardId": "b_106.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 17.261
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 6,
+      "company": "宇宙大战略集团",
+      "id": 176,
+      "round": 1,
+      "turn": 4,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_28.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 24.099999999999998,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 6,
+        "net": 20.099999999999998,
+        "value": 20.1
+      },
+      "actual": {
+        "logId": 177,
+        "cardId": "dlc_28.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 20.1
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 6,
+      "company": "宇宙大战略集团",
+      "id": 430,
+      "round": 2,
+      "turn": 2,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "amiba_4.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 18.7,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 5,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 23.7,
+        "value": 23.7
+      },
+      "actual": {
+        "logId": 431,
+        "cardId": "amiba_4.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 23.7
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "id": 134,
+      "round": 1,
+      "turn": 3,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_35.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 26.793499999999998,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.06971100000000006,
+        "handScarcityCost": 0,
+        "net": 28.723788999999996,
+        "value": 28.724
+      },
+      "actual": {
+        "logId": 135,
+        "cardId": "b_35.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 28.724
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "id": 425,
+      "round": 2,
+      "turn": 5,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_42.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 18.7,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 9,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 27.7,
+        "value": 27.7
+      },
+      "actual": {
+        "logId": 426,
+        "cardId": "b_42.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 27.7
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "id": 646,
+      "round": 3,
+      "turn": 2,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_20.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 6.000000000000001,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 1.7436239999999996,
+        "handScarcityCost": 0,
+        "net": 4.256376000000001,
+        "value": 4.256
+      },
+      "actual": {
+        "logId": 647,
+        "cardId": "b_20.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 4.256
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "id": 893,
+      "round": 3,
+      "turn": 9,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_6.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 8.75,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.0405417984000001,
+        "handScarcityCost": 2.5,
+        "net": 10.2094582016,
+        "value": 10.209
+      },
+      "actual": {
+        "logId": 894,
+        "cardId": "b_6.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 10.19
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.019000000000000128
+    },
+    {
+      "case": 7,
+      "company": "寰宇超动力",
+      "id": 725,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_47.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 6.2,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 6,
+        "net": 0.20000000000000018,
+        "value": 0.2
+      },
+      "actual": {
+        "logId": 726,
+        "cardId": "b_47.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 0.2
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "id": 48,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_140.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 24.540999999999997,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 24.040999999999997,
+        "value": 24.041
+      },
+      "actual": {
+        "logId": 49,
+        "cardId": "b_140.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 24.041
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "id": 899,
+      "round": 3,
+      "turn": 5,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_13.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 9.13,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 1.189428,
+        "handScarcityCost": 0,
+        "net": 11.940572000000001,
+        "value": 11.941
+      },
+      "actual": {
+        "logId": 900,
+        "cardId": "b_13.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 11.943
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.0019999999999988916
+    },
+    {
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "id": 227,
+      "round": 1,
+      "turn": 6,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_106.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 24.349999999999998,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 0.48673199999999983,
+        "handScarcityCost": 10,
+        "net": 21.863267999999994,
+        "value": 21.863
+      },
+      "actual": {
+        "logId": 228,
+        "cardId": "b_106.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 21.863
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "id": 717,
+      "round": 3,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "fangzhou_blue_4",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 4.04,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.8644320000000001,
+        "handScarcityCost": 0,
+        "net": 5.175568,
+        "value": 5.176
+      },
+      "actual": {
+        "logId": 718,
+        "cardId": "fangzhou_blue_4",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 5.192
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.016000000000000014
+    },
+    {
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "id": 1056,
+      "round": 3,
+      "turn": 9,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_62.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 5.8,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 2.047867056,
+        "handScarcityCost": 6,
+        "net": 9.752132944000001,
+        "value": 9.752
+      },
+      "actual": {
+        "logId": 1057,
+        "cardId": "b_62.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 9.752
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "id": 199,
+      "round": 1,
+      "turn": 4,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_85.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 23.32752,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 6,
+        "net": 19.994186666666668,
+        "value": 19.994
+      },
+      "actual": {
+        "logId": 200,
+        "cardId": "b_85.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 19.994
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "id": 341,
+      "round": 2,
+      "turn": 2,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "dlc_33.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 17.3,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 14,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 29.8,
+        "value": 29.8
+      },
+      "actual": {
+        "logId": 342,
+        "cardId": "dlc_33.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 29.8
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "id": 822,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_52.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 0.33940000000000037,
+        "finalFormulaFit": -4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 1.4712564000000001,
+        "handScarcityCost": 0,
+        "net": -5.1318564,
+        "value": -5.132
+      },
+      "actual": {
+        "logId": 823,
+        "cardId": "b_52.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": -5.132
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "id": 324,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "dlc_21.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 15.383527999999998,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.12628948799999995,
+        "handScarcityCost": 0,
+        "net": 23.257238511999997,
+        "value": 23.257
+      },
+      "actual": {
+        "logId": 325,
+        "cardId": "dlc_21.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 23.257
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "id": 1004,
+      "round": 3,
+      "turn": 9,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_10.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 6.706666666666666,
+        "finalFormulaFit": 4.666666666666666,
+        "routeEnergyFit": 9,
+        "discardOpportunityCost": 1.3980480000000002,
+        "handScarcityCost": 0,
+        "net": 18.975285333333332,
+        "value": 18.975
+      },
+      "actual": {
+        "logId": 1005,
+        "cardId": "b_10.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 18.993
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.01799999999999713
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "id": 413,
+      "round": 2,
+      "turn": 5,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_35.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 22.2,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.31775999999999993,
+        "handScarcityCost": 2.5,
+        "net": 19.38224,
+        "value": 19.382
+      },
+      "actual": {
+        "logId": 414,
+        "cardId": "b_35.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 19.382
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "id": 675,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "fangzhou_blue_4",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 8.280000000000001,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.07713599999999993,
+        "handScarcityCost": 0,
+        "net": 12.202864000000002,
+        "value": 12.203
+      },
+      "actual": {
+        "logId": 676,
+        "cardId": "fangzhou_blue_4",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 12.216
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.0129999999999999
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "id": 890,
+      "round": 3,
+      "turn": 9,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "fangzhou_pink_4",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 6.1499999999999995,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0.40328400000000014,
+        "handScarcityCost": 0,
+        "net": 17.746716,
+        "value": 17.747
+      },
+      "actual": {
+        "logId": 891,
+        "cardId": "fangzhou_pink_4",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 17.771
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.02400000000000091
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "id": 95,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_85.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 27.85,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 0.029311371838800112,
+        "handScarcityCost": 0,
+        "net": 35.8206886281612,
+        "value": 35.821
+      },
+      "actual": {
+        "logId": 96,
+        "cardId": "b_85.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 35.821
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "id": 590,
+      "round": 3,
+      "turn": 2,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_118.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 3.2,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.5748410399999998,
+        "handScarcityCost": 0,
+        "net": 4.62515896,
+        "value": 4.625
+      },
+      "actual": {
+        "logId": 591,
+        "cardId": "b_118.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 4.602
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.022999999999999687
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "id": 898,
+      "round": 3,
+      "turn": 9,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_111.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 6.85,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 1.0390439999999996,
+        "handScarcityCost": 0,
+        "net": 17.810956,
+        "value": 17.811
+      },
+      "actual": {
+        "logId": 899,
+        "cardId": "b_111.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 17.824
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.013000000000001677
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "id": 108,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_28.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 27.85,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 5,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 32.85,
+        "value": 32.85
+      },
+      "actual": {
+        "logId": 109,
+        "cardId": "b_28.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 32.85
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "id": 468,
+      "round": 2,
+      "turn": 6,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "yichangdian_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 15.5,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 5,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 18,
+        "value": 18
+      },
+      "actual": {
+        "logId": 469,
+        "cardId": "yichangdian_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 18
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "id": 943,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_42.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 5.45,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 17.45,
+        "value": 17.45
+      },
+      "actual": {
+        "logId": 944,
+        "cardId": "b_42.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 17.45
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 11,
+      "company": "寰宇超动力",
+      "id": 337,
+      "round": 2,
+      "turn": 2,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "runezu_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 14.35,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 21.85,
+        "value": 21.85
+      },
+      "actual": {
+        "logId": 338,
+        "cardId": "runezu_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 21.85
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 11,
+      "company": "寰宇超动力",
+      "id": 807,
+      "round": 3,
+      "turn": 3,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_92.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 5.5,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 1.251048,
+        "handScarcityCost": 0,
+        "net": 8.248952,
+        "value": 8.249
+      },
+      "actual": {
+        "logId": 808,
+        "cardId": "b_92.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 8.25
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.0009999999999994458
+    },
+    {
+      "case": 12,
+      "company": "宇宙大战略集团",
+      "id": 145,
+      "round": 1,
+      "turn": 4,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_35.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 30.572719999999997,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 30.73938666666666,
+        "value": 30.739
+      },
+      "actual": {
+        "logId": 146,
+        "cardId": "b_35.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 30.739
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 12,
+      "company": "宇宙大战略集团",
+      "id": 213,
+      "round": 1,
+      "turn": 6,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_24.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 28.96,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0.1404034655999996,
+        "handScarcityCost": 2.5,
+        "net": 45.3195965344,
+        "value": 45.32
+      },
+      "actual": {
+        "logId": 214,
+        "cardId": "b_24.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 45.32
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 12,
+      "company": "宇宙大战略集团",
+      "id": 332,
+      "round": 2,
+      "turn": 3,
+      "preview": {
+        "handIndex": 5,
+        "cardId": "aomomo_4.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 24.615,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 38.614999999999995,
+        "value": 38.615
+      },
+      "actual": {
+        "logId": 333,
+        "cardId": "aomomo_4.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 38.615
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 12,
+      "company": "宇宙大战略集团",
+      "id": 709,
+      "round": 3,
+      "turn": 3,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_111.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 5.370000000000001,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.9931559999999995,
+        "handScarcityCost": 0,
+        "net": 11.376844000000002,
+        "value": 11.377
+      },
+      "actual": {
+        "logId": 710,
+        "cardId": "b_111.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 11.377
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 12,
+      "company": "寰宇超动力",
+      "id": 41,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_84.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 31.630300000000005,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 9,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 46.130300000000005,
+        "value": 46.13
+      },
+      "actual": {
+        "logId": 42,
+        "cardId": "b_84.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 46.13
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 12,
+      "company": "寰宇超动力",
+      "id": 696,
+      "round": 3,
+      "turn": 3,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_86.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 3.3,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 3.7380418558463995,
+        "handScarcityCost": 0,
+        "net": 7.561958144153602,
+        "value": 7.562
+      },
+      "actual": {
+        "logId": 697,
+        "cardId": "b_86.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 7.562
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "id": 239,
+      "round": 1,
+      "turn": 7,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_58.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 23.65,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 1.675012791275706,
+        "handScarcityCost": 10,
+        "net": 18.474987208724293,
+        "value": 18.475
+      },
+      "actual": {
+        "logId": 240,
+        "cardId": "b_58.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 18.475
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "id": 787,
+      "round": 3,
+      "turn": 5,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_49.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 5.33,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 2.892926448880995,
+        "handScarcityCost": 0,
+        "net": 0.9370735511190049,
+        "value": 0.937
+      },
+      "actual": {
+        "logId": 788,
+        "cardId": "b_49.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 0.945
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.007999999999999896
+    },
+    {
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "id": 979,
+      "round": 3,
+      "turn": 11,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "fangzhou_yellow_2",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 5.45,
+        "finalFormulaFit": -4,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0.22376399999999994,
+        "handScarcityCost": 0,
+        "net": 13.226236,
+        "value": 13.226
+      },
+      "actual": {
+        "logId": 980,
+        "cardId": "fangzhou_yellow_2",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 13.239
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.0129999999999999
+    },
+    {
+      "case": 13,
+      "company": "寰宇超动力",
+      "id": 50,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_135.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 32.29580000000001,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 9,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 46.79580000000001,
+        "value": 46.796
+      },
+      "actual": {
+        "logId": 51,
+        "cardId": "b_135.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 46.796
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 13,
+      "company": "寰宇超动力",
+      "id": 389,
+      "round": 2,
+      "turn": 3,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_42.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 16.785999999999998,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 20.785999999999998,
+        "value": 20.786
+      },
+      "actual": {
+        "logId": 390,
+        "cardId": "b_42.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 20.786
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 13,
+      "company": "寰宇超动力",
+      "id": 732,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "fangzhou_yellow_2",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 5.8,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 17.8,
+        "value": 17.8
+      },
+      "actual": {
+        "logId": 733,
+        "cardId": "fangzhou_yellow_2",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 17.8
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "id": 141,
+      "round": 1,
+      "turn": 4,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_112.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 27.549999999999997,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 27.549999999999997,
+        "value": 27.55
+      },
+      "actual": {
+        "logId": 142,
+        "cardId": "b_112.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 27.55
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "id": 268,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_48.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 16.4,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 10,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 28.4,
+        "value": 28.4
+      },
+      "actual": {
+        "logId": 269,
+        "cardId": "b_48.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 28.4
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "id": 734,
+      "round": 3,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "fangzhou_pink_2",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 2.5500000000000003,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.8580359999999999,
+        "handScarcityCost": 0,
+        "net": 3.691964000000001,
+        "value": 3.692
+      },
+      "actual": {
+        "logId": 735,
+        "cardId": "fangzhou_pink_2",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 3.692
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "id": 1050,
+      "round": 3,
+      "turn": 9,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "fangzhou_blue_2",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 5.3500000000000005,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 6.850000000000001,
+        "value": 6.85
+      },
+      "actual": {
+        "logId": 1051,
+        "cardId": "fangzhou_blue_2",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 6.85
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "id": 115,
+      "round": 1,
+      "turn": 3,
+      "preview": {
+        "value": 0,
+        "reason": "no-available-income-card"
+      },
+      "actual": null,
+      "sameCard": false,
+      "sameIncome": false,
+      "netDifference": null
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "id": 499,
+      "round": 2,
+      "turn": 6,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_42.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 22.298000000000002,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 22.298000000000002,
+        "value": 22.298
+      },
+      "actual": {
+        "logId": 500,
+        "cardId": "dlc_42.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 22.298
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "id": 1008,
+      "round": 3,
+      "turn": 8,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "dlc_38.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 17.734,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 5,
+        "discardOpportunityCost": 1.4639953278719995,
+        "handScarcityCost": 0,
+        "net": 25.270004672128003,
+        "value": 25.27
+      },
+      "actual": {
+        "logId": 1009,
+        "cardId": "dlc_38.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 25.3
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.030000000000001137
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "id": 49,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_14.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 27.75,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 9,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 6,
+        "net": 29.25,
+        "value": 29.25
+      },
+      "actual": {
+        "logId": 50,
+        "cardId": "b_14.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 29.25
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "id": 732,
+      "round": 3,
+      "turn": 1,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "dlc_27.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 16.05,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.28844399999999987,
+        "handScarcityCost": 0,
+        "net": 29.761556000000002,
+        "value": 29.762
+      },
+      "actual": {
+        "logId": 733,
+        "cardId": "dlc_27.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 29.762
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "id": 910,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_52.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 6.7,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 11.2,
+        "value": 11.2
+      },
+      "actual": {
+        "logId": 911,
+        "cardId": "b_52.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 11.2
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "id": 106,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "dlc_17.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 21.15,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.020820000000000078,
+        "handScarcityCost": 0,
+        "net": 19.629179999999998,
+        "value": 19.629
+      },
+      "actual": {
+        "logId": 107,
+        "cardId": "dlc_17.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 19.629
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "id": 421,
+      "round": 2,
+      "turn": 4,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "dlc_10.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 21.400000000000002,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 0.48909223679999997,
+        "handScarcityCost": 0,
+        "net": 36.91090776320001,
+        "value": 36.911
+      },
+      "actual": {
+        "logId": 422,
+        "cardId": "dlc_10.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 36.911
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "id": 883,
+      "round": 3,
+      "turn": 5,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_94.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 6.1499999999999995,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 1.5206657914905597,
+        "handScarcityCost": 0,
+        "net": 16.629334208509437,
+        "value": 16.629
+      },
+      "actual": {
+        "logId": 884,
+        "cardId": "b_94.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 16.613
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.01600000000000179
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "id": 116,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 4,
+        "cardId": "dlc_5.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 34.6303,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 42.6303,
+        "value": 42.63
+      },
+      "actual": {
+        "logId": 117,
+        "cardId": "dlc_5.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 42.63
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "id": 329,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_88.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 22.746524800000003,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 26.746524800000003,
+        "value": 26.747
+      },
+      "actual": {
+        "logId": 330,
+        "cardId": "b_88.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 26.747
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "id": 906,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_65.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 4.1237,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 3.39299493908736,
+        "handScarcityCost": 0,
+        "net": 8.730705060912639,
+        "value": 8.731
+      },
+      "actual": {
+        "logId": 907,
+        "cardId": "b_65.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 8.715
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.016000000000000014
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "id": 104,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_27.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 21.73,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 10,
+        "net": 10.23,
+        "value": 10.23
+      },
+      "actual": {
+        "logId": 105,
+        "cardId": "dlc_27.png",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 10.23
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "id": 894,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_97.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 7.5600000000000005,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.3970080000000001,
+        "handScarcityCost": 0,
+        "net": 14.162992000000001,
+        "value": 14.163
+      },
+      "actual": {
+        "logId": 895,
+        "cardId": "b_97.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 14.181
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.017999999999998906
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "id": 184,
+      "round": 1,
+      "turn": 4,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_104.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 19.950000000000003,
+        "finalFormulaFit": -1.5,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 15.950000000000003,
+        "value": 15.95
+      },
+      "actual": {
+        "logId": 185,
+        "cardId": "b_104.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 15.95
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "id": 293,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_128.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 18,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.42483045273599973,
+        "handScarcityCost": 0,
+        "net": 25.575169547264,
+        "value": 25.575
+      },
+      "actual": {
+        "logId": 294,
+        "cardId": "b_128.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 25.575
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "id": 583,
+      "round": 2,
+      "turn": 8,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_119.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 17.75,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.39791582954041554,
+        "handScarcityCost": 2.5,
+        "net": 21.852084170459584,
+        "value": 21.852
+      },
+      "actual": {
+        "logId": 584,
+        "cardId": "b_119.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 21.852
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 17,
+      "company": "寰宇超动力",
+      "id": 50,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_38.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 32.29580000000001,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 9,
+        "discardOpportunityCost": 0.3206600770782383,
+        "handScarcityCost": 2.5,
+        "net": 46.47513992292177,
+        "value": 46.475
+      },
+      "actual": {
+        "logId": 51,
+        "cardId": "dlc_38.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 46.475
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 17,
+      "company": "寰宇超动力",
+      "id": 847,
+      "round": 3,
+      "turn": 2,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_3.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 11.86,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 5,
+        "discardOpportunityCost": 0.0947039999999999,
+        "handScarcityCost": 0,
+        "net": 19.431962666666664,
+        "value": 19.432
+      },
+      "actual": {
+        "logId": 848,
+        "cardId": "dlc_3.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 19.432
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 18,
+      "company": "寰宇超动力",
+      "id": 47,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_69.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 20.593500000000002,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.8134860566399997,
+        "handScarcityCost": 10,
+        "net": 11.780013943360004,
+        "value": 11.78
+      },
+      "actual": {
+        "logId": 48,
+        "cardId": "b_69.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 11.78
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 18,
+      "company": "寰宇超动力",
+      "id": 433,
+      "round": 2,
+      "turn": 4,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "dlc_7.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 20.2,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 36.2,
+        "value": 36.2
+      },
+      "actual": {
+        "logId": 434,
+        "cardId": "dlc_7.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 36.2
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 18,
+      "company": "寰宇超动力",
+      "id": 771,
+      "round": 3,
+      "turn": 5,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_27.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 9.35,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 2.3063159999999994,
+        "handScarcityCost": 0,
+        "net": 23.043684000000002,
+        "value": 23.044
+      },
+      "actual": {
+        "logId": 772,
+        "cardId": "b_27.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 23.048
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.003999999999997783
+    },
+    {
+      "case": 18,
+      "company": "宇宙大战略集团",
+      "id": 91,
+      "round": 1,
+      "turn": 2,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_28.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 27.85,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 35.85,
+        "value": 35.85
+      },
+      "actual": {
+        "logId": 92,
+        "cardId": "b_28.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 35.85
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 18,
+      "company": "宇宙大战略集团",
+      "id": 677,
+      "round": 3,
+      "turn": 2,
+      "preview": {
+        "handIndex": 4,
+        "cardId": "chong_7.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 2.72,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 4.720000000000001,
+        "value": 4.72
+      },
+      "actual": {
+        "logId": 678,
+        "cardId": "chong_7.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 4.72
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "id": 114,
+      "round": 1,
+      "turn": 3,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_104.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 24.85,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 22.35,
+        "value": 22.35
+      },
+      "actual": {
+        "logId": 115,
+        "cardId": "b_104.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 22.35
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "id": 305,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "yichangdian_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 20.75,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 9,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 29.75,
+        "value": 29.75
+      },
+      "actual": {
+        "logId": 306,
+        "cardId": "yichangdian_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 29.75
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "id": 879,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 4,
+        "cardId": "aomomo_8.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 4.91,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 1.6764054681600002,
+        "handScarcityCost": 0,
+        "net": 5.23359453184,
+        "value": 5.234
+      },
+      "actual": {
+        "logId": 880,
+        "cardId": "aomomo_8.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 5.243
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.009000000000000341
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "id": 1126,
+      "round": 3,
+      "turn": 10,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_99.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 8.3,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 1.0972799999999998,
+        "handScarcityCost": 10,
+        "net": 1.2027200000000011,
+        "value": 1.203
+      },
+      "actual": {
+        "logId": 1127,
+        "cardId": "b_99.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 1.203
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 19,
+      "company": "寰宇超动力",
+      "id": 360,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_31.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 16.4,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 18.4,
+        "value": 18.4
+      },
+      "actual": {
+        "logId": 361,
+        "cardId": "b_31.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 18.4
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 19,
+      "company": "寰宇超动力",
+      "id": 634,
+      "round": 2,
+      "turn": 9,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_23.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 22.2,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 10,
+        "net": 12.2,
+        "value": 12.2
+      },
+      "actual": {
+        "logId": 635,
+        "cardId": "b_23.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 12.2
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 20,
+      "company": "宇宙大战略集团",
+      "id": 310,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 5,
+        "cardId": "b_135.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 25.406,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.5985194013359996,
+        "handScarcityCost": 0,
+        "net": 38.807480598664,
+        "value": 38.807
+      },
+      "actual": {
+        "logId": 311,
+        "cardId": "b_135.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 38.807
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 20,
+      "company": "宇宙大战略集团",
+      "id": 619,
+      "round": 2,
+      "turn": 8,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_6.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 18.65,
+        "finalFormulaFit": -4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 12.149999999999999,
+        "value": 12.15
+      },
+      "actual": {
+        "logId": 620,
+        "cardId": "b_6.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 12.15
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 20,
+      "company": "寰宇超动力",
+      "id": 52,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_64.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 26.52752,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 6,
+        "net": 23.194186666666667,
+        "value": 23.194
+      },
+      "actual": {
+        "logId": 53,
+        "cardId": "b_64.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 23.194
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 20,
+      "company": "寰宇超动力",
+      "id": 1005,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_31.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 13.75,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 1.0350367984895998,
+        "handScarcityCost": 0,
+        "net": 38.7149632015104,
+        "value": 38.715
+      },
+      "actual": {
+        "logId": 1006,
+        "cardId": "b_31.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 38.733
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.017999999999993577
+    },
+    {
+      "case": 21,
+      "company": "寰宇超动力",
+      "id": 110,
+      "round": 1,
+      "turn": 3,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_135.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 26.07752,
+        "finalFormulaFit": 2.6666666666666665,
+        "routeEnergyFit": 5,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 33.744186666666664,
+        "value": 33.744
+      },
+      "actual": {
+        "logId": 111,
+        "cardId": "b_135.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 33.744
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 21,
+      "company": "寰宇超动力",
+      "id": 709,
+      "round": 3,
+      "turn": 2,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "aomomo_9.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 7.260000000000001,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 4.80926024808,
+        "handScarcityCost": 0,
+        "net": 10.45073975192,
+        "value": 10.451
+      },
+      "actual": {
+        "logId": 710,
+        "cardId": "aomomo_9.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 10.454
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.0030000000000001137
+    },
+    {
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "id": 218,
+      "round": 1,
+      "turn": 5,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_88.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 32.4458,
+        "finalFormulaFit": 8,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 37.9458,
+        "value": 37.946
+      },
+      "actual": {
+        "logId": 219,
+        "cardId": "b_88.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 37.946
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "id": 436,
+      "round": 2,
+      "turn": 4,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "b_8.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 18.586666666666666,
+        "finalFormulaFit": 4.666666666666666,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 35.25333333333333,
+        "value": 35.253
+      },
+      "actual": {
+        "logId": 437,
+        "cardId": "b_8.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 35.253
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "id": 674,
+      "round": 3,
+      "turn": 1,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "dlc_12.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 4.95,
+        "finalFormulaFit": 7,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 3.73063591511001,
+        "handScarcityCost": 0,
+        "net": 8.219364084889989,
+        "value": 8.219
+      },
+      "actual": {
+        "logId": 675,
+        "cardId": "dlc_12.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 8.219
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "id": 859,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "fangzhou_yellow_1",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 7.59196,
+        "finalFormulaFit": 14,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.3977781599999999,
+        "handScarcityCost": 0,
+        "net": 21.19418184,
+        "value": 21.194
+      },
+      "actual": {
+        "logId": 860,
+        "cardId": "fangzhou_yellow_1",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 21.216
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.022000000000002018
+    },
+    {
+      "case": 22,
+      "company": "宇宙大战略集团",
+      "id": 144,
+      "round": 1,
+      "turn": 3,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "dlc_16.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 26.793499999999998,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.10883507271033593,
+        "handScarcityCost": 2.5,
+        "net": 26.184664927289663,
+        "value": 26.185
+      },
+      "actual": {
+        "logId": 145,
+        "cardId": "dlc_16.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 26.185
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 22,
+      "company": "宇宙大战略集团",
+      "id": 288,
+      "round": 2,
+      "turn": 2,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_104.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 18.7,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 26.7,
+        "value": 26.7
+      },
+      "actual": {
+        "logId": 289,
+        "cardId": "b_104.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 26.7
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 22,
+      "company": "寰宇超动力",
+      "id": 327,
+      "round": 2,
+      "turn": 2,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "dlc_25.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 20.15,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 7,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 27.15,
+        "value": 27.15
+      },
+      "actual": {
+        "logId": 328,
+        "cardId": "dlc_8.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 27.15
+      },
+      "sameCard": false,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 22,
+      "company": "寰宇超动力",
+      "id": 562,
+      "round": 2,
+      "turn": 9,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "dlc_15.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 22.2,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 6,
+        "net": 16.2,
+        "value": 16.2
+      },
+      "actual": {
+        "logId": 563,
+        "cardId": "dlc_15.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 16.2
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 22,
+      "company": "寰宇超动力",
+      "id": 1051,
+      "round": 3,
+      "turn": 9,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "chong_1.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "incomeScore": 6.55,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.12437328000000025,
+        "handScarcityCost": 2.5,
+        "net": 3.9256267199999995,
+        "value": 3.926
+      },
+      "actual": {
+        "logId": 1052,
+        "cardId": "chong_1.webp",
+        "incomeGain": {
+          "handSize": 1
+        },
+        "net": 3.942
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.016000000000000014
+    },
+    {
+      "case": 23,
+      "company": "寰宇超动力",
+      "id": 238,
+      "round": 2,
+      "turn": 1,
+      "preview": {
+        "handIndex": 4,
+        "cardId": "dlc_32.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 15.349999999999998,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 17.349999999999998,
+        "value": 17.35
+      },
+      "actual": {
+        "logId": 239,
+        "cardId": "dlc_32.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 17.35
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "id": 124,
+      "round": 1,
+      "turn": 3,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_38.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 29.15,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 29.15,
+        "value": 29.15
+      },
+      "actual": {
+        "logId": 125,
+        "cardId": "b_38.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 29.15
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "id": 271,
+      "round": 2,
+      "turn": 2,
+      "preview": {
+        "handIndex": 4,
+        "cardId": "dlc_4.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 17.55,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.6678056351999998,
+        "handScarcityCost": 0,
+        "net": 16.8821943648,
+        "value": 16.882
+      },
+      "actual": {
+        "logId": 272,
+        "cardId": "dlc_4.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 16.882
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "id": 530,
+      "round": 2,
+      "turn": 10,
+      "preview": {
+        "handIndex": 0,
+        "cardId": "amiba_9.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 22.25,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 6,
+        "net": 32.25,
+        "value": 32.25
+      },
+      "actual": {
+        "logId": 531,
+        "cardId": "amiba_9.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 32.25
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "id": 800,
+      "round": 3,
+      "turn": 6,
+      "preview": {
+        "handIndex": 3,
+        "cardId": "b_95.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 8.2,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 4.27788225409536,
+        "handScarcityCost": 0,
+        "net": 15.92211774590464,
+        "value": 15.922
+      },
+      "actual": {
+        "logId": 801,
+        "cardId": "b_95.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 15.932
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.009999999999999787
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "id": 164,
+      "round": 1,
+      "turn": 4,
+      "preview": {
+        "handIndex": 4,
+        "cardId": "b_17.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 28.1935,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 30.1935,
+        "value": 30.194
+      },
+      "actual": {
+        "logId": 165,
+        "cardId": "b_17.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 30.194
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "id": 272,
+      "round": 1,
+      "turn": 7,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "b_104.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 41.199216,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 0,
+        "net": 55.199216,
+        "value": 55.199
+      },
+      "actual": {
+        "logId": 273,
+        "cardId": "b_104.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 55.199
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "id": 452,
+      "round": 2,
+      "turn": 5,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "dlc_29.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 29.666,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 8,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 39.166,
+        "value": 39.166
+      },
+      "actual": {
+        "logId": 453,
+        "cardId": "dlc_29.png",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 39.166
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "id": 872,
+      "round": 3,
+      "turn": 3,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_69.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 4.65,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 3.3070730053123776,
+        "handScarcityCost": 2.5,
+        "net": 2.842926994687623,
+        "value": 2.843
+      },
+      "actual": {
+        "logId": 873,
+        "cardId": "b_69.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 2.836
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": -0.007000000000000117
+    },
+    {
+      "case": 24,
+      "company": "寰宇超动力",
+      "id": 48,
+      "round": 1,
+      "turn": 1,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "dlc_17.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 24.540999999999997,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 24.040999999999997,
+        "value": 24.041
+      },
+      "actual": {
+        "logId": 49,
+        "cardId": "dlc_17.png",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 24.041
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 24,
+      "company": "寰宇超动力",
+      "id": 563,
+      "round": 2,
+      "turn": 7,
+      "preview": {
+        "handIndex": 2,
+        "cardId": "yichangdian_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 38.096,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 12,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 2.5,
+        "net": 47.596,
+        "value": 47.596
+      },
+      "actual": {
+        "logId": 564,
+        "cardId": "yichangdian_7.webp",
+        "incomeGain": {
+          "energy": 1
+        },
+        "net": 47.596
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0
+    },
+    {
+      "case": 24,
+      "company": "寰宇超动力",
+      "id": 890,
+      "round": 3,
+      "turn": 4,
+      "preview": {
+        "handIndex": 1,
+        "cardId": "b_140.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 8.280000000000001,
+        "finalFormulaFit": 4,
+        "routeEnergyFit": 0,
+        "discardOpportunityCost": 0.24628799999999995,
+        "handScarcityCost": 0,
+        "net": 12.033712000000001,
+        "value": 12.034
+      },
+      "actual": {
+        "logId": 891,
+        "cardId": "b_140.webp",
+        "incomeGain": {
+          "credits": 1
+        },
+        "net": 12.04
+      },
+      "sameCard": true,
+      "sameIncome": true,
+      "netDifference": 0.005999999999998451
+    }
+  ]
+}

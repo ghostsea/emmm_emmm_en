@@ -18,6 +18,12 @@
 
 ### 2026-09-06 当前验证状态
 
+- 放数据宣传去重b5c886c6扩展64组-1.09375（标准误0.5699327），寰宇-0.921875、大战略-1.1875，高分四分位-1.421875、300+减少3席；合并88组-0.6988636。64场正常终局0 bug，512席对账通过；重复项减少未带来更好实战选择，拒绝合入。见 [64组结果](ai-validation/2026-09-06-placement-publicity-once-development64-results.json)、[88组汇总](ai-validation/2026-09-06-placement-publicity-once-development88-results.json)。
+
+- 真实收入角标放置f81d91e7已完成24组开发：整体+0.75（标准误0.7215309）、寰宇-0.4166667、大战略+1.0416667，高分四分位+2.5、胜者均值-0.4166667。24场正常终局0 bug、192席对账通过；131次收入位选择中129次有可用收入牌，129次后续收入类型均与预览一致，128次同牌库ID，净值差最大0.03（放数据使可用数据减少，会轻微改变弃牌价值）。保持同一版本另扩展64组已见开发，尚无新随机验收。见 [24组结果](ai-validation/2026-09-06-actual-income-placement-development-results.json)、[真实收入衔接](ai-validation/2026-09-06-actual-income-placement-conversion.json)、[扩展计划](ai-validation/2026-09-06-actual-income-placement-development64-plan.json)。
+
+- 收入终局适配另测独立候选a05db02a：寰宇/大战略保留incomeScore内按真实终局倍率计算的边际与短板准备价值，关闭外层固定A2的14/8及A1的4/2适配分，实际弃牌及预览共用入口。88局离线估计44/80次收入类型改变，不是提分预测。52项回归通过，测试确认实际A2倍率仍影响收益，作弊实验室保持原估值；冻结24组已见开发，未与收入位候选叠加。见 [诊断](ai-validation/2026-09-06-income-final-fit88.json)、[冻结计划](ai-validation/2026-09-06-income-formula-once-development-plan.json)。
+
 - 蓝色信用打牌衔接37addbf8完整24组开发整体+2.25（标准误1.8369940）、寰宇+2.5833333、大战略-4.1666667、作弊实验室+5.2916667，高分四分位+5.5833333。15次实际领取蓝色信用并预期打牌的选择，下一主行动7次打出同牌库ID牌，8次转做其他行动；无下一主行动PASS，不能把未立即打牌都视为浪费。但目标公司主行动分别28.208→28.167、34.708→34.125，新牌打出与蓝色奖励均下降，未形成要求的资源转换提升，拒绝合入。24场正常终局0 bug、192席对账通过。见 [结果](ai-validation/2026-09-06-blue-credit-play-closure-development-results.json)、[实际后续行动](ai-validation/2026-09-06-blue-credit-play-closure-conversion.json)。
 
 - 放数据宣传研究门槛去重b5c886c6完整24组开发+0.3541667（标准误0.3541667），仅第1组改变分数；寰宇+0.6666667、大战略+0.5416667、作弊实验室+0.1041667，高分四分位+0.2083333。通用继续行动函数内已含研究门槛收益，放置奖励又显式计算；候选仅为寰宇/大战略保留外层0.7倍并关闭内层重复项，其他资源收益保留，R4内层原本为0。52项回归及24完整场通过，192席对账无问题。已按同一未修改版本冻结另外64组已见开发扩展，仍不是新随机验收。见 [24组结果](ai-validation/2026-09-06-placement-publicity-once-development-results.json)、[扩展计划](ai-validation/2026-09-06-placement-publicity-once-development64-plan.json)。
