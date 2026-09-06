@@ -22172,14 +22172,17 @@
       }
       score += traceDemand * 0.45;
       score += ({ pink: 4, blue: 3.5, yellow: 3 })[traceType] || 0;
-      score += scoreAiAlienGridPosition(scoringMode, traceType, position, label);
-      if (label.includes("未揭示")) score += 3;
-      if (label.includes("得分") || label.includes("分数")) score += 3;
-      if (label.includes("精选")) score += 4.5;
-      if (label.includes("牌")) score += 4.5 * getAiAlienCardConversionMultiplier(player);
-      if (label.includes("信用")) score += 2;
-      if (label.includes("数据") || label.includes("扫描")) score += 1.5;
-      if (label.includes("解锁")) score += 8;
+      // Exact reward objects supersede position and presentation-based reward bonuses.
+      if (!reward) {
+        score += scoreAiAlienGridPosition(scoringMode, traceType, position, label);
+        if (label.includes("未揭示")) score += 3;
+        if (label.includes("得分") || label.includes("分数")) score += 3;
+        if (label.includes("精选")) score += 4.5;
+        if (label.includes("牌")) score += 4.5 * getAiAlienCardConversionMultiplier(player);
+        if (label.includes("信用")) score += 2;
+        if (label.includes("数据") || label.includes("扫描")) score += 1.5;
+        if (label.includes("解锁")) score += 8;
+      }
       if (reward?.pickAlienCard) {
         score += 4 * getAiAlienCardConversionMultiplier(player);
         score -= scoreAiLateAlienCardConversionPenalty(player);
