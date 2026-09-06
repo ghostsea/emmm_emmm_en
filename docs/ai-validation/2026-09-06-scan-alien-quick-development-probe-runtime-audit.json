@@ -1,0 +1,3296 @@
+{
+  "scope": "Full 24 seen paired development. Actual proactive probe scan card selections joined by player/round/card instance to unused resource entry. Data and score are explicit scan events only. Preview assumes one target across expanded repeats and excludes movement arrivals/triggers; differences are reported, not hidden. No causal inference from card frequency.",
+  "rows": [
+    {
+      "case": 1,
+      "logId": 1491,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_58.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 3,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 133,
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 2
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-blue",
+          "rocketIds": [
+            133
+          ],
+          "sectorXs": [
+            7,
+            0,
+            1
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 7,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 6,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 0,
+              "nebulaId": "sector-4-b",
+              "slotIndex": 5,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 1,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 3,
+          "slotScore": 0,
+          "replaced": 3,
+          "extraMarks": 0,
+          "value": 13.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 133,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 2
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 0,
+              "y": 2
+            },
+            "value": 31.05326,
+            "satelliteOpportunity": {
+              "planetId": "mars",
+              "satelliteId": "phobos-deimos",
+              "satelliteName": "火卫一/火卫二",
+              "rewardValue": 8,
+              "directScore": 8,
+              "energyCost": 1,
+              "energyShortfall": 1,
+              "pointConversionPenalty": 0,
+              "contestRiskPenalty": 2.956,
+              "raceWastePenalty": 2.956,
+              "cashoutPremium": 0,
+              "score": 0.8040000000000003
+            },
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 18.25910151808,
+          "cost": 0,
+          "score": 18.25910151808,
+          "valueBreakdown": {
+            "movementGain": 18.25910151808,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-blue",
+              "rocketIds": [
+                133
+              ],
+              "sectorXs": [
+                7,
+                0,
+                1
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 7,
+                  "nebulaId": "sector-4-a",
+                  "slotIndex": 6,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 0,
+                  "nebulaId": "sector-4-b",
+                  "slotIndex": 5,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 1,
+                  "nebulaId": "sector-3-a",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 3,
+              "slotScore": 0,
+              "replaced": 3,
+              "extraMarks": 0,
+              "value": 13.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 35.05326,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在及相邻扇区：室女座61：室女座61 槽位6 替换为蓝色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：绘架座β：绘架座β 槽位5 替换为蓝色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：开普勒22：开普勒22 槽位3 替换为蓝色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 2,
+      "logId": 801,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_64.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 82,
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "to": {
+            "x": 5,
+            "y": 2
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-green",
+          "rocketIds": [
+            82
+          ],
+          "sectorXs": [
+            5
+          ],
+          "repeat": 2,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 5,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 4,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 5,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 5,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 2,
+          "slotScore": 0,
+          "replaced": 2,
+          "extraMarks": 0,
+          "value": 9
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 82,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "to": {
+            "x": 5,
+            "y": 2
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "neptune",
+            "label": "海王星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 6,
+              "y": 4
+            },
+            "value": 83.10926,
+            "satelliteOpportunity": {
+              "planetId": "neptune",
+              "satelliteId": "triton",
+              "satelliteName": "海卫一",
+              "rewardValue": 82,
+              "directScore": 26,
+              "energyCost": 2,
+              "energyShortfall": 0,
+              "pointConversionPenalty": 2.32,
+              "contestRiskPenalty": 22.134999999999998,
+              "raceWastePenalty": 11.135,
+              "cashoutPremium": 12.62,
+              "score": 50.975
+            },
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 4,
+            "newDistance": 3,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 11.698647394777604,
+          "cost": 4.4,
+          "score": 7.298647394777603,
+          "valueBreakdown": {
+            "movementGain": 11.698647394777604,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-green",
+              "rocketIds": [
+                82
+              ],
+              "sectorXs": [
+                5
+              ],
+              "repeat": 2,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 5,
+                  "nebulaId": "sector-4-a",
+                  "slotIndex": 4,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 5,
+                  "nebulaId": "sector-4-a",
+                  "slotIndex": 5,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 2,
+              "slotScore": 0,
+              "replaced": 2,
+              "extraMarks": 0,
+              "value": 9
+            },
+            "paymentCost": 0,
+            "pathPenalty": 4.4,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 4.4,
+            "routeScore": 22.8621297,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区两次 1/2：室女座61：室女座61 槽位4 替换为绿色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在扇区两次 2/2：室女座61：室女座61 槽位5 替换为绿色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 2,
+      "logId": 1131,
+      "playerId": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_58.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 3,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 167,
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "to": {
+            "x": 4,
+            "y": 2
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-white",
+          "rocketIds": [
+            167
+          ],
+          "sectorXs": [
+            3,
+            4,
+            5
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 3,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 5,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 4,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 5,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 4,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 3,
+          "slotScore": 0,
+          "replaced": 3,
+          "extraMarks": 0,
+          "value": 13.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 167,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "to": {
+            "x": 4,
+            "y": 2
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 4,
+              "y": 2
+            },
+            "value": 49.56746,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 28.64146727168,
+          "cost": 0,
+          "score": 28.64146727168,
+          "valueBreakdown": {
+            "movementGain": 28.64146727168,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-white",
+              "rocketIds": [
+                167
+              ],
+              "sectorXs": [
+                3,
+                4,
+                5
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 3,
+                  "nebulaId": "sector-2-a",
+                  "slotIndex": 5,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 4,
+                  "nebulaId": "sector-2-b",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 5,
+                  "nebulaId": "sector-4-a",
+                  "slotIndex": 4,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 3,
+              "slotScore": 0,
+              "replaced": 3,
+              "extraMarks": 0,
+              "value": 13.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 53.56746,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在及相邻扇区：天狼星A：天狼星A 槽位5 替换为白色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：巴纳德：巴纳德 槽位3 替换为白色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：室女座61：室女座61 槽位4 替换为白色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 2,
+      "logId": 1170,
+      "playerId": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_22.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 2,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描两次 1/2：绘架座β：绘架座β 槽位2 替换为棕色token；槽位2 +2分；获得数据；资源：数据+1",
+        "选择己方探测器所在扇区扫描两次 2/2：绘架座β：绘架座β 槽位3 替换为棕色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 4,
+      "logId": 840,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_22.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描两次 1/2：巴纳德：巴纳德 槽位3 替换为绿色token；获得数据；资源：数据+1",
+        "选择己方探测器所在扇区扫描两次 2/2：巴纳德：巴纳德 槽位4 替换为绿色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 4,
+      "logId": 1507,
+      "playerId": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_54.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 182,
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "to": {
+            "x": 5,
+            "y": 1
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-brown",
+          "rocketIds": [
+            182
+          ],
+          "sectorXs": [
+            5
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 5,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 4,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 1,
+          "slotScore": 0,
+          "replaced": 1,
+          "extraMarks": 0,
+          "value": 4.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 182,
+          "rocketLabel": "R1",
+          "direction": "in",
+          "directionLabel": "向内",
+          "deltaX": 0,
+          "deltaY": -1,
+          "from": {
+            "x": 5,
+            "y": 2
+          },
+          "to": {
+            "x": 5,
+            "y": 1
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "venus",
+            "label": "金星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 5,
+              "y": 1
+            },
+            "value": 43.33166,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 25.079685025280007,
+          "cost": 0,
+          "score": 25.079685025280007,
+          "valueBreakdown": {
+            "movementGain": 25.079685025280007,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-brown",
+              "rocketIds": [
+                182
+              ],
+              "sectorXs": [
+                5
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 5,
+                  "nebulaId": "sector-2-a",
+                  "slotIndex": 4,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 1,
+              "slotScore": 0,
+              "replaced": 1,
+              "extraMarks": 0,
+              "value": 4.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 47.33166,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：天狼星A：天狼星A 槽位4 替换为棕色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 5,
+      "logId": 105,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_53.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：天狼星A：天狼星A 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 7,
+      "logId": 1180,
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_22.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 2,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描两次 1/2：室女座61：室女座61 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1",
+        "选择己方探测器所在扇区扫描两次 2/2：室女座61：室女座61 槽位3 替换为白色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 8,
+      "logId": 1005,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_54.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 2,
+      "preview": {
+        "move": {
+          "rocketId": 271,
+          "from": {
+            "x": 2,
+            "y": 1
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-blue",
+          "rocketIds": [
+            271
+          ],
+          "sectorXs": [
+            2
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 2,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 2,
+              "dataGain": 1,
+              "slotScore": 2
+            }
+          ],
+          "dataGain": 1,
+          "slotScore": 2,
+          "replaced": 1,
+          "extraMarks": 0,
+          "value": 6.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 271,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 2,
+            "y": 1
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "saturn",
+            "label": "土星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 3,
+              "y": 3
+            },
+            "value": 39.98006300000001,
+            "satelliteOpportunity": {
+              "planetId": "saturn",
+              "satelliteId": "titan",
+              "satelliteName": "土卫六",
+              "rewardValue": 45.326,
+              "directScore": 7,
+              "energyCost": 1,
+              "energyShortfall": 1,
+              "pointConversionPenalty": 0,
+              "contestRiskPenalty": 4.259,
+              "raceWastePenalty": 4.259,
+              "cashoutPremium": 0,
+              "score": 19.8103
+            },
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 3,
+            "newDistance": 2,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 6.826566702179841,
+          "cost": 3.6,
+          "score": 3.226566702179841,
+          "valueBreakdown": {
+            "movementGain": 6.826566702179841,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-blue",
+              "rocketIds": [
+                271
+              ],
+              "sectorXs": [
+                2
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 2,
+                  "nebulaId": "sector-3-b",
+                  "slotIndex": 2,
+                  "dataGain": 1,
+                  "slotScore": 2
+                }
+              ],
+              "dataGain": 1,
+              "slotScore": 2,
+              "replaced": 1,
+              "extraMarks": 0,
+              "value": 6.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 3.6,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 3.6,
+            "routeScore": 10.251891313333333,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：比邻星：比邻星 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 8,
+      "logId": 1351,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_64.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 2,
+      "preview": {
+        "move": {
+          "rocketId": 320,
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-blue",
+          "rocketIds": [
+            321
+          ],
+          "sectorXs": [
+            1
+          ],
+          "repeat": 2,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 1,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 2,
+              "dataGain": 1,
+              "slotScore": 2
+            },
+            {
+              "sectorX": 1,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 2,
+          "slotScore": 2,
+          "replaced": 2,
+          "extraMarks": 0,
+          "value": 11
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 320,
+          "rocketLabel": "R1",
+          "direction": "ccw",
+          "directionLabel": "逆时针",
+          "deltaX": -1,
+          "deltaY": 0,
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "venus",
+            "label": "金星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 7,
+              "y": 1
+            },
+            "value": 43.72646,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 2,
+            "newDistance": 1,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 5.576435288115201,
+          "cost": 2.8,
+          "score": 2.7764352881152012,
+          "valueBreakdown": {
+            "movementGain": 5.576435288115201,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-blue",
+              "rocketIds": [
+                321
+              ],
+              "sectorXs": [
+                1
+              ],
+              "repeat": 2,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 1,
+                  "nebulaId": "sector-3-a",
+                  "slotIndex": 2,
+                  "dataGain": 1,
+                  "slotScore": 2
+                },
+                {
+                  "sectorX": 1,
+                  "nebulaId": "sector-3-a",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 2,
+              "slotScore": 2,
+              "replaced": 2,
+              "extraMarks": 0,
+              "value": 11
+            },
+            "paymentCost": 0,
+            "pathPenalty": 2.8,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 2.8,
+            "routeScore": 11.121704400000002,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区两次 1/2：开普勒22：开普勒22 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在扇区两次 2/2：绘架座β：绘架座β 槽位3 替换为蓝色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 8,
+      "logId": 1655,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_96.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 0,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描3次（不获得数据） 1/3：天狼星A：天狼星A 槽位3 替换为棕色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 2/3：天狼星A：天狼星A 槽位4 替换为棕色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 3/3：天狼星A：天狼星A 槽位5 替换为棕色token；不获得数据"
+      ]
+    },
+    {
+      "case": 9,
+      "logId": 616,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_53.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：开普勒22：开普勒22 槽位1 替换为蓝色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 10,
+      "logId": 599,
+      "playerId": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_22.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描两次 1/2：南河三：南河三 槽位3 替换为棕色token；获得数据；资源：数据+1",
+        "选择己方探测器所在扇区扫描两次 2/2：南河三：南河三 槽位4 替换为棕色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 10,
+      "logId": 1220,
+      "playerId": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_53.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：室女座61：室女座61 槽位5 替换为白色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 11,
+      "logId": 648,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_58.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 3,
+      "slotScore": 2,
+      "preview": {
+        "move": {
+          "rocketId": 90,
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "to": {
+            "x": 7,
+            "y": 1
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-brown",
+          "rocketIds": [
+            90
+          ],
+          "sectorXs": [
+            6,
+            7,
+            0
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 6,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 7,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 2,
+              "dataGain": 1,
+              "slotScore": 2
+            },
+            {
+              "sectorX": 0,
+              "nebulaId": "sector-1-b",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 3,
+          "slotScore": 2,
+          "replaced": 3,
+          "extraMarks": 0,
+          "value": 15.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 90,
+          "rocketLabel": "R1",
+          "direction": "ccw",
+          "directionLabel": "逆时针",
+          "deltaX": -1,
+          "deltaY": 0,
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "to": {
+            "x": 7,
+            "y": 1
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "mercury",
+            "label": "水星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 7,
+              "y": 1
+            },
+            "value": 84.71562560000001,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": {
+              "value": 14.642,
+              "directScore": 4,
+              "count": 1
+            },
+            "nearCompleteTaskRouteCashout": {
+              "value": 14.642,
+              "directScore": 4,
+              "count": 1
+            },
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 45.43697189652481,
+          "cost": 0,
+          "score": 45.43697189652481,
+          "valueBreakdown": {
+            "movementGain": 45.43697189652481,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-brown",
+              "rocketIds": [
+                90
+              ],
+              "sectorXs": [
+                6,
+                7,
+                0
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 6,
+                  "nebulaId": "sector-3-b",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 7,
+                  "nebulaId": "sector-1-a",
+                  "slotIndex": 2,
+                  "dataGain": 1,
+                  "slotScore": 2
+                },
+                {
+                  "sectorX": 0,
+                  "nebulaId": "sector-1-b",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 3,
+              "slotScore": 2,
+              "replaced": 3,
+              "extraMarks": 0,
+              "value": 15.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 88.71562560000001,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在及相邻扇区：比邻星：比邻星 槽位3 替换为棕色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：南河三：南河三 槽位2 替换为棕色token；槽位2 +2分；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：织女一：织女一 槽位3 替换为棕色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 12,
+      "logId": 320,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_96.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 0,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描3次（不获得数据） 1/3：绘架座β：绘架座β 槽位3 替换为棕色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 2/3：绘架座β：绘架座β 槽位4 替换为棕色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 3/3：绘架座β：绘架座β 槽位5 替换为棕色token；不获得数据"
+      ]
+    },
+    {
+      "case": 13,
+      "logId": 234,
+      "playerId": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_58.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 3,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 40,
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "to": {
+            "x": 2,
+            "y": 1
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-blue",
+          "rocketIds": [
+            40
+          ],
+          "sectorXs": [
+            1,
+            2,
+            3
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 1,
+              "nebulaId": "sector-4-a",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 2,
+              "nebulaId": "sector-4-b",
+              "slotIndex": 1,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 3,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 3,
+          "slotScore": 0,
+          "replaced": 3,
+          "extraMarks": 0,
+          "value": 13.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 40,
+          "rocketLabel": "R1",
+          "direction": "ccw",
+          "directionLabel": "逆时针",
+          "deltaX": -1,
+          "deltaY": 0,
+          "from": {
+            "x": 3,
+            "y": 1
+          },
+          "to": {
+            "x": 2,
+            "y": 1
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "venus",
+            "label": "金星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 2,
+              "y": 1
+            },
+            "value": 123.07000999999998,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": {
+              "value": 24,
+              "directScore": 7,
+              "count": 1
+            },
+            "nearCompleteTaskRouteCashout": {
+              "value": 24,
+              "directScore": 7,
+              "count": 1
+            },
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 61.66951550208,
+          "cost": 0,
+          "score": 61.66951550208,
+          "valueBreakdown": {
+            "movementGain": 61.66951550208,
+            "probeScanDelta": -2,
+            "probeScanAfterMove": {
+              "playerId": "player-blue",
+              "rocketIds": [
+                40
+              ],
+              "sectorXs": [
+                1,
+                2,
+                3
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 1,
+                  "nebulaId": "sector-4-a",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 2,
+                  "nebulaId": "sector-4-b",
+                  "slotIndex": 1,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 3,
+                  "nebulaId": "sector-1-a",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 3,
+              "slotScore": 0,
+              "replaced": 3,
+              "extraMarks": 0,
+              "value": 13.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 127.07000999999998,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在及相邻扇区：室女座61：室女座61 槽位3 替换为蓝色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：绘架座β：绘架座β 槽位1 替换为蓝色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：南河三：南河三 槽位3 替换为蓝色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 13,
+      "logId": 1584,
+      "playerId": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_54.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 207,
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "to": {
+            "x": 4,
+            "y": 4
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-white",
+          "rocketIds": [
+            207
+          ],
+          "sectorXs": [
+            4
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 4,
+              "nebulaId": "sector-1-b",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 1,
+          "slotScore": 0,
+          "replaced": 1,
+          "extraMarks": 0,
+          "value": 4.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 207,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 4,
+            "y": 3
+          },
+          "to": {
+            "x": 4,
+            "y": 4
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "neptune",
+            "label": "海王星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 4,
+              "y": 4
+            },
+            "value": 53.393316,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": {
+              "value": 8.325,
+              "directScore": 4,
+              "count": 1
+            },
+            "nearCompleteTaskRouteCashout": {
+              "value": 8.325,
+              "directScore": 4,
+              "count": 1
+            },
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 29.299735913728,
+          "cost": 0,
+          "score": 29.299735913728,
+          "valueBreakdown": {
+            "movementGain": 29.299735913728,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-white",
+              "rocketIds": [
+                207
+              ],
+              "sectorXs": [
+                4
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 4,
+                  "nebulaId": "sector-1-b",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 1,
+              "slotScore": 0,
+              "replaced": 1,
+              "extraMarks": 0,
+              "value": 4.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 57.393316,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：织女一：织女一 槽位3 替换为白色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 14,
+      "logId": 1023,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_53.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：巴纳德：巴纳德 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 14,
+      "logId": 1548,
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_96.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 0,
+      "slotScore": 2,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描3次（不获得数据） 1/3：南河三：南河三 槽位2 替换为白色token；槽位2 +2分；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 2/3：南河三：南河三 槽位3 替换为白色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 3/3：南河三：南河三 槽位4 替换为白色token；不获得数据"
+      ]
+    },
+    {
+      "case": 15,
+      "logId": 1037,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_22.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描两次 1/2：开普勒22：开普勒22 槽位3 替换为蓝色token；获得数据；资源：数据+1",
+        "选择己方探测器所在扇区扫描两次 2/2：开普勒22：开普勒22 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 16,
+      "logId": 955,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_64.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 124,
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "to": {
+            "x": 4,
+            "y": 3
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-brown",
+          "rocketIds": [
+            124
+          ],
+          "sectorXs": [
+            4
+          ],
+          "repeat": 2,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 4,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 4,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 4,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 2,
+          "slotScore": 0,
+          "replaced": 2,
+          "extraMarks": 0,
+          "value": 9
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 124,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 4,
+            "y": 2
+          },
+          "to": {
+            "x": 4,
+            "y": 3
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "jupiter",
+            "label": "木星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 4,
+              "y": 3
+            },
+            "value": 65.53916,
+            "satelliteOpportunity": {
+              "planetId": "jupiter",
+              "satelliteId": "io",
+              "satelliteName": "木卫一",
+              "rewardValue": 26.8,
+              "directScore": 10,
+              "energyCost": 2,
+              "energyShortfall": 0,
+              "pointConversionPenalty": 0,
+              "contestRiskPenalty": 0,
+              "raceWastePenalty": 0,
+              "cashoutPremium": 0,
+              "score": 20.94
+            },
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 36.381809185280005,
+          "cost": 0,
+          "score": 36.381809185280005,
+          "valueBreakdown": {
+            "movementGain": 36.381809185280005,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-brown",
+              "rocketIds": [
+                124
+              ],
+              "sectorXs": [
+                4
+              ],
+              "repeat": 2,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 4,
+                  "nebulaId": "sector-2-b",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 4,
+                  "nebulaId": "sector-2-b",
+                  "slotIndex": 4,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 2,
+              "slotScore": 0,
+              "replaced": 2,
+              "extraMarks": 0,
+              "value": 9
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 69.53916,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区两次 1/2：巴纳德：巴纳德 槽位3 替换为棕色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在扇区两次 2/2：巴纳德：巴纳德 槽位4 替换为棕色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 17,
+      "logId": 1021,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_88.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描：室女座61：室女座61 槽位5 替换为绿色token；获得数据；资源：数据+1、手牌+1"
+      ]
+    },
+    {
+      "case": 17,
+      "logId": 1101,
+      "playerId": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_53.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：比邻星：比邻星 槽位4 替换为白色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 18,
+      "logId": 1354,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_64.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 2,
+      "preview": {
+        "move": {
+          "rocketId": 133,
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 2
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-green",
+          "rocketIds": [
+            133
+          ],
+          "sectorXs": [
+            0
+          ],
+          "repeat": 2,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 0,
+              "nebulaId": "sector-1-b",
+              "slotIndex": 1,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 0,
+              "nebulaId": "sector-1-b",
+              "slotIndex": 2,
+              "dataGain": 1,
+              "slotScore": 2
+            }
+          ],
+          "dataGain": 2,
+          "slotScore": 2,
+          "replaced": 2,
+          "extraMarks": 0,
+          "value": 11
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 133,
+          "rocketLabel": "R2",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 0,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 2
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 0,
+              "y": 2
+            },
+            "value": 40.76086,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 24.28917509888,
+          "cost": 0,
+          "score": 24.28917509888,
+          "valueBreakdown": {
+            "movementGain": 24.28917509888,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-green",
+              "rocketIds": [
+                133
+              ],
+              "sectorXs": [
+                0
+              ],
+              "repeat": 2,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 0,
+                  "nebulaId": "sector-1-b",
+                  "slotIndex": 1,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 0,
+                  "nebulaId": "sector-1-b",
+                  "slotIndex": 2,
+                  "dataGain": 1,
+                  "slotScore": 2
+                }
+              ],
+              "dataGain": 2,
+              "slotScore": 2,
+              "replaced": 2,
+              "extraMarks": 0,
+              "value": 11
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 44.76086,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区两次 1/2：织女一：织女一 槽位1 替换为绿色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在扇区两次 2/2：织女一：织女一 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 19,
+      "logId": 81,
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_53.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：开普勒22：开普勒22 槽位3 替换为白色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 19,
+      "logId": 229,
+      "playerId": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_64.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 6,
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "to": {
+            "x": 3,
+            "y": 3
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-brown",
+          "rocketIds": [
+            6
+          ],
+          "sectorXs": [
+            3
+          ],
+          "repeat": 2,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 3,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 4,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 3,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 5,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 2,
+          "slotScore": 0,
+          "replaced": 2,
+          "extraMarks": 0,
+          "value": 9
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 6,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "to": {
+            "x": 3,
+            "y": 3
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "jupiter",
+            "label": "木星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 3,
+              "y": 3
+            },
+            "value": 81.96178299999998,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 43.673500852863995,
+          "cost": 0,
+          "score": 43.673500852863995,
+          "valueBreakdown": {
+            "movementGain": 43.673500852863995,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-brown",
+              "rocketIds": [
+                6
+              ],
+              "sectorXs": [
+                3
+              ],
+              "repeat": 2,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 3,
+                  "nebulaId": "sector-1-a",
+                  "slotIndex": 4,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 3,
+                  "nebulaId": "sector-1-a",
+                  "slotIndex": 5,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 2,
+              "slotScore": 0,
+              "replaced": 2,
+              "extraMarks": 0,
+              "value": 9
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 85.96178299999998,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区两次 1/2：南河三：南河三 槽位4 替换为棕色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在扇区两次 2/2：南河三：南河三 槽位5 替换为棕色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 19,
+      "logId": 1046,
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_54.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 133,
+          "from": {
+            "x": 2,
+            "y": 2
+          },
+          "to": {
+            "x": 3,
+            "y": 2
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-white",
+          "rocketIds": [
+            133
+          ],
+          "sectorXs": [
+            3
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 3,
+              "nebulaId": "sector-1-a",
+              "slotIndex": 4,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 1,
+          "slotScore": 0,
+          "replaced": 1,
+          "extraMarks": 0,
+          "value": 4.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 133,
+          "rocketLabel": "R1",
+          "direction": "cw",
+          "directionLabel": "顺时针",
+          "deltaX": 1,
+          "deltaY": 0,
+          "from": {
+            "x": 2,
+            "y": 2
+          },
+          "to": {
+            "x": 3,
+            "y": 2
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "jupiter",
+            "label": "木星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 3,
+              "y": 3
+            },
+            "value": 29.463739999999998,
+            "satelliteOpportunity": {
+              "planetId": "jupiter",
+              "satelliteId": "io",
+              "satelliteName": "木卫一",
+              "rewardValue": 33.272999999999996,
+              "directScore": 10,
+              "energyCost": 2,
+              "energyShortfall": 2,
+              "pointConversionPenalty": 0,
+              "contestRiskPenalty": 0,
+              "raceWastePenalty": 0,
+              "cashoutPremium": 0,
+              "score": 15.700149999999997
+            },
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 2,
+            "newDistance": 1,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 5.3976710434048005,
+          "cost": 2.8,
+          "score": 2.5976710434048007,
+          "valueBreakdown": {
+            "movementGain": 5.3976710434048005,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-white",
+              "rocketIds": [
+                133
+              ],
+              "sectorXs": [
+                3
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 3,
+                  "nebulaId": "sector-1-a",
+                  "slotIndex": 4,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 1,
+              "slotScore": 0,
+              "replaced": 1,
+              "extraMarks": 0,
+              "value": 4.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 2.8,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 2.8,
+            "routeScore": 10.5981106,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：南河三：南河三 槽位4 替换为白色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 19,
+      "logId": 1443,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_58.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 3,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 77,
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 1,
+            "y": 3
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-green",
+          "rocketIds": [
+            77
+          ],
+          "sectorXs": [
+            0,
+            1,
+            2
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 0,
+              "nebulaId": "sector-3-b",
+              "slotIndex": 6,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 1,
+              "nebulaId": "sector-2-a",
+              "slotIndex": 6,
+              "dataGain": 1,
+              "slotScore": 0
+            },
+            {
+              "sectorX": 2,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 3,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 3,
+          "slotScore": 0,
+          "replaced": 3,
+          "extraMarks": 0,
+          "value": 13.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 77,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 1,
+            "y": 3
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "aomomo",
+            "label": "奥陌陌",
+            "kind": "planet",
+            "coordinate": {
+              "x": 1,
+              "y": 3
+            },
+            "value": 40.7979,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 23.0749805632,
+          "cost": 0,
+          "score": 23.0749805632,
+          "valueBreakdown": {
+            "movementGain": 23.0749805632,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-green",
+              "rocketIds": [
+                77
+              ],
+              "sectorXs": [
+                0,
+                1,
+                2
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 0,
+                  "nebulaId": "sector-3-b",
+                  "slotIndex": 6,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 1,
+                  "nebulaId": "sector-2-a",
+                  "slotIndex": 6,
+                  "dataGain": 1,
+                  "slotScore": 0
+                },
+                {
+                  "sectorX": 2,
+                  "nebulaId": "sector-2-b",
+                  "slotIndex": 3,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 3,
+              "slotScore": 0,
+              "replaced": 3,
+              "extraMarks": 0,
+              "value": 13.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 44.7979,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在及相邻扇区：比邻星：比邻星 槽位6 替换为绿色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：天狼星A：天狼星A 槽位6 替换为绿色token；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在及相邻扇区：巴纳德：巴纳德 槽位3 替换为绿色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 20,
+      "logId": 1451,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_96.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 0,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描3次（不获得数据） 1/3：天狼星A：天狼星A 槽位4 替换为棕色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 2/3：天狼星A：天狼星A 槽位5 替换为棕色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 3/3：天狼星A：天狼星A 槽位6 替换为棕色token；不获得数据"
+      ]
+    },
+    {
+      "case": 20,
+      "logId": 1505,
+      "playerId": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_54.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 0,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 272,
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-blue",
+          "rocketIds": [
+            272
+          ],
+          "sectorXs": [
+            0
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 0,
+              "nebulaId": "sector-4-b",
+              "slotIndex": 3,
+              "dataGain": 0,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 0,
+          "slotScore": 0,
+          "replaced": 1,
+          "extraMarks": 0,
+          "value": 3
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 272,
+          "rocketLabel": "R2",
+          "direction": "ccw",
+          "directionLabel": "逆时针",
+          "deltaX": -1,
+          "deltaY": 0,
+          "from": {
+            "x": 1,
+            "y": 1
+          },
+          "to": {
+            "x": 0,
+            "y": 1
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "venus",
+            "label": "金星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 7,
+              "y": 1
+            },
+            "value": 40.71792666666666,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 2,
+            "newDistance": 1,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 5.368277514291202,
+          "cost": 2.8,
+          "score": 2.5682775142912018,
+          "valueBreakdown": {
+            "movementGain": 5.368277514291202,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-blue",
+              "rocketIds": [
+                272
+              ],
+              "sectorXs": [
+                0
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 0,
+                  "nebulaId": "sector-4-b",
+                  "slotIndex": 3,
+                  "dataGain": 0,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 0,
+              "slotScore": 0,
+              "replaced": 1,
+              "extraMarks": 0,
+              "value": 3
+            },
+            "paymentCost": 0,
+            "pathPenalty": 2.8,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 2.8,
+            "routeScore": 10.700509733333334,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：绘架座β：绘架座β 槽位3 替换为蓝色token；数据池已满（6/6），本次数据被弃置"
+      ]
+    },
+    {
+      "case": 21,
+      "logId": 40,
+      "playerId": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_54.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": {
+        "move": {
+          "rocketId": 1,
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "to": {
+            "x": 4,
+            "y": 2
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-blue",
+          "rocketIds": [
+            1
+          ],
+          "sectorXs": [
+            4
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 4,
+              "nebulaId": "sector-2-b",
+              "slotIndex": 1,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 1,
+          "slotScore": 0,
+          "replaced": 1,
+          "extraMarks": 0,
+          "value": 4.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 1,
+          "rocketLabel": "R1",
+          "direction": "cw",
+          "directionLabel": "顺时针",
+          "deltaX": 1,
+          "deltaY": 0,
+          "from": {
+            "x": 3,
+            "y": 2
+          },
+          "to": {
+            "x": 4,
+            "y": 2
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 4,
+              "y": 2
+            },
+            "value": 73.22010083333335,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 39.11329159264001,
+          "cost": 0,
+          "score": 39.11329159264001,
+          "valueBreakdown": {
+            "movementGain": 39.11329159264001,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-blue",
+              "rocketIds": [
+                1
+              ],
+              "sectorXs": [
+                4
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 4,
+                  "nebulaId": "sector-2-b",
+                  "slotIndex": 1,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 1,
+              "slotScore": 0,
+              "replaced": 1,
+              "extraMarks": 0,
+              "value": 4.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 77.22010083333335,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：巴纳德：巴纳德 槽位1 替换为蓝色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 21,
+      "logId": 1439,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_64.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 1,
+      "preview": {
+        "move": {
+          "rocketId": 67,
+          "from": {
+            "x": 2,
+            "y": 1
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-green",
+          "rocketIds": [
+            67
+          ],
+          "sectorXs": [
+            2
+          ],
+          "repeat": 2,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 2,
+              "nebulaId": "aomomo",
+              "slotIndex": 1,
+              "dataGain": 1,
+              "slotScore": 1
+            },
+            {
+              "sectorX": 2,
+              "nebulaId": "aomomo",
+              "slotIndex": 2,
+              "dataGain": 1,
+              "slotScore": 0
+            }
+          ],
+          "dataGain": 2,
+          "slotScore": 1,
+          "replaced": 2,
+          "extraMarks": 0,
+          "value": 10
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 67,
+          "rocketLabel": "R1",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 2,
+            "y": 1
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 2,
+              "y": 2
+            },
+            "value": 59.01904880000001,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": {
+              "value": 15.398,
+              "directScore": 4,
+              "count": 1
+            },
+            "nearCompleteTaskRouteCashout": {
+              "value": 15.398,
+              "directScore": 4,
+              "count": 1
+            },
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 32.08001806935041,
+          "cost": 0,
+          "score": 32.08001806935041,
+          "valueBreakdown": {
+            "movementGain": 32.08001806935041,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-green",
+              "rocketIds": [
+                67
+              ],
+              "sectorXs": [
+                2
+              ],
+              "repeat": 2,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 2,
+                  "nebulaId": "aomomo",
+                  "slotIndex": 1,
+                  "dataGain": 1,
+                  "slotScore": 1
+                },
+                {
+                  "sectorX": 2,
+                  "nebulaId": "aomomo",
+                  "slotIndex": 2,
+                  "dataGain": 1,
+                  "slotScore": 0
+                }
+              ],
+              "dataGain": 2,
+              "slotScore": 1,
+              "replaced": 2,
+              "extraMarks": 0,
+              "value": 10
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 63.01904880000001,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区两次 1/2：比邻星：奥陌陌 槽位1 替换为绿色token；槽位1 +1分；获得数据；资源：数据+1",
+        "选择1个己方探测器，扫描所在扇区两次 2/2：比邻星：奥陌陌 槽位2 替换为绿色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 21,
+      "logId": 1562,
+      "playerId": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_96.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 0,
+      "slotScore": 2,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描3次（不获得数据） 1/3：织女一：织女一 槽位2 替换为蓝色token；槽位2 +2分；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 2/3：织女一：织女一 槽位3 替换为蓝色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 3/3：织女一：织女一 槽位4 替换为蓝色token；不获得数据"
+      ]
+    },
+    {
+      "case": 22,
+      "logId": 987,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_22.webp",
+      "matched": true,
+      "scanSteps": 2,
+      "dataGain": 2,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描两次 1/2：南河三：南河三 槽位3 替换为绿色token；获得数据；资源：数据+1",
+        "选择己方探测器所在扇区扫描两次 2/2：南河三：南河三 槽位4 替换为绿色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 23,
+      "logId": 791,
+      "playerId": "player-green",
+      "company": "宇宙大战略集团",
+      "cardId": "b_88.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描：绘架座β：绘架座β 槽位3 替换为绿色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 23,
+      "logId": 1015,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_53.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：南河三：南河三 槽位5 替换为棕色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 23,
+      "logId": 1313,
+      "playerId": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_54.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 2,
+      "preview": {
+        "move": {
+          "rocketId": 94,
+          "from": {
+            "x": 5,
+            "y": 3
+          },
+          "to": {
+            "x": 5,
+            "y": 4
+          },
+          "paymentRequired": 0
+        },
+        "scan": {
+          "playerId": "player-blue",
+          "rocketIds": [
+            94
+          ],
+          "sectorXs": [
+            5
+          ],
+          "repeat": 1,
+          "gainData": true,
+          "scans": [
+            {
+              "sectorX": 5,
+              "nebulaId": "sector-3-a",
+              "slotIndex": 2,
+              "dataGain": 1,
+              "slotScore": 2
+            }
+          ],
+          "dataGain": 1,
+          "slotScore": 2,
+          "replaced": 1,
+          "extraMarks": 0,
+          "value": 6.5
+        }
+      },
+      "moves": [
+        {
+          "id": "cardMove",
+          "kind": "effect",
+          "available": true,
+          "rocketId": 94,
+          "rocketLabel": "R2",
+          "direction": "out",
+          "directionLabel": "向外",
+          "deltaX": 0,
+          "deltaY": 1,
+          "from": {
+            "x": 5,
+            "y": 3
+          },
+          "to": {
+            "x": 5,
+            "y": 4
+          },
+          "terrainRequired": 1,
+          "paymentRequired": 0,
+          "routeTarget": {
+            "id": "uranus",
+            "label": "天王星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 5,
+              "y": 4
+            },
+            "value": 38.51246,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "followupLanding": null,
+          "gain": 21.18633959168,
+          "cost": 0,
+          "score": 21.18633959168,
+          "valueBreakdown": {
+            "movementGain": 21.18633959168,
+            "probeScanDelta": 0,
+            "probeScanAfterMove": {
+              "playerId": "player-blue",
+              "rocketIds": [
+                94
+              ],
+              "sectorXs": [
+                5
+              ],
+              "repeat": 1,
+              "gainData": true,
+              "scans": [
+                {
+                  "sectorX": 5,
+                  "nebulaId": "sector-3-a",
+                  "slotIndex": 2,
+                  "dataGain": 1,
+                  "slotScore": 2
+                }
+              ],
+              "dataGain": 1,
+              "slotScore": 2,
+              "replaced": 1,
+              "extraMarks": 0,
+              "value": 6.5
+            },
+            "paymentCost": 0,
+            "pathPenalty": 0,
+            "earlyLightsailEmptyBacktrackPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "movementCost": 0,
+            "routeScore": 38.482459999999996,
+            "landingScore": 0,
+            "landingDirectScoreGain": 0,
+            "terrainRequired": 1,
+            "paymentRequired": 0,
+            "remainingPoolAfterStep": 0,
+            "industryHuanyuMove": false
+          }
+        }
+      ],
+      "previewDataMatches": true,
+      "previewSlotScoreMatches": true,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：开普勒22：开普勒22 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 24,
+      "logId": 380,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_53.webp",
+      "matched": true,
+      "scanSteps": 1,
+      "dataGain": 1,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择1个己方探测器，扫描所在扇区：绘架座β：绘架座β 槽位1 替换为绿色token；获得数据；资源：数据+1"
+      ]
+    },
+    {
+      "case": 24,
+      "logId": 1512,
+      "playerId": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_96.webp",
+      "matched": true,
+      "scanSteps": 3,
+      "dataGain": 0,
+      "slotScore": 0,
+      "preview": null,
+      "moves": [],
+      "previewDataMatches": null,
+      "previewSlotScoreMatches": null,
+      "sources": [
+        "选择己方探测器所在扇区扫描3次（不获得数据） 1/3：开普勒22：开普勒22 槽位3 替换为蓝色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 2/3：开普勒22：开普勒22 槽位4 替换为蓝色token；不获得数据",
+        "选择己方探测器所在扇区扫描3次（不获得数据） 3/3：开普勒22：开普勒22 槽位5 替换为蓝色token；不获得数据"
+      ]
+    }
+  ]
+}
