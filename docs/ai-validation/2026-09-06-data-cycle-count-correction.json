@@ -1,0 +1,3031 @@
+{
+  "generatedAt": "2026-09-06T01:48:32.948Z",
+  "method": "Only distinct main analysis entries start a cycle. Same-entry reward steps and quick steps cannot complete cycles. Refill is the first placement after analysis; complete cycle ends at the next distinct analysis.",
+  "summaries": {
+    "human15": {
+      "all": {
+        "seats": 15,
+        "analysisActionCount": 5.533333333333333,
+        "dataTurnoverCount": 5.266666666666667,
+        "fullDataCycleCount": 4.533333333333333,
+        "oldDataTurnoverCount": 5.466666666666667,
+        "oldFullDataCycleCount": 4.733333333333333
+      },
+      "companies": {
+        "异星实验室": {
+          "seats": 2,
+          "analysisActionCount": 5.5,
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4.5,
+          "oldDataTurnoverCount": 5,
+          "oldFullDataCycleCount": 4.5
+        },
+        "寰宇动力": {
+          "seats": 3,
+          "analysisActionCount": 6,
+          "dataTurnoverCount": 5.666666666666667,
+          "fullDataCycleCount": 5,
+          "oldDataTurnoverCount": 6,
+          "oldFullDataCycleCount": 5.333333333333333
+        },
+        "层云核心": {
+          "seats": 1,
+          "analysisActionCount": 4,
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3,
+          "oldDataTurnoverCount": 5,
+          "oldFullDataCycleCount": 4
+        },
+        "赫利昂联合体": {
+          "seats": 1,
+          "analysisActionCount": 5,
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4,
+          "oldDataTurnoverCount": 5,
+          "oldFullDataCycleCount": 4
+        },
+        "任务中继站": {
+          "seats": 1,
+          "analysisActionCount": 6,
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5,
+          "oldDataTurnoverCount": 6,
+          "oldFullDataCycleCount": 5
+        },
+        "哨兵探测网络": {
+          "seats": 1,
+          "analysisActionCount": 6,
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5,
+          "oldDataTurnoverCount": 5,
+          "oldFullDataCycleCount": 5
+        },
+        "深空探测": {
+          "seats": 1,
+          "analysisActionCount": 8,
+          "dataTurnoverCount": 8,
+          "fullDataCycleCount": 7,
+          "oldDataTurnoverCount": 8,
+          "oldFullDataCycleCount": 7
+        },
+        "宇宙战略集团": {
+          "seats": 3,
+          "analysisActionCount": 5,
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4,
+          "oldDataTurnoverCount": 5,
+          "oldFullDataCycleCount": 4
+        },
+        "芬威克研究中心": {
+          "seats": 2,
+          "analysisActionCount": 5,
+          "dataTurnoverCount": 4.5,
+          "fullDataCycleCount": 4,
+          "oldDataTurnoverCount": 5,
+          "oldFullDataCycleCount": 4.5
+        }
+      }
+    },
+    "baselineDevelopment8": {
+      "all": {
+        "seats": 32,
+        "analysisActionCount": 4.09375,
+        "dataTurnoverCount": 3.8125,
+        "fullDataCycleCount": 3.09375,
+        "oldDataTurnoverCount": 4.3125,
+        "oldFullDataCycleCount": 3.625
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 8,
+          "analysisActionCount": 2.375,
+          "dataTurnoverCount": 2.375,
+          "fullDataCycleCount": 1.375,
+          "oldDataTurnoverCount": 2.5,
+          "oldFullDataCycleCount": 1.5
+        },
+        "宇宙大战略集团": {
+          "seats": 8,
+          "analysisActionCount": 4.625,
+          "dataTurnoverCount": 4.125,
+          "fullDataCycleCount": 3.625,
+          "oldDataTurnoverCount": 4.625,
+          "oldFullDataCycleCount": 4.125
+        },
+        "作弊实验室": {
+          "seats": 16,
+          "analysisActionCount": 4.6875,
+          "dataTurnoverCount": 4.375,
+          "fullDataCycleCount": 3.6875,
+          "oldDataTurnoverCount": 5.0625,
+          "oldFullDataCycleCount": 4.4375
+        }
+      }
+    },
+    "traceDevelopment8": {
+      "all": {
+        "seats": 32,
+        "analysisActionCount": 3.90625,
+        "dataTurnoverCount": 3.625,
+        "fullDataCycleCount": 2.90625,
+        "oldDataTurnoverCount": 3.9375,
+        "oldFullDataCycleCount": 3.21875
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 8,
+          "analysisActionCount": 2.625,
+          "dataTurnoverCount": 2.125,
+          "fullDataCycleCount": 1.625,
+          "oldDataTurnoverCount": 2.125,
+          "oldFullDataCycleCount": 1.625
+        },
+        "宇宙大战略集团": {
+          "seats": 8,
+          "analysisActionCount": 4,
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3,
+          "oldDataTurnoverCount": 4.5,
+          "oldFullDataCycleCount": 3.5
+        },
+        "作弊实验室": {
+          "seats": 16,
+          "analysisActionCount": 4.5,
+          "dataTurnoverCount": 4.1875,
+          "fullDataCycleCount": 3.5,
+          "oldDataTurnoverCount": 4.5625,
+          "oldFullDataCycleCount": 3.875
+        }
+      }
+    },
+    "blueCashDevelopment8": {
+      "all": {
+        "seats": 32,
+        "analysisActionCount": 3.96875,
+        "dataTurnoverCount": 3.6875,
+        "fullDataCycleCount": 2.96875,
+        "oldDataTurnoverCount": 4.03125,
+        "oldFullDataCycleCount": 3.3125
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 8,
+          "analysisActionCount": 2.75,
+          "dataTurnoverCount": 2.25,
+          "fullDataCycleCount": 1.75,
+          "oldDataTurnoverCount": 2.375,
+          "oldFullDataCycleCount": 1.875
+        },
+        "宇宙大战略集团": {
+          "seats": 8,
+          "analysisActionCount": 4.125,
+          "dataTurnoverCount": 4.125,
+          "fullDataCycleCount": 3.125,
+          "oldDataTurnoverCount": 4.625,
+          "oldFullDataCycleCount": 3.625
+        },
+        "作弊实验室": {
+          "seats": 16,
+          "analysisActionCount": 4.5,
+          "dataTurnoverCount": 4.1875,
+          "fullDataCycleCount": 3.5,
+          "oldDataTurnoverCount": 4.5625,
+          "oldFullDataCycleCount": 3.875
+        }
+      }
+    },
+    "baselineFresh12": {
+      "all": {
+        "seats": 48,
+        "analysisActionCount": 4.041666666666667,
+        "dataTurnoverCount": 3.6875,
+        "fullDataCycleCount": 3.0416666666666665,
+        "oldDataTurnoverCount": 3.875,
+        "oldFullDataCycleCount": 3.25
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 12,
+          "analysisActionCount": 2.5833333333333335,
+          "dataTurnoverCount": 2.25,
+          "fullDataCycleCount": 1.5833333333333333,
+          "oldDataTurnoverCount": 2.4166666666666665,
+          "oldFullDataCycleCount": 1.75
+        },
+        "宇宙大战略集团": {
+          "seats": 12,
+          "analysisActionCount": 4.083333333333333,
+          "dataTurnoverCount": 3.9166666666666665,
+          "fullDataCycleCount": 3.0833333333333335,
+          "oldDataTurnoverCount": 4.083333333333333,
+          "oldFullDataCycleCount": 3.3333333333333335
+        },
+        "作弊实验室": {
+          "seats": 24,
+          "analysisActionCount": 4.75,
+          "dataTurnoverCount": 4.291666666666667,
+          "fullDataCycleCount": 3.75,
+          "oldDataTurnoverCount": 4.5,
+          "oldFullDataCycleCount": 3.9583333333333335
+        }
+      }
+    },
+    "traceFresh12": {
+      "all": {
+        "seats": 48,
+        "analysisActionCount": 3.8958333333333335,
+        "dataTurnoverCount": 3.7291666666666665,
+        "fullDataCycleCount": 2.8958333333333335,
+        "oldDataTurnoverCount": 3.9375,
+        "oldFullDataCycleCount": 3.1041666666666665
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 12,
+          "analysisActionCount": 2.25,
+          "dataTurnoverCount": 2.25,
+          "fullDataCycleCount": 1.25,
+          "oldDataTurnoverCount": 2.3333333333333335,
+          "oldFullDataCycleCount": 1.3333333333333333
+        },
+        "宇宙大战略集团": {
+          "seats": 12,
+          "analysisActionCount": 4.166666666666667,
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3.1666666666666665,
+          "oldDataTurnoverCount": 4.25,
+          "oldFullDataCycleCount": 3.4166666666666665
+        },
+        "作弊实验室": {
+          "seats": 24,
+          "analysisActionCount": 4.583333333333333,
+          "dataTurnoverCount": 4.333333333333333,
+          "fullDataCycleCount": 3.5833333333333335,
+          "oldDataTurnoverCount": 4.583333333333333,
+          "oldFullDataCycleCount": 3.8333333333333335
+        }
+      }
+    }
+  },
+  "mismatches": [
+    {
+      "group": "baselineFresh12",
+      "game": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+      "player": "player-green",
+      "logged": 3,
+      "analysisActionCount": 2,
+      "dataTurnoverCount": 2,
+      "fullDataCycleCount": 1
+    },
+    {
+      "group": "baselineFresh12",
+      "game": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+      "player": "player-brown",
+      "logged": 5,
+      "analysisActionCount": 4,
+      "dataTurnoverCount": 3,
+      "fullDataCycleCount": 3
+    },
+    {
+      "group": "baselineFresh12",
+      "game": "codex-ai-trace-verify-20260906:30f31226912e352a",
+      "player": "player-white",
+      "logged": 5,
+      "analysisActionCount": 4,
+      "dataTurnoverCount": 4,
+      "fullDataCycleCount": 3
+    },
+    {
+      "group": "traceFresh12",
+      "game": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+      "player": "player-green",
+      "logged": 3,
+      "analysisActionCount": 2,
+      "dataTurnoverCount": 2,
+      "fullDataCycleCount": 1
+    },
+    {
+      "group": "traceFresh12",
+      "game": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+      "player": "player-brown",
+      "logged": 4,
+      "analysisActionCount": 3,
+      "dataTurnoverCount": 3,
+      "fullDataCycleCount": 2
+    },
+    {
+      "group": "traceFresh12",
+      "game": "codex-ai-trace-verify-20260906:30f31226912e352a",
+      "player": "player-white",
+      "logged": 3,
+      "analysisActionCount": 2,
+      "dataTurnoverCount": 2,
+      "fullDataCycleCount": 1
+    }
+  ],
+  "players": {
+    "human15": [
+      {
+        "gameId": "human-1",
+        "playerId": "白色",
+        "company": "异星实验室",
+        "score": 348,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "human-2",
+        "playerId": "白色",
+        "company": "寰宇动力",
+        "score": 304,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "human-3",
+        "playerId": "白色",
+        "company": "层云核心",
+        "score": 261,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "human-4",
+        "playerId": "白色",
+        "company": "赫利昂联合体",
+        "score": 266,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "human-5",
+        "playerId": "白色",
+        "company": "寰宇动力",
+        "score": 291,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 7
+        },
+        "analysisActionCount": 7,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 6
+      },
+      {
+        "gameId": "human-6",
+        "playerId": "白色",
+        "company": "寰宇动力",
+        "score": 285,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 7,
+        "dataTurnoverCount": 7,
+        "fullDataCycleCount": 6
+      },
+      {
+        "gameId": "human-7",
+        "playerId": "白色",
+        "company": "任务中继站",
+        "score": 283,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "human-8",
+        "playerId": "白色",
+        "company": "哨兵探测网络",
+        "score": 224,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "human-9",
+        "playerId": "白色",
+        "company": "深空探测",
+        "score": 314,
+        "old": {
+          "dataTurnoverCount": 8,
+          "fullDataCycleCount": 7
+        },
+        "analysisActionCount": 8,
+        "dataTurnoverCount": 8,
+        "fullDataCycleCount": 7
+      },
+      {
+        "gameId": "human-10",
+        "playerId": "白色",
+        "company": "宇宙战略集团",
+        "score": 245,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "human-11",
+        "playerId": "白色",
+        "company": "宇宙战略集团",
+        "score": 374,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "human-12",
+        "playerId": "白色",
+        "company": "宇宙战略集团",
+        "score": 342,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "human-13",
+        "playerId": "白色",
+        "company": "异星实验室",
+        "score": 357,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "human-14",
+        "playerId": "白色",
+        "company": "芬威克研究中心",
+        "score": 291,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "human-15",
+        "playerId": "白色",
+        "company": "芬威克研究中心",
+        "score": 297,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      }
+    ],
+    "baselineDevelopment8": [
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 162,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-blue",
+        "company": "宇宙大战略集团",
+        "score": 228,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 229,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 7,
+        "dataTurnoverCount": 7,
+        "fullDataCycleCount": 6
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 244,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 217,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 128,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 302,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 272,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 181,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 0
+        },
+        "analysisActionCount": 1,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 0
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 241,
+        "old": {
+          "dataTurnoverCount": 8,
+          "fullDataCycleCount": 7
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 240,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-brown",
+        "company": "宇宙大战略集团",
+        "score": 200,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 183,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 232,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 241,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 125,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 204,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-blue",
+        "company": "宇宙大战略集团",
+        "score": 252,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 260,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 267,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 185,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 322,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 7
+        },
+        "analysisActionCount": 7,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 6
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 176,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 193,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 166,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 1,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 0
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 174,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 183,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-brown",
+        "company": "宇宙大战略集团",
+        "score": 224,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 7,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 6
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 216,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 206,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 7
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 227,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 264,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      }
+    ],
+    "traceDevelopment8": [
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 168,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-blue",
+        "company": "宇宙大战略集团",
+        "score": 243,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 274,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 266,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 170,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 138,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 268,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 259,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 204,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 267,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 213,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-brown",
+        "company": "宇宙大战略集团",
+        "score": 152,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 176,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 0
+        },
+        "analysisActionCount": 1,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 0
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 241,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 254,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 150,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 232,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-blue",
+        "company": "宇宙大战略集团",
+        "score": 278,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 208,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 294,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 178,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 301,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 298,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 192,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 203,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 257,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 199,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-brown",
+        "company": "宇宙大战略集团",
+        "score": 207,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 203,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 227,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 212,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 277,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4
+      }
+    ],
+    "blueCashDevelopment8": [
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 168,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-blue",
+        "company": "宇宙大战略集团",
+        "score": 243,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 274,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:ade5b1f264282c81",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 266,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 170,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 138,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 268,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:80cd2b7c089defe6",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 259,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 209,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 238,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 238,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+        "playerId": "player-brown",
+        "company": "宇宙大战略集团",
+        "score": 179,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 176,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 0
+        },
+        "analysisActionCount": 1,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 0
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 241,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 254,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 150,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 232,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-blue",
+        "company": "宇宙大战略集团",
+        "score": 278,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 208,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:123bbf02166670f4",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 294,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 178,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 301,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 298,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 192,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 205,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 263,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 195,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:24ffa94231d2397f",
+        "playerId": "player-brown",
+        "company": "宇宙大战略集团",
+        "score": 217,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 203,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 227,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 212,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-verify-20260906:5e506c27b4798d0f",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 277,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4
+      }
+    ],
+    "baselineFresh12": [
+      {
+        "gameId": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 199,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 218,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 7,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 6
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 241,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 295,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 131,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 330,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 186,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 232,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 200,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 179,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 259,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 212,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 187,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 326,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 150,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 296,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 7,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 6
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 221,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 227,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 280,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 7
+        },
+        "analysisActionCount": 8,
+        "dataTurnoverCount": 7,
+        "fullDataCycleCount": 7
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 343,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 158,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 175,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 197,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 268,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 167,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 0
+        },
+        "analysisActionCount": 1,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 0
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 346,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 211,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 289,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 214,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 192,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 219,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 256,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 253,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+        "playerId": "player-blue",
+        "company": "宇宙大战略集团",
+        "score": 143,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 213,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 215,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:30f31226912e352a",
+        "playerId": "player-green",
+        "company": "寰宇超动力",
+        "score": 148,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:30f31226912e352a",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 338,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:30f31226912e352a",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 331,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:30f31226912e352a",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 269,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 179,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 220,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+        "playerId": "player-brown",
+        "company": "宇宙大战略集团",
+        "score": 139,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 233,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+        "playerId": "player-green",
+        "company": "寰宇超动力",
+        "score": 164,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 211,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 179,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 194,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      }
+    ],
+    "traceFresh12": [
+      {
+        "gameId": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 195,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 0
+        },
+        "analysisActionCount": 1,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 0
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 252,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 304,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 261,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 155,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 346,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 196,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 309,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 231,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 160,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 260,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 196,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 174,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 294,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 127,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 269,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 208,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 253,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 216,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 293,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 157,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 229,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 165,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 314,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 222,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 0
+        },
+        "analysisActionCount": 1,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 0
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 288,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 235,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 249,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+        "playerId": "player-brown",
+        "company": "寰宇超动力",
+        "score": 176,
+        "old": {
+          "dataTurnoverCount": 1,
+          "fullDataCycleCount": 0
+        },
+        "analysisActionCount": 1,
+        "dataTurnoverCount": 1,
+        "fullDataCycleCount": 0
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 249,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+        "playerId": "player-green",
+        "company": "宇宙大战略集团",
+        "score": 257,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 226,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+        "playerId": "player-white",
+        "company": "寰宇超动力",
+        "score": 228,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+        "playerId": "player-blue",
+        "company": "宇宙大战略集团",
+        "score": 210,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 234,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 206,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:30f31226912e352a",
+        "playerId": "player-green",
+        "company": "寰宇超动力",
+        "score": 177,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:30f31226912e352a",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 357,
+        "old": {
+          "dataTurnoverCount": 7,
+          "fullDataCycleCount": 6
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:30f31226912e352a",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 307,
+        "old": {
+          "dataTurnoverCount": 5,
+          "fullDataCycleCount": 4
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:30f31226912e352a",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 197,
+        "old": {
+          "dataTurnoverCount": 2,
+          "fullDataCycleCount": 1
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+        "playerId": "player-blue",
+        "company": "寰宇超动力",
+        "score": 182,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+        "playerId": "player-green",
+        "company": "作弊实验室",
+        "score": 262,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+        "playerId": "player-brown",
+        "company": "宇宙大战略集团",
+        "score": 189,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+        "playerId": "player-white",
+        "company": "作弊实验室",
+        "score": 292,
+        "old": {
+          "dataTurnoverCount": 6,
+          "fullDataCycleCount": 5
+        },
+        "analysisActionCount": 6,
+        "dataTurnoverCount": 6,
+        "fullDataCycleCount": 5
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+        "playerId": "player-green",
+        "company": "寰宇超动力",
+        "score": 191,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+        "playerId": "player-blue",
+        "company": "作弊实验室",
+        "score": 260,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+        "playerId": "player-brown",
+        "company": "作弊实验室",
+        "score": 221,
+        "old": {
+          "dataTurnoverCount": 4,
+          "fullDataCycleCount": 3
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      },
+      {
+        "gameId": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+        "playerId": "player-white",
+        "company": "宇宙大战略集团",
+        "score": 213,
+        "old": {
+          "dataTurnoverCount": 3,
+          "fullDataCycleCount": 2
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2
+      }
+    ]
+  }
+}

@@ -235,11 +235,26 @@
   function summarizeDataCycles(events = []) {
     let awaitingPlacement = false;
     let placedAfterAnalysis = false;
+    const analysisEntries = new Set();
+    let analysisActionCount = 0;
     let dataTurnoverCount = 0;
     let fullDataCycleCount = 0;
+    const getEntryKey = event => JSON.stringify([event.gameId, event.playerId,
+      event.entryId ?? [event.roundNumber, event.turnNumber]]);
+    // Reveal settlement may replace the visible payment step. Use the owning
+    // entry's explicit type when it is available.
+    // A reward received during somebody else's analysis is not an action.
+    const knownAnalysisEntries = new Set(events.filter(event => (
+      event.mainActionType === "analyze"
+      || (event.sourceCategory === "analysis" && event.pace === "main" && !event.syntheticSnapshotInference)
+    )).map(getEntryKey));
 
     for (const event of events) {
-      if (event.sourceCategory === "analysis") {
+      const entryKey = getEntryKey(event);
+      if (knownAnalysisEntries.has(entryKey) && event.pace === "main") {
+        if (analysisEntries.has(entryKey)) continue;
+        analysisEntries.add(entryKey);
+        analysisActionCount += 1;
         if (awaitingPlacement && placedAfterAnalysis) fullDataCycleCount += 1;
         awaitingPlacement = true;
         placedAfterAnalysis = false;
@@ -253,7 +268,7 @@
       }
     }
 
-    return { dataTurnoverCount, fullDataCycleCount };
+    return { analysisActionCount, dataTurnoverCount, fullDataCycleCount };
   }
 
   function applyBlueTechRewardEvent(summary, ownedTechIds, event) {
@@ -553,12 +568,14 @@
       row.spentWeighted += weightedResourceMap(negative);
       row.blue1CreditGain += blueTechRewards.blue1CreditGain;
       row.blue2EnergyGain += blueTechRewards.blue2EnergyGain;
-      if (event.sourceCategory === "analysis") row.analysisCount += 1;
       if (event.sourceCategory === "data_placement" || event.isDataPlacement) {
         row.dataPlacementCount += 1;
       }
     }
-    return Object.fromEntries(rounds);
+    return Object.fromEntries([...rounds].map(([round, row]) => [round, {
+      ...row,
+      analysisCount: summarizeDataCycles(events.filter(event => String(Number(event.roundNumber) || 0) === round)).analysisActionCount,
+    }]));
   }
 
   function buildGroupedPlayerSummaries(players = [], events = []) {
@@ -593,6 +610,7 @@
     const players = [...playersByKey.values()].map((row) => finalizePlayerRow(row, options));
     return {
       resourceWeighting: "spendable-only-v2",
+      dataCycleCounting: "distinct-main-entry-v2",
       coverage: buildCoverage(events),
       totals: summarizePlayerRows(players),
       players,
@@ -1081,6 +1099,7 @@
       roundNumber: Number(entry.roundNumber) || 0,
       turnNumber: Number(entry.turnNumber) || 0,
       pace: step?.source || null,
+      mainActionType: entry.playerId === playerId ? entry.actionType || null : null,
       sourceCategory,
       sourceDetail: String(step?.text || ""),
       resourceDeltas: parsed.resourceDeltas,
@@ -1656,6 +1675,7 @@
     classifySourceCategory,
     findAlienIdInLogText: findStructuredAlienId,
     summarizeBlueTechRewards,
+    summarizeDataCycles,
     summarizeResourceEvents,
     summarizeResourceFlowAnalyses,
     normalizeStructuredActionLog,

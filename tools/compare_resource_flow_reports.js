@@ -2,7 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
-const { summarizeBlueTechRewards, summarizeResourceEvents } = require("../randomizer/game/ai/resource-flow");
+const { summarizeBlueTechRewards, summarizeDataCycles, summarizeResourceEvents } = require("../randomizer/game/ai/resource-flow");
 
 const RESOURCE_VALUES = Object.freeze({
   credits: 3,
@@ -18,6 +18,7 @@ const DIRECT_METRICS = Object.freeze([
   "nonIncomeGainWeighted",
   "weightedActionCost",
   "mainActionsPerWeightedCost",
+  "analysisActionCount",
   "dataTurnoverCount",
   "fullDataCycleCount",
   "drawToPlayRate",
@@ -49,7 +50,8 @@ const METRIC_LABELS = Object.freeze({
   nonIncomeGainWeighted: "非收入资源价值",
   weightedActionCost: "行动资源消耗价值",
   mainActionsPerWeightedCost: "单位资源主行动数",
-  dataTurnoverCount: "数据回填次数",
+  analysisActionCount: "分析主行动次数",
+  dataTurnoverCount: "分析后开始回填次数",
   fullDataCycleCount: "完整数据循环",
   drawToPlayRate: "新牌打出率",
   incomeCardConversionRate: "收益牌转化率",
@@ -222,7 +224,11 @@ function extractReference(reference) {
   )).length;
   if (missingDataAcquisitionPlayers > 0) warnings.push(`真人日志中有 ${missingDataAcquisitionPlayers} 席的已记录数据消耗超过已记录获取；旧日志省略部分符文等资源奖励，获取量仅代表可见流水，不能用总量差推定人机完整资源差距。`);
   return {
-    players: summary.players || [],
+    players: (summary.players || []).map(player => {
+      const events = (reference.games || []).flatMap(game => game.events || [])
+        .filter(event => event.playerId === player.playerId && event.gameId === player.gameId);
+      return events.length ? { ...player, ...summarizeDataCycles(events) } : player;
+    }),
     flows: [{ groups: summary.groups || {}, resourceWeighting: summary.resourceWeighting }],
     coverage: summary.coverage || null,
     duplicateFileCount: Number(reference?.duplicateFiles?.length ?? reference?.duplicateFileCount) || 0,
@@ -283,6 +289,7 @@ function enrichAiFlowPlayers(flow = {}, decisionLogs = []) {
         ? player.mainActionsPerWeightedCost
         : derived,
       ...blueTechRewards,
+      ...(playerEvents.length ? summarizeDataCycles(playerEvents) : {}),
     };
   });
 }

@@ -106,6 +106,39 @@ assert.equal(cyclePlayer.drawToPlayRate, 1);
 assert.equal(cyclePlayer.alienCardToPlayRate, 1);
 assert.equal(cyclePlayer.dataTurnoverCount, 1);
 assert.equal(cyclePlayer.fullDataCycleCount, 1);
+assert.equal(cyclePlayer.analysisActionCount, 2);
+
+const repeatedAnalysisEntry = flow.summarizeResourceEvents([
+  { gameId: "cycles", playerId: "p", entryId: 65, pace: "main", sourceCategory: "analysis", resourceDeltas: { energy: -1 } },
+  { gameId: "cycles", playerId: "p", entryId: 65, pace: "quick", sourceCategory: "data_placement", resourceDeltas: { availableData: -1 } },
+  { gameId: "cycles", playerId: "p", entryId: 65, pace: "quick", sourceCategory: "analysis", sourceDetail: "移动" },
+  { gameId: "cycles", playerId: "p", entryId: 65, pace: "quick", sourceCategory: "analysis", sourceDetail: "标记终局" },
+  { gameId: "cycles", playerId: "p", entryId: 65, pace: "main", sourceCategory: "analysis", sourceDetail: "分析奖励结算" },
+  { gameId: "cycles", playerId: "p", entryId: 118, pace: "main", sourceCategory: "analysis", resourceDeltas: { energy: -1 } },
+]).players[0];
+assert.equal(repeatedAnalysisEntry.analysisActionCount, 2, "one confirmed main entry is one analysis, regardless of its later reward steps");
+assert.equal(repeatedAnalysisEntry.dataTurnoverCount, 1, "later steps must not reset the refill window");
+assert.equal(repeatedAnalysisEntry.fullDataCycleCount, 1, "only the next distinct analysis completes a cycle");
+
+const revealedAnalysis = flow.summarizeResourceEvents([
+  { gameId: "reveal", playerId: "p", entryId: 1, pace: "main", mainActionType: "analyze", sourceCategory: "alien", sourceDetail: "方舟揭示奖励" },
+  { gameId: "reveal", playerId: "p", entryId: 1, pace: "quick", sourceCategory: "data_placement" },
+  { gameId: "reveal", playerId: "p", entryId: 1, pace: "analyze", sourceCategory: "cost", resourceDeltas: { energy: -1 }, syntheticSnapshotInference: true },
+  { gameId: "reveal", playerId: "p", entryId: 2, pace: "main", mainActionType: "analyze", sourceCategory: "alien" },
+]).players[0];
+assert.equal(revealedAnalysis.analysisActionCount, 2, "confirmed parent action types survive reveal reward text replacing the payment step");
+assert.equal(revealedAnalysis.fullDataCycleCount, 1, "recover the analysis boundary before its following placement, not at the later snapshot residual");
+const revealEvents = flow.normalizeStructuredActionLog([{
+  id: 7, playerId: "p", actionType: "analyze", roundNumber: 1, turnNumber: 1,
+  steps: [{ source: "main", text: "方舟奖励：分数+1" }],
+}]);
+assert.equal(revealEvents[0].mainActionType, "analyze");
+const revealReport = flow.summarizeResourceEvents(revealEvents);
+assert.equal(revealReport.players[0].analysisActionCount, 1);
+assert.equal(revealReport.groups.byRound[1].analysisCount, 1, "round aggregates share the distinct-action definition");
+assert.equal(flow.summarizeDataCycles([
+  { gameId: "other", playerId: "p", entryId: 3, pace: "analyze", sourceCategory: "alien", sourceDetail: "snapshot hand gain", resourceDeltas: { handSize: 1 } },
+]).analysisActionCount, 0, "a different player's analysis can grant this player a card without giving them an analysis action");
 
 const incomeCards = flow.summarizeResourceEvents([
   {
