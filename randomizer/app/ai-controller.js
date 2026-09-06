@@ -648,6 +648,7 @@
           playerId: entry.playerId,
           action: {
             id: action.id || null,
+            cardInstanceId: action.cardInstanceId || null,
             tradeId: action.tradeId || null,
             actionKind: action.actionKind || null,
             score: aiNumber(action.score),
@@ -19669,6 +19670,15 @@
       return result || { ok: true, progressed: true, action };
     }
 
+    function getAiIntendedPlayCardCandidate(candidates, player = getCurrentPlayer(), history = aiAutoBattleState.turnActionHistory) {
+      const latest = (history || []).at(-1);
+      if (!latest || latest.type !== "turn-action" || latest.action?.id !== "playCard"
+        || latest.playerId !== player?.id || latest.roundNumber !== turnState.roundNumber
+        || latest.rawTurnNumber !== turnState.turnNumber || !latest.action.cardInstanceId) return null;
+      return candidates.find((candidate) => candidate.available !== false
+        && candidate.cardInstanceId === latest.action.cardInstanceId) || null;
+    }
+
     function runAiPlayCardSelectionDecision() {
       if (!isPlayCardSelectionActive()) return null;
       const currentPlayer = getCurrentPlayer();
@@ -19687,7 +19697,8 @@
         return confirmPlayCardSelection();
       }
       const candidates = listAiPlayCardCandidates(currentPlayer);
-      const selected = ai?.policy?.choosePlayCard?.(candidates, {
+      const intended = getAiIntendedPlayCardCandidate(candidates, currentPlayer);
+      const selected = intended || ai?.policy?.choosePlayCard?.(candidates, {
         playerState,
         turnState,
         currentPlayer,
@@ -19699,6 +19710,7 @@
       recordAiAutoBattleLog("play-card", `${currentPlayer.colorLabel}AI 选择打出 ${selectedLabel}`, {
         selected,
         selectedLabel,
+        intendedCardMatched: Boolean(intended),
         candidates,
       });
       const selectResult = handlePlayCardSelect(selected.handIndex);
@@ -26700,6 +26712,7 @@
     }
 
     return {
+      getAiIntendedPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,

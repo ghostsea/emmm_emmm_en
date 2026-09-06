@@ -17109,3 +17109,17 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+ const h=createAiControllerHarness(null,{currentPlayerColor:'blue',roundNumber:2});
+ const card={cardInstanceId:'intended-instance',available:true,handIndex:3};
+ const other={cardInstanceId:'same-print-other-instance',available:true,handIndex:0};
+ const event={type:'turn-action',playerId:h.blue.id,roundNumber:h.turnState.roundNumber,rawTurnNumber:h.turnState.turnNumber,action:{id:'playCard',cardInstanceId:card.cardInstanceId}};
+ assert.equal(h.controller.getAiIntendedPlayCardCandidate([other,card],h.blue,[event]),card);
+ assert.equal(h.controller.getAiIntendedPlayCardCandidate([other],h.blue,[event]),null,'missing card falls back to current legal choices');
+ assert.equal(h.controller.getAiIntendedPlayCardCandidate([{...card,available:false}],h.blue,[event]),null,'unavailable card is not forced');
+ for(const edit of [{playerId:'different-player'},{roundNumber:99},{rawTurnNumber:99},{action:{id:'scan'}},{action:{id:'playCard'}}]){
+  assert.equal(h.controller.getAiIntendedPlayCardCandidate([card],h.blue,[{...event,...edit}]),null,'stale or incomplete intent is ignored');
+ }
+ assert.equal(h.controller.getAiIntendedPlayCardCandidate([card],h.blue,[event,{...event,action:{id:'end-turn'}}]),null,'later action invalidates old intent');
+}
