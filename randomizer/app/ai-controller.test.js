@@ -7309,7 +7309,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     },
     data: {
       ...reloadCycleOptions.data,
-      getNebulaSlotScoreReward: () => 0.5,
+      getNebulaSlotScoreReward: () => 0.6,
     },
     onChooseTurnAction: (cashoutCandidates, selected) => {
       cashoutTurnChoices.push(cashoutCandidates);
@@ -10965,7 +10965,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.deepEqual(
     roundTwoFirstBlue1Bridge?.valueBreakdown?.grandStrategyRoundTwoFirstBlue1CreditBridge,
     {
-      value: 3,
+      value: 2.598,
       placedComputerData: 4,
       projectedBlueSlot: 1,
       futureRewardOpportunities: 2,
@@ -17117,19 +17117,19 @@ runAsyncControllerTests()
   });
   const richCredit = make(2, "寰宇超动力", { credits: 10, energy: 2 }, { credits: 3, energy: 1 });
   const before = JSON.stringify(richCredit.blue);
-  const richProfile = richCredit.controller.getAiHuanyuCreditSupplyProfile();
+  const richProfile = richCredit.controller.getAiCompanyCreditSupplyProfile();
   assert.ok(richProfile.creditScale < 1 && richProfile.creditScale >= 0.65);
   assert.equal(richProfile.remainingIncomePayments, 2);
   assert.equal(richCredit.controller.getAiResourceValuesForRound().credits, 6 * richProfile.creditScale);
   assert.equal(richCredit.controller.getAiResourceValuesForRound().energy, 6.2);
   assert.equal(JSON.stringify(richCredit.blue), before, "pricing cannot spend or grant actual resources");
   const scarce = make(2, "寰宇超动力", { credits: 0, energy: 6 }, { credits: 1, energy: 3 });
-  assert.ok(scarce.controller.getAiHuanyuCreditSupplyProfile().creditScale > 1);
+  assert.ok(scarce.controller.getAiCompanyCreditSupplyProfile().creditScale > 1);
   const terminal = make(4, "寰宇超动力", { credits: 2, energy: 2 }, { credits: 9, energy: 1 });
-  assert.equal(terminal.controller.getAiHuanyuCreditSupplyProfile().creditScale, 1,
+  assert.equal(terminal.controller.getAiCompanyCreditSupplyProfile().creditScale, 1,
     "no income payment after final round may be pre-credited");
-  const other = make(2, "宇宙大战略集团", { credits: 10, energy: 2 }, { credits: 3, energy: 1 });
-  assert.equal(other.controller.getAiHuanyuCreditSupplyProfile(), null);
+  const other = make(2, "作弊实验室", { credits: 10, energy: 2 }, { credits: 3, energy: 1 });
+  assert.equal(other.controller.getAiCompanyCreditSupplyProfile(), null);
   assert.equal(other.controller.getAiResourceValuesForRound().credits, 6);
 }
 
@@ -17144,11 +17144,18 @@ runAsyncControllerTests()
     harness.white.initialSelection = { industry: { id: "industry:" + pendingCompany, label: pendingCompany } };
     return harness;
   };
+  const bothTarget = makeCrossOwner("寰宇超动力", "宇宙大战略集团");
+  bothTarget.white.resources.credits = 0;
+  bothTarget.white.resources.energy = 6;
+  bothTarget.white.income = { credits: 1, energy: 3 };
+  assert.equal(bothTarget.controller.getAiResourceValuesForRound().credits, 6 * 1.35,
+    "two target companies must still use the pending owner's distinct supply vector");
+  assert.equal(bothTarget.controller.getAiCompanyCreditSupplyProfile().playerId, bothTarget.white.id);
   for (const alien of [false, true]) {
-    const foreign = makeCrossOwner("寰宇超动力", "宇宙大战略集团", alien);
+    const foreign = makeCrossOwner("寰宇超动力", "作弊实验室", alien);
     assert.equal(foreign.controller.getAiResourceValuesForRound().credits, 6,
       "another player's pending choice must not inherit Huanyu turn-owner pricing");
-    const huanyu = makeCrossOwner("宇宙大战略集团", "寰宇超动力", alien);
+    const huanyu = makeCrossOwner("作弊实验室", "寰宇超动力", alien);
     assert.equal(huanyu.controller.getAiResourceValuesForRound().credits, 6 * 0.65,
       "Huanyu pending owner must receive its own pricing outside its turn");
     assert.equal(huanyu.blue.resources.credits, 10);

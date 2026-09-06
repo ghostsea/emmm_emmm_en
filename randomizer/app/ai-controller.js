@@ -3740,8 +3740,9 @@
       return `${baseSeed}:${index + 1}`;
     }
 
-    function getAiHuanyuCreditSupplyProfile(player = getPlayerById(getPendingAutomationPlayerId()) || getCurrentPlayer()) {
-      if (!player || getAiIndustryCard(player)?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return null;
+    function getAiCompanyCreditSupplyProfile(player = getPlayerById(getPendingAutomationPlayerId()) || getCurrentPlayer()) {
+      const companyLabel = getAiIndustryCard(player)?.label;
+      if (!player || ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL].includes(companyLabel)) return null;
       const remainingIncomePayments = Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber());
       const credits = Math.max(0, aiNumber(player.resources?.credits));
       const energy = Math.max(0, aiNumber(player.resources?.energy));
@@ -3750,7 +3751,7 @@
       const creditSupply = 1 + credits + creditIncome * remainingIncomePayments;
       const energySupply = 1 + energy + energyIncome * remainingIncomePayments;
       const creditScale = Math.max(0.65, Math.min(1.35, Math.sqrt(energySupply / creditSupply)));
-      return { remainingIncomePayments, credits, energy, creditIncome, energyIncome,
+      return { playerId: player.id, companyLabel, remainingIncomePayments, credits, energy, creditIncome, energyIncome,
         creditSupply, energySupply, creditScale };
     }
 
@@ -3766,7 +3767,7 @@
             energy: Math.max(AI_RESOURCE_VALUES.energy, 6.2),
             handSize: Math.max(AI_RESOURCE_VALUES.handSize, 5.4) }
           : AI_RESOURCE_VALUES;
-      const supply = getAiHuanyuCreditSupplyProfile();
+      const supply = getAiCompanyCreditSupplyProfile();
       return supply ? { ...values, credits: values.credits * supply.creditScale } : values;
     }
 
@@ -25476,7 +25477,7 @@
           : null;
         const plannerShadow = buildAiPlannerShadowDecision(selectableCandidates, graphState, currentPlayer, action);
         recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI 执行 ${action.id}`, {
-          huanyuCreditSupply: getAiHuanyuCreditSupplyProfile(currentPlayer),
+          companyCreditSupply: getAiCompanyCreditSupplyProfile(currentPlayer),
           action,
           candidates: selectableCandidates,
           ...(plannerShadow ? { plannerShadow } : {}),
@@ -26727,7 +26728,7 @@
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
       getAiEarlyDirectScorePlayPassFloor,
-      getAiHuanyuCreditSupplyProfile,
+      getAiCompanyCreditSupplyProfile,
       getAiResourceValuesForRound,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
