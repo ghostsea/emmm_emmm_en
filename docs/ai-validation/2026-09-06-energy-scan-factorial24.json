@@ -1,0 +1,259 @@
+{
+  "scope": "Complete same-seed 2x2 development comparison. Baseline runtime and scoring held fixed. Interaction = combined minus energy-only minus coverage-only plus baseline, calculated within each seed. This is exploratory development evidence after seeing the three prior arms; uncertainty does not account for previous candidate selection. Fresh random validation required for acceptance.",
+  "means": {
+    "baseline": 224.73958333333334,
+    "energyOnly": 230.22916666666666,
+    "coverageOnly": 228.55208333333334,
+    "combined": 226.58333333333334
+  },
+  "interaction": {
+    "pairs": 24,
+    "mean": -7.458333333333333,
+    "standardError": 4.25481043476073,
+    "approx95Interval": [
+      -15.797761785464363,
+      0.8810951187976963
+    ]
+  },
+  "jointVsEnergy": {
+    "pairs": 24,
+    "mean": -3.6458333333333335,
+    "standardError": 2.332617482064484,
+    "approx95Interval": [
+      -8.217763598179722,
+      0.9260969315130549
+    ]
+  },
+  "jointVsCoverage": {
+    "pairs": 24,
+    "mean": -1.96875,
+    "standardError": 4.7060878438873255,
+    "approx95Interval": [
+      -11.192682174019158,
+      7.255182174019158
+    ]
+  },
+  "companyInteraction": {
+    "作弊实验室": -20.43750000000003,
+    "寰宇超动力": -14.625,
+    "宇宙大战略集团": 25.666666666666686
+  },
+  "rows": [
+    {
+      "seed": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "energyDelta": -1.5,
+      "coverageDelta": -1.5,
+      "jointDelta": 5.75,
+      "interaction": 8.75,
+      "jointVsEnergy": 7.25,
+      "jointVsCoverage": 7.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "energyDelta": -6.75,
+      "coverageDelta": 10.25,
+      "jointDelta": -16.75,
+      "interaction": -20.25,
+      "jointVsEnergy": -10,
+      "jointVsCoverage": -27
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "energyDelta": -5.25,
+      "coverageDelta": 12.25,
+      "jointDelta": 15.25,
+      "interaction": 8.25,
+      "jointVsEnergy": 20.5,
+      "jointVsCoverage": 3
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "energyDelta": -18.75,
+      "coverageDelta": -17.5,
+      "jointDelta": -17,
+      "interaction": 19.25,
+      "jointVsEnergy": 1.75,
+      "jointVsCoverage": 0.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "energyDelta": 5.25,
+      "coverageDelta": 42.25,
+      "jointDelta": -23,
+      "interaction": -70.5,
+      "jointVsEnergy": -28.25,
+      "jointVsCoverage": -65.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "energyDelta": 23,
+      "coverageDelta": -4,
+      "jointDelta": -1.25,
+      "interaction": -20.25,
+      "jointVsEnergy": -24.25,
+      "jointVsCoverage": 2.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "energyDelta": 34.25,
+      "coverageDelta": 17.25,
+      "jointDelta": 30.25,
+      "interaction": -21.25,
+      "jointVsEnergy": -4,
+      "jointVsCoverage": 13
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "energyDelta": 17.5,
+      "coverageDelta": -2.75,
+      "jointDelta": 8,
+      "interaction": -6.75,
+      "jointVsEnergy": -9.5,
+      "jointVsCoverage": 10.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "energyDelta": 3.75,
+      "coverageDelta": 16.25,
+      "jointDelta": 8,
+      "interaction": -12,
+      "jointVsEnergy": 4.25,
+      "jointVsCoverage": -8.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "energyDelta": 0,
+      "coverageDelta": -6,
+      "jointDelta": -11,
+      "interaction": -5,
+      "jointVsEnergy": -11,
+      "jointVsCoverage": -5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "energyDelta": -21.25,
+      "coverageDelta": -13,
+      "jointDelta": -32.25,
+      "interaction": 2,
+      "jointVsEnergy": -11,
+      "jointVsCoverage": -19.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "energyDelta": -4.5,
+      "coverageDelta": 7.25,
+      "jointDelta": -8.25,
+      "interaction": -11,
+      "jointVsEnergy": -3.75,
+      "jointVsCoverage": -15.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "energyDelta": 16.5,
+      "coverageDelta": -9,
+      "jointDelta": 11,
+      "interaction": 3.5,
+      "jointVsEnergy": -5.5,
+      "jointVsCoverage": 20
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "energyDelta": 5,
+      "coverageDelta": -8.5,
+      "jointDelta": 7.25,
+      "interaction": 10.75,
+      "jointVsEnergy": 2.25,
+      "jointVsCoverage": 15.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "energyDelta": 20,
+      "coverageDelta": 22,
+      "jointDelta": 6,
+      "interaction": -36,
+      "jointVsEnergy": -14,
+      "jointVsCoverage": -16
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "energyDelta": 6.5,
+      "coverageDelta": -3.5,
+      "jointDelta": -1.75,
+      "interaction": -4.75,
+      "jointVsEnergy": -8.25,
+      "jointVsCoverage": 1.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "energyDelta": 14,
+      "coverageDelta": 17.75,
+      "jointDelta": 13.75,
+      "interaction": -18,
+      "jointVsEnergy": -0.25,
+      "jointVsCoverage": -4
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "energyDelta": 12,
+      "coverageDelta": 8.25,
+      "jointDelta": 4,
+      "interaction": -16.25,
+      "jointVsEnergy": -8,
+      "jointVsCoverage": -4.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "energyDelta": 1.5,
+      "coverageDelta": -33.25,
+      "jointDelta": 0.25,
+      "interaction": 32,
+      "jointVsEnergy": -1.25,
+      "jointVsCoverage": 33.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "energyDelta": -23,
+      "coverageDelta": 5.25,
+      "jointDelta": -25,
+      "interaction": -7.25,
+      "jointVsEnergy": -2,
+      "jointVsCoverage": -30.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "energyDelta": 18.5,
+      "coverageDelta": -0.75,
+      "jointDelta": 15.5,
+      "interaction": -2.25,
+      "jointVsEnergy": -3,
+      "jointVsCoverage": 16.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "energyDelta": -5.5,
+      "coverageDelta": 28.25,
+      "jointDelta": -5.5,
+      "interaction": -28.25,
+      "jointVsEnergy": 0,
+      "jointVsCoverage": -33.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "energyDelta": 22.5,
+      "coverageDelta": 6.5,
+      "jointDelta": 46.75,
+      "interaction": 17.75,
+      "jointVsEnergy": 24.25,
+      "jointVsCoverage": 40.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "energyDelta": 18,
+      "coverageDelta": -2.25,
+      "jointDelta": 14.25,
+      "interaction": -1.5,
+      "jointVsEnergy": -3.75,
+      "jointVsCoverage": 16.5
+    }
+  ]
+}

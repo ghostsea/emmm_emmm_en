@@ -18,9 +18,14 @@
 
 ### 2026-09-06 当前验证状态
 
+- 能量供给价与扫描类型覆盖组合40af1f67完整24局正常终局、0 bug，192席对账通过。整体+1.84375，寰宇-0.91667、大战略+3.70833、作弊+2.29167；低于能量单项+5.48958和覆盖单项+3.8125，不接受。配对交互-7.45833（SE 4.25481），是已看过种子的探索性证据，不能简单相加单项收益。见 [完整结果](ai-validation/2026-09-06-energy-scan-coverage-development-results.json)、[四臂对照](ai-validation/2026-09-06-energy-scan-factorial24.json)。
+- [规划器状态转移审计](ai-validation/2026-09-06-planner-state-transition-audit.json)用独立合成案例确认：同态候选相加可生成超出资源预算的链，也不会发现前步补资源后才解锁的行动；它目前只写影子日志，不能作为已实现真实前瞻的证据。
+
+- 公共扫描两级预览fa51eb8b完整24局正常终局0 bug，192席对账通过；63次实际预览目标/数据/槽位分全部吻合。均分仍+4.03125、大战略-9.8333333，不合入。见 [结果](ai-validation/2026-09-06-card-scan-public-preview-development-results.json)、[运行时核对](ai-validation/2026-09-06-card-scan-public-preview-runtime-audit.json)。另已按源码更正§6：现有planner仅静态候选组合并写影子日志，没有真实状态前瞻；不能把旧设计描述当成已实现的多步资源约束。
+
 - 二因素组合40af1f67已冻结：只组合能量供给6571069d与扫描类型覆盖45426d27，不加入目标预览/信用调价。52项回归通过，同24组基线/仅能量/仅覆盖已完成，组合补齐第四组，用逐种子交互项验证共同收益而非相加推断。见 [计划](ai-validation/2026-09-06-energy-scan-coverage-development-plan.json)。
 
-- 首节点目标fc439896：63次实际play-card选择预览通过同玩家/实例/轮次连到行动历史，数据量与槽位分均63/63吻合，目标62/63；1次公共扫描因预览直接混排全部牌目标而实际先选牌再选目标导致不同，未影响该次数据/槽位分。见 [完整结果](ai-validation/2026-09-06-card-scan-target-preview-development-results.json)、[运行时核对](ai-validation/2026-09-06-card-scan-target-preview-runtime-audit.json)、[资源](ai-validation/2026-09-06-card-scan-target-preview-development-resources.md)。修正版fa51eb8b复用getAiBestPublicScanSlots后只预览选中牌目标，新测试刻意让两级选择与混排选择不同，52回归通过；完整24重跑中，见 [计划](ai-validation/2026-09-06-card-scan-public-preview-development-plan.json)。
+- 首节点目标fc439896：63次实际play-card选择预览通过同玩家/实例/轮次连到行动历史，数据量与槽位分均63/63吻合，目标62/63；1次公共扫描因预览直接混排全部牌目标而实际先选牌再选目标导致不同，未影响该次数据/槽位分。见 [完整结果](ai-validation/2026-09-06-card-scan-target-preview-development-results.json)、[运行时核对](ai-validation/2026-09-06-card-scan-target-preview-runtime-audit.json)、[资源](ai-validation/2026-09-06-card-scan-target-preview-development-resources.md)。修正版fa51eb8b复用getAiBestPublicScanSlots后只预览选中牌目标，新测试刻意让两级选择与混排选择不同，52回归通过；完整24得分与fc439896相同，63次实际选择的目标/数据/槽位分全部吻合，但整体收益未达标、未接受，见 [计划](ai-validation/2026-09-06-card-scan-public-preview-development-plan.json)。
 
 - 扫描类型覆盖45426d27：固定星云card_scan_nebula与任意扇区card_any_sector_scan原先落入未知卡牌2分分支，重复次数丢失；与同类扫描统一为次数×3/4.5并保留原科技项后，真实b_100两次扫描估值由2变9。52回归通过。完整24组整体+3.8125（标准误3.2566213）、寰宇+7.4583333、大战略-8、作弊实验室+7.8958333，高分四分位+13.4166667；主行动35.125→35.594，打牌11.833→12.365，仍未接受。24局0 bug、192席对账通过，见 [结果](ai-validation/2026-09-06-card-scan-coverage-development-results.json)、[资源](ai-validation/2026-09-06-card-scan-coverage-development-resources.md)。
 
@@ -217,7 +222,7 @@
 │ L4 目标系统 Goals            game/ai/goals.js             │ 开局选定 + 轮内复评
 │   首痕迹(黄/粉/蓝) / 第一轮25分 / 完成扇区 / 6数据分析 / 登陆 │
 ├─────────────────────────────────────────────────────────┤
-│ L3 回合规划器 Planner        game/ai/planner.js           │ 浅前瞻(深2~3, beam)
+│ L3 候选组合器 Planner        game/ai/planner.js           │ 静态组合、影子诊断
 │   枚举“快速→主→后置快速→end/pass”链，选整条链净值最优      │
 ├─────────────────────────────────────────────────────────┤
 │ L2 行动收益图谱 ActionGraph  game/ai/action-graph.js      │ 动态实时单位
@@ -414,14 +419,13 @@ Goal = {
 
 ---
 
-## 6. L3 回合规划器（浅前瞻）
+## 6. L3 候选组合器与真实前瞻的边界
 
-`game/ai/planner.js`：用 `createGameRecoverySnapshot()` 做“试一步→回退”，深度 2~3、受限宽度的 beam search：
+当前 game/ai/planner.js **没有**调用恢复快照、执行候选或评估执行后的状态。它对同一局面已有候选分数求和，加相邻计划匹配分，枚举单个快速行动、单个主行动、快速→主、主→快速以及结束候选。quick/main 的宽度分别限制候选数；不是深度2~3的状态搜索。
 
-- 枚举一回合内“快速行动 → 主行动 → 后置快速行动 → end-turn/PASS”的组合链，用 L1 `evaluate` 估每条链的终局状态价值，选**整条链净值最优**而非单步最优。当前主链已纳入 `analyze`，快速链已纳入 `placeData`，避免 AI 拿到数据后不投放、不分析。
-- 重点解决“发射 → 移动 → 登陆/环绕”这类需多步兑现的高收益链（当前打不出高分的主因）。
-- `irreversible`（翻外星人牌、随机抽牌）不进回退，用启发式即时决策。
-- PASS 作为候选显式权衡：轮序、收入净值（§3.3）、剩余主行动机会成本。
+运行时 runAiTurnActionDecision 由 ai.policy.chooseTurnAction 选择执行动作；buildAiPlannerShadowDecision 只调用组合器并记录 plannerShadow，不会采用它的动作。组合器未重新计算前一动作消耗后的资源、手牌、主行动锁或后一动作合法性，因此不能把影子链分数当成整条链净收益，也不应直接启用来替代策略。
+
+真实浅前瞻仍待实现：需要在独立状态上执行/投影每一步，重算后续合法性与终局状态价值，并处理未知补牌、对手竞争及计算预算。createGameRecoverySnapshot/applyGameRecoverySnapshot 目前用于存档恢复；恢复会清理临时流程并重置AI运行状态，不是可直接嵌入决策中的无副作用回退接口。此前本节将“真实试走→回退”写成已实现，与当前源码不符，现更正。
 
 ---
 

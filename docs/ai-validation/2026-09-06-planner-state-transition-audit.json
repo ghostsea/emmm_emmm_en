@@ -1,0 +1,97 @@
+{
+  "scope": "Synthetic diagnostics of the shipped planner module. These are not game simulations or score-improvement evidence: they demonstrate that candidate chaining does not consume resources or re-enable an unavailable next action. Runtime currently records this planner only as shadow diagnostics.",
+  "rows": [
+    {
+      "name": "shared-energy-budget",
+      "candidates": [
+        {
+          "id": "quick-spend",
+          "kind": "quick",
+          "available": true,
+          "score": 20,
+          "cost": {
+            "energy": 1
+          }
+        },
+        {
+          "id": "analyze",
+          "kind": "main",
+          "available": true,
+          "score": 15,
+          "cost": {
+            "energy": 1
+          }
+        }
+      ],
+      "plans": [
+        {
+          "key": "analyze>quick-spend",
+          "type": "main-quick",
+          "score": 51.092,
+          "actions": [
+            "analyze",
+            "quick-spend"
+          ]
+        },
+        {
+          "key": "quick-spend>analyze",
+          "type": "quick-main",
+          "score": 51.092,
+          "actions": [
+            "quick-spend",
+            "analyze"
+          ]
+        },
+        {
+          "key": "quick-spend",
+          "type": "quick",
+          "score": 26,
+          "actions": [
+            "quick-spend"
+          ]
+        },
+        {
+          "key": "analyze",
+          "type": "main",
+          "score": 25.092,
+          "actions": [
+            "analyze"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "unlocked-action-not-enumerated",
+      "candidates": [
+        {
+          "id": "quick-refuel",
+          "kind": "quick",
+          "available": true,
+          "score": 5,
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "id": "scan",
+          "kind": "main",
+          "available": false,
+          "score": 30,
+          "cost": {
+            "energy": 1
+          }
+        }
+      ],
+      "plans": [
+        {
+          "key": "quick-refuel",
+          "type": "quick",
+          "score": 11,
+          "actions": [
+            "quick-refuel"
+          ]
+        }
+      ]
+    }
+  ]
+}
