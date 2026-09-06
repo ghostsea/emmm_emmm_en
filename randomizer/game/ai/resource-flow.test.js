@@ -672,3 +672,24 @@ console.log("resource-flow.test.js: all tests passed");
  ],accountingSnapshot:{players:[discard?initial:{...initial,resources:{handSize:1},hand:[card]}]}}],{initialPlayerStates:[initial]});
  for(const discard of [true,false]){const r=make(discard);assert.equal(r.players[0].cardUse.alienGainedInGame,1,"explicit identity must survive a zero-net hand entry and avoid snapshot double count");assert.equal(r.players[0].nonIncomeGain.handSize,1);assert.equal(r.players[0].spent.handSize,discard?1:0);assert.equal(r.reconciliation.residualMagnitude,0);assert.equal(r.events.flatMap(e=>e.cards).filter(c=>c.change==="gain"&&c.key===card.id).length,1);}
 }
+
+{
+ const card={id:"fangzhou-paid-card",label:"方舟粉色痕迹 2"};
+ for(const [text,playedCard,change]of [["弃牌换1移动：资源：手牌-1",null,"move_payment"],["收入：弃掉 方舟粉色痕迹 2，资源：手牌-1",null,"income"],["打出：方舟粉色痕迹 2：资源：手牌-1",card,"play"]]){
+  const r=flow.analyzeStructuredActionLog([{id:1,roundNumber:2,playerId:"p1",actionType:"playCard",steps:[{source:"quick",text,playedCard,fangzhouCardChanges:[{...card,change:"remove"}]}]}],{initialPlayerStates:[{id:"p1",resources:{handSize:1},hand:[card]}]});
+  const uses=r.events.flatMap(e=>e.cards);assert.equal(uses.length,1);assert.equal(uses[0].key,card.id);assert.equal(uses[0].change,change);
+ }
+}
+
+{
+ const special={id:"fangzhou-explicit",label:"方舟蓝4"},normal={id:"normal-other",label:"普通数据牌"};
+ const initial={id:"p1",resources:{handSize:2},hand:[special,normal]};
+ const r=flow.analyzeStructuredActionLog([{id:1,roundNumber:2,playerId:"p1",actionType:"analyze",steps:[
+  {source:"quick",text:"卡牌快速行动：弃牌换1数据：资源：手牌-1"},
+  {source:"quick",text:"放置数据：资源：手牌-1；收入：信用点+1",fangzhouCardChanges:[{...special,change:"remove"}]},
+ ],accountingSnapshot:{players:[{...initial,resources:{handSize:0},hand:[]}]}}],{initialPlayerStates:[initial]});
+ const uses=r.events.flatMap(e=>e.cards).filter(c=>c.change!=="gain");
+ assert.equal(uses.filter(c=>c.key===special.id).length,1,"text fallback must not steal an identity reserved by a later exact transition");
+ assert.equal(uses.find(c=>c.key===special.id).change,"income");
+ assert.equal(uses.find(c=>c.key===normal.id).change,"discard");
+}
