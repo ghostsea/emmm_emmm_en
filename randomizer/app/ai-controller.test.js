@@ -17128,11 +17128,14 @@ async function runAsyncControllerTests() {
     harness.controller.runAiAutomationStep();
     return choices.find(c => c.id === "researchTech")?.takeable?.[0]?.valueBreakdown?.blueColumnNet;
   };
-  assert.equal(profile().value, 6.5, "one funded column earns 2 score and 1 credit, costing one extra data");
-  assert.equal(profile({ placed: 1, dataCount: 1 }).value, 4.5,
+  assert.equal(profile().value - profile({ placed: 1, dataCount: 1 }).value, 2,
     "research after the first-row placement must not retroactively award column score");
-  assert.equal(profile({ dataCount: 0 }), null, "no observed or funded reward should invent a repeat cycle");
-  assert.equal(profile({ company: "宇宙大战略集团" }).value, 6.5);
+  assert.equal(profile({ dataCount: 0 }).currentRewardFraction, 0,
+    "future expectations must not be presented as a funded current reward");
+  assert.ok(profile({ dataCount: 0 }).futureCycleExpectation > 0,
+    "a starting engine may acquire data later instead of being forecast as zero forever");
+  assert.ok(profile({ round: 3 }).futureCycleExpectation < profile().futureCycleExpectation);
+  assert.equal(profile({ company: "宇宙大战略集团" }).futureCycleRate, 1);
   assert.equal(profile({ company: "作弊实验室" }), null, "keep the stronger company as an unchanged policy control");
   assert.equal(profile({ round: 4 }), null, "terminal tactics retain their explicit cashout valuation");
 }

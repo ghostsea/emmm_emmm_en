@@ -15136,17 +15136,27 @@
         || getAiRoundNumber() >= FINAL_ROUND_NUMBER) return null;
       const closure = getAiBlueTechResourceClosureDiagnostic(candidate, player);
       if (!closure?.requiredComputerSlot) return null;
-      const rewardTriggers = Math.max(0, aiNumber(closure.expectedTriggerCount));
+      // 当前24组对照的分析频率约为寰宇0.667/轮、大战略1.052/轮。
+      // 向下取0.65/1作为未来完整轮次的先验；当前数据单独决定本轮可兑现比例。
+      const futureCycleRate = company === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL ? 0.65 : 1;
+      const futureCycleExpectation = closure.canAnalyzeRepeatCycle
+        ? futureCycleRate * Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber()) : 0;
+      const currentRewardFraction = Math.min(1, Math.max(0, aiNumber(closure.availableData))
+        / Math.max(1, aiNumber(closure.currentTriggerDataCost)));
+      const rewardTriggers = Math.min(aiNumber(closure.remainingCycleWindows), Math.max(
+        0, aiNumber(closure.expectedTriggerCount), currentRewardFraction + futureCycleExpectation,
+      ));
       if (rewardTriggers <= 0) return null;
       // 第一排的列奖励不会追溯发放；已放过该格时，当前这次第二排奖励不附加2分。
       const scoreTriggers = Math.max(0, rewardTriggers - (
-        closure.placedComputerData >= closure.requiredComputerSlot ? 1 : 0
+        closure.placedComputerData >= closure.requiredComputerSlot ? currentRewardFraction : 0
       ));
       const resourceValue = scoreAiResourceBundle(closure.resourceGain);
       const extraDataCost = scoreAiResourceBundle({ availableData: 1 });
       const columnScore = aiNumber(data.getBlueColumnScoreBonus?.()?.score);
       return {
         rewardTriggers, scoreTriggers, resourceValue, extraDataCost, columnScore,
+        futureCycleRate, futureCycleExpectation, currentRewardFraction,
         requiredComputerSlot: closure.requiredComputerSlot,
         placedComputerData: closure.placedComputerData,
         value: roundAiScore(Math.max(0,
