@@ -1538,8 +1538,26 @@
       irreversibleCode: options.irreversibleCode || null,
       irreversibleReason: normalizeActionLogText(options.irreversibleReason),
       playedCard: createActionLogPlayedCardSnapshot(options.playedCard),
+      fangzhouCardChanges: structuredClone(options.fangzhouCardChanges || []),
       briefing: normalizeActionLogBriefingSnapshot(options.briefing),
     };
+  }
+
+  function getActionLogFangzhouCardChanges(step = {}) {
+    if (Array.isArray(step.fangzhouCardChanges)) return step.fangzhouCardChanges;
+    const before = step.logBefore;
+    if (!Array.isArray(before?.fangzhouHand)) return [];
+    const player = playerState.players.find(player => player.id === before.playerId);
+    if (!player) return [];
+    const after = (player.hand || []).filter(card => fangzhou?.isFangzhouCard2?.(card))
+      .map(createActionLogPlayedCardSnapshot).filter(Boolean);
+    const oldIds = new Set(before.fangzhouHand.map(card => card.id));
+    const newIds = new Set(after.map(card => card.id));
+    step.fangzhouCardChanges = [
+      ...after.filter(card => !oldIds.has(card.id)).map(card => ({ ...card, change: "gain" })),
+      ...before.fangzhouHand.filter(card => !newIds.has(card.id)).map(card => ({ ...card, change: "remove" })),
+    ];
+    return step.fangzhouCardChanges;
   }
 
   function actionLogOptionsFromHistoryStep(step = {}) {
@@ -1549,6 +1567,7 @@
       irreversibleCode: step.irreversibleCode || null,
       irreversibleReason: step.irreversibleReason || null,
       playedCard: step.playedCard || null,
+      fangzhouCardChanges: getActionLogFangzhouCardChanges(step),
       briefing: step.briefing || null,
     };
   }
@@ -1566,6 +1585,7 @@
     return {
       playerId: player.id || null,
       resources: pickNumericFields(player.resources || {}, ACTION_LOG_RESOURCE_KEYS),
+      fangzhouHand: (player.hand || []).filter(card => fangzhou?.isFangzhouCard2?.(card)).map(createActionLogPlayedCardSnapshot).filter(Boolean),
       income: pickNumericFields(player.income || {}, ACTION_LOG_INCOME_KEYS),
       completedTaskCount: Number(player.completedTaskCount) || 0,
     };
@@ -2381,6 +2401,7 @@
         irreversibleCode: step.irreversibleCode || null,
         irreversibleReason: normalizeActionLogText(step.irreversibleReason),
         playedCard: createActionLogPlayedCardSnapshot(step.playedCard),
+        fangzhouCardChanges: structuredClone(step.fangzhouCardChanges || []),
       })).filter((step) => step.text),
     };
     attachRecoverySnapshotToActionLogEntry(entry, entry.title || "已确认日志后状态");
