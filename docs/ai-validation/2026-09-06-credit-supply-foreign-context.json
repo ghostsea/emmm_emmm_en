@@ -1,0 +1,388 @@
+{
+  "scope": "c8b3f61b complete 24 games. Identify explicit player-owned subdecisions differing from the preceding top-level turn-action owner with the same round and raw turn number. This is a log-based cross-owner context diagnostic; exact private resource-price reads were not logged. The source/harness test independently proves getCurrentPlayer-based pricing can leak across owners. No score effect is attributed solely to these rows.",
+  "groups": {
+    "作弊实验室 -> 寰宇超动力 / alien-trace": 5,
+    "寰宇超动力 -> 作弊实验室 / alien-trace": 8,
+    "宇宙大战略集团 -> 寰宇超动力 / alien-trace": 1
+  },
+  "rows": [
+    {
+      "case": 1,
+      "id": 856,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 3,
+      "rawTurnNumber": 13,
+      "turnActionLogId": 847,
+      "turnCompany": "作弊实验室",
+      "ownerCompany": "寰宇超动力",
+      "turnResources": {
+        "score": 95,
+        "credits": 5,
+        "energy": 5,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "ownerResources": {
+        "score": 71,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 3
+      }
+    },
+    {
+      "case": 2,
+      "id": 1444,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 4,
+      "rawTurnNumber": 26,
+      "turnActionLogId": 1434,
+      "turnCompany": "寰宇超动力",
+      "ownerCompany": "作弊实验室",
+      "turnResources": {
+        "score": 99,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "ownerResources": {
+        "score": 130,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 1
+      }
+    },
+    {
+      "case": 4,
+      "id": 1041,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 3,
+      "rawTurnNumber": 35,
+      "turnActionLogId": 1032,
+      "turnCompany": "寰宇超动力",
+      "ownerCompany": "作弊实验室",
+      "turnResources": {
+        "score": 90,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "ownerResources": {
+        "score": 82,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 6,
+        "handSize": 2
+      }
+    },
+    {
+      "case": 8,
+      "id": 1061,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 3,
+      "rawTurnNumber": 42,
+      "turnActionLogId": 1050,
+      "turnCompany": "作弊实验室",
+      "ownerCompany": "寰宇超动力",
+      "turnResources": {
+        "score": 68,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "ownerResources": {
+        "score": 65,
+        "credits": 5,
+        "energy": 4,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 6
+      }
+    },
+    {
+      "case": 9,
+      "id": 323,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 2,
+      "rawTurnNumber": 4,
+      "turnActionLogId": 311,
+      "turnCompany": "寰宇超动力",
+      "ownerCompany": "作弊实验室",
+      "turnResources": {
+        "score": 20,
+        "credits": 4,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "ownerResources": {
+        "score": 52,
+        "credits": 3,
+        "energy": 5,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 3
+      }
+    },
+    {
+      "case": 12,
+      "id": 1113,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 4,
+      "rawTurnNumber": 18,
+      "turnActionLogId": 1104,
+      "turnCompany": "寰宇超动力",
+      "ownerCompany": "作弊实验室",
+      "turnResources": {
+        "score": 113,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "ownerResources": {
+        "score": 139,
+        "credits": 0,
+        "energy": 7,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 5
+      }
+    },
+    {
+      "case": 13,
+      "id": 575,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 2,
+      "rawTurnNumber": 28,
+      "turnActionLogId": 558,
+      "turnCompany": "寰宇超动力",
+      "ownerCompany": "作弊实验室",
+      "turnResources": {
+        "score": 52,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "ownerResources": {
+        "score": 66,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 5
+      }
+    },
+    {
+      "case": 13,
+      "id": 1151,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 4,
+      "rawTurnNumber": 6,
+      "turnActionLogId": 1141,
+      "turnCompany": "寰宇超动力",
+      "ownerCompany": "作弊实验室",
+      "turnResources": {
+        "score": 111,
+        "credits": 4,
+        "energy": 6,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "ownerResources": {
+        "score": 105,
+        "credits": 4,
+        "energy": 6,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 8
+      }
+    },
+    {
+      "case": 15,
+      "id": 1002,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 3,
+      "rawTurnNumber": 36,
+      "turnActionLogId": 981,
+      "turnCompany": "宇宙大战略集团",
+      "ownerCompany": "寰宇超动力",
+      "turnResources": {
+        "score": 59,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "ownerResources": {
+        "score": 97,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 0
+      }
+    },
+    {
+      "case": 16,
+      "id": 611,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 2,
+      "rawTurnNumber": 34,
+      "turnActionLogId": 598,
+      "turnCompany": "作弊实验室",
+      "ownerCompany": "寰宇超动力",
+      "turnResources": {
+        "score": 55,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "ownerResources": {
+        "score": 41,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 4
+      }
+    },
+    {
+      "case": 19,
+      "id": 285,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 1,
+      "rawTurnNumber": 29,
+      "turnActionLogId": 274,
+      "turnCompany": "作弊实验室",
+      "ownerCompany": "寰宇超动力",
+      "turnResources": {
+        "score": 25,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 0,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "ownerResources": {
+        "score": 6,
+        "credits": 7,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 7
+      }
+    },
+    {
+      "case": 20,
+      "id": 1286,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 4,
+      "rawTurnNumber": 5,
+      "turnActionLogId": 1264,
+      "turnCompany": "作弊实验室",
+      "ownerCompany": "寰宇超动力",
+      "turnResources": {
+        "score": 102,
+        "credits": 3,
+        "energy": 5,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "ownerResources": {
+        "score": 102,
+        "credits": 5,
+        "energy": 4,
+        "publicity": 8,
+        "availableData": 0,
+        "handSize": 5
+      }
+    },
+    {
+      "case": 22,
+      "id": 518,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 2,
+      "rawTurnNumber": 23,
+      "turnActionLogId": 505,
+      "turnCompany": "寰宇超动力",
+      "ownerCompany": "作弊实验室",
+      "turnResources": {
+        "score": 55,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "ownerResources": {
+        "score": 42,
+        "credits": 16,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 6
+      }
+    },
+    {
+      "case": 23,
+      "id": 1251,
+      "type": "alien-trace",
+      "pendingType": null,
+      "round": 4,
+      "rawTurnNumber": 22,
+      "turnActionLogId": 1234,
+      "turnCompany": "寰宇超动力",
+      "ownerCompany": "作弊实验室",
+      "turnResources": {
+        "score": 103,
+        "credits": 5,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "ownerResources": {
+        "score": 145,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 10,
+        "availableData": 0,
+        "handSize": 1
+      }
+    }
+  ]
+}
