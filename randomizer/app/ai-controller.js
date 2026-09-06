@@ -10206,11 +10206,26 @@
       );
     }
 
+    function getAiActualIncomePlacementProfile(bonus, player = getCurrentPlayer()) {
+      if (bonus?.type !== "income" || bonus.gain || bonus.income || getAiRoundNumber() > 3
+        || ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL]
+          .includes(getAiIndustryCard(player)?.label)) return null;
+      const formulaEntries = getAiIncomeFinalFormulaEntries(player);
+      const best = (player?.hand || []).map((card, handIndex) => {
+        const incomeGain = cards.getIncomeGainForCard?.(card);
+        const score = scoreAiIncomeDiscardOptionNet(player, card, handIndex, incomeGain, formulaEntries);
+        return score ? { handIndex, cardId: card.cardId || card.id || null, incomeGain, ...score } : null;
+      }).filter(Boolean).sort((a, b) => b.net - a.net)[0];
+      return best ? { ...best, value: roundAiScore(Math.max(-18, best.net)) }
+        : { value: 0, reason: "no-available-income-card" };
+    }
+
     function scoreAiPlacementBonusValue(bonus, player = getCurrentPlayer()) {
       if (!bonus) return 0;
       switch (bonus.type) {
         case "income":
-          return scoreAiIncomeOpportunityValue(player, bonus.gain || bonus.income || { credits: 1 });
+          return getAiActualIncomePlacementProfile(bonus, player)?.value
+            ?? scoreAiIncomeOpportunityValue(player, bonus.gain || bonus.income || { credits: 1 });
         case "publicity":
           return scoreAiResourceBundle({ publicity: bonus.publicity || 1 })
             + scoreAiMidgameResourceContinuationValue({ publicity: bonus.publicity || 1 }, player, { scale: 0.55 })
@@ -20495,6 +20510,8 @@
       return (check.choices || data.listPlaceDataChoices?.(player) || [])
         .map((choice, index) => {
           const creditPreserveProfile = getAiFinalHighScoreDataCreditPreserveProfile(choice, player);
+          const actualIncomePlacement = getAiDataPlacementBonuses(choice, player)
+            .map(bonus => getAiActualIncomePlacementProfile(bonus, player)).find(Boolean) || null;
           return {
             id: "placeData",
             kind: "quick",
@@ -20506,7 +20523,8 @@
             description: choice.description || null,
             directScoreGain: getAiDataPlacementDirectScoreGain(choice, player),
             score: scoreAiDataPlacementChoice(choice, player) - index * 0.05,
-            valueBreakdown: creditPreserveProfile ? {
+            valueBreakdown: creditPreserveProfile || actualIncomePlacement ? {
+              actualIncomePlacement,
               finalHighScoreDataCreditPreserve: creditPreserveProfile,
             } : null,
           };

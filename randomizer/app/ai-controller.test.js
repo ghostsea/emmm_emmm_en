@@ -17109,3 +17109,42 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const inspectActualIncome = ({ company = "寰宇超动力", round = 2, gain = { energy: 1 }, empty = false,
+    explicit = false } = {}) => {
+    let seen = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", pendingActionExecuted: true, roundNumber: round,
+      blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+      blueResources: { score: 30, credits: 12, energy: 0, publicity: 1, availableData: 1, handSize: empty ? 0 : 3 },
+      blueIncome: { credits: 4, energy: 0, handSize: 1 },
+      blueHand: empty ? [] : [1, 2, 3].map(i => ({ id: `actual-income-${i}`, incomeGain: gain })),
+      data: {
+        PLACEMENT_KIND_COMPUTER: "computer", PLACEMENT_KIND_BLUE_BONUS: "blueBonus",
+        getComputerSlotBonus: () => explicit ? { type: "income", gain: { credits: 1 } } : { type: "income" },
+        canPlaceAnyData: () => ({ ok: true, choices: [{ target: "computer", placementSlot: 4 }] }),
+      },
+      onChooseTurnAction: candidates => { seen = candidates; },
+      chooseTurnAction: candidates => candidates.find(c => c.id === "end-turn"),
+    });
+    const before = JSON.stringify({ resources: harness.blue.resources, hand: harness.blue.hand, income: harness.blue.income });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    assert.equal(JSON.stringify({ resources: harness.blue.resources, hand: harness.blue.hand, income: harness.blue.income }), before,
+      "income placement preview must not discard a card or grant its income");
+    const candidate = seen.find(c => c.id === "placeData");
+    assert.ok(candidate);
+    return { score: candidate.score, profile: candidate.valueBreakdown?.actualIncomePlacement || null };
+  };
+  const energy = inspectActualIncome(), credit = inspectActualIncome({ gain: { credits: 1 } });
+  assert.deepEqual(energy.profile.incomeGain, { energy: 1 }, "use available income corners, not default credits");
+  assert.ok(energy.score > credit.score, "with excess credit income and no energy income the real energy corner is worth more");
+  assert.ok(energy.profile.discardOpportunityCost >= 0);
+  assert.ok(energy.profile.handScarcityCost > 0, "income preview includes current hand scarcity");
+  assert.equal(inspectActualIncome({ empty: true }).profile.value, 0);
+  assert.deepEqual(inspectActualIncome({ company: "宇宙大战略集团" }).profile.incomeGain, { energy: 1 });
+  for (const options of [{ company: "作弊实验室" }, { round: 4 }, { explicit: true }]) {
+    assert.equal(inspectActualIncome(options).profile, null, "preserve out-of-scope and explicitly specified income rewards");
+  }
+}
