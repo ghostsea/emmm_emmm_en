@@ -662,3 +662,13 @@ assert.equal(gainedIncomeCard.players[0].incomeCardConversionRate, 1);
 }
 
 console.log("resource-flow.test.js: all tests passed");
+
+{
+ const card={id:"fangzhou-card2-p1-yellow-2",label:"方舟黄色痕迹 2"};
+ const initial={id:"p1",resources:{handSize:0},hand:[]};
+ const make=(discard)=>flow.analyzeStructuredActionLog([{id:1,roundNumber:2,playerId:"p1",actionType:"analyze",steps:[
+  {source:"main",text:"解锁方舟黄色痕迹牌；资源：手牌+1",fangzhouCardChanges:[{...card,change:"gain"}]},
+  ...(discard?[{source:"quick",text:"卡牌快速行动：方舟基础奖励：资源：手牌-1",fangzhouCardChanges:[{...card,change:"remove"}]}]:[]),
+ ],accountingSnapshot:{players:[discard?initial:{...initial,resources:{handSize:1},hand:[card]}]}}],{initialPlayerStates:[initial]});
+ for(const discard of [true,false]){const r=make(discard);assert.equal(r.players[0].cardUse.alienGainedInGame,1,"explicit identity must survive a zero-net hand entry and avoid snapshot double count");assert.equal(r.players[0].nonIncomeGain.handSize,1);assert.equal(r.players[0].spent.handSize,discard?1:0);assert.equal(r.reconciliation.residualMagnitude,0);assert.equal(r.events.flatMap(e=>e.cards).filter(c=>c.change==="gain"&&c.key===card.id).length,1);}
+}

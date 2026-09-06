@@ -928,6 +928,19 @@
       const label = discarded?.[1]?.trim() || "未知弃牌";
       cards.push({ key: label, label, change: "discard", origin: "normal" });
     }
+    for (const change of step?.fangzhouCardChanges || []) {
+      if (!change?.id || !["gain", "remove"].includes(change.change)) continue;
+      if (cards.some(card => card.key === change.id)) continue;
+      const existingUse = change.change === "remove" ? cards.find(card => (
+        ["income", "discard", "move_payment"].includes(card.change)
+        && (card.label === change.label || (card.label === "未知弃牌" && (step.fangzhouCardChanges || []).filter(item => item.change === "remove").length === 1))
+      )) : null;
+      const use = change.change === "gain" ? "gain" : existingUse?.change || (income ? "income" : "discard");
+      // Replace a text-only use for this same card rather than counting it twice.
+      const textual = existingUse ? cards.indexOf(existingUse) : cards.findIndex(card => card.change === use && card.label === change.label);
+      if (textual >= 0) cards.splice(textual, 1);
+      cards.push({ key: change.id, label: change.label || change.cardName || change.id, change: use, origin: "alien" });
+    }
     return cards.map((card) => ({
       ...card,
       origin: card.change === "play"
@@ -1132,7 +1145,9 @@
     if (!beforeStates || !afterStates) return;
     const entryId = entry.id ?? entry.entryId ?? null;
     for (const [playerId, afterPlayer] of afterStates) {
-      const additions = getStructuredHandAdditions(beforeStates.get(playerId), afterPlayer);
+      const explicitGainKeys = new Set(entryEvents.filter(event => event.entryId === entryId && event.playerId === playerId)
+        .flatMap(event => event.cards || []).filter(card => card.change === "gain").map(card => card.key));
+      const additions = getStructuredHandAdditions(beforeStates.get(playerId), afterPlayer).filter(card => !explicitGainKeys.has(card.key));
       if (!additions.length) continue;
       const playerEvents = entryEvents.filter((event) => (
         event.entryId === entryId && event.playerId === playerId

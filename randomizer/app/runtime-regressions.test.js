@@ -1690,3 +1690,12 @@ for (const [name, type, label] of [
 }
 
 console.log("runtime-regressions.test.js: all tests passed");
+
+{
+ const card={id:"fangzhou-flow-card",cardId:"fangzhou_pink_2",label:"方舟粉2"};
+ const p={id:"p1",hand:[card]};
+ const getChanges=new Function("playerState","fangzhou","createActionLogPlayedCardSnapshot",extractNamedFunctionSource("getActionLogFangzhouCardChanges")+"; return getActionLogFangzhouCardChanges;")({players:[p]},{isFangzhouCard2:c=>c.cardId.startsWith("fangzhou_")},c=>({...c}));
+ const gained=getChanges({logBefore:{playerId:p.id,fangzhouHand:[]}});assert.equal(gained[0].id,card.id);assert.equal(gained[0].change,"gain");
+ const removed={logBefore:{playerId:p.id,fangzhouHand:[card]}};p.hand=[];assert.equal(getChanges(removed)[0].change,"remove");
+ p.hand=[card];assert.equal(getChanges(removed)[0].change,"remove","a completed step retains its own transition after later actions");
+}
