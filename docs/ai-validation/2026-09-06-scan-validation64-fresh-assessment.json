@@ -1,0 +1,70 @@
+{
+  "candidate": "9de56b382cbd316fbf9c6090d1eab0ab6d655095",
+  "baseline": "c88fda969a16d307debc696b95783751ee5f9ebc",
+  "pairs": 64,
+  "meanDelta": 1.62890625,
+  "pairedGameStandardError": 2.0094255837049038,
+  "approx95Interval": [
+    -2.3095678940616113,
+    5.567380394061612
+  ],
+  "topQuartileMeanDelta": -5.53125,
+  "companies": {
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 255.5625,
+      "candidate": 254.21875,
+      "meanDelta": -1.34375,
+      "minimumDelta": 15
+    },
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 193.34375,
+      "candidate": 200.671875,
+      "meanDelta": 7.328125,
+      "minimumDelta": 15
+    },
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 202.859375,
+      "candidate": 204.734375,
+      "meanDelta": 1.875,
+      "minimumDelta": 17
+    }
+  },
+  "accepted": false,
+  "reason": "Overall +10 goal not met; small fresh mean gain is uncertain and upper-quartile scores fell. Preserve development branch/evidence and do not change default scoring.",
+  "resources": {
+    "mainActions": {
+      "baseline": 35.38671875,
+      "candidate": 35.71875
+    },
+    "mainPerCreditEnergySpent": {
+      "baseline": 0.6842743646576025,
+      "candidate": 0.6856600754509516
+    },
+    "analysis": {
+      "baseline": 3.984375,
+      "candidate": 4.05859375
+    },
+    "fullCycles": {
+      "baseline": 2.984375,
+      "candidate": 3.05859375
+    },
+    "blue1": {
+      "baseline": 1.78125,
+      "candidate": 1.83984375
+    },
+    "blue2": {
+      "baseline": 1.58984375,
+      "candidate": 1.6953125
+    }
+  },
+  "probePreviews": {
+    "plays": 87,
+    "moving": 46,
+    "dataMatches": 45,
+    "slotScoreMatches": 46
+  },
+  "knownMismatch": "Case34 b64 second expanded scan reselected another probe/sector: preview1 data, actual2; same slot score0. This realizes the explicitly documented fixed-target repeat approximation, not an execution blockage."
+}
