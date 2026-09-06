@@ -1,0 +1,58 @@
+{
+  "candidateCommit": "7484581e34ef76b4d6b02565f55a6c6448f055a7",
+  "controllerSha256": "bebdc0ed9deab9b893d24b473a5f4d54530d5dc84c94d7767f14a7d6afadb70a",
+  "baseValues": {
+    "score": 1,
+    "credits": 4.5,
+    "energy": 4.2,
+    "handSize": 4.3,
+    "availableData": 1.5,
+    "movement": 1.5,
+    "publicity": 1.5,
+    "additionalPublicScan": 1.5,
+    "aomomoFossils": 4
+  },
+  "earlyValues": {
+    "score": 1,
+    "credits": 6,
+    "energy": 6.2,
+    "handSize": 5.4,
+    "card": 3,
+    "alienCard": 5.5,
+    "availableData": 1.5,
+    "data": 1.5,
+    "movement": 1.5,
+    "additionalPublicScan": 1.5,
+    "publicity": 1.5,
+    "signal": 3,
+    "aomomoFossils": 4
+  },
+  "creditPremium": 1.5,
+  "samplePlayer": {
+    "resources": {
+      "credits": 10,
+      "energy": 2
+    },
+    "hand": [
+      {},
+      {}
+    ],
+    "initialSelection": {
+      "industry": {
+        "label": "寰宇超动力"
+      }
+    }
+  },
+  "sample": {
+    "rawCostValue": 18,
+    "credits": 10,
+    "workingReserve": 2,
+    "discountedCredits": 3,
+    "relief": 4.5,
+    "costValue": 13.5
+  },
+  "recordedPositiveDiscountProfiles": 544,
+  "recordedReliefPerCreditMin": 1.5,
+  "recordedReliefPerCreditMax": 1.5,
+  "correction": "Earlier prose/offline approximation incorrectly assumed base credits=3 and premium=3. Frozen runtime uses base=4.5 and early=6, so relief is 1.5 per surplus credit. Real 24-game scores remain valid; the approximation must be recalculated. No frozen source changed."
+}
