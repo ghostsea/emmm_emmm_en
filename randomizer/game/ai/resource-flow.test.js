@@ -620,4 +620,24 @@ assert.equal(gainedIncomeCard.players[0].incomeCardConversionRate, 1);
   assert.ok(result.events.every(e => e.cards.length === 0), "discard scan and discard pile labels are not a discarded hand card");
 }
 
+{
+  const initial = { id: "p1", color: "blue", resources: { credits: 3, handSize: 1, publicity: 10 }, hand: [{ id: "played", label: "康奈尔大学" }] };
+  const after = { ...initial, resources: { credits: 2, handSize: 1, publicity: 7 }, hand: [{ id: "gained", label: "延期发射" }] };
+  const report = flow.analyzeStructuredActionLog([{
+    id: 168, roundNumber: 4, turnNumber: 8, playerId: "p1", actionType: "playCard",
+    steps: [
+      { source: "quick", text: "快速交易：3宣传 → 精选1张牌：快速交易精选：延期发射，公共区已补牌：重组" },
+      { source: "main", text: "打出：康奈尔大学：资源：信用点-1、手牌-1" },
+    ], accountingSnapshot: { players: [after] },
+  }], { initialPlayerStates: [initial] });
+  const payment = report.events.find(e => e.sourceDetail.startsWith("打出"));
+  const refill = report.events.find(e => e.sourceDetail.includes("快速交易精选"));
+  assert.equal(payment.resourceDeltas.handSize, -1, "later card payment must retain its real hand cost");
+  assert.equal(refill.resourceDeltas.handSize, 1, "snapshot refill belongs to the unique preceding trade pickup");
+  assert.equal(refill.cards.find(c => c.change === "gain")?.key, "gained");
+  assert.equal(report.players[0].nonIncomeGain.handSize, 1);
+  assert.equal(report.players[0].spent.handSize, 1);
+  assert.equal(report.reconciliation.residualMagnitude, 0);
+}
+
 console.log("resource-flow.test.js: all tests passed");

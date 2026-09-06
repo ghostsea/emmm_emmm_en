@@ -1136,8 +1136,17 @@
       const playerEvents = entryEvents.filter((event) => (
         event.entryId === entryId && event.playerId === playerId
       ));
-      const targetEvent = [...playerEvents].reverse().find((event) => event.sourceCategory !== "cost")
+      let targetEvent = [...playerEvents].reverse().find((event) => event.sourceCategory !== "cost")
         || playerEvents[playerEvents.length - 1];
+      // A quick pickup and the following play may share one accounting snapshot.
+      // Do not cancel the later hand payment with a separately observed new card.
+      if (additions.length === 1 && Number(targetEvent?.resourceDeltas?.handSize) < 0) {
+        const pickupEvents = playerEvents.filter((event) => (
+          /快速交易精选[：:]/.test(event.sourceDetail || "")
+          && Number(event.resourceDeltas?.handSize || 0) === 0
+        ));
+        if (pickupEvents.length === 1) targetEvent = pickupEvents[0];
+      }
       const anyEntryAlienEvent = entryEvents.find((event) => (
         event.entryId === entryId && event.sourceCategory === "alien"
       ));
