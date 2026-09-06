@@ -17109,3 +17109,40 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const inspectCreditPlay = ({ company = "寰宇超动力", round = 2, credits = 1, price = 2 } = {}) => {
+    let seen = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", pendingActionExecuted: true, roundNumber: round, realisticCanAfford: true,
+      blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+      blueResources: { score: 30, credits, energy: 1, publicity: 1, availableData: 1, handSize: 1 },
+      blueHand: [{ id: "credit-unlocked-score", cardName: "Credit unlocked score", price,
+        playEffects: [{ type: "gain_resources", options: { gain: { score: 30 } } }] }],
+      data: {
+        PLACEMENT_KIND_COMPUTER: "computer", PLACEMENT_KIND_BLUE_BONUS: "blueBonus",
+        getBlueBonusPlacementReward: () => ({ type: "credits", credits: 1 }),
+        canPlaceAnyData: () => ({ ok: true, choices: [{ target: "blueBonus", blueSlot: 1 }] }),
+      },
+      onChooseTurnAction: candidates => { seen = candidates; },
+      chooseTurnAction: candidates => candidates.find(c => c.id === "end-turn"),
+    });
+    const before = JSON.stringify({ resources: harness.blue.resources, hand: harness.blue.hand });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    assert.equal(JSON.stringify({ resources: harness.blue.resources, hand: harness.blue.hand }), before,
+      "credit continuation valuation must not grant resources or mutate hand cards");
+    const candidate = seen.find(c => c.id === "placeData");
+    assert.ok(candidate, "inspect actual enumerated data choice");
+    return candidate.valueBreakdown?.blueCreditPlayContinuation || null;
+  };
+  const unlocked = inspectCreditPlay();
+  assert.ok(unlocked.value > 0, "one credit unlocks a real affordable score card");
+  assert.ok(unlocked.value <= unlocked.paymentValue, "continuation cannot exceed the card payment value");
+  assert.equal(unlocked.cardId, "credit-unlocked-score");
+  assert.ok(inspectCreditPlay({ company: "宇宙大战略集团" }).value > 0);
+  assert.equal(inspectCreditPlay({ credits: 2 }).value, 0, "already affordable card is not a new unlock");
+  assert.equal(inspectCreditPlay({ price: 3 }).value, 0, "one credit cannot prepay a still unaffordable card");
+  assert.equal(inspectCreditPlay({ company: "作弊实验室" }), null);
+  assert.equal(inspectCreditPlay({ round: 4 }), null);
+}

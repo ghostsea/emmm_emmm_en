@@ -10206,6 +10206,36 @@
       );
     }
 
+    let aiBlueCreditPlayContinuationDepth = 0;
+
+    function getAiBlueCreditPlayContinuationProfile(gain, player = getCurrentPlayer()) {
+      if (!player || getAiRoundNumber() > 3 || aiBlueCreditPlayContinuationDepth > 0
+        || ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL]
+          .includes(getAiIndustryCard(player)?.label) || aiNumber(gain?.credits) <= 0) return null;
+      const simulatedPlayer = createAiPlayerAfterResourceGain(player, gain);
+      const newlyAffordable = (player.hand || []).map((card, handIndex) => ({ card, handIndex }))
+        .filter(({ card }) => !players.canAfford(player, getCardPlayCost(card))
+          && players.canAfford(simulatedPlayer, getCardPlayCost(card)));
+      if (!newlyAffordable.length) return { value: 0, reason: "no-newly-affordable-hand-card" };
+      aiBlueCreditPlayContinuationDepth += 1;
+      try {
+        const currentBestScore = listAiPlayCardCandidates(player)
+          .reduce((best, candidate) => Math.max(best, aiNumber(candidate.score)), 0);
+        const choices = newlyAffordable.map(({ card, handIndex }) => {
+          const candidate = buildAiPlayCardCandidate(card, handIndex, simulatedPlayer);
+          if (!candidate) return null;
+          const improvement = Math.max(0, aiNumber(candidate.score) - currentBestScore);
+          const paymentValue = Math.max(0, scoreAiResourceBundle(getCardPlayCost(card)));
+          return { handIndex, cardId: candidate.cardId || card.cardId || card.id,
+            playScore: roundAiScore(candidate.score), currentBestScore: roundAiScore(currentBestScore),
+            paymentValue: roundAiScore(paymentValue), value: roundAiScore(Math.min(improvement, paymentValue)) };
+        }).filter(Boolean).sort((a, b) => b.value - a.value);
+        return choices[0] || { value: 0, reason: "new-hand-card-effects-unavailable" };
+      } finally {
+        aiBlueCreditPlayContinuationDepth -= 1;
+      }
+    }
+
     function scoreAiPlacementBonusValue(bonus, player = getCurrentPlayer()) {
       if (!bonus) return 0;
       switch (bonus.type) {
@@ -10220,7 +10250,8 @@
             + scoreAiThresholdPressureForScoreGain(bonus.score || 1, player);
         case "credits":
           return scoreAiResourceBundle({ credits: bonus.credits || 1 })
-            + scoreAiMidgameResourceContinuationValue({ credits: bonus.credits || 1 }, player, { scale: 0.75 });
+            + (getAiBlueCreditPlayContinuationProfile({ credits: bonus.credits || 1 }, player)?.value
+              ?? scoreAiMidgameResourceContinuationValue({ credits: bonus.credits || 1 }, player, { scale: 0.75 }));
         case "energy":
           return scoreAiResourceBundle({ energy: bonus.energy || 1 })
             + scoreAiMidgameResourceContinuationValue({ energy: bonus.energy || 1 }, player, { scale: 0.85 });
@@ -20495,6 +20526,10 @@
       return (check.choices || data.listPlaceDataChoices?.(player) || [])
         .map((choice, index) => {
           const creditPreserveProfile = getAiFinalHighScoreDataCreditPreserveProfile(choice, player);
+          const creditGain = choice.target === data.PLACEMENT_KIND_BLUE_BONUS
+            ? getAiDataPlacementBonuses(choice, player).reduce((n, bonus) => n + aiNumber(bonus.credits), 0) : 0;
+          const blueCreditPlayContinuation = creditGain > 0
+            ? getAiBlueCreditPlayContinuationProfile({ credits: creditGain }, player) : null;
           return {
             id: "placeData",
             kind: "quick",
@@ -20506,7 +20541,8 @@
             description: choice.description || null,
             directScoreGain: getAiDataPlacementDirectScoreGain(choice, player),
             score: scoreAiDataPlacementChoice(choice, player) - index * 0.05,
-            valueBreakdown: creditPreserveProfile ? {
+            valueBreakdown: creditPreserveProfile || blueCreditPlayContinuation ? {
+              blueCreditPlayContinuation,
               finalHighScoreDataCreditPreserve: creditPreserveProfile,
             } : null,
           };
