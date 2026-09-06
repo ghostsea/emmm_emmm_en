@@ -1,0 +1,259 @@
+{
+  "scope": "Complete same-seed 2x2 development comparison. Scoring baseline is identical across arms; c88fda96 corrects only resource reporting and its full 24 score/step/decision equivalence has been verified. This comparison uses scores only. Interaction = combined minus probe-only minus target-only plus baseline, calculated within each seed. This is exploratory development evidence after seeing the three prior arms; uncertainty does not account for previous candidate selection. Fresh random validation required for acceptance.",
+  "means": {
+    "baseline": 224.73958333333334,
+    "probeOnly": 227.82291666666666,
+    "targetOnly": 228.77083333333334,
+    "combined": 230.32291666666666
+  },
+  "interaction": {
+    "pairs": 24,
+    "mean": -1.53125,
+    "standardError": 3.2614872414694673,
+    "approx95Interval": [
+      -7.923764993280156,
+      4.861264993280156
+    ]
+  },
+  "jointVsProbe": {
+    "pairs": 24,
+    "mean": 2.5,
+    "standardError": 2.942997092091321,
+    "approx95Interval": [
+      -3.268274300498989,
+      8.26827430049899
+    ]
+  },
+  "jointVsTarget": {
+    "pairs": 24,
+    "mean": 1.5520833333333333,
+    "standardError": 2.2727303520922266,
+    "approx95Interval": [
+      -2.902468156767431,
+      6.006634823434097
+    ]
+  },
+  "companyInteraction": {
+    "作弊实验室": 2.708333333333343,
+    "寰宇超动力": -10.5,
+    "宇宙大战略集团": -1.0416666666666572
+  },
+  "rows": [
+    {
+      "seed": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "probeDelta": 13.5,
+      "targetDelta": -4.25,
+      "jointDelta": -6,
+      "interaction": -15.25,
+      "jointVsProbe": -19.5,
+      "jointVsTarget": -1.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "probeDelta": -7.75,
+      "targetDelta": 10.25,
+      "jointDelta": 8.5,
+      "interaction": 6,
+      "jointVsProbe": 16.25,
+      "jointVsTarget": -1.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "probeDelta": 0,
+      "targetDelta": 12.25,
+      "jointDelta": 17,
+      "interaction": 4.75,
+      "jointVsProbe": 17,
+      "jointVsTarget": 4.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "probeDelta": -8.5,
+      "targetDelta": -8.25,
+      "jointDelta": -7.5,
+      "interaction": 9.25,
+      "jointVsProbe": 1,
+      "jointVsTarget": 0.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "probeDelta": 34.25,
+      "targetDelta": 42.25,
+      "jointDelta": 14.25,
+      "interaction": -62.25,
+      "jointVsProbe": -20,
+      "jointVsTarget": -28
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "probeDelta": -2.25,
+      "targetDelta": -4,
+      "jointDelta": -2.5,
+      "interaction": 3.75,
+      "jointVsProbe": -0.25,
+      "jointVsTarget": 1.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "probeDelta": 4.75,
+      "targetDelta": 17.25,
+      "jointDelta": 17.25,
+      "interaction": -4.75,
+      "jointVsProbe": 12.5,
+      "jointVsTarget": 0
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "probeDelta": 2.25,
+      "targetDelta": 0.5,
+      "jointDelta": 2.25,
+      "interaction": -0.5,
+      "jointVsProbe": 0,
+      "jointVsTarget": 1.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "probeDelta": -1.25,
+      "targetDelta": 9.5,
+      "jointDelta": 21.25,
+      "interaction": 13,
+      "jointVsProbe": 22.5,
+      "jointVsTarget": 11.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "probeDelta": -4,
+      "targetDelta": -8.5,
+      "jointDelta": -18,
+      "interaction": -5.5,
+      "jointVsProbe": -14,
+      "jointVsTarget": -9.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "probeDelta": 5.5,
+      "targetDelta": -13,
+      "jointDelta": 5.5,
+      "interaction": 13,
+      "jointVsProbe": 0,
+      "jointVsTarget": 18.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "probeDelta": 0,
+      "targetDelta": 7,
+      "jointDelta": 9,
+      "interaction": 2,
+      "jointVsProbe": 9,
+      "jointVsTarget": 2
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "probeDelta": -8,
+      "targetDelta": -9,
+      "jointDelta": -0.75,
+      "interaction": 16.25,
+      "jointVsProbe": 7.25,
+      "jointVsTarget": 8.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "probeDelta": 2,
+      "targetDelta": 10,
+      "jointDelta": 6.25,
+      "interaction": -5.75,
+      "jointVsProbe": 4.25,
+      "jointVsTarget": -3.75
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "probeDelta": 22.75,
+      "targetDelta": 22,
+      "jointDelta": 40.25,
+      "interaction": -4.5,
+      "jointVsProbe": 17.5,
+      "jointVsTarget": 18.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "probeDelta": 0,
+      "targetDelta": -3.5,
+      "jointDelta": -4.75,
+      "interaction": -1.25,
+      "jointVsProbe": -4.75,
+      "jointVsTarget": -1.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "probeDelta": 0,
+      "targetDelta": 17.75,
+      "jointDelta": 31.25,
+      "interaction": 13.5,
+      "jointVsProbe": 31.25,
+      "jointVsTarget": 13.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "probeDelta": 3.5,
+      "targetDelta": 8.25,
+      "jointDelta": 6.75,
+      "interaction": -5,
+      "jointVsProbe": 3.25,
+      "jointVsTarget": -1.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "probeDelta": 4,
+      "targetDelta": -48.75,
+      "jointDelta": -24.5,
+      "interaction": 20.25,
+      "jointVsProbe": -28.5,
+      "jointVsTarget": 24.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "probeDelta": -11.25,
+      "targetDelta": 1.5,
+      "jointDelta": -10.5,
+      "interaction": -0.75,
+      "jointVsProbe": 0.75,
+      "jointVsTarget": -12
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "probeDelta": 14.25,
+      "targetDelta": -0.75,
+      "jointDelta": 5.75,
+      "interaction": -7.75,
+      "jointVsProbe": -8.5,
+      "jointVsTarget": 6.5
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "probeDelta": 0.5,
+      "targetDelta": 28.25,
+      "jointDelta": 19,
+      "interaction": -9.75,
+      "jointVsProbe": 18.5,
+      "jointVsTarget": -9.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "probeDelta": 5.75,
+      "targetDelta": 6.5,
+      "jointDelta": -0.75,
+      "interaction": -13,
+      "jointVsProbe": -6.5,
+      "jointVsTarget": -7.25
+    },
+    {
+      "seed": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "probeDelta": 4,
+      "targetDelta": 3.5,
+      "jointDelta": 5,
+      "interaction": -2.5,
+      "jointVsProbe": 1,
+      "jointVsTarget": 1.5
+    }
+  ]
+}
