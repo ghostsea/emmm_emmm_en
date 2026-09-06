@@ -1,0 +1,258 @@
+{
+  "generatedAt": "2026-09-06T04:34:05.639Z",
+  "phase": "real-chrome-mechanism-smoke",
+  "sameInitialResources": true,
+  "before": {
+    "choice": {
+      "id": 32,
+      "type": "alien-trace",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "playerResources": {
+        "score": 24,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 2,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 24,
+          "credits": 1,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 0,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 9,
+          "credits": 4,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 3,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "棕色AI 选择外星人痕迹",
+      "details": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "state-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": null,
+        "score": -3.5595,
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "createdAt": "2026-09-06T04:33:16.568Z"
+    },
+    "owner": "player-brown",
+    "other": "player-blue",
+    "before": {
+      "credits": 1,
+      "energy": 2,
+      "publicity": 2,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 24
+    },
+    "after": {
+      "credits": 1,
+      "energy": 2,
+      "publicity": 2,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 27
+    },
+    "firstTraces": [
+      {
+        "slot": 1,
+        "count": 0
+      },
+      {
+        "slot": 2,
+        "count": 0
+      }
+    ],
+    "bugCount": 0
+  },
+  "after": {
+    "choice": {
+      "id": 32,
+      "type": "alien-trace",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "playerResources": {
+        "score": 24,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 9,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 2,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 4,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 24,
+          "credits": 1,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 0,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 9,
+          "credits": 4,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 3,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "棕色AI 选择外星人痕迹",
+      "details": {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "state-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": null,
+        "score": 45.202999999999996,
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      },
+      "createdAt": "2026-09-06T04:32:38.391Z"
+    },
+    "owner": "player-brown",
+    "other": "player-blue",
+    "before": {
+      "credits": 1,
+      "energy": 2,
+      "publicity": 2,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 24
+    },
+    "after": {
+      "credits": 1,
+      "energy": 2,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 27
+    },
+    "firstTraces": [
+      {
+        "slot": 1,
+        "count": 0
+      },
+      {
+        "slot": 2,
+        "count": 1
+      }
+    ],
+    "bugCount": 0
+  },
+  "limits": "A controlled analysis decision demonstrates one extra publicity and one owned first trace. Future reveal payoff and full-game mean are not yet measured."
+}
