@@ -17170,3 +17170,26 @@ runAsyncControllerTests()
  assert.equal(p.candidatePayment.afterPayment.energy,0);
  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:2},h.white).value,0);
 }
+
+{
+  const card = { id: "one-credit-continuation", price: 1, typeCode: 0,
+    playEffects: [{ type: "gain_resources", options: { gain: { score: 30 } } }] };
+  function continuation(withCard, withScan) {
+    const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 2,
+      realisticCanAfford: true, blueHand: withCard ? [card] : [],
+      blueResources: { credits: 0, energy: 2, score: 40, handSize: withCard ? 1 : 0 },
+      scanEffects: { SCAN_COST: { credits: 1, energy: 2 },
+        canExecuteScan: player => ({ ok: withScan && player.resources.credits >= 1 && player.resources.energy >= 2 }) },
+    });
+    const before = JSON.stringify(h.blue);
+    const value = h.controller.scoreAiMidgameResourceContinuationValue({ credits: 1 }, h.blue);
+    assert.equal(JSON.stringify(h.blue), before, "continuation is a read-only valuation");
+    return value;
+  }
+  const cardOnly = continuation(true, false);
+  const scanOnly = continuation(false, true);
+  const both = continuation(true, true);
+  assert.ok(cardOnly > 0 && scanOnly > 0);
+  assert.equal(both, Math.max(cardOnly, scanOnly),
+    "one gained credit cannot pay both a one-credit card and a one-credit scan");
+}

@@ -3988,6 +3988,8 @@
         const mainActionScale = state.pendingActionExecuted ? 0.55 : 1;
         const currentScore = Math.max(0, aiNumber(resources.score));
         let value = 0;
+        // The gained resources support one next main action, not every unlocked alternative.
+        let mainContinuation = 0;
 
         const creditGain = Math.max(0, aiNumber(gain.credits));
         const energyGain = Math.max(0, aiNumber(gain.energy));
@@ -3997,7 +3999,7 @@
 
         if (creditGain > 0 || energyGain > 0) {
           const cardUnlock = getAiResourceCardUnlockProfile(gain, player);
-          value += Math.min(7, Math.max(0, cardUnlock.value) * mainActionScale);
+          mainContinuation = Math.max(mainContinuation, Math.min(7, Math.max(0, cardUnlock.value) * mainActionScale));
         }
 
         if (handGain > 0 && (player.hand || []).length <= 2) {
@@ -4020,12 +4022,12 @@
               + scoreAiScanPriorityFloor(player) * 0.55
               + Math.min(2.2, getAiAvailableDataRoom(player) * 0.26)
               + Math.min(2.5, sumAiDemandMap(demand.traceTypes) * 0.04);
-            value += Math.min(
+            mainContinuation = Math.max(mainContinuation, Math.min(
               9,
               (scanUnlockValue
                 + getAiMapDemand(demand.actions, "scan") * 0.04
                 - Math.max(0, aiNumber(scanCost.credits) - aiNumber(afterResources.credits)) * 1.2) * mainActionScale,
-            );
+            ));
           }
         }
 
@@ -4035,16 +4037,18 @@
           if (!couldAnalyzeBefore && canAnalyzeAfter) {
             const analyzeScore = Math.max(0, aiNumber(scoreAiAnalyzeAction(simulatedPlayer)));
             const blueTraceScore = getAiBestRevealedAlienTraceDirectScore(player, "blue");
-            value += Math.min(
+            mainContinuation = Math.max(mainContinuation, Math.min(
               11,
               (3.6
                 + analyzeScore * 0.34
                 + Math.max(0, blueTraceScore) * 0.28
                 + getAiMapDemand(demand.actions, "analyze") * 0.06) * mainActionScale,
-            );
+            ));
           }
-          value += scoreAiPlanetCashoutUnlockAfterResourceGain(player, gain) * 0.85;
+          mainContinuation = Math.max(mainContinuation, scoreAiPlanetCashoutUnlockAfterResourceGain(player, gain) * 0.85);
         }
+
+        value += mainContinuation;
 
         if (dataGain > 0) {
           const requiredSlot = data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6;
