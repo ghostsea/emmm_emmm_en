@@ -9105,18 +9105,27 @@
     const activeOpponentCount = (turnState.activePlayerIds || [])
       .filter((playerId) => playerId && playerId !== player.id)
       .length;
-    const competitiveSlotSwingScore = Number(check.slotIndex) === 1
+    let competitiveSlotSwingScore = Number(check.slotIndex) === 1
       ? (8 + activeOpponentCount * 2.5 + Math.min(8, potentialScore * 0.85 + immediateScore * 0.18)) * effectiveSpeculationScale
       : Number(check.slotIndex) === 2
         ? (2 + activeOpponentCount * 0.8 + Math.min(3.5, potentialScore * 0.35)) * secondSlotSpeculationScale
         : 0;
-    const opponentCompetitionScore = scoreAiFinalScoreTileCompetition(
+    let opponentCompetitionScore = scoreAiFinalScoreTileCompetition(
       tileId,
       formulaId,
       check.slotIndex,
       player,
       context,
     ) * Math.max(0.35, effectiveSpeculationScale);
+    const uncappedCompetitiveSlotSwingScore = competitiveSlotSwingScore;
+    const uncappedOpponentCompetitionScore = opponentCompetitionScore;
+    const ownFinalTileCompetitionScale = aiValuation?.getFinalTileOwnSupportScale?.({
+      companyLabel: player?.initialSelection?.industry?.label,
+      ownValue: immediateScore * immediateScoreWeight + demandScore + potentialScore,
+      competitionValue: competitiveSlotSwingScore + opponentCompetitionScore,
+    }) ?? 1;
+    competitiveSlotSwingScore *= ownFinalTileCompetitionScale;
+    opponentCompetitionScore *= ownFinalTileCompetitionScale;
     const finalTileRace = buildAiB2FinalTileDeferRace(
       tileId,
       formulaId,
@@ -9241,6 +9250,9 @@
         slotPriorityScore: Math.round(slotPriorityScore * 100) / 100,
         firstSlotPriorityScore: Math.round(firstSlotPriorityScore * 100) / 100,
         familyPriorityScore: Math.round(familyPriorityScore * 100) / 100,
+        ownFinalTileCompetitionScale,
+        uncappedCompetitiveSlotSwingScore,
+        uncappedOpponentCompetitionScore,
         competitiveSlotSwingScore: Math.round(competitiveSlotSwingScore * 100) / 100,
         opponentCompetitionScore: Math.round(opponentCompetitionScore * 100) / 100,
         weightedLegacyCompetitionScore: Math.round(weightedLegacyCompetitionScore * 100) / 100,

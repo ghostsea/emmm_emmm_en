@@ -902,6 +902,13 @@
     return 0;
   }
 
+  function getFinalTileOwnSupportScale(options = {}) {
+    if (!["寰宇超动力", "宇宙大战略集团"].includes(options.companyLabel)) return 1;
+    const competition = Math.max(0, numeric(options.competitionValue));
+    if (competition <= 0) return 1;
+    return Math.min(1, Math.max(0, numeric(options.ownValue)) / competition);
+  }
+
   function estimateFinalMarginalForAction(candidate, state = {}, playerId = null, options = {}) {
     if (Number.isFinite(Number(candidate?.finalMarginal))) return numeric(candidate.finalMarginal);
     const markedFormulas = options.markedFormulas
@@ -947,5 +954,6 @@
     estimateSecondMarkAnalyzeEnergyTradeValue,
     evaluatePlayerState,
     estimateFinalMarginalForAction,
+    getFinalTileOwnSupportScale,
   });
 });

@@ -5154,3 +5154,9 @@ assert.ok(pulledBackHistory.targetWeights.tech < tunedOnlyHistory.targetWeights.
 assert.ok(battleSummary.recommendations.some((entry) => entry.id === "score-pass-opportunity-cost"));
 
 console.log("ai.test.js: all tests passed");
+
+assert.equal(valuation.getFinalTileOwnSupportScale({ companyLabel: "寰宇超动力", ownValue: 2, competitionValue: 8 }), 0.25);
+assert.equal(valuation.getFinalTileOwnSupportScale({ companyLabel: "宇宙大战略集团", ownValue: 12, competitionValue: 8 }), 1);
+assert.equal(valuation.getFinalTileOwnSupportScale({ companyLabel: "寰宇超动力", ownValue: 0, competitionValue: 8 }), 0);
+assert.equal(valuation.getFinalTileOwnSupportScale({ companyLabel: "寰宇超动力", ownValue: 0, competitionValue: 0 }), 1);
+assert.equal(valuation.getFinalTileOwnSupportScale({ companyLabel: "作弊实验室", ownValue: 0, competitionValue: 8 }), 1);
