@@ -17109,3 +17109,42 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const realData = require("../game/data");
+  for (const company of ["寰宇超动力", "宇宙大战略集团"]) {
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: 2, data: realData,
+      blueInitialSelection: { industry: { id: "industry:" + company, label: company } },
+      blueResources: { score: 80, publicity: 8, availableData: 4 },
+      blueTechState: { ownedTiles: { blue1: true, blue2: true }, blueBoardSlots: { blue1: 1, blue2: 2 } },
+    });
+    const player = harness.blue;
+    assert.ok(realData.placeDataToComputer(player).ok);
+    assert.ok(realData.placeDataToComputer(player).ok);
+    realData.listPlaceDataChoices(player);
+    const before = JSON.stringify(player);
+    const profiles = harness.controller.getAiDataTwoStepProfiles(player);
+    assert.equal(profiles.length, 2);
+    assert.ok(profiles.every(profile => profile.next));
+    assert.ok(Math.abs(Math.max(...profiles.map(p => p.score))
+      - Math.max(...profiles.map(p => p.immediate))) < 1e-9);
+    assert.equal(JSON.stringify(player), before, "lookahead must not mutate real resources, hand or token placement");
+    const main = profiles.find(p => p.target === "computer");
+    assert.equal(main.placementSlot, 3);
+    const projected = JSON.parse(before);
+    assert.ok(realData.placeDataToComputer(projected, main).ok);
+    assert.ok(realData.listPlaceDataChoices(projected).some(c => c.target === main.next.target
+      && (c.placementSlot ?? null) === main.next.placementSlot && (c.blueSlot ?? null) === main.next.blueSlot));
+    assert.equal(harness.controller.getAiDataTwoStepProfiles(projected), null,
+      "one remaining token cannot invent a second placement");
+    realData.gainData(projected);
+    assert.equal(harness.controller.getAiDataTwoStepProfiles(projected), null,
+      "first-step income selection must fall back rather than assume a discarded card");
+    player.techState.blueBoardSlots.blue3 = 1;
+    player.techState.ownedTiles.blue3 = true;
+    delete player.techState.ownedTiles.blue1;
+    assert.equal(harness.controller.getAiDataTwoStepProfiles(player), null,
+      "first-step card selection must fall back without reading future cards");
+  }
+}

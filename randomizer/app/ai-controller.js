@@ -20454,7 +20454,55 @@
       return Math.max(0, aiNumber(getAiFinalHighScoreDataCreditPreserveProfile(choice, player)?.value));
     }
 
-    function scoreAiDataPlacementChoice(choice, player = getCurrentPlayer()) {
+    function getAiDataTwoStepProfiles(player = getCurrentPlayer()) {
+      if (!player || getAiRoundNumber() > 3 || aiNumber(player.resources?.availableData) < 2
+        || ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL]
+          .includes(getAiIndustryCard(player)?.label)
+        || typeof data.placeDataToComputer !== "function") return null;
+      const choices = data.listPlaceDataChoices?.(player) || [];
+      if (choices.length < 2) return null;
+      // An income/card selection or final mark interrupts this two-placement preview.
+      const threshold = getAiNextMissingFinalScoreThreshold(player);
+      if (choices.some(choice => getAiDataPlacementBonuses(choice, player).some(bonus =>
+        !["credits", "energy", "publicity", "score"].includes(bonus.type)
+        || (bonus.type === "score" && threshold
+          && aiNumber(player.resources.score) + aiNumber(bonus.score) >= threshold)))) return null;
+      const profiles = choices.map(choice => {
+        const immediate = scoreAiGreedyDataPlacementChoice(choice, player);
+        const projected = JSON.parse(JSON.stringify(player));
+        const placed = data.placeDataToComputer(projected, choice);
+        if (!placed?.ok) return null;
+        for (const bonus of placed.slotBonuses || []) {
+          const key = bonus.type;
+          projected.resources[key] = aiNumber(projected.resources[key]) + aiNumber(bonus[key]);
+          if (key === "publicity") projected.resources[key] = Math.min(
+            players.RESOURCE_LIMITS.publicity, projected.resources[key]);
+        }
+        const next = (data.listPlaceDataChoices(projected) || []).map(option => ({
+          target: option.target, placementSlot: option.placementSlot ?? null,
+          blueSlot: option.blueSlot ?? null,
+          score: scoreAiGreedyDataPlacementChoice(option, projected),
+        })).sort((a, b) => b.score - a.score)[0];
+        return { target: choice.target, placementSlot: choice.placementSlot ?? null,
+          blueSlot: choice.blueSlot ?? null, immediate, next: next || null,
+          planValue: immediate + 0.8 * Math.max(0, next?.score || 0) };
+      });
+      if (profiles.some(profile => !profile)) return null;
+      const maximumImmediate = Math.max(...profiles.map(profile => profile.immediate));
+      const maximumPlan = Math.max(...profiles.map(profile => profile.planValue));
+      return profiles.map(profile => ({ ...profile,
+        score: maximumImmediate + profile.planValue - maximumPlan }));
+    }
+
+    function scoreAiDataPlacementChoice(choice, player = getCurrentPlayer(), profiles = getAiDataTwoStepProfiles(player)) {
+      const profile = profiles?.find(entry => entry.target === choice?.target
+        && (entry.target === data.PLACEMENT_KIND_COMPUTER
+          ? entry.placementSlot === Number(choice.placementSlot)
+          : entry.blueSlot === Number(choice.blueSlot)));
+      return profile?.score ?? scoreAiGreedyDataPlacementChoice(choice, player);
+    }
+
+    function scoreAiGreedyDataPlacementChoice(choice, player = getCurrentPlayer()) {
       if (!choice) return -Infinity;
       const target = choice.target || null;
       const placementSlot = Math.max(0, Math.round(aiNumber(choice.placementSlot)));
@@ -20492,6 +20540,7 @@
     function listAiDataPlacementCandidates(player = getCurrentPlayer()) {
       const check = data.canPlaceAnyData?.(player);
       if (!check?.ok) return [];
+      const twoStepProfiles = getAiDataTwoStepProfiles(player);
       return (check.choices || data.listPlaceDataChoices?.(player) || [])
         .map((choice, index) => {
           const creditPreserveProfile = getAiFinalHighScoreDataCreditPreserveProfile(choice, player);
@@ -20505,7 +20554,8 @@
             label: choice.label || null,
             description: choice.description || null,
             directScoreGain: getAiDataPlacementDirectScoreGain(choice, player),
-            score: scoreAiDataPlacementChoice(choice, player) - index * 0.05,
+            score: scoreAiDataPlacementChoice(choice, player, twoStepProfiles) - index * 0.05,
+            twoStepPlacement: twoStepProfiles,
             valueBreakdown: creditPreserveProfile ? {
               finalHighScoreDataCreditPreserve: creditPreserveProfile,
             } : null,
@@ -20515,6 +20565,7 @@
     }
 
     function chooseAiDataPlacementOptionFromButtons(buttons = [], player = getCurrentPlayer()) {
+      const twoStepProfiles = getAiDataTwoStepProfiles(player);
       return [...(buttons || [])]
         .map((button, index) => {
           const target = button.dataset.placeTarget || null;
@@ -20533,7 +20584,7 @@
             placementSlot: choice.placementSlot,
             label: button.textContent || "",
             disabled: Boolean(button.disabled),
-            score: button.disabled ? -Infinity : scoreAiDataPlacementChoice(choice, player) - index * 0.05,
+            score: button.disabled ? -Infinity : scoreAiDataPlacementChoice(choice, player, twoStepProfiles) - index * 0.05,
           };
         })
         .filter((entry) => Number.isFinite(entry.score))
@@ -26713,6 +26764,7 @@
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
       getAiEarlyDirectScorePlayPassFloor,
+      getAiDataTwoStepProfiles,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
       getAiB2SectorWinExactDelta,
