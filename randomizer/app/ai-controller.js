@@ -10502,29 +10502,6 @@
       return Math.max(0, (1 - multiplier) * 12);
     }
 
-    function scoreAiHiddenAlienRevealTimingPremium(alienSlotId, placedCount, player = getCurrentPlayer()) {
-      const slot = getAiAlienSlot(alienSlotId);
-      if (!slot || slot.revealed) return 0;
-      const round = getAiRoundNumber();
-      const placed = Math.max(0, Math.min(3, Math.round(aiNumber(placedCount))));
-      let value = 0;
-
-      // 两个隐藏槽位的揭示进度价值相同；槽位差异只来自 state 图真实即时奖励。
-      // 0 进度不再给 2 号槽历史加速，因而由 1 号的 5 分对 2 号的 3 分打破平局。
-      // 已投入 1/2 枚首痕迹后，保留旧模型经实战形成的揭示链量级，但改成槽位无关。
-      if (round <= 2) {
-        if (placed >= 2) value += 12.5;
-        else if (placed === 1) value += 5.2;
-      } else if (round === 3) {
-        if (placed >= 2) value += 10.8;
-        else if (placed === 1) value += 3.1;
-      } else if (placed >= 2) {
-        value += 2;
-      }
-      if (round >= FINAL_ROUND_NUMBER && placed <= 1) value -= 2;
-      return roundAiScore(value);
-    }
-
     function scoreAiAlienTraceValue(options = {}) {
       const picker = state.alienTracePickerState || {};
       const traceType = options.traceType || picker.selectedTraceType || picker.allowedTraceTypes?.[0];
@@ -10563,9 +10540,9 @@
         ), 0);
         const round = getAiRoundNumber();
         let earlyTracePremium = round <= 2 ? 6 : round === 3 ? 3 : 0;
-        if (placedCount >= 2) earlyTracePremium += 5;
-        else if (placedCount === 1) earlyTracePremium += 2.5;
-        earlyTracePremium += scoreAiHiddenAlienRevealTimingPremium(alienSlotId, placedCount, player);
+        // 揭示进度由 valuation 的 revealPressure 统一计价，不再叠加两层相同进度奖励。
+        // 保留轮次转换窗口与末轮未接近揭示的折价。
+        if (round >= FINAL_ROUND_NUMBER && placedCount <= 1) earlyTracePremium -= 2;
         return value + earlyTracePremium;
       }
       if (isAiHiddenFirstTraceTakenByOpponent(alienSlotId, traceType, player)) {
@@ -15206,6 +15183,54 @@
       }).filter(Boolean);
     }
 
+    function getAiHuanyuBlueCashClaimProfile(candidate, player = getCurrentPlayer()) {
+      const industryCard = getAiIndustryCard(player);
+      if (
+        !player?.dataState || candidate?.techType !== "blue"
+        || !["blue1", "blue2"].includes(candidate.tileId)
+        || player.techState?.ownedTiles?.[candidate.tileId]
+        || typeof data.placeDataToComputer !== "function"
+        || (industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL)
+      ) return null;
+      const slots = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number).filter(Number.isInteger).sort((left, right) => left - right);
+      const blueSlot = ai?.policy?.chooseBlueTechSlot?.(slots, {
+        currentPlayer: player, techGameState, tileId: candidate.tileId,
+      }) || slots[0];
+      if (!blueSlot) return null;
+      // Spend the actual pool token in a private copy: a scalar resource subtraction
+      // would leave the token available to an alien payment during analysis scoring.
+      const projected = structuredClone(player);
+      projected.techState = projected.techState || {};
+      projected.techState.ownedTiles = { ...projected.techState.ownedTiles, [candidate.tileId]: true };
+      projected.techState.blueBoardSlots = { ...projected.techState.blueBoardSlots, [candidate.tileId]: blueSlot };
+      const placement = data.placeDataToComputer(projected, {
+        target: data.PLACEMENT_KIND_BLUE_BONUS, blueSlot,
+      });
+      if (!placement?.ok) return null;
+      const gain = getAiBlueTechRewardResourceGain(placement.slotBonus);
+      for (const [key, amount] of Object.entries(gain)) {
+        projected.resources[key] = aiNumber(projected.resources[key]) + amount;
+      }
+      const resourceValue = Math.max(0,
+        scoreAiResourceBundle(gain) - aiNumber(getAiResourceValuesForRound().availableData));
+      const bonusAlreadySuppliesEnergy = candidate.bonusId === "bonus_1p";
+      const analyzeUnlocked = !bonusAlreadySuppliesEnergy
+        && !(turnState.passedPlayerIds || []).includes(player.id)
+        && !canAiAnalyzeData(structuredClone(player)).ok && canAiAnalyzeData(projected).ok;
+      // One later main action is an option, not immediate VP from taking the tile.
+      const analyzeContinuationValue = analyzeUnlocked
+        ? Math.max(0, scoreAiAnalyzeAction(projected)) * 0.35 : 0;
+      return {
+        value: resourceValue + analyzeContinuationValue,
+        blueSlot, gain, dataCost: 1,
+        remainingPoolTokens: projected.dataState.poolTokens.length,
+        remainingAvailableData: projected.resources.availableData,
+        resourceValue, bonusAlreadySuppliesEnergy, analyzeUnlocked, analyzeContinuationValue,
+      };
+    }
+
     function getAiBlueTechResourceClosureDiagnostic(candidate, player = getCurrentPlayer()) {
       if (!candidate || candidate.techType !== "blue" || !player) return null;
       const availableBlueSlots = (tech.getAvailableBlueSlots?.(player.techState) || [])
@@ -16494,6 +16519,7 @@
       if (candidate?.firstTake) {
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
+      value += getAiHuanyuBlueCashClaimProfile(candidate, player)?.value || 0;
       value += scoreAiHuanyuRoundOneBlue1CreditEngineValue(candidate, player);
       value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
       value += scoreAiGrandStrategyFinalBlue1CreditBridgeValue(candidate, player);
@@ -22009,22 +22035,72 @@
       return true;
     }
 
+    function scoreAiFangzhouPanelDestination(player) {
+      const picker = state.alienTracePickerState || {};
+      const slotIds = Array.isArray(picker.allowedAlienSlotIds)
+        ? picker.allowedAlienSlotIds : aliens.ALIEN_SLOT_IDS || [];
+      const traceTypes = picker.allowedTraceTypes?.length ? picker.allowedTraceTypes : AI_TRACE_TYPES;
+      const species = [
+        ["jiuzhe", jiuzhe, "Jiuzhe"], ["yichangdian", yichangdian, "Yichangdian"],
+        ["fangzhou", fangzhou, "Fangzhou"], ["banrenma", banrenma, "Banrenma"],
+        ["chong", chong, "Chong"], ["amiba", amiba, "Amiba"],
+        ["aomomo", aomomo, "Aomomo"], ["runezu", runezu, "Runezu"],
+      ];
+      let best = -Infinity;
+      function consider(kind, dataset, speciesKey = null) {
+        const target = { kind, previewMode: "trace-board", button: {
+          disabled: false, textContent: "", dataset,
+          matches: selector => speciesKey != null && selector === "[data-" + speciesKey + "-trace-slot]",
+        } };
+        best = Math.max(best, scoreAiAlienTraceTarget(target, player));
+      }
+      for (const rawSlotId of slotIds) {
+        const alienSlot = Number(rawSlotId);
+        const slot = aliens.getAlienSlot?.(alienGameState, alienSlot);
+        if (!slot) continue;
+        for (const traceType of traceTypes) {
+          const trace = slot.traces?.[traceType];
+          if (trace && (!slot.revealed || trace.firstPlaced)) {
+            consider("state-slot", { alienSlot, traceType, stateTraceKind: trace.firstPlaced ? "extra" : "first" });
+          }
+          if (!slot.revealed) continue;
+          for (const [key, module, name] of species) {
+            if (!module?.["is" + name + "RevealedSlot"]?.(alienGameState, alienSlot)) continue;
+            for (const position of getAiAlienModuleTracePositions(module, traceType)) {
+              if (!module?.["canPlace" + name + "Trace"]?.(alienGameState, alienSlot, traceType, Number(position), player,
+                { availableDataCount: getAiAvailableDataTokenCount(player) })?.ok) continue;
+              consider("grid-slot", { alienSlot, traceType, tracePosition: Number(position) }, key);
+            }
+          }
+        }
+      }
+      return best;
+    }
+
     function scoreAiAlienTraceTarget(target, player) {
       if (!target?.button || target.button.disabled) return -Infinity;
       if (!canAiPlaceAlienGridTraceTarget(target, player)) return -Infinity;
       const label = String(target.button.textContent || target.button.title || "");
-      const pickerMode = String(state.alienTracePickerState?.mode || "");
+      const pickerMode = String(target.previewMode || state.alienTracePickerState?.mode || "");
       const mode = getAiAlienTraceTargetMode(target, pickerMode);
+      if (mode === "fangzhou-destination" && target.button.dataset.fangzhouDestination === "panel") {
+        // Navigation has no reward of its own: compare the best legal destination.
+        return scoreAiFangzhouPanelDestination(player);
+      }
       const traceType = getAiAlienTraceTargetTraceType(target);
       const position = getAiAlienTraceTargetPosition(target);
       const fangzhouUseChoice = target.button.dataset.fangzhouUse || null;
       const fangzhouDestinationChoice = target.button.dataset.fangzhouDestination || null;
       const isFangzhouUnlockChoice = (
-        mode === "fangzhou-use"
+        ["fangzhou-use", "fangzhou-unlock-color"].includes(mode)
         && fangzhouUseChoice === "unlock"
       ) || (
         mode === "fangzhou-destination"
         && fangzhouDestinationChoice === "unlock"
+      ) || (
+        target.kind === "state-slot" && target.button.dataset.stateTraceKind === "extra"
+        && fangzhou?.isFangzhouRevealedSlot?.(alienGameState, Number(target.button.dataset.alienSlot))
+        && fangzhou?.canUnlockCard2ForTrace?.(alienGameState, player, traceType)
       );
       const isStateExtraTraceTarget = target.kind === "state-slot"
         && target.button.dataset.stateTraceKind === "extra";
@@ -22124,14 +22200,17 @@
       }
       score += traceDemand * 0.45;
       score += ({ pink: 4, blue: 3.5, yellow: 3 })[traceType] || 0;
-      score += scoreAiAlienGridPosition(scoringMode, traceType, position, label);
-      if (label.includes("未揭示")) score += 3;
-      if (label.includes("得分") || label.includes("分数")) score += 3;
-      if (label.includes("精选")) score += 4.5;
-      if (label.includes("牌")) score += 4.5 * getAiAlienCardConversionMultiplier(player);
-      if (label.includes("信用")) score += 2;
-      if (label.includes("数据") || label.includes("扫描")) score += 1.5;
-      if (label.includes("解锁")) score += 8;
+      // Exact reward objects supersede position and presentation-based reward bonuses.
+      if (!reward) {
+        score += scoreAiAlienGridPosition(scoringMode, traceType, position, label);
+        if (label.includes("未揭示")) score += 3;
+        if (label.includes("得分") || label.includes("分数")) score += 3;
+        if (label.includes("精选")) score += 4.5;
+        if (label.includes("牌")) score += 4.5 * getAiAlienCardConversionMultiplier(player);
+        if (label.includes("信用")) score += 2;
+        if (label.includes("数据") || label.includes("扫描")) score += 1.5;
+        if (label.includes("解锁")) score += 8;
+      }
       if (reward?.pickAlienCard) {
         score += 4 * getAiAlienCardConversionMultiplier(player);
         score -= scoreAiLateAlienCardConversionPenalty(player);
@@ -22229,6 +22308,8 @@
         mode: state.alienTracePickerState?.mode || null,
         alienSlot: button.dataset.alienSlot || null,
         pickerStep: button.dataset.alienPickerStep || null,
+        fangzhouDestination: button.dataset.fangzhouDestination || null,
+        fangzhouUse: button.dataset.fangzhouUse || null,
         traceType: traceType || null,
         position: getAiAlienTraceTargetPosition(target),
         score: target.score,
@@ -22935,6 +23016,8 @@
           getAiFinalHuanyuUncashableTechPickProfile(candidate, getCurrentPlayer()),
         grandStrategyFinalStrandedEnergyCashout:
           getAiGrandStrategyFinalStrandedEnergyCashoutProfile(candidate, getCurrentPlayer()),
+        huanyuBlueCashClaim:
+          getAiHuanyuBlueCashClaimProfile(candidate, getCurrentPlayer()),
         blueResourceClosure:
           getAiBlueTechResourceClosureDiagnostic(candidate, getCurrentPlayer()),
       };
