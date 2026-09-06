@@ -438,6 +438,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
+        PROBE_SECTOR_SCAN: cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
         CARD_LAND: "card_land",
         LANDING_SECTOR_SCAN: "card_landing_sector_scan",
         FREE_MOVE: "free_move",
@@ -17109,3 +17110,110 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const make = (rockets, disabledX = null) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue", rocketState: { rockets },
+    buildSectorScanChoicesForX: (x) => [{ nebulaId: "sector-" + x, sectorX: x, disabled: x === disabledX }],
+    data: { listNebulaTokens: () => Array.from({ length: 5 }, (_, i) => ({ slotIndex: i + 1 })) },
+  });
+  const own = { id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } };
+  const rival = { id: 2, playerId: "player-white", sector: { x: 4, y: 2 } };
+  const effect = cardEffects.getCardModel({ cardId: "b_22.webp" }).playEffects[0];
+  const h = make([own, rival]);
+  const before = JSON.stringify(h.blue);
+  assert.equal(h.controller.canAiResolvePlayCardEffects([effect], h.blue).ok, true);
+  assert.deepEqual(h.controller.getAiPlayableProbeScanProfile(effect, h.blue).rocketIds, [1]);
+  assert.equal(h.controller.getAiPlayableProbeScanProfile(effect, h.blue).repeat, 2);
+  assert.equal(h.controller.canAiResolvePlayCardEffects([{ type: "gain_resources" }, effect], h.blue).ok, false);
+  assert.equal(make([rival]).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  assert.equal(make([own], 2).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  assert.equal(make([{ id: 3, playerId: "player-blue" }]).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  const any = cardEffects.getCardModel({ cardId: "b_50.webp" }).playEffects[0];
+  assert.equal(make([rival]).controller.canAiResolvePlayCardEffects([any]).ok, true);
+  const adjacent = cardEffects.getCardModel({ cardId: "b_58.webp" }).playEffects.find(e => e.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN);
+  assert.equal(make([own], 1).controller.canAiResolvePlayCardEffects([adjacent]).ok, false);
+  assert.deepEqual(h.controller.getAiPlayableProbeScanProfile(effect, h.white).rocketIds, [2]);
+  assert.equal(JSON.stringify(h.blue), before);
+}
+
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", techCounts: { orange: 0, purple: 0, blue: 0 },
+    rocketState: { rockets: [{ id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } }, { id: 2, playerId: "player-white", sector: { x: 4, y: 2 } }] },
+    buildSectorScanChoicesForX: x => [{ nebulaId: "sector-" + x, sectorX: x }],
+    data: { listNebulaTokens: () => Array.from({ length: 5 }, (_, i) => ({ slotIndex: i + 1 })), getNebulaSlotScoreReward: () => 0 },
+  });
+  for (const [cardId, expected] of [["b_22.webp", 9], ["b_50.webp", 9], ["b_58.webp", 13.5], ["b_96.webp", 9]]) {
+    const effect = cardEffects.getCardModel({ cardId }).playEffects.find(e => e.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN);
+    assert.equal(h.controller.scoreAiEffectValue(effect, { player: h.blue, immediate: true }), expected,
+      "actual probe-scan model must count selected targets, adjacency and repeat with its data flag");
+  }
+}
+
+{
+  const realData = require("../game/data");
+  const scanState = realData.createDefaultNebulaDataState();
+  for (const id of ["sector-1-a", "sector-2-b"]) realData.fillNebulaData(scanState, id, { source: "test" });
+  const own = { id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } };
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", blueResources: { availableData: 0 },
+    rocketState: { rockets: [own] }, movableTokens: [own], allowedMoveDeltas: [{ deltaX: 1, deltaY: 0 }],
+    canPayForMove: true, nebulaDataState: scanState, data: realData,
+    buildSectorScanChoicesForX: x => [{ nebulaId: x === 2 ? "sector-1-a" : "sector-2-b", sectorX: x }],
+    chooseTurnAction: candidates => candidates.slice().sort((a,b) => b.score-a.score)[0] || null,
+  });
+  for (let i=0;i<4;i++) realData.replaceNextNebulaDataToken(scanState, "sector-1-a", h.white);
+  const effect = cardEffects.getCardModel({ cardId: "b_22.webp" }).playEffects[0];
+  realData.ensurePlayerDataState(h.blue);
+  const before = JSON.stringify({ player: h.blue, rocket: own, scanState });
+  const original = h.controller.getAiPlayableProbeScanProfile(effect, h.blue);
+  const projected = h.controller.getAiPlayableProbeScanProfile(effect, h.blue, { rocketPositions: { 1: { x: 3, y: 2 } } });
+  assert.equal(original.dataGain, 1);
+  assert.equal(original.extraMarks, 1);
+  assert.equal(projected.dataGain, 2);
+  assert.equal(projected.extraMarks, 0);
+  const replay = structuredClone(scanState), clone = structuredClone(h.blue);
+  const replacements = [realData.replaceNextNebulaDataToken(replay, "sector-2-b", clone), realData.replaceNextNebulaDataToken(replay, "sector-2-b", clone)];
+  assert.equal(projected.slotScore, replacements.reduce((sum,r) => sum+r.scoreAwarded, 0));
+  const moving = cardEffects.buildPlayEffects({ cardId: "b_64.webp" });
+  assert.equal(moving.length, 3, "runtime expands the two scan nodes");
+  assert.equal(h.controller.canAiResolvePlayCardEffects(moving, h.blue).ok, true);
+  const move = h.controller.buildAiProbeMoveScanPreview(moving, h.blue);
+  assert.equal(move.move.to.x, 3);
+  assert.equal(move.scan.dataGain, 2);
+  assert.equal(JSON.stringify({ player: h.blue, rocket: own, scanState }), before, "coordinate and scan projections cannot change live state");
+  h.blue.resources.availableData = 6;
+  assert.equal(h.controller.getAiPlayableProbeScanProfile(effect, h.blue).dataGain, 0);
+  const duplicate = { ...effect, options: { ...effect.options, owner: "any", maxTargets: 3, repeat: 1 } };
+  h.blue.resources.availableData = 0;
+  h.blue.id = "player-blue";
+  // Three distinct probes in the same sector must share the one remaining token.
+  const other = createAiControllerHarness(null, { currentPlayerColor: "blue", blueResources: { availableData: 0 },
+    rocketState: { rockets: [own, { ...own, id: 2 }, { ...own, id: 3 }] }, nebulaDataState: scanState, data: realData,
+    buildSectorScanChoicesForX: x => [{ nebulaId: "sector-1-a", sectorX: x }],
+  });
+  const grouped = other.controller.getAiPlayableProbeScanProfile(duplicate, other.blue);
+  assert.equal(grouped.dataGain, 1);
+  assert.equal(grouped.extraMarks, 2);
+}
+
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue",
+    rocketState: { rockets: [{ id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } }] },
+    buildSectorScanChoicesForX: x => [{ nebulaId: "sector-" + x, sectorX: x }],
+    data: { listNebulaTokens: () => Array.from({ length: 5 }, (_, i) => ({ slotIndex: i + 1 })) },
+  });
+  for (const [cardId, count] of [["b_22.webp",2],["b_96.webp",3]]) {
+    const expanded = cardEffects.buildPlayEffects({ cardId });
+    const before = JSON.stringify(expanded);
+    assert.equal(expanded.length, count);
+    assert.equal(h.controller.canAiResolvePlayCardEffects(expanded, h.blue).ok, true);
+    const compact = h.controller.coalesceAiProbeScanEffects(expanded);
+    assert.equal(compact.length, 1);
+    assert.equal(compact[0].options.repeat, count);
+    assert.equal(JSON.stringify(expanded), before);
+    const split = [expanded[0], { type: "gain_resources" }, expanded[1]];
+    assert.equal(h.controller.canAiResolvePlayCardEffects(split, h.blue).ok, false);
+    const unrelated = [expanded[0], { ...expanded[1], id: "unrelated-scan" }];
+    assert.equal(h.controller.coalesceAiProbeScanEffects(unrelated).length, 2);
+  }
+}

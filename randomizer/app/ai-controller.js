@@ -10796,6 +10796,11 @@
       const effectOptions = effect.options || {};
       const player = options.player || getCurrentPlayer();
       switch (type) {
+        case cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN: {
+          const profile = options.probeScanProfile || getAiPlayableProbeScanProfile(effect, player);
+          return profile?.value || 0;
+
+        }
         case planetRewards.EFFECT_TYPES?.GAIN_RESOURCES:
         case "gain_resources": {
           const gain = effectOptions.gain || {};
@@ -12328,7 +12333,8 @@
           );
         }
         if (
-          type === cardEffects.EFFECT_TYPES.PUBLIC_SCAN
+          type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN
+          || type === cardEffects.EFFECT_TYPES.PUBLIC_SCAN
           || type === cardEffects.EFFECT_TYPES.HAND_SCAN
           || type === cardEffects.EFFECT_TYPES.SECTOR_X_SCAN
           || type === cardEffects.EFFECT_TYPES.PLANET_SECTOR_SCAN
@@ -12700,15 +12706,17 @@
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
-      const playEffects = details.playEffects || cardEffects.buildPlayEffects?.(card) || [];
+      const playEffects = coalesceAiProbeScanEffects(details.playEffects || cardEffects.buildPlayEffects?.(card) || []);
       const cost = details.cost || getCardPlayCost(card);
       const price = details.price ?? getCardPrice(card);
       const typeCode = details.typeCode ?? getCardTypeCode(card);
       const reservesAfterPlay = details.reservesAfterPlay ?? (
         [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay)
       );
+      const probeMoveScanPreview = details.effectValue == null ? buildAiProbeMoveScanPreview(playEffects, player) : null;
       const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
-        total + scoreAiEffectValue(effect, { player, immediate: true })
+        total + scoreAiEffectValue(effect, { player, immediate: true,
+          probeScanProfile: effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN ? probeMoveScanPreview?.scan : null })
       ), 0);
       const hasPersistentModeledValue = Boolean(
         model?.tasks?.length
@@ -18831,7 +18839,92 @@
       return { nextEffectType: nextEffect.type || null };
     }
 
+    // Collapse only repeated nodes emitted by cards.expandEffects; this is a valuation view.
+    // Runtime still executes each node and may choose a different probe after an earlier scan.
+    function coalesceAiProbeScanEffects(effects = []) {
+      const result = [];
+      for (const effect of effects) {
+        const previous = result[result.length - 1];
+        const baseId = node => String(node?.id || "").replace(/-\d+$/, "");
+        const scanOptions = node => JSON.stringify({ ...(node?.options || {}), repeat: 1 });
+        if (effect?.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN
+          && previous?.type === effect.type && baseId(effect) && baseId(effect) === baseId(previous)
+          && scanOptions(effect) === scanOptions(previous)) {
+          result[result.length - 1] = { ...previous, options: { ...previous.options,
+            repeat: Math.max(1, aiNumber(previous.options?.repeat || 1)) + Math.max(1, aiNumber(effect.options?.repeat || 1)) } };
+        } else result.push(effect);
+      }
+      return result;
+    }
+
+    function getAiPlayableProbeScanProfile(effect, player = getCurrentPlayer(), options = {}) {
+      if (!player || effect?.type !== cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN) return null;
+      const owner = effect.options?.owner || "current";
+      let choices = (rocketState.rockets || [])
+        .filter((rocket) => owner === "any" || rocket.playerId === player.id)
+        .map((rocket) => ({ rocket, sector: options.rocketPositions?.[rocket.id] || rocketActions.getRocketSectorCoordinate(rocket) }))
+        .filter((entry) => entry.sector)
+        .sort((left, right) => Number(left.rocket.id) - Number(right.rocket.id));
+      if (effect.options?.distinctSectors) {
+        const seen = new Set();
+        choices = choices.filter(({ sector }) => {
+          const x = solar.mod8(sector.x);
+          if (seen.has(x)) return false;
+          seen.add(x);
+          return true;
+        });
+      }
+      const selected = chooseAiProbeSectorScanChoices({ playerId: player.id, effect, choices });
+      if (!selected.length) return null;
+      const xs = selected.flatMap(({ sector }) => (
+        effect.options?.includeAdjacent ? [sector.x - 1, sector.x, sector.x + 1] : [sector.x]
+      ).map((x) => solar.mod8(x)));
+      if (xs.some((x) => !buildSectorScanChoicesForX(x).some((choice) => choice.nebulaId && !choice.disabled))) return null;
+      const repeat = Math.max(1, Math.round(aiNumber(effect.options?.repeat || 1)));
+      const gainData = effect.options?.gainData !== false;
+      const consumed = new Map();
+      const scans = [];
+      let room = Math.max(0, getAiAvailableDataRoom(player));
+      for (const x of xs) {
+        const chosen = getBestAiNebulaChoiceEntry(buildSectorScanChoicesForX(x), { player, gainData });
+        const nebulaId = chosen?.choice?.nebulaId;
+        if (!nebulaId) return null;
+        const open = (data.listNebulaTokens?.(nebulaDataState, nebulaId) || [])
+          .filter((token) => !token.replacedByPlayerId).sort((a, b) => a.slotIndex - b.slotIndex);
+        for (let index = 0; index < repeat; index += 1) {
+          const offset = consumed.get(nebulaId) || 0;
+          const token = open[offset] || null;
+          consumed.set(nebulaId, offset + 1);
+          const dataGain = token && gainData && room > 0 ? 1 : 0;
+          room -= dataGain;
+          scans.push({ sectorX: x, nebulaId, slotIndex: token?.slotIndex || null,
+            dataGain, slotScore: token ? Math.max(0, aiNumber(data.getNebulaSlotScoreReward?.(nebulaId, token.slotIndex))) : 0 });
+        }
+      }
+      const dataGain = scans.reduce((sum, scan) => sum + scan.dataGain, 0);
+      const slotScore = scans.reduce((sum, scan) => sum + scan.slotScore, 0);
+      const replaced = scans.filter((scan) => scan.slotIndex != null).length;
+      return { playerId: player.id, rocketIds: selected.map(({ rocket }) => rocket.id), sectorXs: xs,
+        repeat, gainData, scans, dataGain, slotScore, replaced, extraMarks: scans.length - replaced,
+        value: replaced * 3 + (scans.length - replaced) * 0.25 + dataGain * 1.5 + slotScore };
+
+    }
+
+    function buildAiProbeMoveScanPreview(playEffects = [], player = getCurrentPlayer()) {
+      playEffects = coalesceAiProbeScanEffects(playEffects);
+      if (playEffects.length !== 2 || playEffects[0]?.type !== cardEffects.EFFECT_TYPES.CARD_MOVE
+        || aiNumber(playEffects[0]?.options?.movementPoints) !== 1
+        || playEffects[1]?.type !== cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN) return null;
+      const candidates = listAiEffectMoveCandidates({ id: "cardMove", player,
+        effect: playEffects[0], poolRemaining: 1, nextEffect: playEffects[1] });
+      const selected = ai?.policy?.chooseTurnAction?.(candidates, { playerState, turnState, currentPlayer: player }) || candidates[0] || null;
+      const moved = selected && aiNumber(selected.score) >= 0;
+      const scan = getAiPlayableProbeScanProfile(playEffects[1], player, moved ? { rocketPositions: { [selected.rocketId]: selected.to } } : {});
+      return scan ? { move: moved ? { rocketId: selected.rocketId, from: selected.from, to: selected.to, paymentRequired: selected.paymentRequired } : null, scan } : null;
+    }
+
     function canAiResolvePlayCardEffects(playEffects = [], player = getCurrentPlayer(), options = {}) {
+      playEffects = coalesceAiProbeScanEffects(playEffects);
       const context = createActionContext();
       const effectPlayer = player || getCurrentPlayer();
       const unsupportedTypes = new Set([
@@ -18844,7 +18937,6 @@
         cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT,
         cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE,
         cardEffects.EFFECT_TYPES.RETURN_UNFINISHED_TASK_TO_HAND,
-        cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
         cardEffects.EFFECT_TYPES.PROBE_LOCATION_REWARD,
         cardEffects.EFFECT_TYPES.EARTH_SECTOR_CONTENT_MOVE,
       ]);
@@ -18853,6 +18945,13 @@
         const previousEffect = playEffects[index - 1] || null;
         const nextEffect = playEffects[index + 1] || null;
         if (effect?.type === AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE) continue;
+        if (effect?.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN) {
+          // Later movement/reveal/rotation nodes require a separate state projection.
+          if (!(index === 0 ? getAiPlayableProbeScanProfile(effect, effectPlayer)
+            : index === 1 && buildAiProbeMoveScanPreview(playEffects, effectPlayer))) {
+            return { ok: false, message: "探测器扫描需要可执行的当前目标或一步移动后目标" };
+          }
+        }
         if (unsupportedTypes.has(effect?.type)) {
           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };
         }
@@ -18975,7 +19074,7 @@
       const price = getCardPrice(card);
       const typeCode = getCardTypeCode(card);
       const model = cardEffects.getCardModel?.(card) || null;
-      const playEffects = getAiPlayEffectsForCard(card);
+      const playEffects = coalesceAiProbeScanEffects(getAiPlayEffectsForCard(card));
       const reservesAfterPlay = doesAiCardReserveAfterPlay(card, typeCode, model);
       const finalFormulaDeltas = getAiPlayCardFinalFormulaDeltas(card, {
         player: currentPlayer,
@@ -19019,8 +19118,10 @@
         readyTaskCashout,
         currentPlayer,
       );
+      const probeMoveScanPreview = buildAiProbeMoveScanPreview(valuationPlayEffects, currentPlayer);
       const effectValue = valuationPlayEffects.reduce((total, effect) => (
-        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
+        total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true,
+          probeScanProfile: effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN ? probeMoveScanPreview?.scan : null })
       ), 0);
       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
         player: currentPlayer,
@@ -19205,6 +19306,7 @@
           cornerOpportunity: scoreAiCardCornerOpportunity(card),
           directScoreGain,
           effectValue,
+          probeMoveScanPreview,
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
           finalSelfBlockingPublicityTrap,
@@ -21171,6 +21273,11 @@
       const poolUsed = Math.min(poolRemaining, terrainRequired);
       const remainingPoolAfterStep = Math.max(0, poolRemaining - poolUsed);
       const nextEffect = options.nextEffect || null;
+      const probeScanAfterMove = nextEffect?.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN
+        ? getAiPlayableProbeScanProfile(nextEffect, currentPlayer, { rocketPositions: { [rocket.id]: to } }) : null;
+      if (nextEffect?.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN && !probeScanAfterMove) return null;
+      const probeScanBeforeMove = probeScanAfterMove ? getAiPlayableProbeScanProfile(nextEffect, currentPlayer) : null;
+      const probeScanDelta = probeScanAfterMove ? probeScanAfterMove.value - (probeScanBeforeMove?.value || 0) : 0;
       const landingRequiredThisStep = isAiLandingEffect(nextEffect);
       const originPlanet = getAiPlanetAtCoordinate(from);
       const destinationPlanet = getAiPlanetAtCoordinate(to);
@@ -21250,7 +21357,7 @@
         noCashoutRoute: Math.max(0, aiNumber(landingScore.directScoreGain)) <= 0
           && routeScore.target?.kind === "planet",
       });
-      const movementGain = applyAiStrategyWeight(applyAiStrategyWeight(routeScore.score, "route", 0.7), "move", 0.8) * 0.75
+      const movementGain = probeScanDelta + applyAiStrategyWeight(applyAiStrategyWeight(routeScore.score, "route", 0.7), "move", 0.8) * 0.75
         + direction.score * 0.08
         + scoreAiMoveArrivalRewardValue(to, currentPlayer, { free: paymentRequired <= 0 }) * 0.85
         + applyAiStrategyWeight(landingScore.score, "orbitLand", 0.6);
@@ -21319,6 +21426,8 @@
         score: movementGain - movementCost - index * 0.1,
         valueBreakdown: {
           movementGain,
+          probeScanDelta,
+          probeScanAfterMove,
           paymentCost,
           pathPenalty,
           earlyLightsailEmptyBacktrackPenalty,
@@ -21414,7 +21523,10 @@
 
       const ctx = state.pendingActionEffectFlow.cardMoveEffect;
       const effect = ctx?.effect || getCurrentActionEffect();
-      const nextEffect = getAiNextActionEffect();
+      const remainingEffects = state.pendingActionEffectFlow.effects?.slice(
+        Math.max(0, Math.round(aiNumber(state.pendingActionEffectFlow.currentIndex))) + 1,
+      ) || [];
+      const nextEffect = coalesceAiProbeScanEffects(remainingEffects)[0] || null;
       const candidates = listAiEffectMoveCandidates({
         id: "cardMove",
         effect,
@@ -26712,6 +26824,12 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      scoreAiEffectValue,
+      coalesceAiProbeScanEffects,
+      buildAiProbeMoveScanPreview,
+      buildAiPlayCardCandidate,
+      getAiPlayableProbeScanProfile,
+      canAiResolvePlayCardEffects,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
