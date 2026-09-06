@@ -1,0 +1,138 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "position": {
+        "x": 3,
+        "y": 3
+      },
+      "effect": {
+        "id": "b34-land",
+        "type": "card_land",
+        "label": "登陆（可无橙色4登陆卫星）",
+        "icon": "land",
+        "options": {
+          "skipCost": true,
+          "allowDuplicateLanding": false,
+          "allowDuplicateSatelliteLanding": false,
+          "allowSatelliteWithoutTech": true,
+          "forceFirstLandingReward": false,
+          "grantRewards": true,
+          "rememberPreLandingOwnMarker": false,
+          "rememberPreLandingMarker": false,
+          "repeat": 1
+        },
+        "status": "pending"
+      },
+      "ownsOrange4": false,
+      "normal": {
+        "ok": true,
+        "planet": {
+          "planetId": "jupiter",
+          "label": "木星",
+          "name": "木星",
+          "wheelId": 3,
+          "baseX": 3,
+          "x": 3,
+          "y": 3,
+          "fixedAfterSetup": false
+        },
+        "choices": [
+          {
+            "planetId": "jupiter",
+            "target": {
+              "type": "planet",
+              "rocketId": 9
+            }
+          }
+        ]
+      },
+      "cardChoices": [
+        {
+          "planetId": "jupiter",
+          "target": {
+            "type": "planet",
+            "rocketId": 9
+          },
+          "cost": {},
+          "reward": "首次登陆：额外获得 2 个数据；获得 7 分；获得 1 个黄色外星人标记"
+        },
+        {
+          "planetId": "jupiter",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "io",
+            "rocketId": 9
+          },
+          "cost": {},
+          "reward": "获得 10 分；获得 4 能量"
+        },
+        {
+          "planetId": "jupiter",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "callisto",
+            "rocketId": 9
+          },
+          "cost": {},
+          "reward": "获得 13 分；获得 4 个数据"
+        },
+        {
+          "planetId": "jupiter",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "ganymede",
+            "rocketId": 9
+          },
+          "cost": {},
+          "reward": "获得 12 分；获得 5 宣传"
+        },
+        {
+          "planetId": "jupiter",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "europa",
+            "rocketId": 9
+          },
+          "cost": {},
+          "reward": "获得 7 分；获得黄色外星人标记 1/2；获得黄色外星人标记 2/2"
+        }
+      ],
+      "preview": {
+        "card": "b_34.webp",
+        "directScore": 7
+      },
+      "selection": {
+        "ok": true,
+        "card": {
+          "id": "card-66-0",
+          "cardId": "b_34.webp",
+          "set": "basic",
+          "cardName": "木卫二快船",
+          "src": "../assets/cards/basic/split/b_34.webp",
+          "faceUp": true,
+          "price": 2,
+          "cardTypeCode": 3,
+          "discardActionCode": 0,
+          "scanActionCode": 3,
+          "incomeCode": 0
+        },
+        "reserved": true,
+        "message": "打出 木卫二快船：请依次点击效果"
+      },
+      "steps": 7,
+      "endingResources": {
+        "credits": 0,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 25
+      },
+      "decisions": [],
+      "bugs": []
+    }
+  }
+}

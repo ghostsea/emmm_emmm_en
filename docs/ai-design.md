@@ -18,6 +18,11 @@
 
 ### 2026-09-06 当前验证状态
 
+- **打牌回合补给与登陆预览，后续开发证据**：3份真人寰宇日志的打牌主行动条目（含同条目快速行动/触发）平均出现9.66667能量获取，原AI24席为1.5；方舟等外星人组合不同且旧日志缺费用，不能当作卡牌因果产能。逐条复核，两次4能量来自木卫一登陆（虫族首次接触、b34木卫二快船），不是卡面直接资源；另有方舟奖励和蓝科技。见 [原始回合资源步骤](ai-validation/2026-09-06-human-ai-play-turns.json)。实际浏览器b34无橙4可选木星四颗卫星、skipCost=true，而旧scoreAiEffectValue/getAiEffectDirectScore通过普通actions.canExecute(land)只见主星，预估直接分7；见 [真实可选目标](ai-validation/2026-09-06-card-land-options-browser-diagnostic.json)。这是明确选项差异，后续应统一卡牌专属选项及选中目标的planetId，审核同类环绕/登陆估值与合法性；尚未修改此模型，不能宣称已提分。
+
+- **1707d517新随机64组的基础设施重试**：三个任务（候选33、候选34、基线34）在CDP Page.navigate/Runtime.evaluate 45秒超时，未生成游戏结果；原队列已退出，所有已派发任务结束，检查无残留测试Chrome。保留attempt1日志，按原冻结种子补跑失败与未派发任务，并发7降至4，评分/源码/种子/超时阈值未改。见 [重试记录](ai-validation/2026-09-06-play-card-intent-validation64-infrastructure-retry.json)。验证仍须完成全部64组，不接受子集结果。
+
+
 - **打牌实例意图修复1707d517完成固定24组**：顶层打牌记录实例并在当前合法选牌中沿用，过期或不可执行时回退。1132次打牌的预估实例、下一步真实选牌及同回合付款全部匹配，原基线4次不一致消除。整体224.73958→225.15625（+0.41667，配对SE 0.27488），寰宇0、大战略-0.375、作弊+1.02083；高分四分位+1.91667，胜者+1.41667。主行动35.125→35.09375、完整循环2.92708→2.91667，因此不能称为资源转化提升。52测试和两张同名b78不同实例的真实浏览器场景通过，48局0 bug、192席对账通过。见 [结果](ai-validation/2026-09-06-play-card-intent-development-results.json)、[全部实例与付款](ai-validation/2026-09-06-play-card-intent-development-runtime-audit.json)、[资源](ai-validation/2026-09-06-play-card-intent-development-resources.md)。修复尚在独立分支，下一步保持冻结并用新随机64组核对回归；不计为+10达标。
 
 

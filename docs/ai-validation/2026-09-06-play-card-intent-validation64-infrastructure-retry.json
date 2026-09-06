@@ -1,0 +1,23 @@
+{
+  "scope": "Three browser/CDP startup/evaluation timeouts with no game report. Preserve attempt1 logs and rerun those same frozen seeds; continue every unlaunched seed. All launched processes completed; no matching test Chrome processes remain. Reduce runner concurrency from7 to4. No source, scoring, seeds or CDP timeouts changed.",
+  "failed": [
+    {
+      "model": "candidate",
+      "n": 33,
+      "code": 1
+    },
+    {
+      "model": "candidate",
+      "n": 34,
+      "code": 1
+    },
+    {
+      "model": "base",
+      "n": 34,
+      "code": 1
+    }
+  ],
+  "pending": 63,
+  "sourceCommit": "1707d517967ba7bb62d9ee3196bd85324f1f2dd2",
+  "generatedAt": "2026-09-06T15:28:33.214Z"
+}
