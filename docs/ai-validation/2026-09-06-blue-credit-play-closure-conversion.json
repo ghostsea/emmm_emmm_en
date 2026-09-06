@@ -1,0 +1,596 @@
+{
+  "scope": "完整24组开发候选，实际选择信用蓝槽且记录正值新打牌衔接。nextMainSameCard按牌库cardId匹配，非实体实例；只表明后续行动一致性，不将其作为因果分数分解。",
+  "summary": {
+    "positiveCreditPlacements": 15,
+    "nextMainSameCard": 7,
+    "nextMainPlay": 7,
+    "nextMainPass": 0
+  },
+  "rows": [
+    {
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "id": 1055,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 89,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 1
+      },
+      "profile": {
+        "handIndex": 0,
+        "cardId": "b_62.webp",
+        "playScore": 27.011,
+        "currentBestScore": 0,
+        "paymentValue": 4.5,
+        "value": 4.5
+      },
+      "nextMain": {
+        "id": 1078,
+        "round": 3,
+        "turn": 8,
+        "action": "scan",
+        "cardId": null,
+        "resources": {
+          "score": 89,
+          "credits": 1,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 1
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "id": 682,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 62,
+        "credits": 2,
+        "energy": 5,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 6
+      },
+      "profile": {
+        "handIndex": 3,
+        "cardId": "b_4.webp",
+        "playScore": 49.068,
+        "currentBestScore": 27.115,
+        "paymentValue": 13.5,
+        "value": 13.5
+      },
+      "nextMain": {
+        "id": 737,
+        "round": 3,
+        "turn": 2,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 62,
+          "credits": 4,
+          "energy": 5,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "id": 769,
+      "round": 3,
+      "turn": 2,
+      "resources": {
+        "score": 54,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "handIndex": 2,
+        "cardId": "b_95.webp",
+        "playScore": 40.618,
+        "currentBestScore": 28.772,
+        "paymentValue": 13.5,
+        "value": 11.846
+      },
+      "nextMain": {
+        "id": 810,
+        "round": 3,
+        "turn": 3,
+        "action": "playCard",
+        "cardId": "b_95.webp",
+        "resources": {
+          "score": 54,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "id": 968,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 82,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "profile": {
+        "handIndex": 2,
+        "cardId": "fangzhou_yellow_1",
+        "playScore": 20.749,
+        "currentBestScore": 6.565,
+        "paymentValue": 9,
+        "value": 9
+      },
+      "nextMain": {
+        "id": 1010,
+        "round": 3,
+        "turn": 8,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 82,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 3
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "id": 685,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 37,
+        "credits": 2,
+        "energy": 6,
+        "publicity": 6,
+        "availableData": 3,
+        "handSize": 8
+      },
+      "profile": {
+        "handIndex": 1,
+        "cardId": "dlc_9.png",
+        "playScore": 52.005,
+        "currentBestScore": 37.884,
+        "paymentValue": 13.5,
+        "value": 13.5
+      },
+      "nextMain": {
+        "id": 714,
+        "round": 3,
+        "turn": 2,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 37,
+          "credits": 3,
+          "energy": 6,
+          "publicity": 6,
+          "availableData": 4,
+          "handSize": 7
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "id": 674,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 59,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "profile": {
+        "handIndex": 0,
+        "cardId": "fangzhou_blue_4",
+        "playScore": 23.042,
+        "currentBestScore": 0,
+        "paymentValue": 9,
+        "value": 9
+      },
+      "nextMain": {
+        "id": 701,
+        "round": 3,
+        "turn": 5,
+        "action": "land",
+        "cardId": null,
+        "resources": {
+          "score": 59,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "id": 941,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 90,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 5,
+        "handSize": 4
+      },
+      "profile": {
+        "handIndex": 0,
+        "cardId": "b_99.webp",
+        "playScore": 11.706,
+        "currentBestScore": 0,
+        "paymentValue": 4.5,
+        "value": 4.5
+      },
+      "nextMain": {
+        "id": 970,
+        "round": 3,
+        "turn": 7,
+        "action": "playCard",
+        "cardId": "b_99.webp",
+        "resources": {
+          "score": 90,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 3
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 12,
+      "company": "寰宇超动力",
+      "id": 841,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 65,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 0,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "profile": {
+        "handIndex": 1,
+        "cardId": "b_33.webp",
+        "playScore": 52.197,
+        "currentBestScore": 2.696,
+        "paymentValue": 13.5,
+        "value": 13.5
+      },
+      "nextMain": {
+        "id": 877,
+        "round": 3,
+        "turn": 8,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 65,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "id": 587,
+      "round": 2,
+      "turn": 9,
+      "resources": {
+        "score": 32,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "profile": {
+        "handIndex": 0,
+        "cardId": "fangzhou_pink_2",
+        "playScore": 8.418,
+        "currentBestScore": 0,
+        "paymentValue": 12,
+        "value": 8.418
+      },
+      "nextMain": {
+        "id": 608,
+        "round": 2,
+        "turn": 10,
+        "action": "playCard",
+        "cardId": "fangzhou_pink_2",
+        "resources": {
+          "score": 32,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "id": 984,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 93,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "profile": {
+        "handIndex": 0,
+        "cardId": "b_41.webp",
+        "playScore": 5.815,
+        "currentBestScore": 0,
+        "paymentValue": 4.5,
+        "value": 4.5
+      },
+      "nextMain": {
+        "id": 1003,
+        "round": 3,
+        "turn": 7,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 93,
+          "credits": 1,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 1,
+          "handSize": 3
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "id": 877,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 88,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 4,
+        "handSize": 5
+      },
+      "profile": {
+        "handIndex": 4,
+        "cardId": "aomomo_8.webp",
+        "playScore": 59.272,
+        "currentBestScore": 34.817,
+        "paymentValue": 13.5,
+        "value": 13.5
+      },
+      "nextMain": {
+        "id": 921,
+        "round": 3,
+        "turn": 5,
+        "action": "playCard",
+        "cardId": "aomomo_8.webp",
+        "resources": {
+          "score": 88,
+          "credits": 3,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 21,
+      "company": "寰宇超动力",
+      "id": 810,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 71,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "handIndex": 0,
+        "cardId": "b_66.webp",
+        "playScore": 37.655,
+        "currentBestScore": 25.659,
+        "paymentValue": 9,
+        "value": 9
+      },
+      "nextMain": {
+        "id": 849,
+        "round": 3,
+        "turn": 6,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 71,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 22,
+      "company": "寰宇超动力",
+      "id": 1047,
+      "round": 3,
+      "turn": 9,
+      "resources": {
+        "score": 71,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 4,
+        "handSize": 2
+      },
+      "profile": {
+        "handIndex": 1,
+        "cardId": "chong_2.webp",
+        "playScore": 15.853,
+        "currentBestScore": 0,
+        "paymentValue": 4.5,
+        "value": 4.5
+      },
+      "nextMain": {
+        "id": 1085,
+        "round": 3,
+        "turn": 10,
+        "action": "playCard",
+        "cardId": "chong_2.webp",
+        "resources": {
+          "score": 73,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 2
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "id": 516,
+      "round": 2,
+      "turn": 10,
+      "resources": {
+        "score": 65,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 2,
+        "handSize": 2
+      },
+      "profile": {
+        "handIndex": 1,
+        "cardId": "amiba_9.webp",
+        "playScore": 15.192,
+        "currentBestScore": 0,
+        "paymentValue": 12,
+        "value": 12
+      },
+      "nextMain": {
+        "id": 523,
+        "round": 2,
+        "turn": 10,
+        "action": "playCard",
+        "cardId": "amiba_9.webp",
+        "resources": {
+          "score": 65,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 2
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "id": 872,
+      "round": 3,
+      "turn": 3,
+      "resources": {
+        "score": 115,
+        "credits": 2,
+        "energy": 4,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "profile": {
+        "handIndex": 0,
+        "cardId": "b_21.webp",
+        "playScore": 36.351,
+        "currentBestScore": 27.559,
+        "paymentValue": 13.5,
+        "value": 8.792
+      },
+      "nextMain": {
+        "id": 892,
+        "round": 3,
+        "turn": 4,
+        "action": "playCard",
+        "cardId": "b_21.webp",
+        "resources": {
+          "score": 115,
+          "credits": 3,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 3
+        }
+      },
+      "sameCard": true
+    }
+  ]
+}
