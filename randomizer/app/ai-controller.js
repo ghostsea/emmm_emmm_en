@@ -2202,7 +2202,7 @@
           if (!coordinate) return false;
           const planet = getAiPlanetAtCoordinate(coordinate);
           if (planet && canAiPlanetAcceptLanding(planet.planetId, player)) return true;
-          return solar.createSolarSnapshot(solarState).planetLocations
+          return getAiPlanetLocations()
             .some((target) => target?.planetId !== "earth" && getAiSectorDistance(coordinate, target) <= 1);
         });
       return ownsSatelliteTech || hasNearPlanetRocket || getAiLiveScorePaceDeficit(player) > 25;
@@ -4292,7 +4292,7 @@
         const earth = getEarthSectorCoordinate?.();
         return earth ? { x: earth.x, y: earth.y } : null;
       }
-      const planet = solar.createSolarSnapshot(solarState).planetLocations
+      const planet = getAiPlanetLocations()
         .find((item) => item.planetId === planetId);
       return planet ? { x: planet.x, y: planet.y } : null;
     }
@@ -14191,7 +14191,7 @@
       if (!coordinate) return null;
       const x = solar.mod8(coordinate.x);
       const y = aiNumber(coordinate.y);
-      return solar.createSolarSnapshot(solarState).planetLocations
+      return getAiPlanetLocations()
         .find((planet) => planet.x === x && planet.y === y && planet.planetId !== "earth") || null;
     }
 
@@ -14238,7 +14238,7 @@
 
     function getAiNearestActionablePlanetRoute(coordinate, player = getCurrentPlayer()) {
       if (!coordinate || !player) return null;
-      return solar.createSolarSnapshot(solarState).planetLocations
+      return getAiPlanetLocations()
         .filter((planet) => (
           planet?.planetId
           && planet.planetId !== "earth"
@@ -14500,10 +14500,17 @@
       });
     }
 
+    function getAiPlanetLocations() {
+      // 行星查询无需构造边界、星云关系和静态轮盘等完整调试快照。
+      return solar.collectPlanetLocations
+        ? solar.collectPlanetLocations(solarState)
+        : solar.createSolarSnapshot(solarState).planetLocations;
+    }
+
     function getAiRouteTargets(player = getCurrentPlayer(), options = {}) {
       const demand = getAiStrategyDemand(player);
       const routeWeight = getAiStrategyWeight("route");
-      const targets = solar.createSolarSnapshot(solarState).planetLocations
+      const targets = getAiPlanetLocations()
         .filter((planet) => planet.planetId !== "earth")
         .map((planet) => {
           const satelliteOpportunity = getAiBestSatelliteLandingOpportunity(planet.planetId, player);
@@ -16378,7 +16385,7 @@
         estimatedRaceOutcome: null,
         estimatedFastestOpponentEta: null,
       };
-      for (const planet of solar.createSolarSnapshot(solarState).planetLocations || []) {
+      for (const planet of getAiPlanetLocations() || []) {
         if (!planet?.planetId || planet.planetId === "earth") continue;
         const routeDistance = getAiNearestRocketDistanceToPlanet(player, planet.planetId);
         for (const satellite of planetStats.getAvailableSatellitesForLanding?.(planetStatsState, planet.planetId) || []) {
@@ -18473,7 +18480,7 @@
         ? Math.min(11, 8 + getAiLiveScorePaceDeficit(player) * 0.06)
         : 0;
       const movePaymentCards = getAiMovePaymentCards(player).length;
-      const planets = solar.createSolarSnapshot(solarState).planetLocations || [];
+      const planets = getAiPlanetLocations() || [];
       const bestBlockedCashout = getMovableTokensForPlayer(player.id)
         .reduce((best, rocket) => {
           const coordinate = rocketActions.getRocketSectorCoordinate(rocket);

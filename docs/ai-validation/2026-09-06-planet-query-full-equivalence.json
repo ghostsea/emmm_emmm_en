@@ -1,0 +1,44 @@
+{
+  "completedAt": "2026-09-06T05:03:01.357Z",
+  "commit": "00609c58c379b7e16f1bc4c827e4b6dc58969cfa",
+  "frozenController": "8704bc58743995f239f272ea104baf10db05128aeafef39cbe1ca22e12b6fd9f",
+  "frozenApp": "883b9772d07dbd44c439ed9257ee1259cb284581dff731de332ae739f43ab21b",
+  "results": [
+    {
+      "case": 8,
+      "startedAt": "2026-09-06T05:02:01.605Z",
+      "completedAt": "2026-09-06T05:02:36.515Z",
+      "baseline": "tracefinal-base-8.json",
+      "replay": "planet-query-v2-replay-8.json",
+      "playersEqual": true,
+      "decisionsEqual": true,
+      "logs": 1622,
+      "steps": 1557,
+      "scores": [
+        333,
+        285,
+        205,
+        241
+      ],
+      "bugCount": 0
+    },
+    {
+      "case": 11,
+      "startedAt": "2026-09-06T05:02:36.520Z",
+      "completedAt": "2026-09-06T05:03:01.357Z",
+      "baseline": "tracefinal-base-11.json",
+      "replay": "planet-query-v2-replay-11.json",
+      "playersEqual": true,
+      "decisionsEqual": true,
+      "logs": 1417,
+      "steps": 1356,
+      "scores": [
+        223,
+        297,
+        201,
+        212
+      ],
+      "bugCount": 0
+    }
+  ]
+}

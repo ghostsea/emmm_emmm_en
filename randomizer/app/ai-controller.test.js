@@ -261,7 +261,8 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     solar: {
       createBaselineState: () => ({}),
       mod8: (value) => ((Math.round(Number(value) || 0) % 8) + 8) % 8,
-      createSolarSnapshot: () => ({ planetLocations: options.planetLocations || [] }),
+      collectPlanetLocations: () => options.planetLocations || [],
+      createSolarSnapshot: () => { throw new Error("AI planet queries must use the lightweight planet interface"); },
       collectVisibleCoordinateGroups: () => ({ asteroids: [], comets: [] }),
       collectVisibleCoordinateReport: () => [],
     },
