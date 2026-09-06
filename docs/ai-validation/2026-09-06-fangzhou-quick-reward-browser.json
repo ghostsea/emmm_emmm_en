@@ -1,0 +1,551 @@
+{
+  "scope": "Fixture forces selecting an actual generated quick candidate and sets the next reward to index0 to verify execution; valuation averages only the public remaining set.",
+  "candidate": {
+    "id": "cardCorner",
+    "kind": "quick",
+    "available": true,
+    "handIndex": 0,
+    "cardId": "fangzhou_pink_2",
+    "cardInstanceId": "fangzhou-quick-real",
+    "cardLabel": "方舟粉色痕迹 2",
+    "actionKind": "fangzhou_basic",
+    "directScoreGain": 0,
+    "gain": 7.687399999999999,
+    "cost": 5.5,
+    "score": 2.1873999999999993,
+    "finalFormulaDeltas": {},
+    "valueBreakdown": {
+      "rewardValue": 7.687399999999999,
+      "discardCost": 5.5,
+      "incomePreserve": 5.1545440000000005,
+      "opportunityCost": 5.5,
+      "fangzhouBasicReward": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 7.687399999999999
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 0,
+          "score": 60
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      }
+    }
+  },
+  "step": {
+    "ok": true,
+    "flipResult": {
+      "ok": true,
+      "index": 0,
+      "tier": "basic",
+      "effect": {
+        "gain": {
+          "score": 1,
+          "energy": 1
+        }
+      },
+      "definition": {
+        "index": 0,
+        "label": "方舟奖励 0",
+        "basic": {
+          "gain": {
+            "score": 1,
+            "energy": 1
+          }
+        },
+        "advanced": {
+          "gain": {
+            "energy": 2
+          },
+          "alienTrace": "yellow"
+        }
+      },
+      "src": "../assets/aliens/方舟/cards/0.webp",
+      "label": "方舟奖励 0",
+      "message": "方舟基础奖励：方舟奖励 0",
+      "reshuffled": false
+    },
+    "flips": [
+      {
+        "ok": true,
+        "index": 0,
+        "tier": "basic",
+        "effect": {
+          "gain": {
+            "score": 1,
+            "energy": 1
+          }
+        },
+        "definition": {
+          "index": 0,
+          "label": "方舟奖励 0",
+          "basic": {
+            "gain": {
+              "score": 1,
+              "energy": 1
+            }
+          },
+          "advanced": {
+            "gain": {
+              "energy": 2
+            },
+            "alienTrace": "yellow"
+          }
+        },
+        "src": "../assets/aliens/方舟/cards/0.webp",
+        "label": "方舟奖励 0",
+        "message": "方舟基础奖励：方舟奖励 0",
+        "reshuffled": false
+      }
+    ],
+    "repeat": 1,
+    "message": "方舟基础奖励：方舟奖励 0",
+    "followUps": [
+      {
+        "type": "gain_resources",
+        "label": "方舟奖励 0：1分数",
+        "icon": "score",
+        "options": {
+          "gain": {
+            "score": 1
+          },
+          "targetPlayerId": "player-blue",
+          "targetPlayerColor": "blue",
+          "scoreSourceKey": "alienCardQuickScore"
+        }
+      },
+      {
+        "type": "gain_resources",
+        "label": "方舟奖励 0：1能量",
+        "icon": "energy",
+        "options": {
+          "gain": {
+            "energy": 1
+          },
+          "targetPlayerId": "player-blue",
+          "targetPlayerColor": "blue",
+          "scoreSourceKey": "alienCardQuickScore"
+        }
+      }
+    ]
+  },
+  "steps": 2,
+  "resourcesAfter": {
+    "credits": 0,
+    "energy": 1,
+    "publicity": 3,
+    "availableData": 0,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 0,
+    "score": 61
+  },
+  "bugs": [],
+  "mainAvailableAfter": true,
+  "logs": [
+    {
+      "id": 30,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "playerResources": {
+        "score": 8,
+        "credits": 4,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 4,
+        "handSize": 7
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 3,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 2,
+          "handSize": 3,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 8,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 8,
+          "credits": 4,
+          "energy": 5,
+          "publicity": 2,
+          "availableData": 2,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 8,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 4,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：作弊实验室：收入增加 4/4",
+      "details": {
+        "logPlayerId": "player-white",
+        "effectId": "initial-income-player-white-4",
+        "effectType": "initial_income"
+      },
+      "createdAt": "2026-09-06T13:09:21.924Z"
+    },
+    {
+      "id": 33,
+      "type": "card-corner",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "playerResources": {
+        "score": 60,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 60,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 8,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 8,
+          "credits": 4,
+          "energy": 5,
+          "publicity": 2,
+          "availableData": 2,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 8,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 4,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "蓝色AI 使用手牌角标 方舟粉色痕迹 2",
+      "details": {
+        "action": {
+          "id": "cardCorner",
+          "kind": "quick",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "fangzhou_pink_2",
+          "cardInstanceId": "fangzhou-quick-real",
+          "cardLabel": "方舟粉色痕迹 2",
+          "actionKind": "fangzhou_basic",
+          "directScoreGain": 0,
+          "gain": 7.687399999999999,
+          "cost": 5.5,
+          "score": 2.1873999999999993,
+          "finalFormulaDeltas": {},
+          "valueBreakdown": {
+            "rewardValue": 7.687399999999999,
+            "discardCost": 5.5,
+            "incomePreserve": 5.1545440000000005,
+            "opportunityCost": 5.5,
+            "fangzhouBasicReward": {
+              "count": 1,
+              "rewards": [
+                {
+                  "indexes": [
+                    0,
+                    5,
+                    6,
+                    7,
+                    8
+                  ],
+                  "meanValue": 7.687399999999999
+                }
+              ],
+              "afterDiscard": {
+                "credits": 0,
+                "energy": 0,
+                "publicity": 3,
+                "availableData": 0,
+                "aomomoFossils": 0,
+                "additionalPublicScan": 0,
+                "handSize": 0,
+                "score": 60
+              },
+              "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+            }
+          },
+          "actionGraph": {
+            "gain": 7.687,
+            "cost": 5.5,
+            "finalMarginal": 0,
+            "goalBonus": 12.32,
+            "feasibility": 1,
+            "net": 14.507
+          },
+          "breakdown": {
+            "rewardValue": 7.687399999999999,
+            "discardCost": 5.5,
+            "incomePreserve": 5.1545440000000005,
+            "opportunityCost": 5.5,
+            "fangzhouBasicReward": {
+              "count": 1,
+              "rewards": [
+                {
+                  "indexes": [
+                    0,
+                    5,
+                    6,
+                    7,
+                    8
+                  ],
+                  "meanValue": 7.687399999999999
+                }
+              ],
+              "afterDiscard": {
+                "credits": 0,
+                "energy": 0,
+                "publicity": 3,
+                "availableData": 0,
+                "aomomoFossils": 0,
+                "additionalPublicScan": 0,
+                "handSize": 0,
+                "score": 60
+              },
+              "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+            },
+            "existingScore": 2.187,
+            "gain": 7.687,
+            "cost": 5.5,
+            "finalMarginal": 0,
+            "finalMarkCashout": 0,
+            "missingFinalMarkPenalty": 0,
+            "goalBonus": 12.32,
+            "feasibility": 1,
+            "net": 14.507
+          }
+        }
+      },
+      "createdAt": "2026-09-06T13:09:21.988Z"
+    },
+    {
+      "id": 34,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "playerResources": {
+        "score": 60,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 60,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 0,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 8,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 8,
+          "credits": 4,
+          "energy": 5,
+          "publicity": 2,
+          "availableData": 2,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 8,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 4,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：方舟奖励 0：1分数",
+      "details": {
+        "logPlayerId": "player-blue",
+        "effectId": "ability-chain-node-0",
+        "effectType": "gain_resources"
+      },
+      "createdAt": "2026-09-06T13:09:22.003Z"
+    },
+    {
+      "id": 35,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "playerResources": {
+        "score": 61,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 61,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 0,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 8,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 8,
+          "credits": 4,
+          "energy": 5,
+          "publicity": 2,
+          "availableData": 2,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 8,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 4,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：方舟奖励 0：1能量",
+      "details": {
+        "logPlayerId": "player-blue",
+        "effectId": "ability-chain-node-1",
+        "effectType": "gain_resources"
+      },
+      "createdAt": "2026-09-06T13:09:22.011Z"
+    }
+  ]
+}
