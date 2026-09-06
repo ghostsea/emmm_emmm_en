@@ -18,6 +18,14 @@
 
 ### 2026-09-06 当前验证状态
 
+- 二因素组合40af1f67已冻结：只组合能量供给6571069d与扫描类型覆盖45426d27，不加入目标预览/信用调价。52项回归通过，同24组基线/仅能量/仅覆盖已完成，组合补齐第四组，用逐种子交互项验证共同收益而非相加推断。见 [计划](ai-validation/2026-09-06-energy-scan-coverage-development-plan.json)。
+
+- 首节点目标fc439896：63次实际play-card选择预览通过同玩家/实例/轮次连到行动历史，数据量与槽位分均63/63吻合，目标62/63；1次公共扫描因预览直接混排全部牌目标而实际先选牌再选目标导致不同，未影响该次数据/槽位分。见 [完整结果](ai-validation/2026-09-06-card-scan-target-preview-development-results.json)、[运行时核对](ai-validation/2026-09-06-card-scan-target-preview-runtime-audit.json)、[资源](ai-validation/2026-09-06-card-scan-target-preview-development-resources.md)。修正版fa51eb8b复用getAiBestPublicScanSlots后只预览选中牌目标，新测试刻意让两级选择与混排选择不同，52回归通过；完整24重跑中，见 [计划](ai-validation/2026-09-06-card-scan-public-preview-development-plan.json)。
+
+- 扫描类型覆盖45426d27：固定星云card_scan_nebula与任意扇区card_any_sector_scan原先落入未知卡牌2分分支，重复次数丢失；与同类扫描统一为次数×3/4.5并保留原科技项后，真实b_100两次扫描估值由2变9。52回归通过。完整24组整体+3.8125（标准误3.2566213）、寰宇+7.4583333、大战略-8、作弊实验室+7.8958333，高分四分位+13.4166667；主行动35.125→35.594，打牌11.833→12.365，仍未接受。24局0 bug、192席对账通过，见 [结果](ai-validation/2026-09-06-card-scan-coverage-development-results.json)、[资源](ai-validation/2026-09-06-card-scan-coverage-development-resources.md)。
+
+- 独立延伸fc439896：对全牌只有一个扫描且处于首节点的卡，预览固定/任意/颜色/指定扇区/星球扇区/单次公共扫描目标。沿用扫描选择评分器挑当前目标，但只替代节点估值中的信号、真实槽位分、数据及后续利用；不把目标评分器战略总分叠加到原需求、路线、免费行动项。固定与任意扇区重复锁定同目标，满槽后不再给数据，数据池容量限制实际获得量；原该节点科技数量溢价被替换。前置状态变化、多扫描节点及其他重复仍使用原模型；未完整预测未来扇区奖励/卡牌触发。真实数据替换器两次槽位分验证、满槽/容量/奥陌陌颜色范围及状态未突变测试通过，52回归通过，完整24整体+4.03125（标准误3.4898699），寰宇+7.375、大战略-9.8333333，高分四分位+15.5833333；未接受。见 [计划](ai-validation/2026-09-06-card-scan-target-preview-development-plan.json)。
+
 - 寰宇能量范围对照4a19e6fc未解决大战略回落。24局正常终局0 bug、192席对账通过；12401条决策帧中2590条寰宇供给画像与玩家/库存/公式一致，其他公司无调价画像。全桌主行动35.125→35.167，分析仍3.927，仅资源价格调整没有形成目标所需的行动增量，+10仍未达成。见 [完整结果](ai-validation/2026-09-06-huanyu-energy-supply-development-results.json)、[资源](ai-validation/2026-09-06-huanyu-energy-supply-development-resources.md)。本轮四个有效供给候选均未接受，不基于这些已见种子宣称泛化提升。
 
 - 后续待核查方向：卡牌扫描的即时效果当前主要用固定次数×3/4.5，再另加standardActionPremium与路线计划；实际扫描选择器scoreAiNebulaScanChoice读取具体星云槽位、任务、控制与外星人奖励。先审计三部分重叠及卡牌效果合法目标映射，再考虑让打牌估值使用实际目标；不能直接叠加完整扫描分数而重复计入已有计划/奖励。此前full-scan-card-count仅改次数1→2的24组结果已拒绝，不等同于这项尚未实现的目标估值审计。
