@@ -19444,7 +19444,48 @@
       ));
     }
 
+    function buildAiRunezuCornerQuickCandidate(card, handIndex, player, options = {}) {
+      if (!runezu?.isRunezuCard?.(card) || player?.hand?.[handIndex] !== card) return null;
+      if ((turnState.passedPlayerIds || []).includes(player.id)) return null;
+      const match = String(card.discardActionCode || "").match(/^s_([1-7])$/);
+      if (!match) return null;
+      const symbolId = "symbol_" + match[1];
+      const resolved = runezu.getTraceFaceRewardForSymbol?.(alienGameState, symbolId);
+      if (!resolved?.ok || !resolved.reward) return null;
+      const count = industry?.shouldDoubleDiscardCornerRewards?.(player) ? 2 : 1;
+      const reward = { ...resolved.reward,
+        gain: Object.fromEntries(Object.entries(resolved.reward.gain || {}).map(([key, value]) => [key, aiNumber(value) * count])),
+        dataCount: aiNumber(resolved.reward.dataCount) * count,
+        drawCards: aiNumber(resolved.reward.drawCards) * count,
+      };
+      const projected = cloneAiValue(player);
+      projected.hand.splice(handIndex, 1);
+      projected.resources.handSize = Math.max(0, aiNumber(projected.resources.handSize) - 1);
+      const rewardValue = scoreAiAlienRewardBundle(reward, projected);
+      const playCandidate = options.playCandidateByIndex?.get(handIndex) || null;
+      const model = cardEffects.getCardModel?.(card) || null;
+      const discardCost = getAiDiscardedCardOpportunityCost(card, playCandidate);
+      const taskPreserve = model?.tasks?.length ? scoreAiUnplayedTaskCardPreserveValue(card, model, playCandidate, player) : 0;
+      const finalPreserve = Math.max(0, scoreAiCardEndGameExpectedValue(card, model, player));
+      const income = cards.getIncomeGainForCard?.(card);
+      const incomePreserve = income ? Math.max(0, scoreAiIncomeOpportunityValue(player, income)) * 0.2 : 0;
+      const opportunityCost = Math.max(discardCost, taskPreserve, finalPreserve, incomePreserve);
+      const score = rewardValue - opportunityCost;
+      if (score <= 0) return null;
+      return { id: "cardCorner", kind: "quick", available: true, handIndex,
+        cardId: card.cardId || card.id, cardInstanceId: card.id,
+        cardLabel: getAiCardDisplayLabel({ card, cardId: card.cardId || card.id }, player),
+        actionKind: "runezu_symbol", symbolId, reward,
+        directScoreGain: Math.max(0, aiNumber(reward.gain.score)),
+        gain: rewardValue, cost: opportunityCost, score, finalFormulaDeltas: {},
+        valueBreakdown: { rewardValue, discardCost, taskPreserve, finalPreserve, incomePreserve, opportunityCost,
+          runezuCorner: { symbolId, position: resolved.position, count, reward, afterDiscard: { ...projected.resources },
+            scope: "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation" } },
+      };
+    }
+
     function buildAiCardCornerQuickCandidate(card, handIndex, currentPlayer, options = {}) {
+      if (runezu?.isRunezuCard?.(card)) return buildAiRunezuCornerQuickCandidate(card, handIndex, currentPlayer, options);
       if (!card) return null;
       const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
       if (moveReward && !canAiUseCardCornerMoveThisTurn(currentPlayer?.id)) return null;
@@ -26701,6 +26742,7 @@
 
     return {
       aiNumber,
+      buildAiRunezuCornerQuickCandidate,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,
       applyAiStrategyWeight,

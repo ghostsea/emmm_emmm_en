@@ -17109,3 +17109,29 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+ const card=runezu.createAlienCard(7,999);
+ const symbolId='symbol_'+card.discardActionCode.slice(2);
+ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
+  industry:industryModule,canStartMainAction:true,recordCardCorner:true,blueHand:[card],
+  blueResources:{credits:0,energy:0,score:10,handSize:1},runezuQuick:true,
+  runezuFaceSymbolSlots:{1:symbolId},chooseTurnAction:cs=>cs.find(c=>c.actionKind==='runezu_symbol')||null});
+ const before=JSON.stringify(h.blue);
+ const candidate=h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue);
+ assert.ok(candidate,'mapped energy reward on an unaffordable immediate card should be considered');
+ assert.equal(candidate.reward.gain.energy,1);assert.equal(candidate.valueBreakdown.runezuCorner.position,1);
+ assert.equal(candidate.valueBreakdown.runezuCorner.afterDiscard.handSize,0);
+ assert.equal(JSON.stringify(h.blue),before,'valuation must not mutate hand or resources');
+ assert.equal(h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue,{playCandidateByIndex:new Map([[0,{score:200}]])}),null,'valuable playable card is preserved');
+ h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+ assert.equal(h.controller.runAiAutomationStep().ok,true);
+ assert.deepEqual(h.getHandled(),{type:'card-corner',handIndex:0,confirmed:true});
+ h.blue.initialSelection={industry:{label:'原教旨主义'}};
+ const doubled=h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue);
+ assert.equal(doubled.reward.gain.energy,2);assert.equal(doubled.valueBreakdown.runezuCorner.count,2);
+ h.turnState.passedPlayerIds=[h.blue.id];
+ assert.equal(h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue),null);
+ const missing=createAiControllerHarness(null,{currentPlayerColor:'blue',blueHand:[card],runezuQuick:true});
+ assert.equal(missing.controller.buildAiRunezuCornerQuickCandidate(card,0,missing.blue),null,'unmapped symbols have no reward');
+}
