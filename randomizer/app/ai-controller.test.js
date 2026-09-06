@@ -17307,3 +17307,31 @@ runAsyncControllerTests()
   assert.equal(profile.nebulaId, ids[1], "public preview must rank public cards including flexibility before ranking that card's targets");
   assert.equal(profile.slotScore, 9.9);
 }
+
+{
+  const realData = require("../game/data"), scanState = realData.createDefaultNebulaDataState();
+  for (const id of ["sector-1-a", "sector-3-b", "sector-2-a"]) realData.fillNebulaData(scanState, id, { source: "test" });
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { availableData: 0 }, techCounts: { orange: 1, purple: 1, blue: 1 },
+    nebulaDataState: scanState, data: realData });
+  for (const cardId of ["b_100.webp", "b_102.webp", "b_114.webp"]) {
+    const effects = cardEffects.buildPlayEffects({ cardId }), before = JSON.stringify(effects);
+    assert.equal(effects.length, 2);
+    const preview = h.controller.buildAiCardScanTargetPreview(effects, h.blue);
+    assert.equal(preview.repeat, 2);
+    assert.equal(preview.dataGain, 2);
+    assert.equal(preview.previousValue, effects.reduce((sum,e)=>sum+h.controller.scoreAiEffectValue(e,{player:h.blue,immediate:true}),0),
+      "subtract both expanded nodes, including both original tech terms");
+    const modeled = h.controller.buildAiCardScanTargetPreview(cardEffects.getCardModel({cardId}).playEffects,h.blue);
+    assert.equal(preview.value, modeled.value);
+    assert.equal(JSON.stringify(effects), before);
+    assert.equal(h.controller.buildAiCardScanTargetPreview([effects[0],{type:"gain_resources"},effects[1]],h.blue),null);
+    assert.equal(h.controller.buildAiCardScanTargetPreview([effects[0],{...effects[1],options:{...effects[1].options,nebulaId:"other"}}],h.blue),null);
+  }
+  const effects=cardEffects.buildPlayEffects({cardId:"b_100.webp"});
+  for(let i=0;i<4;i++)realData.replaceNextNebulaDataToken(scanState,"sector-1-a",h.white);
+  const scarce=h.controller.buildAiCardScanTargetPreview(effects,h.blue);
+  assert.equal(scarce.dataGain,1);assert.equal(scarce.extraMarks,1);
+  h.blue.resources.availableData=6;
+  assert.equal(h.controller.buildAiCardScanTargetPreview(effects,h.blue).dataGain,0);
+}

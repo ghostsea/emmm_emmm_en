@@ -10634,6 +10634,22 @@
 
     function buildAiCardScanTargetPreview(playEffects = [], player = getCurrentPlayer()) {
       // Only the first node can use the current board without projecting earlier effects.
+      // Fixed nebula repeats expand to consecutive nodes but retain exactly the same target.
+      // Preserve the original nodes when subtracting their old value, including per-node tech terms.
+      const fixedNodes = [];
+      const first = playEffects[0];
+      const firstMatch = String(first?.id || "").match(/^(.*)-1$/);
+      if (first?.type === cardEffects.EFFECT_TYPES.SCAN_NEBULA && firstMatch
+        && Number(first.options?.repeat) === 1) {
+        const optionKey = node => JSON.stringify({ ...(node?.options || {}), repeat: 1 });
+        for (const node of playEffects) {
+          if (node?.type !== first.type || node.id !== firstMatch[1] + "-" + (fixedNodes.length + 1)
+            || Number(node.options?.repeat) !== 1 || optionKey(node) !== optionKey(first)) break;
+          fixedNodes.push(node);
+        }
+        if (fixedNodes.length > 1) playEffects = [{ ...first,
+          options: { ...first.options, repeat: fixedNodes.length } }, ...playEffects.slice(fixedNodes.length)];
+      }
       const scanEffectsInCard = playEffects.filter(effect => isAiCardScanEffectType(effect?.type));
       if (scanEffectsInCard.length !== 1 || scanEffectsInCard[0] !== playEffects[0]) return null;
       const effect = scanEffectsInCard[0];
@@ -10680,7 +10696,9 @@
       // The target selector's strategic score is not added: demand/route/free-action terms remain separate.
       const value = replaced * 3 + extraMarks * 0.25 + slotScore
         + dataGain * AI_RESOURCE_VALUES.availableData + continuation;
-      const previousValue = scoreAiEffectValue(effect, { player, immediate: true });
+      const previousValue = fixedNodes.length > 1
+        ? fixedNodes.reduce((sum, node) => sum + scoreAiEffectValue(node, { player, immediate: true }), 0)
+        : scoreAiEffectValue(effect, { player, immediate: true });
       return { effectId: effect.id || null, effectType: effect.type, nebulaId, repeat,
         replaced, extraMarks, dataGain, slotScore, continuation: roundAiScore(continuation),
         value: roundAiScore(value), previousValue: roundAiScore(previousValue),
