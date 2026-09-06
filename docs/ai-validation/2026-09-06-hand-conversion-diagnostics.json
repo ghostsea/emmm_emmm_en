@@ -1,0 +1,423 @@
+{
+  "generatedAt": "2026-09-06T07:21:39.878Z",
+  "sinks": {
+    "scope": "88 seen baseline games. Resource events classify visible net negative hand deltas; exchanges and simultaneous draws can hide gross card consumption. Discard decisions separately count selected cards, not additional resource debits. These two views must not be added together.",
+    "groups": {
+      "作弊实验室": {
+        "seats": 176,
+        "sinks": {
+          "main/playCard/card": 13.028409090909092,
+          "setup/none/income_upgrade_immediate": 3.2045454545454546,
+          "main/scan/planet_board": 2.8579545454545454,
+          "quick/playCard/card": 2.6193181818181817,
+          "playCard/none/card": 1.6079545454545454,
+          "quick/scan/data_placement": 1.4829545454545454,
+          "quick/researchTech/card": 1.4829545454545454,
+          "quick/scan/card": 1.4375,
+          "scan/none/card": 1.2159090909090908,
+          "analyze/none/card": 1.2159090909090908,
+          "quick/analyze/data_placement": 0.7613636363636364,
+          "land/none/card": 0.6761363636363636,
+          "researchTech/none/card": 0.5568181818181818,
+          "quick/analyze/card": 0.5511363636363636,
+          "quick/land/card": 0.5,
+          "main/orbit/income_upgrade_immediate": 0.44886363636363635,
+          "main/scan/alien": 0.4034090909090909,
+          "main/playCard/alien": 0.4034090909090909,
+          "quick/land/data_placement": 0.2727272727272727,
+          "main/land/income_upgrade_immediate": 0.2556818181818182,
+          "quick/researchTech/tech_bonus_other": 0.2215909090909091,
+          "launch/none/card": 0.20454545454545456,
+          "pass/none/card": 0.19318181818181818,
+          "quick/launch/card": 0.19318181818181818,
+          "quick/pass/card": 0.11931818181818182,
+          "orbit/none/card": 0.11931818181818182,
+          "main/playCard/income_upgrade_immediate": 0.10795454545454546,
+          "quick/orbit/card": 0.07386363636363637,
+          "quick/orbit/data_placement": 0.056818181818181816,
+          "quick/playCard/income_upgrade_immediate": 0.028409090909090908,
+          "quick/analyze/income_upgrade_immediate": 0.011363636363636364,
+          "quick/pass/data_placement": 0.005681818181818182,
+          "quick/land/income_upgrade_immediate": 0.005681818181818182
+        },
+        "discards": {
+          "place_data_income/none": 4.670454545454546,
+          "initial_income/none": 4,
+          "trade/cards-for-energy": 1.6022727272727273,
+          "planet_reward_income/none": 1.0454545454545454,
+          "trade/cards-for-credit": 0.38636363636363635,
+          "pass_hand_limit/none": 0.14772727272727273
+        }
+      },
+      "寰宇超动力": {
+        "seats": 88,
+        "sinks": {
+          "main/playCard/card": 9.022727272727273,
+          "playCard/none/card": 1.8181818181818181,
+          "quick/playCard/card": 1.6022727272727273,
+          "land/none/card": 1.4204545454545454,
+          "quick/researchTech/card": 1.3977272727272727,
+          "setup/initialIncome/income_upgrade_immediate": 1.3181818181818181,
+          "analyze/none/card": 1.1022727272727273,
+          "quick/land/card": 1,
+          "main/orbit/income_upgrade_immediate": 0.9545454545454546,
+          "quick/scan/data_placement": 0.8636363636363636,
+          "researchTech/none/card": 0.8409090909090909,
+          "scan/none/card": 0.7840909090909091,
+          "quick/land/data_placement": 0.5568181818181818,
+          "main/scan/planet_board": 0.5113636363636364,
+          "main/playCard/alien": 0.4090909090909091,
+          "quick/scan/card": 0.3409090909090909,
+          "pass/none/card": 0.3068181818181818,
+          "quick/researchTech/tech_bonus_other": 0.3068181818181818,
+          "quick/analyze/card": 0.26136363636363635,
+          "quick/analyze/data_placement": 0.26136363636363635,
+          "quick/pass/card": 0.23863636363636365,
+          "orbit/none/card": 0.22727272727272727,
+          "quick/orbit/card": 0.20454545454545456,
+          "main/land/income_upgrade_immediate": 0.17045454545454544,
+          "main/scan/alien": 0.125,
+          "quick/orbit/data_placement": 0.09090909090909091,
+          "launch/none/card": 0.07954545454545454,
+          "main/playCard/income_upgrade_immediate": 0.03409090909090909,
+          "quick/playCard/income_upgrade_immediate": 0.03409090909090909,
+          "quick/launch/card": 0.022727272727272728,
+          "quick/land/income_upgrade_immediate": 0.011363636363636364
+        },
+        "discards": {
+          "place_data_income/none": 3.1818181818181817,
+          "initial_income/none": 2,
+          "trade/cards-for-energy": 1.5681818181818181,
+          "planet_reward_income/none": 1.5,
+          "trade/cards-for-credit": 0.8636363636363636,
+          "pass_hand_limit/none": 0.14772727272727273
+        }
+      },
+      "宇宙大战略集团": {
+        "seats": 88,
+        "sinks": {
+          "main/playCard/card": 12.511363636363637,
+          "quick/playCard/card": 4.738636363636363,
+          "playCard/none/card": 2.215909090909091,
+          "setup/none/income_upgrade_immediate": 2.1704545454545454,
+          "analyze/none/card": 1.2613636363636365,
+          "main/scan/planet_board": 1.2386363636363635,
+          "scan/none/card": 1.1363636363636365,
+          "quick/researchTech/card": 1.0909090909090908,
+          "quick/scan/data_placement": 1.0909090909090908,
+          "quick/scan/card": 0.9090909090909091,
+          "quick/analyze/card": 0.6590909090909091,
+          "land/none/card": 0.5795454545454546,
+          "quick/analyze/data_placement": 0.5,
+          "researchTech/none/card": 0.48863636363636365,
+          "main/orbit/income_upgrade_immediate": 0.45454545454545453,
+          "main/land/income_upgrade_immediate": 0.4318181818181818,
+          "quick/land/card": 0.4090909090909091,
+          "pass/none/card": 0.375,
+          "main/playCard/alien": 0.375,
+          "launch/none/card": 0.23863636363636365,
+          "quick/pass/card": 0.19318181818181818,
+          "quick/researchTech/tech_bonus_other": 0.18181818181818182,
+          "quick/land/data_placement": 0.17045454545454544,
+          "quick/launch/card": 0.1590909090909091,
+          "quick/playCard/income_upgrade_immediate": 0.125,
+          "orbit/none/card": 0.11363636363636363,
+          "main/playCard/income_upgrade_immediate": 0.11363636363636363,
+          "main/scan/alien": 0.10227272727272728,
+          "quick/orbit/card": 0.07954545454545454,
+          "quick/land/income_upgrade_immediate": 0.03409090909090909,
+          "quick/orbit/data_placement": 0.03409090909090909,
+          "quick/scan/income_upgrade_immediate": 0.011363636363636364,
+          "quick/analyze/income_upgrade_immediate": 0.011363636363636364
+        },
+        "discards": {
+          "place_data_income/none": 4.261363636363637,
+          "initial_income/none": 3,
+          "trade/cards-for-credit": 1.4772727272727273,
+          "planet_reward_income/none": 1.4090909090909092,
+          "trade/cards-for-energy": 1.3409090909090908,
+          "pass_hand_limit/none": 0.2840909090909091
+        }
+      }
+    }
+  },
+  "corner": {
+    "scope": "88 seen baseline games. Actual selected corner actions and current positive-play-value indicator; discarding a playable card is not necessarily a mistake. Explicit history instance matching is reported separately and can be incomplete for movement. Counts are not causal evidence.",
+    "groups": {
+      "寰宇超动力": {
+        "seats": 88,
+        "perGame": 5.034090909090909,
+        "postMain": 4.204545454545454,
+        "hadPositivePlayableValue": 0.9431818181818182,
+        "earlyPositivePlayablePostMain": 0.3977272727272727,
+        "explicitDiscardMatch": 0.5914221218961625,
+        "labels": {
+          "弃牌换1宣传": 2.2386363636363638,
+          "弃牌换1数据": 1.2045454545454546,
+          "弃牌换1移动": 1.125,
+          "弃牌换2宣传": 0.2159090909090909,
+          "弃牌换1数据+1分": 0.125,
+          "弃牌换1移动+1分": 0.125
+        }
+      },
+      "宇宙大战略集团": {
+        "seats": 88,
+        "perGame": 7.5227272727272725,
+        "postMain": 7.1022727272727275,
+        "hadPositivePlayableValue": 0.8977272727272727,
+        "earlyPositivePlayablePostMain": 0.5,
+        "explicitDiscardMatch": 0.6329305135951662,
+        "labels": {
+          "弃牌换1宣传": 3.8295454545454546,
+          "弃牌换1数据": 2.0568181818181817,
+          "弃牌换1移动": 1.1818181818181819,
+          "弃牌换2宣传": 0.18181818181818182,
+          "弃牌换1数据+1分": 0.18181818181818182,
+          "弃牌换1移动+1分": 0.09090909090909091
+        }
+      },
+      "作弊实验室": {
+        "seats": 176,
+        "perGame": 6.982954545454546,
+        "postMain": 6.443181818181818,
+        "hadPositivePlayableValue": 0.875,
+        "earlyPositivePlayablePostMain": 0.5511363636363636,
+        "explicitDiscardMatch": 0.6476810414971521,
+        "labels": {
+          "弃牌换1宣传": 3.2556818181818183,
+          "弃牌换1数据": 1.9318181818181819,
+          "弃牌换1移动": 1.3011363636363635,
+          "弃牌换2宣传": 0.19886363636363635,
+          "弃牌换1数据+1分": 0.17613636363636365,
+          "弃牌换1移动+1分": 0.11931818181818182
+        }
+      }
+    }
+  },
+  "human": {
+    "scope": "Human: 3 white seats per company, count only explicit negative hand payment steps for card-corner actions; following move settlement steps excluded, multiple quick actions in one main entry remain separate. Missing historical payments can undercount. AI: 88 baseline seats per company, selected corner decisions; exact history card-instance matching is incomplete, so count definitions differ. Descriptive lead only, not matched causal evidence.",
+    "groups": {
+      "寰宇超动力": {
+        "human": {
+          "seats": 3,
+          "visibleCornerCards": 3.3333333333333335,
+          "labels": {
+            "弃牌换1移动": 2,
+            "弃牌换1移动+1分": 0.3333333333333333,
+            "弃牌换1宣传": 0.3333333333333333,
+            "弃牌换1数据": 0.6666666666666666
+          },
+          "rows": [
+            {
+              "game": "human-2",
+              "entry": 49,
+              "step": 0,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-2",
+              "entry": 51,
+              "step": 1,
+              "label": "弃牌换1移动+1分",
+              "count": 1
+            },
+            {
+              "game": "human-2",
+              "entry": 66,
+              "step": 4,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-2",
+              "entry": 74,
+              "step": 2,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-2",
+              "entry": 118,
+              "step": 2,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-2",
+              "entry": 126,
+              "step": 6,
+              "label": "弃牌换1宣传",
+              "count": 1
+            },
+            {
+              "game": "human-2",
+              "entry": 153,
+              "step": 4,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-5",
+              "entry": 147,
+              "step": 7,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-5",
+              "entry": 169,
+              "step": 1,
+              "label": "弃牌换1数据",
+              "count": 1
+            },
+            {
+              "game": "human-6",
+              "entry": 21,
+              "step": 4,
+              "label": "弃牌换1数据",
+              "count": 1
+            }
+          ]
+        },
+        "ai": {
+          "seats": 88,
+          "perGame": 5.034090909090909,
+          "postMain": 4.204545454545454,
+          "hadPositivePlayableValue": 0.9431818181818182,
+          "earlyPositivePlayablePostMain": 0.3977272727272727,
+          "explicitDiscardMatch": 0.5914221218961625,
+          "labels": {
+            "弃牌换1宣传": 2.2386363636363638,
+            "弃牌换1数据": 1.2045454545454546,
+            "弃牌换1移动": 1.125,
+            "弃牌换2宣传": 0.2159090909090909,
+            "弃牌换1数据+1分": 0.125,
+            "弃牌换1移动+1分": 0.125
+          }
+        }
+      },
+      "宇宙大战略集团": {
+        "human": {
+          "seats": 3,
+          "visibleCornerCards": 4.333333333333333,
+          "labels": {
+            "弃牌换1数据": 0.3333333333333333,
+            "弃牌换1移动": 3.3333333333333335,
+            "弃牌换1宣传": 0.3333333333333333,
+            "弃牌换1移动+1分": 0.3333333333333333
+          },
+          "rows": [
+            {
+              "game": "human-10",
+              "entry": 70,
+              "step": 1,
+              "label": "弃牌换1数据",
+              "count": 1
+            },
+            {
+              "game": "human-10",
+              "entry": 116,
+              "step": 0,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-10",
+              "entry": 116,
+              "step": 5,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-10",
+              "entry": 132,
+              "step": 5,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-11",
+              "entry": 24,
+              "step": 3,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-11",
+              "entry": 29,
+              "step": 3,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-11",
+              "entry": 66,
+              "step": 0,
+              "label": "弃牌换1宣传",
+              "count": 1
+            },
+            {
+              "game": "human-11",
+              "entry": 93,
+              "step": 6,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-11",
+              "entry": 105,
+              "step": 0,
+              "label": "弃牌换1移动+1分",
+              "count": 1
+            },
+            {
+              "game": "human-11",
+              "entry": 124,
+              "step": 2,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-12",
+              "entry": 166,
+              "step": 0,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-12",
+              "entry": 166,
+              "step": 2,
+              "label": "弃牌换1移动",
+              "count": 1
+            },
+            {
+              "game": "human-12",
+              "entry": 166,
+              "step": 4,
+              "label": "弃牌换1移动",
+              "count": 1
+            }
+          ]
+        },
+        "ai": {
+          "seats": 88,
+          "perGame": 7.5227272727272725,
+          "postMain": 7.1022727272727275,
+          "hadPositivePlayableValue": 0.8977272727272727,
+          "earlyPositivePlayablePostMain": 0.5,
+          "explicitDiscardMatch": 0.6329305135951662,
+          "labels": {
+            "弃牌换1宣传": 3.8295454545454546,
+            "弃牌换1数据": 2.0568181818181817,
+            "弃牌换1移动": 1.1818181818181819,
+            "弃牌换2宣传": 0.18181818181818182,
+            "弃牌换1数据+1分": 0.18181818181818182,
+            "弃牌换1移动+1分": 0.09090909090909091
+          }
+        }
+      }
+    }
+  }
+}
