@@ -10894,6 +10894,8 @@
           );
           return handScans * 2.5;
         }
+        case cardEffects.EFFECT_TYPES.SCAN_NEBULA:
+        case cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN:
         case cardEffects.EFFECT_TYPES.SECTOR_X_SCAN:
         case cardEffects.EFFECT_TYPES.PLANET_SECTOR_SCAN:
         case cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE:
@@ -26712,6 +26714,7 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      scoreAiEffectValue,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
