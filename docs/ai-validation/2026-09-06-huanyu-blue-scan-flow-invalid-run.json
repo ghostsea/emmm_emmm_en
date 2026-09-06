@@ -1,0 +1,9 @@
+{
+  "recordedAt": "2026-09-06T07:56:50.450Z",
+  "phase": "invalidated-development-run",
+  "invalidCandidate": "667a81af6c4bc1d3c04a26d819c01d13585b347b",
+  "fixedCandidate": "a79b8cfb55e88a5dd2e72496d51f629cee81dfa2",
+  "reason": "候选调用未导出的内部data.isBlueBonusSlotOccupied，optional调用返回undefined，会把已占用蓝槽当作未领取。",
+  "action": "停止bluescanflow队列及其运行子进程，保留原冻结计划、1-3原始完成输出和4-6启动日志，全部作废，不作收益判断。使用公开listBlueBonusPlacedTokens按blueSlot检查，补实际模块导出断言及占用边界测试，52项回归通过。以bluescanfixed新前缀重新冻结同24个已见开发种子并整批重跑。",
+  "freshValidation": false
+}

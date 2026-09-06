@@ -18,6 +18,10 @@
 
 ### 2026-09-06 当前验证状态
 
+- 自身兑现终局板块ec1a027a完整首批24组+1.59375，扩展64组仅+0.16015625（标准误0.8202728），寰宇+0.796875、大战略+0.109375；高分四分位+0.609375，但主行动35.297→35.180、蓝1/蓝2收益均微降。64场正常终局0 bug，512席收支和分析归属通过。初批收益集中在单局且扩展收缩，不合入默认。见 [扩展结果](ai-validation/2026-09-06-final-self-support-development64-results.json)、[合并88组](ai-validation/2026-09-06-final-self-support-development88-results.json)。
+
+- 寰宇蓝色扫描循环初版667a81af调用了未导出的占用检查接口，已停止并作废整批开发实验，未用结果作提分判断。修复版a79b8cfb改用公开listBlueBonusPlacedTokens的blueSlot并补真实模块边界检查，52项回归通过；另行冻结同24个已见开发种子整批重跑。仅在已有未领取蓝1/蓝2、预计一次基础扫描可补足领奖数据且预留分析能量时，解除通用路线扫描上限；保留其他保护，不预发资源。见 [错误与处理](ai-validation/2026-09-06-huanyu-blue-scan-flow-invalid-run.json)、[修复后冻结计划](ai-validation/2026-09-06-huanyu-blue-scan-flow-fixed-development-plan.json)、[88局扫描截面诊断](ai-validation/2026-09-06-huanyu-blue-scan-cap88.json)。
+
 - 寰宇开局能量6a70ced4完整64组新随机验收未通过：228.19921875→228.29296875（+0.09375，标准误1.5004391），寰宇+1.984375、大战略-0.609375、作弊实验室-0.5；高分四分位-2.703125、胜者均值-5.015625、300+减少3席，最低席均值+3.34375。128场正常终局0 bug、512席收支及分析归属通过。寰宇主行动28.172→28.484、首轮3.422→3.563、实际打牌9.125→9.344、任务2.297→2.500，但整桌主行动35.637→35.574。局部行动增加未形成可靠整体提升，高分也回落，拒绝合入默认。目标+10仍未达成，本64组今后仅作已见开发资料。见 [完整随机结果](ai-validation/2026-09-06-openingfresh64-fresh-results.json)、[资源转换](ai-validation/2026-09-06-openingfresh64-fresh-resources.md)、[公司行动统计](ai-validation/2026-09-06-openingfresh64-conversion.json)。
 
 - 自身兑现终局板块候选ec1a027a已冻结24组已见开发，52项回归通过。仅寰宇/大战略将通用抢槽和对手竞争项之和按自身即时分、需求和发展预期设置上限，倍率规则与B2具体竞争预测保留；app实际记录原竞争项与缩放系数。88局离线近似分别13/3次标记选择改变，不是预计提分。新随机验证仍另行冻结与生成种子。见 [冻结计划](ai-validation/2026-09-06-final-self-support-development-plan.json)、[终局得分结构](ai-validation/2026-09-06-score-components88.json)、[竞争项离线诊断](ai-validation/2026-09-06-final-competition88.json)。
