@@ -18,6 +18,8 @@
 
 ### 2026-09-06 当前验证状态
 
+- 寰宇开局能量收入6a70ced4完整24组固定开发全桌+2.96875，寰宇+10.5833333、大战略-5.625、作弊实验室+3.4583333；高分四分位+7.5416667，300+增加5席，最高分-7，配对标准误2.8112945。24场正常终局0 bug、192席对账通过。寰宇首轮主行动3.042→3.375、整局28.208→28.583、手牌换能量0.875→0.750次，实际打牌9.333→9.167；不能把全部提分归为行动增加。保持同一提交不变，扩展另外64组已见economy64种子作为开发测试，4并发，不把重复使用的样本算新随机验收。默认不变、整体+10未达成。见 [固定24组结果](ai-validation/2026-09-06-huanyu-opening-energy-development-results.json)、[转换统计](ai-validation/2026-09-06-opening-energy-conversion-audit.json) 与 [64组扩展计划](ai-validation/2026-09-06-huanyu-opening-energy-development64-plan.json)。
+
 - 88局当前原评分对照中，1378次真实分析只有4次在同一候选集中仍有合法蓝奖励且池里有数据，不能把普遍少领奖归为分析前漏领。寰宇首轮研究0.989、打牌0.818、分析0.080、扫描0.250次，首轮共约3.080主行动；两次初始收入平均选信用0.886、能量0.432、手牌0.682。6a70ced4隔离候选只在寰宇第1轮initial_income且能量收入不足2时，为补齐缺口给予一份能量当前估值加分；已通过52项回归并冻结24组已见开发，4并发运行，尚无收益结论。见 [分析机会](ai-validation/2026-09-06-analysis-blue-opportunities.json)、[各轮行动](ai-validation/2026-09-06-company-main-mix88.json)、[初始收入](ai-validation/2026-09-06-huanyu-opening-income88.json) 与 [候选计划](ai-validation/2026-09-06-huanyu-opening-energy-development-plan.json)。
 
 - 高费用任务预期dfea5668完整24组开发全桌+0.9583333（标准误1.1923924），寰宇-4.25、大战略-1.1666667、作弊实验室+4.625；高分四分位+8.7083333、p10-8。24候选场正常终局0 bug、192席对账通过。大战略实际信用付费牌均价1.875→1.841，任务完成4.458→4.167；寰宇主行动28.208→28.167，任务2.625→2.5。12次真实打牌保留了即时收益并应用任务折扣，但更便宜的牌流没有改善两家目标公司的结果，因此拒绝合入默认，未继续新随机验收。见 [结果](ai-validation/2026-09-06-expensive-task-budget-development-results.json) 、[费用与任务](ai-validation/2026-09-06-task-budget-conversion-audit.json) 和 [实际打牌](ai-validation/2026-09-06-task-budget-runtime-selected.json)。
