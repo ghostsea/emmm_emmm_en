@@ -17108,3 +17108,22 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const scores = [];
+  for (const label of ["蓝色4号位", "半人马蓝色4号位：3分，精选外星人牌，得分与牌奖励"]) {
+    const selected = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: 2,
+      alienGameState: makeBanrenmaAlienState(),
+      pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+      alienTracePickerState: { mode: "banrenma-grid", selectedAlienSlotId: 1, allowedTraceTypes: ["blue"] },
+      alienTraceButtons: [makeButton({ alienSlot: "1", banrenmaTraceType: "blue", banrenmaTraceSlot: "4", banrenmaPosition: "4" }, label, false, () => selected.push(4))],
+    });
+    assert.equal(harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true }).ok, true);
+    assert.equal(harness.controller.runAiAutomationStep().ok, true);
+    assert.deepEqual(selected, [4]);
+    scores.push(harness.controller.getAiAutoBattleReport().logs.find(x => x.type === "alien-trace").details.score);
+  }
+  assert.equal(scores[0], scores[1], "actual trace decision must use the same reward value with abbreviated or verbose labels");
+}
