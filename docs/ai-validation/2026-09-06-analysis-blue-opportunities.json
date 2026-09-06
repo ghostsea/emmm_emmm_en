@@ -1,0 +1,187 @@
+{
+  "scope": "Original scoring default, all 88 seen games. Actual analyze decisions with data remaining and a legal blue-bonus candidate in the same decision list. This diagnoses a possible pre-clear reward opportunity, not a proved net improvement.",
+  "analyses": 1378,
+  "dataPositive": 694,
+  "rows": [
+    {
+      "prefix": "slotrandom-base",
+      "case": 3,
+      "playerId": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "logId": 369,
+      "resources": {
+        "score": 47,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueChoices": [
+        {
+          "blueSlot": 1,
+          "label": "第一列第二行",
+          "score": 15.493088000000002,
+          "actionGraph": {
+            "gain": 15.493,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 15.493088000000002
+          }
+        }
+      ],
+      "analyzeScore": 42.8624
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 23,
+      "playerId": "player-brown",
+      "company": "寰宇超动力",
+      "round": 3,
+      "logId": 706,
+      "resources": {
+        "score": 49,
+        "credits": 6,
+        "energy": 6,
+        "publicity": 0,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueChoices": [
+        {
+          "blueSlot": 1,
+          "label": "第一列第二行",
+          "score": 8.996,
+          "actionGraph": {
+            "gain": 8.996,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 8.996
+          }
+        }
+      ],
+      "analyzeScore": 63.53244800000001
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 30,
+      "playerId": "player-white",
+      "company": "作弊实验室",
+      "round": 4,
+      "logId": 1372,
+      "resources": {
+        "score": 191,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 10,
+        "availableData": 1,
+        "handSize": 2
+      },
+      "blueChoices": [
+        {
+          "blueSlot": 1,
+          "label": "第一列第二行",
+          "score": 8.746400000000001,
+          "actionGraph": {
+            "gain": 8.746,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 8.746400000000001
+          }
+        },
+        {
+          "blueSlot": 2,
+          "label": "第二列第二行",
+          "score": 7.750000000000001,
+          "actionGraph": {
+            "gain": 7.75,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 7.750000000000001
+          }
+        },
+        {
+          "blueSlot": 3,
+          "label": "第三列第二行",
+          "score": 9,
+          "actionGraph": {
+            "gain": 9,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 9
+          }
+        }
+      ],
+      "analyzeScore": 65.91424
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "logId": 1331,
+      "resources": {
+        "score": 164,
+        "credits": 7,
+        "energy": 1,
+        "publicity": 7,
+        "availableData": 1,
+        "handSize": 2
+      },
+      "blueChoices": [
+        {
+          "blueSlot": 1,
+          "label": "第一列第二行",
+          "score": 8.746400000000001,
+          "actionGraph": {
+            "gain": 8.746,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 9.446
+          }
+        },
+        {
+          "blueSlot": 2,
+          "label": "第二列第二行",
+          "score": 10.3708,
+          "actionGraph": {
+            "gain": 10.371,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 11.201
+          }
+        },
+        {
+          "blueSlot": 3,
+          "label": "第三列第二行",
+          "score": 7.752000000000002,
+          "actionGraph": {
+            "gain": 7.752,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 8.372
+          }
+        }
+      ],
+      "analyzeScore": 45.69644800000001
+    }
+  ]
+}
