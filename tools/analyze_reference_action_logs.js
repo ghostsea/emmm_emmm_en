@@ -483,15 +483,32 @@ function parseReferenceActionLog(markdown, options = {}) {
   }
 
   const productiveMainActionCounts = {};
+  const productiveMainActions = [];
   let inferredResearchCostCount = 0;
   let inferredAnalyzeCostCount = 0;
   let uncertainResearchCostCount = 0;
   const uncertainResearchCostByPlayer = {};
+  let uncertainPlutoCostCount = 0;
+  const uncertainPlutoCostByPlayer = {};
   for (const action of actionEntries) {
-    const isMainAction = /^(科技行动|扫描行动|打牌行动|登陆行动|环绕行动|分析数据|发射\s)/.test(action.actionLabel)
+    const isMainAction = (/^(科技行动|扫描行动|打牌行动|登陆行动|环绕行动|分析数据|发射\s)/.test(action.actionLabel)
+      || /^(环绕|登陆)冥王星$/.test(action.actionLabel))
       && action.steps.some((step) => step.pace === "main");
     if (!isMainAction) continue;
     productiveMainActionCounts[action.playerLabel] = (productiveMainActionCounts[action.playerLabel] || 0) + 1;
+    productiveMainActions.push({
+      entryId: action.sequence,
+      playerLabel: action.playerLabel,
+      actionLabel: action.actionLabel,
+      roundNumber: action.roundNumber,
+      turnNumber: action.turnNumber,
+    });
+    if (/^(环绕|登陆)冥王星$/.test(action.actionLabel)
+      && !action.steps.some(step => step.pace === "main"
+        && /^(环绕|登陆)冥王星.*(?:消耗|信用点-\d|能量-\d)/.test(step.text))) {
+      uncertainPlutoCostCount += 1;
+      uncertainPlutoCostByPlayer[action.playerLabel] = (uncertainPlutoCostByPlayer[action.playerLabel] || 0) + 1;
+    }
     const mainEvents = events.filter((event) => event.entryId === action.sequence && event.pace === "main");
     const industryId = playerMetadata[action.playerLabel]?.industryId || null;
     if (action.actionLabel === "分析数据" && industryId && !/深空探测/.test(industryId)
@@ -569,7 +586,9 @@ function parseReferenceActionLog(markdown, options = {}) {
     playerMetadata,
     routeSummary,
     productiveMainActionCounts,
-    accounting: { inferredResearchCostCount, inferredAnalyzeCostCount, uncertainResearchCostCount, uncertainResearchCostByPlayer },
+    productiveMainActions,
+    accounting: { inferredResearchCostCount, inferredAnalyzeCostCount, uncertainResearchCostCount, uncertainResearchCostByPlayer,
+      uncertainPlutoCostCount, uncertainPlutoCostByPlayer },
     revealedAliens,
     events: [...syntheticSetupEvents, ...events],
   };

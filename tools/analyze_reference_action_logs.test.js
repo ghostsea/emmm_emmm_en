@@ -37,6 +37,27 @@ const game = parseReferenceActionLog(markdown, { gameId: "human-1", fileName: "s
 assert.equal(game.playerResults[0].finalScore, 300);
 assert.equal(game.routeSummary["白色"].mainActionCount, 3);
 assert.equal(game.productiveMainActionCounts["白色"], 2, "do not copy old route summary totals");
+assert.equal(game.productiveMainActions.length, 2);
+{
+  const namedPlanetActions = parseReferenceActionLog(markdown + `
+### #4 第3轮 第10回合 - 白色 - 环绕冥王星
+- [quick] 卡牌快速行动：弃牌换1移动
+- [main] 环绕冥王星
+- [main] 冥王星环绕：11分+3宣传
+### #5 第4轮 第6回合 - 白色 - 登陆冥王星
+- [main] 登陆冥王星
+- [main] 冥王星登陆：11分
+### #6 第4轮 第7回合 - 白色 - 打牌行动
+- [main] 打出：免费环绕测试牌
+- [main] 环绕冥王星
+`);
+  assert.equal(namedPlanetActions.productiveMainActionCounts["白色"], 5,
+    "Named Pluto actions count once each; a card-granted orbit remains part of the card action");
+  assert.deepEqual(namedPlanetActions.productiveMainActions.map(action => action.entryId), [2, 3, 4, 5, 6]);
+  assert.equal(namedPlanetActions.accounting.uncertainPlutoCostCount, 2,
+    "Legacy titles prove actions, but cannot invent missing orbit/landing payments");
+  assert.equal(namedPlanetActions.accounting.uncertainPlutoCostByPlayer["白色"], 2);
+}
 assert.equal(game.accounting.inferredResearchCostCount, 1);
 assert.equal(game.accounting.inferredAnalyzeCostCount, 0);
 {
