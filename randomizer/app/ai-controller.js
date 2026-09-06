@@ -1761,7 +1761,7 @@
 
     function inferAiStyleFromOpening(openingPlan = null, industryCard = null, player = null) {
       const industryLabel = String(industryCard?.label || "");
-      if (industryLabel === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return "route";
+      if (industryLabel === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return "task";
       if (industryLabel === AI_GRAND_STRATEGY_INDUSTRY_LABEL) return "task";
 
       const summary = openingPlan?.summary || {};
