@@ -18,6 +18,9 @@
 
 ### 2026-09-06 当前验证状态
 
+- 蓝科技预测校准18220fc6完整24组已见开发：224.7395833→228.9895833（+4.25），寰宇+6.5416667、大战略-5.1666667、作弊实验室+7.8125；高分四分位+9.2916667、最高分+57，配对标准误3.0711668。24候选场正常终局、0 bug，连同默认192席对账通过。寰宇主行动+1.333、数据获取与补牌增加；大战略蓝奖励增加但打牌、收入和主行动减少，因此另测仅寰宇拆分fee1eda5，不能假定两公司的收益模型相同。尚无新随机验收，默认不变。见 [完整开发结果](ai-validation/2026-09-06-blue-prior-development-results.json) 、[实际资源](ai-validation/2026-09-06-blue-prior-development-resources.md) 与 [同局首个科技选择](ai-validation/2026-09-06-blue-prior-first-choice-runtime.json)。
+- 结构化痕迹9b2ffcc2已在当前加速默认上复建，并与寰宇拆分各自冻结24组已见开发对照；均通过52项测试，统一队列总计最多8个浏览器。前者保留此前980984b4独立模型，不混入失败组合中的方舟、蓝科技或跨槽改动；这些都仍是开发样本。见 [寰宇拆分计划](ai-validation/2026-09-06-huanyu-blue-prior-development-plan.json) 与 [结构化痕迹计划](ai-validation/2026-09-06-structured-trace-fast-development-plan.json)。
+
 - 蓝列净收益3b659c6a完整24组固定开发未通过：224.7395833→224.6666667（-0.0729167），寰宇+1.0833333、大战略-8.3333333、作弊实验室+3.4791667；高分四分位+5.7916667，均分配对标准误2.9787700。24候选场正常终局、0 bug；连同基线192席对账通过。不合入默认。另一个预测校准候选18220fc6在同24组固定种子完整运行，不能把开发样本当新随机验收。见 [净收益开发结果](ai-validation/2026-09-06-blue-column-development-results.json) 、[分公司资源](ai-validation/2026-09-06-blue-column-development-resources.md) 与 [预测版计划](ai-validation/2026-09-06-blue-prior-development-plan.json)。
 - 当前蓝科技预测在已取得科技的实际后续奖励上存在低估：第1至3轮寰宇21次蓝1/蓝2取得，原预计合计13次，实际领奖33次；大战略30次取得预计35、实际72。该诊断仅覆盖实际选择，不能把未选蓝科技的反事实收益当已知。24局寰宇18局首项科技为橙2/橙4，蓝2有8局末轮才取得，支持单独研究取得时点与循环预测。见 [实际预测误差](ai-validation/2026-09-06-blue-reward-forecast-audit.json) 与 [科技时点](ai-validation/2026-09-06-company-tech-timing.json)。
 
