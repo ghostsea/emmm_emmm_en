@@ -1,0 +1,97 @@
+{
+  "generatedAt": "2026-09-06T04:15:04.943Z",
+  "baseline": "tracefinal-base-8.json",
+  "replay": "reveal-owner-replay-base8.json",
+  "playersEqual": true,
+  "decisionsEqual": true,
+  "ignoredLogFields": [
+    "createdAt",
+    "placedAt"
+  ],
+  "beforeSummary": {
+    "ok": true,
+    "single": true,
+    "blocked": false,
+    "gameEnded": true,
+    "stoppedBeforeRound": null,
+    "steps": 1557,
+    "maxScore": 333,
+    "minPlayerScore": 205,
+    "allPlayersAtLeast70": true,
+    "playerScores": [
+      333,
+      285,
+      205,
+      241
+    ],
+    "bugCount": 0,
+    "actionCounts": null,
+    "opportunities": null,
+    "resourceFlow": {
+      "trackedMagnitude": 1965,
+      "classifiedMagnitude": 1962,
+      "weighted": 0.9984732824427481
+    },
+    "message": "游戏已结束"
+  },
+  "afterSummary": {
+    "ok": true,
+    "single": true,
+    "blocked": false,
+    "gameEnded": true,
+    "stoppedBeforeRound": null,
+    "steps": 1557,
+    "maxScore": 333,
+    "minPlayerScore": 205,
+    "allPlayersAtLeast70": true,
+    "playerScores": [
+      333,
+      285,
+      205,
+      241
+    ],
+    "bugCount": 0,
+    "actionCounts": null,
+    "opportunities": null,
+    "resourceFlow": {
+      "trackedMagnitude": 2018,
+      "classifiedMagnitude": 2016,
+      "weighted": 0.9990089197224975
+    },
+    "message": "游戏已结束"
+  },
+  "logCounts": [
+    1622,
+    1622
+  ],
+  "rows": [
+    {
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "decisions": 4,
+      "analysis": 4,
+      "balanceResiduals": {}
+    },
+    {
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "decisions": 5,
+      "analysis": 5,
+      "balanceResiduals": {}
+    },
+    {
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "decisions": 5,
+      "analysis": 5,
+      "balanceResiduals": {}
+    },
+    {
+      "playerId": "player-brown",
+      "company": "宇宙大战略集团",
+      "decisions": 5,
+      "analysis": 5,
+      "balanceResiduals": {}
+    }
+  ]
+}
