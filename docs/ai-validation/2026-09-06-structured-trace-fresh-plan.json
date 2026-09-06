@@ -1,0 +1,117 @@
+{
+  "phase": "fresh-random-validation",
+  "frozenAt": "2026-09-06T00:01:36.267Z",
+  "seedGeneratedAt": "2026-09-06T00:17:26.828Z",
+  "minimumPairs": 12,
+  "plannedPairs": 12,
+  "sourceCommit": "be3486d536dfef71aa7f2b54de862f7d4f90063b",
+  "rule": "Complete all 12 paired games before accepting or tuning. Primary target mean delta >= 10; report top quartile, winner mean, max, low tail and company changes as secondary evidence. All seeds generated after frozen candidate and completed development.",
+  "models": {
+    "base": {
+      "root": "verify-base",
+      "fingerprint": "4450a28ba8d3557bd15747a6ff220056b7a3ebb7aaeaff45570c57325bbb4b49",
+      "controllerHash": "c304e63d2d8752825812a1fac2267e7e23860feb43b59c6caf7612eeaf9b2ddd",
+      "valuationHash": "c46399bf87f2c8bd5d05b1e5d61561859bca5bb87452b83cf192e487d1e8ce2c",
+      "runtimeHash": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f",
+      "commit": "bb4156ffb14ced7c55841aa3b4bdce79b26b1b8d"
+    },
+    "candidate": {
+      "root": "structured-trace",
+      "commit": "980984b47c8c2b8646a0f5e85f01283c71b8f1c8",
+      "fingerprint": "51dfa006acded275b49230031648e178183d7772b601a341c0c6e929bcc28ee2",
+      "controllerHash": "706162a248613ee110bb21cde6cb8faff1c43cfeff6d4f0972d4d396f7a62215",
+      "valuationHash": "70e2f809ed86f325d1de9699f9ebdca61e9237e0efa01cee6770218b1b6a88b7",
+      "runtimeHash": "a7a11cc884a2caf50af68d6c4154bf5f3e89e92b6bb6a54034323bd4ce925f1f"
+    }
+  },
+  "pairs": [
+    {
+      "index": 1,
+      "seed": "codex-ai-trace-verify-20260906:9a715ad3141f993f",
+      "alienSeed": "codex-ai-trace-verify-20260906:9a715ad3141f993f:aliens:v1",
+      "baseline": "traceverify-base-1.json",
+      "candidate": "traceverify-candidate-1.json"
+    },
+    {
+      "index": 2,
+      "seed": "codex-ai-trace-verify-20260906:92e18bb2243184fd",
+      "alienSeed": "codex-ai-trace-verify-20260906:92e18bb2243184fd:aliens:v1",
+      "baseline": "traceverify-base-2.json",
+      "candidate": "traceverify-candidate-2.json"
+    },
+    {
+      "index": 3,
+      "seed": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6",
+      "alienSeed": "codex-ai-trace-verify-20260906:f4b2f887bc0a9ee6:aliens:v1",
+      "baseline": "traceverify-base-3.json",
+      "candidate": "traceverify-candidate-3.json"
+    },
+    {
+      "index": 4,
+      "seed": "codex-ai-trace-verify-20260906:196323d4b03a36c2",
+      "alienSeed": "codex-ai-trace-verify-20260906:196323d4b03a36c2:aliens:v1",
+      "baseline": "traceverify-base-4.json",
+      "candidate": "traceverify-candidate-4.json"
+    },
+    {
+      "index": 5,
+      "seed": "codex-ai-trace-verify-20260906:21a68a43e67ffb95",
+      "alienSeed": "codex-ai-trace-verify-20260906:21a68a43e67ffb95:aliens:v1",
+      "baseline": "traceverify-base-5.json",
+      "candidate": "traceverify-candidate-5.json"
+    },
+    {
+      "index": 6,
+      "seed": "codex-ai-trace-verify-20260906:07f9a1fe082c210e",
+      "alienSeed": "codex-ai-trace-verify-20260906:07f9a1fe082c210e:aliens:v1",
+      "baseline": "traceverify-base-6.json",
+      "candidate": "traceverify-candidate-6.json"
+    },
+    {
+      "index": 7,
+      "seed": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4",
+      "alienSeed": "codex-ai-trace-verify-20260906:fa5eb1f1fcfb72b4:aliens:v1",
+      "baseline": "traceverify-base-7.json",
+      "candidate": "traceverify-candidate-7.json"
+    },
+    {
+      "index": 8,
+      "seed": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2",
+      "alienSeed": "codex-ai-trace-verify-20260906:2fc380a6de4ba2f2:aliens:v1",
+      "baseline": "traceverify-base-8.json",
+      "candidate": "traceverify-candidate-8.json"
+    },
+    {
+      "index": 9,
+      "seed": "codex-ai-trace-verify-20260906:3121d02cd17ca573",
+      "alienSeed": "codex-ai-trace-verify-20260906:3121d02cd17ca573:aliens:v1",
+      "baseline": "traceverify-base-9.json",
+      "candidate": "traceverify-candidate-9.json"
+    },
+    {
+      "index": 10,
+      "seed": "codex-ai-trace-verify-20260906:30f31226912e352a",
+      "alienSeed": "codex-ai-trace-verify-20260906:30f31226912e352a:aliens:v1",
+      "baseline": "traceverify-base-10.json",
+      "candidate": "traceverify-candidate-10.json"
+    },
+    {
+      "index": 11,
+      "seed": "codex-ai-trace-verify-20260906:39028a07de67a66c",
+      "alienSeed": "codex-ai-trace-verify-20260906:39028a07de67a66c:aliens:v1",
+      "baseline": "traceverify-base-11.json",
+      "candidate": "traceverify-candidate-11.json"
+    },
+    {
+      "index": 12,
+      "seed": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb",
+      "alienSeed": "codex-ai-trace-verify-20260906:2e65ff26d15dd5eb:aliens:v1",
+      "baseline": "traceverify-base-12.json",
+      "candidate": "traceverify-candidate-12.json"
+    }
+  ],
+  "harnessHashes": {
+    "tools/run_ai_autobattle_browser.js": "678a936160452b34991a502a53714fa2de598a07383ebe99cf139c3a94d3a87e",
+    "tools/ai_alien_seed.js": "4253af344f56b56c19babd04a277bb5028002f0b31546a3c975c460ac1e53897"
+  }
+}
