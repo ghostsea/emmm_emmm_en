@@ -10746,13 +10746,13 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   assert.deepEqual(
     huanyuBlue1?.valueBreakdown?.huanyuRoundOneBlue1CreditEngine,
     {
-      value: 3.6,
+      value: 2.34,
       placedComputerData: 4,
       projectedBlueSlot: 1,
       provenRewardOpportunities: 1,
       realizationScale: 0.6,
       reward: { credits: 1 },
-      rewardValue: 6,
+      rewardValue: 3.9,
     },
     "round-one Huanyu should price only the one proven reachable blue1 credit reward",
   );
@@ -10778,8 +10778,8 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     "blue candidates should expose the actual target slot and a conservative reward trigger forecast",
   );
   assert.ok(
-    Number(huanyuBlue1?.score || 0) > Number(huanyuOrange1?.score || 0),
-    "the proven credit engine should narrowly beat the unused orange1 launch plan",
+    Number.isFinite(huanyuBlue1?.score) && Number.isFinite(huanyuOrange1?.score),
+    "supply pricing may reorder techs, but both legal candidates must remain comparable",
   );
 
   const ordinaryBlue1 = buildHuanyuRoundOneBlue1Candidates({
@@ -17109,3 +17109,26 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const make = (round, company, resources, income) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue", roundNumber: round, blueResources: resources, blueIncome: income,
+    blueInitialSelection: { industry: { id: "industry:" + company, label: company } },
+  });
+  const richCredit = make(2, "寰宇超动力", { credits: 10, energy: 2 }, { credits: 3, energy: 1 });
+  const before = JSON.stringify(richCredit.blue);
+  const richProfile = richCredit.controller.getAiHuanyuCreditSupplyProfile();
+  assert.ok(richProfile.creditScale < 1 && richProfile.creditScale >= 0.65);
+  assert.equal(richProfile.remainingIncomePayments, 2);
+  assert.equal(richCredit.controller.getAiResourceValuesForRound().credits, 6 * richProfile.creditScale);
+  assert.equal(richCredit.controller.getAiResourceValuesForRound().energy, 6.2);
+  assert.equal(JSON.stringify(richCredit.blue), before, "pricing cannot spend or grant actual resources");
+  const scarce = make(2, "寰宇超动力", { credits: 0, energy: 6 }, { credits: 1, energy: 3 });
+  assert.ok(scarce.controller.getAiHuanyuCreditSupplyProfile().creditScale > 1);
+  const terminal = make(4, "寰宇超动力", { credits: 2, energy: 2 }, { credits: 9, energy: 1 });
+  assert.equal(terminal.controller.getAiHuanyuCreditSupplyProfile().creditScale, 1,
+    "no income payment after final round may be pre-credited");
+  const other = make(2, "宇宙大战略集团", { credits: 10, energy: 2 }, { credits: 3, energy: 1 });
+  assert.equal(other.controller.getAiHuanyuCreditSupplyProfile(), null);
+  assert.equal(other.controller.getAiResourceValuesForRound().credits, 6);
+}

@@ -3740,21 +3740,34 @@
       return `${baseSeed}:${index + 1}`;
     }
 
+    function getAiHuanyuCreditSupplyProfile(player = getCurrentPlayer()) {
+      if (!player || getAiIndustryCard(player)?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return null;
+      const remainingIncomePayments = Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber());
+      const credits = Math.max(0, aiNumber(player.resources?.credits));
+      const energy = Math.max(0, aiNumber(player.resources?.energy));
+      const creditIncome = Math.max(0, aiNumber(player.income?.credits));
+      const energyIncome = Math.max(0, aiNumber(player.income?.energy));
+      const creditSupply = 1 + credits + creditIncome * remainingIncomePayments;
+      const energySupply = 1 + energy + energyIncome * remainingIncomePayments;
+      const creditScale = Math.max(0.65, Math.min(1.35, Math.sqrt(energySupply / creditSupply)));
+      return { remainingIncomePayments, credits, energy, creditIncome, energyIncome,
+        creditSupply, energySupply, creditScale };
+    }
+
     function getAiResourceValuesForRound() {
-      if (ai?.valuation?.getPhaseResourceValues) {
-        return ai.valuation.getPhaseResourceValues(getAiRoundNumber(), {
+      const values = ai?.valuation?.getPhaseResourceValues
+        ? ai.valuation.getPhaseResourceValues(getAiRoundNumber(), {
           resourceValues: AI_RESOURCE_VALUES,
           earlyResourceValues: { credits: 6, energy: 6.2, handSize: 5.4 },
-        });
-      }
-      return getAiRoundNumber() <= 2
-        ? {
-          ...AI_RESOURCE_VALUES,
-          credits: Math.max(AI_RESOURCE_VALUES.credits, 6),
-          energy: Math.max(AI_RESOURCE_VALUES.energy, 6.2),
-          handSize: Math.max(AI_RESOURCE_VALUES.handSize, 5.4),
-        }
-        : AI_RESOURCE_VALUES;
+        })
+        : getAiRoundNumber() <= 2
+          ? { ...AI_RESOURCE_VALUES,
+            credits: Math.max(AI_RESOURCE_VALUES.credits, 6),
+            energy: Math.max(AI_RESOURCE_VALUES.energy, 6.2),
+            handSize: Math.max(AI_RESOURCE_VALUES.handSize, 5.4) }
+          : AI_RESOURCE_VALUES;
+      const supply = getAiHuanyuCreditSupplyProfile();
+      return supply ? { ...values, credits: values.credits * supply.creditScale } : values;
     }
 
     function scoreAiResourceBundle(resources = {}, options = {}) {
@@ -25463,6 +25476,7 @@
           : null;
         const plannerShadow = buildAiPlannerShadowDecision(selectableCandidates, graphState, currentPlayer, action);
         recordAiAutoBattleLog("turn-action", `${currentPlayer.colorLabel}AI 执行 ${action.id}`, {
+          huanyuCreditSupply: getAiHuanyuCreditSupplyProfile(currentPlayer),
           action,
           candidates: selectableCandidates,
           ...(plannerShadow ? { plannerShadow } : {}),
@@ -26713,6 +26727,8 @@
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
       getAiEarlyDirectScorePlayPassFloor,
+      getAiHuanyuCreditSupplyProfile,
+      getAiResourceValuesForRound,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
       getAiB2SectorWinExactDelta,
