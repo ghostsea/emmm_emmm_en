@@ -559,7 +559,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       const playerColor = pending?.targetPlayerColor || pending?.playerColor || options.alienTracePlayerColor || null;
       return allPlayers.find((player) => player.id === playerId || player.color === playerColor) || null;
     },
-    getCardPlayCost: (card) => (card?.price ? { credits: card.price } : {}),
+    getCardPlayCost: options.getCardPlayCost || ((card) => (card?.price ? { credits: card.price } : {})),
     getCardPrice: (card) => card?.price || 0,
     getCardTypeCode: (card) => (typeof options.getCardTypeCode === "function"
       ? options.getCardTypeCode(card)
@@ -17109,3 +17109,64 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const card = { id: "payment-projection-card", price: 3, typeCode: 0 };
+  const other = { id: "retained-card", price: 1 };
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", realisticCanAfford: true, blueHand: [card, other], blueResources: { credits: 3, energy: 2, handSize: 2 } });
+  const effects = [{ type: "gain_resources", options: { gain: { credits: 1 } } }];
+  const before = JSON.stringify(h.blue);
+  const profile = h.controller.buildAiPaidCardEffectValuation(card, effects, h.blue, { credits: 3 });
+  assert.equal(profile.afterPayment.credits, 0);
+  assert.equal(profile.afterPayment.energy, 2);
+  assert.equal(profile.afterPayment.handSize, 1);
+  const expectedPlayer = JSON.parse(before);
+  expectedPlayer.resources.credits = 0;
+  expectedPlayer.resources.handSize = 1;
+  expectedPlayer.hand = [other];
+  assert.equal(profile.value, h.controller.scoreAiEffectValue(effects[0], { player: expectedPlayer, immediate: true }),
+    "resource continuation must start after the actual card payment and hand removal");
+  assert.equal(JSON.stringify(h.blue), before, "payment valuation cannot spend real resources or remove real cards");
+  assert.equal(h.controller.buildAiPaidCardEffectValuation({ id: "public-card" }, effects, h.blue, { credits: 1 }), null);
+  assert.equal(h.controller.buildAiPaidCardEffectValuation(card, effects, h.blue, { credits: 4 }), null);
+  const foreign = h.controller.buildAiPaidCardEffectValuation(other, effects, expectedPlayer, { credits: 0 });
+  assert.equal(foreign.afterPayment.handSize, 0);
+  assert.equal(foreign.afterPayment.credits, 0);
+}
+
+{
+  const card = { id:"unlock-two-credit", cardId:"unlock-two-credit", price:2, typeCode:0,
+    playEffects:[{type:"gain_resources",options:{gain:{score:30}}}] };
+  const h = createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
+    blueHand:[card],blueResources:{credits:1,energy:0,handSize:1}});
+  const before=JSON.stringify(h.blue);
+  const p=h.controller.getAiResourceCardUnlockProfile({credits:1},h.blue);
+  assert.equal(p.cardInstanceId,card.id);assert.ok(p.value>0);assert.equal(p.resourcesAfter.credits,2);
+  assert.equal(p.candidatePayment.afterPayment.credits,0);
+  assert.equal(p.candidatePayment.afterPayment.handSize,0);
+  assert.equal(JSON.stringify(h.blue),before);
+  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:0},h.blue).value,0);
+  h.blue.resources.credits=0;
+  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:1},h.blue).value,0,"zero-to-one is not a card unlock when the card costs two");
+  h.blue.hand=[];
+  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:2},h.blue).value,0);
+  h.blue.hand=[{...card,playEffects:[{type:cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER}]}];
+  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:2},h.blue).value,0,"unavailable effects cannot promise another action");
+}
+
+{
+ const card={id:"passed-unlock",price:2,typeCode:0,playEffects:[{type:"gain_resources",options:{gain:{score:30}}}]};
+ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,blueHand:[card],blueResources:{credits:1,energy:0}});
+ h.turnState.passedPlayerIds=[h.blue.id];
+ assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:1},h.blue).value,0);
+}
+
+{
+ const card={id:"energy-priced-card",price:2,typeCode:0,playEffects:[{type:"gain_resources",options:{gain:{score:30}}}]};
+ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
+  getCardPlayCost:card=>({energy:card.price}),whiteHand:[card],whiteResources:{credits:0,energy:1,handSize:1}});
+ const p=h.controller.getAiResourceCardUnlockProfile({energy:1},h.white);
+ assert.ok(p.value>0);assert.equal(p.playerId,h.white.id);
+ assert.equal(p.candidatePayment.afterPayment.energy,0);
+ assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:2},h.white).value,0);
+}

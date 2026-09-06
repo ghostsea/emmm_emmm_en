@@ -3941,6 +3941,35 @@
       return roundAiScore(Math.min(12, Math.max(0, best)));
     }
 
+    let aiResourceCardUnlockDepth = 0;
+
+    function getAiResourceCardUnlockProfile(gain, player = getCurrentPlayer()) {
+      if (!player || aiResourceCardUnlockDepth > 0) return { value: 0, reason: "nested-or-no-player" };
+      if ((turnState.passedPlayerIds || []).includes(player.id)) return { value: 0, reason: "already-passed" };
+      const projected = createAiPlayerAfterResourceGain(player, gain);
+      const newlyAffordable = (player.hand || []).map((card, handIndex) => ({ card, handIndex }))
+        .filter(({ card }) => !players.canAfford(player, getCardPlayCost(card))
+          && players.canAfford(projected, getCardPlayCost(card)));
+      if (!newlyAffordable.length) return { value: 0, reason: "no-newly-affordable-card" };
+      aiResourceCardUnlockDepth += 1;
+      aiResourceContinuationDepth += 1;
+      try {
+        const beforeBest = listAiPlayCardCandidates(player).reduce((best,candidate)=>Math.max(best,aiNumber(candidate.score)),0);
+        const candidates = newlyAffordable.map(({card,handIndex}) => {
+          const candidate = buildAiPlayCardCandidate(card,handIndex,projected);
+          if (!candidate) return null;
+          const improvement = Math.max(0,aiNumber(candidate.score)-beforeBest);
+          const paymentValue = Math.max(0,scoreAiResourceBundle(getCardPlayCost(card)));
+          return { value: Math.min(improvement,paymentValue), playerId: player.id,
+            cardId: candidate.cardId, cardInstanceId: card.id, handIndex,
+            beforeBest, afterScore: candidate.score, paymentValue,
+            candidatePayment: candidate.valueBreakdown?.paymentEffectValuation || null,
+            resourcesBefore: { ...player.resources }, resourcesAfter: { ...projected.resources } };
+        }).filter(Boolean).sort((a,b)=>b.value-a.value);
+        return candidates[0] || { value: 0, reason: "effects-not-executable" };
+      } finally { aiResourceCardUnlockDepth -= 1; aiResourceContinuationDepth -= 1; }
+    }
+
     function scoreAiMidgameResourceContinuationValue(gain = {}, player = getCurrentPlayer(), options = {}) {
       if (!gain || typeof gain !== "object" || !player) return 0;
       const weight = getAiMidgameResourceContinuationWeight();
@@ -3966,13 +3995,9 @@
         const publicityGain = Math.max(0, aiNumber(gain.publicity));
         const dataGain = Math.max(0, aiNumber(gain.availableData));
 
-        if (creditGain > 0 && aiNumber(resources.credits) < 1 && aiNumber(afterResources.credits) >= 1) {
-          const playableHand = (player.hand || []).filter(isAiSupportedHandPlayCard).length;
-          const deficit = Math.max(0, getAiLiveScorePaceDeficit(player));
-          value += Math.min(
-            7,
-            (2.4 + Math.min(4, playableHand * 0.75) + Math.min(2, deficit * 0.04)) * mainActionScale,
-          );
+        if (creditGain > 0 || energyGain > 0) {
+          const cardUnlock = getAiResourceCardUnlockProfile(gain, player);
+          value += Math.min(7, Math.max(0, cardUnlock.value) * mainActionScale);
         }
 
         if (handGain > 0 && (player.hand || []).length <= 2) {
@@ -12697,6 +12722,41 @@
       return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
     }
 
+    let aiPaidCardEffectValuationDepth = 0;
+
+    function buildAiPaidCardEffectValuation(card, playEffects, player = getCurrentPlayer(), cost = getCardPlayCost(card)) {
+      if (!player || aiPaidCardEffectValuationDepth > 1
+        || (aiPaidCardEffectValuationDepth > 0 && aiResourceCardUnlockDepth <= 0)
+        || !players.canAfford(player, cost)) return null;
+      const hand = player.hand || [];
+      const handIndex = hand.findIndex((entry) => entry === card || (card?.id && entry?.id === card.id));
+      // Public-card and unaffordable future valuations retain their existing horizon.
+      if (handIndex < 0) return null;
+      const projected = cloneAiValue(player);
+      projected.hand.splice(handIndex, 1);
+      projected.resources = { ...(projected.resources || {}), handSize: projected.hand.length };
+      for (const [key, amount] of Object.entries(cost || {})) {
+        projected.resources[key] = aiNumber(projected.resources[key]) - aiNumber(amount);
+      }
+      aiPaidCardEffectValuationDepth += 1;
+      try {
+        const value = (playEffects || []).reduce((total, effect) => (
+          total + scoreAiEffectValue(effect, { player: projected, immediate: true })
+        ), 0);
+        return {
+          value,
+          playerId: player.id,
+          cardInstanceId: card.id || null,
+          cost: { ...cost },
+          before: { ...player.resources, handSize: hand.length },
+          afterPayment: { ...projected.resources },
+          scope: "payment-and-hand-only; board, passives and preceding effect rewards are not simulated",
+        };
+      } finally {
+        aiPaidCardEffectValuationDepth -= 1;
+      }
+    }
+
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
@@ -12707,7 +12767,9 @@
       const reservesAfterPlay = details.reservesAfterPlay ?? (
         [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay)
       );
-      const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
+      const effectValue = details.effectValue
+        ?? buildAiPaidCardEffectValuation(card, playEffects, player, cost)?.value
+        ?? playEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player, immediate: true })
       ), 0);
       const hasPersistentModeledValue = Boolean(
@@ -19019,7 +19081,8 @@
         readyTaskCashout,
         currentPlayer,
       );
-      const effectValue = valuationPlayEffects.reduce((total, effect) => (
+      const paymentEffectValuation = buildAiPaidCardEffectValuation(card, valuationPlayEffects, currentPlayer, cost);
+      const effectValue = paymentEffectValuation?.value ?? valuationPlayEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
       ), 0);
       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
@@ -19205,6 +19268,7 @@
           cornerOpportunity: scoreAiCardCornerOpportunity(card),
           directScoreGain,
           effectValue,
+          paymentEffectValuation,
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
           finalSelfBlockingPublicityTrap,
@@ -20495,6 +20559,11 @@
       return (check.choices || data.listPlaceDataChoices?.(player) || [])
         .map((choice, index) => {
           const creditPreserveProfile = getAiFinalHighScoreDataCreditPreserveProfile(choice, player);
+          const resourceGain = getAiDataPlacementBonuses(choice, player).reduce((gain, bonus) => ({
+            credits: gain.credits + aiNumber(bonus.credits), energy: gain.energy + aiNumber(bonus.energy),
+          }), { credits: 0, energy: 0 });
+          const resourceCardUnlock = resourceGain.credits > 0 || resourceGain.energy > 0
+            ? getAiResourceCardUnlockProfile(resourceGain, player) : null;
           return {
             id: "placeData",
             kind: "quick",
@@ -20506,7 +20575,8 @@
             description: choice.description || null,
             directScoreGain: getAiDataPlacementDirectScoreGain(choice, player),
             score: scoreAiDataPlacementChoice(choice, player) - index * 0.05,
-            valueBreakdown: creditPreserveProfile ? {
+            valueBreakdown: creditPreserveProfile || resourceCardUnlock ? {
+              resourceCardUnlock,
               finalHighScoreDataCreditPreserve: creditPreserveProfile,
             } : null,
           };
@@ -26712,6 +26782,11 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      getAiResourceCardUnlockProfile,
+      buildAiPlayCardCandidate,
+      scoreAiMidgameResourceContinuationValue,
+      buildAiPaidCardEffectValuation,
+      scoreAiEffectValue,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
