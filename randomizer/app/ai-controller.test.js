@@ -17126,3 +17126,60 @@ runAsyncControllerTests()
   }
   assert.equal(JSON.stringify(h.blue), before, "effect valuation must not grant data or execute scans");
 }
+
+{
+  const make = (round, company, resources, income) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue", roundNumber: round, blueResources: resources, blueIncome: income,
+    blueInitialSelection: { industry: { id: "industry:" + company, label: company } },
+  });
+  const richCredit = make(2, "寰宇超动力", { credits: 10, energy: 2 }, { credits: 3, energy: 1 });
+  const before = JSON.stringify(richCredit.blue);
+  const richProfile = richCredit.controller.getAiCompanyEnergySupplyProfile();
+  assert.ok(richProfile.energyScale > 1 && richProfile.energyScale <= 1.5);
+  assert.equal(richProfile.remainingIncomePayments, 2);
+  assert.equal(richCredit.controller.getAiResourceValuesForRound().energy, 6.2 * richProfile.energyScale);
+  assert.equal(richCredit.controller.getAiResourceValuesForRound().credits, 6);
+  assert.equal(JSON.stringify(richCredit.blue), before, "pricing cannot spend or grant actual resources");
+  const scarce = make(2, "寰宇超动力", { credits: 0, energy: 6 }, { credits: 1, energy: 3 });
+  assert.equal(scarce.controller.getAiCompanyEnergySupplyProfile().energyScale, 1);
+  const grand = make(2, "宇宙大战略集团", { credits: 3, energy: 2 }, { credits: 1, energy: 1 });
+  assert.equal(grand.controller.getAiCompanyEnergySupplyProfile().energyScale, Math.sqrt(6 / 5),
+    "Grand Strategy uses its own supply, including the two real future income payments");
+  assert.equal(grand.controller.getAiResourceValuesForRound().energy, 6.2 * Math.sqrt(6 / 5));
+  const terminal = make(4, "寰宇超动力", { credits: 2, energy: 2 }, { credits: 9, energy: 1 });
+  assert.equal(terminal.controller.getAiCompanyEnergySupplyProfile().energyScale, 1,
+    "no income payment after final round may be pre-credited");
+  const other = make(2, "作弊实验室", { credits: 10, energy: 2 }, { credits: 3, energy: 1 });
+  assert.equal(other.controller.getAiCompanyEnergySupplyProfile(), null);
+  assert.equal(other.controller.getAiResourceValuesForRound().credits, 6);
+}
+
+{
+  const makeCrossOwner = (turnCompany, pendingCompany, alien = false) => {
+    const harness = createAiControllerHarness(alien ? "white" : null, {
+      currentPlayerColor: "blue", currentPlayerDiscardPending: !alien,
+      blueResources: { credits: 10, energy: 2 }, blueIncome: { credits: 3, energy: 1 },
+      whiteResources: { credits: 10, energy: 2 }, whiteIncome: { credits: 3, energy: 1 },
+      blueInitialSelection: { industry: { id: "industry:" + turnCompany, label: turnCompany } },
+    });
+    harness.white.initialSelection = { industry: { id: "industry:" + pendingCompany, label: pendingCompany } };
+    return harness;
+  };
+  const bothTarget = makeCrossOwner("寰宇超动力", "宇宙大战略集团");
+  bothTarget.white.resources.credits = 0;
+  bothTarget.white.resources.energy = 6;
+  bothTarget.white.income = { credits: 1, energy: 3 };
+  assert.equal(bothTarget.controller.getAiResourceValuesForRound().energy, 6.2,
+    "two target companies must still use the pending owner's distinct supply vector");
+  assert.equal(bothTarget.controller.getAiCompanyEnergySupplyProfile().playerId, bothTarget.white.id);
+  for (const alien of [false, true]) {
+    const foreign = makeCrossOwner("寰宇超动力", "作弊实验室", alien);
+    assert.equal(foreign.controller.getAiResourceValuesForRound().energy, 6.2,
+      "another player's pending choice must not inherit Huanyu turn-owner pricing");
+    const huanyu = makeCrossOwner("作弊实验室", "寰宇超动力", alien);
+    assert.equal(huanyu.controller.getAiResourceValuesForRound().energy, 6.2 * 1.5,
+      "Huanyu pending owner must receive its own pricing outside its turn");
+    assert.equal(huanyu.blue.resources.credits, 10);
+    assert.equal(huanyu.white.resources.credits, 10);
+  }
+}
