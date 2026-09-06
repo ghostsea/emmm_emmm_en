@@ -15132,7 +15132,7 @@
     function getAiBlueColumnNetProfile(candidate, player = getCurrentPlayer()) {
       const company = getAiIndustryCard(player)?.label;
       if (!player || company !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
-        || !["blue1", "blue2"].includes(candidate?.tileId)
+        || !["blue1", "blue2", "blue3"].includes(candidate?.tileId)
         || getAiRoundNumber() >= FINAL_ROUND_NUMBER) return null;
       const closure = getAiBlueTechResourceClosureDiagnostic(candidate, player);
       if (!closure?.requiredComputerSlot) return null;
