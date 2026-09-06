@@ -935,11 +935,11 @@
         ["income", "discard", "move_payment"].includes(card.change)
         && (card.label === change.label || (card.label === "未知弃牌" && (step.fangzhouCardChanges || []).filter(item => item.change === "remove").length === 1))
       )) : null;
-      const use = change.change === "gain" ? "gain" : existingUse?.change || (income ? "income" : "discard");
+      const use = change.change === "gain" ? "gain" : existingUse?.change || (income || /收入\s*[:：]/.test(text) ? "income" : "discard");
       // Replace a text-only use for this same card rather than counting it twice.
       const textual = existingUse ? cards.indexOf(existingUse) : cards.findIndex(card => card.change === use && card.label === change.label);
       if (textual >= 0) cards.splice(textual, 1);
-      cards.push({ key: change.id, label: change.label || change.cardName || change.id, change: use, origin: "alien" });
+      cards.push({ key: change.id, label: change.label || change.cardName || change.id, change: use, origin: "alien", explicitIdentity: true });
     }
     return cards.map((card) => ({
       ...card,
@@ -1225,13 +1225,16 @@
         event.entryId === entryId && event.playerId === playerId
       ));
       const remaining = [...removals];
+      const explicitUseKeys = new Set(playerEvents.flatMap(event => event.cards || [])
+        .filter(card => card.explicitIdentity && card.change !== "gain").map(card => card.key));
       const takeRemoval = (card) => {
         const key = getCardIdentity(card);
         let index = remaining.findIndex((candidate) => candidate.key === key);
         if (index < 0 && card?.label) {
-          index = remaining.findIndex((candidate) => candidate.label === card.label);
+          index = remaining.findIndex((candidate) => candidate.label === card.label && !explicitUseKeys.has(candidate.key));
         }
-        if (index < 0) index = 0;
+        if (index < 0 && !card.explicitIdentity) index = remaining.findIndex(candidate => !explicitUseKeys.has(candidate.key));
+        if (index < 0) return null;
         return remaining.splice(index, 1)[0] || null;
       };
       for (const event of playerEvents) {
