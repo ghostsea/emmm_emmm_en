@@ -1,0 +1,4147 @@
+{
+  "scope": "All 24 seen candidate games. Changes compare immediate greedy placement rankings in that same candidate state, not a baseline counterfactual. Next execution requires the next top-level decision to choose the predicted placement in the same player turn; intervening non-placement decisions are not assumed wasted. The maximum raw placement score is preserved before index tie-breaks and action-graph/style adjustments.",
+  "groups": {
+    "寰宇超动力": {
+      "placements": 30,
+      "changedFromGreedy": 0,
+      "gamesWithChange": 0,
+      "predictedNextExecuted": 28,
+      "changedAndPredictedNextExecuted": 0,
+      "normalizationMaxError": 3.552713678800501e-15
+    },
+    "宇宙大战略集团": {
+      "placements": 64,
+      "changedFromGreedy": 4,
+      "gamesWithChange": 2,
+      "predictedNextExecuted": 62,
+      "changedAndPredictedNextExecuted": 4,
+      "normalizationMaxError": 3.552713678800501e-15
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "company": "寰宇超动力",
+      "logId": 749,
+      "round": 3,
+      "turn": 2,
+      "resources": {
+        "score": 50,
+        "credits": 4,
+        "energy": 4,
+        "publicity": 7,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 28.786704000000004,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.996
+        },
+        "planValue": 35.983504,
+        "score": 28.786704000000007
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 28.786704000000004
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 254,
+      "round": 1,
+      "turn": 6,
+      "resources": {
+        "score": 34,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": true,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 11.338098,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 37.44406999999999
+        },
+        "planValue": 41.293353999999994,
+        "score": 12.228319999999997
+      },
+      "immediateBest": {
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1,
+        "score": 12.22832
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 289,
+      "round": 1,
+      "turn": 7,
+      "resources": {
+        "score": 38,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 2
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 28.344432,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 13.463840000000001
+        },
+        "planValue": 39.115504,
+        "score": 28.344431999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 28.344432
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 510,
+      "round": 2,
+      "turn": 4,
+      "resources": {
+        "score": 67,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.587840000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 10.410400000000003
+        },
+        "planValue": 31.916160000000005,
+        "score": 23.58784
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.587840000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 607,
+      "round": 2,
+      "turn": 7,
+      "resources": {
+        "score": 77,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 15.574098999999999,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 11.035120000000001
+        },
+        "planValue": 24.402195,
+        "score": 15.574098999999997
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 15.574098999999999
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 639,
+      "round": 2,
+      "turn": 8,
+      "resources": {
+        "score": 81,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": true,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 13.120736,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.743936
+        },
+        "planValue": 32.1158848,
+        "score": 13.250848000000005
+      },
+      "immediateBest": {
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1,
+        "score": 13.250848000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 719,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 92,
+        "credits": 2,
+        "energy": 5,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 7
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 17.694240399999998,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 10.718050000000002
+        },
+        "planValue": 26.2686804,
+        "score": 17.694240399999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 17.694240399999998
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 807,
+      "round": 3,
+      "turn": 3,
+      "resources": {
+        "score": 97,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "changedFromGreedy": true,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 12.730496,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.353696000000003
+        },
+        "planValue": 31.4134528,
+        "score": 13.132288000000003
+      },
+      "immediateBest": {
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 2,
+        "score": 13.132287999999999
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 808,
+      "round": 3,
+      "turn": 3,
+      "resources": {
+        "score": 97,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.353696000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 2,
+          "score": 13.132287999999999
+        },
+        "planValue": 33.85952640000001,
+        "score": 23.353696
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.353696000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 2
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 893,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 106,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 19.291948,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.814506000000002
+        },
+        "planValue": 29.543552800000004,
+        "score": 19.291948
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 19.291948
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 2,
+      "company": "寰宇超动力",
+      "logId": 411,
+      "round": 2,
+      "turn": 4,
+      "resources": {
+        "score": 26,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 1
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 17.023136,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 29.163936000000003
+        },
+        "planValue": 40.3542848,
+        "score": 17.023136
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 17.023136
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "logId": 346,
+      "round": 2,
+      "turn": 2,
+      "resources": {
+        "score": 47,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 17.023136,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 29.163936000000003
+        },
+        "planValue": 40.3542848,
+        "score": 17.023136
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 17.023136
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "logId": 802,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 61,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 4,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 18.833416000000003,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 16.723952
+        },
+        "planValue": 32.2125776,
+        "score": 18.833416
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 18.833416000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "logId": 805,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 63,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 12.730496,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.353696000000003
+        },
+        "planValue": 31.4134528,
+        "score": 12.730496000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 12.730496
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "logId": 869,
+      "round": 3,
+      "turn": 8,
+      "resources": {
+        "score": 72,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 17.790987400000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.814506000000002
+        },
+        "planValue": 28.042592200000005,
+        "score": 17.790987400000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 17.790987400000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "logId": 681,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 60,
+        "credits": 2,
+        "energy": 5,
+        "publicity": 6,
+        "availableData": 3,
+        "handSize": 6
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 18.457810000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 16.559184000000002
+        },
+        "planValue": 31.705157200000002,
+        "score": 18.457810000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 18.457810000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "logId": 746,
+      "round": 3,
+      "turn": 2,
+      "resources": {
+        "score": 65,
+        "credits": 3,
+        "energy": 5,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.1976,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.996
+        },
+        "planValue": 30.3944,
+        "score": 23.197599999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.1976
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "logId": 911,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 78,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 12.687678,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 17.633066666666668
+        },
+        "planValue": 26.794131333333333,
+        "score": 12.687677999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 12.687678
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "logId": 955,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 82,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 14.729392,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.509792000000004
+        },
+        "planValue": 33.537225600000006,
+        "score": 14.729391999999997
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 14.729392
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "logId": 709,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 60,
+        "credits": 5,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 8
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.1976,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.746400000000001
+        },
+        "planValue": 30.194720000000004,
+        "score": 23.1976
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.1976
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "logId": 961,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 97,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 5,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 20.2446756,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.814506000000002
+        },
+        "planValue": 30.496280400000003,
+        "score": 20.2446756
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 20.2446756
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "logId": 962,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 97,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 6,
+        "availableData": 4,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 12.814506000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 17.67191
+        },
+        "planValue": 26.952034000000005,
+        "score": 12.814506000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 12.814506000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "logId": 291,
+      "round": 2,
+      "turn": 1,
+      "resources": {
+        "score": 36,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 6
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 16.974374926640003,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 29.12301875064
+        },
+        "planValue": 40.272789927152004,
+        "score": 16.974374926640003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 16.974374926640003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "logId": 502,
+      "round": 2,
+      "turn": 6,
+      "resources": {
+        "score": 58,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 17.0587766192,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 29.200220515200005
+        },
+        "planValue": 40.418953031360005,
+        "score": 17.058776619200003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 17.0587766192
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 5,
+      "company": "寰宇超动力",
+      "logId": 857,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 60,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.971706000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 18.246587180000002
+        },
+        "planValue": 25.568975744000003,
+        "score": 10.971706000000001
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.971706000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 5,
+      "company": "寰宇超动力",
+      "logId": 957,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 62,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 2,
+        "handSize": 1
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.509792000000004,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 9.972768
+        },
+        "planValue": 31.488006400000003,
+        "score": 23.509792000000004
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.509792000000004
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "logId": 901,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 80,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 8,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 12.5744,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.1976
+        },
+        "planValue": 31.13248,
+        "score": 12.574399999999997
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 12.5744
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "logId": 684,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 37,
+        "credits": 2,
+        "energy": 6,
+        "publicity": 6,
+        "availableData": 4,
+        "handSize": 8
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 28.843072000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.996
+        },
+        "planValue": 36.039872,
+        "score": 28.843072000000006
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 28.843072000000003
+      },
+      "nextAction": {
+        "id": "industry"
+      },
+      "predictedNextExecuted": false,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "logId": 768,
+      "round": 3,
+      "turn": 3,
+      "resources": {
+        "score": 48,
+        "credits": 3,
+        "energy": 6,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 8
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 11.39555,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 34.453314000000006
+        },
+        "planValue": 38.958201200000005,
+        "score": 11.39555
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 11.39555
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "logId": 822,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 50,
+        "credits": 0,
+        "energy": 7,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 6
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 16.858368000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 28.999168000000004
+        },
+        "planValue": 40.05770240000001,
+        "score": 16.858368
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 16.858368000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "logId": 452,
+      "round": 2,
+      "turn": 4,
+      "resources": {
+        "score": 27,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 17.179232,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 29.320032000000005
+        },
+        "planValue": 40.6352576,
+        "score": 17.179232
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 17.179232
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "logId": 432,
+      "round": 2,
+      "turn": 6,
+      "resources": {
+        "score": 33,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 1
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 17.179232,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 29.320032000000005
+        },
+        "planValue": 40.6352576,
+        "score": 17.179232
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 17.179232
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "logId": 674,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 59,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.844878000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 19.442082000000003
+        },
+        "planValue": 26.398543600000004,
+        "score": 10.844878000000001
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.844878000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "logId": 706,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 72,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 4,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 12.730496,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.353696000000003
+        },
+        "planValue": 31.4134528,
+        "score": 12.730496000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 12.730496
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "logId": 707,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 72,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.353696000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.996
+        },
+        "planValue": 30.550496000000003,
+        "score": 23.353696000000006
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.353696000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "logId": 838,
+      "round": 3,
+      "turn": 8,
+      "resources": {
+        "score": 84,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 17.850878400000003,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.687678
+        },
+        "planValue": 28.001020800000003,
+        "score": 17.850878400000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 17.850878400000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "logId": 288,
+      "round": 2,
+      "turn": 2,
+      "resources": {
+        "score": 19,
+        "credits": 6,
+        "energy": 2,
+        "publicity": 5,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 29.111904000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 11.266528000000003
+        },
+        "planValue": 38.125126400000006,
+        "score": 29.111904000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 29.111904000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "logId": 589,
+      "round": 3,
+      "turn": 2,
+      "resources": {
+        "score": 37,
+        "credits": 5,
+        "energy": 4,
+        "publicity": 6,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.718050000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 14.61503
+        },
+        "planValue": 22.410074,
+        "score": 10.718049999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.718050000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "logId": 856,
+      "round": 3,
+      "turn": 8,
+      "resources": {
+        "score": 73,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 11.561402000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.687678
+        },
+        "planValue": 21.7115444,
+        "score": 11.561402000000001
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 11.561402000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "logId": 1054,
+      "round": 3,
+      "turn": 14,
+      "resources": {
+        "score": 114,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 1
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 12.814506000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 17.67191
+        },
+        "planValue": 26.952034000000005,
+        "score": 12.814506000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 12.814506000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "logId": 228,
+      "round": 1,
+      "turn": 6,
+      "resources": {
+        "score": 28,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 3,
+        "handSize": 0
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 29.224640000000004,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 10.244000000000002
+        },
+        "planValue": 37.41984000000001,
+        "score": 29.224640000000008
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 29.224640000000004
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "logId": 251,
+      "round": 2,
+      "turn": 1,
+      "resources": {
+        "score": 33,
+        "credits": 6,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 17.788223199999997,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 11.161948
+        },
+        "planValue": 26.7177816,
+        "score": 17.7882232
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 17.788223199999997
+      },
+      "nextAction": {
+        "id": "industry"
+      },
+      "predictedNextExecuted": false,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "logId": 508,
+      "round": 2,
+      "turn": 7,
+      "resources": {
+        "score": 62,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 3,
+        "handSize": 1
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 13.276832,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.900032000000003
+        },
+        "planValue": 32.396857600000004,
+        "score": 13.276831999999999
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 13.276832
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "logId": 509,
+      "round": 2,
+      "turn": 7,
+      "resources": {
+        "score": 62,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 2,
+        "handSize": 1
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.900032000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 10.244000000000002
+        },
+        "planValue": 32.095232,
+        "score": 23.900032000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.900032000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "logId": 941,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 90,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 5,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 11.727254,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 10.971706000000001
+        },
+        "planValue": 20.504618800000003,
+        "score": 11.727254000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 11.727254
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "logId": 942,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 90,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 4,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.971706000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 17.67191
+        },
+        "planValue": 25.109234,
+        "score": 10.971705999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.971706000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "logId": 945,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 90,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 12.886592,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.509792000000004
+        },
+        "planValue": 31.694425600000006,
+        "score": 12.886592000000004
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 12.886592
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 11,
+      "company": "寰宇超动力",
+      "logId": 806,
+      "round": 3,
+      "turn": 3,
+      "resources": {
+        "score": 50,
+        "credits": 0,
+        "energy": 8,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 17.018258000000003,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 17.525570000000002
+        },
+        "planValue": 31.038714000000006,
+        "score": 17.018258000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 17.018258000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "logId": 395,
+      "round": 2,
+      "turn": 4,
+      "resources": {
+        "score": 18,
+        "credits": 5,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 15.956480000000003,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 28.097280000000005
+        },
+        "planValue": 38.43430400000001,
+        "score": 15.956479999999999
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 15.956480000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "logId": 587,
+      "round": 2,
+      "turn": 9,
+      "resources": {
+        "score": 32,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 12.141884000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 17.508226
+        },
+        "planValue": 26.148464800000003,
+        "score": 12.141884000000001
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 12.141884000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "logId": 947,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 75,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 5,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.353696000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 11.789856000000002
+        },
+        "planValue": 32.785580800000005,
+        "score": 23.353696
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.353696000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "logId": 948,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 75,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 4,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1,
+        "immediate": 11.789856000000002,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 2,
+          "score": 8.7984
+        },
+        "planValue": 18.828576000000005,
+        "score": 11.789856
+      },
+      "immediateBest": {
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1,
+        "score": 11.789856000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 2
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "logId": 1049,
+      "round": 3,
+      "turn": 9,
+      "resources": {
+        "score": 83,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 3,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 12.687678,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 17.525570000000002
+        },
+        "planValue": 26.708134,
+        "score": 12.687677999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 12.687678
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "logId": 731,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 81,
+        "credits": 5,
+        "energy": 4,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 6
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.718050000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 14.2004
+        },
+        "planValue": 22.078370000000003,
+        "score": 10.718050000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.718050000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "logId": 810,
+      "round": 3,
+      "turn": 3,
+      "resources": {
+        "score": 91,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 3,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.1976,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.746400000000001
+        },
+        "planValue": 30.194720000000004,
+        "score": 23.1976
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.1976
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "logId": 908,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 103,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 3,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 11.727254,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 10.971706000000001
+        },
+        "planValue": 20.504618800000003,
+        "score": 11.727254000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 11.727254
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "logId": 909,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 103,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 7,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.971706000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 18.455099999999998
+        },
+        "planValue": 25.735786,
+        "score": 10.971706000000001
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.971706000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "logId": 215,
+      "round": 1,
+      "turn": 5,
+      "resources": {
+        "score": 14,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 3,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 29.484800000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 10.964512000000001
+        },
+        "planValue": 38.256409600000005,
+        "score": 29.4848
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 29.484800000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "logId": 328,
+      "round": 2,
+      "turn": 1,
+      "resources": {
+        "score": 30,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 0,
+        "availableData": 2,
+        "handSize": 9
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 11.035120000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 32.99104795072
+        },
+        "planValue": 37.42795836057601,
+        "score": 11.03512
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 11.035120000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "logId": 763,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 40,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 5,
+        "availableData": 2,
+        "handSize": 11
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 28.6176,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.746400000000001
+        },
+        "planValue": 35.61472,
+        "score": 28.617600000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 28.6176
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "logId": 904,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 45,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 5,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 15.313342800000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 10.844878000000001
+        },
+        "planValue": 23.989245200000003,
+        "score": 15.313342799999997
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 15.313342800000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "logId": 905,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 45,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 4,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.844878000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 16.723952
+        },
+        "planValue": 24.224039600000005,
+        "score": 10.844878000000001
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.844878000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "logId": 908,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 45,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 16.632896000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 28.773696
+        },
+        "planValue": 39.6518528,
+        "score": 16.632896000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 16.632896000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "logId": 376,
+      "round": 2,
+      "turn": 1,
+      "resources": {
+        "score": 23,
+        "credits": 4,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 29.111904000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 10.999456
+        },
+        "planValue": 37.9114688,
+        "score": 29.111904000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 29.111904000000003
+      },
+      "nextAction": {
+        "id": "industry"
+      },
+      "predictedNextExecuted": false,
+      "normalizationError": 0
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "logId": 816,
+      "round": 3,
+      "turn": 2,
+      "resources": {
+        "score": 76,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 17.8600924,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 10.844878000000001
+        },
+        "planValue": 26.5359948,
+        "score": 17.860092399999996
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 17.8600924
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "logId": 983,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 93,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 3,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.353696000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 12.033632
+        },
+        "planValue": 32.9806016,
+        "score": 23.353696
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.353696000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "logId": 582,
+      "round": 2,
+      "turn": 8,
+      "resources": {
+        "score": 60,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 3,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 11.161948,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 28.533590000000004
+        },
+        "planValue": 33.988820000000004,
+        "score": 11.161948000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 11.161948
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "logId": 943,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 77,
+        "credits": 4,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.1976,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 2,
+          "score": 9.048
+        },
+        "planValue": 30.436,
+        "score": 23.1976
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.1976
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 2
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "logId": 944,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 77,
+        "credits": 4,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 2,
+        "immediate": 9.048,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.746400000000001
+        },
+        "planValue": 16.04512,
+        "score": 9.047999999999998
+      },
+      "immediateBest": {
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 2,
+        "score": 9.048
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "logId": 1140,
+      "round": 3,
+      "turn": 10,
+      "resources": {
+        "score": 100,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 4,
+        "handSize": 0
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 11.727254,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.814506000000002
+        },
+        "planValue": 21.978858800000005,
+        "score": 11.727254000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 11.727254
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "logId": 1141,
+      "round": 3,
+      "turn": 10,
+      "resources": {
+        "score": 100,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 0
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 12.814506000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 12.43611
+        },
+        "planValue": 22.763394,
+        "score": 12.814505999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 12.814506000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 18,
+      "company": "寰宇超动力",
+      "logId": 769,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 91,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 3,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 17.431641400000004,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 10.844878000000001
+        },
+        "planValue": 26.107543800000006,
+        "score": 17.4316414
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 17.431641400000004
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 18,
+      "company": "寰宇超动力",
+      "logId": 770,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 91,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.844878000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 16.042116
+        },
+        "planValue": 23.678570800000003,
+        "score": 10.844878000000001
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.844878000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "logId": 304,
+      "round": 2,
+      "turn": 1,
+      "resources": {
+        "score": 37,
+        "credits": 8,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 7
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 11.161948,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 24.20301
+        },
+        "planValue": 30.524356000000004,
+        "score": 11.161948000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 11.161948
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "logId": 877,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 88,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 4,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 11.943783,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 10.718050000000002
+        },
+        "planValue": 20.518223,
+        "score": 11.943783000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 11.943783
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "logId": 878,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 88,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 3,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 10.718050000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 16.190624
+        },
+        "planValue": 23.670549200000004,
+        "score": 10.718049999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 10.718050000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "logId": 939,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 97,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 5,
+        "handSize": 2
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.353696000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 8.996
+        },
+        "planValue": 30.550496000000003,
+        "score": 23.353696000000006
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.353696000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "logId": 1124,
+      "round": 3,
+      "turn": 10,
+      "resources": {
+        "score": 109,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 4,
+        "handSize": 1
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 11.727254,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.814506000000002
+        },
+        "planValue": 21.978858800000005,
+        "score": 11.727254000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 11.727254
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "logId": 1125,
+      "round": 3,
+      "turn": 10,
+      "resources": {
+        "score": 109,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 1
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 12.814506000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 19.60685
+        },
+        "planValue": 28.499986000000003,
+        "score": 12.814505999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 12.814506000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 19,
+      "company": "寰宇超动力",
+      "logId": 915,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 86,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 2
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 12.730496,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.353696000000003
+        },
+        "planValue": 31.4134528,
+        "score": 12.730496000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 12.730496
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 20,
+      "company": "寰宇超动力",
+      "logId": 346,
+      "round": 2,
+      "turn": 1,
+      "resources": {
+        "score": 16,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 7
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 29.111904000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 11.266528000000003
+        },
+        "planValue": 38.125126400000006,
+        "score": 29.111904000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 29.111904000000003
+      },
+      "nextAction": {
+        "id": "industry"
+      },
+      "predictedNextExecuted": false,
+      "normalizationError": 0
+    },
+    {
+      "case": 20,
+      "company": "寰宇超动力",
+      "logId": 557,
+      "round": 2,
+      "turn": 6,
+      "resources": {
+        "score": 40,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 18.524421800000002,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 13.458848000000003
+        },
+        "planValue": 29.291500200000005,
+        "score": 18.524421800000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 18.524421800000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 22,
+      "company": "宇宙大战略集团",
+      "logId": 736,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 76,
+        "credits": 5,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 2,
+        "handSize": 9
+      },
+      "changedFromGreedy": true,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 12.5744,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 23.1976
+        },
+        "planValue": 31.13248,
+        "score": 13.517920000000004
+      },
+      "immediateBest": {
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1,
+        "score": 13.517920000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 22,
+      "company": "寰宇超动力",
+      "logId": 1047,
+      "round": 3,
+      "turn": 9,
+      "resources": {
+        "score": 71,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 4,
+        "handSize": 2
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 12.275487,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.814506000000002
+        },
+        "planValue": 22.5270918,
+        "score": 12.275486999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 12.275487
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 22,
+      "company": "寰宇超动力",
+      "logId": 1048,
+      "round": 3,
+      "turn": 9,
+      "resources": {
+        "score": 71,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 3,
+        "handSize": 2
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 12.814506000000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 15.368409999999999
+        },
+        "planValue": 25.109234,
+        "score": 12.814506000000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 12.814506000000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "logId": 371,
+      "round": 2,
+      "turn": 5,
+      "resources": {
+        "score": 37,
+        "credits": 5,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 27.971536000000004,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 10.244000000000002
+        },
+        "planValue": 36.16673600000001,
+        "score": 27.971536000000008
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 27.971536000000004
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "logId": 516,
+      "round": 2,
+      "turn": 10,
+      "resources": {
+        "score": 65,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 2,
+        "handSize": 2
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 12.141884000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 11.288776
+        },
+        "planValue": 21.1729048,
+        "score": 12.141884000000001
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 12.141884000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "logId": 640,
+      "round": 3,
+      "turn": 2,
+      "resources": {
+        "score": 73,
+        "credits": 0,
+        "energy": 6,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "immediate": 23.353696000000003,
+        "next": {
+          "target": "blueBonus",
+          "placementSlot": null,
+          "blueSlot": 1,
+          "score": 12.669279999999999
+        },
+        "planValue": 33.48912,
+        "score": 23.353696
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null,
+        "score": 23.353696000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "blueBonus",
+        "placementSlot": null,
+        "blueSlot": 1
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "logId": 166,
+      "round": 1,
+      "turn": 4,
+      "resources": {
+        "score": 12,
+        "credits": 4,
+        "energy": 5,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 17.187904,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 29.328704000000002
+        },
+        "planValue": 40.65086720000001,
+        "score": 17.187904000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 17.187904
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 3.552713678800501e-15
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "logId": 271,
+      "round": 1,
+      "turn": 7,
+      "resources": {
+        "score": 43,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 11.464926,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 42.670287222400006
+        },
+        "planValue": 45.601155777920006,
+        "score": 11.464925999999998
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 11.464926
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "logId": 294,
+      "round": 2,
+      "turn": 1,
+      "resources": {
+        "score": 46,
+        "credits": 3,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 9
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "immediate": 16.867040000000003,
+        "next": {
+          "target": "computer",
+          "placementSlot": 6,
+          "blueSlot": null,
+          "score": 29.007840000000005
+        },
+        "planValue": 40.07331200000001,
+        "score": 16.867040000000003
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 5,
+        "blueSlot": null,
+        "score": 16.867040000000003
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 6,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "logId": 450,
+      "round": 2,
+      "turn": 5,
+      "resources": {
+        "score": 55,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 17.0142472,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 13.004748000000001
+        },
+        "planValue": 27.4180456,
+        "score": 17.0142472
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 17.0142472
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "logId": 451,
+      "round": 2,
+      "turn": 5,
+      "resources": {
+        "score": 55,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "immediate": 13.004748000000001,
+        "next": {
+          "target": "computer",
+          "placementSlot": 4,
+          "blueSlot": null,
+          "score": 28.02682
+        },
+        "planValue": 35.426204000000006,
+        "score": 13.004748
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null,
+        "score": 13.004748000000001
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 4,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 1.7763568394002505e-15
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "logId": 795,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 94,
+        "credits": 2,
+        "energy": 6,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "changedFromGreedy": false,
+      "selected": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "immediate": 16.750726800000002,
+        "next": {
+          "target": "computer",
+          "placementSlot": 3,
+          "blueSlot": null,
+          "score": 12.560850000000002
+        },
+        "planValue": 26.799406800000007,
+        "score": 16.750726800000002
+      },
+      "immediateBest": {
+        "target": "computer",
+        "placementSlot": 2,
+        "blueSlot": null,
+        "score": 16.750726800000002
+      },
+      "nextAction": {
+        "id": "placeData",
+        "target": "computer",
+        "placementSlot": 3,
+        "blueSlot": null
+      },
+      "predictedNextExecuted": true,
+      "normalizationError": 0
+    }
+  ]
+}
