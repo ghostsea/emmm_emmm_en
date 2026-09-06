@@ -17127,3 +17127,70 @@ runAsyncControllerTests()
   }
   assert.equal(scores[0], scores[1], "actual trace decision must use the same reward value with abbreviated or verbose labels");
 }
+
+{
+  function chooseFangzhouDestination({ panelLabel = "面板", unlockLabel = "解锁", allowedAlienSlotIds, hiddenAlienId = "半人马" } = {}) {
+    const alienGameState = {
+      aliens: {
+        1: { revealed: true, alienId: fangzhou.ALIEN_ID, assignedAlienId: fangzhou.ALIEN_ID },
+        2: makeHiddenAlienSlot({}),
+      },
+      fangzhou: fangzhou.createFangzhouState(),
+    };
+    alienGameState.aliens[2].assignedAlienId = hiddenAlienId;
+    alienGameState.fangzhou.revealedSlotId = 1;
+    alienGameState.fangzhou.revealInitialized = true;
+    alienGameState.fangzhou.playerCard2ById["player-blue"] = {
+      unlockCount: 0, cards: { blue: { traceType: "blue", variant: 1, unlocked: false, status: "locked" } },
+    };
+    fangzhou.ensureTraceGrid(alienGameState, 1);
+    const selected = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: 1, aiValuation: setiAi.valuation, alienGameState, alienSlotIds: [1, 2],
+      extraPlayers: [{ id: "player-green", color: "green" }, { id: "player-brown", color: "brown" }],
+      pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+      alienTracePickerState: {
+        mode: "fangzhou-destination", targetPlayerId: "player-blue", selectedAlienSlotId: 1,
+        allowedTraceTypes: ["blue"], allowedAlienSlotIds,
+      },
+      alienPickerButtons: [
+        makeButton({ alienPickerStep: "fangzhou-destination", alienSlot: "1", fangzhouDestination: "panel" }, panelLabel, false, () => selected.push("panel")),
+        makeButton({ alienPickerStep: "fangzhou-destination", alienSlot: "1", traceType: "blue", fangzhouDestination: "unlock" }, unlockLabel, false, () => selected.push("unlock")),
+      ],
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    const before = structuredClone(alienGameState);
+    assert.equal(harness.controller.runAiAutomationStep().ok, true);
+    assert.deepEqual(alienGameState, before, "destination preview must not place traces or unlock cards");
+    const log = harness.controller.getAiAutoBattleReport().logs.find(entry => entry.type === "alien-trace");
+    return { selected: selected[0], score: log.details.score, destination: log.details.fangzhouDestination };
+  }
+  const plain = chooseFangzhouDestination();
+  const verbose = chooseFangzhouDestination({ panelLabel: "放到外星人面板；state额外位会自动解锁同色方舟牌", unlockLabel: "解锁方舟牌，获得3分，卡牌加入手牌" });
+  assert.deepEqual(verbose, plain, "navigation wording must not create resource, card or unlock value");
+  assert.equal(plain.selected, "panel", "an available first trace on the other hidden alien should remain a real alternative");
+  assert.equal(plain.destination, "panel");
+  assert.deepEqual(chooseFangzhouDestination({ hiddenAlienId: "九折" }), plain, "unrevealed assigned species must not inform navigation value");
+  assert.equal(chooseFangzhouDestination({ allowedAlienSlotIds: [1] }).selected, "unlock", "a disallowed second alien must not inflate the panel alternative");
+  function scoreUnlockEntry(mode) {
+    const alienGameState = { aliens: { 1: { revealed: true, alienId: fangzhou.ALIEN_ID, traces: { blue: { firstPlaced: true, ownerPlayerId: "player-blue" } } } }, fangzhou: fangzhou.createFangzhouState() };
+    Object.assign(alienGameState.fangzhou, { revealedSlotId: 1, revealInitialized: true });
+    alienGameState.fangzhou.playerCard2ById["player-blue"] = { unlockCount: 0, cards: { blue: { traceType: "blue", variant: 1, unlocked: false, status: "locked" } } };
+    fangzhou.ensureTraceGrid(alienGameState, 1);
+    const isState = mode === "trace-board";
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: 1, aiValuation: setiAi.valuation, alienGameState,
+      pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+      alienTracePickerState: { mode, selectedAlienSlotId: 1, allowedTraceTypes: ["blue"], targetPlayerId: "player-blue" },
+      alienPickerButtons: isState ? [] : [makeButton({ alienPickerStep: mode, alienSlot: "1", traceType: "blue", fangzhouUse: "unlock" }, "", false)],
+      alienStateTraceButtons: isState ? [makeButton({ stateTraceSlot: "1", stateTraceType: "blue", alienSlot: "1", stateTraceKind: "extra" }, "", false)] : [],
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    assert.equal(harness.controller.runAiAutomationStep().ok, true);
+    return harness.controller.getAiAutoBattleReport().logs.find(entry => entry.type === "alien-trace").details.score;
+  }
+  const useScore = scoreUnlockEntry("fangzhou-use");
+  assert.equal(scoreUnlockEntry("fangzhou-unlock-color"), useScore, "color-selection unlock must use the same actual reward and unlock value");
+  assert.ok(Math.abs(scoreUnlockEntry("trace-board") + 5 - useScore) < 1e-8,
+    "automatic state unlock must include the same reward, apart from the existing target-kind preference");
+}

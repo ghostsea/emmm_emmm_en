@@ -22009,22 +22009,72 @@
       return true;
     }
 
+    function scoreAiFangzhouPanelDestination(player) {
+      const picker = state.alienTracePickerState || {};
+      const slotIds = Array.isArray(picker.allowedAlienSlotIds)
+        ? picker.allowedAlienSlotIds : aliens.ALIEN_SLOT_IDS || [];
+      const traceTypes = picker.allowedTraceTypes?.length ? picker.allowedTraceTypes : AI_TRACE_TYPES;
+      const species = [
+        ["jiuzhe", jiuzhe, "Jiuzhe"], ["yichangdian", yichangdian, "Yichangdian"],
+        ["fangzhou", fangzhou, "Fangzhou"], ["banrenma", banrenma, "Banrenma"],
+        ["chong", chong, "Chong"], ["amiba", amiba, "Amiba"],
+        ["aomomo", aomomo, "Aomomo"], ["runezu", runezu, "Runezu"],
+      ];
+      let best = -Infinity;
+      function consider(kind, dataset, speciesKey = null) {
+        const target = { kind, previewMode: "trace-board", button: {
+          disabled: false, textContent: "", dataset,
+          matches: selector => speciesKey != null && selector === "[data-" + speciesKey + "-trace-slot]",
+        } };
+        best = Math.max(best, scoreAiAlienTraceTarget(target, player));
+      }
+      for (const rawSlotId of slotIds) {
+        const alienSlot = Number(rawSlotId);
+        const slot = aliens.getAlienSlot?.(alienGameState, alienSlot);
+        if (!slot) continue;
+        for (const traceType of traceTypes) {
+          const trace = slot.traces?.[traceType];
+          if (trace && (!slot.revealed || trace.firstPlaced)) {
+            consider("state-slot", { alienSlot, traceType, stateTraceKind: trace.firstPlaced ? "extra" : "first" });
+          }
+          if (!slot.revealed) continue;
+          for (const [key, module, name] of species) {
+            if (!module?.["is" + name + "RevealedSlot"]?.(alienGameState, alienSlot)) continue;
+            for (const position of getAiAlienModuleTracePositions(module, traceType)) {
+              if (!module?.["canPlace" + name + "Trace"]?.(alienGameState, alienSlot, traceType, Number(position), player,
+                { availableDataCount: getAiAvailableDataTokenCount(player) })?.ok) continue;
+              consider("grid-slot", { alienSlot, traceType, tracePosition: Number(position) }, key);
+            }
+          }
+        }
+      }
+      return best;
+    }
+
     function scoreAiAlienTraceTarget(target, player) {
       if (!target?.button || target.button.disabled) return -Infinity;
       if (!canAiPlaceAlienGridTraceTarget(target, player)) return -Infinity;
       const label = String(target.button.textContent || target.button.title || "");
-      const pickerMode = String(state.alienTracePickerState?.mode || "");
+      const pickerMode = String(target.previewMode || state.alienTracePickerState?.mode || "");
       const mode = getAiAlienTraceTargetMode(target, pickerMode);
+      if (mode === "fangzhou-destination" && target.button.dataset.fangzhouDestination === "panel") {
+        // Navigation has no reward of its own: compare the best legal destination.
+        return scoreAiFangzhouPanelDestination(player);
+      }
       const traceType = getAiAlienTraceTargetTraceType(target);
       const position = getAiAlienTraceTargetPosition(target);
       const fangzhouUseChoice = target.button.dataset.fangzhouUse || null;
       const fangzhouDestinationChoice = target.button.dataset.fangzhouDestination || null;
       const isFangzhouUnlockChoice = (
-        mode === "fangzhou-use"
+        ["fangzhou-use", "fangzhou-unlock-color"].includes(mode)
         && fangzhouUseChoice === "unlock"
       ) || (
         mode === "fangzhou-destination"
         && fangzhouDestinationChoice === "unlock"
+      ) || (
+        target.kind === "state-slot" && target.button.dataset.stateTraceKind === "extra"
+        && fangzhou?.isFangzhouRevealedSlot?.(alienGameState, Number(target.button.dataset.alienSlot))
+        && fangzhou?.canUnlockCard2ForTrace?.(alienGameState, player, traceType)
       );
       const isStateExtraTraceTarget = target.kind === "state-slot"
         && target.button.dataset.stateTraceKind === "extra";
@@ -22232,6 +22282,8 @@
         mode: state.alienTracePickerState?.mode || null,
         alienSlot: button.dataset.alienSlot || null,
         pickerStep: button.dataset.alienPickerStep || null,
+        fangzhouDestination: button.dataset.fangzhouDestination || null,
+        fangzhouUse: button.dataset.fangzhouUse || null,
         traceType: traceType || null,
         position: getAiAlienTraceTargetPosition(target),
         score: target.score,
