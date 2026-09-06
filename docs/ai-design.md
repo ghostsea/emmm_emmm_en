@@ -18,6 +18,10 @@
 
 ### 2026-09-06 当前验证状态
 
+- 收入终局去重a05db02a完整24组开发整体+2.5208333（标准误2.5369960），寰宇+3.9166667、大战略-5.75、作弊实验室+5.9583333，高分四分位+13.25。大战略主行动34.708→33.958、分析4.208→3.958，拒绝该两公司合用版本；24场正常终局0 bug，192席对账通过，没有新随机验收。见 [结果](ai-validation/2026-09-06-income-formula-once-development-results.json)、[资源](ai-validation/2026-09-06-income-formula-once-development-resources.md)。
+
+- 资源指标口径修正：alienCardToPlayRate按补牌事件来源分类，包含外星人奖励抽到的普通牌，不等于外星人专属卡打出率。88局补查实例消费后，寰宇136次该来源补牌中51次打出，原53次未匹配中40次明确为收入/弃牌/移动支付；剩13次未匹配、其中10次确在终局手牌。大战略134次补牌、61次打出，剩9次未匹配、5次在终局手牌。来源类别与专属卡类别不能相加，未匹配不等于浪费。修正报告标签，未改冻结评分或资源流水。见 [来源与去向核对](ai-validation/2026-09-06-alien-card-source-and-sinks88.json)、[真人对照](ai-validation/2026-09-06-human-ai-resource-comparison.md)。
+
 - 放数据宣传去重b5c886c6扩展64组-1.09375（标准误0.5699327），寰宇-0.921875、大战略-1.1875，高分四分位-1.421875、300+减少3席；合并88组-0.6988636。64场正常终局0 bug，512席对账通过；重复项减少未带来更好实战选择，拒绝合入。见 [64组结果](ai-validation/2026-09-06-placement-publicity-once-development64-results.json)、[88组汇总](ai-validation/2026-09-06-placement-publicity-once-development88-results.json)。
 
 - 真实收入角标放置f81d91e7已完成24组开发：整体+0.75（标准误0.7215309）、寰宇-0.4166667、大战略+1.0416667，高分四分位+2.5、胜者均值-0.4166667。24场正常终局0 bug、192席对账通过；131次收入位选择中129次有可用收入牌，129次后续收入类型均与预览一致，128次同牌库ID，净值差最大0.03（放数据使可用数据减少，会轻微改变弃牌价值）。保持同一版本另扩展64组已见开发，尚无新随机验收。见 [24组结果](ai-validation/2026-09-06-actual-income-placement-development-results.json)、[真实收入衔接](ai-validation/2026-09-06-actual-income-placement-conversion.json)、[扩展计划](ai-validation/2026-09-06-actual-income-placement-development64-plan.json)。

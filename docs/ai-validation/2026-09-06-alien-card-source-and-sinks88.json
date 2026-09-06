@@ -1,0 +1,202 @@
+{
+  "scope": "88个已见基线，按卡牌实例key连接补牌和去向。origin=alien表示外星人来源补牌，可能是普通公共牌；exclusive-alien-card按实际运行时alien-或fangzhou-card2-实例前缀区分。唯一获取且唯一同轮或后轮AI弃牌/移动支付日志按实例补充消费；重复获取实例不推断。unmatched表示缺少消费关联，不能直接断定还在终局手牌；discardDecision是同轮同实例匹配，保留局限。",
+  "limitations": [
+    "来源分类与专属卡类型相交，不能相加。",
+    "AI日志补充消费只适用于单次获取且单次明确消费实例；按轮匹配，未恢复同轮精确时间序列。",
+    "未匹配项单独对照真实终局手牌和保留区；不是全部未打出牌，不能据此推断浪费。",
+    "收入消费部分在原始事件中标记discard，保留原分类与pendingType。"
+  ],
+  "groups": {
+    "作弊实验室": {
+      "seats": 176,
+      "fromAlienSource": {
+        "count": 362,
+        "perGame": 2.0568181818181817,
+        "sinks": {
+          "play": 149,
+          "income": 11,
+          "move_payment": 12,
+          "income_explicit": 41,
+          "move_payment_explicit": 28,
+          "discard": 66,
+          "discard_explicit": 25,
+          "unmatched": 13,
+          "discard/pass_hand_limit/": 6,
+          "discard/place_data_income/": 11
+        },
+        "unmatchedInEndingHand": 7,
+        "unmatchedInEndingReserved": 0
+      },
+      "exclusiveAlienCards": {
+        "count": 709,
+        "perGame": 4.028409090909091,
+        "sinks": {
+          "play": 308,
+          "income": 15,
+          "move_payment_explicit": 53,
+          "move_payment": 23,
+          "unmatched": 27,
+          "income_explicit": 83,
+          "discard": 150,
+          "discard_explicit": 26,
+          "discard/place_data_income/": 14,
+          "discard/pass_hand_limit/": 9,
+          "discard/planet_reward_income/": 1
+        },
+        "unmatchedInEndingHand": 13,
+        "unmatchedInEndingReserved": 0
+      },
+      "ordinaryCardsFromAliens": {
+        "count": 93,
+        "perGame": 0.5284090909090909,
+        "sinks": {
+          "move_payment": 7,
+          "income_explicit": 7,
+          "move_payment_explicit": 6,
+          "play": 33,
+          "unmatched": 3,
+          "discard": 20,
+          "discard_explicit": 13,
+          "income": 1,
+          "discard/place_data_income/": 3
+        },
+        "unmatchedInEndingHand": 2,
+        "unmatchedInEndingReserved": 0
+      },
+      "unknownCardKinds": 0
+    },
+    "寰宇超动力": {
+      "seats": 88,
+      "fromAlienSource": {
+        "count": 136,
+        "perGame": 1.5454545454545454,
+        "sinks": {
+          "play": 51,
+          "income": 3,
+          "discard_explicit": 15,
+          "unmatched": 13,
+          "discard": 18,
+          "move_payment_explicit": 12,
+          "income_explicit": 13,
+          "move_payment": 5,
+          "discard/place_data_income/": 4,
+          "discard/pass_hand_limit/": 2
+        },
+        "unmatchedInEndingHand": 10,
+        "unmatchedInEndingReserved": 0
+      },
+      "exclusiveAlienCards": {
+        "count": 290,
+        "perGame": 3.2954545454545454,
+        "sinks": {
+          "play": 129,
+          "discard_explicit": 19,
+          "unmatched": 14,
+          "move_payment_explicit": 33,
+          "income": 7,
+          "discard": 40,
+          "income_explicit": 29,
+          "move_payment": 11,
+          "discard/place_data_income/": 4,
+          "discard/pass_hand_limit/": 4
+        },
+        "unmatchedInEndingHand": 11,
+        "unmatchedInEndingReserved": 0
+      },
+      "ordinaryCardsFromAliens": {
+        "count": 40,
+        "perGame": 0.45454545454545453,
+        "sinks": {
+          "income": 1,
+          "discard": 5,
+          "play": 11,
+          "discard_explicit": 10,
+          "unmatched": 6,
+          "income_explicit": 5,
+          "move_payment_explicit": 1,
+          "discard/pass_hand_limit/": 1
+        },
+        "unmatchedInEndingHand": 5,
+        "unmatchedInEndingReserved": 0
+      },
+      "unknownCardKinds": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 88,
+      "fromAlienSource": {
+        "count": 134,
+        "perGame": 1.5227272727272727,
+        "sinks": {
+          "play": 61,
+          "move_payment_explicit": 9,
+          "discard_explicit": 11,
+          "unmatched": 9,
+          "discard": 19,
+          "discard/place_data_income/": 4,
+          "income": 5,
+          "income_explicit": 10,
+          "move_payment": 4,
+          "discard/pass_hand_limit/": 1,
+          "discard/trade/cards-for-credit": 1
+        },
+        "unmatchedInEndingHand": 5,
+        "unmatchedInEndingReserved": 0
+      },
+      "exclusiveAlienCards": {
+        "count": 287,
+        "perGame": 3.2613636363636362,
+        "sinks": {
+          "play": 132,
+          "income_explicit": 32,
+          "discard": 37,
+          "move_payment_explicit": 20,
+          "income": 17,
+          "unmatched": 14,
+          "discard/place_data_income/": 10,
+          "discard_explicit": 7,
+          "discard/pass_hand_limit/": 7,
+          "move_payment": 10,
+          "discard/trade/cards-for-credit": 1
+        },
+        "unmatchedInEndingHand": 5,
+        "unmatchedInEndingReserved": 0
+      },
+      "ordinaryCardsFromAliens": {
+        "count": 35,
+        "perGame": 0.3977272727272727,
+        "sinks": {
+          "discard_explicit": 9,
+          "discard": 5,
+          "unmatched": 3,
+          "play": 12,
+          "income_explicit": 5,
+          "discard/trade/cards-for-credit": 1
+        },
+        "unmatchedInEndingHand": 3,
+        "unmatchedInEndingReserved": 0
+      },
+      "unknownCardKinds": 0
+    }
+  },
+  "examples": [
+    {
+      "file": "slotrandom-base-1.json",
+      "key": "card-172-0",
+      "source": "符文族奖励抽普通牌",
+      "sinkLogId": 1505,
+      "sink": "place_data_income"
+    },
+    {
+      "file": "slotrandom-base-1.json",
+      "key": "alien-chong-2-1",
+      "sinkLogId": 314,
+      "sink": "move-payment"
+    },
+    {
+      "file": "slotrandom-base-1.json",
+      "key": "alien-chong-4-3",
+      "sinkLogId": 638,
+      "sink": "place_data_income"
+    }
+  ]
+}

@@ -55,7 +55,7 @@ const METRIC_LABELS = Object.freeze({
   fullDataCycleCount: "完整数据循环",
   drawToPlayRate: "新牌打出率",
   incomeCardConversionRate: "收益牌转化率",
-  alienCardToPlayRate: "外星人牌打出率",
+  alienCardToPlayRate: "外星人来源补牌打出率",
   blue1CreditGain: "蓝1信用点",
   blue2EnergyGain: "蓝2能量",
   utilizationCredits: "信用点利用率",
