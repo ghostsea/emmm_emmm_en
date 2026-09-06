@@ -1,0 +1,1481 @@
+{
+  "summary": {
+    "宇宙大战略集团": {
+      "seats": 8,
+      "thresholds": {
+        "25": {
+          "count": 8,
+          "round": 1.75,
+          "firstSlot": 1,
+          "endScore": 25.75
+        },
+        "50": {
+          "count": 8,
+          "round": 2.5,
+          "firstSlot": 0.25,
+          "endScore": 20.125
+        },
+        "70": {
+          "count": 8,
+          "round": 3.125,
+          "firstSlot": 0,
+          "endScore": 14.875
+        }
+      },
+      "formulas": {
+        "a1": {
+          "count": 3,
+          "base": 5,
+          "score": 20.333333333333332
+        },
+        "c2": {
+          "count": 5,
+          "base": 3.2,
+          "score": 22.4
+        },
+        "d1": {
+          "count": 3,
+          "base": 3,
+          "score": 15
+        },
+        "a2": {
+          "count": 5,
+          "base": 2.6,
+          "score": 17.2
+        },
+        "d2": {
+          "count": 4,
+          "base": 4,
+          "score": 21
+        },
+        "c1": {
+          "count": 2,
+          "base": 6,
+          "score": 24
+        },
+        "b1": {
+          "count": 1,
+          "base": 4,
+          "score": 32
+        },
+        "b2": {
+          "count": 1,
+          "base": 3,
+          "score": 18
+        }
+      }
+    },
+    "作弊实验室": {
+      "seats": 16,
+      "thresholds": {
+        "25": {
+          "count": 16,
+          "round": 1.625,
+          "firstSlot": 0.8125,
+          "endScore": 31.3125
+        },
+        "50": {
+          "count": 16,
+          "round": 2.4375,
+          "firstSlot": 0.1875,
+          "endScore": 23.875
+        },
+        "70": {
+          "count": 16,
+          "round": 2.875,
+          "firstSlot": 0.0625,
+          "endScore": 15.8125
+        }
+      },
+      "formulas": {
+        "a1": {
+          "count": 6,
+          "base": 5.666666666666667,
+          "score": 20
+        },
+        "b1": {
+          "count": 6,
+          "base": 2.1666666666666665,
+          "score": 14.666666666666666
+        },
+        "d1": {
+          "count": 8,
+          "base": 3.75,
+          "score": 31.125
+        },
+        "a2": {
+          "count": 9,
+          "base": 3.111111111111111,
+          "score": 23.555555555555557
+        },
+        "b2": {
+          "count": 5,
+          "base": 5.6,
+          "score": 39.2
+        },
+        "c2": {
+          "count": 6,
+          "base": 2.3333333333333335,
+          "score": 14
+        },
+        "d2": {
+          "count": 7,
+          "base": 5.285714285714286,
+          "score": 25
+        },
+        "c1": {
+          "count": 1,
+          "base": 6,
+          "score": 12
+        }
+      }
+    },
+    "寰宇超动力": {
+      "seats": 8,
+      "thresholds": {
+        "25": {
+          "count": 8,
+          "round": 1.875,
+          "firstSlot": 0.625,
+          "endScore": 18.375
+        },
+        "50": {
+          "count": 8,
+          "round": 2.625,
+          "firstSlot": 0,
+          "endScore": 12.25
+        },
+        "70": {
+          "count": 8,
+          "round": 3,
+          "firstSlot": 0,
+          "endScore": 11.875
+        }
+      },
+      "formulas": {
+        "a1": {
+          "count": 3,
+          "base": 3.6666666666666665,
+          "score": 14.333333333333334
+        },
+        "b1": {
+          "count": 2,
+          "base": 1,
+          "score": 6
+        },
+        "d1": {
+          "count": 4,
+          "base": 2.25,
+          "score": 15.75
+        },
+        "b2": {
+          "count": 2,
+          "base": 2.5,
+          "score": 18
+        },
+        "c2": {
+          "count": 3,
+          "base": 2.3333333333333335,
+          "score": 14
+        },
+        "d2": {
+          "count": 4,
+          "base": 3.5,
+          "score": 14
+        },
+        "a2": {
+          "count": 4,
+          "base": 2,
+          "score": 17.5
+        },
+        "c1": {
+          "count": 2,
+          "base": 3,
+          "score": 9
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "n": 1,
+      "company": "宇宙大战略集团",
+      "finalScore": 228,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 1,
+          "multiplier": 5,
+          "threshold": 25,
+          "baseValue": 5,
+          "score": 25,
+          "round": 1
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 32,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 20,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 1,
+      "company": "作弊实验室",
+      "finalScore": 229,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 70,
+          "baseValue": 7,
+          "score": 21,
+          "round": 3
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 12,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 25,
+          "baseValue": 3,
+          "score": 33,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 1,
+      "company": "作弊实验室",
+      "finalScore": 244,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 70,
+          "baseValue": 5,
+          "score": 15,
+          "round": 3
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 32,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 20,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 1,
+      "company": "寰宇超动力",
+      "finalScore": 162,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 2,
+          "multiplier": 4,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 16,
+          "round": 2
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 3,
+          "multiplier": 4,
+          "threshold": 70,
+          "baseValue": 1,
+          "score": 4,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 16,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "company": "寰宇超动力",
+      "finalScore": 217,
+      "marks": [
+        {
+          "tileId": "b",
+          "variant": 2,
+          "formulaId": "b2",
+          "slotIndex": 3,
+          "multiplier": 4,
+          "threshold": 50,
+          "baseValue": 1,
+          "score": 4,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 18,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 25,
+          "baseValue": 2,
+          "score": 22,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "company": "宇宙大战略集团",
+      "finalScore": 128,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 25,
+          "baseValue": 2,
+          "score": 22,
+          "round": 2
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 3,
+          "multiplier": 4,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 8,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 1,
+          "score": 5,
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "company": "作弊实验室",
+      "finalScore": 302,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 32,
+          "round": 2
+        },
+        {
+          "tileId": "b",
+          "variant": 2,
+          "formulaId": "b2",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 50,
+          "baseValue": 7,
+          "score": 42,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 20,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "company": "作弊实验室",
+      "finalScore": 272,
+      "marks": [
+        {
+          "tileId": "b",
+          "variant": 2,
+          "formulaId": "b2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 5,
+          "score": 40,
+          "round": 2
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 2,
+          "score": 16,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 32,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "company": "作弊实验室",
+      "finalScore": 241,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 2,
+          "multiplier": 4,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 16,
+          "round": 1
+        },
+        {
+          "tileId": "b",
+          "variant": 2,
+          "formulaId": "b2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 32,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 70,
+          "baseValue": 6,
+          "score": 18,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "company": "作弊实验室",
+      "finalScore": 240,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 50,
+          "baseValue": 7,
+          "score": 21,
+          "round": 2
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 3,
+          "multiplier": 4,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 16,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 1,
+          "multiplier": 7,
+          "threshold": 25,
+          "baseValue": 6,
+          "score": 42,
+          "round": 1
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "company": "宇宙大战略集团",
+      "finalScore": 200,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 32,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 50,
+          "baseValue": 3,
+          "score": 9,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "company": "寰宇超动力",
+      "finalScore": 181,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 1,
+          "multiplier": 5,
+          "threshold": 25,
+          "baseValue": 3,
+          "score": 15,
+          "round": 1
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 70,
+          "baseValue": 2,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 2,
+          "multiplier": 5,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 20,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "company": "寰宇超动力",
+      "finalScore": 183,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 16,
+          "round": 2
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 1,
+          "score": 8,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 2,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 15,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "company": "作弊实验室",
+      "finalScore": 232,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 15,
+          "round": 3
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 1,
+          "multiplier": 7,
+          "threshold": 25,
+          "baseValue": 5,
+          "score": 35,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "company": "作弊实验室",
+      "finalScore": 241,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 25,
+          "baseValue": 3,
+          "score": 33,
+          "round": 1
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 12,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "company": "宇宙大战略集团",
+      "finalScore": 125,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 2,
+          "score": 10,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 2,
+          "score": 16,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 12,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "company": "宇宙大战略集团",
+      "finalScore": 252,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 2,
+          "multiplier": 4,
+          "threshold": 50,
+          "baseValue": 6,
+          "score": 24,
+          "round": 2
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 24,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 1,
+          "multiplier": 7,
+          "threshold": 25,
+          "baseValue": 5,
+          "score": 35,
+          "round": 1
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "company": "作弊实验室",
+      "finalScore": 260,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "b",
+          "variant": 2,
+          "formulaId": "b2",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 25,
+          "baseValue": 7,
+          "score": 42,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 50,
+          "baseValue": 6,
+          "score": 18,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "company": "作弊实验室",
+      "finalScore": 267,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 1,
+          "multiplier": 5,
+          "threshold": 25,
+          "baseValue": 7,
+          "score": 35,
+          "round": 1
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 70,
+          "baseValue": 2,
+          "score": 16,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 2,
+          "multiplier": 5,
+          "threshold": 50,
+          "baseValue": 5,
+          "score": 25,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "company": "寰宇超动力",
+      "finalScore": 204,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 1,
+          "formulaId": "a1",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 70,
+          "baseValue": 4,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "b",
+          "variant": 2,
+          "formulaId": "b2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 32,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 12,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "company": "作弊实验室",
+      "finalScore": 322,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 25,
+          "baseValue": 3,
+          "score": 33,
+          "round": 1
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 18,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 44,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "company": "作弊实验室",
+      "finalScore": 176,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 15,
+          "round": 3
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 1,
+          "score": 8,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 3,
+          "score": 24,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "company": "寰宇超动力",
+      "finalScore": 185,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 3,
+          "score": 24,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 1,
+          "formulaId": "c1",
+          "slotIndex": 2,
+          "multiplier": 3,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 2,
+          "score": 10,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "company": "宇宙大战略集团",
+      "finalScore": 193,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 15,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 1,
+          "formulaId": "c1",
+          "slotIndex": 1,
+          "multiplier": 4,
+          "threshold": 25,
+          "baseValue": 7,
+          "score": 28,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 20,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "company": "作弊实验室",
+      "finalScore": 174,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 44,
+          "round": 1
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 70,
+          "baseValue": 1,
+          "score": 6,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 3,
+          "multiplier": 4,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 8,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "company": "作弊实验室",
+      "finalScore": 183,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 2,
+          "score": 10,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 2,
+          "score": 16,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 2,
+          "multiplier": 5,
+          "threshold": 50,
+          "baseValue": 5,
+          "score": 25,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "company": "宇宙大战略集团",
+      "finalScore": 224,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 15,
+          "round": 3
+        },
+        {
+          "tileId": "b",
+          "variant": 1,
+          "formulaId": "b1",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 32,
+          "round": 2
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 1,
+          "multiplier": 7,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 28,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "company": "寰宇超动力",
+      "finalScore": 166,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 1,
+          "score": 8,
+          "round": 2
+        },
+        {
+          "tileId": "c",
+          "variant": 2,
+          "formulaId": "c2",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 2,
+          "formulaId": "d2",
+          "slotIndex": 3,
+          "multiplier": 3,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 9,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "company": "寰宇超动力",
+      "finalScore": 216,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 25,
+          "baseValue": 2,
+          "score": 22,
+          "round": 1
+        },
+        {
+          "tileId": "c",
+          "variant": 1,
+          "formulaId": "c1",
+          "slotIndex": 2,
+          "multiplier": 3,
+          "threshold": 50,
+          "baseValue": 2,
+          "score": 6,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 15,
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "company": "宇宙大战略集团",
+      "finalScore": 206,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 3,
+          "score": 24,
+          "round": 2
+        },
+        {
+          "tileId": "b",
+          "variant": 2,
+          "formulaId": "b2",
+          "slotIndex": 2,
+          "multiplier": 6,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 18,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 1,
+          "formulaId": "c1",
+          "slotIndex": 1,
+          "multiplier": 4,
+          "threshold": 25,
+          "baseValue": 5,
+          "score": 20,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "company": "作弊实验室",
+      "finalScore": 227,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 50,
+          "baseValue": 3,
+          "score": 15,
+          "round": 3
+        },
+        {
+          "tileId": "c",
+          "variant": 1,
+          "formulaId": "c1",
+          "slotIndex": 3,
+          "multiplier": 2,
+          "threshold": 70,
+          "baseValue": 6,
+          "score": 12,
+          "round": 3
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 1,
+          "multiplier": 11,
+          "threshold": 25,
+          "baseValue": 4,
+          "score": 44,
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "company": "作弊实验室",
+      "finalScore": 264,
+      "marks": [
+        {
+          "tileId": "a",
+          "variant": 2,
+          "formulaId": "a2",
+          "slotIndex": 3,
+          "multiplier": 5,
+          "threshold": 70,
+          "baseValue": 3,
+          "score": 15,
+          "round": 3
+        },
+        {
+          "tileId": "b",
+          "variant": 2,
+          "formulaId": "b2",
+          "slotIndex": 1,
+          "multiplier": 8,
+          "threshold": 25,
+          "baseValue": 5,
+          "score": 40,
+          "round": 1
+        },
+        {
+          "tileId": "d",
+          "variant": 1,
+          "formulaId": "d1",
+          "slotIndex": 2,
+          "multiplier": 8,
+          "threshold": 50,
+          "baseValue": 4,
+          "score": 32,
+          "round": 2
+        }
+      ]
+    }
+  ]
+}
