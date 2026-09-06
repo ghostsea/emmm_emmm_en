@@ -1,0 +1,95 @@
+{
+  "scope": "Full 24 original default games. Top-level predicted card versus next actual hand-selection decision. Different candidates are a valuation/execution mismatch, not proof either choice scores better.",
+  "groups": {
+    "作弊实验室": {
+      "plays": 598,
+      "mismatch": 2
+    },
+    "宇宙大战略集团": {
+      "plays": 314,
+      "mismatch": 2
+    },
+    "寰宇超动力": {
+      "plays": 224,
+      "mismatch": 0
+    }
+  },
+  "rows": [
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 6,
+      "player": "player-brown",
+      "log": 1200,
+      "expected": {
+        "card": "dlc_11.png",
+        "id": "card-128-0",
+        "score": 71.0566664126579
+      },
+      "selected": {
+        "card": "b_61.webp",
+        "id": "card-130-0",
+        "score": 61.765882934400004
+      },
+      "matched": false
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 1,
+      "player": "player-blue",
+      "log": 1076,
+      "expected": {
+        "card": "dlc_8.png",
+        "id": "card-48-pass-3-4",
+        "score": 91.99648666720002
+      },
+      "selected": {
+        "card": "b_127.webp",
+        "id": "card-138-0",
+        "score": 79.96390718453557
+      },
+      "matched": false
+    },
+    {
+      "case": 12,
+      "company": "作弊实验室",
+      "round": 1,
+      "turn": 3,
+      "player": "player-brown",
+      "log": 129,
+      "expected": {
+        "card": "b_127.webp",
+        "id": "card-53-0",
+        "score": 12.092870076239414
+      },
+      "selected": {
+        "card": "b_139.webp",
+        "id": "card-57-0",
+        "score": 10.168923999999999
+      },
+      "matched": false
+    },
+    {
+      "case": 21,
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 11,
+      "player": "player-green",
+      "log": 1529,
+      "expected": {
+        "card": "fangzhou_yellow_1",
+        "id": "fangzhou-card2-player-green-yellow-1",
+        "score": 30.0541
+      },
+      "selected": {
+        "card": "b_18.webp",
+        "id": "card-183-0",
+        "score": 26.0929556432
+      },
+      "matched": false
+    }
+  ]
+}

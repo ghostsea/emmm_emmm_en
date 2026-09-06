@@ -1,0 +1,1454 @@
+{
+  "scope": "All completed development pairs. Link selected action to next actual play, exact card identity payment and reward events in its committed main-action entry.",
+  "summary": {
+    "pairs": 24,
+    "delayedSelections": 46,
+    "cardMatches": 45,
+    "payments": 45,
+    "rewardMatches": 45,
+    "issues": [
+      {
+        "case": 11,
+        "round": 4,
+        "turn": 1,
+        "playerId": "player-blue",
+        "logId": 1076,
+        "expectedCard": "card-48-pass-3-4",
+        "actualCard": "card-138-0",
+        "cardMatch": false,
+        "payment": null,
+        "expectedReward": {
+          "slotId": "yellow",
+          "gain": {
+            "credits": 1,
+            "publicity": 0,
+            "availableData": 0
+          }
+        },
+        "actualReward": {},
+        "rewardMatch": false,
+        "publicCard": "b_65.webp",
+        "occupied": []
+      }
+    ]
+  },
+  "rows": [
+    {
+      "case": 1,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 1091,
+      "expectedCard": "card-49-pass-3-5",
+      "actualCard": "card-49-pass-3-5",
+      "cardMatch": true,
+      "payment": {
+        "entry": 140,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_123.webp",
+      "occupied": []
+    },
+    {
+      "case": 2,
+      "round": 1,
+      "turn": 1,
+      "playerId": "player-brown",
+      "logId": 48,
+      "expectedCard": "card-51-0",
+      "actualCard": "card-51-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 7,
+        "deltas": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_115.webp",
+      "occupied": []
+    },
+    {
+      "case": 2,
+      "round": 2,
+      "turn": 1,
+      "playerId": "player-brown",
+      "logId": 223,
+      "expectedCard": "card-79-0",
+      "actualCard": "card-79-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 31,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_23.png",
+      "occupied": []
+    },
+    {
+      "case": 2,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-brown",
+      "logId": 1227,
+      "expectedCard": "alien-runezu-8-6",
+      "actualCard": "alien-runezu-8-6",
+      "cardMatch": true,
+      "payment": {
+        "entry": 150,
+        "deltas": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_13.png",
+      "occupied": []
+    },
+    {
+      "case": 3,
+      "round": 1,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 45,
+      "expectedCard": "card-13-0",
+      "actualCard": "card-13-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 7,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_116.webp",
+      "occupied": []
+    },
+    {
+      "case": 3,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 581,
+      "expectedCard": "card-96-0",
+      "actualCard": "card-96-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 77,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_111.webp",
+      "occupied": []
+    },
+    {
+      "case": 3,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 1016,
+      "expectedCard": "card-114-0",
+      "actualCard": "card-114-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 129,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_84.webp",
+      "occupied": []
+    },
+    {
+      "case": 4,
+      "round": 2,
+      "turn": 2,
+      "playerId": "player-white",
+      "logId": 346,
+      "expectedCard": "card-38-pass-1-4",
+      "actualCard": "card-38-pass-1-4",
+      "cardMatch": true,
+      "payment": {
+        "entry": 43,
+        "deltas": {
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_34.webp",
+      "occupied": []
+    },
+    {
+      "case": 4,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 694,
+      "expectedCard": "card-98-0",
+      "actualCard": "card-98-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 89,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_8.png",
+      "occupied": []
+    },
+    {
+      "case": 4,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 1202,
+      "expectedCard": "card-179-0",
+      "actualCard": "card-179-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 148,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_137.webp",
+      "occupied": []
+    },
+    {
+      "case": 5,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-green",
+      "logId": 1157,
+      "expectedCard": "card-46-pass-3-2",
+      "actualCard": "card-46-pass-3-2",
+      "cardMatch": true,
+      "payment": {
+        "entry": 139,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_83.webp",
+      "occupied": []
+    },
+    {
+      "case": 8,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 701,
+      "expectedCard": "card-126-0",
+      "actualCard": "card-126-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 89,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_49.webp",
+      "occupied": []
+    },
+    {
+      "case": 8,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 1169,
+      "expectedCard": "card-151-0",
+      "actualCard": "card-151-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 145,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_78.webp",
+      "occupied": []
+    },
+    {
+      "case": 9,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-green",
+      "logId": 679,
+      "expectedCard": "card-95-0",
+      "actualCard": "card-95-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 85,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_113.webp",
+      "occupied": []
+    },
+    {
+      "case": 9,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-green",
+      "logId": 1163,
+      "expectedCard": "card-140-0",
+      "actualCard": "card-140-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 140,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_102.webp",
+      "occupied": []
+    },
+    {
+      "case": 10,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 527,
+      "expectedCard": "card-39-pass-1-5",
+      "actualCard": "card-39-pass-1-5",
+      "cardMatch": true,
+      "payment": {
+        "entry": 77,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_83.webp",
+      "occupied": []
+    },
+    {
+      "case": 10,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 1096,
+      "expectedCard": "card-134-0",
+      "actualCard": "card-134-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 141,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_121.webp",
+      "occupied": []
+    },
+    {
+      "case": 11,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 730,
+      "expectedCard": "card-105-0",
+      "actualCard": "card-105-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 91,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_14.png",
+      "occupied": []
+    },
+    {
+      "case": 11,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 1076,
+      "expectedCard": "card-48-pass-3-4",
+      "actualCard": "card-138-0",
+      "cardMatch": false,
+      "payment": null,
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {},
+      "rewardMatch": false,
+      "publicCard": "b_65.webp",
+      "occupied": []
+    },
+    {
+      "case": 12,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 611,
+      "expectedCard": "card-108-0",
+      "actualCard": "card-108-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 83,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_4.webp",
+      "occupied": []
+    },
+    {
+      "case": 12,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 1018,
+      "expectedCard": "card-147-0",
+      "actualCard": "card-147-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 134,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_8.webp",
+      "occupied": []
+    },
+    {
+      "case": 13,
+      "round": 2,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 273,
+      "expectedCard": "card-88-0",
+      "actualCard": "card-88-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 41,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_49.webp",
+      "occupied": []
+    },
+    {
+      "case": 14,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-brown",
+      "logId": 1166,
+      "expectedCard": "card-149-0",
+      "actualCard": "card-149-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 149,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_117.webp",
+      "occupied": []
+    },
+    {
+      "case": 15,
+      "round": 2,
+      "turn": 1,
+      "playerId": "player-brown",
+      "logId": 250,
+      "expectedCard": "card-82-0",
+      "actualCard": "card-82-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 35,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_10.png",
+      "occupied": []
+    },
+    {
+      "case": 15,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-brown",
+      "logId": 1177,
+      "expectedCard": "card-140-0",
+      "actualCard": "card-140-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 145,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_42.webp",
+      "occupied": []
+    },
+    {
+      "case": 16,
+      "round": 1,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 54,
+      "expectedCard": "card-52-0",
+      "actualCard": "card-52-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 7,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_5.png",
+      "occupied": []
+    },
+    {
+      "case": 16,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 1145,
+      "expectedCard": "card-158-0",
+      "actualCard": "card-158-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 140,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_16.png",
+      "occupied": []
+    },
+    {
+      "case": 17,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 1215,
+      "expectedCard": "card-153-0",
+      "actualCard": "card-153-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 144,
+        "deltas": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_18.webp",
+      "occupied": []
+    },
+    {
+      "case": 18,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 617,
+      "expectedCard": "card-100-0",
+      "actualCard": "card-100-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 82,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_31.png",
+      "occupied": []
+    },
+    {
+      "case": 18,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 995,
+      "expectedCard": "card-47-pass-3-3",
+      "actualCard": "card-47-pass-3-3",
+      "cardMatch": true,
+      "payment": {
+        "entry": 132,
+        "deltas": {
+          "credits": -4,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_44.webp",
+      "occupied": []
+    },
+    {
+      "case": 19,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-brown",
+      "logId": 721,
+      "expectedCard": "card-43-pass-2-4",
+      "actualCard": "card-43-pass-2-4",
+      "cardMatch": true,
+      "payment": {
+        "entry": 98,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_135.webp",
+      "occupied": []
+    },
+    {
+      "case": 19,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-brown",
+      "logId": 1185,
+      "expectedCard": "card-148-0",
+      "actualCard": "card-148-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 148,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_51.webp",
+      "occupied": []
+    },
+    {
+      "case": 20,
+      "round": 2,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 298,
+      "expectedCard": "card-69-0",
+      "actualCard": "card-69-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 41,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_113.webp",
+      "occupied": []
+    },
+    {
+      "case": 20,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 801,
+      "expectedCard": "card-41-pass-2-2",
+      "actualCard": "card-41-pass-2-2",
+      "cardMatch": true,
+      "payment": {
+        "entry": 98,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_7.png",
+      "occupied": []
+    },
+    {
+      "case": 20,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 1228,
+      "expectedCard": "card-147-0",
+      "actualCard": "card-147-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 152,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_81.webp",
+      "occupied": []
+    },
+    {
+      "case": 21,
+      "round": 2,
+      "turn": 3,
+      "playerId": "player-white",
+      "logId": 391,
+      "expectedCard": "card-81-0",
+      "actualCard": "card-81-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 43,
+        "deltas": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_3.webp",
+      "occupied": []
+    },
+    {
+      "case": 21,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 665,
+      "expectedCard": "card-105-0",
+      "actualCard": "card-105-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 81,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_140.webp",
+      "occupied": []
+    },
+    {
+      "case": 21,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-white",
+      "logId": 1089,
+      "expectedCard": "card-124-0",
+      "actualCard": "card-124-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 133,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_105.webp",
+      "occupied": []
+    },
+    {
+      "case": 22,
+      "round": 1,
+      "turn": 2,
+      "playerId": "player-blue",
+      "logId": 73,
+      "expectedCard": "card-4-0",
+      "actualCard": "card-4-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 10,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_16.png",
+      "occupied": []
+    },
+    {
+      "case": 22,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 718,
+      "expectedCard": "alien-chong-0-1",
+      "actualCard": "alien-chong-0-1",
+      "cardMatch": true,
+      "payment": {
+        "entry": 90,
+        "deltas": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_103.webp",
+      "occupied": []
+    },
+    {
+      "case": 22,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 1230,
+      "expectedCard": "alien-chong-4-8",
+      "actualCard": "alien-chong-4-8",
+      "cardMatch": true,
+      "payment": {
+        "entry": 150,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "dlc_33.png",
+      "occupied": []
+    },
+    {
+      "case": 23,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-green",
+      "logId": 592,
+      "expectedCard": "card-103-0",
+      "actualCard": "card-103-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 80,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "red",
+        "gain": {
+          "credits": 0,
+          "publicity": 1,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "publicity": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_95.webp",
+      "occupied": []
+    },
+    {
+      "case": 23,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-green",
+      "logId": 986,
+      "expectedCard": "card-143-0",
+      "actualCard": "card-143-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 127,
+        "deltas": {
+          "credits": -2,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_78.webp",
+      "occupied": []
+    },
+    {
+      "case": 24,
+      "round": 1,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 51,
+      "expectedCard": "card-2-0",
+      "actualCard": "card-2-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 7,
+        "deltas": {
+          "credits": -1,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      },
+      "actualReward": {
+        "credits": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_29.webp",
+      "occupied": []
+    },
+    {
+      "case": 24,
+      "round": 3,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 784,
+      "expectedCard": "card-112-0",
+      "actualCard": "card-112-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 96,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_33.webp",
+      "occupied": []
+    },
+    {
+      "case": 24,
+      "round": 4,
+      "turn": 1,
+      "playerId": "player-blue",
+      "logId": 1174,
+      "expectedCard": "card-101-0",
+      "actualCard": "card-101-0",
+      "cardMatch": true,
+      "payment": {
+        "entry": 150,
+        "deltas": {
+          "credits": -3,
+          "handSize": -1
+        }
+      },
+      "expectedReward": {
+        "slotId": "blue",
+        "gain": {
+          "credits": 0,
+          "publicity": 0,
+          "availableData": 1
+        }
+      },
+      "actualReward": {
+        "availableData": 1
+      },
+      "rewardMatch": true,
+      "publicCard": "b_100.webp",
+      "occupied": []
+    }
+  ]
+}

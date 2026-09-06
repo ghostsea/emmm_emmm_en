@@ -18,6 +18,9 @@
 
 ### 2026-09-06 当前验证状态
 
+- **实际选择一致的精选延后8f87ad47固定24组无收益**：96席分数、资源量及主行动均与原评分620cf156相同；均分仍224.73958，大战略211。46次打牌日志带延后预览，但原策略本来就会选打牌，故没有决策改善。45次下一步选牌身份及付款/奖励一致，case11第四轮第1回合顶层预估dlc8却在选牌时改为b127，不能把稍后打出的dlc8奖励归为本次命中。完整原基线1136次打牌中4次顶层与实际选牌身份不一致（大战略2、作弊2、寰宇0）；这是估值与执行差异，未证明哪张更好。见 [完整结果](ai-validation/2026-09-06-strategy-pick-selected-development-results.json)、[执行核对](ai-validation/2026-09-06-strategy-pick-selected-development-runtime-audit.json)、[原基线身份差异](ai-validation/2026-09-06-play-selection-mismatch-base24.json)。52测试、真实b78先打再精选场景通过；旧b109场景受旧空槽惩罚影响不能单独证明新延后逻辑，新场景明确检查原精选可用和延后日志。48局0 bug、192席资源对账通过。未合入默认，无新随机验收。
+
+
 - **大战略先打后精选2d51b3fe固定24组未接受**：整体224.73958→228.60417（+3.86458，配对SE 2.07753），寰宇+4.29167、大战略-1.08333、作弊+6.125，高分四分位+21.29167。大奖励黄信用89→96、红宣传74→73、蓝数据76→83；精选从96→95次，占2/3槽精选0→28次，精选牌后来打出40→53。但大战略主行动34.70833→33.79167。case16第二轮因手中有合格牌持续延后，实际扫描/分析/科技先行并消耗手牌，整轮无公司精选；存在好牌不等于实际会先打牌。52测试及真实b78付款、黄槽退款、随后精选b109清槽通过；48局0 bug、192席对账通过。见 [完整结果](ai-validation/2026-09-06-strategy-pick-order-development-results.json)、[资源](ai-validation/2026-09-06-strategy-pick-order-development-resources.md)、[奖励](ai-validation/2026-09-06-strategy-pick-order-development-rewards.json)、[漏用轮次](ai-validation/2026-09-06-strategy-pick-order-development-missed-round.json)。没有新随机验收，未合入默认；后续顺序判断需与实际政策选择一致。
 
 

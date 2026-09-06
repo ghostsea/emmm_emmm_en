@@ -1,0 +1,29 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Real two identical b78 cards with separate instances. After the top-level play choice the fallback policy deliberately prefers the other instance. The chosen instance is paid and played, the other retained, yellow credit reward resolved.",
+      "intended": "card-67-0",
+      "actual": "card-67-0",
+      "fallbackCalled": false,
+      "intendedCardMatched": true,
+      "resources": {
+        "credits": 2,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 10
+      },
+      "remaining": [
+        "card-68-0"
+      ],
+      "slots": {
+        "yellow": true
+      },
+      "bugs": []
+    }
+  }
+}
