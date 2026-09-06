@@ -1060,7 +1060,8 @@
     if (sourceCategory === "setup") {
       collectStructuredSetupIncome(text, incomeDeltas, resourceDeltas);
     }
-    const implicitDataGains = (text.match(/获得数据/g) || []).length;
+    const affirmativeDataText = text.replace(/(?:不|未|无法|未能|不能|不会|不再)获得数据/g, "");
+    const implicitDataGains = (affirmativeDataText.match(/获得数据/g) || []).length;
     const recordedDataGains = Math.max(0, Number(resourceDeltas.availableData) || 0);
     const setupIncomeDataGain = sourceCategory === "setup" && /结算初始效果/.test(text)
       ? Math.max(0, Number(incomeDeltas.availableData) || 0) : 0;

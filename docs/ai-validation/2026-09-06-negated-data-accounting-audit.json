@@ -1,0 +1,3077 @@
+{
+  "scope": "Audit of frozen complete 24 baseline/candidate raw resource events. Counts positive availableData assigned to explicitly negated gain text with no affirmative gain or explicit positive data delta. Full revised accounting needs reprocessing original action snapshots or rerunning; do not silently subtract this from all reported sources/costs.",
+  "groups": {
+    "baseline": {
+      "作弊实验室": {
+        "events": 112,
+        "phantomDataGain": 194
+      },
+      "宇宙大战略集团": {
+        "events": 37,
+        "phantomDataGain": 61
+      },
+      "寰宇超动力": {
+        "events": 27,
+        "phantomDataGain": 49
+      }
+    },
+    "candidate": {
+      "作弊实验室": {
+        "events": 103,
+        "phantomDataGain": 174
+      },
+      "宇宙大战略集团": {
+        "events": 44,
+        "phantomDataGain": 75
+      },
+      "寰宇超动力": {
+        "events": 15,
+        "phantomDataGain": 23
+      }
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 15,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "木星所在扇区扫描 2/2：织女一 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 140,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "开普勒22扇区扫描 2/2：开普勒22 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 166,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 5 次扫描"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 166,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区2：比邻星 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 166,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位6 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 166,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区4：巴纳德 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 166,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：南河三 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 166,
+      "stepIndex": 6,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：室女座61 槽位5 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 15,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "木星所在扇区扫描 2/2：织女一 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 152,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "南河三扫描 2/2：南河三 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 7,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 7,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 7,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 7,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 19,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：已追加 2 次扫描"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 19,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区5 1/2：室女座61 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 19,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区5 2/2：室女座61 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 62,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：开普勒22 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 158,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：开普勒22 已无未替换数据，追加棕色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 159,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 6 次扫描"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 159,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：开普勒22 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 159,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区2：比邻星 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 159,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 159,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：室女座61 槽位6 替换为白色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 159,
+      "stepIndex": 6,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：绘架座β 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 159,
+      "stepIndex": 7,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 7,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 7,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 7,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 7,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 19,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：已追加 2 次扫描"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 19,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区5 1/2：室女座61 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 19,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区5 2/2：室女座61 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 62,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：开普勒22 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 149,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "土星所在扇区扫描 2/2：开普勒22 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 158,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 158,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：开普勒22 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 158,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区2：比邻星 槽位6 替换为白色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 158,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位4 替换为白色token；不获得数据"
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 162,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：开普勒22 已无未替换数据，追加白色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 19,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "室女座61扇区扫描 2/2：室女座61 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 37,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 37,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 37,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 37,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 127,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "比邻星扫描 2/2：比邻星 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 19,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "室女座61扇区扫描 2/2：室女座61 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 37,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 37,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 37,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 37,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 127,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "比邻星扫描 2/2：比邻星 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 60,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "巴纳德扇区扫描 2/2：巴纳德 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 75,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 2 次扫描"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 75,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区4：比邻星 槽位6 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 75,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 125,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 125,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位6 替换为白色token；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 125,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位1 替换为白色token；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 125,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 60,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "巴纳德扇区扫描 2/2：巴纳德 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 75,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 2 次扫描"
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 75,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区4：比邻星 槽位6 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 75,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 176,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "南河三扫描 2/2：南河三 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 23,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 23,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位2 替换为绿色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 23,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位2 替换为绿色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 23,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 107,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：天狼星A 已无未替换数据，追加蓝色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 170,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 1 次扫描"
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 170,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区2：巴纳德 槽位5 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 23,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 23,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 23,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位2 替换为绿色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 23,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位1 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 34,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：绘架座β 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 91,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "南河三扫描 2/2：南河三 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 121,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "火星所在扇区扫描 2/2：织女一 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 161,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 4 次扫描"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 161,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：织女一 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 161,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：开普勒22 槽位5 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 161,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：室女座61 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 161,
+      "stepIndex": 6,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位5 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 29,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 29,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：织女一 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 29,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位6 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 29,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：开普勒22 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 29,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 29,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：织女一 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 29,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位6 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 29,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：开普勒22 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 49,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "南河三扫描 2/2：南河三 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 135,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "开普勒22扇区扫描 2/2：开普勒22 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 156,
+      "stepIndex": 6,
+      "phantomGain": 1,
+      "source": "手牌扫描 罗曼空间望远锐：巴纳德 已无未替换数据，追加蓝色扫描计数；不获得数据；弃除手牌 罗曼空间望远锐；资源：手牌-1"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 167,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 167,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：织女一 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 167,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：开普勒22 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 167,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：绘架座β 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 49,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "南河三扫描 2/2：南河三 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 135,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "开普勒22扇区扫描 2/2：开普勒22 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 156,
+      "stepIndex": 6,
+      "phantomGain": 1,
+      "source": "手牌扫描 罗曼空间望远锐：巴纳德 已无未替换数据，追加蓝色扫描计数；不获得数据；弃除手牌 罗曼空间望远锐；资源：手牌-1"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 167,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 167,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：织女一 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 167,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：开普勒22 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 167,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：绘架座β 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 4 次扫描"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：开普勒22 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：织女一 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：室女座61 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 33,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "水星扇区扫描 2/2：巴纳德 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 150,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "金星所在扇区扫描 2/2：织女一 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 4 次扫描"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：开普勒22 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：织女一 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 32,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：室女座61 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 33,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "水星扇区扫描 2/2：巴纳德 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 150,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "金星所在扇区扫描 2/2：织女一 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 27,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 27,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：室女座61 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 27,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：南河三 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 27,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：巴纳德 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 66,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "巴纳德扇区扫描 2/2：巴纳德 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 138,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：室女座61 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 139,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 139,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位6 替换为白色token；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 139,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 139,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 27,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 27,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：室女座61 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 27,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：南河三 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 27,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：巴纳德 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 66,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "巴纳德扇区扫描 2/2：巴纳德 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 138,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：室女座61 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 139,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 139,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位6 替换为白色token；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 139,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 139,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 107,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "宇宙战略集团：蓝色奖励槽：+1 数据（数据池已满，未获得数据）"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 140,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 140,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 140,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位2 替换为绿色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 140,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 165,
+      "stepIndex": 6,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：天狼星A 已无未替换数据，追加蓝色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 180,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 6 次扫描"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 180,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：织女一 槽位4 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 180,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：天狼星A 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 180,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区2：巴纳德 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 180,
+      "stepIndex": 6,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：室女座61 槽位6 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 180,
+      "stepIndex": 7,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：比邻星 槽位6 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 180,
+      "stepIndex": 8,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 107,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "宇宙战略集团：蓝色奖励槽：+1 数据（数据池已满，未获得数据）"
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 141,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 141,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 141,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 141,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 156,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：开普勒22 已无未替换数据，追加蓝色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 112,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：已追加 2 次扫描"
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 112,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区1 1/2：天狼星A 槽位6 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 112,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区1 2/2：天狼星A 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 112,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：已追加 2 次扫描"
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 112,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区1 1/2：天狼星A 槽位6 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 112,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区1 2/2：天狼星A 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 55,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "巴纳德扇区扫描 2/2：巴纳德 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 56,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：织女一 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 55,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "巴纳德扇区扫描 2/2：巴纳德 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 56,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：织女一 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 52,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 52,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位5 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 52,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 52,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 165,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：南河三 已无未替换数据，追加棕色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 175,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 175,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：天狼星A 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 175,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：巴纳德 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 175,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 52,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 52,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位5 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 52,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 52,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 144,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：天狼星A 已无未替换数据，追加蓝色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 150,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 4 次扫描"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 150,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：室女座61 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 150,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区2：绘架座β 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 150,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区4：比邻星 槽位6 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 150,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 4 次扫描"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：南河三 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：织女一 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：室女座61 槽位6 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 91,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 91,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 91,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 91,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 4 次扫描"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：天狼星A 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：南河三 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区6：织女一 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 53,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：室女座61 槽位6 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 91,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 91,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 91,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 91,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 8,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：室女座61 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 8,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 8,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 163,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 163,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 163,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 163,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 158,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 158,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 158,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 158,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 55,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "木星所在扇区扫描 2/2：织女一 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 80,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 80,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 80,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 80,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位1 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 111,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 111,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：织女一 槽位4 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 111,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：天狼星A 槽位2 替换为绿色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 111,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：开普勒22 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 152,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "手牌扫描 政府资助：室女座61 已无未替换数据，追加白色扫描计数；不获得数据；弃除手牌 政府资助；资源：手牌-1"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 55,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "木星所在扇区扫描 2/2：织女一 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 80,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位2 替换为蓝色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 80,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 80,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位4 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 80,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位1 替换为蓝色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 111,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 111,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：织女一 槽位4 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 111,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：天狼星A 槽位2 替换为绿色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 111,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：开普勒22 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 152,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "手牌扫描 政府资助：室女座61 已无未替换数据，追加白色扫描计数；不获得数据；弃除手牌 政府资助；资源：手牌-1"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 5 次扫描"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：绘架座β 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：天狼星A 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：开普勒22 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区4：比邻星 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 6,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：室女座61 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 172,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：比邻星 已无未替换数据，追加蓝色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 5 次扫描"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区0：绘架座β 槽位4 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：天狼星A 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区3：开普勒22 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 5,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区4：比邻星 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 128,
+      "stepIndex": 6,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：室女座61 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 172,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：比邻星 已无未替换数据，追加蓝色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 24,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 24,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：开普勒22 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 24,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：奥陌陌 槽位1 替换为棕色token；槽位1 +1分；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 24,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 47,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 47,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：奥陌陌 槽位2 替换为白色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 47,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 47,
+      "stepIndex": 6,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 133,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：绘架座β 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 24,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 3 次扫描"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 24,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区1：开普勒22 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 24,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：奥陌陌 槽位1 替换为棕色token；槽位1 +1分；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 24,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区7：南河三 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 47,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位2 替换为白色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 47,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：奥陌陌 槽位2 替换为白色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 47,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 47,
+      "stepIndex": 6,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：绘架座β 槽位3 替换为白色token；不获得数据"
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 134,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：南河三 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 11,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 11,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 11,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 11,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 58,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 2 次扫描"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 58,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区4：织女一 槽位4 替换为白色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 58,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：天狼星A 槽位4 替换为白色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 88,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "金星所在扇区扫描 2/2：天狼星A 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 123,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：已追加 2 次扫描"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 123,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区2 1/2：比邻星 槽位6 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 123,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "选择自己至少3个信号的扇区扫描2次（不获得数据）：扇区2 2/2：比邻星 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 11,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 11,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位1 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 11,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 11,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 147,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "地球所在扇区扫描 2/2：绘架座β 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 148,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "金星所在扇区扫描 2/2：巴纳德 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 174,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "选择最多3个探测器，各扫描所在扇区：开普勒22：开普勒22 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 174,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "选择最多3个探测器，各扫描所在扇区：开普勒22：开普勒22 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 11,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 1 次扫描"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 11,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：开普勒22 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 29,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 29,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 29,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位5 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 29,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 127,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "地球所在扇区扫描 2/2：开普勒22 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 153,
+      "stepIndex": 4,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：天狼星A 已无未替换数据，追加白色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 11,
+      "stepIndex": 1,
+      "phantomGain": 1,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：已追加 1 次扫描"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 11,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "每个有自己信号的扇区各扫描1次（不获得数据）：扇区5：开普勒22 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 29,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 29,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：巴纳德 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 29,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位5 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 29,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 129,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "地球所在扇区扫描 2/2：织女一 已无未替换数据，追加绿色扫描计数；不获得数据"
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 152,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：天狼星A 已无未替换数据，追加蓝色扫描计数；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 72,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位3 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 72,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位5 替换为棕色token；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "company": "宇宙大战略集团",
+      "entryId": 72,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：南河三 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 72,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为棕色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "company": "寰宇超动力",
+      "entryId": 95,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "火星所在扇区扫描 2/2：比邻星 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "company": "作弊实验室",
+      "entryId": 160,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "水星扇区扫描：室女座61 已无未替换数据，追加绿色扫描计数；不获得数据；消耗 1宣传"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "company": "寰宇超动力",
+      "entryId": 67,
+      "stepIndex": 3,
+      "phantomGain": 1,
+      "source": "水星扇区扫描 2/2：织女一 已无未替换数据，追加白色扫描计数；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 87,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "水星所在扇区扫描 2/2：开普勒22 已无未替换数据，追加棕色扫描计数；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 88,
+      "stepIndex": 1,
+      "phantomGain": 2,
+      "source": "黄色扇区扫描（不获得数据）：开普勒22 槽位2 替换为绿色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 88,
+      "stepIndex": 2,
+      "phantomGain": 2,
+      "source": "红色扇区扫描（不获得数据）：比邻星 槽位3 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "company": "宇宙大战略集团",
+      "entryId": 88,
+      "stepIndex": 3,
+      "phantomGain": 2,
+      "source": "蓝色扇区扫描（不获得数据）：天狼星A 槽位4 替换为绿色token；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 88,
+      "stepIndex": 4,
+      "phantomGain": 2,
+      "source": "黑色扇区扫描（不获得数据）：织女一 槽位2 替换为绿色token；槽位2 +2分；不获得数据"
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "company": "作弊实验室",
+      "entryId": 149,
+      "stepIndex": 2,
+      "phantomGain": 1,
+      "source": "南河三扫描 2/2：南河三 已无未替换数据，追加绿色扫描计数；不获得数据"
+    }
+  ]
+}

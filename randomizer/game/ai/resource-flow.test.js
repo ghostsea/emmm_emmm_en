@@ -640,4 +640,25 @@ assert.equal(gainedIncomeCard.players[0].incomeCardConversionRate, 1);
   assert.equal(report.reconciliation.residualMagnitude, 0);
 }
 
+{
+  for (const text of ["追加蓝色扫描计数；不获得数据", "未获得数据", "无法获得数据", "未能获得数据", "不能获得数据", "不会获得数据", "不再获得数据"]) {
+    const report = flow.analyzeStructuredActionLog([{ id: 1, roundNumber: 4, playerId: "p", actionType: "playCard", steps: [{ source: "main", text }] }], { initialPlayerStates: [{ id: "p", resources: {} }] });
+    assert.equal(report.players[0].nonIncomeGain.availableData, 0, text);
+  }
+  const initial = { id: "p", resources: { availableData: 0 } };
+  const report = flow.analyzeStructuredActionLog([{
+    id: 174, roundNumber: 4, playerId: "p", actionType: "playCard",
+    steps: [
+      { source: "main", text: "开普勒22 槽位5 替换为蓝色token；获得数据；资源：数据+1" },
+      { source: "main", text: "开普勒22 已无未替换数据，追加蓝色扫描计数；不获得数据" },
+      { source: "main", text: "开普勒22 已无未替换数据，追加蓝色扫描计数；不获得数据" },
+    ], accountingSnapshot: { players: [{ ...initial, resources: { availableData: 1 } }] },
+  }], { initialPlayerStates: [initial] });
+  assert.equal(report.players[0].nonIncomeGain.availableData, 1);
+  assert.equal(report.players[0].spent.availableData, 0, "no phantom snapshot-balancing data cost");
+  assert.equal(report.reconciliation.residualMagnitude, 0);
+  const mixed = flow.analyzeStructuredActionLog([{ id: 1, playerId: "p", steps: [{ text: "第一次不获得数据；第二次获得数据" }] }], { initialPlayerStates: [initial] });
+  assert.equal(mixed.players[0].nonIncomeGain.availableData, 1);
+}
+
 console.log("resource-flow.test.js: all tests passed");

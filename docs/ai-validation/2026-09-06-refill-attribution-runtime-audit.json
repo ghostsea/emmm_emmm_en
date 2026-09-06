@@ -1,0 +1,111 @@
+{
+  "scope": "Same seed and independent alien seed, original scoring baseline versus report-only correction. One exact previously failing event verified, not a broad score-validation claim.",
+  "commit": "60ac64cf1ea54042017646450e3767e1d8972230",
+  "baselineScores": [
+    328,
+    167,
+    147,
+    256
+  ],
+  "correctedScores": [
+    328,
+    167,
+    147,
+    256
+  ],
+  "baselineSteps": 1444,
+  "correctedSteps": 1444,
+  "bugCount": 0,
+  "events": [
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "entryId": 168,
+      "stepIndex": 0,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "finalScore": 328,
+      "roundNumber": 4,
+      "turnNumber": 8,
+      "pace": "quick",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "快速交易：3宣传 → 精选1张牌：快速交易精选：延期发射，公共区已补牌：重组",
+      "resourceDeltas": {
+        "handSize": 1
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "card-169-0",
+          "label": "card-169-0",
+          "change": "gain",
+          "origin": "normal"
+        }
+      ],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "作弊实验室",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "entryId": 168,
+      "stepIndex": 1,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "finalScore": 328,
+      "roundNumber": 4,
+      "turnNumber": 8,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "打出：康奈尔大学：资源：信用点-1、手牌-1",
+      "resourceDeltas": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "card-184-0",
+          "label": "康奈尔大学",
+          "change": "play",
+          "origin": "normal"
+        }
+      ],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "作弊实验室",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "entryId": 168,
+      "stepIndex": 9007199254740981,
+      "playerId": "player-blue",
+      "playerLabel": "蓝色",
+      "finalScore": 328,
+      "roundNumber": 4,
+      "turnNumber": 8,
+      "pace": "playCard",
+      "sourceCategory": "cost",
+      "sourceDetail": "snapshot inference: cost",
+      "resourceDeltas": {
+        "publicity": -3
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "作弊实验室",
+      "confidence": 0.8,
+      "syntheticSnapshotInference": true
+    }
+  ],
+  "baselineHandGains": 14,
+  "correctedHandGains": 15,
+  "baselineHandSpent": 38,
+  "correctedHandSpent": 39
+}
