@@ -17104,7 +17104,7 @@ async function runAsyncControllerTests() {
 }
 
 {
-  const profile = ({ company = "寰宇超动力", placed = 0, dataCount = 2, round = 1 } = {}) => {
+  const profile = ({ company = "寰宇超动力", placed = 0, dataCount = 2, round = 1, tile = "blue1" } = {}) => {
     const choices = [];
     const harness = createAiControllerHarness(null, {
       currentPlayerColor: "blue", aiDifficulty: "laughable", roundNumber: round,
@@ -17112,13 +17112,14 @@ async function runAsyncControllerTests() {
       canStartMainAction: true,
       blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
       blueResources: { credits: 3, energy: 2, publicity: 6, availableData: dataCount },
-      takeableTechIds: ["blue1"],
-      techStacks: { blue1: { techType: "blue", stackIndex: 1, bonusId: "bonus_3f", remaining: 4 } },
+      takeableTechIds: [tile],
+      techStacks: { [tile]: { techType: "blue", stackIndex: 1, bonusId: "bonus_3f", remaining: 4 } },
       availableBlueSlots: [1, 2, 3, 4],
       data: {
         listComputerPlacedTokens: () => Array.from({ length: placed }, (_, i) => ({ placementSlot: i + 1 })),
         getRequiredComputerSlotForBlueBonus: () => 1,
-        getBlueTileDataBonus: () => ({ type: "credits", credits: 1 }),
+        getBlueTileDataBonus: () => tile === "blue3"
+          ? { type: "choose_card" } : { type: "credits", credits: 1 },
         getBlueColumnScoreBonus: () => ({ type: "score", score: 2 }),
       },
       onChooseTurnAction: candidates => choices.push(...candidates),
@@ -17136,6 +17137,8 @@ async function runAsyncControllerTests() {
     "a starting engine may acquire data later instead of being forecast as zero forever");
   assert.ok(profile({ round: 3 }).futureCycleExpectation < profile().futureCycleExpectation);
   assert.equal(profile({ company: "宇宙大战略集团" }), null, "company isolation preserves Grand Strategy policy");
+  assert.equal(profile({ tile: "blue3" }).resourceValue, 5.4,
+    "a blue3 reward adds one card and does not count its selection marker as a second card");
   assert.equal(profile({ company: "作弊实验室" }), null, "keep the stronger company as an unchanged policy control");
   assert.equal(profile({ round: 4 }), null, "terminal tactics retain their explicit cashout valuation");
 }
