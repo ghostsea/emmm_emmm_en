@@ -17109,3 +17109,30 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+// 每个外星人槽独立授予首痕迹资源与揭示资格。
+for (const traceType of ["yellow", "pink", "blue"]) {
+  for (const openSlot of [1, 2]) {
+    const occupiedSlot = 3 - openSlot;
+    const selected = [];
+    const alienGameState = { aliens: {
+      [openSlot]: makeHiddenAlienSlot(),
+      [occupiedSlot]: makeHiddenAlienSlot({ [traceType]: "white" }),
+    } };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: 1, aiValuation: setiAi.valuation,
+      alienSlotIds: [1, 2], alienGameState,
+      pendingAlienTraceAction: { targetPlayerId: "player-blue" },
+      alienTracePickerState: { mode: "trace-board", allowedTraceTypes: [traceType] },
+      alienStateTraceButtons: [
+        makeButton({ stateTraceSlot: "true", alienSlot: String(occupiedSlot), traceType, stateTraceKind: "extra" }, "", false, () => selected.push("extra")),
+        makeButton({ stateTraceSlot: "true", alienSlot: String(openSlot), traceType, stateTraceKind: "first" }, "", false, () => selected.push("first")),
+      ],
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    assert.equal(harness.controller.runAiAutomationStep().ok, true);
+    const traceLog = harness.controller.getAiAutoBattleReport().logs.find(e => e.type === "alien-trace");
+    assert.ok(traceLog.details.score >= 4, "An open first trace must retain at least its certain immediate resource value");
+    assert.deepEqual(selected, ["first"], `${traceType} first trace in slot ${openSlot} retains publicity and reveal benefits despite another slot's owner`);
+  }
+}

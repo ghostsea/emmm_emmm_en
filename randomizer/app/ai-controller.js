@@ -10466,7 +10466,8 @@
 
     function isAiHiddenFirstTraceColorLost(traceType, player = getCurrentPlayer()) {
       const status = getAiHiddenFirstTraceColorStatus(traceType, player);
-      return status.opponent > 0 && status.own <= 0;
+      // 另一槽的同色首痕迹不会夺走本槽仍开放的首痕迹奖励与揭示资格。
+      return status.open <= 0 && status.opponent > 0 && status.own <= 0;
     }
 
     function getAiAlienSlot(alienSlotId) {
