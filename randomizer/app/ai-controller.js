@@ -18569,6 +18569,19 @@
       return penalty;
     }
 
+    function getAiScanAction4ExclusivePreview(player = getCurrentPlayer()) {
+      const effects = scanEffects.buildScanEffectQueue(player, {
+        fullScanAction: true, turnState,
+        roundNumber: turnState.roundNumber, turnNumber: turnState.turnNumber,
+      });
+      if (!effects.some(effect => effect.type === scanEffects.EFFECT_TYPES.SCAN_ACTION_4)) return null;
+      const launchValue = Math.max(0, scoreAiLaunchAction(player) * 0.45);
+      const bestMove = listAiMoveCandidates()[0];
+      const moveValue = bestMove ? Math.max(0, aiNumber(bestMove.score) * 0.35) : 0;
+      return { launchValue, moveValue, value: Math.max(launchValue, moveValue),
+        removedExclusiveOverlap: Math.min(launchValue, moveValue) };
+    }
+
     function scoreAiScanAction(player = getCurrentPlayer()) {
       const effects = scanEffects.buildScanEffectQueue(player, {
         fullScanAction: true,
@@ -18596,9 +18609,7 @@
           const bestHandScan = getAiBestHandScanIndex(player);
           if (bestHandScan) value += bestHandScan.score;
         } else if (effect.type === scanEffects.EFFECT_TYPES.SCAN_ACTION_4) {
-          value += Math.max(0, scoreAiLaunchAction(player) * 0.45);
-          const bestMove = listAiMoveCandidates()[0];
-          if (bestMove) value += Math.max(0, aiNumber(bestMove.score) * 0.35);
+          value += getAiScanAction4ExclusivePreview(player)?.value || 0;
         }
       }
       const earlyEngineValue = scoreAiEarlyScanEngineValue(player);
@@ -23499,6 +23510,7 @@
           directScoreGain: scanDirectScoreGain,
           scanEnergyReservationPenalty,
           rawScanEnergyReservationPenalty,
+          scanAction4ExclusivePreview: scanCheck.ok ? getAiScanAction4ExclusivePreview(currentPlayer) : null,
           scanDataPlacementOpportunities: scanProjectedAnalyzeUnlock ? 2 : 0,
           scanProjectedAnalyzeUnlock,
           analyzeCashoutScore,
