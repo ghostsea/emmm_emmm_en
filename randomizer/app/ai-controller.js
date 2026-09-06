@@ -10656,10 +10656,9 @@
         const planet = getPlanetSectorCoordinate(opts.planetId);
         choices = planet ? buildSectorScanChoicesForX(planet.x) || [] : [];
       } else if (effect.type === types.PUBLIC_SCAN) {
-        choices = (cardState.publicCards || []).filter(Boolean).flatMap(card => {
-          const result = getPublicScanChoicesForCard(card);
-          return result?.ok ? result.choices || [] : [];
-        });
+        const publicCard = getAiBestPublicScanSlots(player, { maxSelectable: 1 })[0]?.card;
+        const result = publicCard ? getPublicScanChoicesForCard(publicCard) : null;
+        choices = result?.ok ? result.choices || [] : [];
       } else {
         const ids = cardEffects.NEBULA_IDS_BY_COLOR?.[opts.color] || [];
         const allChoices = buildSectorScanChoicesForXs(Array.from({ length: 8 }, (_, x) => x)) || [];

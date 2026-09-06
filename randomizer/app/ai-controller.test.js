@@ -443,6 +443,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         FREE_MOVE: "free_move",
         SCAN_NEBULA: cardEffects.EFFECT_TYPES.SCAN_NEBULA,
         ANY_SECTOR_SCAN: cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN,
+        PUBLIC_SCAN: cardEffects.EFFECT_TYPES.PUBLIC_SCAN,
         SCAN_COLOR_CHOICE: "card_scan_color_choice",
         RESEARCH_TECH: "card_research_tech",
         PAY_CREDITS_FOR_REWARD: "card_pay_credits_for_reward",
@@ -17181,4 +17182,19 @@ runAsyncControllerTests()
   const p = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
   assert.equal(p.nebulaId, "aomomo", "include the same-sector Aomomo target but exclude the other color");
   assert.equal(p.dataGain, 0, "explicit no-data scan remains no-data");
+}
+
+{
+  const realData = require("../game/data");
+  const scanState = realData.createDefaultNebulaDataState();
+  const ids = ["sector-1-a", "sector-2-b", "sector-3-a"];
+  for (const id of ids) realData.fillNebulaData(scanState, id, { source: "test" });
+  const a = { id: "public-one-target" }, b = { id: "public-two-targets" };
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { availableData: 0 }, nebulaDataState: scanState, publicCards: [a, b],
+    getPublicScanChoicesForCard: card => ({ ok: true, choices: (card.id === a.id ? [ids[0]] : [ids[1], ids[2]]).map(nebulaId => ({ nebulaId })) }),
+    data: { ...realData, getNebulaColor: () => "red", getNebulaSlotScoreReward: id => id === ids[0] ? 10 : id === ids[1] ? 9.9 : 0 } });
+  const profile = h.controller.buildAiCardScanTargetPreview([{ type: cardEffects.EFFECT_TYPES.PUBLIC_SCAN }], h.blue);
+  assert.equal(profile.nebulaId, ids[1], "public preview must rank public cards including flexibility before ranking that card's targets");
+  assert.equal(profile.slotScore, 9.9);
 }
