@@ -17116,13 +17116,27 @@ runAsyncControllerTests()
  const publicCard={id:'strategy-public-later',cardId:'strategy-public-later',cardTypeCode:0,price:1,scanActionCode:2,
   playEffects:[{type:'gain_resources',options:{gain:{score:1}}}]};
  const h=createAiControllerHarness(null,{currentPlayerColor:'blue',roundNumber:2,canStartMainAction:true,
-  realisticCanAfford:true,industry:industryModule,blueInitialSelection:{industry:{id:'industry:宇宙大战略集团',label:'宇宙大战略集团'}},
+  chooseTurnAction:setiAi.policy.chooseTurnAction,realisticCanAfford:true,industry:industryModule,blueInitialSelection:{industry:{id:'industry:宇宙大战略集团',label:'宇宙大战略集团'}},
   blueResources:{credits:2,energy:0,score:10,handSize:1},blueHand:[held],publicCards:[publicCard]});
  const before=JSON.stringify(h.blue),profile=h.controller.getAiStrategyPickOrderProfile(h.blue);
  assert.ok(profile,'a payable held card can claim the empty yellow reward before the reset');
  assert.equal(profile.heldCard.cardInstanceId,held.id);assert.equal(profile.heldCard.reward.slotId,'yellow');
  assert.equal(JSON.stringify(h.blue),before,'comparison does not play, pay, or mark a slot');
- assert.equal(h.controller.buildAiIndustryCandidate(h.blue),null,'defer the actual optional pick candidate');
+ const pick=h.controller.buildAiIndustryCandidate(h.blue);
+ assert.ok(pick,'the raw candidate stays available until the final policy comparison');
+ const play={id:'playCard',available:true,cardInstanceId:held.id,score:20};
+ const choice=[pick,play];
+ const selected=h.controller.applyAiStrategyPickOrderSelection(choice,h.blue);
+ assert.equal(selected.length,1);assert.equal(selected[0].id,'playCard');
+ assert.ok(selected[0].valueBreakdown.strategyPickOrder);
+ assert.equal(choice.length,2,'no mutation of the source candidate list');
+ for(const id of ['scan','analyze','researchTech','cardCorner','end-turn','pass']){
+  const other={id,available:true,score:100};
+  const cs=[pick,play,other];
+  assert.equal(h.controller.applyAiStrategyPickOrderSelection(cs,h.blue),cs,id+' selection must keep the optional pick');
+ }
+ const otherPlay=[pick,{...play,cardInstanceId:'another-card'}];
+ assert.equal(h.controller.applyAiStrategyPickOrderSelection(otherPlay,h.blue),otherPlay,'another card is not proof of the held-card sequence');
  h.blue.industryStrategyPassiveSlots={yellow:true,red:true,blue:true};
  assert.equal(h.controller.getAiStrategyPickOrderProfile(h.blue),null,'full slots should be cleared');
  assert.ok(h.controller.buildAiIndustryCandidate(h.blue),'restore the pick when no slot reward can be taken first');

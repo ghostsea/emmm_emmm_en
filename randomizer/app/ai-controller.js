@@ -20267,6 +20267,22 @@
         scope: "defer the optional pick while an affordable held card can claim an empty slot and has at least the same common play value; no future public-card identity or full sequence simulation" };
     }
 
+    function applyAiStrategyPickOrderSelection(candidates, player = getCurrentPlayer()) {
+      const pick = candidates.find((candidate) => candidate.id === "industry"
+        && candidate.abilityId === "strategy_pick_card" && candidate.available !== false);
+      if (!pick) return candidates;
+      const profile = getAiStrategyPickOrderProfile(player);
+      if (!profile) return candidates;
+      const withoutPick = candidates.filter((candidate) => candidate !== pick);
+      const next = ai?.policy?.chooseTurnAction?.(withoutPick, { playerState, turnState, currentPlayer: player });
+      if (next?.id !== "playCard" || next.available === false
+        || next.cardInstanceId !== profile.heldCard.cardInstanceId) return candidates;
+      return withoutPick.map((candidate) => candidate === next ? {
+        ...candidate,
+        valueBreakdown: { ...candidate.valueBreakdown, strategyPickOrder: profile },
+      } : candidate);
+    }
+
     function buildAiIndustryCandidate(player = getCurrentPlayer()) {
       const industryCard = getAiIndustryCard(player);
       if (!industry || !industryCard || !handleCompanyActionMarkerClick) return null;
@@ -20305,7 +20321,7 @@
       } else if (abilityId === "strategy_pick_card") {
         publicPickProfile = getAiIndustryPublicPickProfile(player, "industry_strategy_pick");
         strategyPassiveSlots = summarizeAiStrategyPassiveSlots(player);
-        if (getAiStrategyPickOrderProfile(player, publicPickProfile)) return null;
+
         score = publicPickProfile.bestScore;
       }
       const earlyEmptyStrategyPickPenalty = abilityId === "strategy_pick_card"
@@ -25438,7 +25454,9 @@
           };
         })
         : rawCandidates;
-      const candidates = applyAiTurnActionSelectionPressure(graphAdjustedCandidates);
+      const candidates = applyAiStrategyPickOrderSelection(
+        applyAiTurnActionSelectionPressure(graphAdjustedCandidates), currentPlayer,
+      );
       let selectableCandidates = candidates;
       const rejectedActions = [];
       const maxAttempts = Math.max(1, candidates.length);
@@ -26726,6 +26744,7 @@
 
     return {
       aiNumber,
+      applyAiStrategyPickOrderSelection,
       getAiStrategyPickOrderProfile,
       buildAiIndustryCandidate,
       applyAiStrategyTuning,
