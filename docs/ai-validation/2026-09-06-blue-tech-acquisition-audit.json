@@ -1,0 +1,669 @@
+{
+  "scope": "AI tech-placement selected tile logs, unique per player; counts reconciled to final techTypeCounts.blue for every seat. Slot-placement logs are excluded; tile type and board slot differ.",
+  "summary": {
+    "宇宙大战略集团": {
+      "seats": 8,
+      "tiles": {
+        "blue1": {
+          "owners": 6,
+          "round": 2.8333333333333335,
+          "early": 2
+        },
+        "blue2": {
+          "owners": 5,
+          "round": 2.4,
+          "early": 2
+        },
+        "blue3": {
+          "owners": 4,
+          "round": 2,
+          "early": 3
+        },
+        "blue4": {
+          "owners": 4,
+          "round": 3.5,
+          "early": 0
+        }
+      }
+    },
+    "作弊实验室": {
+      "seats": 16,
+      "tiles": {
+        "blue1": {
+          "owners": 14,
+          "round": 2.7142857142857144,
+          "early": 4
+        },
+        "blue2": {
+          "owners": 15,
+          "round": 2.6666666666666665,
+          "early": 7
+        },
+        "blue3": {
+          "owners": 14,
+          "round": 2.7142857142857144,
+          "early": 4
+        },
+        "blue4": {
+          "owners": 12,
+          "round": 2.6666666666666665,
+          "early": 5
+        }
+      }
+    },
+    "寰宇超动力": {
+      "seats": 8,
+      "tiles": {
+        "blue1": {
+          "owners": 5,
+          "round": 3,
+          "early": 1
+        },
+        "blue2": {
+          "owners": 5,
+          "round": 2.8,
+          "early": 1
+        },
+        "blue3": {
+          "owners": 4,
+          "round": 2.5,
+          "early": 1
+        },
+        "blue4": {
+          "owners": 3,
+          "round": 2.6666666666666665,
+          "early": 1
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "n": 1,
+      "playerId": "player-blue",
+      "company": "宇宙大战略集团",
+      "blue": [
+        {
+          "id": "blue3",
+          "round": 1
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        },
+        {
+          "id": "blue2",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 1,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 2
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue2",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 1,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue4",
+          "round": 1
+        },
+        {
+          "id": "blue2",
+          "round": 2
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 1,
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 1
+        },
+        {
+          "id": "blue2",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "playerId": "player-blue",
+      "company": "寰宇超动力",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 3
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "playerId": "player-green",
+      "company": "宇宙大战略集团",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 1
+        },
+        {
+          "id": "blue4",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 2,
+      "playerId": "player-white",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue3",
+          "round": 1
+        },
+        {
+          "id": "blue2",
+          "round": 2
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 3
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue2",
+          "round": 4
+        },
+        {
+          "id": "blue4",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 2
+        },
+        {
+          "id": "blue3",
+          "round": 2
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "playerId": "player-brown",
+      "company": "宇宙大战略集团",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 3,
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "blue": [
+        {
+          "id": "blue4",
+          "round": 2
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue2",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "playerId": "player-blue",
+      "company": "寰宇超动力",
+      "blue": [
+        {
+          "id": "blue3",
+          "round": 1
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 3
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue4",
+          "round": 2
+        },
+        {
+          "id": "blue2",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 4,
+      "playerId": "player-white",
+      "company": "宇宙大战略集团",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 1
+        },
+        {
+          "id": "blue4",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "playerId": "player-blue",
+      "company": "宇宙大战略集团",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 2
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue3",
+          "round": 2
+        },
+        {
+          "id": "blue2",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 2
+        },
+        {
+          "id": "blue3",
+          "round": 2
+        },
+        {
+          "id": "blue2",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 5,
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 1
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue4",
+          "round": 1
+        },
+        {
+          "id": "blue2",
+          "round": 2
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 1
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue2",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "playerId": "player-brown",
+      "company": "寰宇超动力",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 6,
+      "playerId": "player-white",
+      "company": "宇宙大战略集团",
+      "blue": [
+        {
+          "id": "blue3",
+          "round": 2
+        },
+        {
+          "id": "blue2",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "playerId": "player-blue",
+      "company": "作弊实验室",
+      "blue": []
+    },
+    {
+      "n": 7,
+      "playerId": "player-green",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 2
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        },
+        {
+          "id": "blue3",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "playerId": "player-brown",
+      "company": "宇宙大战略集团",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 1
+        },
+        {
+          "id": "blue3",
+          "round": 2
+        }
+      ]
+    },
+    {
+      "n": 7,
+      "playerId": "player-white",
+      "company": "寰宇超动力",
+      "blue": [
+        {
+          "id": "blue4",
+          "round": 3
+        },
+        {
+          "id": "blue2",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "playerId": "player-blue",
+      "company": "寰宇超动力",
+      "blue": [
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue4",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "playerId": "player-green",
+      "company": "宇宙大战略集团",
+      "blue": [
+        {
+          "id": "blue2",
+          "round": 2
+        },
+        {
+          "id": "blue1",
+          "round": 4
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "playerId": "player-brown",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue1",
+          "round": 1
+        },
+        {
+          "id": "blue4",
+          "round": 2
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue2",
+          "round": 3
+        }
+      ]
+    },
+    {
+      "n": 8,
+      "playerId": "player-white",
+      "company": "作弊实验室",
+      "blue": [
+        {
+          "id": "blue4",
+          "round": 1
+        },
+        {
+          "id": "blue2",
+          "round": 2
+        },
+        {
+          "id": "blue3",
+          "round": 3
+        },
+        {
+          "id": "blue1",
+          "round": 3
+        }
+      ]
+    }
+  ]
+}
