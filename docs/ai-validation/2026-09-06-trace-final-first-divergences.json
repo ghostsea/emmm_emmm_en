@@ -1,0 +1,953 @@
+{
+  "scope": "All 12 completed, now-seen validation pairs. First selected-action divergence only; not causal attribution of full-game score.",
+  "rows": [
+    {
+      "n": 1,
+      "meanDelta": 12.25,
+      "first": {
+        "index": 153,
+        "baseline": {
+          "id": 332,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 2,
+          "player": "player-green",
+          "resources": {
+            "score": 40,
+            "credits": 4,
+            "energy": 1,
+            "publicity": 3,
+            "availableData": 6,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-green",
+            2,
+            2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "1",
+            "blue",
+            5,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 332,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 2,
+          "player": "player-green",
+          "resources": {
+            "score": 40,
+            "credits": 4,
+            "energy": 1,
+            "publicity": 3,
+            "availableData": 6,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-green",
+            2,
+            2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "state-slot",
+            "trace-board",
+            "2",
+            "blue",
+            null,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 2,
+      "meanDelta": -10,
+      "first": {
+        "index": 193,
+        "baseline": {
+          "id": 384,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 3,
+          "player": "player-brown",
+          "resources": {
+            "score": 47,
+            "credits": 6,
+            "energy": 0,
+            "publicity": 5,
+            "availableData": 2,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-brown",
+            2,
+            3,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "1",
+            "yellow",
+            2,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 384,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 3,
+          "player": "player-brown",
+          "resources": {
+            "score": 47,
+            "credits": 6,
+            "energy": 0,
+            "publicity": 5,
+            "availableData": 2,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-brown",
+            2,
+            3,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "state-slot",
+            "trace-board",
+            "2",
+            "yellow",
+            null,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 3,
+      "meanDelta": 0,
+      "first": {
+        "index": 250,
+        "baseline": {
+          "id": 541,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 6,
+          "player": "player-blue",
+          "resources": {
+            "score": 61,
+            "credits": 4,
+            "energy": 0,
+            "publicity": 2,
+            "availableData": 2,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-blue",
+            2,
+            6,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "1",
+            "pink",
+            2,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 541,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 6,
+          "player": "player-blue",
+          "resources": {
+            "score": 61,
+            "credits": 4,
+            "energy": 0,
+            "publicity": 2,
+            "availableData": 2,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-blue",
+            2,
+            6,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "2",
+            "pink",
+            3,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 4,
+      "meanDelta": 5.75,
+      "first": {
+        "index": 206,
+        "baseline": {
+          "id": 436,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 3,
+          "player": "player-brown",
+          "resources": {
+            "score": 32,
+            "credits": 8,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 1,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-brown",
+            2,
+            3,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "1",
+            "blue",
+            3,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 436,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 3,
+          "player": "player-brown",
+          "resources": {
+            "score": 32,
+            "credits": 8,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 1,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-brown",
+            2,
+            3,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "state-slot",
+            "trace-board",
+            "2",
+            "blue",
+            null,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 5,
+      "meanDelta": -7.5,
+      "first": {
+        "index": 118,
+        "baseline": {
+          "id": 258,
+          "type": "alien-trace",
+          "round": 1,
+          "turn": 6,
+          "player": "player-brown",
+          "resources": {
+            "score": 33,
+            "credits": 2,
+            "energy": 1,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-brown",
+            1,
+            6,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "1",
+            "pink",
+            4,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 258,
+          "type": "alien-trace",
+          "round": 1,
+          "turn": 6,
+          "player": "player-brown",
+          "resources": {
+            "score": 33,
+            "credits": 2,
+            "energy": 1,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 5
+          },
+          "selection": [
+            "alien-trace",
+            "player-brown",
+            1,
+            6,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "state-slot",
+            "trace-board",
+            "2",
+            "pink",
+            null,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 6,
+      "meanDelta": -9,
+      "first": {
+        "index": 192,
+        "baseline": {
+          "id": 391,
+          "type": "tech-placement",
+          "round": 2,
+          "turn": 4,
+          "player": "player-brown",
+          "resources": {
+            "score": 32,
+            "credits": 6,
+            "energy": 0,
+            "publicity": 8,
+            "availableData": 1,
+            "handSize": 4
+          },
+          "selection": [
+            "tech-placement",
+            "player-brown",
+            2,
+            4,
+            null,
+            null,
+            null,
+            "blue1",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        },
+        "candidate": {
+          "id": 391,
+          "type": "tech-placement",
+          "round": 2,
+          "turn": 4,
+          "player": "player-brown",
+          "resources": {
+            "score": 32,
+            "credits": 6,
+            "energy": 0,
+            "publicity": 8,
+            "availableData": 1,
+            "handSize": 4
+          },
+          "selection": [
+            "tech-placement",
+            "player-brown",
+            2,
+            4,
+            null,
+            null,
+            null,
+            "blue2",
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 7,
+      "meanDelta": 15,
+      "first": {
+        "index": 164,
+        "baseline": {
+          "id": 328,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 2,
+          "player": "player-blue",
+          "resources": {
+            "score": 19,
+            "credits": 8,
+            "energy": 3,
+            "publicity": 4,
+            "availableData": 3,
+            "handSize": 6
+          },
+          "selection": [
+            "alien-trace",
+            "player-blue",
+            2,
+            2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "1",
+            "blue",
+            3,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 328,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 2,
+          "player": "player-blue",
+          "resources": {
+            "score": 19,
+            "credits": 8,
+            "energy": 3,
+            "publicity": 4,
+            "availableData": 3,
+            "handSize": 6
+          },
+          "selection": [
+            "alien-trace",
+            "player-blue",
+            2,
+            2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "state-slot",
+            "trace-board",
+            "2",
+            "blue",
+            null,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 8,
+      "meanDelta": 1.5,
+      "first": {
+        "index": 93,
+        "baseline": {
+          "id": 188,
+          "type": "alien-trace",
+          "round": 1,
+          "turn": 5,
+          "player": "player-blue",
+          "resources": {
+            "score": 14,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 1
+          },
+          "selection": [
+            "alien-trace",
+            "player-blue",
+            1,
+            5,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "picker",
+            "fangzhou-destination",
+            "2",
+            "blue",
+            null,
+            "解锁蓝色痕迹方舟牌追加到 state 额外痕迹位，获得3分，并解锁卡牌加入手牌",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 188,
+          "type": "alien-trace",
+          "round": 1,
+          "turn": 5,
+          "player": "player-blue",
+          "resources": {
+            "score": 14,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 1
+          },
+          "selection": [
+            "alien-trace",
+            "player-blue",
+            1,
+            5,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "picker",
+            "fangzhou-destination",
+            "2",
+            "blue",
+            null,
+            "放到外星人面板随后点击 state 或正面牌图；state额外位会自动解锁同色方舟牌",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 9,
+      "meanDelta": -1.25,
+      "first": {
+        "index": 125,
+        "baseline": {
+          "id": 248,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 2,
+          "player": "player-white",
+          "resources": {
+            "score": 17,
+            "credits": 7,
+            "energy": 3,
+            "publicity": 7,
+            "availableData": 1,
+            "handSize": 6
+          },
+          "selection": [
+            "alien-trace",
+            "player-white",
+            2,
+            2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "1",
+            "blue",
+            4,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 248,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 2,
+          "player": "player-white",
+          "resources": {
+            "score": 17,
+            "credits": 7,
+            "energy": 3,
+            "publicity": 7,
+            "availableData": 1,
+            "handSize": 6
+          },
+          "selection": [
+            "alien-trace",
+            "player-white",
+            2,
+            2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "state-slot",
+            "trace-board",
+            "2",
+            "blue",
+            null,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 10,
+      "meanDelta": 3.25,
+      "first": {
+        "index": 153,
+        "baseline": {
+          "id": 334,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 2,
+          "player": "player-brown",
+          "resources": {
+            "score": 31,
+            "credits": 4,
+            "energy": 4,
+            "publicity": 3,
+            "availableData": 2,
+            "handSize": 6
+          },
+          "selection": [
+            "alien-trace",
+            "player-brown",
+            2,
+            2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "2",
+            "pink",
+            4,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 334,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 2,
+          "player": "player-brown",
+          "resources": {
+            "score": 31,
+            "credits": 4,
+            "energy": 4,
+            "publicity": 3,
+            "availableData": 2,
+            "handSize": 6
+          },
+          "selection": [
+            "alien-trace",
+            "player-brown",
+            2,
+            2,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "state-slot",
+            "trace-board",
+            "1",
+            "pink",
+            null,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 11,
+      "meanDelta": -17,
+      "first": {
+        "index": 137,
+        "baseline": {
+          "id": 279,
+          "type": "alien-trace",
+          "round": 1,
+          "turn": 7,
+          "player": "player-green",
+          "resources": {
+            "score": 36,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 3
+          },
+          "selection": [
+            "alien-trace",
+            "player-green",
+            1,
+            7,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "grid-slot",
+            "trace-board",
+            "1",
+            "pink",
+            4,
+            "",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 279,
+          "type": "alien-trace",
+          "round": 1,
+          "turn": 7,
+          "player": "player-green",
+          "resources": {
+            "score": 36,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 3
+          },
+          "selection": [
+            "alien-trace",
+            "player-green",
+            1,
+            7,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "state-slot",
+            "trace-board",
+            "2",
+            "pink",
+            null,
+            "",
+            null
+          ]
+        }
+      }
+    },
+    {
+      "n": 12,
+      "meanDelta": -12.5,
+      "first": {
+        "index": 297,
+        "baseline": {
+          "id": 643,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 9,
+          "player": "player-blue",
+          "resources": {
+            "score": 84,
+            "credits": 0,
+            "energy": 1,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 2
+          },
+          "selection": [
+            "alien-trace",
+            "player-blue",
+            2,
+            9,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "picker",
+            "fangzhou-destination",
+            "1",
+            null,
+            null,
+            "解锁方舟牌下一步选择要追加并解锁的方舟牌颜色",
+            null
+          ]
+        },
+        "candidate": {
+          "id": 643,
+          "type": "alien-trace",
+          "round": 2,
+          "turn": 9,
+          "player": "player-blue",
+          "resources": {
+            "score": 84,
+            "credits": 0,
+            "energy": 1,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 2
+          },
+          "selection": [
+            "alien-trace",
+            "player-blue",
+            2,
+            9,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            "picker",
+            "fangzhou-destination",
+            "1",
+            null,
+            null,
+            "放到外星人面板随后点击 state 或正面牌图；state额外位会自动解锁同色方舟牌",
+            null
+          ]
+        }
+      }
+    }
+  ]
+}
