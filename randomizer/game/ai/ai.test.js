@@ -801,7 +801,12 @@ assert.ok(firstTraceValue >= 10);
 assert.ok(firstTraceValue > repeatedTraceValue);
 assert.ok(repeatedTraceValue < 2);
 assert.ok(revealedTraceAfterStolenFirstValue > repeatedTraceValue + 3);
-assert.ok(revealedTraceAfterStolenFirstValue > hiddenBackupAfterStolenFirstValue + 3);
+assert.equal(hiddenBackupAfterStolenFirstValue, valuation.estimateAlienTraceValue({
+  alienGameState: { aliens: { 2: { revealed: false, traces: { pink: { firstPlaced: false } } } } },
+  alienSlotId: 2, traceType: "pink", player: { color: "white" }, activeOpponentCount: 3,
+}), "An opponent's same-color first trace on another alien cannot remove this slot's reward or card expectation");
+assert.ok(hiddenBackupAfterStolenFirstValue >= valuation.getResourceValue({ score: 3, publicity: 1 }),
+  "An open first trace retains its known immediate resources");
 assert.ok(jiuzheTraceValue < firstTraceValue);
 assert.ok(competitiveTraceValue > firstTraceValue + 4);
 

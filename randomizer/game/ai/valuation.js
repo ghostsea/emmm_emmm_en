@@ -455,22 +455,6 @@
     ), 0);
   }
 
-  function getHiddenTraceColorCompetition(alienGameState = {}, traceType = null, player = null) {
-    if (!traceType) return { open: 0, own: 0, opponent: 0 };
-    return Object.values(alienGameState?.aliens || {}).reduce((status, slot) => {
-      if (!slot || slot.revealed || !slot.traces?.[traceType]) return status;
-      const traceSlot = slot.traces[traceType];
-      if (!traceSlot.firstPlaced) {
-        status.open += 1;
-      } else if (player && markerBelongsToPlayer(traceSlot, player)) {
-        status.own += 1;
-      } else {
-        status.opponent += 1;
-      }
-      return status;
-    }, { open: 0, own: 0, opponent: 0 });
-  }
-
   function getHiddenAlienStateRewardValue(alienSlotId = null) {
     const slotId = Math.round(numeric(alienSlotId));
     const score = slotId === 1 ? 5 : slotId === 2 ? 3 : 4;
@@ -592,20 +576,8 @@
     const traceSlot = slot.traces[traceType];
     if (!traceSlot?.firstPlaced) {
       const placedCount = countPlacedFirstTracesInSlot(slot);
-      const colorCompetition = getHiddenTraceColorCompetition(alienGameState, traceType, player);
-      const lostHiddenFirstTraceColor = Boolean(
-        player
-        && colorCompetition.opponent > 0
-        && colorCompetition.own <= 0
-      );
+      // 首痕迹按当前外星人槽独立归属；其他槽的同色拥有者不扣除此处收益。
       const stateRewardValue = getHiddenAlienStateRewardValue(alienSlotId);
-      if (lostHiddenFirstTraceColor) {
-        return roundValue(
-          1.2
-            + Math.min(1.4, colorCompetition.opponent * 0.45)
-            + stateRewardValue * 0.18,
-        );
-      }
       let cardExpectation = input.alienCardExpectedValue ?? DEFAULT_ALIEN_CARD_VALUE * 0.85;
       let speciesRevealValue = 0;
       if (alienId.includes("jiuzhe")) {
