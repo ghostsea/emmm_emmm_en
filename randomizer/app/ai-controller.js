@@ -20243,7 +20243,21 @@
       return 2 + bestSwap.score;
     }
 
-    function buildAiIndustryCandidate(player = getCurrentPlayer()) {
+    function shouldAiKeepEmptyStrategyRefresh(player, publicPickProfile, slots, handCandidates = null) {
+      if (getAiIndustryCard(player)?.label !== "宇宙大战略集团" || getAiRoundNumber() > 2
+        || !slots || slots.occupiedCount !== 0) return false;
+      const bestHand = (handCandidates || listAiPlayCardCandidates(player))
+        .filter(candidate => candidate.score > 0
+          && listAiStrategyPassiveSlotsForCard(player.hand?.[candidate.handIndex], player).length > 0)
+        .sort((left, right) => right.score - left.score)[0];
+      if (!bestHand) return false;
+      const publicPlayScore = publicPickProfile?.bestCard?.playScore;
+      // Keep the once-per-round reset while an already affordable hand play can
+      // first earn a slot reward. A stronger public play still permits a pick.
+      return publicPlayScore == null || aiNumber(publicPlayScore) <= bestHand.score;
+    }
+
+    function buildAiIndustryCandidate(player = getCurrentPlayer(), handCandidates = null) {
       const industryCard = getAiIndustryCard(player);
       if (!industry || !industryCard || !handleCompanyActionMarkerClick) return null;
       const layout = industry.getIndustryActionMarkerLayout?.(industryCard);
@@ -20281,6 +20295,7 @@
       } else if (abilityId === "strategy_pick_card") {
         publicPickProfile = getAiIndustryPublicPickProfile(player, "industry_strategy_pick");
         strategyPassiveSlots = summarizeAiStrategyPassiveSlots(player);
+        if (shouldAiKeepEmptyStrategyRefresh(player, publicPickProfile, strategyPassiveSlots, handCandidates)) return null;
         score = publicPickProfile.bestScore;
       }
       const earlyEmptyStrategyPickPenalty = abilityId === "strategy_pick_card"
@@ -23638,7 +23653,7 @@
         };
       });
       candidates.push(...moveCandidates);
-      const industryCandidate = buildAiIndustryCandidate(currentPlayer);
+      const industryCandidate = buildAiIndustryCandidate(currentPlayer, playCardCandidates);
       if (industryCandidate) candidates.push(industryCandidate);
       candidates.push(...listAiEmergencyAnalyzeEnergyTradeCandidates(currentPlayer));
       candidates.push(...listAiFinalAnalyzeEnergyTradeCandidates(currentPlayer));

@@ -17109,3 +17109,45 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  function inspectStrategyRefresh({ occupied = false, handPrice = 1, publicScore = 5,
+    round = 1, postMain = false, scanCode = 0 } = {}) {
+    let seen = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: round, pendingActionExecuted: postMain,
+      canStartMainAction: !postMain, realisticCanAfford: true,
+      blueInitialSelection: { industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" } },
+      blueIndustryStrategyPassiveSlots: { yellow: occupied, red: false, blue: false },
+      blueResources: { score: 20, credits: 2, energy: 2, publicity: 0, handSize: 1 },
+      blueHand: [{ id: "refresh-owned", cardId: "refresh-owned", price: handPrice,
+        typeCode: 1, scanActionCode: scanCode,
+        playEffects: [{ type: "gain_resources", options: { gain: { score: 12 } } }] }],
+      publicCards: [{ id: "refresh-public", cardId: "refresh-public", price: 0,
+        typeCode: 1, scanActionCode: 2,
+        playEffects: [{ type: "gain_resources", options: { gain: { score: publicScore } } }] }],
+      industry: {
+        STRATEGY_PASSIVE_SLOT_IDS: ["yellow", "red", "blue"],
+        getIndustryActionMarkerLayout: () => ({ percentX: 9, percentY: 77, radiusPercent: 4.9 }),
+        canMarkIndustryAction: () => ({ ok: true }),
+        getIndustryDefinition: () => ({ label: "宇宙大战略集团", activeAbilityId: "strategy_pick_card" }),
+        playerHasStrategyPassive: () => true, hasGrandStrategyRoundStart: () => true,
+        getStrategySlotReward: slot => ({ yellow: { credits: 1 }, red: { publicity: 1 }, blue: { data: 1 } }[slot]),
+        getStrategySlotRewardLabel: () => "reward",
+      },
+      onChooseTurnAction: candidates => { seen = candidates; },
+      chooseTurnAction: candidates => candidates.find(c => c.id === (postMain ? "end-turn" : "pass")),
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    assert.ok(seen.length > 0, "the controller must enumerate the actual turn branch");
+    return seen.find(c => c.id === "industry");
+  }
+  assert.equal(inspectStrategyRefresh(), undefined, "use a stronger affordable hand card before spending an empty refresh");
+  assert.equal(inspectStrategyRefresh({ postMain: true }), undefined, "preserve refresh after the main action too");
+  assert.ok(inspectStrategyRefresh({ occupied: true }), "an occupied slot permits a useful reset");
+  assert.ok(inspectStrategyRefresh({ handPrice: 3 }), "unaffordable hand cards must not block picking");
+  assert.ok(inspectStrategyRefresh({ publicScore: 30 }), "a stronger public play may be picked immediately");
+  assert.ok(inspectStrategyRefresh({ round: 3 }), "leave later rounds unchanged");
+  assert.ok(inspectStrategyRefresh({ scanCode: null }), "a hand card without a slot reward must not reserve refresh");
+}
