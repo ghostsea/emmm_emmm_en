@@ -1,0 +1,44 @@
+{
+  "completedAt": "2026-09-06T05:07:42.034Z",
+  "commit": "49fa82ee8b3e5b77c6f7671740f95bdebef775a8",
+  "frozenController": "1c917c2b954a77b3f6779944113b535fef647792139a11c9a6a27e04a213c1ef",
+  "frozenApp": "883b9772d07dbd44c439ed9257ee1259cb284581dff731de332ae739f43ab21b",
+  "results": [
+    {
+      "case": 7,
+      "startedAt": "2026-09-06T05:06:45.755Z",
+      "completedAt": "2026-09-06T05:07:13.936Z",
+      "baseline": "slot-first-7.json",
+      "replay": "slot-first-perf-replay-7.json",
+      "playersEqual": true,
+      "decisionsEqual": true,
+      "logs": 1559,
+      "steps": 1488,
+      "scores": [
+        178,
+        181,
+        233,
+        283
+      ],
+      "bugCount": 0
+    },
+    {
+      "case": 11,
+      "startedAt": "2026-09-06T05:07:13.939Z",
+      "completedAt": "2026-09-06T05:07:42.034Z",
+      "baseline": "slot-first-11.json",
+      "replay": "slot-first-perf-replay-11.json",
+      "playersEqual": true,
+      "decisionsEqual": true,
+      "logs": 1589,
+      "steps": 1525,
+      "scores": [
+        157,
+        273,
+        221,
+        290
+      ],
+      "bugCount": 0
+    }
+  ]
+}
