@@ -3740,7 +3740,7 @@
       return `${baseSeed}:${index + 1}`;
     }
 
-    function getAiHuanyuCreditSupplyProfile(player = getCurrentPlayer()) {
+    function getAiHuanyuCreditSupplyProfile(player = getPlayerById(getPendingAutomationPlayerId()) || getCurrentPlayer()) {
       if (!player || getAiIndustryCard(player)?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return null;
       const remainingIncomePayments = Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber());
       const credits = Math.max(0, aiNumber(player.resources?.credits));

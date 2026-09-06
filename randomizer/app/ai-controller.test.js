@@ -17132,3 +17132,26 @@ runAsyncControllerTests()
   assert.equal(other.controller.getAiHuanyuCreditSupplyProfile(), null);
   assert.equal(other.controller.getAiResourceValuesForRound().credits, 6);
 }
+
+{
+  const makeCrossOwner = (turnCompany, pendingCompany, alien = false) => {
+    const harness = createAiControllerHarness(alien ? "white" : null, {
+      currentPlayerColor: "blue", currentPlayerDiscardPending: !alien,
+      blueResources: { credits: 10, energy: 2 }, blueIncome: { credits: 3, energy: 1 },
+      whiteResources: { credits: 10, energy: 2 }, whiteIncome: { credits: 3, energy: 1 },
+      blueInitialSelection: { industry: { id: "industry:" + turnCompany, label: turnCompany } },
+    });
+    harness.white.initialSelection = { industry: { id: "industry:" + pendingCompany, label: pendingCompany } };
+    return harness;
+  };
+  for (const alien of [false, true]) {
+    const foreign = makeCrossOwner("寰宇超动力", "宇宙大战略集团", alien);
+    assert.equal(foreign.controller.getAiResourceValuesForRound().credits, 6,
+      "another player's pending choice must not inherit Huanyu turn-owner pricing");
+    const huanyu = makeCrossOwner("宇宙大战略集团", "寰宇超动力", alien);
+    assert.equal(huanyu.controller.getAiResourceValuesForRound().credits, 6 * 0.65,
+      "Huanyu pending owner must receive its own pricing outside its turn");
+    assert.equal(huanyu.blue.resources.credits, 10);
+    assert.equal(huanyu.white.resources.credits, 10);
+  }
+}
