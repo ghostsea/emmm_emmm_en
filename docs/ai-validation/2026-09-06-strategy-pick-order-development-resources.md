@@ -1,6 +1,6 @@
 # 大战略精选顺序固定24组资源对照
 
-24 seen development pairs, both using v16. Candidate changes only Grand Strategy optional pick timing using currently affordable held-card and public-card play values. Raw units; main conversion is per-seat main/(credits+energy spent). Historical human logs have omissions; no causal player comparison.
+24 previously seen development paired games. Both arms use the same v16 resource parser and corrected action-owner logging. Candidate 2d51b3fe defers the pick based on a qualifying held card. Resources are raw units; main-action conversion is the mean of per-seat main/(credits+energy spent). Historical human logs have missing costs and starting income; comparisons are descriptive.
 
 |公司|均分|确认主行动|主行动/(信用+能量)|分析|完整循环|蓝1信用|蓝2能量|新牌打出数|外星人来源补牌/打出|
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|

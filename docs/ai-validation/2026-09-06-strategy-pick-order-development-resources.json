@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-09-06T14:28:52.474Z",
   "pairs": 24,
-  "scope": "24 seen development pairs, both using v16. Candidate changes only Grand Strategy optional pick timing using currently affordable held-card and public-card play values. Raw units; main conversion is per-seat main/(credits+energy spent). Historical human logs have omissions; no causal player comparison.",
+  "scope": "24 previously seen development paired games. Both arms use the same v16 resource parser and corrected action-owner logging. Candidate 2d51b3fe defers the pick based on a qualifying held card. Resources are raw units; main-action conversion is the mean of per-seat main/(credits+energy spent). Historical human logs have missing costs and starting income; comparisons are descriptive.",
   "groups": {
     "baseline": {
       "all": {

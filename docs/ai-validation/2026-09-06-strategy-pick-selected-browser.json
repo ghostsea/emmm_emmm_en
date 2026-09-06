@@ -1,0 +1,329 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Actual selection audit, b78 paid and yellow credit refunded, b13 picked and slots cleared; raw pick verified available. Original b109 fixture did not isolate the delay from the existing early empty-slot penalty.",
+      "profile": {
+        "shouldDefer": true,
+        "heldCard": {
+          "handIndex": 0,
+          "cardId": "b_78.webp",
+          "cardInstanceId": "card-66-0",
+          "playScore": 2.372174000000001,
+          "actualPlayScore": 2.372174000000001,
+          "reward": {
+            "slotId": "yellow",
+            "gain": {
+              "credits": 1,
+              "publicity": 0,
+              "availableData": 0
+            }
+          }
+        },
+        "publicCard": {
+          "slotIndex": 0,
+          "score": 16.268,
+          "cardId": "b_13.webp",
+          "cardInstanceId": "card-80-0",
+          "cardLabel": "进入大气层",
+          "price": 1,
+          "typeCode": 0,
+          "playScore": null,
+          "directScoreGain": 0,
+          "effectTypes": [],
+          "valueSignals": null
+        },
+        "occupiedSlots": [],
+        "scope": "defer the optional pick while an affordable held card can claim an empty slot and has at least the same common play value; no future public-card identity or full sequence simulation"
+      },
+      "first": {
+        "ok": true,
+        "message": "打牌：请选择一张手牌"
+      },
+      "playSteps": 2,
+      "afterPlay": {
+        "resources": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 0,
+          "score": 10
+        },
+        "slots": {
+          "yellow": true
+        }
+      },
+      "second": {
+        "ok": true,
+        "progressed": true,
+        "action": {
+          "id": "industry",
+          "kind": "quick",
+          "available": true,
+          "industryCard": {
+            "id": "industry:宇宙大战略集团",
+            "label": "宇宙大战略集团"
+          },
+          "abilityId": "strategy_pick_card",
+          "companyLabel": "宇宙大战略集团",
+          "score": 17.175,
+          "gain": 17.175,
+          "cost": 0,
+          "valueBreakdown": {
+            "abilityId": "strategy_pick_card",
+            "companyLabel": "宇宙大战略集团",
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "earlyEmptyStrategyPickPenalty": 0,
+            "industryPublicPick": {
+              "pendingType": "industry_strategy_pick",
+              "bestScore": 17.175,
+              "bestCard": {
+                "slotIndex": 0,
+                "score": 17.175,
+                "cardId": "b_13.webp",
+                "cardInstanceId": "card-80-0",
+                "cardLabel": "进入大气层",
+                "price": 1,
+                "typeCode": 0,
+                "playScore": null,
+                "directScoreGain": 0,
+                "effectTypes": [],
+                "valueSignals": null
+              },
+              "topCards": [
+                {
+                  "slotIndex": 0,
+                  "score": 17.175,
+                  "cardId": "b_13.webp",
+                  "cardInstanceId": "card-80-0",
+                  "cardLabel": "进入大气层",
+                  "price": 1,
+                  "typeCode": 0,
+                  "playScore": null,
+                  "directScoreGain": 0,
+                  "effectTypes": [],
+                  "valueSignals": null
+                },
+                {
+                  "slotIndex": 2,
+                  "score": 17.175,
+                  "cardId": "b_88.webp",
+                  "cardInstanceId": "card-82-0",
+                  "cardLabel": "入轨拉格朗日点",
+                  "price": 1,
+                  "typeCode": 0,
+                  "playScore": null,
+                  "directScoreGain": 0,
+                  "effectTypes": [],
+                  "valueSignals": null
+                },
+                {
+                  "slotIndex": 1,
+                  "score": 15.898,
+                  "cardId": "b_101.webp",
+                  "cardInstanceId": "card-81-0",
+                  "cardLabel": "\"远射\"计划",
+                  "price": 3,
+                  "typeCode": 2,
+                  "playScore": null,
+                  "directScoreGain": 0,
+                  "effectTypes": [],
+                  "valueSignals": null
+                }
+              ]
+            },
+            "strategyPassiveSlots": {
+              "occupiedSlotIds": [
+                "yellow"
+              ],
+              "emptySlotIds": [
+                "red",
+                "blue"
+              ],
+              "occupiedCount": 1,
+              "emptyCount": 2,
+              "roundStartClearsSlots": true,
+              "slots": [
+                {
+                  "slotId": "yellow",
+                  "occupied": true,
+                  "rewardLabel": "1 信用点",
+                  "rewardValue": 6
+                },
+                {
+                  "slotId": "red",
+                  "occupied": false,
+                  "rewardLabel": "1 宣传",
+                  "rewardValue": 1.5
+                },
+                {
+                  "slotId": "blue",
+                  "occupied": false,
+                  "rewardLabel": "1 数据",
+                  "rewardValue": 1.5
+                }
+              ]
+            }
+          },
+          "actionGraph": {
+            "gain": 17.175,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 3.528,
+            "feasibility": 1,
+            "net": 20.703
+          },
+          "breakdown": {
+            "abilityId": "strategy_pick_card",
+            "companyLabel": "宇宙大战略集团",
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "earlyEmptyStrategyPickPenalty": 0,
+            "industryPublicPick": {
+              "pendingType": "industry_strategy_pick",
+              "bestScore": 17.175,
+              "bestCard": {
+                "slotIndex": 0,
+                "score": 17.175,
+                "cardId": "b_13.webp",
+                "cardInstanceId": "card-80-0",
+                "cardLabel": "进入大气层",
+                "price": 1,
+                "typeCode": 0,
+                "playScore": null,
+                "directScoreGain": 0,
+                "effectTypes": [],
+                "valueSignals": null
+              },
+              "topCards": [
+                {
+                  "slotIndex": 0,
+                  "score": 17.175,
+                  "cardId": "b_13.webp",
+                  "cardInstanceId": "card-80-0",
+                  "cardLabel": "进入大气层",
+                  "price": 1,
+                  "typeCode": 0,
+                  "playScore": null,
+                  "directScoreGain": 0,
+                  "effectTypes": [],
+                  "valueSignals": null
+                },
+                {
+                  "slotIndex": 2,
+                  "score": 17.175,
+                  "cardId": "b_88.webp",
+                  "cardInstanceId": "card-82-0",
+                  "cardLabel": "入轨拉格朗日点",
+                  "price": 1,
+                  "typeCode": 0,
+                  "playScore": null,
+                  "directScoreGain": 0,
+                  "effectTypes": [],
+                  "valueSignals": null
+                },
+                {
+                  "slotIndex": 1,
+                  "score": 15.898,
+                  "cardId": "b_101.webp",
+                  "cardInstanceId": "card-81-0",
+                  "cardLabel": "\"远射\"计划",
+                  "price": 3,
+                  "typeCode": 2,
+                  "playScore": null,
+                  "directScoreGain": 0,
+                  "effectTypes": [],
+                  "valueSignals": null
+                }
+              ]
+            },
+            "strategyPassiveSlots": {
+              "occupiedSlotIds": [
+                "yellow"
+              ],
+              "emptySlotIds": [
+                "red",
+                "blue"
+              ],
+              "occupiedCount": 1,
+              "emptyCount": 2,
+              "roundStartClearsSlots": true,
+              "slots": [
+                {
+                  "slotId": "yellow",
+                  "occupied": true,
+                  "rewardLabel": "1 信用点",
+                  "rewardValue": 6
+                },
+                {
+                  "slotId": "red",
+                  "occupied": false,
+                  "rewardLabel": "1 宣传",
+                  "rewardValue": 1.5
+                },
+                {
+                  "slotId": "blue",
+                  "occupied": false,
+                  "rewardLabel": "1 数据",
+                  "rewardValue": 1.5
+                }
+              ]
+            },
+            "existingScore": 17.175,
+            "gain": 17.175,
+            "cost": 0,
+            "finalMarginal": 0,
+            "finalMarkCashout": 0,
+            "missingFinalMarkPenalty": 0,
+            "goalBonus": 3.528,
+            "feasibility": 1,
+            "net": 20.703
+          }
+        }
+      },
+      "pickSteps": 0,
+      "afterPick": {
+        "resources": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 10
+        },
+        "slots": {
+          "yellow": false,
+          "red": false,
+          "blue": false
+        }
+      },
+      "bugs": [],
+      "actions": [
+        {
+          "type": "turn-action",
+          "message": "绿色AI 执行 playCard"
+        },
+        {
+          "type": "play-card",
+          "message": "绿色AI 选择打出 NASA天体生物学研究所"
+        },
+        {
+          "type": "turn-action",
+          "message": "绿色AI 执行 industry"
+        },
+        {
+          "type": "industry",
+          "message": "绿色AI 使用公司 1x：宇宙大战略集团"
+        },
+        {
+          "type": "pick-card",
+          "message": "绿色AI 精选公共牌 1"
+        }
+      ]
+    }
+  }
+}
