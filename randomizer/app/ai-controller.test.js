@@ -17109,3 +17109,27 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+ const held={id:'strategy-held-now',cardId:'strategy-held-now',cardTypeCode:0,price:1,scanActionCode:0,
+  playEffects:[{type:'gain_resources',options:{gain:{score:12}}}]};
+ const publicCard={id:'strategy-public-later',cardId:'strategy-public-later',cardTypeCode:0,price:1,scanActionCode:2,
+  playEffects:[{type:'gain_resources',options:{gain:{score:1}}}]};
+ const h=createAiControllerHarness(null,{currentPlayerColor:'blue',roundNumber:2,canStartMainAction:true,
+  realisticCanAfford:true,industry:industryModule,blueInitialSelection:{industry:{id:'industry:宇宙大战略集团',label:'宇宙大战略集团'}},
+  blueResources:{credits:2,energy:0,score:10,handSize:1},blueHand:[held],publicCards:[publicCard]});
+ const before=JSON.stringify(h.blue),profile=h.controller.getAiStrategyPickOrderProfile(h.blue);
+ assert.ok(profile,'a payable held card can claim the empty yellow reward before the reset');
+ assert.equal(profile.heldCard.cardInstanceId,held.id);assert.equal(profile.heldCard.reward.slotId,'yellow');
+ assert.equal(JSON.stringify(h.blue),before,'comparison does not play, pay, or mark a slot');
+ assert.equal(h.controller.buildAiIndustryCandidate(h.blue),null,'defer the actual optional pick candidate');
+ h.blue.industryStrategyPassiveSlots={yellow:true,red:true,blue:true};
+ assert.equal(h.controller.getAiStrategyPickOrderProfile(h.blue),null,'full slots should be cleared');
+ assert.ok(h.controller.buildAiIndustryCandidate(h.blue),'restore the pick when no slot reward can be taken first');
+ h.blue.industryStrategyPassiveSlots={};h.blue.resources.credits=0;
+ assert.equal(h.controller.getAiStrategyPickOrderProfile(h.blue),null,'unaffordable hand is not a sequencing opportunity');
+ h.blue.resources.credits=2;
+ assert.equal(h.controller.getAiStrategyPickOrderProfile(h.blue,{bestCard:{playScore:100}}),null,'a stronger public card remains available to pick immediately');
+ h.turnState.passedPlayerIds=[h.blue.id];
+ assert.equal(h.controller.getAiStrategyPickOrderProfile(h.blue),null,'do not reserve a main action after PASS');
+}

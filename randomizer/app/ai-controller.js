@@ -20243,6 +20243,30 @@
       return 2 + bestSwap.score;
     }
 
+    function getAiStrategyPickOrderProfile(player = getCurrentPlayer(), publicPickProfile = null) {
+      if (!player || !industry?.hasGrandStrategyRoundStart?.(player)
+        || (turnState.passedPlayerIds || []).includes(player.id)) return null;
+      const publicProfile = publicPickProfile || getAiIndustryPublicPickProfile(player, "industry_strategy_pick");
+      if (!publicProfile?.bestCard) return null;
+      const publicPlayScore = Math.max(0, aiNumber(publicProfile.bestCard.playScore));
+      const held = (player.hand || []).map((card, handIndex) => {
+        const reward = getAiStrategyPassiveRewardBundleForCard(card, player);
+        if (!reward || scoreAiStrategyPassiveSlotChoice(reward.slotId, player) <= 0) return null;
+        const actual = buildAiPlayCardCandidate(card, handIndex, player);
+        if (!actual || aiNumber(actual.score) <= 0) return null;
+        // Match the public-card preview's handIndex=-1 evaluation convention.
+        const comparable = buildAiPlayCardCandidate(card, -1, player);
+        const playScore = aiNumber(comparable?.score);
+        if (!comparable || playScore <= 0 || playScore < publicPlayScore) return null;
+        return { handIndex, cardId: card.cardId || card.id, cardInstanceId: card.id,
+          playScore, actualPlayScore: actual.score, reward };
+      }).filter(Boolean).sort((a, b) => b.playScore - a.playScore);
+      if (!held.length) return null;
+      return { shouldDefer: true, heldCard: held[0], publicCard: publicProfile.bestCard,
+        occupiedSlots: summarizeAiStrategyPassiveSlots(player)?.occupiedSlotIds || [],
+        scope: "defer the optional pick while an affordable held card can claim an empty slot and has at least the same common play value; no future public-card identity or full sequence simulation" };
+    }
+
     function buildAiIndustryCandidate(player = getCurrentPlayer()) {
       const industryCard = getAiIndustryCard(player);
       if (!industry || !industryCard || !handleCompanyActionMarkerClick) return null;
@@ -20281,6 +20305,7 @@
       } else if (abilityId === "strategy_pick_card") {
         publicPickProfile = getAiIndustryPublicPickProfile(player, "industry_strategy_pick");
         strategyPassiveSlots = summarizeAiStrategyPassiveSlots(player);
+        if (getAiStrategyPickOrderProfile(player, publicPickProfile)) return null;
         score = publicPickProfile.bestScore;
       }
       const earlyEmptyStrategyPickPenalty = abilityId === "strategy_pick_card"
@@ -26701,6 +26726,8 @@
 
     return {
       aiNumber,
+      getAiStrategyPickOrderProfile,
+      buildAiIndustryCandidate,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,
       applyAiStrategyWeight,
