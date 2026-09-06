@@ -1,0 +1,335 @@
+{
+  "scope": "Complete 24 candidate games. At main-action decisions, verify logged standard-scan purple4 preview uses max rather than sum. Actual launch/move is the recorded same-turn scan-action-4 choice after a selected standard scan; absent logs are not inferred. This checks wiring, not causal score gain or exact preview of free-move value.",
+  "groups": {
+    "作弊实验室": {
+      "mainDecisionsWithPreview": 311,
+      "withBothPositive": 140,
+      "gamesWithBothPositive": 21,
+      "selectedScans": 121,
+      "actualLaunch": 36,
+      "actualMove": 75,
+      "otherOrSkipped": 10
+    },
+    "宇宙大战略集团": {
+      "mainDecisionsWithPreview": 51,
+      "withBothPositive": 22,
+      "gamesWithBothPositive": 9,
+      "selectedScans": 18,
+      "actualLaunch": 6,
+      "actualMove": 10,
+      "otherOrSkipped": 2
+    },
+    "寰宇超动力": {
+      "mainDecisionsWithPreview": 73,
+      "withBothPositive": 45,
+      "gamesWithBothPositive": 11,
+      "selectedScans": 21,
+      "actualLaunch": 7,
+      "actualMove": 12,
+      "otherOrSkipped": 2
+    }
+  },
+  "examples": [
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1122,
+      "round": 4,
+      "turn": 2,
+      "profile": {
+        "launchValue": 5.4388512,
+        "moveValue": 0,
+        "value": 5.4388512,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "playCard",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1171,
+      "round": 4,
+      "turn": 3,
+      "profile": {
+        "launchValue": 5.4388512,
+        "moveValue": 0.19868816971028494,
+        "value": 5.4388512,
+        "removedExclusiveOverlap": 0.19868816971028494
+      },
+      "selectedMain": "scan",
+      "actualChoice": "launch"
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1236,
+      "round": 4,
+      "turn": 4,
+      "profile": {
+        "launchValue": 1.4968588711680006,
+        "moveValue": 0,
+        "value": 1.4968588711680006,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "scan",
+      "actualChoice": "move"
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1294,
+      "round": 4,
+      "turn": 5,
+      "profile": {
+        "launchValue": 1.513705528512,
+        "moveValue": 0,
+        "value": 1.513705528512,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "land",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 841,
+      "round": 3,
+      "turn": 5,
+      "profile": {
+        "launchValue": 10.611440165376,
+        "moveValue": 0,
+        "value": 10.611440165376,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "scan",
+      "actualChoice": "launch"
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1115,
+      "round": 4,
+      "turn": 1,
+      "profile": {
+        "launchValue": 5.7899872511999995,
+        "moveValue": 0,
+        "value": 5.7899872511999995,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "playCard",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1161,
+      "round": 4,
+      "turn": 2,
+      "profile": {
+        "launchValue": 5.7899872511999995,
+        "moveValue": 0,
+        "value": 5.7899872511999995,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "playCard",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1224,
+      "round": 4,
+      "turn": 3,
+      "profile": {
+        "launchValue": 5.7899872511999995,
+        "moveValue": 0.13792531022663707,
+        "value": 5.7899872511999995,
+        "removedExclusiveOverlap": 0.13792531022663707
+      },
+      "selectedMain": "researchTech",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1283,
+      "round": 4,
+      "turn": 4,
+      "profile": {
+        "launchValue": 5.6463472512,
+        "moveValue": 0,
+        "value": 5.6463472512,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "researchTech",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1311,
+      "round": 4,
+      "turn": 5,
+      "profile": {
+        "launchValue": 5.6463472512,
+        "moveValue": 0,
+        "value": 5.6463472512,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "scan",
+      "actualChoice": "launch"
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1352,
+      "round": 4,
+      "turn": 6,
+      "profile": {
+        "launchValue": 1.5963472511999997,
+        "moveValue": 0,
+        "value": 1.5963472511999997,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "scan",
+      "actualChoice": "move"
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 1420,
+      "round": 4,
+      "turn": 7,
+      "profile": {
+        "launchValue": 1.5963472511999997,
+        "moveValue": 14.28219566505312,
+        "value": 14.28219566505312,
+        "removedExclusiveOverlap": 1.5963472511999997
+      },
+      "selectedMain": "playCard",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 1091,
+      "round": 4,
+      "turn": 1,
+      "profile": {
+        "launchValue": 5.5734082272,
+        "moveValue": 0,
+        "value": 5.5734082272,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "playCard",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 1141,
+      "round": 4,
+      "turn": 2,
+      "profile": {
+        "launchValue": 5.5734082272,
+        "moveValue": 1.2080644765351611,
+        "value": 5.5734082272,
+        "removedExclusiveOverlap": 1.2080644765351611
+      },
+      "selectedMain": "playCard",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 1205,
+      "round": 4,
+      "turn": 3,
+      "profile": {
+        "launchValue": 5.5734082272,
+        "moveValue": 18.74431574428896,
+        "value": 18.74431574428896,
+        "removedExclusiveOverlap": 5.5734082272
+      },
+      "selectedMain": "playCard",
+      "actualChoice": null
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 1396,
+      "round": 4,
+      "turn": 7,
+      "profile": {
+        "launchValue": 10.5234082272,
+        "moveValue": 0,
+        "value": 10.5234082272,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "scan",
+      "actualChoice": null
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "logId": 357,
+      "round": 2,
+      "turn": 3,
+      "profile": {
+        "launchValue": 5.4,
+        "moveValue": 1.119860512895489,
+        "value": 5.4,
+        "removedExclusiveOverlap": 1.119860512895489
+      },
+      "selectedMain": "land",
+      "actualChoice": null
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "logId": 396,
+      "round": 2,
+      "turn": 4,
+      "profile": {
+        "launchValue": 10.35,
+        "moveValue": 0,
+        "value": 10.35,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "researchTech",
+      "actualChoice": null
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "logId": 434,
+      "round": 2,
+      "turn": 5,
+      "profile": {
+        "launchValue": 10.35,
+        "moveValue": 0,
+        "value": 10.35,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "launch",
+      "actualChoice": null
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "logId": 745,
+      "round": 3,
+      "turn": 1,
+      "profile": {
+        "launchValue": 5.503727822976,
+        "moveValue": 0,
+        "value": 5.503727822976,
+        "removedExclusiveOverlap": 0
+      },
+      "selectedMain": "playCard",
+      "actualChoice": null
+    }
+  ],
+  "retainedCompleteRows": "tmp/ai-20260905/purpleexclusive-flow.json"
+}

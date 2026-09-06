@@ -1,0 +1,4821 @@
+{
+  "scope": "Complete 24 seen pairs. Full-scan card counts require explicit play-card selection effectTypes; standard scans use main-action decisions. Score components are end-state sums and can change via shared opponent/card/supply interactions; not a causal decomposition of each extra scan.",
+  "groups": {
+    "作弊实验室": {
+      "baseline": {
+        "seats": 48,
+        "score": 248.89583333333334,
+        "baseScore": 154.41666666666666,
+        "tileScore": 69.52083333333333,
+        "cardScore": 13.5625,
+        "otherScore": 11.395833333333334,
+        "tasks": 3.7916666666666665,
+        "tech": 11.4375,
+        "marks": 3,
+        "fullScanCardPlays": 0.4791666666666667,
+        "standardScans": 7.75
+      },
+      "candidate": {
+        "seats": 48,
+        "score": 253.54166666666666,
+        "baseScore": 158.54166666666666,
+        "tileScore": 70.70833333333333,
+        "cardScore": 12.5,
+        "otherScore": 11.791666666666666,
+        "tasks": 3.9583333333333335,
+        "tech": 11.5,
+        "marks": 3,
+        "fullScanCardPlays": 0.5416666666666666,
+        "standardScans": 7.666666666666667
+      }
+    },
+    "寰宇超动力": {
+      "baseline": {
+        "seats": 24,
+        "score": 190.16666666666666,
+        "baseScore": 131.91666666666666,
+        "tileScore": 41.416666666666664,
+        "cardScore": 8.708333333333334,
+        "otherScore": 8.125,
+        "tasks": 2.625,
+        "tech": 8.416666666666666,
+        "marks": 3,
+        "fullScanCardPlays": 0.16666666666666666,
+        "standardScans": 2.625
+      },
+      "candidate": {
+        "seats": 24,
+        "score": 183.79166666666666,
+        "baseScore": 128,
+        "tileScore": 42.208333333333336,
+        "cardScore": 8.041666666666666,
+        "otherScore": 5.541666666666667,
+        "tasks": 2.5416666666666665,
+        "tech": 8.5,
+        "marks": 3,
+        "fullScanCardPlays": 0.3333333333333333,
+        "standardScans": 2.5416666666666665
+      }
+    },
+    "宇宙大战略集团": {
+      "baseline": {
+        "seats": 24,
+        "score": 211,
+        "baseScore": 130.58333333333334,
+        "tileScore": 61.625,
+        "cardScore": 11.291666666666666,
+        "otherScore": 7.5,
+        "tasks": 4.458333333333333,
+        "tech": 9.541666666666666,
+        "marks": 3,
+        "fullScanCardPlays": 0.375,
+        "standardScans": 5.375
+      },
+      "candidate": {
+        "seats": 24,
+        "score": 213.25,
+        "baseScore": 130.125,
+        "tileScore": 62.583333333333336,
+        "cardScore": 12.166666666666666,
+        "otherScore": 8.375,
+        "tasks": 4.583333333333333,
+        "tech": 9.375,
+        "marks": 3,
+        "fullScanCardPlays": 0.7083333333333334,
+        "standardScans": 5.5
+      }
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 265,
+      "baseScore": 161,
+      "tileScore": 78,
+      "cardScore": 0,
+      "otherScore": 26,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 1,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 227,
+      "baseScore": 124,
+      "tileScore": 69,
+      "cardScore": 16,
+      "otherScore": 18,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 1,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 142,
+      "baseScore": 103,
+      "tileScore": 20,
+      "cardScore": 12,
+      "otherScore": 7,
+      "tasks": 3,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 1,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 257,
+      "baseScore": 123,
+      "tileScore": 80,
+      "cardScore": 41,
+      "otherScore": 13,
+      "tasks": 4,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "dlc_42.png",
+          "instance": "card-96-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 1,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 281,
+      "baseScore": 164,
+      "tileScore": 84,
+      "cardScore": 12,
+      "otherScore": 21,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 8,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_51.webp",
+          "instance": "card-128-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 1,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 223,
+      "baseScore": 117,
+      "tileScore": 69,
+      "cardScore": 24,
+      "otherScore": 13,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 1,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 162,
+      "baseScore": 119,
+      "tileScore": 22,
+      "cardScore": 12,
+      "otherScore": 9,
+      "tasks": 6,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 1,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 287,
+      "baseScore": 151,
+      "tileScore": 77,
+      "cardScore": 28,
+      "otherScore": 31,
+      "tasks": 6,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "dlc_42.png",
+          "instance": "card-96-0"
+        },
+        {
+          "round": 3,
+          "cardId": "dlc_13.png",
+          "instance": "card-120-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 2,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-blue",
+      "score": 161,
+      "baseScore": 89,
+      "tileScore": 37,
+      "cardScore": 20,
+      "otherScore": 15,
+      "tasks": 1,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 2,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 209,
+      "baseScore": 131,
+      "tileScore": 58,
+      "cardScore": 10,
+      "otherScore": 10,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 2,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 235,
+      "baseScore": 141,
+      "tileScore": 63,
+      "cardScore": 16,
+      "otherScore": 15,
+      "tasks": 6,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 6,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 2,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 279,
+      "baseScore": 169,
+      "tileScore": 71,
+      "cardScore": 12,
+      "otherScore": 27,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 2,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-blue",
+      "score": 161,
+      "baseScore": 89,
+      "tileScore": 37,
+      "cardScore": 20,
+      "otherScore": 15,
+      "tasks": 1,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 2,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 220,
+      "baseScore": 134,
+      "tileScore": 58,
+      "cardScore": 12,
+      "otherScore": 16,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 6,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 2,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 260,
+      "baseScore": 152,
+      "tileScore": 71,
+      "cardScore": 17,
+      "otherScore": 20,
+      "tasks": 6,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 6,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 2,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 314,
+      "baseScore": 190,
+      "tileScore": 79,
+      "cardScore": 14,
+      "otherScore": 31,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-166-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 3,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 258,
+      "baseScore": 176,
+      "tileScore": 61,
+      "cardScore": 15,
+      "otherScore": 6,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 3,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 145,
+      "baseScore": 107,
+      "tileScore": 35,
+      "cardScore": 0,
+      "otherScore": 3,
+      "tasks": 2,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 3,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 227,
+      "baseScore": 143,
+      "tileScore": 60,
+      "cardScore": 20,
+      "otherScore": 4,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 10,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 3,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 224,
+      "baseScore": 124,
+      "tileScore": 80,
+      "cardScore": 17,
+      "otherScore": 3,
+      "tasks": 5,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 3,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 258,
+      "baseScore": 176,
+      "tileScore": 61,
+      "cardScore": 15,
+      "otherScore": 6,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 3,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 145,
+      "baseScore": 107,
+      "tileScore": 35,
+      "cardScore": 0,
+      "otherScore": 3,
+      "tasks": 2,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 3,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 227,
+      "baseScore": 143,
+      "tileScore": 60,
+      "cardScore": 20,
+      "otherScore": 4,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 10,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 3,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 224,
+      "baseScore": 124,
+      "tileScore": 80,
+      "cardScore": 17,
+      "otherScore": 3,
+      "tasks": 5,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 4,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 252,
+      "baseScore": 142,
+      "tileScore": 68,
+      "cardScore": 26,
+      "otherScore": 16,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 4,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 289,
+      "baseScore": 164,
+      "tileScore": 83,
+      "cardScore": 22,
+      "otherScore": 20,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 4,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 172,
+      "baseScore": 127,
+      "tileScore": 45,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 4,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 268,
+      "baseScore": 152,
+      "tileScore": 88,
+      "cardScore": 4,
+      "otherScore": 24,
+      "tasks": 3,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 4,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 259,
+      "baseScore": 139,
+      "tileScore": 68,
+      "cardScore": 36,
+      "otherScore": 16,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 6,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 4,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 272,
+      "baseScore": 163,
+      "tileScore": 78,
+      "cardScore": 9,
+      "otherScore": 22,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 9,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 4,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 161,
+      "baseScore": 116,
+      "tileScore": 45,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 4,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 232,
+      "baseScore": 132,
+      "tileScore": 80,
+      "cardScore": 6,
+      "otherScore": 14,
+      "tasks": 2,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 10,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 5,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 328,
+      "baseScore": 162,
+      "tileScore": 95,
+      "cardScore": 11,
+      "otherScore": 60,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 10,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 5,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-green",
+      "score": 167,
+      "baseScore": 85,
+      "tileScore": 61,
+      "cardScore": 10,
+      "otherScore": 11,
+      "tasks": 4,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "b1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 5,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 147,
+      "baseScore": 81,
+      "tileScore": 36,
+      "cardScore": 8,
+      "otherScore": 22,
+      "tasks": 1,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 4,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 5,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 256,
+      "baseScore": 136,
+      "tileScore": 52,
+      "cardScore": 31,
+      "otherScore": 37,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 11,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 5,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 320,
+      "baseScore": 158,
+      "tileScore": 89,
+      "cardScore": 17,
+      "otherScore": 56,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 5,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-green",
+      "score": 186,
+      "baseScore": 100,
+      "tileScore": 50,
+      "cardScore": 10,
+      "otherScore": 26,
+      "tasks": 4,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 4,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "b1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 5,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 157,
+      "baseScore": 83,
+      "tileScore": 38,
+      "cardScore": 9,
+      "otherScore": 27,
+      "tasks": 0,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "dlc_13.png",
+          "instance": "card-97-0"
+        }
+      ],
+      "finalFormulas": [
+        "b1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 5,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 259,
+      "baseScore": 160,
+      "tileScore": 48,
+      "cardScore": 11,
+      "otherScore": 40,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 9,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 6,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 256,
+      "baseScore": 131,
+      "tileScore": 91,
+      "cardScore": 22,
+      "otherScore": 12,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 6,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 6,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 174,
+      "baseScore": 111,
+      "tileScore": 51,
+      "cardScore": 2,
+      "otherScore": 10,
+      "tasks": 3,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 0,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 6,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 276,
+      "baseScore": 169,
+      "tileScore": 69,
+      "cardScore": 22,
+      "otherScore": 16,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 12,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-166-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 6,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 168,
+      "baseScore": 125,
+      "tileScore": 43,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 6,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 294,
+      "baseScore": 156,
+      "tileScore": 96,
+      "cardScore": 42,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 6,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 153,
+      "baseScore": 119,
+      "tileScore": 37,
+      "cardScore": 0,
+      "otherScore": -3,
+      "tasks": 2,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 6,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 280,
+      "baseScore": 169,
+      "tileScore": 74,
+      "cardScore": 21,
+      "otherScore": 16,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 11,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 6,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 195,
+      "baseScore": 126,
+      "tileScore": 61,
+      "cardScore": 8,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "b_90.webp",
+          "instance": "card-92-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 7,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 243,
+      "baseScore": 126,
+      "tileScore": 83,
+      "cardScore": 28,
+      "otherScore": 6,
+      "tasks": 4,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 7,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 212,
+      "baseScore": 132,
+      "tileScore": 61,
+      "cardScore": 16,
+      "otherScore": 3,
+      "tasks": 3,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "dlc_42.png",
+          "instance": "card-52-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "c2"
+      ]
+    },
+    {
+      "case": 7,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 191,
+      "baseScore": 119,
+      "tileScore": 64,
+      "cardScore": 0,
+      "otherScore": 8,
+      "tasks": 4,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 7,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 172,
+      "baseScore": 130,
+      "tileScore": 32,
+      "cardScore": 2,
+      "otherScore": 8,
+      "tasks": 1,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 7,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 325,
+      "baseScore": 181,
+      "tileScore": 100,
+      "cardScore": 21,
+      "otherScore": 23,
+      "tasks": 6,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 11,
+      "fullScanCards": [
+        {
+          "round": 1,
+          "cardId": "yichangdian_5.webp",
+          "instance": "alien-yichangdian-5-1"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "c2"
+      ]
+    },
+    {
+      "case": 7,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 217,
+      "baseScore": 135,
+      "tileScore": 79,
+      "cardScore": 0,
+      "otherScore": 3,
+      "tasks": 1,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "dlc_42.png",
+          "instance": "card-52-0"
+        },
+        {
+          "round": 4,
+          "cardId": "b_84.webp",
+          "instance": "card-149-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 7,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 168,
+      "baseScore": 97,
+      "tileScore": 56,
+      "cardScore": 10,
+      "otherScore": 5,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 7,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 140,
+      "baseScore": 105,
+      "tileScore": 26,
+      "cardScore": 6,
+      "otherScore": 3,
+      "tasks": 2,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 1,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_28.webp",
+          "instance": "card-124-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 8,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 231,
+      "baseScore": 171,
+      "tileScore": 54,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_28.webp",
+          "instance": "card-190-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 8,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 242,
+      "baseScore": 143,
+      "tileScore": 67,
+      "cardScore": 32,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "c2"
+      ]
+    },
+    {
+      "case": 8,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 302,
+      "baseScore": 198,
+      "tileScore": 98,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 10,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_68.webp",
+          "instance": "card-111-0"
+        },
+        {
+          "round": 4,
+          "cardId": "yichangdian_5.webp",
+          "instance": "alien-yichangdian-5-5"
+        }
+      ],
+      "finalFormulas": [
+        "b2",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 8,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 164,
+      "baseScore": 115,
+      "tileScore": 49,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 8,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 225,
+      "baseScore": 161,
+      "tileScore": 58,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 8,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 211,
+      "baseScore": 125,
+      "tileScore": 56,
+      "cardScore": 30,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "c2"
+      ]
+    },
+    {
+      "case": 8,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 342,
+      "baseScore": 207,
+      "tileScore": 122,
+      "cardScore": 13,
+      "otherScore": 0,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_68.webp",
+          "instance": "card-111-0"
+        },
+        {
+          "round": 4,
+          "cardId": "yichangdian_5.webp",
+          "instance": "alien-yichangdian-5-5"
+        }
+      ],
+      "finalFormulas": [
+        "b2",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 8,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 164,
+      "baseScore": 121,
+      "tileScore": 43,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-186-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d2"
+      ]
+    },
+    {
+      "case": 9,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 257,
+      "baseScore": 166,
+      "tileScore": 67,
+      "cardScore": 15,
+      "otherScore": 9,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 9,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 9,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-green",
+      "score": 138,
+      "baseScore": 105,
+      "tileScore": 25,
+      "cardScore": 8,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 9,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 288,
+      "baseScore": 172,
+      "tileScore": 89,
+      "cardScore": 26,
+      "otherScore": 1,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 8,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_132.webp",
+          "instance": "card-167-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 9,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 198,
+      "baseScore": 154,
+      "tileScore": 30,
+      "cardScore": 0,
+      "otherScore": 14,
+      "tasks": 2,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 4,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 9,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 194,
+      "baseScore": 129,
+      "tileScore": 43,
+      "cardScore": 4,
+      "otherScore": 18,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 9,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-green",
+      "score": 224,
+      "baseScore": 147,
+      "tileScore": 57,
+      "cardScore": 8,
+      "otherScore": 12,
+      "tasks": 6,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 1,
+          "cardId": "dlc_42.png",
+          "instance": "card-50-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 9,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 280,
+      "baseScore": 172,
+      "tileScore": 86,
+      "cardScore": 10,
+      "otherScore": 12,
+      "tasks": 3,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 9,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 9,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 178,
+      "baseScore": 129,
+      "tileScore": 49,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 10,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 260,
+      "baseScore": 148,
+      "tileScore": 74,
+      "cardScore": 26,
+      "otherScore": 12,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 4,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 10,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 230,
+      "baseScore": 140,
+      "tileScore": 51,
+      "cardScore": 0,
+      "otherScore": 39,
+      "tasks": 2,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 6,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "dlc_42.png",
+          "instance": "card-68-0"
+        },
+        {
+          "round": 4,
+          "cardId": "dlc_13.png",
+          "instance": "card-171-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "c2"
+      ]
+    },
+    {
+      "case": 10,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 264,
+      "baseScore": 153,
+      "tileScore": 55,
+      "cardScore": 17,
+      "otherScore": 39,
+      "tasks": 6,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 10,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 237,
+      "baseScore": 172,
+      "tileScore": 58,
+      "cardScore": 0,
+      "otherScore": 7,
+      "tasks": 6,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 10,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 10,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 275,
+      "baseScore": 155,
+      "tileScore": 71,
+      "cardScore": 14,
+      "otherScore": 35,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 10,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 263,
+      "baseScore": 176,
+      "tileScore": 70,
+      "cardScore": 5,
+      "otherScore": 12,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 10,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 243,
+      "baseScore": 167,
+      "tileScore": 60,
+      "cardScore": 10,
+      "otherScore": 6,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 3,
+      "fullScanCards": [
+        {
+          "round": 1,
+          "cardId": "b_84.webp",
+          "instance": "card-10-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 10,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 196,
+      "baseScore": 115,
+      "tileScore": 54,
+      "cardScore": 20,
+      "otherScore": 7,
+      "tasks": 3,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 1,
+          "cardId": "dlc_42.png",
+          "instance": "card-68-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 11,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 230,
+      "baseScore": 132,
+      "tileScore": 87,
+      "cardScore": 6,
+      "otherScore": 5,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "b2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 11,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 196,
+      "baseScore": 144,
+      "tileScore": 38,
+      "cardScore": 9,
+      "otherScore": 5,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 1,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-170-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 11,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 266,
+      "baseScore": 173,
+      "tileScore": 81,
+      "cardScore": 3,
+      "otherScore": 9,
+      "tasks": 7,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 11,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 289,
+      "baseScore": 163,
+      "tileScore": 98,
+      "cardScore": 14,
+      "otherScore": 14,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "yichangdian_5.webp",
+          "instance": "alien-yichangdian-5-9"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 11,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 230,
+      "baseScore": 132,
+      "tileScore": 87,
+      "cardScore": 6,
+      "otherScore": 5,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "b2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 11,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 196,
+      "baseScore": 144,
+      "tileScore": 38,
+      "cardScore": 9,
+      "otherScore": 5,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 1,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-170-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 11,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 266,
+      "baseScore": 173,
+      "tileScore": 81,
+      "cardScore": 3,
+      "otherScore": 9,
+      "tasks": 7,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 11,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 289,
+      "baseScore": 163,
+      "tileScore": 98,
+      "cardScore": 14,
+      "otherScore": 14,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "yichangdian_5.webp",
+          "instance": "alien-yichangdian-5-9"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 12,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 229,
+      "baseScore": 124,
+      "tileScore": 75,
+      "cardScore": 18,
+      "otherScore": 12,
+      "tasks": 4,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "b_90.webp",
+          "instance": "card-97-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 12,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 287,
+      "baseScore": 186,
+      "tileScore": 68,
+      "cardScore": 14,
+      "otherScore": 19,
+      "tasks": 5,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "aomomo_9.webp",
+          "instance": "alien-aomomo-9-10"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 12,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 186,
+      "baseScore": 113,
+      "tileScore": 40,
+      "cardScore": 10,
+      "otherScore": 23,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-169-0"
+        }
+      ],
+      "finalFormulas": [
+        "b2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 12,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 202,
+      "baseScore": 129,
+      "tileScore": 49,
+      "cardScore": 6,
+      "otherScore": 18,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 12,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 229,
+      "baseScore": 124,
+      "tileScore": 75,
+      "cardScore": 18,
+      "otherScore": 12,
+      "tasks": 4,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "b_90.webp",
+          "instance": "card-97-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 12,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 287,
+      "baseScore": 186,
+      "tileScore": 68,
+      "cardScore": 14,
+      "otherScore": 19,
+      "tasks": 5,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "aomomo_9.webp",
+          "instance": "alien-aomomo-9-10"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 12,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 186,
+      "baseScore": 113,
+      "tileScore": 40,
+      "cardScore": 10,
+      "otherScore": 23,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-169-0"
+        }
+      ],
+      "finalFormulas": [
+        "b2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 12,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 202,
+      "baseScore": 129,
+      "tileScore": 49,
+      "cardScore": 6,
+      "otherScore": 18,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 13,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 203,
+      "baseScore": 133,
+      "tileScore": 67,
+      "cardScore": 3,
+      "otherScore": 0,
+      "tasks": 8,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_68.webp",
+          "instance": "card-154-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 13,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 291,
+      "baseScore": 166,
+      "tileScore": 80,
+      "cardScore": 18,
+      "otherScore": 27,
+      "tasks": 3,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 6,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 13,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 239,
+      "baseScore": 159,
+      "tileScore": 62,
+      "cardScore": 0,
+      "otherScore": 18,
+      "tasks": 3,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-177-0"
+        }
+      ],
+      "finalFormulas": [
+        "b2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 13,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 206,
+      "baseScore": 127,
+      "tileScore": 54,
+      "cardScore": 18,
+      "otherScore": 7,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 13,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 203,
+      "baseScore": 133,
+      "tileScore": 67,
+      "cardScore": 3,
+      "otherScore": 0,
+      "tasks": 8,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_68.webp",
+          "instance": "card-154-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 13,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 296,
+      "baseScore": 168,
+      "tileScore": 83,
+      "cardScore": 18,
+      "otherScore": 27,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 6,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_90.webp",
+          "instance": "card-132-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 13,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 239,
+      "baseScore": 159,
+      "tileScore": 62,
+      "cardScore": 0,
+      "otherScore": 18,
+      "tasks": 3,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-177-0"
+        }
+      ],
+      "finalFormulas": [
+        "b2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 13,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 206,
+      "baseScore": 127,
+      "tileScore": 54,
+      "cardScore": 18,
+      "otherScore": 7,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 14,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 262,
+      "baseScore": 159,
+      "tileScore": 83,
+      "cardScore": 20,
+      "otherScore": 0,
+      "tasks": 0,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 8,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_84.webp",
+          "instance": "card-117-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 14,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 248,
+      "baseScore": 180,
+      "tileScore": 68,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 14,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 238,
+      "baseScore": 163,
+      "tileScore": 63,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 6,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 14,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 194,
+      "baseScore": 146,
+      "tileScore": 42,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 4,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 14,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 262,
+      "baseScore": 159,
+      "tileScore": 83,
+      "cardScore": 20,
+      "otherScore": 0,
+      "tasks": 0,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 8,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_84.webp",
+          "instance": "card-117-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 14,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 248,
+      "baseScore": 180,
+      "tileScore": 68,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 14,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 238,
+      "baseScore": 163,
+      "tileScore": 63,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 6,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 14,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 194,
+      "baseScore": 146,
+      "tileScore": 42,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 4,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 15,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 264,
+      "baseScore": 184,
+      "tileScore": 77,
+      "cardScore": 3,
+      "otherScore": 0,
+      "tasks": 7,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 15,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 185,
+      "baseScore": 145,
+      "tileScore": 28,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 6,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 15,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 204,
+      "baseScore": 113,
+      "tileScore": 43,
+      "cardScore": 23,
+      "otherScore": 25,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "b1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 15,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 198,
+      "baseScore": 128,
+      "tileScore": 52,
+      "cardScore": 4,
+      "otherScore": 14,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 15,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 264,
+      "baseScore": 184,
+      "tileScore": 77,
+      "cardScore": 3,
+      "otherScore": 0,
+      "tasks": 7,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 15,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 185,
+      "baseScore": 145,
+      "tileScore": 28,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 6,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 15,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 204,
+      "baseScore": 113,
+      "tileScore": 43,
+      "cardScore": 23,
+      "otherScore": 25,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "b1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 15,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 198,
+      "baseScore": 128,
+      "tileScore": 52,
+      "cardScore": 4,
+      "otherScore": 14,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 16,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 181,
+      "baseScore": 103,
+      "tileScore": 57,
+      "cardScore": 9,
+      "otherScore": 12,
+      "tasks": 5,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_68.webp",
+          "instance": "card-42-pass-2-3"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "c1"
+      ]
+    },
+    {
+      "case": 16,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 239,
+      "baseScore": 160,
+      "tileScore": 51,
+      "cardScore": 13,
+      "otherScore": 15,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 16,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 243,
+      "baseScore": 128,
+      "tileScore": 70,
+      "cardScore": 26,
+      "otherScore": 19,
+      "tasks": 0,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 12,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 16,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 234,
+      "baseScore": 126,
+      "tileScore": 78,
+      "cardScore": 15,
+      "otherScore": 15,
+      "tasks": 3,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-149-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 16,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 165,
+      "baseScore": 98,
+      "tileScore": 52,
+      "cardScore": 9,
+      "otherScore": 6,
+      "tasks": 6,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_68.webp",
+          "instance": "card-42-pass-2-3"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "c1"
+      ]
+    },
+    {
+      "case": 16,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 177,
+      "baseScore": 119,
+      "tileScore": 40,
+      "cardScore": 0,
+      "otherScore": 18,
+      "tasks": 3,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 16,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 218,
+      "baseScore": 137,
+      "tileScore": 56,
+      "cardScore": 3,
+      "otherScore": 22,
+      "tasks": 2,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 12,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_51.webp",
+          "instance": "card-132-0"
+        },
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-149-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 16,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 285,
+      "baseScore": 169,
+      "tileScore": 76,
+      "cardScore": 22,
+      "otherScore": 18,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 8,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "b_84.webp",
+          "instance": "card-38-pass-1-4"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 17,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 204,
+      "baseScore": 153,
+      "tileScore": 47,
+      "cardScore": 4,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 17,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 259,
+      "baseScore": 171,
+      "tileScore": 66,
+      "cardScore": 22,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 17,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 140,
+      "baseScore": 115,
+      "tileScore": 23,
+      "cardScore": 2,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 17,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 214,
+      "baseScore": 158,
+      "tileScore": 56,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 17,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 197,
+      "baseScore": 143,
+      "tileScore": 49,
+      "cardScore": 5,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 1,
+          "cardId": "dlc_42.png",
+          "instance": "card-3-0"
+        },
+        {
+          "round": 3,
+          "cardId": "b_90.webp",
+          "instance": "card-103-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 17,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 258,
+      "baseScore": 174,
+      "tileScore": 66,
+      "cardScore": 18,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 6,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "c2"
+      ]
+    },
+    {
+      "case": 17,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 173,
+      "baseScore": 113,
+      "tileScore": 54,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 17,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 244,
+      "baseScore": 157,
+      "tileScore": 69,
+      "cardScore": 18,
+      "otherScore": 0,
+      "tasks": 1,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 18,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 226,
+      "baseScore": 157,
+      "tileScore": 62,
+      "cardScore": 7,
+      "otherScore": 0,
+      "tasks": 7,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 6,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "aomomo_9.webp",
+          "instance": "alien-aomomo-9-8"
+        },
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-159-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 18,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 247,
+      "baseScore": 180,
+      "tileScore": 67,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 9,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 18,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 221,
+      "baseScore": 143,
+      "tileScore": 64,
+      "cardScore": 14,
+      "otherScore": 0,
+      "tasks": 1,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 5,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 18,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 179,
+      "baseScore": 98,
+      "tileScore": 69,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 4,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 18,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 194,
+      "baseScore": 135,
+      "tileScore": 59,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 8,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "aomomo_9.webp",
+          "instance": "alien-aomomo-9-8"
+        },
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-159-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 18,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 224,
+      "baseScore": 165,
+      "tileScore": 50,
+      "cardScore": 9,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_90.webp",
+          "instance": "card-42-pass-2-3"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 18,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-brown",
+      "score": 204,
+      "baseScore": 128,
+      "tileScore": 64,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 0,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 3,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-123-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d1"
+      ]
+    },
+    {
+      "case": 18,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 193,
+      "baseScore": 115,
+      "tileScore": 69,
+      "cardScore": 9,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 19,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 310,
+      "baseScore": 224,
+      "tileScore": 80,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 14,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "aomomo_0.webp",
+          "instance": "alien-aomomo-0-1"
+        },
+        {
+          "round": 4,
+          "cardId": "b_28.webp",
+          "instance": "card-174-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 19,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 216,
+      "baseScore": 145,
+      "tileScore": 54,
+      "cardScore": 17,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 19,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 277,
+      "baseScore": 175,
+      "tileScore": 83,
+      "cardScore": 19,
+      "otherScore": 0,
+      "tasks": 9,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 2,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "dlc_42.png",
+          "instance": "card-111-0"
+        },
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-160-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 19,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 186,
+      "baseScore": 135,
+      "tileScore": 35,
+      "cardScore": 16,
+      "otherScore": 0,
+      "tasks": 1,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 2,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "aomomo_9.webp",
+          "instance": "alien-aomomo-9-6"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 19,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-blue",
+      "score": 292,
+      "baseScore": 212,
+      "tileScore": 80,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 13,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "aomomo_0.webp",
+          "instance": "alien-aomomo-0-1"
+        },
+        {
+          "round": 4,
+          "cardId": "b_28.webp",
+          "instance": "card-174-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 19,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 220,
+      "baseScore": 149,
+      "tileScore": 51,
+      "cardScore": 20,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 19,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-brown",
+      "score": 275,
+      "baseScore": 179,
+      "tileScore": 78,
+      "cardScore": 18,
+      "otherScore": 0,
+      "tasks": 9,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 2,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "dlc_42.png",
+          "instance": "card-111-0"
+        },
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-160-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 19,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 180,
+      "baseScore": 132,
+      "tileScore": 35,
+      "cardScore": 13,
+      "otherScore": 0,
+      "tasks": 1,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 2,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "aomomo_9.webp",
+          "instance": "alien-aomomo-9-6"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 20,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 224,
+      "baseScore": 112,
+      "tileScore": 53,
+      "cardScore": 14,
+      "otherScore": 45,
+      "tasks": 4,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "dlc_42.png",
+          "instance": "card-69-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 20,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 238,
+      "baseScore": 156,
+      "tileScore": 43,
+      "cardScore": 18,
+      "otherScore": 21,
+      "tasks": 5,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 20,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 270,
+      "baseScore": 146,
+      "tileScore": 78,
+      "cardScore": 20,
+      "otherScore": 26,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 9,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 20,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 259,
+      "baseScore": 150,
+      "tileScore": 50,
+      "cardScore": 7,
+      "otherScore": 52,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-49-pass-3-5"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 20,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 220,
+      "baseScore": 102,
+      "tileScore": 57,
+      "cardScore": 26,
+      "otherScore": 35,
+      "tasks": 4,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 1,
+          "cardId": "dlc_42.png",
+          "instance": "card-69-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "c1"
+      ]
+    },
+    {
+      "case": 20,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-green",
+      "score": 194,
+      "baseScore": 121,
+      "tileScore": 37,
+      "cardScore": 22,
+      "otherScore": 14,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 20,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 236,
+      "baseScore": 137,
+      "tileScore": 81,
+      "cardScore": 0,
+      "otherScore": 18,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-49-pass-3-5"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 20,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 268,
+      "baseScore": 154,
+      "tileScore": 58,
+      "cardScore": 5,
+      "otherScore": 51,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 21,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-blue",
+      "score": 218,
+      "baseScore": 163,
+      "tileScore": 50,
+      "cardScore": 5,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "c2"
+      ]
+    },
+    {
+      "case": 21,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 279,
+      "baseScore": 172,
+      "tileScore": 83,
+      "cardScore": 24,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 21,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 216,
+      "baseScore": 141,
+      "tileScore": 72,
+      "cardScore": 3,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-140-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 21,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 177,
+      "baseScore": 129,
+      "tileScore": 38,
+      "cardScore": 10,
+      "otherScore": 0,
+      "tasks": 1,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-144-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 21,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-blue",
+      "score": 214,
+      "baseScore": 159,
+      "tileScore": 50,
+      "cardScore": 5,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "c2"
+      ]
+    },
+    {
+      "case": 21,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 268,
+      "baseScore": 173,
+      "tileScore": 77,
+      "cardScore": 18,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a2",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 21,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 231,
+      "baseScore": 151,
+      "tileScore": 77,
+      "cardScore": 3,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-140-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 21,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-white",
+      "score": 187,
+      "baseScore": 133,
+      "tileScore": 42,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 5,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-144-0"
+        }
+      ],
+      "finalFormulas": [
+        "a2",
+        "c2",
+        "d1"
+      ]
+    },
+    {
+      "case": 22,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 235,
+      "baseScore": 148,
+      "tileScore": 71,
+      "cardScore": 16,
+      "otherScore": 0,
+      "tasks": 7,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_13.png",
+          "instance": "card-146-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 22,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 243,
+      "baseScore": 141,
+      "tileScore": 90,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 6,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 22,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 257,
+      "baseScore": 166,
+      "tileScore": 78,
+      "cardScore": 13,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 10,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_9.webp",
+          "instance": "card-112-0"
+        },
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-49-pass-3-5"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 22,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 128,
+      "baseScore": 85,
+      "tileScore": 37,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 1,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 3,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 22,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 195,
+      "baseScore": 122,
+      "tileScore": 71,
+      "cardScore": 2,
+      "otherScore": 0,
+      "tasks": 7,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 4,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_13.png",
+          "instance": "card-146-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 22,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 304,
+      "baseScore": 191,
+      "tileScore": 99,
+      "cardScore": 14,
+      "otherScore": 0,
+      "tasks": 7,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 7,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_51.webp",
+          "instance": "card-136-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 22,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 248,
+      "baseScore": 158,
+      "tileScore": 74,
+      "cardScore": 16,
+      "otherScore": 0,
+      "tasks": 5,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "b_9.webp",
+          "instance": "card-112-0"
+        },
+        {
+          "round": 4,
+          "cardId": "dlc_42.png",
+          "instance": "card-49-pass-3-5"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 22,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 186,
+      "baseScore": 135,
+      "tileScore": 45,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 2,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b2",
+        "d2"
+      ]
+    },
+    {
+      "case": 23,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-blue",
+      "score": 143,
+      "baseScore": 109,
+      "tileScore": 31,
+      "cardScore": 3,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 11,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 23,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-green",
+      "score": 189,
+      "baseScore": 124,
+      "tileScore": 53,
+      "cardScore": 12,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 8,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 23,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 210,
+      "baseScore": 129,
+      "tileScore": 71,
+      "cardScore": 10,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 4,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 23,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 220,
+      "baseScore": 155,
+      "tileScore": 46,
+      "cardScore": 19,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 2,
+      "standardScans": 11,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "dlc_42.png",
+          "instance": "card-108-0"
+        },
+        {
+          "round": 4,
+          "cardId": "b_51.webp",
+          "instance": "card-164-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 23,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-blue",
+      "score": 138,
+      "baseScore": 104,
+      "tileScore": 31,
+      "cardScore": 3,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 10,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 1,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 23,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-green",
+      "score": 201,
+      "baseScore": 135,
+      "tileScore": 58,
+      "cardScore": 8,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 9,
+      "fullScanCards": [
+        {
+          "round": 4,
+          "cardId": "dlc_13.png",
+          "instance": "card-149-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 23,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 219,
+      "baseScore": 144,
+      "tileScore": 75,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 6,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "case": 23,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-white",
+      "score": 229,
+      "baseScore": 155,
+      "tileScore": 46,
+      "cardScore": 28,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 8,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 12,
+      "fullScanCards": [
+        {
+          "round": 3,
+          "cardId": "dlc_42.png",
+          "instance": "card-108-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d1"
+      ]
+    },
+    {
+      "case": 24,
+      "model": "baseline",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 245,
+      "baseScore": 166,
+      "tileScore": 62,
+      "cardScore": 17,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 24,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 180,
+      "baseScore": 139,
+      "tileScore": 41,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 24,
+      "model": "baseline",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 222,
+      "baseScore": 144,
+      "tileScore": 62,
+      "cardScore": 16,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 24,
+      "model": "baseline",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 218,
+      "baseScore": 179,
+      "tileScore": 33,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 3,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "dlc_42.png",
+          "instance": "card-15-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 24,
+      "model": "candidate",
+      "company": "宇宙大战略集团",
+      "playerId": "player-blue",
+      "score": 245,
+      "baseScore": 166,
+      "tileScore": 62,
+      "cardScore": 17,
+      "otherScore": 0,
+      "tasks": 4,
+      "tech": 9,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 24,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "score": 180,
+      "baseScore": 139,
+      "tileScore": 41,
+      "cardScore": 0,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "c1",
+        "d2"
+      ]
+    },
+    {
+      "case": 24,
+      "model": "candidate",
+      "company": "作弊实验室",
+      "playerId": "player-brown",
+      "score": 222,
+      "baseScore": 144,
+      "tileScore": 62,
+      "cardScore": 16,
+      "otherScore": 0,
+      "tasks": 2,
+      "tech": 12,
+      "marks": 3,
+      "fullScanCardPlays": 0,
+      "standardScans": 7,
+      "fullScanCards": [],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d2"
+      ]
+    },
+    {
+      "case": 24,
+      "model": "candidate",
+      "company": "寰宇超动力",
+      "playerId": "player-white",
+      "score": 218,
+      "baseScore": 179,
+      "tileScore": 33,
+      "cardScore": 6,
+      "otherScore": 0,
+      "tasks": 3,
+      "tech": 7,
+      "marks": 3,
+      "fullScanCardPlays": 1,
+      "standardScans": 3,
+      "fullScanCards": [
+        {
+          "round": 2,
+          "cardId": "dlc_42.png",
+          "instance": "card-15-0"
+        }
+      ],
+      "finalFormulas": [
+        "a1",
+        "b1",
+        "d2"
+      ]
+    }
+  ]
+}

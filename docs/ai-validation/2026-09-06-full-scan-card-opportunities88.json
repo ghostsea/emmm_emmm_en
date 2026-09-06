@@ -1,0 +1,6530 @@
+{
+  "scope": "88 seen baseline games. Only full-scan cards appearing in affordable main-action card candidates are included; missing, unaffordable and unsupported cards are excluded. Instances are deduplicated within each seat/game and matched to explicit play/discard/movement decisions. These are opportunity counts, not mistakes or causal efficiency estimates. First 24 use source-fixed runtime, remaining 64 retain original scoring/runtime reports.",
+  "groups": {
+    "作弊实验室": {
+      "seats": 176,
+      "uniqueAffordableFullScanCards": 250,
+      "played": 85,
+      "explicitOtherSinks": 98,
+      "endingHand": 3,
+      "mainDecisionsWithAffordableFullScanCard": 799,
+      "selectedStandardScan": 186
+    },
+    "宇宙大战略集团": {
+      "seats": 88,
+      "uniqueAffordableFullScanCards": 123,
+      "played": 41,
+      "explicitOtherSinks": 51,
+      "endingHand": 3,
+      "mainDecisionsWithAffordableFullScanCard": 367,
+      "selectedStandardScan": 48
+    },
+    "寰宇超动力": {
+      "seats": 88,
+      "uniqueAffordableFullScanCards": 84,
+      "played": 12,
+      "explicitOtherSinks": 48,
+      "endingHand": 2,
+      "mainDecisionsWithAffordableFullScanCard": 201,
+      "selectedStandardScan": 28
+    }
+  },
+  "rows": [
+    {
+      "prefix": "datatwostep-base",
+      "case": 1,
+      "company": "作弊实验室",
+      "instance": "card-56-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 1,
+      "company": "作弊实验室",
+      "instance": "card-40-pass-2-1",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "instance": "card-96-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "instance": "card-120-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 2,
+      "company": "作弊实验室",
+      "instance": "card-38-pass-1-4",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 2,
+      "company": "作弊实验室",
+      "instance": "card-102-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 2,
+      "company": "作弊实验室",
+      "instance": "card-152-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 3,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-7",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 3,
+      "company": "作弊实验室",
+      "instance": "card-41-pass-2-2",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "instance": "card-51-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "instance": "card-65-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "instance": "card-124-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 4,
+      "company": "寰宇超动力",
+      "instance": "card-130-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "instance": "card-66-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "instance": "card-89-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "instance": "card-114-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 5,
+      "company": "作弊实验室",
+      "instance": "card-111-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "instance": "card-50-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "instance": "card-65-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "instance": "card-97-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 6,
+      "company": "作弊实验室",
+      "instance": "card-60-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 6,
+      "company": "作弊实验室",
+      "instance": "card-47-pass-3-3",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": true
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 6,
+      "company": "寰宇超动力",
+      "instance": "card-114-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 6,
+      "company": "作弊实验室",
+      "instance": "card-166-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 6,
+      "company": "宇宙大战略集团",
+      "instance": "card-92-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 7,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-1",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 7,
+      "company": "作弊实验室",
+      "instance": "card-52-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "instance": "card-111-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "instance": "card-149-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 8,
+      "company": "作弊实验室",
+      "instance": "card-190-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 8,
+      "company": "寰宇超动力",
+      "instance": "card-149-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 8,
+      "company": "作弊实验室",
+      "instance": "card-111-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 8,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-5",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 8,
+      "company": "作弊实验室",
+      "instance": "card-161-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "instance": "card-16-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "instance": "card-173-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 9,
+      "company": "作弊实验室",
+      "instance": "card-3-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 9,
+      "company": "作弊实验室",
+      "instance": "card-47-pass-3-3",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "instance": "card-50-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 9,
+      "company": "作弊实验室",
+      "instance": "card-167-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 9,
+      "company": "寰宇超动力",
+      "instance": "card-160-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 10,
+      "company": "作弊实验室",
+      "instance": "card-68-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 10,
+      "company": "作弊实验室",
+      "instance": "card-171-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "instance": "card-84-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "instance": "card-3-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "instance": "card-63-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "instance": "card-126-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 11,
+      "company": "寰宇超动力",
+      "instance": "card-135-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 11,
+      "company": "寰宇超动力",
+      "instance": "card-170-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 11,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-9",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "宇宙大战略集团",
+      "instance": "card-97-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "宇宙大战略集团",
+      "instance": "card-162-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-10",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "作弊实验室",
+      "instance": "card-156-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-0-5",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "作弊实验室",
+      "instance": "card-142-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "作弊实验室",
+      "instance": "card-169-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "寰宇超动力",
+      "instance": "card-16-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "寰宇超动力",
+      "instance": "card-92-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "instance": "card-154-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 13,
+      "company": "作弊实验室",
+      "instance": "card-110-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 13,
+      "company": "作弊实验室",
+      "instance": "card-132-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": true
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 13,
+      "company": "寰宇超动力",
+      "instance": "card-76-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 13,
+      "company": "寰宇超动力",
+      "instance": "card-177-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 13,
+      "company": "作弊实验室",
+      "instance": "card-36-pass-1-2",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 14,
+      "company": "作弊实验室",
+      "instance": "card-117-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 14,
+      "company": "作弊实验室",
+      "instance": "card-138-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 14,
+      "company": "寰宇超动力",
+      "instance": "card-37-pass-1-3",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 15,
+      "company": "作弊实验室",
+      "instance": "card-120-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 15,
+      "company": "寰宇超动力",
+      "instance": "card-36-pass-1-2",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 15,
+      "company": "寰宇超动力",
+      "instance": "card-40-pass-2-1",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 15,
+      "company": "寰宇超动力",
+      "instance": "card-123-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "instance": "card-37-pass-1-3",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "instance": "card-42-pass-2-3",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 16,
+      "company": "作弊实验室",
+      "instance": "card-38-pass-1-4",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 16,
+      "company": "作弊实验室",
+      "instance": "card-149-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 16,
+      "company": "作弊实验室",
+      "instance": "card-135-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "instance": "card-3-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "instance": "card-17-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "instance": "card-121-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "instance": "card-160-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": true
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 17,
+      "company": "作弊实验室",
+      "instance": "card-122-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 17,
+      "company": "寰宇超动力",
+      "instance": "card-64-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 17,
+      "company": "寰宇超动力",
+      "instance": "card-164-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "作弊实验室",
+      "instance": "card-59-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-8",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "作弊实验室",
+      "instance": "card-159-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "作弊实验室",
+      "instance": "card-42-pass-2-3",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "寰宇超动力",
+      "instance": "card-123-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": true
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "宇宙大战略集团",
+      "instance": "card-15-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "宇宙大战略集团",
+      "instance": "card-124-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-0-1",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "作弊实验室",
+      "instance": "card-133-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "作弊实验室",
+      "instance": "card-174-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "作弊实验室",
+      "instance": "card-104-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "instance": "card-111-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "instance": "card-160-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "寰宇超动力",
+      "instance": "card-118-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "寰宇超动力",
+      "instance": "alien-aomomo-9-6",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 19,
+      "company": "寰宇超动力",
+      "instance": "card-126-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 20,
+      "company": "宇宙大战略集团",
+      "instance": "card-69-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 20,
+      "company": "寰宇超动力",
+      "instance": "card-91-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 20,
+      "company": "作弊实验室",
+      "instance": "card-83-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 20,
+      "company": "作弊实验室",
+      "instance": "card-131-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 20,
+      "company": "作弊实验室",
+      "instance": "card-79-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 20,
+      "company": "作弊实验室",
+      "instance": "card-49-pass-3-5",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 21,
+      "company": "寰宇超动力",
+      "instance": "alien-aomomo-9-5",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 21,
+      "company": "作弊实验室",
+      "instance": "card-109-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 21,
+      "company": "作弊实验室",
+      "instance": "card-154-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 21,
+      "company": "作弊实验室",
+      "instance": "card-94-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 21,
+      "company": "作弊实验室",
+      "instance": "card-140-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 21,
+      "company": "作弊实验室",
+      "instance": "card-141-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "instance": "card-144-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 22,
+      "company": "宇宙大战略集团",
+      "instance": "card-146-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 22,
+      "company": "作弊实验室",
+      "instance": "card-136-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 22,
+      "company": "作弊实验室",
+      "instance": "card-58-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 22,
+      "company": "作弊实验室",
+      "instance": "card-112-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 22,
+      "company": "作弊实验室",
+      "instance": "card-49-pass-3-5",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 23,
+      "company": "作弊实验室",
+      "instance": "card-100-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 23,
+      "company": "作弊实验室",
+      "instance": "card-108-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 23,
+      "company": "作弊实验室",
+      "instance": "card-164-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "instance": "card-52-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 24,
+      "company": "寰宇超动力",
+      "instance": "card-15-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 24,
+      "company": "寰宇超动力",
+      "instance": "card-72-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 1,
+      "company": "作弊实验室",
+      "instance": "card-157-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "instance": "card-72-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "instance": "alien-yichangdian-5-2",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "instance": "card-135-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 1,
+      "company": "作弊实验室",
+      "instance": "card-59-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "instance": "card-35-pass-1-1",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "instance": "alien-aomomo-9-8",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "instance": "card-40-pass-2-1",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 2,
+      "company": "作弊实验室",
+      "instance": "card-54-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 2,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-0-2",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 2,
+      "company": "作弊实验室",
+      "instance": "card-100-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 2,
+      "company": "作弊实验室",
+      "instance": "card-103-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 2,
+      "company": "作弊实验室",
+      "instance": "card-97-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 3,
+      "company": "作弊实验室",
+      "instance": "card-138-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 3,
+      "company": "作弊实验室",
+      "instance": "card-176-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 3,
+      "company": "作弊实验室",
+      "instance": "card-157-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "instance": "card-78-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "instance": "card-67-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 3,
+      "company": "宇宙大战略集团",
+      "instance": "card-120-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "instance": "card-4-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "instance": "card-45-pass-3-1",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 4,
+      "company": "寰宇超动力",
+      "instance": "card-50-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 4,
+      "company": "作弊实验室",
+      "instance": "card-146-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 4,
+      "company": "作弊实验室",
+      "instance": "card-86-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 5,
+      "company": "作弊实验室",
+      "instance": "card-183-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "instance": "card-118-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 5,
+      "company": "寰宇超动力",
+      "instance": "card-63-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 5,
+      "company": "作弊实验室",
+      "instance": "card-91-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 6,
+      "company": "作弊实验室",
+      "instance": "card-82-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 6,
+      "company": "作弊实验室",
+      "instance": "card-182-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 6,
+      "company": "宇宙大战略集团",
+      "instance": "card-107-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 6,
+      "company": "寰宇超动力",
+      "instance": "card-16-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 6,
+      "company": "寰宇超动力",
+      "instance": "card-64-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 6,
+      "company": "寰宇超动力",
+      "instance": "card-71-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "instance": "card-179-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 7,
+      "company": "作弊实验室",
+      "instance": "card-38-pass-1-4",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 7,
+      "company": "作弊实验室",
+      "instance": "card-81-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 7,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-1",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 7,
+      "company": "寰宇超动力",
+      "instance": "card-10-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 7,
+      "company": "寰宇超动力",
+      "instance": "card-127-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 8,
+      "company": "寰宇超动力",
+      "instance": "card-66-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 8,
+      "company": "寰宇超动力",
+      "instance": "card-106-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 8,
+      "company": "寰宇超动力",
+      "instance": "card-134-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 8,
+      "company": "作弊实验室",
+      "instance": "card-55-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 8,
+      "company": "作弊实验室",
+      "instance": "card-42-pass-2-3",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 8,
+      "company": "作弊实验室",
+      "instance": "card-176-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 9,
+      "company": "作弊实验室",
+      "instance": "card-18-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 9,
+      "company": "作弊实验室",
+      "instance": "card-103-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 9,
+      "company": "作弊实验室",
+      "instance": "card-42-pass-2-3",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 9,
+      "company": "寰宇超动力",
+      "instance": "card-123-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 9,
+      "company": "作弊实验室",
+      "instance": "card-122-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 10,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-1",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "instance": "card-44-pass-2-5",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 11,
+      "company": "寰宇超动力",
+      "instance": "card-137-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 11,
+      "company": "作弊实验室",
+      "instance": "card-109-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "instance": "card-52-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "instance": "card-70-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "instance": "card-92-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 12,
+      "company": "作弊实验室",
+      "instance": "card-81-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 12,
+      "company": "作弊实验室",
+      "instance": "card-93-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 12,
+      "company": "寰宇超动力",
+      "instance": "card-64-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 13,
+      "company": "寰宇超动力",
+      "instance": "card-152-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 13,
+      "company": "作弊实验室",
+      "instance": "card-86-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 13,
+      "company": "作弊实验室",
+      "instance": "card-119-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 13,
+      "company": "作弊实验室",
+      "instance": "card-18-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "instance": "card-100-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "instance": "card-146-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "instance": "card-147-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 14,
+      "company": "作弊实验室",
+      "instance": "card-62-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "instance": "card-97-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "instance": "card-150-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "instance": "card-141-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 15,
+      "company": "作弊实验室",
+      "instance": "card-52-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 15,
+      "company": "作弊实验室",
+      "instance": "card-81-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "instance": "card-91-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "instance": "card-148-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 16,
+      "company": "作弊实验室",
+      "instance": "card-62-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 16,
+      "company": "寰宇超动力",
+      "instance": "alien-yichangdian-5-2",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 16,
+      "company": "寰宇超动力",
+      "instance": "card-110-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 16,
+      "company": "作弊实验室",
+      "instance": "card-122-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 17,
+      "company": "作弊实验室",
+      "instance": "card-57-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 17,
+      "company": "作弊实验室",
+      "instance": "card-114-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 17,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-8",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 17,
+      "company": "作弊实验室",
+      "instance": "card-182-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 17,
+      "company": "宇宙大战略集团",
+      "instance": "card-168-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 17,
+      "company": "寰宇超动力",
+      "instance": "card-99-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 17,
+      "company": "作弊实验室",
+      "instance": "card-145-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 18,
+      "company": "寰宇超动力",
+      "instance": "card-46-pass-3-2",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 18,
+      "company": "作弊实验室",
+      "instance": "card-61-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 18,
+      "company": "作弊实验室",
+      "instance": "card-123-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 18,
+      "company": "作弊实验室",
+      "instance": "card-134-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 18,
+      "company": "宇宙大战略集团",
+      "instance": "card-16-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "instance": "card-133-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "instance": "card-159-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 19,
+      "company": "作弊实验室",
+      "instance": "card-80-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 19,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-3",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 20,
+      "company": "作弊实验室",
+      "instance": "card-57-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 20,
+      "company": "宇宙大战略集团",
+      "instance": "card-141-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 20,
+      "company": "寰宇超动力",
+      "instance": "card-122-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 20,
+      "company": "寰宇超动力",
+      "instance": "card-156-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "instance": "card-81-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "instance": "alien-aomomo-0-6",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "instance": "card-40-pass-2-1",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "instance": "card-99-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 21,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-9",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 21,
+      "company": "作弊实验室",
+      "instance": "card-48-pass-3-4",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 21,
+      "company": "作弊实验室",
+      "instance": "card-37-pass-1-3",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 22,
+      "company": "宇宙大战略集团",
+      "instance": "card-122-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 22,
+      "company": "寰宇超动力",
+      "instance": "card-50-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 22,
+      "company": "寰宇超动力",
+      "instance": "card-71-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 22,
+      "company": "寰宇超动力",
+      "instance": "card-93-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 22,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-0-2",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 22,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-5",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 22,
+      "company": "作弊实验室",
+      "instance": "card-136-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 22,
+      "company": "作弊实验室",
+      "instance": "card-159-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 23,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-1",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 23,
+      "company": "作弊实验室",
+      "instance": "card-107-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 24,
+      "company": "寰宇超动力",
+      "instance": "card-4-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 24,
+      "company": "作弊实验室",
+      "instance": "card-104-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 24,
+      "company": "作弊实验室",
+      "instance": "card-81-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 24,
+      "company": "作弊实验室",
+      "instance": "card-125-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 25,
+      "company": "作弊实验室",
+      "instance": "card-111-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 25,
+      "company": "作弊实验室",
+      "instance": "card-176-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 25,
+      "company": "宇宙大战略集团",
+      "instance": "card-37-pass-1-3",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 26,
+      "company": "宇宙大战略集团",
+      "instance": "alien-yichangdian-5-4",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 26,
+      "company": "宇宙大战略集团",
+      "instance": "card-147-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 26,
+      "company": "作弊实验室",
+      "instance": "card-89-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 26,
+      "company": "作弊实验室",
+      "instance": "card-92-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 26,
+      "company": "作弊实验室",
+      "instance": "card-40-pass-2-1",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 26,
+      "company": "作弊实验室",
+      "instance": "card-152-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 26,
+      "company": "作弊实验室",
+      "instance": "card-113-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 27,
+      "company": "作弊实验室",
+      "instance": "card-38-pass-1-4",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 27,
+      "company": "作弊实验室",
+      "instance": "card-79-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 27,
+      "company": "作弊实验室",
+      "instance": "card-116-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 27,
+      "company": "寰宇超动力",
+      "instance": "card-83-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 28,
+      "company": "寰宇超动力",
+      "instance": "card-64-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 28,
+      "company": "寰宇超动力",
+      "instance": "card-110-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 28,
+      "company": "宇宙大战略集团",
+      "instance": "card-103-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 28,
+      "company": "作弊实验室",
+      "instance": "card-118-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 28,
+      "company": "作弊实验室",
+      "instance": "card-47-pass-3-3",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 29,
+      "company": "宇宙大战略集团",
+      "instance": "card-154-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 29,
+      "company": "作弊实验室",
+      "instance": "card-103-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 29,
+      "company": "作弊实验室",
+      "instance": "card-42-pass-2-3",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 29,
+      "company": "作弊实验室",
+      "instance": "card-157-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 29,
+      "company": "作弊实验室",
+      "instance": "card-158-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 30,
+      "company": "作弊实验室",
+      "instance": "card-100-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 30,
+      "company": "宇宙大战略集团",
+      "instance": "card-18-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 30,
+      "company": "作弊实验室",
+      "instance": "card-55-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 31,
+      "company": "作弊实验室",
+      "instance": "card-66-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 31,
+      "company": "作弊实验室",
+      "instance": "card-95-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 31,
+      "company": "作弊实验室",
+      "instance": "card-53-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 32,
+      "company": "作弊实验室",
+      "instance": "card-55-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 32,
+      "company": "作弊实验室",
+      "instance": "card-118-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 32,
+      "company": "作弊实验室",
+      "instance": "card-58-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 32,
+      "company": "作弊实验室",
+      "instance": "card-154-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 32,
+      "company": "宇宙大战略集团",
+      "instance": "card-93-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 33,
+      "company": "作弊实验室",
+      "instance": "card-56-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 33,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-6",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 33,
+      "company": "作弊实验室",
+      "instance": "card-100-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 33,
+      "company": "宇宙大战略集团",
+      "instance": "card-147-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": true
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 33,
+      "company": "宇宙大战略集团",
+      "instance": "card-148-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 34,
+      "company": "宇宙大战略集团",
+      "instance": "card-79-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 34,
+      "company": "宇宙大战略集团",
+      "instance": "card-154-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 34,
+      "company": "作弊实验室",
+      "instance": "card-66-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 34,
+      "company": "作弊实验室",
+      "instance": "card-95-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 34,
+      "company": "作弊实验室",
+      "instance": "card-141-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "寰宇超动力",
+      "instance": "card-71-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "寰宇超动力",
+      "instance": "alien-yichangdian-5-7",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-2",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "作弊实验室",
+      "instance": "card-106-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-0-7",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "作弊实验室",
+      "instance": "card-139-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "作弊实验室",
+      "instance": "card-162-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "作弊实验室",
+      "instance": "card-163-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 35,
+      "company": "作弊实验室",
+      "instance": "card-177-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 36,
+      "company": "宇宙大战略集团",
+      "instance": "card-94-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 36,
+      "company": "作弊实验室",
+      "instance": "card-52-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 36,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-0-2",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 36,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-3",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 37,
+      "company": "作弊实验室",
+      "instance": "card-85-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 37,
+      "company": "宇宙大战略集团",
+      "instance": "card-51-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 37,
+      "company": "宇宙大战略集团",
+      "instance": "alien-aomomo-9-7",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 37,
+      "company": "寰宇超动力",
+      "instance": "card-139-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 37,
+      "company": "作弊实验室",
+      "instance": "card-66-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 38,
+      "company": "作弊实验室",
+      "instance": "card-106-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 38,
+      "company": "宇宙大战略集团",
+      "instance": "card-39-pass-1-5",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 38,
+      "company": "宇宙大战略集团",
+      "instance": "card-119-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 38,
+      "company": "宇宙大战略集团",
+      "instance": "card-160-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 39,
+      "company": "作弊实验室",
+      "instance": "card-54-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 39,
+      "company": "作弊实验室",
+      "instance": "card-78-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 39,
+      "company": "作弊实验室",
+      "instance": "card-158-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 39,
+      "company": "作弊实验室",
+      "instance": "card-181-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 39,
+      "company": "寰宇超动力",
+      "instance": "card-89-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 40,
+      "company": "宇宙大战略集团",
+      "instance": "card-148-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 40,
+      "company": "作弊实验室",
+      "instance": "card-62-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 40,
+      "company": "作弊实验室",
+      "instance": "card-71-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 40,
+      "company": "作弊实验室",
+      "instance": "card-146-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 40,
+      "company": "作弊实验室",
+      "instance": "card-159-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 40,
+      "company": "寰宇超动力",
+      "instance": "card-35-pass-1-1",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 41,
+      "company": "作弊实验室",
+      "instance": "card-49-pass-3-5",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 41,
+      "company": "寰宇超动力",
+      "instance": "card-79-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 41,
+      "company": "寰宇超动力",
+      "instance": "card-117-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 41,
+      "company": "寰宇超动力",
+      "instance": "card-125-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 41,
+      "company": "作弊实验室",
+      "instance": "card-62-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 41,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-3",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 42,
+      "company": "作弊实验室",
+      "instance": "card-3-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 42,
+      "company": "作弊实验室",
+      "instance": "card-104-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 42,
+      "company": "作弊实验室",
+      "instance": "card-106-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 42,
+      "company": "作弊实验室",
+      "instance": "card-140-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 42,
+      "company": "作弊实验室",
+      "instance": "card-46-pass-3-2",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 42,
+      "company": "宇宙大战略集团",
+      "instance": "card-52-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 42,
+      "company": "宇宙大战略集团",
+      "instance": "card-38-pass-1-4",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 43,
+      "company": "宇宙大战略集团",
+      "instance": "card-78-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 43,
+      "company": "宇宙大战略集团",
+      "instance": "card-151-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 43,
+      "company": "宇宙大战略集团",
+      "instance": "card-153-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 43,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-6",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 43,
+      "company": "寰宇超动力",
+      "instance": "card-148-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 43,
+      "company": "寰宇超动力",
+      "instance": "card-149-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 44,
+      "company": "作弊实验室",
+      "instance": "card-142-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 44,
+      "company": "作弊实验室",
+      "instance": "card-149-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 44,
+      "company": "寰宇超动力",
+      "instance": "card-64-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 44,
+      "company": "寰宇超动力",
+      "instance": "card-123-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 45,
+      "company": "作弊实验室",
+      "instance": "card-36-pass-1-2",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 45,
+      "company": "作弊实验室",
+      "instance": "card-76-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 45,
+      "company": "作弊实验室",
+      "instance": "card-156-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 45,
+      "company": "宇宙大战略集团",
+      "instance": "card-119-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 46,
+      "company": "宇宙大战略集团",
+      "instance": "card-96-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 46,
+      "company": "作弊实验室",
+      "instance": "card-85-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 46,
+      "company": "作弊实验室",
+      "instance": "card-111-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 47,
+      "company": "作弊实验室",
+      "instance": "card-139-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": true
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 47,
+      "company": "作弊实验室",
+      "instance": "card-63-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 47,
+      "company": "作弊实验室",
+      "instance": "card-42-pass-2-3",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 47,
+      "company": "宇宙大战略集团",
+      "instance": "alien-aomomo-9-3",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 47,
+      "company": "宇宙大战略集团",
+      "instance": "card-83-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 48,
+      "company": "作弊实验室",
+      "instance": "card-54-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 48,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-9",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 48,
+      "company": "寰宇超动力",
+      "instance": "card-11-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 48,
+      "company": "寰宇超动力",
+      "instance": "card-141-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": true
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 48,
+      "company": "作弊实验室",
+      "instance": "card-81-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 48,
+      "company": "作弊实验室",
+      "instance": "card-90-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 49,
+      "company": "作弊实验室",
+      "instance": "card-38-pass-1-4",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 49,
+      "company": "作弊实验室",
+      "instance": "card-5-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 49,
+      "company": "宇宙大战略集团",
+      "instance": "card-19-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 49,
+      "company": "宇宙大战略集团",
+      "instance": "card-144-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 50,
+      "company": "作弊实验室",
+      "instance": "card-119-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 50,
+      "company": "寰宇超动力",
+      "instance": "card-47-pass-3-3",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 50,
+      "company": "寰宇超动力",
+      "instance": "card-159-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 50,
+      "company": "宇宙大战略集团",
+      "instance": "card-43-pass-2-4",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 50,
+      "company": "宇宙大战略集团",
+      "instance": "card-101-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": true
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "作弊实验室",
+      "instance": "card-4-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "作弊实验室",
+      "instance": "card-71-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "作弊实验室",
+      "instance": "card-56-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "作弊实验室",
+      "instance": "card-124-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "宇宙大战略集团",
+      "instance": "card-51-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "宇宙大战略集团",
+      "instance": "alien-aomomo-9-2",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "宇宙大战略集团",
+      "instance": "alien-aomomo-0-3",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "宇宙大战略集团",
+      "instance": "card-125-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 51,
+      "company": "宇宙大战略集团",
+      "instance": "card-45-pass-3-1",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 52,
+      "company": "宇宙大战略集团",
+      "instance": "card-51-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "planet_reward_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 52,
+      "company": "宇宙大战略集团",
+      "instance": "card-82-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 52,
+      "company": "作弊实验室",
+      "instance": "card-156-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 52,
+      "company": "寰宇超动力",
+      "instance": "card-16-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 53,
+      "company": "作弊实验室",
+      "instance": "card-46-pass-3-2",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 53,
+      "company": "宇宙大战略集团",
+      "instance": "card-102-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 53,
+      "company": "宇宙大战略集团",
+      "instance": "card-155-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 53,
+      "company": "作弊实验室",
+      "instance": "card-95-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 53,
+      "company": "寰宇超动力",
+      "instance": "card-111-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 53,
+      "company": "寰宇超动力",
+      "instance": "card-162-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 54,
+      "company": "作弊实验室",
+      "instance": "card-135-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 54,
+      "company": "作弊实验室",
+      "instance": "card-155-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 54,
+      "company": "作弊实验室",
+      "instance": "alien-yichangdian-5-5",
+      "cardId": "yichangdian_5.webp",
+      "label": "仔细倾听",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 54,
+      "company": "作弊实验室",
+      "instance": "card-84-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 54,
+      "company": "作弊实验室",
+      "instance": "card-183-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 54,
+      "company": "宇宙大战略集团",
+      "instance": "card-143-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 54,
+      "company": "寰宇超动力",
+      "instance": "card-15-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 54,
+      "company": "寰宇超动力",
+      "instance": "card-68-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 55,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-4",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 55,
+      "company": "作弊实验室",
+      "instance": "card-61-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 55,
+      "company": "作弊实验室",
+      "instance": "card-102-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 55,
+      "company": "作弊实验室",
+      "instance": "card-163-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 55,
+      "company": "作弊实验室",
+      "instance": "card-164-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 55,
+      "company": "宇宙大战略集团",
+      "instance": "card-147-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 55,
+      "company": "寰宇超动力",
+      "instance": "card-89-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 55,
+      "company": "寰宇超动力",
+      "instance": "card-151-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 56,
+      "company": "寰宇超动力",
+      "instance": "card-102-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 56,
+      "company": "宇宙大战略集团",
+      "instance": "alien-aomomo-0-6",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 56,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-8",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 3,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 56,
+      "company": "作弊实验室",
+      "instance": "card-157-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 56,
+      "company": "作弊实验室",
+      "instance": "card-149-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 57,
+      "company": "宇宙大战略集团",
+      "instance": "card-18-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 57,
+      "company": "寰宇超动力",
+      "instance": "card-137-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 57,
+      "company": "作弊实验室",
+      "instance": "card-35-pass-1-1",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 57,
+      "company": "作弊实验室",
+      "instance": "card-160-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 58,
+      "company": "作弊实验室",
+      "instance": "card-57-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 58,
+      "company": "作弊实验室",
+      "instance": "card-108-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 58,
+      "company": "作弊实验室",
+      "instance": "card-49-pass-3-5",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 58,
+      "company": "作弊实验室",
+      "instance": "card-156-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 58,
+      "company": "寰宇超动力",
+      "instance": "card-110-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 59,
+      "company": "寰宇超动力",
+      "instance": "card-149-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 59,
+      "company": "作弊实验室",
+      "instance": "card-151-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 59,
+      "company": "作弊实验室",
+      "instance": "card-142-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 59,
+      "company": "作弊实验室",
+      "instance": "card-56-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 1,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 59,
+      "company": "作弊实验室",
+      "instance": "card-99-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 59,
+      "company": "作弊实验室",
+      "instance": "card-100-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 59,
+      "company": "作弊实验室",
+      "instance": "card-168-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 60,
+      "company": "寰宇超动力",
+      "instance": "card-35-pass-1-1",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 60,
+      "company": "寰宇超动力",
+      "instance": "card-84-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 60,
+      "company": "寰宇超动力",
+      "instance": "card-167-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 60,
+      "company": "作弊实验室",
+      "instance": "card-85-0",
+      "cardId": "b_132.webp",
+      "label": "甚高能辐射成像望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 60,
+      "company": "作弊实验室",
+      "instance": "card-162-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 60,
+      "company": "作弊实验室",
+      "instance": "card-48-pass-3-4",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 60,
+      "company": "作弊实验室",
+      "instance": "card-163-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 61,
+      "company": "宇宙大战略集团",
+      "instance": "card-51-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 61,
+      "company": "作弊实验室",
+      "instance": "card-54-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "pass_hand_limit"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 61,
+      "company": "寰宇超动力",
+      "instance": "card-161-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 61,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-0-7",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 61,
+      "company": "作弊实验室",
+      "instance": "card-154-0",
+      "cardId": "b_84.webp",
+      "label": "诺托射电天文台",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 61,
+      "company": "作弊实验室",
+      "instance": "card-172-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 62,
+      "company": "作弊实验室",
+      "instance": "card-58-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 1,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 62,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-9-9",
+      "cardId": "aomomo_9.webp",
+      "label": "天外来客",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 62,
+      "company": "作弊实验室",
+      "instance": "alien-aomomo-0-2",
+      "cardId": "aomomo_0.webp",
+      "label": "改变轨迹",
+      "firstRound": 2,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 62,
+      "company": "宇宙大战略集团",
+      "instance": "card-109-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "trade"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 62,
+      "company": "宇宙大战略集团",
+      "instance": "card-144-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 62,
+      "company": "寰宇超动力",
+      "instance": "card-93-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 63,
+      "company": "作弊实验室",
+      "instance": "card-155-0",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 63,
+      "company": "寰宇超动力",
+      "instance": "card-141-0",
+      "cardId": "b_51.webp",
+      "label": "绿岸射电望远锐",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 63,
+      "company": "宇宙大战略集团",
+      "instance": "card-111-0",
+      "cardId": "b_28.webp",
+      "label": "深度巡天阵列",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 63,
+      "company": "作弊实验室",
+      "instance": "card-84-0",
+      "cardId": "b_68.webp",
+      "label": "洛弗尔望远锐",
+      "firstRound": 2,
+      "played": false,
+      "explicitOtherSinks": [
+        "move-payment"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 63,
+      "company": "作弊实验室",
+      "instance": "card-148-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [
+        "place_data_income"
+      ],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 64,
+      "company": "作弊实验室",
+      "instance": "card-126-0",
+      "cardId": "dlc_13.png",
+      "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 64,
+      "company": "宇宙大战略集团",
+      "instance": "card-104-0",
+      "cardId": "b_9.webp",
+      "label": "阿番西博天文台",
+      "firstRound": 3,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 64,
+      "company": "作弊实验室",
+      "instance": "card-47-pass-3-3",
+      "cardId": "dlc_42.png",
+      "label": "低频阵列",
+      "firstRound": 4,
+      "played": true,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 64,
+      "company": "作弊实验室",
+      "instance": "card-131-0",
+      "cardId": "b_90.webp",
+      "label": "帕克斯天文台",
+      "firstRound": 4,
+      "played": false,
+      "explicitOtherSinks": [],
+      "endingHand": false
+    }
+  ],
+  "examples": [
+    {
+      "prefix": "datatwostep-base",
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "id": 704,
+      "selected": "scan",
+      "resources": {
+        "score": 81,
+        "credits": 5,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 3,
+        "handSize": 7
+      },
+      "standardScan": {
+        "available": true,
+        "score": 73.08033751719998
+      },
+      "cards": [
+        {
+          "cardId": "dlc_13.png",
+          "instance": "card-120-0",
+          "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+          "score": 20.650577824,
+          "effectValue": 9,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "id": 83,
+      "selected": "scan",
+      "resources": {
+        "score": 9,
+        "credits": 5,
+        "energy": 5,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "standardScan": {
+        "available": true,
+        "score": 20.668472272200002
+      },
+      "cards": [
+        {
+          "cardId": "b_90.webp",
+          "instance": "card-66-0",
+          "label": "帕克斯天文台",
+          "score": -3.389666000000002,
+          "effectValue": 7.75,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "id": 123,
+      "selected": "scan",
+      "resources": {
+        "score": 9,
+        "credits": 4,
+        "energy": 4,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "standardScan": {
+        "available": true,
+        "score": 12.652766158000006
+      },
+      "cards": [
+        {
+          "cardId": "b_90.webp",
+          "instance": "card-66-0",
+          "label": "帕克斯天文台",
+          "score": -3.4330880000000015,
+          "effectValue": 7.75,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "id": 272,
+      "selected": "scan",
+      "resources": {
+        "score": 24,
+        "credits": 3,
+        "energy": 5,
+        "publicity": 0,
+        "availableData": 0,
+        "handSize": 7
+      },
+      "standardScan": {
+        "available": true,
+        "score": 33.602813999999995
+      },
+      "cards": [
+        {
+          "cardId": "b_28.webp",
+          "instance": "card-89-0",
+          "label": "深度巡天阵列",
+          "score": -3.8259440000000007,
+          "effectValue": 8.5,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "id": 878,
+      "selected": "scan",
+      "resources": {
+        "score": 86,
+        "credits": 2,
+        "energy": 6,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "standardScan": {
+        "available": true,
+        "score": 50.11490499600001
+      },
+      "cards": [
+        {
+          "cardId": "b_84.webp",
+          "instance": "card-114-0",
+          "label": "诺托射电天文台",
+          "score": 18.999264959999998,
+          "effectValue": 11.718,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 6,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "id": 474,
+      "selected": "scan",
+      "resources": {
+        "score": 34,
+        "credits": 5,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "standardScan": {
+        "available": true,
+        "score": 12.028244950207998
+      },
+      "cards": [
+        {
+          "cardId": "b_90.webp",
+          "instance": "card-92-0",
+          "label": "帕克斯天文台",
+          "score": 2.0472080000000004,
+          "effectValue": 9.25,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "id": 1367,
+      "selected": "scan",
+      "resources": {
+        "score": 87,
+        "credits": 2,
+        "energy": 6,
+        "publicity": 4,
+        "availableData": 4,
+        "handSize": 6
+      },
+      "standardScan": {
+        "available": true,
+        "score": 71.57983098503199
+      },
+      "cards": [
+        {
+          "cardId": "b_90.webp",
+          "instance": "card-173-0",
+          "label": "帕克斯天文台",
+          "score": 25.090779434879998,
+          "effectValue": 13,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "id": 194,
+      "selected": "scan",
+      "resources": {
+        "score": 7,
+        "credits": 2,
+        "energy": 4,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "standardScan": {
+        "available": true,
+        "score": 18.131637559152804
+      },
+      "cards": [
+        {
+          "cardId": "dlc_42.png",
+          "instance": "card-50-0",
+          "label": "低频阵列",
+          "score": -6.924637640352001,
+          "effectValue": 5.25,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "id": 283,
+      "selected": "scan",
+      "resources": {
+        "score": 19,
+        "credits": 7,
+        "energy": 4,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "standardScan": {
+        "available": true,
+        "score": 23.326985603812
+      },
+      "cards": [
+        {
+          "cardId": "b_51.webp",
+          "instance": "card-84-0",
+          "label": "绿岸射电望远锐",
+          "score": 7.087112696072968,
+          "effectValue": 6,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "id": 99,
+      "selected": "scan",
+      "resources": {
+        "score": 8,
+        "credits": 8,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "standardScan": {
+        "available": true,
+        "score": 19.989218752724796
+      },
+      "cards": [
+        {
+          "cardId": "b_28.webp",
+          "instance": "card-3-0",
+          "label": "深度巡天阵列",
+          "score": -9.706073411632001,
+          "effectValue": 7.75,
+          "price": 2
+        },
+        {
+          "cardId": "b_84.webp",
+          "instance": "card-63-0",
+          "label": "诺托射电天文台",
+          "score": -2.233073411632004,
+          "effectValue": 15.222999999999999,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 12,
+      "company": "寰宇超动力",
+      "round": 1,
+      "id": 36,
+      "selected": "scan",
+      "resources": {
+        "score": 3,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "standardScan": {
+        "available": true,
+        "score": 9.911092749999998
+      },
+      "cards": [
+        {
+          "cardId": "b_84.webp",
+          "instance": "card-16-0",
+          "label": "诺托射电天文台",
+          "score": -3.9555169999999933,
+          "effectValue": 17.731,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 14,
+      "company": "寰宇超动力",
+      "round": 2,
+      "id": 306,
+      "selected": "scan",
+      "resources": {
+        "score": 27,
+        "credits": 6,
+        "energy": 4,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "standardScan": {
+        "available": true,
+        "score": 29.991536263829992
+      },
+      "cards": [
+        {
+          "cardId": "dlc_42.png",
+          "instance": "card-37-pass-1-3",
+          "label": "低频阵列",
+          "score": -6.283605136246399,
+          "effectValue": 5.25,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 15,
+      "company": "寰宇超动力",
+      "round": 3,
+      "id": 720,
+      "selected": "scan",
+      "resources": {
+        "score": 76,
+        "credits": 6,
+        "energy": 6,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "standardScan": {
+        "available": true,
+        "score": 64.91502745328398
+      },
+      "cards": [
+        {
+          "cardId": "b_68.webp",
+          "instance": "card-40-pass-2-1",
+          "label": "洛弗尔望远锐",
+          "score": 37.419366381904,
+          "effectValue": 9.854,
+          "price": 3
+        },
+        {
+          "cardId": "b_90.webp",
+          "instance": "card-123-0",
+          "label": "帕克斯天文台",
+          "score": 9.284491999999998,
+          "effectValue": 9.25,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 16,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "id": 754,
+      "selected": "scan",
+      "resources": {
+        "score": 38,
+        "credits": 4,
+        "energy": 4,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 10
+      },
+      "standardScan": {
+        "available": true,
+        "score": 69.45513946675199
+      },
+      "cards": [
+        {
+          "cardId": "b_68.webp",
+          "instance": "card-42-pass-2-3",
+          "label": "洛弗尔望远锐",
+          "score": 52.43243393452801,
+          "effectValue": 11.079,
+          "price": 3
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "id": 82,
+      "selected": "scan",
+      "resources": {
+        "score": 10,
+        "credits": 6,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "standardScan": {
+        "available": true,
+        "score": 19.134576714599998
+      },
+      "cards": [
+        {
+          "cardId": "b_28.webp",
+          "instance": "card-15-0",
+          "label": "深度巡天阵列",
+          "score": -9.845366950000003,
+          "effectValue": 7.75,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 18,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "id": 1156,
+      "selected": "scan",
+      "resources": {
+        "score": 76,
+        "credits": 4,
+        "energy": 4,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "standardScan": {
+        "available": true,
+        "score": 40.07881570000001
+      },
+      "cards": [
+        {
+          "cardId": "dlc_13.png",
+          "instance": "card-124-0",
+          "label": "詹姆斯·克拉克·麦克斯韦望远镜",
+          "score": 19.3513916,
+          "effectValue": 12.75,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "id": 211,
+      "selected": "scan",
+      "resources": {
+        "score": 17,
+        "credits": 4,
+        "energy": 4,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "standardScan": {
+        "available": true,
+        "score": 23.543436675000002
+      },
+      "cards": [
+        {
+          "cardId": "b_9.webp",
+          "instance": "card-52-0",
+          "label": "阿番西博天文台",
+          "score": -18.311258000000002,
+          "effectValue": 7.25,
+          "price": 3
+        }
+      ]
+    },
+    {
+      "prefix": "datatwostep-base",
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "id": 279,
+      "selected": "scan",
+      "resources": {
+        "score": 43,
+        "credits": 4,
+        "energy": 5,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 7
+      },
+      "standardScan": {
+        "available": true,
+        "score": 19.778747306495994
+      },
+      "cards": [
+        {
+          "cardId": "b_9.webp",
+          "instance": "card-52-0",
+          "label": "阿番西博天文台",
+          "score": -4.976579171680001,
+          "effectValue": 8,
+          "price": 3
+        }
+      ]
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "id": 139,
+      "selected": "scan",
+      "resources": {
+        "score": 13,
+        "credits": 2,
+        "energy": 4,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "standardScan": {
+        "available": true,
+        "score": 14.263072376000004
+      },
+      "cards": [
+        {
+          "cardId": "b_132.webp",
+          "instance": "card-72-0",
+          "label": "甚高能辐射成像望远锐",
+          "score": -13.496224178,
+          "effectValue": 7.75,
+          "price": 2
+        }
+      ]
+    },
+    {
+      "prefix": "economy64-base",
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "id": 679,
+      "selected": "scan",
+      "resources": {
+        "score": 38,
+        "credits": 4,
+        "energy": 5,
+        "publicity": 6,
+        "availableData": 3,
+        "handSize": 8
+      },
+      "standardScan": {
+        "available": true,
+        "score": 82.66664655199999
+      },
+      "cards": [
+        {
+          "cardId": "yichangdian_5.webp",
+          "instance": "alien-yichangdian-5-2",
+          "label": "仔细倾听",
+          "score": 26.412369520000002,
+          "effectValue": 15.76787712,
+          "price": 2
+        }
+      ]
+    }
+  ]
+}
