@@ -10199,7 +10199,7 @@
 
   function getAomomoPlanetLocation() {
     if (!solarState.aomomoActive) return null;
-    return solar.createSolarSnapshot(solarState).planetLocations
+    return solar.collectPlanetLocations(solarState)
       .find((planet) => planet.planetId === aomomo?.PLANET_ID) || null;
   }
 
@@ -14101,8 +14101,8 @@
   }
 
   function getPlanetSectorCoordinate(planetId) {
-    const snapshot = solar.createSolarSnapshot(solarState);
-    const planet = snapshot.planetLocations.find((item) => item.planetId === planetId);
+    const planetLocations = solar.collectPlanetLocations(solarState);
+    const planet = planetLocations.find((item) => item.planetId === planetId);
     if (!planet) {
       throw new Error(`${planetId} position was not found in the current solar snapshot`);
     }
@@ -14113,8 +14113,8 @@
     const rocket = rocketState.rockets.find((item) => Number(item.id) === Number(rocketId));
     const coordinate = rocketActions.getRocketSectorCoordinate(rocket);
     if (!coordinate) return null;
-    const snapshot = solar.createSolarSnapshot(solarState);
-    const planet = snapshot.planetLocations.find((item) => (
+    const planetLocations = solar.collectPlanetLocations(solarState);
+    const planet = planetLocations.find((item) => (
       Number(item.x) === Number(coordinate.x) && Number(item.y) === Number(coordinate.y)
     ));
     return planet?.planetId || null;
@@ -19022,7 +19022,7 @@
   function findChongProbeFossilPlanet() {
     const currentPlayer = getCurrentPlayer();
     if (!currentPlayer) return null;
-    const planetLocations = solar.createSolarSnapshot(solarState).planetLocations;
+    const planetLocations = solar.collectPlanetLocations(solarState);
     const active = rocketActions.getActiveRocket(rocketState);
     const candidates = [
       ...(active ? [active] : []),
@@ -29187,8 +29187,8 @@
   }
 
   function getEarthSectorCoordinate() {
-    const snapshot = solar.createSolarSnapshot(solarState);
-    const earth = snapshot.planetLocations.find((planet) => planet.planetId === "earth");
+    const planetLocations = solar.collectPlanetLocations(solarState);
+    const earth = planetLocations.find((planet) => planet.planetId === "earth");
 
     if (!earth) {
       throw new Error("Earth position was not found in the current solar snapshot");
@@ -29537,7 +29537,7 @@
     const activeKeys = new Set();
     const revealed = Boolean(cState?.revealInitialized && cState.revealedSlotId);
     const planetLocations = revealed
-      ? solar.createSolarSnapshot(solarState).planetLocations
+      ? solar.collectPlanetLocations(solarState)
       : [];
 
     for (const planetId of ["jupiter", "saturn"]) {
@@ -29600,7 +29600,7 @@
 
   function getRunezuSourceSymbolPoint(sourceSymbol) {
     if (sourceSymbol.sourceType === "planet") {
-      const planetLocation = solar.createSolarSnapshot(solarState).planetLocations
+      const planetLocation = solar.collectPlanetLocations(solarState)
         .find((planet) => planet.planetId === sourceSymbol.sourceId);
       if (!planetLocation) return null;
       const boundary = solar.getSectorCoordinateBoundary(planetLocation.x, planetLocation.y);
@@ -33165,7 +33165,7 @@
       turnNumber: turnState.turnNumber,
       getPlayerTokenSrc: (player) => getNormalTokenAssetForPlayer(player),
       getEarthSectorCoordinate,
-      getPlanetLocations: () => solar.createSolarSnapshot(solarState).planetLocations,
+      getPlanetLocations: () => solar.collectPlanetLocations(solarState),
       rotateSolarOrbit: (count) => rotateSolarOrbit(count),
       drawBasicCardToPlayer: (player) => drawBasicCardToPlayer(player),
       drawBasicCard: () => drawCardForCurrentPlayer(),
