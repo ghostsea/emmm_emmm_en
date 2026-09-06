@@ -438,9 +438,13 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
+        PROBE_SECTOR_SCAN: cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
         CARD_LAND: "card_land",
         LANDING_SECTOR_SCAN: "card_landing_sector_scan",
         FREE_MOVE: "free_move",
+        SCAN_NEBULA: cardEffects.EFFECT_TYPES.SCAN_NEBULA,
+        ANY_SECTOR_SCAN: cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN,
+        PUBLIC_SCAN: cardEffects.EFFECT_TYPES.PUBLIC_SCAN,
         SCAN_COLOR_CHOICE: "card_scan_color_choice",
         RESEARCH_TECH: "card_research_tech",
         PAY_CREDITS_FOR_REWARD: "card_pay_credits_for_reward",
@@ -17109,3 +17113,290 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const make = (rockets, disabledX = null) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue", rocketState: { rockets },
+    buildSectorScanChoicesForX: (x) => [{ nebulaId: "sector-" + x, sectorX: x, disabled: x === disabledX }],
+    data: { listNebulaTokens: () => Array.from({ length: 5 }, (_, i) => ({ slotIndex: i + 1 })) },
+  });
+  const own = { id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } };
+  const rival = { id: 2, playerId: "player-white", sector: { x: 4, y: 2 } };
+  const effect = cardEffects.getCardModel({ cardId: "b_22.webp" }).playEffects[0];
+  const h = make([own, rival]);
+  const before = JSON.stringify(h.blue);
+  assert.equal(h.controller.canAiResolvePlayCardEffects([effect], h.blue).ok, true);
+  assert.deepEqual(h.controller.getAiPlayableProbeScanProfile(effect, h.blue).rocketIds, [1]);
+  assert.equal(h.controller.getAiPlayableProbeScanProfile(effect, h.blue).repeat, 2);
+  assert.equal(h.controller.canAiResolvePlayCardEffects([{ type: "gain_resources" }, effect], h.blue).ok, false);
+  assert.equal(make([rival]).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  assert.equal(make([own], 2).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  assert.equal(make([{ id: 3, playerId: "player-blue" }]).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  const any = cardEffects.getCardModel({ cardId: "b_50.webp" }).playEffects[0];
+  assert.equal(make([rival]).controller.canAiResolvePlayCardEffects([any]).ok, true);
+  const adjacent = cardEffects.getCardModel({ cardId: "b_58.webp" }).playEffects.find(e => e.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN);
+  assert.equal(make([own], 1).controller.canAiResolvePlayCardEffects([adjacent]).ok, false);
+  assert.deepEqual(h.controller.getAiPlayableProbeScanProfile(effect, h.white).rocketIds, [2]);
+  assert.equal(JSON.stringify(h.blue), before);
+}
+
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", techCounts: { orange: 0, purple: 0, blue: 0 },
+    rocketState: { rockets: [{ id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } }, { id: 2, playerId: "player-white", sector: { x: 4, y: 2 } }] },
+    buildSectorScanChoicesForX: x => [{ nebulaId: "sector-" + x, sectorX: x }],
+    data: { listNebulaTokens: () => Array.from({ length: 5 }, (_, i) => ({ slotIndex: i + 1 })), getNebulaSlotScoreReward: () => 0 },
+  });
+  for (const [cardId, expected] of [["b_22.webp", 9], ["b_50.webp", 9], ["b_58.webp", 13.5], ["b_96.webp", 9]]) {
+    const effect = cardEffects.getCardModel({ cardId }).playEffects.find(e => e.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN);
+    assert.equal(h.controller.scoreAiEffectValue(effect, { player: h.blue, immediate: true }), expected,
+      "actual probe-scan model must count selected targets, adjacency and repeat with its data flag");
+  }
+}
+
+{
+  const realData = require("../game/data");
+  const scanState = realData.createDefaultNebulaDataState();
+  for (const id of ["sector-1-a", "sector-2-b"]) realData.fillNebulaData(scanState, id, { source: "test" });
+  const own = { id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } };
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", blueResources: { availableData: 0 },
+    rocketState: { rockets: [own] }, movableTokens: [own], allowedMoveDeltas: [{ deltaX: 1, deltaY: 0 }],
+    canPayForMove: true, nebulaDataState: scanState, data: realData,
+    buildSectorScanChoicesForX: x => [{ nebulaId: x === 2 ? "sector-1-a" : "sector-2-b", sectorX: x }],
+    chooseTurnAction: candidates => candidates.slice().sort((a,b) => b.score-a.score)[0] || null,
+  });
+  for (let i=0;i<4;i++) realData.replaceNextNebulaDataToken(scanState, "sector-1-a", h.white);
+  const effect = cardEffects.getCardModel({ cardId: "b_22.webp" }).playEffects[0];
+  realData.ensurePlayerDataState(h.blue);
+  const before = JSON.stringify({ player: h.blue, rocket: own, scanState });
+  const original = h.controller.getAiPlayableProbeScanProfile(effect, h.blue);
+  const projected = h.controller.getAiPlayableProbeScanProfile(effect, h.blue, { rocketPositions: { 1: { x: 3, y: 2 } } });
+  assert.equal(original.dataGain, 1);
+  assert.equal(original.extraMarks, 1);
+  assert.equal(projected.dataGain, 2);
+  assert.equal(projected.extraMarks, 0);
+  const replay = structuredClone(scanState), clone = structuredClone(h.blue);
+  const replacements = [realData.replaceNextNebulaDataToken(replay, "sector-2-b", clone), realData.replaceNextNebulaDataToken(replay, "sector-2-b", clone)];
+  assert.equal(projected.slotScore, replacements.reduce((sum,r) => sum+r.scoreAwarded, 0));
+  const moving = cardEffects.buildPlayEffects({ cardId: "b_64.webp" });
+  assert.equal(moving.length, 3, "runtime expands the two scan nodes");
+  assert.equal(h.controller.canAiResolvePlayCardEffects(moving, h.blue).ok, true);
+  const move = h.controller.buildAiProbeMoveScanPreview(moving, h.blue);
+  assert.equal(move.move.to.x, 3);
+  assert.equal(move.scan.dataGain, 2);
+  assert.equal(JSON.stringify({ player: h.blue, rocket: own, scanState }), before, "coordinate and scan projections cannot change live state");
+  h.blue.resources.availableData = 6;
+  assert.equal(h.controller.getAiPlayableProbeScanProfile(effect, h.blue).dataGain, 0);
+  const duplicate = { ...effect, options: { ...effect.options, owner: "any", maxTargets: 3, repeat: 1 } };
+  h.blue.resources.availableData = 0;
+  h.blue.id = "player-blue";
+  // Three distinct probes in the same sector must share the one remaining token.
+  const other = createAiControllerHarness(null, { currentPlayerColor: "blue", blueResources: { availableData: 0 },
+    rocketState: { rockets: [own, { ...own, id: 2 }, { ...own, id: 3 }] }, nebulaDataState: scanState, data: realData,
+    buildSectorScanChoicesForX: x => [{ nebulaId: "sector-1-a", sectorX: x }],
+  });
+  const grouped = other.controller.getAiPlayableProbeScanProfile(duplicate, other.blue);
+  assert.equal(grouped.dataGain, 1);
+  assert.equal(grouped.extraMarks, 2);
+}
+
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue",
+    rocketState: { rockets: [{ id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } }] },
+    buildSectorScanChoicesForX: x => [{ nebulaId: "sector-" + x, sectorX: x }],
+    data: { listNebulaTokens: () => Array.from({ length: 5 }, (_, i) => ({ slotIndex: i + 1 })) },
+  });
+  for (const [cardId, count] of [["b_22.webp",2],["b_96.webp",3]]) {
+    const expanded = cardEffects.buildPlayEffects({ cardId });
+    const before = JSON.stringify(expanded);
+    assert.equal(expanded.length, count);
+    assert.equal(h.controller.canAiResolvePlayCardEffects(expanded, h.blue).ok, true);
+    const compact = h.controller.coalesceAiProbeScanEffects(expanded);
+    assert.equal(compact.length, 1);
+    assert.equal(compact[0].options.repeat, count);
+    assert.equal(JSON.stringify(expanded), before);
+    const split = [expanded[0], { type: "gain_resources" }, expanded[1]];
+    assert.equal(h.controller.canAiResolvePlayCardEffects(split, h.blue).ok, false);
+    const unrelated = [expanded[0], { ...expanded[1], id: "unrelated-scan" }];
+    assert.equal(h.controller.coalesceAiProbeScanEffects(unrelated).length, 2);
+  }
+}
+
+
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", techCounts: { orange: 0, purple: 0, blue: 0 } });
+  const before = JSON.stringify(h.blue);
+  const twoScans = cardEffects.getCardModel({ cardId: "b_100.webp" }).playEffects[0];
+  assert.equal(twoScans.options.repeat, 2);
+  assert.equal(h.controller.scoreAiEffectValue(twoScans, { player: h.blue, immediate: true }), 9,
+    "the actual two-scan card model must price two data-producing scans, not one unknown-card fallback");
+  for (const type of [cardEffects.EFFECT_TYPES.SCAN_NEBULA, cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN, cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE]) {
+    assert.equal(h.controller.scoreAiEffectValue({ type, options: { gainData: true } }), 4.5);
+    assert.equal(h.controller.scoreAiEffectValue({ type, options: { gainData: false } }), 3);
+    assert.equal(h.controller.scoreAiEffectValue({ type, options: { gainData: false, repeat: 2 } }), 6);
+  }
+  assert.equal(JSON.stringify(h.blue), before, "effect valuation must not grant data or execute scans");
+}
+
+{
+  const realData = require("../game/data");
+  const scanState = realData.createDefaultNebulaDataState();
+  realData.fillNebulaData(scanState, "sector-1-a", { source: "test" });
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { availableData: 0 }, nebulaDataState: scanState, data: realData });
+  const effect = cardEffects.getCardModel({ cardId: "b_100.webp" }).playEffects[0];
+  const before = JSON.stringify({ player: h.blue, scanState });
+  const preview = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
+  assert.equal(preview.nebulaId, "sector-1-a");
+  assert.equal(preview.replaced, 2);
+  assert.equal(preview.dataGain, 2);
+  assert.equal(preview.slotScore, 2);
+  assert.equal(JSON.stringify({ player: h.blue, scanState }), before, "preview must not mark, gain or settle");
+  const replayState = JSON.parse(JSON.stringify(scanState));
+  const replayPlayer = JSON.parse(JSON.stringify(h.blue));
+  const replacements = [1, 2].map(() => realData.replaceNextNebulaDataToken(replayState, "sector-1-a", replayPlayer));
+  assert.ok(replacements.every(result => result.ok));
+  assert.equal(replacements.reduce((sum, result) => sum + result.scoreAwarded, 0), preview.slotScore,
+    "known repeated slot score must match the real replacement executor");
+  for (let i = 0; i < 4; i++) realData.replaceNextNebulaDataToken(scanState, "sector-1-a", h.blue);
+  const last = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
+  assert.equal(last.replaced, 1);
+  assert.equal(last.extraMarks, 1);
+  assert.equal(last.dataGain, 1, "the repeat after filling the final slot gives no data");
+  h.blue.resources.availableData = 999;
+  assert.equal(h.controller.buildAiCardScanTargetPreview([effect], h.blue).dataGain, 0, "respect data-pool capacity");
+  realData.replaceNextNebulaDataToken(scanState, "sector-1-a", h.blue);
+  const full = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
+  assert.equal(full.replaced, 0);
+  assert.equal(full.extraMarks, 2);
+  assert.equal(full.dataGain, 0);
+  assert.equal(full.slotScore, 0);
+  const empty = { ...effect, options: { nebulaId: "sector-3-b", repeat: 2 } };
+  assert.equal(h.controller.buildAiCardScanTargetPreview([empty], h.blue).value, 0);
+  assert.equal(h.controller.buildAiCardScanTargetPreview([effect, effect], h.blue), null,
+    "do not double-count the same current slots across separate scan nodes");
+  assert.equal(h.controller.buildAiCardScanTargetPreview([{ type: "launch" }, effect], h.blue), null,
+    "earlier state-changing nodes need a future-state model");
+}
+{
+  const realData = require("../game/data");
+  const scanState = realData.createDefaultNebulaDataState();
+  for (const id of ["sector-1-a", "sector-2-b", "aomomo"]) realData.fillNebulaData(scanState, id, { source: "test" });
+  const choices = [{ nebulaId: "sector-2-b", sectorX: 1 }, { nebulaId: "aomomo", sectorX: 1 },
+    { nebulaId: "sector-1-a", sectorX: 2 }];
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { availableData: 0 }, nebulaDataState: scanState,
+    nebulaIdsByColor: { red: ["sector-2-b"] }, buildSectorScanChoicesForXs: () => choices,
+    data: { ...realData, getNebulaSlotScoreReward: id => id === "aomomo" ? 20 : id === "sector-1-a" ? 100 : 0 } });
+  const effect = { type: cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE, options: { color: "red", gainData: false } };
+  const p = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
+  assert.equal(p.nebulaId, "aomomo", "include the same-sector Aomomo target but exclude the other color");
+  assert.equal(p.dataGain, 0, "explicit no-data scan remains no-data");
+}
+
+{
+  const realData = require("../game/data");
+  const scanState = realData.createDefaultNebulaDataState();
+  const ids = ["sector-1-a", "sector-2-b", "sector-3-a"];
+  for (const id of ids) realData.fillNebulaData(scanState, id, { source: "test" });
+  const a = { id: "public-one-target" }, b = { id: "public-two-targets" };
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { availableData: 0 }, nebulaDataState: scanState, publicCards: [a, b],
+    getPublicScanChoicesForCard: card => ({ ok: true, choices: (card.id === a.id ? [ids[0]] : [ids[1], ids[2]]).map(nebulaId => ({ nebulaId })) }),
+    data: { ...realData, getNebulaColor: () => "red", getNebulaSlotScoreReward: id => id === ids[0] ? 10 : id === ids[1] ? 9.9 : 0 } });
+  const profile = h.controller.buildAiCardScanTargetPreview([{ type: cardEffects.EFFECT_TYPES.PUBLIC_SCAN }], h.blue);
+  assert.equal(profile.nebulaId, ids[1], "public preview must rank public cards including flexibility before ranking that card's targets");
+  assert.equal(profile.slotScore, 9.9);
+}
+
+{
+  const realData = require("../game/data"), scanState = realData.createDefaultNebulaDataState();
+  for (const id of ["sector-1-a", "sector-3-b", "sector-2-a"]) realData.fillNebulaData(scanState, id, { source: "test" });
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { availableData: 0 }, techCounts: { orange: 1, purple: 1, blue: 1 },
+    nebulaDataState: scanState, data: realData });
+  for (const cardId of ["b_100.webp", "b_102.webp", "b_114.webp"]) {
+    const effects = cardEffects.buildPlayEffects({ cardId }), before = JSON.stringify(effects);
+    assert.equal(effects.length, 2);
+    const preview = h.controller.buildAiCardScanTargetPreview(effects, h.blue);
+    assert.equal(preview.repeat, 2);
+    assert.equal(preview.dataGain, 2);
+    assert.equal(preview.previousValue, effects.reduce((sum,e)=>sum+h.controller.scoreAiEffectValue(e,{player:h.blue,immediate:true}),0),
+      "subtract both expanded nodes, including both original tech terms");
+    const modeled = h.controller.buildAiCardScanTargetPreview(cardEffects.getCardModel({cardId}).playEffects,h.blue);
+    assert.equal(preview.value, modeled.value);
+    assert.equal(JSON.stringify(effects), before);
+    assert.equal(h.controller.buildAiCardScanTargetPreview([effects[0],{type:"gain_resources"},effects[1]],h.blue),null);
+    assert.equal(h.controller.buildAiCardScanTargetPreview([effects[0],{...effects[1],options:{...effects[1].options,nebulaId:"other"}}],h.blue),null);
+  }
+  const effects=cardEffects.buildPlayEffects({cardId:"b_100.webp"});
+  for(let i=0;i<4;i++)realData.replaceNextNebulaDataToken(scanState,"sector-1-a",h.white);
+  const scarce=h.controller.buildAiCardScanTargetPreview(effects,h.blue);
+  assert.equal(scarce.dataGain,1);assert.equal(scarce.extraMarks,1);
+  h.blue.resources.availableData=6;
+  assert.equal(h.controller.buildAiCardScanTargetPreview(effects,h.blue).dataGain,0);
+}
+
+{
+ const card={...fangzhou.createCard2Definition("pink",2),id:"fangzhou-free-basic",faceUp:true};
+ const alien={aliens:{1:{revealed:true,alienId:"方舟"}},fangzhou:{...fangzhou.createFangzhouState(),card1Revealed:[1,2,3,4],card1RevealedSinceShuffle:4}};
+ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
+  blueHand:[card],blueResources:{credits:0,energy:0,score:60,handSize:1},alienGameState:alien});
+ const before=JSON.stringify({player:h.blue,alien});
+ const candidate=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue);
+ assert.ok(candidate,"an unaffordable Fangzhou card can still yield a valuable basic reward as a quick action");
+ assert.equal(candidate.id,"cardCorner");assert.equal(candidate.actionKind,"fangzhou_basic");
+ assert.equal(candidate.directScoreGain,0,"unknown rewards are not guaranteed score");
+ assert.equal(candidate.valueBreakdown.fangzhouBasicReward.afterDiscard.handSize,0);
+ assert.equal(JSON.stringify({player:h.blue,alien}),before,"preview does not discard, flip, or shuffle");
+ alien.fangzhou.card1Deck=[8,7,6,5,0];
+ assert.equal(h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue).score,candidate.score,"hidden deck order cannot affect choice");
+ h.turnState.passedPlayerIds=[h.blue.id];
+ assert.equal(h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue),null);
+}
+
+{
+ const card={...fangzhou.createCard2Definition("pink",2),id:"fangzhou-basic-route",faceUp:true};
+ const alien={aliens:{1:{revealed:true,alienId:"方舟"}},fangzhou:{...fangzhou.createFangzhouState(),card1Revealed:[1,2,3,4],card1RevealedSinceShuffle:4}};
+ const choices=[];
+ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
+  canStartMainAction:true,recordCardCorner:true,industry:industryModule,blueHand:[card],blueResources:{credits:0,energy:0,score:60,handSize:1},alienGameState:alien,
+  chooseTurnAction:cs=>cs.find(c=>c.actionKind==="fangzhou_basic")||null,
+  onChooseTurnAction:cs=>choices.push(...cs)});
+ h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+ const step=h.controller.runAiAutomationStep();
+ assert.ok(choices.some(c=>c.actionKind==="fangzhou_basic"),"Fangzhou basic reward must enter top-level quick-action candidates");
+ assert.equal(step.ok,true);assert.deepEqual(h.getHandled(),{type:"card-corner",handIndex:0,confirmed:true});
+ h.blue.initialSelection={industry:{label:"原教旨主义"}};
+ const doubled=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue);
+ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.count,2);
+ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.rewards[0].indexes.length,5);
+ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.rewards[1].indexes.length,9,"second reward reshuffles after the fifth flip");
+ const preserve=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue,{playCandidateByIndex:new Map([[0,{score:200}]])});
+ assert.equal(preserve,null,"valuable playable cards retain their opportunity cost");
+}
+
+{
+ const card=runezu.createAlienCard(7,999);
+ const symbolId='symbol_'+card.discardActionCode.slice(2);
+ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
+  industry:industryModule,canStartMainAction:true,recordCardCorner:true,blueHand:[card],
+  blueResources:{credits:0,energy:0,score:10,handSize:1},runezuQuick:true,
+  runezuFaceSymbolSlots:{1:symbolId},chooseTurnAction:cs=>cs.find(c=>c.actionKind==='runezu_symbol')||null});
+ const before=JSON.stringify(h.blue);
+ const candidate=h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue);
+ assert.ok(candidate,'mapped energy reward on an unaffordable immediate card should be considered');
+ assert.equal(candidate.reward.gain.energy,1);assert.equal(candidate.valueBreakdown.runezuCorner.position,1);
+ assert.equal(candidate.valueBreakdown.runezuCorner.afterDiscard.handSize,0);
+ assert.equal(JSON.stringify(h.blue),before,'valuation must not mutate hand or resources');
+ assert.equal(h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue,{playCandidateByIndex:new Map([[0,{score:200}]])}),null,'valuable playable card is preserved');
+ h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+ assert.equal(h.controller.runAiAutomationStep().ok,true);
+ assert.deepEqual(h.getHandled(),{type:'card-corner',handIndex:0,confirmed:true});
+ h.blue.initialSelection={industry:{label:'原教旨主义'}};
+ const doubled=h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue);
+ assert.equal(doubled.reward.gain.energy,2);assert.equal(doubled.valueBreakdown.runezuCorner.count,2);
+ h.turnState.passedPlayerIds=[h.blue.id];
+ assert.equal(h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue),null);
+ const missing=createAiControllerHarness(null,{currentPlayerColor:'blue',blueHand:[card],runezuQuick:true});
+ assert.equal(missing.controller.buildAiRunezuCornerQuickCandidate(card,0,missing.blue),null,'unmapped symbols have no reward');
+}
