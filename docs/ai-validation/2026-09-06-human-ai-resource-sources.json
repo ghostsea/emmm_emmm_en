@@ -1,0 +1,3557 @@
+{
+  "scope": "Existing human 15 deduplicated historical white-player seats, including three Huanyu and three strategy company seats; compared descriptively with 24 original AI and 24 combined-scan development AI seats per company. Source totals are non-income gross gains, excluding setup, and are checked to sum exactly to nonIncomeGain. Blue1/2 credit/energy gains are reassigned using the existing owned-tech plus data-placement rule after subtracting immediate income, with an exact match to stored blue1/2 counters and a remapping ledger. Other categories remain action-context labels, not necessarily the causal reward origin; nested card/alien/industry rewards may inherit the enclosing action category. Zero raw blue source labels in structured AI logs are not zero blue-tech yield. Income gains are separately stated. Gross trade inflows are not free production and cost/settlement buckets can contain snapshot reconciliation. Human logs have missing costs/data/initial income, different versions, companies, seeds and opponents. No causal conversion rate or fresh-validation inference.",
+  "groups": {
+    "寰宇": {
+      "human": {
+        "seats": 3,
+        "score": 293.3333333333333,
+        "mainActions": 39.333333333333336,
+        "incomeGain": {
+          "credits": 20.666666666666668,
+          "energy": 11.333333333333334,
+          "availableData": 1.3333333333333333,
+          "handSize": 6.333333333333333
+        },
+        "nonIncomeGain": {
+          "credits": 6.666666666666667,
+          "energy": 13.666666666666666,
+          "availableData": 29,
+          "handSize": 16.666666666666668
+        },
+        "sources": {
+          "tech_bonus_blue1": {
+            "credits": 3,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "credits": 0,
+            "energy": 2.3333333333333335,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "industry": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "alien": {
+            "credits": 1.6666666666666667,
+            "energy": 6.333333333333333,
+            "availableData": 3.6666666666666665,
+            "handSize": 7.666666666666667
+          },
+          "card": {
+            "credits": 1.3333333333333333,
+            "energy": 4,
+            "availableData": 9.333333333333334,
+            "handSize": 9
+          },
+          "data_placement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "analysis": {
+            "credits": 0,
+            "energy": 0.6666666666666666,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "credits": 0.3333333333333333,
+            "energy": 0,
+            "availableData": 12.666666666666666,
+            "handSize": 0
+          },
+          "trade_conversion": {
+            "credits": 0.3333333333333333,
+            "energy": 0.3333333333333333,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 3.3333333333333335,
+            "handSize": 0
+          },
+          "settlement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "pass_income": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        }
+      },
+      "baseline": {
+        "seats": 24,
+        "score": 190.16666666666666,
+        "mainActions": 28.208333333333332,
+        "incomeGain": {
+          "credits": 15.875,
+          "energy": 11.416666666666666,
+          "availableData": 0.5,
+          "handSize": 10.375
+        },
+        "nonIncomeGain": {
+          "credits": 3.1666666666666665,
+          "energy": 10.5,
+          "availableData": 21.291666666666668,
+          "handSize": 12.5
+        },
+        "sources": {
+          "tech_bonus_blue1": {
+            "credits": 1.0416666666666667,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "credits": 0,
+            "energy": 0.5,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "credits": 0,
+            "energy": 2.5,
+            "availableData": 1.9583333333333333,
+            "handSize": 0.5833333333333334
+          },
+          "industry": {
+            "credits": 1,
+            "energy": 4.208333333333333,
+            "availableData": 0.125,
+            "handSize": 4.25
+          },
+          "alien": {
+            "credits": 0.4166666666666667,
+            "energy": 2.5416666666666665,
+            "availableData": 2.0416666666666665,
+            "handSize": 3.9583333333333335
+          },
+          "card": {
+            "credits": 0.5833333333333334,
+            "energy": 0.5,
+            "availableData": 8.333333333333334,
+            "handSize": 2.8333333333333335
+          },
+          "data_placement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0.3333333333333333
+          },
+          "analysis": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0.125
+          },
+          "planet_board": {
+            "credits": 0.08333333333333333,
+            "energy": 0.25,
+            "availableData": 8.291666666666666,
+            "handSize": 0.4166666666666667
+          },
+          "trade_conversion": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0.375,
+            "handSize": 0
+          },
+          "settlement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "credits": 0.041666666666666664,
+            "energy": 0,
+            "availableData": 0.16666666666666666,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "pass_income": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        }
+      },
+      "candidate": {
+        "seats": 24,
+        "score": 192.83333333333334,
+        "mainActions": 28.291666666666668,
+        "incomeGain": {
+          "credits": 16,
+          "energy": 11.75,
+          "availableData": 0.5,
+          "handSize": 10.458333333333334
+        },
+        "nonIncomeGain": {
+          "credits": 3.6666666666666665,
+          "energy": 10.291666666666666,
+          "availableData": 22.708333333333332,
+          "handSize": 12.333333333333334
+        },
+        "sources": {
+          "tech_bonus_blue1": {
+            "credits": 0.9583333333333334,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "credits": 0,
+            "energy": 1,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "credits": 0,
+            "energy": 2,
+            "availableData": 1.625,
+            "handSize": 0.5833333333333334
+          },
+          "industry": {
+            "credits": 1,
+            "energy": 4.125,
+            "availableData": 0.041666666666666664,
+            "handSize": 4.25
+          },
+          "alien": {
+            "credits": 0.875,
+            "energy": 1.7916666666666667,
+            "availableData": 2.25,
+            "handSize": 3.9583333333333335
+          },
+          "card": {
+            "credits": 0.75,
+            "energy": 0.5,
+            "availableData": 8.583333333333334,
+            "handSize": 2.375
+          },
+          "data_placement": {
+            "credits": 0,
+            "energy": 0.041666666666666664,
+            "availableData": 0.041666666666666664,
+            "handSize": 0.4583333333333333
+          },
+          "analysis": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0.041666666666666664
+          },
+          "planet_board": {
+            "credits": 0.08333333333333333,
+            "energy": 0.8333333333333334,
+            "availableData": 9.208333333333334,
+            "handSize": 0.6666666666666666
+          },
+          "trade_conversion": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0.9583333333333334,
+            "handSize": 0
+          },
+          "settlement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "pass_income": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        }
+      }
+    },
+    "战略集团": {
+      "human": {
+        "seats": 3,
+        "score": 320.3333333333333,
+        "mainActions": 37.666666666666664,
+        "incomeGain": {
+          "credits": 16.666666666666668,
+          "energy": 11.333333333333334,
+          "availableData": 0,
+          "handSize": 5.333333333333333
+        },
+        "nonIncomeGain": {
+          "credits": 10,
+          "energy": 7,
+          "availableData": 26.666666666666668,
+          "handSize": 19.666666666666668
+        },
+        "sources": {
+          "tech_bonus_blue1": {
+            "credits": 4.333333333333333,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "credits": 0,
+            "energy": 2,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "industry": {
+            "credits": 5,
+            "energy": 0,
+            "availableData": 4.333333333333333,
+            "handSize": 3.3333333333333335
+          },
+          "alien": {
+            "credits": 0.3333333333333333,
+            "energy": 1.3333333333333333,
+            "availableData": 2.3333333333333335,
+            "handSize": 6
+          },
+          "card": {
+            "credits": 0.3333333333333333,
+            "energy": 0.6666666666666666,
+            "availableData": 10,
+            "handSize": 10.333333333333334
+          },
+          "data_placement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "analysis": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "credits": 0,
+            "energy": 2.6666666666666665,
+            "availableData": 9.333333333333334,
+            "handSize": 0
+          },
+          "trade_conversion": {
+            "credits": 0,
+            "energy": 0.3333333333333333,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0.6666666666666666,
+            "handSize": 0
+          },
+          "settlement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "pass_income": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        }
+      },
+      "baseline": {
+        "seats": 24,
+        "score": 211,
+        "mainActions": 34.708333333333336,
+        "incomeGain": {
+          "credits": 17.25,
+          "energy": 13.791666666666666,
+          "availableData": 0.375,
+          "handSize": 12.041666666666666
+        },
+        "nonIncomeGain": {
+          "credits": 8.416666666666666,
+          "energy": 7.75,
+          "availableData": 34.375,
+          "handSize": 19.583333333333332
+        },
+        "sources": {
+          "tech_bonus_blue1": {
+            "credits": 1.625,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "credits": 0,
+            "energy": 1.8333333333333333,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "credits": 0.041666666666666664,
+            "energy": 2.5,
+            "availableData": 1.625,
+            "handSize": 0.625
+          },
+          "industry": {
+            "credits": 4.875,
+            "energy": 1,
+            "availableData": 3.6666666666666665,
+            "handSize": 9.041666666666666
+          },
+          "alien": {
+            "credits": 1.125,
+            "energy": 1.1666666666666667,
+            "availableData": 2.2083333333333335,
+            "handSize": 4.083333333333333
+          },
+          "card": {
+            "credits": 0.4583333333333333,
+            "energy": 0.9166666666666666,
+            "availableData": 15.333333333333334,
+            "handSize": 4.291666666666667
+          },
+          "data_placement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0.9583333333333334
+          },
+          "analysis": {
+            "credits": 0.041666666666666664,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0.125
+          },
+          "planet_board": {
+            "credits": 0.25,
+            "energy": 0.3333333333333333,
+            "availableData": 10.041666666666666,
+            "handSize": 0.4583333333333333
+          },
+          "trade_conversion": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 1.5,
+            "handSize": 0
+          },
+          "settlement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "pass_income": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        }
+      },
+      "candidate": {
+        "seats": 24,
+        "score": 203.58333333333334,
+        "mainActions": 34.5,
+        "incomeGain": {
+          "credits": 16.875,
+          "energy": 13.708333333333334,
+          "availableData": 0.4583333333333333,
+          "handSize": 12.083333333333334
+        },
+        "nonIncomeGain": {
+          "credits": 8.75,
+          "energy": 8.166666666666666,
+          "availableData": 33,
+          "handSize": 18.875
+        },
+        "sources": {
+          "tech_bonus_blue1": {
+            "credits": 1.625,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "credits": 0,
+            "energy": 1.4583333333333333,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "credits": 0.16666666666666666,
+            "energy": 2.7083333333333335,
+            "availableData": 1.4583333333333333,
+            "handSize": 0.8333333333333334
+          },
+          "industry": {
+            "credits": 4.833333333333333,
+            "energy": 1.1666666666666667,
+            "availableData": 3.5416666666666665,
+            "handSize": 8.875
+          },
+          "alien": {
+            "credits": 0.8333333333333334,
+            "energy": 1.5416666666666667,
+            "availableData": 1.5833333333333333,
+            "handSize": 4.125
+          },
+          "card": {
+            "credits": 0.8333333333333334,
+            "energy": 0.875,
+            "availableData": 15,
+            "handSize": 3.875
+          },
+          "data_placement": {
+            "credits": 0.041666666666666664,
+            "energy": 0.041666666666666664,
+            "availableData": 0,
+            "handSize": 0.7916666666666666
+          },
+          "analysis": {
+            "credits": 0.08333333333333333,
+            "energy": 0.08333333333333333,
+            "availableData": 0,
+            "handSize": 0.08333333333333333
+          },
+          "planet_board": {
+            "credits": 0.3333333333333333,
+            "energy": 0.25,
+            "availableData": 10.041666666666666,
+            "handSize": 0.25
+          },
+          "trade_conversion": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 1.375,
+            "handSize": 0
+          },
+          "settlement": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "credits": 0,
+            "energy": 0.041666666666666664,
+            "availableData": 0,
+            "handSize": 0.041666666666666664
+          },
+          "income_upgrade_immediate": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "pass_income": {
+            "credits": 0,
+            "energy": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        }
+      }
+    }
+  },
+  "remapping": [
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-brown",
+      "entryId": 92,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-green",
+      "entryId": 140,
+      "stepIndex": 7,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-brown",
+      "entryId": 50,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-brown",
+      "entryId": 62,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-brown",
+      "entryId": 92,
+      "stepIndex": 8,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-brown",
+      "entryId": 96,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "playerId": "player-brown",
+      "entryId": 112,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "playerId": "player-white",
+      "entryId": 161,
+      "stepIndex": 13,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-green",
+      "entryId": 112,
+      "stepIndex": 6,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-green",
+      "entryId": 152,
+      "stepIndex": 17,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-brown",
+      "entryId": 92,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-brown",
+      "entryId": 96,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-brown",
+      "entryId": 168,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-brown",
+      "entryId": 168,
+      "stepIndex": 6,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-green",
+      "entryId": 152,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-green",
+      "entryId": 176,
+      "stepIndex": 14,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-white",
+      "entryId": 106,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "playerId": "player-brown",
+      "entryId": 171,
+      "stepIndex": 13,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-white",
+      "entryId": 104,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-white",
+      "entryId": 124,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 14,
+      "stepIndex": 4,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 97,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 148,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-green",
+      "entryId": 43,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-green",
+      "entryId": 108,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-green",
+      "entryId": 151,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "playerId": "player-brown",
+      "entryId": 85,
+      "stepIndex": 6,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "playerId": "player-brown",
+      "entryId": 151,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-white",
+      "entryId": 147,
+      "stepIndex": 7,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-green",
+      "entryId": 44,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-green",
+      "entryId": 64,
+      "stepIndex": 4,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-green",
+      "entryId": 179,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "playerId": "player-blue",
+      "entryId": 96,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-white",
+      "entryId": 89,
+      "stepIndex": 8,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-white",
+      "entryId": 149,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-white",
+      "entryId": 161,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-blue",
+      "entryId": 138,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-brown",
+      "entryId": 105,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-brown",
+      "entryId": 145,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-brown",
+      "entryId": 145,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-blue",
+      "entryId": 128,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-blue",
+      "entryId": 164,
+      "stepIndex": 10,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-green",
+      "entryId": 144,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-green",
+      "entryId": 160,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-brown",
+      "entryId": 95,
+      "stepIndex": 6,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-brown",
+      "entryId": 158,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "playerId": "player-brown",
+      "entryId": 136,
+      "stepIndex": 10,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "playerId": "player-green",
+      "entryId": 101,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "playerId": "player-green",
+      "entryId": 158,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "playerId": "player-white",
+      "entryId": 138,
+      "stepIndex": 14,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "playerId": "player-white",
+      "entryId": 146,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-green",
+      "entryId": 113,
+      "stepIndex": 6,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-white",
+      "entryId": 106,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-white",
+      "entryId": 148,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-white",
+      "entryId": 160,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-brown",
+      "entryId": 100,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-brown",
+      "entryId": 100,
+      "stepIndex": 14,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-brown",
+      "entryId": 164,
+      "stepIndex": 14,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-brown",
+      "entryId": 164,
+      "stepIndex": 15,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-green",
+      "entryId": 163,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-white",
+      "entryId": 64,
+      "stepIndex": 9,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-white",
+      "entryId": 95,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-white",
+      "entryId": 118,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-white",
+      "entryId": 146,
+      "stepIndex": 15,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 14,
+      "stepIndex": 4,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 89,
+      "stepIndex": 13,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 105,
+      "stepIndex": 13,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 105,
+      "stepIndex": 14,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 168,
+      "stepIndex": 11,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-green",
+      "entryId": 168,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-green",
+      "entryId": 43,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-green",
+      "entryId": 108,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "playerId": "player-brown",
+      "entryId": 51,
+      "stepIndex": 9,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "playerId": "player-brown",
+      "entryId": 150,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-white",
+      "entryId": 90,
+      "stepIndex": 6,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-white",
+      "entryId": 110,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-white",
+      "entryId": 176,
+      "stepIndex": 7,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-green",
+      "entryId": 43,
+      "stepIndex": 15,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-green",
+      "entryId": 114,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-green",
+      "entryId": 164,
+      "stepIndex": 8,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-green",
+      "entryId": 172,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "playerId": "player-blue",
+      "entryId": 102,
+      "stepIndex": 11,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-blue",
+      "entryId": 138,
+      "stepIndex": 3,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-blue",
+      "entryId": 138,
+      "stepIndex": 4,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-white",
+      "entryId": 27,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-white",
+      "entryId": 56,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-white",
+      "entryId": 72,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-white",
+      "entryId": 97,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-white",
+      "entryId": 164,
+      "stepIndex": 15,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-white",
+      "entryId": 164,
+      "stepIndex": 16,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 51,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 98,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 122,
+      "stepIndex": 7,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 122,
+      "stepIndex": 8,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 166,
+      "stepIndex": 17,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 166,
+      "stepIndex": 18,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-white",
+      "entryId": 129,
+      "stepIndex": 14,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-white",
+      "entryId": 129,
+      "stepIndex": 17,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-white",
+      "entryId": 89,
+      "stepIndex": 9,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-white",
+      "entryId": 117,
+      "stepIndex": 7,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "playerId": "player-green",
+      "entryId": 43,
+      "stepIndex": 8,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "playerId": "player-green",
+      "entryId": 159,
+      "stepIndex": 9,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "playerId": "player-white",
+      "entryId": 144,
+      "stepIndex": 7,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "playerId": "player-white",
+      "entryId": 152,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "playerId": "player-brown",
+      "entryId": 98,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+      "playerId": "player-brown",
+      "entryId": 142,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-white",
+      "entryId": 145,
+      "stepIndex": 7,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-white",
+      "entryId": 185,
+      "stepIndex": 14,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-white",
+      "entryId": 185,
+      "stepIndex": 15,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 85,
+      "stepIndex": 6,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 89,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 144,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 144,
+      "stepIndex": 6,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-white",
+      "entryId": 39,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-white",
+      "entryId": 93,
+      "stepIndex": 11,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-white",
+      "entryId": 113,
+      "stepIndex": 16,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-white",
+      "entryId": 145,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-white",
+      "entryId": 153,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-white",
+      "entryId": 161,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-white",
+      "entryId": 161,
+      "stepIndex": 9,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-blue",
+      "entryId": 27,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-blue",
+      "entryId": 59,
+      "stepIndex": 11,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-blue",
+      "entryId": 165,
+      "stepIndex": 17,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-blue",
+      "entryId": 173,
+      "stepIndex": 11,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-blue",
+      "entryId": 146,
+      "stepIndex": 6,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "playerId": "player-blue",
+      "entryId": 144,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "playerId": "player-blue",
+      "entryId": 160,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-brown",
+      "entryId": 62,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-brown",
+      "entryId": 113,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-brown",
+      "entryId": 113,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-brown",
+      "entryId": 153,
+      "stepIndex": 3,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-brown",
+      "entryId": 153,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-brown",
+      "entryId": 180,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-brown",
+      "entryId": 161,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-brown",
+      "entryId": 165,
+      "stepIndex": 2,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-blue",
+      "entryId": 22,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-blue",
+      "entryId": 89,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-blue",
+      "entryId": 105,
+      "stepIndex": 14,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-blue",
+      "entryId": 152,
+      "stepIndex": 9,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "playerId": "player-blue",
+      "entryId": 56,
+      "stepIndex": 8,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "playerId": "player-blue",
+      "entryId": 108,
+      "stepIndex": 7,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "playerId": "player-blue",
+      "entryId": 108,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "playerId": "player-blue",
+      "entryId": 164,
+      "stepIndex": 6,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "playerId": "player-white",
+      "entryId": 160,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-brown",
+      "entryId": 114,
+      "stepIndex": 12,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-brown",
+      "entryId": 152,
+      "stepIndex": 11,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-brown",
+      "entryId": 176,
+      "stepIndex": 9,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-blue",
+      "entryId": 49,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-blue",
+      "entryId": 106,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-blue",
+      "entryId": 160,
+      "stepIndex": 4,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-blue",
+      "entryId": 160,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "playerId": "player-white",
+      "entryId": 85,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "playerId": "player-white",
+      "entryId": 153,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 158,
+      "stepIndex": 27,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 158,
+      "stepIndex": 28,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 178,
+      "stepIndex": 14,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 178,
+      "stepIndex": 15,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 185,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 45,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 84,
+      "stepIndex": 6,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 92,
+      "stepIndex": 9,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 135,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 155,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "playerId": "player-blue",
+      "entryId": 39,
+      "stepIndex": 13,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "playerId": "player-blue",
+      "entryId": 71,
+      "stepIndex": 10,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "playerId": "player-blue",
+      "entryId": 158,
+      "stepIndex": 14,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "baseline",
+      "gameId": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "playerId": "player-blue",
+      "entryId": 166,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+      "playerId": "player-white",
+      "entryId": 158,
+      "stepIndex": 11,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 39,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 61,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 92,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 114,
+      "stepIndex": 13,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 114,
+      "stepIndex": 14,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 133,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 133,
+      "stepIndex": 13,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "playerId": "player-brown",
+      "entryId": 157,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-white",
+      "entryId": 40,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-white",
+      "entryId": 52,
+      "stepIndex": 4,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-white",
+      "entryId": 149,
+      "stepIndex": 6,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+      "playerId": "player-white",
+      "entryId": 157,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-white",
+      "entryId": 64,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-white",
+      "entryId": 151,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+      "playerId": "player-white",
+      "entryId": 151,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "playerId": "player-green",
+      "entryId": 55,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "playerId": "player-green",
+      "entryId": 89,
+      "stepIndex": 9,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "playerId": "player-green",
+      "entryId": 129,
+      "stepIndex": 11,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+      "playerId": "player-green",
+      "entryId": 129,
+      "stepIndex": 14,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+      "playerId": "player-white",
+      "entryId": 114,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-white",
+      "entryId": 106,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-white",
+      "entryId": 159,
+      "stepIndex": 7,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "playerId": "player-white",
+      "entryId": 183,
+      "stepIndex": 11,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 91,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 107,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 145,
+      "stepIndex": 7,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 145,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 169,
+      "stepIndex": 8,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+      "playerId": "player-green",
+      "entryId": 169,
+      "stepIndex": 9,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+      "playerId": "player-white",
+      "entryId": 97,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-blue",
+      "entryId": 27,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-blue",
+      "entryId": 59,
+      "stepIndex": 11,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-blue",
+      "entryId": 152,
+      "stepIndex": 5,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+      "playerId": "player-blue",
+      "entryId": 156,
+      "stepIndex": 6,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-blue",
+      "entryId": 37,
+      "stepIndex": 9,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-blue",
+      "entryId": 61,
+      "stepIndex": 17,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-blue",
+      "entryId": 104,
+      "stepIndex": 7,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-blue",
+      "entryId": 104,
+      "stepIndex": 8,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-blue",
+      "entryId": 159,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+      "playerId": "player-blue",
+      "entryId": 159,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "playerId": "player-blue",
+      "entryId": 54,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+      "playerId": "player-blue",
+      "entryId": 144,
+      "stepIndex": 7,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-brown",
+      "entryId": 96,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+      "playerId": "player-brown",
+      "entryId": 96,
+      "stepIndex": 10,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-brown",
+      "entryId": 153,
+      "stepIndex": 9,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "playerId": "player-brown",
+      "entryId": 169,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-blue",
+      "entryId": 22,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-blue",
+      "entryId": 89,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-blue",
+      "entryId": 105,
+      "stepIndex": 14,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+      "playerId": "player-blue",
+      "entryId": 164,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "playerId": "player-blue",
+      "entryId": 54,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+      "playerId": "player-blue",
+      "entryId": 88,
+      "stepIndex": 12,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+      "playerId": "player-white",
+      "entryId": 151,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-brown",
+      "entryId": 57,
+      "stepIndex": 4,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+      "playerId": "player-brown",
+      "entryId": 111,
+      "stepIndex": 15,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-blue",
+      "entryId": 48,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-blue",
+      "entryId": 99,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+      "playerId": "player-blue",
+      "entryId": 111,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "playerId": "player-white",
+      "entryId": 138,
+      "stepIndex": 12,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "playerId": "player-white",
+      "entryId": 170,
+      "stepIndex": 9,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+      "playerId": "player-white",
+      "entryId": 170,
+      "stepIndex": 10,
+      "from": "data_placement",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 105,
+      "stepIndex": 8,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 109,
+      "stepIndex": 5,
+      "from": "tech_bonus_other",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 167,
+      "stepIndex": 13,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+      "playerId": "player-blue",
+      "entryId": 171,
+      "stepIndex": 3,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 45,
+      "stepIndex": 5,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 84,
+      "stepIndex": 6,
+      "from": "card",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 92,
+      "stepIndex": 7,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+      "playerId": "player-green",
+      "entryId": 147,
+      "stepIndex": 6,
+      "from": "card",
+      "to": "tech_bonus_blue2",
+      "resource": "energy",
+      "amount": 1,
+      "detail": "放置数据：资源：能量+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "playerId": "player-blue",
+      "entryId": 42,
+      "stepIndex": 9,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "playerId": "player-blue",
+      "entryId": 62,
+      "stepIndex": 12,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "playerId": "player-blue",
+      "entryId": 113,
+      "stepIndex": 6,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    },
+    {
+      "cohort": "candidate",
+      "gameId": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+      "playerId": "player-blue",
+      "entryId": 166,
+      "stepIndex": 13,
+      "from": "data_placement",
+      "to": "tech_bonus_blue1",
+      "resource": "credits",
+      "amount": 1,
+      "detail": "放置数据：资源：信用点+1"
+    }
+  ]
+}

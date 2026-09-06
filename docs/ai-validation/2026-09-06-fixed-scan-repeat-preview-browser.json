@@ -1,0 +1,485 @@
+{
+  "beforeCommit": "9de56b382cbd316fbf9c6090d1eab0ab6d655095",
+  "afterCommit": "d10c3120921198889bd0f7f09866eb9de0f334ac",
+  "scope": "Before: three real expanded fixed-scan cards have no target preview, while their unexpanded models do. After: candidate contains repeat2 target preview and forced runtime execution yields two data for each. This checks coverage and execution, not policy selection against other actions or score improvement.",
+  "before": [
+    {
+      "cardId": "b_100.webp",
+      "modeled": [
+        {
+          "id": "b100-procyon-scan",
+          "type": "card_scan_nebula",
+          "repeat": 2
+        }
+      ],
+      "expanded": [
+        {
+          "id": "b100-procyon-scan-1",
+          "type": "card_scan_nebula",
+          "repeat": 1
+        },
+        {
+          "id": "b100-procyon-scan-2",
+          "type": "card_scan_nebula",
+          "repeat": 1
+        }
+      ],
+      "modelPreview": {
+        "effectId": "b100-procyon-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 1.778,
+        "value": 12.778,
+        "previousValue": 9,
+        "adjustment": 3.7780000000000005
+      },
+      "runtimePreview": null,
+      "candidatePreview": null
+    },
+    {
+      "cardId": "b_102.webp",
+      "modeled": [
+        {
+          "id": "b102-proxima-scan",
+          "type": "card_scan_nebula",
+          "repeat": 2
+        }
+      ],
+      "expanded": [
+        {
+          "id": "b102-proxima-scan-1",
+          "type": "card_scan_nebula",
+          "repeat": 1
+        },
+        {
+          "id": "b102-proxima-scan-2",
+          "type": "card_scan_nebula",
+          "repeat": 1
+        }
+      ],
+      "modelPreview": {
+        "effectId": "b102-proxima-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.778,
+        "value": 10.778,
+        "previousValue": 9,
+        "adjustment": 1.7780000000000005
+      },
+      "runtimePreview": null,
+      "candidatePreview": null
+    },
+    {
+      "cardId": "b_114.webp",
+      "modeled": [
+        {
+          "id": "b114-sirius-scan",
+          "type": "card_scan_nebula",
+          "repeat": 2
+        }
+      ],
+      "expanded": [
+        {
+          "id": "b114-sirius-scan-1",
+          "type": "card_scan_nebula",
+          "repeat": 1
+        },
+        {
+          "id": "b114-sirius-scan-2",
+          "type": "card_scan_nebula",
+          "repeat": 1
+        }
+      ],
+      "modelPreview": {
+        "effectId": "b114-sirius-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.778,
+        "value": 10.778,
+        "previousValue": 9,
+        "adjustment": 1.7780000000000005
+      },
+      "runtimePreview": null,
+      "candidatePreview": null
+    },
+    {
+      "cardId": "b_128.webp",
+      "modeled": [
+        {
+          "id": "b128-vega-scan",
+          "type": "card_scan_nebula"
+        }
+      ],
+      "expanded": [
+        {
+          "id": "b128-vega-scan",
+          "type": "card_scan_nebula",
+          "repeat": 1
+        }
+      ],
+      "modelPreview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.699,
+        "value": 6.199,
+        "previousValue": 4.5,
+        "adjustment": 1.6989999999999998
+      },
+      "runtimePreview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.699,
+        "value": 6.199,
+        "previousValue": 4.5,
+        "adjustment": 1.6989999999999998
+      },
+      "candidatePreview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.699,
+        "value": 6.199,
+        "previousValue": 4.5,
+        "adjustment": 1.6989999999999998
+      }
+    }
+  ],
+  "after": [
+    {
+      "candidate": {
+        "id": "playCard",
+        "kind": "main",
+        "available": true,
+        "handIndex": 0,
+        "cardId": "b_100.webp",
+        "cardInstanceId": "card-67-0",
+        "cardLabel": "观测南河",
+        "alienCard": false,
+        "price": 2,
+        "cost": {
+          "credits": 2
+        },
+        "typeCode": 3,
+        "reservesAfterPlay": true,
+        "effectTypes": [
+          "card_scan_nebula",
+          "card_scan_nebula"
+        ],
+        "plan": {
+          "type": "card-synergy",
+          "mainActionId": "playCard",
+          "actionId": "final",
+          "label": "打牌建立终局得分路线",
+          "score": 1.0899999999999999,
+          "cardId": "b_100.webp",
+          "endGameScoring": true,
+          "endGameExpectedScore": 0
+        },
+        "finalFormulaDeltas": {
+          "c2": 0.25
+        },
+        "directScoreGain": 0,
+        "score": 1.3045348000000008,
+        "valueBreakdown": {
+          "costValue": 12,
+          "cornerOpportunity": 29.959,
+          "directScoreGain": 0,
+          "effectValue": 12.778,
+          "probeMoveScanPreview": null,
+          "scanTargetPreview": {
+            "effectId": "b100-procyon-scan-1",
+            "effectType": "card_scan_nebula",
+            "nebulaId": "sector-1-a",
+            "repeat": 2,
+            "replaced": 2,
+            "extraMarks": 0,
+            "dataGain": 2,
+            "slotScore": 2,
+            "continuation": 1.778,
+            "value": 12.778,
+            "previousValue": 9,
+            "adjustment": 3.7780000000000005
+          },
+          "strategyPassivePlayValue": 0,
+          "grandStrategyCreditBottleneckPenalty": 0,
+          "finalSelfBlockingPublicityTrap": null,
+          "finalSelfBlockingPublicityTrapPenalty": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0,
+          "finalUnreadyTaskSetupSuppressed": false,
+          "readyTaskCashoutValue": 0,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "readyTaskCashoutTimingScale": 0.2,
+          "readyTaskBlockedByPlayEffectTaskIds": [],
+          "newlyReadyAfterPlayTaskIds": [],
+          "readyTaskTechReplacementValue": 0,
+          "skippedUnresolvableLaunchForReadyTask": false,
+          "skippedUnresolvableLaunchCount": 0,
+          "skippedUnresolvableMoveBeforeLaterEffect": false,
+          "skippedUnresolvableMoveCount": 0,
+          "chongTaskChainValue": 0,
+          "banrenmaThresholdSetupValue": 0,
+          "playCardConversionPressure": 0,
+          "huanyuFangzhouCreditLockPenalty": 0,
+          "lateCardEnginePressure": 0,
+          "endGameExpectedScore": 0,
+          "chongProbeFossilRewardValue": null,
+          "finalRoundEndGameCardUrgency": 0,
+          "planScore": 1.0899999999999999,
+          "standardActionPremium": 0,
+          "finalSecondMarkNoDirectSetupPenalty": 0,
+          "finalRoundResourceDrainPenalty": 0
+        }
+      },
+      "cardId": "b_100.webp",
+      "expectedData": 2,
+      "actualData": 2,
+      "totalResourceDataDelta": 2,
+      "scans": [
+        "南河三扫描 1/2：南河三 槽位1 替换为白色token；获得数据；资源：数据+1",
+        "南河三扫描 2/2：南河三 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+      ],
+      "moves": [],
+      "steps": 2,
+      "bugs": [],
+      "probeChoices": []
+    },
+    {
+      "candidate": {
+        "id": "playCard",
+        "kind": "main",
+        "available": true,
+        "handIndex": 0,
+        "cardId": "b_102.webp",
+        "cardInstanceId": "card-134-0",
+        "cardLabel": "观测比邻星",
+        "alienCard": false,
+        "price": 2,
+        "cost": {
+          "credits": 2
+        },
+        "typeCode": 2,
+        "reservesAfterPlay": true,
+        "effectTypes": [
+          "card_scan_nebula",
+          "card_scan_nebula"
+        ],
+        "plan": {
+          "type": "card-synergy",
+          "mainActionId": "playCard",
+          "actionId": "scan",
+          "label": "打牌触发扫描路线",
+          "score": 2.0372167999999995,
+          "cardId": "b_102.webp",
+          "effectType": "card_scan_nebula",
+          "color": null,
+          "nebulaId": "sector-3-b"
+        },
+        "finalFormulaDeltas": {
+          "c1": 0.37,
+          "c2": 0.26
+        },
+        "directScoreGain": 0,
+        "score": 5.304706207040001,
+        "valueBreakdown": {
+          "costValue": 12,
+          "cornerOpportunity": 21.099999999999998,
+          "directScoreGain": 0,
+          "effectValue": 12.778,
+          "probeMoveScanPreview": null,
+          "scanTargetPreview": {
+            "effectId": "b102-proxima-scan-1",
+            "effectType": "card_scan_nebula",
+            "nebulaId": "sector-3-b",
+            "repeat": 2,
+            "replaced": 2,
+            "extraMarks": 0,
+            "dataGain": 2,
+            "slotScore": 2,
+            "continuation": 1.778,
+            "value": 12.778,
+            "previousValue": 9,
+            "adjustment": 3.7780000000000005
+          },
+          "strategyPassivePlayValue": 0,
+          "grandStrategyCreditBottleneckPenalty": 0,
+          "finalSelfBlockingPublicityTrap": null,
+          "finalSelfBlockingPublicityTrapPenalty": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0.38,
+          "finalUnreadyTaskSetupSuppressed": false,
+          "readyTaskCashoutValue": 0,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "readyTaskCashoutTimingScale": 0.2,
+          "readyTaskBlockedByPlayEffectTaskIds": [],
+          "newlyReadyAfterPlayTaskIds": [],
+          "readyTaskTechReplacementValue": 0,
+          "skippedUnresolvableLaunchForReadyTask": false,
+          "skippedUnresolvableLaunchCount": 0,
+          "skippedUnresolvableMoveBeforeLaterEffect": false,
+          "skippedUnresolvableMoveCount": 0,
+          "chongTaskChainValue": 0,
+          "banrenmaThresholdSetupValue": 0,
+          "playCardConversionPressure": 0,
+          "huanyuFangzhouCreditLockPenalty": 0,
+          "lateCardEnginePressure": 0,
+          "endGameExpectedScore": 0,
+          "chongProbeFossilRewardValue": null,
+          "finalRoundEndGameCardUrgency": 0,
+          "planScore": 2.0372167999999995,
+          "standardActionPremium": 0,
+          "finalSecondMarkNoDirectSetupPenalty": 0,
+          "finalRoundResourceDrainPenalty": 0
+        }
+      },
+      "cardId": "b_102.webp",
+      "expectedData": 2,
+      "actualData": 2,
+      "totalResourceDataDelta": 2,
+      "scans": [
+        "比邻星扫描 1/2：比邻星 槽位1 替换为棕色token；获得数据；资源：数据+1",
+        "比邻星扫描 2/2：比邻星 槽位2 替换为棕色token；槽位2 +2分；获得数据；资源：数据+1"
+      ],
+      "moves": [],
+      "steps": 2,
+      "bugs": [],
+      "probeChoices": []
+    },
+    {
+      "candidate": {
+        "id": "playCard",
+        "kind": "main",
+        "available": true,
+        "handIndex": 0,
+        "cardId": "b_114.webp",
+        "cardInstanceId": "card-202-0",
+        "cardLabel": "观测天狼星A",
+        "alienCard": false,
+        "price": 2,
+        "cost": {
+          "credits": 2
+        },
+        "typeCode": 2,
+        "reservesAfterPlay": true,
+        "effectTypes": [
+          "card_scan_nebula",
+          "card_scan_nebula"
+        ],
+        "plan": {
+          "type": "card-synergy",
+          "mainActionId": "playCard",
+          "actionId": "scan",
+          "label": "打牌触发扫描路线",
+          "score": 2.2915200799999997,
+          "cardId": "b_114.webp",
+          "effectType": "card_scan_nebula",
+          "color": null,
+          "nebulaId": "sector-2-a"
+        },
+        "finalFormulaDeltas": {
+          "c1": 0.37,
+          "c2": 0.26
+        },
+        "directScoreGain": 0,
+        "score": 2.343904840224001,
+        "valueBreakdown": {
+          "costValue": 12,
+          "cornerOpportunity": 29.35,
+          "directScoreGain": 0,
+          "effectValue": 12.778,
+          "probeMoveScanPreview": null,
+          "scanTargetPreview": {
+            "effectId": "b114-sirius-scan-1",
+            "effectType": "card_scan_nebula",
+            "nebulaId": "sector-2-a",
+            "repeat": 2,
+            "replaced": 2,
+            "extraMarks": 0,
+            "dataGain": 2,
+            "slotScore": 2,
+            "continuation": 1.778,
+            "value": 12.778,
+            "previousValue": 9,
+            "adjustment": 3.7780000000000005
+          },
+          "strategyPassivePlayValue": 0,
+          "grandStrategyCreditBottleneckPenalty": 0,
+          "finalSelfBlockingPublicityTrap": null,
+          "finalSelfBlockingPublicityTrapPenalty": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0.3377088,
+          "finalUnreadyTaskSetupSuppressed": false,
+          "readyTaskCashoutValue": 0,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "readyTaskCashoutTimingScale": 0.2,
+          "readyTaskBlockedByPlayEffectTaskIds": [],
+          "newlyReadyAfterPlayTaskIds": [],
+          "readyTaskTechReplacementValue": 0,
+          "skippedUnresolvableLaunchForReadyTask": false,
+          "skippedUnresolvableLaunchCount": 0,
+          "skippedUnresolvableMoveBeforeLaterEffect": false,
+          "skippedUnresolvableMoveCount": 0,
+          "chongTaskChainValue": 0,
+          "banrenmaThresholdSetupValue": 0,
+          "playCardConversionPressure": 0,
+          "huanyuFangzhouCreditLockPenalty": 0,
+          "lateCardEnginePressure": 0,
+          "endGameExpectedScore": 0,
+          "chongProbeFossilRewardValue": null,
+          "finalRoundEndGameCardUrgency": 0,
+          "planScore": 2.2915200799999997,
+          "standardActionPremium": 0,
+          "finalSecondMarkNoDirectSetupPenalty": 0,
+          "finalRoundResourceDrainPenalty": 0
+        }
+      },
+      "cardId": "b_114.webp",
+      "expectedData": 2,
+      "actualData": 2,
+      "totalResourceDataDelta": 2,
+      "scans": [
+        "天狼星A扫描 1/2：天狼星A 槽位1 替换为棕色token；获得数据；资源：数据+1",
+        "天狼星A扫描 2/2：天狼星A 槽位2 替换为棕色token；槽位2 +2分；获得数据；资源：数据+1"
+      ],
+      "moves": [],
+      "steps": 2,
+      "bugs": [],
+      "probeChoices": []
+    }
+  ]
+}
