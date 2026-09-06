@@ -1,0 +1,3791 @@
+{
+  "scope": "完整24组开发候选，实际选择信用或能量蓝槽且记录正值新打牌衔接。nextMainSameCard按cardInstanceId匹配实体实例；只表明后续行动一致性，不将其作为因果分数分解。",
+  "summary": {
+    "positiveResourcePlacements": 42,
+    "nextMainSameCard": 15,
+    "nextMainPlay": 18,
+    "nextMainPass": 0
+  },
+  "rows": [
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "id": 974,
+      "round": 3,
+      "turn": 8,
+      "resources": {
+        "score": 122,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 0,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 1.7610064520000037,
+        "playerId": "player-blue",
+        "cardId": "b_104.webp",
+        "cardInstanceId": "card-125-0",
+        "handIndex": 2,
+        "beforeBest": 32.134177472000005,
+        "afterScore": 33.89518392400001,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-125-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 2,
+            "publicity": 0,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 122
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 0,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 122
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 122
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 122
+        }
+      },
+      "nextMain": {
+        "id": 991,
+        "round": 3,
+        "turn": 9,
+        "action": "playCard",
+        "cardId": "b_104.webp",
+        "resources": {
+          "score": 122,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 1,
+          "handSize": 4
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "id": 1056,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 89,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 1
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-brown",
+        "cardId": "b_62.webp",
+        "cardInstanceId": "card-128-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 28.427909801960265,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 7.5,
+          "playerId": "player-brown",
+          "cardInstanceId": "card-128-0",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 2,
+            "publicity": 1,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 89
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 1,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 89
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 89
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 89
+        }
+      },
+      "nextMain": {
+        "id": 1078,
+        "round": 3,
+        "turn": 8,
+        "action": "scan",
+        "cardId": null,
+        "resources": {
+          "score": 89,
+          "credits": 1,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 1
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 3,
+      "company": "作弊实验室",
+      "id": 754,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 77,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-blue",
+        "cardId": "dlc_25.png",
+        "cardInstanceId": "card-104-0",
+        "handIndex": 1,
+        "beforeBest": 0,
+        "afterScore": 4.9219,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 0,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-104-0",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 3,
+            "publicity": 3,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 77
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 3,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 77
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 77
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 77
+        }
+      },
+      "nextMain": {
+        "id": 786,
+        "round": 3,
+        "turn": 6,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 77,
+          "credits": 1,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 1,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 3,
+      "company": "作弊实验室",
+      "id": 1281,
+      "round": 4,
+      "turn": 6,
+      "resources": {
+        "score": 150,
+        "credits": 0,
+        "energy": 4,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-blue",
+        "cardId": "b_69.webp",
+        "cardInstanceId": "card-47-pass-3-3",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 24.31984852152832,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 6,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-47-pass-3-3",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 4,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 150
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 4,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 150
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 150
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 150
+        }
+      },
+      "nextMain": {
+        "id": 1307,
+        "round": 4,
+        "turn": 7,
+        "action": "scan",
+        "cardId": null,
+        "resources": {
+          "score": 150,
+          "credits": 1,
+          "energy": 5,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 3,
+      "company": "作弊实验室",
+      "id": 746,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 79,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 6,
+        "handSize": 2
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-brown",
+        "cardId": "b_115.webp",
+        "cardInstanceId": "card-108-0",
+        "handIndex": 1,
+        "beforeBest": 0,
+        "afterScore": 48.911841728,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 9.75,
+          "playerId": "player-brown",
+          "cardInstanceId": "card-108-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 3,
+            "publicity": 1,
+            "availableData": 6,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 79
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 1,
+            "availableData": 6,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 79
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 6,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 79
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 6,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 79
+        }
+      },
+      "nextMain": {
+        "id": 771,
+        "round": 3,
+        "turn": 6,
+        "action": "scan",
+        "cardId": null,
+        "resources": {
+          "score": 79,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 5,
+          "handSize": 2
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 4,
+      "company": "作弊实验室",
+      "id": 868,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 70,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-blue",
+        "cardId": "b_63.webp",
+        "cardInstanceId": "card-121-0",
+        "handIndex": 1,
+        "beforeBest": 0,
+        "afterScore": 17.9499288864,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 4,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-121-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 70
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 70
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 70
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 70
+        }
+      },
+      "nextMain": {
+        "id": 899,
+        "round": 3,
+        "turn": 6,
+        "action": "playCard",
+        "cardId": "dlc_39.png",
+        "resources": {
+          "score": 70,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 1,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 4,
+      "company": "作弊实验室",
+      "id": 977,
+      "round": 3,
+      "turn": 8,
+      "resources": {
+        "score": 80,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 0,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 0.5058102217599991,
+        "playerId": "player-green",
+        "cardId": "b_55.webp",
+        "cardInstanceId": "card-71-0",
+        "handIndex": 3,
+        "beforeBest": 15.44290626848,
+        "afterScore": 15.948716490239999,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-green",
+          "cardInstanceId": "card-71-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 2,
+            "publicity": 0,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 80
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 0,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 80
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 80
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 80
+        }
+      },
+      "nextMain": {
+        "id": 1010,
+        "round": 3,
+        "turn": 9,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 80,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 5,
+      "company": "作弊实验室",
+      "id": 467,
+      "round": 2,
+      "turn": 5,
+      "resources": {
+        "score": 51,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "profile": {
+        "value": 6,
+        "playerId": "player-blue",
+        "cardId": "b_124.webp",
+        "cardInstanceId": "card-38-pass-1-4",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 18.061873056525485,
+        "paymentValue": 6,
+        "candidatePayment": {
+          "value": 7.5,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-38-pass-1-4",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 2,
+            "publicity": 2,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 51
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 2,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 51
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 51
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 51
+        }
+      },
+      "nextMain": {
+        "id": 506,
+        "round": 2,
+        "turn": 6,
+        "action": "scan",
+        "cardId": null,
+        "resources": {
+          "score": 58,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 3
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 6,
+      "company": "作弊实验室",
+      "id": 843,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 72,
+        "credits": 1,
+        "energy": 5,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-blue",
+        "cardId": "b_102.webp",
+        "cardInstanceId": "card-112-0",
+        "handIndex": 2,
+        "beforeBest": 7.815299999999998,
+        "afterScore": 44.084555841000004,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 4,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-112-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 5,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 72
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 5,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 72
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 5,
+          "publicity": 4,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 72
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 5,
+          "publicity": 4,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 72
+        }
+      },
+      "nextMain": {
+        "id": 881,
+        "round": 3,
+        "turn": 5,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 72,
+          "credits": 2,
+          "energy": 6,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "id": 769,
+      "round": 3,
+      "turn": 2,
+      "resources": {
+        "score": 54,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 11.844239020980549,
+        "playerId": "player-green",
+        "cardId": "b_95.webp",
+        "cardInstanceId": "card-44-pass-2-5",
+        "handIndex": 2,
+        "beforeBest": 28.76556296237945,
+        "afterScore": 40.60980198336,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-green",
+          "cardInstanceId": "card-44-pass-2-5",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 3,
+            "publicity": 1,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 54
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 1,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 54
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 54
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 54
+        }
+      },
+      "nextMain": {
+        "id": 810,
+        "round": 3,
+        "turn": 3,
+        "action": "playCard",
+        "cardId": "b_95.webp",
+        "resources": {
+          "score": 54,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 7,
+      "company": "作弊实验室",
+      "id": 418,
+      "round": 2,
+      "turn": 5,
+      "resources": {
+        "score": 40,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 2
+      },
+      "profile": {
+        "value": 1.7832591927999975,
+        "playerId": "player-green",
+        "cardId": "dlc_42.png",
+        "cardInstanceId": "card-52-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 1.7832591927999975,
+        "paymentValue": 12,
+        "candidatePayment": {
+          "value": 6.75,
+          "playerId": "player-green",
+          "cardInstanceId": "card-52-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 40
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 40
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 40
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 40
+        }
+      },
+      "nextMain": {
+        "id": 441,
+        "round": 2,
+        "turn": 5,
+        "action": "playCard",
+        "cardId": "dlc_42.png",
+        "resources": {
+          "score": 40,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 2
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "id": 968,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 82,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-green",
+        "cardId": "fangzhou_yellow_1",
+        "cardInstanceId": "fangzhou-card2-player-green-yellow-1",
+        "handIndex": 2,
+        "beforeBest": 6.564749999999998,
+        "afterScore": 16.628999999999998,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 15.89,
+          "playerId": "player-green",
+          "cardInstanceId": "fangzhou-card2-player-green-yellow-1",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 82
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 82
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 82
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 82
+        }
+      },
+      "nextMain": {
+        "id": 1010,
+        "round": 3,
+        "turn": 8,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 82,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 3
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 9,
+      "company": "作弊实验室",
+      "id": 1334,
+      "round": 4,
+      "turn": 5,
+      "resources": {
+        "score": 155,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 4,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-blue",
+        "cardId": "b_121.webp",
+        "cardInstanceId": "card-124-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 47.836576902614,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 7.3,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-124-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 155
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 155
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 155
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 155
+        }
+      },
+      "nextMain": {
+        "id": 1359,
+        "round": 4,
+        "turn": 6,
+        "action": "playCard",
+        "cardId": "b_121.webp",
+        "resources": {
+          "score": 155,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 2,
+          "handSize": 4
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "id": 685,
+      "round": 3,
+      "turn": 1,
+      "resources": {
+        "score": 37,
+        "credits": 2,
+        "energy": 6,
+        "publicity": 6,
+        "availableData": 3,
+        "handSize": 8
+      },
+      "profile": {
+        "value": 13.5,
+        "playerId": "player-green",
+        "cardId": "dlc_9.png",
+        "cardInstanceId": "card-90-0",
+        "handIndex": 1,
+        "beforeBest": 37.88446,
+        "afterScore": 52.005104470400006,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-green",
+          "cardInstanceId": "card-90-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 6,
+            "publicity": 6,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 8,
+            "score": 37
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 6,
+            "publicity": 6,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 7,
+            "score": 37
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 6,
+          "publicity": 6,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 8,
+          "score": 37
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 6,
+          "publicity": 6,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 8,
+          "score": 37
+        }
+      },
+      "nextMain": {
+        "id": 714,
+        "round": 3,
+        "turn": 2,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 37,
+          "credits": 3,
+          "energy": 6,
+          "publicity": 6,
+          "availableData": 4,
+          "handSize": 7
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "id": 1227,
+      "round": 4,
+      "turn": 2,
+      "resources": {
+        "score": 62,
+        "credits": 1,
+        "energy": 10,
+        "publicity": 10,
+        "availableData": 2,
+        "handSize": 6
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-green",
+        "cardId": "b_102.webp",
+        "cardInstanceId": "card-157-0",
+        "handIndex": 5,
+        "beforeBest": 39.25003973452068,
+        "afterScore": 60.405274224319996,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 4,
+          "playerId": "player-green",
+          "cardInstanceId": "card-157-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 10,
+            "publicity": 10,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 6,
+            "score": 62
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 10,
+            "publicity": 10,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 62
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 10,
+          "publicity": 10,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 62
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 10,
+          "publicity": 10,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 62
+        }
+      },
+      "nextMain": {
+        "id": 1272,
+        "round": 4,
+        "turn": 3,
+        "action": "playCard",
+        "cardId": "b_102.webp",
+        "resources": {
+          "score": 62,
+          "credits": 2,
+          "energy": 11,
+          "publicity": 10,
+          "availableData": 0,
+          "handSize": 6
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 9,
+      "company": "作弊实验室",
+      "id": 872,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 94,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-brown",
+        "cardId": "dlc_31.png",
+        "cardInstanceId": "card-97-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 75.45799452799999,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 25.765,
+          "playerId": "player-brown",
+          "cardInstanceId": "card-97-0",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 94
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 94
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 94
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 94
+        }
+      },
+      "nextMain": {
+        "id": 890,
+        "round": 3,
+        "turn": 7,
+        "action": "playCard",
+        "cardId": "dlc_31.png",
+        "resources": {
+          "score": 94,
+          "credits": 1,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 2,
+          "handSize": 5
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 9,
+      "company": "作弊实验室",
+      "id": 1067,
+      "round": 3,
+      "turn": 10,
+      "resources": {
+        "score": 126,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 4,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 3.8737459999999997,
+        "playerId": "player-brown",
+        "cardId": "b_26.webp",
+        "cardInstanceId": "card-144-0",
+        "handIndex": 2,
+        "beforeBest": 0,
+        "afterScore": 3.8737459999999997,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 0,
+          "playerId": "player-brown",
+          "cardInstanceId": "card-144-0",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 0,
+            "publicity": 4,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 126
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 0,
+            "publicity": 4,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 126
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 126
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 126
+        }
+      },
+      "nextMain": {
+        "id": 1082,
+        "round": 3,
+        "turn": 11,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 126,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 3,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "id": 373,
+      "round": 2,
+      "turn": 4,
+      "resources": {
+        "score": 46,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 0,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 1.2595468122842277,
+        "playerId": "player-blue",
+        "cardId": "b_21.webp",
+        "cardInstanceId": "card-58-0",
+        "handIndex": 0,
+        "beforeBest": 16.798010844674238,
+        "afterScore": 18.057557656958465,
+        "paymentValue": 18,
+        "candidatePayment": {
+          "value": 9,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-58-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 3,
+            "publicity": 0,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 46
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 0,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 46
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 46
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 46
+        }
+      },
+      "nextMain": {
+        "id": 393,
+        "round": 2,
+        "turn": 5,
+        "action": "playCard",
+        "cardId": "b_11.webp",
+        "resources": {
+          "score": 46,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "id": 758,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 91,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "profile": {
+        "value": 13.5,
+        "playerId": "player-blue",
+        "cardId": "b_95.webp",
+        "cardInstanceId": "card-97-0",
+        "handIndex": 0,
+        "beforeBest": 13.953499999999998,
+        "afterScore": 34.52237597056,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-97-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 1,
+            "publicity": 1,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 91
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 1,
+            "publicity": 1,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 91
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 91
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 91
+        }
+      },
+      "nextMain": {
+        "id": 783,
+        "round": 3,
+        "turn": 7,
+        "action": "playCard",
+        "cardId": "b_95.webp",
+        "resources": {
+          "score": 91,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 3
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "id": 1258,
+      "round": 4,
+      "turn": 5,
+      "resources": {
+        "score": 134,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 1
+      },
+      "profile": {
+        "value": 13.5,
+        "playerId": "player-blue",
+        "cardId": "b_12.webp",
+        "cardInstanceId": "card-49-pass-3-5",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 20.72689977664,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-49-pass-3-5",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 2,
+            "publicity": 2,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 134
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 2,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 134
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 134
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 134
+        }
+      },
+      "nextMain": {
+        "id": 1300,
+        "round": 4,
+        "turn": 6,
+        "action": "playCard",
+        "cardId": "b_12.webp",
+        "resources": {
+          "score": 134,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 1,
+          "handSize": 1
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "id": 674,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 59,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-brown",
+        "cardId": "fangzhou_blue_4",
+        "cardInstanceId": "fangzhou-card2-player-brown-blue-4",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 20.050800000000002,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 19.408,
+          "playerId": "player-brown",
+          "cardInstanceId": "fangzhou-card2-player-brown-blue-4",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 2,
+            "publicity": 6,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 59
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 6,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 59
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 59
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 59
+        }
+      },
+      "nextMain": {
+        "id": 701,
+        "round": 3,
+        "turn": 5,
+        "action": "land",
+        "cardId": null,
+        "resources": {
+          "score": 59,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "id": 1329,
+      "round": 4,
+      "turn": 6,
+      "resources": {
+        "score": 169,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-brown",
+        "cardId": "b_108.webp",
+        "cardInstanceId": "card-130-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 11.16479768,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 9,
+          "playerId": "player-brown",
+          "cardInstanceId": "card-130-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 169
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 169
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 169
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 169
+        }
+      },
+      "nextMain": {
+        "id": 1353,
+        "round": 4,
+        "turn": 7,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 169,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "id": 1250,
+      "round": 4,
+      "turn": 3,
+      "resources": {
+        "score": 95,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 10,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 13.5,
+        "playerId": "player-blue",
+        "cardId": "b_104.webp",
+        "cardInstanceId": "card-145-0",
+        "handIndex": 1,
+        "beforeBest": 0,
+        "afterScore": 41.802334404,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-145-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 3,
+            "publicity": 10,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 95
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 10,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 95
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 10,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 95
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 10,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 95
+        }
+      },
+      "nextMain": {
+        "id": 1273,
+        "round": 4,
+        "turn": 4,
+        "action": "scan",
+        "cardId": null,
+        "resources": {
+          "score": 95,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 10,
+          "availableData": 2,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 12,
+      "company": "寰宇超动力",
+      "id": 841,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 65,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 0,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 13.5,
+        "playerId": "player-white",
+        "cardId": "b_33.webp",
+        "cardInstanceId": "card-124-0",
+        "handIndex": 1,
+        "beforeBest": 2.6904999999999983,
+        "afterScore": 52.19738448000001,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-white",
+          "cardInstanceId": "card-124-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 1,
+            "publicity": 0,
+            "availableData": 3,
+            "aomomoFossils": 2,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 65
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 1,
+            "publicity": 0,
+            "availableData": 3,
+            "aomomoFossils": 2,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 65
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 3,
+          "aomomoFossils": 2,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 65
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 3,
+          "aomomoFossils": 2,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 65
+        }
+      },
+      "nextMain": {
+        "id": 877,
+        "round": 3,
+        "turn": 8,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 65,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "id": 1317,
+      "round": 4,
+      "turn": 7,
+      "resources": {
+        "score": 111,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 6
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-blue",
+        "cardId": "b_128.webp",
+        "cardInstanceId": "card-172-0",
+        "handIndex": 5,
+        "beforeBest": 0,
+        "afterScore": 44.7526978592,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 2,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-172-0",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 3,
+            "publicity": 5,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 1,
+            "handSize": 6,
+            "score": 111
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 5,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 1,
+            "handSize": 5,
+            "score": 111
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 6,
+          "score": 111
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 6,
+          "score": 111
+        }
+      },
+      "nextMain": {
+        "id": 1343,
+        "round": 4,
+        "turn": 8,
+        "action": "playCard",
+        "cardId": "b_128.webp",
+        "resources": {
+          "score": 111,
+          "credits": 1,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 6
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "id": 768,
+      "round": 3,
+      "turn": 2,
+      "resources": {
+        "score": 85,
+        "credits": 8,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 3,
+        "handSize": 3
+      },
+      "profile": {
+        "value": 8.4,
+        "playerId": "player-blue",
+        "cardId": "banrenma_3.webp",
+        "cardInstanceId": "alien-banrenma-3-7",
+        "handIndex": 2,
+        "beforeBest": 3.894919999999999,
+        "afterScore": 20.112930000000002,
+        "paymentValue": 8.4,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-blue",
+          "cardInstanceId": "alien-banrenma-3-7",
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "credits": 8,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 85
+          },
+          "afterPayment": {
+            "credits": 8,
+            "energy": 0,
+            "publicity": 4,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 85
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 8,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 85
+        },
+        "resourcesAfter": {
+          "credits": 8,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 85
+        }
+      },
+      "nextMain": {
+        "id": 804,
+        "round": 3,
+        "turn": 3,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 85,
+          "credits": 8,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 1,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "id": 999,
+      "round": 3,
+      "turn": 8,
+      "resources": {
+        "score": 110,
+        "credits": 4,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 1
+      },
+      "profile": {
+        "value": 4.2,
+        "playerId": "player-blue",
+        "cardId": "banrenma_2.webp",
+        "cardInstanceId": "alien-banrenma-2-9",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 8.863999999999999,
+        "paymentValue": 4.2,
+        "candidatePayment": {
+          "value": 3,
+          "playerId": "player-blue",
+          "cardInstanceId": "alien-banrenma-2-9",
+          "cost": {
+            "energy": 1
+          },
+          "before": {
+            "credits": 4,
+            "energy": 1,
+            "publicity": 1,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 110
+          },
+          "afterPayment": {
+            "credits": 4,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 110
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 4,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 110
+        },
+        "resourcesAfter": {
+          "credits": 4,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 110
+        }
+      },
+      "nextMain": {
+        "id": 1023,
+        "round": 3,
+        "turn": 9,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 110,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 1
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "id": 513,
+      "round": 2,
+      "turn": 7,
+      "resources": {
+        "score": 22,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 6.2,
+        "playerId": "player-brown",
+        "cardId": "banrenma_0.webp",
+        "cardInstanceId": "alien-banrenma-0-2",
+        "handIndex": 3,
+        "beforeBest": 0,
+        "afterScore": 6.9458,
+        "paymentValue": 6.2,
+        "candidatePayment": {
+          "value": 4.3,
+          "playerId": "player-brown",
+          "cardInstanceId": "alien-banrenma-0-2",
+          "cost": {
+            "energy": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 22
+          },
+          "afterPayment": {
+            "credits": 1,
+            "energy": 0,
+            "publicity": 4,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 22
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 22
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 22
+        }
+      },
+      "nextMain": {
+        "id": 548,
+        "round": 2,
+        "turn": 8,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 22,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "id": 948,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 75,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 4,
+        "handSize": 3
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-brown",
+        "cardId": "b_131.webp",
+        "cardInstanceId": "card-112-0",
+        "handIndex": 1,
+        "beforeBest": 0,
+        "afterScore": 21.80443232,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 7.5,
+          "playerId": "player-brown",
+          "cardInstanceId": "card-112-0",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 3,
+            "publicity": 3,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 75
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 3,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 75
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 75
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 75
+        }
+      },
+      "nextMain": {
+        "id": 980,
+        "round": 3,
+        "turn": 7,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 75,
+          "credits": 1,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 2,
+          "handSize": 3
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "id": 866,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 63,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 13.5,
+        "playerId": "player-white",
+        "cardId": "b_46.webp",
+        "cardInstanceId": "card-77-0",
+        "handIndex": 0,
+        "beforeBest": 26.782999999999998,
+        "afterScore": 42.7448695744,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-white",
+          "cardInstanceId": "card-77-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 3,
+            "publicity": 1,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 63
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 1,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 63
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 63
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 63
+        }
+      },
+      "nextMain": {
+        "id": 889,
+        "round": 3,
+        "turn": 5,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 63,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 15,
+      "company": "作弊实验室",
+      "id": 944,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 114,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 2
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-blue",
+        "cardId": "b_81.webp",
+        "cardInstanceId": "card-121-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 21.04676888,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 12.81,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-121-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 114
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 114
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 114
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 114
+        }
+      },
+      "nextMain": {
+        "id": 965,
+        "round": 3,
+        "turn": 8,
+        "action": "playCard",
+        "cardId": "b_81.webp",
+        "resources": {
+          "score": 114,
+          "credits": 2,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 1,
+          "handSize": 2
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "id": 1405,
+      "round": 4,
+      "turn": 5,
+      "resources": {
+        "score": 103,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-brown",
+        "cardId": "b_128.webp",
+        "cardInstanceId": "card-175-0",
+        "handIndex": 3,
+        "beforeBest": 0,
+        "afterScore": 29.05488096,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 2,
+          "playerId": "player-brown",
+          "cardInstanceId": "card-175-0",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 103
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 103
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 103
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 103
+        }
+      },
+      "nextMain": {
+        "id": 1435,
+        "round": 4,
+        "turn": 6,
+        "action": "playCard",
+        "cardId": "b_128.webp",
+        "resources": {
+          "score": 103,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "id": 984,
+      "round": 3,
+      "turn": 6,
+      "resources": {
+        "score": 93,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-green",
+        "cardId": "b_41.webp",
+        "cardInstanceId": "card-115-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 5.815000000000001,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 8.4,
+          "playerId": "player-green",
+          "cardInstanceId": "card-115-0",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 93
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 93
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 93
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 93
+        }
+      },
+      "nextMain": {
+        "id": 1003,
+        "round": 3,
+        "turn": 7,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 93,
+          "credits": 1,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 1,
+          "handSize": 3
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 17,
+      "company": "作弊实验室",
+      "id": 955,
+      "round": 3,
+      "turn": 5,
+      "resources": {
+        "score": 96,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 7,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-green",
+        "cardId": "b_115.webp",
+        "cardInstanceId": "card-133-0",
+        "handIndex": 3,
+        "beforeBest": 6.463299999999999,
+        "afterScore": 41.626706000000006,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 3,
+          "playerId": "player-green",
+          "cardInstanceId": "card-133-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 2,
+            "publicity": 7,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 96
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 7,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 96
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 7,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 96
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 7,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 96
+        }
+      },
+      "nextMain": {
+        "id": 988,
+        "round": 3,
+        "turn": 6,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 96,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 8,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 19,
+      "company": "宇宙大战略集团",
+      "id": 877,
+      "round": 3,
+      "turn": 4,
+      "resources": {
+        "score": 88,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 4,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 13.5,
+        "playerId": "player-brown",
+        "cardId": "aomomo_8.webp",
+        "cardInstanceId": "alien-aomomo-8-8",
+        "handIndex": 4,
+        "beforeBest": 34.816618368,
+        "afterScore": 59.272439337600005,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 29.5609904,
+          "playerId": "player-brown",
+          "cardInstanceId": "alien-aomomo-8-8",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 4,
+            "aomomoFossils": 2,
+            "additionalPublicScan": 2,
+            "handSize": 5,
+            "score": 88
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 4,
+            "aomomoFossils": 2,
+            "additionalPublicScan": 2,
+            "handSize": 4,
+            "score": 88
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 4,
+          "aomomoFossils": 2,
+          "additionalPublicScan": 2,
+          "handSize": 5,
+          "score": 88
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 4,
+          "aomomoFossils": 2,
+          "additionalPublicScan": 2,
+          "handSize": 5,
+          "score": 88
+        }
+      },
+      "nextMain": {
+        "id": 921,
+        "round": 3,
+        "turn": 5,
+        "action": "playCard",
+        "cardId": "aomomo_8.webp",
+        "resources": {
+          "score": 88,
+          "credits": 3,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 20,
+      "company": "宇宙大战略集团",
+      "id": 1513,
+      "round": 4,
+      "turn": 7,
+      "resources": {
+        "score": 97,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 9,
+        "availableData": 4,
+        "handSize": 1
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-blue",
+        "cardId": "b_108.webp",
+        "cardInstanceId": "card-157-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 10.11693427774832,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 9,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-157-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 0,
+            "publicity": 9,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 97
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 0,
+            "publicity": 9,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 97
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 9,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 97
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 0,
+          "publicity": 9,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 97
+        }
+      },
+      "nextMain": {
+        "id": 1542,
+        "round": 4,
+        "turn": 8,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 97,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 9,
+          "availableData": 3,
+          "handSize": 1
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 21,
+      "company": "寰宇超动力",
+      "id": 1438,
+      "round": 4,
+      "turn": 8,
+      "resources": {
+        "score": 182,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 12.537324244608001,
+        "playerId": "player-blue",
+        "cardId": "b_103.webp",
+        "cardInstanceId": "card-154-0",
+        "handIndex": 2,
+        "beforeBest": 13.5606,
+        "afterScore": 26.097924244608002,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 10,
+          "playerId": "player-blue",
+          "cardInstanceId": "card-154-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 1,
+            "aomomoFossils": 4,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 182
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 1,
+            "aomomoFossils": 4,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 182
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 4,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 182
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 4,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 182
+        }
+      },
+      "nextMain": {
+        "id": 1472,
+        "round": 4,
+        "turn": 9,
+        "action": "analyze",
+        "cardId": null,
+        "resources": {
+          "score": 182,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 21,
+      "company": "作弊实验室",
+      "id": 1367,
+      "round": 4,
+      "turn": 6,
+      "resources": {
+        "score": 133,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 9,
+        "playerId": "player-green",
+        "cardId": "b_83.webp",
+        "cardInstanceId": "card-122-0",
+        "handIndex": 0,
+        "beforeBest": 0,
+        "afterScore": 15.157261598703997,
+        "paymentValue": 9,
+        "candidatePayment": {
+          "value": 12.899999999999999,
+          "playerId": "player-green",
+          "cardInstanceId": "card-122-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 2,
+            "aomomoFossils": 3,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 133
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 2,
+            "aomomoFossils": 3,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 133
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 2,
+          "aomomoFossils": 3,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 133
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 2,
+          "aomomoFossils": 3,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 133
+        }
+      },
+      "nextMain": {
+        "id": 1406,
+        "round": 4,
+        "turn": 7,
+        "action": "playCard",
+        "cardId": "b_67.webp",
+        "resources": {
+          "score": 133,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 1,
+          "handSize": 5
+        }
+      },
+      "sameCard": false
+    },
+    {
+      "case": 22,
+      "company": "作弊实验室",
+      "id": 1130,
+      "round": 3,
+      "turn": 11,
+      "resources": {
+        "score": 97,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "profile": {
+        "value": 13.5,
+        "playerId": "player-green",
+        "cardId": "b_21.webp",
+        "cardInstanceId": "card-140-0",
+        "handIndex": 2,
+        "beforeBest": 26.047925058528005,
+        "afterScore": 60.02319286562462,
+        "paymentValue": 13.5,
+        "candidatePayment": {
+          "value": 9,
+          "playerId": "player-green",
+          "cardInstanceId": "card-140-0",
+          "cost": {
+            "credits": 3
+          },
+          "before": {
+            "credits": 3,
+            "energy": 1,
+            "publicity": 1,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 5,
+            "score": 97
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 1,
+            "publicity": 1,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 97
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 2,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 97
+        },
+        "resourcesAfter": {
+          "credits": 3,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 97
+        }
+      },
+      "nextMain": {
+        "id": 1137,
+        "round": 3,
+        "turn": 12,
+        "action": "playCard",
+        "cardId": "b_21.webp",
+        "resources": {
+          "score": 97,
+          "credits": 3,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 6
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 23,
+      "company": "宇宙大战略集团",
+      "id": 516,
+      "round": 2,
+      "turn": 10,
+      "resources": {
+        "score": 65,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 2,
+        "handSize": 2
+      },
+      "profile": {
+        "value": 12,
+        "playerId": "player-green",
+        "cardId": "amiba_9.webp",
+        "cardInstanceId": "alien-amiba-9-5",
+        "handIndex": 1,
+        "beforeBest": 0,
+        "afterScore": 15.192448836735997,
+        "paymentValue": 12,
+        "candidatePayment": {
+          "value": 10.5875,
+          "playerId": "player-green",
+          "cardInstanceId": "alien-amiba-9-5",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 65
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 65
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 65
+        },
+        "resourcesAfter": {
+          "credits": 2,
+          "energy": 0,
+          "publicity": 0,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 65
+        }
+      },
+      "nextMain": {
+        "id": 523,
+        "round": 2,
+        "turn": 10,
+        "action": "playCard",
+        "cardId": "amiba_9.webp",
+        "resources": {
+          "score": 65,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 2
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 23,
+      "company": "作弊实验室",
+      "id": 852,
+      "round": 3,
+      "turn": 8,
+      "resources": {
+        "score": 72,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "profile": {
+        "value": 4.5,
+        "playerId": "player-brown",
+        "cardId": "amiba_2.webp",
+        "cardInstanceId": "alien-amiba-2-6",
+        "handIndex": 2,
+        "beforeBest": 0,
+        "afterScore": 20.365812,
+        "paymentValue": 4.5,
+        "candidatePayment": {
+          "value": 8.6,
+          "playerId": "player-brown",
+          "cardInstanceId": "alien-amiba-2-6",
+          "cost": {
+            "credits": 1
+          },
+          "before": {
+            "credits": 1,
+            "energy": 0,
+            "publicity": 2,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 72
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 0,
+            "publicity": 2,
+            "availableData": 3,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 72
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 72
+        },
+        "resourcesAfter": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 72
+        }
+      },
+      "nextMain": {
+        "id": 870,
+        "round": 3,
+        "turn": 8,
+        "action": "playCard",
+        "cardId": "amiba_2.webp",
+        "resources": {
+          "score": 72,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 2,
+          "handSize": 3
+        }
+      },
+      "sameCard": true
+    },
+    {
+      "case": 24,
+      "company": "作弊实验室",
+      "id": 994,
+      "round": 3,
+      "turn": 7,
+      "resources": {
+        "score": 84,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 7,
+        "availableData": 1,
+        "handSize": 2
+      },
+      "profile": {
+        "value": 3.9395412000000007,
+        "playerId": "player-brown",
+        "cardId": "banrenma_5.webp",
+        "cardInstanceId": "alien-banrenma-5-2",
+        "handIndex": 0,
+        "beforeBest": 9.4550088,
+        "afterScore": 13.39455,
+        "paymentValue": 8.4,
+        "candidatePayment": {
+          "value": 3,
+          "playerId": "player-brown",
+          "cardInstanceId": "alien-banrenma-5-2",
+          "cost": {
+            "energy": 2
+          },
+          "before": {
+            "credits": 4,
+            "energy": 2,
+            "publicity": 7,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 84
+          },
+          "afterPayment": {
+            "credits": 4,
+            "energy": 0,
+            "publicity": 7,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 84
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "resourcesBefore": {
+          "credits": 4,
+          "energy": 1,
+          "publicity": 7,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 84
+        },
+        "resourcesAfter": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 7,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 84
+        }
+      },
+      "nextMain": {
+        "id": 1017,
+        "round": 3,
+        "turn": 8,
+        "action": "researchTech",
+        "cardId": null,
+        "resources": {
+          "score": 88,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 2
+        }
+      },
+      "sameCard": false
+    }
+  ]
+}

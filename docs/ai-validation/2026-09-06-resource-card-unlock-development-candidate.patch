@@ -1,0 +1,259 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 41ebb1c3..e6425fae 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -3941,6 +3941,35 @@
+       return roundAiScore(Math.min(12, Math.max(0, best)));
+     }
+ 
++    let aiResourceCardUnlockDepth = 0;
++
++    function getAiResourceCardUnlockProfile(gain, player = getCurrentPlayer()) {
++      if (!player || aiResourceCardUnlockDepth > 0) return { value: 0, reason: "nested-or-no-player" };
++      if ((turnState.passedPlayerIds || []).includes(player.id)) return { value: 0, reason: "already-passed" };
++      const projected = createAiPlayerAfterResourceGain(player, gain);
++      const newlyAffordable = (player.hand || []).map((card, handIndex) => ({ card, handIndex }))
++        .filter(({ card }) => !players.canAfford(player, getCardPlayCost(card))
++          && players.canAfford(projected, getCardPlayCost(card)));
++      if (!newlyAffordable.length) return { value: 0, reason: "no-newly-affordable-card" };
++      aiResourceCardUnlockDepth += 1;
++      aiResourceContinuationDepth += 1;
++      try {
++        const beforeBest = listAiPlayCardCandidates(player).reduce((best,candidate)=>Math.max(best,aiNumber(candidate.score)),0);
++        const candidates = newlyAffordable.map(({card,handIndex}) => {
++          const candidate = buildAiPlayCardCandidate(card,handIndex,projected);
++          if (!candidate) return null;
++          const improvement = Math.max(0,aiNumber(candidate.score)-beforeBest);
++          const paymentValue = Math.max(0,scoreAiResourceBundle(getCardPlayCost(card)));
++          return { value: Math.min(improvement,paymentValue), playerId: player.id,
++            cardId: candidate.cardId, cardInstanceId: card.id, handIndex,
++            beforeBest, afterScore: candidate.score, paymentValue,
++            candidatePayment: candidate.valueBreakdown?.paymentEffectValuation || null,
++            resourcesBefore: { ...player.resources }, resourcesAfter: { ...projected.resources } };
++        }).filter(Boolean).sort((a,b)=>b.value-a.value);
++        return candidates[0] || { value: 0, reason: "effects-not-executable" };
++      } finally { aiResourceCardUnlockDepth -= 1; aiResourceContinuationDepth -= 1; }
++    }
++
+     function scoreAiMidgameResourceContinuationValue(gain = {}, player = getCurrentPlayer(), options = {}) {
+       if (!gain || typeof gain !== "object" || !player) return 0;
+       const weight = getAiMidgameResourceContinuationWeight();
+@@ -3966,15 +3995,11 @@
+         const publicityGain = Math.max(0, aiNumber(gain.publicity));
+         const dataGain = Math.max(0, aiNumber(gain.availableData));
+ 
+-        if (creditGain > 0 && aiNumber(resources.credits) < 1 && aiNumber(afterResources.credits) >= 1) {
+-          const playableHand = (player.hand || []).filter(isAiSupportedHandPlayCard).length;
+-          const deficit = Math.max(0, getAiLiveScorePaceDeficit(player));
+-          value += Math.min(
+-            7,
+-            (2.4 + Math.min(4, playableHand * 0.75) + Math.min(2, deficit * 0.04)) * mainActionScale,
+-          );
+-        }
+-
++        if (creditGain > 0 || energyGain > 0) {
++          const cardUnlock = getAiResourceCardUnlockProfile(gain, player);
++          value += Math.min(7, Math.max(0, cardUnlock.value) * mainActionScale);
++        }
++
+         if (handGain > 0 && (player.hand || []).length <= 2) {
+           value += Math.min(5.5, 1.7 + Math.max(0, 3 - (player.hand || []).length) * 1.1) * mainActionScale;
+         }
+@@ -12697,6 +12722,41 @@
+       return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
+     }
+ 
++    let aiPaidCardEffectValuationDepth = 0;
++
++    function buildAiPaidCardEffectValuation(card, playEffects, player = getCurrentPlayer(), cost = getCardPlayCost(card)) {
++      if (!player || aiPaidCardEffectValuationDepth > 1
++        || (aiPaidCardEffectValuationDepth > 0 && aiResourceCardUnlockDepth <= 0)
++        || !players.canAfford(player, cost)) return null;
++      const hand = player.hand || [];
++      const handIndex = hand.findIndex((entry) => entry === card || (card?.id && entry?.id === card.id));
++      // Public-card and unaffordable future valuations retain their existing horizon.
++      if (handIndex < 0) return null;
++      const projected = cloneAiValue(player);
++      projected.hand.splice(handIndex, 1);
++      projected.resources = { ...(projected.resources || {}), handSize: projected.hand.length };
++      for (const [key, amount] of Object.entries(cost || {})) {
++        projected.resources[key] = aiNumber(projected.resources[key]) - aiNumber(amount);
++      }
++      aiPaidCardEffectValuationDepth += 1;
++      try {
++        const value = (playEffects || []).reduce((total, effect) => (
++          total + scoreAiEffectValue(effect, { player: projected, immediate: true })
++        ), 0);
++        return {
++          value,
++          playerId: player.id,
++          cardInstanceId: card.id || null,
++          cost: { ...cost },
++          before: { ...player.resources, handSize: hand.length },
++          afterPayment: { ...projected.resources },
++          scope: "payment-and-hand-only; board, passives and preceding effect rewards are not simulated",
++        };
++      } finally {
++        aiPaidCardEffectValuationDepth -= 1;
++      }
++    }
++
+     function scoreAiPlayCardValue(card, details = {}) {
+       const player = details.player || getCurrentPlayer();
+       const model = details.model || cardEffects.getCardModel?.(card) || null;
+@@ -12707,7 +12767,9 @@
+       const reservesAfterPlay = details.reservesAfterPlay ?? (
+         [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay)
+       );
+-      const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
++      const effectValue = details.effectValue
++        ?? buildAiPaidCardEffectValuation(card, playEffects, player, cost)?.value
++        ?? playEffects.reduce((total, effect) => (
+         total + scoreAiEffectValue(effect, { player, immediate: true })
+       ), 0);
+       const hasPersistentModeledValue = Boolean(
+@@ -19019,7 +19081,8 @@
+         readyTaskCashout,
+         currentPlayer,
+       );
+-      const effectValue = valuationPlayEffects.reduce((total, effect) => (
++      const paymentEffectValuation = buildAiPaidCardEffectValuation(card, valuationPlayEffects, currentPlayer, cost);
++      const effectValue = paymentEffectValuation?.value ?? valuationPlayEffects.reduce((total, effect) => (
+         total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
+       ), 0);
+       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
+@@ -19204,7 +19267,8 @@
+           costValue: scoreAiResourceBundle(cost),
+           cornerOpportunity: scoreAiCardCornerOpportunity(card),
+           directScoreGain,
+-          effectValue,
++          effectValue,
++          paymentEffectValuation,
+           strategyPassivePlayValue,
+           grandStrategyCreditBottleneckPenalty,
+           finalSelfBlockingPublicityTrap,
+@@ -20495,6 +20559,11 @@
+       return (check.choices || data.listPlaceDataChoices?.(player) || [])
+         .map((choice, index) => {
+           const creditPreserveProfile = getAiFinalHighScoreDataCreditPreserveProfile(choice, player);
++          const resourceGain = getAiDataPlacementBonuses(choice, player).reduce((gain, bonus) => ({
++            credits: gain.credits + aiNumber(bonus.credits), energy: gain.energy + aiNumber(bonus.energy),
++          }), { credits: 0, energy: 0 });
++          const resourceCardUnlock = resourceGain.credits > 0 || resourceGain.energy > 0
++            ? getAiResourceCardUnlockProfile(resourceGain, player) : null;
+           return {
+             id: "placeData",
+             kind: "quick",
+@@ -20506,7 +20575,8 @@
+             description: choice.description || null,
+             directScoreGain: getAiDataPlacementDirectScoreGain(choice, player),
+             score: scoreAiDataPlacementChoice(choice, player) - index * 0.05,
+-            valueBreakdown: creditPreserveProfile ? {
++            valueBreakdown: creditPreserveProfile || resourceCardUnlock ? {
++              resourceCardUnlock,
+               finalHighScoreDataCreditPreserve: creditPreserveProfile,
+             } : null,
+           };
+@@ -26712,6 +26782,11 @@
+       configureDefaultAiOpponent,
+       createAiControlSnapshot,
+       estimateAiJiuzheCardCompletionFactor,
++      getAiResourceCardUnlockProfile,
++      buildAiPlayCardCandidate,
++      scoreAiMidgameResourceContinuationValue,
++      buildAiPaidCardEffectValuation,
++      scoreAiEffectValue,
+       getAiEarlyDirectScorePlayPassFloor,
+       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
+       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index ec5c22af..18a27808 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -559,7 +559,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
+       const playerColor = pending?.targetPlayerColor || pending?.playerColor || options.alienTracePlayerColor || null;
+       return allPlayers.find((player) => player.id === playerId || player.color === playerColor) || null;
+     },
+-    getCardPlayCost: (card) => (card?.price ? { credits: card.price } : {}),
++    getCardPlayCost: options.getCardPlayCost || ((card) => (card?.price ? { credits: card.price } : {})),
+     getCardPrice: (card) => card?.price || 0,
+     getCardTypeCode: (card) => (typeof options.getCardTypeCode === "function"
+       ? options.getCardTypeCode(card)
+@@ -17109,3 +17109,64 @@ runAsyncControllerTests()
+     console.error(error);
+     process.exitCode = 1;
+   });
++
++{
++  const card = { id: "payment-projection-card", price: 3, typeCode: 0 };
++  const other = { id: "retained-card", price: 1 };
++  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", realisticCanAfford: true, blueHand: [card, other], blueResources: { credits: 3, energy: 2, handSize: 2 } });
++  const effects = [{ type: "gain_resources", options: { gain: { credits: 1 } } }];
++  const before = JSON.stringify(h.blue);
++  const profile = h.controller.buildAiPaidCardEffectValuation(card, effects, h.blue, { credits: 3 });
++  assert.equal(profile.afterPayment.credits, 0);
++  assert.equal(profile.afterPayment.energy, 2);
++  assert.equal(profile.afterPayment.handSize, 1);
++  const expectedPlayer = JSON.parse(before);
++  expectedPlayer.resources.credits = 0;
++  expectedPlayer.resources.handSize = 1;
++  expectedPlayer.hand = [other];
++  assert.equal(profile.value, h.controller.scoreAiEffectValue(effects[0], { player: expectedPlayer, immediate: true }),
++    "resource continuation must start after the actual card payment and hand removal");
++  assert.equal(JSON.stringify(h.blue), before, "payment valuation cannot spend real resources or remove real cards");
++  assert.equal(h.controller.buildAiPaidCardEffectValuation({ id: "public-card" }, effects, h.blue, { credits: 1 }), null);
++  assert.equal(h.controller.buildAiPaidCardEffectValuation(card, effects, h.blue, { credits: 4 }), null);
++  const foreign = h.controller.buildAiPaidCardEffectValuation(other, effects, expectedPlayer, { credits: 0 });
++  assert.equal(foreign.afterPayment.handSize, 0);
++  assert.equal(foreign.afterPayment.credits, 0);
++}
++
++{
++  const card = { id:"unlock-two-credit", cardId:"unlock-two-credit", price:2, typeCode:0,
++    playEffects:[{type:"gain_resources",options:{gain:{score:30}}}] };
++  const h = createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
++    blueHand:[card],blueResources:{credits:1,energy:0,handSize:1}});
++  const before=JSON.stringify(h.blue);
++  const p=h.controller.getAiResourceCardUnlockProfile({credits:1},h.blue);
++  assert.equal(p.cardInstanceId,card.id);assert.ok(p.value>0);assert.equal(p.resourcesAfter.credits,2);
++  assert.equal(p.candidatePayment.afterPayment.credits,0);
++  assert.equal(p.candidatePayment.afterPayment.handSize,0);
++  assert.equal(JSON.stringify(h.blue),before);
++  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:0},h.blue).value,0);
++  h.blue.resources.credits=0;
++  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:1},h.blue).value,0,"zero-to-one is not a card unlock when the card costs two");
++  h.blue.hand=[];
++  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:2},h.blue).value,0);
++  h.blue.hand=[{...card,playEffects:[{type:cardEffects.EFFECT_TYPES.REMOVE_PLANET_MARKER}]}];
++  assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:2},h.blue).value,0,"unavailable effects cannot promise another action");
++}
++
++{
++ const card={id:"passed-unlock",price:2,typeCode:0,playEffects:[{type:"gain_resources",options:{gain:{score:30}}}]};
++ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,blueHand:[card],blueResources:{credits:1,energy:0}});
++ h.turnState.passedPlayerIds=[h.blue.id];
++ assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:1},h.blue).value,0);
++}
++
++{
++ const card={id:"energy-priced-card",price:2,typeCode:0,playEffects:[{type:"gain_resources",options:{gain:{score:30}}}]};
++ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
++  getCardPlayCost:card=>({energy:card.price}),whiteHand:[card],whiteResources:{credits:0,energy:1,handSize:1}});
++ const p=h.controller.getAiResourceCardUnlockProfile({energy:1},h.white);
++ assert.ok(p.value>0);assert.equal(p.playerId,h.white.id);
++ assert.equal(p.candidatePayment.afterPayment.energy,0);
++ assert.equal(h.controller.getAiResourceCardUnlockProfile({credits:2},h.white).value,0);
++}
+diff --git a/randomizer/index.html b/randomizer/index.html
+index 2a26e11e..898efcea 100644
+--- a/randomizer/index.html
++++ b/randomizer/index.html
+@@ -798,7 +798,7 @@
+   <script src="./app/events.js?v=same-seed-restart-1"></script>
+   <script src="./app/action-log-export.js?v=action-log-export-2"></script>
+   <script src="./app/public-api.js?v=app-boundaries-5"></script>
+-  <script src="./app/ai-controller.js?v=ai-planet-query-performance-1"></script>
++  <script src="./app/ai-controller.js?v=resource-card-unlock-20260906"></script>
+   <script src="./app.js?v=alien-pick-owner-20260906"></script>
+ </body>
+ </html>
