@@ -23232,7 +23232,8 @@
       const available = Math.max(0, aiNumber(player.resources?.availableData));
       const targets = [1, 2, 3, 4].map(blueSlot => {
         const tileId = data.getBlueTechTileInBoardSlot?.(player, blueSlot);
-        if (!["blue1", "blue2"].includes(tileId) || data.isBlueBonusSlotOccupied?.(player, blueSlot)) return null;
+        if (!["blue1", "blue2"].includes(tileId)
+          || (data.listBlueBonusPlacedTokens?.(player) || []).some(token => Number(token.blueSlot) === blueSlot)) return null;
         const required = data.getRequiredComputerSlotForBlueBonus?.(blueSlot);
         if (!required) return null;
         const dataNeeded = Math.max(0, required - placed) + 1;

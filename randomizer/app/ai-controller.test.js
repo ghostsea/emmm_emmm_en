@@ -17128,7 +17128,7 @@ runAsyncControllerTests()
       data: { ANALYZE_REQUIRED_COMPUTER_SLOT: 6, ANALYZE_ENERGY_COST: 1,
         listComputerPlacedTokens: () => Array.from({ length: placed }, (_, i) => ({ placementSlot: i + 1 })),
         getBlueTechTileInBoardSlot: (_player, slot) => slot === 1 ? tileId : null,
-        isBlueBonusSlotOccupied: () => occupied, getRequiredComputerSlotForBlueBonus: () => required,
+        listBlueBonusPlacedTokens: () => occupied ? [{ blueSlot: 1 }] : [], getRequiredComputerSlotForBlueBonus: () => required,
         getNextReplaceableNebulaToken: () => ({ slotIndex: 0 }), getNebulaCapacity: () => 3,
         getNebulaSlotScoreReward: () => 0, getNebulaColor: () => "blue", listNebulaTokens: () => [],
         listSectorExtraMarks: () => [], getSectorTokenStats: () => ({}) },
@@ -17144,6 +17144,8 @@ runAsyncControllerTests()
     return scan.valueBreakdown.huanyuBlueResourceScan;
   };
   assert.equal(inspectBlueScanFlow().targets[0].dataNeeded, 2);
+  assert.equal(typeof require("../game/data").listBlueBonusPlacedTokens, "function",
+    "the occupancy check must use a public runtime data API");
   assert.equal(inspectBlueScanFlow({ tileId: "blue2" }).targets[0].tileId, "blue2");
   for (const options of [{ company: "作弊实验室" }, { round: 4 }, { energy: 2 }, { occupied: true },
     { availableData: 2 }, { placed: 6 }, { hasEarth: false }, { hasPublic: false }, { tileId: "blue3" }, { required: 3 }]) {
