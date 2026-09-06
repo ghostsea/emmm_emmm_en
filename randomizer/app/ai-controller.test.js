@@ -17109,3 +17109,42 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+ const card={...fangzhou.createCard2Definition("pink",2),id:"fangzhou-free-basic",faceUp:true};
+ const alien={aliens:{1:{revealed:true,alienId:"方舟"}},fangzhou:{...fangzhou.createFangzhouState(),card1Revealed:[1,2,3,4],card1RevealedSinceShuffle:4}};
+ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
+  blueHand:[card],blueResources:{credits:0,energy:0,score:60,handSize:1},alienGameState:alien});
+ const before=JSON.stringify({player:h.blue,alien});
+ const candidate=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue);
+ assert.ok(candidate,"an unaffordable Fangzhou card can still yield a valuable basic reward as a quick action");
+ assert.equal(candidate.id,"cardCorner");assert.equal(candidate.actionKind,"fangzhou_basic");
+ assert.equal(candidate.directScoreGain,0,"unknown rewards are not guaranteed score");
+ assert.equal(candidate.valueBreakdown.fangzhouBasicReward.afterDiscard.handSize,0);
+ assert.equal(JSON.stringify({player:h.blue,alien}),before,"preview does not discard, flip, or shuffle");
+ alien.fangzhou.card1Deck=[8,7,6,5,0];
+ assert.equal(h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue).score,candidate.score,"hidden deck order cannot affect choice");
+ h.turnState.passedPlayerIds=[h.blue.id];
+ assert.equal(h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue),null);
+}
+
+{
+ const card={...fangzhou.createCard2Definition("pink",2),id:"fangzhou-basic-route",faceUp:true};
+ const alien={aliens:{1:{revealed:true,alienId:"方舟"}},fangzhou:{...fangzhou.createFangzhouState(),card1Revealed:[1,2,3,4],card1RevealedSinceShuffle:4}};
+ const choices=[];
+ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
+  canStartMainAction:true,recordCardCorner:true,industry:industryModule,blueHand:[card],blueResources:{credits:0,energy:0,score:60,handSize:1},alienGameState:alien,
+  chooseTurnAction:cs=>cs.find(c=>c.actionKind==="fangzhou_basic")||null,
+  onChooseTurnAction:cs=>choices.push(...cs)});
+ h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+ const step=h.controller.runAiAutomationStep();
+ assert.ok(choices.some(c=>c.actionKind==="fangzhou_basic"),"Fangzhou basic reward must enter top-level quick-action candidates");
+ assert.equal(step.ok,true);assert.deepEqual(h.getHandled(),{type:"card-corner",handIndex:0,confirmed:true});
+ h.blue.initialSelection={industry:{label:"原教旨主义"}};
+ const doubled=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue);
+ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.count,2);
+ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.rewards[0].indexes.length,5);
+ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.rewards[1].indexes.length,9,"second reward reshuffles after the fifth flip");
+ const preserve=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue,{playCandidateByIndex:new Map([[0,{score:200}]])});
+ assert.equal(preserve,null,"valuable playable cards retain their opportunity cost");
+}

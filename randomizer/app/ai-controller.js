@@ -19444,7 +19444,47 @@
       ));
     }
 
+    function buildAiFangzhouCornerQuickCandidate(card, handIndex, player, options = {}) {
+      if (!fangzhou?.isFangzhouCard2?.(card) || player?.hand?.[handIndex] !== card) return null;
+      if ((turnState.passedPlayerIds || []).includes(player.id)) return null;
+      const projected = cloneAiValue(player);
+      projected.hand.splice(handIndex, 1);
+      projected.resources.handSize = Math.max(0, aiNumber(projected.resources.handSize) - 1);
+      // Average the publicly inferable remaining set; never use the hidden next-card order.
+      const allIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+      const revealed = new Set(alienGameState.fangzhou?.card1Revealed || []);
+      const sinceShuffle = Math.max(0, aiNumber(alienGameState.fangzhou?.card1RevealedSinceShuffle));
+      const threshold = fangzhou.CARD1_RESHUFFLE_THRESHOLD || 5;
+      const remaining = allIndexes.filter(index => !revealed.has(index));
+      const firstIndexes = sinceShuffle >= threshold || !remaining.length ? allIndexes : remaining;
+      const count = industry?.shouldDoubleDiscardCornerRewards?.(player) ? 2 : 1;
+      const pools = [firstIndexes];
+      if (count === 2) pools.push(sinceShuffle >= threshold || sinceShuffle + 1 >= threshold ? allIndexes : firstIndexes);
+      const rewards = pools.map(indexes => ({ indexes,
+        meanValue: indexes.reduce((total, index) => total + scoreAiFangzhouCard1EffectValue(
+          fangzhou.getCard1Effect(index, "basic"), projected), 0) / indexes.length,
+      }));
+      const rewardValue = rewards.reduce((sum, reward) => sum + reward.meanValue, 0);
+      const playCandidate = options.playCandidateByIndex?.get(handIndex) || null;
+      const discardCost = getAiDiscardedCardOpportunityCost(card, playCandidate);
+      const income = cards.getIncomeGainForCard?.(card);
+      const incomePreserve = income ? Math.max(0, scoreAiIncomeOpportunityValue(player, income)) * 0.2 : 0;
+      const opportunityCost = Math.max(discardCost, incomePreserve);
+      const score = rewardValue - opportunityCost;
+      if (score <= 0) return null;
+      return { id: "cardCorner", kind: "quick", available: true, handIndex,
+        cardId: card.cardId || card.id, cardInstanceId: card.id,
+        cardLabel: getAiCardDisplayLabel({ card, cardId: card.cardId || card.id }, player),
+        actionKind: "fangzhou_basic", directScoreGain: 0,
+        gain: rewardValue, cost: opportunityCost, score, finalFormulaDeltas: {},
+        valueBreakdown: { rewardValue, discardCost, incomePreserve, opportunityCost,
+          fangzhouBasicReward: { count, rewards, afterDiscard: { ...projected.resources },
+            scope: "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation" } },
+      };
+    }
+
     function buildAiCardCornerQuickCandidate(card, handIndex, currentPlayer, options = {}) {
+      if (fangzhou?.isFangzhouCard2?.(card)) return buildAiFangzhouCornerQuickCandidate(card, handIndex, currentPlayer, options);
       if (!card) return null;
       const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
       if (moveReward && !canAiUseCardCornerMoveThisTurn(currentPlayer?.id)) return null;
@@ -26701,6 +26741,7 @@
 
     return {
       aiNumber,
+      buildAiFangzhouCornerQuickCandidate,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,
       applyAiStrategyWeight,
