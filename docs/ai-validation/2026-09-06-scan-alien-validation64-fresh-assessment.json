@@ -1,0 +1,94 @@
+{
+  "baseline": "620cf156ab3afdefa08edcd6a1eee99a51497db9",
+  "candidate": "395fb359764e98e89830204505317b2c96192291",
+  "pairs": 64,
+  "meanDelta": 2.5625,
+  "standardError": 1.7601480846116058,
+  "approx95Interval": [
+    -0.887390245838747,
+    6.012390245838747
+  ],
+  "highQuartileDelta": 1.609375,
+  "winnerMeanDelta": 1.125,
+  "lowPerGameDelta": 0.53125,
+  "companies": {
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 252.3515625,
+      "candidate": 252.75,
+      "meanDelta": 0.3984375,
+      "minimumDelta": 13
+    },
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 195.8125,
+      "candidate": 193.984375,
+      "meanDelta": -1.828125,
+      "minimumDelta": -24
+    },
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 198.921875,
+      "candidate": 210.203125,
+      "meanDelta": 11.28125,
+      "minimumDelta": -14
+    }
+  },
+  "resources": {
+    "mainActions": {
+      "baseline": 35.20703125,
+      "candidate": 35.3046875
+    },
+    "mainPerCreditEnergySpent": {
+      "baseline": 0.6862728752674421,
+      "candidate": 0.686055522995153
+    },
+    "analysis": {
+      "baseline": 3.91015625,
+      "candidate": 4.03125
+    },
+    "fullCycles": {
+      "baseline": 2.91015625,
+      "candidate": 3.03125
+    },
+    "blue1": {
+      "baseline": 1.67578125,
+      "candidate": 1.74609375
+    },
+    "blue2": {
+      "baseline": 1.41796875,
+      "candidate": 1.4296875
+    }
+  },
+  "decision": "Do not merge into original default scoring: overall +10 not achieved, small fresh mean improvement remains uncertain, Huanyu regressed, and maximum baseline seat404 fell to307. Preserve full evidence and candidate for company-specific development. All64 seeds become seen; later acceptance requires new seeds after freeze.",
+  "accepted": false,
+  "runtimeAudit": {
+    "games": 128,
+    "normalTerminals": 128,
+    "bugs": 0,
+    "reconciledSeats": 512,
+    "scanTargetPreviews": 348,
+    "scanTargetMatches": 348,
+    "probeScanPlays": 77,
+    "probeScanExecuted": 77,
+    "movingProbePreviews": 46,
+    "movingDataAndSlotScoreMatches": 46,
+    "fangzhouQuick": 138,
+    "fangzhouIdentityAndRewardIssues": 0,
+    "runezuQuick": 35,
+    "runezuRewardMatches": 35
+  },
+  "extremeScores": {
+    "baselineMaximum": 404,
+    "candidateMaximum": 344,
+    "baselineMaximumSeat": {
+      "case": 22,
+      "company": "作弊实验室",
+      "playerId": "player-green",
+      "baseline": 404,
+      "candidate": 307,
+      "delta": -97
+    },
+    "note": "Distribution maxima can belong to different seats; individual paired delta is separately reported."
+  }
+}
