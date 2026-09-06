@@ -17130,8 +17130,20 @@ runAsyncControllerTests()
   assert.equal(make([{ id: 3, playerId: "player-blue" }]).controller.canAiResolvePlayCardEffects([effect]).ok, false);
   const any = cardEffects.getCardModel({ cardId: "b_50.webp" }).playEffects[0];
   assert.equal(make([rival]).controller.canAiResolvePlayCardEffects([any]).ok, true);
-  const adjacent = cardEffects.getCardModel({ cardId: "b_58.webp" }).playEffects[0];
+  const adjacent = cardEffects.getCardModel({ cardId: "b_58.webp" }).playEffects.find(e => e.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN);
   assert.equal(make([own], 1).controller.canAiResolvePlayCardEffects([adjacent]).ok, false);
   assert.deepEqual(h.controller.getAiPlayableProbeScanProfile(effect, h.white).rocketIds, [2]);
   assert.equal(JSON.stringify(h.blue), before);
+}
+
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", techCounts: { orange: 0, purple: 0, blue: 0 },
+    rocketState: { rockets: [{ id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } }, { id: 2, playerId: "player-white", sector: { x: 4, y: 2 } }] },
+    buildSectorScanChoicesForX: x => [{ nebulaId: "sector-" + x, sectorX: x }],
+  });
+  for (const [cardId, expected] of [["b_22.webp", 9], ["b_50.webp", 9], ["b_58.webp", 13.5], ["b_96.webp", 9]]) {
+    const effect = cardEffects.getCardModel({ cardId }).playEffects.find(e => e.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN);
+    assert.equal(h.controller.scoreAiEffectValue(effect, { player: h.blue, immediate: true }), expected,
+      "actual probe-scan model must count selected targets, adjacency and repeat with its data flag");
+  }
 }

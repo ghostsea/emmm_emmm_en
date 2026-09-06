@@ -10796,6 +10796,12 @@
       const effectOptions = effect.options || {};
       const player = options.player || getCurrentPlayer();
       switch (type) {
+        case cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN: {
+          const profile = getAiPlayableProbeScanProfile(effect, player);
+          if (!profile) return 0;
+          return profile.sectorXs.length * profile.repeat * (profile.gainData ? 4.5 : 3)
+            + getAiTechCountForPlayer(player) * 0.75;
+        }
         case planetRewards.EFFECT_TYPES?.GAIN_RESOURCES:
         case "gain_resources": {
           const gain = effectOptions.gain || {};
@@ -12328,7 +12334,8 @@
           );
         }
         if (
-          type === cardEffects.EFFECT_TYPES.PUBLIC_SCAN
+          type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN
+          || type === cardEffects.EFFECT_TYPES.PUBLIC_SCAN
           || type === cardEffects.EFFECT_TYPES.HAND_SCAN
           || type === cardEffects.EFFECT_TYPES.SECTOR_X_SCAN
           || type === cardEffects.EFFECT_TYPES.PLANET_SECTOR_SCAN
@@ -26744,6 +26751,7 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      scoreAiEffectValue,
       getAiPlayableProbeScanProfile,
       canAiResolvePlayCardEffects,
       getAiEarlyDirectScorePlayPassFloor,
