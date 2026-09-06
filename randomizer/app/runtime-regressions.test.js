@@ -1485,6 +1485,40 @@ assert.ok(
   assert.deepEqual(player.resources, beforeResources);
 }
 
+for (const [name, type, label] of [
+  ["openChongRewardFollowUps", "chong_pick_card", "虫族"],
+  ["openAmibaRewardFollowUps", "amiba_pick_card", "阿米巴"],
+]) {
+  const owner = { id: "player-green" };
+  let selection = null;
+  const open = loadNamedFunction(name, { beginCardSelection: value => { selection = value; } });
+  assert.equal(open({ reward: { pickCard: true } }, owner, { type: "planet_reward_alien_trace" }), true);
+  assert.equal(selection.type, type, "the reward must retain the species that granted it");
+  assert.equal(selection.player, owner);
+  assert.equal(selection.fromEffectFlow, true);
+  const currentEffect = {};
+  let completed = 0;
+  let irreversible = 0;
+  const finalize = loadNamedFunction("finalizeCardSelectionResult", {
+    pendingCardSelectionAction: selection,
+    cardState: {}, rocketState: { statusNote: "" },
+    cards: { setSelectionActive: () => {}, getCardLabel: card => card.label },
+    markCurrentActionIrreversible: () => { irreversible += 1; },
+    getCurrentActionEffect: () => currentEffect,
+    completeCurrentActionEffect: () => { completed += 1; },
+    ensurePublicCardsFilledRespectingDelayedRefills: () => {},
+    syncCardSelectionChrome: () => {}, renderPublicCards: () => {}, renderPlayerStats: () => {},
+    updateActionButtons: () => {}, maybeContinuePendingTurnEndRevealFlow: () => {}, renderStateReadout: () => {},
+  });
+  const result = { ok: true, card: { id: "picked-card", label: "普通公共牌" } };
+  assert.equal(finalize(result), result);
+  assert.equal(currentEffect.result.message, `${label}奖励精选：普通公共牌`);
+  assert.equal(currentEffect.result.payload.card, result.card);
+  assert.equal(currentEffect.result.irreversible.code, "hidden_card_reveal");
+  assert.equal(completed, 1, "the source effect must finish exactly once");
+  assert.equal(irreversible, 1);
+}
+
 {
   function exerciseDataReward(initialData, count, { skipFirst = false, fullComputer = false, source = "direct" } = {}) {
     const player = { id: "data-owner", name: "奖励归属玩家", resources: { availableData: 0, aomomoFossils: 2 },

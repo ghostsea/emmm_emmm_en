@@ -4,6 +4,8 @@
 
 ## 机制入口
 
+- 阿米巴普通公共牌精选必须使用 `amiba_pick_card`，后续确认/取消及日志保持阿米巴来源；不得复用虫族的选择类型。
+
 - 代码入口：`randomizer/game/aliens/amiba.js`。
 - 状态挂载：`alienGameState.amiba`。
 - 主要字段：`revealedSlotId`、`traceSlotsByAlienSlotId`、`symbolSlots`、`symbolsById`、`cardDeck`、`displayedCardIndex`。

@@ -9,6 +9,16 @@ assert.equal(flow.findAlienIdInLogText("虫族奖励：获得虫3"), "虫");
 assert.equal(flow.findAlienIdInLogText("半人马奖励：获得卡牌，公共区已补牌：水熊虫研究"), "半人马");
 
 {
+  const solarPanelText = "每个己方太阳系探测器或虫族搬运化石：1能量：2 个探测器，获得 2；资源：能量+2";
+  assert.equal(flow.findAlienIdInLogText(solarPanelText), null,
+    "an eligible token kind in an ordinary card rule must not invent a revealed alien");
+  assert.equal(flow.classifySourceCategory({ text: solarPanelText }), "card");
+  assert.equal(flow.findAlienIdInLogText(`虫族奖励；${solarPanelText}`), "虫",
+    "keep an independent actual alien source in the same text");
+  assert.equal(flow.classifySourceCategory({ text: `虫族奖励；${solarPanelText}` }), "alien");
+}
+
+{
   const summarize = (score) => flow.summarizeResourceEvents([
     { gameId: "score-separation", playerId: "p", roundNumber: 1,
       sourceCategory: "setup", resourceDeltas: { credits: 2, score } },

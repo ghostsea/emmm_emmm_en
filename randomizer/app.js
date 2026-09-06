@@ -26883,7 +26883,7 @@
     }
     if (result.reward.pickCard) {
       beginCardSelection({
-        type: "amiba_pick_card",
+        type: "chong_pick_card",
         player: currentPlayer,
         allowBlindDraw: true,
         fromEffectFlow: pending?.type === "planet_reward_alien_trace",
@@ -26907,7 +26907,7 @@
     }
     if (result.reward.pickCard) {
       beginCardSelection({
-        type: "chong_pick_card",
+        type: "amiba_pick_card",
         player: currentPlayer,
         allowBlindDraw: true,
         fromEffectFlow: pending?.type === "planet_reward_alien_trace",

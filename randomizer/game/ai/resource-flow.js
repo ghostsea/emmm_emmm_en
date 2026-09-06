@@ -775,7 +775,7 @@
       return "tech_bonus_other";
     }
     if (
-      /打出|打牌|卡牌|弃牌|弃掉|手牌收入|收益牌|盲抽|精选|补牌|完成任务|拥有\d+个.*科技/.test(text)
+      /打出|打牌|卡牌|弃牌|弃掉|手牌收入|收益牌|盲抽|精选|补牌|完成任务|拥有\d+个.*科技|每个己方太阳系探测器或虫族搬运化石/.test(text)
     ) {
       return "card";
     }
@@ -893,7 +893,11 @@
   function findStructuredAlienId(text) {
     // The ordinary card 水熊虫研究 is not a mention of the alien species 虫.
     // It can also occur as a public-row refill beside a different gained card.
-    const sourceText = String(text || "").replaceAll("水熊虫研究", "");
+    const sourceText = String(text || "")
+      .replaceAll("水熊虫研究", "")
+      // The ordinary solar-panel card names an eligible token kind even when
+      // no Chong alien was revealed and no fossil is present.
+      .replaceAll("每个己方太阳系探测器或虫族搬运化石", "每个己方太阳系探测器");
     return ALIEN_LABELS.find((alien) => sourceText.includes(alien)) || null;
   }
 

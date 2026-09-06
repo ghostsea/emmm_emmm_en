@@ -4,6 +4,8 @@
 
 ## 机制入口
 
+- 虫族普通公共牌精选必须使用 `chong_pick_card`，后续确认/取消及日志保持虫族来源；不得复用阿米巴的选择类型。
+
 - 代码入口：`randomizer/game/aliens/chong.js`。
 - 状态挂载：`alienGameState.chong`。
 - 主要字段：`revealedSlotId`、`traceSlotsByAlienSlotId`、`cardDeck`、`displayedCardIndex`、`fossilsById`、`planetFossilIds`、`panelFossilSlots`、`unlockedBluePositions`、`transportTasksByRocketId`、`completedTransports`。

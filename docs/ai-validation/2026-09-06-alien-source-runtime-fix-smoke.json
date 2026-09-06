@@ -1,0 +1,73 @@
+{
+  "scope": "Two exact previously seen seeds; runtime source/selector regression only, not a score-uplift trial.",
+  "testedSource": {
+    "scope": "same-seed runtime regression only; original AI scoring",
+    "hashes": {
+      "randomizer/app.js": "d8b81656817e7e415e259d0fd0446fb56ff0cb74c3fc0ba55717dacf161117aa",
+      "randomizer/game/ai/resource-flow.js": "3a7b45640650876e6b7b2e6785499183813ffd3ab22b80565245af909f610d6e",
+      "randomizer/app/ai-controller.js": "8704bc58743995f239f272ea104baf10db05128aeafef39cbe1ca22e12b6fd9f"
+    },
+    "cases": [
+      4,
+      8
+    ]
+  },
+  "runs": [
+    {
+      "case": 4,
+      "baselineScores": [
+        193,
+        170,
+        232,
+        276
+      ],
+      "candidateScores": [
+        193,
+        170,
+        232,
+        276
+      ],
+      "bugCount": 0,
+      "ledgerIssues": 0,
+      "oldAliens": [
+        "半人马",
+        "异常点",
+        "虫"
+      ],
+      "newAliens": [
+        "半人马",
+        "异常点"
+      ],
+      "fixedLabels": []
+    },
+    {
+      "case": 8,
+      "baselineScores": [
+        291,
+        193,
+        238,
+        186
+      ],
+      "candidateScores": [
+        291,
+        193,
+        238,
+        186
+      ],
+      "bugCount": 0,
+      "ledgerIssues": 0,
+      "oldAliens": [
+        "虫",
+        "符文族",
+        "阿米巴"
+      ],
+      "newAliens": [
+        "虫",
+        "符文族"
+      ],
+      "fixedLabels": [
+        "分析：获得 1 个蓝色外星人痕迹：虫族奖励精选：未来环形对撞机；资源：手牌+1"
+      ]
+    }
+  ]
+}
