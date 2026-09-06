@@ -1,0 +1,120 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 41ebb1c3..acd1d377 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -19444,7 +19444,47 @@
+       ));
+     }
+ 
++    function buildAiFangzhouCornerQuickCandidate(card, handIndex, player, options = {}) {
++      if (!fangzhou?.isFangzhouCard2?.(card) || player?.hand?.[handIndex] !== card) return null;
++      if ((turnState.passedPlayerIds || []).includes(player.id)) return null;
++      const projected = cloneAiValue(player);
++      projected.hand.splice(handIndex, 1);
++      projected.resources.handSize = Math.max(0, aiNumber(projected.resources.handSize) - 1);
++      // Average the publicly inferable remaining set; never use the hidden next-card order.
++      const allIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8];
++      const revealed = new Set(alienGameState.fangzhou?.card1Revealed || []);
++      const sinceShuffle = Math.max(0, aiNumber(alienGameState.fangzhou?.card1RevealedSinceShuffle));
++      const threshold = fangzhou.CARD1_RESHUFFLE_THRESHOLD || 5;
++      const remaining = allIndexes.filter(index => !revealed.has(index));
++      const firstIndexes = sinceShuffle >= threshold || !remaining.length ? allIndexes : remaining;
++      const count = industry?.shouldDoubleDiscardCornerRewards?.(player) ? 2 : 1;
++      const pools = [firstIndexes];
++      if (count === 2) pools.push(sinceShuffle >= threshold || sinceShuffle + 1 >= threshold ? allIndexes : firstIndexes);
++      const rewards = pools.map(indexes => ({ indexes,
++        meanValue: indexes.reduce((total, index) => total + scoreAiFangzhouCard1EffectValue(
++          fangzhou.getCard1Effect(index, "basic"), projected), 0) / indexes.length,
++      }));
++      const rewardValue = rewards.reduce((sum, reward) => sum + reward.meanValue, 0);
++      const playCandidate = options.playCandidateByIndex?.get(handIndex) || null;
++      const discardCost = getAiDiscardedCardOpportunityCost(card, playCandidate);
++      const income = cards.getIncomeGainForCard?.(card);
++      const incomePreserve = income ? Math.max(0, scoreAiIncomeOpportunityValue(player, income)) * 0.2 : 0;
++      const opportunityCost = Math.max(discardCost, incomePreserve);
++      const score = rewardValue - opportunityCost;
++      if (score <= 0) return null;
++      return { id: "cardCorner", kind: "quick", available: true, handIndex,
++        cardId: card.cardId || card.id, cardInstanceId: card.id,
++        cardLabel: getAiCardDisplayLabel({ card, cardId: card.cardId || card.id }, player),
++        actionKind: "fangzhou_basic", directScoreGain: 0,
++        gain: rewardValue, cost: opportunityCost, score, finalFormulaDeltas: {},
++        valueBreakdown: { rewardValue, discardCost, incomePreserve, opportunityCost,
++          fangzhouBasicReward: { count, rewards, afterDiscard: { ...projected.resources },
++            scope: "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation" } },
++      };
++    }
++
+     function buildAiCardCornerQuickCandidate(card, handIndex, currentPlayer, options = {}) {
++      if (fangzhou?.isFangzhouCard2?.(card)) return buildAiFangzhouCornerQuickCandidate(card, handIndex, currentPlayer, options);
+       if (!card) return null;
+       const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
+       if (moveReward && !canAiUseCardCornerMoveThisTurn(currentPlayer?.id)) return null;
+@@ -26701,6 +26741,7 @@
+ 
+     return {
+       aiNumber,
++      buildAiFangzhouCornerQuickCandidate,
+       applyAiStrategyTuning,
+       applyAiStrategyTuningRecommendation,
+       applyAiStrategyWeight,
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index ec5c22af..0f14ab87 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -17109,3 +17109,42 @@ runAsyncControllerTests()
+     console.error(error);
+     process.exitCode = 1;
+   });
++
++{
++ const card={...fangzhou.createCard2Definition("pink",2),id:"fangzhou-free-basic",faceUp:true};
++ const alien={aliens:{1:{revealed:true,alienId:"方舟"}},fangzhou:{...fangzhou.createFangzhouState(),card1Revealed:[1,2,3,4],card1RevealedSinceShuffle:4}};
++ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
++  blueHand:[card],blueResources:{credits:0,energy:0,score:60,handSize:1},alienGameState:alien});
++ const before=JSON.stringify({player:h.blue,alien});
++ const candidate=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue);
++ assert.ok(candidate,"an unaffordable Fangzhou card can still yield a valuable basic reward as a quick action");
++ assert.equal(candidate.id,"cardCorner");assert.equal(candidate.actionKind,"fangzhou_basic");
++ assert.equal(candidate.directScoreGain,0,"unknown rewards are not guaranteed score");
++ assert.equal(candidate.valueBreakdown.fangzhouBasicReward.afterDiscard.handSize,0);
++ assert.equal(JSON.stringify({player:h.blue,alien}),before,"preview does not discard, flip, or shuffle");
++ alien.fangzhou.card1Deck=[8,7,6,5,0];
++ assert.equal(h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue).score,candidate.score,"hidden deck order cannot affect choice");
++ h.turnState.passedPlayerIds=[h.blue.id];
++ assert.equal(h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue),null);
++}
++
++{
++ const card={...fangzhou.createCard2Definition("pink",2),id:"fangzhou-basic-route",faceUp:true};
++ const alien={aliens:{1:{revealed:true,alienId:"方舟"}},fangzhou:{...fangzhou.createFangzhouState(),card1Revealed:[1,2,3,4],card1RevealedSinceShuffle:4}};
++ const choices=[];
++ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
++  canStartMainAction:true,recordCardCorner:true,industry:industryModule,blueHand:[card],blueResources:{credits:0,energy:0,score:60,handSize:1},alienGameState:alien,
++  chooseTurnAction:cs=>cs.find(c=>c.actionKind==="fangzhou_basic")||null,
++  onChooseTurnAction:cs=>choices.push(...cs)});
++ h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
++ const step=h.controller.runAiAutomationStep();
++ assert.ok(choices.some(c=>c.actionKind==="fangzhou_basic"),"Fangzhou basic reward must enter top-level quick-action candidates");
++ assert.equal(step.ok,true);assert.deepEqual(h.getHandled(),{type:"card-corner",handIndex:0,confirmed:true});
++ h.blue.initialSelection={industry:{label:"原教旨主义"}};
++ const doubled=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue);
++ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.count,2);
++ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.rewards[0].indexes.length,5);
++ assert.equal(doubled.valueBreakdown.fangzhouBasicReward.rewards[1].indexes.length,9,"second reward reshuffles after the fifth flip");
++ const preserve=h.controller.buildAiFangzhouCornerQuickCandidate(card,0,h.blue,{playCandidateByIndex:new Map([[0,{score:200}]])});
++ assert.equal(preserve,null,"valuable playable cards retain their opportunity cost");
++}
+diff --git a/randomizer/index.html b/randomizer/index.html
+index 2a26e11e..f38dee95 100644
+--- a/randomizer/index.html
++++ b/randomizer/index.html
+@@ -798,7 +798,7 @@
+   <script src="./app/events.js?v=same-seed-restart-1"></script>
+   <script src="./app/action-log-export.js?v=action-log-export-2"></script>
+   <script src="./app/public-api.js?v=app-boundaries-5"></script>
+-  <script src="./app/ai-controller.js?v=ai-planet-query-performance-1"></script>
++  <script src="./app/ai-controller.js?v=fangzhou-quick-reward-20260906"></script>
+   <script src="./app.js?v=alien-pick-owner-20260906"></script>
+ </body>
+ </html>

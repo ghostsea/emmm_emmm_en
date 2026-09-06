@@ -1,0 +1,2582 @@
+{
+  "scope": "Full24 actual Fangzhou card-corner decisions joined to ledger discard entries by player, round, turn and occurrence order. The ledger does not retain special-card instance identity; cardInstanceId here comes from decision logs. Reward totals are immediate basic-reward events only. Next action is descriptive, not proof of causally added actions.",
+  "groups": {
+    "作弊实验室": {
+      "quickActions": 17,
+      "resourceGains": {
+        "score": 20,
+        "publicity": 3,
+        "energy": 6,
+        "credits": 1,
+        "handSize": 1
+      },
+      "nextMainSameRound": 12,
+      "nextPassSameRound": 5
+    },
+    "寰宇超动力": {
+      "quickActions": 9,
+      "resourceGains": {
+        "score": 10,
+        "publicity": 4,
+        "credits": 1,
+        "handSize": 1
+      },
+      "nextMainSameRound": 8,
+      "nextPassSameRound": 1
+    },
+    "宇宙大战略集团": {
+      "quickActions": 7,
+      "resourceGains": {
+        "publicity": 2,
+        "score": 12,
+        "energy": 2,
+        "credits": 2,
+        "handSize": 1
+      },
+      "nextMainSameRound": 7,
+      "nextPassSameRound": 0
+    }
+  },
+  "issues": [],
+  "rows": [
+    {
+      "case": 8,
+      "company": "作弊实验室",
+      "logId": 430,
+      "round": 2,
+      "turn": 3,
+      "cardId": "fangzhou_blue_3",
+      "cardInstanceId": "fangzhou-card2-player-blue-blue-3",
+      "resources": {
+        "score": 28,
+        "credits": 7,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 8.627999999999998
+          }
+        ],
+        "afterDiscard": {
+          "credits": 7,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 28
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 51,
+      "rewards": [
+        {
+          "step": 3,
+          "text": "方舟奖励 1：1分数：蓝色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 4,
+          "text": "方舟奖励 1：盲抽 1 张：已抽 1 张",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "scan",
+        "round": 2,
+        "turn": 4,
+        "resources": {
+          "score": 29,
+          "credits": 7,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "logId": 363,
+      "round": 2,
+      "turn": 1,
+      "cardId": "fangzhou_pink_3",
+      "cardInstanceId": "fangzhou-card2-player-green-pink-3",
+      "resources": {
+        "score": 34,
+        "credits": 7,
+        "energy": 2,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 7
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 8.177500000000002
+          }
+        ],
+        "afterDiscard": {
+          "credits": 7,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 34
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 44,
+      "rewards": [
+        {
+          "step": 6,
+          "text": "方舟奖励 4：4分数：绿色 分数+4",
+          "deltas": {
+            "score": 4
+          }
+        }
+      ],
+      "gains": {
+        "score": 4
+      },
+      "nextMain": {
+        "action": "playCard",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 38,
+          "credits": 7,
+          "energy": 2,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "logId": 366,
+      "round": 2,
+      "turn": 1,
+      "cardId": "fangzhou_blue_3",
+      "cardInstanceId": "fangzhou-card2-player-green-blue-3",
+      "resources": {
+        "score": 38,
+        "credits": 7,
+        "energy": 2,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 8.389285714285714
+          }
+        ],
+        "afterDiscard": {
+          "credits": 7,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 38
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 44,
+      "rewards": [
+        {
+          "step": 8,
+          "text": "方舟奖励 2：2宣传：绿色 宣传+2",
+          "deltas": {
+            "publicity": 2
+          }
+        }
+      ],
+      "gains": {
+        "publicity": 2
+      },
+      "nextMain": {
+        "action": "playCard",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 38,
+          "credits": 7,
+          "energy": 2,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "寰宇超动力",
+      "logId": 563,
+      "round": 2,
+      "turn": 6,
+      "cardId": "fangzhou_yellow_1",
+      "cardInstanceId": "fangzhou-card2-player-green-yellow-1",
+      "resources": {
+        "score": 55,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "meanValue": 5.571428571428571
+          }
+        ],
+        "afterDiscard": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 6,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 55
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 64,
+      "rewards": [
+        {
+          "step": 7,
+          "text": "方舟奖励 6：1分数：绿色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 8,
+          "text": "方舟奖励 6：1信用点：绿色 信用点+1",
+          "deltas": {
+            "credits": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "credits": 1
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 2,
+        "turn": 7,
+        "resources": {
+          "score": 56,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "作弊实验室",
+      "logId": 340,
+      "round": 2,
+      "turn": 1,
+      "cardId": "fangzhou_blue_4",
+      "cardInstanceId": "fangzhou-card2-player-brown-blue-4",
+      "resources": {
+        "score": 40,
+        "credits": 4,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 8
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              1,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 9.2842
+          }
+        ],
+        "afterDiscard": {
+          "credits": 4,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 40
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 42,
+      "rewards": [
+        {
+          "step": 11,
+          "text": "方舟奖励 1：1分数：棕色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 12,
+          "text": "方舟奖励 1：盲抽 1 张：已抽 1 张",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 42,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 6
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "作弊实验室",
+      "logId": 344,
+      "round": 2,
+      "turn": 1,
+      "cardId": "fangzhou_pink_4",
+      "cardInstanceId": "fangzhou-card2-player-brown-pink-4",
+      "resources": {
+        "score": 41,
+        "credits": 4,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 8
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 9.172333333333334
+          }
+        ],
+        "afterDiscard": {
+          "credits": 4,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 41
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 42,
+      "rewards": [
+        {
+          "step": 14,
+          "text": "方舟奖励 3：1分数：棕色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 15,
+          "text": "方舟奖励 3：额外弃牌扫描 +1：公共弃牌扫描 +1；资源：额外公共扫描+1",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 42,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 6
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "作弊实验室",
+      "logId": 538,
+      "round": 2,
+      "turn": 6,
+      "cardId": "fangzhou_yellow_1",
+      "cardInstanceId": "fangzhou-card2-player-brown-yellow-1",
+      "resources": {
+        "score": 60,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "meanValue": 7.532374999999999
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 4,
+          "score": 60
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 62,
+      "rewards": [
+        {
+          "step": 8,
+          "text": "方舟奖励 3：1分数：棕色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 9,
+          "text": "方舟奖励 3：额外弃牌扫描 +1：公共弃牌扫描 +1；资源：额外公共扫描+1",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "analyze",
+        "round": 2,
+        "turn": 7,
+        "resources": {
+          "score": 61,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "logId": 323,
+      "round": 2,
+      "turn": 1,
+      "cardId": "fangzhou_yellow_2",
+      "cardInstanceId": "fangzhou-card2-player-white-yellow-2",
+      "resources": {
+        "score": 20,
+        "credits": 7,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              1,
+              2,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 9.66
+          }
+        ],
+        "afterDiscard": {
+          "credits": 7,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 20
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 41,
+      "rewards": [
+        {
+          "step": 7,
+          "text": "方舟奖励 2：2宣传：白色 宣传+2",
+          "deltas": {
+            "publicity": 2
+          }
+        }
+      ],
+      "gains": {
+        "publicity": 2
+      },
+      "nextMain": {
+        "action": "analyze",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 20,
+          "credits": 7,
+          "energy": 3,
+          "publicity": 8,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 8,
+      "company": "宇宙大战略集团",
+      "logId": 372,
+      "round": 2,
+      "turn": 2,
+      "cardId": "fangzhou_blue_4",
+      "cardInstanceId": "fangzhou-card2-player-white-blue-4",
+      "resources": {
+        "score": 23,
+        "credits": 7,
+        "energy": 2,
+        "publicity": 8,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 12.209166666666668
+          }
+        ],
+        "afterDiscard": {
+          "credits": 7,
+          "energy": 2,
+          "publicity": 8,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 23
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 45,
+      "rewards": [
+        {
+          "step": 3,
+          "text": "方舟奖励 5：1分数：白色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 4,
+          "text": "方舟奖励 5：1能量：白色 能量+1",
+          "deltas": {
+            "energy": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "energy": 1
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 2,
+        "turn": 3,
+        "resources": {
+          "score": 24,
+          "credits": 7,
+          "energy": 3,
+          "publicity": 8,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "logId": 483,
+      "round": 2,
+      "turn": 7,
+      "cardId": "fangzhou_yellow_4",
+      "cardInstanceId": "fangzhou-card2-player-blue-yellow-4",
+      "resources": {
+        "score": 57,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 5.677444444444445
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 57
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 62,
+      "rewards": [
+        {
+          "step": 4,
+          "text": "方舟奖励 1：1分数：蓝色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 5,
+          "text": "方舟奖励 1：盲抽 1 张：已抽 1 张",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "pass",
+        "round": 2,
+        "turn": 8,
+        "resources": {
+          "score": 62,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "logId": 487,
+      "round": 2,
+      "turn": 7,
+      "cardId": "fangzhou_blue_4",
+      "cardInstanceId": "fangzhou-card2-player-blue-blue-4",
+      "resources": {
+        "score": 58,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 6.590875
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 58
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 62,
+      "rewards": [
+        {
+          "step": 7,
+          "text": "方舟奖励 8：2分数：蓝色 分数+2",
+          "deltas": {
+            "score": 2
+          }
+        },
+        {
+          "step": 8,
+          "text": "方舟奖励 8：1宣传：蓝色 宣传+1",
+          "deltas": {
+            "publicity": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 2,
+        "publicity": 1
+      },
+      "nextMain": {
+        "action": "pass",
+        "round": 2,
+        "turn": 8,
+        "resources": {
+          "score": 62,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "logId": 611,
+      "round": 3,
+      "turn": 3,
+      "cardId": "fangzhou_yellow_1",
+      "cardInstanceId": "fangzhou-card2-player-green-yellow-1",
+      "resources": {
+        "score": 69,
+        "credits": 2,
+        "energy": 5,
+        "publicity": 7,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "meanValue": 24.69333333333333
+          }
+        ],
+        "afterDiscard": {
+          "credits": 2,
+          "energy": 5,
+          "publicity": 7,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 69
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 83,
+      "rewards": [
+        {
+          "step": 11,
+          "text": "方舟奖励 0：1分数：绿色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 12,
+          "text": "方舟奖励 0：1能量：绿色 能量+1",
+          "deltas": {
+            "energy": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "energy": 1
+      },
+      "nextMain": {
+        "action": "playCard",
+        "round": 3,
+        "turn": 4,
+        "resources": {
+          "score": 70,
+          "credits": 2,
+          "energy": 6,
+          "publicity": 7,
+          "availableData": 1,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "logId": 462,
+      "round": 2,
+      "turn": 7,
+      "cardId": "fangzhou_blue_4",
+      "cardInstanceId": "fangzhou-card2-player-brown-blue-4",
+      "resources": {
+        "score": 36,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              1,
+              3,
+              4,
+              7,
+              8
+            ],
+            "meanValue": 7.705000000000001
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 36
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 60,
+      "rewards": [
+        {
+          "step": 3,
+          "text": "方舟奖励 7：1分数：棕色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 4,
+          "text": "方舟奖励 7：盲抽 1 张：已抽 1 张",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "pass",
+        "round": 2,
+        "turn": 8,
+        "resources": {
+          "score": 37,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "logId": 325,
+      "round": 2,
+      "turn": 3,
+      "cardId": "fangzhou_blue_2",
+      "cardInstanceId": "fangzhou-card2-player-white-blue-2",
+      "resources": {
+        "score": 22,
+        "credits": 6,
+        "energy": 2,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              1,
+              3,
+              4,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 11.786833333333334
+          }
+        ],
+        "afterDiscard": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 22
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 43,
+      "rewards": [
+        {
+          "step": 3,
+          "text": "方舟奖励 6：1分数：白色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 4,
+          "text": "方舟奖励 6：1信用点：白色 信用点+1",
+          "deltas": {
+            "credits": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "credits": 1
+      },
+      "nextMain": {
+        "action": "orbit",
+        "round": 2,
+        "turn": 4,
+        "resources": {
+          "score": 23,
+          "credits": 7,
+          "energy": 1,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 10,
+      "company": "宇宙大战略集团",
+      "logId": 725,
+      "round": 3,
+      "turn": 5,
+      "cardId": "fangzhou_yellow_2",
+      "cardInstanceId": "fangzhou-card2-player-white-yellow-2",
+      "resources": {
+        "score": 47,
+        "credits": 1,
+        "energy": 5,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              4,
+              5,
+              6,
+              7
+            ],
+            "meanValue": 11.659571428571429
+          }
+        ],
+        "afterDiscard": {
+          "credits": 1,
+          "energy": 5,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 47
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 94,
+      "rewards": [
+        {
+          "step": 6,
+          "text": "方舟奖励 4：4分数：白色 分数+4",
+          "deltas": {
+            "score": 4
+          }
+        }
+      ],
+      "gains": {
+        "score": 4
+      },
+      "nextMain": {
+        "action": "scan",
+        "round": 3,
+        "turn": 6,
+        "resources": {
+          "score": 51,
+          "credits": 1,
+          "energy": 6,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "作弊实验室",
+      "logId": 539,
+      "round": 2,
+      "turn": 7,
+      "cardId": "fangzhou_yellow_1",
+      "cardInstanceId": "fangzhou-card2-player-green-yellow-1",
+      "resources": {
+        "score": 80,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              8
+            ],
+            "meanValue": 6.3138749999999995
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 80
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 67,
+      "rewards": [
+        {
+          "step": 8,
+          "text": "方舟奖励 5：1分数：绿色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 9,
+          "text": "方舟奖励 5：1能量：绿色 能量+1",
+          "deltas": {
+            "energy": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "energy": 1
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 2,
+        "turn": 8,
+        "resources": {
+          "score": 81,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 1,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "作弊实验室",
+      "logId": 581,
+      "round": 2,
+      "turn": 9,
+      "cardId": "fangzhou_blue_2",
+      "cardInstanceId": "fangzhou-card2-player-green-blue-2",
+      "resources": {
+        "score": 86,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              6,
+              8
+            ],
+            "meanValue": 5.985142857142857
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 86
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 74,
+      "rewards": [
+        {
+          "step": 1,
+          "text": "方舟奖励 3：1分数：绿色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 2,
+          "text": "方舟奖励 3：额外弃牌扫描 +1：公共弃牌扫描 +1；资源：额外公共扫描+1",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "pass",
+        "round": 2,
+        "turn": 9,
+        "resources": {
+          "score": 87,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "寰宇超动力",
+      "logId": 441,
+      "round": 2,
+      "turn": 4,
+      "cardId": "fangzhou_pink_3",
+      "cardInstanceId": "fangzhou-card2-player-brown-pink-3",
+      "resources": {
+        "score": 46,
+        "credits": 5,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              8
+            ],
+            "meanValue": 12.071833333333336
+          }
+        ],
+        "afterDiscard": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 3,
+          "score": 46
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 56,
+      "rewards": [
+        {
+          "step": 13,
+          "text": "方舟奖励 1：1分数：棕色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 14,
+          "text": "方舟奖励 1：盲抽 1 张：已抽 1 张",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "playCard",
+        "round": 2,
+        "turn": 5,
+        "resources": {
+          "score": 47,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "寰宇超动力",
+      "logId": 489,
+      "round": 2,
+      "turn": 6,
+      "cardId": "fangzhou_blue_4",
+      "cardInstanceId": "fangzhou-card2-player-brown-blue-4",
+      "resources": {
+        "score": 54,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 5.684
+          }
+        ],
+        "afterDiscard": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 3,
+          "score": 54
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 62,
+      "rewards": [
+        {
+          "step": 4,
+          "text": "方舟奖励 7：1分数：棕色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 5,
+          "text": "方舟奖励 7：盲抽 1 张：已抽 1 张",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "scan",
+        "round": 2,
+        "turn": 7,
+        "resources": {
+          "score": 55,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "作弊实验室",
+      "logId": 448,
+      "round": 2,
+      "turn": 5,
+      "cardId": "fangzhou_blue_4",
+      "cardInstanceId": "fangzhou-card2-player-white-blue-4",
+      "resources": {
+        "score": 30,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              2,
+              3,
+              4,
+              5,
+              8
+            ],
+            "meanValue": 7.980199999999999
+          }
+        ],
+        "afterDiscard": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 30
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 57,
+      "rewards": [
+        {
+          "step": 3,
+          "text": "方舟奖励 4：4分数：白色 分数+4",
+          "deltas": {
+            "score": 4
+          }
+        }
+      ],
+      "gains": {
+        "score": 4
+      },
+      "nextMain": {
+        "action": "playCard",
+        "round": 2,
+        "turn": 5,
+        "resources": {
+          "score": 34,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "作弊实验室",
+      "logId": 807,
+      "round": 3,
+      "turn": 5,
+      "cardId": "fangzhou_pink_3",
+      "cardInstanceId": "fangzhou-card2-player-white-pink-3",
+      "resources": {
+        "score": 55,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              1,
+              2,
+              4,
+              6,
+              8
+            ],
+            "meanValue": 7.6958
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 55
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 100,
+      "rewards": [
+        {
+          "step": 6,
+          "text": "方舟奖励 6：1分数：白色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 7,
+          "text": "方舟奖励 6：1信用点：白色 信用点+1",
+          "deltas": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "credits": 1,
+        "handSize": 1
+      },
+      "nextMain": {
+        "action": "analyze",
+        "round": 3,
+        "turn": 6,
+        "resources": {
+          "score": 56,
+          "credits": 1,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 13,
+      "company": "作弊实验室",
+      "logId": 999,
+      "round": 3,
+      "turn": 10,
+      "cardId": "fangzhou_yellow_2",
+      "cardInstanceId": "fangzhou-card2-player-white-yellow-2",
+      "resources": {
+        "score": 79,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 5.564125
+          }
+        ],
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 79
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 120,
+      "rewards": [
+        {
+          "step": 1,
+          "text": "方舟奖励 5：1分数：白色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 2,
+          "text": "方舟奖励 5：1能量：白色 能量+1",
+          "deltas": {
+            "energy": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "energy": 1
+      },
+      "nextMain": {
+        "action": "pass",
+        "round": 3,
+        "turn": 10,
+        "resources": {
+          "score": 80,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "logId": 248,
+      "round": 1,
+      "turn": 7,
+      "cardId": "fangzhou_blue_4",
+      "cardInstanceId": "fangzhou-card2-player-blue-blue-4",
+      "resources": {
+        "score": 19,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              2,
+              3,
+              4,
+              7,
+              8
+            ],
+            "meanValue": 8.435166666666666
+          }
+        ],
+        "afterDiscard": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 19
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 32,
+      "rewards": [
+        {
+          "step": 3,
+          "text": "方舟奖励 0：1分数：蓝色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 4,
+          "text": "方舟奖励 0：1能量：蓝色 能量+1",
+          "deltas": {
+            "energy": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "energy": 1
+      },
+      "nextMain": {
+        "action": "pass",
+        "round": 1,
+        "turn": 7,
+        "resources": {
+          "score": 20,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "logId": 352,
+      "round": 2,
+      "turn": 2,
+      "cardId": "fangzhou_yellow_4",
+      "cardInstanceId": "fangzhou-card2-player-blue-yellow-4",
+      "resources": {
+        "score": 30,
+        "credits": 2,
+        "energy": 5,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 7.309375
+          }
+        ],
+        "afterDiscard": {
+          "credits": 2,
+          "energy": 5,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 30
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 44,
+      "rewards": [
+        {
+          "step": 6,
+          "text": "方舟奖励 0：1分数：蓝色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 7,
+          "text": "方舟奖励 0：1能量：蓝色 能量+1",
+          "deltas": {
+            "energy": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "energy": 1
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 2,
+        "turn": 3,
+        "resources": {
+          "score": 31,
+          "credits": 2,
+          "energy": 6,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 6
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "logId": 586,
+      "round": 2,
+      "turn": 8,
+      "cardId": "fangzhou_pink_1",
+      "cardInstanceId": "fangzhou-card2-player-blue-pink-1",
+      "resources": {
+        "score": 53,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 6.110666666666666
+          }
+        ],
+        "afterDiscard": {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 53
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 68,
+      "rewards": [
+        {
+          "step": 15,
+          "text": "方舟奖励 7：1分数：蓝色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 16,
+          "text": "方舟奖励 7：盲抽 1 张：已抽 1 张",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "analyze",
+        "round": 2,
+        "turn": 9,
+        "resources": {
+          "score": 54,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "logId": 287,
+      "round": 2,
+      "turn": 1,
+      "cardId": "fangzhou_pink_2",
+      "cardInstanceId": "fangzhou-card2-player-green-pink-2",
+      "resources": {
+        "score": 37,
+        "credits": 8,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              2,
+              3,
+              4,
+              7,
+              8
+            ],
+            "meanValue": 6.470000000000001
+          }
+        ],
+        "afterDiscard": {
+          "credits": 8,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 37
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 39,
+      "rewards": [
+        {
+          "step": 11,
+          "text": "方舟奖励 2：2宣传：绿色 宣传+2",
+          "deltas": {
+            "publicity": 2
+          }
+        }
+      ],
+      "gains": {
+        "publicity": 2
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 37,
+          "credits": 8,
+          "energy": 2,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "logId": 411,
+      "round": 2,
+      "turn": 4,
+      "cardId": "fangzhou_blue_2",
+      "cardInstanceId": "fangzhou-card2-player-green-blue-2",
+      "resources": {
+        "score": 47,
+        "credits": 8,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 7
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              8
+            ],
+            "meanValue": 11.749
+          }
+        ],
+        "afterDiscard": {
+          "credits": 8,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 47
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 51,
+      "rewards": [
+        {
+          "step": 3,
+          "text": "方舟奖励 5：1分数：绿色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 4,
+          "text": "方舟奖励 5：1能量：绿色 能量+1",
+          "deltas": {
+            "energy": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "energy": 1
+      },
+      "nextMain": {
+        "action": "orbit",
+        "round": 2,
+        "turn": 5,
+        "resources": {
+          "score": 48,
+          "credits": 8,
+          "energy": 1,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "logId": 754,
+      "round": 3,
+      "turn": 2,
+      "cardId": "fangzhou_blue_2",
+      "cardInstanceId": "fangzhou-card2-player-brown-blue-2",
+      "resources": {
+        "score": 46,
+        "credits": 3,
+        "energy": 7,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              2,
+              3,
+              4,
+              5,
+              6,
+              8
+            ],
+            "meanValue": 11.671142857142858
+          }
+        ],
+        "afterDiscard": {
+          "credits": 3,
+          "energy": 7,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 46
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 92,
+      "rewards": [
+        {
+          "step": 4,
+          "text": "方舟奖励 4：4分数：棕色 分数+4",
+          "deltas": {
+            "score": 4
+          }
+        }
+      ],
+      "gains": {
+        "score": 4
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 3,
+        "turn": 3,
+        "resources": {
+          "score": 53,
+          "credits": 3,
+          "energy": 7,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 6
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "logId": 327,
+      "round": 2,
+      "turn": 1,
+      "cardId": "fangzhou_pink_1",
+      "cardInstanceId": "fangzhou-card2-player-white-pink-1",
+      "resources": {
+        "score": 30,
+        "credits": 5,
+        "energy": 2,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 7.719999999999999
+          }
+        ],
+        "afterDiscard": {
+          "credits": 5,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 30
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 41,
+      "rewards": [
+        {
+          "step": 14,
+          "text": "方舟奖励 1：1分数：白色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 15,
+          "text": "方舟奖励 1：盲抽 1 张：已抽 1 张",
+          "deltas": {
+            "handSize": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "handSize": 1
+      },
+      "nextMain": {
+        "action": "land",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 31,
+          "credits": 5,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 1,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "logId": 362,
+      "round": 2,
+      "turn": 2,
+      "cardId": "fangzhou_yellow_4",
+      "cardInstanceId": "fangzhou-card2-player-white-yellow-4",
+      "resources": {
+        "score": 39,
+        "credits": 5,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 6
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "meanValue": 8.819
+          }
+        ],
+        "afterDiscard": {
+          "credits": 5,
+          "energy": 0,
+          "publicity": 6,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 39
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 45,
+      "rewards": [
+        {
+          "step": 4,
+          "text": "方舟奖励 7：1分数：白色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 5,
+          "text": "方舟奖励 7：盲抽 1 张：已抽 1 张",
+          "deltas": {}
+        }
+      ],
+      "gains": {
+        "score": 1
+      },
+      "nextMain": {
+        "action": "researchTech",
+        "round": 2,
+        "turn": 3,
+        "resources": {
+          "score": 40,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 8,
+          "availableData": 1,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "logId": 441,
+      "round": 2,
+      "turn": 4,
+      "cardId": "fangzhou_blue_3",
+      "cardInstanceId": "fangzhou-card2-player-white-blue-3",
+      "resources": {
+        "score": 47,
+        "credits": 5,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              2,
+              3,
+              4,
+              6,
+              8
+            ],
+            "meanValue": 12.514199999999999
+          }
+        ],
+        "afterDiscard": {
+          "credits": 5,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 47
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 53,
+      "rewards": [
+        {
+          "step": 4,
+          "text": "方舟奖励 2：2宣传：白色 宣传+2",
+          "deltas": {
+            "publicity": 2
+          }
+        }
+      ],
+      "gains": {
+        "publicity": 2
+      },
+      "nextMain": {
+        "action": "playCard",
+        "round": 2,
+        "turn": 5,
+        "resources": {
+          "score": 47,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "logId": 794,
+      "round": 3,
+      "turn": 4,
+      "cardId": "fangzhou_yellow_1",
+      "cardInstanceId": "fangzhou-card2-player-white-yellow-1",
+      "resources": {
+        "score": 56,
+        "credits": 3,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              4,
+              5,
+              6,
+              7
+            ],
+            "meanValue": 7.494833333333332
+          }
+        ],
+        "afterDiscard": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 2,
+          "aomomoFossils": 3,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 56
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 93,
+      "rewards": [
+        {
+          "step": 6,
+          "text": "方舟奖励 5：1分数：白色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 7,
+          "text": "方舟奖励 5：1能量：白色 能量+1",
+          "deltas": {
+            "energy": 1,
+            "handSize": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "energy": 1,
+        "handSize": 1
+      },
+      "nextMain": {
+        "action": "playCard",
+        "round": 3,
+        "turn": 5,
+        "resources": {
+          "score": 57,
+          "credits": 3,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 2,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 21,
+      "company": "宇宙大战略集团",
+      "logId": 864,
+      "round": 3,
+      "turn": 6,
+      "cardId": "fangzhou_blue_4",
+      "cardInstanceId": "fangzhou-card2-player-white-blue-4",
+      "resources": {
+        "score": 64,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "profile": {
+        "count": 1,
+        "rewards": [
+          {
+            "indexes": [
+              0,
+              1,
+              4,
+              6,
+              7
+            ],
+            "meanValue": 9.61
+          }
+        ],
+        "afterDiscard": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 3,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 64
+        },
+        "scope": "public remaining reward expectation after discard; no guaranteed draw or multi-reward state simulation"
+      },
+      "paymentMatches": true,
+      "ledgerEntry": 101,
+      "rewards": [
+        {
+          "step": 7,
+          "text": "方舟奖励 6：1分数：白色 分数+1",
+          "deltas": {
+            "score": 1
+          }
+        },
+        {
+          "step": 8,
+          "text": "方舟奖励 6：1信用点：白色 信用点+1",
+          "deltas": {
+            "credits": 1
+          }
+        }
+      ],
+      "gains": {
+        "score": 1,
+        "credits": 1
+      },
+      "nextMain": {
+        "action": "playCard",
+        "round": 3,
+        "turn": 7,
+        "resources": {
+          "score": 65,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 5
+        }
+      }
+    }
+  ]
+}
