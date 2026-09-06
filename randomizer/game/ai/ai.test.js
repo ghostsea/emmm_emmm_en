@@ -1000,8 +1000,11 @@ const revealedPosition5Value = valuation.estimateAlienTraceValue({
   position: 5,
   reward: { pickAlienCard: true },
 });
-assert.ok(revealedPosition5Value > revealedPosition3Value);
-assert.ok(revealedPosition3Value > revealedPosition1Value);
+assert.equal(revealedPosition5Value, revealedPosition3Value, "identical structured rewards must not gain value from position numbering");
+assert.equal(revealedPosition3Value, revealedPosition1Value);
+for (const label of ["", "得分，精选牌，信用，数据，扫描"]) {
+  assert.equal(valuation.estimateAlienTraceValue({ revealed: true, mode: "aomomo-grid", position: 1, traceType: "blue", reward: { pickAlienCard: true }, label }), revealedPosition1Value, "structured reward value must not depend on UI wording");
+}
 const aomomoFossilBuilderTraceValue = valuation.estimateAlienTraceValue({
   revealed: true,
   mode: "aomomo-grid",
@@ -1031,7 +1034,7 @@ const aomomoSmallSpendTraceValue = valuation.estimateAlienTraceValue({
   reward: { payFossils: 1, gain: { score: 6 } },
 });
 assert.ok(aomomoFossilBuilderTraceValue > aomomoScoreOnlyTraceValue + 3);
-assert.ok(aomomoCashoutTraceValue > aomomoSmallSpendTraceValue + 8);
+assert.equal(aomomoCashoutTraceValue - aomomoSmallSpendTraceValue, 7, "19 extra points cost 3 extra fossils valued at 4 each");
 const amibaStaticRegionTraceValue = valuation.estimateAlienTraceValue({
   revealed: true,
   mode: "amiba-grid",
