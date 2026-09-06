@@ -1,0 +1,97 @@
+{
+  "generatedAt": "2026-09-06T04:25:49.675Z",
+  "phase": "diagnostic-only",
+  "case": 11,
+  "choiceIndex": 2,
+  "actor": {
+    "id": "player-brown",
+    "color": "brown",
+    "resources": {
+      "credits": 1,
+      "energy": 2,
+      "publicity": 2,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 24
+    }
+  },
+  "actualTargets": [
+    {
+      "kind": "state-slot",
+      "mode": "trace-board",
+      "dataset": {
+        "stateTraceSlot": "true",
+        "tracePercentX": "73.7",
+        "tracePercentY": "51.13",
+        "alienSlot": "1",
+        "traceType": "blue",
+        "stateTraceKind": "extra"
+      },
+      "position": null,
+      "label": "",
+      "score": -3.5595,
+      "cardExpectation": 7.6899999999999995,
+      "hiddenColorLost": true,
+      "placed": 2,
+      "timingPremium": 12.5,
+      "opponents": 3
+    },
+    {
+      "kind": "state-slot",
+      "mode": "trace-board",
+      "dataset": {
+        "stateTraceSlot": "true",
+        "tracePercentX": "82.76",
+        "tracePercentY": "23.65",
+        "alienSlot": "2",
+        "traceType": "blue",
+        "stateTraceKind": "first"
+      },
+      "position": null,
+      "label": "",
+      "score": -5.049999999999999,
+      "cardExpectation": 7.6899999999999995,
+      "hiddenColorLost": true,
+      "placed": 1,
+      "timingPremium": 5.2,
+      "opponents": 3
+    }
+  ],
+  "firstOption": {
+    "placement": {
+      "ok": true,
+      "message": "外星人 2 放置蓝色痕迹",
+      "extraOnly": false,
+      "readyToReveal": false
+    },
+    "reward": {
+      "gain": {
+        "score": 3,
+        "publicity": 1
+      }
+    },
+    "ownedFirstTracesAfter": 1
+  },
+  "extraOption": {
+    "placement": {
+      "ok": true,
+      "message": "外星人 1 蓝色痕迹 额外 +1（共 1）",
+      "extraOnly": true
+    },
+    "reward": {
+      "gain": {
+        "score": 3
+      }
+    },
+    "ownedFirstTracesAfter": 0
+  },
+  "valuation": {
+    "otherSlotOpponentFirst": 2.37,
+    "otherSlotBlueEmpty": 24.923,
+    "immediateFirstRewardValue": 4
+  },
+  "finding": "Slot 2 first trace remains legal and gives 3 score plus 1 publicity and one owned first trace, regardless of slot 1 same-color opponent owner. Current cross-slot colorLost heuristic drops its valuation below the immediate reward, and actual decision selected slot 1 extra instead. Future alien identity and full-game gain are not inferred.",
+  "next": "Separate candidate should preserve each target slot own reward/card expectation when another slot has same-color opponent ownership. Audit all valuation/controller/deferred reward uses. Do not alter the currently frozen progress candidate."
+}
