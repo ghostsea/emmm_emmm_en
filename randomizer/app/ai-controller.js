@@ -3982,7 +3982,7 @@
         if (publicityGain > 0 && aiNumber(resources.publicity) < 3 && aiNumber(afterResources.publicity) >= 3) {
           value += Math.min(4.5, 2.4 + Math.max(0, 2 - (player.hand || []).length) * 0.65) * mainActionScale;
         }
-        if (publicityGain > 0) {
+        if (publicityGain > 0 && options.includeResearchSetup !== false) {
           value += scoreAiPublicityResearchTechSetupValue(gain, player, { scale: mainActionScale });
         }
 
@@ -10213,7 +10213,11 @@
           return scoreAiIncomeOpportunityValue(player, bonus.gain || bonus.income || { credits: 1 });
         case "publicity":
           return scoreAiResourceBundle({ publicity: bonus.publicity || 1 })
-            + scoreAiMidgameResourceContinuationValue({ publicity: bonus.publicity || 1 }, player, { scale: 0.55 })
+            + scoreAiMidgameResourceContinuationValue({ publicity: bonus.publicity || 1 }, player, {
+              scale: 0.55,
+              includeResearchSetup: ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL]
+                .includes(getAiIndustryCard(player)?.label),
+            })
             + scoreAiPublicityResearchTechSetupValue({ publicity: bonus.publicity || 1 }, player, { scale: 0.7 });
         case "score":
           return scoreAiResourceBundle({ score: bonus.score || 1 })
