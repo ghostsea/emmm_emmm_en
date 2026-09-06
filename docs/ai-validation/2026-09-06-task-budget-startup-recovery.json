@@ -1,0 +1,33 @@
+{
+  "scope": "Infrastructure retries; no score-bearing output from failed attempts. Original seeds and all source/harness hashes retained. Initial queue stopped launching after failure; completed games preserved. Four failed cases rerun successfully at concurrency four. No unrelated process was terminated.",
+  "failures": [
+    {
+      "case": 2,
+      "phase": "browser-startup-before-game",
+      "originalLog": [
+        "Error: CDP Page.navigate timed out after 45000ms"
+      ]
+    },
+    {
+      "case": 3,
+      "phase": "browser-startup-before-game",
+      "originalLog": [
+        "Error: Timed out waiting for SetiRandomizer.runAiAutoBattleBatch; startup={\"readyState\":\"complete\",\"hasSetiRandomizer\":false,\"hasBatch\":false,\"bodyText\":\"\"}; console=[]"
+      ]
+    },
+    {
+      "case": 6,
+      "phase": "browser-startup-before-game",
+      "originalLog": [
+        "Error: CDP Runtime.evaluate timed out after 45000ms"
+      ]
+    },
+    {
+      "case": 8,
+      "phase": "browser-startup-before-game",
+      "originalLog": [
+        "Error: CDP Page.navigate timed out after 45000ms"
+      ]
+    }
+  ]
+}
