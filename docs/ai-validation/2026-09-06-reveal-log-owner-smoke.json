@@ -1,0 +1,323 @@
+{
+  "before": {
+    "ownerId": "player-green",
+    "recipientId": "player-blue",
+    "entryOwner": "player-green",
+    "paymentPresent": false,
+    "stepOwners": [
+      {
+        "text": "方舟奖励 6：1分数：绿色 分数+1"
+      },
+      {
+        "text": "方舟奖励 6：1信用点：绿色 信用点+1"
+      }
+    ],
+    "analysisOwners": [
+      {
+        "id": "player-green",
+        "analyses": 1
+      }
+    ],
+    "bugCount": 0,
+    "revealed": true,
+    "players": [
+      {
+        "id": "player-blue",
+        "resources": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 13
+        },
+        "hand": [
+          "b_110.webp",
+          "b_73.webp",
+          "b_98.webp",
+          "dlc_16.png",
+          "dlc_18.png",
+          "b_35.webp",
+          "dlc_32.png"
+        ],
+        "income": {
+          "credits": 4,
+          "energy": 2,
+          "handSize": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        }
+      },
+      {
+        "id": "player-green",
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 13
+        },
+        "hand": [
+          "b_77.webp",
+          "b_60.webp",
+          "b_92.webp",
+          "dlc_26.png"
+        ],
+        "income": {
+          "credits": 4,
+          "energy": 1,
+          "handSize": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        }
+      },
+      {
+        "id": "player-brown",
+        "resources": {
+          "credits": 5,
+          "energy": 5,
+          "publicity": 8,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 9
+        },
+        "hand": [
+          "b_135.webp",
+          "b_31.webp",
+          "b_105.webp"
+        ],
+        "income": {
+          "credits": 3,
+          "energy": 3,
+          "handSize": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        }
+      },
+      {
+        "id": "player-white",
+        "resources": {
+          "credits": 6,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 10
+        },
+        "hand": [
+          "b_16.webp",
+          "b_53.webp",
+          "b_49.webp",
+          "b_25.webp",
+          "b_6.webp",
+          "b_59.webp",
+          "b_34.webp"
+        ],
+        "income": {
+          "credits": 4,
+          "energy": 2,
+          "handSize": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        }
+      }
+    ],
+    "random": {
+      "version": 1,
+      "mode": "seeded",
+      "seed": "codex-reveal-action-owner-smoke-20260906",
+      "dateKey": null,
+      "value": 3627238196,
+      "calls": 209
+    }
+  },
+  "after": {
+    "ownerId": "player-green",
+    "recipientId": "player-blue",
+    "entryOwner": "player-green",
+    "paymentPresent": true,
+    "stepOwners": [
+      {
+        "player": "player-green",
+        "text": "分析数据：资源：能量-1"
+      },
+      {
+        "player": "player-green",
+        "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 放置蓝色痕迹，三种首标记已满，可揭示；外星人 1首痕迹奖励：5分+1宣传；外星人 1三种首痕迹已满：将在该玩家回合结束时揭示外星人"
+      },
+      {
+        "player": "player-green",
+        "text": "回合结束揭示外星人：方舟已揭示：已发解锁牌，待结算基础奖励 3 次；方舟揭示基础奖励：蓝色基础奖励 2 次（方舟奖励 7、方舟奖励 4）；绿色基础奖励 1 次（方舟奖励 6）"
+      },
+      {
+        "player": "player-blue",
+        "text": "方舟奖励 7：1分数：蓝色 分数+1"
+      },
+      {
+        "player": "player-blue",
+        "text": "方舟奖励 7：盲抽 1 张：已抽 1 张"
+      },
+      {
+        "player": "player-blue",
+        "text": "方舟奖励 4：4分数：蓝色 分数+4"
+      },
+      {
+        "player": "player-green",
+        "text": "方舟奖励 6：1分数：绿色 分数+1"
+      },
+      {
+        "player": "player-green",
+        "text": "方舟奖励 6：1信用点：绿色 信用点+1"
+      }
+    ],
+    "analysisOwners": [
+      {
+        "id": "player-green",
+        "analyses": 1
+      },
+      {
+        "id": "player-blue",
+        "analyses": 0
+      }
+    ],
+    "bugCount": 0,
+    "revealed": true,
+    "players": [
+      {
+        "id": "player-blue",
+        "resources": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 13
+        },
+        "hand": [
+          "b_110.webp",
+          "b_73.webp",
+          "b_98.webp",
+          "dlc_16.png",
+          "dlc_18.png",
+          "b_35.webp",
+          "dlc_32.png"
+        ],
+        "income": {
+          "credits": 4,
+          "energy": 2,
+          "handSize": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        }
+      },
+      {
+        "id": "player-green",
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 13
+        },
+        "hand": [
+          "b_77.webp",
+          "b_60.webp",
+          "b_92.webp",
+          "dlc_26.png"
+        ],
+        "income": {
+          "credits": 4,
+          "energy": 1,
+          "handSize": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        }
+      },
+      {
+        "id": "player-brown",
+        "resources": {
+          "credits": 5,
+          "energy": 5,
+          "publicity": 8,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 9
+        },
+        "hand": [
+          "b_135.webp",
+          "b_31.webp",
+          "b_105.webp"
+        ],
+        "income": {
+          "credits": 3,
+          "energy": 3,
+          "handSize": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        }
+      },
+      {
+        "id": "player-white",
+        "resources": {
+          "credits": 6,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 10
+        },
+        "hand": [
+          "b_16.webp",
+          "b_53.webp",
+          "b_49.webp",
+          "b_25.webp",
+          "b_6.webp",
+          "b_59.webp",
+          "b_34.webp"
+        ],
+        "income": {
+          "credits": 4,
+          "energy": 2,
+          "handSize": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "additionalPublicScan": 0
+        }
+      }
+    ],
+    "random": {
+      "version": 1,
+      "mode": "seeded",
+      "seed": "codex-reveal-action-owner-smoke-20260906",
+      "dateKey": null,
+      "value": 3627238196,
+      "calls": 209
+    }
+  },
+  "playersAndRandomStateEqual": true
+}

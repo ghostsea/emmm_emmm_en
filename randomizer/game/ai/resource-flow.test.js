@@ -580,4 +580,34 @@ assert.equal(gainedIncomeCard.players[0].incomeCardConversionRate, 1);
     "round-start setup steps participate in resource snapshot reconciliation");
 }
 
+{
+  const result = flow.analyzeStructuredActionLog([{
+    id: 12, roundNumber: 1, turnNumber: 2, playerId: "green", actionType: "analyze",
+    steps: [
+      { source: "main", playerId: "green", text: "分析数据：绿色 能量-1" },
+      { source: "main", playerId: "white", text: "方舟奖励：已抽 1 张" },
+      { source: "main", playerId: "white", text: "方舟奖励：信用点+1" },
+    ],
+  }], { initialPlayerStates: [
+    { id: "green", color: "green", resources: { energy: 1 } },
+    { id: "white", color: "white", resources: {} },
+  ] });
+  const green = result.players.find(p => p.playerId === "green");
+  const white = result.players.find(p => p.playerId === "white");
+  assert.equal(green.analysisActionCount, 1);
+  assert.equal(white.analysisActionCount, 0, "receiving an unlabeled reveal reward is not analyzing");
+  assert.equal(white.nonIncomeGain.credits, 1);
+  assert.equal(green.nonIncomeGain.credits || 0, 0);
+  assert.equal(result.events.find(e => e.sourceDetail.includes("已抽")).playerId, "white");
+}
+
+{
+  const result = flow.analyzeStructuredActionLog([{
+    id: 1, roundNumber: 1, playerId: "p1", actionType: "analyze",
+    steps: [{ source: "main", text: "方舟奖励 3：额外弃牌扫描 +1：公共弃牌扫描 +1" },
+      { source: "main", text: "从弃牌堆获取奖励" }],
+  }], { initialPlayerStates: [{ id: "p1", color: "white", resources: {} }] });
+  assert.ok(result.events.every(e => e.cards.length === 0), "discard scan and discard pile labels are not a discarded hand card");
+}
+
 console.log("resource-flow.test.js: all tests passed");

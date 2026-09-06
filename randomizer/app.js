@@ -1529,6 +1529,8 @@
     return {
       stepId: options.stepId || options.id || null,
       source,
+      playerId: options.playerId || null,
+      playerLabel: options.playerLabel || null,
       text,
       label: normalizeActionLogText(label),
       detail: normalizeActionLogText(detail),
@@ -1665,7 +1667,7 @@
     const isSameTurnDraft = actionLogState.draft
       && actionLogState.draft.roundNumber === turnState.roundNumber
       && actionLogState.draft.rawTurnNumber === turnState.turnNumber
-      && actionLogState.draft.playerId === playerId;
+      && (actionLogState.draft.playerId === playerId || options.preserveTurnOwner);
 
     if (!isSameTurnDraft) {
       actionLogState.draft = {
@@ -1710,13 +1712,22 @@
   }
 
   function appendActionLogStep(source, label, detail = null, options = {}) {
+    const stepPlayer = options.player || getCurrentPlayer();
+    const stepPlayerId = options.playerId || stepPlayer?.id || playerState.currentPlayerId || null;
     const draft = ensureActionLogDraft({
       source,
       actionType: options.actionType,
       label: options.actionLabel,
       player: options.player,
+      // Reveal rewards temporarily select their recipient within the same turn.
+      // Keep the initiating action and its prior steps; record each recipient below.
+      preserveTurnOwner: true,
     });
-    const step = normalizeActionLogStep(source, label, detail, options);
+    const step = normalizeActionLogStep(source, label, detail, {
+      ...options,
+      playerId: stepPlayerId,
+      playerLabel: options.playerLabel || getPlayerLabelById(stepPlayerId),
+    });
     if (!step) return null;
     draft.steps.push(step);
     renderActionLog();
@@ -2361,6 +2372,8 @@
       steps: (entryInput.steps || []).map((step) => ({
         stepId: step.stepId || null,
         source: step.source || HISTORY_SOURCE_MAIN,
+        playerId: step.playerId || null,
+        playerLabel: step.playerLabel || null,
         text: normalizeActionLogText(step.text || composeActionLogStepText(step.label, step.detail)),
         label: normalizeActionLogText(step.label),
         detail: normalizeActionLogText(step.detail),

@@ -1621,4 +1621,38 @@ assert.ok(
     "each log snapshot precedes the next player's or next bonus's resource mutation");
 }
 
+{
+  const green = { id: "player-green" }, white = { id: "player-white" };
+  let current = green;
+  const actionLogState = { draft: null };
+  const turnState = { roundNumber: 1, turnNumber: 7 };
+  const dependencies = {
+    actionLogState, turnState, playerState: { currentPlayerId: green.id },
+    getCurrentPlayer: () => current, getPlayerLabelById: id => id,
+    getActionCycleNumber: () => 2, HISTORY_SOURCE_QUICK: "quick",
+    getActionLogActionLabel: type => type, ACTION_LOG_DEFAULT_LABELS: { quick: "快速行动" },
+  };
+  const ensureActionLogDraft = loadNamedFunction("ensureActionLogDraft", dependencies);
+  const normalizeActionLogStep = loadNamedFunction("normalizeActionLogStep", {
+    composeActionLogStepText: (label, detail) => label + (detail || ""),
+    normalizeActionLogText: value => value || "", createActionLogPlayedCardSnapshot: () => null,
+    normalizeActionLogBriefingSnapshot: () => null,
+  });
+  const append = loadNamedFunction("appendActionLogStep", {
+    ...dependencies, ensureActionLogDraft, normalizeActionLogStep, renderActionLog: () => {},
+  });
+  ensureActionLogDraft({ actionType: "analyze", source: "main" });
+  append("main", "分析数据", "绿色 能量-1");
+  current = white;
+  append("main", "方舟奖励", "已抽 1 张", { actionType: "analyze" });
+  assert.equal(actionLogState.draft.playerId, green.id, "reward recipient must not replace action owner");
+  assert.equal(actionLogState.draft.steps.length, 2, "analysis payment survives recipient switch");
+  assert.deepEqual(actionLogState.draft.steps.map(step => step.playerId), [green.id, white.id]);
+  assert.equal(actionLogState.draft.actionType, "analyze");
+  turnState.turnNumber += 1;
+  append("quick", "放置数据", "数据-1");
+  assert.equal(actionLogState.draft.playerId, white.id, "a genuinely new turn starts a new draft");
+  assert.equal(actionLogState.draft.steps.length, 1);
+}
+
 console.log("runtime-regressions.test.js: all tests passed");

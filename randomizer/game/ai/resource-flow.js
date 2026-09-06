@@ -887,7 +887,7 @@
         return player.playerId;
       }
     }
-    return entry.playerId || null;
+    return step?.playerId || entry.playerId || null;
   }
 
   function findStructuredAlienId(text) {
@@ -919,8 +919,8 @@
         change: "move_payment",
         origin: "normal",
       });
-    } else if (/弃牌|弃掉|弃除手牌/.test(text)) {
-      const discarded = text.match(/(?:弃牌|弃掉|弃除手牌)\s*([^，；：]*)/);
+    } else if (/弃牌(?!扫描|堆)|弃掉|弃除手牌/.test(text)) {
+      const discarded = text.match(/(?:弃牌(?!扫描|堆)|弃掉|弃除手牌)\s*([^，；：]*)/);
       const label = discarded?.[1]?.trim() || "未知弃牌";
       cards.push({ key: label, label, change: "discard", origin: "normal" });
     }
