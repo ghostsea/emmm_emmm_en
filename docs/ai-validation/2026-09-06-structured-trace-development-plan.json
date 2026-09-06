@@ -1,0 +1,87 @@
+{
+  "phase": "seen-development",
+  "frozenAt": "2026-09-06T00:01:36.267Z",
+  "sourceCommit": "be3486d536dfef71aa7f2b54de862f7d4f90063b",
+  "initialIndices": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "rule": "Compare each candidate against cached same-runtime verify-base. All these seeds are now seen; not independent validation.",
+  "models": {
+    "structured": {
+      "root": "structured-trace",
+      "fingerprint": "51dfa006acded275b49230031648e178183d7772b601a341c0c6e929bcc28ee2",
+      "commit": "980984b47c8c2b8646a0f5e85f01283c71b8f1c8"
+    }
+  },
+  "pairs": [
+    {
+      "index": 1,
+      "seed": "codex-ai-verify-20260906:ade5b1f264282c81",
+      "alienSeed": "codex-ai-verify-20260906:ade5b1f264282c81:aliens:v1",
+      "baseline": "verify-base-1.json",
+      "candidate": "verify-candidate-1.json"
+    },
+    {
+      "index": 2,
+      "seed": "codex-ai-verify-20260906:80cd2b7c089defe6",
+      "alienSeed": "codex-ai-verify-20260906:80cd2b7c089defe6:aliens:v1",
+      "baseline": "verify-base-2.json",
+      "candidate": "verify-candidate-2.json"
+    },
+    {
+      "index": 3,
+      "seed": "codex-ai-verify-20260906:3c9723b84dd9bbc2",
+      "alienSeed": "codex-ai-verify-20260906:3c9723b84dd9bbc2:aliens:v1",
+      "baseline": "verify-base-3.json",
+      "candidate": "verify-candidate-3.json"
+    },
+    {
+      "index": 4,
+      "seed": "codex-ai-verify-20260906:17aeef4bc2fe16a7",
+      "alienSeed": "codex-ai-verify-20260906:17aeef4bc2fe16a7:aliens:v1",
+      "baseline": "verify-base-4.json",
+      "candidate": "verify-candidate-4.json"
+    },
+    {
+      "index": 5,
+      "seed": "codex-ai-verify-20260906:123bbf02166670f4",
+      "alienSeed": "codex-ai-verify-20260906:123bbf02166670f4:aliens:v1",
+      "baseline": "verify-base-5.json",
+      "candidate": "verify-candidate-5.json"
+    },
+    {
+      "index": 6,
+      "seed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3",
+      "alienSeed": "codex-ai-verify-20260906:9cc5f7784b9fd3a3:aliens:v1",
+      "baseline": "verify-base-6.json",
+      "candidate": "verify-candidate-6.json"
+    },
+    {
+      "index": 7,
+      "seed": "codex-ai-verify-20260906:24ffa94231d2397f",
+      "alienSeed": "codex-ai-verify-20260906:24ffa94231d2397f:aliens:v1",
+      "baseline": "verify-base-7.json",
+      "candidate": "verify-candidate-7.json"
+    },
+    {
+      "index": 8,
+      "seed": "codex-ai-verify-20260906:5e506c27b4798d0f",
+      "alienSeed": "codex-ai-verify-20260906:5e506c27b4798d0f:aliens:v1",
+      "baseline": "verify-base-8.json",
+      "candidate": "verify-candidate-8.json"
+    }
+  ],
+  "harnessHashes": {
+    "tools/run_ai_autobattle_browser.js": "678a936160452b34991a502a53714fa2de598a07383ebe99cf139c3a94d3a87e",
+    "tools/ai_alien_seed.js": "4253af344f56b56c19babd04a277bb5028002f0b31546a3c975c460ac1e53897"
+  },
+  "scope": "Structured trace rewards supersede text and position premiums at valuation and actual target selection. Species timing, legality, card expectation and final scoring kept. Analyze max-score forecast not changed.",
+  "testEvidence": "52 tests passed including actual trace selector label invariance; all eight seeds now seen; fresh validation requires new seeds after freeze."
+}

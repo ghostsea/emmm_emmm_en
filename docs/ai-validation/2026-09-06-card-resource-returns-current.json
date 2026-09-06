@@ -1,0 +1,203 @@
+{
+  "definition": "按玩家与行动entryId分组，仅统计含实际打出牌记录的main流水。包含该打牌行动触发的即时后续奖励，排除同回合独立quick流水；收入轨增量另列，不折成未来资源。不是卡牌固有类型分类，也不包含尚未兑现的任务或终局收益。",
+  "limitations": [
+    "旧真人日志存在资源获取缺项，计数和收益仅代表可见流水。",
+    "资源成本含打出的手牌及后续收入弃牌；净资源流不能替代整局得分。",
+    "同一打牌条目的快照推算余量单列为snapshotGain/snapshotCost；它可能跨越快速步骤，不能直接归为卡牌收益或成本。"
+  ],
+  "reference": {
+    "players": 15,
+    "perPlayer": {
+      "cardMainActions": 14.333333333333334,
+      "resourceReturningActions": 10.533333333333333,
+      "incomeIncreasingActions": 0.4666666666666667,
+      "gainWeighted": 48.3,
+      "costWeighted": 107.13333333333334,
+      "directScore": 13.6,
+      "snapshotGainWeighted": 0,
+      "snapshotCostWeighted": 0
+    }
+  },
+  "ai": {
+    "players": 32,
+    "perPlayer": {
+      "cardMainActions": 10.46875,
+      "resourceReturningActions": 8.28125,
+      "incomeIncreasingActions": 0.125,
+      "gainWeighted": 28.265625,
+      "costWeighted": 87.78125,
+      "directScore": 15.40625,
+      "snapshotGainWeighted": 5.078125,
+      "snapshotCostWeighted": 14.25
+    }
+  },
+  "aiCompanies": {
+    "宇宙大战略集团": {
+      "players": 8,
+      "perPlayer": {
+        "cardMainActions": 11.5,
+        "resourceReturningActions": 10.875,
+        "incomeIncreasingActions": 0.125,
+        "gainWeighted": 42.1875,
+        "costWeighted": 99.875,
+        "directScore": 15.625,
+        "snapshotGainWeighted": 4.8125,
+        "snapshotCostWeighted": 11.875
+      }
+    },
+    "作弊实验室": {
+      "players": 16,
+      "perPlayer": {
+        "cardMainActions": 10.75,
+        "resourceReturningActions": 7.875,
+        "incomeIncreasingActions": 0.1875,
+        "gainWeighted": 25.8125,
+        "costWeighted": 89.625,
+        "directScore": 13.125,
+        "snapshotGainWeighted": 5.03125,
+        "snapshotCostWeighted": 14.5625
+      }
+    },
+    "寰宇超动力": {
+      "players": 8,
+      "perPlayer": {
+        "cardMainActions": 8.875,
+        "resourceReturningActions": 6.5,
+        "incomeIncreasingActions": 0,
+        "gainWeighted": 19.25,
+        "costWeighted": 72,
+        "directScore": 19.75,
+        "snapshotGainWeighted": 5.4375,
+        "snapshotCostWeighted": 16
+      }
+    }
+  },
+  "referenceRaw": {
+    "all": {
+      "seats": 15,
+      "gain": {
+        "credits": 1.6666666666666667,
+        "energy": 3.8,
+        "publicity": 9,
+        "availableData": 7.8,
+        "handSize": 3.7333333333333334
+      },
+      "cost": {
+        "credits": 19.866666666666667,
+        "energy": 1.3333333333333333,
+        "publicity": 0.13333333333333333,
+        "availableData": 0,
+        "handSize": 14.466666666666667
+      },
+      "snapshotGain": {
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "handSize": 0
+      },
+      "snapshotCost": {
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "handSize": 0
+      }
+    }
+  },
+  "aiRaw": {
+    "宇宙大战略集团": {
+      "seats": 8,
+      "gain": {
+        "credits": 3.875,
+        "energy": 0.625,
+        "publicity": 12.375,
+        "availableData": 10.375,
+        "handSize": 0.25
+      },
+      "cost": {
+        "credits": 21.375,
+        "energy": 0,
+        "publicity": 0.5,
+        "availableData": 0,
+        "handSize": 11.75
+      },
+      "snapshotGain": {
+        "credits": 0.375,
+        "energy": 0,
+        "publicity": 0.875,
+        "availableData": 1.375,
+        "handSize": 0.25
+      },
+      "snapshotCost": {
+        "credits": 0.25,
+        "energy": 0.875,
+        "publicity": 2.5,
+        "availableData": 1,
+        "handSize": 1.5
+      }
+    },
+    "作弊实验室": {
+      "seats": 16,
+      "gain": {
+        "credits": 0.125,
+        "energy": 0.5,
+        "publicity": 8.5625,
+        "availableData": 8.375,
+        "handSize": 0.9375
+      },
+      "cost": {
+        "credits": 18.8125,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "handSize": 11.0625
+      },
+      "snapshotGain": {
+        "credits": 0.25,
+        "energy": 0,
+        "publicity": 2.125,
+        "availableData": 0.3125,
+        "handSize": 0.5625
+      },
+      "snapshotCost": {
+        "credits": 0.25,
+        "energy": 1,
+        "publicity": 2.5625,
+        "availableData": 3,
+        "handSize": 1.25
+      }
+    },
+    "寰宇超动力": {
+      "seats": 8,
+      "gain": {
+        "credits": 0,
+        "energy": 0.25,
+        "publicity": 7.625,
+        "availableData": 5.75,
+        "handSize": 0.75
+      },
+      "cost": {
+        "credits": 15,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "handSize": 9
+      },
+      "snapshotGain": {
+        "credits": 0.375,
+        "energy": 0,
+        "publicity": 2.625,
+        "availableData": 0.375,
+        "handSize": 0.375
+      },
+      "snapshotCost": {
+        "credits": 0,
+        "energy": 1.625,
+        "publicity": 1.375,
+        "availableData": 1.5,
+        "handSize": 2.5
+      }
+    }
+  }
+}

@@ -16,17 +16,30 @@ function summarizeCardReturns(games) {
     for (const player of game.players) {
       const entries = new Map();
       for (const event of game.events) {
-        if (event.playerId !== player.playerId || event.pace !== "main" || event.entryId == null) continue;
+        if (event.playerId !== player.playerId || event.entryId == null) continue;
+        if (event.pace !== "main" && !(event.syntheticSnapshotInference && event.pace === "playCard")) continue;
         if (!entries.has(event.entryId)) entries.set(event.entryId, []);
         entries.get(event.entryId).push(event);
       }
       const playerActions = [];
       for (const [entryId, events] of entries) {
-        const playedCards = events.flatMap((event) => (event.cards || []).filter((card) => card.change === "play"));
+        const playedCards = events.filter((event) => event.pace === "main")
+          .flatMap((event) => (event.cards || []).filter((card) => card.change === "play"));
         if (!playedCards.length) continue;
         const gain = zeroResources(), cost = zeroResources(), incomeIncrease = {};
+        const snapshotGain = zeroResources(), snapshotCost = zeroResources();
         let directScore = 0;
         for (const event of events) {
+          // Entry snapshots can span quick steps too. Expose their residual separately;
+          // without step-level evidence it is not a confirmed cost of the played card.
+          if (event.syntheticSnapshotInference) {
+            for (const key of SPENDABLE_RESOURCE_KEYS) {
+              const delta = Number(event.resourceDeltas?.[key]) || 0;
+              snapshotGain[key] += Math.max(0, delta);
+              snapshotCost[key] += Math.max(0, -delta);
+            }
+            continue;
+          }
           for (const key of SPENDABLE_RESOURCE_KEYS) {
             const delta = Number(event.resourceDeltas?.[key]) || 0;
             gain[key] += Math.max(0, delta);
@@ -40,6 +53,7 @@ function summarizeCardReturns(games) {
         playerActions.push({ gameId: game.gameId, entryId, playerId: player.playerId, company: player.company,
           roundNumber: events[0].roundNumber, cards: playedCards.map((card) => card.label || card.key),
           gain, cost, incomeIncrease, directScore, gainWeighted: weighted(gain), costWeighted: weighted(cost),
+          snapshotGain, snapshotCost, snapshotGainWeighted: weighted(snapshotGain), snapshotCostWeighted: weighted(snapshotCost),
           hasResourceReturn: Object.values(gain).some((value) => value > 0),
           hasIncomeIncrease: Object.values(incomeIncrease).some((value) => value > 0) });
       }
@@ -49,11 +63,12 @@ function summarizeCardReturns(games) {
         resourceReturningActions: playerActions.filter((action) => action.hasResourceReturn).length,
         incomeIncreasingActions: playerActions.filter((action) => action.hasIncomeIncrease).length,
         gainWeighted: sum(playerActions, "gainWeighted"), costWeighted: sum(playerActions, "costWeighted"),
-        directScore: sum(playerActions, "directScore") });
+        directScore: sum(playerActions, "directScore"),
+        snapshotGainWeighted: sum(playerActions, "snapshotGainWeighted"), snapshotCostWeighted: sum(playerActions, "snapshotCostWeighted") });
     }
   }
   function summarize(rows) {
-    const keys = ["cardMainActions", "resourceReturningActions", "incomeIncreasingActions", "gainWeighted", "costWeighted", "directScore"];
+    const keys = ["cardMainActions", "resourceReturningActions", "incomeIncreasingActions", "gainWeighted", "costWeighted", "directScore", "snapshotGainWeighted", "snapshotCostWeighted"];
     return { players: rows.length, perPlayer: Object.fromEntries(keys.map((key) => [key, rows.length ? sum(rows, key) / rows.length : null])) };
   }
   return { allPlayers: summarize(players), byCompany: Object.fromEntries([...new Set(players.map((p) => p.company))]
@@ -77,7 +92,7 @@ function main(manifestFile, outputFile) {
   });
   const report = {
     definition: "按玩家与行动entryId分组，仅统计含实际打出牌记录的main流水。包含该打牌行动触发的即时后续奖励，排除同回合独立quick流水；收入轨增量另列，不折成未来资源。不是卡牌固有类型分类，也不包含尚未兑现的任务或终局收益。",
-    limitations: ["旧真人日志存在资源获取缺项，计数和收益仅代表可见流水。", "资源成本含打出的手牌及后续收入弃牌；净资源流不能替代整局得分。"],
+    limitations: ["旧真人日志存在资源获取缺项，计数和收益仅代表可见流水。", "资源成本含打出的手牌及后续收入弃牌；净资源流不能替代整局得分。", "同一打牌条目的快照推算余量单列为snapshotGain/snapshotCost；它可能跨越快速步骤，不能直接归为卡牌收益或成本。"],
     resourceWeights: Object.fromEntries(SPENDABLE_RESOURCE_KEYS.map((key) => [key, RESOURCE_VALUES[key]])),
     reference: summarizeCardReturns(humanGames), ai: summarizeCardReturns(aiGames),
   };
