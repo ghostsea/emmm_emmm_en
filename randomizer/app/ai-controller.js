@@ -10632,6 +10632,61 @@
       return Math.max(1, Math.round(aiNumber(options.count || options.repeat || options.cornerRepeat || 1)));
     }
 
+    function buildAiCardScanTargetPreview(playEffects = [], player = getCurrentPlayer()) {
+      // Only the first node can use the current board without projecting earlier effects.
+      const scanEffectsInCard = playEffects.filter(effect => isAiCardScanEffectType(effect?.type));
+      if (scanEffectsInCard.length !== 1 || scanEffectsInCard[0] !== playEffects[0]) return null;
+      const effect = scanEffectsInCard[0];
+      const opts = effect.options || {};
+      const types = cardEffects.EFFECT_TYPES;
+      const supported = [types.SCAN_NEBULA, types.ANY_SECTOR_SCAN, types.SCAN_COLOR_CHOICE,
+        types.SECTOR_X_SCAN, types.PLANET_SECTOR_SCAN, types.PUBLIC_SCAN, "card_color_scan"].filter(Boolean);
+      if (!supported.includes(effect.type)) return null;
+      const repeat = Math.max(1, Math.round(aiNumber(opts.repeat || 1)));
+      const sameTargetRepeat = [types.SCAN_NEBULA, types.ANY_SECTOR_SCAN].includes(effect.type);
+      if (repeat > 1 && !sameTargetRepeat) return null;
+      let choices = [];
+      if (effect.type === types.SCAN_NEBULA) {
+        choices = [{ nebulaId: opts.nebulaId }];
+      } else if (effect.type === types.ANY_SECTOR_SCAN) {
+        choices = buildSectorScanChoicesForXs(Array.from({ length: 8 }, (_, x) => x)) || [];
+      } else if (effect.type === types.SECTOR_X_SCAN) {
+        choices = buildSectorScanChoicesForX(solar.mod8(aiNumber(opts.sectorX))) || [];
+      } else if (effect.type === types.PLANET_SECTOR_SCAN) {
+        const planet = getPlanetSectorCoordinate(opts.planetId);
+        choices = planet ? buildSectorScanChoicesForX(planet.x) || [] : [];
+      } else if (effect.type === types.PUBLIC_SCAN) {
+        const publicCard = getAiBestPublicScanSlots(player, { maxSelectable: 1 })[0]?.card;
+        const result = publicCard ? getPublicScanChoicesForCard(publicCard) : null;
+        choices = result?.ok ? result.choices || [] : [];
+      } else {
+        const ids = cardEffects.NEBULA_IDS_BY_COLOR?.[opts.color] || [];
+        const allChoices = buildSectorScanChoicesForXs(Array.from({ length: 8 }, (_, x) => x)) || [];
+        const sectorXs = new Set(allChoices.filter(choice => ids.includes(choice.nebulaId)).map(choice => choice.sectorX));
+        choices = allChoices.filter(choice => ids.includes(choice.nebulaId)
+          || (choice.nebulaId === aomomo?.NEBULA_ID && sectorXs.has(choice.sectorX)));
+      }
+      const best = getBestAiNebulaChoiceEntry(choices, { player, gainData: opts.gainData });
+      const nebulaId = best?.choice?.nebulaId || null;
+      const tokens = nebulaId ? data.listNebulaTokens(nebulaDataState, nebulaId) || [] : [];
+      const openTokens = tokens.filter(token => !aiTokenHasOwner(token))
+        .sort((a, b) => aiNumber(a.slotIndex) - aiNumber(b.slotIndex));
+      const replaced = Math.min(repeat, openTokens.length);
+      const extraMarks = tokens.length ? repeat - replaced : 0;
+      const dataGain = opts.gainData === false ? 0 : Math.min(replaced, getAiAvailableDataRoom(player));
+      const slotScore = openTokens.slice(0, replaced).reduce((total, token) => total
+        + Math.max(0, aiNumber(data.getNebulaSlotScoreReward?.(nebulaId, token.slotIndex))), 0);
+      const continuation = dataGain ? scoreAiMidgameResourceContinuationValue({ availableData: dataGain }, player, { scale: 0.75 }) : 0;
+      // The target selector's strategic score is not added: demand/route/free-action terms remain separate.
+      const value = replaced * 3 + extraMarks * 0.25 + slotScore
+        + dataGain * AI_RESOURCE_VALUES.availableData + continuation;
+      const previousValue = scoreAiEffectValue(effect, { player, immediate: true });
+      return { effectId: effect.id || null, effectType: effect.type, nebulaId, repeat,
+        replaced, extraMarks, dataGain, slotScore, continuation: roundAiScore(continuation),
+        value: roundAiScore(value), previousValue: roundAiScore(previousValue),
+        adjustment: value - previousValue };
+    }
+
     function getAiPlayerCompanyBaseIncome(player = getCurrentPlayer()) {
       const explicitBaseIncome = player?.companyBaseIncome
         || player?.baseIncome
@@ -10899,6 +10954,8 @@
           );
           return handScans * 2.5;
         }
+        case cardEffects.EFFECT_TYPES.SCAN_NEBULA:
+        case cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN:
         case cardEffects.EFFECT_TYPES.SECTOR_X_SCAN:
         case cardEffects.EFFECT_TYPES.PLANET_SECTOR_SCAN:
         case cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE:
@@ -12714,10 +12771,10 @@
         [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay)
       );
       const probeMoveScanPreview = details.effectValue == null ? buildAiProbeMoveScanPreview(playEffects, player) : null;
-      const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
+      const effectValue = details.effectValue ?? (playEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player, immediate: true,
           probeScanProfile: effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN ? probeMoveScanPreview?.scan : null })
-      ), 0);
+      ), 0) + (buildAiCardScanTargetPreview(playEffects, player)?.adjustment || 0));
       const hasPersistentModeledValue = Boolean(
         model?.tasks?.length
         || model?.triggers?.length
@@ -19118,11 +19175,12 @@
         readyTaskCashout,
         currentPlayer,
       );
+      const scanTargetPreview = buildAiCardScanTargetPreview(valuationPlayEffects, currentPlayer);
       const probeMoveScanPreview = buildAiProbeMoveScanPreview(valuationPlayEffects, currentPlayer);
       const effectValue = valuationPlayEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true,
           probeScanProfile: effect.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN ? probeMoveScanPreview?.scan : null })
-      ), 0);
+      ), 0) + (scanTargetPreview?.adjustment || 0);
       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
         player: currentPlayer,
         model,
@@ -19307,6 +19365,7 @@
           directScoreGain,
           effectValue,
           probeMoveScanPreview,
+          scanTargetPreview,
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
           finalSelfBlockingPublicityTrap,
@@ -26825,6 +26884,7 @@
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
       scoreAiEffectValue,
+      buildAiCardScanTargetPreview,
       coalesceAiProbeScanEffects,
       buildAiProbeMoveScanPreview,
       buildAiPlayCardCandidate,
