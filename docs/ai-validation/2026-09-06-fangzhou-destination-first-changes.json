@@ -1,0 +1,407 @@
+[
+  {
+    "n": 4,
+    "index": 346,
+    "b": [
+      {
+        "id": 346,
+        "type": "alien-trace",
+        "round": 2,
+        "player": "player-brown",
+        "resources": {
+          "score": 29,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "message": "棕色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "picker",
+          "mode": "fangzhou-destination",
+          "alienSlot": "1",
+          "pickerStep": "fangzhou-destination",
+          "traceType": "blue",
+          "position": null,
+          "score": 58.07850000000001,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": "解锁蓝色痕迹方舟牌追加到 state 额外痕迹位，获得3分，并解锁卡牌加入手牌"
+        }
+      },
+      {
+        "id": 347,
+        "type": "turn-action",
+        "round": 2,
+        "player": "player-brown",
+        "resources": {
+          "score": 32,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "message": "棕色AI 执行 end-turn",
+        "details": null
+      }
+    ],
+    "c": [
+      {
+        "id": 346,
+        "type": "alien-trace",
+        "round": 2,
+        "player": "player-brown",
+        "resources": {
+          "score": 29,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "message": "棕色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "picker",
+          "mode": "fangzhou-destination",
+          "alienSlot": "1",
+          "pickerStep": "fangzhou-destination",
+          "traceType": "blue",
+          "position": null,
+          "score": 35.900000000000006,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": "放到外星人面板随后点击 state 或正面牌图；state额外位会自动解锁同色方舟牌"
+        }
+      },
+      {
+        "id": 347,
+        "type": "alien-trace",
+        "round": 2,
+        "player": "player-brown",
+        "resources": {
+          "score": 29,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "message": "棕色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-brown",
+          "logPlayerColor": "brown",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "2",
+          "pickerStep": null,
+          "traceType": "blue",
+          "position": 4,
+          "score": 31.58,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      }
+    ]
+  },
+  {
+    "n": 5,
+    "index": 219,
+    "b": [
+      {
+        "id": 219,
+        "type": "alien-trace",
+        "round": 1,
+        "player": "player-blue",
+        "resources": {
+          "score": 13,
+          "credits": 3,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "message": "蓝色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "picker",
+          "mode": "fangzhou-destination",
+          "alienSlot": "2",
+          "pickerStep": "fangzhou-destination",
+          "traceType": "blue",
+          "position": null,
+          "score": 57.796,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": "解锁蓝色痕迹方舟牌追加到 state 额外痕迹位，获得3分，并解锁卡牌加入手牌"
+        }
+      },
+      {
+        "id": 220,
+        "type": "turn-action",
+        "round": 1,
+        "player": "player-blue",
+        "resources": {
+          "score": 16,
+          "credits": 3,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 6
+        },
+        "message": "蓝色AI 执行 cardCorner",
+        "details": null
+      }
+    ],
+    "c": [
+      {
+        "id": 219,
+        "type": "alien-trace",
+        "round": 1,
+        "player": "player-blue",
+        "resources": {
+          "score": 13,
+          "credits": 3,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "message": "蓝色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "picker",
+          "mode": "fangzhou-destination",
+          "alienSlot": "2",
+          "pickerStep": "fangzhou-destination",
+          "traceType": "blue",
+          "position": null,
+          "score": 35.89,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": "放到外星人面板随后点击 state 或正面牌图；state额外位会自动解锁同色方舟牌"
+        }
+      },
+      {
+        "id": 220,
+        "type": "alien-trace",
+        "round": 1,
+        "player": "player-blue",
+        "resources": {
+          "score": 13,
+          "credits": 3,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 5
+        },
+        "message": "蓝色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "state-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "blue",
+          "position": null,
+          "score": 49.513000000000005,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      }
+    ]
+  },
+  {
+    "n": 10,
+    "index": 196,
+    "b": [
+      {
+        "id": 196,
+        "type": "alien-trace",
+        "round": 1,
+        "player": "player-blue",
+        "resources": {
+          "score": 21,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 1,
+          "handSize": 5
+        },
+        "message": "蓝色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "picker",
+          "mode": "fangzhou-destination",
+          "alienSlot": "1",
+          "pickerStep": "fangzhou-destination",
+          "traceType": "yellow",
+          "position": null,
+          "score": 56.499,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": "解锁黄色痕迹方舟牌追加到 state 额外痕迹位，获得3分，并解锁卡牌加入手牌"
+        }
+      },
+      {
+        "id": 197,
+        "type": "turn-action",
+        "round": 1,
+        "player": "player-blue",
+        "resources": {
+          "score": 24,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 1,
+          "handSize": 6
+        },
+        "message": "蓝色AI 执行 placeData",
+        "details": null
+      }
+    ],
+    "c": [
+      {
+        "id": 196,
+        "type": "alien-trace",
+        "round": 1,
+        "player": "player-blue",
+        "resources": {
+          "score": 21,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 1,
+          "handSize": 5
+        },
+        "message": "蓝色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "picker",
+          "mode": "fangzhou-destination",
+          "alienSlot": "1",
+          "pickerStep": "fangzhou-destination",
+          "traceType": "yellow",
+          "position": null,
+          "score": 35.400000000000006,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": "放到外星人面板随后点击 state 或正面牌图；state额外位会自动解锁同色方舟牌"
+        }
+      },
+      {
+        "id": 197,
+        "type": "alien-trace",
+        "round": 1,
+        "player": "player-blue",
+        "resources": {
+          "score": 21,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 1,
+          "handSize": 5
+        },
+        "message": "蓝色AI 选择外星人痕迹",
+        "details": {
+          "logPlayerId": "player-blue",
+          "logPlayerColor": "blue",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "yellow",
+          "position": 1,
+          "score": 24.696,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      }
+    ]
+  }
+]
