@@ -438,6 +438,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
+        SCAN_ACTION: "card_scan_action",
         CARD_LAND: "card_land",
         LANDING_SECTOR_SCAN: "card_landing_sector_scan",
         FREE_MOVE: "free_move",
@@ -17109,3 +17110,18 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const realScan = require("../game/actions/scan-effects");
+  const harness = createAiControllerHarness(null, { currentPlayerColor: "blue" });
+  for (const ownedTiles of [{}, { purple1: true }, { purple1: true, purple2: true, purple3: true, purple4: true }]) {
+    const player = { resources: { credits: 3, energy: 3, publicity: 0 }, hand: [], techState: { ownedTiles } };
+    const mandatory = realScan.buildScanEffectQueue(player, { fullScanAction: true }).filter(effect =>
+      [realScan.EFFECT_TYPES.EARTH_SECTOR_SCAN, realScan.EFFECT_TYPES.IMPROVED_SECTOR_SCAN,
+        realScan.EFFECT_TYPES.PUBLIC_CARD_SCAN].includes(effect.type));
+    assert.equal(harness.controller.getAiScanEffectCount({ type: cardEffects.EFFECT_TYPES.SCAN_ACTION }), mandatory.length,
+      "card full-scan count must match the real mandatory queue even with optional purple followups");
+  }
+  assert.equal(harness.controller.getAiScanEffectCount({ type: cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE }), 1);
+  assert.equal(harness.controller.getAiScanEffectCount({ type: cardEffects.EFFECT_TYPES.SCAN_ACTION, options: { repeat: 2 } }), 4);
+}

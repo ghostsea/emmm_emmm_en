@@ -10629,7 +10629,10 @@
       if (options.allMatching && options.condition) {
         return Math.max(1, getSectorXsMatchingCondition(options.condition).length);
       }
-      return Math.max(1, Math.round(aiNumber(options.count || options.repeat || options.cornerRepeat || 1)));
+      const repeats = Math.max(1, Math.round(aiNumber(options.count || options.repeat || options.cornerRepeat || 1)));
+      // A full scan always expands into a sector scan and a public-card scan.
+      // Optional purple followups keep their existing separate valuation.
+      return repeats * (effect?.type === cardEffects.EFFECT_TYPES.SCAN_ACTION ? 2 : 1);
     }
 
     function getAiPlayerCompanyBaseIncome(player = getCurrentPlayer()) {
@@ -26713,6 +26716,7 @@
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
       getAiEarlyDirectScorePlayPassFloor,
+      getAiScanEffectCount,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
       getAiB2SectorWinExactDelta,
