@@ -18,6 +18,10 @@
 
 ### 2026-09-06 当前验证状态
 
+- 蓝色扫描循环修复版a79b8cfb完整24组开发只在第15组产生终分差异，整体+0.6458333、寰宇-1.4166667、大战略+0.875、作弊实验室+1.5625；寰宇主行动与分析数均不变，蓝2能量0.500→0.458，不合入默认。24场正常终局0 bug、192席对账通过。40次合法循环预测中9次实际选扫描，仅3次在同回合随后放入目标蓝色奖励位，6次没有，不能把预计扫描数据直接当作信用/能量到账。见 [完整结果](ai-validation/2026-09-06-huanyu-blue-scan-flow-fixed-development-results.json)、[真实后续放置](ai-validation/2026-09-06-huanyu-blue-scan-flow-fixed-conversion.json)。
+
+- 已见88局前3轮中，寰宇56局236次、大战略62局365次放数据选择：对应信用或能量不超过2且有合法蓝色资源奖励，仍选择其他位置；连续多次选择不能当作独立错误或损失。下一独立候选37addbf8只替换信用奖励的泛化继续行动加分，按当前手牌新增可支付且效果可执行的真实候选评估净改善，并以其实际支付价值封顶；没有新增可支付牌则保留基础信用价值但不给打牌衔接值。仅寰宇/大战略前3轮，无扫描改动。52项回归通过并冻结24组已见开发。见 [放置诊断](ai-validation/2026-09-06-blue-resource-placement88.json)、[冻结计划](ai-validation/2026-09-06-blue-credit-play-closure-development-plan.json)。
+
 - 自身兑现终局板块ec1a027a完整首批24组+1.59375，扩展64组仅+0.16015625（标准误0.8202728），寰宇+0.796875、大战略+0.109375；高分四分位+0.609375，但主行动35.297→35.180、蓝1/蓝2收益均微降。64场正常终局0 bug，512席收支和分析归属通过。初批收益集中在单局且扩展收缩，不合入默认。见 [扩展结果](ai-validation/2026-09-06-final-self-support-development64-results.json)、[合并88组](ai-validation/2026-09-06-final-self-support-development88-results.json)。
 
 - 寰宇蓝色扫描循环初版667a81af调用了未导出的占用检查接口，已停止并作废整批开发实验，未用结果作提分判断。修复版a79b8cfb改用公开listBlueBonusPlacedTokens的blueSlot并补真实模块边界检查，52项回归通过；另行冻结同24个已见开发种子整批重跑。仅在已有未领取蓝1/蓝2、预计一次基础扫描可补足领奖数据且预留分析能量时，解除通用路线扫描上限；保留其他保护，不预发资源。见 [错误与处理](ai-validation/2026-09-06-huanyu-blue-scan-flow-invalid-run.json)、[修复后冻结计划](ai-validation/2026-09-06-huanyu-blue-scan-flow-fixed-development-plan.json)、[88局扫描截面诊断](ai-validation/2026-09-06-huanyu-blue-scan-cap88.json)。

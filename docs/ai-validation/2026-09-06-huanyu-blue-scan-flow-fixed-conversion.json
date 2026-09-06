@@ -1,0 +1,1115 @@
+{
+  "scope": "完整24个已见开发候选的真实决策日志。profile是扫描前预计可触达的未领取蓝1/蓝2；targetPlaced仅确认同玩家同回合后续实际选择对应蓝色槽，不假定每次扫描必然取得资源。不将此计数直接解释为提分。",
+  "summary": {
+    "profileTurns": 40,
+    "selectedScans": 9,
+    "selectedScanWithTargetPlacement": 3,
+    "selectedScanWithoutTargetPlacement": 6
+  },
+  "rows": [
+    {
+      "case": 1,
+      "logId": 690,
+      "round": 3,
+      "turn": 1,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 4,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 5
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 1,
+      "logId": 750,
+      "round": 3,
+      "turn": 2,
+      "selected": "land",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 5,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 4
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 6
+        },
+        {
+          "target": "blueBonus",
+          "blueSlot": 1,
+          "placementSlot": null
+        }
+      ],
+      "targetPlaced": true
+    },
+    {
+      "case": 1,
+      "logId": 867,
+      "round": 3,
+      "turn": 5,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 1,
+      "logId": 900,
+      "round": 3,
+      "turn": 6,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 1
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 2
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 3
+        },
+        {
+          "target": "blueBonus",
+          "blueSlot": 2,
+          "placementSlot": null
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 2,
+      "logId": 760,
+      "round": 3,
+      "turn": 1,
+      "selected": "researchTech",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 2,
+      "logId": 819,
+      "round": 3,
+      "turn": 2,
+      "selected": "land",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 4
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 2,
+      "logId": 849,
+      "round": 3,
+      "turn": 3,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 4,
+      "logId": 672,
+      "round": 3,
+      "turn": 1,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 2,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 1,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 3
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 4
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 5
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 4,
+      "logId": 737,
+      "round": 3,
+      "turn": 2,
+      "selected": "researchTech",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          },
+          {
+            "blueSlot": 2,
+            "tileId": "blue2",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 5,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 6
+        },
+        {
+          "target": "blueBonus",
+          "blueSlot": 1,
+          "placementSlot": null
+        }
+      ],
+      "targetPlaced": true
+    },
+    {
+      "case": 4,
+      "logId": 905,
+      "round": 3,
+      "turn": 6,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          },
+          {
+            "blueSlot": 2,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 3
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 4
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 5,
+      "logId": 756,
+      "round": 3,
+      "turn": 2,
+      "selected": "land",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 5,
+      "logId": 844,
+      "round": 3,
+      "turn": 4,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 3
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 4
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 5
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 6,
+      "logId": 716,
+      "round": 3,
+      "turn": 1,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 1,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 6,
+      "logId": 758,
+      "round": 3,
+      "turn": 2,
+      "selected": "researchTech",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 1,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 2
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 6,
+      "logId": 810,
+      "round": 3,
+      "turn": 3,
+      "selected": "land",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 3
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 7,
+      "logId": 629,
+      "round": 3,
+      "turn": 2,
+      "selected": "move",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 3,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 7,
+      "logId": 632,
+      "round": 3,
+      "turn": 2,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 3,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 7,
+      "logId": 677,
+      "round": 3,
+      "turn": 3,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 3,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 10,
+      "logId": 508,
+      "round": 3,
+      "turn": 1,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 10,
+      "logId": 555,
+      "round": 3,
+      "turn": 2,
+      "selected": "researchTech",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 1
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 2
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 10,
+      "logId": 629,
+      "round": 3,
+      "turn": 3,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 10,
+      "logId": 656,
+      "round": 3,
+      "turn": 4,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 3
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 4
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 11,
+      "logId": 756,
+      "round": 3,
+      "turn": 2,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 2,
+            "tileId": "blue1",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 6
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 11,
+      "logId": 844,
+      "round": 3,
+      "turn": 4,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 2,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 4,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 7
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 5
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 15,
+      "logId": 303,
+      "round": 2,
+      "turn": 1,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 15,
+      "logId": 348,
+      "round": 2,
+      "turn": 2,
+      "selected": "researchTech",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 15,
+      "logId": 402,
+      "round": 2,
+      "turn": 3,
+      "selected": "land",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 15,
+      "logId": 443,
+      "round": 2,
+      "turn": 4,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 2
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 0,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 1
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 2
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 15,
+      "logId": 720,
+      "round": 3,
+      "turn": 1,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 2,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 4
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 3
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 4
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 5
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 15,
+      "logId": 771,
+      "round": 3,
+      "turn": 2,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 5,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 15,
+      "logId": 803,
+      "round": 3,
+      "turn": 3,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 5,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 6
+        },
+        {
+          "target": "blueBonus",
+          "blueSlot": 1,
+          "placementSlot": null
+        }
+      ],
+      "targetPlaced": true
+    },
+    {
+      "case": 16,
+      "logId": 366,
+      "round": 2,
+      "turn": 1,
+      "selected": "move",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 5,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 16,
+      "logId": 369,
+      "round": 2,
+      "turn": 1,
+      "selected": "orbit",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 5,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 6
+        },
+        {
+          "target": "blueBonus",
+          "blueSlot": 1,
+          "placementSlot": null
+        }
+      ],
+      "targetPlaced": true
+    },
+    {
+      "case": 16,
+      "logId": 729,
+      "round": 3,
+      "turn": 1,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 1,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 16,
+      "logId": 808,
+      "round": 3,
+      "turn": 2,
+      "selected": "move",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 1,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 16,
+      "logId": 811,
+      "round": 3,
+      "turn": 2,
+      "selected": "land",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 1,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 2
+        },
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 3
+        }
+      ],
+      "targetPlaced": false
+    },
+    {
+      "case": 16,
+      "logId": 838,
+      "round": 3,
+      "turn": 3,
+      "selected": "playCard",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 3,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 1
+      },
+      "placements": [],
+      "targetPlaced": false
+    },
+    {
+      "case": 16,
+      "logId": 977,
+      "round": 3,
+      "turn": 6,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 5,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 6
+        },
+        {
+          "target": "blueBonus",
+          "blueSlot": 1,
+          "placementSlot": null
+        }
+      ],
+      "targetPlaced": true
+    },
+    {
+      "case": 20,
+      "logId": 341,
+      "round": 2,
+      "turn": 1,
+      "selected": "scan",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue2",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 5,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 2
+      },
+      "placements": [
+        {
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 6
+        },
+        {
+          "target": "blueBonus",
+          "blueSlot": 1,
+          "placementSlot": null
+        }
+      ],
+      "targetPlaced": true
+    },
+    {
+      "case": 21,
+      "logId": 650,
+      "round": 3,
+      "turn": 1,
+      "selected": "land",
+      "profile": {
+        "targets": [
+          {
+            "blueSlot": 1,
+            "tileId": "blue1",
+            "dataNeeded": 1
+          }
+        ],
+        "availableData": 0,
+        "placedComputerData": 3,
+        "projectedScanData": 2,
+        "energyAfterBaseScan": 3
+      },
+      "placements": [],
+      "targetPlaced": false
+    }
+  ]
+}
