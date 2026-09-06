@@ -17103,6 +17103,48 @@ async function runAsyncControllerTests() {
   }
 }
 
+{
+  function taskBudgetCandidate({ company = "寰宇超动力", round = 3, price = 3,
+    condition = { type: "techCount", techType: "purple", count: 3 }, owned = {} } = {}) {
+    const choices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: round, canStartMainAction: true,
+      realisticCanAfford: true,
+      blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+      blueResources: { score: 80, credits: 6, energy: 3, publicity: 6, availableData: 0, handSize: 1 },
+      blueOwnedTechTiles: owned,
+      endGameScoring: { countOwnedTech: endGameScoring.countOwnedTech },
+      blueHand: [{ id: "task-budget-card", cardId: "task-budget-card", price, typeCode: 2,
+        playEffects: [{ type: "gain_resources", options: { gain: { credits: 1 } } }],
+        model: { tasks: [{ id: "budget-task", condition,
+          rewards: [{ type: "gain_resources", options: { gain: { score: 6 } } }] }] } }],
+      onChooseTurnAction: candidates => choices.push(...candidates),
+      chooseTurnAction: candidates => candidates.find(candidate => candidate.id === "pass") || null,
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], aiDifficulty: "laughable", suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    const candidate = choices.find(candidate => candidate.id === "playCard" && candidate.cardId === "task-budget-card");
+    assert.ok(candidate, "a speculative task discount must not remove a playable immediate resource effect");
+    return candidate.playableCards.find(card => card.cardId === "task-budget-card");
+  }
+  const unready = taskBudgetCandidate();
+  assert.ok(unready.valueBreakdown.expensiveTaskSetup.penalty > 0);
+  assert.equal(unready.valueBreakdown.expensiveTaskSetup.progressScale, 0);
+  assert.equal(unready.valueBreakdown.expensiveTaskSetup.setupScale, 1 / 3);
+  const progressed = taskBudgetCandidate({ owned: { purple1: true, purple2: true } });
+  assert.equal(progressed.valueBreakdown.expensiveTaskSetup.setupScale, 2 / 3);
+  assert.equal(progressed.valueBreakdown.effectValue, unready.valueBreakdown.effectValue,
+    "the immediate credit must retain its existing value regardless of unfinished task progress");
+  const ready = taskBudgetCandidate({ owned: { purple1: true, purple2: true, purple3: true } });
+  assert.equal(ready.valueBreakdown.expensiveTaskSetup, null, "met tasks must keep their cashout value");
+  for (const options of [{ company: "作弊实验室" }, { round: 2 }, { price: 2 },
+    { condition: { type: "unknown-task-condition" } },
+    { condition: { type: "resourceThreshold", resource: "score", count: 200 } }]) {
+    assert.equal(taskBudgetCandidate(options).valueBreakdown.expensiveTaskSetup, null);
+  }
+  assert.ok(taskBudgetCandidate({ company: "宇宙大战略集团" }).valueBreakdown.expensiveTaskSetup.penalty > 0);
+}
+
 runAsyncControllerTests()
   .then(() => console.log("app/ai-controller.test.js ok"))
   .catch((error) => {
