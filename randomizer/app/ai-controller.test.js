@@ -17109,3 +17109,35 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const inspectEarlyCreditCost = ({ company = "寰宇超动力", roundNumber = 1, credits = 8, energy = 2 } = {}) => {
+    const choices = [];
+    const card = { id: "credit-surplus-card", typeCode: 0, price: 3,
+      playEffects: [{ type: "gain_resources", options: { gain: { score: 12 } } }] };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber, canStartMainAction: true,
+      realisticCanAfford: true, recordBeginPlayCard: true,
+      blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+      blueResources: { score: 20, credits, energy, handSize: 1 }, blueHand: [card],
+      onChooseTurnAction: candidates => choices.push(candidates),
+      chooseTurnAction: candidates => candidates.find(c => c.id === "playCard") || null,
+    });
+    const before = JSON.stringify({ resources: harness.blue.resources, hand: harness.blue.hand, income: harness.blue.income });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    assert.equal(JSON.stringify({ resources: harness.blue.resources, hand: harness.blue.hand, income: harness.blue.income }), before,
+      "candidate pricing and opening the play selector must not pay or mutate resources");
+    return choices.flat().find(c => c.id === "playCard")?.playableCards?.[0] || null;
+  };
+  const rich = inspectEarlyCreditCost(), scarce = inspectEarlyCreditCost({ credits: 3 });
+  assert.ok(rich && scarce);
+  assert.deepEqual(rich.cost, { credits: 3 }, "actual payment must remain unchanged");
+  assert.ok(rich.valueBreakdown.costValue < scarce.valueBreakdown.costValue);
+  assert.equal(rich.valueBreakdown.earlyCardCreditCost.rawCostValue, 18);
+  assert.equal(inspectEarlyCreditCost({ credits: 2 }), null, "a valuation discount must not make an unaffordable card legal");
+  assert.equal(inspectEarlyCreditCost({ company: "作弊实验室" }).valueBreakdown.earlyCardCreditCost, null);
+  assert.equal(inspectEarlyCreditCost({ roundNumber: 3 }).valueBreakdown.earlyCardCreditCost, null);
+  assert.ok(inspectEarlyCreditCost({ company: "宇宙大战略集团" }).valueBreakdown.earlyCardCreditCost.relief > 0);
+  assert.equal(inspectEarlyCreditCost({ credits: 8, energy: 8 }).valueBreakdown.earlyCardCreditCost.relief, 0);
+}

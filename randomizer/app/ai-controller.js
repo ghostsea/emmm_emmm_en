@@ -12697,6 +12697,19 @@
       return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
     }
 
+    function getAiEarlyCardCreditCostProfile(cost = {}, player = getCurrentPlayer()) {
+      const rawCostValue = scoreAiResourceBundle(cost);
+      if (!player || getAiRoundNumber() > 2
+        || ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL]
+          .includes(getAiIndustryCard(player)?.label)) return null;
+      const credits = Math.max(0, aiNumber(player.resources?.credits));
+      const workingReserve = Math.max(2, aiNumber(player.resources?.energy), (player.hand || []).length);
+      const discountedCredits = Math.min(Math.max(0, aiNumber(cost.credits)), Math.max(0, credits - workingReserve));
+      const premium = Math.max(0, aiNumber(getAiResourceValuesForRound().credits) - aiNumber(AI_RESOURCE_VALUES.credits));
+      const relief = discountedCredits * premium;
+      return { rawCostValue, credits, workingReserve, discountedCredits, relief, costValue: Math.max(0, rawCostValue - relief) };
+    }
+
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
@@ -12721,7 +12734,7 @@
         : 0;
       const endGameValue = model?.endGameScoring ? 5 + getAiRemainingRoundWeight() * 0.5 : 0;
       const plutoValue = model?.pluto ? 8 : 0;
-      const costValue = scoreAiResourceBundle(cost);
+      const costValue = getAiEarlyCardCreditCostProfile(cost, player)?.costValue ?? scoreAiResourceBundle(cost);
       const cornerOpportunity = scoreAiCardCornerOpportunity(card);
       const demandFit = scoreAiCardDemandFit(card, model, playEffects, player);
       const endGameExpectedScore = details.endGameExpectedScore ?? scoreAiCardEndGameExpectedValue(card, model, player);
@@ -19201,7 +19214,8 @@
         directScoreGain,
         score,
         valueBreakdown: {
-          costValue: scoreAiResourceBundle(cost),
+          costValue: getAiEarlyCardCreditCostProfile(cost, currentPlayer)?.costValue ?? scoreAiResourceBundle(cost),
+          earlyCardCreditCost: getAiEarlyCardCreditCostProfile(cost, currentPlayer),
           cornerOpportunity: scoreAiCardCornerOpportunity(card),
           directScoreGain,
           effectValue,
