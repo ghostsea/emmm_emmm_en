@@ -1,0 +1,6040 @@
+{
+  "scope": "All24 pairs; exact owner reward-slot labels, actual industry selections, unused rounds, confirmed main actions. Reward quantities are immediate resources; no assumed future reset payoff.",
+  "groups": {
+    "baseline": {
+      "games": 24,
+      "picks": 96,
+      "unusedRounds": 0,
+      "slots": {
+        "yellow": 89,
+        "red": 74,
+        "blue": 76
+      },
+      "meanMain": 34.708333333333336
+    },
+    "candidate": {
+      "games": 24,
+      "picks": 95,
+      "unusedRounds": 1,
+      "slots": {
+        "yellow": 96,
+        "red": 73,
+        "blue": 83
+      },
+      "meanMain": 33.791666666666664
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "side": "baseline",
+      "score": 257,
+      "main": 39,
+      "analysis": 6,
+      "slots": {
+        "yellow": 4,
+        "red": 4,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 44,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 48,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 68,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 76,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 101,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 172,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "score": 256,
+      "main": 34,
+      "analysis": 5,
+      "slots": {
+        "yellow": 5,
+        "red": 2,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 2
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 44,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 48,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 56,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 68,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 164,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "score": 235,
+      "main": 40,
+      "analysis": 4,
+      "slots": {
+        "yellow": 6,
+        "red": 3,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 31,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 47,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 58,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 64,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 102,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 114,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 150,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 154,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 166,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "score": 223,
+      "main": 36,
+      "analysis": 4,
+      "slots": {
+        "yellow": 4,
+        "red": 4,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 47,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 62,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 91,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 95,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 107,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 155,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "score": 224,
+      "main": 32,
+      "analysis": 5,
+      "slots": {
+        "yellow": 3,
+        "red": 5,
+        "blue": 1
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 18,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 48,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 77,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 129,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 161,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "score": 202,
+      "main": 33,
+      "analysis": 5,
+      "slots": {
+        "yellow": 3,
+        "red": 4,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 2
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 2
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 18,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 44,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 48,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 56,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 158,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 162,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "score": 268,
+      "main": 38,
+      "analysis": 4,
+      "slots": {
+        "yellow": 3,
+        "red": 3,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 25,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 43,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 51,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 63,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 125,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 152,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 156,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 168,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "score": 202,
+      "main": 34,
+      "analysis": 6,
+      "slots": {
+        "yellow": 3,
+        "red": 2,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 22,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 28,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 60,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 92,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 100,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 124,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据（数据池已满，未获得数据）",
+          "resources": {
+            "availableData": 1,
+            "handSize": 2
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 152,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 156,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "score": 167,
+      "main": 28,
+      "analysis": 3,
+      "slots": {
+        "yellow": 2,
+        "red": 2,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 23,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 51,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 92,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 96,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 155,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "score": 194,
+      "main": 28,
+      "analysis": 3,
+      "slots": {
+        "yellow": 2,
+        "red": 2,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 23,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 51,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 92,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 96,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 174,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "score": 168,
+      "main": 32,
+      "analysis": 3,
+      "slots": {
+        "yellow": 4,
+        "red": 2,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 0
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 56,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 64,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 72,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 98,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "score": 173,
+      "main": 31,
+      "analysis": 2,
+      "slots": {
+        "yellow": 5,
+        "red": 1,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 56,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 64,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 72,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 98,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 102,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "score": 191,
+      "main": 31,
+      "analysis": 5,
+      "slots": {
+        "yellow": 2,
+        "red": 1,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 0
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 40,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 112,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "score": 159,
+      "main": 30,
+      "analysis": 4,
+      "slots": {
+        "yellow": 3,
+        "red": 4,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 2
+        },
+        {
+          "round": 4,
+          "occupied": 3
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 24,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 45,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 49,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 95,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 99,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "score": 164,
+      "main": 38,
+      "analysis": 4,
+      "slots": {
+        "yellow": 5,
+        "red": 3,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 23,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 53,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 61,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 109,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 113,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 129,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 153,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1,
+            "handSize": 3
+          }
+        },
+        {
+          "round": 4,
+          "entry": 169,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "score": 239,
+      "main": 43,
+      "analysis": 3,
+      "slots": {
+        "yellow": 8,
+        "red": 4,
+        "blue": 1
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 2
+        },
+        {
+          "round": 3,
+          "occupied": 2
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 23,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 53,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 61,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 65,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 83,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 86,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 100,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 104,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 108,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 120,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 158,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 190,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "score": 138,
+      "main": 27,
+      "analysis": 5,
+      "slots": {
+        "yellow": 2,
+        "red": 2,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 48,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 97,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 105,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "score": 155,
+      "main": 29,
+      "analysis": 4,
+      "slots": {
+        "yellow": 2,
+        "red": 4,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 3
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 48,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 97,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 149,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 153,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "score": 237,
+      "main": 42,
+      "analysis": 5,
+      "slots": {
+        "yellow": 5,
+        "red": 2,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 22,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 35,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 55,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 61,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 77,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 109,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 127,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 165,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "score": 302,
+      "main": 39,
+      "analysis": 4,
+      "slots": {
+        "yellow": 6,
+        "red": 4,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 2
+        },
+        {
+          "round": 3,
+          "occupied": 2
+        },
+        {
+          "round": 4,
+          "occupied": 2
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 22,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 35,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 54,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 57,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 59,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 63,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 76,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 96,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 124,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 128,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 164,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "score": 230,
+      "main": 36,
+      "analysis": 4,
+      "slots": {
+        "yellow": 2,
+        "red": 3,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 27,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 43,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 47,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 91,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 107,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据（数据池已满，未获得数据）",
+          "resources": {
+            "availableData": 1,
+            "handSize": 3
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "score": 231,
+      "main": 34,
+      "analysis": 3,
+      "slots": {
+        "yellow": 3,
+        "red": 2,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 42,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 50,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 62,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 99,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 107,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 149,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "score": 229,
+      "main": 34,
+      "analysis": 5,
+      "slots": {
+        "yellow": 4,
+        "red": 3,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 18,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 42,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 50,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 99,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 138,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 154,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "score": 206,
+      "main": 32,
+      "analysis": 5,
+      "slots": {
+        "yellow": 4,
+        "red": 3,
+        "blue": 6
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 2
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 18,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 24,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 30,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 41,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 53,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 98,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 125,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 129,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 157,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 161,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "score": 203,
+      "main": 36,
+      "analysis": 5,
+      "slots": {
+        "yellow": 3,
+        "red": 4,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 41,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 91,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 99,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 120,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 152,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "score": 221,
+      "main": 34,
+      "analysis": 4,
+      "slots": {
+        "yellow": 3,
+        "red": 3,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 2
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 46,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 58,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 68,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 71,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 102,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 151,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 155,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "score": 238,
+      "main": 38,
+      "analysis": 4,
+      "slots": {
+        "yellow": 4,
+        "red": 5,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 46,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 54,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 105,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 121,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 149,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 153,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 157,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 183,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "score": 243,
+      "main": 43,
+      "analysis": 5,
+      "slots": {
+        "yellow": 6,
+        "red": 4,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 2
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 3
+        },
+        {
+          "round": 4,
+          "occupied": 2
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 46,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 50,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 66,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 98,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 106,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 118,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 126,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 137,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 159,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 163,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 167,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 171,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 175,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "score": 204,
+      "main": 30,
+      "analysis": 3,
+      "slots": {
+        "yellow": 4,
+        "red": 3,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 35,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 47,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 55,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 67,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 98,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 102,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 149,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "score": 225,
+      "main": 34,
+      "analysis": 2,
+      "slots": {
+        "yellow": 3,
+        "red": 4,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 23,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 30,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 44,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 52,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 97,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 119,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 154,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 158,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "score": 181,
+      "main": 26,
+      "analysis": 4,
+      "slots": {
+        "yellow": 3,
+        "red": 3,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 22,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 44,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 97,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 117,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "score": 134,
+      "main": 27,
+      "analysis": 5,
+      "slots": {
+        "yellow": 3,
+        "red": 2,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 2
+        },
+        {
+          "round": 3,
+          "occupied": 2
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [
+        2
+      ],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 97,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 109,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "score": 204,
+      "main": 38,
+      "analysis": 4,
+      "slots": {
+        "yellow": 4,
+        "red": 3,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 0
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 24,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 44,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 48,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 72,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 104,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 108,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 155,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 158,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 164,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "score": 245,
+      "main": 37,
+      "analysis": 4,
+      "slots": {
+        "yellow": 3,
+        "red": 3,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 2
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 24,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 44,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 48,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 52,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 91,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 99,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 152,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 160,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "score": 179,
+      "main": 30,
+      "analysis": 2,
+      "slots": {
+        "yellow": 4,
+        "red": 4,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 23,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 42,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 50,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 90,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 98,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 132,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "score": 146,
+      "main": 30,
+      "analysis": 4,
+      "slots": {
+        "yellow": 6,
+        "red": 3,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 2
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 2
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 23,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 30,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 44,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 60,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 101,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 105,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "score": 277,
+      "main": 42,
+      "analysis": 5,
+      "slots": {
+        "yellow": 4,
+        "red": 2,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 14,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 51,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 75,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 98,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 102,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 152,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 160,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "score": 222,
+      "main": 33,
+      "analysis": 4,
+      "slots": {
+        "yellow": 3,
+        "red": 4,
+        "blue": 1
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 34,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 46,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 66,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 101,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 109,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 164,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "score": 224,
+      "main": 32,
+      "analysis": 2,
+      "slots": {
+        "yellow": 4,
+        "red": 4,
+        "blue": 2
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 41,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 57,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 65,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 98,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 102,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 152,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 156,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 160,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 183,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "score": 263,
+      "main": 36,
+      "analysis": 4,
+      "slots": {
+        "yellow": 5,
+        "red": 3,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 2
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 23,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 42,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 46,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 54,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 66,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 82,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 100,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 120,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 151,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 171,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 175,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "score": 177,
+      "main": 35,
+      "analysis": 5,
+      "slots": {
+        "yellow": 6,
+        "red": 3,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 43,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 47,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 59,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 63,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 97,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 105,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "score": 185,
+      "main": 31,
+      "analysis": 4,
+      "slots": {
+        "yellow": 3,
+        "red": 3,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 2
+        },
+        {
+          "round": 2,
+          "occupied": 3
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 2
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 45,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 53,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 57,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 97,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 113,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 160,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "score": 235,
+      "main": 35,
+      "analysis": 4,
+      "slots": {
+        "yellow": 4,
+        "red": 4,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 10,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 16,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 24,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 35,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 43,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 47,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 90,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 94,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 106,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 122,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 150,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 154,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 181,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "score": 171,
+      "main": 33,
+      "analysis": 3,
+      "slots": {
+        "yellow": 4,
+        "red": 2,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 2
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 10,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 16,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 24,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 35,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 90,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 106,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 128,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 131,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 152,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "score": 189,
+      "main": 36,
+      "analysis": 5,
+      "slots": {
+        "yellow": 3,
+        "red": 5,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 0
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 18,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 29,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 41,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 57,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 67,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 127,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 159,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "score": 218,
+      "main": 31,
+      "analysis": 5,
+      "slots": {
+        "yellow": 5,
+        "red": 2,
+        "blue": 3
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 2
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 18,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 29,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 37,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 53,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 102,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 128,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "score": 245,
+      "main": 38,
+      "analysis": 5,
+      "slots": {
+        "yellow": 4,
+        "red": 1,
+        "blue": 5
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 1
+        },
+        {
+          "round": 2,
+          "occupied": 0
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 11,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 33,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 51,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 55,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 96,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 150,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 154,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 174,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "score": 223,
+      "main": 39,
+      "analysis": 5,
+      "slots": {
+        "yellow": 4,
+        "red": 4,
+        "blue": 4
+      },
+      "picks": [
+        {
+          "round": 1,
+          "occupied": 3
+        },
+        {
+          "round": 2,
+          "occupied": 1
+        },
+        {
+          "round": 3,
+          "occupied": 1
+        },
+        {
+          "round": 4,
+          "occupied": 1
+        }
+      ],
+      "unusedRounds": [],
+      "rewards": [
+        {
+          "round": 1,
+          "entry": 7,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 15,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 19,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 1,
+          "entry": 32,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 54,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 58,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 2,
+          "entry": 74,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 107,
+          "slot": "yellow",
+          "text": "宇宙战略集团：黄色奖励槽：+1 信用点",
+          "resources": {
+            "credits": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 135,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 141,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 158,
+          "slot": "blue",
+          "text": "宇宙战略集团：蓝色奖励槽：+1 数据",
+          "resources": {
+            "availableData": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 162,
+          "slot": "red",
+          "text": "宇宙战略集团：红色奖励槽：+1 宣传",
+          "resources": {
+            "publicity": 1
+          }
+        }
+      ]
+    }
+  ]
+}

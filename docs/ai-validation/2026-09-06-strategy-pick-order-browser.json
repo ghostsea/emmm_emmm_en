@@ -1,0 +1,344 @@
+{
+  "scope": "Real b78 paid and played before a delayed company pick, yellow credit reward resolved, then b109 picked and occupied slots cleared in the same turn. Policy fixture prefers industry whenever actually present.",
+  "profile": {
+    "shouldDefer": true,
+    "heldCard": {
+      "handIndex": 0,
+      "cardId": "b_78.webp",
+      "cardInstanceId": "card-67-0",
+      "playScore": 3.5945,
+      "actualPlayScore": 3.5945,
+      "reward": {
+        "slotId": "yellow",
+        "gain": {
+          "credits": 1,
+          "publicity": 0,
+          "availableData": 0
+        }
+      }
+    },
+    "publicCard": {
+      "slotIndex": 0,
+      "score": 17.165,
+      "cardId": "b_109.webp",
+      "cardInstanceId": "card-68-0",
+      "cardLabel": "科学合作",
+      "price": 3,
+      "typeCode": 0,
+      "playScore": null,
+      "directScoreGain": 0,
+      "effectTypes": [],
+      "valueSignals": null
+    },
+    "occupiedSlots": [],
+    "scope": "defer the optional pick while an affordable held card can claim an empty slot and has at least the same common play value; no future public-card identity or full sequence simulation"
+  },
+  "first": {
+    "ok": true,
+    "message": "打牌：请选择一张手牌"
+  },
+  "playSteps": 2,
+  "afterPlay": {
+    "resources": {
+      "credits": 1,
+      "energy": 0,
+      "publicity": 1,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 10
+    },
+    "slots": {
+      "yellow": true
+    }
+  },
+  "second": {
+    "ok": true,
+    "progressed": true,
+    "action": {
+      "id": "industry",
+      "kind": "quick",
+      "available": true,
+      "industryCard": {
+        "id": "industry:宇宙大战略集团",
+        "label": "宇宙大战略集团"
+      },
+      "abilityId": "strategy_pick_card",
+      "companyLabel": "宇宙大战略集团",
+      "score": 18.665150000000004,
+      "gain": 18.665150000000004,
+      "cost": 0,
+      "valueBreakdown": {
+        "abilityId": "strategy_pick_card",
+        "companyLabel": "宇宙大战略集团",
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "earlyEmptyStrategyPickPenalty": 0,
+        "industryPublicPick": {
+          "pendingType": "industry_strategy_pick",
+          "bestScore": 18.665,
+          "bestCard": {
+            "slotIndex": 0,
+            "score": 18.665,
+            "cardId": "b_109.webp",
+            "cardInstanceId": "card-68-0",
+            "cardLabel": "科学合作",
+            "price": 3,
+            "typeCode": 0,
+            "playScore": null,
+            "directScoreGain": 0,
+            "effectTypes": [],
+            "valueSignals": null
+          },
+          "topCards": [
+            {
+              "slotIndex": 0,
+              "score": 18.665,
+              "cardId": "b_109.webp",
+              "cardInstanceId": "card-68-0",
+              "cardLabel": "科学合作",
+              "price": 3,
+              "typeCode": 0,
+              "playScore": null,
+              "directScoreGain": 0,
+              "effectTypes": [],
+              "valueSignals": null
+            },
+            {
+              "slotIndex": 1,
+              "score": 18.665,
+              "cardId": "b_92.webp",
+              "cardInstanceId": "card-69-0",
+              "cardLabel": "先驱者11号任务",
+              "price": 0,
+              "typeCode": 1,
+              "playScore": -7.609,
+              "directScoreGain": 0,
+              "effectTypes": [],
+              "valueSignals": {
+                "planScore": 0,
+                "endGameExpectedScore": 0,
+                "c2Type3ProgressValue": 0,
+                "cFinalTaskProgressValue": 0,
+                "readyTaskCashoutDirectScore": 0,
+                "readyTaskCashoutCount": 0,
+                "playCardConversionPressure": 0,
+                "finalRoundResourceDrainPenalty": 0,
+                "standardActionPremium": 0
+              }
+            },
+            {
+              "slotIndex": 2,
+              "score": 17.454,
+              "cardId": "b_100.webp",
+              "cardInstanceId": "card-70-0",
+              "cardLabel": "观测南河",
+              "price": 2,
+              "typeCode": 3,
+              "playScore": null,
+              "directScoreGain": 0,
+              "effectTypes": [],
+              "valueSignals": null
+            }
+          ]
+        },
+        "strategyPassiveSlots": {
+          "occupiedSlotIds": [
+            "yellow"
+          ],
+          "emptySlotIds": [
+            "red",
+            "blue"
+          ],
+          "occupiedCount": 1,
+          "emptyCount": 2,
+          "roundStartClearsSlots": true,
+          "slots": [
+            {
+              "slotId": "yellow",
+              "occupied": true,
+              "rewardLabel": "1 信用点",
+              "rewardValue": 6
+            },
+            {
+              "slotId": "red",
+              "occupied": false,
+              "rewardLabel": "1 宣传",
+              "rewardValue": 1.5
+            },
+            {
+              "slotId": "blue",
+              "occupied": false,
+              "rewardLabel": "1 数据",
+              "rewardValue": 1.5
+            }
+          ]
+        }
+      },
+      "actionGraph": {
+        "gain": 18.665,
+        "cost": 0,
+        "finalMarginal": 0,
+        "goalBonus": 3.528,
+        "feasibility": 1,
+        "net": 22.193
+      },
+      "breakdown": {
+        "abilityId": "strategy_pick_card",
+        "companyLabel": "宇宙大战略集团",
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "earlyEmptyStrategyPickPenalty": 0,
+        "industryPublicPick": {
+          "pendingType": "industry_strategy_pick",
+          "bestScore": 18.665,
+          "bestCard": {
+            "slotIndex": 0,
+            "score": 18.665,
+            "cardId": "b_109.webp",
+            "cardInstanceId": "card-68-0",
+            "cardLabel": "科学合作",
+            "price": 3,
+            "typeCode": 0,
+            "playScore": null,
+            "directScoreGain": 0,
+            "effectTypes": [],
+            "valueSignals": null
+          },
+          "topCards": [
+            {
+              "slotIndex": 0,
+              "score": 18.665,
+              "cardId": "b_109.webp",
+              "cardInstanceId": "card-68-0",
+              "cardLabel": "科学合作",
+              "price": 3,
+              "typeCode": 0,
+              "playScore": null,
+              "directScoreGain": 0,
+              "effectTypes": [],
+              "valueSignals": null
+            },
+            {
+              "slotIndex": 1,
+              "score": 18.665,
+              "cardId": "b_92.webp",
+              "cardInstanceId": "card-69-0",
+              "cardLabel": "先驱者11号任务",
+              "price": 0,
+              "typeCode": 1,
+              "playScore": -7.609,
+              "directScoreGain": 0,
+              "effectTypes": [],
+              "valueSignals": {
+                "planScore": 0,
+                "endGameExpectedScore": 0,
+                "c2Type3ProgressValue": 0,
+                "cFinalTaskProgressValue": 0,
+                "readyTaskCashoutDirectScore": 0,
+                "readyTaskCashoutCount": 0,
+                "playCardConversionPressure": 0,
+                "finalRoundResourceDrainPenalty": 0,
+                "standardActionPremium": 0
+              }
+            },
+            {
+              "slotIndex": 2,
+              "score": 17.454,
+              "cardId": "b_100.webp",
+              "cardInstanceId": "card-70-0",
+              "cardLabel": "观测南河",
+              "price": 2,
+              "typeCode": 3,
+              "playScore": null,
+              "directScoreGain": 0,
+              "effectTypes": [],
+              "valueSignals": null
+            }
+          ]
+        },
+        "strategyPassiveSlots": {
+          "occupiedSlotIds": [
+            "yellow"
+          ],
+          "emptySlotIds": [
+            "red",
+            "blue"
+          ],
+          "occupiedCount": 1,
+          "emptyCount": 2,
+          "roundStartClearsSlots": true,
+          "slots": [
+            {
+              "slotId": "yellow",
+              "occupied": true,
+              "rewardLabel": "1 信用点",
+              "rewardValue": 6
+            },
+            {
+              "slotId": "red",
+              "occupied": false,
+              "rewardLabel": "1 宣传",
+              "rewardValue": 1.5
+            },
+            {
+              "slotId": "blue",
+              "occupied": false,
+              "rewardLabel": "1 数据",
+              "rewardValue": 1.5
+            }
+          ]
+        },
+        "existingScore": 18.665,
+        "gain": 18.665,
+        "cost": 0,
+        "finalMarginal": 0,
+        "finalMarkCashout": 0,
+        "missingFinalMarkPenalty": 0,
+        "goalBonus": 3.528,
+        "feasibility": 1,
+        "net": 22.193
+      }
+    }
+  },
+  "pickSteps": 0,
+  "afterPick": {
+    "resources": {
+      "credits": 1,
+      "energy": 0,
+      "publicity": 1,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 10
+    },
+    "slots": {
+      "yellow": false,
+      "red": false,
+      "blue": false
+    }
+  },
+  "bugs": [],
+  "actions": [
+    {
+      "type": "turn-action",
+      "message": "白色AI 执行 playCard"
+    },
+    {
+      "type": "play-card",
+      "message": "白色AI 选择打出 NASA天体生物学研究所"
+    },
+    {
+      "type": "turn-action",
+      "message": "白色AI 执行 industry"
+    },
+    {
+      "type": "industry",
+      "message": "白色AI 使用公司 1x：宇宙大战略集团"
+    },
+    {
+      "type": "pick-card",
+      "message": "白色AI 精选公共牌 1"
+    }
+  ]
+}

@@ -1,0 +1,882 @@
+{
+  "case": 16,
+  "round": 2,
+  "scope": "Observed actions, not a counterfactual: delay based on a payable held card did not commit the policy to playing it. Original empty-slot penalty can still suppress the pick after that hand opportunity disappears.",
+  "actions": [
+    {
+      "id": 293,
+      "turn": 1,
+      "resources": {
+        "score": 22,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 10
+      },
+      "action": "scan",
+      "candidates": [
+        {
+          "id": "launch",
+          "score": -19.268929135218773,
+          "net": -19.269
+        },
+        {
+          "id": "scan",
+          "score": 39.36965880119801,
+          "net": 39.241
+        },
+        {
+          "id": "playCard",
+          "score": 11.3896,
+          "net": 21.332,
+          "card": "dlc_21.png"
+        },
+        {
+          "id": "cardCorner",
+          "score": 10.325,
+          "net": 10.325,
+          "card": "b_87.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 10.325,
+          "net": 10.325,
+          "card": "b_91.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 6.9,
+          "net": 6.9,
+          "card": "chong_6.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 5.06022,
+          "net": 5.06022,
+          "card": "dlc_21.png"
+        },
+        {
+          "id": "cardCorner",
+          "score": 4.771439999999998,
+          "net": 4.771439999999998,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -11.565500000000002,
+          "net": -9.943,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "pass",
+          "score": -22.2,
+          "net": -22.2
+        }
+      ]
+    },
+    {
+      "id": 303,
+      "turn": 1,
+      "resources": {
+        "score": 25,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 10
+      },
+      "action": "placeData",
+      "candidates": [
+        {
+          "id": "placeData",
+          "score": 39.62643842,
+          "net": 39.62643842
+        },
+        {
+          "id": "cardCorner",
+          "score": 10.325,
+          "net": 10.548,
+          "card": "b_87.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 10.325,
+          "net": 10.548,
+          "card": "b_91.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 5.06022,
+          "net": 8.119,
+          "card": "dlc_21.png"
+        },
+        {
+          "id": "cardCorner",
+          "score": 4.39894,
+          "net": 4.39894,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 3.16,
+          "net": 3.863,
+          "card": "chong_6.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -10.365499999999999,
+          "net": -4.476,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -18,
+          "net": -18
+        }
+      ]
+    },
+    {
+      "id": 305,
+      "turn": 1,
+      "resources": {
+        "score": 25,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 9
+      },
+      "action": "placeData",
+      "candidates": [
+        {
+          "id": "placeData",
+          "score": 17.023136,
+          "net": 17.023136
+        },
+        {
+          "id": "cardCorner",
+          "score": 7.074999999999999,
+          "net": 9.331,
+          "card": "b_87.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 7.074999999999999,
+          "net": 9.331,
+          "card": "b_91.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 2.62272,
+          "net": 6.902,
+          "card": "dlc_21.png"
+        },
+        {
+          "id": "cardCorner",
+          "score": 2.2189400000000004,
+          "net": 4.087,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -0.08999999999999986,
+          "net": 2.646,
+          "card": "chong_6.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -11.828,
+          "net": -5.603,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -18,
+          "net": -18
+        }
+      ]
+    },
+    {
+      "id": 306,
+      "turn": 1,
+      "resources": {
+        "score": 25,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 9
+      },
+      "action": "cardCorner",
+      "card": "b_87.webp",
+      "candidates": [
+        {
+          "id": "cardCorner",
+          "score": 7.074999999999999,
+          "net": 9.331,
+          "card": "b_87.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 7.074999999999999,
+          "net": 9.331,
+          "card": "b_91.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 2.62272,
+          "net": 6.902,
+          "card": "dlc_21.png"
+        },
+        {
+          "id": "cardCorner",
+          "score": 2.2189400000000004,
+          "net": 4.087,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -0.08999999999999986,
+          "net": 2.646,
+          "card": "chong_6.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -11.828,
+          "net": -5.603,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -11.3675,
+          "net": -11.3675
+        }
+      ]
+    },
+    {
+      "id": 308,
+      "turn": 1,
+      "resources": {
+        "score": 25,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 8
+      },
+      "action": "placeData",
+      "candidates": [
+        {
+          "id": "placeData",
+          "score": 29.163936000000003,
+          "net": 29.164
+        },
+        {
+          "id": "cardCorner",
+          "score": 3.8249999999999997,
+          "net": 9.331,
+          "card": "b_91.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 0.18522000000000038,
+          "net": 6.902,
+          "card": "dlc_21.png"
+        },
+        {
+          "id": "cardCorner",
+          "score": -1.0310599999999996,
+          "net": 4.087,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -3.34,
+          "net": 2.646,
+          "card": "chong_6.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -13.2905,
+          "net": -5.603,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -18,
+          "net": -18
+        }
+      ]
+    },
+    {
+      "id": 309,
+      "turn": 1,
+      "resources": {
+        "score": 25,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 8
+      },
+      "action": "cardCorner",
+      "card": "b_91.webp",
+      "candidates": [
+        {
+          "id": "cardCorner",
+          "score": 3.8249999999999997,
+          "net": 9.331,
+          "card": "b_91.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": 0.18522000000000038,
+          "net": 6.902,
+          "card": "dlc_21.png"
+        },
+        {
+          "id": "cardCorner",
+          "score": -1.0310599999999996,
+          "net": 4.087,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -3.34,
+          "net": 2.646,
+          "card": "chong_6.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -13.2905,
+          "net": -5.603,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -6.4425,
+          "net": -6.4425
+        }
+      ]
+    },
+    {
+      "id": 311,
+      "turn": 1,
+      "resources": {
+        "score": 25,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 7
+      },
+      "action": "cardCorner",
+      "card": "dlc_21.png",
+      "candidates": [
+        {
+          "id": "cardCorner",
+          "score": -0.9022799999999995,
+          "net": 6.902,
+          "card": "dlc_21.png"
+        },
+        {
+          "id": "cardCorner",
+          "score": -2.4810599999999994,
+          "net": 4.087,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -4.789999999999999,
+          "net": 2.646,
+          "card": "chong_6.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -18.371,
+          "net": -10.031,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -2,
+          "net": -2
+        }
+      ]
+    },
+    {
+      "id": 313,
+      "turn": 1,
+      "resources": {
+        "score": 25,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 6
+      },
+      "action": "cardCorner",
+      "card": "chong_6.webp",
+      "candidates": [
+        {
+          "id": "cardCorner",
+          "score": -3.931059999999999,
+          "net": -0.5,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -6.24,
+          "net": 2.646,
+          "card": "chong_6.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -22.342499999999998,
+          "net": -13.35,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -2,
+          "net": -2
+        }
+      ]
+    },
+    {
+      "id": 315,
+      "turn": 1,
+      "resources": {
+        "score": 26,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "action": "end-turn",
+      "candidates": [
+        {
+          "id": "end-turn",
+          "score": -2,
+          "net": -2
+        }
+      ]
+    },
+    {
+      "id": 361,
+      "turn": 2,
+      "resources": {
+        "score": 26,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "action": "analyze",
+      "candidates": [
+        {
+          "id": "launch",
+          "score": -21.226943999999996,
+          "net": -21.227
+        },
+        {
+          "id": "analyze",
+          "score": 38.471999999999994,
+          "net": 43.432
+        },
+        {
+          "id": "playCard",
+          "score": 9.790525,
+          "net": 27.889,
+          "card": "b_92.webp"
+        },
+        {
+          "id": "pass",
+          "score": -20.2,
+          "net": -19.96
+        }
+      ]
+    },
+    {
+      "id": 364,
+      "turn": 2,
+      "resources": {
+        "score": 29,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 6
+      },
+      "action": "placeData",
+      "candidates": [
+        {
+          "id": "placeData",
+          "score": 10.025915999999999,
+          "net": 10.026
+        },
+        {
+          "id": "cardCorner",
+          "score": -5.675000000000001,
+          "net": 6.39,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -22.342499999999998,
+          "net": -9.473,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -14.0233244,
+          "net": -14.0233244
+        }
+      ]
+    },
+    {
+      "id": 365,
+      "turn": 2,
+      "resources": {
+        "score": 29,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 6
+      },
+      "action": "placeData",
+      "candidates": [
+        {
+          "id": "placeData",
+          "score": 17.3588508,
+          "net": 17.359
+        },
+        {
+          "id": "cardCorner",
+          "score": -5.675000000000001,
+          "net": 6.39,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -22.342499999999998,
+          "net": -9.473,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -18,
+          "net": -18
+        }
+      ]
+    },
+    {
+      "id": 366,
+      "turn": 2,
+      "resources": {
+        "score": 29,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "action": "cardCorner",
+      "card": "b_16.webp",
+      "candidates": [
+        {
+          "id": "cardCorner",
+          "score": -5.675000000000001,
+          "net": 6.39,
+          "card": "b_16.webp"
+        },
+        {
+          "id": "cardCorner",
+          "score": -22.342499999999998,
+          "net": -9.473,
+          "card": "dlc_9.png"
+        },
+        {
+          "id": "end-turn",
+          "score": -2,
+          "net": -2
+        }
+      ]
+    },
+    {
+      "id": 368,
+      "turn": 2,
+      "resources": {
+        "score": 29,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "action": "end-turn",
+      "candidates": [
+        {
+          "id": "end-turn",
+          "score": -2,
+          "net": -2
+        }
+      ]
+    },
+    {
+      "id": 394,
+      "turn": 3,
+      "resources": {
+        "score": 29,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "action": "researchTech",
+      "candidates": [
+        {
+          "id": "launch",
+          "score": 5.168207086709982,
+          "net": 5.168
+        },
+        {
+          "id": "researchTech",
+          "score": 28.056250296568,
+          "net": 37.653
+        },
+        {
+          "id": "playCard",
+          "score": 8.729650000000001,
+          "net": 27.968,
+          "card": "b_92.webp"
+        },
+        {
+          "id": "pass",
+          "score": -20.2,
+          "net": -19.96
+        }
+      ]
+    },
+    {
+      "id": 403,
+      "turn": 3,
+      "resources": {
+        "score": 32,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "action": "cardCorner",
+      "card": "b_88.webp",
+      "candidates": [
+        {
+          "id": "move",
+          "score": 4.630216000000001,
+          "net": 4.630216000000001
+        },
+        {
+          "id": "cardCorner",
+          "score": 3.0340212540083233,
+          "net": 17.362,
+          "card": "b_88.webp"
+        },
+        {
+          "id": "end-turn",
+          "score": -7.1671944000000005,
+          "net": -7.1671944000000005
+        }
+      ]
+    },
+    {
+      "id": 406,
+      "turn": 3,
+      "resources": {
+        "score": 32,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "action": "move",
+      "candidates": [
+        {
+          "id": "move",
+          "score": 1.8270681588668438,
+          "net": 1.8270681588668438
+        },
+        {
+          "id": "move",
+          "score": 2.2081712093739005,
+          "net": 2.2081712093739005
+        },
+        {
+          "id": "end-turn",
+          "score": -4.98735408843651,
+          "net": -4.98735408843651
+        }
+      ]
+    },
+    {
+      "id": 409,
+      "turn": 3,
+      "resources": {
+        "score": 32,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "action": "end-turn",
+      "candidates": [
+        {
+          "id": "end-turn",
+          "score": -2,
+          "net": -2
+        }
+      ]
+    },
+    {
+      "id": 433,
+      "turn": 4,
+      "resources": {
+        "score": 32,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "action": "cardCorner",
+      "card": "b_80.webp",
+      "candidates": [
+        {
+          "id": "launch",
+          "score": -2.137355386002337,
+          "net": -2.137
+        },
+        {
+          "id": "playCard",
+          "score": 6.214599999999999,
+          "net": 24.876,
+          "card": "b_80.webp"
+        },
+        {
+          "id": "move",
+          "score": 5.704355473377282,
+          "net": 5.704355473377282
+        },
+        {
+          "id": "move",
+          "score": 4.710216000000001,
+          "net": 4.710216000000001
+        },
+        {
+          "id": "move",
+          "score": 4.630216000000001,
+          "net": 4.630216000000001
+        },
+        {
+          "id": "cardCorner",
+          "score": 12.407787381952,
+          "net": 27.485,
+          "card": "b_80.webp"
+        },
+        {
+          "id": "pass",
+          "score": -18.367008643756797,
+          "net": -18.1270086437568
+        }
+      ]
+    },
+    {
+      "id": 436,
+      "turn": 4,
+      "resources": {
+        "score": 32,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "action": "move",
+      "candidates": [
+        {
+          "id": "launch",
+          "score": -2.137355386002337,
+          "net": -2.137
+        },
+        {
+          "id": "move",
+          "score": 7.339175414840323,
+          "net": 7.339175414840323
+        },
+        {
+          "id": "move",
+          "score": 6.701636287232002,
+          "net": 6.702
+        },
+        {
+          "id": "pass",
+          "score": -13.80525787335629,
+          "net": -13.565257873356291
+        }
+      ]
+    },
+    {
+      "id": 439,
+      "turn": 4,
+      "resources": {
+        "score": 32,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "action": "pass",
+      "candidates": [
+        {
+          "id": "launch",
+          "score": -24.48352,
+          "net": -24.484
+        },
+        {
+          "id": "pass",
+          "score": -4.199999999999999,
+          "net": -3.96
+        }
+      ]
+    },
+    {
+      "id": 443,
+      "turn": 4,
+      "resources": {
+        "score": 32,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "action": "end-turn",
+      "candidates": [
+        {
+          "id": "end-turn",
+          "score": -2,
+          "net": -2
+        }
+      ]
+    }
+  ]
+}
