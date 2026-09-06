@@ -1,0 +1,937 @@
+{
+  "scope": "24 seen pairs. Actual quick decisions joined by player, round, turn and occurrence; mapped resource rewards and post-discard state verified. Next action does not establish causally added actions. Card identity from decision log; ordinary Runezu ledger identity coverage is incomplete.",
+  "groups": {
+    "宇宙大战略集团": {
+      "actions": 4,
+      "gain": {
+        "publicity": 1,
+        "credits": 2,
+        "score": 3
+      },
+      "nextMainSameRound": 4,
+      "nextPassSameRound": 0
+    },
+    "作弊实验室": {
+      "actions": 11,
+      "gain": {
+        "credits": 3,
+        "score": 6,
+        "publicity": 5,
+        "energy": 1
+      },
+      "nextMainSameRound": 10,
+      "nextPassSameRound": 1
+    },
+    "寰宇超动力": {
+      "actions": 3,
+      "gain": {
+        "score": 3,
+        "energy": 2
+      },
+      "nextMainSameRound": 3,
+      "nextPassSameRound": 0
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 217,
+      "cardId": "runezu_8.webp",
+      "cardInstanceId": "alien-runezu-8-2",
+      "round": 1,
+      "profile": {
+        "symbolId": "symbol_7",
+        "position": 5,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "publicity": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 27
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 24,
+        "stepIndex": 6,
+        "text": "卡牌快速行动：符文族符文7奖励：资源：宣传+1、手牌-1",
+        "deltas": {
+          "publicity": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "scan",
+        "round": 1
+      }
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "logId": 927,
+      "cardId": "runezu_4.webp",
+      "cardInstanceId": "alien-runezu-4-6",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_5",
+        "position": 3,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "credits": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 95
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 108,
+        "stepIndex": 19,
+        "text": "卡牌快速行动：符文族符文5奖励：资源：信用点+1、手牌-1",
+        "deltas": {
+          "credits": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "researchTech",
+        "round": 3
+      }
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "logId": 951,
+      "cardId": "runezu_3.webp",
+      "cardInstanceId": "alien-runezu-3-7",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_5",
+        "position": 3,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "credits": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 100
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 111,
+        "stepIndex": 4,
+        "text": "卡牌快速行动：符文族符文5奖励：资源：信用点+1、手牌-1",
+        "deltas": {
+          "credits": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "playCard",
+        "round": 3
+      }
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "logId": 310,
+      "cardId": "runezu_7.webp",
+      "cardInstanceId": "alien-runezu-7-1",
+      "round": 2,
+      "profile": {
+        "symbolId": "symbol_4",
+        "position": 7,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "score": 3
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 5,
+          "energy": 4,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 30
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 37,
+        "stepIndex": 6,
+        "text": "卡牌快速行动：符文族符文4奖励：资源：手牌-1、分数+3",
+        "deltas": {
+          "handSize": -1,
+          "score": 3
+        }
+      },
+      "nextMain": {
+        "id": "land",
+        "round": 2
+      }
+    },
+    {
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "logId": 393,
+      "cardId": "runezu_0.webp",
+      "cardInstanceId": "alien-runezu-0-2",
+      "round": 2,
+      "profile": {
+        "symbolId": "symbol_1",
+        "position": 3,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "credits": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 7,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 35
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 43,
+        "stepIndex": 5,
+        "text": "卡牌快速行动：符文族符文1奖励：资源：信用点+1、手牌-1",
+        "deltas": {
+          "credits": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "playCard",
+        "round": 2
+      }
+    },
+    {
+      "case": 2,
+      "company": "作弊实验室",
+      "logId": 1446,
+      "cardId": "runezu_2.webp",
+      "cardInstanceId": "alien-runezu-2-9",
+      "round": 4,
+      "profile": {
+        "symbolId": "symbol_7",
+        "position": 5,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "publicity": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 11,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 106
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 166,
+        "stepIndex": 6,
+        "text": "卡牌快速行动：符文族符文7奖励：资源：宣传+1、手牌-1",
+        "deltas": {
+          "publicity": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "analyze",
+        "round": 4
+      }
+    },
+    {
+      "case": 3,
+      "company": "寰宇超动力",
+      "logId": 646,
+      "cardId": "runezu_2.webp",
+      "cardInstanceId": "alien-runezu-2-1",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_7",
+        "position": 7,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "score": 3
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 4,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 51
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 80,
+        "stepIndex": 8,
+        "text": "卡牌快速行动：符文族符文7奖励：资源：手牌-1、分数+3",
+        "deltas": {
+          "handSize": -1,
+          "score": 3
+        }
+      },
+      "nextMain": {
+        "id": "researchTech",
+        "round": 3
+      }
+    },
+    {
+      "case": 3,
+      "company": "作弊实验室",
+      "logId": 977,
+      "cardId": "runezu_1.webp",
+      "cardInstanceId": "alien-runezu-1-4",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_1",
+        "position": 5,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "publicity": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 2,
+          "handSize": 0,
+          "score": 116
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 117,
+        "stepIndex": 3,
+        "text": "卡牌快速行动：符文族符文1奖励：资源：宣传+1、手牌-1",
+        "deltas": {
+          "publicity": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "pass",
+        "round": 3
+      }
+    },
+    {
+      "case": 5,
+      "company": "作弊实验室",
+      "logId": 992,
+      "cardId": "runezu_6.webp",
+      "cardInstanceId": "alien-runezu-6-6",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_2",
+        "position": 5,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "publicity": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 103
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 116,
+        "stepIndex": 5,
+        "text": "卡牌快速行动：符文族符文2奖励：资源：宣传+1、手牌-1",
+        "deltas": {
+          "publicity": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "playCard",
+        "round": 3
+      }
+    },
+    {
+      "case": 7,
+      "company": "作弊实验室",
+      "logId": 815,
+      "cardId": "runezu_7.webp",
+      "cardInstanceId": "alien-runezu-7-2",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_4",
+        "position": 5,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "publicity": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 5,
+          "score": 88
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 99,
+        "stepIndex": 5,
+        "text": "卡牌快速行动：符文族符文4奖励：资源：宣传+1、手牌-1",
+        "deltas": {
+          "publicity": 1,
+          "handSize": 0
+        }
+      },
+      "nextMain": {
+        "id": "playCard",
+        "round": 3
+      }
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "logId": 349,
+      "cardId": "runezu_9.webp",
+      "cardInstanceId": "alien-runezu-9-1",
+      "round": 2,
+      "profile": {
+        "symbolId": "symbol_6",
+        "position": 7,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "score": 3
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 35
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 43,
+        "stepIndex": 4,
+        "text": "卡牌快速行动：符文族符文6奖励：资源：手牌-1、分数+3",
+        "deltas": {
+          "handSize": -1,
+          "score": 3
+        }
+      },
+      "nextMain": {
+        "id": "playCard",
+        "round": 2
+      }
+    },
+    {
+      "case": 11,
+      "company": "作弊实验室",
+      "logId": 474,
+      "cardId": "runezu_0.webp",
+      "cardInstanceId": "alien-runezu-0-3",
+      "round": 2,
+      "profile": {
+        "symbolId": "symbol_1",
+        "position": 3,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "credits": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 0,
+          "availableData": 3,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 48
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 53,
+        "stepIndex": 6,
+        "text": "卡牌快速行动：符文族符文1奖励：资源：信用点+1、手牌-1",
+        "deltas": {
+          "credits": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "analyze",
+        "round": 2
+      }
+    },
+    {
+      "case": 16,
+      "company": "作弊实验室",
+      "logId": 355,
+      "cardId": "runezu_9.webp",
+      "cardInstanceId": "alien-runezu-9-2",
+      "round": 2,
+      "profile": {
+        "symbolId": "symbol_6",
+        "position": 7,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "score": 3
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 5,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 44
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 41,
+        "stepIndex": 9,
+        "text": "卡牌快速行动：符文族符文6奖励：资源：手牌-1、分数+3",
+        "deltas": {
+          "handSize": -1,
+          "score": 3
+        }
+      },
+      "nextMain": {
+        "id": "researchTech",
+        "round": 2
+      }
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "logId": 939,
+      "cardId": "runezu_2.webp",
+      "cardInstanceId": "alien-runezu-2-7",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_7",
+        "position": 1,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "energy": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 90
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 104,
+        "stepIndex": 5,
+        "text": "卡牌快速行动：符文族符文7奖励：资源：能量+1、手牌-1",
+        "deltas": {
+          "energy": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "analyze",
+        "round": 3
+      }
+    },
+    {
+      "case": 20,
+      "company": "作弊实验室",
+      "logId": 225,
+      "cardId": "runezu_3.webp",
+      "cardInstanceId": "alien-runezu-3-2",
+      "round": 1,
+      "profile": {
+        "symbolId": "symbol_5",
+        "position": 5,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "publicity": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 30
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 25,
+        "stepIndex": 7,
+        "text": "卡牌快速行动：符文族符文5奖励：资源：宣传+1、手牌-1",
+        "deltas": {
+          "publicity": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "researchTech",
+        "round": 1
+      }
+    },
+    {
+      "case": 20,
+      "company": "寰宇超动力",
+      "logId": 368,
+      "cardId": "runezu_2.webp",
+      "cardInstanceId": "alien-runezu-2-1",
+      "round": 2,
+      "profile": {
+        "symbolId": "symbol_7",
+        "position": 1,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "energy": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 4,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 18
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 45,
+        "stepIndex": 11,
+        "text": "卡牌快速行动：符文族符文7奖励：资源：能量+1、手牌-1",
+        "deltas": {
+          "energy": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "land",
+        "round": 2
+      }
+    },
+    {
+      "case": 20,
+      "company": "作弊实验室",
+      "logId": 1013,
+      "cardId": "runezu_8.webp",
+      "cardInstanceId": "alien-runezu-8-6",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_7",
+        "position": 1,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "energy": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 1,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 95
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 114,
+        "stepIndex": 4,
+        "text": "卡牌快速行动：符文族符文7奖励：资源：能量+1、手牌-1",
+        "deltas": {
+          "energy": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "analyze",
+        "round": 3
+      }
+    },
+    {
+      "case": 20,
+      "company": "作弊实验室",
+      "logId": 1053,
+      "cardId": "runezu_7.webp",
+      "cardInstanceId": "alien-runezu-7-8",
+      "round": 3,
+      "profile": {
+        "symbolId": "symbol_4",
+        "position": 3,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "credits": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 99
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      },
+      "ledger": {
+        "entryId": 118,
+        "stepIndex": 5,
+        "text": "卡牌快速行动：符文族符文4奖励：资源：信用点+1、手牌-1",
+        "deltas": {
+          "credits": 1,
+          "handSize": -1
+        }
+      },
+      "nextMain": {
+        "id": "land",
+        "round": 3
+      }
+    }
+  ]
+}

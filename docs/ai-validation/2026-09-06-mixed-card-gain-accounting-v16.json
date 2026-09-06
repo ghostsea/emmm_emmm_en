@@ -1,0 +1,762 @@
+{
+  "scope": "Fresh browser replays of fixed14/21 capture raw snapshots. v16 offline parse restores three missed ordinary card gains and three gross hand costs in v15. Scores, steps and resource buckets match v13; explicit Fangzhou identities remain unique. No scoring change.",
+  "rows": [
+    {
+      "case": 14,
+      "scores": [
+        262,
+        248,
+        238,
+        194
+      ],
+      "steps": 1530,
+      "resourceBucketsMatchV13": true,
+      "noDuplicateFangzhouIdentity": true,
+      "players": [
+        {
+          "id": "player-white",
+          "nonIncomeGain": {
+            "score": 107,
+            "credits": 3,
+            "energy": 8,
+            "publicity": 52,
+            "availableData": 30,
+            "handSize": 15
+          },
+          "spent": {
+            "score": 0,
+            "credits": 20,
+            "energy": 24,
+            "publicity": 50,
+            "availableData": 32,
+            "handSize": 27
+          }
+        },
+        {
+          "id": "player-blue",
+          "nonIncomeGain": {
+            "score": 118,
+            "credits": 3,
+            "energy": 14,
+            "publicity": 73,
+            "availableData": 44,
+            "handSize": 23
+          },
+          "spent": {
+            "score": 0,
+            "credits": 31,
+            "energy": 27,
+            "publicity": 78,
+            "availableData": 46,
+            "handSize": 41
+          }
+        },
+        {
+          "id": "player-green",
+          "nonIncomeGain": {
+            "score": 144,
+            "credits": 6,
+            "energy": 17,
+            "publicity": 53,
+            "availableData": 27,
+            "handSize": 14
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 30,
+            "publicity": 51,
+            "availableData": 31,
+            "handSize": 29
+          }
+        },
+        {
+          "id": "player-brown",
+          "nonIncomeGain": {
+            "score": 115,
+            "credits": 9,
+            "energy": 8,
+            "publicity": 59,
+            "availableData": 41,
+            "handSize": 22
+          },
+          "spent": {
+            "score": 0,
+            "credits": 27,
+            "energy": 29,
+            "publicity": 63,
+            "availableData": 43,
+            "handSize": 37
+          }
+        }
+      ],
+      "mixedEntries": [
+        {
+          "id": 41,
+          "steps": [
+            {
+              "text": "扫描费用：扫描消耗 1信用点 + 2能量",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "扇区扫描：开普勒22 槽位4 替换为白色token；获得数据；资源：数据+1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "公共牌区扫描 国际合作：室女座61 槽位6 替换为白色token；获得数据；弃除 国际合作，公共区留空待扫描结束补牌；资源：数据+1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "完成扇区：室女座61：室女座61第1次结算：白色获胜，棕色保留1枚标记；追加 4 个奖励效果",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "室女座61参与奖励：白色 +1宣传：白色 宣传+1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "室女座61参与奖励：棕色 +1宣传：棕色 宣传+1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "室女座61参与奖励：绿色 +1宣传：绿色 宣传+1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "室女座61赢家奖励：白色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 1；外星人 1 粉色痕迹 额外 +1（共 2）；外星人 1 state额外痕迹奖励：3分；资源：手牌+1",
+              "fangzhouCardChanges": [
+                {
+                  "id": "fangzhou-card2-player-white-pink-1",
+                  "cardId": "fangzhou_pink_1",
+                  "label": "方舟粉色痕迹 1",
+                  "cardName": "方舟粉色痕迹 1",
+                  "src": "../assets/aliens/方舟/cards2/pink_1.png",
+                  "change": "gain"
+                }
+              ]
+            },
+            {
+              "text": "补充公共牌区：公共牌区补牌：2:付费媒体报道",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "放置数据：获得卡牌：行星猎手，公共区已补牌：伽利略号任务",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "寰宇超动力：移动 1/2：R1 -> 扇区[2,1]#4",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "跳过：寰宇超动力：移动 2/2",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "移动",
+              "fangzhouCardChanges": []
+            }
+          ],
+          "snapshotPlayers": [
+            {
+              "id": "player-blue",
+              "resources": {
+                "credits": 3,
+                "energy": 4,
+                "publicity": 5,
+                "availableData": 0,
+                "aomomoFossils": 0,
+                "additionalPublicScan": 0,
+                "handSize": 5,
+                "score": 21
+              },
+              "hand": [
+                {
+                  "id": "card-78-0",
+                  "cardName": "激光干涉引力波天文台"
+                },
+                {
+                  "id": "card-38-pass-1-4",
+                  "cardName": "可重复使用着陆器"
+                },
+                {
+                  "id": "card-83-0",
+                  "cardName": "奥西里斯- REx号"
+                },
+                {
+                  "id": "card-84-0",
+                  "cardName": "阿尔冈金射电天文台"
+                },
+                {
+                  "id": "card-85-0",
+                  "cardName": "MUREP创意竞赛"
+                }
+              ]
+            },
+            {
+              "id": "player-green",
+              "resources": {
+                "credits": 8,
+                "energy": 2,
+                "publicity": 6,
+                "availableData": 0,
+                "aomomoFossils": 0,
+                "additionalPublicScan": 0,
+                "handSize": 4,
+                "score": 37
+              },
+              "hand": [
+                {
+                  "id": "card-74-0",
+                  "cardName": "业余天文学家"
+                },
+                {
+                  "id": "card-82-0",
+                  "cardName": "八灵神星探测器"
+                },
+                {
+                  "id": "card-86-0",
+                  "cardName": "观测开普勒22"
+                },
+                {
+                  "id": "fangzhou-card2-player-green-pink-2",
+                  "cardName": "方舟粉色痕迹 2"
+                }
+              ]
+            },
+            {
+              "id": "player-brown",
+              "resources": {
+                "credits": 6,
+                "energy": 2,
+                "publicity": 8,
+                "availableData": 0,
+                "aomomoFossils": 0,
+                "additionalPublicScan": 0,
+                "handSize": 5,
+                "score": 11
+              },
+              "hand": [
+                {
+                  "id": "card-35-pass-1-1",
+                  "cardName": "SETI研究所"
+                },
+                {
+                  "id": "card-80-0",
+                  "cardName": "蜻蜓号"
+                },
+                {
+                  "id": "card-81-0",
+                  "cardName": "中性浮力训练"
+                },
+                {
+                  "id": "card-87-0",
+                  "cardName": "深部地下中微子实验"
+                },
+                {
+                  "id": "card-89-0",
+                  "cardName": "夏洛克光谱仪"
+                }
+              ]
+            },
+            {
+              "id": "player-white",
+              "resources": {
+                "credits": 5,
+                "energy": 2,
+                "publicity": 6,
+                "availableData": 1,
+                "aomomoFossils": 0,
+                "additionalPublicScan": 0,
+                "handSize": 5,
+                "score": 30
+              },
+              "hand": [
+                {
+                  "id": "card-37-pass-1-3",
+                  "cardName": "低频阵列"
+                },
+                {
+                  "id": "card-77-0",
+                  "cardName": "建造大型米波射电望远锐"
+                },
+                {
+                  "id": "card-88-0",
+                  "cardName": "火星科学实验室"
+                },
+                {
+                  "id": "fangzhou-card2-player-white-pink-1",
+                  "cardName": "方舟粉色痕迹 1"
+                },
+                {
+                  "id": "card-91-0",
+                  "cardName": "行星猎手"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "case": 21,
+      "scores": [
+        218,
+        279,
+        216,
+        177
+      ],
+      "steps": 1469,
+      "resourceBucketsMatchV13": true,
+      "noDuplicateFangzhouIdentity": true,
+      "players": [
+        {
+          "id": "player-blue",
+          "nonIncomeGain": {
+            "score": 114,
+            "credits": 4,
+            "energy": 8,
+            "publicity": 53,
+            "availableData": 19,
+            "handSize": 15
+          },
+          "spent": {
+            "score": 0,
+            "credits": 23,
+            "energy": 23,
+            "publicity": 55,
+            "availableData": 19,
+            "handSize": 29
+          }
+        },
+        {
+          "id": "player-green",
+          "nonIncomeGain": {
+            "score": 138,
+            "credits": 4,
+            "energy": 18,
+            "publicity": 61,
+            "availableData": 48,
+            "handSize": 18
+          },
+          "spent": {
+            "score": 0,
+            "credits": 23,
+            "energy": 36,
+            "publicity": 53,
+            "availableData": 50,
+            "handSize": 38
+          }
+        },
+        {
+          "id": "player-brown",
+          "nonIncomeGain": {
+            "score": 118,
+            "credits": 4,
+            "energy": 13,
+            "publicity": 39,
+            "availableData": 30,
+            "handSize": 14
+          },
+          "spent": {
+            "score": 0,
+            "credits": 23,
+            "energy": 26,
+            "publicity": 36,
+            "availableData": 32,
+            "handSize": 33
+          }
+        },
+        {
+          "id": "player-white",
+          "nonIncomeGain": {
+            "score": 87,
+            "credits": 9,
+            "energy": 5,
+            "publicity": 36,
+            "availableData": 40,
+            "handSize": 22
+          },
+          "spent": {
+            "score": 0,
+            "credits": 30,
+            "energy": 22,
+            "publicity": 40,
+            "availableData": 42,
+            "handSize": 38
+          }
+        }
+      ],
+      "mixedEntries": [
+        {
+          "id": 85,
+          "steps": [
+            {
+              "text": "移动",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "登陆 天王星，消耗 2能量（有环绕，消耗-1），移除火箭，显示登陆标记#1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "卡牌触发：登陆：2宣传",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "首次登陆：额外获得 3 个数据：白色获得 3/3 个数据；资源：数据+3",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "获得 9 分：白色 分数+9",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "获得 1 个黄色外星人标记：解锁方舟黄色痕迹牌，解锁数目 1；外星人 1 黄色痕迹 额外 +1（共 1）；外星人 1 state额外痕迹奖励：3分；资源：手牌+1",
+              "fangzhouCardChanges": [
+                {
+                  "id": "fangzhou-card2-player-white-yellow-1",
+                  "cardId": "fangzhou_yellow_1",
+                  "label": "方舟黄色痕迹 1",
+                  "cardName": "方舟黄色痕迹 1",
+                  "src": "../assets/aliens/方舟/cards2/yellow_1.png",
+                  "change": "gain"
+                }
+              ]
+            },
+            {
+              "text": "放置数据",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "放置数据：获得卡牌：钱愆拉空间天文台，公共区已补牌：观测南河",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "放置数据：资源：能量+1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "标记终局：白色玩家以 50 分门槛标记终局板块 D 的第 3 位",
+              "fangzhouCardChanges": []
+            }
+          ],
+          "snapshotPlayers": [
+            {
+              "id": "player-blue",
+              "resources": {
+                "credits": 5,
+                "energy": 2,
+                "publicity": 5,
+                "availableData": 0,
+                "aomomoFossils": 1,
+                "additionalPublicScan": 0,
+                "handSize": 4,
+                "score": 53
+              },
+              "hand": [
+                {
+                  "id": "card-42-pass-2-3",
+                  "cardName": "光帆"
+                },
+                {
+                  "id": "card-103-0",
+                  "cardName": "双探测器"
+                },
+                {
+                  "id": "card-111-0",
+                  "cardName": "维护任务"
+                },
+                {
+                  "id": "card-117-0",
+                  "cardName": "天王星轨遒器与探测器"
+                }
+              ]
+            },
+            {
+              "id": "player-green",
+              "resources": {
+                "credits": 3,
+                "energy": 4,
+                "publicity": 9,
+                "availableData": 0,
+                "aomomoFossils": 1,
+                "additionalPublicScan": 1,
+                "handSize": 3,
+                "score": 76
+              },
+              "hand": [
+                {
+                  "id": "card-85-0",
+                  "cardName": "可重复使用火箭"
+                },
+                {
+                  "id": "card-108-0",
+                  "cardName": "控制中心"
+                },
+                {
+                  "id": "card-112-0",
+                  "cardName": "平方公里阵"
+                }
+              ]
+            },
+            {
+              "id": "player-brown",
+              "resources": {
+                "credits": 6,
+                "energy": 1,
+                "publicity": 2,
+                "availableData": 0,
+                "aomomoFossils": 1,
+                "additionalPublicScan": 0,
+                "handSize": 5,
+                "score": 72
+              },
+              "hand": [
+                {
+                  "id": "alien-aomomo-6-6",
+                  "cardName": "探测器定制"
+                },
+                {
+                  "id": "card-100-0",
+                  "cardName": "新型AI模型"
+                },
+                {
+                  "id": "card-101-0",
+                  "cardName": "NASA系外行星档案"
+                },
+                {
+                  "id": "card-102-0",
+                  "cardName": "量子数据存储"
+                },
+                {
+                  "id": "card-113-0",
+                  "cardName": "艾伦望远锐阵"
+                }
+              ]
+            },
+            {
+              "id": "player-white",
+              "resources": {
+                "credits": 4,
+                "energy": 3,
+                "publicity": 7,
+                "availableData": 0,
+                "aomomoFossils": 2,
+                "additionalPublicScan": 0,
+                "handSize": 5,
+                "score": 56
+              },
+              "hand": [
+                {
+                  "id": "card-83-0",
+                  "cardName": "建造燃料箱"
+                },
+                {
+                  "id": "card-106-0",
+                  "cardName": "水熊虫研究"
+                },
+                {
+                  "id": "card-98-0",
+                  "cardName": "火星轨遒门户"
+                },
+                {
+                  "id": "fangzhou-card2-player-white-yellow-1",
+                  "cardName": "方舟黄色痕迹 1"
+                },
+                {
+                  "id": "card-99-0",
+                  "cardName": "钱愆拉空间天文台"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": 101,
+          "steps": [
+            {
+              "text": "分析数据：资源：能量-1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 2；外星人 1 蓝色痕迹 额外 +1（共 2）；外星人 1 state额外痕迹奖励：3分；资源：手牌+1",
+              "fangzhouCardChanges": [
+                {
+                  "id": "fangzhou-card2-player-white-blue-4",
+                  "cardId": "fangzhou_blue_4",
+                  "label": "方舟蓝色痕迹 4",
+                  "cardName": "方舟蓝色痕迹 4",
+                  "src": "../assets/aliens/方舟/cards2/blue_4.png",
+                  "change": "gain"
+                }
+              ]
+            },
+            {
+              "text": "放置数据：资源：分数+2",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "放置数据：资源：宣传+1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "放置数据：资源：分数+2",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "放置数据：收入：手牌+1",
+              "fangzhouCardChanges": [
+                {
+                  "id": "fangzhou-card2-player-white-yellow-1",
+                  "cardId": "fangzhou_yellow_1",
+                  "label": "方舟黄色痕迹 1",
+                  "cardName": "方舟黄色痕迹 1",
+                  "src": "../assets/aliens/方舟/cards2/yellow_1.png",
+                  "change": "remove"
+                }
+              ]
+            },
+            {
+              "text": "卡牌快速行动：弃牌换1数据：资源：手牌-1",
+              "fangzhouCardChanges": []
+            },
+            {
+              "text": "放置数据",
+              "fangzhouCardChanges": []
+            }
+          ],
+          "snapshotPlayers": [
+            {
+              "id": "player-blue",
+              "resources": {
+                "credits": 2,
+                "energy": 0,
+                "publicity": 7,
+                "availableData": 0,
+                "aomomoFossils": 3,
+                "additionalPublicScan": 0,
+                "handSize": 5,
+                "score": 74
+              },
+              "hand": [
+                {
+                  "id": "card-42-pass-2-3",
+                  "cardName": "光帆"
+                },
+                {
+                  "id": "card-103-0",
+                  "cardName": "双探测器"
+                },
+                {
+                  "id": "card-111-0",
+                  "cardName": "维护任务"
+                },
+                {
+                  "id": "alien-aomomo-1-9",
+                  "cardName": "对照分析"
+                },
+                {
+                  "id": "fangzhou-card2-player-blue-blue-4",
+                  "cardName": "方舟蓝色痕迹 4"
+                }
+              ]
+            },
+            {
+              "id": "player-green",
+              "resources": {
+                "credits": 1,
+                "energy": 3,
+                "publicity": 2,
+                "availableData": 0,
+                "aomomoFossils": 1,
+                "additionalPublicScan": 1,
+                "handSize": 4,
+                "score": 76
+              },
+              "hand": [
+                {
+                  "id": "card-108-0",
+                  "cardName": "控制中心"
+                },
+                {
+                  "id": "card-112-0",
+                  "cardName": "平方公里阵"
+                },
+                {
+                  "id": "card-118-0",
+                  "cardName": "观测南河"
+                },
+                {
+                  "id": "card-85-0",
+                  "cardName": "可重复使用火箭"
+                }
+              ]
+            },
+            {
+              "id": "player-brown",
+              "resources": {
+                "credits": 0,
+                "energy": 2,
+                "publicity": 6,
+                "availableData": 0,
+                "aomomoFossils": 1,
+                "additionalPublicScan": 1,
+                "handSize": 3,
+                "score": 78
+              },
+              "hand": [
+                {
+                  "id": "alien-aomomo-6-6",
+                  "cardName": "探测器定制"
+                },
+                {
+                  "id": "fangzhou-card2-player-brown-pink-2",
+                  "cardName": "方舟粉色痕迹 2"
+                },
+                {
+                  "id": "card-128-0",
+                  "cardName": "观测室女座"
+                }
+              ]
+            },
+            {
+              "id": "player-white",
+              "resources": {
+                "credits": 1,
+                "energy": 2,
+                "publicity": 5,
+                "availableData": 0,
+                "aomomoFossils": 3,
+                "additionalPublicScan": 0,
+                "handSize": 5,
+                "score": 63
+              },
+              "hand": [
+                {
+                  "id": "card-83-0",
+                  "cardName": "建造燃料箱"
+                },
+                {
+                  "id": "card-99-0",
+                  "cardName": "钱愆拉空间天文台"
+                },
+                {
+                  "id": "card-124-0",
+                  "cardName": "水星探测计划"
+                },
+                {
+                  "id": "fangzhou-card2-player-white-blue-4",
+                  "cardName": "方舟蓝色痕迹 4"
+                },
+                {
+                  "id": "card-130-0",
+                  "cardName": "巨麦哲伦望远镜"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

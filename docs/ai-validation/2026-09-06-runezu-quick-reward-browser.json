@@ -1,0 +1,515 @@
+{
+  "scope": "Forces selecting actual generated Runezu quick candidate; maps its symbol to energy position 1.",
+  "candidate": {
+    "id": "cardCorner",
+    "kind": "quick",
+    "available": true,
+    "handIndex": 0,
+    "cardId": "runezu_7.webp",
+    "cardInstanceId": "alien-runezu-7-999",
+    "cardLabel": "runezu_7.webp",
+    "actionKind": "runezu_symbol",
+    "symbolId": "symbol_4",
+    "reward": {
+      "gain": {
+        "energy": 1
+      },
+      "dataCount": 0,
+      "drawCards": 0,
+      "pickCard": false,
+      "pickAlienCard": false,
+      "panelSymbol": false,
+      "refillPanelSymbol": false,
+      "panelSymbolSlotId": null,
+      "symbolId": null
+    },
+    "directScoreGain": 0,
+    "gain": 6.867,
+    "cost": 5.620000000000001,
+    "score": 1.246999999999999,
+    "finalFormulaDeltas": {},
+    "valueBreakdown": {
+      "rewardValue": 6.867,
+      "discardCost": 5.5,
+      "taskPreserve": 0,
+      "finalPreserve": 0,
+      "incomePreserve": 5.620000000000001,
+      "opportunityCost": 5.620000000000001,
+      "runezuCorner": {
+        "symbolId": "symbol_4",
+        "position": 1,
+        "count": 1,
+        "reward": {
+          "gain": {
+            "energy": 1
+          },
+          "dataCount": 0,
+          "drawCards": 0,
+          "pickCard": false,
+          "pickAlienCard": false,
+          "panelSymbol": false,
+          "refillPanelSymbol": false,
+          "panelSymbolSlotId": null,
+          "symbolId": null
+        },
+        "afterDiscard": {
+          "credits": 0,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 0,
+          "score": 10
+        },
+        "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+      }
+    }
+  },
+  "step": {
+    "ok": true,
+    "undoable": true,
+    "irreversible": null,
+    "symbolId": "symbol_4",
+    "repeat": 1,
+    "results": [
+      {
+        "ok": true,
+        "undoable": true,
+        "irreversible": null,
+        "message": "符文族符文4奖励 符文4(黑圈1)：1能量",
+        "symbolId": "symbol_4",
+        "position": 1
+      }
+    ],
+    "message": "符文族符文4奖励 符文4(黑圈1)：1能量"
+  },
+  "steps": 0,
+  "resourcesAfter": {
+    "credits": 0,
+    "energy": 1,
+    "publicity": 4,
+    "availableData": 0,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 0,
+    "score": 10
+  },
+  "bugs": [],
+  "mainAvailableAfter": true,
+  "logs": [
+    {
+      "id": 26,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 6,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 3,
+        "handSize": 8
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 7,
+          "credits": 6,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 6,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 3,
+          "handSize": 8,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 2,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 9,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：作弊实验室：收入增加 2/4",
+      "details": {
+        "logPlayerId": "player-green",
+        "effectId": "initial-income-player-green-2",
+        "effectType": "initial_income"
+      },
+      "createdAt": "2026-09-06T13:35:49.140Z"
+    },
+    {
+      "id": 28,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 6,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 3,
+        "handSize": 8
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 7,
+          "credits": 6,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 6,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 3,
+          "handSize": 8,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 2,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 9,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：作弊实验室：收入增加 3/4",
+      "details": {
+        "logPlayerId": "player-green",
+        "effectId": "initial-income-player-green-3",
+        "effectType": "initial_income"
+      },
+      "createdAt": "2026-09-06T13:35:49.194Z"
+    },
+    {
+      "id": 30,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 6,
+        "credits": 4,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 3,
+        "handSize": 7
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 7,
+          "credits": 6,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 6,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 3,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 6,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 2,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 9,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：作弊实验室：收入增加 4/4",
+      "details": {
+        "logPlayerId": "player-green",
+        "effectId": "initial-income-player-green-4",
+        "effectType": "initial_income"
+      },
+      "createdAt": "2026-09-06T13:35:49.248Z"
+    },
+    {
+      "id": 33,
+      "type": "card-corner",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "playerResources": {
+        "score": 10,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 7,
+          "credits": 6,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 2,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 6,
+          "credits": 4,
+          "energy": 4,
+          "publicity": 1,
+          "availableData": 3,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 10,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 9,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "棕色AI 使用手牌角标 runezu_7.webp",
+      "details": {
+        "action": {
+          "id": "cardCorner",
+          "kind": "quick",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "runezu_7.webp",
+          "cardInstanceId": "alien-runezu-7-999",
+          "cardLabel": "runezu_7.webp",
+          "actionKind": "runezu_symbol",
+          "symbolId": "symbol_4",
+          "reward": {
+            "gain": {
+              "energy": 1
+            },
+            "dataCount": 0,
+            "drawCards": 0,
+            "pickCard": false,
+            "pickAlienCard": false,
+            "panelSymbol": false,
+            "refillPanelSymbol": false,
+            "panelSymbolSlotId": null,
+            "symbolId": null
+          },
+          "directScoreGain": 0,
+          "gain": 6.867,
+          "cost": 5.620000000000001,
+          "score": 1.246999999999999,
+          "finalFormulaDeltas": {},
+          "valueBreakdown": {
+            "rewardValue": 6.867,
+            "discardCost": 5.5,
+            "taskPreserve": 0,
+            "finalPreserve": 0,
+            "incomePreserve": 5.620000000000001,
+            "opportunityCost": 5.620000000000001,
+            "runezuCorner": {
+              "symbolId": "symbol_4",
+              "position": 1,
+              "count": 1,
+              "reward": {
+                "gain": {
+                  "energy": 1
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": false,
+                "panelSymbol": false,
+                "refillPanelSymbol": false,
+                "panelSymbolSlotId": null,
+                "symbolId": null
+              },
+              "afterDiscard": {
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "aomomoFossils": 0,
+                "additionalPublicScan": 0,
+                "handSize": 0,
+                "score": 10
+              },
+              "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+            }
+          },
+          "actionGraph": {
+            "gain": 6.867,
+            "cost": 5.62,
+            "finalMarginal": 0,
+            "goalBonus": 15.848,
+            "feasibility": 1,
+            "net": 17.095
+          },
+          "breakdown": {
+            "rewardValue": 6.867,
+            "discardCost": 5.5,
+            "taskPreserve": 0,
+            "finalPreserve": 0,
+            "incomePreserve": 5.620000000000001,
+            "opportunityCost": 5.620000000000001,
+            "runezuCorner": {
+              "symbolId": "symbol_4",
+              "position": 1,
+              "count": 1,
+              "reward": {
+                "gain": {
+                  "energy": 1
+                },
+                "dataCount": 0,
+                "drawCards": 0,
+                "pickCard": false,
+                "pickAlienCard": false,
+                "panelSymbol": false,
+                "refillPanelSymbol": false,
+                "panelSymbolSlotId": null,
+                "symbolId": null
+              },
+              "afterDiscard": {
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "aomomoFossils": 0,
+                "additionalPublicScan": 0,
+                "handSize": 0,
+                "score": 10
+              },
+              "scope": "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation"
+            },
+            "existingScore": 1.247,
+            "gain": 6.867,
+            "cost": 5.62,
+            "finalMarginal": 0,
+            "finalMarkCashout": 0,
+            "missingFinalMarkPenalty": 0,
+            "goalBonus": 15.848,
+            "feasibility": 1,
+            "net": 17.095
+          }
+        }
+      },
+      "createdAt": "2026-09-06T13:35:49.325Z"
+    }
+  ]
+}

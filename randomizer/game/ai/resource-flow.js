@@ -1147,7 +1147,8 @@
     for (const [playerId, afterPlayer] of afterStates) {
       const explicitGainKeys = new Set(entryEvents.filter(event => event.entryId === entryId && event.playerId === playerId)
         .flatMap(event => event.cards || []).filter(card => card.change === "gain").map(card => card.key));
-      const additions = getStructuredHandAdditions(beforeStates.get(playerId), afterPlayer).filter(card => !explicitGainKeys.has(card.key));
+      const snapshotAdditions = getStructuredHandAdditions(beforeStates.get(playerId), afterPlayer);
+      const additions = snapshotAdditions.filter(card => !explicitGainKeys.has(card.key));
       if (!additions.length) continue;
       const playerEvents = entryEvents.filter((event) => (
         event.entryId === entryId && event.playerId === playerId
@@ -1198,7 +1199,9 @@
           + getIncomeCardHandTurnover(event, "handSize"),
         0,
       );
-      const unrecordedHandGain = Math.max(0, additions.length - recordedHandGain);
+      // Identity deduplication must not remove a known gain from the gross count.
+      // A named alien gain and an unnamed normal draw can share this snapshot.
+      const unrecordedHandGain = Math.max(0, snapshotAdditions.length - recordedHandGain);
       if (unrecordedHandGain > 0) {
         addResourceValue(eventForCards.resourceDeltas, "handSize", unrecordedHandGain);
       }

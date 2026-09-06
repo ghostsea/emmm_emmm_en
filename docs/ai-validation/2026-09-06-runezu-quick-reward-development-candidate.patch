@@ -1,0 +1,108 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 41ebb1c3..0c74e47e 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -19444,7 +19444,48 @@
+       ));
+     }
+ 
++    function buildAiRunezuCornerQuickCandidate(card, handIndex, player, options = {}) {
++      if (!runezu?.isRunezuCard?.(card) || player?.hand?.[handIndex] !== card) return null;
++      if ((turnState.passedPlayerIds || []).includes(player.id)) return null;
++      const match = String(card.discardActionCode || "").match(/^s_([1-7])$/);
++      if (!match) return null;
++      const symbolId = "symbol_" + match[1];
++      const resolved = runezu.getTraceFaceRewardForSymbol?.(alienGameState, symbolId);
++      if (!resolved?.ok || !resolved.reward) return null;
++      const count = industry?.shouldDoubleDiscardCornerRewards?.(player) ? 2 : 1;
++      const reward = { ...resolved.reward,
++        gain: Object.fromEntries(Object.entries(resolved.reward.gain || {}).map(([key, value]) => [key, aiNumber(value) * count])),
++        dataCount: aiNumber(resolved.reward.dataCount) * count,
++        drawCards: aiNumber(resolved.reward.drawCards) * count,
++      };
++      const projected = cloneAiValue(player);
++      projected.hand.splice(handIndex, 1);
++      projected.resources.handSize = Math.max(0, aiNumber(projected.resources.handSize) - 1);
++      const rewardValue = scoreAiAlienRewardBundle(reward, projected);
++      const playCandidate = options.playCandidateByIndex?.get(handIndex) || null;
++      const model = cardEffects.getCardModel?.(card) || null;
++      const discardCost = getAiDiscardedCardOpportunityCost(card, playCandidate);
++      const taskPreserve = model?.tasks?.length ? scoreAiUnplayedTaskCardPreserveValue(card, model, playCandidate, player) : 0;
++      const finalPreserve = Math.max(0, scoreAiCardEndGameExpectedValue(card, model, player));
++      const income = cards.getIncomeGainForCard?.(card);
++      const incomePreserve = income ? Math.max(0, scoreAiIncomeOpportunityValue(player, income)) * 0.2 : 0;
++      const opportunityCost = Math.max(discardCost, taskPreserve, finalPreserve, incomePreserve);
++      const score = rewardValue - opportunityCost;
++      if (score <= 0) return null;
++      return { id: "cardCorner", kind: "quick", available: true, handIndex,
++        cardId: card.cardId || card.id, cardInstanceId: card.id,
++        cardLabel: getAiCardDisplayLabel({ card, cardId: card.cardId || card.id }, player),
++        actionKind: "runezu_symbol", symbolId, reward,
++        directScoreGain: Math.max(0, aiNumber(reward.gain.score)),
++        gain: rewardValue, cost: opportunityCost, score, finalFormulaDeltas: {},
++        valueBreakdown: { rewardValue, discardCost, taskPreserve, finalPreserve, incomePreserve, opportunityCost,
++          runezuCorner: { symbolId, position: resolved.position, count, reward, afterDiscard: { ...projected.resources },
++            scope: "current mapped face reward after card removal; no newly drawn card identity or full follow-up action simulation" } },
++      };
++    }
++
+     function buildAiCardCornerQuickCandidate(card, handIndex, currentPlayer, options = {}) {
++      if (runezu?.isRunezuCard?.(card)) return buildAiRunezuCornerQuickCandidate(card, handIndex, currentPlayer, options);
+       if (!card) return null;
+       const moveReward = cards.getDiscardActionMoveRewardForCard?.(card);
+       if (moveReward && !canAiUseCardCornerMoveThisTurn(currentPlayer?.id)) return null;
+@@ -26701,6 +26742,7 @@
+ 
+     return {
+       aiNumber,
++      buildAiRunezuCornerQuickCandidate,
+       applyAiStrategyTuning,
+       applyAiStrategyTuningRecommendation,
+       applyAiStrategyWeight,
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index ec5c22af..eff389b5 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -17109,3 +17109,29 @@ runAsyncControllerTests()
+     console.error(error);
+     process.exitCode = 1;
+   });
++
++{
++ const card=runezu.createAlienCard(7,999);
++ const symbolId='symbol_'+card.discardActionCode.slice(2);
++ const h=createAiControllerHarness(null,{currentPlayerColor:"blue",roundNumber:2,realisticCanAfford:true,
++  industry:industryModule,canStartMainAction:true,recordCardCorner:true,blueHand:[card],
++  blueResources:{credits:0,energy:0,score:10,handSize:1},runezuQuick:true,
++  runezuFaceSymbolSlots:{1:symbolId},chooseTurnAction:cs=>cs.find(c=>c.actionKind==='runezu_symbol')||null});
++ const before=JSON.stringify(h.blue);
++ const candidate=h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue);
++ assert.ok(candidate,'mapped energy reward on an unaffordable immediate card should be considered');
++ assert.equal(candidate.reward.gain.energy,1);assert.equal(candidate.valueBreakdown.runezuCorner.position,1);
++ assert.equal(candidate.valueBreakdown.runezuCorner.afterDiscard.handSize,0);
++ assert.equal(JSON.stringify(h.blue),before,'valuation must not mutate hand or resources');
++ assert.equal(h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue,{playCandidateByIndex:new Map([[0,{score:200}]])}),null,'valuable playable card is preserved');
++ h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
++ assert.equal(h.controller.runAiAutomationStep().ok,true);
++ assert.deepEqual(h.getHandled(),{type:'card-corner',handIndex:0,confirmed:true});
++ h.blue.initialSelection={industry:{label:'原教旨主义'}};
++ const doubled=h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue);
++ assert.equal(doubled.reward.gain.energy,2);assert.equal(doubled.valueBreakdown.runezuCorner.count,2);
++ h.turnState.passedPlayerIds=[h.blue.id];
++ assert.equal(h.controller.buildAiRunezuCornerQuickCandidate(card,0,h.blue),null);
++ const missing=createAiControllerHarness(null,{currentPlayerColor:'blue',blueHand:[card],runezuQuick:true});
++ assert.equal(missing.controller.buildAiRunezuCornerQuickCandidate(card,0,missing.blue),null,'unmapped symbols have no reward');
++}
+diff --git a/randomizer/index.html b/randomizer/index.html
+index 249c6edd..fd263eda 100644
+--- a/randomizer/index.html
++++ b/randomizer/index.html
+@@ -798,7 +798,7 @@
+   <script src="./app/events.js?v=same-seed-restart-1"></script>
+   <script src="./app/action-log-export.js?v=action-log-export-2"></script>
+   <script src="./app/public-api.js?v=app-boundaries-5"></script>
+-  <script src="./app/ai-controller.js?v=ai-planet-query-performance-1"></script>
++  <script src="./app/ai-controller.js?v=runezu-quick-reward-20260906"></script>
+   <script src="./app.js?v=fangzhou-card-identity-20260906"></script>
+ </body>
+ </html>

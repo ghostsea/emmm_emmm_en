@@ -691,5 +691,18 @@ console.log("resource-flow.test.js: all tests passed");
  const uses=r.events.flatMap(e=>e.cards).filter(c=>c.change!=="gain");
  assert.equal(uses.filter(c=>c.key===special.id).length,1,"text fallback must not steal an identity reserved by a later exact transition");
  assert.equal(uses.find(c=>c.key===special.id).change,"income");
- assert.equal(uses.find(c=>c.key===normal.id).change,"discard");
+  assert.equal(uses.find(c=>c.key===normal.id).change,"discard");
+}
+
+{
+ const special={id:"fangzhou-mixed",label:"方舟粉色痕迹 1"},normal={id:"new-normal"};
+ const initial={id:"p1",resources:{handSize:1},hand:[{id:"consumed"}]};
+ const r=flow.analyzeStructuredActionLog([{id:1,roundNumber:2,playerId:"p1",actionType:"scan",steps:[
+  {source:"main",text:"解锁方舟粉色痕迹牌；资源：手牌+1",fangzhouCardChanges:[{...special,change:"gain"}]},
+  {source:"quick",text:"放置数据：获得卡牌：普通牌"},
+ ],accountingSnapshot:{players:[{...initial,resources:{handSize:2},hand:[special,normal]}]}}],{initialPlayerStates:[initial]});
+ assert.equal(r.players[0].nonIncomeGain.handSize,2,"explicit identity must not hide a separate normal draw");
+ assert.equal(r.players[0].spent.handSize,1,"the removed original card remains a gross cost");
+ assert.equal(r.events.flatMap(e=>e.cards).filter(c=>c.change==='gain'&&c.key===special.id).length,1);
+ assert.equal(r.reconciliation.residualMagnitude,0);
 }
