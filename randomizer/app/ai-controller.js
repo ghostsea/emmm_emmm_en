@@ -15129,6 +15129,32 @@
       return roundAiScore(Math.min(15, Math.max(0, value)));
     }
 
+    function getAiBlueColumnNetProfile(candidate, player = getCurrentPlayer()) {
+      const company = getAiIndustryCard(player)?.label;
+      if (!player || ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL].includes(company)
+        || !["blue1", "blue2"].includes(candidate?.tileId)
+        || getAiRoundNumber() >= FINAL_ROUND_NUMBER) return null;
+      const closure = getAiBlueTechResourceClosureDiagnostic(candidate, player);
+      if (!closure?.requiredComputerSlot) return null;
+      const rewardTriggers = Math.max(0, aiNumber(closure.expectedTriggerCount));
+      if (rewardTriggers <= 0) return null;
+      // 第一排的列奖励不会追溯发放；已放过该格时，当前这次第二排奖励不附加2分。
+      const scoreTriggers = Math.max(0, rewardTriggers - (
+        closure.placedComputerData >= closure.requiredComputerSlot ? 1 : 0
+      ));
+      const resourceValue = scoreAiResourceBundle(closure.resourceGain);
+      const extraDataCost = scoreAiResourceBundle({ availableData: 1 });
+      const columnScore = aiNumber(data.getBlueColumnScoreBonus?.()?.score);
+      return {
+        rewardTriggers, scoreTriggers, resourceValue, extraDataCost, columnScore,
+        requiredComputerSlot: closure.requiredComputerSlot,
+        placedComputerData: closure.placedComputerData,
+        value: roundAiScore(Math.max(0,
+          rewardTriggers * (resourceValue - extraDataCost) + scoreTriggers * columnScore,
+        )),
+      };
+    }
+
     function countAiCompletedDataCycles(player = getCurrentPlayer()) {
       if (!player) return 0;
       return (aiAutoBattleState.turnActionHistory || []).filter((entry) => (
@@ -16143,7 +16169,8 @@
       const landDemand = getAiMapDemand(demand.actions, "land");
       const scanDemand = getAiMapDemand(demand.actions, "scan") + sumAiDemandMap(demand.scanColors) * 0.35;
       const engineDemand = getAiMapDemand(demand.actions, "researchTech") + demand.task * 0.08 + demand.final * 0.08;
-      const blueDataEngineValue = techType === "blue" ? scoreAiBlueTechDataEngineValue(player) : 0;
+      const blueDataEngineValue = techType === "blue" && !getAiBlueColumnNetProfile(candidate, player)
+        ? scoreAiBlueTechDataEngineValue(player) : 0;
 
       if (tileId === "orange1") {
         addPlan(
@@ -16468,7 +16495,9 @@
       let value = 6;
       if (techType === "orange") value += 2.5;
       if (techType === "purple") value += 2 + (resources.additionalPublicScan || 0) * 0.75;
-      if (techType === "blue") value += 1.5 + scoreAiBlueTechDataEngineValue(player) * 0.5;
+      const blueColumnNet = getAiBlueColumnNetProfile(candidate, player);
+      if (techType === "blue") value += 1.5 + (blueColumnNet
+        ? blueColumnNet.value : scoreAiBlueTechDataEngineValue(player) * 0.5);
       if (candidate?.tileId === "orange1") value += (getMovableTokensForPlayer(player?.id).length ? 1 : 4);
       if (candidate?.tileId === "orange2") value += scoreAiOrange2MobilityNeed(player) * 0.75;
       value += scoreAiHuanyuOrange2FutureMoveValue(candidate, player);
@@ -16501,8 +16530,10 @@
       if (candidate?.firstTake) {
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
-      value += scoreAiHuanyuRoundOneBlue1CreditEngineValue(candidate, player);
-      value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
+      if (!blueColumnNet) {
+        value += scoreAiHuanyuRoundOneBlue1CreditEngineValue(candidate, player);
+        value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
+      }
       value += scoreAiGrandStrategyFinalBlue1CreditBridgeValue(candidate, player);
       value += scoreAiHuanyuRoundTwoBlue4PublicityBridgeValue(candidate, player);
       value += scoreAiFinalHuanyuBlue1AnalyzeRefuelValue(candidate, player);
@@ -22919,6 +22950,7 @@
       candidate.finalFormulaDeltas = getAiResearchTechFinalFormulaDeltas(candidate, getCurrentPlayer());
       candidate.directScoreGain = getAiResearchTechDirectScoreGain(candidate);
       candidate.valueBreakdown = {
+        blueColumnNet: getAiBlueColumnNetProfile(candidate, getCurrentPlayer()),
         lateTechCatchupValue: scoreAiLateTechEngineCatchupValue(candidate, getCurrentPlayer()),
         lowTechCatchupValue: scoreAiLowTechBoardCatchupValue(candidate, getCurrentPlayer()),
         huanyuOrange2FutureMoveValue: scoreAiHuanyuOrange2FutureMoveValue(candidate, getCurrentPlayer()),

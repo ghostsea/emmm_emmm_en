@@ -17103,6 +17103,40 @@ async function runAsyncControllerTests() {
   }
 }
 
+{
+  const profile = ({ company = "寰宇超动力", placed = 0, dataCount = 2, round = 1 } = {}) => {
+    const choices = [];
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", aiDifficulty: "laughable", roundNumber: round,
+      aiValuation: setiAi.valuation,
+      canStartMainAction: true,
+      blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+      blueResources: { credits: 3, energy: 2, publicity: 6, availableData: dataCount },
+      takeableTechIds: ["blue1"],
+      techStacks: { blue1: { techType: "blue", stackIndex: 1, bonusId: "bonus_3f", remaining: 4 } },
+      availableBlueSlots: [1, 2, 3, 4],
+      data: {
+        listComputerPlacedTokens: () => Array.from({ length: placed }, (_, i) => ({ placementSlot: i + 1 })),
+        getRequiredComputerSlotForBlueBonus: () => 1,
+        getBlueTileDataBonus: () => ({ type: "credits", credits: 1 }),
+        getBlueColumnScoreBonus: () => ({ type: "score", score: 2 }),
+      },
+      onChooseTurnAction: candidates => choices.push(...candidates),
+      chooseTurnAction: candidates => candidates.find(c => c.id === "pass"),
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    return choices.find(c => c.id === "researchTech")?.takeable?.[0]?.valueBreakdown?.blueColumnNet;
+  };
+  assert.equal(profile().value, 6.5, "one funded column earns 2 score and 1 credit, costing one extra data");
+  assert.equal(profile({ placed: 1, dataCount: 1 }).value, 4.5,
+    "research after the first-row placement must not retroactively award column score");
+  assert.equal(profile({ dataCount: 0 }), null, "no observed or funded reward should invent a repeat cycle");
+  assert.equal(profile({ company: "宇宙大战略集团" }).value, 6.5);
+  assert.equal(profile({ company: "作弊实验室" }), null, "keep the stronger company as an unchanged policy control");
+  assert.equal(profile({ round: 4 }), null, "terminal tactics retain their explicit cashout valuation");
+}
+
 runAsyncControllerTests()
   .then(() => console.log("app/ai-controller.test.js ok"))
   .catch((error) => {
