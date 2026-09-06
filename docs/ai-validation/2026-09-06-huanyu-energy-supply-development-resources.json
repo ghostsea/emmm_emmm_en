@@ -1,0 +1,463 @@
+{
+  "generatedAt": "2026-09-06T10:32:32.568Z",
+  "pairs": 24,
+  "scope": "24 previously seen development paired games; both versions include initial income and corrected action-owner logging. Resources are raw units, not weighted values. Main-action conversion is the mean of per-seat main/(credits+energy spent). Resource changes accompany the full strategy change and competition; not a causal decomposition of score. Human historical logs lack some costs and starting income, so do not compare these totals directly.",
+  "groups": {
+    "baseline": {
+      "all": {
+        "seats": 96,
+        "score": 224.73958333333334,
+        "mainActions": 35.125,
+        "mainPerCreditEnergySpent": 0.6763531776243211,
+        "analysis": 3.9270833333333335,
+        "fullCycles": 2.9270833333333335,
+        "blue1": 1.6041666666666667,
+        "blue2": 1.7395833333333333,
+        "cards": {
+          "gainedInGame": 26.40625,
+          "played": 11.833333333333334,
+          "playedFromGains": 9.604166666666666,
+          "incomeFromGains": 0.625,
+          "alienGainedInGame": 1.75,
+          "alienPlayedFromGains": 0.6458333333333334
+        },
+        "aggregateAlienGainPlayRate": 0.36904761904761907,
+        "resources": {
+          "setupGain": {
+            "credits": 3.2708333333333335,
+            "energy": 2.4166666666666665,
+            "publicity": 3.625,
+            "availableData": 1.53125,
+            "handSize": 7.479166666666667
+          },
+          "incomeGain": {
+            "credits": 17.583333333333332,
+            "energy": 13.552083333333334,
+            "publicity": 0.15625,
+            "availableData": 0.2916666666666667,
+            "handSize": 11.552083333333334
+          },
+          "nonIncomeGain": {
+            "credits": 5.104166666666667,
+            "energy": 10.916666666666666,
+            "publicity": 47.78125,
+            "availableData": 35.78125,
+            "handSize": 16.447916666666668
+          },
+          "spent": {
+            "credits": 25.197916666666668,
+            "energy": 26.708333333333332,
+            "publicity": 47.916666666666664,
+            "availableData": 37.1875,
+            "handSize": 34.302083333333336
+          },
+          "endingInventory": {
+            "credits": 0.7604166666666666,
+            "energy": 0.17708333333333334,
+            "publicity": 3.6458333333333335,
+            "availableData": 0.4166666666666667,
+            "handSize": 1.1770833333333333
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 24,
+          "score": 190.16666666666666,
+          "mainActions": 28.208333333333332,
+          "mainPerCreditEnergySpent": 0.632452296679117,
+          "analysis": 2.6666666666666665,
+          "fullCycles": 1.6666666666666667,
+          "blue1": 1.0416666666666667,
+          "blue2": 0.5,
+          "cards": {
+            "gainedInGame": 21.458333333333332,
+            "played": 9.333333333333334,
+            "playedFromGains": 7.666666666666667,
+            "incomeFromGains": 0.9583333333333334,
+            "alienGainedInGame": 1.4166666666666667,
+            "alienPlayedFromGains": 0.5416666666666666
+          },
+          "aggregateAlienGainPlayRate": 0.38235294117647056,
+          "resources": {
+            "setupGain": {
+              "credits": 2.1666666666666665,
+              "energy": 2.0416666666666665,
+              "publicity": 4.083333333333333,
+              "availableData": 1.75,
+              "handSize": 4.416666666666667
+            },
+            "incomeGain": {
+              "credits": 15.875,
+              "energy": 11.416666666666666,
+              "publicity": 0.041666666666666664,
+              "availableData": 0.5,
+              "handSize": 10.375
+            },
+            "nonIncomeGain": {
+              "credits": 3.1666666666666665,
+              "energy": 10.5,
+              "publicity": 44.041666666666664,
+              "availableData": 23.333333333333332,
+              "handSize": 12.5
+            },
+            "spent": {
+              "credits": 20.75,
+              "energy": 23.875,
+              "publicity": 45.166666666666664,
+              "availableData": 25.041666666666668,
+              "handSize": 26.041666666666668
+            },
+            "endingInventory": {
+              "credits": 0.4583333333333333,
+              "energy": 0.08333333333333333,
+              "publicity": 3,
+              "availableData": 0.5416666666666666,
+              "handSize": 1.25
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 48,
+          "score": 248.89583333333334,
+          "mainActions": 38.791666666666664,
+          "mainPerCreditEnergySpent": 0.7163370795312861,
+          "analysis": 4.416666666666667,
+          "fullCycles": 3.4166666666666665,
+          "blue1": 1.875,
+          "blue2": 2.3125,
+          "cards": {
+            "gainedInGame": 27.166666666666668,
+            "played": 12.458333333333334,
+            "playedFromGains": 9.666666666666666,
+            "incomeFromGains": 0.4375,
+            "alienGainedInGame": 2.0416666666666665,
+            "alienPlayedFromGains": 0.6458333333333334
+          },
+          "aggregateAlienGainPlayRate": 0.3163265306122449,
+          "resources": {
+            "setupGain": {
+              "credits": 3.1875,
+              "energy": 2.2083333333333335,
+              "publicity": 2.0833333333333335,
+              "availableData": 1.5,
+              "handSize": 9.479166666666666
+            },
+            "incomeGain": {
+              "credits": 18.604166666666668,
+              "energy": 14.5,
+              "publicity": 0.16666666666666666,
+              "availableData": 0.14583333333333334,
+              "handSize": 11.895833333333334
+            },
+            "nonIncomeGain": {
+              "credits": 4.416666666666667,
+              "energy": 12.708333333333334,
+              "publicity": 49.291666666666664,
+              "availableData": 41.5,
+              "handSize": 16.854166666666668
+            },
+            "spent": {
+              "credits": 25.0625,
+              "energy": 29.291666666666668,
+              "publicity": 47.166666666666664,
+              "availableData": 42.729166666666664,
+              "handSize": 37.166666666666664
+            },
+            "endingInventory": {
+              "credits": 1.1458333333333333,
+              "energy": 0.125,
+              "publicity": 4.375,
+              "availableData": 0.4166666666666667,
+              "handSize": 1.0625
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "score": 211,
+          "mainActions": 34.708333333333336,
+          "mainPerCreditEnergySpent": 0.6402862547555949,
+          "analysis": 4.208333333333333,
+          "fullCycles": 3.2083333333333335,
+          "blue1": 1.625,
+          "blue2": 1.8333333333333333,
+          "cards": {
+            "gainedInGame": 29.833333333333332,
+            "played": 13.083333333333334,
+            "playedFromGains": 11.416666666666666,
+            "incomeFromGains": 0.6666666666666666,
+            "alienGainedInGame": 1.5,
+            "alienPlayedFromGains": 0.75
+          },
+          "aggregateAlienGainPlayRate": 0.5,
+          "resources": {
+            "setupGain": {
+              "credits": 4.541666666666667,
+              "energy": 3.2083333333333335,
+              "publicity": 6.25,
+              "availableData": 1.375,
+              "handSize": 6.541666666666667
+            },
+            "incomeGain": {
+              "credits": 17.25,
+              "energy": 13.791666666666666,
+              "publicity": 0.25,
+              "availableData": 0.375,
+              "handSize": 12.041666666666666
+            },
+            "nonIncomeGain": {
+              "credits": 8.416666666666666,
+              "energy": 7.75,
+              "publicity": 48.5,
+              "availableData": 36.791666666666664,
+              "handSize": 19.583333333333332
+            },
+            "spent": {
+              "credits": 29.916666666666668,
+              "energy": 24.375,
+              "publicity": 52.166666666666664,
+              "availableData": 38.25,
+              "handSize": 36.833333333333336
+            },
+            "endingInventory": {
+              "credits": 0.2916666666666667,
+              "energy": 0.375,
+              "publicity": 2.8333333333333335,
+              "availableData": 0.2916666666666667,
+              "handSize": 1.3333333333333333
+            }
+          }
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "seats": 96,
+        "score": 227.1875,
+        "mainActions": 35.166666666666664,
+        "mainPerCreditEnergySpent": 0.6711101514417637,
+        "analysis": 3.9270833333333335,
+        "fullCycles": 2.9270833333333335,
+        "blue1": 1.6770833333333333,
+        "blue2": 1.6354166666666667,
+        "cards": {
+          "gainedInGame": 26.09375,
+          "played": 11.802083333333334,
+          "playedFromGains": 9.520833333333334,
+          "incomeFromGains": 0.65625,
+          "alienGainedInGame": 1.84375,
+          "alienPlayedFromGains": 0.6666666666666666
+        },
+        "aggregateAlienGainPlayRate": 0.3615819209039548,
+        "resources": {
+          "setupGain": {
+            "credits": 3.2708333333333335,
+            "energy": 2.4166666666666665,
+            "publicity": 3.625,
+            "availableData": 1.53125,
+            "handSize": 7.479166666666667
+          },
+          "incomeGain": {
+            "credits": 17.875,
+            "energy": 13.489583333333334,
+            "publicity": 0.041666666666666664,
+            "availableData": 0.3020833333333333,
+            "handSize": 11.5625
+          },
+          "nonIncomeGain": {
+            "credits": 5.208333333333333,
+            "energy": 11.177083333333334,
+            "publicity": 47.552083333333336,
+            "availableData": 34.979166666666664,
+            "handSize": 16.020833333333332
+          },
+          "spent": {
+            "credits": 25.458333333333332,
+            "energy": 26.875,
+            "publicity": 47.895833333333336,
+            "availableData": 36.53125,
+            "handSize": 33.625
+          },
+          "endingInventory": {
+            "credits": 0.8958333333333334,
+            "energy": 0.20833333333333334,
+            "publicity": 3.3229166666666665,
+            "availableData": 0.28125,
+            "handSize": 1.4375
+          }
+        }
+      },
+      "companies": {
+        "寰宇超动力": {
+          "seats": 24,
+          "score": 196.83333333333334,
+          "mainActions": 28.708333333333332,
+          "mainPerCreditEnergySpent": 0.6246500591528538,
+          "analysis": 2.9166666666666665,
+          "fullCycles": 1.9166666666666667,
+          "blue1": 1.0833333333333333,
+          "blue2": 1,
+          "cards": {
+            "gainedInGame": 22.083333333333332,
+            "played": 9.041666666666666,
+            "playedFromGains": 7.833333333333333,
+            "incomeFromGains": 1,
+            "alienGainedInGame": 1.5416666666666667,
+            "alienPlayedFromGains": 0.625
+          },
+          "aggregateAlienGainPlayRate": 0.40540540540540543,
+          "resources": {
+            "setupGain": {
+              "credits": 2.1666666666666665,
+              "energy": 2.0416666666666665,
+              "publicity": 4.083333333333333,
+              "availableData": 1.75,
+              "handSize": 4.416666666666667
+            },
+            "incomeGain": {
+              "credits": 16.5,
+              "energy": 11.541666666666666,
+              "publicity": 0,
+              "availableData": 0.5833333333333334,
+              "handSize": 10.166666666666666
+            },
+            "nonIncomeGain": {
+              "credits": 3.375,
+              "energy": 11.333333333333334,
+              "publicity": 41.666666666666664,
+              "availableData": 23.541666666666668,
+              "handSize": 12.625
+            },
+            "spent": {
+              "credits": 21.375,
+              "energy": 24.791666666666668,
+              "publicity": 43.708333333333336,
+              "availableData": 25.833333333333332,
+              "handSize": 25.375
+            },
+            "endingInventory": {
+              "credits": 0.6666666666666666,
+              "energy": 0.125,
+              "publicity": 2.0416666666666665,
+              "availableData": 0.041666666666666664,
+              "handSize": 1.8333333333333333
+            }
+          }
+        },
+        "作弊实验室": {
+          "seats": 48,
+          "score": 257.8125,
+          "mainActions": 39.395833333333336,
+          "mainPerCreditEnergySpent": 0.7123488305860489,
+          "analysis": 4.375,
+          "fullCycles": 3.375,
+          "blue1": 2.2083333333333335,
+          "blue2": 2.25,
+          "cards": {
+            "gainedInGame": 27.166666666666668,
+            "played": 12.541666666666666,
+            "playedFromGains": 9.541666666666666,
+            "incomeFromGains": 0.4791666666666667,
+            "alienGainedInGame": 2.2291666666666665,
+            "alienPlayedFromGains": 0.75
+          },
+          "aggregateAlienGainPlayRate": 0.3364485981308411,
+          "resources": {
+            "setupGain": {
+              "credits": 3.1875,
+              "energy": 2.2083333333333335,
+              "publicity": 2.0833333333333335,
+              "availableData": 1.5,
+              "handSize": 9.479166666666666
+            },
+            "incomeGain": {
+              "credits": 19,
+              "energy": 14.458333333333334,
+              "publicity": 0.08333333333333333,
+              "availableData": 0.125,
+              "handSize": 12.0625
+            },
+            "nonIncomeGain": {
+              "credits": 4.666666666666667,
+              "energy": 13.4375,
+              "publicity": 51.604166666666664,
+              "availableData": 41.229166666666664,
+              "handSize": 16.9375
+            },
+            "spent": {
+              "credits": 25.625,
+              "energy": 29.833333333333332,
+              "publicity": 49.229166666666664,
+              "availableData": 42.5,
+              "handSize": 37.3125
+            },
+            "endingInventory": {
+              "credits": 1.2291666666666667,
+              "energy": 0.2708333333333333,
+              "publicity": 4.541666666666667,
+              "availableData": 0.3541666666666667,
+              "handSize": 1.1666666666666667
+            }
+          }
+        },
+        "宇宙大战略集团": {
+          "seats": 24,
+          "score": 196.29166666666666,
+          "mainActions": 33.166666666666664,
+          "mainPerCreditEnergySpent": 0.6350928854421035,
+          "analysis": 4.041666666666667,
+          "fullCycles": 3.0416666666666665,
+          "blue1": 1.2083333333333333,
+          "blue2": 1.0416666666666667,
+          "cards": {
+            "gainedInGame": 27.958333333333332,
+            "played": 13.083333333333334,
+            "playedFromGains": 11.166666666666666,
+            "incomeFromGains": 0.6666666666666666,
+            "alienGainedInGame": 1.375,
+            "alienPlayedFromGains": 0.5416666666666666
+          },
+          "aggregateAlienGainPlayRate": 0.3939393939393939,
+          "resources": {
+            "setupGain": {
+              "credits": 4.541666666666667,
+              "energy": 3.2083333333333335,
+              "publicity": 6.25,
+              "availableData": 1.375,
+              "handSize": 6.541666666666667
+            },
+            "incomeGain": {
+              "credits": 17,
+              "energy": 13.5,
+              "publicity": 0,
+              "availableData": 0.375,
+              "handSize": 11.958333333333334
+            },
+            "nonIncomeGain": {
+              "credits": 8.125,
+              "energy": 6.5,
+              "publicity": 45.333333333333336,
+              "availableData": 33.916666666666664,
+              "handSize": 17.583333333333332
+            },
+            "spent": {
+              "credits": 29.208333333333332,
+              "energy": 23.041666666666668,
+              "publicity": 49.416666666666664,
+              "availableData": 35.291666666666664,
+              "handSize": 34.5
+            },
+            "endingInventory": {
+              "credits": 0.4583333333333333,
+              "energy": 0.16666666666666666,
+              "publicity": 2.1666666666666665,
+              "availableData": 0.375,
+              "handSize": 1.5833333333333333
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,355 @@
+{
+  "scope": "24 current-source fixed baseline games. Grand Strategy company public picks, all three logged public candidates. Immediate play score is the existing AI estimate, not realized value. A different best immediate score is not evidence the picked card was wrong: future tasks, income, corners and changing resources matter. Later uses link same instance/player and later log id; unmatched is not ending hand or waste. This diagnostic does not replay alternative picks.",
+  "groups": {
+    "early": {
+      "choices": 48,
+      "selectedLacksImmediatePlay": 18,
+      "unplayableWithPositiveAlternative": 7,
+      "differentBestImmediate": 22,
+      "gapAtLeast10": 2,
+      "gapAtLeast10LaterPlayed": 0,
+      "gapAtLeast10ExplicitOtherUse": 2,
+      "allLaterPlayed": 19,
+      "allExplicitOtherUse": 20
+    },
+    "late": {
+      "choices": 48,
+      "selectedLacksImmediatePlay": 1,
+      "unplayableWithPositiveAlternative": 0,
+      "differentBestImmediate": 0,
+      "gapAtLeast10": 0,
+      "gapAtLeast10LaterPlayed": 0,
+      "gapAtLeast10ExplicitOtherUse": 0,
+      "allLaterPlayed": 22,
+      "allExplicitOtherUse": 15
+    }
+  },
+  "examples": [
+    {
+      "case": 3,
+      "id": 52,
+      "round": 1,
+      "resources": {
+        "score": 7,
+        "credits": 3,
+        "energy": 4,
+        "publicity": 7,
+        "availableData": 2,
+        "handSize": 4
+      },
+      "chosen": {
+        "slotIndex": 1,
+        "score": 32.687,
+        "cardId": "b_116.webp",
+        "cardInstanceId": "card-18-0",
+        "cardLabel": "太空发射系统",
+        "price": 2,
+        "typeCode": 2,
+        "playScore": null,
+        "directScoreGain": 0,
+        "effectTypes": [],
+        "valueSignals": null
+      },
+      "bestImmediate": {
+        "slotIndex": 2,
+        "score": 17.811,
+        "cardId": "b_18.webp",
+        "cardInstanceId": "card-19-0",
+        "cardLabel": "突破观察",
+        "price": 1,
+        "typeCode": 0,
+        "playScore": 3.33,
+        "directScoreGain": 0,
+        "effectTypes": [
+          "card_move",
+          "card_scan_color_choice"
+        ],
+        "valueSignals": {
+          "planScore": 3.498,
+          "endGameExpectedScore": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "playCardConversionPressure": 0,
+          "finalRoundResourceDrainPenalty": 0,
+          "standardActionPremium": 8.885
+        }
+      },
+      "selectedLacksImmediatePlay": true,
+      "hasPositiveAlternative": true,
+      "differentBestImmediate": true,
+      "immediateScoreGap": null,
+      "laterPlayed": false,
+      "playedRound": null,
+      "explicitOtherUse": [
+        {
+          "round": 3,
+          "type": "discard",
+          "pendingType": "place_data_income"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "id": 351,
+      "round": 2,
+      "resources": {
+        "score": 28,
+        "credits": 3,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "chosen": {
+        "slotIndex": 1,
+        "score": 36.978,
+        "cardId": "b_34.webp",
+        "cardInstanceId": "card-98-0",
+        "cardLabel": "木卫二快船",
+        "price": 2,
+        "typeCode": 3,
+        "playScore": null,
+        "directScoreGain": 0,
+        "effectTypes": [],
+        "valueSignals": null
+      },
+      "bestImmediate": {
+        "slotIndex": 0,
+        "score": 9.582,
+        "cardId": "dlc_41.png",
+        "cardInstanceId": "card-95-0",
+        "cardLabel": "系外行星巡天",
+        "price": 2,
+        "typeCode": 2,
+        "playScore": 26.953,
+        "directScoreGain": 0,
+        "effectTypes": [
+          "gain_resources",
+          "gain_resources",
+          "pick_card"
+        ],
+        "valueSignals": {
+          "planScore": 0.635,
+          "endGameExpectedScore": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0.38,
+          "readyTaskCashoutDirectScore": 4,
+          "readyTaskCashoutCount": 1,
+          "playCardConversionPressure": 0,
+          "finalRoundResourceDrainPenalty": 0,
+          "standardActionPremium": 0
+        }
+      },
+      "selectedLacksImmediatePlay": true,
+      "hasPositiveAlternative": true,
+      "differentBestImmediate": true,
+      "immediateScoreGap": null,
+      "laterPlayed": true,
+      "playedRound": 3,
+      "explicitOtherUse": []
+    },
+    {
+      "case": 12,
+      "id": 236,
+      "round": 2,
+      "resources": {
+        "score": 30,
+        "credits": 5,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 5
+      },
+      "chosen": {
+        "slotIndex": 1,
+        "score": 18.08,
+        "cardId": "b_87.webp",
+        "cardInstanceId": "card-83-0",
+        "cardLabel": "最佳发射窗口",
+        "price": 2,
+        "typeCode": 0,
+        "playScore": null,
+        "directScoreGain": 0,
+        "effectTypes": [],
+        "valueSignals": null
+      },
+      "bestImmediate": {
+        "slotIndex": 0,
+        "score": 17.424,
+        "cardId": "b_119.webp",
+        "cardInstanceId": "card-93-0",
+        "cardLabel": "星舰",
+        "price": 4,
+        "typeCode": 0,
+        "playScore": 10.678,
+        "directScoreGain": 5,
+        "effectTypes": [
+          "launch",
+          "card_research_tech"
+        ],
+        "valueSignals": {
+          "planScore": 3.72,
+          "endGameExpectedScore": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "playCardConversionPressure": 0,
+          "finalRoundResourceDrainPenalty": 0,
+          "standardActionPremium": 18.8
+        }
+      },
+      "selectedLacksImmediatePlay": true,
+      "hasPositiveAlternative": true,
+      "differentBestImmediate": true,
+      "immediateScoreGap": null,
+      "laterPlayed": false,
+      "playedRound": null,
+      "explicitOtherUse": []
+    },
+    {
+      "case": 13,
+      "id": 283,
+      "round": 2,
+      "resources": {
+        "score": 44,
+        "credits": 2,
+        "energy": 4,
+        "publicity": 3,
+        "availableData": 2,
+        "handSize": 3
+      },
+      "chosen": {
+        "slotIndex": 0,
+        "score": 22.173,
+        "cardId": "b_49.webp",
+        "cardInstanceId": "card-79-0",
+        "cardLabel": "引力弹弓",
+        "price": 1,
+        "typeCode": 0,
+        "playScore": null,
+        "directScoreGain": 0,
+        "effectTypes": [],
+        "valueSignals": null
+      },
+      "bestImmediate": {
+        "slotIndex": 2,
+        "score": 19.993,
+        "cardId": "b_75.webp",
+        "cardInstanceId": "card-78-0",
+        "cardLabel": "水星探测计划",
+        "price": 2,
+        "typeCode": 2,
+        "playScore": 10.651,
+        "directScoreGain": 0,
+        "effectTypes": [
+          "card_planet_sector_scan",
+          "card_planet_sector_scan"
+        ],
+        "valueSignals": {
+          "planScore": 0.624,
+          "endGameExpectedScore": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0.494,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "playCardConversionPressure": 0,
+          "finalRoundResourceDrainPenalty": 0,
+          "standardActionPremium": 5
+        }
+      },
+      "selectedLacksImmediatePlay": true,
+      "hasPositiveAlternative": true,
+      "differentBestImmediate": true,
+      "immediateScoreGap": null,
+      "laterPlayed": false,
+      "playedRound": null,
+      "explicitOtherUse": [
+        {
+          "round": 3,
+          "type": "discard",
+          "pendingType": "place_data_income"
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "id": 267,
+      "round": 2,
+      "resources": {
+        "score": 37,
+        "credits": 4,
+        "energy": 2,
+        "publicity": 7,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "chosen": {
+        "slotIndex": 0,
+        "score": 13.181,
+        "cardId": "dlc_10.png",
+        "cardInstanceId": "card-79-0",
+        "cardLabel": "太空第一人",
+        "price": 4,
+        "typeCode": 3,
+        "playScore": -8.716,
+        "directScoreGain": 0,
+        "effectTypes": [
+          "gain_resources"
+        ],
+        "valueSignals": {
+          "planScore": 3,
+          "endGameExpectedScore": 7,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "playCardConversionPressure": 0,
+          "finalRoundResourceDrainPenalty": 0,
+          "standardActionPremium": 0
+        }
+      },
+      "bestImmediate": {
+        "slotIndex": 1,
+        "score": 10.272,
+        "cardId": "b_83.webp",
+        "cardInstanceId": "card-78-0",
+        "cardLabel": "NASA创新先迸概念计划",
+        "price": 2,
+        "typeCode": 2,
+        "playScore": 2.729,
+        "directScoreGain": 0,
+        "effectTypes": [
+          "draw_cards"
+        ],
+        "valueSignals": {
+          "planScore": 0.765,
+          "endGameExpectedScore": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0.38,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "playCardConversionPressure": 0,
+          "finalRoundResourceDrainPenalty": 0,
+          "standardActionPremium": 0
+        }
+      },
+      "selectedLacksImmediatePlay": false,
+      "hasPositiveAlternative": true,
+      "differentBestImmediate": true,
+      "immediateScoreGap": 11.445,
+      "laterPlayed": false,
+      "playedRound": null,
+      "explicitOtherUse": [
+        {
+          "round": 2,
+          "type": "discard",
+          "pendingType": "place_data_income"
+        }
+      ]
+    }
+  ],
+  "retainedCompleteRows": "tmp\\ai-20260905\\grand-public-pick24-diagnostic.json"
+}
