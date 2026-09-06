@@ -17126,3 +17126,59 @@ runAsyncControllerTests()
   }
   assert.equal(JSON.stringify(h.blue), before, "effect valuation must not grant data or execute scans");
 }
+
+{
+  const realData = require("../game/data");
+  const scanState = realData.createDefaultNebulaDataState();
+  realData.fillNebulaData(scanState, "sector-1-a", { source: "test" });
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { availableData: 0 }, nebulaDataState: scanState, data: realData });
+  const effect = cardEffects.getCardModel({ cardId: "b_100.webp" }).playEffects[0];
+  const before = JSON.stringify({ player: h.blue, scanState });
+  const preview = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
+  assert.equal(preview.nebulaId, "sector-1-a");
+  assert.equal(preview.replaced, 2);
+  assert.equal(preview.dataGain, 2);
+  assert.equal(preview.slotScore, 2);
+  assert.equal(JSON.stringify({ player: h.blue, scanState }), before, "preview must not mark, gain or settle");
+  const replayState = JSON.parse(JSON.stringify(scanState));
+  const replayPlayer = JSON.parse(JSON.stringify(h.blue));
+  const replacements = [1, 2].map(() => realData.replaceNextNebulaDataToken(replayState, "sector-1-a", replayPlayer));
+  assert.ok(replacements.every(result => result.ok));
+  assert.equal(replacements.reduce((sum, result) => sum + result.scoreAwarded, 0), preview.slotScore,
+    "known repeated slot score must match the real replacement executor");
+  for (let i = 0; i < 4; i++) realData.replaceNextNebulaDataToken(scanState, "sector-1-a", h.blue);
+  const last = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
+  assert.equal(last.replaced, 1);
+  assert.equal(last.extraMarks, 1);
+  assert.equal(last.dataGain, 1, "the repeat after filling the final slot gives no data");
+  h.blue.resources.availableData = 999;
+  assert.equal(h.controller.buildAiCardScanTargetPreview([effect], h.blue).dataGain, 0, "respect data-pool capacity");
+  realData.replaceNextNebulaDataToken(scanState, "sector-1-a", h.blue);
+  const full = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
+  assert.equal(full.replaced, 0);
+  assert.equal(full.extraMarks, 2);
+  assert.equal(full.dataGain, 0);
+  assert.equal(full.slotScore, 0);
+  const empty = { ...effect, options: { nebulaId: "sector-3-b", repeat: 2 } };
+  assert.equal(h.controller.buildAiCardScanTargetPreview([empty], h.blue).value, 0);
+  assert.equal(h.controller.buildAiCardScanTargetPreview([effect, effect], h.blue), null,
+    "do not double-count the same current slots across separate scan nodes");
+  assert.equal(h.controller.buildAiCardScanTargetPreview([{ type: "launch" }, effect], h.blue), null,
+    "earlier state-changing nodes need a future-state model");
+}
+{
+  const realData = require("../game/data");
+  const scanState = realData.createDefaultNebulaDataState();
+  for (const id of ["sector-1-a", "sector-2-b", "aomomo"]) realData.fillNebulaData(scanState, id, { source: "test" });
+  const choices = [{ nebulaId: "sector-2-b", sectorX: 1 }, { nebulaId: "aomomo", sectorX: 1 },
+    { nebulaId: "sector-1-a", sectorX: 2 }];
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", roundNumber: 4,
+    blueResources: { availableData: 0 }, nebulaDataState: scanState,
+    nebulaIdsByColor: { red: ["sector-2-b"] }, buildSectorScanChoicesForXs: () => choices,
+    data: { ...realData, getNebulaSlotScoreReward: id => id === "aomomo" ? 20 : id === "sector-1-a" ? 100 : 0 } });
+  const effect = { type: cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE, options: { color: "red", gainData: false } };
+  const p = h.controller.buildAiCardScanTargetPreview([effect], h.blue);
+  assert.equal(p.nebulaId, "aomomo", "include the same-sector Aomomo target but exclude the other color");
+  assert.equal(p.dataGain, 0, "explicit no-data scan remains no-data");
+}
