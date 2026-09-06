@@ -18831,6 +18831,33 @@
       return { nextEffectType: nextEffect.type || null };
     }
 
+    function getAiPlayableProbeScanProfile(effect, player = getCurrentPlayer()) {
+      if (!player || effect?.type !== cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN) return null;
+      const owner = effect.options?.owner || "current";
+      let choices = (rocketState.rockets || [])
+        .filter((rocket) => owner === "any" || rocket.playerId === player.id)
+        .map((rocket) => ({ rocket, sector: rocketActions.getRocketSectorCoordinate(rocket) }))
+        .filter((entry) => entry.sector)
+        .sort((left, right) => Number(left.rocket.id) - Number(right.rocket.id));
+      if (effect.options?.distinctSectors) {
+        const seen = new Set();
+        choices = choices.filter(({ sector }) => {
+          const x = solar.mod8(sector.x);
+          if (seen.has(x)) return false;
+          seen.add(x);
+          return true;
+        });
+      }
+      const selected = chooseAiProbeSectorScanChoices({ playerId: player.id, effect, choices });
+      if (!selected.length) return null;
+      const xs = selected.flatMap(({ sector }) => (
+        effect.options?.includeAdjacent ? [sector.x - 1, sector.x, sector.x + 1] : [sector.x]
+      ).map((x) => solar.mod8(x)));
+      if (xs.some((x) => !buildSectorScanChoicesForX(x).some((choice) => choice.nebulaId && !choice.disabled))) return null;
+      return { playerId: player.id, rocketIds: selected.map(({ rocket }) => rocket.id), sectorXs: xs,
+        repeat: Math.max(1, Math.round(aiNumber(effect.options?.repeat || 1))), gainData: effect.options?.gainData !== false };
+    }
+
     function canAiResolvePlayCardEffects(playEffects = [], player = getCurrentPlayer(), options = {}) {
       const context = createActionContext();
       const effectPlayer = player || getCurrentPlayer();
@@ -18844,7 +18871,6 @@
         cardEffects.EFFECT_TYPES.DISCARD_CARD_CORNER_REPEAT,
         cardEffects.EFFECT_TYPES.REMOVE_ORBIT_TO_PROBE,
         cardEffects.EFFECT_TYPES.RETURN_UNFINISHED_TASK_TO_HAND,
-        cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
         cardEffects.EFFECT_TYPES.PROBE_LOCATION_REWARD,
         cardEffects.EFFECT_TYPES.EARTH_SECTOR_CONTENT_MOVE,
       ]);
@@ -18853,6 +18879,12 @@
         const previousEffect = playEffects[index - 1] || null;
         const nextEffect = playEffects[index + 1] || null;
         if (effect?.type === AI_FANGZHOU_CARD2_REWARD_EFFECT_TYPE) continue;
+        if (effect?.type === cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN) {
+          // Later movement/reveal/rotation nodes require a separate state projection.
+          if (index !== 0 || !getAiPlayableProbeScanProfile(effect, effectPlayer)) {
+            return { ok: false, message: "探测器扫描需要首节点且实际所选扇区均可扫描" };
+          }
+        }
         if (unsupportedTypes.has(effect?.type)) {
           return { ok: false, message: `AI 暂不支持打出效果 ${effect.type}` };
         }
@@ -26712,6 +26744,8 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      getAiPlayableProbeScanProfile,
+      canAiResolvePlayCardEffects,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,

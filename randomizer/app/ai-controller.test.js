@@ -438,6 +438,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
+        PROBE_SECTOR_SCAN: cardEffects.EFFECT_TYPES.PROBE_SECTOR_SCAN,
         CARD_LAND: "card_land",
         LANDING_SECTOR_SCAN: "card_landing_sector_scan",
         FREE_MOVE: "free_move",
@@ -17109,3 +17110,28 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const make = (rockets, disabledX = null) => createAiControllerHarness(null, {
+    currentPlayerColor: "blue", rocketState: { rockets },
+    buildSectorScanChoicesForX: (x) => [{ nebulaId: "sector-" + x, sectorX: x, disabled: x === disabledX }],
+  });
+  const own = { id: 1, playerId: "player-blue", sector: { x: 2, y: 2 } };
+  const rival = { id: 2, playerId: "player-white", sector: { x: 4, y: 2 } };
+  const effect = cardEffects.getCardModel({ cardId: "b_22.webp" }).playEffects[0];
+  const h = make([own, rival]);
+  const before = JSON.stringify(h.blue);
+  assert.equal(h.controller.canAiResolvePlayCardEffects([effect], h.blue).ok, true);
+  assert.deepEqual(h.controller.getAiPlayableProbeScanProfile(effect, h.blue).rocketIds, [1]);
+  assert.equal(h.controller.getAiPlayableProbeScanProfile(effect, h.blue).repeat, 2);
+  assert.equal(h.controller.canAiResolvePlayCardEffects([{ type: "gain_resources" }, effect], h.blue).ok, false);
+  assert.equal(make([rival]).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  assert.equal(make([own], 2).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  assert.equal(make([{ id: 3, playerId: "player-blue" }]).controller.canAiResolvePlayCardEffects([effect]).ok, false);
+  const any = cardEffects.getCardModel({ cardId: "b_50.webp" }).playEffects[0];
+  assert.equal(make([rival]).controller.canAiResolvePlayCardEffects([any]).ok, true);
+  const adjacent = cardEffects.getCardModel({ cardId: "b_58.webp" }).playEffects[0];
+  assert.equal(make([own], 1).controller.canAiResolvePlayCardEffects([adjacent]).ok, false);
+  assert.deepEqual(h.controller.getAiPlayableProbeScanProfile(effect, h.white).rocketIds, [2]);
+  assert.equal(JSON.stringify(h.blue), before);
+}
