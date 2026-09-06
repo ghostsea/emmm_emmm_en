@@ -12697,6 +12697,39 @@
       return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
     }
 
+    let aiPaidCardEffectValuationDepth = 0;
+
+    function buildAiPaidCardEffectValuation(card, playEffects, player = getCurrentPlayer(), cost = getCardPlayCost(card)) {
+      if (!player || aiPaidCardEffectValuationDepth > 0 || !players.canAfford(player, cost)) return null;
+      const hand = player.hand || [];
+      const handIndex = hand.findIndex((entry) => entry === card || (card?.id && entry?.id === card.id));
+      // Public-card and unaffordable future valuations retain their existing horizon.
+      if (handIndex < 0) return null;
+      const projected = cloneAiValue(player);
+      projected.hand.splice(handIndex, 1);
+      projected.resources = { ...(projected.resources || {}), handSize: projected.hand.length };
+      for (const [key, amount] of Object.entries(cost || {})) {
+        projected.resources[key] = aiNumber(projected.resources[key]) - aiNumber(amount);
+      }
+      aiPaidCardEffectValuationDepth += 1;
+      try {
+        const value = (playEffects || []).reduce((total, effect) => (
+          total + scoreAiEffectValue(effect, { player: projected, immediate: true })
+        ), 0);
+        return {
+          value,
+          playerId: player.id,
+          cardInstanceId: card.id || null,
+          cost: { ...cost },
+          before: { ...player.resources, handSize: hand.length },
+          afterPayment: { ...projected.resources },
+          scope: "payment-and-hand-only; board, passives and preceding effect rewards are not simulated",
+        };
+      } finally {
+        aiPaidCardEffectValuationDepth -= 1;
+      }
+    }
+
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
@@ -12707,7 +12740,9 @@
       const reservesAfterPlay = details.reservesAfterPlay ?? (
         [1, 2, 3].includes(typeCode) || Boolean(model?.reserveAfterPlay)
       );
-      const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
+      const effectValue = details.effectValue
+        ?? buildAiPaidCardEffectValuation(card, playEffects, player, cost)?.value
+        ?? playEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player, immediate: true })
       ), 0);
       const hasPersistentModeledValue = Boolean(
@@ -19019,7 +19054,8 @@
         readyTaskCashout,
         currentPlayer,
       );
-      const effectValue = valuationPlayEffects.reduce((total, effect) => (
+      const paymentEffectValuation = buildAiPaidCardEffectValuation(card, valuationPlayEffects, currentPlayer, cost);
+      const effectValue = paymentEffectValuation?.value ?? valuationPlayEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player: currentPlayer, immediate: true })
       ), 0);
       const finalSelfBlockingPublicityTrap = getAiFinalSelfBlockingPublicityTrapProfile(card, {
@@ -19205,6 +19241,7 @@
           cornerOpportunity: scoreAiCardCornerOpportunity(card),
           directScoreGain,
           effectValue,
+          paymentEffectValuation,
           strategyPassivePlayValue,
           grandStrategyCreditBottleneckPenalty,
           finalSelfBlockingPublicityTrap,
@@ -26712,6 +26749,8 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      buildAiPaidCardEffectValuation,
+      scoreAiEffectValue,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,

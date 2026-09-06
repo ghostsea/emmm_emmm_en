@@ -17109,3 +17109,27 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const card = { id: "payment-projection-card", price: 3, typeCode: 0 };
+  const other = { id: "retained-card", price: 1 };
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", realisticCanAfford: true, blueHand: [card, other], blueResources: { credits: 3, energy: 2, handSize: 2 } });
+  const effects = [{ type: "gain_resources", options: { gain: { credits: 1 } } }];
+  const before = JSON.stringify(h.blue);
+  const profile = h.controller.buildAiPaidCardEffectValuation(card, effects, h.blue, { credits: 3 });
+  assert.equal(profile.afterPayment.credits, 0);
+  assert.equal(profile.afterPayment.energy, 2);
+  assert.equal(profile.afterPayment.handSize, 1);
+  const expectedPlayer = JSON.parse(before);
+  expectedPlayer.resources.credits = 0;
+  expectedPlayer.resources.handSize = 1;
+  expectedPlayer.hand = [other];
+  assert.equal(profile.value, h.controller.scoreAiEffectValue(effects[0], { player: expectedPlayer, immediate: true }),
+    "resource continuation must start after the actual card payment and hand removal");
+  assert.equal(JSON.stringify(h.blue), before, "payment valuation cannot spend real resources or remove real cards");
+  assert.equal(h.controller.buildAiPaidCardEffectValuation({ id: "public-card" }, effects, h.blue, { credits: 1 }), null);
+  assert.equal(h.controller.buildAiPaidCardEffectValuation(card, effects, h.blue, { credits: 4 }), null);
+  const foreign = h.controller.buildAiPaidCardEffectValuation(other, effects, expectedPlayer, { credits: 0 });
+  assert.equal(foreign.afterPayment.handSize, 0);
+  assert.equal(foreign.afterPayment.credits, 0);
+}
