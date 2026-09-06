@@ -1,0 +1,727 @@
+{
+  "scope": "Same-score default and Fangzhou quick candidate each replay fixed case8 under resource parser v15 and step-level Fangzhou identities. Tests accounting fidelity, not strategy acceptance. Original default scoring is unchanged. Older logs cannot infer missing identities.",
+  "defaultCommit": "0505202c",
+  "quickCommit": "c2d6fe91",
+  "results": [
+    {
+      "label": "default",
+      "oldFile": "sourcefixedv2-candidate-8.json",
+      "newFile": "fangzhouidentity-v15-default8.json",
+      "scores": [
+        231,
+        242,
+        302,
+        164
+      ],
+      "steps": 1639,
+      "sameResources": true,
+      "duplicateUses": [],
+      "duplicateGains": [],
+      "players": [
+        {
+          "id": "player-green",
+          "company": "寰宇超动力",
+          "before": {
+            "gainedInGame": 23,
+            "played": 11,
+            "income": 5,
+            "discarded": 6,
+            "movePayments": 2,
+            "playedFromGains": 9,
+            "incomeFromGains": 1,
+            "discardedFromGains": 6,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 4,
+            "alienPlayedFromGains": 2
+          },
+          "after": {
+            "gainedInGame": 23,
+            "played": 11,
+            "income": 5,
+            "discarded": 6,
+            "movePayments": 2,
+            "playedFromGains": 9,
+            "incomeFromGains": 1,
+            "discardedFromGains": 6,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 6,
+            "alienPlayedFromGains": 4
+          }
+        },
+        {
+          "id": "player-blue",
+          "company": "作弊实验室",
+          "before": {
+            "gainedInGame": 25,
+            "played": 14,
+            "income": 7,
+            "discarded": 8,
+            "movePayments": 2,
+            "playedFromGains": 11,
+            "incomeFromGains": 1,
+            "discardedFromGains": 6,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 0,
+            "alienPlayedFromGains": 0
+          },
+          "after": {
+            "gainedInGame": 25,
+            "played": 14,
+            "income": 8,
+            "discarded": 8,
+            "movePayments": 2,
+            "playedFromGains": 11,
+            "incomeFromGains": 2,
+            "discardedFromGains": 6,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 3,
+            "alienPlayedFromGains": 0
+          }
+        },
+        {
+          "id": "player-brown",
+          "company": "作弊实验室",
+          "before": {
+            "gainedInGame": 31,
+            "played": 13,
+            "income": 5,
+            "discarded": 16,
+            "movePayments": 2,
+            "playedFromGains": 11,
+            "incomeFromGains": 1,
+            "discardedFromGains": 13,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 1,
+            "alienPlayedFromGains": 1
+          },
+          "after": {
+            "gainedInGame": 31,
+            "played": 13,
+            "income": 8,
+            "discarded": 16,
+            "movePayments": 2,
+            "playedFromGains": 11,
+            "incomeFromGains": 4,
+            "discardedFromGains": 12,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 4,
+            "alienPlayedFromGains": 1
+          }
+        },
+        {
+          "id": "player-white",
+          "company": "宇宙大战略集团",
+          "before": {
+            "gainedInGame": 28,
+            "played": 14,
+            "income": 5,
+            "discarded": 9,
+            "movePayments": 6,
+            "playedFromGains": 12,
+            "incomeFromGains": 0,
+            "discardedFromGains": 8,
+            "movePaymentsFromGains": 1,
+            "alienGainedInGame": 1,
+            "alienPlayedFromGains": 0
+          },
+          "after": {
+            "gainedInGame": 28,
+            "played": 14,
+            "income": 6,
+            "discarded": 9,
+            "movePayments": 6,
+            "playedFromGains": 12,
+            "incomeFromGains": 1,
+            "discardedFromGains": 7,
+            "movePaymentsFromGains": 1,
+            "alienGainedInGame": 3,
+            "alienPlayedFromGains": 1
+          }
+        }
+      ],
+      "identities": {
+        "fangzhou-card2-player-green-pink-3": [
+          {
+            "change": "gain",
+            "text": "巴纳德赢家奖励：绿色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 1；外星人 2 粉色痕迹 额外 +1（共 1）；外星人 2 state额外痕迹奖励：3分",
+            "entryId": 33,
+            "stepIndex": 10
+          },
+          {
+            "change": "play",
+            "text": "打出：方舟粉色痕迹 3：资源：信用点-2、手牌-1",
+            "entryId": 68,
+            "stepIndex": 0
+          }
+        ],
+        "fangzhou-card2-player-brown-blue-4": [
+          {
+            "change": "gain",
+            "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 1；外星人 2 蓝色痕迹 额外 +1（共 1）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 34,
+            "stepIndex": 1
+          },
+          {
+            "change": "income",
+            "text": "放置数据：资源：信用点+1、手牌-1；收入：信用点+1",
+            "entryId": 46,
+            "stepIndex": 6
+          }
+        ],
+        "fangzhou-card2-player-white-yellow-2": [
+          {
+            "change": "gain",
+            "text": "获得 1 个黄色外星人标记：解锁方舟黄色痕迹牌，解锁数目 1；外星人 2 黄色痕迹 额外 +1（共 1）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 41,
+            "stepIndex": 3
+          },
+          {
+            "change": "play",
+            "text": "打出：方舟黄色痕迹 2：资源：信用点-2、手牌-1",
+            "entryId": 69,
+            "stepIndex": 0
+          }
+        ],
+        "fangzhou-card2-player-brown-pink-4": [
+          {
+            "change": "gain",
+            "text": "室女座61赢家奖励：棕色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 2；外星人 2 粉色痕迹 额外 +1（共 2）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 42,
+            "stepIndex": 6
+          },
+          {
+            "change": "income",
+            "text": "放置数据：资源：能量+1、手牌-1；收入：能量+1",
+            "entryId": 86,
+            "stepIndex": 5
+          }
+        ],
+        "fangzhou-card2-player-green-blue-3": [
+          {
+            "change": "gain",
+            "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 2；外星人 2 蓝色痕迹 额外 +1（共 2）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 44,
+            "stepIndex": 1
+          },
+          {
+            "change": "play",
+            "text": "打出：方舟蓝色痕迹 3：资源：信用点-2、手牌-1",
+            "entryId": 56,
+            "stepIndex": 0
+          }
+        ],
+        "fangzhou-card2-player-white-blue-4": [
+          {
+            "change": "gain",
+            "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 2；外星人 2 蓝色痕迹 额外 +1（共 3）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 45,
+            "stepIndex": 1
+          },
+          {
+            "change": "income",
+            "text": "放置数据：资源：信用点+1、手牌-1；收入：信用点+1",
+            "entryId": 89,
+            "stepIndex": 11
+          }
+        ],
+        "fangzhou-card2-player-blue-blue-3": [
+          {
+            "change": "gain",
+            "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 1；外星人 2 蓝色痕迹 额外 +1（共 4）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 51,
+            "stepIndex": 1
+          },
+          {
+            "change": "discard",
+            "text": "手牌扫描 方舟蓝色痕迹 3：织女一 槽位4 替换为蓝色token；获得数据；弃除手牌 方舟蓝色痕迹 3；资源：数据+1、手牌-1",
+            "entryId": 115,
+            "stepIndex": 3
+          }
+        ],
+        "fangzhou-card2-player-brown-yellow-1": [
+          {
+            "change": "gain",
+            "text": "获得 1 个黄色外星人标记：解锁方舟黄色痕迹牌，解锁数目 3；外星人 2 黄色痕迹 额外 +1（共 2）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 54,
+            "stepIndex": 5
+          },
+          {
+            "change": "income",
+            "text": "放置数据：收入：手牌+1",
+            "entryId": 146,
+            "stepIndex": 15
+          }
+        ],
+        "fangzhou-card2-player-green-yellow-1": [
+          {
+            "change": "gain",
+            "text": "获得 1 个黄色外星人标记：解锁方舟黄色痕迹牌，解锁数目 3；外星人 2 黄色痕迹 额外 +1（共 3）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 88,
+            "stepIndex": 2
+          },
+          {
+            "change": "play",
+            "text": "打出：方舟黄色痕迹 1：资源：信用点-2、手牌-1",
+            "entryId": 184,
+            "stepIndex": 0
+          }
+        ],
+        "fangzhou-card2-player-blue-yellow-1": [
+          {
+            "change": "gain",
+            "text": "获得 1 个黄色外星人标记：解锁方舟黄色痕迹牌，解锁数目 2；外星人 2 黄色痕迹 额外 +1（共 4）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 91,
+            "stepIndex": 3
+          },
+          {
+            "change": "discard",
+            "text": "手牌扫描 方舟黄色痕迹 1：开普勒22 槽位3 替换为蓝色token；获得数据；弃除手牌 方舟黄色痕迹 1；资源：数据+1、手牌-1",
+            "entryId": 175,
+            "stepIndex": 5
+          }
+        ],
+        "fangzhou-card2-player-blue-pink-4": [
+          {
+            "change": "gain",
+            "text": "绘架座β赢家奖励：蓝色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 3；外星人 2 粉色痕迹 额外 +1（共 3）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 115,
+            "stepIndex": 12
+          },
+          {
+            "change": "income",
+            "text": "放置数据：资源：能量+1、手牌-1；收入：能量+1",
+            "entryId": 127,
+            "stepIndex": 0
+          }
+        ],
+        "fangzhou-card2-player-white-pink-3": [
+          {
+            "change": "gain",
+            "text": "室女座61赢家奖励：白色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 3；外星人 2 粉色痕迹 额外 +1（共 4）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 161,
+            "stepIndex": 13
+          },
+          {
+            "change": "discard",
+            "text": "手牌扫描 方舟粉色痕迹 3：室女座61 槽位4 替换为白色token；数据池已满（6/6），本次数据被弃置；弃除手牌 方舟粉色痕迹 3；资源：手牌-1",
+            "entryId": 173,
+            "stepIndex": 6
+          }
+        ]
+      }
+    },
+    {
+      "label": "quick",
+      "oldFile": "fangzhouquickreward-candidate-8.json",
+      "newFile": "fangzhouidentity-v15-quick8.json",
+      "scores": [
+        222,
+        253,
+        339,
+        214
+      ],
+      "steps": 1618,
+      "sameResources": true,
+      "duplicateUses": [],
+      "duplicateGains": [],
+      "players": [
+        {
+          "id": "player-green",
+          "company": "寰宇超动力",
+          "before": {
+            "gainedInGame": 25,
+            "played": 13,
+            "income": 5,
+            "discarded": 2,
+            "movePayments": 2,
+            "playedFromGains": 12,
+            "incomeFromGains": 1,
+            "discardedFromGains": 2,
+            "movePaymentsFromGains": 2,
+            "alienGainedInGame": 3,
+            "alienPlayedFromGains": 0
+          },
+          "after": {
+            "gainedInGame": 27,
+            "played": 13,
+            "income": 5,
+            "discarded": 5,
+            "movePayments": 2,
+            "playedFromGains": 12,
+            "incomeFromGains": 1,
+            "discardedFromGains": 5,
+            "movePaymentsFromGains": 2,
+            "alienGainedInGame": 5,
+            "alienPlayedFromGains": 0
+          }
+        },
+        {
+          "id": "player-blue",
+          "company": "作弊实验室",
+          "before": {
+            "gainedInGame": 25,
+            "played": 14,
+            "income": 6,
+            "discarded": 9,
+            "movePayments": 2,
+            "playedFromGains": 12,
+            "incomeFromGains": 0,
+            "discardedFromGains": 7,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 1,
+            "alienPlayedFromGains": 1
+          },
+          "after": {
+            "gainedInGame": 27,
+            "played": 14,
+            "income": 7,
+            "discarded": 10,
+            "movePayments": 2,
+            "playedFromGains": 12,
+            "incomeFromGains": 1,
+            "discardedFromGains": 8,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 3,
+            "alienPlayedFromGains": 1
+          }
+        },
+        {
+          "id": "player-brown",
+          "company": "作弊实验室",
+          "before": {
+            "gainedInGame": 26,
+            "played": 12,
+            "income": 4,
+            "discarded": 5,
+            "movePayments": 2,
+            "playedFromGains": 8,
+            "incomeFromGains": 0,
+            "discardedFromGains": 3,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 1,
+            "alienPlayedFromGains": 0
+          },
+          "after": {
+            "gainedInGame": 28,
+            "played": 12,
+            "income": 4,
+            "discarded": 8,
+            "movePayments": 2,
+            "playedFromGains": 8,
+            "incomeFromGains": 0,
+            "discardedFromGains": 6,
+            "movePaymentsFromGains": 0,
+            "alienGainedInGame": 4,
+            "alienPlayedFromGains": 0
+          }
+        },
+        {
+          "id": "player-white",
+          "company": "宇宙大战略集团",
+          "before": {
+            "gainedInGame": 19,
+            "played": 12,
+            "income": 5,
+            "discarded": 1,
+            "movePayments": 8,
+            "playedFromGains": 9,
+            "incomeFromGains": 0,
+            "discardedFromGains": 1,
+            "movePaymentsFromGains": 2,
+            "alienGainedInGame": 0,
+            "alienPlayedFromGains": 0
+          },
+          "after": {
+            "gainedInGame": 21,
+            "played": 12,
+            "income": 5,
+            "discarded": 3,
+            "movePayments": 8,
+            "playedFromGains": 9,
+            "incomeFromGains": 0,
+            "discardedFromGains": 3,
+            "movePaymentsFromGains": 2,
+            "alienGainedInGame": 3,
+            "alienPlayedFromGains": 1
+          }
+        }
+      ],
+      "identities": {
+        "fangzhou-card2-player-green-pink-3": [
+          {
+            "change": "gain",
+            "text": "巴纳德赢家奖励：绿色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 1；外星人 2 粉色痕迹 额外 +1（共 1）；外星人 2 state额外痕迹奖励：3分",
+            "entryId": 33,
+            "stepIndex": 10
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 44,
+            "stepIndex": 5
+          }
+        ],
+        "fangzhou-card2-player-brown-blue-4": [
+          {
+            "change": "gain",
+            "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 1；外星人 2 蓝色痕迹 额外 +1（共 1）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 34,
+            "stepIndex": 1
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 42,
+            "stepIndex": 10
+          }
+        ],
+        "fangzhou-card2-player-white-yellow-2": [
+          {
+            "change": "gain",
+            "text": "获得 1 个黄色外星人标记：解锁方舟黄色痕迹牌，解锁数目 1；外星人 2 黄色痕迹 额外 +1（共 1）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 41,
+            "stepIndex": 3
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 41,
+            "stepIndex": 6
+          }
+        ],
+        "fangzhou-card2-player-brown-pink-4": [
+          {
+            "change": "gain",
+            "text": "室女座61赢家奖励：棕色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 2；外星人 2 粉色痕迹 额外 +1（共 2）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 42,
+            "stepIndex": 6
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 42,
+            "stepIndex": 13
+          }
+        ],
+        "fangzhou-card2-player-green-blue-3": [
+          {
+            "change": "gain",
+            "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 2；外星人 2 蓝色痕迹 额外 +1（共 2）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 44,
+            "stepIndex": 1
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 44,
+            "stepIndex": 7
+          }
+        ],
+        "fangzhou-card2-player-white-blue-4": [
+          {
+            "change": "gain",
+            "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 2；外星人 2 蓝色痕迹 额外 +1（共 3）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 45,
+            "stepIndex": 1
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 45,
+            "stepIndex": 2
+          }
+        ],
+        "fangzhou-card2-player-blue-blue-3": [
+          {
+            "change": "gain",
+            "text": "分析：获得 1 个蓝色外星人痕迹：解锁方舟蓝色痕迹牌，解锁数目 1；外星人 2 蓝色痕迹 额外 +1（共 4）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 51,
+            "stepIndex": 1
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 51,
+            "stepIndex": 2
+          }
+        ],
+        "fangzhou-card2-player-brown-yellow-1": [
+          {
+            "change": "gain",
+            "text": "获得 1 个黄色外星人标记：解锁方舟黄色痕迹牌，解锁数目 3；外星人 2 黄色痕迹 额外 +1（共 2）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 62,
+            "stepIndex": 3
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 62,
+            "stepIndex": 7
+          }
+        ],
+        "fangzhou-card2-player-green-yellow-1": [
+          {
+            "change": "gain",
+            "text": "获得 1 个黄色外星人标记：解锁方舟黄色痕迹牌，解锁数目 3；外星人 2 黄色痕迹 额外 +1（共 3）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 64,
+            "stepIndex": 4
+          },
+          {
+            "change": "discard",
+            "text": "卡牌快速行动：方舟基础奖励：资源：手牌-1",
+            "entryId": 64,
+            "stepIndex": 6
+          }
+        ],
+        "fangzhou-card2-player-white-pink-3": [
+          {
+            "change": "gain",
+            "text": "织女一赢家奖励：白色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 3；外星人 2 粉色痕迹 额外 +1（共 3）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 88,
+            "stepIndex": 7
+          },
+          {
+            "change": "play",
+            "text": "打出：方舟粉色痕迹 3：资源：信用点-2、手牌-1",
+            "entryId": 104,
+            "stepIndex": 0
+          }
+        ],
+        "fangzhou-card2-player-blue-pink-4": [
+          {
+            "change": "gain",
+            "text": "绘架座β赢家奖励：蓝色放置粉色外星人痕迹：解锁方舟粉色痕迹牌，解锁数目 2；外星人 2 粉色痕迹 额外 +1（共 4）；外星人 2 state额外痕迹奖励：3分；资源：手牌+1",
+            "entryId": 110,
+            "stepIndex": 7
+          },
+          {
+            "change": "income",
+            "text": "放置数据：资源：能量+1、手牌-1；收入：能量+1",
+            "entryId": 110,
+            "stepIndex": 11
+          }
+        ]
+      }
+    }
+  ],
+  "browser": {
+    "changes": [
+      {
+        "id": "fangzhou-quick-real",
+        "cardId": "fangzhou_pink_2",
+        "label": "方舟粉色痕迹 2",
+        "cardName": "方舟粉色痕迹 2",
+        "src": "../assets/aliens/方舟/cards2/pink_2.png",
+        "change": "remove"
+      }
+    ],
+    "afterQuick": {
+      "credits": 0,
+      "energy": 1,
+      "publicity": 5,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 11
+    },
+    "step": {
+      "ok": true,
+      "flipResult": {
+        "ok": true,
+        "index": 0,
+        "tier": "basic",
+        "effect": {
+          "gain": {
+            "score": 1,
+            "energy": 1
+          }
+        },
+        "definition": {
+          "index": 0,
+          "label": "方舟奖励 0",
+          "basic": {
+            "gain": {
+              "score": 1,
+              "energy": 1
+            }
+          },
+          "advanced": {
+            "gain": {
+              "energy": 2
+            },
+            "alienTrace": "yellow"
+          }
+        },
+        "src": "../assets/aliens/方舟/cards/0.webp",
+        "label": "方舟奖励 0",
+        "message": "方舟基础奖励：方舟奖励 0",
+        "reshuffled": false
+      },
+      "flips": [
+        {
+          "ok": true,
+          "index": 0,
+          "tier": "basic",
+          "effect": {
+            "gain": {
+              "score": 1,
+              "energy": 1
+            }
+          },
+          "definition": {
+            "index": 0,
+            "label": "方舟奖励 0",
+            "basic": {
+              "gain": {
+                "score": 1,
+                "energy": 1
+              }
+            },
+            "advanced": {
+              "gain": {
+                "energy": 2
+              },
+              "alienTrace": "yellow"
+            }
+          },
+          "src": "../assets/aliens/方舟/cards/0.webp",
+          "label": "方舟奖励 0",
+          "message": "方舟基础奖励：方舟奖励 0",
+          "reshuffled": false
+        }
+      ],
+      "repeat": 1,
+      "message": "方舟基础奖励：方舟奖励 0",
+      "followUps": [
+        {
+          "type": "gain_resources",
+          "label": "方舟奖励 0：1分数",
+          "icon": "score",
+          "options": {
+            "gain": {
+              "score": 1
+            },
+            "targetPlayerId": "player-white",
+            "targetPlayerColor": "white",
+            "scoreSourceKey": "alienCardQuickScore"
+          }
+        },
+        {
+          "type": "gain_resources",
+          "label": "方舟奖励 0：1能量",
+          "icon": "energy",
+          "options": {
+            "gain": {
+              "energy": 1
+            },
+            "targetPlayerId": "player-white",
+            "targetPlayerColor": "white",
+            "scoreSourceKey": "alienCardQuickScore"
+          }
+        }
+      ]
+    },
+    "bugs": []
+  }
+}
