@@ -1979,6 +1979,16 @@
       return finalizePendingDiscardSelection();
     }
 
+    function scoreAiHuanyuOpeningEnergyIncomeFit(player, gain, pendingType) {
+      if (!player || pendingType !== "initial_income" || getAiRoundNumber() !== 1
+        || getAiIndustryCard(player)?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return 0;
+      const shortfall = Math.max(0, 2 - aiNumber(player.income?.energy));
+      // Test one energy-unit premium for filling the opening income fuel gap.
+      // This is a policy estimate, not an additional resource or guaranteed extra action.
+      return roundAiScore(Math.min(shortfall, Math.max(0, aiNumber(gain?.energy)))
+        * aiNumber(getAiResourceValuesForRound().energy));
+    }
+
     function getAiIncomeDiscardPreview(
       player,
       count,
@@ -2008,7 +2018,8 @@
           const playCandidate = buildAiPlayCardCandidate(card, index, player);
           const playValue = Math.max(0, scoreAiPlayCardValue(card, { player }));
           const discardOpportunityCost = scoreAiIncomeDiscardSelectionOpportunityCost(player, card, { playValue });
-          const value = incomeScore + finalFormulaFit + routeEnergyFit + grandFangzhouCreditThroughputFit;
+          const huanyuOpeningEnergyFit = scoreAiHuanyuOpeningEnergyIncomeFit(player, gain, pendingType);
+          const value = incomeScore + finalFormulaFit + routeEnergyFit + grandFangzhouCreditThroughputFit + huanyuOpeningEnergyFit;
           return {
             index,
             selected: selectedSet.has(index),
@@ -2019,6 +2030,7 @@
             finalFormulaFit: roundAiScore(finalFormulaFit),
             routeEnergyFit: roundAiScore(routeEnergyFit),
             grandFangzhouCreditThroughputFit: roundAiScore(grandFangzhouCreditThroughputFit),
+            huanyuOpeningEnergyFit,
             playValue: roundAiScore(playValue),
             playableNow: Boolean(playCandidate),
             playScoreNow: playCandidate ? roundAiScore(aiNumber(playCandidate.score)) : null,
@@ -2240,6 +2252,7 @@
             pendingType,
             incomeFormulaEntries,
           );
+          const huanyuOpeningEnergyFit = scoreAiHuanyuOpeningEnergyIncomeFit(simulatedPlayer, gain, pendingType);
           const sequenceFit = target > 1
             ? scoreAiMultiIncomeSequenceFit(simulatedPlayer, gain, target - selected.length)
             : 0;
@@ -2257,6 +2270,7 @@
               + finalFormulaFit
               + routeEnergyFit
               + grandFangzhouCreditThroughputFit
+              + huanyuOpeningEnergyFit
               + sequenceFit
               - discardOpportunityCost,
           };

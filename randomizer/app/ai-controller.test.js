@@ -17103,6 +17103,33 @@ async function runAsyncControllerTests() {
   }
 }
 
+{
+  const chooseOpeningFuel = ({ company = "寰宇超动力", energyIncome = 1, type = "initial_income", round = 1 } = {}) => {
+    const pending = { type, selectedIndexes: [] };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: round, pendingDiscardAction: pending, discardCount: 1,
+      blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+      blueResources: { credits: 2, energy: 2, publicity: 3, handSize: 4, score: 6 },
+      blueIncome: { credits: 3, energy: energyIncome, handSize: 1 },
+      blueCompanyBaseIncome: { credits: 3, energy: 1, handSize: 1 },
+      blueHand: [{ id: "opening-credit", incomeGain: { credits: 1 } },
+        { id: "opening-hand", incomeGain: { handSize: 1 } },
+        { id: "opening-energy", incomeGain: { energy: 1 } },
+        { id: "opening-credit-two", incomeGain: { credits: 1 } }],
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    assert.equal(harness.controller.runAiAutomationStep().ok, true);
+    const log = harness.controller.getAiAutoBattleProgress().logs?.find(entry => entry.type === "discard");
+    return { selected: pending.selectedIndexes[0], log, harness };
+  };
+  const fuel = chooseOpeningFuel();
+  assert.equal(fuel.selected, 2, "initial Huanyu income should be able to fill its one-energy income gap");
+  assert.notEqual(chooseOpeningFuel({ energyIncome: 2 }).selected, 2,
+    "the fuel premium must stop once energy income reaches two");
+  assert.notEqual(chooseOpeningFuel({ company: "宇宙大战略集团" }).selected, 2);
+  assert.notEqual(chooseOpeningFuel({ type: "place_data_income" }).selected, 2);
+}
+
 runAsyncControllerTests()
   .then(() => console.log("app/ai-controller.test.js ok"))
   .catch((error) => {
