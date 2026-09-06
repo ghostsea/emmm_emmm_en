@@ -17109,3 +17109,36 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const inspectIncomeFormula = ({ company = "寰宇超动力", multiplier = 5 } = {}) => {
+    const pendingDiscardAction = { type: "place_data_income", selectedIndexes: [] };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: 3, pendingDiscardAction, discardCount: 1,
+      blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+      blueResources: { score: 80, credits: 4, energy: 4, handSize: 3 },
+      blueCompanyBaseIncome: { credits: 2, energy: 1, handSize: 1 },
+      blueIncome: { credits: 4, energy: 3, handSize: 2 },
+      blueHand: [
+        { id: "last-a2-bottleneck", incomeGain: { handSize: 1 } },
+        { id: "a2-credit", incomeGain: { credits: 1 } },
+        { id: "a2-energy", incomeGain: { energy: 1 } },
+      ],
+      finalScoringState: { tiles: { a: { id: "a", marks: [{ playerId: "player-blue", slotIndex: 1, threshold: 25 }] } } },
+      finalTileVariants: { a: 2 }, finalFormulaIds: { a: "a2" }, finalSlotMultipliers: { a2: { 1: multiplier } },
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    const log = harness.controller.getAiAutoBattleReport().logs.find(l => l.type === "discard");
+    assert.ok(log?.details.incomeDiscardPreview);
+    return log.details.incomeDiscardPreview.options;
+  };
+  const low = inspectIncomeFormula(), high = inspectIncomeFormula({ multiplier: 11 });
+  assert.ok(low.every(o => o.finalFormulaFit === 0), "do not add fixed final-tile fit on top of incomeScore");
+  assert.ok(high.find(o => o.cardId === "last-a2-bottleneck").incomeScore
+    > low.find(o => o.cardId === "last-a2-bottleneck").incomeScore,
+    "the real A2 multiplier must still change the value of completing its bottleneck");
+  assert.ok(inspectIncomeFormula({ company: "宇宙大战略集团" }).every(o => o.finalFormulaFit === 0));
+  assert.ok(inspectIncomeFormula({ company: "作弊实验室" }).some(o => o.finalFormulaFit > 0),
+    "keep the other company's existing income policy");
+}

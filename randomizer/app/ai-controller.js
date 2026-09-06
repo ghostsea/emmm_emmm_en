@@ -2356,6 +2356,9 @@
 
     function scoreAiIncomeDiscardFinalFormulaFit(player = getCurrentPlayer(), incomeGain = {}, entries = null) {
       if (!player || !incomeGain || typeof incomeGain !== "object") return 0;
+      // The income value already includes the actual marked multiplier and partial setup value.
+      if ([AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL]
+        .includes(getAiIndustryCard(player)?.label)) return 0;
       const formulaEntries = entries || getAiIncomeFinalFormulaEntries(player);
       if (!formulaEntries.length) return 0;
       const income = player.income || {};
