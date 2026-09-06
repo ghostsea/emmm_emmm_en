@@ -1,0 +1,18 @@
+{
+  "generatedAt": "2026-09-06T04:38:35.369Z",
+  "phase": "read-only-performance-diagnostic",
+  "equalStateCases": 64,
+  "full": {
+    "ms": 270.68330000000003,
+    "calls": 256,
+    "planetRows": 2176
+  },
+  "direct": {
+    "ms": 1.292699999999968,
+    "calls": 256,
+    "planetRows": 2176
+  },
+  "ratio": 209.39374951652104,
+  "finding": "Seven AI controller call sites build a complete solar snapshot only to read planetLocations. The existing exported collectPlanetLocations is exactly the function used for this field inside createSolarSnapshot.",
+  "limits": "Local pure-function timing under concurrent browser load is not full-game speedup. A controller substitution still requires full decision/state equivalence replay before acceptance."
+}
