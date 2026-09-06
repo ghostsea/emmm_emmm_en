@@ -3742,7 +3742,7 @@
 
     function getAiCompanyEnergySupplyProfile(player = getPlayerById(getPendingAutomationPlayerId()) || getCurrentPlayer()) {
       const companyLabel = getAiIndustryCard(player)?.label;
-      if (!player || ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL].includes(companyLabel)) return null;
+      if (!player || companyLabel !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL) return null;
       const remainingIncomePayments = Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber());
       const credits = Math.max(0, aiNumber(player.resources?.credits));
       const energy = Math.max(0, aiNumber(player.resources?.energy));

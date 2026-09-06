@@ -17126,9 +17126,9 @@ runAsyncControllerTests()
   const scarce = make(2, "寰宇超动力", { credits: 0, energy: 6 }, { credits: 1, energy: 3 });
   assert.equal(scarce.controller.getAiCompanyEnergySupplyProfile().energyScale, 1);
   const grand = make(2, "宇宙大战略集团", { credits: 3, energy: 2 }, { credits: 1, energy: 1 });
-  assert.equal(grand.controller.getAiCompanyEnergySupplyProfile().energyScale, Math.sqrt(6 / 5),
-    "Grand Strategy uses its own supply, including the two real future income payments");
-  assert.equal(grand.controller.getAiResourceValuesForRound().energy, 6.2 * Math.sqrt(6 / 5));
+  assert.equal(grand.controller.getAiCompanyEnergySupplyProfile(), null,
+    "Grand Strategy keeps the original phase price in this Huanyu-only ablation");
+  assert.equal(grand.controller.getAiResourceValuesForRound().energy, 6.2);
   const terminal = make(4, "寰宇超动力", { credits: 2, energy: 2 }, { credits: 9, energy: 1 });
   assert.equal(terminal.controller.getAiCompanyEnergySupplyProfile().energyScale, 1,
     "no income payment after final round may be pre-credited");
@@ -17148,7 +17148,7 @@ runAsyncControllerTests()
     harness.white.initialSelection = { industry: { id: "industry:" + pendingCompany, label: pendingCompany } };
     return harness;
   };
-  const bothTarget = makeCrossOwner("寰宇超动力", "宇宙大战略集团");
+  const bothTarget = makeCrossOwner("寰宇超动力", "寰宇超动力");
   bothTarget.white.resources.credits = 0;
   bothTarget.white.resources.energy = 6;
   bothTarget.white.income = { credits: 1, energy: 3 };
