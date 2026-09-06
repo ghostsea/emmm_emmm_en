@@ -319,8 +319,6 @@
   "runtimeDifferences": [
     "randomizer/app/ai-controller.js",
     "randomizer/app/ai-controller.test.js",
-    "randomizer/game/ai/ai.test.js",
-    "randomizer/game/ai/valuation.js",
     "randomizer/index.html"
   ],
   "harnessHashes": {
@@ -472,5 +470,6 @@
       "baseline": "slotrandom-base-24.json",
       "candidate": "bluecolumn-candidate-24.json"
     }
-  ]
+  ],
+  "metadataCorrection": "差异文件清单现按冻结时已保存的两侧哈希计算，替换从模板继承的清单；冻结时间、种子及全部源码指纹不变。"
 }

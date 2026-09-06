@@ -1,6 +1,6 @@
 {
   "phase": "seen-seed-development",
-  "frozenAt": "2026-09-06T05:38:28.227Z",
+  "frozenAt": "2026-09-06T05:44:02.515Z",
   "seedGeneratedAt": "2026-09-06T05:08:13.121Z",
   "plannedPairs": 24,
   "minimumPairs": 24,
@@ -161,14 +161,14 @@
       }
     },
     "candidate": {
-      "root": "huanyu-blue-prior",
-      "commit": "fee1eda5554da12c6046bad52cd67d9aee295c63",
+      "root": "huanyu-blue-card",
+      "commit": "d7de2e8c35a6d1847b4570637623827087227df0",
       "hashes": {
         "randomizer/app.js": "883b9772d07dbd44c439ed9257ee1259cb284581dff731de332ae739f43ab21b",
         "randomizer/app/action-log-export.js": "ef9f7d9f191b5f0e55dd88e944165f3d067f6fe94a6176400dcd75f71e447186",
         "randomizer/app/action-log-export.test.js": "54aca4179c0e1567c1c9a89df1db0ec1522259528b324974e0a7238d1e62ff14",
-        "randomizer/app/ai-controller.js": "111312bbc31018835ce25d09eef3b580e2ea76821be2a981b6b310cc85c76b12",
-        "randomizer/app/ai-controller.test.js": "865148b6b997b140f9b79eb34a73d361ca5bd4e813b24114606a3120bf82074e",
+        "randomizer/app/ai-controller.js": "287cd9270866971cdcfd0af3fbf9be9cfe4a32305bf015b6971cda1ed6632ed3",
+        "randomizer/app/ai-controller.test.js": "2d2f4c3f3ef72594cfbfe86d5c14b1ad0a67d5c969016014f0a695db29b05e0e",
         "randomizer/app/alien-trace-reward-flow.js": "1ea5ef7ce78e78f76f6d8b1a5451d27dbd153c177d8b2a62f1da7ef5871e20e4",
         "randomizer/app/alien-trace-reward-flow.test.js": "eeffe71777f1298b2f79c130d883efe179c6d1b578aea58d19e00c29364d3bf1",
         "randomizer/app/constants.js": "61e050a6c685be5d53e47a58f167a519bf945a3aac18f5237576ceb121ffa244",
@@ -307,13 +307,13 @@
         "randomizer/game/tech/render.js": "27194503252af66d027539e521149b66e30968e6cbe4613d75012fd2a7618f2b",
         "randomizer/game/tech/resolver.js": "5453489373906f4080f4a5a3f5e2bc303dcfd0ba88ff38321ee346bcfc63d8e1",
         "randomizer/game/tech/tech.test.js": "0ee3024fa8fd56701574ec78f104064301ba4eaccbf3ac351518a3bd3c75c71e",
-        "randomizer/index.html": "3b0703f0e4e588bad5d9fba808d9641dd6300ba34a8ed9497fb995d47c70c471",
+        "randomizer/index.html": "7bf24f3642d51b5dca482e9a28e25bc9de86fcf643d976b4a5918074821feba4",
         "randomizer/solar-system/core.js": "d2cf5180e0ac153c8f31c6682ae5b9eb083f3cc074237cc7b4be020ae7543e76",
         "randomizer/solar-system/core.test.js": "28e526843553e92dd3c38c6fc901cbc6e04a37bc22b24b8b14620c544a5a57b0",
         "randomizer/solar-system/layout.js": "7cefd0c7ffe7bcb1106d7054ba80f20cf9ca0fbb59c9e39443d9fbea130b6fba",
         "randomizer/style.css": "5bf8327aea43711b7aba9f0c9856356f81ecda5bb9a36607d79a3f61ff10bccf"
       },
-      "fingerprint": "882c6d2c5e84d4e1b4d4dec8f6869938074d67aece24bf39e6a780e470c42527"
+      "fingerprint": "2b12c112621c51c7f9ecd328e99f315241e770644034cb3fd33e56e4cddacbad"
     }
   },
   "runtimeDifferences": [
@@ -330,146 +330,145 @@
       "seed": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:c5c4315409784843e9126648",
       "baseline": "slotrandom-base-1.json",
-      "candidate": "huanyuprior-candidate-1.json"
+      "candidate": "huanyucard-candidate-1.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:ab14551ea2d17ad8532809b9",
       "baseline": "slotrandom-base-2.json",
-      "candidate": "huanyuprior-candidate-2.json"
+      "candidate": "huanyucard-candidate-2.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:71144da33b6304636710eae2",
       "baseline": "slotrandom-base-3.json",
-      "candidate": "huanyuprior-candidate-3.json"
+      "candidate": "huanyucard-candidate-3.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:a73139b2b44777de3fde4916",
       "baseline": "slotrandom-base-4.json",
-      "candidate": "huanyuprior-candidate-4.json"
+      "candidate": "huanyucard-candidate-4.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:8a2081a5fe384f33ae9244e2",
       "baseline": "slotrandom-base-5.json",
-      "candidate": "huanyuprior-candidate-5.json"
+      "candidate": "huanyucard-candidate-5.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:becd81fe5150e6405fabb6c3",
       "baseline": "slotrandom-base-6.json",
-      "candidate": "huanyuprior-candidate-6.json"
+      "candidate": "huanyucard-candidate-6.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:f565d8b512695a7d2dd34327",
       "baseline": "slotrandom-base-7.json",
-      "candidate": "huanyuprior-candidate-7.json"
+      "candidate": "huanyucard-candidate-7.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:c142c279b3cc60afb54b73f1",
       "baseline": "slotrandom-base-8.json",
-      "candidate": "huanyuprior-candidate-8.json"
+      "candidate": "huanyucard-candidate-8.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:a272301d15d1e44c7be87f5f",
       "baseline": "slotrandom-base-9.json",
-      "candidate": "huanyuprior-candidate-9.json"
+      "candidate": "huanyucard-candidate-9.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:b0df78428bdb92a958aeba37",
       "baseline": "slotrandom-base-10.json",
-      "candidate": "huanyuprior-candidate-10.json"
+      "candidate": "huanyucard-candidate-10.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:1c43dc77f566a77e3138315c",
       "baseline": "slotrandom-base-11.json",
-      "candidate": "huanyuprior-candidate-11.json"
+      "candidate": "huanyucard-candidate-11.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:975a3d5b3dfe3b0670f524c8",
       "baseline": "slotrandom-base-12.json",
-      "candidate": "huanyuprior-candidate-12.json"
+      "candidate": "huanyucard-candidate-12.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:742524cabc44461ff26be68e",
       "baseline": "slotrandom-base-13.json",
-      "candidate": "huanyuprior-candidate-13.json"
+      "candidate": "huanyucard-candidate-13.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:e1e3edac0e8215d605b35eec",
       "baseline": "slotrandom-base-14.json",
-      "candidate": "huanyuprior-candidate-14.json"
+      "candidate": "huanyucard-candidate-14.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:22df02bc92dfa3ca027b961e",
       "baseline": "slotrandom-base-15.json",
-      "candidate": "huanyuprior-candidate-15.json"
+      "candidate": "huanyucard-candidate-15.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:b6c37c000b6af93a4d621e6b",
       "baseline": "slotrandom-base-16.json",
-      "candidate": "huanyuprior-candidate-16.json"
+      "candidate": "huanyucard-candidate-16.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:7b535ce4a3073aaa0c8bf0a7",
       "baseline": "slotrandom-base-17.json",
-      "candidate": "huanyuprior-candidate-17.json"
+      "candidate": "huanyucard-candidate-17.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:191c6633cd7b42f80b668845",
       "baseline": "slotrandom-base-18.json",
-      "candidate": "huanyuprior-candidate-18.json"
+      "candidate": "huanyucard-candidate-18.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:7a3c90b3ea1129ded967db3f",
       "baseline": "slotrandom-base-19.json",
-      "candidate": "huanyuprior-candidate-19.json"
+      "candidate": "huanyucard-candidate-19.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:ff5428742e2399a3f5c97089",
       "baseline": "slotrandom-base-20.json",
-      "candidate": "huanyuprior-candidate-20.json"
+      "candidate": "huanyucard-candidate-20.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:2a09cf3386c5bcd65746bb56",
       "baseline": "slotrandom-base-21.json",
-      "candidate": "huanyuprior-candidate-21.json"
+      "candidate": "huanyucard-candidate-21.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:8a4d1c2f6ba0b38e5b9eb71d",
       "baseline": "slotrandom-base-22.json",
-      "candidate": "huanyuprior-candidate-22.json"
+      "candidate": "huanyucard-candidate-22.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:290c71781329eb48582be26a",
       "baseline": "slotrandom-base-23.json",
-      "candidate": "huanyuprior-candidate-23.json"
+      "candidate": "huanyucard-candidate-23.json"
     },
     {
       "seed": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
       "alienSeed": "codex-ai-slot-first-aliens-20260906:be9af309e2d5c9f5f07cd84f",
       "baseline": "slotrandom-base-24.json",
-      "candidate": "huanyuprior-candidate-24.json"
+      "candidate": "huanyucard-candidate-24.json"
     }
-  ],
-  "metadataCorrection": "差异文件清单现按冻结时已保存的两侧哈希计算，替换从模板继承的清单；冻结时间、种子及全部源码指纹不变。"
+  ]
 }

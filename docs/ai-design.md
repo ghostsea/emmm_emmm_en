@@ -18,6 +18,8 @@
 
 ### 2026-09-06 当前验证状态
 
+- 两个独立24组固定开发完成：仅寰宇预测fee1eda5均分+2.84375（寰宇+6.6666667、大战略-2.4583333、作弊实验室+3.5833333），高分四分位+10.5833333；结构化痕迹9b2ffcc2均分+6.1666667（寰宇+0.125、大战略+1.375、作弊实验室+11.5833333），高分四分位+15.7083333。48候选场全部正常终局、0 bug，各自与默认192席对账通过。均未独立达到+10，也不能直接相加；准备组合实测。蓝3补牌d7de2e8c另在同24组完整开发运行。见 [寰宇完整结果](ai-validation/2026-09-06-huanyu-blue-prior-development-results.json) 、[结构化痕迹完整结果](ai-validation/2026-09-06-structured-trace-fast-development-results.json) 与 [补牌计划](ai-validation/2026-09-06-huanyu-blue-card-development-plan.json)。
+
 - 蓝科技预测校准18220fc6完整24组已见开发：224.7395833→228.9895833（+4.25），寰宇+6.5416667、大战略-5.1666667、作弊实验室+7.8125；高分四分位+9.2916667、最高分+57，配对标准误3.0711668。24候选场正常终局、0 bug，连同默认192席对账通过。寰宇主行动+1.333、数据获取与补牌增加；大战略蓝奖励增加但打牌、收入和主行动减少，因此另测仅寰宇拆分fee1eda5，不能假定两公司的收益模型相同。尚无新随机验收，默认不变。见 [完整开发结果](ai-validation/2026-09-06-blue-prior-development-results.json) 、[实际资源](ai-validation/2026-09-06-blue-prior-development-resources.md) 与 [同局首个科技选择](ai-validation/2026-09-06-blue-prior-first-choice-runtime.json)。
 - 结构化痕迹9b2ffcc2已在当前加速默认上复建，并与寰宇拆分各自冻结24组已见开发对照；均通过52项测试，统一队列总计最多8个浏览器。前者保留此前980984b4独立模型，不混入失败组合中的方舟、蓝科技或跨槽改动；这些都仍是开发样本。见 [寰宇拆分计划](ai-validation/2026-09-06-huanyu-blue-prior-development-plan.json) 与 [结构化痕迹计划](ai-validation/2026-09-06-structured-trace-fast-development-plan.json)。
 
