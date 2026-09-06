@@ -12697,6 +12697,36 @@
       return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
     }
 
+    function getAiExpensiveTaskSetupProfile(card, details = {}) {
+      const player = details.player || getCurrentPlayer();
+      const model = details.model || cardEffects.getCardModel?.(card);
+      const company = getAiIndustryCard(player)?.label;
+      if (!player || ![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL].includes(company)
+        || getAiRoundNumber() < 3 || aiNumber((details.cost || getCardPlayCost(card)).credits) < 3
+        || !model?.tasks?.length || aiNumber(details.readyTaskCashout?.count) > 0) return null;
+      const progress = model.tasks.map(task => summarizeAiTaskCondition(task.condition, player));
+      // Unknown and non-monotone resource conditions cannot establish task progress here.
+      if (progress.some(p => p?.currentCount == null || ["resourceEquals", "resourceThreshold", "dataTotal"].includes(p.type))) return null;
+      const progressScale = Math.max(...progress.map(p => Math.min(1, Math.max(0, p.currentCount / p.targetCount))));
+      const remainingRoundScale = Math.max(0, FINAL_ROUND_NUMBER - getAiRoundNumber()) / Math.max(1, FINAL_ROUND_NUMBER - 1);
+      const setupScale = Math.min(1, Math.max(progressScale, remainingRoundScale));
+      if (setupScale >= 1) return null;
+      // Reprice only nominal task setup. Immediate effects and ready-task rewards stay intact.
+      const withoutTask = { ...details, player, model: { ...model, tasks: [] },
+        plan: details.plan?.actionId === "task" ? null : details.plan,
+        cFinalTaskProgressValue: 0, suppressTaskSetup: true };
+      withoutTask.lateCardEnginePressure = scoreAiLatePlayCardEnginePressure(card, withoutTask);
+      const withoutTaskPressure = scoreAiPlayCardConversionPressure(card, withoutTask);
+      const pressureDifference = Math.max(0, aiNumber(details.playCardConversionPressure) - withoutTaskPressure);
+      const reserveSetup = details.reservesAfterPlay === false ? 0
+        : model.tasks.length * 3.6 + (!model.triggers?.length && !model.endGameScoring && !model.pluto ? 4 : 0);
+      const nominalSetupValue = reserveSetup
+        + applyAiStrategyWeight(pressureDifference, "playCard", 0.65)
+        + applyAiStrategyWeight(Math.min(12, Math.max(0, aiNumber(details.cFinalTaskProgressValue))), "task", 0.75);
+      return { setupScale, progressScale, remainingRoundScale, reserveSetup, pressureDifference,
+        penalty: roundAiScore(Math.max(0, nominalSetupValue * (1 - setupScale))) };
+    }
+
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
@@ -12832,6 +12862,9 @@
         0,
         aiNumber(details.finalSelfBlockingPublicityTrap?.penalty),
       );
+      const expensiveTaskSetup = details.expensiveTaskSetup
+        ?? getAiExpensiveTaskSetupProfile(card, { ...details, player, model, playEffects, cost, reservesAfterPlay,
+          playCardConversionPressure, cFinalTaskProgressValue });
       return effectValue
         + reserveValue
         + endGameValue
@@ -12864,7 +12897,8 @@
         - finalRoundResourceDrainPenalty
         - grandStrategyCreditBottleneckPenalty
         - finalSelfBlockingPublicityTrapPenalty
-        - huanyuFangzhouCreditLockPenalty;
+        - huanyuFangzhouCreditLockPenalty
+        - aiNumber(expensiveTaskSetup?.penalty);
     }
 
     function getAiCircularDistanceX(leftX, rightX) {
@@ -19113,7 +19147,13 @@
       const c2Type3ProgressValue = typeCode === 3 ? scoreAiC2Type3ProgressValue(currentPlayer) : 0;
       const chongTaskChainValue = scoreAiChongCardTaskChainValue(card, currentPlayer);
       const banrenmaThresholdSetupValue = scoreAiBanrenmaCardThresholdSetupValue(card, currentPlayer);
+      const expensiveTaskSetup = getAiExpensiveTaskSetupProfile(card, {
+        player: currentPlayer, model, playEffects: valuationPlayEffects, cost, reservesAfterPlay,
+        plan, typeCode, endGameExpectedScore, standardActionPremium, cFinalTaskProgressValue,
+        playCardConversionPressure, readyTaskCashout,
+      });
       const score = scoreAiPlayCardValue(card, {
+        expensiveTaskSetup,
         player: currentPlayer,
         model,
         playEffects: valuationPlayEffects,
@@ -19213,6 +19253,7 @@
           c2Type3ProgressValue,
           cFinalTaskProgressValue,
           finalUnreadyTaskSetupSuppressed,
+          expensiveTaskSetup,
           readyTaskCashoutValue: readyTaskCashout.value,
           readyTaskCashoutDirectScore: readyTaskCashout.directScore,
           readyTaskCashoutCount: readyTaskCashout.count,
