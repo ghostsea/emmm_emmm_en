@@ -1,0 +1,256 @@
+{
+  "scope": "Actual browser fixture: manually supplied +1 credit unlocks real b66 at its 2-credit price; candidate payment projection matches subsequent payment, effect queue finishes. This verifies resource-to-card executability, not selection of the preceding blue bonus against other actions.",
+  "candidate": "de110a95f4830406ad4429b0ba2330617c775da2",
+  "result": {
+    "profile": {
+      "value": 12,
+      "playerId": "player-brown",
+      "cardId": "b_66.webp",
+      "cardInstanceId": "card-132-0",
+      "handIndex": 0,
+      "beforeBest": 0,
+      "afterScore": 14.590653617413118,
+      "paymentValue": 12,
+      "candidatePayment": {
+        "value": 10.5,
+        "playerId": "player-brown",
+        "cardInstanceId": "card-132-0",
+        "cost": {
+          "credits": 2
+        },
+        "before": {
+          "credits": 2,
+          "energy": 10,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 3
+        },
+        "afterPayment": {
+          "credits": 0,
+          "energy": 10,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 0,
+          "score": 3
+        },
+        "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+      },
+      "resourcesBefore": {
+        "credits": 1,
+        "energy": 10,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 3
+      },
+      "resourcesAfter": {
+        "credits": 2,
+        "energy": 10,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 3
+      }
+    },
+    "candidate": {
+      "id": "playCard",
+      "kind": "main",
+      "available": true,
+      "handIndex": 0,
+      "cardId": "b_66.webp",
+      "cardInstanceId": "card-132-0",
+      "cardLabel": "光帆",
+      "alienCard": false,
+      "price": 2,
+      "cost": {
+        "credits": 2
+      },
+      "typeCode": 0,
+      "reservesAfterPlay": false,
+      "effectTypes": [
+        "card_register_event_bonus",
+        "card_move"
+      ],
+      "plan": {
+        "type": "card-synergy",
+        "mainActionId": "playCard",
+        "actionId": "move",
+        "label": "打牌获得移动并靠近路线目标",
+        "score": 4.48057326044032,
+        "cardId": "b_66.webp",
+        "effectType": "card_move",
+        "movementPoints": 4,
+        "movePreview": {
+          "score": 9.573475930144,
+          "routeTarget": {
+            "id": "mercury",
+            "label": "水星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 0,
+              "y": 1
+            },
+            "value": 83.98253999999999,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 4,
+            "newDistance": 3,
+            "rotationStagingValue": 0
+          },
+          "from": {
+            "x": 4,
+            "y": 1
+          },
+          "to": {
+            "x": 5,
+            "y": 1
+          },
+          "direction": "cw",
+          "followupLanding": null
+        }
+      },
+      "finalFormulaDeltas": {},
+      "directScoreGain": 0,
+      "score": 15.746531542548132,
+      "valueBreakdown": {
+        "costValue": 12,
+        "cornerOpportunity": 33.608999999999995,
+        "directScoreGain": 0,
+        "effectValue": 10.5,
+        "paymentEffectValuation": {
+          "value": 10.5,
+          "playerId": "player-brown",
+          "cardInstanceId": "card-132-0",
+          "cost": {
+            "credits": 2
+          },
+          "before": {
+            "credits": 2,
+            "energy": 10,
+            "publicity": 3,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 3
+          },
+          "afterPayment": {
+            "credits": 0,
+            "energy": 10,
+            "publicity": 3,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 3
+          },
+          "scope": "payment-and-hand-only; board, passives and preceding effect rewards are not simulated"
+        },
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 0.2,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 4.48057326044032,
+        "standardActionPremium": 26.2,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      }
+    },
+    "steps": 6,
+    "bugs": [],
+    "history": {
+      "id": 6,
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "actionCycleNumber": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "actionType": "playCard",
+      "actionLabel": "打牌行动",
+      "passed": false,
+      "steps": [
+        {
+          "stepId": "history-step-14",
+          "source": "main",
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "text": "打出：光帆：资源：信用点-2、手牌-1",
+          "label": "打出：光帆",
+          "detail": "资源：信用点-2、手牌-1",
+          "undoable": true,
+          "irreversibleCode": null,
+          "irreversibleReason": "",
+          "playedCard": {
+            "id": "card-132-0",
+            "cardId": "b_66.webp",
+            "label": "光帆",
+            "cardName": "光帆",
+            "src": "../assets/cards/basic/split/b_66.webp"
+          },
+          "briefing": null
+        },
+        {
+          "stepId": "history-step-15",
+          "source": "main",
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "text": "本回合每个不同星球访问：1分：已登记",
+          "label": "本回合每个不同星球访问：1分",
+          "detail": "本回合每个不同星球访问：1分：已登记",
+          "undoable": true,
+          "irreversibleCode": null,
+          "irreversibleReason": "",
+          "playedCard": null,
+          "briefing": null
+        },
+        {
+          "stepId": "history-step-17",
+          "source": "main",
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "text": "卡牌事件触发奖励：本回合每个不同星球访问：1分：分数+1",
+          "label": "卡牌事件触发奖励",
+          "detail": "本回合每个不同星球访问：1分：分数+1",
+          "undoable": true,
+          "irreversibleCode": null,
+          "irreversibleReason": "",
+          "playedCard": null,
+          "briefing": null
+        }
+      ]
+    }
+  }
+}
