@@ -15206,6 +15206,52 @@
       }).filter(Boolean);
     }
 
+    function getAiHuanyuBlueCashClaimProfile(candidate, player = getCurrentPlayer()) {
+      const industryCard = getAiIndustryCard(player);
+      if (
+        !player?.dataState || candidate?.techType !== "blue"
+        || !["blue1", "blue2"].includes(candidate.tileId)
+        || player.techState?.ownedTiles?.[candidate.tileId]
+        || typeof data.placeDataToComputer !== "function"
+        || (industryCard?.id !== AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          && industryCard?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL)
+      ) return null;
+      const slots = (tech.getAvailableBlueSlots?.(player.techState) || [])
+        .map(Number).filter(Number.isInteger).sort((left, right) => left - right);
+      const blueSlot = ai?.policy?.chooseBlueTechSlot?.(slots, {
+        currentPlayer: player, techGameState, tileId: candidate.tileId,
+      }) || slots[0];
+      if (!blueSlot) return null;
+      // Spend the actual pool token in a private copy: a scalar resource subtraction
+      // would leave the token available to an alien payment during analysis scoring.
+      const projected = structuredClone(player);
+      projected.techState = projected.techState || {};
+      projected.techState.ownedTiles = { ...projected.techState.ownedTiles, [candidate.tileId]: true };
+      projected.techState.blueBoardSlots = { ...projected.techState.blueBoardSlots, [candidate.tileId]: blueSlot };
+      const placement = data.placeDataToComputer(projected, {
+        target: data.PLACEMENT_KIND_BLUE_BONUS, blueSlot,
+      });
+      if (!placement?.ok) return null;
+      const gain = getAiBlueTechRewardResourceGain(placement.slotBonus);
+      for (const [key, amount] of Object.entries(gain)) {
+        projected.resources[key] = aiNumber(projected.resources[key]) + amount;
+      }
+      const resourceValue = Math.max(0,
+        scoreAiResourceBundle(gain) - aiNumber(getAiResourceValuesForRound().availableData));
+      const analyzeUnlocked = !(turnState.passedPlayerIds || []).includes(player.id)
+        && !canAiAnalyzeData(structuredClone(player)).ok && canAiAnalyzeData(projected).ok;
+      // One later main action is an option, not immediate VP from taking the tile.
+      const analyzeContinuationValue = analyzeUnlocked
+        ? Math.max(0, scoreAiAnalyzeAction(projected)) * 0.35 : 0;
+      return {
+        value: resourceValue + analyzeContinuationValue,
+        blueSlot, gain, dataCost: 1,
+        remainingPoolTokens: projected.dataState.poolTokens.length,
+        remainingAvailableData: projected.resources.availableData,
+        resourceValue, analyzeUnlocked, analyzeContinuationValue,
+      };
+    }
+
     function getAiBlueTechResourceClosureDiagnostic(candidate, player = getCurrentPlayer()) {
       if (!candidate || candidate.techType !== "blue" || !player) return null;
       const availableBlueSlots = (tech.getAvailableBlueSlots?.(player.techState) || [])
@@ -16494,6 +16540,7 @@
       if (candidate?.firstTake) {
         value += scoreAiRunezuSourceSymbolValue("tech", candidate.tileId, player);
       }
+      value += getAiHuanyuBlueCashClaimProfile(candidate, player)?.value || 0;
       value += scoreAiHuanyuRoundOneBlue1CreditEngineValue(candidate, player);
       value += scoreAiGrandStrategyEarlyBlueResourceValue(candidate, player);
       value += scoreAiGrandStrategyFinalBlue1CreditBridgeValue(candidate, player);
@@ -22938,6 +22985,8 @@
           getAiFinalHuanyuUncashableTechPickProfile(candidate, getCurrentPlayer()),
         grandStrategyFinalStrandedEnergyCashout:
           getAiGrandStrategyFinalStrandedEnergyCashoutProfile(candidate, getCurrentPlayer()),
+        huanyuBlueCashClaim:
+          getAiHuanyuBlueCashClaimProfile(candidate, getCurrentPlayer()),
         blueResourceClosure:
           getAiBlueTechResourceClosureDiagnostic(candidate, getCurrentPlayer()),
       };

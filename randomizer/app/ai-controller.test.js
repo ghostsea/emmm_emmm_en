@@ -17127,3 +17127,59 @@ runAsyncControllerTests()
   }
   assert.equal(scores[0], scores[1], "actual trace decision must use the same reward value with abbreviated or verbose labels");
 }
+
+{
+  const dataModel = require("../game/data");
+  function chooseHuanyuBlueCash(options = {}) {
+    const effect = {
+      id: "blue-cash-test", type: "card_research_tech", status: "active",
+      playerId: "player-blue", options: { techTypes: ["blue"], skipCost: true },
+    };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", aiDifficulty: "laughable", roundNumber: 2,
+      aiValuation: setiAi.valuation, data: dataModel, useDefaultResearchTechPolicy: true,
+      actionEffectFlowActive: true, techTilePickingActive: true, recordSupplyTechSelection: true,
+      currentActionEffect: effect,
+      pendingActionEffectFlow: { playerId: "player-blue", currentIndex: 0, effects: [effect] },
+      blueInitialSelection: { industry: { id: `industry:${options.company || "寰宇超动力"}`, label: options.company || "寰宇超动力" } },
+      blueResources: { score: 45, credits: 3, energy: options.energy ?? 0, publicity: 9, availableData: options.pool ?? 1, handSize: 3 },
+      availableBlueSlots: [1, 2, 3, 4], takeableTechIds: ["blue1", "blue2", "blue3", "blue4"],
+      techStacks: Object.fromEntries(["blue1", "blue2", "blue3", "blue4"].map(tileId => [tileId, {
+        techType: "blue", stackIndex: Number(tileId.slice(-1)), remaining: 3,
+      }])),
+      passedPlayerIds: options.passed ? ["player-blue"] : [],
+    });
+    harness.blue.dataState = {
+      poolTokens: Array.from({ length: options.pool ?? 1 }, (_, index) => ({ id: `cash-pool-${index}`, index: index + 1, slotIndex: index + 1 })),
+      placedTokens: Array.from({ length: options.placed ?? 6 }, (_, index) => ({ id: `cash-placed-${index}`, index: index + 1, placementKind: "computer", placementSlot: index + 1 })),
+      discardedCount: 0,
+    };
+    dataModel.ensurePlayerDataState(harness.blue);
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], aiDifficulty: "laughable", suppressAutoSchedule: true });
+    const before = structuredClone({ resources: harness.blue.resources, dataState: harness.blue.dataState, techState: harness.blue.techState });
+    harness.controller.runAiAutomationStep();
+    assert.deepEqual({ resources: harness.blue.resources, dataState: harness.blue.dataState, techState: harness.blue.techState }, before,
+      "research valuation must not spend real data or install the preview technology");
+    const log = harness.controller.getAiAutoBattleReport().logs.find(entry => entry.type === "tech-placement" && entry.details?.selected);
+    assert.ok(log, "the real technology picker should produce its decision");
+    return { selected: harness.getHandled()?.tileId, candidates: log.details.candidates };
+  }
+  const profile = (result, tileId) => result.candidates.find(candidate => candidate.tileId === tileId)?.valueBreakdown?.huanyuBlueCashClaim;
+  const energyBridge = chooseHuanyuBlueCash();
+  assert.equal(energyBridge.selected, "blue2", "a claimable energy reward should unlock the full computer's analysis");
+  assert.equal(profile(energyBridge, "blue2").analyzeUnlocked, true);
+  assert.ok(profile(energyBridge, "blue2").analyzeContinuationValue > 0);
+  assert.equal(profile(energyBridge, "blue2").remainingPoolTokens, 0, "the last data token cannot also fund an alien reward");
+  assert.equal(profile(energyBridge, "blue2").remainingAvailableData, 0);
+  assert.equal(profile(energyBridge, "blue1").analyzeUnlocked, false);
+  assert.equal(profile(energyBridge, "blue3"), null);
+  assert.equal(profile(energyBridge, "blue4"), null);
+  assert.equal(profile(chooseHuanyuBlueCash({ pool: 0 }), "blue2"), null, "missing pool data cannot promise a reward");
+  assert.equal(profile(chooseHuanyuBlueCash({ placed: 0 }), "blue2"), null, "unfilled computer columns cannot promise a reward");
+  assert.equal(profile(chooseHuanyuBlueCash({ company: "宇宙大战略集团" }), "blue2"), null);
+  const enoughEnergy = profile(chooseHuanyuBlueCash({ energy: 1 }), "blue2");
+  assert.equal(enoughEnergy.analyzeContinuationValue, 0, "already legal analysis must not get an extra unlock value");
+  assert.ok(enoughEnergy.resourceValue > 0);
+  const passed = profile(chooseHuanyuBlueCash({ passed: true }), "blue2");
+  assert.equal(passed.analyzeContinuationValue, 0, "PASS closes the later main-action opportunity");
+}
