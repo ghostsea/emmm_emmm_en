@@ -17135,7 +17135,7 @@ async function runAsyncControllerTests() {
   assert.ok(profile({ dataCount: 0 }).futureCycleExpectation > 0,
     "a starting engine may acquire data later instead of being forecast as zero forever");
   assert.ok(profile({ round: 3 }).futureCycleExpectation < profile().futureCycleExpectation);
-  assert.equal(profile({ company: "宇宙大战略集团" }).futureCycleRate, 1);
+  assert.equal(profile({ company: "宇宙大战略集团" }), null, "company isolation preserves Grand Strategy policy");
   assert.equal(profile({ company: "作弊实验室" }), null, "keep the stronger company as an unchanged policy control");
   assert.equal(profile({ round: 4 }), null, "terminal tactics retain their explicit cashout valuation");
 }
