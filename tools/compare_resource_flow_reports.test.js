@@ -212,4 +212,19 @@ assert.match(renderMarkdown(legacyComparison), /口径告警/);
     "one confirmed history entry must not become two actions because a selection was attempted first");
 }
 
+{
+  const events = [
+    { gameId: "cycle", playerId: "p", entryId: 1, pace: "main", sourceCategory: "analysis" },
+    { gameId: "cycle", playerId: "p", entryId: 1, pace: "quick", sourceCategory: "data_placement" },
+    { gameId: "cycle", playerId: "p", entryId: 1, pace: "quick", sourceCategory: "analysis" },
+  ];
+  const stalePlayer = { gameId: "cycle", playerId: "p", finalScore: 100, fullDataCycleCount: 1 };
+  const migrated = compareResourceFlowReports({ humanSummary: { players: [stalePlayer] }, games: [{ events }] },
+    { resourceFlow: { players: [stalePlayer], events } });
+  for (const side of [migrated.reference, migrated.ai]) {
+    assert.equal(side.allPlayers.fullDataCycleCount, 0, "raw events must supersede an old false cycle total");
+    assert.equal(side.allPlayers.analysisActionCount, 1);
+  }
+}
+
 console.log("compare_resource_flow_reports.test.js: all tests passed");
