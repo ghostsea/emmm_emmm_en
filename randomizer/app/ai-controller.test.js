@@ -17109,3 +17109,44 @@ runAsyncControllerTests()
     console.error(error);
     process.exitCode = 1;
   });
+
+{
+  const inspectBlueScanFlow = ({ company = "寰宇超动力", round = 2, energy = 4,
+    availableData = 0, placed = 0, occupied = false, hasEarth = true,
+    hasPublic = true, tileId = "blue1", required = 1 } = {}) => {
+    let seen = [];
+    const scanTypes = { EARTH_SECTOR_SCAN: "earth_sector_scan", IMPROVED_SECTOR_SCAN: "improved_sector_scan",
+      PUBLIC_CARD_SCAN: "public_card_scan", MERCURY_SECTOR_SCAN: "mercury_sector_scan", HAND_SCAN: "hand_scan" };
+    const harness = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", canStartMainAction: true, roundNumber: round,
+      blueInitialSelection: { industry: { id: `industry:${company}`, label: company } },
+      blueResources: { score: 30, credits: 3, energy, availableData },
+      publicCards: [{ id: "scan-funding-card", cardId: "scan-funding-card", scanActionCode: 0 }],
+      scanEffects: { EFFECT_TYPES: scanTypes, SCAN_COST: { credits: 1, energy: 2 },
+        getStandardScanCost: () => ({ credits: 1, energy: 2 }), canExecuteScan: () => ({ ok: true }),
+        buildScanEffectQueue: () => [{ type: scanTypes.EARTH_SECTOR_SCAN }, { type: scanTypes.PUBLIC_CARD_SCAN }] },
+      data: { ANALYZE_REQUIRED_COMPUTER_SLOT: 6, ANALYZE_ENERGY_COST: 1,
+        listComputerPlacedTokens: () => Array.from({ length: placed }, (_, i) => ({ placementSlot: i + 1 })),
+        getBlueTechTileInBoardSlot: (_player, slot) => slot === 1 ? tileId : null,
+        isBlueBonusSlotOccupied: () => occupied, getRequiredComputerSlotForBlueBonus: () => required,
+        getNextReplaceableNebulaToken: () => ({ slotIndex: 0 }), getNebulaCapacity: () => 3,
+        getNebulaSlotScoreReward: () => 0, getNebulaColor: () => "blue", listNebulaTokens: () => [],
+        listSectorExtraMarks: () => [], getSectorTokenStats: () => ({}) },
+      buildSectorScanChoicesForX: x => hasEarth ? [{ nebulaId: "blue-flow-earth", sectorX: x }] : [],
+      getPublicScanChoicesForCard: () => ({ ok: hasPublic, choices: hasPublic ? [{ nebulaId: "blue-flow-public", sectorX: 4 }] : [] }),
+      onChooseTurnAction: candidates => { seen = candidates; },
+      chooseTurnAction: candidates => candidates.find(c => c.id === "pass"),
+    });
+    harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+    harness.controller.runAiAutomationStep();
+    const scan = seen.find(c => c.id === "scan");
+    assert.ok(scan, "inspect a real enumerated scan candidate");
+    return scan.valueBreakdown.huanyuBlueResourceScan;
+  };
+  assert.equal(inspectBlueScanFlow().targets[0].dataNeeded, 2);
+  assert.equal(inspectBlueScanFlow({ tileId: "blue2" }).targets[0].tileId, "blue2");
+  for (const options of [{ company: "作弊实验室" }, { round: 4 }, { energy: 2 }, { occupied: true },
+    { availableData: 2 }, { placed: 6 }, { hasEarth: false }, { hasPublic: false }, { tileId: "blue3" }, { required: 3 }]) {
+    assert.equal(inspectBlueScanFlow(options), null, `do not pre-credit an unsupported scan flow: ${JSON.stringify(options)}`);
+  }
+}

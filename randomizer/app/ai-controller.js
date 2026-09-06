@@ -23222,6 +23222,36 @@
       return result;
     }
 
+    function getAiHuanyuBlueResourceScanProfile(player = getCurrentPlayer()) {
+      if (getAiIndustryCard(player)?.label !== AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL
+        || getAiRoundNumber() > 3 || getAiAvailableDataRoom(player) < 2) return null;
+      const cost = scanEffects.getStandardScanCost(player) || {};
+      if (aiNumber(player.resources?.energy) < aiNumber(cost.energy) + getAiAnalyzeEnergyCost(player)) return null;
+      const placed = (data.listComputerPlacedTokens?.(player) || []).length;
+      if (placed >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6)) return null;
+      const available = Math.max(0, aiNumber(player.resources?.availableData));
+      const targets = [1, 2, 3, 4].map(blueSlot => {
+        const tileId = data.getBlueTechTileInBoardSlot?.(player, blueSlot);
+        if (!["blue1", "blue2"].includes(tileId) || data.isBlueBonusSlotOccupied?.(player, blueSlot)) return null;
+        const required = data.getRequiredComputerSlotForBlueBonus?.(blueSlot);
+        if (!required) return null;
+        const dataNeeded = Math.max(0, required - placed) + 1;
+        return available < dataNeeded && dataNeeded <= available + 2 ? { blueSlot, tileId, dataNeeded } : null;
+      }).filter(Boolean);
+      if (!targets.length) return null;
+      const effects = scanEffects.buildScanEffectQueue(player, { fullScanAction: true, turnState });
+      const earthType = effects.find(e => [scanEffects.EFFECT_TYPES.EARTH_SECTOR_SCAN,
+        scanEffects.EFFECT_TYPES.IMPROVED_SECTOR_SCAN].includes(e.type))?.type;
+      if (!earthType || !getAiSectorScanChoicesForEffect(earthType, player).length) return null;
+      if (!(cardState.publicCards || []).some(card => {
+        const choices = card && getPublicScanChoicesForCard(card);
+        return choices?.ok && choices.choices?.length > 0;
+      })) return null;
+      // Two currently legal scan branches are a projection, not prepaid resources.
+      return { targets, availableData: available, placedComputerData: placed, projectedScanData: 2,
+        energyAfterBaseScan: aiNumber(player.resources.energy) - aiNumber(cost.energy) };
+    }
+
     function enumerateAiTurnActions() {
       const context = createActionContext();
       const currentPlayer = getCurrentPlayer();
@@ -23371,15 +23401,17 @@
         && scanCurrentScore < scanNextThreshold
         && scanScoreToThreshold <= 3
         && scanCurrentScore + scanDirectScoreGain < scanNextThreshold;
+      const huanyuBlueResourceScan = scanCheck.ok ? getAiHuanyuBlueResourceScanProfile(currentPlayer) : null;
+      const uncappedScanScore = scanScore;
       const protectB2SectorScanFromPlanetCap = scanCheck.ok
         && shouldAiProtectB2SectorScanFromPlanetCap(currentPlayer);
-      if (immediatePlanetActionScore >= 12 && !protectB2SectorScanFromPlanetCap) {
+      if (immediatePlanetActionScore >= 12 && !protectB2SectorScanFromPlanetCap && !huanyuBlueResourceScan) {
         scanScore = Math.max(
           scanPriorityFloor,
           Math.min(scanScore, Math.max(0, immediatePlanetActionScore - 7)),
         );
       }
-      if (getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12) {
+      if (!huanyuBlueResourceScan && getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12) {
         scanScore = Math.max(
           scanPriorityFloor,
           Math.min(scanScore, Math.max(0, Number(launchCandidate.score || 0) - 8)),
@@ -23394,7 +23426,7 @@
         scanScore = Math.min(scanScore, Math.max(0, Number(launchCandidate.score || 0) - 2));
       }
       const bestEarlyMoveScore = getAiRoundNumber() <= 2 ? bestMoveScore : 0;
-      if (bestEarlyMoveScore >= 10) {
+      if (bestEarlyMoveScore >= 10 && !huanyuBlueResourceScan) {
         scanScore = Math.max(
           scanPriorityFloor,
           Math.min(scanScore, Math.max(0, bestEarlyMoveScore - 3)),
@@ -23406,7 +23438,7 @@
         && scanScore <= bestMoveScore + 3
         ? bestMoveScore
         : 0;
-      if (routeCashoutMoveScore > 0) {
+      if (routeCashoutMoveScore > 0 && !huanyuBlueResourceScan) {
         scanScore = Math.max(
           scanPriorityFloor,
           Math.min(scanScore, Math.max(0, routeCashoutMoveScore - 3)),
@@ -23465,9 +23497,9 @@
       }
       const scanScoreCapReason = scanFinalThresholdMiss
         ? "终局临门扫描直接分不足"
-        : scanCheck.ok && immediatePlanetActionScore >= 12 && !protectB2SectorScanFromPlanetCap
+        : scanCheck.ok && immediatePlanetActionScore >= 12 && !protectB2SectorScanFromPlanetCap && !huanyuBlueResourceScan
         ? "优先兑现当前位置的环绕/登陆"
-          : scanCheck.ok && getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12
+          : scanCheck.ok && !huanyuBlueResourceScan && getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12
             ? "优先建立火箭数量"
             : scanCheck.ok
               && getAiRoundNumber() >= 3
@@ -23475,9 +23507,9 @@
               && launchCandidate.available
               && Number(launchCandidate.score || 0) >= 10
                 ? "低于25分时优先发射建立得分路线"
-                : scanCheck.ok && bestEarlyMoveScore >= 10
+                : scanCheck.ok && bestEarlyMoveScore >= 10 && !huanyuBlueResourceScan
                     ? "优先保持早期移动路线"
-                    : scanCheck.ok && routeCashoutMoveScore > 0
+                    : scanCheck.ok && routeCashoutMoveScore > 0 && !huanyuBlueResourceScan
                       ? "优先兑现第3轮移动路线"
                       : scanCheck.ok && analyzeCashoutScore > 0
                         ? "优先兑现数据分析"
@@ -23499,6 +23531,8 @@
           directScoreGain: scanDirectScoreGain,
           scanEnergyReservationPenalty,
           rawScanEnergyReservationPenalty,
+          huanyuBlueResourceScan,
+          uncappedScanScore,
           scanDataPlacementOpportunities: scanProjectedAnalyzeUnlock ? 2 : 0,
           scanProjectedAnalyzeUnlock,
           analyzeCashoutScore,
