@@ -1,0 +1,135 @@
+{
+  "decision": "held-no-fresh-validation",
+  "sourceCommit": "995dc826a5f9b3cda94cb054bdb920a7d4740b78",
+  "pairs": 24,
+  "meanDelta": -1.8020833333333428,
+  "pairedGameStandardError": 1.543084382897302,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 251.9375,
+      "meanDelta": 0.3541666666666572,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 184.625,
+      "meanDelta": -3.416666666666657,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 204.54166666666666,
+      "meanDelta": -4.5,
+      "minimumDelta": 8
+    }
+  },
+  "distribution": {
+    "mean": -1.8020833333333428,
+    "min": 0,
+    "p10": -8.5,
+    "p25": -9.25,
+    "median": -2.5,
+    "p75": -0.75,
+    "max": 0,
+    "topQuartileMean": 2.4583333333333144,
+    "winnerMean": 1.0416666666666856,
+    "minimumPerGameMean": -1.75,
+    "seats270Plus": 2,
+    "seats300Plus": 1
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 270.8333333333333,
+    "meanDelta": -5.166666666666667,
+    "improved": 5,
+    "declined": 9,
+    "unchanged": 10
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 164.04166666666666,
+    "meanDelta": -2.3333333333333335,
+    "improved": 2,
+    "declined": 7,
+    "unchanged": 15
+  },
+  "highestBaselineSeat": {
+    "case": 5,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 328,
+    "candidate": 328,
+    "delta": 0
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1141,
+  "continuation": {
+    "setups": 14,
+    "firstActionMatches": 9,
+    "firstActionMatchingReceipt": 9,
+    "laterMatchingReceipt": 14,
+    "passedNext": 0,
+    "companies": {
+      "宇宙大战略集团": {
+        "setups": 7,
+        "firstActionMatches": 4,
+        "firstActionMatchingReceipt": 4,
+        "laterMatchingReceipt": 7,
+        "passedNext": 0
+      },
+      "作弊实验室": {
+        "setups": 5,
+        "firstActionMatches": 3,
+        "firstActionMatchingReceipt": 3,
+        "laterMatchingReceipt": 5,
+        "passedNext": 0
+      },
+      "寰宇超动力": {
+        "setups": 2,
+        "firstActionMatches": 2,
+        "firstActionMatchingReceipt": 2,
+        "laterMatchingReceipt": 2,
+        "passedNext": 0
+      }
+    },
+    "cards": {
+      "b_120.webp": {
+        "setups": 9,
+        "firstActionMatches": 5,
+        "firstActionMatchingReceipt": 5,
+        "laterMatchingReceipt": 9,
+        "passedNext": 0
+      },
+      "b_97.webp": {
+        "setups": 3,
+        "firstActionMatches": 2,
+        "firstActionMatchingReceipt": 2,
+        "laterMatchingReceipt": 3,
+        "passedNext": 0
+      },
+      "yichangdian_3.webp": {
+        "setups": 1,
+        "firstActionMatches": 1,
+        "firstActionMatchingReceipt": 1,
+        "laterMatchingReceipt": 1,
+        "passedNext": 0
+      },
+      "b_80.webp": {
+        "setups": 1,
+        "firstActionMatches": 1,
+        "firstActionMatchingReceipt": 1,
+        "laterMatchingReceipt": 1,
+        "passedNext": 0
+      }
+    },
+    "issues": []
+  },
+  "limitations": "Existing trigger competition correction removes the observed unmatched setup, but complete mean remains negative. All14 setups have later matching receipt text; only9 preserve the next planned main action. Receipt existence and current double payment feasibility are insufficient proof of net improvement. No adoption or fresh random acceptance claim."
+}
