@@ -17391,12 +17391,21 @@
         .sort((left, right) => aiNumber(right.score) - aiNumber(left.score))[0] || null;
     }
 
+    function chooseAiNormalOrbitChoice(choices = []) {
+      return choices.map((choice, index) => ({
+        choice,
+        index,
+        score: scoreAiOrbitAction({ available: true, planetId: choice.planetId || choice.planet?.planetId }),
+      })).filter(entry => Number.isFinite(entry.score))
+        .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
+    }
+
     function getAiOrbitChoicePreview(check, player = getCurrentPlayer()) {
       if (!check?.ok) return null;
       const choices = check.choices?.length ? check.choices : (
         check.planet?.planetId ? [{ planet: check.planet, planetId: check.planet.planetId }] : []
       );
-      return chooseAiLandChoice(choices.map(choice => ({ ...choice, actionType: "orbit" })), player)?.choice || null;
+      return chooseAiNormalOrbitChoice(choices)?.choice || null;
     }
 
     function scoreAiOrbitAction(candidate) {
@@ -20844,8 +20853,10 @@
       const options = typeof pending?.getOptions === "function"
         ? pending.getOptions()
         : abilities.planet.getLandOptions(createActionContext());
+      const normalOrbit = !pending?.effect && options?.choices?.length
+        && options.choices.every(choice => choice.actionType === "orbit");
       const selected = options?.ok
-        ? chooseAiLandChoice(options.choices || [], player)
+        ? (normalOrbit ? chooseAiNormalOrbitChoice(options.choices) : chooseAiLandChoice(options.choices || [], player))
         : null;
       const selectedIndex = Math.min(
         optionCount - 1,

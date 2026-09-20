@@ -17178,3 +17178,18 @@ for (const [kind, actionType, expected] of [['normal', 'orbit', 0], ['orbit', un
   assert.equal(h.controller.getAiOrbitChoicePreview({ok:false,choices:[venus]},h.blue),null,'unavailable orbit has no preview');
   assert.equal(h.controller.getAiOrbitChoicePreview({ok:true,planet:mars.planet},h.blue).planetId,'mars','legacy single target check remains supported');
 }
+
+// Normal paid orbit target ranking agrees with the top-level paid action model.
+for(const cardOrbit of [false,true]) {
+ const choices=['venus','mars'].map((planetId,i)=>({planetId,planet:{planetId},rocketId:i+1,actionType:'orbit',kind:'normal',cost:cardOrbit?{}:{credits:1,energy:1}}));
+ const h=createAiControllerHarness(null,{
+  currentPlayerColor:'blue',scanTargetHidden:true,roundNumber:1,
+  landTargetPending:{playerId:'player-blue',playerColor:'blue',effect:cardOrbit?{type:'card_orbit',options:{skipCost:true}}:null,getOptions:()=>({ok:true,choices})},
+  planetStats:{canAddLandingMarker:()=>true,canAddOrbitMarker:()=>true,getAvailableSatellitesForLanding:()=>[],getPlanetLandingCount:()=>0,getPlanetOrbitCount:(_state,id)=>id==='venus'?1:0},
+  planetRewards:{EFFECT_TYPES:{GAIN_RESOURCES:'gain_resources'},buildOrbitRewardEffects:id=>[{type:'gain_resources',options:{gain:{score:id==='venus'?6:3}}}],buildPlanetLandRewardEffects:()=>[]},
+ });
+ const preview=h.controller.getAiOrbitChoicePreview({ok:true,planet:choices[0].planet,choices},h.blue);
+ assert.equal(preview.planetId,'mars','paid action model currently prefers the first orbit opportunity');
+ h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});h.controller.runAiAutomationStep();
+ assert.deepEqual(h.getHandled(),{type:'land-target',selectedIndex:cardOrbit?0:1},'only ordinary paid orbit uses the same action score as its preview');
+}
