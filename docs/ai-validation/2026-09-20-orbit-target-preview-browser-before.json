@@ -1,0 +1,63 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Two actual legal normal orbit targets. Forced orbit only to observe top-level target/value then real pending choice/payment/rewards; score delta may also include scans/company triggers.",
+      "positions": {
+        "venus": {
+          "x": 0,
+          "y": 1
+        },
+        "mars": {
+          "x": 7,
+          "y": 2
+        }
+      },
+      "groupPlanet": {
+        "planetId": "mars",
+        "label": "火星",
+        "name": "火星",
+        "wheelId": 2,
+        "baseX": 2,
+        "x": 7,
+        "y": 2,
+        "fixedAfterSetup": false
+      },
+      "options": [
+        {
+          "planetId": "mars"
+        },
+        {
+          "planetId": "venus"
+        }
+      ],
+      "candidate": {
+        "planetId": "mars",
+        "score": 31.27655,
+        "directScoreGain": 3
+      },
+      "selected": {
+        "logPlayerId": "player-white",
+        "optionCount": 2,
+        "planetId": "multi-orbit",
+        "selectedIndex": 1,
+        "selected": {
+          "label": "环绕金星 - 奖励：获得 6 分；获得 1 次收入（R40，1信用点 + 1能量）",
+          "target": null,
+          "score": 22.08454
+        }
+      },
+      "ending": {
+        "credits": 7,
+        "energy": 7,
+        "publicity": 5,
+        "availableData": 1,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 16
+      },
+      "bugs": []
+    }
+  }
+}
