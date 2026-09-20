@@ -17123,3 +17123,44 @@ runAsyncControllerTests()
  }
  assert.equal(h.controller.getAiIntendedPlayCardCandidate([card],h.blue,[event,{...event,action:{id:'end-turn'}}]),null,'later action invalidates old intent');
 }
+
+{
+  const effects = cardEffects.EFFECT_TYPES;
+  const gain = (score, energy = 0) => ({ type: 'gain_resources', options: { gain: { score, energy } } });
+  const normal = { planetId: 'jupiter', target: { type: 'planet' }, energyCost: 3, cost: {} };
+  const io = { planetId: 'jupiter', target: { type: 'satellite', satelliteId: 'io' }, energyCost: 3, cost: {} };
+  const seen = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', blueResources: { credits: 2, energy: 0 },
+    planetRewards: {
+      EFFECT_TYPES: {},
+      buildPlanetLandRewardEffects: (id) => id === 'jupiter' ? [gain(7)] : [],
+      buildSatelliteLandRewardEffects: (id) => id === 'io' ? [gain(10, 4)] : [],
+      buildOrbitRewardEffects: () => [],
+    },
+    abilities: { planet: {
+      DEFAULT_ORBIT_COST: { credits: 1, energy: 1 }, BASE_LAND_ENERGY_COST: 3,
+      getLandEnergyCost: () => 3, getOrbitOptions: () => ({ ok: false }),
+      getLandOptions: (context, options) => {
+        seen.push(options);
+        if (!options.skipCost) return { ok: false };
+        return { ok: true, planet: { planetId: 'multi-land' }, choices: options.allowSatelliteWithoutTech ? [normal, io] : [normal] };
+      },
+    }, rocket: { getRocketLimitForPlayer: () => 1 } },
+  });
+  const preview = (options) => harness.controller.getAiCardLandPreview({ type: effects.CARD_LAND, options }, harness.blue);
+  assert.equal(preview({ skipCost: true }).directScore, 7, 'read the selected Jupiter ID, not multi-land');
+  const allowed = preview({ skipCost: true, allowSatelliteWithoutTech: true });
+  assert.equal(allowed.choice.target.satelliteId, 'io', 'free card can value Io without orange4 or landing energy');
+  assert.equal(allowed.directScore, 10);
+  assert.equal(allowed.rewards[0].options.gain.energy, 4);
+  assert.equal(preview({ skipCost: false }), null, 'unaffordable effect has no current landing preview');
+  const silent = preview({ skipCost: true, grantRewards: false });
+  assert.equal(silent.directScore, 0, 'suppressed location reward must not earn fake points');
+  assert.deepEqual(silent.rewards, []);
+  const extra = preview({ skipCost: true, grantRewards: false, afterLandRewards: [
+    { planetIds: ['jupiter'], effect: gain(6) }, { planetIds: ['mars'], effect: gain(90) },
+  ] });
+  assert.equal(extra.directScore, 6, 'only rewards matching the chosen planet apply');
+  assert(seen.some(o => o.allowSatelliteWithoutTech));
+}
