@@ -1,0 +1,262 @@
+{
+  "scope": "Force only the baseline selected main action to researchTech in a controlled current-player fixture, then run actual setup order and card selection/payment. Verify preserved publicity budget; full-game audit covers autonomous continuation.",
+  "decision": {
+    "id": 32,
+    "action": "playCard",
+    "card": "b_80.webp",
+    "profile": {
+      "cardId": "b_80.webp",
+      "cardInstanceId": "card-67-0",
+      "followupAction": "researchTech",
+      "followupCardInstanceId": null,
+      "followupCost": {
+        "publicity": 6
+      },
+      "resourcesAfterSetup": {
+        "credits": 2,
+        "energy": 3,
+        "publicity": 7,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 30
+      },
+      "resourcesAfterBothPayments": {
+        "credits": 2,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 30
+      },
+      "triggerIds": [
+        "b80-blue-tech-pick",
+        "b80-orange-tech-energy",
+        "b80-purple-tech-publicity"
+      ],
+      "rewardValue": 1.5,
+      "originalSetupScore": 27.879200000000004,
+      "displacedRank": 67.539,
+      "orderingMargin": 1.5
+    }
+  },
+  "before": {
+    "credits": 3,
+    "energy": 3,
+    "publicity": 7,
+    "availableData": 0,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 1,
+    "score": 30
+  },
+  "after": {
+    "credits": 2,
+    "energy": 3,
+    "publicity": 7,
+    "availableData": 1,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 0,
+    "score": 30
+  },
+  "reserved": [
+    {
+      "id": "card-67-0",
+      "cardId": "b_80.webp"
+    }
+  ],
+  "actualPlay": {
+    "id": 33,
+    "type": "play-card",
+    "roundNumber": 4,
+    "turnNumber": 1,
+    "rawTurnNumber": 1,
+    "playerId": "player-brown",
+    "playerLabel": "棕色",
+    "playerResources": {
+      "score": 30,
+      "credits": 3,
+      "energy": 3,
+      "publicity": 7,
+      "availableData": 0,
+      "handSize": 1
+    },
+    "scoreboard": [
+      {
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "score": 9,
+        "credits": 5,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 2,
+        "handSize": 6,
+        "reservedCount": 0,
+        "techCount": 0
+      },
+      {
+        "playerId": "player-green",
+        "playerLabel": "绿色",
+        "score": 7,
+        "credits": 7,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 6,
+        "reservedCount": 0,
+        "techCount": 0
+      },
+      {
+        "playerId": "player-brown",
+        "playerLabel": "棕色",
+        "score": 30,
+        "credits": 3,
+        "energy": 3,
+        "publicity": 7,
+        "availableData": 0,
+        "handSize": 1,
+        "reservedCount": 0,
+        "techCount": 0
+      },
+      {
+        "playerId": "player-white",
+        "playerLabel": "白色",
+        "score": 5,
+        "credits": 6,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 4,
+        "reservedCount": 0,
+        "techCount": 0
+      }
+    ],
+    "message": "棕色AI 选择打出 NASA研究中心",
+    "details": {
+      "selected": {
+        "id": "playCard",
+        "kind": "main",
+        "available": true,
+        "handIndex": 0,
+        "cardId": "b_80.webp",
+        "cardInstanceId": "card-67-0",
+        "cardLabel": "NASA研究中心",
+        "alienCard": false,
+        "price": 1,
+        "cost": {
+          "credits": 1
+        },
+        "typeCode": 1,
+        "reservesAfterPlay": true,
+        "effectTypes": [],
+        "plan": null,
+        "finalFormulaDeltas": {},
+        "directScoreGain": 0,
+        "score": 27.879200000000004,
+        "valueBreakdown": {
+          "costValue": 4.5,
+          "cornerOpportunity": 4.5,
+          "directScoreGain": 0,
+          "effectValue": 0,
+          "strategyPassivePlayValue": 1.5,
+          "grandStrategyCreditBottleneckPenalty": 0,
+          "finalSelfBlockingPublicityTrap": null,
+          "finalSelfBlockingPublicityTrapPenalty": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0,
+          "finalUnreadyTaskSetupSuppressed": false,
+          "readyTaskCashoutValue": 0,
+          "readyTaskCashoutDirectScore": 0,
+          "readyTaskCashoutCount": 0,
+          "readyTaskCashoutTimingScale": 1,
+          "readyTaskBlockedByPlayEffectTaskIds": [],
+          "newlyReadyAfterPlayTaskIds": [],
+          "readyTaskTechReplacementValue": 0,
+          "skippedUnresolvableLaunchForReadyTask": false,
+          "skippedUnresolvableLaunchCount": 0,
+          "skippedUnresolvableMoveBeforeLaterEffect": false,
+          "skippedUnresolvableMoveCount": 0,
+          "chongTaskChainValue": 0,
+          "banrenmaThresholdSetupValue": 0,
+          "playCardConversionPressure": 13.2,
+          "huanyuFangzhouCreditLockPenalty": 0,
+          "lateCardEnginePressure": 0,
+          "endGameExpectedScore": 0,
+          "chongProbeFossilRewardValue": null,
+          "finalRoundEndGameCardUrgency": 0,
+          "planScore": 0,
+          "standardActionPremium": 0,
+          "finalSecondMarkNoDirectSetupPenalty": 0,
+          "finalRoundResourceDrainPenalty": 0
+        }
+      },
+      "selectedLabel": "NASA研究中心",
+      "intendedCardMatched": true,
+      "candidates": [
+        {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "b_80.webp",
+          "cardInstanceId": "card-67-0",
+          "cardLabel": "NASA研究中心",
+          "alienCard": false,
+          "price": 1,
+          "cost": {
+            "credits": 1
+          },
+          "typeCode": 1,
+          "reservesAfterPlay": true,
+          "effectTypes": [],
+          "plan": null,
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": 27.879200000000004,
+          "valueBreakdown": {
+            "costValue": 4.5,
+            "cornerOpportunity": 4.5,
+            "directScoreGain": 0,
+            "effectValue": 0,
+            "strategyPassivePlayValue": 1.5,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 1,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 13.2,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        }
+      ]
+    },
+    "createdAt": "2026-09-20T10:29:35.183Z"
+  },
+  "bugs": []
+}
