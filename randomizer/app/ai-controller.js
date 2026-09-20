@@ -20466,6 +20466,57 @@
       return Math.max(0, aiNumber(getAiFinalHighScoreDataCreditPreserveProfile(choice, player)?.value));
     }
 
+    let aiBlueDataBridgeDepth = 0;
+
+    function getAiBlueDataResourceBridgeProfile(choice, player = getCurrentPlayer()) {
+      if (aiBlueDataBridgeDepth || !player || choice?.target !== data.PLACEMENT_KIND_BLUE_BONUS
+        || aiNumber(player.resources?.availableData) !== 1 || !data.placeDataToComputer) return null;
+      const company = getAiIndustryCard(player)?.label;
+      if (![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL].includes(company)) return null;
+      const computer = (data.listPlaceDataChoices?.(player) || [])
+        .find(option => option.target === data.PLACEMENT_KIND_COMPUTER);
+      if (!computer) return null;
+      const computerBonuses = getAiDataPlacementBonuses(computer, player);
+      // Preserve an immediate income/score choice; this experiment only replaces unpaid progress.
+      if (computerBonuses.some(bonus => bonus.type === "income" || bonus.type === "score")) return null;
+      const researchCost = tech.resolver?.getResearchPublicityCost?.(player) ?? tech.RESEARCH_PUBLICITY_COST ?? 6;
+      const publicityGain = computerBonuses.reduce((sum, bonus) => sum + aiNumber(bonus.publicity), 0);
+      if (publicityGain > 0 && aiNumber(player.resources?.publicity) < researchCost
+        && aiNumber(player.resources?.publicity) + publicityGain >= researchCost) return null;
+      const gain = getAiDataPlacementBonuses(choice, player).reduce((result, bonus) => {
+        for (const key of ["credits", "energy"]) result[key] += Math.max(0, aiNumber(bonus[key]));
+        return result;
+      }, { credits: 0, energy: 0 });
+      if (!(gain.credits || gain.energy)) return null;
+      aiBlueDataBridgeDepth += 1;
+      try {
+        const afterComputer = cloneAiValue(player);
+        if (!data.placeDataToComputer(afterComputer, computer)?.ok || canAiAnalyzeData(afterComputer).ok) return null;
+        const afterPlacement = cloneAiValue(player);
+        if (!data.placeDataToComputer(afterPlacement, choice)?.ok) return null;
+        const supplied = createAiPlayerAfterResourceGain(afterPlacement, gain);
+        const followups = [];
+        if (!scanEffects?.canExecuteScan?.(afterPlacement, { standardAction: true })?.ok
+          && scanEffects?.canExecuteScan?.(supplied, { standardAction: true })?.ok) {
+          const score = scoreAiScanAction(supplied);
+          if (score > 0) followups.push({ actionId: "scan", score });
+        }
+        for (const [handIndex, card] of (supplied.hand || []).entries()) {
+          if (players.canAfford(afterPlacement, getCardPlayCost(card))) continue;
+          const candidate = buildAiPlayCardCandidate(card, handIndex, supplied);
+          if (candidate?.score > 0) followups.push({ actionId: "playCard", cardInstanceId: card.id, score: candidate.score });
+        }
+        if (!followups.length) return null;
+        followups.sort((a, b) => b.score - a.score);
+        return {
+          gain, computerSlot: computer.placementSlot,
+          scoreFloor: scoreAiDataPlacementChoice(computer, player) + (data.listPlaceDataChoices(player).length * 0.05),
+          followup: followups[0],
+          scope: "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action.",
+        };
+      } finally { aiBlueDataBridgeDepth -= 1; }
+    }
+
     function scoreAiDataPlacementChoice(choice, player = getCurrentPlayer()) {
       if (!choice) return -Infinity;
       const target = choice.target || null;
@@ -20492,11 +20543,13 @@
       if (target === data.PLACEMENT_KIND_BLUE_BONUS) {
         const bonusValue = scoreAiDataPlacementBonusValue(choice, player);
         const finalHighScoreCreditPreserveValue = scoreAiFinalHighScoreDataCreditPreserveValue(choice, player);
-        return applyAiStrategyWeight(
+        const baseScore = applyAiStrategyWeight(
           5 + Math.max(0, aiNumber(choice.blueSlot)) * 0.05 + bonusValue * 0.8,
           "tech",
           0.25,
         ) + finalHighScoreCreditPreserveValue;
+        const bridge = getAiBlueDataResourceBridgeProfile(choice, player);
+        return Math.max(baseScore, bridge?.scoreFloor ?? -Infinity);
       }
       return 0;
     }
@@ -20507,6 +20560,7 @@
       return (check.choices || data.listPlaceDataChoices?.(player) || [])
         .map((choice, index) => {
           const creditPreserveProfile = getAiFinalHighScoreDataCreditPreserveProfile(choice, player);
+          const blueDataResourceBridge = getAiBlueDataResourceBridgeProfile(choice, player);
           return {
             id: "placeData",
             kind: "quick",
@@ -20518,8 +20572,9 @@
             description: choice.description || null,
             directScoreGain: getAiDataPlacementDirectScoreGain(choice, player),
             score: scoreAiDataPlacementChoice(choice, player) - index * 0.05,
-            valueBreakdown: creditPreserveProfile ? {
+            valueBreakdown: creditPreserveProfile || blueDataResourceBridge ? {
               finalHighScoreDataCreditPreserve: creditPreserveProfile,
+              blueDataResourceBridge,
             } : null,
           };
         })
@@ -26725,6 +26780,7 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      getAiBlueDataResourceBridgeProfile,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,

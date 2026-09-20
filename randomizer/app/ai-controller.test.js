@@ -17147,3 +17147,35 @@ for (const hasTarget of [true, false]) {
   if (hasTarget) assert.deepEqual(harness.getHandled(), {type:'play-card',handIndex:0,confirmed:true}, 'zero energy must not block a legal free orbit card');
   else { assert.equal(result.blocked,true); assert.equal(harness.getHandled(),null,'free cost does not waive the target requirement'); }
 }
+
+
+// Spend the last data on a real payment bridge, while preserving immediate cashouts.
+{
+ const actualData = require('../game/data');
+ const make = (overrides = {}) => {
+  const h = createAiControllerHarness(null, {
+   currentPlayerColor:'blue', realisticCanAfford:true, scanTargetHidden:true,
+   blueInitialSelection:{industry:{label:overrides.company || '寰宇超动力'}},
+   blueResources:{credits:0,energy:overrides.energy || 0,availableData:1,handSize:1,score:40},
+   blueHand:[{id:'bridge-card',cardId:'test-bridge',price:overrides.price || 1,cardTypeCode:0,playEffects:[{type:'gain_resources',options:{gain:{score:12}}}]}],
+   blueTechState:{ownedTiles:{blue1:true},blueBoardSlots:{blue1:1}},
+   data:actualData,
+  });
+  h.blue.dataState={poolTokens:[{id:'bridge-pool',index:1,slotIndex:1}],placedTokens:Array.from({length:overrides.placed ?? 5},(_,i)=>({id:'bridge-'+i,index:i+2,placementKind:'computer',placementSlot:i+1})),discardedCount:0};
+  actualData.ensurePlayerDataState(h.blue);
+  return h;
+ };
+ const h=make(),before=structuredClone(h.blue);
+ const choice=actualData.listPlaceDataChoices(h.blue).find(c=>c.target==='blueBonus');
+ const profile=h.controller.getAiBlueDataResourceBridgeProfile(choice,h.blue);
+ assert.equal(profile?.followup.actionId,'playCard');
+ assert.equal(profile?.followup.cardInstanceId,'bridge-card');
+ assert.equal(profile?.gain.credits,1);
+ assert.deepEqual(h.blue,before,'both placement simulations must leave real player unchanged');
+ for(const options of [{energy:1},{price:2},{placed:3},{company:'作弊实验室'}]) {
+  const other=make(options),option=actualData.listPlaceDataChoices(other.blue).find(c=>c.target==='blueBonus');
+  assert.equal(other.controller.getAiBlueDataResourceBridgeProfile(option,other.blue),null,JSON.stringify(options));
+ }
+ const grand=make({company:'宇宙大战略集团'});
+ assert(grand.controller.getAiBlueDataResourceBridgeProfile(actualData.listPlaceDataChoices(grand.blue).find(c=>c.target==='blueBonus'),grand.blue));
+}
