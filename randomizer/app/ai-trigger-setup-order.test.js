@@ -28,3 +28,13 @@ const researchResult=apply([play,research],{...player,hand:[researchEngine]})[0]
 assert.equal(apply([play,research],{...player,hand:[researchEngine],resources:{...player.resources,publicity:6}})[0],play,'insufficient research budget');
 console.log('ai-trigger-setup-order.test.js: all tests passed');
 
+
+// Existing cards compete for the same event; no new reward is guaranteed.
+const incumbent={id:'incumbent',cardId:'b_120.webp',price:1};
+const competition={...player,reservedCards:[incumbent]},snapshot=JSON.stringify(competition);
+assert.equal(apply([main],competition)[0],main,'existing first matching slot owns the event');
+assert.equal(JSON.stringify(competition),snapshot,'preview does not initialize or consume actual incumbent state');
+const exhausted={...incumbent,cardEffectState:{modelCardId:'b_120.webp',consumedTriggerIds:['b120-price1-score']}};
+assert.equal(apply([main],{...player,reservedCards:[exhausted]})[0].cardInstanceId,'engine','consumed unrelated slots do not block setup');
+const otherEvent={id:'research-old',cardId:'b_80.webp'};
+assert.equal(apply([main],{...player,reservedCards:[otherEvent]})[0].cardInstanceId,'engine','unrelated event is not competition');

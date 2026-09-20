@@ -25404,6 +25404,11 @@
         if (!cost || !events.length || !players.canAfford(afterSetup, cost)) continue;
         const afterPayment = { ...afterSetup, resources: { ...afterSetup.resources } };
         for (const [key, value] of Object.entries(cost)) afterPayment.resources[key] = aiNumber(afterPayment.resources[key]) - aiNumber(value);
+        // The current event resolver chooses one matching slot across reserved cards.
+        // Existing matches are earlier in the unchanged trigger policy. Conservatively
+        // leave their event to them instead of pricing the new card as an extra reward.
+        const incumbents = { ...afterPayment, reservedCards: structuredClone(player.reservedCards || []) };
+        if (events.some((event) => cardEffects.collectMatchingTriggers(incumbents, event).length > 0)) continue;
         const projection = { ...afterPayment, reservedCards: [structuredClone(card)] };
         const matches = events.map((event) => cardEffects.collectMatchingTriggers(projection, event)[0] || null);
         // Every possible current technology choice must give a supported first slot.
