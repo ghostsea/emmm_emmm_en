@@ -1,0 +1,6622 @@
+{
+  "scope": "First observed trigger-selection divergence per paired game; downstream score differences include all-player interactions, not isolated treatment effects.",
+  "rows": [
+    {
+      "case": 1,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:9f3951705bd032d946d9d926",
+        "meanDelta": -3.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 265,
+            "candidate": 245,
+            "delta": -20
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 227,
+            "candidate": 245,
+            "delta": 18
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 142,
+            "candidate": 143,
+            "delta": 1
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 257,
+            "candidate": 244,
+            "delta": -13
+          }
+        ]
+      },
+      "first": {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 1,
+        "resources": {
+          "score": 39,
+          "credits": 4,
+          "energy": 6,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "高级导航系统",
+          "effectType": "gain_data",
+          "optionCount": 2
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "高级导航系统",
+          "effectType": "card_free_move",
+          "optionCount": 2,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 3.5,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3.5,
+              "cardInstanceId": "card-35-pass-1-1",
+              "triggerId": "b2-visit-planet-move",
+              "effectType": "card_free_move"
+            },
+            {
+              "index": 0,
+              "rewardValue": 3.104,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3.104,
+              "cardInstanceId": "card-35-pass-1-1",
+              "triggerId": "b2-visit-planet-data",
+              "effectType": "gain_data"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：高级导航系统：1数据",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 6,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 6,
+              "publicity": 7,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 16.645904
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 6,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -10
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "棕色AI 执行 land",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 6,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "land",
+              "score": 64.69010400000002
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：首次登陆：额外获得 2 个数据",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得 6 分",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 7,
+              "availableData": 2,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得 1 个黄色外星人标记",
+            "resources": {
+              "score": 45,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 7,
+              "availableData": 2,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 50,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 7,
+              "availableData": 2,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 28.786704000000004
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 50,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 7,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 8.996
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 50,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -7
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "棕色AI 执行 researchTech",
+            "resources": {
+              "score": 50,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "researchTech",
+              "score": 92.20153099081597
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得科技片：blue4",
+            "resources": {
+              "score": 50,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 4
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：高级导航系统：1免费移动",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 6,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 6,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 12.869665017745415,
+              "routeTarget": "mars",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：高级导航系统：1数据",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 9,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 9,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 16.645904
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 9,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -10
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "棕色AI 执行 land",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 9,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "land",
+              "score": 64.69010400000002
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：首次登陆：额外获得 2 个数据",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 9,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得 6 分",
+            "resources": {
+              "score": 39,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 9,
+              "availableData": 2,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得 1 个黄色外星人标记",
+            "resources": {
+              "score": 45,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 9,
+              "availableData": 2,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 50,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 9,
+              "availableData": 2,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 28.786704000000004
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 50,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 9,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 8.996
+            }
+          },
+          {
+            "round": 3,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 50,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 9,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -7
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 2,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 156,
+            "candidate": 156,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 260,
+            "candidate": 260,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 224,
+            "candidate": 224,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 276,
+            "candidate": 276,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 3,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 258,
+            "candidate": 258,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 145,
+            "candidate": 145,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 227,
+            "candidate": 227,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 224,
+            "candidate": 224,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 4,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:d10ec9d1994c2caede860868",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 252,
+            "candidate": 252,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 289,
+            "candidate": 289,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 172,
+            "candidate": 172,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 268,
+            "candidate": 268,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 5,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:19a38c7dd114c39edb074a3e",
+        "meanDelta": -2,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 328,
+            "candidate": 325,
+            "delta": -3
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 167,
+            "candidate": 165,
+            "delta": -2
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 147,
+            "candidate": 147,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 256,
+            "candidate": 253,
+            "delta": -3
+          }
+        ]
+      },
+      "first": {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 2,
+        "resources": {
+          "score": 130,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 10,
+          "availableData": 1,
+          "handSize": 4
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "6",
+          "effectType": "runezu_symbol_reward",
+          "optionCount": 2
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "6",
+          "effectType": "runezu_symbol_reward",
+          "optionCount": 2,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 4.5,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4.5,
+              "cardInstanceId": "alien-runezu-6-6",
+              "triggerId": "runezu6-launch-s7",
+              "effectType": "runezu_symbol_reward"
+            },
+            {
+              "index": 0,
+              "rewardValue": 4.2,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4.2,
+              "cardInstanceId": "alien-runezu-6-6",
+              "triggerId": "runezu6-launch-s1",
+              "effectType": "runezu_symbol_reward"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：符文族6：发射，符文1奖励",
+            "resources": {
+              "score": 130,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 1,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得 1 个数据",
+            "resources": {
+              "score": 130,
+              "credits": 5,
+              "energy": 5,
+              "publicity": 10,
+              "availableData": 1,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：木星环绕/登陆：7分+1宣传",
+            "resources": {
+              "score": 130,
+              "credits": 5,
+              "energy": 5,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 move",
+            "resources": {
+              "score": 137,
+              "credits": 5,
+              "energy": 5,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 15.096176959266817,
+              "routeTarget": "mars",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 end-turn",
+            "resources": {
+              "score": 137,
+              "credits": 5,
+              "energy": 5,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 land",
+            "resources": {
+              "score": 137,
+              "credits": 5,
+              "energy": 5,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "land",
+              "score": 65.76754799999999
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得 7 分",
+            "resources": {
+              "score": 137,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得任意外星人标记 1/2",
+            "resources": {
+              "score": 144,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得任意外星人标记 2/2",
+            "resources": {
+              "score": 144,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 end-turn",
+            "resources": {
+              "score": 144,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 4,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 scan",
+            "resources": {
+              "score": 144,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "scan",
+              "score": 50.77069800000001
+            }
+          },
+          {
+            "round": 4,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：扇区扫描",
+            "resources": {
+              "score": 144,
+              "credits": 5,
+              "energy": 2,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：符文族6：发射，符文7奖励",
+            "resources": {
+              "score": 130,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 1,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得 1 个数据",
+            "resources": {
+              "score": 130,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 1,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：木星环绕/登陆：7分+1宣传",
+            "resources": {
+              "score": 130,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 move",
+            "resources": {
+              "score": 137,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 15.096176959266817,
+              "routeTarget": "mars",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 4,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 end-turn",
+            "resources": {
+              "score": 137,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 land",
+            "resources": {
+              "score": 137,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "land",
+              "score": 65.76754799999999
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得 7 分",
+            "resources": {
+              "score": 137,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得任意外星人标记 1/2",
+            "resources": {
+              "score": 144,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得任意外星人标记 2/2",
+            "resources": {
+              "score": 144,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 4,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 end-turn",
+            "resources": {
+              "score": 144,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 4,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 scan",
+            "resources": {
+              "score": 144,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "scan",
+              "score": 50.77069800000001
+            }
+          },
+          {
+            "round": 4,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：扇区扫描",
+            "resources": {
+              "score": 144,
+              "credits": 6,
+              "energy": 1,
+              "publicity": 10,
+              "availableData": 2,
+              "handSize": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 6,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 256,
+            "candidate": 256,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 174,
+            "candidate": 174,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 276,
+            "candidate": 276,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 168,
+            "candidate": 168,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 7,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:e65fc1266189d0f7fb5ef5c7",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 246,
+            "candidate": 246,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 212,
+            "candidate": 212,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 188,
+            "candidate": 188,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 174,
+            "candidate": 174,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 8,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 236,
+            "candidate": 236,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 232,
+            "candidate": 232,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 302,
+            "candidate": 302,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 164,
+            "candidate": 164,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 9,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:d8a5bcb6d57159e43c9fa4d4",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 257,
+            "candidate": 257,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 138,
+            "candidate": 138,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 288,
+            "candidate": 288,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 198,
+            "candidate": 198,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 10,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+        "meanDelta": -16,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 260,
+            "candidate": 249,
+            "delta": -11
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 230,
+            "candidate": 242,
+            "delta": 12
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 264,
+            "candidate": 203,
+            "delta": -61
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 237,
+            "candidate": 233,
+            "delta": -4
+          }
+        ]
+      },
+      "first": {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 2,
+        "turn": 8,
+        "resources": {
+          "score": 36,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 2
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "国际空间站",
+          "effectType": "gain_resources",
+          "optionCount": 3
+        },
+        "candidate": {
+          "selectedIndex": 2,
+          "cardLabel": "国际空间站",
+          "effectType": "gain_resources",
+          "optionCount": 3,
+          "candidates": [
+            {
+              "index": 2,
+              "rewardValue": 14.55,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 14.55,
+              "cardInstanceId": "card-73-0",
+              "triggerId": "b57-launch-score",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 8.453,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 8.453,
+              "cardInstanceId": "card-73-0",
+              "triggerId": "b57-launch-credit",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 1,
+              "rewardValue": 3,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3,
+              "cardInstanceId": "card-73-0",
+              "triggerId": "b57-launch-pick",
+              "effectType": "pick_card"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "effect",
+            "message": "AI 处理效果：PASS 预留精选",
+            "resources": {
+              "score": 36,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 36,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "move",
+              "score": 5.613216000000001,
+              "routeTarget": "jupiter",
+              "followupMainAction": null
+            }
+          },
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 36,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -2
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 playCard",
+            "resources": {
+              "score": 36,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "playCard",
+              "score": 129.949693210912
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "play-card",
+            "message": "棕色AI 选择打出 木卫二快船",
+            "resources": {
+              "score": 36,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：登陆（可无橙色4登陆卫星）",
+            "resources": {
+              "score": 36,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：获得 7 分",
+            "resources": {
+              "score": 36,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：获得黄色外星人标记 1/2",
+            "resources": {
+              "score": 43,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：获得黄色外星人标记 2/2",
+            "resources": {
+              "score": 46,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：方舟奖励 6：1分数",
+            "resources": {
+              "score": 51,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：方舟奖励 6：1信用点",
+            "resources": {
+              "score": 52,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 industry",
+            "resources": {
+              "score": 52,
+              "credits": 5,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "industry",
+              "score": 8.037212645324393
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "effect",
+            "message": "AI 处理效果：PASS 预留精选",
+            "resources": {
+              "score": 41,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 41,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "move",
+              "score": 5.613216000000001,
+              "routeTarget": "jupiter",
+              "followupMainAction": null
+            }
+          },
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 41,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 playCard",
+            "resources": {
+              "score": 41,
+              "credits": 5,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "playCard",
+              "score": 168.99798124003195
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "play-card",
+            "message": "棕色AI 选择打出 木卫二快船",
+            "resources": {
+              "score": 41,
+              "credits": 5,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：登陆（可无橙色4登陆卫星）",
+            "resources": {
+              "score": 41,
+              "credits": 3,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：获得 12 分",
+            "resources": {
+              "score": 41,
+              "credits": 3,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：获得 5 宣传",
+            "resources": {
+              "score": 53,
+              "credits": 3,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 industry",
+            "resources": {
+              "score": 53,
+              "credits": 3,
+              "energy": 5,
+              "publicity": 9,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "industry",
+              "score": 8.027651345480297
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：寰宇超动力：移动 1/2",
+            "resources": {
+              "score": 53,
+              "credits": 3,
+              "energy": 5,
+              "publicity": 9,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：寰宇超动力：移动 2/2",
+            "resources": {
+              "score": 53,
+              "credits": 3,
+              "energy": 5,
+              "publicity": 10,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 53,
+              "credits": 3,
+              "energy": 5,
+              "publicity": 10,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -7
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 11,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:71368c19a360f5ff41dfb246",
+        "meanDelta": -8.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 225,
+            "candidate": 192,
+            "delta": -33
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 206,
+            "candidate": 203,
+            "delta": -3
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 240,
+            "candidate": 239,
+            "delta": -1
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 269,
+            "candidate": 272,
+            "delta": 3
+          }
+        ]
+      },
+      "first": {
+        "player": "player-blue",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 4,
+        "resources": {
+          "score": 35,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 3
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "月球门户空间站",
+          "effectType": "launch",
+          "optionCount": 2
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "月球门户空间站",
+          "effectType": "gain_resources",
+          "optionCount": 2,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 6.2,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 6.2,
+              "cardInstanceId": "card-71-0",
+              "triggerId": "b138-orbit-land-energy",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 6,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 6,
+              "cardInstanceId": "card-71-0",
+              "triggerId": "b138-orbit-land-launch",
+              "effectType": "launch"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：获得 6 分",
+            "resources": {
+              "score": 35,
+              "credits": 2,
+              "energy": 2,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：获得 1 个黄色外星人标记",
+            "resources": {
+              "score": 41,
+              "credits": 2,
+              "energy": 2,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：宇宙战略集团：黄色奖励槽",
+            "resources": {
+              "score": 43,
+              "credits": 2,
+              "energy": 2,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：火星环绕/登陆：4分",
+            "resources": {
+              "score": 43,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 move",
+            "resources": {
+              "score": 47,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 25.660654789564425,
+              "routeTarget": "mars",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 end-turn",
+            "resources": {
+              "score": 47,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：天狼星A参与奖励：蓝色 +1宣传",
+            "resources": {
+              "score": 47,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 land",
+            "resources": {
+              "score": 47,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "land",
+              "score": 84.90553000000003
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：获得 6 分",
+            "resources": {
+              "score": 47,
+              "credits": 3,
+              "energy": 1,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：获得 1 个黄色外星人标记",
+            "resources": {
+              "score": 53,
+              "credits": 3,
+              "energy": 1,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 end-turn",
+            "resources": {
+              "score": 55,
+              "credits": 3,
+              "energy": 1,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 playCard",
+            "resources": {
+              "score": 55,
+              "credits": 3,
+              "energy": 1,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "playCard",
+              "score": 20.214234650199995
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：获得 6 分",
+            "resources": {
+              "score": 35,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：获得 1 个黄色外星人标记",
+            "resources": {
+              "score": 41,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：宇宙战略集团：黄色奖励槽",
+            "resources": {
+              "score": 43,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：火星环绕/登陆：4分",
+            "resources": {
+              "score": 43,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 end-turn",
+            "resources": {
+              "score": 47,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：天狼星A参与奖励：蓝色 +1宣传",
+            "resources": {
+              "score": 47,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "蓝色AI 执行 scan",
+            "resources": {
+              "score": 47,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "scan",
+              "score": 65.89099611600001
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：扇区扫描",
+            "resources": {
+              "score": 47,
+              "credits": 2,
+              "energy": 1,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：公共牌区扫描",
+            "resources": {
+              "score": 47,
+              "credits": 2,
+              "energy": 1,
+              "publicity": 3,
+              "availableData": 1,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：手牌扫描",
+            "resources": {
+              "score": 47,
+              "credits": 2,
+              "energy": 1,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：完成扇区：巴纳德",
+            "resources": {
+              "score": 47,
+              "credits": 2,
+              "energy": 1,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：巴纳德参与奖励：蓝色 +1宣传",
+            "resources": {
+              "score": 47,
+              "credits": 2,
+              "energy": 1,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 12,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:219bba7fad96b75a48e2c930",
+        "meanDelta": 9,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 229,
+            "candidate": 207,
+            "delta": -22
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 287,
+            "candidate": 286,
+            "delta": -1
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 186,
+            "candidate": 197,
+            "delta": 11
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 202,
+            "candidate": 250,
+            "delta": 48
+          }
+        ]
+      },
+      "first": {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 18,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "月球门户空间站",
+          "effectType": "launch",
+          "optionCount": 2
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "月球门户空间站",
+          "effectType": "gain_resources",
+          "optionCount": 2,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 7.41,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 7.41,
+              "cardInstanceId": "card-61-0",
+              "triggerId": "b138-orbit-land-energy",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 6,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 6,
+              "cardInstanceId": "card-61-0",
+              "triggerId": "b138-orbit-land-launch",
+              "effectType": "launch"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得 7 分",
+            "resources": {
+              "score": 18,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 6,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得黄色外星人标记 1/2",
+            "resources": {
+              "score": 25,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 6,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得黄色外星人标记 2/2",
+            "resources": {
+              "score": 30,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：若登陆前该主星已有登陆标记，本卡回手",
+            "resources": {
+              "score": 33,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 33,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 playCard",
+            "resources": {
+              "score": 33,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "playCard",
+              "score": 19.570526241086345
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "play-card",
+            "message": "绿色AI 选择打出 大巡游计划",
+            "resources": {
+              "score": 33,
+              "credits": 3,
+              "energy": 2,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：2移动",
+            "resources": {
+              "score": 33,
+              "credits": 1,
+              "energy": 2,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 move",
+            "resources": {
+              "score": 33,
+              "credits": 1,
+              "energy": 2,
+              "publicity": 9,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 0.053178048144379986,
+              "routeTarget": "venus",
+              "followupMainAction": null
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 cardCorner",
+            "resources": {
+              "score": 33,
+              "credits": 1,
+              "energy": 1,
+              "publicity": 10,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "cardCorner",
+              "score": 5.066141315851866
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 34,
+              "credits": 1,
+              "energy": 1,
+              "publicity": 10,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 researchTech",
+            "resources": {
+              "score": 34,
+              "credits": 1,
+              "energy": 1,
+              "publicity": 10,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "researchTech",
+              "score": 47.272188816059995
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得 7 分",
+            "resources": {
+              "score": 18,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 6,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得黄色外星人标记 1/2",
+            "resources": {
+              "score": 25,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 6,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获得黄色外星人标记 2/2",
+            "resources": {
+              "score": 30,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：若登陆前该主星已有登陆标记，本卡回手",
+            "resources": {
+              "score": 33,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 33,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 playCard",
+            "resources": {
+              "score": 33,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "playCard",
+              "score": 17.233316826259987
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "play-card",
+            "message": "绿色AI 选择打出 地形测绘",
+            "resources": {
+              "score": 33,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：奥陌陌8：黄色扇区扫描",
+            "resources": {
+              "score": 33,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：奥陌陌8：红色扇区扫描",
+            "resources": {
+              "score": 33,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 1,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：奥陌陌8：蓝色扇区扫描",
+            "resources": {
+              "score": 33,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 2,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：奥陌陌8：可移除1化石扫描任意扇区",
+            "resources": {
+              "score": 33,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 3,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：完成扇区：南河三",
+            "resources": {
+              "score": 33,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 8,
+              "availableData": 3,
+              "handSize": 4
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 13,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:cc0de877a799eae097eb6b9e",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 203,
+            "candidate": 203,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 291,
+            "candidate": 291,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 239,
+            "candidate": 239,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 206,
+            "candidate": 206,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 14,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:5da7cdfb5312ad0157883117",
+        "meanDelta": 2.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 262,
+            "candidate": 291,
+            "delta": 29
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 248,
+            "candidate": 236,
+            "delta": -12
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 238,
+            "candidate": 214,
+            "delta": -24
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 194,
+            "candidate": 210,
+            "delta": 16
+          }
+        ]
+      },
+      "first": {
+        "player": "player-brown",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 6,
+        "resources": {
+          "score": 75,
+          "credits": 0,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 3,
+          "handSize": 3
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "SETI研究所",
+          "effectType": "gain_data",
+          "optionCount": 3
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "SETI研究所",
+          "effectType": "draw_cards",
+          "optionCount": 3,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 4.3,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4.3,
+              "cardInstanceId": "card-35-pass-1-1",
+              "triggerId": "b111-scan-draw",
+              "effectType": "draw_cards"
+            },
+            {
+              "index": 0,
+              "rewardValue": 4.27,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4.27,
+              "cardInstanceId": "card-35-pass-1-1",
+              "triggerId": "b111-scan-data",
+              "effectType": "gain_data"
+            },
+            {
+              "index": 2,
+              "rewardValue": 4,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4,
+              "cardInstanceId": "card-35-pass-1-1",
+              "triggerId": "b111-scan-score",
+              "effectType": "gain_resources"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "effect",
+            "message": "AI 处理效果：扫描行动：2数据",
+            "resources": {
+              "score": 75,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 75,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 5,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 23.353696000000003
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 75,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 4,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 11.789856000000002
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 75,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 8.7984
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 75,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 analyze",
+            "resources": {
+              "score": 75,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "analyze",
+              "score": 43.461600000000004
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：方舟奖励 0：1分数",
+            "resources": {
+              "score": 80,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：方舟奖励 0：1能量",
+            "resources": {
+              "score": 81,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 81,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 11.356526
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 83,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 1,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 16.6456872
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 83,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "棕色AI 执行 playCard",
+            "resources": {
+              "score": 83,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "playCard",
+              "score": 29.198757616745205
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 75,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 23.353696000000003
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 75,
+              "credits": 0,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 12.224992
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 75,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 8.7984
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 75,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 analyze",
+            "resources": {
+              "score": 75,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "analyze",
+              "score": 43.1256
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：方舟奖励 0：1分数",
+            "resources": {
+              "score": 80,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：方舟奖励 0：1能量",
+            "resources": {
+              "score": 81,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 81,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "棕色AI 执行 playCard",
+            "resources": {
+              "score": 81,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "playCard",
+              "score": 33.27954900191653
+            }
+          },
+          {
+            "round": 3,
+            "turn": 8,
+            "type": "play-card",
+            "message": "棕色AI 选择打出 飞掠金星",
+            "resources": {
+              "score": 81,
+              "credits": 1,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 8,
+            "type": "effect",
+            "message": "AI 处理效果：本回合访问金星获得3分",
+            "resources": {
+              "score": 81,
+              "credits": 0,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 8,
+            "type": "effect",
+            "message": "AI 处理效果：2移动",
+            "resources": {
+              "score": 81,
+              "credits": 0,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 15,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "meanDelta": -1.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 284,
+            "candidate": 311,
+            "delta": 27
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 166,
+            "candidate": 218,
+            "delta": 52
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 230,
+            "candidate": 173,
+            "delta": -57
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 263,
+            "candidate": 234,
+            "delta": -29
+          }
+        ]
+      },
+      "first": {
+        "player": "player-green",
+        "company": "寰宇超动力",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 30,
+          "credits": 6,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "吃瓜群众",
+          "effectType": "gain_resources",
+          "optionCount": 3
+        },
+        "candidate": {
+          "selectedIndex": 2,
+          "cardLabel": "吃瓜群众",
+          "effectType": "gain_resources",
+          "optionCount": 3,
+          "candidates": [
+            {
+              "index": 2,
+              "rewardValue": 9.6,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 9.6,
+              "cardInstanceId": "alien-yichangdian-3-1",
+              "triggerId": "y3-tech-score",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 6.2,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 6.2,
+              "cardInstanceId": "alien-yichangdian-3-1",
+              "triggerId": "y3-tech-energy",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 1,
+              "rewardValue": 3,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3,
+              "cardInstanceId": "alien-yichangdian-3-1",
+              "triggerId": "y3-tech-pick",
+              "effectType": "pick_card"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：旋转",
+            "resources": {
+              "score": 30,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获取1 能量",
+            "resources": {
+              "score": 30,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "绿色AI 执行 move",
+            "resources": {
+              "score": 30,
+              "credits": 6,
+              "energy": 6,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 1.4902749561100306,
+              "routeTarget": "saturn",
+              "followupMainAction": null
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "绿色AI 执行 cardCorner",
+            "resources": {
+              "score": 30,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "cardCorner",
+              "score": 10.374086566141441
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 30,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：开普勒22参与奖励：绿色 +1宣传",
+            "resources": {
+              "score": 30,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 land",
+            "resources": {
+              "score": 30,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "land",
+              "score": 64.7674
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得 7 分",
+            "resources": {
+              "score": 30,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得任意外星人标记 1/2",
+            "resources": {
+              "score": 37,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得任意外星人标记 2/2",
+            "resources": {
+              "score": 41,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 43,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 playCard",
+            "resources": {
+              "score": 43,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "playCard",
+              "score": 2.881417693312
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：旋转",
+            "resources": {
+              "score": 33,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "effect",
+            "message": "AI 处理效果：获取1 能量",
+            "resources": {
+              "score": 33,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "绿色AI 执行 move",
+            "resources": {
+              "score": 33,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 1.4517376541068296,
+              "routeTarget": "saturn",
+              "followupMainAction": null
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "绿色AI 执行 cardCorner",
+            "resources": {
+              "score": 33,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "cardCorner",
+              "score": 10.243552642621443
+            }
+          },
+          {
+            "round": 2,
+            "turn": 2,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 33,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：开普勒22参与奖励：绿色 +1宣传",
+            "resources": {
+              "score": 33,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 land",
+            "resources": {
+              "score": 33,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "land",
+              "score": 64.32565
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得 7 分",
+            "resources": {
+              "score": 33,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得任意外星人标记 1/2",
+            "resources": {
+              "score": 40,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获得任意外星人标记 2/2",
+            "resources": {
+              "score": 44,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 46,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 playCard",
+            "resources": {
+              "score": 46,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "playCard",
+              "score": 2.907292693312001
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 16,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:d19509494eac4104567754f4",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 181,
+            "candidate": 181,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 239,
+            "candidate": 239,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 243,
+            "candidate": 243,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 234,
+            "candidate": 234,
+            "delta": 0
+          }
+        ]
+      },
+      "first": {
+        "player": "player-green",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 10,
+        "resources": {
+          "score": 100,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 3
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "6",
+          "effectType": "runezu_symbol_reward",
+          "optionCount": 2
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "6",
+          "effectType": "runezu_symbol_reward",
+          "optionCount": 2,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 4.2,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4.2,
+              "cardInstanceId": "alien-runezu-6-9",
+              "triggerId": "runezu6-launch-s7",
+              "effectType": "runezu_symbol_reward"
+            },
+            {
+              "index": 0,
+              "rewardValue": 3.0149999999999997,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3.0149999999999997,
+              "cardInstanceId": "alien-runezu-6-9",
+              "triggerId": "runezu6-launch-s1",
+              "effectType": "runezu_symbol_reward"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 3,
+            "turn": 10,
+            "type": "effect",
+            "message": "AI 处理效果：符文族6：发射，符文1奖励",
+            "resources": {
+              "score": 100,
+              "credits": 0,
+              "energy": 1,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 10,
+            "type": "effect",
+            "message": "AI 处理效果：PASS 预留精选",
+            "resources": {
+              "score": 100,
+              "credits": 0,
+              "energy": 1,
+              "publicity": 0,
+              "availableData": 1,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 10,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 100,
+              "credits": 0,
+              "energy": 1,
+              "publicity": 0,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 12.814506000000002
+            }
+          },
+          {
+            "round": 3,
+            "turn": 10,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 102,
+              "credits": 0,
+              "energy": 1,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 playCard",
+            "resources": {
+              "score": 102,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 9
+            },
+            "action": {
+              "id": "playCard",
+              "score": 111.33783335498
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "play-card",
+            "message": "绿色AI 选择打出 土星探测计划",
+            "resources": {
+              "score": 102,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 9
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：土星所在扇区扫描 1/2",
+            "resources": {
+              "score": 102,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：土星所在扇区扫描 2/2",
+            "resources": {
+              "score": 102,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 1,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：完成扇区：比邻星",
+            "resources": {
+              "score": 102,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：比邻星参与奖励：绿色 +1宣传",
+            "resources": {
+              "score": 102,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：土星环绕/登陆：4分",
+            "resources": {
+              "score": 102,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 2,
+              "availableData": 2,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 106,
+              "credits": 4,
+              "energy": 4,
+              "publicity": 2,
+              "availableData": 2,
+              "handSize": 8
+            },
+            "action": {
+              "id": "placeData",
+              "score": 12.516448
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 3,
+            "turn": 10,
+            "type": "effect",
+            "message": "AI 处理效果：符文族6：发射，符文7奖励",
+            "resources": {
+              "score": 100,
+              "credits": 0,
+              "energy": 1,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 10,
+            "type": "effect",
+            "message": "AI 处理效果：PASS 预留精选",
+            "resources": {
+              "score": 100,
+              "credits": 0,
+              "energy": 2,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 10,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 100,
+              "credits": 0,
+              "energy": 2,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 playCard",
+            "resources": {
+              "score": 100,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 9
+            },
+            "action": {
+              "id": "playCard",
+              "score": 111.54023335498
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "play-card",
+            "message": "绿色AI 选择打出 土星探测计划",
+            "resources": {
+              "score": 100,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 9
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：土星所在扇区扫描 1/2",
+            "resources": {
+              "score": 100,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：土星所在扇区扫描 2/2",
+            "resources": {
+              "score": 100,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 1,
+              "availableData": 1,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：完成扇区：比邻星",
+            "resources": {
+              "score": 100,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：比邻星参与奖励：绿色 +1宣传",
+            "resources": {
+              "score": 100,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：土星环绕/登陆：4分",
+            "resources": {
+              "score": 100,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 2,
+              "availableData": 2,
+              "handSize": 8
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 104,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 2,
+              "availableData": 2,
+              "handSize": 8
+            },
+            "action": {
+              "id": "placeData",
+              "score": 12.20855
+            }
+          },
+          {
+            "round": 4,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 106,
+              "credits": 4,
+              "energy": 5,
+              "publicity": 2,
+              "availableData": 1,
+              "handSize": 8
+            },
+            "action": {
+              "id": "placeData",
+              "score": 12.516448
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 17,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:1c266b386fa12d2a8affd252",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 204,
+            "candidate": 204,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 259,
+            "candidate": 259,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 140,
+            "candidate": 140,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 214,
+            "candidate": 214,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 18,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+        "meanDelta": -15,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 226,
+            "candidate": 208,
+            "delta": -18
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 247,
+            "candidate": 237,
+            "delta": -10
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 221,
+            "candidate": 194,
+            "delta": -27
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 179,
+            "candidate": 174,
+            "delta": -5
+          }
+        ]
+      },
+      "first": {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 8,
+        "resources": {
+          "score": 86,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 2
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "对照分析",
+          "effectType": "gain_data",
+          "optionCount": 3
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "对照分析",
+          "effectType": "gain_resources",
+          "optionCount": 3,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 10.309999999999999,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 10.309999999999999,
+              "cardInstanceId": "alien-aomomo-1-9",
+              "triggerId": "aomomo1-trace-publicity",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 3.851,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3.851,
+              "cardInstanceId": "alien-aomomo-1-9",
+              "triggerId": "aomomo1-trace-data",
+              "effectType": "gain_data"
+            },
+            {
+              "index": 2,
+              "rewardValue": 3,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3,
+              "cardInstanceId": "alien-aomomo-1-9",
+              "triggerId": "aomomo1-trace-score",
+              "effectType": "gain_resources"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "effect",
+            "message": "AI 处理效果：奥陌陌1：获得外星人痕迹，1数据",
+            "resources": {
+              "score": 86,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 86,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 1,
+              "handSize": 2
+            },
+            "action": {
+              "id": "placeData",
+              "score": 12.073592000000001
+            }
+          },
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 88,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 9,
+            "type": "turn-action",
+            "message": "绿色AI 执行 pass",
+            "resources": {
+              "score": 88,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "pass",
+              "score": -2.6999999999999997
+            }
+          },
+          {
+            "round": 2,
+            "turn": 9,
+            "type": "effect",
+            "message": "AI 处理效果：PASS 预留精选",
+            "resources": {
+              "score": 88,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 9,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 88,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 scan",
+            "resources": {
+              "score": 88,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 6
+            },
+            "action": {
+              "id": "scan",
+              "score": 21.531853540999997
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：扇区扫描",
+            "resources": {
+              "score": 88,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 0,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：公共牌区扫描",
+            "resources": {
+              "score": 88,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 1,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：水星扇区扫描",
+            "resources": {
+              "score": 88,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 2,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：完成扇区：开普勒22",
+            "resources": {
+              "score": 88,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 1,
+              "availableData": 3,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：开普勒22参与奖励：绿色 +1宣传",
+            "resources": {
+              "score": 88,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 1,
+              "availableData": 3,
+              "handSize": 6
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 2,
+            "turn": 8,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 86,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 9,
+            "type": "turn-action",
+            "message": "绿色AI 执行 pass",
+            "resources": {
+              "score": 86,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "pass",
+              "score": -2.6999999999999997
+            }
+          },
+          {
+            "round": 2,
+            "turn": 9,
+            "type": "effect",
+            "message": "AI 处理效果：PASS 预留精选",
+            "resources": {
+              "score": 86,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 2,
+            "turn": 9,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 86,
+              "credits": 1,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 scan",
+            "resources": {
+              "score": 86,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 6
+            },
+            "action": {
+              "id": "scan",
+              "score": 22.682115165999996
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：扇区扫描",
+            "resources": {
+              "score": 86,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：公共牌区扫描",
+            "resources": {
+              "score": 86,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 1,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：水星扇区扫描",
+            "resources": {
+              "score": 86,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：完成扇区：开普勒22",
+            "resources": {
+              "score": 86,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 3,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "effect",
+            "message": "AI 处理效果：开普勒22参与奖励：绿色 +1宣传",
+            "resources": {
+              "score": 86,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 3,
+              "handSize": 6
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 86,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 6
+            },
+            "action": {
+              "id": "placeData",
+              "score": 11.15165
+            }
+          },
+          {
+            "round": 3,
+            "turn": 1,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 88,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 6
+            },
+            "action": {
+              "id": "placeData",
+              "score": 20.305487999999997
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 19,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:6a07740fcd065dd08b8461cc",
+        "meanDelta": -4.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 289,
+            "candidate": 264,
+            "delta": -25
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 213,
+            "candidate": 232,
+            "delta": 19
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 235,
+            "candidate": 238,
+            "delta": 3
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 177,
+            "candidate": 163,
+            "delta": -14
+          }
+        ]
+      },
+      "first": {
+        "player": "player-brown",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 4,
+        "resources": {
+          "score": 85,
+          "credits": 1,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 3,
+          "handSize": 5
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "对照分析",
+          "effectType": "gain_data",
+          "optionCount": 3
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "对照分析",
+          "effectType": "gain_resources",
+          "optionCount": 3,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 3.468,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3.468,
+              "cardInstanceId": "alien-aomomo-1-4",
+              "triggerId": "aomomo1-trace-publicity",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 2,
+              "rewardValue": 3,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3,
+              "cardInstanceId": "alien-aomomo-1-4",
+              "triggerId": "aomomo1-trace-score",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 2.77,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 2.77,
+              "cardInstanceId": "alien-aomomo-1-4",
+              "triggerId": "aomomo1-trace-data",
+              "effectType": "gain_data"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：奥陌陌1：获得外星人痕迹，1数据",
+            "resources": {
+              "score": 85,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 3,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：5个环绕/登陆：3分+1信用",
+            "resources": {
+              "score": 85,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 4,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 88,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 2,
+              "availableData": 4,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 11.943783
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 88,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 10.718050000000002
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 88,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 16.190624
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 88,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 12.5744
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 88,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "棕色AI 执行 playCard",
+            "resources": {
+              "score": 88,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "playCard",
+              "score": 39.330476063199995
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "play-card",
+            "message": "棕色AI 选择打出 低频阵列",
+            "resources": {
+              "score": 88,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：扫描行动",
+            "resources": {
+              "score": 88,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：扇区扫描",
+            "resources": {
+              "score": 88,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：公共牌区扫描",
+            "resources": {
+              "score": 90,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 1,
+              "handSize": 3
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：5个环绕/登陆：3分+1信用",
+            "resources": {
+              "score": 85,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 88,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 16.4798352
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 88,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 2,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 10.718050000000002
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 88,
+              "credits": 2,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 1,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 16.190624
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 88,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "棕色AI 执行 playCard",
+            "resources": {
+              "score": 88,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "playCard",
+              "score": 38.8119410632
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "play-card",
+            "message": "棕色AI 选择打出 低频阵列",
+            "resources": {
+              "score": 88,
+              "credits": 3,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：扫描行动",
+            "resources": {
+              "score": 88,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：扇区扫描",
+            "resources": {
+              "score": 88,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：公共牌区扫描",
+            "resources": {
+              "score": 90,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 1,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：发射/移动",
+            "resources": {
+              "score": 92,
+              "credits": 1,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 3,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：手牌扫描",
+            "resources": {
+              "score": 92,
+              "credits": 1,
+              "energy": 2,
+              "publicity": 4,
+              "availableData": 3,
+              "handSize": 3
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 20,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:7ec5dba9a449990c6490f3f9",
+        "meanDelta": -1.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 224,
+            "candidate": 224,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 238,
+            "candidate": 210,
+            "delta": -28
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 270,
+            "candidate": 279,
+            "delta": 9
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 259,
+            "candidate": 272,
+            "delta": 13
+          }
+        ]
+      },
+      "first": {
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 6,
+        "resources": {
+          "score": 65,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 2,
+          "handSize": 5
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "SETI研究所",
+          "effectType": "draw_cards",
+          "optionCount": 2
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "SETI研究所",
+          "effectType": "gain_resources",
+          "optionCount": 2,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 10.05,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 10.05,
+              "cardInstanceId": "card-12-0",
+              "triggerId": "b111-scan-score",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 4.3,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4.3,
+              "cardInstanceId": "card-12-0",
+              "triggerId": "b111-scan-draw",
+              "effectType": "draw_cards"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 6
+            },
+            "action": {
+              "id": "placeData",
+              "score": 19.8641374
+            }
+          },
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 4,
+              "availableData": 1,
+              "handSize": 6
+            },
+            "action": {
+              "id": "placeData",
+              "score": 11.161948
+            }
+          },
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 cardCorner",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 6
+            },
+            "action": {
+              "id": "cardCorner",
+              "score": -1.8050000000000002
+            }
+          },
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 5,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "move",
+              "score": 1.460755400822375,
+              "routeTarget": "venus",
+              "followupMainAction": null
+            }
+          },
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 5,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 researchTech",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 5,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "researchTech",
+              "score": 34.8329939910576
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：获得科技片：blue2",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：旋转",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "card-trigger",
+            "message": "棕色AI 选择卡牌触发 小行星研究：1数据 1/3",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：小行星研究：1数据 1/3",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 1,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：获取1 能量",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 1,
+              "availableData": 1,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 65,
+              "credits": 5,
+              "energy": 1,
+              "publicity": 1,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 24.75585
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 19.8641374
+            }
+          },
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 4,
+              "availableData": 1,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 11.161948
+            }
+          },
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "move",
+              "score": 1.4646187894943763,
+              "routeTarget": "venus",
+              "followupMainAction": null
+            }
+          },
+          {
+            "round": 2,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 researchTech",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "researchTech",
+              "score": 34.7705888452
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：获得科技片：blue2",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：旋转",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "card-trigger",
+            "message": "棕色AI 选择卡牌触发 小行星研究：1数据 1/3",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：小行星研究：1数据 1/3",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "effect",
+            "message": "AI 处理效果：获取1 能量",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 1,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 1,
+              "publicity": 0,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "placeData",
+              "score": 24.75585
+            }
+          },
+          {
+            "round": 2,
+            "turn": 7,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 69,
+              "credits": 5,
+              "energy": 2,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 21,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:76f7dc7729cd546a6c8d0b5c",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 218,
+            "candidate": 218,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 300,
+            "candidate": 300,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 216,
+            "candidate": 216,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 177,
+            "candidate": 177,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 22,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:58a8062fd612c4065082bf00",
+        "meanDelta": 7.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 235,
+            "candidate": 212,
+            "delta": -23
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 243,
+            "candidate": 266,
+            "delta": 23
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 257,
+            "candidate": 247,
+            "delta": -10
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 128,
+            "candidate": 168,
+            "delta": 40
+          }
+        ]
+      },
+      "first": {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 4,
+        "resources": {
+          "score": 66,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 2,
+          "handSize": 3
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "SETI研究所",
+          "effectType": "gain_data",
+          "optionCount": 3
+        },
+        "candidate": {
+          "selectedIndex": 2,
+          "cardLabel": "SETI研究所",
+          "effectType": "gain_resources",
+          "optionCount": 3,
+          "candidates": [
+            {
+              "index": 2,
+              "rewardValue": 42.519999999999996,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 42.519999999999996,
+              "cardInstanceId": "card-99-0",
+              "triggerId": "b111-scan-score",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 4.333,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4.333,
+              "cardInstanceId": "card-99-0",
+              "triggerId": "b111-scan-data",
+              "effectType": "gain_data"
+            },
+            {
+              "index": 1,
+              "rewardValue": 4.3,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 4.3,
+              "cardInstanceId": "card-99-0",
+              "triggerId": "b111-scan-draw",
+              "effectType": "draw_cards"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：扫描行动：2数据",
+            "resources": {
+              "score": 66,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 66,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 4,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 21.806828000000003
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 68,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 3,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 23.1976
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 move",
+            "resources": {
+              "score": 68,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "move",
+              "score": 18.528028857143298,
+              "routeTarget": "mars",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 68,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 2,
+              "handSize": 2
+            },
+            "action": {
+              "id": "placeData",
+              "score": 10.895375999999999
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "pick-card",
+            "message": "绿色AI 精选公共牌 3",
+            "resources": {
+              "score": 68,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 1,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 68,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 1,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 8.996
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 68,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -7
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "绿色AI 执行 land",
+            "resources": {
+              "score": 68,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "land",
+              "score": 90.31396000000001
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：获得 6 分",
+            "resources": {
+              "score": 68,
+              "credits": 5,
+              "energy": 2,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：获得 1 个黄色外星人标记",
+            "resources": {
+              "score": 74,
+              "credits": 5,
+              "energy": 2,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 3
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 74,
+              "credits": 5,
+              "energy": 2,
+              "publicity": 4,
+              "availableData": 1,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 70,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 2,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 14.4172
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 placeData",
+            "resources": {
+              "score": 72,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 1,
+              "handSize": 3
+            },
+            "action": {
+              "id": "placeData",
+              "score": 23.1976
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 move",
+            "resources": {
+              "score": 72,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 3
+            },
+            "action": {
+              "id": "move",
+              "score": 6.81160019165594,
+              "routeTarget": "mars",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 72,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "绿色AI 执行 researchTech",
+            "resources": {
+              "score": 72,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "researchTech",
+              "score": 68.27734522236159
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：获得科技片：blue2",
+            "resources": {
+              "score": 72,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：旋转",
+            "resources": {
+              "score": 72,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "effect",
+            "message": "AI 处理效果：获取3 分",
+            "resources": {
+              "score": 72,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 3,
+            "turn": 5,
+            "type": "turn-action",
+            "message": "绿色AI 执行 end-turn",
+            "resources": {
+              "score": 75,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "turn-action",
+            "message": "绿色AI 执行 scan",
+            "resources": {
+              "score": 75,
+              "credits": 4,
+              "energy": 3,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 2
+            },
+            "action": {
+              "id": "scan",
+              "score": 29.52156
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "effect",
+            "message": "AI 处理效果：扇区扫描",
+            "resources": {
+              "score": 75,
+              "credits": 4,
+              "energy": 1,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 2
+            }
+          },
+          {
+            "round": 3,
+            "turn": 6,
+            "type": "effect",
+            "message": "AI 处理效果：公共牌区扫描",
+            "resources": {
+              "score": 77,
+              "credits": 4,
+              "energy": 1,
+              "publicity": 0,
+              "availableData": 1,
+              "handSize": 2
+            }
+          }
+        ]
+      }
+    },
+    {
+      "case": 23,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 143,
+            "candidate": 143,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 189,
+            "candidate": 189,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 210,
+            "candidate": 210,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 220,
+            "candidate": 220,
+            "delta": 0
+          }
+        ]
+      },
+      "first": null
+    },
+    {
+      "case": 24,
+      "score": {
+        "seed": "codex-ai-slot-first-random-20260906:3ae10b34ecc666ef8b1af0c8",
+        "meanDelta": 0.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 233,
+            "candidate": 215,
+            "delta": -18
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 212,
+            "candidate": 202,
+            "delta": -10
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 227,
+            "candidate": 256,
+            "delta": 29
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 198,
+            "candidate": 200,
+            "delta": 2
+          }
+        ]
+      },
+      "first": {
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 3,
+        "resources": {
+          "score": 58,
+          "credits": 6,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "baseline": {
+          "selectedIndex": 0,
+          "cardLabel": "吃瓜群众",
+          "effectType": "pick_card",
+          "optionCount": 2
+        },
+        "candidate": {
+          "selectedIndex": 1,
+          "cardLabel": "吃瓜群众",
+          "effectType": "gain_resources",
+          "optionCount": 2,
+          "candidates": [
+            {
+              "index": 1,
+              "rewardValue": 11.31,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 11.31,
+              "cardInstanceId": "alien-yichangdian-3-3",
+              "triggerId": "y3-tech-score",
+              "effectType": "gain_resources"
+            },
+            {
+              "index": 0,
+              "rewardValue": 3,
+              "completionValue": 0,
+              "completesCard": false,
+              "score": 3,
+              "cardInstanceId": "alien-yichangdian-3-3",
+              "triggerId": "y3-tech-pick",
+              "effectType": "pick_card"
+            }
+          ]
+        },
+        "baselineNext": [
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "pick-card",
+            "message": "棕色AI 精选公共牌 2",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：旋转",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：发射",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获取1 能量",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "move",
+              "score": 11.570474041262493,
+              "routeTarget": "mars",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 5,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -7
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：比邻星参与奖励：棕色 +1宣传",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 5,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 6,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "move",
+              "score": 132.53941250076417,
+              "routeTarget": "jupiter",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 land",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 5
+            },
+            "action": {
+              "id": "land",
+              "score": 106.628587864
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：获得 13 分",
+            "resources": {
+              "score": 58,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：获得 4 个数据",
+            "resources": {
+              "score": 71,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 placeData",
+            "resources": {
+              "score": 71,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 7,
+              "availableData": 4,
+              "handSize": 5
+            },
+            "action": {
+              "id": "placeData",
+              "score": 17.28709
+            }
+          }
+        ],
+        "candidateNext": [
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：旋转",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：发射",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：获取1 能量",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 4,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 11.796379321022776,
+              "routeTarget": "mars",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 5,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -7
+            }
+          },
+          {
+            "round": 3,
+            "turn": 3,
+            "type": "effect",
+            "message": "AI 处理效果：比邻星参与奖励：棕色 +1宣传",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 5,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 move",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 4,
+              "publicity": 6,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "move",
+              "score": 131.2521033577517,
+              "routeTarget": "jupiter",
+              "followupMainAction": "land"
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 land",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 3,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "land",
+              "score": 105.900095798
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：获得 10 分",
+            "resources": {
+              "score": 61,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：获得 4 能量",
+            "resources": {
+              "score": 71,
+              "credits": 6,
+              "energy": 2,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "turn-action",
+            "message": "棕色AI 执行 end-turn",
+            "resources": {
+              "score": 71,
+              "credits": 6,
+              "energy": 6,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            },
+            "action": {
+              "id": "end-turn",
+              "score": -0.5
+            }
+          },
+          {
+            "round": 3,
+            "turn": 4,
+            "type": "effect",
+            "message": "AI 处理效果：异常奖励 b_1：棕色玩家",
+            "resources": {
+              "score": 71,
+              "credits": 6,
+              "energy": 6,
+              "publicity": 7,
+              "availableData": 0,
+              "handSize": 4
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

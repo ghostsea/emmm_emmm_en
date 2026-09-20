@@ -1,0 +1,98 @@
+{
+  "status": "not-accepted",
+  "candidate": "d351b9faac3f22e48a65765591a8ef2f2e552cb8",
+  "baseline": "23626195a85ceeb4150115918783abde89158532",
+  "delta": {
+    "mean": -1.375,
+    "min": 10,
+    "p10": 0,
+    "p25": -0.25,
+    "median": -5.5,
+    "p75": -4.75,
+    "max": -3,
+    "topQuartileMean": 1.2916666666666856,
+    "winnerMean": 1.0833333333333712,
+    "minimumPerGameMean": 0.125,
+    "seats270Plus": 2,
+    "seats300Plus": 1
+  },
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 252.41666666666666,
+      "meanDelta": 0.8333333333333144,
+      "minimumDelta": 11
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 189.125,
+      "meanDelta": 1.0833333333333428,
+      "minimumDelta": 12
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 200.79166666666666,
+      "meanDelta": -8.25,
+      "minimumDelta": 0
+    }
+  },
+  "standardError": 1.118337761065988,
+  "checks": {
+    "games": 48,
+    "bugs": 0,
+    "ledgerSeats": 192,
+    "plays": 1135,
+    "unitTestFiles": 52
+  },
+  "choices": {
+    "choices": 70,
+    "changedFromFirstLegal": 21,
+    "completesCards": 2,
+    "positiveCompletionValue": 1,
+    "changedEffectTypes": {
+      "card_free_move": 1,
+      "runezu_symbol_reward": 6,
+      "gain_resources": 13,
+      "draw_cards": 1
+    },
+    "companies": {
+      "寰宇超动力": {
+        "choices": 15,
+        "changedFromFirstLegal": 6,
+        "completesCards": 0,
+        "positiveCompletionValue": 0,
+        "changedEffectTypes": {
+          "card_free_move": 1,
+          "gain_resources": 3,
+          "runezu_symbol_reward": 2
+        }
+      },
+      "作弊实验室": {
+        "choices": 34,
+        "changedFromFirstLegal": 10,
+        "completesCards": 0,
+        "positiveCompletionValue": 0,
+        "changedEffectTypes": {
+          "runezu_symbol_reward": 3,
+          "gain_resources": 7
+        }
+      },
+      "宇宙大战略集团": {
+        "choices": 21,
+        "changedFromFirstLegal": 5,
+        "completesCards": 2,
+        "positiveCompletionValue": 1,
+        "changedEffectTypes": {
+          "gain_resources": 3,
+          "runezu_symbol_reward": 1,
+          "draw_cards": 1
+        }
+      }
+    }
+  },
+  "reason": "Global reward ordering does not improve seen development mean and reduces Grand Strategy main actions1.25 and mean score8.25. Do not merge or spend fresh holdout validation on this version. Generic effect values mix constant launch/move/pick estimates with dynamic resource and threshold bonuses. Next work must price actual action continuation and resource conversion rather than company/seed gates or fixed reward constants.",
+  "scope": "First-divergence traces are mechanistic leads; final score changes involve other players and stochastic trajectories, not causal attribution to individual triggers."
+}

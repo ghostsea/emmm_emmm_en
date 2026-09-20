@@ -1,0 +1,3181 @@
+{
+  "scope": "Candidate decisions verify logged legal ranking and reward decomposition. Counts are observed choices, not causal score attribution or proof of every eventual reward receipt.",
+  "summary": {
+    "choices": 70,
+    "changedFromFirstLegal": 21,
+    "completesCards": 2,
+    "positiveCompletionValue": 1,
+    "changedEffectTypes": {
+      "card_free_move": 1,
+      "runezu_symbol_reward": 6,
+      "gain_resources": 13,
+      "draw_cards": 1
+    },
+    "companies": {
+      "寰宇超动力": {
+        "choices": 15,
+        "changedFromFirstLegal": 6,
+        "completesCards": 0,
+        "positiveCompletionValue": 0,
+        "changedEffectTypes": {
+          "card_free_move": 1,
+          "gain_resources": 3,
+          "runezu_symbol_reward": 2
+        }
+      },
+      "作弊实验室": {
+        "choices": 34,
+        "changedFromFirstLegal": 10,
+        "completesCards": 0,
+        "positiveCompletionValue": 0,
+        "changedEffectTypes": {
+          "runezu_symbol_reward": 3,
+          "gain_resources": 7
+        }
+      },
+      "宇宙大战略集团": {
+        "choices": 21,
+        "changedFromFirstLegal": 5,
+        "completesCards": 2,
+        "positiveCompletionValue": 1,
+        "changedEffectTypes": {
+          "gain_resources": 3,
+          "runezu_symbol_reward": 1,
+          "draw_cards": 1
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 3,
+      "log": 695,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.2,
+        "cardInstanceId": "card-35-pass-1-1",
+        "triggerId": "b2-visit-planet-energy",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b2-visit-planet-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 2,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b2-visit-planet-move",
+          "effectType": "card_free_move"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3.104,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.104,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b2-visit-planet-data",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 3,
+      "log": 700,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 3.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.5,
+        "cardInstanceId": "card-35-pass-1-1",
+        "triggerId": "b2-visit-planet-move",
+        "effectType": "card_free_move"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b2-visit-planet-move",
+          "effectType": "card_free_move"
+        },
+        {
+          "index": 0,
+          "rewardValue": 3.104,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.104,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b2-visit-planet-data",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 976,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 4.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.5,
+        "cardInstanceId": "alien-runezu-5-1",
+        "triggerId": "runezu5-trace-s5",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 4.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.5,
+          "cardInstanceId": "alien-runezu-5-1",
+          "triggerId": "runezu5-trace-s5",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 0,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "alien-runezu-5-1",
+          "triggerId": "runezu5-trace-s6",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 2,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "alien-runezu-5-1",
+          "triggerId": "runezu5-trace-s2",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 1046,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.3,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.3,
+        "cardInstanceId": "alien-runezu-5-1",
+        "triggerId": "runezu5-trace-s6",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "alien-runezu-5-1",
+          "triggerId": "runezu5-trace-s6",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "alien-runezu-5-1",
+          "triggerId": "runezu5-trace-s2",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "log": 1174,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.5,
+        "cardInstanceId": "card-84-0",
+        "triggerId": "b25-yellow-scan-move",
+        "effectType": "card_move"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-84-0",
+          "triggerId": "b25-yellow-scan-move",
+          "effectType": "card_move"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "log": 1232,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.5,
+        "cardInstanceId": "card-84-0",
+        "triggerId": "b25-red-scan-move",
+        "effectType": "card_move"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-84-0",
+          "triggerId": "b25-red-scan-move",
+          "effectType": "card_move"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "log": 1307,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.5,
+        "completionValue": 8,
+        "completesCard": true,
+        "score": 11.5,
+        "cardInstanceId": "card-84-0",
+        "triggerId": "b25-blue-scan-move",
+        "effectType": "card_move"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.5,
+          "completionValue": 8,
+          "completesCard": true,
+          "score": 11.5,
+          "cardInstanceId": "card-84-0",
+          "triggerId": "b25-blue-scan-move",
+          "effectType": "card_move"
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "log": 651,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 6,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6,
+        "cardInstanceId": "alien-runezu-6-4",
+        "triggerId": "runezu6-launch-s1",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6,
+          "cardInstanceId": "alien-runezu-6-4",
+          "triggerId": "runezu6-launch-s1",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-6-4",
+          "triggerId": "runezu6-launch-s7",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 1053,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 2.8529999999999998,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 2.8529999999999998,
+        "cardInstanceId": "card-107-0",
+        "triggerId": "dlc26-blue-tech-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 2.8529999999999998,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 2.8529999999999998,
+          "cardInstanceId": "card-107-0",
+          "triggerId": "dlc26-blue-tech-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 2.8529999999999998,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 2.8529999999999998,
+          "cardInstanceId": "card-107-0",
+          "triggerId": "dlc26-blue-tech-data-2",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 1121,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "alien-amiba-9-7",
+        "triggerId": "amiba9-blue-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-amiba-9-7",
+          "triggerId": "amiba9-blue-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-amiba-9-7",
+          "triggerId": "amiba9-blue-data-2",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 3,
+      "log": 939,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 13.923,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 13.923,
+        "cardInstanceId": "alien-runezu-6-2",
+        "triggerId": "runezu6-launch-s1",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 13.923,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 13.923,
+          "cardInstanceId": "alien-runezu-6-2",
+          "triggerId": "runezu6-launch-s1",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-runezu-6-2",
+          "triggerId": "runezu6-launch-s7",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "log": 1153,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "card-37-pass-1-3",
+        "triggerId": "b10-visit-asteroid-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-37-pass-1-3",
+          "triggerId": "b10-visit-asteroid-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-37-pass-1-3",
+          "triggerId": "b10-visit-asteroid-data-2",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 2,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-37-pass-1-3",
+          "triggerId": "b10-visit-asteroid-data-3",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 4,
+      "log": 1190,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "card-105-0",
+        "triggerId": "dlc26-blue-tech-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-105-0",
+          "triggerId": "dlc26-blue-tech-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-105-0",
+          "triggerId": "dlc26-blue-tech-data-2",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 802,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 2.833,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 2.833,
+        "cardInstanceId": "alien-amiba-9-2",
+        "triggerId": "amiba9-blue-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 2.833,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 2.833,
+          "cardInstanceId": "alien-amiba-9-2",
+          "triggerId": "amiba9-blue-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 2.833,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 2.833,
+          "cardInstanceId": "alien-amiba-9-2",
+          "triggerId": "amiba9-blue-data-2",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 985,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 19.354,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 19.354,
+        "cardInstanceId": "alien-amiba-2-8",
+        "triggerId": "amiba2-trace-publicity-1",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 19.354,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 19.354,
+          "cardInstanceId": "alien-amiba-2-8",
+          "triggerId": "amiba2-trace-publicity-1",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 19.354,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 19.354,
+          "cardInstanceId": "alien-amiba-2-8",
+          "triggerId": "amiba2-trace-publicity-2",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "log": 1451,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.2,
+        "cardInstanceId": "card-38-pass-1-4",
+        "triggerId": "dlc21-orbit-visit-energy-1",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-38-pass-1-4",
+          "triggerId": "dlc21-orbit-visit-energy-1",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-38-pass-1-4",
+          "triggerId": "dlc21-orbit-visit-energy-2",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "log": 1252,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 4.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.5,
+        "cardInstanceId": "alien-runezu-6-6",
+        "triggerId": "runezu6-launch-s7",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 4.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.5,
+          "cardInstanceId": "alien-runezu-6-6",
+          "triggerId": "runezu6-launch-s7",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 0,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "alien-runezu-6-6",
+          "triggerId": "runezu6-launch-s1",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "log": 333,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 10.741,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 10.741,
+        "cardInstanceId": "alien-amiba-2-4",
+        "triggerId": "amiba2-trace-publicity-1",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 10.741,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 10.741,
+          "cardInstanceId": "alien-amiba-2-4",
+          "triggerId": "amiba2-trace-publicity-1",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 10.741,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 10.741,
+          "cardInstanceId": "alien-amiba-2-4",
+          "triggerId": "amiba2-trace-publicity-2",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 751,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 6,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6,
+        "cardInstanceId": "card-96-0",
+        "triggerId": "b138-orbit-land-launch",
+        "effectType": "launch"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6,
+          "cardInstanceId": "card-96-0",
+          "triggerId": "b138-orbit-land-launch",
+          "effectType": "launch"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-96-0",
+          "triggerId": "b138-orbit-land-energy",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 4,
+      "log": 1480,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "card-76-0",
+        "triggerId": "dlc26-blue-tech-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-76-0",
+          "triggerId": "dlc26-blue-tech-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-76-0",
+          "triggerId": "dlc26-blue-tech-data-2",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 2,
+      "log": 557,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "alien-amiba-2-1",
+        "triggerId": "amiba2-trace-publicity-1",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-amiba-2-1",
+          "triggerId": "amiba2-trace-publicity-1",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-amiba-2-1",
+          "triggerId": "amiba2-trace-publicity-2",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 643,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 6.021,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6.021,
+        "cardInstanceId": "card-81-0",
+        "triggerId": "b111-scan-data",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 6.021,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6.021,
+          "cardInstanceId": "card-81-0",
+          "triggerId": "b111-scan-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "card-81-0",
+          "triggerId": "b111-scan-draw",
+          "effectType": "draw_cards"
+        },
+        {
+          "index": 2,
+          "rewardValue": 4,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4,
+          "cardInstanceId": "card-81-0",
+          "triggerId": "b111-scan-score",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 735,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.3,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.3,
+        "cardInstanceId": "card-81-0",
+        "triggerId": "b111-scan-draw",
+        "effectType": "draw_cards"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "card-81-0",
+          "triggerId": "b111-scan-draw",
+          "effectType": "draw_cards"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4,
+          "cardInstanceId": "card-81-0",
+          "triggerId": "b111-scan-score",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 2,
+      "log": 467,
+      "firstLegalIndex": 0,
+      "selectedIndex": 2,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 2,
+        "rewardValue": 14.55,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 14.55,
+        "cardInstanceId": "card-73-0",
+        "triggerId": "b57-launch-score",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 2,
+          "rewardValue": 14.55,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 14.55,
+          "cardInstanceId": "card-73-0",
+          "triggerId": "b57-launch-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 8.453,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 8.453,
+          "cardInstanceId": "card-73-0",
+          "triggerId": "b57-launch-credit",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "card-73-0",
+          "triggerId": "b57-launch-pick",
+          "effectType": "pick_card"
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 565,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.5,
+        "cardInstanceId": "card-71-0",
+        "triggerId": "b25-yellow-scan-move",
+        "effectType": "card_move"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-71-0",
+          "triggerId": "b25-yellow-scan-move",
+          "effectType": "card_move"
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 570,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.5,
+        "cardInstanceId": "card-71-0",
+        "triggerId": "b25-red-scan-move",
+        "effectType": "card_move"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-71-0",
+          "triggerId": "b25-red-scan-move",
+          "effectType": "card_move"
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 575,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.5,
+        "completionValue": 0,
+        "completesCard": true,
+        "score": 3.5,
+        "cardInstanceId": "card-71-0",
+        "triggerId": "b25-blue-scan-move",
+        "effectType": "card_move"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": true,
+          "score": 3.5,
+          "cardInstanceId": "card-71-0",
+          "triggerId": "b25-blue-scan-move",
+          "effectType": "card_move"
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 3,
+      "log": 716,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 10.917,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 10.917,
+        "cardInstanceId": "card-73-0",
+        "triggerId": "b57-launch-credit",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 10.917,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 10.917,
+          "cardInstanceId": "card-73-0",
+          "triggerId": "b57-launch-credit",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "card-73-0",
+          "triggerId": "b57-launch-pick",
+          "effectType": "pick_card"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "log": 388,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 6.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6.2,
+        "cardInstanceId": "card-71-0",
+        "triggerId": "b138-orbit-land-energy",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 6.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6.2,
+          "cardInstanceId": "card-71-0",
+          "triggerId": "b138-orbit-land-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6,
+          "cardInstanceId": "card-71-0",
+          "triggerId": "b138-orbit-land-launch",
+          "effectType": "launch"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 2,
+      "log": 557,
+      "firstLegalIndex": 0,
+      "selectedIndex": 2,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 2,
+        "rewardValue": 12.374999999999998,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 12.374999999999998,
+        "cardInstanceId": "alien-yichangdian-3-4",
+        "triggerId": "y3-tech-score",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 2,
+          "rewardValue": 12.374999999999998,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 12.374999999999998,
+          "cardInstanceId": "alien-yichangdian-3-4",
+          "triggerId": "y3-tech-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 6.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6.2,
+          "cardInstanceId": "alien-yichangdian-3-4",
+          "triggerId": "y3-tech-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-yichangdian-3-4",
+          "triggerId": "y3-tech-pick",
+          "effectType": "pick_card"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 688,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 23.2895,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 23.2895,
+        "cardInstanceId": "alien-runezu-5-2",
+        "triggerId": "runezu5-trace-s6",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 23.2895,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 23.2895,
+          "cardInstanceId": "alien-runezu-5-2",
+          "triggerId": "runezu5-trace-s6",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "alien-runezu-5-2",
+          "triggerId": "runezu5-trace-s5",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 2,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-5-2",
+          "triggerId": "runezu5-trace-s2",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 3,
+      "log": 707,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.2,
+        "cardInstanceId": "alien-yichangdian-3-4",
+        "triggerId": "y3-tech-energy",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "alien-yichangdian-3-4",
+          "triggerId": "y3-tech-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-yichangdian-3-4",
+          "triggerId": "y3-tech-pick",
+          "effectType": "pick_card"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 805,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 7.395,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 7.395,
+        "cardInstanceId": "alien-runezu-2-5",
+        "triggerId": "runezu2-orbit-land-s4",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 7.395,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 7.395,
+          "cardInstanceId": "alien-runezu-2-5",
+          "triggerId": "runezu2-orbit-land-s4",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 0,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": true,
+          "score": 6,
+          "cardInstanceId": "card-71-0",
+          "triggerId": "b138-orbit-land-launch",
+          "effectType": "launch"
+        },
+        {
+          "index": 2,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "alien-runezu-2-5",
+          "triggerId": "runezu2-orbit-land-s5",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 3,
+          "rewardValue": 2.673,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 2.673,
+          "cardInstanceId": "alien-runezu-2-5",
+          "triggerId": "runezu2-orbit-land-s3",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 847,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 13.923,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 13.923,
+        "cardInstanceId": "alien-runezu-5-2",
+        "triggerId": "runezu5-trace-s2",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 13.923,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 13.923,
+          "cardInstanceId": "alien-runezu-5-2",
+          "triggerId": "runezu5-trace-s2",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 0,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "alien-runezu-5-2",
+          "triggerId": "runezu5-trace-s5",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 2,
+      "log": 308,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 7.41,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 7.41,
+        "cardInstanceId": "card-61-0",
+        "triggerId": "b138-orbit-land-energy",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 7.41,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 7.41,
+          "cardInstanceId": "card-61-0",
+          "triggerId": "b138-orbit-land-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6,
+          "cardInstanceId": "card-61-0",
+          "triggerId": "b138-orbit-land-launch",
+          "effectType": "launch"
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 947,
+      "firstLegalIndex": 0,
+      "selectedIndex": 2,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 2,
+        "rewardValue": 11.58,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 11.58,
+        "cardInstanceId": "alien-aomomo-1-9",
+        "triggerId": "aomomo1-trace-score",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 2,
+          "rewardValue": 11.58,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 11.58,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 3.248,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.248,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-publicity",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "log": 1398,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 12.82,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 12.82,
+        "cardInstanceId": "alien-aomomo-1-9",
+        "triggerId": "aomomo1-trace-publicity",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 12.82,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 12.82,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-publicity",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-data",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 947,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 4.3,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.3,
+        "cardInstanceId": "card-35-pass-1-1",
+        "triggerId": "b111-scan-draw",
+        "effectType": "draw_cards"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b111-scan-draw",
+          "effectType": "draw_cards"
+        },
+        {
+          "index": 0,
+          "rewardValue": 4.27,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.27,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b111-scan-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 2,
+          "rewardValue": 4,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b111-scan-score",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 1048,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.27,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.27,
+        "cardInstanceId": "card-35-pass-1-1",
+        "triggerId": "b111-scan-data",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.27,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.27,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b111-scan-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4,
+          "cardInstanceId": "card-35-pass-1-1",
+          "triggerId": "b111-scan-score",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "log": 1467,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 6,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6,
+        "cardInstanceId": "card-132-0",
+        "triggerId": "b138-orbit-land-launch",
+        "effectType": "launch"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6,
+          "cardInstanceId": "card-132-0",
+          "triggerId": "b138-orbit-land-launch",
+          "effectType": "launch"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-132-0",
+          "triggerId": "b138-orbit-land-energy",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 2,
+      "log": 351,
+      "firstLegalIndex": 0,
+      "selectedIndex": 2,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 2,
+        "rewardValue": 9.6,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 9.6,
+        "cardInstanceId": "alien-yichangdian-3-1",
+        "triggerId": "y3-tech-score",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 2,
+          "rewardValue": 9.6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 9.6,
+          "cardInstanceId": "alien-yichangdian-3-1",
+          "triggerId": "y3-tech-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 6.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6.2,
+          "cardInstanceId": "alien-yichangdian-3-1",
+          "triggerId": "y3-tech-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-yichangdian-3-1",
+          "triggerId": "y3-tech-pick",
+          "effectType": "pick_card"
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 2,
+      "log": 436,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 6.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6.2,
+        "cardInstanceId": "alien-yichangdian-3-1",
+        "triggerId": "y3-tech-energy",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 6.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6.2,
+          "cardInstanceId": "alien-yichangdian-3-1",
+          "triggerId": "y3-tech-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-yichangdian-3-1",
+          "triggerId": "y3-tech-pick",
+          "effectType": "pick_card"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "log": 393,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.5,
+        "cardInstanceId": "card-65-0",
+        "triggerId": "b20-launch-move-1",
+        "effectType": "card_free_move"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-65-0",
+          "triggerId": "b20-launch-move-1",
+          "effectType": "card_free_move"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-65-0",
+          "triggerId": "b20-launch-move-2",
+          "effectType": "card_free_move"
+        },
+        {
+          "index": 2,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-65-0",
+          "triggerId": "b20-launch-move-3",
+          "effectType": "card_free_move"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 3,
+      "log": 1075,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 4.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.2,
+        "cardInstanceId": "alien-runezu-6-9",
+        "triggerId": "runezu6-launch-s7",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "alien-runezu-6-9",
+          "triggerId": "runezu6-launch-s7",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 0,
+          "rewardValue": 3.0149999999999997,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.0149999999999997,
+          "cardInstanceId": "alien-runezu-6-9",
+          "triggerId": "runezu6-launch-s1",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "log": 1147,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.5,
+        "cardInstanceId": "card-65-0",
+        "triggerId": "b20-launch-move-2",
+        "effectType": "card_free_move"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-65-0",
+          "triggerId": "b20-launch-move-2",
+          "effectType": "card_free_move"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.5,
+          "cardInstanceId": "card-65-0",
+          "triggerId": "b20-launch-move-3",
+          "effectType": "card_free_move"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "log": 1396,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.5,
+        "cardInstanceId": "alien-runezu-2-7",
+        "triggerId": "runezu2-orbit-land-s4",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.5,
+          "cardInstanceId": "alien-runezu-2-7",
+          "triggerId": "runezu2-orbit-land-s4",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "alien-runezu-2-7",
+          "triggerId": "runezu2-orbit-land-s5",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 2,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-2-7",
+          "triggerId": "runezu2-orbit-land-s3",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 17,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 4,
+      "log": 1197,
+      "firstLegalIndex": 1,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 1,
+        "rewardValue": 4.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.2,
+        "cardInstanceId": "card-123-0",
+        "triggerId": "b138-orbit-land-energy",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-123-0",
+          "triggerId": "b138-orbit-land-energy",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 17,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "log": 1283,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.2,
+        "cardInstanceId": "card-66-0",
+        "triggerId": "dlc21-orbit-visit-energy-1",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-66-0",
+          "triggerId": "dlc21-orbit-visit-energy-1",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-66-0",
+          "triggerId": "dlc21-orbit-visit-energy-2",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 18,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 2,
+      "log": 556,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 10.309999999999999,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 10.309999999999999,
+        "cardInstanceId": "alien-aomomo-1-9",
+        "triggerId": "aomomo1-trace-publicity",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 10.309999999999999,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 10.309999999999999,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-publicity",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 3.851,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.851,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 2,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-score",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 18,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 785,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.176,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.176,
+        "cardInstanceId": "alien-aomomo-1-9",
+        "triggerId": "aomomo1-trace-data",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.176,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.176,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-aomomo-1-9",
+          "triggerId": "aomomo1-trace-score",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 822,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "card-91-0",
+        "triggerId": "dlc25-purple-tech-public-scan-1",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-91-0",
+          "triggerId": "dlc25-purple-tech-public-scan-1",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-91-0",
+          "triggerId": "dlc25-purple-tech-public-scan-2",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 874,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 3.468,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.468,
+        "cardInstanceId": "alien-aomomo-1-4",
+        "triggerId": "aomomo1-trace-publicity",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 3.468,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.468,
+          "cardInstanceId": "alien-aomomo-1-4",
+          "triggerId": "aomomo1-trace-publicity",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 2,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-aomomo-1-4",
+          "triggerId": "aomomo1-trace-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 2.77,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 2.77,
+          "cardInstanceId": "alien-aomomo-1-4",
+          "triggerId": "aomomo1-trace-data",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "log": 1062,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 3,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3,
+        "cardInstanceId": "alien-aomomo-1-4",
+        "triggerId": "aomomo1-trace-score",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-aomomo-1-4",
+          "triggerId": "aomomo1-trace-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 2.842,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 2.842,
+          "cardInstanceId": "alien-aomomo-1-4",
+          "triggerId": "aomomo1-trace-data",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 1081,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 15.68,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 15.68,
+        "cardInstanceId": "card-68-0",
+        "triggerId": "dlc21-orbit-visit-energy-1",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 15.68,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 15.68,
+          "cardInstanceId": "card-68-0",
+          "triggerId": "dlc21-orbit-visit-energy-1",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 15.68,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 15.68,
+          "cardInstanceId": "card-68-0",
+          "triggerId": "dlc21-orbit-visit-energy-2",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 2,
+      "log": 442,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 6.45,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6.45,
+        "cardInstanceId": "card-12-0",
+        "triggerId": "b111-scan-data",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 6.45,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6.45,
+          "cardInstanceId": "card-12-0",
+          "triggerId": "b111-scan-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "card-12-0",
+          "triggerId": "b111-scan-draw",
+          "effectType": "draw_cards"
+        },
+        {
+          "index": 2,
+          "rewardValue": 4,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4,
+          "cardInstanceId": "card-12-0",
+          "triggerId": "b111-scan-score",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 2,
+      "log": 546,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 10.05,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 10.05,
+        "cardInstanceId": "card-12-0",
+        "triggerId": "b111-scan-score",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 10.05,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 10.05,
+          "cardInstanceId": "card-12-0",
+          "triggerId": "b111-scan-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "card-12-0",
+          "triggerId": "b111-scan-draw",
+          "effectType": "draw_cards"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 2,
+      "log": 586,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 3.763,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 3.763,
+        "cardInstanceId": "card-70-0",
+        "triggerId": "b10-visit-asteroid-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 3.763,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.763,
+          "cardInstanceId": "card-70-0",
+          "triggerId": "b10-visit-asteroid-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3.763,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.763,
+          "cardInstanceId": "card-70-0",
+          "triggerId": "b10-visit-asteroid-data-2",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 2,
+          "rewardValue": 3.763,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3.763,
+          "cardInstanceId": "card-70-0",
+          "triggerId": "b10-visit-asteroid-data-3",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 2,
+      "log": 678,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 20.1875,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 20.1875,
+        "cardInstanceId": "alien-runezu-6-3",
+        "triggerId": "runezu6-launch-s1",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 20.1875,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 20.1875,
+          "cardInstanceId": "alien-runezu-6-3",
+          "triggerId": "runezu6-launch-s1",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 1,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6,
+          "cardInstanceId": "alien-runezu-6-3",
+          "triggerId": "runezu6-launch-s7",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 1151,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.585,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.585,
+        "cardInstanceId": "card-70-0",
+        "triggerId": "b10-visit-asteroid-data-2",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.585,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.585,
+          "cardInstanceId": "card-70-0",
+          "triggerId": "b10-visit-asteroid-data-2",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.585,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.585,
+          "cardInstanceId": "card-70-0",
+          "triggerId": "b10-visit-asteroid-data-3",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "log": 1347,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.3,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.3,
+        "cardInstanceId": "alien-runezu-5-4",
+        "triggerId": "runezu5-trace-s6",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "alien-runezu-5-4",
+          "triggerId": "runezu5-trace-s6",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-5-4",
+          "triggerId": "runezu5-trace-s5",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 2,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-5-4",
+          "triggerId": "runezu5-trace-s2",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "log": 1356,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "alien-runezu-5-4",
+        "triggerId": "runezu5-trace-s5",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-5-4",
+          "triggerId": "runezu5-trace-s5",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-5-4",
+          "triggerId": "runezu5-trace-s2",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 4,
+      "log": 1504,
+      "firstLegalIndex": 0,
+      "selectedIndex": 3,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 3,
+        "rewardValue": 8.036999999999999,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 8.036999999999999,
+        "cardInstanceId": "alien-runezu-2-1",
+        "triggerId": "runezu2-orbit-land-s5",
+        "effectType": "runezu_symbol_reward"
+      },
+      "candidates": [
+        {
+          "index": 3,
+          "rewardValue": 8.036999999999999,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 8.036999999999999,
+          "cardInstanceId": "alien-runezu-2-1",
+          "triggerId": "runezu2-orbit-land-s5",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 0,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6,
+          "cardInstanceId": "card-110-0",
+          "triggerId": "b138-orbit-land-launch",
+          "effectType": "launch"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-110-0",
+          "triggerId": "b138-orbit-land-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 4,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "alien-runezu-2-1",
+          "triggerId": "runezu2-orbit-land-s3",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 2,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-2-1",
+          "triggerId": "runezu2-orbit-land-s4",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 4,
+      "log": 1562,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 6,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6,
+        "cardInstanceId": "card-110-0",
+        "triggerId": "b138-orbit-land-launch",
+        "effectType": "launch"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 6,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6,
+          "cardInstanceId": "card-110-0",
+          "triggerId": "b138-orbit-land-launch",
+          "effectType": "launch"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "card-110-0",
+          "triggerId": "b138-orbit-land-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 3,
+          "rewardValue": 4.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.2,
+          "cardInstanceId": "alien-runezu-2-1",
+          "triggerId": "runezu2-orbit-land-s3",
+          "effectType": "runezu_symbol_reward"
+        },
+        {
+          "index": 2,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-runezu-2-1",
+          "triggerId": "runezu2-orbit-land-s4",
+          "effectType": "runezu_symbol_reward"
+        }
+      ]
+    },
+    {
+      "case": 21,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "log": 1299,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "card-100-0",
+        "triggerId": "dlc26-blue-tech-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-100-0",
+          "triggerId": "dlc26-blue-tech-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "card-100-0",
+          "triggerId": "dlc26-blue-tech-data-2",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 22,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 851,
+      "firstLegalIndex": 0,
+      "selectedIndex": 2,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 2,
+        "rewardValue": 42.519999999999996,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 42.519999999999996,
+        "cardInstanceId": "card-99-0",
+        "triggerId": "b111-scan-score",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 2,
+          "rewardValue": 42.519999999999996,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 42.519999999999996,
+          "cardInstanceId": "card-99-0",
+          "triggerId": "b111-scan-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 4.333,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.333,
+          "cardInstanceId": "card-99-0",
+          "triggerId": "b111-scan-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "card-99-0",
+          "triggerId": "b111-scan-draw",
+          "effectType": "draw_cards"
+        }
+      ]
+    },
+    {
+      "case": 22,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 930,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 4.353,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 4.353,
+        "cardInstanceId": "card-99-0",
+        "triggerId": "b111-scan-data",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 4.353,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.353,
+          "cardInstanceId": "card-99-0",
+          "triggerId": "b111-scan-data",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 4.3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 4.3,
+          "cardInstanceId": "card-99-0",
+          "triggerId": "b111-scan-draw",
+          "effectType": "draw_cards"
+        }
+      ]
+    },
+    {
+      "case": 22,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 1070,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "alien-amiba-9-8",
+        "triggerId": "amiba9-blue-data-1",
+        "effectType": "gain_data"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-amiba-9-8",
+          "triggerId": "amiba9-blue-data-1",
+          "effectType": "gain_data"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-amiba-9-8",
+          "triggerId": "amiba9-blue-data-2",
+          "effectType": "gain_data"
+        }
+      ]
+    },
+    {
+      "case": 22,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "log": 1356,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 1.5,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 1.5,
+        "cardInstanceId": "alien-amiba-2-1",
+        "triggerId": "amiba2-trace-publicity-1",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-amiba-2-1",
+          "triggerId": "amiba2-trace-publicity-1",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 1.5,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 1.5,
+          "cardInstanceId": "alien-amiba-2-1",
+          "triggerId": "amiba2-trace-publicity-2",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 24,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 2,
+      "log": 581,
+      "firstLegalIndex": 0,
+      "selectedIndex": 0,
+      "changedFromFirstLegal": false,
+      "selected": {
+        "index": 0,
+        "rewardValue": 6.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6.2,
+        "cardInstanceId": "alien-yichangdian-3-3",
+        "triggerId": "y3-tech-energy",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 6.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 6.2,
+          "cardInstanceId": "alien-yichangdian-3-3",
+          "triggerId": "y3-tech-energy",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 1,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-yichangdian-3-3",
+          "triggerId": "y3-tech-pick",
+          "effectType": "pick_card"
+        },
+        {
+          "index": 2,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-yichangdian-3-3",
+          "triggerId": "y3-tech-score",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    {
+      "case": 24,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 3,
+      "log": 821,
+      "firstLegalIndex": 0,
+      "selectedIndex": 1,
+      "changedFromFirstLegal": true,
+      "selected": {
+        "index": 1,
+        "rewardValue": 11.31,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 11.31,
+        "cardInstanceId": "alien-yichangdian-3-3",
+        "triggerId": "y3-tech-score",
+        "effectType": "gain_resources"
+      },
+      "candidates": [
+        {
+          "index": 1,
+          "rewardValue": 11.31,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 11.31,
+          "cardInstanceId": "alien-yichangdian-3-3",
+          "triggerId": "y3-tech-score",
+          "effectType": "gain_resources"
+        },
+        {
+          "index": 0,
+          "rewardValue": 3,
+          "completionValue": 0,
+          "completesCard": false,
+          "score": 3,
+          "cardInstanceId": "alien-yichangdian-3-3",
+          "triggerId": "y3-tech-pick",
+          "effectType": "pick_card"
+        }
+      ]
+    }
+  ]
+}
