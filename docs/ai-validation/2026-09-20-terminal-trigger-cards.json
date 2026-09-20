@@ -1,0 +1,2032 @@
+{
+  "scope": "Final-round pure trigger cards in full fixed24 default logs. Trigger chooser logs plus payment-step label receipts are evidence, not full instance telemetry; shared labels can be ambiguous. Final retained instance proves at least an unconsumed trigger remains. No-trace is a diagnostic, not proof of missed obtainable reward. No source changes.",
+  "summary": {
+    "plays": 17,
+    "noTriggerEvidence": 16,
+    "stillReserved": 17,
+    "nextPassNoTrigger": 10
+  },
+  "companies": {
+    "宇宙大战略集团": {
+      "plays": 7,
+      "noTriggerEvidence": 6,
+      "stillReserved": 7,
+      "nextPassNoTrigger": 3
+    },
+    "作弊实验室": {
+      "plays": 6,
+      "noTriggerEvidence": 6,
+      "stillReserved": 6,
+      "nextPassNoTrigger": 5
+    },
+    "寰宇超动力": {
+      "plays": 4,
+      "noTriggerEvidence": 4,
+      "stillReserved": 4,
+      "nextPassNoTrigger": 2
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 8,
+      "logId": 1456,
+      "cardId": "runezu_2.webp",
+      "cardInstanceId": "alien-runezu-2-9",
+      "label": "runezu_2.webp",
+      "score": 31.5321,
+      "cost": {},
+      "resources": {
+        "score": 121,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 10.45,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 10.6,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "runezu2-orbit-land-s4",
+          "event": {
+            "types": [
+              "orbit",
+              "land"
+            ]
+          },
+          "effect": {
+            "id": "runezu2-s4",
+            "type": "runezu_symbol_reward",
+            "label": "符文族2：环绕或登陆，符文4奖励",
+            "icon": "symbol_4",
+            "options": {
+              "symbolId": "symbol_4"
+            }
+          }
+        },
+        {
+          "id": "runezu2-orbit-land-s5",
+          "event": {
+            "types": [
+              "orbit",
+              "land"
+            ]
+          },
+          "effect": {
+            "id": "runezu2-s5",
+            "type": "runezu_symbol_reward",
+            "label": "符文族2：环绕或登陆，符文5奖励",
+            "icon": "symbol_5",
+            "options": {
+              "symbolId": "symbol_5"
+            }
+          }
+        },
+        {
+          "id": "runezu2-orbit-land-s3",
+          "event": {
+            "types": [
+              "orbit",
+              "land"
+            ]
+          },
+          "effect": {
+            "id": "runezu2-s3",
+            "type": "runezu_symbol_reward",
+            "label": "符文族2：环绕或登陆，符文3奖励",
+            "icon": "symbol_3",
+            "options": {
+              "symbolId": "symbol_3"
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "playCard",
+        "round": 4,
+        "turn": 9,
+        "resources": {
+          "score": 121,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 2,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "logId": 1618,
+      "cardId": "b_20.webp",
+      "cardInstanceId": "card-176-0",
+      "label": "卡纳维拉尔角太空军基地",
+      "score": 1.2139999999999986,
+      "cost": {
+        "credits": 1
+      },
+      "resources": {
+        "score": 169,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "breakdown": {
+        "costValue": 4.5,
+        "cornerOpportunity": 3,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 18
+      },
+      "triggers": [
+        {
+          "id": "b20-launch-move-1",
+          "event": {
+            "type": "launch"
+          },
+          "effect": {
+            "id": "b20-free-move-1",
+            "type": "card_free_move",
+            "label": "卡纳维拉尔角：发射后1免费移动 1/3",
+            "icon": "movement",
+            "options": {
+              "movementPoints": 1
+            }
+          }
+        },
+        {
+          "id": "b20-launch-move-2",
+          "event": {
+            "type": "launch"
+          },
+          "effect": {
+            "id": "b20-free-move-2",
+            "type": "card_free_move",
+            "label": "卡纳维拉尔角：发射后1免费移动 2/3",
+            "icon": "movement",
+            "options": {
+              "movementPoints": 1
+            }
+          }
+        },
+        {
+          "id": "b20-launch-move-3",
+          "event": {
+            "type": "launch"
+          },
+          "effect": {
+            "id": "b20-free-move-3",
+            "type": "card_free_move",
+            "label": "卡纳维拉尔角：发射后1免费移动 3/3",
+            "icon": "movement",
+            "options": {
+              "movementPoints": 1
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 11,
+        "resources": {
+          "score": 169,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 0
+        }
+      }
+    },
+    {
+      "case": 4,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 6,
+      "logId": 1443,
+      "cardId": "b_71.webp",
+      "cardInstanceId": "card-180-0",
+      "label": "水手10号任务",
+      "score": 20.7064,
+      "cost": {},
+      "resources": {
+        "score": 125,
+        "credits": 1,
+        "energy": 5,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 6
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 1.5,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 8.4,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "b71-mercury-draw",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "mercury"
+            ]
+          },
+          "effect": {
+            "id": "b71-mercury-draw-effect",
+            "type": "draw_cards",
+            "label": "访问水星：1盲抽",
+            "icon": "blind_card",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "b71-venus-publicity",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "venus"
+            ]
+          },
+          "effect": {
+            "id": "b71-venus-publicity-effect",
+            "type": "gain_resources",
+            "label": "访问金星：1宣传",
+            "icon": "publicity",
+            "options": {
+              "gain": {
+                "publicity": 1
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [
+        {
+          "entryId": 168,
+          "turn": 6,
+          "text": "卡牌触发：访问金星：1宣传",
+          "gain": {}
+        }
+      ],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "researchTech",
+        "round": 4,
+        "turn": 7,
+        "resources": {
+          "score": 127,
+          "credits": 1,
+          "energy": 6,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 5,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 4,
+      "turn": 7,
+      "logId": 1464,
+      "cardId": "runezu_2.webp",
+      "cardInstanceId": "alien-runezu-2-9",
+      "label": "runezu_2.webp",
+      "score": 18.883999999999997,
+      "cost": {},
+      "resources": {
+        "score": 81,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 6,
+        "handSize": 1
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 3,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 5,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "runezu2-orbit-land-s4",
+          "event": {
+            "types": [
+              "orbit",
+              "land"
+            ]
+          },
+          "effect": {
+            "id": "runezu2-s4",
+            "type": "runezu_symbol_reward",
+            "label": "符文族2：环绕或登陆，符文4奖励",
+            "icon": "symbol_4",
+            "options": {
+              "symbolId": "symbol_4"
+            }
+          }
+        },
+        {
+          "id": "runezu2-orbit-land-s5",
+          "event": {
+            "types": [
+              "orbit",
+              "land"
+            ]
+          },
+          "effect": {
+            "id": "runezu2-s5",
+            "type": "runezu_symbol_reward",
+            "label": "符文族2：环绕或登陆，符文5奖励",
+            "icon": "symbol_5",
+            "options": {
+              "symbolId": "symbol_5"
+            }
+          }
+        },
+        {
+          "id": "runezu2-orbit-land-s3",
+          "event": {
+            "types": [
+              "orbit",
+              "land"
+            ]
+          },
+          "effect": {
+            "id": "runezu2-s3",
+            "type": "runezu_symbol_reward",
+            "label": "符文族2：环绕或登陆，符文3奖励",
+            "icon": "symbol_3",
+            "options": {
+              "symbolId": "symbol_3"
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 8,
+        "resources": {
+          "score": 81,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 6,
+          "handSize": 0
+        }
+      }
+    },
+    {
+      "case": 5,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 8,
+      "logId": 1489,
+      "cardId": "b_26.webp",
+      "cardInstanceId": "card-184-0",
+      "label": "康奈尔大学",
+      "score": 19.279999999999998,
+      "cost": {
+        "credits": 1
+      },
+      "resources": {
+        "score": 162,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 7,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "breakdown": {
+        "costValue": 4.5,
+        "cornerOpportunity": 3,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 3
+      },
+      "triggers": [
+        {
+          "id": "b26-publicity-corner",
+          "event": {
+            "type": "cardCorner",
+            "cornerKind": "publicity"
+          },
+          "effect": {
+            "id": "b26-publicity-corner-repeat",
+            "type": "card_corner_event_reward",
+            "label": "康奈尔大学：再获得一次宣传角标奖励",
+            "icon": "publicity",
+            "options": {}
+          }
+        },
+        {
+          "id": "b26-data-corner",
+          "event": {
+            "type": "cardCorner",
+            "cornerKind": "data"
+          },
+          "effect": {
+            "id": "b26-data-corner-repeat",
+            "type": "card_corner_event_reward",
+            "label": "康奈尔大学：再获得一次数据角标奖励",
+            "icon": "data",
+            "options": {}
+          }
+        },
+        {
+          "id": "b26-move-corner",
+          "event": {
+            "type": "cardCorner",
+            "cornerKind": "move"
+          },
+          "effect": {
+            "id": "b26-move-corner-repeat",
+            "type": "card_corner_event_reward",
+            "label": "康奈尔大学：再获得一次移动角标奖励",
+            "icon": "movement",
+            "options": {}
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "playCard",
+        "round": 4,
+        "turn": 9,
+        "resources": {
+          "score": 162,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 5,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 10,
+      "logId": 1514,
+      "cardId": "dlc_26.png",
+      "cardInstanceId": "card-130-0",
+      "label": "新型AI模型",
+      "score": 13.3468,
+      "cost": {},
+      "resources": {
+        "score": 85,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 3,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 2.8,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "dlc26-blue-tech-data-1",
+          "event": {
+            "type": "researchTech",
+            "techType": "blue"
+          },
+          "effect": {
+            "id": "dlc26-data-1",
+            "type": "gain_data",
+            "label": "蓝色科技：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "dlc26-blue-tech-data-2",
+          "event": {
+            "type": "researchTech",
+            "techType": "blue"
+          },
+          "effect": {
+            "id": "dlc26-data-2",
+            "type": "gain_data",
+            "label": "蓝色科技：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 10,
+        "resources": {
+          "score": 85,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 6,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 9,
+      "logId": 1415,
+      "cardId": "b_20.webp",
+      "cardInstanceId": "card-175-0",
+      "label": "卡纳维拉尔角太空军基地",
+      "score": 5.575799999999999,
+      "cost": {
+        "credits": 1
+      },
+      "resources": {
+        "score": 131,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "breakdown": {
+        "costValue": 4.5,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 2.8,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 3
+      },
+      "triggers": [
+        {
+          "id": "b20-launch-move-1",
+          "event": {
+            "type": "launch"
+          },
+          "effect": {
+            "id": "b20-free-move-1",
+            "type": "card_free_move",
+            "label": "卡纳维拉尔角：发射后1免费移动 1/3",
+            "icon": "movement",
+            "options": {
+              "movementPoints": 1
+            }
+          }
+        },
+        {
+          "id": "b20-launch-move-2",
+          "event": {
+            "type": "launch"
+          },
+          "effect": {
+            "id": "b20-free-move-2",
+            "type": "card_free_move",
+            "label": "卡纳维拉尔角：发射后1免费移动 2/3",
+            "icon": "movement",
+            "options": {
+              "movementPoints": 1
+            }
+          }
+        },
+        {
+          "id": "b20-launch-move-3",
+          "event": {
+            "type": "launch"
+          },
+          "effect": {
+            "id": "b20-free-move-3",
+            "type": "card_free_move",
+            "label": "卡纳维拉尔角：发射后1免费移动 3/3",
+            "icon": "movement",
+            "options": {
+              "movementPoints": 1
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 10,
+        "resources": {
+          "score": 131,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 6,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 8,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "round": 4,
+      "turn": 12,
+      "logId": 1673,
+      "cardId": "b_92.webp",
+      "cardInstanceId": "card-189-0",
+      "label": "先驱者11号任务",
+      "score": 7.975,
+      "cost": {},
+      "resources": {
+        "score": 143,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "b92-jupiter-data",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "jupiter"
+            ]
+          },
+          "effect": {
+            "id": "b92-jupiter-data-effect",
+            "type": "gain_data",
+            "label": "访问木星：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "b92-saturn-energy",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "saturn"
+            ]
+          },
+          "effect": {
+            "id": "b92-saturn-energy-effect",
+            "type": "gain_resources",
+            "label": "访问土星：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 13,
+        "resources": {
+          "score": 143,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 1
+        }
+      }
+    },
+    {
+      "case": 9,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 9,
+      "logId": 1540,
+      "cardId": "b_140.webp",
+      "cardInstanceId": "card-138-0",
+      "label": "火星轨遒门户",
+      "score": 3.182000000000002,
+      "cost": {
+        "credits": 1
+      },
+      "resources": {
+        "score": 172,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "breakdown": {
+        "costValue": 4.5,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 14
+      },
+      "triggers": [
+        {
+          "id": "b140-mars-orbit-land-publicity",
+          "event": {
+            "types": [
+              "orbit",
+              "land",
+              "playCard"
+            ],
+            "planetIds": [
+              "mars"
+            ],
+            "cardIds": [
+              "b_72.webp",
+              "b_73.webp",
+              "b_74.webp",
+              "b_91.webp"
+            ]
+          },
+          "effect": {
+            "id": "b140-publicity",
+            "type": "gain_resources",
+            "label": "火星环绕/登陆或打出火星相关牌：2宣传",
+            "icon": "publicity",
+            "options": {
+              "gain": {
+                "publicity": 2
+              }
+            }
+          }
+        },
+        {
+          "id": "b140-mars-orbit-land-score",
+          "event": {
+            "types": [
+              "orbit",
+              "land",
+              "playCard"
+            ],
+            "planetIds": [
+              "mars"
+            ],
+            "cardIds": [
+              "b_72.webp",
+              "b_73.webp",
+              "b_74.webp",
+              "b_91.webp"
+            ]
+          },
+          "effect": {
+            "id": "b140-score",
+            "type": "gain_resources",
+            "label": "火星环绕/登陆或打出火星相关牌：5分",
+            "icon": "score",
+            "options": {
+              "gain": {
+                "score": 5
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 10,
+        "resources": {
+          "score": 172,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 0
+        }
+      }
+    },
+    {
+      "case": 10,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "round": 4,
+      "turn": 11,
+      "logId": 1582,
+      "cardId": "dlc_21.png",
+      "cardInstanceId": "card-145-0",
+      "label": "轨道加注",
+      "score": 11.5758,
+      "cost": {},
+      "resources": {
+        "score": 140,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 3,
+        "handSize": 4
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 2.8,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "dlc21-orbit-visit-energy-1",
+          "event": {
+            "type": "visitPlanet",
+            "requiresOwnOrbit": true
+          },
+          "effect": {
+            "id": "dlc21-energy-1",
+            "type": "gain_resources",
+            "label": "访问有自己环绕的星球：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        },
+        {
+          "id": "dlc21-orbit-visit-energy-2",
+          "event": {
+            "type": "visitPlanet",
+            "requiresOwnOrbit": true
+          },
+          "effect": {
+            "id": "dlc21-energy-2",
+            "type": "gain_resources",
+            "label": "访问有自己环绕的星球：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "playCard",
+        "round": 4,
+        "turn": 11,
+        "resources": {
+          "score": 140,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 3,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 12,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "round": 4,
+      "turn": 9,
+      "logId": 1370,
+      "cardId": "b_92.webp",
+      "cardInstanceId": "card-166-0",
+      "label": "先驱者11号任务",
+      "score": 11.5758,
+      "cost": {},
+      "resources": {
+        "score": 129,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 2.8,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "b92-jupiter-data",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "jupiter"
+            ]
+          },
+          "effect": {
+            "id": "b92-jupiter-data-effect",
+            "type": "gain_data",
+            "label": "访问木星：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "b92-saturn-energy",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "saturn"
+            ]
+          },
+          "effect": {
+            "id": "b92-saturn-energy-effect",
+            "type": "gain_resources",
+            "label": "访问土星：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "playCard",
+        "round": 4,
+        "turn": 10,
+        "resources": {
+          "score": 129,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 3
+        }
+      }
+    },
+    {
+      "case": 13,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 4,
+      "logId": 1162,
+      "cardId": "b_134.webp",
+      "cardInstanceId": "card-146-0",
+      "label": "旅行者2号任务",
+      "score": 27.377699999999997,
+      "cost": {},
+      "resources": {
+        "score": 100,
+        "credits": 1,
+        "energy": 6,
+        "publicity": 2,
+        "availableData": 5,
+        "handSize": 7
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 6.25,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 4.5,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 11.2,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "b134-uranus-energy",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "uranus"
+            ]
+          },
+          "effect": {
+            "id": "b134-energy",
+            "type": "gain_resources",
+            "label": "访问天王星：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        },
+        {
+          "id": "b134-neptune-credit",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "neptune"
+            ]
+          },
+          "effect": {
+            "id": "b134-credit",
+            "type": "gain_resources",
+            "label": "访问海王星：1信用",
+            "icon": "publicity",
+            "options": {
+              "gain": {
+                "credits": 1
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "playCard",
+        "round": 4,
+        "turn": 5,
+        "resources": {
+          "score": 100,
+          "credits": 2,
+          "energy": 6,
+          "publicity": 2,
+          "availableData": 5,
+          "handSize": 6
+        }
+      }
+    },
+    {
+      "case": 15,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 9,
+      "logId": 1502,
+      "cardId": "b_10.webp",
+      "cardInstanceId": "card-184-0",
+      "label": "小行星研究",
+      "score": 9.975,
+      "cost": {},
+      "resources": {
+        "score": 128,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "b10-visit-asteroid-data-1",
+          "event": {
+            "type": "visitAsteroid"
+          },
+          "effect": {
+            "id": "b10-data-1",
+            "type": "gain_data",
+            "label": "小行星研究：1数据 1/3",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "b10-visit-asteroid-data-2",
+          "event": {
+            "type": "visitAsteroid"
+          },
+          "effect": {
+            "id": "b10-data-2",
+            "type": "gain_data",
+            "label": "小行星研究：1数据 2/3",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "b10-visit-asteroid-data-3",
+          "event": {
+            "type": "visitAsteroid"
+          },
+          "effect": {
+            "id": "b10-data-3",
+            "type": "gain_data",
+            "label": "小行星研究：1数据 3/3",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 9,
+        "resources": {
+          "score": 128,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 0
+        }
+      }
+    },
+    {
+      "case": 18,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 10,
+      "logId": 1396,
+      "cardId": "dlc_21.png",
+      "cardInstanceId": "card-136-0",
+      "label": "轨道加注",
+      "score": 7.975,
+      "cost": {},
+      "resources": {
+        "score": 180,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 4,
+        "handSize": 1
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "dlc21-orbit-visit-energy-1",
+          "event": {
+            "type": "visitPlanet",
+            "requiresOwnOrbit": true
+          },
+          "effect": {
+            "id": "dlc21-energy-1",
+            "type": "gain_resources",
+            "label": "访问有自己环绕的星球：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        },
+        {
+          "id": "dlc21-orbit-visit-energy-2",
+          "event": {
+            "type": "visitPlanet",
+            "requiresOwnOrbit": true
+          },
+          "effect": {
+            "id": "dlc21-energy-2",
+            "type": "gain_resources",
+            "label": "访问有自己环绕的星球：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 10,
+        "resources": {
+          "score": 180,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 4,
+          "handSize": 0
+        }
+      }
+    },
+    {
+      "case": 21,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 10,
+      "logId": 1505,
+      "cardId": "b_92.webp",
+      "cardInstanceId": "card-48-pass-3-4",
+      "label": "先驱者11号任务",
+      "score": 15.7956,
+      "cost": {},
+      "resources": {
+        "score": 129,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 9.1,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 5.6,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "b92-jupiter-data",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "jupiter"
+            ]
+          },
+          "effect": {
+            "id": "b92-jupiter-data-effect",
+            "type": "gain_data",
+            "label": "访问木星：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "b92-saturn-energy",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "saturn"
+            ]
+          },
+          "effect": {
+            "id": "b92-saturn-energy-effect",
+            "type": "gain_resources",
+            "label": "访问土星：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 11,
+        "resources": {
+          "score": 129,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 4
+        }
+      }
+    },
+    {
+      "case": 24,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 7,
+      "logId": 1457,
+      "cardId": "dlc_26.png",
+      "cardInstanceId": "card-134-0",
+      "label": "新型AI模型",
+      "score": 8.05765,
+      "cost": {},
+      "resources": {
+        "score": 164,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 8.603,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 1.5,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "dlc26-blue-tech-data-1",
+          "event": {
+            "type": "researchTech",
+            "techType": "blue"
+          },
+          "effect": {
+            "id": "dlc26-data-1",
+            "type": "gain_data",
+            "label": "蓝色科技：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "dlc26-blue-tech-data-2",
+          "event": {
+            "type": "researchTech",
+            "techType": "blue"
+          },
+          "effect": {
+            "id": "dlc26-data-2",
+            "type": "gain_data",
+            "label": "蓝色科技：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "playCard",
+        "round": 4,
+        "turn": 8,
+        "resources": {
+          "score": 166,
+          "credits": 0,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 2
+        }
+      }
+    },
+    {
+      "case": 24,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 8,
+      "logId": 1471,
+      "cardId": "b_92.webp",
+      "cardInstanceId": "card-160-0",
+      "label": "先驱者11号任务",
+      "score": 7.975,
+      "cost": {},
+      "resources": {
+        "score": 166,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "breakdown": {
+        "costValue": 0,
+        "cornerOpportunity": 4.5,
+        "directScoreGain": 0,
+        "effectValue": 0,
+        "strategyPassivePlayValue": 0,
+        "grandStrategyCreditBottleneckPenalty": 0,
+        "finalSelfBlockingPublicityTrap": null,
+        "finalSelfBlockingPublicityTrapPenalty": 0,
+        "c2Type3ProgressValue": 0,
+        "cFinalTaskProgressValue": 0,
+        "finalUnreadyTaskSetupSuppressed": false,
+        "readyTaskCashoutValue": 0,
+        "readyTaskCashoutDirectScore": 0,
+        "readyTaskCashoutCount": 0,
+        "readyTaskCashoutTimingScale": 1,
+        "readyTaskBlockedByPlayEffectTaskIds": [],
+        "newlyReadyAfterPlayTaskIds": [],
+        "readyTaskTechReplacementValue": 0,
+        "skippedUnresolvableLaunchForReadyTask": false,
+        "skippedUnresolvableLaunchCount": 0,
+        "skippedUnresolvableMoveBeforeLaterEffect": false,
+        "skippedUnresolvableMoveCount": 0,
+        "chongTaskChainValue": 0,
+        "banrenmaThresholdSetupValue": 0,
+        "playCardConversionPressure": 0,
+        "huanyuFangzhouCreditLockPenalty": 0,
+        "lateCardEnginePressure": 0,
+        "endGameExpectedScore": 0,
+        "chongProbeFossilRewardValue": null,
+        "finalRoundEndGameCardUrgency": 0,
+        "planScore": 0,
+        "standardActionPremium": 0,
+        "finalSecondMarkNoDirectSetupPenalty": 0,
+        "finalRoundResourceDrainPenalty": 0
+      },
+      "triggers": [
+        {
+          "id": "b92-jupiter-data",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "jupiter"
+            ]
+          },
+          "effect": {
+            "id": "b92-jupiter-data-effect",
+            "type": "gain_data",
+            "label": "访问木星：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        },
+        {
+          "id": "b92-saturn-energy",
+          "event": {
+            "type": "visitPlanet",
+            "planetIds": [
+              "saturn"
+            ]
+          },
+          "effect": {
+            "id": "b92-saturn-energy-effect",
+            "type": "gain_resources",
+            "label": "访问土星：1能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 1
+              }
+            }
+          }
+        }
+      ],
+      "choiceLogs": [],
+      "receipts": [],
+      "stillReserved": true,
+      "nextMain": {
+        "id": "pass",
+        "round": 4,
+        "turn": 9,
+        "resources": {
+          "score": 166,
+          "credits": 0,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 1
+        }
+      }
+    }
+  ]
+}

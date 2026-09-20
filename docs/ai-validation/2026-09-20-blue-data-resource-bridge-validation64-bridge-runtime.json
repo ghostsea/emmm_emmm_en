@@ -1,0 +1,2327 @@
+{
+  "scope": "Selected bridge data placement and subsequent same-seat first main action; expected card tracked by instance across remaining game. Resource events retain actual round/turn action context and require separate inspection, not assumed causal.",
+  "summary": {
+    "uniqueExpectedCards": 35,
+    "uniqueExpectedCardsPlayed": 24,
+    "selected": 45,
+    "unambiguousPayments": 45,
+    "nextActionMatches": 23,
+    "expectedPlays": 35,
+    "expectedCardsPlayed": 24,
+    "expectedCardsPlayedSameRound": 22
+  },
+  "rows": [
+    {
+      "case": 1,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 5,
+      "logId": 847,
+      "resources": {
+        "score": 96,
+        "credits": 4,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 2,
+      "description": "放入第二列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.880496,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-banrenma-1-8",
+          "score": 25.786290000000005
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 6,
+        "id": "playCard",
+        "cardInstanceId": "alien-banrenma-1-8"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 103,
+          "step": 5,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 1,
+      "logId": 303,
+      "resources": {
+        "score": 32,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 6
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 11.261948,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-81-0",
+          "score": 5.719188487999993
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 2,
+        "id": "playCard",
+        "cardInstanceId": "card-18-0"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 39,
+          "step": 8,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 5,
+      "logId": 816,
+      "resources": {
+        "score": 79,
+        "credits": 3,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 2,
+        "scoreFloor": 12.209634999999999,
+        "followup": {
+          "actionId": "scan",
+          "score": 54.106749171
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 6,
+        "id": "scan"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 105,
+          "step": 9,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 10,
+      "logId": 1046,
+      "resources": {
+        "score": 92,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 1
+      },
+      "blueSlot": 2,
+      "description": "放入第二列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 6,
+        "scoreFloor": 23.609792000000006,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-runezu-8-2",
+          "score": 17.910842000000002
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 11,
+        "id": "playCard",
+        "cardInstanceId": "alien-runezu-8-2"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 125,
+          "step": 6,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 4,
+      "turn": 3,
+      "logId": 1242,
+      "resources": {
+        "score": 95,
+        "credits": 1,
+        "energy": 4,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.200702000000001,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-151-0",
+          "score": 39.6794787184
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 4,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 146,
+          "step": 3,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 4,
+      "logId": 397,
+      "resources": {
+        "score": 32,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 11.13512,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-65-0",
+          "score": 1.8558535999999988
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 5,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 47,
+          "step": 8,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 5,
+      "logId": 854,
+      "resources": {
+        "score": 49,
+        "credits": 1,
+        "energy": 4,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.661402,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-132-0",
+          "score": 10.3246216
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 6,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 98,
+          "step": 3,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 3,
+      "turn": 7,
+      "logId": 871,
+      "resources": {
+        "score": 66,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.986592,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-banrenma-7-6",
+          "score": 33.289114
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 8,
+        "id": "playCard",
+        "cardInstanceId": "alien-banrenma-7-6"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 101,
+          "step": 13,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 4,
+      "turn": 7,
+      "logId": 1344,
+      "resources": {
+        "score": 147,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 1
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 3,
+        "scoreFloor": 10.719406000000001,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-banrenma-1-8",
+          "score": 0.2071860000000001
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 8,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 153,
+          "step": 4,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 8,
+      "logId": 566,
+      "resources": {
+        "score": 61,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 0,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.91018,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-chong-1-7",
+          "score": 1.0146840000000008
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 9,
+        "id": "scan"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 62,
+          "step": 11,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 4,
+      "turn": 7,
+      "logId": 1384,
+      "resources": {
+        "score": 167,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 6,
+        "scoreFloor": 23.120096,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-138-0",
+          "score": 35.798364732288
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 8,
+        "id": "playCard",
+        "cardInstanceId": "alien-runezu-9-7"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 159,
+          "step": 6,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 4,
+      "turn": 9,
+      "logId": 1305,
+      "resources": {
+        "score": 133,
+        "credits": 0,
+        "energy": 5,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 1
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.200702000000001,
+        "followup": {
+          "actionId": "scan",
+          "score": 2.4951709807199975
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 10,
+        "id": "scan"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 161,
+          "step": 5,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 4,
+      "logId": 963,
+      "resources": {
+        "score": 79,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.986592,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "fangzhou-card2-player-brown-yellow-1",
+          "score": 16.3435
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 5,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 112,
+          "step": 5,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 4,
+      "turn": 1,
+      "logId": 1273,
+      "resources": {
+        "score": 115,
+        "credits": 2,
+        "energy": 4,
+        "publicity": 9,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.03485,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-45-pass-3-1",
+          "score": 45.73866407878401
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 2,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 153,
+          "step": 11,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 9,
+      "logId": 560,
+      "resources": {
+        "score": 58,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 11.388776,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "fangzhou-card2-player-blue-blue-2",
+          "score": 4.067500000000003
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 9,
+        "id": "playCard",
+        "cardInstanceId": "card-84-0"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 65,
+          "step": 4,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 6,
+      "logId": 914,
+      "resources": {
+        "score": 89,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 15.102831,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-108-0",
+          "score": 29.55494552648703
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 7,
+        "id": "playCard",
+        "cardInstanceId": "card-108-0"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 108,
+          "step": 3,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 3,
+      "turn": 6,
+      "logId": 865,
+      "resources": {
+        "score": 72,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.827254,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-91-0",
+          "score": 29.489903098496
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 7,
+        "id": "playCard",
+        "cardInstanceId": "card-91-0"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 106,
+          "step": 3,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 22,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 4,
+      "turn": 3,
+      "logId": 1133,
+      "resources": {
+        "score": 74,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 10.46575,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-117-0",
+          "score": 29.303128073600003
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 4,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 137,
+          "step": 6,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 24,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 7,
+      "logId": 1088,
+      "resources": {
+        "score": 81,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 2,
+      "description": "放入第二列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 13.036592,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-143-0",
+          "score": 46.431506153546245
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 8,
+        "id": "playCard",
+        "cardInstanceId": "card-143-0"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 126,
+          "step": 12,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 24,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 9,
+      "logId": 1200,
+      "resources": {
+        "score": 92,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 2
+      },
+      "blueSlot": 2,
+      "description": "放入第二列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 6,
+        "scoreFloor": 23.709792000000004,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-runezu-8-8",
+          "score": 35.06502
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 10,
+        "id": "playCard",
+        "cardInstanceId": "alien-runezu-8-8"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 135,
+          "step": 16,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 26,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 4,
+      "turn": 3,
+      "logId": 1301,
+      "resources": {
+        "score": 120,
+        "credits": 0,
+        "energy": 5,
+        "publicity": 10,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.200702000000001,
+        "followup": {
+          "actionId": "scan",
+          "score": 20.648492367399996
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 4,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 157,
+          "step": 4,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 28,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 2,
+      "turn": 7,
+      "logId": 569,
+      "resources": {
+        "score": 50,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 7,
+        "availableData": 1,
+        "handSize": 0
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 2,
+        "scoreFloor": 12.076032,
+        "followup": {
+          "actionId": "scan",
+          "score": 6.040511432000002
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 8,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 66,
+          "step": 15,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 28,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 3,
+      "turn": 1,
+      "logId": 680,
+      "resources": {
+        "score": 55,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 7
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.830496,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-103-0",
+          "score": 64.7584278392
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 2,
+        "id": "playCard",
+        "cardInstanceId": "card-103-0"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 83,
+          "step": 8,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 29,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 3,
+      "turn": 7,
+      "logId": 910,
+      "resources": {
+        "score": 78,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 1
+      },
+      "blueSlot": 2,
+      "description": "放入第二列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.880496,
+        "followup": {
+          "actionId": "scan",
+          "score": 22.329118030299604
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 8,
+        "id": "land"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 109,
+          "step": 6,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 30,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 4,
+      "logId": 439,
+      "resources": {
+        "score": 40,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 2,
+        "scoreFloor": 12.076032,
+        "followup": {
+          "actionId": "scan",
+          "score": 17.537232600000003
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 5,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 53,
+          "step": 10,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 34,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 4,
+      "turn": 4,
+      "logId": 1097,
+      "resources": {
+        "score": 85,
+        "credits": 1,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 2,
+      "description": "放入第二列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.446896,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-46-pass-3-2",
+          "score": 47.086491216000006
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 5,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 140,
+          "step": 6,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 35,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 4,
+      "turn": 6,
+      "logId": 1192,
+      "resources": {
+        "score": 109,
+        "credits": 1,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "blueSlot": 2,
+      "description": "放入第二列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.396896,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-151-0",
+          "score": 77.32877475599999
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 7,
+        "id": "playCard",
+        "cardInstanceId": "card-151-0"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 152,
+          "step": 4,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 36,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 6,
+      "logId": 886,
+      "resources": {
+        "score": 88,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 0
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.880496,
+        "followup": {
+          "actionId": "scan",
+          "score": 9.591836576000002
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 7,
+        "id": "scan"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 105,
+          "step": 9,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 37,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 1,
+      "logId": 373,
+      "resources": {
+        "score": 29,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 8,
+        "availableData": 1,
+        "handSize": 7
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 3,
+        "scoreFloor": 11.261948,
+        "followup": {
+          "actionId": "scan",
+          "score": 17.045323599999996
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 2,
+        "id": "land"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 47,
+          "step": 8,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 40,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 3,
+      "turn": 5,
+      "logId": 1003,
+      "resources": {
+        "score": 80,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.986592,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-143-0",
+          "score": 22.703754555570548
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 6,
+        "id": "land"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 115,
+          "step": 6,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 46,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 4,
+      "turn": 1,
+      "logId": 1125,
+      "resources": {
+        "score": 112,
+        "credits": 5,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 7
+      },
+      "blueSlot": 2,
+      "description": "放入第二列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.446896,
+        "followup": {
+          "actionId": "scan",
+          "score": 26.392997303
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 2,
+        "id": "playCard",
+        "cardInstanceId": "card-45-pass-3-1"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 145,
+          "step": 10,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 47,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 2,
+      "turn": 9,
+      "logId": 609,
+      "resources": {
+        "score": 60,
+        "credits": 0,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 11.261948,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-aomomo-2-1",
+          "score": 2.4311084432599985
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 10,
+        "id": "playCard",
+        "cardInstanceId": "alien-aomomo-2-1"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 70,
+          "step": 10,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 47,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 3,
+      "turn": 6,
+      "logId": 925,
+      "resources": {
+        "score": 94,
+        "credits": 0,
+        "energy": 3,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 2
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 10.944878000000001,
+        "followup": {
+          "actionId": "scan",
+          "score": 54.683551406518404
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 7,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 107,
+          "step": 4,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 53,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 10,
+      "logId": 1062,
+      "resources": {
+        "score": 90,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 3,
+        "availableData": 1,
+        "handSize": 3
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 13.036592,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-runezu-5-6",
+          "score": 17.867
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 11,
+        "id": "playCard",
+        "cardInstanceId": "card-119-0"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 125,
+          "step": 3,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 54,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 3,
+      "turn": 10,
+      "logId": 1042,
+      "resources": {
+        "score": 93,
+        "credits": 0,
+        "energy": 1,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 11.071706,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-runezu-4-4",
+          "score": 12.353400000000004
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 11,
+        "id": "playCard",
+        "cardInstanceId": "alien-runezu-6-6"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 121,
+          "step": 8,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 55,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 3,
+      "turn": 6,
+      "logId": 1008,
+      "resources": {
+        "score": 91,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 2
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 6,
+        "scoreFloor": 23.609792000000006,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-125-0",
+          "score": 30.761561638427995
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 7,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 114,
+          "step": 12,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 55,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 4,
+      "turn": 2,
+      "logId": 1286,
+      "resources": {
+        "score": 96,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.03485,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-45-pass-3-1",
+          "score": 52.83688867507201
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 3,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 151,
+          "step": 5,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 56,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 4,
+      "turn": 1,
+      "logId": 1047,
+      "resources": {
+        "score": 87,
+        "credits": 2,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 1,
+        "handSize": 8
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.2908,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-159-0",
+          "score": 50.49181472
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 2,
+        "id": "playCard",
+        "cardInstanceId": "card-159-0"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 134,
+          "step": 5,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 58,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 3,
+      "turn": 1,
+      "logId": 642,
+      "resources": {
+        "score": 61,
+        "credits": 2,
+        "energy": 5,
+        "publicity": 6,
+        "availableData": 1,
+        "handSize": 5
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 10.818050000000001,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-73-0",
+          "score": 46.118739265614
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 2,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 86,
+          "step": 12,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 58,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 3,
+      "turn": 10,
+      "logId": 984,
+      "resources": {
+        "score": 90,
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 能量",
+      "bridge": {
+        "gain": {
+          "credits": 0,
+          "energy": 1
+        },
+        "computerSlot": 5,
+        "scoreFloor": 12.986592,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "alien-banrenma-7-2",
+          "score": 19.520731999999995
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 11,
+        "id": "playCard",
+        "cardInstanceId": "alien-banrenma-7-2"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 122,
+          "step": 5,
+          "source": "放置数据：资源：能量+1",
+          "deltas": {
+            "energy": 1,
+            "availableData": -1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 59,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 3,
+      "turn": 10,
+      "logId": 1088,
+      "resources": {
+        "score": 117,
+        "credits": 2,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 6,
+        "scoreFloor": 23.503696,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-137-0",
+          "score": 5.7042832568319985
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 11,
+        "id": "playCard",
+        "cardInstanceId": "alien-amiba-2-3"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 125,
+          "step": 8,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "case": 59,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 3,
+      "turn": 10,
+      "logId": 1096,
+      "resources": {
+        "score": 100,
+        "credits": 0,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 12.375487,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-95-0",
+          "score": 19.149167626864735
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 3,
+        "turn": 11,
+        "id": "playCard",
+        "cardInstanceId": "card-95-0"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 126,
+          "step": 3,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 62,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 4,
+      "turn": 2,
+      "logId": 1144,
+      "resources": {
+        "score": 98,
+        "credits": 1,
+        "energy": 4,
+        "publicity": 8,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 11.200702000000001,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-138-0",
+          "score": 8.777011503999999
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 3,
+        "id": "scan"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 136,
+          "step": 5,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 64,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 5,
+      "logId": 512,
+      "resources": {
+        "score": 62,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 4
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 2,
+        "scoreFloor": 16.689481800000003,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-76-0",
+          "score": 3.6449413225600047
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 2,
+        "turn": 6,
+        "id": "playCard",
+        "cardInstanceId": "card-50-0"
+      },
+      "expectedCardPlayed": false,
+      "expectedCardPlayedSameRound": false,
+      "events": [
+        {
+          "entry": 57,
+          "step": 6,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    },
+    {
+      "case": 64,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 4,
+      "turn": 1,
+      "logId": 1078,
+      "resources": {
+        "score": 79,
+        "credits": 2,
+        "energy": 12,
+        "publicity": 5,
+        "availableData": 1,
+        "handSize": 7
+      },
+      "blueSlot": 1,
+      "description": "放入第一列第二行，额外获得 1 信用点",
+      "bridge": {
+        "gain": {
+          "credits": 1,
+          "energy": 0
+        },
+        "computerSlot": 3,
+        "scoreFloor": 10.46575,
+        "followup": {
+          "actionId": "playCard",
+          "cardInstanceId": "card-146-0",
+          "score": 76.373133216
+        },
+        "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+      },
+      "paymentEvents": 1,
+      "next": {
+        "round": 4,
+        "turn": 2,
+        "id": "researchTech"
+      },
+      "expectedCardPlayed": true,
+      "expectedCardPlayedSameRound": true,
+      "events": [
+        {
+          "entry": 135,
+          "step": 9,
+          "source": "放置数据：资源：信用点+1",
+          "deltas": {
+            "credits": 1,
+            "availableData": -1
+          }
+        }
+      ]
+    }
+  ]
+}

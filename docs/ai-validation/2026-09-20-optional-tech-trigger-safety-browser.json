@@ -1,0 +1,1571 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Actual orange2 research with retained Space Elevator: full probe capacity must skip optional launch without consuming a trigger; one free slot must launch exactly once and consume one of two triggers. The other trigger stays available for a later event.",
+      "results": [
+        {
+          "full": true,
+          "first": {
+            "ok": true,
+            "abilityId": "researchTechPrepare",
+            "message": "请选择要研究的科技板块",
+            "undoable": true,
+            "commands": [],
+            "cost": {
+              "publicity": 6
+            },
+            "payload": {
+              "takeable": [
+                "blue1",
+                "blue2",
+                "blue3",
+                "blue4",
+                "orange2",
+                "orange3",
+                "orange4",
+                "purple1",
+                "purple2",
+                "purple3",
+                "purple4"
+              ],
+              "allowedTechTypes": null
+            },
+            "events": [],
+            "awaitingTileSelection": true,
+            "takeable": [
+              "blue1",
+              "blue2",
+              "blue3",
+              "blue4",
+              "orange2",
+              "orange3",
+              "orange4",
+              "purple1",
+              "purple2",
+              "purple3",
+              "purple4"
+            ],
+            "allowedTechTypes": null
+          },
+          "resources": {
+            "credits": 0,
+            "energy": 0,
+            "publicity": 5,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 37
+          },
+          "startCount": 2,
+          "endCount": 2,
+          "consumed": [],
+          "logs": [
+            {
+              "id": 24,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "playerResources": {
+                "score": 9,
+                "credits": 3,
+                "energy": 3,
+                "publicity": 1,
+                "availableData": 2,
+                "handSize": 10
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 3,
+                  "energy": 3,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 10,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 6,
+                  "credits": 2,
+                  "energy": 3,
+                  "publicity": 4,
+                  "availableData": 3,
+                  "handSize": 3,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 1/4",
+              "details": {
+                "logPlayerId": "player-blue",
+                "effectId": "initial-income-player-blue-1",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:24.453Z"
+            },
+            {
+              "id": 26,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "playerResources": {
+                "score": 9,
+                "credits": 4,
+                "energy": 3,
+                "publicity": 1,
+                "availableData": 2,
+                "handSize": 9
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 4,
+                  "energy": 3,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 9,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 6,
+                  "credits": 2,
+                  "energy": 3,
+                  "publicity": 4,
+                  "availableData": 3,
+                  "handSize": 3,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 2/4",
+              "details": {
+                "logPlayerId": "player-blue",
+                "effectId": "initial-income-player-blue-2",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:24.474Z"
+            },
+            {
+              "id": 28,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "playerResources": {
+                "score": 9,
+                "credits": 4,
+                "energy": 3,
+                "publicity": 1,
+                "availableData": 2,
+                "handSize": 9
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 4,
+                  "energy": 3,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 9,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 6,
+                  "credits": 2,
+                  "energy": 3,
+                  "publicity": 4,
+                  "availableData": 3,
+                  "handSize": 3,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 3/4",
+              "details": {
+                "logPlayerId": "player-blue",
+                "effectId": "initial-income-player-blue-3",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:24.493Z"
+            },
+            {
+              "id": 30,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "playerResources": {
+                "score": 9,
+                "credits": 5,
+                "energy": 3,
+                "publicity": 1,
+                "availableData": 2,
+                "handSize": 8
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 3,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 8,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 6,
+                  "credits": 2,
+                  "energy": 3,
+                  "publicity": 4,
+                  "availableData": 3,
+                  "handSize": 3,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 4/4",
+              "details": {
+                "logPlayerId": "player-blue",
+                "effectId": "initial-income-player-blue-4",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:24.510Z"
+            },
+            {
+              "id": 34,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 35,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 35,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 1
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：获得科技片：orange2",
+              "details": {
+                "logPlayerId": "player-brown",
+                "effectId": "research-tech-take",
+                "effectType": "research_tech_take"
+              },
+              "createdAt": "2026-09-20T05:46:24.564Z"
+            },
+            {
+              "id": 35,
+              "type": "card-trigger-skip",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 35,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 35,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 2
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "棕色AI 取消本次不可发动的卡牌触发",
+              "details": {
+                "matches": [
+                  {
+                    "cardLabel": "太空电梯",
+                    "effectType": "launch",
+                    "effectLabel": "橙色科技：发射",
+                    "reason": "火箭数量已达上限（2/2）"
+                  },
+                  {
+                    "cardLabel": "太空电梯",
+                    "effectType": "launch",
+                    "effectLabel": "橙色科技：发射",
+                    "reason": "火箭数量已达上限（2/2）"
+                  }
+                ]
+              },
+              "createdAt": "2026-09-20T05:46:24.572Z"
+            },
+            {
+              "id": 36,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 35,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 35,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 2
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：旋转",
+              "details": {
+                "logPlayerId": "player-brown",
+                "effectId": "research-tech-rotate",
+                "effectType": "research_tech_rotate"
+              },
+              "createdAt": "2026-09-20T05:46:24.573Z"
+            },
+            {
+              "id": 37,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 35,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 35,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 2
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：获取1 宣传",
+              "details": {
+                "logPlayerId": "player-brown",
+                "effectId": "research-tech-bonus",
+                "effectType": "research_tech_bonus"
+              },
+              "createdAt": "2026-09-20T05:46:24.585Z"
+            },
+            {
+              "id": 38,
+              "type": "card-trigger-skip",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 37,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 5,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 37,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 5,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 2
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 5,
+                  "credits": 5,
+                  "energy": 5,
+                  "publicity": 6,
+                  "availableData": 0,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "棕色AI 取消本次不可发动的卡牌触发",
+              "details": {
+                "matches": [
+                  {
+                    "cardLabel": "太空电梯",
+                    "effectType": "launch",
+                    "effectLabel": "橙色科技：发射",
+                    "reason": "火箭数量已达上限（2/2）"
+                  },
+                  {
+                    "cardLabel": "太空电梯",
+                    "effectType": "launch",
+                    "effectLabel": "橙色科技：发射",
+                    "reason": "火箭数量已达上限（2/2）"
+                  }
+                ]
+              },
+              "createdAt": "2026-09-20T05:46:24.591Z"
+            }
+          ],
+          "bugs": [],
+          "pending": {
+            "actionEffectFlowActive": false,
+            "currentEffect": null,
+            "pendingScanTargetType": null,
+            "pendingPublicScanQueue": false,
+            "pendingHandScan": false,
+            "pendingPassReserve": false,
+            "pendingCardSelection": false,
+            "pendingPlayCardSelection": false,
+            "pendingMovePayment": false,
+            "pendingCardTrigger": false,
+            "pendingCardTriggerFreeMove": false,
+            "pendingCardCornerFreeMove": false,
+            "pendingCardTaskCompletion": false,
+            "pendingStrategyPassiveSlotChoice": false,
+            "pendingJiuzheCardPlay": false,
+            "pendingYichangdianCardGain": false,
+            "pendingYichangdianCornerAction": false,
+            "pendingBanrenmaCardGain": false,
+            "pendingBanrenmaOpportunity": false,
+            "pendingChongTaskCompletion": false,
+            "pendingChongCardGain": false,
+            "pendingChongFossilChoice": false,
+            "pendingAmibaCardGain": false,
+            "pendingAmibaSymbolChoice": false,
+            "pendingAmibaTraceRemoval": false,
+            "pendingAomomoCardGain": false,
+            "pendingRunezuCardGain": false,
+            "pendingRunezuSymbolBranch": false,
+            "pendingRunezuFaceSymbolPlacement": false,
+            "pendingAlienTrace": false,
+            "pendingLandTarget": false,
+            "pendingScanAction4": false,
+            "pendingDataPlacement": false,
+            "pendingDataPlacementAction": false,
+            "pendingActionEffectCardMove": false,
+            "pendingActionEffectFreeMove": false,
+            "pendingIndustryAbility": false,
+            "pendingIndustryFreeMove": false,
+            "pendingIndustryHandSelection": false
+          }
+        },
+        {
+          "full": false,
+          "first": {
+            "ok": true,
+            "abilityId": "researchTechPrepare",
+            "message": "请选择要研究的科技板块",
+            "undoable": true,
+            "commands": [],
+            "cost": {
+              "publicity": 6
+            },
+            "payload": {
+              "takeable": [
+                "blue1",
+                "blue2",
+                "blue3",
+                "blue4",
+                "orange2",
+                "orange3",
+                "orange4",
+                "purple1",
+                "purple2",
+                "purple3",
+                "purple4"
+              ],
+              "allowedTechTypes": null
+            },
+            "events": [],
+            "awaitingTileSelection": true,
+            "takeable": [
+              "blue1",
+              "blue2",
+              "blue3",
+              "blue4",
+              "orange2",
+              "orange3",
+              "orange4",
+              "purple1",
+              "purple2",
+              "purple3",
+              "purple4"
+            ],
+            "allowedTechTypes": null
+          },
+          "resources": {
+            "credits": 0,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 37
+          },
+          "startCount": 1,
+          "endCount": 2,
+          "consumed": [
+            "dlc24-orange-tech-launch-1"
+          ],
+          "logs": [
+            {
+              "id": 22,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "playerResources": {
+                "score": 10,
+                "credits": 4,
+                "energy": 4,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 7
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 4,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 3,
+                  "credits": 3,
+                  "energy": 3,
+                  "publicity": 3,
+                  "availableData": 3,
+                  "handSize": 2,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 3,
+                  "energy": 2,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 9,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 4/4",
+              "details": {
+                "logPlayerId": "player-green",
+                "effectId": "initial-income-player-green-4",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:25.009Z"
+            },
+            {
+              "id": 24,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "playerResources": {
+                "score": 9,
+                "credits": 3,
+                "energy": 2,
+                "publicity": 2,
+                "availableData": 2,
+                "handSize": 9
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 3,
+                  "credits": 3,
+                  "energy": 3,
+                  "publicity": 3,
+                  "availableData": 3,
+                  "handSize": 2,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 3,
+                  "energy": 2,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 9,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 1/4",
+              "details": {
+                "logPlayerId": "player-white",
+                "effectId": "initial-income-player-white-1",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:25.070Z"
+            },
+            {
+              "id": 26,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "playerResources": {
+                "score": 9,
+                "credits": 4,
+                "energy": 2,
+                "publicity": 2,
+                "availableData": 2,
+                "handSize": 8
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 3,
+                  "credits": 3,
+                  "energy": 3,
+                  "publicity": 3,
+                  "availableData": 3,
+                  "handSize": 2,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 4,
+                  "energy": 2,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 8,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 2/4",
+              "details": {
+                "logPlayerId": "player-white",
+                "effectId": "initial-income-player-white-2",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:25.094Z"
+            },
+            {
+              "id": 28,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "playerResources": {
+                "score": 9,
+                "credits": 4,
+                "energy": 2,
+                "publicity": 2,
+                "availableData": 2,
+                "handSize": 8
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 3,
+                  "credits": 3,
+                  "energy": 3,
+                  "publicity": 3,
+                  "availableData": 3,
+                  "handSize": 2,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 4,
+                  "energy": 2,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 8,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 3/4",
+              "details": {
+                "logPlayerId": "player-white",
+                "effectId": "initial-income-player-white-3",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:25.115Z"
+            },
+            {
+              "id": 30,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "playerResources": {
+                "score": 9,
+                "credits": 4,
+                "energy": 3,
+                "publicity": 2,
+                "availableData": 2,
+                "handSize": 7
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 3,
+                  "credits": 3,
+                  "energy": 3,
+                  "publicity": 3,
+                  "availableData": 3,
+                  "handSize": 2,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 4,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：作弊实验室：收入增加 4/4",
+              "details": {
+                "logPlayerId": "player-white",
+                "effectId": "initial-income-player-white-4",
+                "effectType": "initial_income"
+              },
+              "createdAt": "2026-09-20T05:46:25.135Z"
+            },
+            {
+              "id": 34,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 35,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 35,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 1
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：获得科技片：orange2",
+              "details": {
+                "logPlayerId": "player-brown",
+                "effectId": "research-tech-take",
+                "effectType": "research_tech_take"
+              },
+              "createdAt": "2026-09-20T05:46:25.176Z"
+            },
+            {
+              "id": 35,
+              "type": "card-trigger",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 35,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 35,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 2
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "棕色AI 选择卡牌触发 橙色科技：发射",
+              "details": {
+                "selectedIndex": 0,
+                "cardLabel": "太空电梯",
+                "effectType": "launch",
+                "optionCount": 2
+              },
+              "createdAt": "2026-09-20T05:46:25.184Z"
+            },
+            {
+              "id": 36,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 35,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 35,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 2
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：旋转",
+              "details": {
+                "logPlayerId": "player-brown",
+                "effectId": "research-tech-rotate",
+                "effectType": "research_tech_rotate"
+              },
+              "createdAt": "2026-09-20T05:46:25.189Z"
+            },
+            {
+              "id": 37,
+              "type": "effect",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 35,
+                "credits": 0,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 0,
+                "handSize": 0
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 6,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 1,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 35,
+                  "credits": 0,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "handSize": 0,
+                  "reservedCount": 1,
+                  "techCount": 2
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 9,
+                  "credits": 5,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "AI 处理效果：获取1 能量",
+              "details": {
+                "logPlayerId": "player-brown",
+                "effectId": "research-tech-bonus",
+                "effectType": "research_tech_bonus"
+              },
+              "createdAt": "2026-09-20T05:46:25.201Z"
+            }
+          ],
+          "bugs": [],
+          "pending": {
+            "actionEffectFlowActive": false,
+            "currentEffect": null,
+            "pendingScanTargetType": null,
+            "pendingPublicScanQueue": false,
+            "pendingHandScan": false,
+            "pendingPassReserve": false,
+            "pendingCardSelection": false,
+            "pendingPlayCardSelection": false,
+            "pendingMovePayment": false,
+            "pendingCardTrigger": false,
+            "pendingCardTriggerFreeMove": false,
+            "pendingCardCornerFreeMove": false,
+            "pendingCardTaskCompletion": false,
+            "pendingStrategyPassiveSlotChoice": false,
+            "pendingJiuzheCardPlay": false,
+            "pendingYichangdianCardGain": false,
+            "pendingYichangdianCornerAction": false,
+            "pendingBanrenmaCardGain": false,
+            "pendingBanrenmaOpportunity": false,
+            "pendingChongTaskCompletion": false,
+            "pendingChongCardGain": false,
+            "pendingChongFossilChoice": false,
+            "pendingAmibaCardGain": false,
+            "pendingAmibaSymbolChoice": false,
+            "pendingAmibaTraceRemoval": false,
+            "pendingAomomoCardGain": false,
+            "pendingRunezuCardGain": false,
+            "pendingRunezuSymbolBranch": false,
+            "pendingRunezuFaceSymbolPlacement": false,
+            "pendingAlienTrace": false,
+            "pendingLandTarget": false,
+            "pendingScanAction4": false,
+            "pendingDataPlacement": false,
+            "pendingDataPlacementAction": false,
+            "pendingActionEffectCardMove": false,
+            "pendingActionEffectFreeMove": false,
+            "pendingIndustryAbility": false,
+            "pendingIndustryFreeMove": false,
+            "pendingIndustryHandSelection": false
+          }
+        }
+      ]
+    }
+  }
+}
