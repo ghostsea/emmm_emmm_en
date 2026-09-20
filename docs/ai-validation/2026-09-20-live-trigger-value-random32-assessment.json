@@ -1,0 +1,81 @@
+{
+  "decision": "hold-independent-branch",
+  "reason": "Fresh32 does not reproduce the small development gain. 125/128 seat scores unchanged, H mean unchanged; marginal existing uncapped trigger bonuses insufficient to change resource closure. Not evidence that all event reward modeling is harmful, and not a completed +10 objective.",
+  "pairs": 32,
+  "sourceCommit": "7b2aadb082bc882af1ca4a804bd12d99c98f19ca",
+  "baselineMean": 222.9765625,
+  "candidateMean": 222.8125,
+  "meanDelta": -0.1640625,
+  "pairedGameStandardError": 0.1640625,
+  "approximateNormal95Interval": [
+    -0.485625,
+    0.15749999999999997
+  ],
+  "companies": {
+    "作弊实验室": {
+      "seats": 64,
+      "baseline": 249.609375,
+      "candidate": 249.328125,
+      "meanDelta": -0.28125,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 32,
+      "baseline": 201.5625,
+      "candidate": 201.46875,
+      "meanDelta": -0.09375,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 32,
+      "baseline": 191.125,
+      "candidate": 191.125,
+      "meanDelta": 0,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -0.1640625,
+    "min": 0,
+    "p10": 0,
+    "p25": 0,
+    "median": 0,
+    "p75": 0,
+    "max": 0,
+    "topQuartileMean": -0.75,
+    "winnerMean": -0.8125,
+    "minimumPerGameMean": -0.09375,
+    "seats270Plus": -1,
+    "seats300Plus": 0
+  },
+  "baselineHighCohort": {
+    "seats": 32,
+    "baselineMean": 284.0625,
+    "candidateMean": 283.25,
+    "meanDelta": -0.8125,
+    "improved": 0,
+    "declined": 1,
+    "unchanged": 31
+  },
+  "baselineLowCohort": {
+    "seats": 32,
+    "baselineMean": 171.9375,
+    "candidateMean": 171.84375,
+    "meanDelta": -0.09375,
+    "improved": 0,
+    "declined": 1,
+    "unchanged": 31
+  },
+  "highestBaselineSeat": {
+    "case": 22,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 365,
+    "candidate": 365,
+    "delta": 0
+  },
+  "bugCount": 0,
+  "ledgerSeats": 256,
+  "cardPayments": 1525,
+  "rule": "All32 preregistered fresh pairs retained; same c0a7f8e4 rules and frozen source. No seed exclusions or policy edits during validation. Seeds now seen."
+}

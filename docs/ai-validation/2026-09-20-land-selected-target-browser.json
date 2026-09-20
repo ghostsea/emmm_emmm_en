@@ -1,0 +1,28 @@
+{
+  "scope": "Separate real browser fixtures: two own probes on Mars/Jupiter, orange3, Jupiter already orbited, C2 E4. Force ordinary landing, use unchanged target picker. Both select Jupiter and spend1E; baseline preview multi-land/0 direct versus candidate Jupiter/7 direct. Whole-game initial states/alien layouts differ, so autonomous choices and later total score cannot be compared causally. Does not prove the mismatched-cost branch in this fixture; unit test covers choosing second cost and full development audit will verify all selected payments.",
+  "rows": [
+    {
+      "side": "before",
+      "planet": "multi-land",
+      "energyCost": 1,
+      "directScore": 0,
+      "selectedPlanet": "jupiter",
+      "selectedEnergyCost": 1,
+      "energyAfter": 3,
+      "actualRocketId": 39,
+      "bugs": []
+    },
+    {
+      "side": "after",
+      "planet": "jupiter",
+      "energyCost": 1,
+      "directScore": 7,
+      "selectedPlanet": "jupiter",
+      "selectedEnergyCost": 1,
+      "energyAfter": 3,
+      "selectedRocketId": 39,
+      "actualRocketId": 39,
+      "bugs": []
+    }
+  ]
+}

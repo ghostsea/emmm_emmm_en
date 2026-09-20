@@ -1,0 +1,92 @@
+{
+  "decision": "development-only-new-random32-next",
+  "pairs": 24,
+  "sourceCommit": "1241aa349baf02b8f8bb1a9308c3263e11eaf61a",
+  "baselineMean": 225.0625,
+  "candidateMean": 225.8125,
+  "meanDelta": 0.75,
+  "pairedGameStandardError": 1.3989190961886107,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 252.0625,
+      "meanDelta": 0.4791666666666572,
+      "minimumDelta": 4
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 187.16666666666666,
+      "meanDelta": -0.875,
+      "minimumDelta": 10
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 211.95833333333334,
+      "meanDelta": 2.9166666666666856,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": 0.75,
+    "min": 10,
+    "p10": 1,
+    "p25": -1,
+    "median": -3,
+    "p75": 1.25,
+    "max": 10,
+    "topQuartileMean": 3.4583333333333144,
+    "winnerMean": 2,
+    "minimumPerGameMean": 3.6666666666666856,
+    "seats270Plus": 2,
+    "seats300Plus": 0
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 277.6666666666667,
+    "meanDelta": 1.6666666666666667,
+    "improved": 5,
+    "declined": 3,
+    "unchanged": 16
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 170.04166666666666,
+    "meanDelta": 3.6666666666666665,
+    "improved": 7,
+    "declined": 1,
+    "unchanged": 16
+  },
+  "highestBaselineSeat": {
+    "case": 5,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 328,
+    "candidate": 338,
+    "delta": 10
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1145,
+  "landing": {
+    "baseline": {
+      "actions": 314,
+      "paymentMatched": 314,
+      "previewMatched": 0,
+      "planetMatched": 174,
+      "costMatched": 313
+    },
+    "candidate": {
+      "actions": 325,
+      "paymentMatched": 325,
+      "previewMatched": 325,
+      "planetMatched": 325,
+      "costMatched": 325
+    }
+  },
+  "limitations": "Small +0.75 development mean, H -0.875; not proof of +10. Candidate identity/selected energy all325 match, baseline one wrong cost. Four Aomomo payments lack explicit event deltas and were checked using immediately adjacent action snapshots plus executed labels; whole-entry cost can net prior trade. No source/harness change. Fresh32 after freeze required before adoption."
+}
