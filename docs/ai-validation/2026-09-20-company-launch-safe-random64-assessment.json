@@ -1,0 +1,96 @@
+{
+  "decision": "hold-independent-branch",
+  "reason": "Corrects observed company launch cost preview and improves both fixed and fresh point estimates, but +10 is unmet; fresh paired game uncertainty, Grand Strategy loss and original high-score cohort declines remain material. No claim all high scores preserved. Do not silently merge as completed objective.",
+  "pairs": 64,
+  "bugCount": 0,
+  "ledgerSeats": 512,
+  "cardPayments": 3007,
+  "baselineMean": 226.6171875,
+  "candidateMean": 229.4375,
+  "meanDelta": 2.8203125,
+  "pairedGameStandardError": 2.033598830841301,
+  "approximateNormal95Interval": [
+    -1.1655412084489503,
+    6.80616620844895
+  ],
+  "companies": {
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 251.484375,
+      "candidate": 256.53125,
+      "meanDelta": 5.046875,
+      "minimumDelta": -28
+    },
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 207.75,
+      "candidate": 202.46875,
+      "meanDelta": -5.28125,
+      "minimumDelta": -8
+    },
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 195.75,
+      "candidate": 202.21875,
+      "meanDelta": 6.46875,
+      "minimumDelta": -10
+    }
+  },
+  "distribution": {
+    "mean": 2.8203125,
+    "min": -10,
+    "p10": 3.5,
+    "p25": 0,
+    "median": -4,
+    "p75": 2,
+    "max": 38,
+    "topQuartileMean": 11.34375,
+    "winnerMean": 14.3125,
+    "minimumPerGameMean": 3.9375,
+    "seats270Plus": 10,
+    "seats300Plus": 10
+  },
+  "baselineHighCohort": {
+    "seats": 64,
+    "baselineMean": 282.46875,
+    "candidateMean": 260.921875,
+    "meanDelta": -21.546875,
+    "improved": 20,
+    "declined": 44,
+    "unchanged": 0
+  },
+  "baselineLowCohort": {
+    "seats": 64,
+    "baselineMean": 175.015625,
+    "candidateMean": 203.125,
+    "meanDelta": 28.109375,
+    "improved": 53,
+    "declined": 11,
+    "unchanged": 0
+  },
+  "highestBaselineSeat": {
+    "case": 64,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 349,
+    "candidate": 374,
+    "delta": 25
+  },
+  "payments": {
+    "baseline": {
+      "launches": 145,
+      "actualPaymentsMatched": 145,
+      "projected": 88,
+      "previewCostMismatches": 57,
+      "issues": []
+    },
+    "candidate": {
+      "launches": 249,
+      "actualPaymentsMatched": 249,
+      "projected": 161,
+      "previewCostMismatches": 0,
+      "issues": []
+    }
+  },
+  "rule": "All64 preregistered fresh pairs retained. These seeds are now seen; no code changed during validation. Costs are actual-rule modeling, not additional player resources. Same c0a7f8e4 execution rules on both arms."
+}

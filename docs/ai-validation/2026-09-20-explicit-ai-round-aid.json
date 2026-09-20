@@ -1,0 +1,6325 @@
+{
+  "scope": "Only explicitly logged round2-4 AI company aid, classified as industry. Subtract from recorded nonIncomeGain to separate exogenous grants from other in-game acquisitions. Not total AI advantage: setup cards/income choices, launch/scan/research discounts, free probes and free actions are not monetized here. Synthetic inference stays in otherNonIncome, not assigned as aid. Human existing resource tables remain unmatched historical comparisons.",
+  "groups": {
+    "寰宇超动力": {
+      "seats": 24,
+      "distinctGrants": [
+        {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 3,
+          "handSize": 4,
+          "availableData": 0
+        }
+      ],
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2.0833333333333335,
+        "energy": 6.416666666666667,
+        "publicity": 41.5,
+        "handSize": 8.416666666666666,
+        "availableData": 21.25
+      }
+    },
+    "作弊实验室": {
+      "seats": 48,
+      "distinctGrants": [
+        {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 0,
+          "handSize": 4,
+          "availableData": 0
+        }
+      ],
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3.5416666666666665,
+        "energy": 8.5,
+        "publicity": 48.833333333333336,
+        "handSize": 12.770833333333334,
+        "availableData": 37.166666666666664
+      }
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "distinctGrants": [
+        {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 0,
+          "handSize": 4,
+          "availableData": 0
+        }
+      ],
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 7.416666666666667,
+        "energy": 6.916666666666667,
+        "publicity": 48.875,
+        "handSize": 15.833333333333334,
+        "availableData": 34.666666666666664
+      }
+    }
+  },
+  "rows": [
+    {
+      "file": "companysafe-base-1.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 3,
+        "publicity": 35,
+        "handSize": 6,
+        "availableData": 23
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 42,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-1.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 12,
+        "publicity": 41,
+        "handSize": 14,
+        "availableData": 29
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 40,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-1.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 6,
+        "publicity": 40,
+        "handSize": 14,
+        "availableData": 33
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 41,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 132,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-1.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 9,
+        "energy": 7,
+        "publicity": 47,
+        "handSize": 16,
+        "availableData": 44
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 43,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-2.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 0,
+        "energy": 3,
+        "publicity": 27,
+        "handSize": 3,
+        "availableData": 13
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 27,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 88,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-2.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 7,
+        "publicity": 49,
+        "handSize": 13,
+        "availableData": 44
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 28,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 90,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-2.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 9,
+        "energy": 11,
+        "publicity": 53,
+        "handSize": 26,
+        "availableData": 33
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 29,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 91,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 92,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 146,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-2.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 14,
+        "publicity": 62,
+        "handSize": 18,
+        "availableData": 39
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 30,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 94,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 149,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-3.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 6,
+        "publicity": 46,
+        "handSize": 5,
+        "availableData": 18
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 33,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 68,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 69,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 121,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 122,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-3.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 7,
+        "publicity": 43,
+        "handSize": 13,
+        "availableData": 36
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 32,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 66,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 67,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 119,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 120,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-3.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 6,
+        "publicity": 39,
+        "handSize": 9,
+        "availableData": 37
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 70,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 71,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 123,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 124,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 7,
+        "publicity": 70,
+        "handSize": 14,
+        "availableData": 35
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 35,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 72,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 73,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 125,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 126,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-4.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 7,
+        "publicity": 35,
+        "handSize": 14,
+        "availableData": 23
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 6,
+        "publicity": 49,
+        "handSize": 15,
+        "availableData": 28
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 35,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 138,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-4.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 7,
+        "publicity": 57,
+        "handSize": 8,
+        "availableData": 38
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 36,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-4.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 8,
+        "energy": 11,
+        "publicity": 55,
+        "handSize": 14,
+        "availableData": 33
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 38,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-5.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 6,
+        "publicity": 34,
+        "handSize": 5,
+        "availableData": 24
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-5.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 6,
+        "energy": 11,
+        "publicity": 62,
+        "handSize": 11,
+        "availableData": 42
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 35,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 129,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-5.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 3,
+        "publicity": 42,
+        "handSize": 16,
+        "availableData": 20
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 36,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 132,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-5.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 11,
+        "publicity": 38,
+        "handSize": 9,
+        "availableData": 45
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 38,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 88,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 3,
+        "publicity": 62,
+        "handSize": 6,
+        "availableData": 11
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 41,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 128,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 129,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-6.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 7,
+        "publicity": 41,
+        "handSize": 13,
+        "availableData": 32
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 40,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 126,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 127,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-6.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 8,
+        "publicity": 57,
+        "handSize": 19,
+        "availableData": 52
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 42,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-6.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 6,
+        "energy": 5,
+        "publicity": 48,
+        "handSize": 16,
+        "availableData": 25
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 43,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 132,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-7.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 5,
+        "publicity": 29,
+        "handSize": 3,
+        "availableData": 11
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 35,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 73,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 74,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 122,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 123,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-7.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 7,
+        "publicity": 38,
+        "handSize": 14,
+        "availableData": 36
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 32,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 67,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 68,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 116,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 117,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 7,
+        "energy": 4,
+        "publicity": 39,
+        "handSize": 7,
+        "availableData": 29
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 33,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 69,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 70,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 118,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 119,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-7.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 7,
+        "publicity": 40,
+        "handSize": 19,
+        "availableData": 37
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 71,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 72,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 120,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 121,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-8.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 9,
+        "publicity": 53,
+        "handSize": 9,
+        "availableData": 25
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 38,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 138,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 5,
+        "publicity": 49,
+        "handSize": 12,
+        "availableData": 36
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-8.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 7,
+        "energy": 10,
+        "publicity": 61,
+        "handSize": 15,
+        "availableData": 54
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 39,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-8.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 9,
+        "energy": 7,
+        "publicity": 50,
+        "handSize": 21,
+        "availableData": 30
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 40,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-9.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 0,
+        "energy": 9,
+        "publicity": 46,
+        "handSize": 10,
+        "availableData": 19
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 35,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-9.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 4,
+        "publicity": 58,
+        "handSize": 21,
+        "availableData": 50
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 32,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 74,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 75,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-9.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 6,
+        "energy": 4,
+        "publicity": 37,
+        "handSize": 9,
+        "availableData": 31
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 33,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 76,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 77,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 132,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 8,
+        "publicity": 63,
+        "handSize": 16,
+        "availableData": 44
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-10.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 7,
+        "energy": 14,
+        "publicity": 53,
+        "handSize": 12,
+        "availableData": 32
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 33,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 70,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 71,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-10.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 6,
+        "energy": 7,
+        "publicity": 71,
+        "handSize": 10,
+        "availableData": 32
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 31,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 66,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 67,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 132,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 9,
+        "publicity": 39,
+        "handSize": 7,
+        "availableData": 39
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 32,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 68,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 69,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-10.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 10,
+        "energy": 14,
+        "publicity": 50,
+        "handSize": 20,
+        "availableData": 44
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 72,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 73,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 138,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-11.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 0,
+        "energy": 7,
+        "publicity": 42,
+        "handSize": 9,
+        "availableData": 26
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 32,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-11.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 8,
+        "energy": 6,
+        "publicity": 54,
+        "handSize": 16,
+        "availableData": 35
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 31,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 4,
+        "publicity": 58,
+        "handSize": 14,
+        "availableData": 28
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 33,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-11.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 9,
+        "energy": 7,
+        "publicity": 41,
+        "handSize": 12,
+        "availableData": 32
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 146,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 5,
+        "publicity": 35,
+        "handSize": 8,
+        "availableData": 22
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 33,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-12.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 8,
+        "energy": 4,
+        "publicity": 36,
+        "handSize": 16,
+        "availableData": 41
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 30,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 72,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 73,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 124,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 125,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-12.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 9,
+        "publicity": 39,
+        "handSize": 5,
+        "availableData": 29
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 31,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 74,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 75,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 126,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 127,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-12.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 5,
+        "publicity": 28,
+        "handSize": 10,
+        "availableData": 24
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 32,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 76,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 77,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 128,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 129,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-13.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 9,
+        "publicity": 45,
+        "handSize": 13,
+        "availableData": 29
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 39,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-13.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 8,
+        "energy": 6,
+        "publicity": 44,
+        "handSize": 18,
+        "availableData": 36
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 76,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 0/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 77,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 126,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 127,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 5,
+        "publicity": 37,
+        "handSize": 11,
+        "availableData": 29
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 38,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 128,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 129,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-13.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 8,
+        "publicity": 48,
+        "handSize": 9,
+        "availableData": 33
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 40,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 132,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-14.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 4,
+        "publicity": 49,
+        "handSize": 11,
+        "availableData": 30
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 88,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 146,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-14.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 10,
+        "publicity": 73,
+        "handSize": 19,
+        "availableData": 44
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-14.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 13,
+        "publicity": 53,
+        "handSize": 10,
+        "availableData": 27
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 35,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-14.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 8,
+        "energy": 7,
+        "publicity": 59,
+        "handSize": 18,
+        "availableData": 41
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 36,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-15.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 10,
+        "publicity": 36,
+        "handSize": 14,
+        "availableData": 17
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 32,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-15.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 6,
+        "energy": 10,
+        "publicity": 42,
+        "handSize": 12,
+        "availableData": 42
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 31,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-15.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 8,
+        "energy": 10,
+        "publicity": 43,
+        "handSize": 16,
+        "availableData": 38
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 33,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 138,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 8,
+        "publicity": 51,
+        "handSize": 10,
+        "availableData": 27
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-16.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 11,
+        "publicity": 49,
+        "handSize": 6,
+        "availableData": 23
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 132,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 133,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-16.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 5,
+        "energy": 9,
+        "publicity": 36,
+        "handSize": 8,
+        "availableData": 31
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 36,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 0/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 131,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-16.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 13,
+        "publicity": 45,
+        "handSize": 18,
+        "availableData": 44
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 38,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-16.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 8,
+        "publicity": 50,
+        "handSize": 10,
+        "availableData": 35
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 39,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-17.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 0,
+        "energy": 4,
+        "publicity": 30,
+        "handSize": 9,
+        "availableData": 16
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 38,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 90,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 138,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 8,
+        "energy": 7,
+        "publicity": 47,
+        "handSize": 14,
+        "availableData": 36
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 36,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 134,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 135,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 16,
+        "publicity": 60,
+        "handSize": 22,
+        "availableData": 43
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 88,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 136,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 137,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-17.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 7,
+        "publicity": 52,
+        "handSize": 7,
+        "availableData": 45
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 39,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 91,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 92,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-18.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 6,
+        "publicity": 37,
+        "handSize": 5,
+        "availableData": 25
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 36,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 75,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 76,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 126,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 127,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-18.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 8,
+        "publicity": 37,
+        "handSize": 12,
+        "availableData": 36
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 71,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 72,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 122,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 123,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-18.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 7,
+        "publicity": 43,
+        "handSize": 11,
+        "availableData": 40
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 35,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 73,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 74,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 124,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 125,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-18.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 6,
+        "energy": 5,
+        "publicity": 76,
+        "handSize": 12,
+        "availableData": 22
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 77,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 78,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 128,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 129,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-19.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 2,
+        "publicity": 31,
+        "handSize": 9,
+        "availableData": 18
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 42,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 94,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 20,
+        "publicity": 64,
+        "handSize": 16,
+        "availableData": 44
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 39,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 88,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 138,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 139,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 0,
+        "energy": 2,
+        "publicity": 25,
+        "handSize": 5,
+        "availableData": 30
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 40,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 90,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-19.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 6,
+        "energy": 7,
+        "publicity": 60,
+        "handSize": 13,
+        "availableData": 36
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 41,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 91,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 92,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-20.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 12,
+        "publicity": 47,
+        "handSize": 7,
+        "availableData": 13
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 38,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 90,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-20.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 11,
+        "energy": 6,
+        "publicity": 40,
+        "handSize": 11,
+        "availableData": 34
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 88,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 12,
+        "publicity": 55,
+        "handSize": 17,
+        "availableData": 52
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 39,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 91,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 92,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 146,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-20.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 6,
+        "energy": 7,
+        "publicity": 62,
+        "handSize": 16,
+        "availableData": 45
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 40,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 93,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 94,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 149,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-21.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 4,
+        "publicity": 50,
+        "handSize": 11,
+        "availableData": 19
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 31,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 70,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 71,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 123,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 124,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-21.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 14,
+        "publicity": 61,
+        "handSize": 14,
+        "availableData": 51
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 32,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 72,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 73,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 125,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 126,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-21.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 9,
+        "publicity": 39,
+        "handSize": 10,
+        "availableData": 30
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 33,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 74,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 75,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 127,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 128,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-21.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 8,
+        "energy": 4,
+        "publicity": 36,
+        "handSize": 18,
+        "availableData": 40
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 34,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 76,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 77,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 129,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 130,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-22.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 6,
+        "publicity": 29,
+        "handSize": 8,
+        "availableData": 24
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 30,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 146,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-22.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 7,
+        "energy": 12,
+        "publicity": 58,
+        "handSize": 17,
+        "availableData": 40
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 27,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 79,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 80,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 140,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-22.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 4,
+        "energy": 7,
+        "publicity": 52,
+        "handSize": 19,
+        "availableData": 39
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 28,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 81,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 82,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-22.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 13,
+        "publicity": 61,
+        "handSize": 18,
+        "availableData": 27
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 29,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-23.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 0,
+        "energy": 5,
+        "publicity": 51,
+        "handSize": 10,
+        "availableData": 18
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 25,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 69,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 70,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 117,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 118,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-23.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 7,
+        "energy": 3,
+        "publicity": 44,
+        "handSize": 16,
+        "availableData": 34
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 26,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 71,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 72,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 119,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 120,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-23.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 2,
+        "energy": 4,
+        "publicity": 42,
+        "handSize": 14,
+        "availableData": 23
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 27,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 73,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 74,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 121,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 122,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-23.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 13,
+        "publicity": 37,
+        "handSize": 14,
+        "availableData": 46
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 28,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 75,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 76,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 123,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 124,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-24.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 3,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 45,
+        "handSize": 9,
+        "availableData": 31
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 38,
+          "detail": "寰宇超动力：第2轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 89,
+          "detail": "寰宇超动力：第3轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 90,
+          "detail": "寰宇超动力轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 147,
+          "detail": "寰宇超动力：第4轮开始：获得 1能量、1宣传；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "publicity": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 148,
+          "detail": "寰宇超动力轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-24.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "grants": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 9,
+        "energy": 4,
+        "publicity": 48,
+        "handSize": 16,
+        "availableData": 36
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 35,
+          "detail": "宇宙大战略集团：第2轮开始：清空奖励槽 3/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 83,
+          "detail": "宇宙大战略集团：第3轮开始：清空奖励槽 2/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 84,
+          "detail": "宇宙大战略集团轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 141,
+          "detail": "宇宙大战略集团：第4轮开始：清空奖励槽 1/3；盲抽 1/1 张",
+          "gain": {
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 142,
+          "detail": "宇宙大战略集团轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 3,
+        "energy": 5,
+        "publicity": 50,
+        "handSize": 12,
+        "availableData": 34
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 36,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 85,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 86,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 143,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 144,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    },
+    {
+      "file": "companysafe-base-24.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "grants": {
+        "credits": 1,
+        "energy": 4,
+        "publicity": 0,
+        "handSize": 4,
+        "availableData": 0
+      },
+      "otherNonIncome": {
+        "credits": 1,
+        "energy": 8,
+        "publicity": 43,
+        "handSize": 8,
+        "availableData": 30
+      },
+      "events": [
+        {
+          "round": 2,
+          "entry": 37,
+          "detail": "作弊实验室：第2轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 87,
+          "detail": "作弊实验室：第3轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 3,
+          "entry": 88,
+          "detail": "作弊实验室轮次加成：第3轮开始：电脑公司额外获得 1能量",
+          "gain": {
+            "energy": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 145,
+          "detail": "作弊实验室：第4轮开始：获得 1能量；盲抽 1/1 张",
+          "gain": {
+            "energy": 1,
+            "handSize": 1
+          }
+        },
+        {
+          "round": 4,
+          "entry": 146,
+          "detail": "作弊实验室轮次加成：第4轮开始：电脑公司额外获得 1信用点；盲抽 1/1 张",
+          "gain": {
+            "credits": 1,
+            "handSize": 1
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2173 @@
+{
+  "scope": "Cohorts selected only by baseline scores, matched by case/player. Baseline ties break by case then player ID. Distinct from comparing each distribution top quartile. Individual large deltas can reflect interactions and stochastic trajectories; do not filter them out of the mean.",
+  "pairs": 64,
+  "all": {
+    "seats": 256,
+    "baselineMean": 226.6171875,
+    "candidateMean": 229.4375,
+    "meanDelta": 2.8203125,
+    "improved": 135,
+    "declined": 119,
+    "unchanged": 2
+  },
+  "baselineHighQuartile": {
+    "seats": 64,
+    "baselineMean": 282.46875,
+    "candidateMean": 260.921875,
+    "meanDelta": -21.546875,
+    "improved": 20,
+    "declined": 44,
+    "unchanged": 0
+  },
+  "baselineLowQuartile": {
+    "seats": 64,
+    "baselineMean": 175.015625,
+    "candidateMean": 203.125,
+    "meanDelta": 28.109375,
+    "improved": 53,
+    "declined": 11,
+    "unchanged": 0
+  },
+  "highestBaselineSeat": {
+    "case": 64,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 349,
+    "candidate": 374,
+    "delta": 25
+  },
+  "largestGains": [
+    {
+      "case": 13,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 255,
+      "candidate": 387,
+      "delta": 132
+    },
+    {
+      "case": 63,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 166,
+      "candidate": 294,
+      "delta": 128
+    },
+    {
+      "case": 31,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 179,
+      "candidate": 301,
+      "delta": 122
+    },
+    {
+      "case": 2,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 185,
+      "candidate": 293,
+      "delta": 108
+    },
+    {
+      "case": 10,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 240,
+      "candidate": 344,
+      "delta": 104
+    }
+  ],
+  "largestLosses": [
+    {
+      "case": 4,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 265,
+      "candidate": 160,
+      "delta": -105
+    },
+    {
+      "case": 42,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 324,
+      "candidate": 228,
+      "delta": -96
+    },
+    {
+      "case": 5,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 242,
+      "candidate": 150,
+      "delta": -92
+    },
+    {
+      "case": 50,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 228,
+      "candidate": 138,
+      "delta": -90
+    },
+    {
+      "case": 21,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 258,
+      "candidate": 169,
+      "delta": -89
+    }
+  ],
+  "rows": [
+    {
+      "case": 1,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 264,
+      "candidate": 200,
+      "delta": -64
+    },
+    {
+      "case": 1,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 225,
+      "candidate": 229,
+      "delta": 4
+    },
+    {
+      "case": 1,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 171,
+      "candidate": 195,
+      "delta": 24
+    },
+    {
+      "case": 1,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 206,
+      "candidate": 224,
+      "delta": 18
+    },
+    {
+      "case": 2,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 228,
+      "candidate": 245,
+      "delta": 17
+    },
+    {
+      "case": 2,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 209,
+      "candidate": 200,
+      "delta": -9
+    },
+    {
+      "case": 2,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 236,
+      "candidate": 243,
+      "delta": 7
+    },
+    {
+      "case": 2,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 185,
+      "candidate": 293,
+      "delta": 108
+    },
+    {
+      "case": 3,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 196,
+      "candidate": 171,
+      "delta": -25
+    },
+    {
+      "case": 3,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 231,
+      "candidate": 306,
+      "delta": 75
+    },
+    {
+      "case": 3,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 214,
+      "candidate": 205,
+      "delta": -9
+    },
+    {
+      "case": 3,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 269,
+      "candidate": 252,
+      "delta": -17
+    },
+    {
+      "case": 4,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 280,
+      "candidate": 370,
+      "delta": 90
+    },
+    {
+      "case": 4,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 166,
+      "candidate": 190,
+      "delta": 24
+    },
+    {
+      "case": 4,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 272,
+      "candidate": 278,
+      "delta": 6
+    },
+    {
+      "case": 4,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 265,
+      "candidate": 160,
+      "delta": -105
+    },
+    {
+      "case": 5,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 255,
+      "candidate": 217,
+      "delta": -38
+    },
+    {
+      "case": 5,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 273,
+      "candidate": 295,
+      "delta": 22
+    },
+    {
+      "case": 5,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 217,
+      "candidate": 228,
+      "delta": 11
+    },
+    {
+      "case": 5,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 242,
+      "candidate": 150,
+      "delta": -92
+    },
+    {
+      "case": 6,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 221,
+      "candidate": 255,
+      "delta": 34
+    },
+    {
+      "case": 6,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 214,
+      "candidate": 221,
+      "delta": 7
+    },
+    {
+      "case": 6,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 279,
+      "candidate": 273,
+      "delta": -6
+    },
+    {
+      "case": 6,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 214,
+      "candidate": 261,
+      "delta": 47
+    },
+    {
+      "case": 7,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 186,
+      "candidate": 215,
+      "delta": 29
+    },
+    {
+      "case": 7,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 301,
+      "candidate": 218,
+      "delta": -83
+    },
+    {
+      "case": 7,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 189,
+      "candidate": 210,
+      "delta": 21
+    },
+    {
+      "case": 7,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 295,
+      "candidate": 342,
+      "delta": 47
+    },
+    {
+      "case": 8,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 209,
+      "candidate": 159,
+      "delta": -50
+    },
+    {
+      "case": 8,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 215,
+      "candidate": 210,
+      "delta": -5
+    },
+    {
+      "case": 8,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 183,
+      "candidate": 272,
+      "delta": 89
+    },
+    {
+      "case": 8,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 223,
+      "candidate": 181,
+      "delta": -42
+    },
+    {
+      "case": 9,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 183,
+      "candidate": 206,
+      "delta": 23
+    },
+    {
+      "case": 9,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 229,
+      "candidate": 213,
+      "delta": -16
+    },
+    {
+      "case": 9,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 197,
+      "candidate": 204,
+      "delta": 7
+    },
+    {
+      "case": 9,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 263,
+      "candidate": 308,
+      "delta": 45
+    },
+    {
+      "case": 10,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 240,
+      "candidate": 344,
+      "delta": 104
+    },
+    {
+      "case": 10,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 163,
+      "candidate": 209,
+      "delta": 46
+    },
+    {
+      "case": 10,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 245,
+      "candidate": 170,
+      "delta": -75
+    },
+    {
+      "case": 10,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 213,
+      "candidate": 186,
+      "delta": -27
+    },
+    {
+      "case": 11,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 274,
+      "candidate": 279,
+      "delta": 5
+    },
+    {
+      "case": 11,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 199,
+      "candidate": 202,
+      "delta": 3
+    },
+    {
+      "case": 11,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 250,
+      "candidate": 280,
+      "delta": 30
+    },
+    {
+      "case": 11,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 170,
+      "candidate": 198,
+      "delta": 28
+    },
+    {
+      "case": 12,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 180,
+      "candidate": 188,
+      "delta": 8
+    },
+    {
+      "case": 12,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 168,
+      "candidate": 191,
+      "delta": 23
+    },
+    {
+      "case": 12,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 236,
+      "candidate": 266,
+      "delta": 30
+    },
+    {
+      "case": 12,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 266,
+      "candidate": 263,
+      "delta": -3
+    },
+    {
+      "case": 13,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 262,
+      "candidate": 215,
+      "delta": -47
+    },
+    {
+      "case": 13,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 174,
+      "candidate": 176,
+      "delta": 2
+    },
+    {
+      "case": 13,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 213,
+      "candidate": 235,
+      "delta": 22
+    },
+    {
+      "case": 13,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 255,
+      "candidate": 387,
+      "delta": 132
+    },
+    {
+      "case": 14,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 231,
+      "candidate": 186,
+      "delta": -45
+    },
+    {
+      "case": 14,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 242,
+      "candidate": 201,
+      "delta": -41
+    },
+    {
+      "case": 14,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 199,
+      "candidate": 242,
+      "delta": 43
+    },
+    {
+      "case": 14,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 219,
+      "candidate": 206,
+      "delta": -13
+    },
+    {
+      "case": 15,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 184,
+      "candidate": 182,
+      "delta": -2
+    },
+    {
+      "case": 15,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 182,
+      "candidate": 167,
+      "delta": -15
+    },
+    {
+      "case": 15,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 173,
+      "candidate": 198,
+      "delta": 25
+    },
+    {
+      "case": 15,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 217,
+      "candidate": 265,
+      "delta": 48
+    },
+    {
+      "case": 16,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 215,
+      "candidate": 189,
+      "delta": -26
+    },
+    {
+      "case": 16,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 220,
+      "candidate": 262,
+      "delta": 42
+    },
+    {
+      "case": 16,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 252,
+      "candidate": 210,
+      "delta": -42
+    },
+    {
+      "case": 16,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 236,
+      "candidate": 228,
+      "delta": -8
+    },
+    {
+      "case": 17,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 219,
+      "candidate": 301,
+      "delta": 82
+    },
+    {
+      "case": 17,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 235,
+      "candidate": 188,
+      "delta": -47
+    },
+    {
+      "case": 17,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 187,
+      "candidate": 193,
+      "delta": 6
+    },
+    {
+      "case": 17,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 242,
+      "candidate": 204,
+      "delta": -38
+    },
+    {
+      "case": 18,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 257,
+      "candidate": 276,
+      "delta": 19
+    },
+    {
+      "case": 18,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 200,
+      "candidate": 244,
+      "delta": 44
+    },
+    {
+      "case": 18,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 197,
+      "candidate": 233,
+      "delta": 36
+    },
+    {
+      "case": 18,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 244,
+      "candidate": 202,
+      "delta": -42
+    },
+    {
+      "case": 19,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 331,
+      "candidate": 264,
+      "delta": -67
+    },
+    {
+      "case": 19,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 192,
+      "candidate": 221,
+      "delta": 29
+    },
+    {
+      "case": 19,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 242,
+      "candidate": 255,
+      "delta": 13
+    },
+    {
+      "case": 19,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 169,
+      "candidate": 216,
+      "delta": 47
+    },
+    {
+      "case": 20,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 237,
+      "candidate": 223,
+      "delta": -14
+    },
+    {
+      "case": 20,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 279,
+      "candidate": 354,
+      "delta": 75
+    },
+    {
+      "case": 20,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 276,
+      "candidate": 253,
+      "delta": -23
+    },
+    {
+      "case": 20,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 189,
+      "candidate": 190,
+      "delta": 1
+    },
+    {
+      "case": 21,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 211,
+      "candidate": 271,
+      "delta": 60
+    },
+    {
+      "case": 21,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 305,
+      "candidate": 225,
+      "delta": -80
+    },
+    {
+      "case": 21,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 258,
+      "candidate": 169,
+      "delta": -89
+    },
+    {
+      "case": 21,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 188,
+      "candidate": 181,
+      "delta": -7
+    },
+    {
+      "case": 22,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 197,
+      "candidate": 230,
+      "delta": 33
+    },
+    {
+      "case": 22,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 237,
+      "candidate": 240,
+      "delta": 3
+    },
+    {
+      "case": 22,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 207,
+      "candidate": 214,
+      "delta": 7
+    },
+    {
+      "case": 22,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 284,
+      "candidate": 248,
+      "delta": -36
+    },
+    {
+      "case": 23,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 219,
+      "candidate": 213,
+      "delta": -6
+    },
+    {
+      "case": 23,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 225,
+      "candidate": 189,
+      "delta": -36
+    },
+    {
+      "case": 23,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 229,
+      "candidate": 254,
+      "delta": 25
+    },
+    {
+      "case": 23,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 221,
+      "candidate": 274,
+      "delta": 53
+    },
+    {
+      "case": 24,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 146,
+      "candidate": 202,
+      "delta": 56
+    },
+    {
+      "case": 24,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 230,
+      "candidate": 241,
+      "delta": 11
+    },
+    {
+      "case": 24,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 189,
+      "candidate": 184,
+      "delta": -5
+    },
+    {
+      "case": 24,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 197,
+      "candidate": 229,
+      "delta": 32
+    },
+    {
+      "case": 25,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 230,
+      "candidate": 232,
+      "delta": 2
+    },
+    {
+      "case": 25,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 170,
+      "candidate": 183,
+      "delta": 13
+    },
+    {
+      "case": 25,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 221,
+      "candidate": 275,
+      "delta": 54
+    },
+    {
+      "case": 25,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 244,
+      "candidate": 199,
+      "delta": -45
+    },
+    {
+      "case": 26,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 322,
+      "candidate": 300,
+      "delta": -22
+    },
+    {
+      "case": 26,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 216,
+      "candidate": 225,
+      "delta": 9
+    },
+    {
+      "case": 26,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 240,
+      "candidate": 228,
+      "delta": -12
+    },
+    {
+      "case": 26,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 248,
+      "candidate": 218,
+      "delta": -30
+    },
+    {
+      "case": 27,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 185,
+      "candidate": 209,
+      "delta": 24
+    },
+    {
+      "case": 27,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 232,
+      "candidate": 291,
+      "delta": 59
+    },
+    {
+      "case": 27,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 238,
+      "candidate": 238,
+      "delta": 0
+    },
+    {
+      "case": 27,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 269,
+      "candidate": 272,
+      "delta": 3
+    },
+    {
+      "case": 28,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 235,
+      "candidate": 196,
+      "delta": -39
+    },
+    {
+      "case": 28,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 311,
+      "candidate": 277,
+      "delta": -34
+    },
+    {
+      "case": 28,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 274,
+      "candidate": 267,
+      "delta": -7
+    },
+    {
+      "case": 28,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 151,
+      "candidate": 174,
+      "delta": 23
+    },
+    {
+      "case": 29,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 269,
+      "candidate": 187,
+      "delta": -82
+    },
+    {
+      "case": 29,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 198,
+      "candidate": 183,
+      "delta": -15
+    },
+    {
+      "case": 29,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 179,
+      "candidate": 199,
+      "delta": 20
+    },
+    {
+      "case": 29,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 169,
+      "candidate": 221,
+      "delta": 52
+    },
+    {
+      "case": 30,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 180,
+      "candidate": 283,
+      "delta": 103
+    },
+    {
+      "case": 30,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 273,
+      "candidate": 310,
+      "delta": 37
+    },
+    {
+      "case": 30,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 173,
+      "candidate": 179,
+      "delta": 6
+    },
+    {
+      "case": 30,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 299,
+      "candidate": 235,
+      "delta": -64
+    },
+    {
+      "case": 31,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 179,
+      "candidate": 301,
+      "delta": 122
+    },
+    {
+      "case": 31,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 273,
+      "candidate": 247,
+      "delta": -26
+    },
+    {
+      "case": 31,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 199,
+      "candidate": 191,
+      "delta": -8
+    },
+    {
+      "case": 31,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 302,
+      "candidate": 255,
+      "delta": -47
+    },
+    {
+      "case": 32,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 193,
+      "candidate": 251,
+      "delta": 58
+    },
+    {
+      "case": 32,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 305,
+      "candidate": 326,
+      "delta": 21
+    },
+    {
+      "case": 32,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 194,
+      "candidate": 222,
+      "delta": 28
+    },
+    {
+      "case": 32,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 181,
+      "candidate": 162,
+      "delta": -19
+    },
+    {
+      "case": 33,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 199,
+      "candidate": 202,
+      "delta": 3
+    },
+    {
+      "case": 33,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 283,
+      "candidate": 281,
+      "delta": -2
+    },
+    {
+      "case": 33,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 156,
+      "candidate": 223,
+      "delta": 67
+    },
+    {
+      "case": 33,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 251,
+      "candidate": 310,
+      "delta": 59
+    },
+    {
+      "case": 34,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 184,
+      "candidate": 175,
+      "delta": -9
+    },
+    {
+      "case": 34,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 182,
+      "candidate": 184,
+      "delta": 2
+    },
+    {
+      "case": 34,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 256,
+      "candidate": 258,
+      "delta": 2
+    },
+    {
+      "case": 34,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 272,
+      "candidate": 294,
+      "delta": 22
+    },
+    {
+      "case": 35,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 256,
+      "candidate": 203,
+      "delta": -53
+    },
+    {
+      "case": 35,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 233,
+      "candidate": 247,
+      "delta": 14
+    },
+    {
+      "case": 35,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 178,
+      "candidate": 200,
+      "delta": 22
+    },
+    {
+      "case": 35,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 196,
+      "candidate": 257,
+      "delta": 61
+    },
+    {
+      "case": 36,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 282,
+      "candidate": 250,
+      "delta": -32
+    },
+    {
+      "case": 36,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 235,
+      "candidate": 237,
+      "delta": 2
+    },
+    {
+      "case": 36,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 163,
+      "candidate": 204,
+      "delta": 41
+    },
+    {
+      "case": 36,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 256,
+      "candidate": 224,
+      "delta": -32
+    },
+    {
+      "case": 37,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 229,
+      "candidate": 219,
+      "delta": -10
+    },
+    {
+      "case": 37,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 212,
+      "candidate": 249,
+      "delta": 37
+    },
+    {
+      "case": 37,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 246,
+      "candidate": 311,
+      "delta": 65
+    },
+    {
+      "case": 37,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 272,
+      "candidate": 196,
+      "delta": -76
+    },
+    {
+      "case": 38,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 260,
+      "candidate": 237,
+      "delta": -23
+    },
+    {
+      "case": 38,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 163,
+      "candidate": 161,
+      "delta": -2
+    },
+    {
+      "case": 38,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 213,
+      "candidate": 179,
+      "delta": -34
+    },
+    {
+      "case": 38,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 296,
+      "candidate": 288,
+      "delta": -8
+    },
+    {
+      "case": 39,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 213,
+      "candidate": 216,
+      "delta": 3
+    },
+    {
+      "case": 39,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 242,
+      "candidate": 237,
+      "delta": -5
+    },
+    {
+      "case": 39,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 214,
+      "candidate": 206,
+      "delta": -8
+    },
+    {
+      "case": 39,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 251,
+      "candidate": 210,
+      "delta": -41
+    },
+    {
+      "case": 40,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 283,
+      "candidate": 286,
+      "delta": 3
+    },
+    {
+      "case": 40,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 251,
+      "candidate": 235,
+      "delta": -16
+    },
+    {
+      "case": 40,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 258,
+      "candidate": 242,
+      "delta": -16
+    },
+    {
+      "case": 40,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 206,
+      "candidate": 180,
+      "delta": -26
+    },
+    {
+      "case": 41,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 306,
+      "candidate": 312,
+      "delta": 6
+    },
+    {
+      "case": 41,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 183,
+      "candidate": 198,
+      "delta": 15
+    },
+    {
+      "case": 41,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 284,
+      "candidate": 257,
+      "delta": -27
+    },
+    {
+      "case": 41,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 188,
+      "candidate": 213,
+      "delta": 25
+    },
+    {
+      "case": 42,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 324,
+      "candidate": 228,
+      "delta": -96
+    },
+    {
+      "case": 42,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 247,
+      "candidate": 246,
+      "delta": -1
+    },
+    {
+      "case": 42,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 199,
+      "candidate": 251,
+      "delta": 52
+    },
+    {
+      "case": 42,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 180,
+      "candidate": 256,
+      "delta": 76
+    },
+    {
+      "case": 43,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 186,
+      "candidate": 215,
+      "delta": 29
+    },
+    {
+      "case": 43,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 225,
+      "candidate": 200,
+      "delta": -25
+    },
+    {
+      "case": 43,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 230,
+      "candidate": 228,
+      "delta": -2
+    },
+    {
+      "case": 43,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 295,
+      "candidate": 317,
+      "delta": 22
+    },
+    {
+      "case": 44,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 142,
+      "candidate": 197,
+      "delta": 55
+    },
+    {
+      "case": 44,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 260,
+      "candidate": 243,
+      "delta": -17
+    },
+    {
+      "case": 44,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 236,
+      "candidate": 219,
+      "delta": -17
+    },
+    {
+      "case": 44,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 292,
+      "candidate": 254,
+      "delta": -38
+    },
+    {
+      "case": 45,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 236,
+      "candidate": 196,
+      "delta": -40
+    },
+    {
+      "case": 45,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 222,
+      "candidate": 234,
+      "delta": 12
+    },
+    {
+      "case": 45,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 188,
+      "candidate": 207,
+      "delta": 19
+    },
+    {
+      "case": 45,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 179,
+      "candidate": 148,
+      "delta": -31
+    },
+    {
+      "case": 46,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 164,
+      "candidate": 209,
+      "delta": 45
+    },
+    {
+      "case": 46,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 246,
+      "candidate": 319,
+      "delta": 73
+    },
+    {
+      "case": 46,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 204,
+      "candidate": 195,
+      "delta": -9
+    },
+    {
+      "case": 46,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 278,
+      "candidate": 199,
+      "delta": -79
+    },
+    {
+      "case": 47,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 215,
+      "candidate": 191,
+      "delta": -24
+    },
+    {
+      "case": 47,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 276,
+      "candidate": 202,
+      "delta": -74
+    },
+    {
+      "case": 47,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 161,
+      "candidate": 186,
+      "delta": 25
+    },
+    {
+      "case": 47,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 216,
+      "candidate": 217,
+      "delta": 1
+    },
+    {
+      "case": 48,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 306,
+      "candidate": 249,
+      "delta": -57
+    },
+    {
+      "case": 48,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 166,
+      "candidate": 249,
+      "delta": 83
+    },
+    {
+      "case": 48,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 205,
+      "candidate": 300,
+      "delta": 95
+    },
+    {
+      "case": 48,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 226,
+      "candidate": 253,
+      "delta": 27
+    },
+    {
+      "case": 49,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 177,
+      "candidate": 203,
+      "delta": 26
+    },
+    {
+      "case": 49,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 242,
+      "candidate": 251,
+      "delta": 9
+    },
+    {
+      "case": 49,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 213,
+      "candidate": 164,
+      "delta": -49
+    },
+    {
+      "case": 49,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 275,
+      "candidate": 211,
+      "delta": -64
+    },
+    {
+      "case": 50,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 228,
+      "candidate": 138,
+      "delta": -90
+    },
+    {
+      "case": 50,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 183,
+      "candidate": 166,
+      "delta": -17
+    },
+    {
+      "case": 50,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 230,
+      "candidate": 311,
+      "delta": 81
+    },
+    {
+      "case": 50,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 230,
+      "candidate": 196,
+      "delta": -34
+    },
+    {
+      "case": 51,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 248,
+      "candidate": 182,
+      "delta": -66
+    },
+    {
+      "case": 51,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 264,
+      "candidate": 263,
+      "delta": -1
+    },
+    {
+      "case": 51,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 136,
+      "candidate": 176,
+      "delta": 40
+    },
+    {
+      "case": 51,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 266,
+      "candidate": 208,
+      "delta": -58
+    },
+    {
+      "case": 52,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 201,
+      "candidate": 190,
+      "delta": -11
+    },
+    {
+      "case": 52,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 225,
+      "candidate": 217,
+      "delta": -8
+    },
+    {
+      "case": 52,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 211,
+      "candidate": 208,
+      "delta": -3
+    },
+    {
+      "case": 52,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 297,
+      "candidate": 309,
+      "delta": 12
+    },
+    {
+      "case": 53,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 273,
+      "candidate": 234,
+      "delta": -39
+    },
+    {
+      "case": 53,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 229,
+      "candidate": 304,
+      "delta": 75
+    },
+    {
+      "case": 53,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 225,
+      "candidate": 211,
+      "delta": -14
+    },
+    {
+      "case": 53,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 178,
+      "candidate": 183,
+      "delta": 5
+    },
+    {
+      "case": 54,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 254,
+      "candidate": 297,
+      "delta": 43
+    },
+    {
+      "case": 54,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 179,
+      "candidate": 195,
+      "delta": 16
+    },
+    {
+      "case": 54,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 251,
+      "candidate": 263,
+      "delta": 12
+    },
+    {
+      "case": 54,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 216,
+      "candidate": 214,
+      "delta": -2
+    },
+    {
+      "case": 55,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 196,
+      "candidate": 281,
+      "delta": 85
+    },
+    {
+      "case": 55,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 154,
+      "candidate": 160,
+      "delta": 6
+    },
+    {
+      "case": 55,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 197,
+      "candidate": 212,
+      "delta": 15
+    },
+    {
+      "case": 55,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 221,
+      "candidate": 261,
+      "delta": 40
+    },
+    {
+      "case": 56,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 168,
+      "candidate": 171,
+      "delta": 3
+    },
+    {
+      "case": 56,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 247,
+      "candidate": 275,
+      "delta": 28
+    },
+    {
+      "case": 56,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 273,
+      "candidate": 256,
+      "delta": -17
+    },
+    {
+      "case": 56,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 212,
+      "candidate": 136,
+      "delta": -76
+    },
+    {
+      "case": 57,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 234,
+      "candidate": 213,
+      "delta": -21
+    },
+    {
+      "case": 57,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 219,
+      "candidate": 181,
+      "delta": -38
+    },
+    {
+      "case": 57,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 216,
+      "candidate": 195,
+      "delta": -21
+    },
+    {
+      "case": 57,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 207,
+      "candidate": 236,
+      "delta": 29
+    },
+    {
+      "case": 58,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "baseline": 206,
+      "candidate": 192,
+      "delta": -14
+    },
+    {
+      "case": 58,
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "baseline": 221,
+      "candidate": 218,
+      "delta": -3
+    },
+    {
+      "case": 58,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 258,
+      "candidate": 282,
+      "delta": 24
+    },
+    {
+      "case": 58,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 211,
+      "candidate": 278,
+      "delta": 67
+    },
+    {
+      "case": 59,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 226,
+      "candidate": 298,
+      "delta": 72
+    },
+    {
+      "case": 59,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 229,
+      "candidate": 259,
+      "delta": 30
+    },
+    {
+      "case": 59,
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "baseline": 165,
+      "candidate": 126,
+      "delta": -39
+    },
+    {
+      "case": 59,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 226,
+      "candidate": 157,
+      "delta": -69
+    },
+    {
+      "case": 60,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 336,
+      "candidate": 313,
+      "delta": -23
+    },
+    {
+      "case": 60,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 204,
+      "candidate": 160,
+      "delta": -44
+    },
+    {
+      "case": 60,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 263,
+      "candidate": 185,
+      "delta": -78
+    },
+    {
+      "case": 60,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 251,
+      "candidate": 254,
+      "delta": 3
+    },
+    {
+      "case": 61,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 160,
+      "candidate": 177,
+      "delta": 17
+    },
+    {
+      "case": 61,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 207,
+      "candidate": 192,
+      "delta": -15
+    },
+    {
+      "case": 61,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 262,
+      "candidate": 246,
+      "delta": -16
+    },
+    {
+      "case": 61,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 259,
+      "candidate": 311,
+      "delta": 52
+    },
+    {
+      "case": 62,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 238,
+      "candidate": 230,
+      "delta": -8
+    },
+    {
+      "case": 62,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "baseline": 251,
+      "candidate": 225,
+      "delta": -26
+    },
+    {
+      "case": 62,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 338,
+      "candidate": 272,
+      "delta": -66
+    },
+    {
+      "case": 62,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "baseline": 198,
+      "candidate": 201,
+      "delta": 3
+    },
+    {
+      "case": 63,
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "baseline": 180,
+      "candidate": 175,
+      "delta": -5
+    },
+    {
+      "case": 63,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 222,
+      "candidate": 135,
+      "delta": -87
+    },
+    {
+      "case": 63,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 166,
+      "candidate": 294,
+      "delta": 128
+    },
+    {
+      "case": 63,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 234,
+      "candidate": 234,
+      "delta": 0
+    },
+    {
+      "case": 64,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 349,
+      "candidate": 374,
+      "delta": 25
+    },
+    {
+      "case": 64,
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 173,
+      "candidate": 181,
+      "delta": 8
+    },
+    {
+      "case": 64,
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "baseline": 320,
+      "candidate": 297,
+      "delta": -23
+    },
+    {
+      "case": 64,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "baseline": 156,
+      "candidate": 169,
+      "delta": 13
+    }
+  ]
+}
