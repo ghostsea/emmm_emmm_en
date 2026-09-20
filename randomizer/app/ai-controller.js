@@ -17030,9 +17030,27 @@
       return Math.min(18, 8 + Math.max(0, 50 - currentScore) * 0.4 + Math.min(6, planScore * 0.12));
     }
 
+    function getAiHuanyuLaunchMoveAllowance(player = getCurrentPlayer()) {
+      if (!player || !industry) return 0;
+      const industryCard = getAiIndustryCard(player);
+      if (industry.getIndustryDefinition?.(industryCard)?.activeAbilityId !== "huanyu_free_moves") return 0;
+      const layout = industry.getIndustryActionMarkerLayout?.(industryCard);
+      const check = industry.canMarkIndustryAction?.(player, turnState.roundNumber, {
+        turnNumber: turnState.turnNumber,
+        hasMarker: Boolean(layout),
+        industryCard,
+      });
+      if (!check?.ok) return 0;
+      // With at most one existing probe, the new probe does not displace another
+      // probe's use of the company's two distinct-probe movement effects.
+      if (rocketActions.getRocketsForPlayer(rocketState, player.id).length > 1) return 0;
+      return 1;
+    }
+
     function scoreAiPostLaunchMovePlan(player = getCurrentPlayer()) {
       if (!player || state.pendingActionExecuted) return null;
       if (!players.canAfford(player, getAiLaunchPaymentCost())) return null;
+      const industryMovePoints = getAiHuanyuLaunchMoveAllowance(player);
       const from = getEarthSectorCoordinate();
       const candidates = AI_MOVE_DIRECTIONS
         .map((direction) => {
@@ -17046,7 +17064,8 @@
           if (to.x === from.x && to.y === from.y) return null;
           if (rocketActions.findAvailableSlotIndex(rocketState, to.x, to.y, null) == null) return null;
           const requiredMovePoints = getAiRequiredMovePointsFromCoordinate(player, from);
-          if (!canPayForMove(player, requiredMovePoints).ok) return null;
+          const paidMovePoints = Math.max(0, requiredMovePoints - industryMovePoints);
+          if (!canPayForMove(player, paidMovePoints).ok) return null;
           const routeScore = scoreAiMoveTowardTargets(from, to, player, { mainActionAlreadyUsed: true });
           const movementGain = applyAiStrategyWeight(applyAiStrategyWeight(routeScore.score, "route", 0.7), "move", 0.8)
             + direction.score * 0.08;
@@ -17054,7 +17073,7 @@
             routeTarget: routeScore.target,
             requiredMovePoints,
           });
-          const movePayment = estimateAiMovePayment(player, requiredMovePoints, {
+          const movePayment = estimateAiMovePayment(player, paidMovePoints, {
             preserveEnergy: preserveEnergyForRouteCashout,
           });
           const projectedResourcesAfterLaunchMove = getAiProjectedResourcesAfterLaunchMove(player, {
@@ -17099,7 +17118,10 @@
           return {
             type: "main-then-quick",
             mainActionId: "launch",
-            quickActionId: "move",
+            quickActionId: industryMovePoints ? "industry" : "move",
+            industryAbilityId: industryMovePoints ? "huanyu_free_moves" : null,
+            providedMovePoints: industryMovePoints,
+            paidMovePoints,
             direction: direction.id,
             directionLabel: direction.label,
             from,

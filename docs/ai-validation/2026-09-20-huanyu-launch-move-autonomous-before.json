@@ -1,0 +1,99 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "selected": {
+        "id": "pass",
+        "kind": "pass",
+        "available": true,
+        "reason": null,
+        "score": -2.6999999999999997,
+        "actionGraph": {
+          "gain": 0,
+          "cost": 0,
+          "finalMarginal": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": -2.7
+        },
+        "breakdown": {
+          "existingScore": -2.7,
+          "gain": 0,
+          "cost": 0,
+          "finalMarginal": 0,
+          "finalMarkCashout": 0,
+          "missingFinalMarkPenalty": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": -2.7
+        }
+      },
+      "launch": {
+        "id": "launch",
+        "kind": "main",
+        "available": true,
+        "reason": null,
+        "plan": null,
+        "gain": -3,
+        "cost": 12,
+        "score": -15,
+        "valueBreakdown": {
+          "launchGain": -3,
+          "launchCost": 12,
+          "launchReservePenalty": 0,
+          "postLaunchMovePlanScore": -7.0688827555839975,
+          "lateLaunchPenalty": 0,
+          "rawLateLaunchPenalty": 0,
+          "lateLaunchPenaltyRelief": 0,
+          "grandStrategyFinalLaunchTriggerRouteBridge": null,
+          "extraLaunchPacePenalty": 0,
+          "finalSecondMarkExtraLaunchPenalty": 0,
+          "noRouteLaunchPenalty": 0,
+          "weakEarlyPostLaunchRoutePenalty": 26,
+          "terminalStagingOnlyLaunchPenalty": 0
+        },
+        "actionGraph": {
+          "gain": -3,
+          "cost": 12,
+          "finalMarginal": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": -14.16
+        },
+        "breakdown": {
+          "launchGain": -3,
+          "launchCost": 12,
+          "launchReservePenalty": 0,
+          "postLaunchMovePlanScore": -7.0688827555839975,
+          "lateLaunchPenalty": 0,
+          "rawLateLaunchPenalty": 0,
+          "lateLaunchPenaltyRelief": 0,
+          "grandStrategyFinalLaunchTriggerRouteBridge": null,
+          "extraLaunchPacePenalty": 0,
+          "finalSecondMarkExtraLaunchPenalty": 0,
+          "noRouteLaunchPenalty": 0,
+          "weakEarlyPostLaunchRoutePenalty": 26,
+          "terminalStagingOnlyLaunchPenalty": 0,
+          "existingScore": -15,
+          "gain": -3,
+          "cost": 12,
+          "finalMarginal": 0,
+          "finalMarkCashout": 0,
+          "missingFinalMarkPenalty": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": -14.16,
+          "aiStyle": "route",
+          "aiStyleMultiplier": 1.14,
+          "finalFormulaStyleMultiplier": 1,
+          "missingFinalMarkMultiplier": 1,
+          "netBeforeStyle": -15
+        }
+      },
+      "first": {
+        "ok": true,
+        "message": "PASS：请依次点击必做效果"
+      }
+    }
+  }
+}
