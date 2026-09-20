@@ -1,0 +1,82 @@
+{
+  "decision": "hold-independent-branch",
+  "reason": "Small positive mean and all company point estimates, upper distribution improves, but substantial original high-seat losses and uncertain average gain. Does not demonstrate requested +10 or uniformly improved resource closure; retain for evidence rather than claim no benefit or promote by scan count.",
+  "pairs": 64,
+  "sourceCommit": "38632c1d6153e9a5536458110d0ec40720ec9f75",
+  "baselineMean": 221.46484375,
+  "candidateMean": 223.76171875,
+  "meanDelta": 2.296875,
+  "pairedGameStandardError": 1.8956033596125026,
+  "approximateNormal95Interval": [
+    -1.4185075848405049,
+    6.012257584840505
+  ],
+  "companies": {
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 250.8671875,
+      "candidate": 252.6875,
+      "meanDelta": 1.8203125,
+      "minimumDelta": 23
+    },
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 185.21875,
+      "candidate": 187.859375,
+      "meanDelta": 2.640625,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 198.90625,
+      "candidate": 201.8125,
+      "meanDelta": 2.90625,
+      "minimumDelta": 5
+    }
+  },
+  "distribution": {
+    "mean": 2.296875,
+    "min": 0,
+    "p10": 1,
+    "p25": 6.75,
+    "median": 0,
+    "p75": 1.25,
+    "max": 48,
+    "topQuartileMean": 3,
+    "winnerMean": 3.53125,
+    "minimumPerGameMean": 0.828125,
+    "seats270Plus": 3,
+    "seats300Plus": 1
+  },
+  "baselineHighCohort": {
+    "seats": 64,
+    "baselineMean": 284.890625,
+    "candidateMean": 266.578125,
+    "meanDelta": -18.3125,
+    "improved": 18,
+    "declined": 44,
+    "unchanged": 2
+  },
+  "baselineLowCohort": {
+    "seats": 64,
+    "baselineMean": 165.171875,
+    "candidateMean": 180.328125,
+    "meanDelta": 15.15625,
+    "improved": 41,
+    "declined": 21,
+    "unchanged": 2
+  },
+  "highestBaselineSeat": {
+    "case": 1,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 357,
+    "candidate": 305,
+    "delta": -52
+  },
+  "bugCount": 0,
+  "ledgerSeats": 512,
+  "cardPayments": 2963,
+  "scanPayments": 3019,
+  "rule": "All64 fresh pairs retained; same c0a7f8e4 rules, frozen source, independent alien seeds. No seed exclusions. Now seen development evidence, not future unseen validation."
+}

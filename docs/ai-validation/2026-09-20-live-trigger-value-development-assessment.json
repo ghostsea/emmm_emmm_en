@@ -1,0 +1,76 @@
+{
+  "decision": "development-only-new-random32-next",
+  "pairs": 24,
+  "sourceCommit": "7b2aadb082bc882af1ca4a804bd12d99c98f19ca",
+  "baselineMean": 225.0625,
+  "candidateMean": 226.05208333333334,
+  "meanDelta": 0.9895833333333428,
+  "pairedGameStandardError": 0.8205743126595046,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 253.95833333333334,
+      "meanDelta": 2.375,
+      "minimumDelta": -7
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 189,
+      "meanDelta": 0.9583333333333428,
+      "minimumDelta": 12
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 207.29166666666666,
+      "meanDelta": -1.75,
+      "minimumDelta": -1
+    }
+  },
+  "distribution": {
+    "mean": 0.9895833333333428,
+    "min": 9,
+    "p10": 0,
+    "p25": -1.25,
+    "median": -2.5,
+    "p75": 0,
+    "max": 0,
+    "topQuartileMean": 3.4166666666666856,
+    "winnerMean": 3.7916666666666856,
+    "minimumPerGameMean": 2.5416666666666856,
+    "seats270Plus": 1,
+    "seats300Plus": 2
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 275.9583333333333,
+    "meanDelta": -0.041666666666666664,
+    "improved": 3,
+    "declined": 4,
+    "unchanged": 17
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 168.79166666666666,
+    "meanDelta": 2.4166666666666665,
+    "improved": 4,
+    "declined": 2,
+    "unchanged": 18
+  },
+  "highestBaselineSeat": {
+    "case": 5,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 328,
+    "candidate": 328,
+    "delta": 0
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1138,
+  "limitations": "Small +0.99 point estimate, 66/96 seats unchanged, H +0.96 but Grand -1.75; H main actions and new-card plays slightly decline. Existing current reward valuation is partial; no future capped-resource or complex-action chains, no claim +10 achieved. First-slot matching differs from first-legal only by conservative omission beyond complex earlier matches. Fresh32 planned after freeze, no adoption yet."
+}
