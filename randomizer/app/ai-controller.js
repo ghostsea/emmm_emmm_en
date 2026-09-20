@@ -11265,7 +11265,10 @@
     function getAiPendingTaskRouteCashout(player, predicate) {
       if (!player || typeof predicate !== "function") return { value: 0, directScore: 0, count: 0 };
       return listAiUncompletedCardTasksForPlayer(player)
-        .filter(({ task }) => predicate(task?.condition || {}, task))
+        .filter(({ task }) => (
+          summarizeAiTaskCondition(task?.condition || {}, player)?.met !== true
+          && predicate(task?.condition || {}, task)
+        ))
         .reduce((result, { task }) => {
           const value = scoreAiTaskRouteCompletionValue(task, player);
           if (value <= 0) return result;
@@ -11704,6 +11707,10 @@
       const completedTaskIds = new Set(card?.cardEffectState?.completedTaskIds || []);
       for (const task of model?.tasks || []) {
         if (completedTaskIds.has(task.id)) continue;
+        // A ready reserved task can be collected without another enabling action.
+        // Hand tasks still use their existing demand; playing them can change resources.
+        if ((player?.reservedCards || []).includes(card)
+          && summarizeAiTaskCondition(task.condition || {}, player)?.met === true) continue;
         addAiTaskConditionDemand(demand, task, weight, player, context);
       }
       for (const trigger of model?.triggers || []) {
