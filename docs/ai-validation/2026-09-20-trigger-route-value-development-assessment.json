@@ -1,0 +1,119 @@
+{
+  "decision": "held-no-fresh-validation",
+  "sourceCommit": "c9119ee1a52f5d756df8f4b36ec1f76b5e3d6adb",
+  "pairs": 24,
+  "meanDelta": -0.9895833333333428,
+  "pairedGameStandardError": 1.1296681696901576,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 252.45833333333334,
+      "meanDelta": 0.875,
+      "minimumDelta": 11
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 189,
+      "meanDelta": 0.9583333333333428,
+      "minimumDelta": 12
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 202.375,
+      "meanDelta": -6.666666666666657,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -0.9895833333333428,
+    "min": 10,
+    "p10": 0,
+    "p25": 1.5,
+    "median": -5.5,
+    "p75": -6.5,
+    "max": -1,
+    "topQuartileMean": 2.0416666666666856,
+    "winnerMean": 1.75,
+    "minimumPerGameMean": 0.9583333333333428,
+    "seats270Plus": 1,
+    "seats300Plus": 2
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 273.25,
+    "meanDelta": -2.75,
+    "improved": 5,
+    "declined": 9,
+    "unchanged": 10
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 170.58333333333334,
+    "meanDelta": 4.208333333333333,
+    "improved": 6,
+    "declined": 3,
+    "unchanged": 15
+  },
+  "highestBaselineSeat": {
+    "case": 5,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 328,
+    "candidate": 325,
+    "delta": -3
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1132,
+  "triggerChoices": {
+    "choices": 70,
+    "changedFromFirstLegal": 23,
+    "completesCards": 2,
+    "positiveCompletionValue": 1,
+    "changedEffectTypes": {
+      "card_free_move": 1,
+      "runezu_symbol_reward": 6,
+      "gain_resources": 15,
+      "draw_cards": 1
+    },
+    "companies": {
+      "寰宇超动力": {
+        "choices": 16,
+        "changedFromFirstLegal": 7,
+        "completesCards": 0,
+        "positiveCompletionValue": 0,
+        "changedEffectTypes": {
+          "card_free_move": 1,
+          "gain_resources": 4,
+          "runezu_symbol_reward": 2
+        }
+      },
+      "作弊实验室": {
+        "choices": 34,
+        "changedFromFirstLegal": 13,
+        "completesCards": 0,
+        "positiveCompletionValue": 0,
+        "changedEffectTypes": {
+          "runezu_symbol_reward": 4,
+          "gain_resources": 9
+        }
+      },
+      "宇宙大战略集团": {
+        "choices": 20,
+        "changedFromFirstLegal": 3,
+        "completesCards": 2,
+        "positiveCompletionValue": 1,
+        "changedEffectTypes": {
+          "draw_cards": 1,
+          "gain_resources": 2
+        }
+      }
+    }
+  },
+  "limitations": "Corrected launch route improves this development mean by0.385417 over older d351, but remains -0.989583 vs default and Grand -6.666667. No adoption or fresh random run. Current route scorer also counts a ready task pending settlement, which can overstate repeat route value; investigate separately rather than adding company/seed gates."
+}

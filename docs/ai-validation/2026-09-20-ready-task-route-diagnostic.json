@@ -1,0 +1,342 @@
+{
+  "scope": "Observed case11: launch preview at388 values b72 Mars task as a future route benefit. Actual task ready394 and completion395 happen before first subsequent move397; thus another Mars route is not required to obtain this task reward. Full downstream score effects are not isolated by this observation.",
+  "sourceCommit": "c9119ee1a52f5d756df8f4b36ec1f76b5e3d6adb",
+  "case": 11,
+  "choice": {
+    "id": 388,
+    "type": "card-trigger",
+    "roundNumber": 2,
+    "turnNumber": 4,
+    "rawTurnNumber": 13,
+    "playerId": "player-blue",
+    "playerLabel": "蓝色",
+    "playerResources": {
+      "score": 35,
+      "credits": 2,
+      "energy": 2,
+      "publicity": 2,
+      "availableData": 0,
+      "handSize": 3
+    },
+    "scoreboard": [
+      {
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "score": 35,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 3,
+        "reservedCount": 4,
+        "techCount": 3
+      },
+      {
+        "playerId": "player-green",
+        "playerLabel": "绿色",
+        "score": 30,
+        "credits": 5,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 2,
+        "reservedCount": 0,
+        "techCount": 2
+      },
+      {
+        "playerId": "player-brown",
+        "playerLabel": "棕色",
+        "score": 35,
+        "credits": 5,
+        "energy": 1,
+        "publicity": 8,
+        "availableData": 0,
+        "handSize": 4,
+        "reservedCount": 2,
+        "techCount": 1
+      },
+      {
+        "playerId": "player-white",
+        "playerLabel": "白色",
+        "score": 40,
+        "credits": 3,
+        "energy": 4,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 5,
+        "reservedCount": 1,
+        "techCount": 2
+      }
+    ],
+    "message": "蓝色AI 选择卡牌触发 环绕或登陆：发射",
+    "details": {
+      "selectedIndex": 0,
+      "cardLabel": "月球门户空间站",
+      "effectType": "launch",
+      "optionCount": 2,
+      "candidates": [
+        {
+          "index": 0,
+          "rewardValue": 27.335353147322373,
+          "completionValue": 0,
+          "completesCard": false,
+          "routePreview": {
+            "type": "main-then-quick",
+            "mainActionId": "launch",
+            "quickActionId": "move",
+            "direction": "out",
+            "directionLabel": "向外",
+            "from": {
+              "x": 3,
+              "y": 1
+            },
+            "to": {
+              "x": 3,
+              "y": 2
+            },
+            "requiredMovePoints": 1,
+            "routeTarget": {
+              "id": "mars",
+              "label": "火星",
+              "kind": "planet",
+              "coordinate": {
+                "x": 3,
+                "y": 2
+              },
+              "value": 90.3682186,
+              "satelliteOpportunity": null,
+              "taskRouteCashout": {
+                "value": 23.157,
+                "directScore": 4,
+                "count": 1
+              },
+              "nearCompleteTaskRouteCashout": null,
+              "oldDistance": 1,
+              "newDistance": 0,
+              "rotationStagingValue": 0
+            },
+            "routeScore": 49.071473672,
+            "gain": 32.73535314732237,
+            "cost": 5.4,
+            "score": 27.335353147322373,
+            "paymentCost": 5.4,
+            "pathPenalty": 0,
+            "nearestActionablePlanetPenalty": 0,
+            "preserveEnergyForRouteCashout": true,
+            "movePayment": {
+              "cost": 5.4,
+              "energySpent": 0,
+              "cardSpent": 1,
+              "remainingEnergy": 2
+            },
+            "projectedResourcesAfterLaunchMove": {
+              "credits": 2,
+              "energy": 2,
+              "publicity": 2,
+              "availableData": 0,
+              "aomomoFossils": 0,
+              "additionalPublicScan": 0,
+              "handSize": 2,
+              "score": 35
+            },
+            "projectedFollowupMainAction": {
+              "actionId": "land",
+              "planetId": "mars",
+              "planetName": "火星",
+              "energyCost": 2,
+              "choices": [
+                {
+                  "target": {
+                    "type": "planet"
+                  },
+                  "planetId": "mars",
+                  "planet": {
+                    "planetId": "mars",
+                    "label": "火星",
+                    "name": "火星",
+                    "wheelId": 2,
+                    "baseX": 2,
+                    "x": 3,
+                    "y": 2,
+                    "fixedAfterSetup": false
+                  },
+                  "energyCost": 2,
+                  "label": "登陆火星"
+                }
+              ],
+              "directScoreGain": 6,
+              "score": 92.32138764999999
+            }
+          },
+          "score": 27.335353147322373,
+          "cardInstanceId": "card-71-0",
+          "triggerId": "b138-orbit-land-launch",
+          "effectType": "launch"
+        },
+        {
+          "index": 1,
+          "rewardValue": 6.2,
+          "completionValue": 0,
+          "completesCard": false,
+          "routePreview": null,
+          "score": 6.2,
+          "cardInstanceId": "card-71-0",
+          "triggerId": "b138-orbit-land-energy",
+          "effectType": "gain_resources"
+        }
+      ]
+    },
+    "createdAt": "2026-09-20T09:45:51.566Z"
+  },
+  "following": [
+    {
+      "id": 389,
+      "type": "effect",
+      "message": "AI 处理效果：获得 6 分",
+      "resources": {
+        "score": 35,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "effect": "planet-reward-0"
+    },
+    {
+      "id": 390,
+      "type": "effect",
+      "message": "AI 处理效果：获得 1 个黄色外星人标记",
+      "resources": {
+        "score": 41,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "effect": "planet-reward-1"
+    },
+    {
+      "id": 391,
+      "type": "alien-trace",
+      "message": "蓝色AI 选择外星人痕迹",
+      "resources": {
+        "score": 41,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 3
+      }
+    },
+    {
+      "id": 392,
+      "type": "alien-use",
+      "message": "蓝色AI 处理符文族外星人牌",
+      "resources": {
+        "score": 43,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 3
+      }
+    },
+    {
+      "id": 393,
+      "type": "effect",
+      "message": "AI 处理效果：宇宙战略集团：黄色奖励槽",
+      "resources": {
+        "score": 43,
+        "credits": 2,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "effect": "industry-strategy-passive-card-83-0-yellow"
+    },
+    {
+      "id": 394,
+      "type": "card-task-ready",
+      "message": "蓝色AI 打开已满足任务 火星探测计划",
+      "resources": {
+        "score": 43,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      }
+    },
+    {
+      "id": 395,
+      "type": "card-task",
+      "message": "蓝色AI 确认完成任务 火星探测计划",
+      "resources": {
+        "score": 43,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      }
+    },
+    {
+      "id": 396,
+      "type": "effect",
+      "message": "AI 处理效果：火星环绕/登陆：4分",
+      "resources": {
+        "score": 43,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "effect": "b72-mars-score"
+    },
+    {
+      "id": 397,
+      "type": "turn-action",
+      "message": "蓝色AI 执行 move",
+      "resources": {
+        "score": 47,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "action": "move"
+    },
+    {
+      "id": 398,
+      "type": "move",
+      "message": "蓝色AI 移动 R1 向外",
+      "resources": {
+        "score": 47,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      },
+      "action": "move"
+    },
+    {
+      "id": 399,
+      "type": "move-payment",
+      "message": "蓝色AI 确认移动支付",
+      "resources": {
+        "score": 47,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 4
+      }
+    }
+  ]
+}

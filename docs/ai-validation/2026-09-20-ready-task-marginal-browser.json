@@ -1,0 +1,29 @@
+{
+  "before": {
+    "scope": "Browser uses actual b72 model, planet marker and runtime readiness; compare same-state strategy demand with and without pending task. Does not claim autonomous full-game improvement.",
+    "unmetMars": 5.864416,
+    "readyMars": 5.864416,
+    "withoutMars": 0,
+    "readyTasks": [
+      {
+        "taskId": "b72-mars-task"
+      }
+    ],
+    "taskStateUnchanged": true,
+    "bugs": []
+  },
+  "after": {
+    "scope": "Browser uses actual b72 model, planet marker and runtime readiness; compare same-state strategy demand with and without pending task. Does not claim autonomous full-game improvement.",
+    "unmetMars": 5.828416000000001,
+    "readyMars": 0,
+    "withoutMars": 0,
+    "readyTasks": [
+      {
+        "taskId": "b72-mars-task"
+      }
+    ],
+    "taskStateUnchanged": true,
+    "bugs": []
+  },
+  "negativeControl": "Baseline fails ready Mars route exclusion regression; candidate passes 54 tests."
+}
