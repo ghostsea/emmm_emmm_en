@@ -7336,14 +7336,7 @@
           undoable: false,
           irreversible: { code: "hidden_card_reveal", reason: "公共牌补牌翻出新牌" },
           message: `${rocketState.statusNote}${bonusResult?.message ? `；${bonusResult.message}` : ""}`,
-          events: [{
-            type: "researchTech",
-            playerId: pending.player?.id || getCurrentPlayer()?.id || null,
-            playerColor: pending.player?.color || getCurrentPlayer()?.color || null,
-            techType: pending.selection?.techType || null,
-            tileId: pending.selection?.tileId || null,
-            source: pendingActionEffectFlow?.actionType || "tech",
-          }],
+          events: bonusResult?.events || [],
           payload: {
             card: result.card,
             replenished: result.replenished || null,
@@ -13061,6 +13054,27 @@
     const currentPlayer = getCurrentPlayer();
     if (!currentPlayer || !match?.card || !match.trigger) return { ok: false, message: "没有可结算的卡牌触发" };
 
+    // Data rewards may pause for pool space. Keep trigger consumption in the effect history.
+    if (match.effect?.type === "gain_data") {
+      return queueCardTriggerRewardEffects(match, [{
+        ...match.effect,
+        options: { ...match.effect.options, source: "card_trigger" },
+      }]);
+    }
+    const cornerReward = match.effect?.type === cardEffects.EFFECT_TYPES.CARD_CORNER_EVENT_REWARD
+      ? match.event?.resourceReward : null;
+    const cornerDataCount = Math.max(0, Math.round(cornerReward?.dataCount || 0));
+    if (cornerDataCount > 0) {
+      const effects = [];
+      if (Object.keys(cornerReward.gain || {}).length) {
+        effects.push({ type: "gain_resources", label: match.effect.label,
+          options: { gain: { ...cornerReward.gain } } });
+      }
+      effects.push({ type: "gain_data", label: match.effect.label,
+        options: { count: cornerDataCount, source: "card_corner_trigger" } });
+      return queueCardTriggerRewardEffects(match, effects);
+    }
+
     const beforePlayer = structuredClone(currentPlayer);
     const beforeCardState = {
       publicCards: cardState.publicCards.slice(),
@@ -13075,13 +13089,7 @@
       players.gainResources(currentPlayer, gain);
       addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.TASK_CARD, gain);
       result = { ok: true, message: effect.label };
-    } else if (effect.type === "gain_data") {
-      const count = Math.max(0, Math.round(effect.options?.count || 0));
-      const results = [];
-      for (let index = 0; index < count; index += 1) {
-        results.push(data.gainData(currentPlayer, { source: "card_trigger" }));
-      }
-      result = { ok: true, message: `${effect.label}：获得 ${results.filter((item) => item.ok).length}/${count} 数据` };
+
     } else if (effect.type === "draw_cards") {
       const count = Math.max(0, Math.round(effect.options?.count || 0));
       const drawResult = cards.drawCardsToHand(cardState, playerState, currentPlayer, count);
@@ -13125,10 +13133,7 @@
           players.gainResources(currentPlayer, resourceReward.gain);
           addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.TASK_CARD, resourceReward.gain);
         }
-        const dataCount = Math.max(0, Math.round(resourceReward.dataCount || 0));
-        for (let index = 0; index < dataCount; index += 1) {
-          dataResults.push(data.gainData(currentPlayer, { source: "card_corner_trigger" }));
-        }
+
       }
       if (moveReward?.gain && Object.keys(moveReward.gain).length) {
         players.gainResources(currentPlayer, moveReward.gain);
@@ -20358,19 +20363,7 @@
           firstTake: Boolean(effect.options?.firstTake ?? selection?.firstTake),
         });
         recordTechBonusScore(getCurrentPlayer(), result);
-        if (result.ok) {
-          result.events = [
-            ...(result.events || []),
-            {
-              type: "researchTech",
-              playerId: getCurrentPlayer()?.id || null,
-              playerColor: getCurrentPlayer()?.color || null,
-              techType: selection?.techType || null,
-              tileId: selection?.tileId || null,
-              source: pendingActionEffectFlow?.actionType || "tech",
-            },
-          ];
-        }
+        // The tile-take step owns the researchTech event; its bonus is not another research.
         effect.result = result;
         rocketState.statusNote = result.message;
         renderPlayerStats();

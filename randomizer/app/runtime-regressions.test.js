@@ -1689,7 +1689,7 @@ for (const [name, type, label] of [
   assert.equal(actionLogState.draft.steps.length, 1);
 }
 
-console.log("runtime-regressions.test.js: all tests passed");
+
 
 {
  const card={id:"fangzhou-flow-card",cardId:"fangzhou_pink_2",label:"方舟粉2"};
@@ -1699,3 +1699,70 @@ console.log("runtime-regressions.test.js: all tests passed");
  const removed={logBefore:{playerId:p.id,fangzhouHand:[card]}};p.hand=[];assert.equal(getChanges(removed)[0].change,"remove");
  p.hand=[card];assert.equal(getChanges(removed)[0].change,"remove","a completed step retains its own transition after later actions");
 }
+
+
+// One tile acquisition is one research event, including both bonus completion paths.
+{
+  const owner = { id: "research-owner" };
+  const extraEvent = { type: "bonus-test-event" };
+  const take = loadNamedFunction("onTechTileTaken", {
+    getCurrentPlayer: () => owner, industry: {},
+    syncTechSelectionChrome: () => {}, renderTechBoard: () => {},
+    renderActionEffectBar: () => {}, updateActionButtons: () => {},
+  });
+  const taken = { ok: true, tileId: "blue2", events: [] };
+  take(taken);
+  assert.equal(taken.events.length, 1);
+  assert.equal(taken.events[0].type, "researchTech");
+  for (const ok of [true, false]) {
+    const result = { ok, events: [extraEvent], message: "bonus" };
+    const execute = loadNamedFunction("executeResearchTechEffect", {
+      getResearchTechSelectionPayload: () => ({ bonusId: "bonus_1p", techType: "blue", tileId: "blue2" }),
+      tech: { BONUS_EFFECTS: { bonus_1p: { energy: 1 } } },
+      abilities: { executeAbility: () => result }, createActionContext: () => ({}),
+      recordTechBonusScore: () => {}, getCurrentPlayer: () => owner,
+      rocketState: {}, renderPlayerStats: () => {}, completeCurrentActionEffect: () => {},
+      renderStateReadout: () => {},
+    });
+    const effect = { type: "research_tech_bonus", options: {} };
+    assert.equal(execute(effect), result);
+    assert.deepEqual(result.events, [extraEvent], "bonus must preserve its own events without another research");
+  }
+  const effect = {};
+  const finalize = loadNamedFunction("finalizeCardSelectionResult", {
+    pendingCardSelectionAction: { type: "tech_bonus_pick_card", bonusId: "bonus_1c", player: owner },
+    cardState: {}, rocketState: {}, cards: { setSelectionActive: () => {}, getCardLabel: () => "精选牌" },
+    abilities: { executeAbility: () => ({ ok: true, events: [extraEvent] }) },
+    createActionContext: () => ({}), recordTechBonusScore: () => {},
+    getCurrentActionEffect: () => effect, markCurrentActionIrreversible: () => {},
+    completeCurrentActionEffect: () => {}, ensurePublicCardsFilledRespectingDelayedRefills: () => {},
+    syncCardSelectionChrome: () => {}, renderPublicCards: () => {}, renderPlayerStats: () => {},
+    updateActionButtons: () => {}, maybeContinuePendingTurnEndRevealFlow: () => {}, renderStateReadout: () => {},
+  });
+  finalize({ ok: true, card: { id: "selected" } });
+  assert.deepEqual(effect.result.events, [extraEvent], "card bonus must not emit a duplicate research");
+}
+
+// Trigger data, including copied corner rewards, must use resumable effects, not direct pool grants.
+{
+  const queued = [];
+  const apply = loadNamedFunction("applyCardTriggerReward", {
+    getCurrentPlayer: () => ({ id: "owner" }), cardEffects,
+    queueCardTriggerRewardEffects: (match, effects) => { queued.push({ match, effects }); return { ok: true, queued: true }; },
+  });
+  const direct = { card: {}, trigger: { id: "data" }, effect: { type: "gain_data", label: "数据", options: { count: 3 } } };
+  assert.equal(apply(direct).queued, true);
+  assert.equal(queued[0].effects[0].options.count, 3);
+  assert.equal(queued[0].effects[0].options.source, "card_trigger");
+  const corner = { card: {}, trigger: { id: "corner" },
+    effect: { type: cardEffects.EFFECT_TYPES.CARD_CORNER_EVENT_REWARD, label: "重复角标" },
+    event: { resourceReward: { dataCount: 2, gain: { publicity: 1 } } } };
+  assert.equal(apply(corner).queued, true);
+  assert.deepEqual(queued[1].effects.map(effect => effect.type), ["gain_resources", "gain_data"]);
+  assert.deepEqual(queued[1].effects[0].options.gain, { publicity: 1 });
+  assert.equal(queued[1].effects[1].options.count, 2);
+  assert.equal(queued[1].effects[1].options.source, "card_corner_trigger");
+  assert.equal(queued[1].match, corner, "one original match must own consumption of the entire reward");
+}
+
+console.log("runtime-regressions.test.js: all tests passed");
