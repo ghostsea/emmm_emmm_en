@@ -1,0 +1,210 @@
+{
+  "scope": "Independent real-browser fixtures with identical explicit self resources and solar rotation, but unpaired other players/aliens. Forced Venus orbit creates b138 choice. Candidate chooses free launch, a forced execution of its one-step move reaches Mars with3E and land cost2E. Landing next turn itself is not executed here. No final-score or matched-global-state causal claim. No-route baseline board separately gives nonpositive route and chooses energy.",
+  "before": {
+    "selected": "gain_resources",
+    "selectionResources": {
+      "score": 35,
+      "credits": 0,
+      "energy": 4,
+      "publicity": 0,
+      "availableData": 0,
+      "handSize": 0
+    },
+    "options": [
+      {
+        "index": 1,
+        "rewardValue": 6.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6.2,
+        "cardInstanceId": "card-68-0",
+        "triggerId": "b138-orbit-land-energy",
+        "effectType": "gain_resources"
+      },
+      {
+        "index": 0,
+        "rewardValue": 6,
+        "completionValue": 0,
+        "completesCard": false,
+        "score": 6,
+        "cardInstanceId": "card-68-0",
+        "triggerId": "b138-orbit-land-launch",
+        "effectType": "launch"
+      }
+    ],
+    "afterTrigger": {
+      "credits": 0,
+      "energy": 5,
+      "publicity": 0,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 44
+    },
+    "afterMove": {
+      "credits": 0,
+      "energy": 5,
+      "publicity": 0,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 44
+    },
+    "land": null,
+    "consumed": [
+      "b138-orbit-land-energy"
+    ],
+    "bugCount": 0
+  },
+  "after": {
+    "selected": "launch",
+    "selectionResources": {
+      "score": 35,
+      "credits": 0,
+      "energy": 4,
+      "publicity": 0,
+      "availableData": 0,
+      "handSize": 0
+    },
+    "options": [
+      {
+        "index": 0,
+        "rewardValue": 10.302661007360001,
+        "completionValue": 0,
+        "completesCard": false,
+        "routePreview": {
+          "type": "main-then-quick",
+          "mainActionId": "launch",
+          "quickActionId": "move",
+          "direction": "out",
+          "directionLabel": "向外",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "to": {
+            "x": 5,
+            "y": 2
+          },
+          "requiredMovePoints": 1,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 5,
+              "y": 2
+            },
+            "value": 47.372,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "routeScore": 26.713440000000002,
+          "gain": 18.00266100736,
+          "cost": 7.7,
+          "score": 10.302661007360001,
+          "paymentCost": 6.2,
+          "pathPenalty": 1.5,
+          "nearestActionablePlanetPenalty": 0,
+          "preserveEnergyForRouteCashout": false,
+          "movePayment": {
+            "cost": 6.2,
+            "energySpent": 1,
+            "cardSpent": 0,
+            "remainingEnergy": 3
+          },
+          "projectedResourcesAfterLaunchMove": {
+            "credits": 0,
+            "energy": 3,
+            "publicity": 0,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 35
+          },
+          "projectedFollowupMainAction": {
+            "actionId": "land",
+            "planetId": "mars",
+            "planetName": "火星",
+            "energyCost": 2,
+            "choices": [
+              {
+                "target": {
+                  "type": "planet"
+                },
+                "planetId": "mars",
+                "planet": {
+                  "planetId": "mars",
+                  "label": "火星",
+                  "name": "火星",
+                  "wheelId": 2,
+                  "baseX": 2,
+                  "x": 5,
+                  "y": 2,
+                  "fixedAfterSetup": false
+                },
+                "energyCost": 2,
+                "label": "登陆火星"
+              }
+            ],
+            "directScoreGain": 6,
+            "score": 32.1519
+          }
+        },
+        "score": 10.302661007360001,
+        "cardInstanceId": "card-67-0",
+        "triggerId": "b138-orbit-land-launch",
+        "effectType": "launch"
+      },
+      {
+        "index": 1,
+        "rewardValue": 6.2,
+        "completionValue": 0,
+        "completesCard": false,
+        "routePreview": null,
+        "score": 6.2,
+        "cardInstanceId": "card-67-0",
+        "triggerId": "b138-orbit-land-energy",
+        "effectType": "gain_resources"
+      }
+    ],
+    "afterTrigger": {
+      "credits": 0,
+      "energy": 4,
+      "publicity": 0,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 44
+    },
+    "afterMove": {
+      "credits": 0,
+      "energy": 3,
+      "publicity": 1,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 44
+    },
+    "land": {
+      "ok": true,
+      "planet": "mars",
+      "cost": {
+        "energy": 2
+      }
+    },
+    "consumed": [
+      "b138-orbit-land-launch"
+    ],
+    "bugCount": 0
+  }
+}
