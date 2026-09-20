@@ -438,6 +438,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       NEBULA_IDS_BY_COLOR: options.nebulaIdsByColor || {},
       EFFECT_TYPES: {
         CARD_MOVE: "card_move",
+        CARD_ORBIT: "card_orbit",
         CARD_LAND: "card_land",
         LANDING_SECTOR_SCAN: "card_landing_sector_scan",
         FREE_MOVE: "free_move",
@@ -17122,4 +17123,27 @@ runAsyncControllerTests()
   assert.equal(h.controller.getAiIntendedPlayCardCandidate([card],h.blue,[{...event,...edit}]),null,'stale or incomplete intent is ignored');
  }
  assert.equal(h.controller.getAiIntendedPlayCardCandidate([card],h.blue,[event,{...event,action:{id:'end-turn'}}]),null,'later action invalidates old intent');
+}
+
+for (const hasTarget of [true, false]) {
+  const seen = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', playCardSelectionActive: true,
+    blueResources: { credits: 2, energy: 0, handSize: 1 },
+    realisticCanAfford: true,
+    blueHand: [{ id: 'free-orbit', cardId: 'dlc_30.png', price: 2, cardTypeCode: 0, playEffects: [{type:cardEffects.EFFECT_TYPES.CARD_ORBIT, options:{skipCost:true,grantRewards:true}}] }],
+    abilities: { planet: {
+      DEFAULT_ORBIT_COST: { credits: 1, energy: 1 }, BASE_LAND_ENERGY_COST: 3,
+      getLandEnergyCost: () => 3, getLandOptions: () => ({ ok: false }),
+      getOrbitOptions: (_context, options) => {
+        seen.push(options);
+        return { ok: hasTarget && options.skipCost === true, message: 'no actual target' };
+      },
+    }, rocket: { getRocketLimitForPlayer: () => 1 } },
+  });
+  harness.controller.configureAiAutoBattle({playerIds:[harness.blue.id],suppressAutoSchedule:true});
+  const result = harness.controller.runAiAutomationStep();
+  assert(seen.some(options => options.skipCost === true), 'preflight must use the free card effect options');
+  if (hasTarget) assert.deepEqual(harness.getHandled(), {type:'play-card',handIndex:0,confirmed:true}, 'zero energy must not block a legal free orbit card');
+  else { assert.equal(result.blocked,true); assert.equal(harness.getHandled(),null,'free cost does not waive the target requirement'); }
 }

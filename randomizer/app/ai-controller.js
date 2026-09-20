@@ -18883,7 +18883,7 @@
           };
         }
         if (effect?.type === cardEffects.EFFECT_TYPES.CARD_ORBIT) {
-          const check = actions.canExecute("orbit", context);
+          const check = abilities.planet.getOrbitOptions(context, effect.options || {});
           if (!check.ok) return { ok: false, message: check.message || "当前不能环绕" };
         }
         if (effect?.type === cardEffects.EFFECT_TYPES.CARD_LAND) {
