@@ -452,6 +452,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       buildPlayEffects: (card) => card?.playEffects || [],
       getCardModel: (card) => card?.model || null,
       ensureCardEffectState: () => null,
+      areAllTriggersConsumed: cardEffects.areAllTriggersConsumed,
       countMaxSingleAlienTraceMarkers: cardEffects.countMaxSingleAlienTraceMarkers,
     },
     finalScoring: {
@@ -17170,4 +17171,42 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
     'optional elevator launch must not block research with one or zero free rocket slots');
   assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
     'research candidate enumeration must not consume optional triggers');
+}
+
+
+for (const rewards of [[{ score: 1 }, { score: 20 }], [{ publicity: 1 }, { energy: 1 }]]) {
+  const matches = rewards.map((gain, index) => ({
+    card: { id: "trigger-value-" + index }, trigger: { id: "slot-" + index },
+    effect: { type: "gain_resources", label: "资源触发", options: { gain } },
+  }));
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue", pendingCardTriggerAction: { matches }, recordCardTriggerChoice: true,
+  });
+  harness.blue.resources.publicity = 10;
+  assert.equal(harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true }).ok, true);
+  const before = structuredClone(harness.blue);
+  assert.equal(harness.controller.runAiAutomationStep().ok, true);
+  assert.deepEqual(harness.getHandled(), { type: "card-trigger", choiceIndex: 1 }, "actual reward must beat first-listed trigger");
+  assert.deepEqual(harness.blue, before, "ranking must not consume triggers or resources");
+}
+
+
+{
+  const model = cardEffects.getCardModel("dlc_26.png");
+  const first = { id: "unfinished", cardId: "dlc_26.png", cardEffectState: { consumedTriggerIds: [] } };
+  const last = { id: "last-slot", cardId: "dlc_26.png", cardEffectState: { consumedTriggerIds: [model.triggers[0].id] } };
+  const matches = [
+    { card: first, trigger: model.triggers[0], effect: model.triggers[0].effect },
+    { card: last, trigger: model.triggers[1], effect: model.triggers[1].effect },
+  ];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue", pendingCardTriggerAction: { matches }, recordCardTriggerChoice: true,
+    finalScoringState: { tiles: { c: { id: "c", marks: [{ playerId: "player-blue", slotIndex: 1 }] } } },
+    finalTileVariants: { c: 1 }, finalFormulaIds: { c: "c1" },
+  });
+  assert.equal(harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true }).ok, true);
+  const before = structuredClone(matches);
+  assert.equal(harness.controller.runAiAutomationStep().ok, true);
+  assert.deepEqual(harness.getHandled(), { type: "card-trigger", choiceIndex: 1 }, "last slot must include marked C1 completion score");
+  assert.deepEqual(matches, before, "completion preview must not mutate cards or matches");
 }

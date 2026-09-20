@@ -432,6 +432,7 @@
           plannerShadow: compactAiAutoBattleLogValue(details.plannerShadow || null),
         };
       }
+      if (type === "card-trigger") return structuredClone(details);
       if (type === "final-score-mark") {
         const candidates = Array.isArray(details.candidates)
           ? details.candidates.filter((candidate) => candidate?.available !== false)
@@ -3273,6 +3274,47 @@
       ].includes(type);
     }
 
+    function scoreAiCardTriggerDataReward(count, player) {
+      const requested = Math.max(0, Math.round(aiNumber(count)));
+      let received = Math.max(0, aiNumber(getAiActualResourceGain({ availableData: requested }, player).availableData));
+      // The resumable trigger can make at least one space before awarding data.
+      // Do not assume later placements or their rewards will also be available.
+      if (requested > received && data.canPlaceAnyData?.(structuredClone(player))?.ok) {
+        received = Math.max(received, Math.min(1, requested));
+      }
+      return received * AI_RESOURCE_VALUES.availableData
+        + scoreAiMidgameResourceContinuationValue({ availableData: received }, player, { scale: 0.75 });
+    }
+
+    function scoreAiCardTriggerChoice(match, player = getCurrentPlayer()) {
+      const effect = match.effect;
+      let rewardValue = effect.type === "gain_data"
+        ? scoreAiCardTriggerDataReward(effect.options?.count, player)
+        : scoreAiEffectValue(effect, { player, immediate: true });
+      if (effect.type === "launch") rewardValue -= scoreAiLaunchPaymentCost(effect.options || {});
+      if (effect.type === cardEffects.EFFECT_TYPES.CARD_CORNER_EVENT_REWARD) {
+        const reward = match.event?.resourceReward || {};
+        rewardValue = scoreAiCountedResourceGain(reward.gain || {}, player)
+          + scoreAiCardTriggerDataReward(reward.dataCount, player);
+        if (match.event?.moveReward) {
+          rewardValue = scoreAiCountedResourceGain(match.event.moveReward.gain || {}, player)
+            + scoreAiEffectValue(getCardTriggerFreeMoveEffect(match), { player, immediate: true });
+        }
+      }
+      const projectedCard = {
+        ...match.card,
+        cardEffectState: {
+          ...match.card?.cardEffectState,
+          consumedTriggerIds: [...(match.card?.cardEffectState?.consumedTriggerIds || []), match.trigger?.id],
+        },
+      };
+      const completesCard = Boolean(cardEffects.areAllTriggersConsumed?.(projectedCard));
+      const completionValue = completesCard
+        ? scoreAiFinalFormulaDeltaValue({ c1: 1, c2: getAiC2Type3BaseDelta(player) }, player)
+        : 0;
+      return { rewardValue, completionValue, completesCard, score: aiNumber(rewardValue) + completionValue };
+    }
+
     function runAiCardTriggerDecision() {
       if (!state.pendingCardTriggerAction) return null;
       const currentPlayer = getCurrentPlayer();
@@ -3281,7 +3323,11 @@
       }
 
       const matches = state.pendingCardTriggerAction.matches || [];
-      const selectedIndex = matches.findIndex((match) => canAiResolveCardTriggerMatch(match));
+      const ranked = matches.map((match, index) => ({ match, index }))
+        .filter(({ match }) => canAiResolveCardTriggerMatch(match))
+        .map(({ match, index }) => ({ index, ...scoreAiCardTriggerChoice(match, currentPlayer) }))
+        .sort((left, right) => right.score - left.score || left.index - right.index);
+      const selectedIndex = ranked[0]?.index ?? -1;
       if (selectedIndex < 0) {
         const reasons = matches.map((match) => ({
           cardLabel: cards.getCardLabel(match?.card),
@@ -3313,6 +3359,12 @@
         cardLabel: cards.getCardLabel(selected.card),
         effectType: selected.effect?.type || null,
         optionCount: matches.length,
+        candidates: ranked.map((candidate) => ({
+          ...candidate,
+          cardInstanceId: matches[candidate.index].card?.id || null,
+          triggerId: matches[candidate.index].trigger?.id || null,
+          effectType: matches[candidate.index].effect?.type || null,
+        })),
       });
       return handleCardTriggerChoice(selectedIndex);
     }
