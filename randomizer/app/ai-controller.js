@@ -25369,6 +25369,70 @@
       };
     }
 
+    function applyAiTriggerSetupOrder(candidates, player, selected) {
+      const play = candidates.find((candidate) => candidate.id === "playCard" && candidate.available !== false);
+      if (!player || !play || selected?.kind !== "main" || !["playCard", "researchTech", "launch", "scan"].includes(selected.id)) return candidates;
+      let best = null;
+      for (const engine of play.playableCards || []) {
+        if (!engine.reservesAfterPlay || !(engine.score > 0) || engine.cardInstanceId === selected.cardInstanceId) continue;
+        const card = (player.hand || []).find((held) => held.id === engine.cardInstanceId);
+        const model = cardEffects.getCardModel?.(card);
+        if (!card || !model?.triggers?.length) continue;
+        // Only resource setup leaves the board and the known follow-up target unchanged.
+        if ((model.playEffects || []).some((effect) => effect.type !== "gain_resources"
+          || Object.entries(effect.options?.gain || {}).some(([key, value]) => !["credits", "energy", "publicity", "score"].includes(key) || value < 0))) continue;
+        const afterSetup = createAiPlayerAfterDeterministicCardSetup(card, player);
+        let cost = null;
+        let events = [];
+        if (selected.id === "playCard") {
+          const followCard = afterSetup.hand.find((held) => held.id === selected.cardInstanceId);
+          const follow = followCard && buildAiPlayCardCandidate(followCard, afterSetup.hand.indexOf(followCard), afterSetup);
+          if (!follow) continue;
+          cost = getCardPlayCost(followCard);
+          events = [{ type: "playCard", timing: "after_play_card", price: getCardPrice(followCard), cardId: follow.cardId, sourceCardInstanceId: followCard.id }];
+        } else if (selected.id === "researchTech") {
+          cost = { publicity: getAiResearchTechPublicityCostForPlayer(afterSetup) };
+          events = (selected.takeable || []).filter((tile) => tile.available !== false)
+            .map((tile) => ({ type: "researchTech", techType: tile.techType }));
+        } else if (selected.id === "launch") {
+          cost = industry?.getStandardLaunchCost?.(afterSetup, { credits: 2 }) || { credits: 2 };
+          events = [{ type: "launch" }];
+        } else if (selected.id === "scan") {
+          cost = scanEffects.getStandardScanCost(afterSetup);
+          events = [{ type: "scanAction" }];
+        }
+        if (!cost || !events.length || !players.canAfford(afterSetup, cost)) continue;
+        const afterPayment = { ...afterSetup, resources: { ...afterSetup.resources } };
+        for (const [key, value] of Object.entries(cost)) afterPayment.resources[key] = aiNumber(afterPayment.resources[key]) - aiNumber(value);
+        const projection = { ...afterPayment, reservedCards: [structuredClone(card)] };
+        const matches = events.map((event) => cardEffects.collectMatchingTriggers(projection, event)[0] || null);
+        // Every possible current technology choice must give a supported first slot.
+        // Do not jump past a complex/data slot or assume future pool capacity.
+        if (matches.some((match) => !match || !["gain_resources", "draw_cards", "pick_card"].includes(match.effect?.type)
+          || (match.effect.type === "gain_resources" && Object.keys(match.effect.options?.gain || {}).some((key) => !["credits", "energy", "publicity", "score"].includes(key))))) continue;
+        const rewardValue = Math.min(...matches.map((match) => scoreAiEffectValue(match.effect, { player: afterPayment, immediate: true })));
+        const margin = Math.min(Math.max(0, engine.score), Math.max(0, rewardValue));
+        if (!(margin > 0) || (best && margin <= best.margin)) continue;
+        best = { engine, margin, profile: {
+          cardId: engine.cardId, cardInstanceId: engine.cardInstanceId,
+          followupAction: selected.id, followupCardInstanceId: selected.cardInstanceId || null,
+          followupCost: cost, resourcesAfterSetup: { ...afterSetup.resources },
+          resourcesAfterBothPayments: { ...afterPayment.resources },
+          triggerIds: [...new Set(matches.map((match) => match.trigger.id))],
+          rewardValue, originalSetupScore: engine.score, displacedRank: getAiCandidateRankScore(selected),
+          orderingMargin: margin,
+        } };
+      }
+      if (!best) return candidates;
+      const rank = getAiCandidateRankScore(selected) + best.margin;
+      const reordered = {
+        ...play, ...best.engine, playableCards: play.playableCards,
+        score: rank, actionGraph: { net: rank },
+        triggerSetupOrder: best.profile,
+      };
+      return candidates.map((candidate) => candidate === play ? reordered : candidate);
+    }
+
     function runAiTurnActionDecision() {
       const currentPlayer = getCurrentPlayer();
       if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
@@ -25421,11 +25485,16 @@
       const maxAttempts = Math.max(1, candidates.length);
 
       for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
-        const action = ai?.policy?.chooseTurnAction?.(selectableCandidates, {
+        let action = ai?.policy?.chooseTurnAction?.(selectableCandidates, {
           playerState,
           turnState,
           currentPlayer,
         }) || null;
+        const orderedCandidates = applyAiTriggerSetupOrder(selectableCandidates, currentPlayer, action);
+        if (orderedCandidates !== selectableCandidates) {
+          selectableCandidates = orderedCandidates;
+          action = orderedCandidates.find((candidate) => candidate.triggerSetupOrder) || action;
+        }
         if (!action) {
           if (!rawCandidates.length && state.actionHistoryHasSession && !state.pendingActionExecuted) {
             const recovery = recoverPendingActionFromOpenHistoryForAi?.();
@@ -25969,6 +26038,7 @@
         : null;
       return {
         id: candidate.id || null,
+        triggerSetupOrder: candidate.triggerSetupOrder || null,
         tradeId: candidate.tradeId || null,
         label: candidate.label || getAiCardDisplayLabel(candidate) || candidate.planetName || null,
         cardId: candidate.cardId || null,
