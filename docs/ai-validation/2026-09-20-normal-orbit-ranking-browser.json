@@ -1,0 +1,80 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "actualPlanet": "mars",
+      "incomeBefore": {
+        "credits": 4,
+        "energy": 1,
+        "handSize": 2,
+        "publicity": 0,
+        "availableData": 0,
+        "additionalPublicScan": 0
+      },
+      "incomeAfter": {
+        "credits": 4,
+        "energy": 1,
+        "handSize": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "additionalPublicScan": 0
+      },
+      "scope": "Two actual legal normal orbit targets. Forced orbit only to observe top-level target/value then real pending choice/payment/rewards; score delta may also include scans/company triggers.",
+      "positions": {
+        "mars": {
+          "x": 1,
+          "y": 2
+        },
+        "venus": {
+          "x": 5,
+          "y": 1
+        }
+      },
+      "groupPlanet": {
+        "planetId": "venus",
+        "label": "金星",
+        "name": "金星",
+        "wheelId": 1,
+        "baseX": 3,
+        "x": 5,
+        "y": 1,
+        "fixedAfterSetup": false
+      },
+      "options": [
+        {
+          "planetId": "venus"
+        },
+        {
+          "planetId": "mars"
+        }
+      ],
+      "candidate": {
+        "planetId": "mars",
+        "score": 31.27655,
+        "directScoreGain": 3
+      },
+      "selected": {
+        "logPlayerId": "player-green",
+        "optionCount": 2,
+        "planetId": "multi-orbit",
+        "selectedIndex": 1,
+        "selected": {
+          "label": "环绕火星 - 奖励：首次环绕：额外获得 3 分；精选 1 张卡牌；火星扇区扫描；获得 1 次收入（R40，1信用点 + 1能量）",
+          "target": null,
+          "score": 31.27655
+        }
+      },
+      "ending": {
+        "credits": 7,
+        "energy": 7,
+        "publicity": 3,
+        "availableData": 5,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 13
+      },
+      "bugs": []
+    }
+  }
+}

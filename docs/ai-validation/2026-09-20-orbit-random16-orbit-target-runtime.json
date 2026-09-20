@@ -1,0 +1,966 @@
+{
+  "scope": "Every ordinary orbit decision versus the explicit orbit payment/marker message in the same player round and turn. Names are parsed from real action messages. Does not assert every follow-up reward equals the direct score preview or infer probe identity from messages that omit it.",
+  "summary": {
+    "normalOrbitDecisions": 52,
+    "targetMatched": 51,
+    "missingOrAmbiguousPayment": 0,
+    "mismatches": [
+      {
+        "case": 5,
+        "company": "寰宇超动力",
+        "player": "player-green",
+        "round": 2,
+        "turn": 3,
+        "predictedPlanet": "mercury",
+        "predictedDirectScore": 0,
+        "plannedRocket": null,
+        "actualPlanet": "neptune",
+        "matchingPaymentEvents": 1,
+        "targetMatched": false,
+        "actualPayment": {
+          "credits": -1,
+          "energy": -1
+        },
+        "source": "环绕 海王星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+      }
+    ]
+  },
+  "rows": [
+    {
+      "case": 1,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 4,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 6,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 1,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 2,
+      "predictedPlanet": "mercury",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mercury",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 水星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 1,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 7,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 6,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 1,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 3,
+      "turn": 1,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 6,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#3"
+    },
+    {
+      "case": 1,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 4,
+      "turn": 11,
+      "predictedPlanet": "jupiter",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "jupiter",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 木星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 2,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 1,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 3,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 5,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 3,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 1,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 3,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 2,
+      "predictedPlanet": "uranus",
+      "predictedDirectScore": 11,
+      "plannedRocket": null,
+      "actualPlanet": "uranus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 天王星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 3,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 8,
+      "predictedPlanet": "uranus",
+      "predictedDirectScore": 8,
+      "plannedRocket": null,
+      "actualPlanet": "uranus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 天王星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 4,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 1,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 4,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 1,
+      "turn": 3,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 4,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 1,
+      "turn": 5,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 9,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 5,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 2,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 5,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 5,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 5,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 2,
+      "turn": 3,
+      "predictedPlanet": "mercury",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "neptune",
+      "matchingPaymentEvents": 1,
+      "targetMatched": false,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 海王星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 1,
+      "turn": 1,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 1,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 9,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 6,
+      "company": "作弊实验室",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 3,
+      "predictedPlanet": "jupiter",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "jupiter",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 木星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 6,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 1,
+      "turn": 2,
+      "predictedPlanet": "jupiter",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "jupiter",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 木星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 7,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 1,
+      "turn": 4,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 7,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 1,
+      "turn": 5,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 6,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 8,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 2,
+      "turn": 5,
+      "predictedPlanet": "jupiter",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "jupiter",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 木星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 2,
+      "turn": 2,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 2,
+      "turn": 2,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 9,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 9,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 2,
+      "turn": 5,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 9,
+      "company": "宇宙大战略集团",
+      "player": "player-white",
+      "round": 2,
+      "turn": 7,
+      "predictedPlanet": "mercury",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mercury",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 水星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 10,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 4,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 6,
+      "predictedPlanet": "jupiter",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "jupiter",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 木星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 2,
+      "turn": 1,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 10,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 4,
+      "turn": 6,
+      "predictedPlanet": "uranus",
+      "predictedDirectScore": 11,
+      "plannedRocket": null,
+      "actualPlanet": "uranus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 天王星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 11,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 1,
+      "turn": 1,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 9,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 11,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 1,
+      "turn": 3,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 11,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 5,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 11,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 4,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 11,
+      "company": "寰宇超动力",
+      "player": "player-green",
+      "round": 2,
+      "turn": 5,
+      "predictedPlanet": "mercury",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mercury",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 水星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 12,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 3,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 13,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 1,
+      "turn": 1,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 1,
+      "turn": 4,
+      "predictedPlanet": "uranus",
+      "predictedDirectScore": 11,
+      "plannedRocket": null,
+      "actualPlanet": "uranus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 天王星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 13,
+      "company": "宇宙大战略集团",
+      "player": "player-green",
+      "round": 1,
+      "turn": 5,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 9,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 14,
+      "company": "宇宙大战略集团",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 5,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 14,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 6,
+      "predictedPlanet": "neptune",
+      "predictedDirectScore": 7,
+      "plannedRocket": null,
+      "actualPlanet": "neptune",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 海王星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 14,
+      "company": "寰宇超动力",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 2,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 1,
+      "turn": 2,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 9,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 2,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 6,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 15,
+      "company": "作弊实验室",
+      "player": "player-white",
+      "round": 2,
+      "turn": 5,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 15,
+      "company": "宇宙大战略集团",
+      "player": "player-blue",
+      "round": 2,
+      "turn": 6,
+      "predictedPlanet": "neptune",
+      "predictedDirectScore": 10,
+      "plannedRocket": null,
+      "actualPlanet": "neptune",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 海王星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 16,
+      "company": "作弊实验室",
+      "player": "player-green",
+      "round": 1,
+      "turn": 7,
+      "predictedPlanet": "mars",
+      "predictedDirectScore": 0,
+      "plannedRocket": null,
+      "actualPlanet": "mars",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 火星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    },
+    {
+      "case": 16,
+      "company": "寰宇超动力",
+      "player": "player-white",
+      "round": 2,
+      "turn": 5,
+      "predictedPlanet": "saturn",
+      "predictedDirectScore": 3,
+      "plannedRocket": null,
+      "actualPlanet": "saturn",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 土星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#1"
+    },
+    {
+      "case": 16,
+      "company": "作弊实验室",
+      "player": "player-brown",
+      "round": 2,
+      "turn": 6,
+      "predictedPlanet": "venus",
+      "predictedDirectScore": 6,
+      "plannedRocket": null,
+      "actualPlanet": "venus",
+      "matchingPaymentEvents": 1,
+      "targetMatched": true,
+      "actualPayment": {
+        "credits": -1,
+        "energy": -1
+      },
+      "source": "环绕 金星，消耗 1信用点 + 1能量，移除火箭，显示环绕标记#2"
+    }
+  ]
+}
