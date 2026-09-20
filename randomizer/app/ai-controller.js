@@ -18760,6 +18760,13 @@
         : { ok: false, message: "当前没有可拾取化石的木星/土星登陆或环绕目标" };
     }
 
+    function getAiFullSectorOptionalLaunchProfile(effect) {
+      if (effect?.type !== "launch" || effect.required || effect.options?.skippable === false) return null;
+      const coordinate = effect.options?.sectorCoordinate || getEarthSectorCoordinate();
+      if (rocketActions.findAvailableSlotIndex(rocketState, coordinate.x, coordinate.y) !== null) return null;
+      return { coordinate, reason: "sector-full" };
+    }
+
     function getAiCappedOptionalLaunchProfile(effect, player = getCurrentPlayer()) {
       if (
         effect?.type !== "launch"
@@ -25509,6 +25516,20 @@
         });
         activateNextActionEffect?.();
         return { ok: true, progressed: true, advancedCompletedEffect: true };
+      }
+      const fullSectorLaunch = getAiFullSectorOptionalLaunchProfile(effect);
+      if (fullSectorLaunch) {
+        const { x, y } = fullSectorLaunch.coordinate;
+        const message = `${effect.label || "发射"}：扇区[${x},${y}]已满，已跳过`;
+        recordAiAutoBattleLog("effect-skip", message, {
+          logPlayerId: playerId || null,
+          effectId: effect.id || null,
+          effectType: effect.type || null,
+          reason: fullSectorLaunch.reason,
+          sectorCoordinate: fullSectorLaunch.coordinate,
+        });
+        const skipped = skipCurrentActionEffect?.();
+        return skipped || { ok: true, progressed: true, skipped: true, message };
       }
       const cappedOptionalLaunch = getAiCappedOptionalLaunchProfile(
         effect,

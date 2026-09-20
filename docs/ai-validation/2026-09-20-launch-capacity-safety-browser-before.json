@@ -1,0 +1,213 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "rows": [
+        {
+          "cardId": "b_116.webp",
+          "filled": 9,
+          "blocked": {
+            "ok": false,
+            "abilityId": "launchProbe",
+            "message": "扇区[5,1]已满，无法发射"
+          },
+          "skips": [],
+          "rocketCountBefore": 10,
+          "rocketCountAfter": 10,
+          "resources": {
+            "credits": 8,
+            "energy": 3,
+            "publicity": 0,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 35
+          },
+          "pending": {
+            "actionEffectFlowActive": true,
+            "currentEffect": {
+              "id": "b116-launch",
+              "type": "launch",
+              "label": "发射",
+              "status": "active"
+            },
+            "pendingScanTargetType": null,
+            "pendingPublicScanQueue": false,
+            "pendingHandScan": false,
+            "pendingPassReserve": false,
+            "pendingCardSelection": false,
+            "pendingPlayCardSelection": false,
+            "pendingMovePayment": false,
+            "pendingCardTrigger": false,
+            "pendingCardTriggerFreeMove": false,
+            "pendingCardCornerFreeMove": false,
+            "pendingCardTaskCompletion": false,
+            "pendingStrategyPassiveSlotChoice": false,
+            "pendingJiuzheCardPlay": false,
+            "pendingYichangdianCardGain": false,
+            "pendingYichangdianCornerAction": false,
+            "pendingBanrenmaCardGain": false,
+            "pendingBanrenmaOpportunity": false,
+            "pendingChongTaskCompletion": false,
+            "pendingChongCardGain": false,
+            "pendingChongFossilChoice": false,
+            "pendingAmibaCardGain": false,
+            "pendingAmibaSymbolChoice": false,
+            "pendingAmibaTraceRemoval": false,
+            "pendingAomomoCardGain": false,
+            "pendingRunezuCardGain": false,
+            "pendingRunezuSymbolBranch": false,
+            "pendingRunezuFaceSymbolPlacement": false,
+            "pendingAlienTrace": false,
+            "pendingLandTarget": false,
+            "pendingScanAction4": false,
+            "pendingDataPlacement": false,
+            "pendingDataPlacementAction": false,
+            "pendingActionEffectCardMove": false,
+            "pendingActionEffectFreeMove": false,
+            "pendingIndustryAbility": false,
+            "pendingIndustryFreeMove": false,
+            "pendingIndustryHandSelection": false
+          },
+          "last": [
+            {
+              "type": "discard",
+              "message": "棕色AI 弃牌 1 张"
+            },
+            {
+              "type": "effect",
+              "message": "AI 处理效果：作弊实验室：收入增加 2/4"
+            },
+            {
+              "type": "discard",
+              "message": "棕色AI 弃牌 1 张"
+            },
+            {
+              "type": "effect",
+              "message": "AI 处理效果：作弊实验室：收入增加 3/4"
+            },
+            {
+              "type": "discard",
+              "message": "棕色AI 弃牌 1 张"
+            },
+            {
+              "type": "effect",
+              "message": "AI 处理效果：作弊实验室：收入增加 4/4"
+            },
+            {
+              "type": "discard",
+              "message": "棕色AI 弃牌 1 张"
+            },
+            {
+              "type": "effect",
+              "message": "AI 处理效果：发射"
+            }
+          ]
+        },
+        {
+          "cardId": "b_37.webp",
+          "filled": 9,
+          "blocked": {
+            "ok": false,
+            "abilityId": "launchProbe",
+            "message": "扇区[5,1]已满，无法发射"
+          },
+          "skips": [],
+          "rocketCountBefore": 10,
+          "rocketCountAfter": 10,
+          "resources": {
+            "credits": 7,
+            "energy": 3,
+            "publicity": 0,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 35
+          },
+          "pending": {
+            "actionEffectFlowActive": true,
+            "currentEffect": {
+              "id": "b37-launch-1",
+              "type": "launch",
+              "label": "发射 1/2（忽略火箭上限）",
+              "status": "active"
+            },
+            "pendingScanTargetType": null,
+            "pendingPublicScanQueue": false,
+            "pendingHandScan": false,
+            "pendingPassReserve": false,
+            "pendingCardSelection": false,
+            "pendingPlayCardSelection": false,
+            "pendingMovePayment": false,
+            "pendingCardTrigger": false,
+            "pendingCardTriggerFreeMove": false,
+            "pendingCardCornerFreeMove": false,
+            "pendingCardTaskCompletion": false,
+            "pendingStrategyPassiveSlotChoice": false,
+            "pendingJiuzheCardPlay": false,
+            "pendingYichangdianCardGain": false,
+            "pendingYichangdianCornerAction": false,
+            "pendingBanrenmaCardGain": false,
+            "pendingBanrenmaOpportunity": false,
+            "pendingChongTaskCompletion": false,
+            "pendingChongCardGain": false,
+            "pendingChongFossilChoice": false,
+            "pendingAmibaCardGain": false,
+            "pendingAmibaSymbolChoice": false,
+            "pendingAmibaTraceRemoval": false,
+            "pendingAomomoCardGain": false,
+            "pendingRunezuCardGain": false,
+            "pendingRunezuSymbolBranch": false,
+            "pendingRunezuFaceSymbolPlacement": false,
+            "pendingAlienTrace": false,
+            "pendingLandTarget": false,
+            "pendingScanAction4": false,
+            "pendingDataPlacement": false,
+            "pendingDataPlacementAction": false,
+            "pendingActionEffectCardMove": false,
+            "pendingActionEffectFreeMove": false,
+            "pendingIndustryAbility": false,
+            "pendingIndustryFreeMove": false,
+            "pendingIndustryHandSelection": false
+          },
+          "last": [
+            {
+              "type": "discard",
+              "message": "绿色AI 弃牌 1 张"
+            },
+            {
+              "type": "effect",
+              "message": "AI 处理效果：作弊实验室：收入增加 2/4"
+            },
+            {
+              "type": "discard",
+              "message": "绿色AI 弃牌 1 张"
+            },
+            {
+              "type": "effect",
+              "message": "AI 处理效果：作弊实验室：收入增加 3/4"
+            },
+            {
+              "type": "discard",
+              "message": "绿色AI 弃牌 1 张"
+            },
+            {
+              "type": "effect",
+              "message": "AI 处理效果：作弊实验室：收入增加 4/4"
+            },
+            {
+              "type": "discard",
+              "message": "绿色AI 弃牌 1 张"
+            },
+            {
+              "type": "effect",
+              "message": "AI 处理效果：发射 1/2（忽略火箭上限）"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

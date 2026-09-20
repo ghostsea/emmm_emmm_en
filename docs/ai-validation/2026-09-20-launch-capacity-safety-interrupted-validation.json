@@ -1,0 +1,2217 @@
+{
+  "status": "interrupted-execution-bug-not-score-acceptance",
+  "candidate": "9f8c7d08ca908dd2b294c60e83477892bd0cf3f7",
+  "failedCase": 35,
+  "options": {
+    "seed": "codex-ai-company-launch-validation-20260920:2793e35cebfcbdbca63bc97a",
+    "alienSeed": "codex-ai-company-launch-aliens-20260920:b3ec0be693be8509acdfd735",
+    "alienRandomMode": "independent-slots-v1",
+    "games": 5,
+    "activePlayerCount": 4,
+    "maxSteps": 2500,
+    "stepDelayMs": 0,
+    "maxBugRepeats": 1,
+    "sequenceWindowTurns": 6,
+    "yieldEverySteps": 20,
+    "stopOnBlocked": true,
+    "includeLogs": true,
+    "retainAnalysis": false,
+    "includeSampleDiagnostics": false,
+    "single": true,
+    "reset": true
+  },
+  "summary": {
+    "ok": false,
+    "single": true,
+    "blocked": true,
+    "gameEnded": false,
+    "stoppedBeforeRound": null,
+    "steps": 1526,
+    "maxScore": 341,
+    "minPlayerScore": 185,
+    "allPlayersAtLeast70": true,
+    "playerScores": [
+      185,
+      341,
+      255,
+      187
+    ],
+    "bugCount": 1,
+    "actionCounts": null,
+    "opportunities": null,
+    "resourceFlow": {
+      "trackedMagnitude": 2017,
+      "classifiedMagnitude": 2013,
+      "weighted": 0.9980168567178979
+    },
+    "message": "扇区[7,1]已满，无法发射"
+  },
+  "bugs": [
+    {
+      "id": 1582,
+      "type": "bug",
+      "roundNumber": 4,
+      "turnNumber": 12,
+      "rawTurnNumber": 45,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 201,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 108,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 8
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 201,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 12
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 193,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 10
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 115,
+          "credits": 6,
+          "energy": 0,
+          "publicity": 10,
+          "availableData": 0,
+          "handSize": 3,
+          "reservedCount": 7,
+          "techCount": 12
+        }
+      ],
+      "message": "扇区[7,1]已满，无法发射",
+      "details": {
+        "result": {
+          "ok": false,
+          "abilityId": "launchProbe",
+          "message": "扇区[7,1]已满，无法发射"
+        },
+        "repeatCount": 1
+      },
+      "createdAt": "2026-09-20T07:21:05.486Z"
+    }
+  ],
+  "lastLogs": [
+    {
+      "id": 1578,
+      "type": "turn-action",
+      "roundNumber": 4,
+      "turnNumber": 11,
+      "rawTurnNumber": 44,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 201,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 108,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 8
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 201,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 4,
+          "techCount": 12
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 193,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 10
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 115,
+          "credits": 6,
+          "energy": 0,
+          "publicity": 10,
+          "availableData": 0,
+          "handSize": 3,
+          "reservedCount": 7,
+          "techCount": 12
+        }
+      ],
+      "message": "绿色AI 执行 end-turn",
+      "details": {
+        "action": {
+          "id": "end-turn",
+          "kind": "end-turn",
+          "available": true,
+          "reason": null,
+          "score": -0.5,
+          "actionGraph": {
+            "gain": 0,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": -0.5
+          },
+          "breakdown": {
+            "existingScore": -0.5,
+            "gain": 0,
+            "cost": 0,
+            "finalMarginal": 0,
+            "finalMarkCashout": 0,
+            "missingFinalMarkPenalty": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": -0.5
+          }
+        },
+        "candidates": [
+          {
+            "id": "end-turn",
+            "kind": "end-turn",
+            "available": true,
+            "reason": null,
+            "score": -0.5,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": -0.5
+            },
+            "breakdown": {
+              "existingScore": -0.5,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": -0.5
+            }
+          }
+        ],
+        "plannerShadow": {
+          "key": "end-turn",
+          "type": "end-turn",
+          "score": -0.5,
+          "firstAction": {
+            "id": "end-turn",
+            "kind": "end-turn",
+            "score": -0.5,
+            "actionGraphNet": -0.5,
+            "planActionId": null
+          },
+          "policyActionId": "end-turn",
+          "diverged": false
+        }
+      },
+      "createdAt": "2026-09-20T07:21:05.351Z"
+    },
+    {
+      "id": 1579,
+      "type": "turn-action",
+      "roundNumber": 4,
+      "turnNumber": 12,
+      "rawTurnNumber": 45,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 201,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 108,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 8
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 201,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 4,
+          "techCount": 12
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 193,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 10
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 115,
+          "credits": 6,
+          "energy": 0,
+          "publicity": 10,
+          "availableData": 0,
+          "handSize": 3,
+          "reservedCount": 7,
+          "techCount": 12
+        }
+      ],
+      "message": "绿色AI 执行 playCard",
+      "details": {
+        "action": {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "reason": null,
+          "playableCards": [
+            {
+              "id": "playCard",
+              "kind": "main",
+              "available": true,
+              "handIndex": 0,
+              "cardId": "b_116.webp",
+              "cardInstanceId": "card-179-0",
+              "cardLabel": "太空发射系统",
+              "alienCard": false,
+              "price": 2,
+              "cost": {
+                "credits": 2
+              },
+              "typeCode": 2,
+              "reservesAfterPlay": true,
+              "effectTypes": [
+                "launch",
+                "card_move"
+              ],
+              "plan": {
+                "type": "card-synergy",
+                "mainActionId": "playCard",
+                "actionId": "move",
+                "label": "打牌获得移动并靠近路线目标",
+                "score": 4.784189969670144,
+                "cardId": "b_116.webp",
+                "effectType": "card_move",
+                "movementPoints": 1,
+                "movePreview": {
+                  "score": 13.768535605964798,
+                  "routeTarget": {
+                    "id": "neptune",
+                    "label": "海王星",
+                    "kind": "planet",
+                    "coordinate": {
+                      "x": 7,
+                      "y": 4
+                    },
+                    "value": 69.39005999999999,
+                    "satelliteOpportunity": {
+                      "planetId": "neptune",
+                      "satelliteId": "triton",
+                      "satelliteName": "海卫一",
+                      "rewardValue": 26,
+                      "directScore": 26,
+                      "energyCost": 1,
+                      "energyShortfall": 0,
+                      "pointConversionPenalty": 0,
+                      "contestRiskPenalty": 4.951,
+                      "raceWastePenalty": 4.951,
+                      "cashoutPremium": 14.72,
+                      "score": 40.089
+                    },
+                    "taskRouteCashout": null,
+                    "nearCompleteTaskRouteCashout": null,
+                    "oldDistance": 3,
+                    "newDistance": 2,
+                    "rotationStagingValue": 0
+                  },
+                  "from": {
+                    "x": 7,
+                    "y": 1
+                  },
+                  "to": {
+                    "x": 7,
+                    "y": 2
+                  },
+                  "direction": "out",
+                  "followupLanding": null
+                }
+              },
+              "finalFormulaDeltas": {
+                "c1": 0.37,
+                "c2": 0.26
+              },
+              "directScoreGain": 0,
+              "score": 61.031448194599356,
+              "valueBreakdown": {
+                "costValue": 9,
+                "cornerOpportunity": 4.5,
+                "directScoreGain": 0,
+                "effectValue": 9.5,
+                "strategyPassivePlayValue": 0,
+                "grandStrategyCreditBottleneckPenalty": 0,
+                "finalSelfBlockingPublicityTrap": null,
+                "finalSelfBlockingPublicityTrapPenalty": 0,
+                "c2Type3ProgressValue": 0,
+                "cFinalTaskProgressValue": 0,
+                "finalUnreadyTaskSetupSuppressed": false,
+                "readyTaskCashoutValue": 3.825,
+                "readyTaskCashoutDirectScore": 0,
+                "readyTaskCashoutCount": 1,
+                "readyTaskCashoutTimingScale": 1,
+                "readyTaskBlockedByPlayEffectTaskIds": [],
+                "newlyReadyAfterPlayTaskIds": [],
+                "readyTaskTechReplacementValue": 0,
+                "skippedUnresolvableLaunchForReadyTask": false,
+                "skippedUnresolvableLaunchCount": 0,
+                "skippedUnresolvableMoveBeforeLaterEffect": false,
+                "skippedUnresolvableMoveCount": 0,
+                "chongTaskChainValue": 0,
+                "banrenmaThresholdSetupValue": 0,
+                "playCardConversionPressure": 13.801,
+                "huanyuFangzhouCreditLockPenalty": 0,
+                "lateCardEnginePressure": 0.8,
+                "endGameExpectedScore": 0,
+                "chongProbeFossilRewardValue": null,
+                "finalRoundEndGameCardUrgency": 0,
+                "planScore": 4.784189969670144,
+                "standardActionPremium": 11.50230624,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "finalRoundResourceDrainPenalty": 2.55
+              }
+            }
+          ],
+          "cardId": "b_116.webp",
+          "cardInstanceId": "card-179-0",
+          "cardLabel": "太空发射系统",
+          "plan": {
+            "type": "card-synergy",
+            "mainActionId": "playCard",
+            "actionId": "move",
+            "label": "打牌获得移动并靠近路线目标",
+            "score": 4.784189969670144,
+            "cardId": "b_116.webp",
+            "effectType": "card_move",
+            "movementPoints": 1,
+            "movePreview": {
+              "score": 13.768535605964798,
+              "routeTarget": {
+                "id": "neptune",
+                "label": "海王星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 7,
+                  "y": 4
+                },
+                "value": 69.39005999999999,
+                "satelliteOpportunity": {
+                  "planetId": "neptune",
+                  "satelliteId": "triton",
+                  "satelliteName": "海卫一",
+                  "rewardValue": 26,
+                  "directScore": 26,
+                  "energyCost": 1,
+                  "energyShortfall": 0,
+                  "pointConversionPenalty": 0,
+                  "contestRiskPenalty": 4.951,
+                  "raceWastePenalty": 4.951,
+                  "cashoutPremium": 14.72,
+                  "score": 40.089
+                },
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 3,
+                "newDistance": 2,
+                "rotationStagingValue": 0
+              },
+              "from": {
+                "x": 7,
+                "y": 1
+              },
+              "to": {
+                "x": 7,
+                "y": 2
+              },
+              "direction": "out",
+              "followupLanding": null
+            }
+          },
+          "effectTypes": [
+            "launch",
+            "card_move"
+          ],
+          "finalFormulaDeltas": {
+            "c1": 0.37,
+            "c2": 0.26
+          },
+          "directScoreGain": 0,
+          "finalMarkCashoutIncluded": true,
+          "score": 70.18616542378925,
+          "valueBreakdown": {
+            "directScoreGain": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "endGameExpectedScore": 0,
+            "playCardConversionPressure": 13.801,
+            "finalUnreadyTaskSetupSuppressed": false
+          },
+          "actionGraph": {
+            "gain": 70.186,
+            "cost": 0,
+            "finalMarginal": 1,
+            "goalBonus": 8.5,
+            "feasibility": 1,
+            "net": 97.982
+          },
+          "breakdown": {
+            "directScoreGain": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "endGameExpectedScore": 0,
+            "playCardConversionPressure": 13.801,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "existingScore": 70.186,
+            "gain": 70.186,
+            "cost": 0,
+            "finalMarginal": 1,
+            "finalMarkCashout": 0,
+            "missingFinalMarkPenalty": 0,
+            "goalBonus": 8.5,
+            "feasibility": 1,
+            "net": 97.982,
+            "aiStyle": "task",
+            "aiStyleMultiplier": 1.16,
+            "finalFormulaStyleMultiplier": 1.06,
+            "missingFinalMarkMultiplier": 1,
+            "netBeforeStyle": 79.686
+          }
+        },
+        "candidates": [
+          {
+            "id": "launch",
+            "kind": "main",
+            "available": false,
+            "reason": "扇区[7,1]已满，无法发射",
+            "plan": null,
+            "gain": 0,
+            "cost": 0,
+            "score": 0,
+            "valueBreakdown": {
+              "launchGain": 0,
+              "launchCost": 0,
+              "launchReservePenalty": 0,
+              "postLaunchMovePlanScore": 0,
+              "lateLaunchPenalty": 0,
+              "rawLateLaunchPenalty": 0,
+              "lateLaunchPenaltyRelief": 0,
+              "grandStrategyFinalLaunchTriggerRouteBridge": null,
+              "extraLaunchPacePenalty": 0,
+              "finalSecondMarkExtraLaunchPenalty": 0,
+              "noRouteLaunchPenalty": 0,
+              "weakEarlyPostLaunchRoutePenalty": 0,
+              "terminalStagingOnlyLaunchPenalty": 0
+            },
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "launchGain": 0,
+              "launchCost": 0,
+              "launchReservePenalty": 0,
+              "postLaunchMovePlanScore": 0,
+              "lateLaunchPenalty": 0,
+              "rawLateLaunchPenalty": 0,
+              "lateLaunchPenaltyRelief": 0,
+              "grandStrategyFinalLaunchTriggerRouteBridge": null,
+              "extraLaunchPacePenalty": 0,
+              "finalSecondMarkExtraLaunchPenalty": 0,
+              "noRouteLaunchPenalty": 0,
+              "weakEarlyPostLaunchRoutePenalty": 0,
+              "terminalStagingOnlyLaunchPenalty": 0,
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 0,
+              "net": 0
+            }
+          },
+          {
+            "id": "orbit",
+            "kind": "main",
+            "available": false,
+            "reason": "地球不能执行此行动",
+            "planetId": null,
+            "planetName": null,
+            "finalMarkCashoutIncluded": true,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0
+            },
+            "finalFormulaDeltas": {
+              "b2": 1
+            },
+            "score": 0,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 8.5,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "directScoreGain": 0,
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 8.5,
+              "feasibility": 0,
+              "net": 0
+            }
+          },
+          {
+            "id": "land",
+            "kind": "main",
+            "available": false,
+            "reason": "地球不能执行此行动",
+            "planetId": null,
+            "planetName": null,
+            "energyCost": null,
+            "choices": [],
+            "finalMarkCashoutIncluded": true,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0
+            },
+            "finalFormulaDeltas": {
+              "b2": 1
+            },
+            "score": 0,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 12.385,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "directScoreGain": 0,
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 12.385,
+              "feasibility": 0,
+              "net": 0
+            }
+          },
+          {
+            "id": "researchTech",
+            "kind": "main",
+            "available": false,
+            "reason": "宣传不足，研究科技需要 4 宣传",
+            "takeable": [],
+            "plan": null,
+            "techType": null,
+            "finalFormulaDeltas": null,
+            "directScoreGain": 0,
+            "score": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "bestTechTileId": null,
+              "bestTechType": null,
+              "bestTechBonusId": null
+            },
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 2.5,
+              "goalBonus": 2.975,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "directScoreGain": 0,
+              "bestTechTileId": null,
+              "bestTechType": null,
+              "bestTechBonusId": null,
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 2.5,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 8.5,
+              "feasibility": 0,
+              "net": 0,
+              "goalBonusUnadjusted": 8.5,
+              "goalBonusScale": 0.35,
+              "missingFinalMarkPenaltyUnadjusted": 0,
+              "missingFinalMarkPenaltyScale": 1,
+              "urgencyPenalty": 0,
+              "lateNoDirectPenalty": 0
+            }
+          },
+          {
+            "id": "scan",
+            "kind": "main",
+            "available": false,
+            "reason": "资源不足，扫描需要 2能量",
+            "score": 0,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "targetPreview": null,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanEnergyReservationPenalty": 0,
+              "rawScanEnergyReservationPenalty": 0,
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 62.73702400000001,
+              "weakFinalAnalyzeEnergyCap": null
+            },
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 20.596,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "directScoreGain": 0,
+              "scanEnergyReservationPenalty": 0,
+              "rawScanEnergyReservationPenalty": 0,
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 62.73702400000001,
+              "weakFinalAnalyzeEnergyCap": null,
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 20.596,
+              "feasibility": 0,
+              "net": 0
+            }
+          },
+          {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 62.73702400000001,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 62.73702400000001,
+              "rawScore": 56.01520000000001,
+              "weightedScore": 62.73702400000001,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 201,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 5.1000000000000005,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 18.245,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": true
+            },
+            "actionGraph": {
+              "gain": 62.737,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 5.357,
+              "feasibility": 1,
+              "net": 72.861
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 62.73702400000001,
+              "rawScore": 56.01520000000001,
+              "weightedScore": 62.73702400000001,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 201,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 5.1000000000000005,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 18.245,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": true,
+              "existingScore": 62.737,
+              "gain": 62.737,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 5.357,
+              "feasibility": 1,
+              "net": 72.861,
+              "aiStyle": "task",
+              "aiStyleMultiplier": 1,
+              "finalFormulaStyleMultiplier": 1.07,
+              "missingFinalMarkMultiplier": 1,
+              "netBeforeStyle": 68.094
+            }
+          },
+          {
+            "id": "playCard",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "playableCards": [
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 0,
+                "cardId": "b_116.webp",
+                "cardInstanceId": "card-179-0",
+                "cardLabel": "太空发射系统",
+                "alienCard": false,
+                "price": 2,
+                "cost": {
+                  "credits": 2
+                },
+                "typeCode": 2,
+                "reservesAfterPlay": true,
+                "effectTypes": [
+                  "launch",
+                  "card_move"
+                ],
+                "plan": {
+                  "type": "card-synergy",
+                  "mainActionId": "playCard",
+                  "actionId": "move",
+                  "label": "打牌获得移动并靠近路线目标",
+                  "score": 4.784189969670144,
+                  "cardId": "b_116.webp",
+                  "effectType": "card_move",
+                  "movementPoints": 1,
+                  "movePreview": {
+                    "score": 13.768535605964798,
+                    "routeTarget": {
+                      "id": "neptune",
+                      "label": "海王星",
+                      "kind": "planet",
+                      "coordinate": {
+                        "x": 7,
+                        "y": 4
+                      },
+                      "value": 69.39005999999999,
+                      "satelliteOpportunity": {
+                        "planetId": "neptune",
+                        "satelliteId": "triton",
+                        "satelliteName": "海卫一",
+                        "rewardValue": 26,
+                        "directScore": 26,
+                        "energyCost": 1,
+                        "energyShortfall": 0,
+                        "pointConversionPenalty": 0,
+                        "contestRiskPenalty": 4.951,
+                        "raceWastePenalty": 4.951,
+                        "cashoutPremium": 14.72,
+                        "score": 40.089
+                      },
+                      "taskRouteCashout": null,
+                      "nearCompleteTaskRouteCashout": null,
+                      "oldDistance": 3,
+                      "newDistance": 2,
+                      "rotationStagingValue": 0
+                    },
+                    "from": {
+                      "x": 7,
+                      "y": 1
+                    },
+                    "to": {
+                      "x": 7,
+                      "y": 2
+                    },
+                    "direction": "out",
+                    "followupLanding": null
+                  }
+                },
+                "finalFormulaDeltas": {
+                  "c1": 0.37,
+                  "c2": 0.26
+                },
+                "directScoreGain": 0,
+                "score": 61.031448194599356,
+                "valueBreakdown": {
+                  "costValue": 9,
+                  "cornerOpportunity": 4.5,
+                  "directScoreGain": 0,
+                  "effectValue": 9.5,
+                  "strategyPassivePlayValue": 0,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 3.825,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 1,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 13.801,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0.8,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 4.784189969670144,
+                  "standardActionPremium": 11.50230624,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 2.55
+                }
+              }
+            ],
+            "cardId": "b_116.webp",
+            "cardInstanceId": "card-179-0",
+            "cardLabel": "太空发射系统",
+            "plan": {
+              "type": "card-synergy",
+              "mainActionId": "playCard",
+              "actionId": "move",
+              "label": "打牌获得移动并靠近路线目标",
+              "score": 4.784189969670144,
+              "cardId": "b_116.webp",
+              "effectType": "card_move",
+              "movementPoints": 1,
+              "movePreview": {
+                "score": 13.768535605964798,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 7,
+                    "y": 4
+                  },
+                  "value": 69.39005999999999,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 26,
+                    "directScore": 26,
+                    "energyCost": 1,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 4.951,
+                    "raceWastePenalty": 4.951,
+                    "cashoutPremium": 14.72,
+                    "score": 40.089
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 7,
+                  "y": 2
+                },
+                "direction": "out",
+                "followupLanding": null
+              }
+            },
+            "effectTypes": [
+              "launch",
+              "card_move"
+            ],
+            "finalFormulaDeltas": {
+              "c1": 0.37,
+              "c2": 0.26
+            },
+            "directScoreGain": 0,
+            "finalMarkCashoutIncluded": true,
+            "score": 70.18616542378925,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 13.801,
+              "finalUnreadyTaskSetupSuppressed": false
+            },
+            "actionGraph": {
+              "gain": 70.186,
+              "cost": 0,
+              "finalMarginal": 1,
+              "goalBonus": 8.5,
+              "feasibility": 1,
+              "net": 97.982
+            },
+            "breakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 13.801,
+              "finalUnreadyTaskSetupSuppressed": false,
+              "existingScore": 70.186,
+              "gain": 70.186,
+              "cost": 0,
+              "finalMarginal": 1,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 8.5,
+              "feasibility": 1,
+              "net": 97.982,
+              "aiStyle": "task",
+              "aiStyleMultiplier": 1.16,
+              "finalFormulaStyleMultiplier": 1.06,
+              "missingFinalMarkMultiplier": 1,
+              "netBeforeStyle": 79.686
+            }
+          },
+          {
+            "id": "pass",
+            "kind": "pass",
+            "available": true,
+            "reason": null,
+            "score": -26.7,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": -26.46
+            },
+            "breakdown": {
+              "existingScore": -2.7,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": -2.46,
+              "aiStyle": "task",
+              "aiStyleMultiplier": 1,
+              "finalFormulaStyleMultiplier": 1.04,
+              "missingFinalMarkMultiplier": 1,
+              "netBeforeStyle": -2.7
+            },
+            "selectionAdjustment": {
+              "continuationPenalty": 24,
+              "bestContinuation": {
+                "score": 70.18616542378925,
+                "id": "playCard",
+                "kind": "main"
+              },
+              "originalScore": -2.7
+            }
+          }
+        ],
+        "plannerShadow": {
+          "key": "playCard",
+          "type": "main",
+          "score": 79.686,
+          "firstAction": {
+            "id": "playCard",
+            "kind": "main",
+            "score": 70.186,
+            "actionGraphNet": 97.982,
+            "planActionId": "move"
+          },
+          "policyActionId": "playCard",
+          "diverged": false
+        }
+      },
+      "createdAt": "2026-09-20T07:21:05.424Z"
+    },
+    {
+      "id": 1580,
+      "type": "play-card",
+      "roundNumber": 4,
+      "turnNumber": 12,
+      "rawTurnNumber": 45,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 201,
+        "credits": 4,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 2
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 108,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 8
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 201,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 4,
+          "techCount": 12
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 193,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 10
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 115,
+          "credits": 6,
+          "energy": 0,
+          "publicity": 10,
+          "availableData": 0,
+          "handSize": 3,
+          "reservedCount": 7,
+          "techCount": 12
+        }
+      ],
+      "message": "绿色AI 选择打出 太空发射系统",
+      "details": {
+        "selected": {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "b_116.webp",
+          "cardInstanceId": "card-179-0",
+          "cardLabel": "太空发射系统",
+          "alienCard": false,
+          "price": 2,
+          "cost": {
+            "credits": 2
+          },
+          "typeCode": 2,
+          "reservesAfterPlay": true,
+          "effectTypes": [
+            "launch",
+            "card_move"
+          ],
+          "plan": {
+            "type": "card-synergy",
+            "mainActionId": "playCard",
+            "actionId": "move",
+            "label": "打牌获得移动并靠近路线目标",
+            "score": 4.784189969670144,
+            "cardId": "b_116.webp",
+            "effectType": "card_move",
+            "movementPoints": 1,
+            "movePreview": {
+              "score": 13.768535605964798,
+              "routeTarget": {
+                "id": "neptune",
+                "label": "海王星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 7,
+                  "y": 4
+                },
+                "value": 69.39005999999999,
+                "satelliteOpportunity": {
+                  "planetId": "neptune",
+                  "satelliteId": "triton",
+                  "satelliteName": "海卫一",
+                  "rewardValue": 26,
+                  "directScore": 26,
+                  "energyCost": 1,
+                  "energyShortfall": 0,
+                  "pointConversionPenalty": 0,
+                  "contestRiskPenalty": 4.951,
+                  "raceWastePenalty": 4.951,
+                  "cashoutPremium": 14.72,
+                  "score": 40.089
+                },
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 3,
+                "newDistance": 2,
+                "rotationStagingValue": 0
+              },
+              "from": {
+                "x": 7,
+                "y": 1
+              },
+              "to": {
+                "x": 7,
+                "y": 2
+              },
+              "direction": "out",
+              "followupLanding": null
+            }
+          },
+          "finalFormulaDeltas": {
+            "c1": 0.37,
+            "c2": 0.26
+          },
+          "directScoreGain": 0,
+          "score": 61.031448194599356,
+          "valueBreakdown": {
+            "costValue": 9,
+            "cornerOpportunity": 4.5,
+            "directScoreGain": 0,
+            "effectValue": 9.5,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 3.825,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 1,
+            "readyTaskCashoutTimingScale": 1,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 13.801,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0.8,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 4.784189969670144,
+            "standardActionPremium": 11.50230624,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 2.55
+          }
+        },
+        "selectedLabel": "太空发射系统",
+        "intendedCardMatched": true,
+        "candidates": [
+          {
+            "id": "playCard",
+            "kind": "main",
+            "available": true,
+            "handIndex": 0,
+            "cardId": "b_116.webp",
+            "cardInstanceId": "card-179-0",
+            "cardLabel": "太空发射系统",
+            "alienCard": false,
+            "price": 2,
+            "cost": {
+              "credits": 2
+            },
+            "typeCode": 2,
+            "reservesAfterPlay": true,
+            "effectTypes": [
+              "launch",
+              "card_move"
+            ],
+            "plan": {
+              "type": "card-synergy",
+              "mainActionId": "playCard",
+              "actionId": "move",
+              "label": "打牌获得移动并靠近路线目标",
+              "score": 4.784189969670144,
+              "cardId": "b_116.webp",
+              "effectType": "card_move",
+              "movementPoints": 1,
+              "movePreview": {
+                "score": 13.768535605964798,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 7,
+                    "y": 4
+                  },
+                  "value": 69.39005999999999,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 26,
+                    "directScore": 26,
+                    "energyCost": 1,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 4.951,
+                    "raceWastePenalty": 4.951,
+                    "cashoutPremium": 14.72,
+                    "score": 40.089
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 7,
+                  "y": 2
+                },
+                "direction": "out",
+                "followupLanding": null
+              }
+            },
+            "finalFormulaDeltas": {
+              "c1": 0.37,
+              "c2": 0.26
+            },
+            "directScoreGain": 0,
+            "score": 61.031448194599356,
+            "valueBreakdown": {
+              "costValue": 9,
+              "cornerOpportunity": 4.5,
+              "directScoreGain": 0,
+              "effectValue": 9.5,
+              "strategyPassivePlayValue": 0,
+              "grandStrategyCreditBottleneckPenalty": 0,
+              "finalSelfBlockingPublicityTrap": null,
+              "finalSelfBlockingPublicityTrapPenalty": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "finalUnreadyTaskSetupSuppressed": false,
+              "readyTaskCashoutValue": 3.825,
+              "readyTaskCashoutDirectScore": 0,
+              "readyTaskCashoutCount": 1,
+              "readyTaskCashoutTimingScale": 1,
+              "readyTaskBlockedByPlayEffectTaskIds": [],
+              "newlyReadyAfterPlayTaskIds": [],
+              "readyTaskTechReplacementValue": 0,
+              "skippedUnresolvableLaunchForReadyTask": false,
+              "skippedUnresolvableLaunchCount": 0,
+              "skippedUnresolvableMoveBeforeLaterEffect": false,
+              "skippedUnresolvableMoveCount": 0,
+              "chongTaskChainValue": 0,
+              "banrenmaThresholdSetupValue": 0,
+              "playCardConversionPressure": 13.801,
+              "huanyuFangzhouCreditLockPenalty": 0,
+              "lateCardEnginePressure": 0.8,
+              "endGameExpectedScore": 0,
+              "chongProbeFossilRewardValue": null,
+              "finalRoundEndGameCardUrgency": 0,
+              "planScore": 4.784189969670144,
+              "standardActionPremium": 11.50230624,
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "finalRoundResourceDrainPenalty": 2.55
+            }
+          }
+        ]
+      },
+      "createdAt": "2026-09-20T07:21:05.452Z"
+    },
+    {
+      "id": 1581,
+      "type": "effect",
+      "roundNumber": 4,
+      "turnNumber": 12,
+      "rawTurnNumber": 45,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 201,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 108,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 8
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 201,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 12
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 193,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 10
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 115,
+          "credits": 6,
+          "energy": 0,
+          "publicity": 10,
+          "availableData": 0,
+          "handSize": 3,
+          "reservedCount": 7,
+          "techCount": 12
+        }
+      ],
+      "message": "AI 处理效果：发射",
+      "details": {
+        "logPlayerId": "player-green",
+        "effectId": "b116-launch",
+        "effectType": "launch"
+      },
+      "createdAt": "2026-09-20T07:21:05.478Z"
+    },
+    {
+      "id": 1583,
+      "type": "finish",
+      "roundNumber": 4,
+      "turnNumber": 12,
+      "rawTurnNumber": 45,
+      "playerId": "player-green",
+      "playerLabel": "绿色",
+      "playerResources": {
+        "score": 201,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 108,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 8
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 201,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 1,
+          "reservedCount": 5,
+          "techCount": 12
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 193,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 2,
+          "reservedCount": 0,
+          "techCount": 10
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 115,
+          "credits": 6,
+          "energy": 0,
+          "publicity": 10,
+          "availableData": 0,
+          "handSize": 3,
+          "reservedCount": 7,
+          "techCount": 12
+        }
+      ],
+      "message": "扇区[7,1]已满，无法发射",
+      "details": {
+        "ok": false,
+        "steps": 1526,
+        "stopped": false,
+        "blocked": true,
+        "gameEnded": false,
+        "stoppedBeforeRound": null,
+        "seed": "codex-ai-company-launch-validation-20260920:2793e35cebfcbdbca63bc97a",
+        "message": "扇区[7,1]已满，无法发射"
+      },
+      "createdAt": "2026-09-20T07:21:05.486Z"
+    }
+  ],
+  "queue": {
+    "completedAt": "2026-09-20T07:21:39.422Z",
+    "completed": [
+      {
+        "model": "base",
+        "n": 1,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 1,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 2,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 2,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 3,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 3,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 4,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 4,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 5,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 5,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 6,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 6,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 7,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 7,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 8,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 8,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 9,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 10,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 10,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 9,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 11,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 11,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 12,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 12,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 13,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 13,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 14,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 14,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 15,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 15,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 16,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 16,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 17,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 17,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 18,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 18,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 19,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 19,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 20,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 21,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 20,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 21,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 23,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 22,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 22,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 23,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 24,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 24,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 25,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 25,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 26,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 26,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 27,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 27,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 28,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 29,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 28,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 29,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 30,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 31,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 30,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 31,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 32,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 32,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 33,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 33,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 34,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 34,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 35,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 36,
+        "code": 0
+      },
+      {
+        "model": "candidate",
+        "n": 36,
+        "code": 0
+      },
+      {
+        "model": "base",
+        "n": 37,
+        "code": 0
+      }
+    ],
+    "failures": [
+      {
+        "model": "candidate",
+        "n": 35,
+        "code": 1
+      }
+    ],
+    "pending": [
+      [
+        "candidate",
+        37
+      ],
+      [
+        "base",
+        38
+      ],
+      [
+        "candidate",
+        38
+      ],
+      [
+        "base",
+        39
+      ],
+      [
+        "candidate",
+        39
+      ],
+      [
+        "base",
+        40
+      ],
+      [
+        "candidate",
+        40
+      ],
+      [
+        "base",
+        41
+      ],
+      [
+        "candidate",
+        41
+      ],
+      [
+        "base",
+        42
+      ],
+      [
+        "candidate",
+        42
+      ],
+      [
+        "base",
+        43
+      ],
+      [
+        "candidate",
+        43
+      ],
+      [
+        "base",
+        44
+      ],
+      [
+        "candidate",
+        44
+      ],
+      [
+        "base",
+        45
+      ],
+      [
+        "candidate",
+        45
+      ],
+      [
+        "base",
+        46
+      ],
+      [
+        "candidate",
+        46
+      ],
+      [
+        "base",
+        47
+      ],
+      [
+        "candidate",
+        47
+      ],
+      [
+        "base",
+        48
+      ],
+      [
+        "candidate",
+        48
+      ],
+      [
+        "base",
+        49
+      ],
+      [
+        "candidate",
+        49
+      ],
+      [
+        "base",
+        50
+      ],
+      [
+        "candidate",
+        50
+      ],
+      [
+        "base",
+        51
+      ],
+      [
+        "candidate",
+        51
+      ],
+      [
+        "base",
+        52
+      ],
+      [
+        "candidate",
+        52
+      ],
+      [
+        "base",
+        53
+      ],
+      [
+        "candidate",
+        53
+      ],
+      [
+        "base",
+        54
+      ],
+      [
+        "candidate",
+        54
+      ],
+      [
+        "base",
+        55
+      ],
+      [
+        "candidate",
+        55
+      ],
+      [
+        "base",
+        56
+      ],
+      [
+        "candidate",
+        56
+      ],
+      [
+        "base",
+        57
+      ],
+      [
+        "candidate",
+        57
+      ],
+      [
+        "base",
+        58
+      ],
+      [
+        "candidate",
+        58
+      ],
+      [
+        "base",
+        59
+      ],
+      [
+        "candidate",
+        59
+      ],
+      [
+        "base",
+        60
+      ],
+      [
+        "candidate",
+        60
+      ],
+      [
+        "base",
+        61
+      ],
+      [
+        "candidate",
+        61
+      ],
+      [
+        "base",
+        62
+      ],
+      [
+        "candidate",
+        62
+      ],
+      [
+        "base",
+        63
+      ],
+      [
+        "candidate",
+        63
+      ],
+      [
+        "base",
+        64
+      ],
+      [
+        "candidate",
+        64
+      ]
+    ]
+  },
+  "scope": "Full64 validation stopped on actual sector-full launch bug. Completed subsets must not be treated as final holdout score. Preserve frozen sources/raw failures; repair both arms and use new fresh validation after corrected development."
+}
