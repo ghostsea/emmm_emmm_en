@@ -1064,6 +1064,20 @@
       ? parseStructuredCostDeltas(text)
       : { ...parsed.resourceDeltas };
     let incomeDeltas = sourceCategory === "pass_income" ? {} : { ...parsed.incomeDeltas };
+    // Completed action labels also carry costs when an alien source takes
+    // precedence over the cost category. Keep gross spending separate from
+    // a preceding trade in the same transaction's net snapshot delta.
+    const planetPayment = text.match(/^(?:登陆|环绕) [^，]+，消耗 (\d+)\s*能量(?:[（，；]|$)/);
+    if (planetPayment && resourceDeltas.energy == null) {
+      resourceDeltas.energy = -Number(planetPayment[1]);
+    }
+    const cashTrade = text.match(/^快速交易：\s*(\d+)\s*(信用点|能量)\s*→\s*(\d+)\s*(信用点|能量)(?:；资源：[^；]+)?$/);
+    if (cashTrade && cashTrade[2] !== cashTrade[4]) {
+      const inputKey = RESOURCE_LABEL_TO_KEY[cashTrade[2]];
+      const outputKey = RESOURCE_LABEL_TO_KEY[cashTrade[4]];
+      if (resourceDeltas[inputKey] == null) resourceDeltas[inputKey] = -Number(cashTrade[1]);
+      if (resourceDeltas[outputKey] == null) resourceDeltas[outputKey] = Number(cashTrade[3]);
+    }
     if (sourceCategory === "pass_income" || sourceCategory === "income_upgrade_immediate") {
       resourceDeltas = addResourceMaps(resourceDeltas, parsed.incomeDeltas);
     }

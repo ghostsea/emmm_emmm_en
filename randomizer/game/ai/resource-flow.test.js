@@ -1,6 +1,33 @@
 const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
+{
+  const initial = { id: "p", resources: { credits: 2, energy: 1 }, hand: [], income: {} };
+  const result = flow.analyzeStructuredActionLog([{
+    id: 1, roundNumber: 4, playerId: "p", actionType: "land",
+    steps: [
+      { source: "quick", text: "快速交易：2信用点 → 1能量" },
+      { source: "main", text: "登陆 奥陌陌，消耗 2能量（橙色3，消耗-1），移除火箭，显示登陆标记#1" },
+    ],
+    accountingSnapshot: { players: [{ ...initial, resources: { credits: 0, energy: 0 } }] },
+  }], { initialPlayerStates: [initial] });
+  assert.equal(result.players[0].nonIncomeGain.energy, 1);
+  assert.equal(result.players[0].spent.energy, 2, "gross landing cost must not net the preceding trade gain");
+  assert.equal(result.players[0].spent.credits, 2);
+  assert.equal(result.reconciliation.residualMagnitude, 0);
+  assert.equal(result.reconciliation.inferredMagnitude, 0);
+  assert.equal(result.events[1].sourceCategory, "alien", "retain actual source attribution");
+
+  const event = (text) => flow.normalizeStructuredActionLog([{ id: 1, playerId: "p", steps: [{ text }] }], {
+    initialPlayerStates: [initial],
+  })[0];
+  assert.deepEqual(event("快速交易：2能量 → 1信用点；资源：能量-2、信用点+1").resourceDeltas, { energy: -2, credits: 1 });
+  assert.deepEqual(event("登陆 奥陌陌，消耗 2能量；资源：能量-2").resourceDeltas, { energy: -2 });
+  for (const text of ["快速交易：2信用点 → 1能量；请选择", "快速交易：2信用点 → 1能量；失败", "可登陆 奥陌陌，消耗 2能量", "取消登陆 奥陌陌，消耗 2能量"]) {
+    assert.deepEqual(event(text).resourceDeltas, {}, text);
+  }
+}
+
 for (const text of ["获得卡牌：水熊虫研究", "获得卡牌：宇航员训练体验，公共区已补牌：水熊虫研究"]) {
   assert.equal(flow.findAlienIdInLogText(text), null);
   assert.equal(flow.classifySourceCategory({ text }), "card");

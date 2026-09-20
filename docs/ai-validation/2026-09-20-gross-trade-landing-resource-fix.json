@@ -1,0 +1,271 @@
+{
+  "scope": "Same seed and independent alien seed, main policy identical to c0a7f8e4; only reporting parser changed. All semantic AI logs equal after removing createdAt/placedAt timestamps, no score improvement claimed.",
+  "seed": "codex-ai-slot-first-random-20260906:d81be0b9dec1947e4a546cef",
+  "alienSeed": "codex-ai-slot-first-aliens-20260906:191c6633cd7b42f80b668845",
+  "baselineCommit": "c0a7f8e41dff7cb015f6fb2317d1850cdbeae4e2",
+  "sourceHash": "2af3c220f729b09316ca2e1f3aa30f80af495cf3e1dcbf0f00c9f3d3b8b6cdf6",
+  "tests": {
+    "randomizerScripts": 53,
+    "relatedToolScripts": 3,
+    "oldParserNegativeControl": "fails expected nonIncomeGain.energy 1, actual 0"
+  },
+  "scores": [
+    226,
+    247,
+    221,
+    179
+  ],
+  "steps": 1383,
+  "semanticLogs": 1441,
+  "semanticLogsIdentical": true,
+  "bugCount": 0,
+  "reconciliation": {
+    "residualMagnitude": 0,
+    "residuals": [],
+    "baselineMissing": [],
+    "baselineMissingCount": 0,
+    "inferredMagnitude": 107,
+    "inferredEventCount": 102
+  },
+  "beforeEvents": [
+    {
+      "step": 0,
+      "player": "player-green",
+      "source": "trade_conversion",
+      "text": "快速交易：2信用点 → 1能量",
+      "delta": {}
+    },
+    {
+      "step": 1,
+      "player": "player-green",
+      "source": "alien",
+      "text": "登陆 奥陌陌，消耗 2能量（橙色3，消耗-1），移除火箭，显示登陆标记#1",
+      "delta": {}
+    },
+    {
+      "step": 2,
+      "player": "player-green",
+      "source": "alien",
+      "text": "奥陌陌登陆：9分+2化石：绿色 分数+9、奥陌陌化石+2",
+      "delta": {
+        "score": 9
+      }
+    },
+    {
+      "step": 3,
+      "player": "player-green",
+      "source": "alien",
+      "text": "奥陌陌第1次登陆：额外获得 3 个数据：绿色获得 3/3 个数据；资源：数据+3",
+      "delta": {
+        "availableData": 3
+      }
+    },
+    {
+      "step": 9007199254740981,
+      "player": "player-green",
+      "source": "cost",
+      "text": "snapshot inference: cost",
+      "delta": {
+        "credits": -2,
+        "energy": -1
+      }
+    }
+  ],
+  "afterEvents": [
+    {
+      "step": 0,
+      "player": "player-green",
+      "source": "trade_conversion",
+      "text": "快速交易：2信用点 → 1能量",
+      "delta": {
+        "credits": -2,
+        "energy": 1
+      }
+    },
+    {
+      "step": 1,
+      "player": "player-green",
+      "source": "alien",
+      "text": "登陆 奥陌陌，消耗 2能量（橙色3，消耗-1），移除火箭，显示登陆标记#1",
+      "delta": {
+        "energy": -2
+      }
+    },
+    {
+      "step": 2,
+      "player": "player-green",
+      "source": "alien",
+      "text": "奥陌陌登陆：9分+2化石：绿色 分数+9、奥陌陌化石+2",
+      "delta": {
+        "score": 9
+      }
+    },
+    {
+      "step": 3,
+      "player": "player-green",
+      "source": "alien",
+      "text": "奥陌陌第1次登陆：额外获得 3 个数据：绿色获得 3/3 个数据；资源：数据+3",
+      "delta": {
+        "availableData": 3
+      }
+    }
+  ],
+  "players": [
+    {
+      "player": "player-brown",
+      "before": {
+        "spent": {
+          "score": 0,
+          "credits": 15,
+          "energy": 33,
+          "publicity": 42,
+          "availableData": 27,
+          "handSize": 21
+        },
+        "nonIncomeGain": {
+          "score": 111,
+          "credits": 5,
+          "energy": 10,
+          "publicity": 40,
+          "availableData": 25,
+          "handSize": 9
+        }
+      },
+      "after": {
+        "spent": {
+          "score": 0,
+          "credits": 15,
+          "energy": 33,
+          "publicity": 42,
+          "availableData": 27,
+          "handSize": 21
+        },
+        "nonIncomeGain": {
+          "score": 111,
+          "credits": 5,
+          "energy": 10,
+          "publicity": 40,
+          "availableData": 25,
+          "handSize": 9
+        }
+      }
+    },
+    {
+      "player": "player-blue",
+      "before": {
+        "spent": {
+          "score": 0,
+          "credits": 26,
+          "energy": 22,
+          "publicity": 39,
+          "availableData": 36,
+          "handSize": 39
+        },
+        "nonIncomeGain": {
+          "score": 124,
+          "credits": 3,
+          "energy": 12,
+          "publicity": 37,
+          "availableData": 36,
+          "handSize": 16
+        }
+      },
+      "after": {
+        "spent": {
+          "score": 0,
+          "credits": 26,
+          "energy": 22,
+          "publicity": 39,
+          "availableData": 36,
+          "handSize": 39
+        },
+        "nonIncomeGain": {
+          "score": 124,
+          "credits": 3,
+          "energy": 12,
+          "publicity": 37,
+          "availableData": 36,
+          "handSize": 16
+        }
+      }
+    },
+    {
+      "player": "player-green",
+      "before": {
+        "spent": {
+          "score": 0,
+          "credits": 26,
+          "energy": 25,
+          "publicity": 42,
+          "availableData": 38,
+          "handSize": 35
+        },
+        "nonIncomeGain": {
+          "score": 139,
+          "credits": 3,
+          "energy": 11,
+          "publicity": 43,
+          "availableData": 40,
+          "handSize": 15
+        }
+      },
+      "after": {
+        "spent": {
+          "score": 0,
+          "credits": 26,
+          "energy": 26,
+          "publicity": 42,
+          "availableData": 38,
+          "handSize": 35
+        },
+        "nonIncomeGain": {
+          "score": 139,
+          "credits": 3,
+          "energy": 12,
+          "publicity": 43,
+          "availableData": 40,
+          "handSize": 15
+        }
+      }
+    },
+    {
+      "player": "player-white",
+      "before": {
+        "spent": {
+          "score": 0,
+          "credits": 33,
+          "energy": 19,
+          "publicity": 79,
+          "availableData": 23,
+          "handSize": 32
+        },
+        "nonIncomeGain": {
+          "score": 70,
+          "credits": 7,
+          "energy": 6,
+          "publicity": 76,
+          "availableData": 22,
+          "handSize": 16
+        }
+      },
+      "after": {
+        "spent": {
+          "score": 0,
+          "credits": 33,
+          "energy": 19,
+          "publicity": 79,
+          "availableData": 23,
+          "handSize": 32
+        },
+        "nonIncomeGain": {
+          "score": 70,
+          "credits": 7,
+          "energy": 6,
+          "publicity": 76,
+          "availableData": 22,
+          "handSize": 16
+        }
+      }
+    }
+  ]
+}
