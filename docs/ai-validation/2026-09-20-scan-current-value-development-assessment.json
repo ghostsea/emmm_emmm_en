@@ -1,0 +1,68 @@
+{
+  "decision": "development-only-combination-next",
+  "pairs": 24,
+  "baseline": 225.0625,
+  "candidate": 226.84375,
+  "meanDelta": 1.78125,
+  "se": 2.9015126185394196,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 252.79166666666666,
+      "meanDelta": 1.2083333333333144,
+      "minimumDelta": -4
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 188.79166666666666,
+      "meanDelta": 0.75,
+      "minimumDelta": 4
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 213,
+      "meanDelta": 3.958333333333343,
+      "minimumDelta": -21
+    }
+  },
+  "distribution": {
+    "mean": 1.78125,
+    "min": -11,
+    "p10": 5.5,
+    "p25": 0.75,
+    "median": -7,
+    "p75": -7.5,
+    "max": 4,
+    "topQuartileMean": 13.416666666666686,
+    "winnerMean": 9.208333333333371,
+    "minimumPerGameMean": 5.541666666666686,
+    "seats270Plus": 4,
+    "seats300Plus": 7
+  },
+  "baselineHighQuartile": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 270.625,
+    "meanDelta": -5.375,
+    "improved": 10,
+    "declined": 12,
+    "unchanged": 2
+  },
+  "baselineLowQuartile": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 182.625,
+    "meanDelta": 16.25,
+    "improved": 17,
+    "declined": 6,
+    "unchanged": 1
+  },
+  "ledgerSeats": 192,
+  "bugCount": 0,
+  "cardPayments": 1114,
+  "scanPayments": 1165,
+  "limitations": "54 unit/regression scripts passed; baseline negative control fails same-state repeat-cost invariance. All24 real browser games complete. More scans and cycles but fewer newly gained cards played; SE exceeds mean. No random validation or adoption yet. Retain earlier failed reset-after-analysis experiment as distinct evidence."
+}
