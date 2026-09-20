@@ -1,0 +1,63 @@
+{
+  "status": "pending-fresh-regression",
+  "candidate": "1f5875cb8708c2a5ec36c9f36c56ba8a1dae84d4",
+  "baseline": "23626195a85ceeb4150115918783abde89158532",
+  "delta": {
+    "mean": 0.10416666666665719,
+    "min": 0,
+    "p10": 0,
+    "p25": 0,
+    "median": 0.5,
+    "p75": 0,
+    "max": 0,
+    "topQuartileMean": -0.4166666666666856,
+    "winnerMean": -0.5416666666666288,
+    "minimumPerGameMean": 0.2083333333333428,
+    "seats270Plus": 0,
+    "seats300Plus": -1
+  },
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 251.72916666666666,
+      "meanDelta": 0.14583333333331439,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 187.75,
+      "meanDelta": -0.2916666666666572,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 209.45833333333334,
+      "meanDelta": 0.4166666666666856,
+      "minimumDelta": 0
+    }
+  },
+  "standardError": 0.12761456442405036,
+  "checks": {
+    "games": 48,
+    "bugs": 0,
+    "ledgerSeats": 192,
+    "plays": 1146,
+    "unitTestFiles": 53
+  },
+  "plans": {
+    "base": {
+      "launchCardPlays": 208,
+      "launchPlans": 154,
+      "immediateMovesMatchingDirection": 28
+    },
+    "candidate": {
+      "launchCardPlays": 207,
+      "launchPlans": 154,
+      "immediateMovesMatchingDirection": 30
+    }
+  },
+  "scope": "Actual effect fee and post-card-payment preview correction; no overall ten-point gain claim. Only three games show action identity differences, two differ in score. Browser scene confirms executability and payment, not autonomous policy follow-through. Direct follow-up direction match does not establish rocket identity."
+}
