@@ -14011,7 +14011,7 @@
 
     function scoreAiLandChoice(choice, player = getCurrentPlayer(), options = {}) {
       if (!choice) return -Infinity;
-      if (choice.kind === "orbit") return scoreAiOrbitChoice(choice, player, options);
+      if (choice.kind === "orbit" || choice.actionType === "orbit") return scoreAiOrbitChoice(choice, player, options);
       const planetId = choice.planet?.planetId || choice.target?.planetId || null;
       const rewardEffects = getAiLandRewardEffectsForTarget(planetId, choice.target);
       const rewardValue = aiNumber(scoreAiLandResolvedRewardValueForTarget(planetId, choice.target, player));

@@ -17147,3 +17147,20 @@ for (const hasTarget of [true, false]) {
   if (hasTarget) assert.deepEqual(harness.getHandled(), {type:'play-card',handIndex:0,confirmed:true}, 'zero energy must not block a legal free orbit card');
   else { assert.equal(result.blocked,true); assert.equal(harness.getHandled(),null,'free cost does not waive the target requirement'); }
 }
+
+// Orbit choices in the shared travel picker carry actionType, even with kind=normal.
+for (const [kind, actionType, expected] of [['normal', 'orbit', 0], ['orbit', undefined, 0], ['normal', 'land', 1]]) {
+  const choices = ['mars', 'mercury'].map(planetId => ({kind, actionType, planet:{planetId}, planetId, cost:{}, target:actionType === 'land' ? {type:'planet',planetId} : undefined}));
+  const h = createAiControllerHarness(null, {
+    currentPlayerColor:'blue', scanTargetHidden:true,
+    landTargetPending:{playerId:'player-blue',playerColor:'blue',getOptions:()=>({ok:true,choices})},
+    planetRewards:{
+      EFFECT_TYPES:{GAIN_RESOURCES:'gain_resources'},
+      buildOrbitRewardEffects:planetId=>[{type:'gain_resources',options:{gain:{score:planetId==='mars'?100:0}}}],
+      buildPlanetLandRewardEffects:planetId=>[{type:'gain_resources',options:{gain:{score:planetId==='mercury'?100:0}}}],
+    },
+  });
+  h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+  h.controller.runAiAutomationStep();
+  assert.deepEqual(h.getHandled(),{type:'land-target',selectedIndex:expected},'shared picker must rank the rewards of its actual travel action');
+}
