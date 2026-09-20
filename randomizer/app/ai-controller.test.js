@@ -17147,3 +17147,30 @@ for (const hasTarget of [true, false]) {
   if (hasTarget) assert.deepEqual(harness.getHandled(), {type:'play-card',handIndex:0,confirmed:true}, 'zero energy must not block a legal free orbit card');
   else { assert.equal(result.blocked,true); assert.equal(harness.getHandled(),null,'free cost does not waive the target requirement'); }
 }
+
+// A consumed card has one alternative use; a distinct income instance can replace it.
+{
+  const h = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', roundNumber: 1,
+    getPublicScanChoicesForCard: card => ({ok: Boolean(card.scan)}),
+  });
+  const score = card => h.controller.scoreAiCardCornerOpportunity(card);
+  const card = {id: 'income-one', incomeGain: {credits: 1}};
+  h.blue.hand = [card];
+  const uniqueIncome = score(card);
+  assert(uniqueIncome > 0, 'the last available income option retains its opportunity cost');
+  h.blue.hand = [card, {...card}];
+  assert.equal(score(card), uniqueIncome, 'an alias of the same instance is not a replacement');
+  h.blue.hand = [card, {...card, id: 'income-two'}];
+  assert.equal(score(card), 0, 'a distinct card with identical income replaces the income choice');
+  h.blue.hand = [card];
+  const corner = {resourceReward: {gain: {credits: 1}}};
+  const cornerValue = score(corner);
+  const combined = {...card, ...corner, scan: true};
+  h.blue.hand = [combined];
+  assert.equal(score(combined), Math.max(uniqueIncome, cornerValue, 3), 'scan, income and corner are exclusive');
+  h.blue.hand = [combined, {...card, id: 'replacement'}];
+  assert.equal(score(combined), Math.max(cornerValue, 3), 'income replacement does not erase the other alternatives');
+  const movement = score({moveReward: {movementPoints: 1}});
+  assert.equal(score({moveReward: {movementPoints: 1, gain: {credits: 1}}}), movement + cornerValue, 'resources bundled with movement are simultaneous');
+}

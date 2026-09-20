@@ -10600,6 +10600,7 @@
 
     function scoreAiCardCornerOpportunity(card) {
       let value = 0;
+      const player = getCurrentPlayer();
       const runezuRevealed = runezu?.isRunezuRevealedSlot
         && (aliens?.ALIEN_SLOT_IDS || []).some((alienSlotId) => (
           runezu.isRunezuRevealedSlot(alienGameState, alienSlotId)
@@ -10619,10 +10620,17 @@
         value += scoreAiResourceBundle(moveReward.gain || {});
         value += scoreAiPublicityResearchTechSetupValue(moveReward.gain || {}, getCurrentPlayer(), { scale: 0.45 });
       }
-      if (getPublicScanChoicesForCard(card).ok) value += 3;
+      const scanValue = getPublicScanChoicesForCard(card).ok ? 3 : 0;
       const incomeGain = cards.getIncomeGainForCard?.(card);
-      if (incomeGain) value += scoreAiIncomeOpportunityValue(getCurrentPlayer(), incomeGain);
-      return value;
+      const incomeValue = incomeGain ? scoreAiIncomeOpportunityValue(player, incomeGain) : 0;
+      const replacementIncomeValue = (player?.hand || []).reduce((best, other) => {
+        if (other === card || (card?.id && other?.id === card.id)) return best;
+        const replacementGain = cards.getIncomeGainForCard?.(other);
+        return replacementGain ? Math.max(best, scoreAiIncomeOpportunityValue(player, replacementGain)) : best;
+      }, 0);
+      // One card can be spent on only one alternative. Other income cards remain available.
+      const incomeMarginal = Math.max(0, incomeValue - replacementIncomeValue);
+      return Math.max(0, value, scanValue, incomeMarginal);
     }
 
     function getAiScanEffectCount(effect) {
@@ -26712,6 +26720,7 @@
     }
 
     return {
+      scoreAiCardCornerOpportunity,
       getAiIntendedPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,
