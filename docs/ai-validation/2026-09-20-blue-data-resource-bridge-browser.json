@@ -1,0 +1,927 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Actual last-data blue1 reward followed by supported b3 payment/effects. Forced main action only to verify unlock, not full-game policy conversion.",
+      "candidates": [
+        {
+          "id": "placeData",
+          "kind": "quick",
+          "available": true,
+          "target": "computer",
+          "blueSlot": null,
+          "placementSlot": 6,
+          "label": "第一排放置位 6",
+          "description": "按从左到右放入第一排第 6 位",
+          "directScoreGain": 0,
+          "score": 28.344432,
+          "valueBreakdown": null,
+          "actionGraph": {
+            "gain": 28.344,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 28.344432
+          },
+          "breakdown": {
+            "existingScore": 28.344,
+            "gain": 28.344,
+            "cost": 0,
+            "finalMarginal": 0,
+            "finalMarkCashout": 0,
+            "missingFinalMarkPenalty": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 28.344
+          },
+          "selectionAdjustment": {
+            "quickScoreFloor": 0
+          }
+        },
+        {
+          "id": "placeData",
+          "kind": "quick",
+          "available": true,
+          "target": "blueBonus",
+          "blueSlot": 1,
+          "placementSlot": null,
+          "label": "第一列第二行",
+          "description": "放入第一列第二行，额外获得 1 信用点",
+          "directScoreGain": 0,
+          "score": 28.394432000000002,
+          "valueBreakdown": {
+            "finalHighScoreDataCreditPreserve": null,
+            "blueDataResourceBridge": {
+              "gain": {
+                "credits": 1,
+                "energy": 0
+              },
+              "computerSlot": 6,
+              "scoreFloor": 28.444432000000003,
+              "followup": {
+                "actionId": "playCard",
+                "cardInstanceId": "card-65-0",
+                "score": 9.656465599999999
+              },
+              "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+            }
+          },
+          "actionGraph": {
+            "gain": 28.394,
+            "cost": 0,
+            "finalMarginal": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 28.394432000000002
+          },
+          "breakdown": {
+            "finalHighScoreDataCreditPreserve": null,
+            "blueDataResourceBridge": {
+              "gain": {
+                "credits": 1,
+                "energy": 0
+              },
+              "computerSlot": 6,
+              "scoreFloor": 28.444432000000003,
+              "followup": {
+                "actionId": "playCard",
+                "cardInstanceId": "card-65-0",
+                "score": 9.656465599999999
+              },
+              "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+            },
+            "existingScore": 28.394,
+            "gain": 28.394,
+            "cost": 0,
+            "finalMarginal": 0,
+            "finalMarkCashout": 0,
+            "missingFinalMarkPenalty": 0,
+            "goalBonus": 0,
+            "feasibility": 1,
+            "net": 28.394
+          },
+          "selectionAdjustment": {
+            "quickScoreFloor": 0
+          }
+        }
+      ],
+      "afterPlacement": {
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 40
+      },
+      "play": {
+        "selected": {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "b_3.webp",
+          "cardInstanceId": "card-65-0",
+          "cardLabel": "阿尔冈金射电天文台",
+          "alienCard": false,
+          "price": 1,
+          "cost": {
+            "credits": 1
+          },
+          "typeCode": 0,
+          "reservesAfterPlay": false,
+          "effectTypes": [
+            "card_scan_color_choice",
+            "card_scan_color_choice",
+            "card_scan_color_choice",
+            "card_scan_color_choice"
+          ],
+          "plan": {
+            "type": "card-synergy",
+            "mainActionId": "playCard",
+            "actionId": "scan",
+            "label": "打牌触发扫描路线",
+            "score": 1.262,
+            "cardId": "b_3.webp",
+            "effectType": "card_scan_color_choice",
+            "color": "yellow",
+            "nebulaId": null
+          },
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": 9.656465599999999,
+          "valueBreakdown": {
+            "costValue": 6,
+            "cornerOpportunity": 32.25,
+            "directScoreGain": 0,
+            "effectValue": 15,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 1.262,
+            "standardActionPremium": 10.362,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        },
+        "selectedLabel": "阿尔冈金射电天文台",
+        "intendedCardMatched": true,
+        "candidates": [
+          {
+            "id": "playCard",
+            "kind": "main",
+            "available": true,
+            "handIndex": 0,
+            "cardId": "b_3.webp",
+            "cardInstanceId": "card-65-0",
+            "cardLabel": "阿尔冈金射电天文台",
+            "alienCard": false,
+            "price": 1,
+            "cost": {
+              "credits": 1
+            },
+            "typeCode": 0,
+            "reservesAfterPlay": false,
+            "effectTypes": [
+              "card_scan_color_choice",
+              "card_scan_color_choice",
+              "card_scan_color_choice",
+              "card_scan_color_choice"
+            ],
+            "plan": {
+              "type": "card-synergy",
+              "mainActionId": "playCard",
+              "actionId": "scan",
+              "label": "打牌触发扫描路线",
+              "score": 1.262,
+              "cardId": "b_3.webp",
+              "effectType": "card_scan_color_choice",
+              "color": "yellow",
+              "nebulaId": null
+            },
+            "finalFormulaDeltas": {},
+            "directScoreGain": 0,
+            "score": 9.656465599999999,
+            "valueBreakdown": {
+              "costValue": 6,
+              "cornerOpportunity": 32.25,
+              "directScoreGain": 0,
+              "effectValue": 15,
+              "strategyPassivePlayValue": 0,
+              "grandStrategyCreditBottleneckPenalty": 0,
+              "finalSelfBlockingPublicityTrap": null,
+              "finalSelfBlockingPublicityTrapPenalty": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "finalUnreadyTaskSetupSuppressed": false,
+              "readyTaskCashoutValue": 0,
+              "readyTaskCashoutDirectScore": 0,
+              "readyTaskCashoutCount": 0,
+              "readyTaskCashoutTimingScale": 0.2,
+              "readyTaskBlockedByPlayEffectTaskIds": [],
+              "newlyReadyAfterPlayTaskIds": [],
+              "readyTaskTechReplacementValue": 0,
+              "skippedUnresolvableLaunchForReadyTask": false,
+              "skippedUnresolvableLaunchCount": 0,
+              "skippedUnresolvableMoveBeforeLaterEffect": false,
+              "skippedUnresolvableMoveCount": 0,
+              "chongTaskChainValue": 0,
+              "banrenmaThresholdSetupValue": 0,
+              "playCardConversionPressure": 0,
+              "huanyuFangzhouCreditLockPenalty": 0,
+              "lateCardEnginePressure": 0,
+              "endGameExpectedScore": 0,
+              "chongProbeFossilRewardValue": null,
+              "finalRoundEndGameCardUrgency": 0,
+              "planScore": 1.262,
+              "standardActionPremium": 10.362,
+              "finalSecondMarkNoDirectSetupPenalty": 0,
+              "finalRoundResourceDrainPenalty": 0
+            }
+          }
+        ]
+      },
+      "ending": {
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 40
+      },
+      "pending": {
+        "actionEffectFlowActive": false,
+        "currentEffect": null,
+        "pendingScanTargetType": null,
+        "pendingPublicScanQueue": false,
+        "pendingHandScan": false,
+        "pendingPassReserve": false,
+        "pendingCardSelection": false,
+        "pendingPlayCardSelection": false,
+        "pendingMovePayment": false,
+        "pendingCardTrigger": false,
+        "pendingCardTriggerFreeMove": false,
+        "pendingCardCornerFreeMove": false,
+        "pendingCardTaskCompletion": false,
+        "pendingStrategyPassiveSlotChoice": false,
+        "pendingJiuzheCardPlay": false,
+        "pendingYichangdianCardGain": false,
+        "pendingYichangdianCornerAction": false,
+        "pendingBanrenmaCardGain": false,
+        "pendingBanrenmaOpportunity": false,
+        "pendingChongTaskCompletion": false,
+        "pendingChongCardGain": false,
+        "pendingChongFossilChoice": false,
+        "pendingAmibaCardGain": false,
+        "pendingAmibaSymbolChoice": false,
+        "pendingAmibaTraceRemoval": false,
+        "pendingAomomoCardGain": false,
+        "pendingRunezuCardGain": false,
+        "pendingRunezuSymbolBranch": false,
+        "pendingRunezuFaceSymbolPlacement": false,
+        "pendingAlienTrace": false,
+        "pendingLandTarget": false,
+        "pendingScanAction4": false,
+        "pendingDataPlacement": false,
+        "pendingDataPlacementAction": false,
+        "pendingActionEffectCardMove": false,
+        "pendingActionEffectFreeMove": false,
+        "pendingIndustryAbility": false,
+        "pendingIndustryFreeMove": false,
+        "pendingIndustryHandSelection": false
+      },
+      "tail": [
+        {
+          "id": 36,
+          "type": "scan-target",
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "rawTurnNumber": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "playerResources": {
+            "score": 40,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "scoreboard": [
+            {
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "score": 9,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 3,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "score": 40,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 0,
+              "reservedCount": 0,
+              "techCount": 1
+            },
+            {
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "score": 5,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 6,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "score": 10,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 7,
+              "reservedCount": 0,
+              "techCount": 0
+            }
+          ],
+          "message": "绿色AI 选择扫描目标",
+          "details": {
+            "logPlayerId": "player-green",
+            "pendingType": "sector_scan",
+            "nebulaId": "sector-4-a",
+            "sectorX": null,
+            "label": "室女座61下一次替换槽位 1",
+            "selectedScore": 4.4,
+            "topChoices": [
+              {
+                "nebulaId": "sector-4-a",
+                "sectorX": null,
+                "label": "室女座61下一次替换槽位 1",
+                "score": 4.4,
+                "directScoreGain": 0,
+                "b2": null
+              },
+              {
+                "nebulaId": "sector-3-a",
+                "sectorX": null,
+                "label": "开普勒22下一次替换槽位 1",
+                "score": 4.4,
+                "directScoreGain": 0,
+                "b2": null
+              }
+            ]
+          },
+          "createdAt": "2026-09-20T05:14:24.621Z"
+        },
+        {
+          "id": 37,
+          "type": "effect",
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "rawTurnNumber": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "playerResources": {
+            "score": 40,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "scoreboard": [
+            {
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "score": 9,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 3,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "score": 40,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 0,
+              "reservedCount": 0,
+              "techCount": 1
+            },
+            {
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "score": 5,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 6,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "score": 10,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 7,
+              "reservedCount": 0,
+              "techCount": 0
+            }
+          ],
+          "message": "AI 处理效果：红色扇区扫描（不获得数据）",
+          "details": {
+            "logPlayerId": "player-green",
+            "effectId": "b3-red",
+            "effectType": "card_scan_color_choice"
+          },
+          "createdAt": "2026-09-20T05:14:24.631Z"
+        },
+        {
+          "id": 38,
+          "type": "scan-target",
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "rawTurnNumber": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "playerResources": {
+            "score": 40,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "scoreboard": [
+            {
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "score": 9,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 3,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "score": 40,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 0,
+              "reservedCount": 0,
+              "techCount": 1
+            },
+            {
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "score": 5,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 6,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "score": 10,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 7,
+              "reservedCount": 0,
+              "techCount": 0
+            }
+          ],
+          "message": "绿色AI 选择扫描目标",
+          "details": {
+            "logPlayerId": "player-green",
+            "pendingType": "sector_scan",
+            "nebulaId": "sector-2-b",
+            "sectorX": null,
+            "label": "巴纳德下一次替换槽位 3",
+            "selectedScore": 5.1,
+            "topChoices": [
+              {
+                "nebulaId": "sector-2-b",
+                "sectorX": null,
+                "label": "巴纳德下一次替换槽位 3",
+                "score": 5.1,
+                "directScoreGain": 0,
+                "b2": null
+              },
+              {
+                "nebulaId": "sector-3-b",
+                "sectorX": null,
+                "label": "比邻星下一次替换槽位 1",
+                "score": 4.4,
+                "directScoreGain": 0,
+                "b2": null
+              }
+            ]
+          },
+          "createdAt": "2026-09-20T05:14:24.634Z"
+        },
+        {
+          "id": 39,
+          "type": "effect",
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "rawTurnNumber": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "playerResources": {
+            "score": 40,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "scoreboard": [
+            {
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "score": 9,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 3,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "score": 40,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 0,
+              "reservedCount": 0,
+              "techCount": 1
+            },
+            {
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "score": 5,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 6,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "score": 10,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 7,
+              "reservedCount": 0,
+              "techCount": 0
+            }
+          ],
+          "message": "AI 处理效果：蓝色扇区扫描（不获得数据）",
+          "details": {
+            "logPlayerId": "player-green",
+            "effectId": "b3-blue",
+            "effectType": "card_scan_color_choice"
+          },
+          "createdAt": "2026-09-20T05:14:24.641Z"
+        },
+        {
+          "id": 40,
+          "type": "scan-target",
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "rawTurnNumber": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "playerResources": {
+            "score": 40,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "scoreboard": [
+            {
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "score": 9,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 3,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "score": 40,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 0,
+              "reservedCount": 0,
+              "techCount": 1
+            },
+            {
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "score": 5,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 6,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "score": 10,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 7,
+              "reservedCount": 0,
+              "techCount": 0
+            }
+          ],
+          "message": "绿色AI 选择扫描目标",
+          "details": {
+            "logPlayerId": "player-green",
+            "pendingType": "sector_scan",
+            "nebulaId": "sector-2-a",
+            "sectorX": null,
+            "label": "天狼星A下一次替换槽位 1",
+            "selectedScore": 4.4,
+            "topChoices": [
+              {
+                "nebulaId": "sector-2-a",
+                "sectorX": null,
+                "label": "天狼星A下一次替换槽位 1",
+                "score": 4.4,
+                "directScoreGain": 0,
+                "b2": null
+              },
+              {
+                "nebulaId": "sector-1-a",
+                "sectorX": null,
+                "label": "南河三下一次替换槽位 1",
+                "score": 4.4,
+                "directScoreGain": 0,
+                "b2": null
+              }
+            ]
+          },
+          "createdAt": "2026-09-20T05:14:24.644Z"
+        },
+        {
+          "id": 41,
+          "type": "effect",
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "rawTurnNumber": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "playerResources": {
+            "score": 40,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "scoreboard": [
+            {
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "score": 9,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 3,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "score": 40,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 0,
+              "reservedCount": 0,
+              "techCount": 1
+            },
+            {
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "score": 5,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 6,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "score": 10,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 7,
+              "reservedCount": 0,
+              "techCount": 0
+            }
+          ],
+          "message": "AI 处理效果：黑色扇区扫描（不获得数据）",
+          "details": {
+            "logPlayerId": "player-green",
+            "effectId": "b3-black",
+            "effectType": "card_scan_color_choice"
+          },
+          "createdAt": "2026-09-20T05:14:24.651Z"
+        },
+        {
+          "id": 42,
+          "type": "scan-target",
+          "roundNumber": 1,
+          "turnNumber": 1,
+          "rawTurnNumber": 1,
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "playerResources": {
+            "score": 40,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "scoreboard": [
+            {
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "score": 9,
+              "credits": 6,
+              "energy": 5,
+              "publicity": 8,
+              "availableData": 0,
+              "handSize": 3,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "score": 40,
+              "credits": 0,
+              "energy": 0,
+              "publicity": 0,
+              "availableData": 0,
+              "handSize": 0,
+              "reservedCount": 0,
+              "techCount": 1
+            },
+            {
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "score": 5,
+              "credits": 5,
+              "energy": 4,
+              "publicity": 1,
+              "availableData": 2,
+              "handSize": 6,
+              "reservedCount": 0,
+              "techCount": 0
+            },
+            {
+              "playerId": "player-white",
+              "playerLabel": "白色",
+              "score": 10,
+              "credits": 5,
+              "energy": 3,
+              "publicity": 3,
+              "availableData": 0,
+              "handSize": 7,
+              "reservedCount": 0,
+              "techCount": 0
+            }
+          ],
+          "message": "绿色AI 选择扫描目标",
+          "details": {
+            "logPlayerId": "player-green",
+            "pendingType": "sector_scan",
+            "nebulaId": "sector-4-b",
+            "sectorX": null,
+            "label": "绘架座β下一次替换槽位 3",
+            "selectedScore": 5.3,
+            "topChoices": [
+              {
+                "nebulaId": "sector-4-b",
+                "sectorX": null,
+                "label": "绘架座β下一次替换槽位 3",
+                "score": 5.3,
+                "directScoreGain": 0,
+                "b2": null
+              },
+              {
+                "nebulaId": "sector-1-b",
+                "sectorX": null,
+                "label": "织女一下一次替换槽位 1",
+                "score": 4.4,
+                "directScoreGain": 0,
+                "b2": null
+              }
+            ]
+          },
+          "createdAt": "2026-09-20T05:14:24.653Z"
+        }
+      ],
+      "bugs": []
+    }
+  }
+}
