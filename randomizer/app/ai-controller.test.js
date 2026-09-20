@@ -17147,3 +17147,27 @@ for (const hasTarget of [true, false]) {
   if (hasTarget) assert.deepEqual(harness.getHandled(), {type:'play-card',handIndex:0,confirmed:true}, 'zero energy must not block a legal free orbit card');
   else { assert.equal(result.blocked,true); assert.equal(harness.getHandled(),null,'free cost does not waive the target requirement'); }
 }
+
+// Optional research-trigger launches cannot make the research itself illegal.
+for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
+  const seen = [];
+  const card = { id: 'elevator', cardId: 'dlc_24.png', cardEffectState: {
+    consumedTriggerIds: consumed ? ['dlc24-orange-tech-launch-1'] : [],
+  } };
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', roundNumber: 2, canStartMainAction: true,
+    realisticCanAfford: true, blueReservedCards: [card],
+    blueResources: { score: 35, credits: 0, energy: 0, publicity: 6, handSize: 0 },
+    movableTokens: Array.from({length:rocketCount}, (_,i)=>({id:i+1,playerId:'player-blue',sector:{x:i,y:2}})),
+    takeableTechIds: ['orange2'],
+    techStacks: { orange2: {techType:'orange',stackIndex:2,bonusId:'bonus_3f'} },
+    onChooseTurnAction: cs => seen.push(...cs),
+    chooseTurnAction: cs => cs.find(c=>c.id==='pass'),
+  });
+  harness.controller.configureAiAutoBattle({playerIds:[harness.blue.id],suppressAutoSchedule:true});
+  harness.controller.runAiAutomationStep();
+  assert(seen.find(c=>c.id==='researchTech')?.takeable?.some(t=>t.tileId==='orange2'),
+    'optional elevator launch must not block research with one or zero free rocket slots');
+  assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
+    'research candidate enumeration must not consume optional triggers');
+}

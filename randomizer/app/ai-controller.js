@@ -16555,13 +16555,6 @@
       return applyAiStrategyWeight(value, "engine", 0.35);
     }
 
-    function aiResearchTechEventMatches(event, techType) {
-      if (!event || event.type !== "researchTech") return false;
-      if (event.techType && event.techType !== techType) return false;
-      if (Array.isArray(event.techTypes) && !event.techTypes.includes(techType)) return false;
-      return true;
-    }
-
     function getAiResearchTechFinalFormulaDeltas(candidate, player = getCurrentPlayer()) {
       const techType = candidate?.techType || "";
       if (!techType || !AI_TECH_TYPES.includes(techType)) return {};
@@ -16584,18 +16577,6 @@
       };
     }
 
-    function getAiResearchTechTriggeredEffects(candidate, player = getCurrentPlayer()) {
-      const techType = candidate?.techType || "";
-      const reservedCards = Array.isArray(player?.reservedCards) ? player.reservedCards : [];
-      return reservedCards.flatMap((card) => {
-        const model = cardEffects.getCardModel?.(card);
-        return (model?.triggers || [])
-          .filter((trigger) => aiResearchTechEventMatches(trigger?.event, techType))
-          .map((trigger) => trigger.effect)
-          .filter(Boolean);
-      });
-    }
-
     function getAiLaunchEffectCost(effect) {
       return getAiLaunchPaymentCost(effect?.options || {});
     }
@@ -16613,7 +16594,9 @@
 
     function getAiResearchTechLaunchRisks(candidate, player = getCurrentPlayer()) {
       const selectionOptions = getResearchTechSelectionOptions() || {};
-      const effects = getAiResearchTechTriggeredEffects(candidate, player);
+      // Card event triggers are optional choices. They never add mandatory
+      // launches to research, even when several unconsumed triggers match.
+      const effects = [];
       if (!selectionOptions.skipBonus && candidate?.tileId === "orange1") {
         effects.push({ type: "launch", options: { skipCost: true } });
       }

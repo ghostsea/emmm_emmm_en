@@ -1223,6 +1223,7 @@
     handleBanrenmaCardConditionChoice,
     handleBanrenmaCardGainChoice,
     handleCardTriggerChoice,
+    cancelCardTriggerChoice,
     handleChongCardGainChoice,
     handleChongFossilChoice,
     handleChongTaskCompletionChoice,
