@@ -5451,10 +5451,15 @@
       return (player?.hand || []).filter((card) => isMovePaymentCard(card));
     }
 
-    function getAiLaunchPaymentCost(options = {}) {
+    function getAiLaunchPaymentCost(options = {}, player = getCurrentPlayer()) {
+      const source = options.options || options;
+      const hasExplicitCost = source.cost && typeof source.cost === "object" && !Array.isArray(source.cost);
+      const actualOptions = source.skipCost || hasExplicitCost
+        ? source
+        : { ...source, cost: industry?.getStandardLaunchCost?.(player, { credits: 2 }) || { credits: 2 } };
       return ai?.valuation?.getLaunchPaymentCost
-        ? ai.valuation.getLaunchPaymentCost(options)
-        : (options?.skipCost ? {} : (options?.cost || { credits: 2 }));
+        ? ai.valuation.getLaunchPaymentCost(actualOptions)
+        : (actualOptions.skipCost ? {} : actualOptions.cost);
     }
 
     function scoreAiLaunchPaymentCost(options = {}) {
