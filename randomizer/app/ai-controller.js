@@ -12698,6 +12698,40 @@
       return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
     }
 
+    function scoreAiLiveTriggerCashout(event, player = getCurrentPlayer()) {
+      if (!player || !event || !cardEffects.collectMatchingTriggers) return 0;
+      // The runtime chooses one slot per event, in reserved-card order. The
+      // matcher initializes card state, so valuation must use private copies.
+      const preview = {
+        ...player,
+        reservedCards: (player.reservedCards || []).map((card) => ({
+          ...card,
+          cardEffectState: card.cardEffectState
+            ? { ...card.cardEffectState, consumedTriggerIds: [...(card.cardEffectState.consumedTriggerIds || [])] }
+            : undefined,
+        })),
+      };
+      const first = cardEffects.collectMatchingTriggers(preview, event)[0];
+      const effect = first?.effect;
+      if (!effect) return 0;
+      // Do not look past a complex slot: its executability and nested rewards
+      // depend on the completed action. Capped publicity/data also need that
+      // future state; only uncapped immediate rewards are priced here.
+      if (effect.type === "gain_resources") {
+        const gain = effect.options?.gain || {};
+        return scoreAiResourceBundle({
+          credits: Math.max(0, aiNumber(gain.credits)),
+          energy: Math.max(0, aiNumber(gain.energy)),
+          score: Math.max(0, aiNumber(gain.score)),
+        });
+      }
+      if (effect.type === "draw_cards") {
+        return Math.max(0, Math.round(aiNumber(effect.options?.count ?? 1))) * AI_RESOURCE_VALUES.handSize;
+      }
+      if (effect.type === "pick_card") return 3;
+      return 0;
+    }
+
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
@@ -12833,7 +12867,16 @@
         0,
         aiNumber(details.finalSelfBlockingPublicityTrap?.penalty),
       );
+      const playEvent = {
+        type: "playCard",
+        price: Math.max(0, Math.round(aiNumber(cost?.credits))),
+        cardId: card?.cardId || null,
+        sourceCardInstanceId: card?.id || null,
+      };
+      const liveTriggerCashout = scoreAiLiveTriggerCashout(playEvent, player)
+        + scoreAiLiveTriggerCashout({ ...playEvent, timing: "after_play_card" }, player);
       return effectValue
+        + liveTriggerCashout
         + reserveValue
         + endGameValue
         + plutoValue
@@ -16466,7 +16509,7 @@
       const resources = player?.resources || {};
       const demand = getAiStrategyDemand(player);
       const liveScoreDeficit = getAiLiveScorePaceDeficit(player);
-      let value = 6;
+      let value = 6 + scoreAiLiveTriggerCashout({ type: "researchTech", techType }, player);
       if (techType === "orange") value += 2.5;
       if (techType === "purple") value += 2 + (resources.additionalPublicScan || 0) * 0.75;
       if (techType === "blue") value += 1.5 + scoreAiBlueTechDataEngineValue(player) * 0.5;
@@ -16654,6 +16697,7 @@
       const lowRocketBonus = Math.max(0, desiredRocketCount - rocketCount) * 4;
       const postSecondFinalMarkPenalty = countAiFinalMarksForPlayer(player) >= 2 && rocketCount >= 2 ? 5 : 0;
       return 8
+        + scoreAiLiveTriggerCashout({ type: "launch" }, player)
         + (rocketCount === 0 ? 7 : 0)
         + lowRocketBonus
         + getAiMapDemand(demand.actions, "launch") * 0.28 * getAiStrategyWeight("route")
@@ -18657,7 +18701,8 @@
         - lateResourceDrainPenalty
         - repeatedScanPenalty
         - fullDataAnalyzeBacklogPenalty
-        - adjustedLowCashoutScanPenalty;
+        - adjustedLowCashoutScanPenalty
+        + scoreAiLiveTriggerCashout({ type: "scanAction" }, player);
     }
 
     function getAiPlayEffectsForCard(card) {
