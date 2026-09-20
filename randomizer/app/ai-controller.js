@@ -432,6 +432,7 @@
           plannerShadow: compactAiAutoBattleLogValue(details.plannerShadow || null),
         };
       }
+      if (type === "card-trigger") return structuredClone(details);
       if (type === "final-score-mark") {
         const candidates = Array.isArray(details.candidates)
           ? details.candidates.filter((candidate) => candidate?.available !== false)
@@ -3273,6 +3274,61 @@
       ].includes(type);
     }
 
+    function scoreAiCardTriggerDataReward(count, player) {
+      const requested = Math.max(0, Math.round(aiNumber(count)));
+      let received = Math.max(0, aiNumber(getAiActualResourceGain({ availableData: requested }, player).availableData));
+      // The resumable trigger can make at least one space before awarding data.
+      // Do not assume later placements or their rewards will also be available.
+      if (requested > received && data.canPlaceAnyData?.(structuredClone(player))?.ok) {
+        received = Math.max(received, Math.min(1, requested));
+      }
+      return received * AI_RESOURCE_VALUES.availableData
+        + scoreAiMidgameResourceContinuationValue({ availableData: received }, player, { scale: 0.75 });
+    }
+
+    function scoreAiCardTriggerChoice(match, player = getCurrentPlayer()) {
+      const effect = match.effect;
+      let rewardValue = effect.type === "gain_data"
+        ? scoreAiCardTriggerDataReward(effect.options?.count, player)
+        : scoreAiEffectValue(effect, { player, immediate: true });
+      let routePreview = null;
+      if (effect.type === "launch") {
+        routePreview = scoreAiPostLaunchMovePlan(player, {
+          launchOptions: effect.options || {},
+          ignoreMainActionUsed: true,
+        });
+        rewardValue = Math.max(0, aiNumber(routePreview?.score))
+          - scoreAiLaunchPaymentCost(effect.options || {});
+      }
+      if (cardTriggerNeedsFreeMove(match)) {
+        const moves = listCardTriggerFreeMoveCandidates(match)
+          .filter((candidate) => candidate.available !== false);
+        routePreview = moves.slice().sort((left, right) => aiNumber(right.score) - aiNumber(left.score))[0] || null;
+        rewardValue = Math.max(0, aiNumber(routePreview?.score));
+      }
+      if (effect.type === cardEffects.EFFECT_TYPES.CARD_CORNER_EVENT_REWARD) {
+        const reward = match.event?.resourceReward || {};
+        rewardValue = scoreAiCountedResourceGain(reward.gain || {}, player)
+          + scoreAiCardTriggerDataReward(reward.dataCount, player);
+        if (match.event?.moveReward) {
+          rewardValue = scoreAiCountedResourceGain(match.event.moveReward.gain || {}, player)
+            + Math.max(0, aiNumber(routePreview?.score));
+        }
+      }
+      const projectedCard = {
+        ...match.card,
+        cardEffectState: {
+          ...match.card?.cardEffectState,
+          consumedTriggerIds: [...(match.card?.cardEffectState?.consumedTriggerIds || []), match.trigger?.id],
+        },
+      };
+      const completesCard = Boolean(cardEffects.areAllTriggersConsumed?.(projectedCard));
+      const completionValue = completesCard
+        ? scoreAiFinalFormulaDeltaValue({ c1: 1, c2: getAiC2Type3BaseDelta(player) }, player)
+        : 0;
+      return { rewardValue, completionValue, completesCard, routePreview, score: aiNumber(rewardValue) + completionValue };
+    }
+
     function runAiCardTriggerDecision() {
       if (!state.pendingCardTriggerAction) return null;
       const currentPlayer = getCurrentPlayer();
@@ -3281,7 +3337,11 @@
       }
 
       const matches = state.pendingCardTriggerAction.matches || [];
-      const selectedIndex = matches.findIndex((match) => canAiResolveCardTriggerMatch(match));
+      const ranked = matches.map((match, index) => ({ match, index }))
+        .filter(({ match }) => canAiResolveCardTriggerMatch(match))
+        .map(({ match, index }) => ({ index, ...scoreAiCardTriggerChoice(match, currentPlayer) }))
+        .sort((left, right) => right.score - left.score || left.index - right.index);
+      const selectedIndex = ranked[0]?.index ?? -1;
       if (selectedIndex < 0) {
         const reasons = matches.map((match) => ({
           cardLabel: cards.getCardLabel(match?.card),
@@ -3313,6 +3373,12 @@
         cardLabel: cards.getCardLabel(selected.card),
         effectType: selected.effect?.type || null,
         optionCount: matches.length,
+        candidates: ranked.map((candidate) => ({
+          ...candidate,
+          cardInstanceId: matches[candidate.index].card?.id || null,
+          triggerId: matches[candidate.index].trigger?.id || null,
+          effectType: matches[candidate.index].effect?.type || null,
+        })),
       });
       return handleCardTriggerChoice(selectedIndex);
     }
@@ -16851,10 +16917,10 @@
       };
     }
 
-    function getAiProjectedResourcesAfterLaunchMove(player = getCurrentPlayer(), postLaunchMovePlan = null) {
+    function getAiProjectedResourcesAfterLaunchMove(player = getCurrentPlayer(), postLaunchMovePlan = null, launchOptions = {}) {
       if (!player || !postLaunchMovePlan?.movePayment) return null;
       const resources = player.resources || {};
-      const launchPayment = getAiLaunchPaymentCost();
+      const launchPayment = getAiLaunchPaymentCost(launchOptions);
       const currentHandSize = Math.max(0, Math.round(aiNumber(resources.handSize ?? player.hand?.length)));
       const movePayment = postLaunchMovePlan.movePayment;
       return {
@@ -17030,9 +17096,20 @@
       return Math.min(18, 8 + Math.max(0, 50 - currentScore) * 0.4 + Math.min(6, planScore * 0.12));
     }
 
-    function scoreAiPostLaunchMovePlan(player = getCurrentPlayer()) {
-      if (!player || state.pendingActionExecuted) return null;
-      if (!players.canAfford(player, getAiLaunchPaymentCost())) return null;
+    function scoreAiPostLaunchMovePlan(player = getCurrentPlayer(), options = {}) {
+      if (!player || (state.pendingActionExecuted && options.ignoreMainActionUsed !== true)) return null;
+      const launchOptions = options.launchOptions || {};
+      const launchCost = getAiLaunchPaymentCost(launchOptions);
+      if (!players.canAfford(player, launchCost)) return null;
+      const routePlayer = options.launchOptions ? {
+        ...player,
+        resources: {
+          ...(player.resources || {}),
+          ...Object.fromEntries(Object.entries(launchCost).map(([key, cost]) => (
+            [key, Math.max(0, aiNumber(player.resources?.[key]) - aiNumber(cost))]
+          ))),
+        },
+      } : player;
       const from = getEarthSectorCoordinate();
       const candidates = AI_MOVE_DIRECTIONS
         .map((direction) => {
@@ -17045,27 +17122,27 @@
           };
           if (to.x === from.x && to.y === from.y) return null;
           if (rocketActions.findAvailableSlotIndex(rocketState, to.x, to.y, null) == null) return null;
-          const requiredMovePoints = getAiRequiredMovePointsFromCoordinate(player, from);
-          if (!canPayForMove(player, requiredMovePoints).ok) return null;
-          const routeScore = scoreAiMoveTowardTargets(from, to, player, { mainActionAlreadyUsed: true });
+          const requiredMovePoints = getAiRequiredMovePointsFromCoordinate(routePlayer, from);
+          if (!canPayForMove(routePlayer, requiredMovePoints).ok) return null;
+          const routeScore = scoreAiMoveTowardTargets(from, to, routePlayer, { mainActionAlreadyUsed: true });
           const movementGain = applyAiStrategyWeight(applyAiStrategyWeight(routeScore.score, "route", 0.7), "move", 0.8)
             + direction.score * 0.08;
-          const preserveEnergyForRouteCashout = shouldAiPreserveEnergyForRouteCashout(player, to, {
+          const preserveEnergyForRouteCashout = shouldAiPreserveEnergyForRouteCashout(routePlayer, to, {
             routeTarget: routeScore.target,
             requiredMovePoints,
           });
-          const movePayment = estimateAiMovePayment(player, requiredMovePoints, {
+          const movePayment = estimateAiMovePayment(routePlayer, requiredMovePoints, {
             preserveEnergy: preserveEnergyForRouteCashout,
           });
-          const projectedResourcesAfterLaunchMove = getAiProjectedResourcesAfterLaunchMove(player, {
+          const projectedResourcesAfterLaunchMove = getAiProjectedResourcesAfterLaunchMove(routePlayer, {
             movePayment,
-          });
+          }, options.launchOptions ? { skipCost: true } : launchOptions);
           const projectedPlayerAfterLaunchMove = projectedResourcesAfterLaunchMove
             ? {
-              ...player,
+              ...routePlayer,
               resources: projectedResourcesAfterLaunchMove,
             }
-            : player;
+            : routePlayer;
           const projectedFollowupMainAction = scoreAiFollowupMainActionAfterMove(
             to,
             projectedPlayerAfterLaunchMove,
@@ -17073,7 +17150,7 @@
           );
           const paymentCost = movePayment.cost;
           const nearestActionablePlanetPenalty = scoreAiNearestActionablePlanetTimingPenalty({
-            player,
+            player: routePlayer,
             from,
             to,
             direction,
@@ -17083,7 +17160,7 @@
             energyAfterMovePayment: movePayment.remainingEnergy,
           });
           const pathPenalty = scoreAiMovementPathPenalty({
-            player,
+            player: routePlayer,
             from,
             to,
             direction,
