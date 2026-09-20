@@ -1,0 +1,2952 @@
+{
+  "scope": "All company public picks in full24. Same instance later play/removal; passivePlayEstimate is logged valuation, not actual reward receipt proof. Sources may combine history steps. Pick score projects clear slots but summary playScore/valueSignals still describe current pre-reset player; not a decomposition of selectionScore.",
+  "summary": {
+    "baseline": {
+      "picks": 63,
+      "occupiedBefore": 38,
+      "chosenColorWasOccupied": 6,
+      "played": 33,
+      "playedSameRound": 33,
+      "playedWithPositivePassiveEstimate": 29,
+      "removedWithoutPlay": 11,
+      "noVisibleUse": 19
+    },
+    "candidate": {
+      "picks": 63,
+      "occupiedBefore": 37,
+      "chosenColorWasOccupied": 7,
+      "played": 35,
+      "playedSameRound": 35,
+      "playedWithPositivePassiveEstimate": 31,
+      "removedWithoutPlay": 10,
+      "noVisibleUse": 18
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 1,
+      "log": 57,
+      "card": "dlc_1.png",
+      "instance": "card-18-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 28.785209246279997,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 1,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 2,
+      "log": 276,
+      "card": "b_116.webp",
+      "instance": "card-79-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 32.10708444484296,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 53,
+          "round": 2,
+          "change": "discard",
+          "source": "PASS：弃至 4 张手牌：PASS 手牌上限：弃掉 太空发射系统"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 3,
+      "log": 686,
+      "card": "b_115.webp",
+      "instance": "card-125-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 64.76818193535999,
+      "played": true,
+      "playRound": 3,
+      "playLog": 819,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 96,
+          "round": 3,
+          "change": "play",
+          "source": "打出：案尔维会议：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 4,
+      "log": 1118,
+      "card": "b_19.webp",
+      "instance": "card-161-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 57.1481975403088,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1236,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 140,
+          "round": 4,
+          "change": "play",
+          "source": "打出：加阜大氢谱线望远锐：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 1,
+      "log": 57,
+      "card": "dlc_1.png",
+      "instance": "card-18-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 28.785209246279997,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 1,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 2,
+      "log": 276,
+      "card": "b_116.webp",
+      "instance": "card-79-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 32.10708444484296,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 53,
+          "round": 2,
+          "change": "discard",
+          "source": "PASS：弃至 4 张手牌：PASS 手牌上限：弃掉 太空发射系统"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 3,
+      "log": 686,
+      "card": "b_115.webp",
+      "instance": "card-125-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 64.76818193535999,
+      "played": true,
+      "playRound": 3,
+      "playLog": 819,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 96,
+          "round": 3,
+          "change": "play",
+          "source": "打出：案尔维会议：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 1,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 4,
+      "log": 1118,
+      "card": "b_19.webp",
+      "instance": "card-161-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 57.1481975403088,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1236,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 140,
+          "round": 4,
+          "change": "play",
+          "source": "打出：加阜大氢谱线望远锐：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 1,
+      "log": 73,
+      "card": "b_136.webp",
+      "instance": "card-68-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 17.607598327119998,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 11,
+          "round": 1,
+          "change": "move_payment",
+          "source": "卡牌快速行动：弃牌换1移动：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 2,
+      "log": 381,
+      "card": "b_76.webp",
+      "instance": "card-85-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 16.697644335257998,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 2,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 3,
+      "log": 721,
+      "card": "b_117.webp",
+      "instance": "card-132-0",
+      "scanCode": 3,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 13.838536774336003,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 2,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1149,
+      "card": "dlc_16.png",
+      "instance": "card-156-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 58.38834633445517,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 2,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 1,
+      "log": 73,
+      "card": "b_136.webp",
+      "instance": "card-68-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 17.607598327119998,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 11,
+          "round": 1,
+          "change": "move_payment",
+          "source": "卡牌快速行动：弃牌换1移动：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 2,
+      "log": 381,
+      "card": "b_76.webp",
+      "instance": "card-85-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 16.697644335257998,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 2,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 3,
+      "log": 721,
+      "card": "b_117.webp",
+      "instance": "card-132-0",
+      "scanCode": 3,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 13.838536774336003,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 2,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1149,
+      "card": "dlc_16.png",
+      "instance": "card-156-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 58.38834633445517,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 3,
+      "arm": "baseline",
+      "player": "player-green",
+      "round": 1,
+      "log": 61,
+      "card": "b_134.webp",
+      "instance": "card-19-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 16.6286595,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 3,
+      "arm": "baseline",
+      "player": "player-green",
+      "round": 2,
+      "log": 247,
+      "card": "b_10.webp",
+      "instance": "card-83-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 12.467317000000001,
+      "played": true,
+      "playRound": 2,
+      "playLog": 520,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 65,
+          "round": 2,
+          "change": "play",
+          "source": "打出：小行星研究：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "arm": "baseline",
+      "player": "player-green",
+      "round": 3,
+      "log": 657,
+      "card": "b_61.webp",
+      "instance": "card-114-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 44.82755264272,
+      "played": true,
+      "playRound": 3,
+      "playLog": 741,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 92,
+          "round": 3,
+          "change": "play",
+          "source": "打出：木星探测计划：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "arm": "candidate",
+      "player": "player-green",
+      "round": 1,
+      "log": 61,
+      "card": "b_134.webp",
+      "instance": "card-19-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 16.6286595,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 3,
+      "arm": "candidate",
+      "player": "player-green",
+      "round": 2,
+      "log": 247,
+      "card": "b_10.webp",
+      "instance": "card-83-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 12.467317000000001,
+      "played": true,
+      "playRound": 2,
+      "playLog": 520,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 65,
+          "round": 2,
+          "change": "play",
+          "source": "打出：小行星研究：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "arm": "candidate",
+      "player": "player-green",
+      "round": 3,
+      "log": 657,
+      "card": "b_61.webp",
+      "instance": "card-114-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 44.82755264272,
+      "played": true,
+      "playRound": 3,
+      "playLog": 741,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 92,
+          "round": 3,
+          "change": "play",
+          "source": "打出：木星探测计划：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 1,
+      "log": 60,
+      "card": "b_29.webp",
+      "instance": "card-19-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 26.479299000000005,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 4,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 2,
+      "log": 266,
+      "card": "b_107.webp",
+      "instance": "card-91-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 15.469206479199999,
+      "played": true,
+      "playRound": 2,
+      "playLog": 319,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 41,
+          "round": 2,
+          "change": "play",
+          "source": "打出：土星探测计划：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 3,
+      "log": 739,
+      "card": "dlc_12.png",
+      "instance": "card-115-0",
+      "scanCode": 0,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 38.98642960979716,
+      "played": true,
+      "playRound": 3,
+      "playLog": 998,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 117,
+          "round": 3,
+          "change": "play",
+          "source": "打出：双行星飞越机动：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 4,
+      "log": 1159,
+      "card": "b_133.webp",
+      "instance": "card-132-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 30.96572460768,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 4,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 1,
+      "log": 60,
+      "card": "b_29.webp",
+      "instance": "card-19-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 26.479299000000005,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 4,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 2,
+      "log": 266,
+      "card": "b_107.webp",
+      "instance": "card-91-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 15.469206479199999,
+      "played": true,
+      "playRound": 2,
+      "playLog": 319,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 41,
+          "round": 2,
+          "change": "play",
+          "source": "打出：土星探测计划：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 3,
+      "log": 739,
+      "card": "dlc_12.png",
+      "instance": "card-115-0",
+      "scanCode": 0,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 38.98642960979716,
+      "played": true,
+      "playRound": 3,
+      "playLog": 998,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 117,
+          "round": 3,
+          "change": "play",
+          "source": "打出：双行星飞越机动：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 4,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 4,
+      "log": 1159,
+      "card": "b_133.webp",
+      "instance": "card-132-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 30.96572460768,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 5,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 1,
+      "log": 62,
+      "card": "b_127.webp",
+      "instance": "card-67-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 21.192425496,
+      "played": true,
+      "playRound": 1,
+      "playLog": 126,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 15,
+          "round": 1,
+          "change": "play",
+          "source": "打出：天王星轨遒器与探测器：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 2,
+      "log": 386,
+      "card": "b_67.webp",
+      "instance": "card-85-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 19.210480926000002,
+      "played": true,
+      "playRound": 2,
+      "playLog": 440,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 49,
+          "round": 2,
+          "change": "play",
+          "source": "打出：语言学分析：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 3,
+      "log": 806,
+      "card": "b_81.webp",
+      "instance": "card-103-0",
+      "scanCode": 0,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 53.92695475165999,
+      "played": true,
+      "playRound": 3,
+      "playLog": 848,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 103,
+          "round": 3,
+          "change": "play",
+          "source": "打出：近地小行星研究：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1309,
+      "card": "dlc_26.png",
+      "instance": "card-148-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 15.205236000000003,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 5,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 1,
+      "log": 62,
+      "card": "b_127.webp",
+      "instance": "card-67-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 21.192425496,
+      "played": true,
+      "playRound": 1,
+      "playLog": 126,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 15,
+          "round": 1,
+          "change": "play",
+          "source": "打出：天王星轨遒器与探测器：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 2,
+      "log": 386,
+      "card": "b_67.webp",
+      "instance": "card-85-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 19.210480926000002,
+      "played": true,
+      "playRound": 2,
+      "playLog": 440,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 49,
+          "round": 2,
+          "change": "play",
+          "source": "打出：语言学分析：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 3,
+      "log": 806,
+      "card": "b_81.webp",
+      "instance": "card-103-0",
+      "scanCode": 0,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 53.92695475165999,
+      "played": true,
+      "playRound": 3,
+      "playLog": 848,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 103,
+          "round": 3,
+          "change": "play",
+          "source": "打出：近地小行星研究：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 5,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1309,
+      "card": "b_25.webp",
+      "instance": "card-153-0",
+      "scanCode": 3,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 16.037495999999997,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1705,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 197,
+          "round": 4,
+          "change": "play",
+          "source": "打出：控制中心：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 1,
+      "log": 59,
+      "card": "dlc_1.png",
+      "instance": "card-68-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 26.878272000000006,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 39,
+          "round": 2,
+          "change": "move_payment",
+          "source": "卡牌快速行动：弃牌换1移动"
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 2,
+      "log": 273,
+      "card": "dlc_30.png",
+      "instance": "card-76-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 14.594972508099996,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 6,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 3,
+      "log": 704,
+      "card": "b_65.webp",
+      "instance": "card-108-0",
+      "scanCode": 3,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 29.083617828415996,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 6,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1333,
+      "card": "b_16.webp",
+      "instance": "card-177-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 20.47164363977744,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 167,
+          "round": 4,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1宣传：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 1,
+      "log": 59,
+      "card": "dlc_1.png",
+      "instance": "card-68-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 26.878272000000006,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 39,
+          "round": 2,
+          "change": "move_payment",
+          "source": "卡牌快速行动：弃牌换1移动"
+        }
+      ]
+    },
+    {
+      "case": 6,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 2,
+      "log": 273,
+      "card": "dlc_30.png",
+      "instance": "card-76-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 14.594972508099996,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 6,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 3,
+      "log": 704,
+      "card": "b_65.webp",
+      "instance": "card-108-0",
+      "scanCode": 3,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 29.083617828415996,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 6,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1333,
+      "card": "b_16.webp",
+      "instance": "card-177-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 20.47164363977744,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 167,
+          "round": 4,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1宣传：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 1,
+      "log": 78,
+      "card": "b_116.webp",
+      "instance": "card-66-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 48.409586219272704,
+      "played": true,
+      "playRound": 1,
+      "playLog": 80,
+      "passivePlayEstimate": 6,
+      "removals": [
+        {
+          "entry": 11,
+          "round": 1,
+          "change": "play",
+          "source": "打出：太空发射系统：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 2,
+      "log": 334,
+      "card": "b_25.webp",
+      "instance": "card-93-0",
+      "scanCode": 3,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 13.5777,
+      "played": true,
+      "playRound": 2,
+      "playLog": 471,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 57,
+          "round": 2,
+          "change": "play",
+          "source": "打出：控制中心：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 3,
+      "log": 641,
+      "card": "b_67.webp",
+      "instance": "card-108-0",
+      "scanCode": 2,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 53.433309471529995,
+      "played": true,
+      "playRound": 3,
+      "playLog": 689,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 87,
+          "round": 3,
+          "change": "play",
+          "source": "打出：语言学分析：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 4,
+      "log": 1093,
+      "card": "b_21.webp",
+      "instance": "card-161-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 88.53496544391021,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1154,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 140,
+          "round": 4,
+          "change": "play",
+          "source": "打出：卡西尼号探测器：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 1,
+      "log": 78,
+      "card": "b_116.webp",
+      "instance": "card-66-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 48.409586219272704,
+      "played": true,
+      "playRound": 1,
+      "playLog": 80,
+      "passivePlayEstimate": 6,
+      "removals": [
+        {
+          "entry": 11,
+          "round": 1,
+          "change": "play",
+          "source": "打出：太空发射系统：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 2,
+      "log": 334,
+      "card": "b_25.webp",
+      "instance": "card-93-0",
+      "scanCode": 3,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 13.7172525,
+      "played": true,
+      "playRound": 2,
+      "playLog": 471,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 57,
+          "round": 2,
+          "change": "play",
+          "source": "打出：控制中心：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 3,
+      "log": 641,
+      "card": "b_67.webp",
+      "instance": "card-108-0",
+      "scanCode": 2,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 55.30443947153,
+      "played": true,
+      "playRound": 3,
+      "playLog": 689,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 87,
+          "round": 3,
+          "change": "play",
+          "source": "打出：语言学分析：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 7,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 4,
+      "log": 1093,
+      "card": "b_21.webp",
+      "instance": "card-161-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 88.53496544391021,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1154,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 140,
+          "round": 4,
+          "change": "play",
+          "source": "打出：卡西尼号探测器：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 1,
+      "log": 103,
+      "card": "dlc_26.png",
+      "instance": "card-19-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 13.94275,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 8,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 2,
+      "log": 242,
+      "card": "dlc_5.png",
+      "instance": "card-77-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 12.04989326,
+      "played": true,
+      "playRound": 2,
+      "playLog": 529,
+      "passivePlayEstimate": 0,
+      "removals": [
+        {
+          "entry": 66,
+          "round": 2,
+          "change": "play",
+          "source": "打出：维护任务：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 3,
+      "log": 651,
+      "card": "b_55.webp",
+      "instance": "card-103-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 30.6596964216617,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 149,
+          "round": 4,
+          "change": "discard",
+          "source": "手牌扫描 国际合作：室女座61 槽位6 替换为白色token；数据池已满（6/6），本次数据被弃置；弃除手牌 国际合作；资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 4,
+      "log": 1009,
+      "card": "b_72.webp",
+      "instance": "card-145-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 80.25744646539243,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1046,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 137,
+          "round": 4,
+          "change": "play",
+          "source": "打出：火星探测计划：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 1,
+      "log": 103,
+      "card": "dlc_26.png",
+      "instance": "card-19-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 13.94275,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 8,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 2,
+      "log": 242,
+      "card": "b_51.webp",
+      "instance": "card-81-0",
+      "scanCode": 3,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 13.272511400000003,
+      "played": true,
+      "playRound": 2,
+      "playLog": 515,
+      "passivePlayEstimate": 0,
+      "removals": [
+        {
+          "entry": 60,
+          "round": 2,
+          "change": "play",
+          "source": "打出：绿岸射电望远锐：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 3,
+      "log": 722,
+      "card": "b_131.webp",
+      "instance": "card-120-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 28.342641387229605,
+      "played": true,
+      "playRound": 3,
+      "playLog": 754,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 92,
+          "round": 3,
+          "change": "play",
+          "source": "打出：飞掠金星：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 4,
+      "log": 1044,
+      "card": "b_116.webp",
+      "instance": "card-133-0",
+      "scanCode": 0,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 68.42376622433125,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1083,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 141,
+          "round": 4,
+          "change": "play",
+          "source": "打出：太空发射系统：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "arm": "baseline",
+      "player": "player-green",
+      "round": 1,
+      "log": 59,
+      "card": "b_31.webp",
+      "instance": "card-19-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 13.775,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 17,
+          "round": 1,
+          "change": "income",
+          "source": "获得 1 次收入：收入：弃掉 建造埃菲尔斯贝格望远锐，能量+1（已即时获得）"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "arm": "baseline",
+      "player": "player-green",
+      "round": 2,
+      "log": 291,
+      "card": "b_21.webp",
+      "instance": "card-92-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 21.246054989215615,
+      "played": true,
+      "playRound": 2,
+      "playLog": 353,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 42,
+          "round": 2,
+          "change": "play",
+          "source": "打出：卡西尼号探测器：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "arm": "baseline",
+      "player": "player-green",
+      "round": 3,
+      "log": 791,
+      "card": "b_15.webp",
+      "instance": "card-125-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 40.678624163242006,
+      "played": true,
+      "playRound": 3,
+      "playLog": 830,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 101,
+          "round": 3,
+          "change": "play",
+          "source": "打出：观测老人增四：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "arm": "baseline",
+      "player": "player-green",
+      "round": 4,
+      "log": 1195,
+      "card": "b_82.webp",
+      "instance": "card-167-0",
+      "scanCode": 0,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 58.984530727519996,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1456,
+      "passivePlayEstimate": 0,
+      "removals": [
+        {
+          "entry": 167,
+          "round": 4,
+          "change": "play",
+          "source": "打出：NEAR 舒梅克号探测器：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "arm": "candidate",
+      "player": "player-green",
+      "round": 1,
+      "log": 59,
+      "card": "b_31.webp",
+      "instance": "card-19-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 13.775,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 17,
+          "round": 1,
+          "change": "income",
+          "source": "获得 1 次收入：收入：弃掉 建造埃菲尔斯贝格望远锐，能量+1（已即时获得）"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "arm": "candidate",
+      "player": "player-green",
+      "round": 2,
+      "log": 291,
+      "card": "b_21.webp",
+      "instance": "card-92-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 21.246054989215615,
+      "played": true,
+      "playRound": 2,
+      "playLog": 353,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 42,
+          "round": 2,
+          "change": "play",
+          "source": "打出：卡西尼号探测器：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "arm": "candidate",
+      "player": "player-green",
+      "round": 3,
+      "log": 791,
+      "card": "b_15.webp",
+      "instance": "card-125-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 40.678624163242006,
+      "played": true,
+      "playRound": 3,
+      "playLog": 830,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 101,
+          "round": 3,
+          "change": "play",
+          "source": "打出：观测老人增四：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 9,
+      "arm": "candidate",
+      "player": "player-green",
+      "round": 4,
+      "log": 1195,
+      "card": "b_82.webp",
+      "instance": "card-167-0",
+      "scanCode": 0,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 64.59792072751999,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1456,
+      "passivePlayEstimate": 0,
+      "removals": [
+        {
+          "entry": 167,
+          "round": 4,
+          "change": "play",
+          "source": "打出：NEAR 舒梅克号探测器：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 1,
+      "log": 62,
+      "card": "b_37.webp",
+      "instance": "card-18-0",
+      "scanCode": 0,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 28.566478749999998,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 10,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 2,
+      "log": 343,
+      "card": "b_103.webp",
+      "instance": "card-74-0",
+      "scanCode": 3,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 12.655120743849999,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 10,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 3,
+      "log": 699,
+      "card": "b_86.webp",
+      "instance": "card-101-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 51.47427844799999,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 10,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 4,
+      "log": 1157,
+      "card": "b_139.webp",
+      "instance": "card-131-0",
+      "scanCode": 1,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 40.765464,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1471,
+      "passivePlayEstimate": 0,
+      "removals": [
+        {
+          "entry": 173,
+          "round": 4,
+          "change": "play",
+          "source": "打出：自2006 年起不再是行星：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 1,
+      "log": 62,
+      "card": "b_37.webp",
+      "instance": "card-18-0",
+      "scanCode": 0,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 34.35347875,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 10,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 2,
+      "log": 343,
+      "card": "b_103.webp",
+      "instance": "card-74-0",
+      "scanCode": 3,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": null,
+      "selectionScore": 12.655120743849999,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 10,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 3,
+      "log": 699,
+      "card": "b_86.webp",
+      "instance": "card-101-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 51.47427844799999,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 10,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 4,
+      "log": 1157,
+      "card": "b_139.webp",
+      "instance": "card-131-0",
+      "scanCode": 1,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 42.63659400000001,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1471,
+      "passivePlayEstimate": 0,
+      "removals": [
+        {
+          "entry": 173,
+          "round": 4,
+          "change": "play",
+          "source": "打出：自2006 年起不再是行星：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 1,
+      "log": 60,
+      "card": "b_138.webp",
+      "instance": "card-18-0",
+      "scanCode": 1,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 17.385618000000004,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 40,
+          "round": 2,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1宣传：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 2,
+      "log": 296,
+      "card": "b_37.webp",
+      "instance": "card-79-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 35.660247830976004,
+      "played": true,
+      "playRound": 2,
+      "playLog": 298,
+      "passivePlayEstimate": 6,
+      "removals": [
+        {
+          "entry": 40,
+          "round": 2,
+          "change": "play",
+          "source": "打出：猎鹰虿型运戟火箭：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 3,
+      "log": 674,
+      "card": "b_100.webp",
+      "instance": "card-115-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 57.20989845231999,
+      "played": true,
+      "playRound": 3,
+      "playLog": 716,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 87,
+          "round": 3,
+          "change": "play",
+          "source": "打出：观测南河：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1051,
+      "card": "b_74.webp",
+      "instance": "card-135-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 70.04363434831998,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1092,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 137,
+          "round": 4,
+          "change": "play",
+          "source": "打出：火星科学实验室：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 1,
+      "log": 60,
+      "card": "b_138.webp",
+      "instance": "card-18-0",
+      "scanCode": 1,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 17.385618000000004,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 40,
+          "round": 2,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1宣传：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 2,
+      "log": 296,
+      "card": "b_37.webp",
+      "instance": "card-79-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 35.660247830976004,
+      "played": true,
+      "playRound": 2,
+      "playLog": 298,
+      "passivePlayEstimate": 6,
+      "removals": [
+        {
+          "entry": 40,
+          "round": 2,
+          "change": "play",
+          "source": "打出：猎鹰虿型运戟火箭：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 3,
+      "log": 674,
+      "card": "b_100.webp",
+      "instance": "card-115-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 57.20989845231999,
+      "played": true,
+      "playRound": 3,
+      "playLog": 716,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 87,
+          "round": 3,
+          "change": "play",
+          "source": "打出：观测南河：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1051,
+      "card": "b_74.webp",
+      "instance": "card-135-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 70.04363434831998,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1092,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 137,
+          "round": 4,
+          "change": "play",
+          "source": "打出：火星科学实验室：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 1,
+      "log": 98,
+      "card": "b_92.webp",
+      "instance": "card-67-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 16.360125000000004,
+      "played": true,
+      "playRound": 1,
+      "playLog": 120,
+      "passivePlayEstimate": 6,
+      "removals": [
+        {
+          "entry": 15,
+          "round": 1,
+          "change": "play",
+          "source": "打出：先驱者11号任务：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 2,
+      "log": 271,
+      "card": "b_91.webp",
+      "instance": "card-94-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 25.81639652946,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 12,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 3,
+      "log": 668,
+      "card": "b_21.webp",
+      "instance": "card-120-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 57.28481146194546,
+      "played": true,
+      "playRound": 3,
+      "playLog": 854,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 100,
+          "round": 3,
+          "change": "play",
+          "source": "打出：卡西尼号探测器：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "arm": "baseline",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1117,
+      "card": "dlc_27.png",
+      "instance": "card-100-0",
+      "scanCode": 1,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 9.642432,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 12,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 1,
+      "log": 98,
+      "card": "b_92.webp",
+      "instance": "card-67-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 16.360125000000004,
+      "played": true,
+      "playRound": 1,
+      "playLog": 120,
+      "passivePlayEstimate": 6,
+      "removals": [
+        {
+          "entry": 15,
+          "round": 1,
+          "change": "play",
+          "source": "打出：先驱者11号任务：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 2,
+      "log": 271,
+      "card": "b_91.webp",
+      "instance": "card-94-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 25.81639652946,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 12,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 3,
+      "log": 668,
+      "card": "b_21.webp",
+      "instance": "card-120-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 57.28481146194546,
+      "played": true,
+      "playRound": 3,
+      "playLog": 854,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 100,
+          "round": 3,
+          "change": "play",
+          "source": "打出：卡西尼号探测器：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "arm": "candidate",
+      "player": "player-brown",
+      "round": 4,
+      "log": 1117,
+      "card": "dlc_27.png",
+      "instance": "card-100-0",
+      "scanCode": 1,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 9.642432,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 13,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 1,
+      "log": 60,
+      "card": "b_76.webp",
+      "instance": "card-17-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 17.1981686,
+      "played": true,
+      "playRound": 1,
+      "playLog": 198,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 25,
+          "round": 1,
+          "change": "play",
+          "source": "打出：飞掠水星：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 2,
+      "log": 258,
+      "card": "b_87.webp",
+      "instance": "card-71-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 17.025814124822,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 90,
+          "round": 3,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1数据：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 3,
+      "log": 694,
+      "card": "b_68.webp",
+      "instance": "card-105-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 46.36583796575116,
+      "played": true,
+      "playRound": 3,
+      "playLog": 825,
+      "passivePlayEstimate": 0,
+      "removals": [
+        {
+          "entry": 102,
+          "round": 3,
+          "change": "play",
+          "source": "打出：洛弗尔望远锐：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 4,
+      "log": 1165,
+      "card": "b_17.webp",
+      "instance": "card-144-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 45.6912607985427,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1423,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 164,
+          "round": 4,
+          "change": "play",
+          "source": "打出：突破摄星：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 1,
+      "log": 60,
+      "card": "b_76.webp",
+      "instance": "card-17-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 17.1981686,
+      "played": true,
+      "playRound": 1,
+      "playLog": 198,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 25,
+          "round": 1,
+          "change": "play",
+          "source": "打出：飞掠水星：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 2,
+      "log": 258,
+      "card": "b_87.webp",
+      "instance": "card-71-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 17.025814124822,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 90,
+          "round": 3,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1数据：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 3,
+      "log": 694,
+      "card": "b_68.webp",
+      "instance": "card-105-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 46.36583796575116,
+      "played": true,
+      "playRound": 3,
+      "playLog": 825,
+      "passivePlayEstimate": 0,
+      "removals": [
+        {
+          "entry": 102,
+          "round": 3,
+          "change": "play",
+          "source": "打出：洛弗尔望远锐：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 4,
+      "log": 1165,
+      "card": "b_17.webp",
+      "instance": "card-144-0",
+      "scanCode": 2,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 45.6912607985427,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1423,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 164,
+          "round": 4,
+          "change": "play",
+          "source": "打出：突破摄星：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 1,
+      "log": 52,
+      "card": "b_105.webp",
+      "instance": "card-19-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 22.291745554877174,
+      "played": true,
+      "playRound": 1,
+      "playLog": 88,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 11,
+          "round": 1,
+          "change": "play",
+          "source": "打出：罗盎塔号探测器：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 2,
+      "log": 285,
+      "card": "b_106.webp",
+      "instance": "card-71-0",
+      "scanCode": 2,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 14.279311020000002,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 43,
+          "round": 2,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1宣传：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 3,
+      "log": 730,
+      "card": "dlc_5.png",
+      "instance": "card-114-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 29.531164944305413,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 148,
+          "round": 4,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1宣传：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 4,
+      "log": 1158,
+      "card": "b_121.webp",
+      "instance": "card-163-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 42.568631667024,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 14,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 1,
+      "log": 52,
+      "card": "b_105.webp",
+      "instance": "card-19-0",
+      "scanCode": 2,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 22.291745554877174,
+      "played": true,
+      "playRound": 1,
+      "playLog": 88,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 11,
+          "round": 1,
+          "change": "play",
+          "source": "打出：罗盎塔号探测器：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 2,
+      "log": 285,
+      "card": "b_106.webp",
+      "instance": "card-71-0",
+      "scanCode": 2,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 15.72606102,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 43,
+          "round": 2,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1宣传：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 3,
+      "log": 730,
+      "card": "dlc_5.png",
+      "instance": "card-114-0",
+      "scanCode": 2,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 29.531164944305413,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 148,
+          "round": 4,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1宣传：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 14,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 4,
+      "log": 1158,
+      "card": "b_121.webp",
+      "instance": "card-163-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 42.568631667024,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 15,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 1,
+      "log": 60,
+      "card": "b_32.webp",
+      "instance": "card-17-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 19.759875,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 38,
+          "round": 2,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1数据：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 2,
+      "log": 287,
+      "card": "b_102.webp",
+      "instance": "card-72-0",
+      "scanCode": 0,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 10.717164283970998,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 15,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 3,
+      "log": 739,
+      "card": "dlc_39.png",
+      "instance": "card-95-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 64.20191038673482,
+      "played": true,
+      "playRound": 3,
+      "playLog": 767,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 94,
+          "round": 3,
+          "change": "play",
+          "source": "打出：大巡游计划：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "arm": "baseline",
+      "player": "player-blue",
+      "round": 4,
+      "log": 1104,
+      "card": "b_104.webp",
+      "instance": "card-123-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 33.64663312496,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1236,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 152,
+          "round": 4,
+          "change": "play",
+          "source": "打出：罗曼空间望远锐：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 1,
+      "log": 60,
+      "card": "b_32.webp",
+      "instance": "card-17-0",
+      "scanCode": 0,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 19.759875,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": [
+        {
+          "entry": 38,
+          "round": 2,
+          "change": "discard",
+          "source": "卡牌快速行动：弃牌换1数据：资源：手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 2,
+      "log": 287,
+      "card": "b_102.webp",
+      "instance": "card-72-0",
+      "scanCode": 0,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 10.717164283970998,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 15,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 3,
+      "log": 739,
+      "card": "dlc_39.png",
+      "instance": "card-95-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 64.20191038673482,
+      "played": true,
+      "playRound": 3,
+      "playLog": 767,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 94,
+          "round": 3,
+          "change": "play",
+          "source": "打出：大巡游计划：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "arm": "candidate",
+      "player": "player-blue",
+      "round": 4,
+      "log": 1104,
+      "card": "b_104.webp",
+      "instance": "card-123-0",
+      "scanCode": 1,
+      "occupied": [],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 33.64663312496,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1236,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 152,
+          "round": 4,
+          "change": "play",
+          "source": "打出：罗曼空间望远锐：资源：信用点-3、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 1,
+      "log": 109,
+      "card": "b_128.webp",
+      "instance": "card-18-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 15.31775,
+      "played": true,
+      "playRound": 1,
+      "playLog": 200,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 23,
+          "round": 1,
+          "change": "play",
+          "source": "打出：观测织女星：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 2,
+      "log": 272,
+      "card": "dlc_19.png",
+      "instance": "card-76-0",
+      "scanCode": 0,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 16.695699999999995,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 16,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 3,
+      "log": 605,
+      "card": "b_19.webp",
+      "instance": "card-72-0",
+      "scanCode": 1,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 49.4470440866812,
+      "played": true,
+      "playRound": 3,
+      "playLog": 743,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 91,
+          "round": 3,
+          "change": "play",
+          "source": "打出：加阜大氢谱线望远锐：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "arm": "baseline",
+      "player": "player-white",
+      "round": 4,
+      "log": 1061,
+      "card": "dlc_42.png",
+      "instance": "card-129-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 82.46008506956002,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1164,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 145,
+          "round": 4,
+          "change": "play",
+          "source": "打出：低频阵列：资源：信用点-2、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 1,
+      "log": 109,
+      "card": "b_128.webp",
+      "instance": "card-18-0",
+      "scanCode": 1,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 15.31775,
+      "played": true,
+      "playRound": 1,
+      "playLog": 200,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 23,
+          "round": 1,
+          "change": "play",
+          "source": "打出：观测织女星：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 2,
+      "log": 272,
+      "card": "dlc_19.png",
+      "instance": "card-76-0",
+      "scanCode": 0,
+      "occupied": [
+        "yellow"
+      ],
+      "chosenColorWasOccupied": true,
+      "selectionScore": 16.695699999999995,
+      "played": false,
+      "passivePlayEstimate": null,
+      "removals": []
+    },
+    {
+      "case": 16,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 3,
+      "log": 605,
+      "card": "b_19.webp",
+      "instance": "card-72-0",
+      "scanCode": 1,
+      "occupied": [
+        "blue"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 49.4470440866812,
+      "played": true,
+      "playRound": 3,
+      "playLog": 743,
+      "passivePlayEstimate": 1.5,
+      "removals": [
+        {
+          "entry": 91,
+          "round": 3,
+          "change": "play",
+          "source": "打出：加阜大氢谱线望远锐：资源：信用点-1、手牌-1"
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "arm": "candidate",
+      "player": "player-white",
+      "round": 4,
+      "log": 1061,
+      "card": "dlc_42.png",
+      "instance": "card-129-0",
+      "scanCode": 0,
+      "occupied": [
+        "red"
+      ],
+      "chosenColorWasOccupied": false,
+      "selectionScore": 82.46008506956002,
+      "played": true,
+      "playRound": 4,
+      "playLog": 1164,
+      "passivePlayEstimate": 4.5,
+      "removals": [
+        {
+          "entry": 145,
+          "round": 4,
+          "change": "play",
+          "source": "打出：低频阵列：资源：信用点-2、手牌-1"
+        }
+      ]
+    }
+  ]
+}

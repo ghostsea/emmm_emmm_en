@@ -1,0 +1,52 @@
+{
+  "decision": "held-policy-effect-needs-evaluation",
+  "sourceCommit": "34a3572af7c7b22fb8d872a9816d75fbceb916bb",
+  "changedSeats": 7,
+  "meanDelta": 0.796875,
+  "pairedGameStandardError": 1.0726764496459311,
+  "companies": {
+    "寰宇超动力": {
+      "seats": 16,
+      "baseline": 204.5,
+      "candidate": 209.875,
+      "meanDelta": 5.375,
+      "minimumDelta": 2
+    },
+    "作弊实验室": {
+      "seats": 32,
+      "baseline": 256.40625,
+      "candidate": 256.90625,
+      "meanDelta": 0.5,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 16,
+      "baseline": 203.625,
+      "candidate": 200.4375,
+      "meanDelta": -3.1875,
+      "minimumDelta": 0
+    }
+  },
+  "baselineHigh": {
+    "seats": 16,
+    "baselineMean": 290.8125,
+    "candidateMean": 288.8125,
+    "meanDelta": -2,
+    "improved": 2,
+    "declined": 1,
+    "unchanged": 13
+  },
+  "baselineLow": {
+    "seats": 16,
+    "baselineMean": 171.3125,
+    "candidateMean": 177.9375,
+    "meanDelta": 6.625,
+    "improved": 2,
+    "declined": 0,
+    "unchanged": 14
+  },
+  "cardPayments": 767,
+  "bugCount": 0,
+  "ledgerSeats": 128,
+  "limitations": "Complete16 fresh pairs after source freeze;14 games unchanged,2 score-changing games,7 changed seats. Small positive mean with paired SE1.072676 and Grand decline is insufficient evidence of stable improvement. Candidate held, ten-point goal unmet; these seeds now development only."
+}
