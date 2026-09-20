@@ -516,7 +516,9 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
     techGameState: { board: options.techBoard || {}, ui: { ...(options.techUi || {}) } },
     cardState: { publicCards: options.publicCards || [] },
     cardTaskState: {},
-    industry: options.industry || null,
+    industry: options.industry
+      ? { clearStrategyPassiveSlots: industryModule.clearStrategyPassiveSlots, ...options.industry }
+      : null,
     historyStepOrder: {},
     els: {
       scanTargetOverlay: { hidden: options.scanTargetHidden ?? false },

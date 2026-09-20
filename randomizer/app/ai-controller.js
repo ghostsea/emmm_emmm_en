@@ -2693,6 +2693,12 @@
 
     function scoreAiPublicPickCard(card, player = getCurrentPlayer(), pendingType = null) {
       if (!card) return -Infinity;
+      if (pendingType === "industry_strategy_pick" && industry?.playerHasStrategyPassive?.(player)) {
+        // The confirmed pick clears the slots before this card can be played.
+        // Project that guaranteed reset without changing the live company state.
+        player = { ...player };
+        industry.clearStrategyPassiveSlots(player);
+      }
       const incomeGain = cards.getIncomeGainForCard?.(card) || null;
       if (pendingType === "industry_mission_pick") {
         return incomeGain ? scoreAiImmediateIncomeRewardValue(player, incomeGain) : -Infinity;
