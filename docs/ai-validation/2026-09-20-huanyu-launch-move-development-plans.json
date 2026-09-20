@@ -1,0 +1,4397 @@
+{
+  "scope": "Chosen actions with logged Huanyu company movement plan, subsequent same-player actions and moves. Display turn can repeat when others passed; association is not proof of newly launched rocket identity or direct causal score attribution. Shared preview also serves existing card/trade callers; their payment semantics are unchanged.",
+  "summary": {
+    "plans": 3,
+    "companySelectedSameDisplayTurn": 3,
+    "byAction": {
+      "playCard": 3
+    }
+  },
+  "rows": [
+    {
+      "case": 6,
+      "company": "寰宇超动力",
+      "log": 1051,
+      "round": 4,
+      "turn": 1,
+      "action": "playCard",
+      "card": "b_116.webp",
+      "resources": {
+        "score": 72,
+        "credits": 6,
+        "energy": 6,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 8
+      },
+      "plan": {
+        "type": "main-then-quick",
+        "mainActionId": "launch",
+        "quickActionId": "industry",
+        "industryAbilityId": "huanyu_free_moves",
+        "providedMovePoints": 1,
+        "paidMovePoints": 0,
+        "direction": "out",
+        "directionLabel": "向外",
+        "from": {
+          "x": 3,
+          "y": 1
+        },
+        "to": {
+          "x": 3,
+          "y": 2
+        },
+        "requiredMovePoints": 1,
+        "routeTarget": {
+          "id": "uranus",
+          "label": "天王星",
+          "kind": "planet",
+          "coordinate": {
+            "x": 2,
+            "y": 4
+          },
+          "value": 76.52528000000001,
+          "satelliteOpportunity": {
+            "planetId": "uranus",
+            "satelliteId": "titania",
+            "satelliteName": "天卫三",
+            "rewardValue": 25,
+            "directScore": 25,
+            "energyCost": 3,
+            "energyShortfall": 0,
+            "pointConversionPenalty": 0,
+            "contestRiskPenalty": 0,
+            "raceWastePenalty": 0,
+            "cashoutPremium": 14.1,
+            "score": 43.2
+          },
+          "taskRouteCashout": null,
+          "nearCompleteTaskRouteCashout": null,
+          "oldDistance": 4,
+          "newDistance": 3,
+          "rotationStagingValue": 0
+        },
+        "routeScore": 12.951863232000001,
+        "gain": 8.93455256554701,
+        "cost": 4.4,
+        "score": 4.53455256554701,
+        "paymentCost": 0,
+        "pathPenalty": 4.4,
+        "nearestActionablePlanetPenalty": 0,
+        "preserveEnergyForRouteCashout": false,
+        "movePayment": {
+          "cost": 0,
+          "energySpent": 0,
+          "cardSpent": 0,
+          "remainingEnergy": 6
+        },
+        "projectedResourcesAfterLaunchMove": {
+          "credits": 4,
+          "energy": 6,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 8,
+          "score": 72
+        },
+        "projectedFollowupMainAction": {
+          "score": 0,
+          "actionId": null,
+          "planetId": null,
+          "planetName": null
+        }
+      },
+      "next": [
+        {
+          "id": "industry",
+          "ability": "huanyu_free_moves",
+          "round": 4,
+          "turn": 1,
+          "resources": {
+            "score": 72,
+            "credits": 5,
+            "energy": 6,
+            "publicity": 6,
+            "availableData": 0,
+            "handSize": 7
+          }
+        },
+        {
+          "id": "move",
+          "round": 4,
+          "turn": 1,
+          "resources": {
+            "score": 72,
+            "credits": 5,
+            "energy": 6,
+            "publicity": 8,
+            "availableData": 0,
+            "handSize": 7
+          }
+        },
+        {
+          "id": "end-turn",
+          "round": 4,
+          "turn": 1,
+          "resources": {
+            "score": 72,
+            "credits": 5,
+            "energy": 6,
+            "publicity": 9,
+            "availableData": 0,
+            "handSize": 6
+          }
+        },
+        {
+          "id": "playCard",
+          "round": 4,
+          "turn": 2,
+          "resources": {
+            "score": 72,
+            "credits": 5,
+            "energy": 6,
+            "publicity": 9,
+            "availableData": 0,
+            "handSize": 6
+          }
+        },
+        {
+          "id": "placeData",
+          "round": 4,
+          "turn": 2,
+          "resources": {
+            "score": 74,
+            "credits": 4,
+            "energy": 6,
+            "publicity": 9,
+            "availableData": 2,
+            "handSize": 5
+          }
+        }
+      ],
+      "companySelectedSameDisplayTurn": true,
+      "moves": [
+        {
+          "message": "绿色AI 选择卡牌移动 R1 向外",
+          "details": {
+            "effectId": "b116-move",
+            "selected": {
+              "id": "cardMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 117,
+              "rocketLabel": "R1",
+              "direction": "out",
+              "directionLabel": "向外",
+              "deltaX": 0,
+              "deltaY": 1,
+              "from": {
+                "x": 3,
+                "y": 1
+              },
+              "to": {
+                "x": 3,
+                "y": 2
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "uranus",
+                "label": "天王星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 2,
+                  "y": 4
+                },
+                "value": 76.59278,
+                "satelliteOpportunity": {
+                  "planetId": "uranus",
+                  "satelliteId": "titania",
+                  "satelliteName": "天卫三",
+                  "rewardValue": 25,
+                  "directScore": 25,
+                  "energyCost": 3,
+                  "energyShortfall": 0,
+                  "pointConversionPenalty": 0,
+                  "contestRiskPenalty": 0,
+                  "raceWastePenalty": 0,
+                  "cashoutPremium": 14.1,
+                  "score": 43.2
+                },
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 4,
+                "newDistance": 3,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 16.900607571276804,
+              "cost": 4.4,
+              "score": 12.500607571276804,
+              "valueBreakdown": {
+                "movementGain": 16.900607571276804,
+                "paymentCost": 0,
+                "pathPenalty": 4.4,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 4.4,
+                "routeScore": 30.842494600000002,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": false
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 117,
+                "rocketLabel": "R1",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 3,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.59278,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 16.900607571276804,
+                "cost": 4.4,
+                "score": 12.500607571276804,
+                "valueBreakdown": {
+                  "movementGain": 16.900607571276804,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 30.842494600000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 117,
+                "rocketLabel": "R1",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 4,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "value": 42.88806,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.092635129907202,
+                "cost": 2.8,
+                "score": 3.292635129907202,
+                "valueBreakdown": {
+                  "movementGain": 6.092635129907202,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 12.004328400000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 117,
+                "rocketLabel": "R1",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 2,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.59278,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 16.580607571276804,
+                "cost": 4.4,
+                "score": 12.180607571276804,
+                "valueBreakdown": {
+                  "movementGain": 16.580607571276804,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 30.842494600000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 3,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.59278,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 16.900607571276804,
+                "cost": 4.5,
+                "score": 12.400607571276804,
+                "valueBreakdown": {
+                  "movementGain": 16.900607571276804,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 30.842494600000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 4,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "value": 42.88806,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.092635129907202,
+                "cost": 2.9,
+                "score": 3.192635129907202,
+                "valueBreakdown": {
+                  "movementGain": 6.092635129907202,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 12.004328400000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 2,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.59278,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 16.580607571276804,
+                "cost": 4.5,
+                "score": 12.080607571276804,
+                "valueBreakdown": {
+                  "movementGain": 16.580607571276804,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 30.842494600000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              }
+            ]
+          }
+        },
+        {
+          "message": "绿色AI 选择卡牌移动 R1 顺时针",
+          "details": {
+            "effectId": "industry-huanyu-4-2-move-1",
+            "selected": {
+              "id": "cardMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 117,
+              "rocketLabel": "R1",
+              "direction": "cw",
+              "directionLabel": "顺时针",
+              "deltaX": 1,
+              "deltaY": 0,
+              "from": {
+                "x": 3,
+                "y": 2
+              },
+              "to": {
+                "x": 4,
+                "y": 2
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "mars",
+                "label": "火星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 4,
+                  "y": 2
+                },
+                "value": 42.753060000000005,
+                "satelliteOpportunity": null,
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 1,
+                "newDistance": 0,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 10.399909236121601,
+              "cost": 0,
+              "score": 10.399909236121601,
+              "valueBreakdown": {
+                "movementGain": 10.399909236121601,
+                "paymentCost": 0,
+                "pathPenalty": 0,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 0,
+                "routeScore": 19.6362852,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": true
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 117,
+                "rocketLabel": "R1",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 3,
+                  "y": 2
+                },
+                "to": {
+                  "x": 3,
+                  "y": 3
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.45778,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.54738681757901,
+                "cost": 3.6,
+                "score": 3.94738681757901,
+                "valueBreakdown": {
+                  "movementGain": 7.54738681757901,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 14.462304976,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 117,
+                "rocketLabel": "R1",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 2
+                },
+                "to": {
+                  "x": 4,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "value": 42.753060000000005,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 1,
+                  "newDistance": 0,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 10.399909236121601,
+                "cost": 0,
+                "score": 10.399909236121601,
+                "valueBreakdown": {
+                  "movementGain": 10.399909236121601,
+                  "paymentCost": 0,
+                  "pathPenalty": 0,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 0,
+                  "routeScore": 19.6362852,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 117,
+                "rocketLabel": "R1",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 2
+                },
+                "to": {
+                  "x": 2,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.45778,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.22738681757901,
+                "cost": 3.6,
+                "score": 3.62738681757901,
+                "valueBreakdown": {
+                  "movementGain": 7.22738681757901,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 14.462304976,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 117,
+                "rocketLabel": "R1",
+                "direction": "in",
+                "directionLabel": "向内",
+                "deltaX": 0,
+                "deltaY": -1,
+                "from": {
+                  "x": 3,
+                  "y": 2
+                },
+                "to": {
+                  "x": 3,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 1,
+                    "y": 1
+                  },
+                  "value": 42.67306000000001,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 1.9921073713500164,
+                "cost": 3.6,
+                "score": -1.6078926286499837,
+                "valueBreakdown": {
+                  "movementGain": 1.9921073713500164,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 4.192783952,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 3,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.45778,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 8.057933668384258,
+                "cost": 4.5,
+                "score": 3.557933668384258,
+                "valueBreakdown": {
+                  "movementGain": 8.057933668384258,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.949878732,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 4,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "value": 42.753060000000005,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 2.6477837314570243,
+                "cost": 2.9,
+                "score": -0.2522162685429755,
+                "valueBreakdown": {
+                  "movementGain": 2.6477837314570243,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 5.033879928,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 2,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.45778,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.737933668384257,
+                "cost": 4.5,
+                "score": 3.237933668384257,
+                "valueBreakdown": {
+                  "movementGain": 7.737933668384257,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.949878732,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "message": "绿色AI 选择卡牌移动 R2 向外",
+          "details": {
+            "effectId": "industry-huanyu-4-2-move-2",
+            "selected": {
+              "id": "cardMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 136,
+              "rocketLabel": "R2",
+              "direction": "out",
+              "directionLabel": "向外",
+              "deltaX": 0,
+              "deltaY": 1,
+              "from": {
+                "x": 3,
+                "y": 1
+              },
+              "to": {
+                "x": 3,
+                "y": 2
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "uranus",
+                "label": "天王星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 2,
+                  "y": 4
+                },
+                "value": 76.45778,
+                "satelliteOpportunity": {
+                  "planetId": "uranus",
+                  "satelliteId": "titania",
+                  "satelliteName": "天卫三",
+                  "rewardValue": 25,
+                  "directScore": 25,
+                  "energyCost": 3,
+                  "energyShortfall": 0,
+                  "pointConversionPenalty": 0,
+                  "contestRiskPenalty": 0,
+                  "raceWastePenalty": 0,
+                  "cashoutPremium": 14.1,
+                  "score": 43.2
+                },
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 4,
+                "newDistance": 3,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 8.057933668384258,
+              "cost": 4.4,
+              "score": 3.657933668384258,
+              "valueBreakdown": {
+                "movementGain": 8.057933668384258,
+                "paymentCost": 0,
+                "pathPenalty": 4.4,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 4.4,
+                "routeScore": 12.949878732,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": true
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 3,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.45778,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 8.057933668384258,
+                "cost": 4.4,
+                "score": 3.657933668384258,
+                "valueBreakdown": {
+                  "movementGain": 8.057933668384258,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.949878732,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 4,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 4,
+                    "y": 2
+                  },
+                  "value": 42.753060000000005,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 2.6477837314570243,
+                "cost": 2.8,
+                "score": -0.15221626854297554,
+                "valueBreakdown": {
+                  "movementGain": 2.6477837314570243,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 5.033879928,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 136,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 3,
+                  "y": 1
+                },
+                "to": {
+                  "x": 2,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 4
+                  },
+                  "value": 76.45778,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 25,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 0,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 14.1,
+                    "score": 43.2
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.737933668384257,
+                "cost": 4.4,
+                "score": 3.337933668384257,
+                "valueBreakdown": {
+                  "movementGain": 7.737933668384257,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.949878732,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "company": "寰宇超动力",
+      "log": 707,
+      "round": 3,
+      "turn": 1,
+      "action": "playCard",
+      "card": "dlc_11.png",
+      "resources": {
+        "score": 64,
+        "credits": 4,
+        "energy": 6,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 7
+      },
+      "plan": {
+        "type": "main-then-quick",
+        "mainActionId": "launch",
+        "quickActionId": "industry",
+        "industryAbilityId": "huanyu_free_moves",
+        "providedMovePoints": 1,
+        "paidMovePoints": 0,
+        "direction": "out",
+        "directionLabel": "向外",
+        "from": {
+          "x": 7,
+          "y": 1
+        },
+        "to": {
+          "x": 7,
+          "y": 2
+        },
+        "requiredMovePoints": 1,
+        "routeTarget": {
+          "id": "uranus",
+          "label": "天王星",
+          "kind": "planet",
+          "coordinate": {
+            "x": 0,
+            "y": 4
+          },
+          "value": 126.14392940000002,
+          "satelliteOpportunity": {
+            "planetId": "uranus",
+            "satelliteId": "titania",
+            "satelliteName": "天卫三",
+            "rewardValue": 81,
+            "directScore": 25,
+            "energyCost": 3,
+            "energyShortfall": 0,
+            "pointConversionPenalty": 2.818,
+            "contestRiskPenalty": 0,
+            "raceWastePenalty": 0,
+            "cashoutPremium": 12.28,
+            "score": 70.14200000000001
+          },
+          "taskRouteCashout": null,
+          "nearCompleteTaskRouteCashout": null,
+          "oldDistance": 4,
+          "newDistance": 3,
+          "rotationStagingValue": 0
+        },
+        "routeScore": 13.16753478306,
+        "gain": 9.076668040088691,
+        "cost": 4.4,
+        "score": 4.676668040088691,
+        "paymentCost": 0,
+        "pathPenalty": 4.4,
+        "nearestActionablePlanetPenalty": 0,
+        "preserveEnergyForRouteCashout": false,
+        "movePayment": {
+          "cost": 0,
+          "energySpent": 0,
+          "cardSpent": 0,
+          "remainingEnergy": 6
+        },
+        "projectedResourcesAfterLaunchMove": {
+          "credits": 2,
+          "energy": 6,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 64
+        },
+        "projectedFollowupMainAction": {
+          "score": 0,
+          "actionId": null,
+          "planetId": null,
+          "planetName": null
+        }
+      },
+      "next": [
+        {
+          "id": "industry",
+          "ability": "huanyu_free_moves",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 64,
+            "credits": 1,
+            "energy": 6,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 6
+          }
+        },
+        {
+          "id": "move",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 64,
+            "credits": 1,
+            "energy": 6,
+            "publicity": 7,
+            "availableData": 0,
+            "handSize": 6
+          }
+        },
+        {
+          "id": "cardCorner",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 64,
+            "credits": 1,
+            "energy": 6,
+            "publicity": 8,
+            "availableData": 0,
+            "handSize": 5
+          }
+        },
+        {
+          "id": "end-turn",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 64,
+            "credits": 1,
+            "energy": 6,
+            "publicity": 9,
+            "availableData": 0,
+            "handSize": 4
+          }
+        },
+        {
+          "id": "researchTech",
+          "round": 3,
+          "turn": 2,
+          "resources": {
+            "score": 64,
+            "credits": 1,
+            "energy": 6,
+            "publicity": 9,
+            "availableData": 0,
+            "handSize": 4
+          }
+        }
+      ],
+      "companySelectedSameDisplayTurn": true,
+      "moves": [
+        {
+          "message": "绿色AI 选择卡牌移动 R1 向外",
+          "details": {
+            "effectId": "industry-huanyu-3-3-move-1",
+            "selected": {
+              "id": "cardMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 115,
+              "rocketLabel": "R1",
+              "direction": "out",
+              "directionLabel": "向外",
+              "deltaX": 0,
+              "deltaY": 1,
+              "from": {
+                "x": 7,
+                "y": 1
+              },
+              "to": {
+                "x": 7,
+                "y": 2
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "uranus",
+                "label": "天王星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 0,
+                  "y": 4
+                },
+                "value": 125.5589402,
+                "satelliteOpportunity": {
+                  "planetId": "uranus",
+                  "satelliteId": "titania",
+                  "satelliteName": "天卫三",
+                  "rewardValue": 81,
+                  "directScore": 25,
+                  "energyCost": 3,
+                  "energyShortfall": 0,
+                  "pointConversionPenalty": 2.818,
+                  "contestRiskPenalty": 0,
+                  "raceWastePenalty": 0,
+                  "cashoutPremium": 12.28,
+                  "score": 70.14200000000001
+                },
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 4,
+                "newDistance": 3,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 7.533465686998628,
+              "cost": 4.4,
+              "score": 3.133465686998628,
+              "valueBreakdown": {
+                "movementGain": 7.533465686998628,
+                "paymentCost": 0,
+                "pathPenalty": 4.4,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 4.4,
+                "routeScore": 13.144193713979998,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": true
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 115,
+                "rocketLabel": "R1",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 7,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 125.5589402,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.818,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 70.14200000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.533465686998628,
+                "cost": 4.4,
+                "score": 3.133465686998628,
+                "valueBreakdown": {
+                  "movementGain": 7.533465686998628,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 13.144193713979998,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 115,
+                "rocketLabel": "R1",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 0,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 125.5589402,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.818,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 70.14200000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.655965686998628,
+                "cost": 4.4,
+                "score": 2.2559656869986275,
+                "valueBreakdown": {
+                  "movementGain": 6.655965686998628,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 13.144193713979998,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 115,
+                "rocketLabel": "R1",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 6,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 6,
+                    "y": 2
+                  },
+                  "value": 82.6215562,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 4.583816436909871,
+                "cost": 2.8,
+                "score": 1.7838164369098708,
+                "valueBreakdown": {
+                  "movementGain": 4.583816436909871,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 9.11320018476,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 7,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 125.5589402,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.818,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 70.14200000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.533465686998628,
+                "cost": 4.5,
+                "score": 3.033465686998628,
+                "valueBreakdown": {
+                  "movementGain": 7.533465686998628,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 13.144193713979998,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 0,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 125.5589402,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.818,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 70.14200000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.655965686998628,
+                "cost": 4.5,
+                "score": 2.1559656869986275,
+                "valueBreakdown": {
+                  "movementGain": 6.655965686998628,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 13.144193713979998,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 6,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 6,
+                    "y": 2
+                  },
+                  "value": 82.6215562,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 4.583816436909871,
+                "cost": 2.9,
+                "score": 1.6838164369098707,
+                "valueBreakdown": {
+                  "movementGain": 4.583816436909871,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 9.11320018476,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "message": "绿色AI 选择卡牌移动 R2 向外",
+          "details": {
+            "effectId": "industry-huanyu-3-3-move-2",
+            "selected": {
+              "id": "cardMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 131,
+              "rocketLabel": "R2",
+              "direction": "out",
+              "directionLabel": "向外",
+              "deltaX": 0,
+              "deltaY": 1,
+              "from": {
+                "x": 7,
+                "y": 1
+              },
+              "to": {
+                "x": 7,
+                "y": 2
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "uranus",
+                "label": "天王星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 0,
+                  "y": 4
+                },
+                "value": 125.417903,
+                "satelliteOpportunity": {
+                  "planetId": "uranus",
+                  "satelliteId": "titania",
+                  "satelliteName": "天卫三",
+                  "rewardValue": 81,
+                  "directScore": 25,
+                  "energyCost": 3,
+                  "energyShortfall": 0,
+                  "pointConversionPenalty": 2.818,
+                  "contestRiskPenalty": 0,
+                  "raceWastePenalty": 0,
+                  "cashoutPremium": 12.28,
+                  "score": 70.14200000000001
+                },
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 4,
+                "newDistance": 3,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 7.53068458866838,
+              "cost": 4.4,
+              "score": 3.1306845886683794,
+              "valueBreakdown": {
+                "movementGain": 7.53068458866838,
+                "paymentCost": 0,
+                "pathPenalty": 4.4,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 4.4,
+                "routeScore": 13.1385663297,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": true
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 7,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 125.417903,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.818,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 70.14200000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.53068458866838,
+                "cost": 4.4,
+                "score": 3.1306845886683794,
+                "valueBreakdown": {
+                  "movementGain": 7.53068458866838,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 13.1385663297,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 0,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 125.417903,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.818,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 70.14200000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.653184588668379,
+                "cost": 4.4,
+                "score": 2.253184588668379,
+                "valueBreakdown": {
+                  "movementGain": 6.653184588668379,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 13.1385663297,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 7,
+                  "y": 1
+                },
+                "to": {
+                  "x": 6,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 6,
+                    "y": 2
+                  },
+                  "value": 82.480519,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 4.57825424024937,
+                "cost": 2.8,
+                "score": 1.7782542402493702,
+                "valueBreakdown": {
+                  "movementGain": 4.57825424024937,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 9.1019454162,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "message": "绿色AI 选择卡牌角标移动 R1 向外",
+          "details": {
+            "selected": {
+              "id": "cardCornerMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 115,
+              "rocketLabel": "R1",
+              "direction": "out",
+              "directionLabel": "向外",
+              "deltaX": 0,
+              "deltaY": 1,
+              "from": {
+                "x": 6,
+                "y": 2
+              },
+              "to": {
+                "x": 6,
+                "y": 3
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "saturn",
+                "label": "土星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 6,
+                  "y": 3
+                },
+                "value": 91.349739,
+                "satelliteOpportunity": {
+                  "planetId": "saturn",
+                  "satelliteId": "enceladus",
+                  "satelliteName": "土卫二",
+                  "rewardValue": 65.63,
+                  "directScore": 13,
+                  "energyCost": 2,
+                  "energyShortfall": 0,
+                  "pointConversionPenalty": 1.942,
+                  "contestRiskPenalty": 0,
+                  "raceWastePenalty": 0,
+                  "cashoutPremium": 0,
+                  "score": 42.2445
+                },
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 1,
+                "newDistance": 0,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 20.82899360091904,
+              "cost": 0,
+              "score": 20.82899360091904,
+              "valueBreakdown": {
+                "movementGain": 20.82899360091904,
+                "paymentCost": 0,
+                "pathPenalty": 0,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 0,
+                "routeScore": 40.04689038,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": false
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 115,
+                "rocketLabel": "R1",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 6,
+                  "y": 2
+                },
+                "to": {
+                  "x": 6,
+                  "y": 3
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "saturn",
+                  "label": "土星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 6,
+                    "y": 3
+                  },
+                  "value": 91.349739,
+                  "satelliteOpportunity": {
+                    "planetId": "saturn",
+                    "satelliteId": "enceladus",
+                    "satelliteName": "土卫二",
+                    "rewardValue": 65.63,
+                    "directScore": 13,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 1.942,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 0,
+                    "score": 42.2445
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 1,
+                  "newDistance": 0,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 20.82899360091904,
+                "cost": 0,
+                "score": 20.82899360091904,
+                "valueBreakdown": {
+                  "movementGain": 20.82899360091904,
+                  "paymentCost": 0,
+                  "pathPenalty": 0,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 0,
+                  "routeScore": 40.04689038,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 115,
+                "rocketLabel": "R1",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 6,
+                  "y": 2
+                },
+                "to": {
+                  "x": 7,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 125.417903,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.818,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 70.14200000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.2906845886683795,
+                "cost": 4.4,
+                "score": 2.890684588668379,
+                "valueBreakdown": {
+                  "movementGain": 7.2906845886683795,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 13.1385663297,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 115,
+                "rocketLabel": "R1",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 6,
+                  "y": 2
+                },
+                "to": {
+                  "x": 5,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "value": 82.749119,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 4.38127987289961,
+                "cost": 2.8,
+                "score": 1.5812798728996098,
+                "valueBreakdown": {
+                  "movementGain": 4.38127987289961,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 8.703379696199999,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 115,
+                "rocketLabel": "R1",
+                "direction": "in",
+                "directionLabel": "向内",
+                "deltaX": 0,
+                "deltaY": -1,
+                "from": {
+                  "x": 6,
+                  "y": 2
+                },
+                "to": {
+                  "x": 6,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "value": 82.749119,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 4.2212798728996095,
+                "cost": 2.8,
+                "score": 1.4212798728996097,
+                "valueBreakdown": {
+                  "movementGain": 4.2212798728996095,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 8.703379696199999,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 7,
+                  "y": 2
+                },
+                "to": {
+                  "x": 7,
+                  "y": 3
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "asteroid:7:3",
+                  "label": "小行星带",
+                  "kind": "probe-location",
+                  "locationType": "asteroid",
+                  "coordinate": {
+                    "x": 7,
+                    "y": 3
+                  },
+                  "value": 36.7095048,
+                  "taskRouteCashout": {
+                    "value": 24,
+                    "directScore": 3,
+                    "count": 1
+                  },
+                  "oldDistance": 1,
+                  "newDistance": 0,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 8.84996443824333,
+                "cost": 23.1,
+                "score": -14.25003556175667,
+                "valueBreakdown": {
+                  "movementGain": 8.84996443824333,
+                  "paymentCost": 0,
+                  "pathPenalty": 23,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 23,
+                  "routeScore": 17.097992016,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 7,
+                  "y": 2
+                },
+                "to": {
+                  "x": 0,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 125.417903,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 3,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.818,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 70.14200000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.289164115109838,
+                "cost": 3.7,
+                "score": 3.5891641151098375,
+                "valueBreakdown": {
+                  "movementGain": 7.289164115109838,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 14.4254324396,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 7,
+                  "y": 2
+                },
+                "to": {
+                  "x": 6,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 6,
+                    "y": 2
+                  },
+                  "value": 82.449719,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 1,
+                  "newDistance": 0,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 18.661639945571842,
+                "cost": 0.1,
+                "score": 18.56163994557184,
+                "valueBreakdown": {
+                  "movementGain": 18.661639945571842,
+                  "paymentCost": 0,
+                  "pathPenalty": 0,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 0,
+                  "routeScore": 36.30888198,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 131,
+                "rocketLabel": "R2",
+                "direction": "in",
+                "directionLabel": "向内",
+                "deltaX": 0,
+                "deltaY": -1,
+                "from": {
+                  "x": 7,
+                  "y": 2
+                },
+                "to": {
+                  "x": 7,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 5,
+                    "y": 1
+                  },
+                  "value": 82.749119,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 3.3410328752664067,
+                "cost": 3.7,
+                "score": -0.3589671247335934,
+                "valueBreakdown": {
+                  "movementGain": 3.3410328752664067,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 6.9222531308,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "company": "寰宇超动力",
+      "log": 782,
+      "round": 3,
+      "turn": 1,
+      "action": "playCard",
+      "card": "dlc_14.png",
+      "resources": {
+        "score": 56,
+        "credits": 6,
+        "energy": 5,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 9
+      },
+      "plan": {
+        "type": "main-then-quick",
+        "mainActionId": "launch",
+        "quickActionId": "industry",
+        "industryAbilityId": "huanyu_free_moves",
+        "providedMovePoints": 1,
+        "paidMovePoints": 0,
+        "direction": "out",
+        "directionLabel": "向外",
+        "from": {
+          "x": 2,
+          "y": 1
+        },
+        "to": {
+          "x": 2,
+          "y": 2
+        },
+        "requiredMovePoints": 1,
+        "routeTarget": {
+          "id": "mars",
+          "label": "火星",
+          "kind": "planet",
+          "coordinate": {
+            "x": 2,
+            "y": 2
+          },
+          "value": 59.06685999999999,
+          "satelliteOpportunity": null,
+          "taskRouteCashout": null,
+          "nearCompleteTaskRouteCashout": null,
+          "oldDistance": 1,
+          "newDistance": 0,
+          "rotationStagingValue": 0
+        },
+        "routeScore": 26.488081199999996,
+        "gain": 17.8541621782528,
+        "cost": 0,
+        "score": 17.8541621782528,
+        "paymentCost": 0,
+        "pathPenalty": 0,
+        "nearestActionablePlanetPenalty": 0,
+        "preserveEnergyForRouteCashout": true,
+        "movePayment": {
+          "cost": 0,
+          "energySpent": 0,
+          "cardSpent": 0,
+          "remainingEnergy": 5
+        },
+        "projectedResourcesAfterLaunchMove": {
+          "credits": 4,
+          "energy": 5,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 9,
+          "score": 56
+        },
+        "projectedFollowupMainAction": {
+          "actionId": "land",
+          "planetId": "mars",
+          "planetName": "火星",
+          "energyCost": 2,
+          "choices": [
+            {
+              "target": {
+                "type": "planet"
+              },
+              "planetId": "mars",
+              "planet": {
+                "planetId": "mars",
+                "label": "火星",
+                "name": "火星",
+                "wheelId": 2,
+                "baseX": 2,
+                "x": 2,
+                "y": 2,
+                "fixedAfterSetup": false
+              },
+              "energyCost": 2,
+              "label": "登陆火星"
+            }
+          ],
+          "directScoreGain": 6,
+          "score": 48.56552400000001
+        }
+      },
+      "next": [
+        {
+          "id": "industry",
+          "ability": "huanyu_free_moves",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 56,
+            "credits": 4,
+            "energy": 5,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 8
+          }
+        },
+        {
+          "id": "cardCorner",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 56,
+            "credits": 4,
+            "energy": 5,
+            "publicity": 7,
+            "availableData": 0,
+            "handSize": 8
+          }
+        },
+        {
+          "id": "cardCorner",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 56,
+            "credits": 4,
+            "energy": 5,
+            "publicity": 8,
+            "availableData": 0,
+            "handSize": 7
+          }
+        },
+        {
+          "id": "cardCorner",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 56,
+            "credits": 4,
+            "energy": 5,
+            "publicity": 9,
+            "availableData": 0,
+            "handSize": 6
+          }
+        },
+        {
+          "id": "move",
+          "round": 3,
+          "turn": 1,
+          "resources": {
+            "score": 56,
+            "credits": 4,
+            "energy": 5,
+            "publicity": 10,
+            "availableData": 0,
+            "handSize": 5
+          }
+        }
+      ],
+      "companySelectedSameDisplayTurn": true,
+      "moves": [
+        {
+          "message": "绿色AI 选择卡牌移动 R1 向外",
+          "details": {
+            "effectId": "industry-huanyu-3-3-move-1",
+            "selected": {
+              "id": "cardMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 111,
+              "rocketLabel": "R1",
+              "direction": "out",
+              "directionLabel": "向外",
+              "deltaX": 0,
+              "deltaY": 1,
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "to": {
+                "x": 2,
+                "y": 2
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "mars",
+                "label": "火星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 2,
+                  "y": 2
+                },
+                "value": 59.06685999999999,
+                "satelliteOpportunity": null,
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 1,
+                "newDistance": 0,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 14.1281216336896,
+              "cost": 0,
+              "score": 14.1281216336896,
+              "valueBreakdown": {
+                "movementGain": 14.1281216336896,
+                "paymentCost": 0,
+                "pathPenalty": 0,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 0,
+                "routeScore": 26.488081199999996,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": true
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 111,
+                "rocketLabel": "R1",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 2,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 2
+                  },
+                  "value": 59.06685999999999,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 1,
+                  "newDistance": 0,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 14.1281216336896,
+                "cost": 0,
+                "score": 14.1281216336896,
+                "valueBreakdown": {
+                  "movementGain": 14.1281216336896,
+                  "paymentCost": 0,
+                  "pathPenalty": 0,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 0,
+                  "routeScore": 26.488081199999996,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 111,
+                "rocketLabel": "R1",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 3,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "value": 103.11160800000002,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 82,
+                    "directScore": 26,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.32,
+                    "contestRiskPenalty": 7.544,
+                    "raceWastePenalty": 7.544,
+                    "cashoutPremium": 12.62,
+                    "score": 65.69600000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.2325082301019155,
+                "cost": 4.4,
+                "score": 1.832508230101915,
+                "valueBreakdown": {
+                  "movementGain": 6.2325082301019155,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.2873531592,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 111,
+                "rocketLabel": "R1",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 1,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 1
+                  },
+                  "value": 61.253460000000004,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 4.893538406782465,
+                "cost": 2.8,
+                "score": 2.093538406782465,
+                "valueBreakdown": {
+                  "movementGain": 4.893538406782465,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 6.988026108,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 2,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 2
+                  },
+                  "value": 59.06685999999999,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 1,
+                  "newDistance": 0,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 14.1281216336896,
+                "cost": 0.1,
+                "score": 14.0281216336896,
+                "valueBreakdown": {
+                  "movementGain": 14.1281216336896,
+                  "paymentCost": 0,
+                  "pathPenalty": 0,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 0,
+                  "routeScore": 26.488081199999996,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 3,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "value": 103.11160800000002,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 82,
+                    "directScore": 26,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.32,
+                    "contestRiskPenalty": 7.544,
+                    "raceWastePenalty": 7.544,
+                    "cashoutPremium": 12.62,
+                    "score": 65.69600000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.2325082301019155,
+                "cost": 4.5,
+                "score": 1.732508230101915,
+                "valueBreakdown": {
+                  "movementGain": 6.2325082301019155,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.2873531592,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 1,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 1
+                  },
+                  "value": 61.253460000000004,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 4.893538406782465,
+                "cost": 2.9,
+                "score": 1.993538406782465,
+                "valueBreakdown": {
+                  "movementGain": 4.893538406782465,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 6.988026108,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "message": "绿色AI 选择卡牌移动 R2 向外",
+          "details": {
+            "effectId": "industry-huanyu-3-3-move-2",
+            "selected": {
+              "id": "cardMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 145,
+              "rocketLabel": "R2",
+              "direction": "out",
+              "directionLabel": "向外",
+              "deltaX": 0,
+              "deltaY": 1,
+              "from": {
+                "x": 2,
+                "y": 1
+              },
+              "to": {
+                "x": 2,
+                "y": 2
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "mars",
+                "label": "火星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 2,
+                  "y": 2
+                },
+                "value": 59.06685999999999,
+                "satelliteOpportunity": null,
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 1,
+                "newDistance": 0,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 14.1281216336896,
+              "cost": 0,
+              "score": 14.1281216336896,
+              "valueBreakdown": {
+                "movementGain": 14.1281216336896,
+                "paymentCost": 0,
+                "pathPenalty": 0,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 0,
+                "routeScore": 26.488081199999996,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": true
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 2,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "mars",
+                  "label": "火星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 2,
+                    "y": 2
+                  },
+                  "value": 59.06685999999999,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 1,
+                  "newDistance": 0,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 14.1281216336896,
+                "cost": 0,
+                "score": 14.1281216336896,
+                "valueBreakdown": {
+                  "movementGain": 14.1281216336896,
+                  "paymentCost": 0,
+                  "pathPenalty": 0,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 0,
+                  "routeScore": 26.488081199999996,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 3,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "value": 113.54496,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 82,
+                    "directScore": 26,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.32,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.62,
+                    "score": 73.24000000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.438242446508033,
+                "cost": 4.4,
+                "score": 2.0382424465080327,
+                "valueBreakdown": {
+                  "movementGain": 6.438242446508033,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.703643904,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              },
+              {
+                "id": "cardMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 1
+                },
+                "to": {
+                  "x": 1,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 1
+                  },
+                  "value": 61.253460000000004,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 2,
+                  "newDistance": 1,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 4.893538406782465,
+                "cost": 2.8,
+                "score": 2.093538406782465,
+                "valueBreakdown": {
+                  "movementGain": 4.893538406782465,
+                  "paymentCost": 0,
+                  "pathPenalty": 2.8,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 2.8,
+                  "routeScore": 6.988026108,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": true
+                }
+              }
+            ]
+          }
+        },
+        {
+          "message": "绿色AI 选择卡牌角标移动 R1 向外",
+          "details": {
+            "selected": {
+              "id": "cardCornerMove",
+              "kind": "effect",
+              "available": true,
+              "rocketId": 111,
+              "rocketLabel": "R1",
+              "direction": "out",
+              "directionLabel": "向外",
+              "deltaX": 0,
+              "deltaY": 1,
+              "from": {
+                "x": 2,
+                "y": 2
+              },
+              "to": {
+                "x": 2,
+                "y": 3
+              },
+              "terrainRequired": 1,
+              "paymentRequired": 0,
+              "routeTarget": {
+                "id": "neptune",
+                "label": "海王星",
+                "kind": "planet",
+                "coordinate": {
+                  "x": 3,
+                  "y": 4
+                },
+                "value": 113.54496,
+                "satelliteOpportunity": {
+                  "planetId": "neptune",
+                  "satelliteId": "triton",
+                  "satelliteName": "海卫一",
+                  "rewardValue": 82,
+                  "directScore": 26,
+                  "energyCost": 2,
+                  "energyShortfall": 0,
+                  "pointConversionPenalty": 2.32,
+                  "contestRiskPenalty": 0,
+                  "raceWastePenalty": 0,
+                  "cashoutPremium": 12.62,
+                  "score": 73.24000000000001
+                },
+                "taskRouteCashout": null,
+                "nearCompleteTaskRouteCashout": null,
+                "oldDistance": 3,
+                "newDistance": 2,
+                "rotationStagingValue": 0
+              },
+              "followupLanding": null,
+              "gain": 7.8545022934773785,
+              "cost": 3.6,
+              "score": 4.254502293477378,
+              "valueBreakdown": {
+                "movementGain": 7.8545022934773785,
+                "paymentCost": 0,
+                "pathPenalty": 3.6,
+                "earlyLightsailEmptyBacktrackPenalty": 0,
+                "nearestActionablePlanetPenalty": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "movementCost": 3.6,
+                "routeScore": 13.793791872000002,
+                "landingScore": 0,
+                "landingDirectScoreGain": 0,
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "remainingPoolAfterStep": 0,
+                "industryHuanyuMove": false
+              }
+            },
+            "candidates": [
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 111,
+                "rocketLabel": "R1",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 2,
+                  "y": 2
+                },
+                "to": {
+                  "x": 2,
+                  "y": 3
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "value": 113.54496,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 82,
+                    "directScore": 26,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.32,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.62,
+                    "score": 73.24000000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.8545022934773785,
+                "cost": 3.6,
+                "score": 4.254502293477378,
+                "valueBreakdown": {
+                  "movementGain": 7.8545022934773785,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 13.793791872000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 111,
+                "rocketLabel": "R1",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 2
+                },
+                "to": {
+                  "x": 3,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "value": 113.54496,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 82,
+                    "directScore": 26,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.32,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.62,
+                    "score": 73.24000000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.977002293477378,
+                "cost": 3.6,
+                "score": 3.377002293477378,
+                "valueBreakdown": {
+                  "movementGain": 6.977002293477378,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 13.793791872000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 111,
+                "rocketLabel": "R1",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 2
+                },
+                "to": {
+                  "x": 1,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 112.90762400000001,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.292,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 71.708
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.686495658103504,
+                "cost": 4.4,
+                "score": 3.2864956581035036,
+                "valueBreakdown": {
+                  "movementGain": 7.686495658103504,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.639406197600001,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 111,
+                "rocketLabel": "R1",
+                "direction": "in",
+                "directionLabel": "向内",
+                "deltaX": 0,
+                "deltaY": -1,
+                "from": {
+                  "x": 2,
+                  "y": 2
+                },
+                "to": {
+                  "x": 2,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 1
+                  },
+                  "value": 61.253460000000004,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 2.7758718978549766,
+                "cost": 3.6,
+                "score": -0.8241281021450235,
+                "valueBreakdown": {
+                  "movementGain": 2.7758718978549766,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 5.778684072,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "out",
+                "directionLabel": "向外",
+                "deltaX": 0,
+                "deltaY": 1,
+                "from": {
+                  "x": 2,
+                  "y": 2
+                },
+                "to": {
+                  "x": 2,
+                  "y": 3
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "value": 113.54496,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 82,
+                    "directScore": 26,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.32,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.62,
+                    "score": 73.24000000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.8545022934773785,
+                "cost": 3.7,
+                "score": 4.154502293477378,
+                "valueBreakdown": {
+                  "movementGain": 7.8545022934773785,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 13.793791872000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "cw",
+                "directionLabel": "顺时针",
+                "deltaX": 1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 2
+                },
+                "to": {
+                  "x": 3,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "neptune",
+                  "label": "海王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 3,
+                    "y": 4
+                  },
+                  "value": 113.54496,
+                  "satelliteOpportunity": {
+                    "planetId": "neptune",
+                    "satelliteId": "triton",
+                    "satelliteName": "海卫一",
+                    "rewardValue": 82,
+                    "directScore": 26,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.32,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.62,
+                    "score": 73.24000000000001
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 6.977002293477378,
+                "cost": 3.7,
+                "score": 3.277002293477378,
+                "valueBreakdown": {
+                  "movementGain": 6.977002293477378,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 13.793791872000002,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "ccw",
+                "directionLabel": "逆时针",
+                "deltaX": -1,
+                "deltaY": 0,
+                "from": {
+                  "x": 2,
+                  "y": 2
+                },
+                "to": {
+                  "x": 1,
+                  "y": 2
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "uranus",
+                  "label": "天王星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 4
+                  },
+                  "value": 112.90762400000001,
+                  "satelliteOpportunity": {
+                    "planetId": "uranus",
+                    "satelliteId": "titania",
+                    "satelliteName": "天卫三",
+                    "rewardValue": 81,
+                    "directScore": 25,
+                    "energyCost": 2,
+                    "energyShortfall": 0,
+                    "pointConversionPenalty": 2.292,
+                    "contestRiskPenalty": 0,
+                    "raceWastePenalty": 0,
+                    "cashoutPremium": 12.28,
+                    "score": 71.708
+                  },
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 4,
+                  "newDistance": 3,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 7.686495658103504,
+                "cost": 4.5,
+                "score": 3.1864956581035035,
+                "valueBreakdown": {
+                  "movementGain": 7.686495658103504,
+                  "paymentCost": 0,
+                  "pathPenalty": 4.4,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 4.4,
+                  "routeScore": 12.639406197600001,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              },
+              {
+                "id": "cardCornerMove",
+                "kind": "effect",
+                "available": true,
+                "rocketId": 145,
+                "rocketLabel": "R2",
+                "direction": "in",
+                "directionLabel": "向内",
+                "deltaX": 0,
+                "deltaY": -1,
+                "from": {
+                  "x": 2,
+                  "y": 2
+                },
+                "to": {
+                  "x": 2,
+                  "y": 1
+                },
+                "terrainRequired": 1,
+                "paymentRequired": 0,
+                "routeTarget": {
+                  "id": "venus",
+                  "label": "金星",
+                  "kind": "planet",
+                  "coordinate": {
+                    "x": 0,
+                    "y": 1
+                  },
+                  "value": 61.253460000000004,
+                  "satelliteOpportunity": null,
+                  "taskRouteCashout": null,
+                  "nearCompleteTaskRouteCashout": null,
+                  "oldDistance": 3,
+                  "newDistance": 2,
+                  "rotationStagingValue": 0
+                },
+                "followupLanding": null,
+                "gain": 2.7758718978549766,
+                "cost": 3.7,
+                "score": -0.9241281021450235,
+                "valueBreakdown": {
+                  "movementGain": 2.7758718978549766,
+                  "paymentCost": 0,
+                  "pathPenalty": 3.6,
+                  "earlyLightsailEmptyBacktrackPenalty": 0,
+                  "nearestActionablePlanetPenalty": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "movementCost": 3.6,
+                  "routeScore": 5.778684072,
+                  "landingScore": 0,
+                  "landingDirectScoreGain": 0,
+                  "terrainRequired": 1,
+                  "paymentRequired": 0,
+                  "remainingPoolAfterStep": 0,
+                  "industryHuanyuMove": false
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
