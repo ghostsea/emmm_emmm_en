@@ -11983,7 +11983,7 @@
         model?.tasks?.length ? scoreAiCFinalTaskProgressValue(player, model.tasks.length) : 0
       );
       const standardActionPremium = details.standardActionPremium
-        ?? scoreAiCardStandardActionPremium(playEffects, player);
+        ?? scoreAiCardStandardActionPremium(playEffects, player, card);
       const hasC2Plan = getAiPlanningFinalFormulaEntries(player, ["c2"]).length > 0;
       const weakLowYieldFinalCard = Boolean(
         typeCode === 3
@@ -12088,6 +12088,16 @@
       return 1;
     }
 
+    function createAiPlayerAfterCardPayment(card, player = getCurrentPlayer()) {
+      if (!card || !player) return player || null;
+      const hand = (player.hand || []).filter((held) => held !== card && (!card.id || held.id !== card.id));
+      const resources = { ...(player.resources || {}), handSize: hand.length };
+      for (const [key, amount] of Object.entries(getCardPlayCost(card) || {})) {
+        resources[key] = Math.max(0, aiNumber(resources[key]) - Math.max(0, aiNumber(amount)));
+      }
+      return { ...player, hand, resources };
+    }
+
     function scoreAiCardLaunchRouteValue(effect, player = getCurrentPlayer()) {
       if (!effect || effect.type !== "launch" || !player) {
         return {
@@ -12099,7 +12109,10 @@
       const standardCost = scoreAiLaunchPaymentCost();
       const actualCost = scoreAiLaunchPaymentCost(effect.options || {});
       const savedCost = Math.max(0, standardCost - actualCost);
-      const postLaunchMovePlan = scoreAiPostLaunchMovePlan(player);
+      const postLaunchMovePlan = scoreAiPostLaunchMovePlan(player, {
+        launchOptions: effect.options || {},
+        ignoreMainActionUsed: true,
+      });
       return {
         savedCost,
         postLaunchMoveScore: Math.max(0, aiNumber(postLaunchMovePlan?.score)),
@@ -12152,7 +12165,7 @@
         const type = effect?.type;
         const options = effect?.options || {};
         if (type === "launch") {
-          const launchRoute = scoreAiCardLaunchRouteValue(effect, player);
+          const launchRoute = scoreAiCardLaunchRouteValue(effect, createAiPlayerAfterCardPayment(card, player));
           const postLaunchMoveScore = Math.max(0, aiNumber(launchRoute.postLaunchMoveScore));
           addPlan(
             "launch",
@@ -12288,14 +12301,14 @@
         .sort((left, right) => right.score - left.score)[0] || null;
     }
 
-    function scoreAiCardStandardActionPremium(playEffects = [], player = getCurrentPlayer()) {
+    function scoreAiCardStandardActionPremium(playEffects = [], player = getCurrentPlayer(), card = null) {
       return (playEffects || []).reduce((total, effect) => {
         const type = effect?.type;
         if (type === "launch") {
           const standardCost = scoreAiLaunchPaymentCost();
           const actualCost = scoreAiLaunchPaymentCost(effect?.options || {});
           const savedCost = Math.max(0, standardCost - actualCost);
-          const launchRoute = scoreAiCardLaunchRouteValue(effect, player);
+          const launchRoute = scoreAiCardLaunchRouteValue(effect, createAiPlayerAfterCardPayment(card, player));
           const postLaunchMoveScore = Math.max(0, aiNumber(launchRoute.postLaunchMoveScore));
           return total + Math.max(
             2,
@@ -12730,7 +12743,7 @@
       const readyTaskCashoutTimingScale = getAiReadyTaskCashoutTimingScale();
       const routePlan = details.plan || scoreAiPlayCardRoutePlan(card, model, playEffects, player);
       const standardActionPremium = details.standardActionPremium
-        ?? scoreAiCardStandardActionPremium(playEffects, player);
+        ?? scoreAiCardStandardActionPremium(playEffects, player, card);
       const c2Type3ProgressValue = typeCode === 3 ? scoreAiC2Type3ProgressValue(player) : 0;
       const cFinalTaskProgressValue = details.cFinalTaskProgressValue ?? (
         model?.tasks?.length ? scoreAiCFinalTaskProgressValue(player, model.tasks.length) : 0
@@ -16851,10 +16864,10 @@
       };
     }
 
-    function getAiProjectedResourcesAfterLaunchMove(player = getCurrentPlayer(), postLaunchMovePlan = null) {
+    function getAiProjectedResourcesAfterLaunchMove(player = getCurrentPlayer(), postLaunchMovePlan = null, launchOptions = {}) {
       if (!player || !postLaunchMovePlan?.movePayment) return null;
       const resources = player.resources || {};
-      const launchPayment = getAiLaunchPaymentCost();
+      const launchPayment = getAiLaunchPaymentCost(launchOptions);
       const currentHandSize = Math.max(0, Math.round(aiNumber(resources.handSize ?? player.hand?.length)));
       const movePayment = postLaunchMovePlan.movePayment;
       return {
@@ -17030,9 +17043,18 @@
       return Math.min(18, 8 + Math.max(0, 50 - currentScore) * 0.4 + Math.min(6, planScore * 0.12));
     }
 
-    function scoreAiPostLaunchMovePlan(player = getCurrentPlayer()) {
-      if (!player || state.pendingActionExecuted) return null;
-      if (!players.canAfford(player, getAiLaunchPaymentCost())) return null;
+    function scoreAiPostLaunchMovePlan(player = getCurrentPlayer(), options = {}) {
+      if (!player || (state.pendingActionExecuted && !options.ignoreMainActionUsed)) return null;
+      const launchPayment = getAiLaunchPaymentCost(options.launchOptions || {});
+      if (!players.canAfford(player, launchPayment)) return null;
+      if (options.launchOptions) {
+        // Preview the effect's actual payment before checking movement and follow-up costs.
+        const resources = { ...(player.resources || {}) };
+        for (const [key, cost] of Object.entries(launchPayment)) {
+          resources[key] = aiNumber(resources[key]) - aiNumber(cost);
+        }
+        player = { ...player, resources };
+      }
       const from = getEarthSectorCoordinate();
       const candidates = AI_MOVE_DIRECTIONS
         .map((direction) => {
@@ -17059,7 +17081,7 @@
           });
           const projectedResourcesAfterLaunchMove = getAiProjectedResourcesAfterLaunchMove(player, {
             movePayment,
-          });
+          }, options.launchOptions ? { skipCost: true } : {});
           const projectedPlayerAfterLaunchMove = projectedResourcesAfterLaunchMove
             ? {
               ...player,
@@ -18997,7 +19019,7 @@
         : null;
       const plan = scoreAiPlayCardRoutePlan(card, model, valuationPlayEffects, currentPlayer);
       const directScoreGain = getAiRewardDirectScore(valuationPlayEffects, currentPlayer, { immediate: true });
-      const standardActionPremium = scoreAiCardStandardActionPremium(valuationPlayEffects, currentPlayer);
+      const standardActionPremium = scoreAiCardStandardActionPremium(valuationPlayEffects, currentPlayer, card);
       const readyTaskTechReplacementValue = scoreAiReadyTaskTechReplacementValue(
         valuationPlayEffects,
         readyTaskCashout,
