@@ -1,0 +1,83 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Read-only diagnosis on current default: paid standard orbit is unavailable at zero energy, but dlc30 free orbit is executable. Attempt AI hand selection, then explicitly execute the legal card in the fixture.",
+      "position": {
+        "x": 5,
+        "y": 2
+      },
+      "card": {
+        "id": "card-66-0",
+        "cardId": "dlc_30.png",
+        "set": "space-agency",
+        "cardName": "晓号轨道器",
+        "src": "../assets/cards/space-agency/split/dlc_30.png",
+        "faceUp": true,
+        "price": 2,
+        "cardTypeCode": 0,
+        "discardActionCode": 2,
+        "scanActionCode": 2,
+        "incomeCode": 1
+      },
+      "effect": {
+        "id": "dlc30-orbit",
+        "type": "card_orbit",
+        "label": "环绕",
+        "icon": "orbit",
+        "options": {
+          "skipCost": true,
+          "grantRewards": true,
+          "repeat": 1
+        },
+        "status": "pending"
+      },
+      "normal": {
+        "ok": false,
+        "message": "资源不足，环绕需要 1 信用点 + 1 能量"
+      },
+      "actual": {
+        "ok": true,
+        "cost": {}
+      },
+      "aiAttempt": {
+        "ok": false,
+        "blocked": true,
+        "message": "AI 没有可打出的普通手牌"
+      },
+      "chosen": {
+        "ok": true,
+        "message": "打牌：已选择 晓号轨道器，点击「打出」确认"
+      },
+      "played": {
+        "ok": true,
+        "card": {
+          "id": "card-66-0",
+          "cardId": "dlc_30.png",
+          "set": "space-agency",
+          "cardName": "晓号轨道器",
+          "src": "../assets/cards/space-agency/split/dlc_30.png",
+          "faceUp": true,
+          "price": 2,
+          "cardTypeCode": 0,
+          "discardActionCode": 2,
+          "scanActionCode": 2,
+          "incomeCode": 1
+        },
+        "reserved": false,
+        "message": "打出 晓号轨道器：请依次点击效果"
+      },
+      "endingResources": {
+        "credits": 6,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 1,
+        "score": 13
+      },
+      "bugs": []
+    }
+  }
+}

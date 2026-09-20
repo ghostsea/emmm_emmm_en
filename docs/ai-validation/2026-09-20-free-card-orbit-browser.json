@@ -1,0 +1,74 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Real AI selection pays dlc30 at zero energy and resolves its free orbit without manual selection.",
+      "position": {
+        "x": 7,
+        "y": 2
+      },
+      "card": {
+        "id": "card-68-0",
+        "cardId": "dlc_30.png",
+        "set": "space-agency",
+        "cardName": "晓号轨道器",
+        "src": "../assets/cards/space-agency/split/dlc_30.png",
+        "faceUp": true,
+        "price": 2,
+        "cardTypeCode": 0,
+        "discardActionCode": 2,
+        "scanActionCode": 2,
+        "incomeCode": 1
+      },
+      "effect": {
+        "id": "dlc30-orbit",
+        "type": "card_orbit",
+        "label": "环绕",
+        "icon": "orbit",
+        "options": {
+          "skipCost": true,
+          "grantRewards": true,
+          "repeat": 1
+        },
+        "status": "pending"
+      },
+      "normal": {
+        "ok": false,
+        "message": "资源不足，环绕需要 1 信用点 + 1 能量"
+      },
+      "actual": {
+        "ok": true,
+        "cost": {}
+      },
+      "aiAttempt": {
+        "ok": true,
+        "card": {
+          "id": "card-68-0",
+          "cardId": "dlc_30.png",
+          "set": "space-agency",
+          "cardName": "晓号轨道器",
+          "src": "../assets/cards/space-agency/split/dlc_30.png",
+          "faceUp": true,
+          "price": 2,
+          "cardTypeCode": 0,
+          "discardActionCode": 2,
+          "scanActionCode": 2,
+          "incomeCode": 1
+        },
+        "reserved": false,
+        "message": "打出 晓号轨道器：请依次点击效果"
+      },
+      "endingResources": {
+        "credits": 6,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 13
+      },
+      "bugs": []
+    }
+  }
+}

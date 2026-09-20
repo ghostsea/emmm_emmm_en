@@ -1,0 +1,60 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Two real Mars probes produce multi-land; standard action predicts the true 6 point location reward and executes it.",
+      "position": {
+        "x": 1,
+        "y": 2
+      },
+      "groupPlanet": {
+        "planetId": "multi-land",
+        "name": "登陆目标"
+      },
+      "choices": [
+        {
+          "planetId": "mars",
+          "target": {
+            "type": "planet",
+            "rocketId": 8
+          }
+        },
+        {
+          "planetId": "mars",
+          "target": {
+            "type": "planet",
+            "rocketId": 7
+          }
+        }
+      ],
+      "previewDirectScore": 6,
+      "endingResources": {
+        "credits": 4,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 4,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 21
+      },
+      "decisions": [
+        {
+          "logPlayerId": "player-blue",
+          "optionCount": 2,
+          "planetId": "multi-land",
+          "selectedIndex": 0,
+          "selected": {
+            "label": "登陆火星 - 奖励：首次登陆：额外获得 2 个数据；获得 6 分；获得 1 个黄色外星人标记（主星，R8，3能量）",
+            "target": {
+              "type": "planet",
+              "rocketId": 8
+            },
+            "score": 27.337000000000003
+          }
+        }
+      ],
+      "bugs": []
+    }
+  }
+}
