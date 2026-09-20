@@ -17639,6 +17639,11 @@
       );
       const hasBlueTraceFinalFormula = getAiMarkedFinalFormulaEntries(player)
         .some((entry) => entry.formulaId === "b1");
+      const industryCard = getAiIndustryCard(player);
+      const huanyuAnalyzeCapAblation = normalizeAiDifficulty(player?.aiDifficulty || aiAutoBattleState.aiDifficulty)
+        === AI_DIFFICULTY_LAUGHABLE
+        && (industryCard?.id === AI_HUANYU_SUPERDRIVE_INDUSTRY_ID
+          || industryCard?.label === AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL);
       let score = weightedScore;
       let scoreCapReason = null;
       if (
@@ -17650,6 +17655,7 @@
         && bestBlueTraceScore <= 4
         && blueTraceDemand < 1
         && !hasBlueTraceFinalFormula
+        && !huanyuAnalyzeCapAblation
       ) {
         scoreCapReason = "终局分析蓝痕迹与阈值不足";
         score = Math.min(
@@ -17693,6 +17699,7 @@
         lowEngineCatchupValue,
         postSecondFinalMarkPenalty,
         hasBlueTraceFinalFormula,
+        huanyuAnalyzeCapAblation,
       };
     }
 
