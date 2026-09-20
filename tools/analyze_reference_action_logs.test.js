@@ -295,6 +295,20 @@ for (const syntaxCase of realSyntaxCases) {
   assert.equal(normalized.sourceCategory, syntaxCase.source, syntaxCase.text);
 }
 
+for (const [text, expected] of [
+  ["卡牌触发：高级导航系统：1能量", { energy: 1 }],
+  ["卡牌触发：访问天王星：1能量", { energy: 1 }],
+  ["卡牌触发：发射：1信用", { credits: 1 }],
+  ["卡牌触发：发射：5分", { score: 5 }],
+  ["卡牌触发：发射：1信用；资源：信用点+1", { credits: 1 }],
+  ["卡牌触发：请选择奖励：1能量", {}],
+  ["卡牌触发：取消奖励：1能量", {}],
+  ["卡牌触发：发射：1能量或1信用", {}],
+  ["卡牌触发：研究科技：1宣传", {}],
+]) {
+  assert.deepEqual(normalizeReferenceStep(text, { pace: "quick" }).resourceDeltas, expected, text);
+}
+
 assert.deepEqual(
   normalizeReferenceStep(
     realSyntaxCases.find((item) => item.text.startsWith("结算初始效果：")).text,

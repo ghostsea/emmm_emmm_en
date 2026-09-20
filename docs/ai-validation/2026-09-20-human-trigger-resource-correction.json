@@ -1,0 +1,201 @@
+{
+  "scope": "Reread all16 files, deduplicate15. Recover only completed literal card-trigger credit/energy/score suffixes, not choices/costs/capped publicity. Existing signed deltas not counted twice. Actual applyCardTriggerReward gain_resources history records only effect label. Other missing legacy rewards/payments and different companies/rules remain uncertain. Human-vs-AI comparisons are descriptive. No game or AI runtime changes.",
+  "corrections": [
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\3人局348.md",
+      "game": "human-1",
+      "player": "白色",
+      "company": "异星实验室",
+      "entry": 123,
+      "step": 9,
+      "text": "卡牌触发：高级导航系统：1能量",
+      "added": {
+        "energy": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\层云261.md",
+      "game": "human-3",
+      "player": "白色",
+      "company": "层云核心",
+      "entry": 24,
+      "step": 6,
+      "text": "卡牌触发：访问天王星：1能量",
+      "added": {
+        "energy": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\层云261.md",
+      "game": "human-3",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "entry": 77,
+      "step": 1,
+      "text": "卡牌触发：访问有自己环绕的星球：1能量",
+      "added": {
+        "energy": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇291.md",
+      "game": "human-5",
+      "player": "白色",
+      "company": "寰宇动力",
+      "entry": 107,
+      "step": 4,
+      "text": "卡牌触发：高级导航系统：1能量",
+      "added": {
+        "energy": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇动力285.md",
+      "game": "human-6",
+      "player": "白色",
+      "company": "寰宇动力",
+      "entry": 153,
+      "step": 3,
+      "text": "卡牌触发：高级导航系统：1能量",
+      "added": {
+        "energy": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略374.md",
+      "game": "human-11",
+      "player": "白色",
+      "company": "宇宙战略集团",
+      "entry": 17,
+      "step": 2,
+      "text": "卡牌触发：访问有自己环绕的星球：1能量",
+      "added": {
+        "energy": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略374.md",
+      "game": "human-11",
+      "player": "白色",
+      "company": "宇宙战略集团",
+      "entry": 149,
+      "step": 3,
+      "text": "卡牌触发：打出1费牌：2分",
+      "added": {
+        "score": 2
+      }
+    }
+  ],
+  "groups": [
+    {
+      "company": "异星实验室",
+      "seats": 2,
+      "beforeNonIncome": {
+        "credits": 6.5,
+        "energy": 13
+      },
+      "afterNonIncome": {
+        "credits": 6.5,
+        "energy": 13.5
+      }
+    },
+    {
+      "company": "寰宇动力",
+      "seats": 3,
+      "beforeNonIncome": {
+        "credits": 6.666666666666667,
+        "energy": 13.666666666666666
+      },
+      "afterNonIncome": {
+        "credits": 6.666666666666667,
+        "energy": 14.333333333333334
+      }
+    },
+    {
+      "company": "层云核心",
+      "seats": 1,
+      "beforeNonIncome": {
+        "credits": 2,
+        "energy": 5
+      },
+      "afterNonIncome": {
+        "credits": 2,
+        "energy": 6
+      }
+    },
+    {
+      "company": "赫利昂联合体",
+      "seats": 1,
+      "beforeNonIncome": {
+        "credits": 4,
+        "energy": 17
+      },
+      "afterNonIncome": {
+        "credits": 4,
+        "energy": 17
+      }
+    },
+    {
+      "company": "任务中继站",
+      "seats": 1,
+      "beforeNonIncome": {
+        "credits": 9,
+        "energy": 9
+      },
+      "afterNonIncome": {
+        "credits": 9,
+        "energy": 9
+      }
+    },
+    {
+      "company": "哨兵探测网络",
+      "seats": 1,
+      "beforeNonIncome": {
+        "credits": 5,
+        "energy": 12
+      },
+      "afterNonIncome": {
+        "credits": 5,
+        "energy": 12
+      }
+    },
+    {
+      "company": "深空探测",
+      "seats": 1,
+      "beforeNonIncome": {
+        "credits": 8,
+        "energy": 6
+      },
+      "afterNonIncome": {
+        "credits": 8,
+        "energy": 6
+      }
+    },
+    {
+      "company": "宇宙战略集团",
+      "seats": 3,
+      "beforeNonIncome": {
+        "credits": 10,
+        "energy": 7
+      },
+      "afterNonIncome": {
+        "credits": 10,
+        "energy": 7.333333333333333
+      }
+    },
+    {
+      "company": "芬威克研究中心",
+      "seats": 2,
+      "beforeNonIncome": {
+        "credits": 5,
+        "energy": 11.5
+      },
+      "afterNonIncome": {
+        "credits": 5,
+        "energy": 11.5
+      }
+    }
+  ],
+  "files": 16,
+  "humanSeats": 15
+}

@@ -1,0 +1,129 @@
+{
+  "scope": "Force legal launch in matched setup to inspect actual one-slot reward and model value, not game-score or autonomous improvement evidence.",
+  "rows": [
+    {
+      "consumed": [],
+      "beforeScore": -21.18928,
+      "afterScore": -15.18928,
+      "delta": 6,
+      "baseAutonomous": "pass",
+      "candidateAutonomous": "pass",
+      "baseResources": {
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 35
+      },
+      "candidateResources": {
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 35
+      },
+      "baseHand": [],
+      "candidateHand": [],
+      "baseAfterConsumed": [
+        "b57-launch-credit"
+      ],
+      "candidateAfterConsumed": [
+        "b57-launch-credit"
+      ]
+    },
+    {
+      "consumed": [
+        "b57-launch-credit"
+      ],
+      "beforeScore": -21.35952,
+      "afterScore": -18.35952,
+      "delta": 3,
+      "baseAutonomous": "pass",
+      "candidateAutonomous": "pass",
+      "baseResources": {
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 35
+      },
+      "candidateResources": {
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 35
+      },
+      "baseHand": [
+        "b_88.webp"
+      ],
+      "candidateHand": [
+        "b_18.webp"
+      ],
+      "baseAfterConsumed": [
+        "b57-launch-credit",
+        "b57-launch-pick"
+      ],
+      "candidateAfterConsumed": [
+        "b57-launch-credit",
+        "b57-launch-pick"
+      ]
+    },
+    {
+      "consumed": [
+        "b57-launch-credit",
+        "b57-launch-pick",
+        "b57-launch-score"
+      ],
+      "beforeScore": -21.7,
+      "afterScore": -21.7,
+      "delta": 0,
+      "baseAutonomous": "pass",
+      "candidateAutonomous": "pass",
+      "baseResources": {
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 35
+      },
+      "candidateResources": {
+        "credits": 0,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 35
+      },
+      "baseHand": [],
+      "candidateHand": [],
+      "baseAfterConsumed": [
+        "b57-launch-credit",
+        "b57-launch-pick",
+        "b57-launch-score"
+      ],
+      "candidateAfterConsumed": [
+        "b57-launch-credit",
+        "b57-launch-pick",
+        "b57-launch-score"
+      ]
+    }
+  ]
+}

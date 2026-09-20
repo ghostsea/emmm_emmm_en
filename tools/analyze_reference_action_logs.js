@@ -231,6 +231,16 @@ function normalizeReferenceStep(text, context = {}) {
     const cardTriggerData = text.match(/卡牌触发[^；;]*?[，：]\s*(\d+)\s*数据/);
     if (cardTriggerData) resourceDeltas.availableData = Number(cardTriggerData[1]);
   }
+  // Older completed trigger steps contain only the effect label. These three
+  // resources have no capacity clipping; publicity/data need other evidence.
+  const legacyTriggerReward = text.match(/^卡牌触发[：:][^；;\n]*[：:]\s*(\d+)\s*(信用点|信用|能量|分数|分)\s*$/);
+  if (legacyTriggerReward && !/请选择|取消|失败|无法|未获得|消耗|支付/.test(text)) {
+    const key = /信用/.test(legacyTriggerReward[2]) ? "credits"
+      : legacyTriggerReward[2] === "能量" ? "energy" : "score";
+    if (!Object.prototype.hasOwnProperty.call(resourceDeltas, key)) {
+      resourceDeltas[key] = Number(legacyTriggerReward[1]);
+    }
+  }
   if (!Number(resourceDeltas.availableData) && /symbol_\d+|符文\d+/.test(text)) {
     const symbolDataPattern = /(?:symbol_\d+|符文\d+(?:\(黑圈\d+\))?)：\s*(\d+)\/\d+\s*数据/g;
     let symbolData;
