@@ -13786,10 +13786,12 @@
 
     function getAiBestLandDirectScoreGain(planetId, choices = [], player = getCurrentPlayer()) {
       const selected = chooseAiLandChoice(choices || [], player)?.choice || null;
-      if (selected) return getAiLandDirectScoreGainForTarget(planetId, selected.target, player);
+      if (selected) return getAiLandDirectScoreGainForTarget(
+        getAiCardLandChoicePlanetId(selected, planetId), selected.target, player,
+      );
       return (choices || []).reduce((best, choice) => Math.max(
         best,
-        getAiLandDirectScoreGainForTarget(planetId, choice.target, player),
+        getAiLandDirectScoreGainForTarget(getAiCardLandChoicePlanetId(choice, planetId), choice.target, player),
       ), getAiLandDirectScoreGainForTarget(planetId, { type: "planet" }, player));
     }
 
@@ -17451,7 +17453,29 @@
       return 0;
     }
 
+    function resolveAiLandCandidateTarget(candidate, player = getCurrentPlayer()) {
+      if (!candidate?.available) return candidate;
+      const selected = chooseAiLandChoice(candidate.choices || [], player);
+      if (!selected?.choice) return candidate;
+      const choice = selected.choice;
+      const planetId = getAiCardLandChoicePlanetId(choice, candidate.planetId);
+      const energyCost = choice.cost && typeof choice.cost === "object"
+        ? Math.max(0, aiNumber(choice.cost.energy))
+        : Math.max(0, aiNumber(choice.energyCost ?? candidate.energyCost));
+      return {
+        ...candidate,
+        planetId,
+        planetName: choice.planet?.name || planetId,
+        energyCost,
+        selectedChoiceIndex: selected.index,
+        selectedRocketId: choice.rocketId || null,
+        selectedTarget: choice.target || { type: "planet" },
+        directScoreGain: getAiLandDirectScoreGainForTarget(planetId, choice.target, player),
+      };
+    }
+
     function scoreAiLandAction(candidate) {
+      candidate = resolveAiLandCandidateTarget(candidate);
       if (!candidate?.available) return 0;
       const energyCost = Math.max(0, Math.round(aiNumber(candidate.energyCost)));
       const currentPlayer = getCurrentPlayer();
@@ -23298,7 +23322,7 @@
       orbitCandidate.score = scoreAiOrbitAction(orbitCandidate);
       candidates.push(orbitCandidate);
       const landCheck = actions.canExecute("land", context);
-      const landCandidate = {
+      const landCandidate = resolveAiLandCandidateTarget({
         id: "land",
         kind: "main",
         available: landCheck.ok,
@@ -23308,7 +23332,7 @@
         energyCost: landCheck.energyCost ?? null,
         choices: landCheck.choices || [],
         finalMarkCashoutIncluded: true,
-      };
+      }, currentPlayer);
       landCandidate.directScoreGain = landCheck.ok
         ? getAiBestLandDirectScoreGain(landCandidate.planetId, landCandidate.choices, currentPlayer)
         : 0;
