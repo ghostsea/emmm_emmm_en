@@ -1,0 +1,229 @@
+{
+  "scope": "Read-only first actual playCard candidate for each instance; later observed play events are descriptive, not counterfactual guaranteed triggers or proof of improvement.",
+  "rows": [
+    {
+      "case": 6,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "card": "b_120.webp",
+      "instance": "card-121-0",
+      "firstRound": 3,
+      "lastRound": 3,
+      "offered": 2,
+      "played": false,
+      "playRound": null,
+      "log": 834,
+      "firstRes": {
+        "score": 72,
+        "credits": 1,
+        "energy": 7,
+        "publicity": 3,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "engineScore": 8.987594999999997,
+      "available": true,
+      "selected": {
+        "id": "scan",
+        "score": 34.073520654818395
+      },
+      "laterTopPlays": [
+        {
+          "round": 3,
+          "id": "b_102.webp",
+          "price": 2
+        },
+        {
+          "round": 3,
+          "id": "b_117.webp",
+          "price": 3
+        },
+        {
+          "round": 4,
+          "id": "b_60.webp",
+          "price": 3
+        },
+        {
+          "round": 4,
+          "id": "b_8.webp",
+          "price": 3
+        },
+        {
+          "round": 4,
+          "id": "b_20.webp",
+          "price": 1
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "card": "b_120.webp",
+      "instance": "card-160-0",
+      "firstRound": 4,
+      "lastRound": 4,
+      "offered": 1,
+      "played": false,
+      "playRound": null,
+      "log": 1480,
+      "firstRes": {
+        "score": 142,
+        "credits": 3,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 0,
+        "handSize": 1
+      },
+      "engineScore": 2.2712499999999993,
+      "available": true,
+      "selected": {
+        "id": "move",
+        "score": 8.540349811982338
+      },
+      "laterTopPlays": [
+        {
+          "round": 4,
+          "id": "b_1.webp",
+          "price": 2
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "card": "b_120.webp",
+      "instance": "card-11-0",
+      "firstRound": 1,
+      "lastRound": 1,
+      "offered": 1,
+      "played": false,
+      "playRound": null,
+      "log": 54,
+      "firstRes": {
+        "score": 8,
+        "credits": 6,
+        "energy": 3,
+        "publicity": 7,
+        "availableData": 0,
+        "handSize": 5
+      },
+      "engineScore": 1.9245250000000007,
+      "available": true,
+      "selected": {
+        "id": "researchTech",
+        "score": 50.02616185670791
+      },
+      "laterTopPlays": [
+        {
+          "round": 1,
+          "id": "dlc_35.png",
+          "price": 1
+        },
+        {
+          "round": 1,
+          "id": "b_56.webp",
+          "price": 3
+        },
+        {
+          "round": 1,
+          "id": "b_116.webp",
+          "price": 2
+        },
+        {
+          "round": 2,
+          "id": "b_72.webp",
+          "price": 2
+        },
+        {
+          "round": 2,
+          "id": "yichangdian_9.webp",
+          "price": 1
+        },
+        {
+          "round": 2,
+          "id": "yichangdian_8.webp",
+          "price": 1
+        },
+        {
+          "round": 2,
+          "id": "b_11.webp"
+        },
+        {
+          "round": 2,
+          "id": "b_80.webp",
+          "price": 1
+        },
+        {
+          "round": 3,
+          "id": "b_121.webp",
+          "price": 2
+        },
+        {
+          "round": 3,
+          "id": "b_67.webp",
+          "price": 2
+        },
+        {
+          "round": 3,
+          "id": "b_104.webp",
+          "price": 3
+        },
+        {
+          "round": 3,
+          "id": "dlc_23.png",
+          "price": 1
+        },
+        {
+          "round": 3,
+          "id": "b_19.webp",
+          "price": 1
+        },
+        {
+          "round": 4,
+          "id": "b_17.webp",
+          "price": 1
+        },
+        {
+          "round": 4,
+          "id": "b_61.webp",
+          "price": 2
+        },
+        {
+          "round": 4,
+          "id": "dlc_40.png",
+          "price": 2
+        }
+      ]
+    },
+    {
+      "case": 23,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "card": "b_120.webp",
+      "instance": "card-146-0",
+      "firstRound": 4,
+      "lastRound": 4,
+      "offered": 2,
+      "played": false,
+      "playRound": null,
+      "log": 1370,
+      "firstRes": {
+        "score": 141,
+        "credits": 2,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 0,
+        "handSize": 3
+      },
+      "engineScore": 2.2712499999999993,
+      "available": true,
+      "selected": {
+        "id": "researchTech",
+        "score": 78.319152348424
+      },
+      "laterTopPlays": []
+    }
+  ]
+}

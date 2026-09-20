@@ -1,0 +1,96 @@
+{
+  "decision": "held-not-adopted",
+  "sourceCommit": "1241aa349baf02b8f8bb1a9308c3263e11eaf61a",
+  "pairs": 32,
+  "baselineMean": 227.1015625,
+  "candidateMean": 226.421875,
+  "meanDelta": -0.6796875,
+  "pairedGameStandardError": 1.4926835330753516,
+  "approximate95Interval": [
+    -3.605347224827689,
+    2.245972224827689
+  ],
+  "companies": {
+    "寰宇超动力": {
+      "seats": 32,
+      "baseline": 198.71875,
+      "candidate": 195.96875,
+      "meanDelta": -2.75,
+      "minimumDelta": -14
+    },
+    "作弊实验室": {
+      "seats": 64,
+      "baseline": 255.3125,
+      "candidate": 255.84375,
+      "meanDelta": 0.53125,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 32,
+      "baseline": 199.0625,
+      "candidate": 198.03125,
+      "meanDelta": -1.03125,
+      "minimumDelta": 31
+    }
+  },
+  "distribution": {
+    "mean": -0.6796875,
+    "min": 4,
+    "p10": 1.4000000000000057,
+    "p25": -1.25,
+    "median": -2,
+    "p75": 1.75,
+    "max": 10,
+    "topQuartileMean": 2.1875,
+    "winnerMean": 2.25,
+    "minimumPerGameMean": -1.59375,
+    "seats270Plus": 2,
+    "seats300Plus": 0
+  },
+  "baselineHighCohort": {
+    "seats": 32,
+    "baselineMean": 287.9375,
+    "candidateMean": 288.4375,
+    "meanDelta": 0.5,
+    "improved": 5,
+    "declined": 9,
+    "unchanged": 18
+  },
+  "baselineLowCohort": {
+    "seats": 32,
+    "baselineMean": 174.9375,
+    "candidateMean": 177.21875,
+    "meanDelta": 2.28125,
+    "improved": 5,
+    "declined": 4,
+    "unchanged": 23
+  },
+  "highestBaselineSeat": {
+    "case": 6,
+    "player": "player-white",
+    "company": "作弊实验室",
+    "baseline": 376,
+    "candidate": 372,
+    "delta": -4
+  },
+  "bugCount": 0,
+  "ledgerSeats": 256,
+  "cardPayments": 1549,
+  "landing": {
+    "baseline": {
+      "actions": 426,
+      "paymentMatched": 426,
+      "previewMatched": 0,
+      "planetMatched": 229,
+      "costMatched": 423
+    },
+    "candidate": {
+      "actions": 436,
+      "paymentMatched": 436,
+      "previewMatched": 436,
+      "planetMatched": 436,
+      "costMatched": 436
+    }
+  },
+  "limitations": "All fresh32 complete. Negative mean and H -2.75, although high distribution/cohort point estimates improve. Accurate selected-target preview does not establish a better target or top-level decision. Frozen parser version predates gross trade/landing reporting fix; keep raw reports intact and do not compare resource ratios across versions without reprocessing. Goal +10 remains unmet."
+}
