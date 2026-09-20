@@ -1,0 +1,2220 @@
+{
+  "scope": "First changed top-level action identity versus parent. Subsequent final-score differences include whole-game interaction; not a causal estimate of this action. Does not detect earlier changed quick choices.",
+  "parent": "freecardorbit",
+  "rows": [
+    {
+      "case": 1,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 265,
+          "candidate": 265
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 227,
+          "candidate": 227
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 142,
+          "candidate": 142
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 257,
+          "candidate": 257
+        }
+      ],
+      "mainActions": {
+        "baseline": 520,
+        "candidate": 520
+      }
+    },
+    {
+      "case": 2,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "baseline": 161,
+          "candidate": 161
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 209,
+          "candidate": 209
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "baseline": 235,
+          "candidate": 235
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 279,
+          "candidate": 279
+        }
+      ],
+      "mainActions": {
+        "baseline": 533,
+        "candidate": 533
+      }
+    },
+    {
+      "case": 3,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 258,
+          "candidate": 258
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 145,
+          "candidate": 145
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 227,
+          "candidate": 227
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 224,
+          "candidate": 224
+        }
+      ],
+      "mainActions": {
+        "baseline": 509,
+        "candidate": 509
+      }
+    },
+    {
+      "case": 4,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 252,
+          "candidate": 252
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 289,
+          "candidate": 289
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 172,
+          "candidate": 172
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 268,
+          "candidate": 268
+        }
+      ],
+      "mainActions": {
+        "baseline": 533,
+        "candidate": 533
+      }
+    },
+    {
+      "case": 5,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 328,
+          "candidate": 328
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "baseline": 167,
+          "candidate": 167
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 147,
+          "candidate": 147
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 256,
+          "candidate": 256
+        }
+      ],
+      "mainActions": {
+        "baseline": 513,
+        "candidate": 513
+      }
+    },
+    {
+      "case": 6,
+      "first": {
+        "baseline": {
+          "player": "player-green",
+          "round": 3,
+          "turn": 2,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 2,
+            "label": "第一排放置位 2",
+            "description": "按从左到右放入第一排第 2 位，额外获得 1 宣传",
+            "directScoreGain": 0,
+            "score": 11.39555,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 11.396,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.396
+            },
+            "breakdown": {
+              "existingScore": 11.396,
+              "gain": 11.396,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.396
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 3,
+          "turn": 2,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 11.445549999999999,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 2,
+                "scoreFloor": 11.49555,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "card-44-pass-2-5",
+                  "score": 40.618615029248005
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 11.446,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.446
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 2,
+                "scoreFloor": 11.49555,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "card-44-pass-2-5",
+                  "score": 40.618615029248005
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 11.446,
+              "gain": 11.446,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.446
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 256,
+          "candidate": 301
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 174,
+          "candidate": 180
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 276,
+          "candidate": 315
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 168,
+          "candidate": 192
+        }
+      ],
+      "mainActions": {
+        "baseline": 489,
+        "candidate": 522
+      }
+    },
+    {
+      "case": 7,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 246,
+          "candidate": 246
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 212,
+          "candidate": 212
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "baseline": 188,
+          "candidate": 188
+        },
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "baseline": 174,
+          "candidate": 174
+        }
+      ],
+      "mainActions": {
+        "baseline": 477,
+        "candidate": 477
+      }
+    },
+    {
+      "case": 8,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 231,
+          "candidate": 231
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 242,
+          "candidate": 242
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 302,
+          "candidate": 302
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 164,
+          "candidate": 164
+        }
+      ],
+      "mainActions": {
+        "baseline": 569,
+        "candidate": 569
+      }
+    },
+    {
+      "case": 9,
+      "first": {
+        "baseline": {
+          "player": "player-green",
+          "round": 4,
+          "turn": 1,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 5,
+            "label": "第一排放置位 5",
+            "description": "按从左到右放入第一排第 5 位",
+            "directScoreGain": 0,
+            "score": 12.1408,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.141,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.1408
+            },
+            "breakdown": {
+              "existingScore": 12.141,
+              "gain": 12.141,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 17.669,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": -5.528
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 17.67
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 4,
+          "turn": 1,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 12.2408,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 12.2908,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "card-87-0",
+                  "score": 60.190320128
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 12.241,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.2408
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 12.2908,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "card-87-0",
+                  "score": 60.190320128
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 12.241,
+              "gain": 12.241,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 17.669,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": -5.428
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 17.67
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 257,
+          "candidate": 257
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "baseline": 138,
+          "candidate": 138
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 288,
+          "candidate": 288
+        },
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "baseline": 198,
+          "candidate": 198
+        }
+      ],
+      "mainActions": {
+        "baseline": 535,
+        "candidate": 535
+      }
+    },
+    {
+      "case": 10,
+      "first": {
+        "baseline": {
+          "player": "player-brown",
+          "round": 3,
+          "turn": 9,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 5,
+            "label": "第一排放置位 5",
+            "description": "按从左到右放入第一排第 5 位",
+            "directScoreGain": 0,
+            "score": 12.886592,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.887,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.887
+            },
+            "breakdown": {
+              "existingScore": 12.887,
+              "gain": 12.887,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.887
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-brown",
+          "round": 3,
+          "turn": 9,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 12.986592,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 13.036592,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "card-118-0",
+                  "score": 58.454456095999994
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 12.987,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.987
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 13.036592,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "card-118-0",
+                  "score": 58.454456095999994
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 12.987,
+              "gain": 12.987,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.987
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 260,
+          "candidate": 256
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 230,
+          "candidate": 272
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 264,
+          "candidate": 248
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 237,
+          "candidate": 219
+        }
+      ],
+      "mainActions": {
+        "baseline": 539,
+        "candidate": 544
+      }
+    },
+    {
+      "case": 11,
+      "first": {
+        "baseline": {
+          "player": "player-green",
+          "round": 3,
+          "turn": 4,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 5,
+            "label": "第一排放置位 5",
+            "description": "按从左到右放入第一排第 5 位",
+            "directScoreGain": 0,
+            "score": 12.730496,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.73,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.730496
+            },
+            "breakdown": {
+              "existingScore": 12.73,
+              "gain": 12.73,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.73
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 3,
+          "turn": 4,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 2,
+            "placementSlot": null,
+            "label": "第二列第二行",
+            "description": "放入第二列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 12.780496000000001,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 12.880496,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 19.282669633759998
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 12.78,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.780496000000001
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 12.880496,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 19.282669633759998
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 12.78,
+              "gain": 12.78,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.78
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 224,
+          "candidate": 210
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 194,
+          "candidate": 191
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 299,
+          "candidate": 283
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 281,
+          "candidate": 251
+        }
+      ],
+      "mainActions": {
+        "baseline": 535,
+        "candidate": 526
+      }
+    },
+    {
+      "case": 12,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 229,
+          "candidate": 229
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 287,
+          "candidate": 287
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 186,
+          "candidate": 186
+        },
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "baseline": 202,
+          "candidate": 202
+        }
+      ],
+      "mainActions": {
+        "baseline": 490,
+        "candidate": 490
+      }
+    },
+    {
+      "case": 13,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 203,
+          "candidate": 203
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 291,
+          "candidate": 291
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 239,
+          "candidate": 239
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 206,
+          "candidate": 206
+        }
+      ],
+      "mainActions": {
+        "baseline": 526,
+        "candidate": 526
+      }
+    },
+    {
+      "case": 14,
+      "first": {
+        "baseline": {
+          "player": "player-brown",
+          "round": 3,
+          "turn": 4,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 5,
+            "label": "第一排放置位 5",
+            "description": "按从左到右放入第一排第 5 位",
+            "directScoreGain": 0,
+            "score": 12.730496,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.73,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.730496
+            },
+            "breakdown": {
+              "existingScore": 12.73,
+              "gain": 12.73,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.73
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-brown",
+          "round": 3,
+          "turn": 4,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 12.830496,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 12.880496,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "fangzhou-card2-player-brown-yellow-1",
+                  "score": 27.0305
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 12.83,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.830496
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 12.880496,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "fangzhou-card2-player-brown-yellow-1",
+                  "score": 27.0305
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 12.83,
+              "gain": 12.83,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.83
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 262,
+          "candidate": 223
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 248,
+          "candidate": 239
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "baseline": 238,
+          "candidate": 225
+        },
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "baseline": 194,
+          "candidate": 179
+        }
+      ],
+      "mainActions": {
+        "baseline": 541,
+        "candidate": 507
+      }
+    },
+    {
+      "case": 15,
+      "first": {
+        "baseline": {
+          "player": "player-green",
+          "round": 2,
+          "turn": 4,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 2,
+            "label": "第一排放置位 2",
+            "description": "按从左到右放入第一排第 2 位，额外获得 1 宣传",
+            "directScoreGain": 0,
+            "score": 17.2777676,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 17.278,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 17.278
+            },
+            "breakdown": {
+              "existingScore": 17.278,
+              "gain": 17.278,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 17.278
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 2,
+          "turn": 4,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 能量",
+            "directScoreGain": 0,
+            "score": 17.3277676,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 0,
+                  "energy": 1
+                },
+                "computerSlot": 2,
+                "scoreFloor": 17.377767600000002,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 25.566053733607994
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 17.328,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 17.328
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 0,
+                  "energy": 1
+                },
+                "computerSlot": 2,
+                "scoreFloor": 17.377767600000002,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 25.566053733607994
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 17.328,
+              "gain": 17.328,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 17.328
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 264,
+          "candidate": 284
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 185,
+          "candidate": 189
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "baseline": 204,
+          "candidate": 218
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 198,
+          "candidate": 237
+        }
+      ],
+      "mainActions": {
+        "baseline": 502,
+        "candidate": 504
+      }
+    },
+    {
+      "case": 16,
+      "first": {
+        "baseline": {
+          "player": "player-green",
+          "round": 3,
+          "turn": 2,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 3,
+            "label": "第一排放置位 3",
+            "description": "按从左到右放入第一排第 3 位",
+            "directScoreGain": 0,
+            "score": 10.844878000000001,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 10.845,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 10.845
+            },
+            "breakdown": {
+              "existingScore": 10.845,
+              "gain": 10.845,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 10.845
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 3,
+          "turn": 2,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 10.894878,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 3,
+                "scoreFloor": 10.944878000000001,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "card-122-0",
+                  "score": 20.785800000000002
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 10.895,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 10.895
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 3,
+                "scoreFloor": 10.944878000000001,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "card-122-0",
+                  "score": 20.785800000000002
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 10.895,
+              "gain": 10.895,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 10.895
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 181,
+          "candidate": 181
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 239,
+          "candidate": 239
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 243,
+          "candidate": 243
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 234,
+          "candidate": 234
+        }
+      ],
+      "mainActions": {
+        "baseline": 516,
+        "candidate": 516
+      }
+    },
+    {
+      "case": 17,
+      "first": {
+        "baseline": {
+          "player": "player-blue",
+          "round": 2,
+          "turn": 6,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 2,
+            "label": "第一排放置位 2",
+            "description": "按从左到右放入第一排第 2 位，额外获得 1 宣传",
+            "directScoreGain": 0,
+            "score": 16.8631376,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 16.863,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 16.8631376
+            },
+            "breakdown": {
+              "existingScore": 16.863,
+              "gain": 16.863,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 16.863
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-blue",
+          "round": 2,
+          "turn": 6,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 能量",
+            "directScoreGain": 0,
+            "score": 16.913137600000002,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 0,
+                  "energy": 1
+                },
+                "computerSlot": 2,
+                "scoreFloor": 16.963137600000003,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 10.894569000000004
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 16.913,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 16.913137600000002
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 0,
+                  "energy": 1
+                },
+                "computerSlot": 2,
+                "scoreFloor": 16.963137600000003,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 10.894569000000004
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 16.913,
+              "gain": 16.913,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 16.913
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 204,
+          "candidate": 219
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 259,
+          "candidate": 208
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 140,
+          "candidate": 186
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 214,
+          "candidate": 260
+        }
+      ],
+      "mainActions": {
+        "baseline": 498,
+        "candidate": 524
+      }
+    },
+    {
+      "case": 18,
+      "first": {
+        "baseline": {
+          "player": "player-brown",
+          "round": 4,
+          "turn": 4,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 5,
+            "label": "第一排放置位 5",
+            "description": "按从左到右放入第一排第 5 位",
+            "directScoreGain": 0,
+            "score": 12.296896,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.297,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.297
+            },
+            "breakdown": {
+              "existingScore": 12.297,
+              "gain": 12.297,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.297
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-brown",
+          "round": 4,
+          "turn": 4,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 12.396896,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 12.446896,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 36.23498452439999
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 12.397,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.397
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 12.446896,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 36.23498452439999
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 12.397,
+              "gain": 12.397,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.397
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 226,
+          "candidate": 221
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 247,
+          "candidate": 249
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 221,
+          "candidate": 228
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 179,
+          "candidate": 178
+        }
+      ],
+      "mainActions": {
+        "baseline": 482,
+        "candidate": 485
+      }
+    },
+    {
+      "case": 19,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 310,
+          "candidate": 310
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 216,
+          "candidate": 216
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "baseline": 277,
+          "candidate": 277
+        },
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "baseline": 186,
+          "candidate": 186
+        }
+      ],
+      "mainActions": {
+        "baseline": 553,
+        "candidate": 553
+      }
+    },
+    {
+      "case": 20,
+      "first": null,
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 224,
+          "candidate": 224
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 238,
+          "candidate": 238
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 270,
+          "candidate": 270
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 259,
+          "candidate": 259
+        }
+      ],
+      "mainActions": {
+        "baseline": 563,
+        "candidate": 563
+      }
+    },
+    {
+      "case": 21,
+      "first": {
+        "baseline": {
+          "player": "player-blue",
+          "round": 4,
+          "turn": 6,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 3,
+            "label": "第一排放置位 3",
+            "description": "按从左到右放入第一排第 3 位",
+            "directScoreGain": 0,
+            "score": 10.619406000000001,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 10.619,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 10.619406000000001
+            },
+            "breakdown": {
+              "existingScore": 10.619,
+              "gain": 10.619,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 10.619
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-blue",
+          "round": 4,
+          "turn": 6,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 10.669406,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 3,
+                "scoreFloor": 10.719406000000001,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "fangzhou-card2-player-blue-blue-4",
+                  "score": 12.830999999999996
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 10.669,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 10.669406
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 3,
+                "scoreFloor": 10.719406000000001,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "fangzhou-card2-player-blue-blue-4",
+                  "score": 12.830999999999996
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 10.669,
+              "gain": 10.669,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 10.669
+            },
+            "selectionAdjustment": {
+              "quickScoreFloor": 0
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "baseline": 218,
+          "candidate": 229
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 300,
+          "candidate": 258
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 216,
+          "candidate": 217
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 177,
+          "candidate": 181
+        }
+      ],
+      "mainActions": {
+        "baseline": 522,
+        "candidate": 520
+      }
+    },
+    {
+      "case": 22,
+      "first": {
+        "baseline": {
+          "player": "player-white",
+          "round": 3,
+          "turn": 9,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 5,
+            "label": "第一排放置位 5",
+            "description": "按从左到右放入第一排第 5 位",
+            "directScoreGain": 0,
+            "score": 12.886592,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 12.887,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.887
+            },
+            "breakdown": {
+              "existingScore": 12.887,
+              "gain": 12.887,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.887
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-white",
+          "round": 3,
+          "turn": 9,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 12.986592,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 13.036592,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "alien-chong-2-9",
+                  "score": 17.640895999999998
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 12.987,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.987
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 5,
+                "scoreFloor": 13.036592,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "alien-chong-2-9",
+                  "score": 17.640895999999998
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 12.987,
+              "gain": 12.987,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 12.987
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 235,
+          "candidate": 205
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 243,
+          "candidate": 292
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 257,
+          "candidate": 275
+        },
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "baseline": 128,
+          "candidate": 154
+        }
+      ],
+      "mainActions": {
+        "baseline": 531,
+        "candidate": 536
+      }
+    },
+    {
+      "case": 23,
+      "first": {
+        "baseline": {
+          "player": "player-green",
+          "round": 2,
+          "turn": 10,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 3,
+            "label": "第一排放置位 3",
+            "description": "按从左到右放入第一排第 3 位",
+            "directScoreGain": 0,
+            "score": 11.288776,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 11.289,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.289
+            },
+            "breakdown": {
+              "existingScore": 11.289,
+              "gain": 11.289,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.289
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 2,
+          "turn": 10,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 11.338776,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 3,
+                "scoreFloor": 11.388776,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "alien-amiba-9-5",
+                  "score": 17.906948836736
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 11.339,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.339
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 3,
+                "scoreFloor": 11.388776,
+                "followup": {
+                  "actionId": "playCard",
+                  "cardInstanceId": "alien-amiba-9-5",
+                  "score": 17.906948836736
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 11.339,
+              "gain": 11.339,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.339
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "baseline": 143,
+          "candidate": 151
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "baseline": 189,
+          "candidate": 176
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 210,
+          "candidate": 226
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 220,
+          "candidate": 224
+        }
+      ],
+      "mainActions": {
+        "baseline": 503,
+        "candidate": 486
+      }
+    },
+    {
+      "case": 24,
+      "first": {
+        "baseline": {
+          "player": "player-blue",
+          "round": 4,
+          "turn": 6,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "computer",
+            "blueSlot": null,
+            "placementSlot": 2,
+            "label": "第一排放置位 2",
+            "description": "按从左到右放入第一排第 2 位，额外获得 1 宣传",
+            "directScoreGain": 0,
+            "score": 11.100702000000002,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 11.101,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.101
+            },
+            "breakdown": {
+              "existingScore": 11.101,
+              "gain": 11.101,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.101
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-blue",
+          "round": 4,
+          "turn": 6,
+          "action": {
+            "id": "placeData",
+            "kind": "quick",
+            "available": true,
+            "target": "blueBonus",
+            "blueSlot": 1,
+            "placementSlot": null,
+            "label": "第一列第二行",
+            "description": "放入第一列第二行，额外获得 1 信用点",
+            "directScoreGain": 0,
+            "score": 11.150702,
+            "valueBreakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 2,
+                "scoreFloor": 11.200702000000001,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 33.505452398
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              }
+            },
+            "actionGraph": {
+              "gain": 11.151,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.151
+            },
+            "breakdown": {
+              "finalHighScoreDataCreditPreserve": null,
+              "blueDataResourceBridge": {
+                "gain": {
+                  "credits": 1,
+                  "energy": 0
+                },
+                "computerSlot": 2,
+                "scoreFloor": 11.200702000000001,
+                "followup": {
+                  "actionId": "scan",
+                  "score": 33.505452398
+                },
+                "scope": "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action."
+              },
+              "existingScore": 11.151,
+              "gain": 11.151,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 0,
+              "feasibility": 1,
+              "net": 11.151
+            }
+          }
+        }
+      },
+      "seatScores": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 245,
+          "candidate": 254
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 180,
+          "candidate": 180
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 222,
+          "candidate": 222
+        },
+        {
+          "player": "player-white",
+          "company": "寰宇超动力",
+          "baseline": 218,
+          "candidate": 218
+        }
+      ],
+      "mainActions": {
+        "baseline": 504,
+        "candidate": 498
+      }
+    }
+  ]
+}

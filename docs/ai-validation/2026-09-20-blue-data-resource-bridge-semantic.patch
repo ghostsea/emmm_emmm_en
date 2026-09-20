@@ -1,0 +1,157 @@
+diff --git a/randomizer/app/ai-controller.js b/randomizer/app/ai-controller.js
+index 65c6d7d1..a43dab83 100644
+--- a/randomizer/app/ai-controller.js
++++ b/randomizer/app/ai-controller.js
+@@ -20466,6 +20466,57 @@
+       return Math.max(0, aiNumber(getAiFinalHighScoreDataCreditPreserveProfile(choice, player)?.value));
+     }
+ 
++    let aiBlueDataBridgeDepth = 0;
++
++    function getAiBlueDataResourceBridgeProfile(choice, player = getCurrentPlayer()) {
++      if (aiBlueDataBridgeDepth || !player || choice?.target !== data.PLACEMENT_KIND_BLUE_BONUS
++        || aiNumber(player.resources?.availableData) !== 1 || !data.placeDataToComputer) return null;
++      const company = getAiIndustryCard(player)?.label;
++      if (![AI_HUANYU_SUPERDRIVE_INDUSTRY_LABEL, AI_GRAND_STRATEGY_INDUSTRY_LABEL].includes(company)) return null;
++      const computer = (data.listPlaceDataChoices?.(player) || [])
++        .find(option => option.target === data.PLACEMENT_KIND_COMPUTER);
++      if (!computer) return null;
++      const computerBonuses = getAiDataPlacementBonuses(computer, player);
++      // Preserve an immediate income/score choice; this experiment only replaces unpaid progress.
++      if (computerBonuses.some(bonus => bonus.type === "income" || bonus.type === "score")) return null;
++      const researchCost = tech.resolver?.getResearchPublicityCost?.(player) ?? tech.RESEARCH_PUBLICITY_COST ?? 6;
++      const publicityGain = computerBonuses.reduce((sum, bonus) => sum + aiNumber(bonus.publicity), 0);
++      if (publicityGain > 0 && aiNumber(player.resources?.publicity) < researchCost
++        && aiNumber(player.resources?.publicity) + publicityGain >= researchCost) return null;
++      const gain = getAiDataPlacementBonuses(choice, player).reduce((result, bonus) => {
++        for (const key of ["credits", "energy"]) result[key] += Math.max(0, aiNumber(bonus[key]));
++        return result;
++      }, { credits: 0, energy: 0 });
++      if (!(gain.credits || gain.energy)) return null;
++      aiBlueDataBridgeDepth += 1;
++      try {
++        const afterComputer = cloneAiValue(player);
++        if (!data.placeDataToComputer(afterComputer, computer)?.ok || canAiAnalyzeData(afterComputer).ok) return null;
++        const afterPlacement = cloneAiValue(player);
++        if (!data.placeDataToComputer(afterPlacement, choice)?.ok) return null;
++        const supplied = createAiPlayerAfterResourceGain(afterPlacement, gain);
++        const followups = [];
++        if (!scanEffects?.canExecuteScan?.(afterPlacement, { standardAction: true })?.ok
++          && scanEffects?.canExecuteScan?.(supplied, { standardAction: true })?.ok) {
++          const score = scoreAiScanAction(supplied);
++          if (score > 0) followups.push({ actionId: "scan", score });
++        }
++        for (const [handIndex, card] of (supplied.hand || []).entries()) {
++          if (players.canAfford(afterPlacement, getCardPlayCost(card))) continue;
++          const candidate = buildAiPlayCardCandidate(card, handIndex, supplied);
++          if (candidate?.score > 0) followups.push({ actionId: "playCard", cardInstanceId: card.id, score: candidate.score });
++        }
++        if (!followups.length) return null;
++        followups.sort((a, b) => b.score - a.score);
++        return {
++          gain, computerSlot: computer.placementSlot,
++          scoreFloor: scoreAiDataPlacementChoice(computer, player) + (data.listPlaceDataChoices(player).length * 0.05),
++          followup: followups[0],
++          scope: "Last data: real resource payment opens a supported action; computer placement cannot pay for analysis. Future policy may choose another action.",
++        };
++      } finally { aiBlueDataBridgeDepth -= 1; }
++    }
++
+     function scoreAiDataPlacementChoice(choice, player = getCurrentPlayer()) {
+       if (!choice) return -Infinity;
+       const target = choice.target || null;
+@@ -20492,11 +20543,13 @@
+       if (target === data.PLACEMENT_KIND_BLUE_BONUS) {
+         const bonusValue = scoreAiDataPlacementBonusValue(choice, player);
+         const finalHighScoreCreditPreserveValue = scoreAiFinalHighScoreDataCreditPreserveValue(choice, player);
+-        return applyAiStrategyWeight(
++        const baseScore = applyAiStrategyWeight(
+           5 + Math.max(0, aiNumber(choice.blueSlot)) * 0.05 + bonusValue * 0.8,
+           "tech",
+           0.25,
+         ) + finalHighScoreCreditPreserveValue;
++        const bridge = getAiBlueDataResourceBridgeProfile(choice, player);
++        return Math.max(baseScore, bridge?.scoreFloor ?? -Infinity);
+       }
+       return 0;
+     }
+@@ -20507,6 +20560,7 @@
+       return (check.choices || data.listPlaceDataChoices?.(player) || [])
+         .map((choice, index) => {
+           const creditPreserveProfile = getAiFinalHighScoreDataCreditPreserveProfile(choice, player);
++          const blueDataResourceBridge = getAiBlueDataResourceBridgeProfile(choice, player);
+           return {
+             id: "placeData",
+             kind: "quick",
+@@ -20518,8 +20572,9 @@
+             description: choice.description || null,
+             directScoreGain: getAiDataPlacementDirectScoreGain(choice, player),
+             score: scoreAiDataPlacementChoice(choice, player) - index * 0.05,
+-            valueBreakdown: creditPreserveProfile ? {
++            valueBreakdown: creditPreserveProfile || blueDataResourceBridge ? {
+               finalHighScoreDataCreditPreserve: creditPreserveProfile,
++              blueDataResourceBridge,
+             } : null,
+           };
+         })
+@@ -26725,6 +26780,7 @@
+       configureDefaultAiOpponent,
+       createAiControlSnapshot,
+       estimateAiJiuzheCardCompletionFactor,
++      getAiBlueDataResourceBridgeProfile,
+       getAiEarlyDirectScorePlayPassFloor,
+       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
+       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
+diff --git a/randomizer/app/ai-controller.test.js b/randomizer/app/ai-controller.test.js
+index f8ec79fe..8976a08f 100644
+--- a/randomizer/app/ai-controller.test.js
++++ b/randomizer/app/ai-controller.test.js
+@@ -17147,3 +17147,35 @@ for (const hasTarget of [true, false]) {
+   if (hasTarget) assert.deepEqual(harness.getHandled(), {type:'play-card',handIndex:0,confirmed:true}, 'zero energy must not block a legal free orbit card');
+   else { assert.equal(result.blocked,true); assert.equal(harness.getHandled(),null,'free cost does not waive the target requirement'); }
+ }
++
++
++// Spend the last data on a real payment bridge, while preserving immediate cashouts.
++{
++ const actualData = require('../game/data');
++ const make = (overrides = {}) => {
++  const h = createAiControllerHarness(null, {
++   currentPlayerColor:'blue', realisticCanAfford:true, scanTargetHidden:true,
++   blueInitialSelection:{industry:{label:overrides.company || '寰宇超动力'}},
++   blueResources:{credits:0,energy:overrides.energy || 0,availableData:1,handSize:1,score:40},
++   blueHand:[{id:'bridge-card',cardId:'test-bridge',price:overrides.price || 1,cardTypeCode:0,playEffects:[{type:'gain_resources',options:{gain:{score:12}}}]}],
++   blueTechState:{ownedTiles:{blue1:true},blueBoardSlots:{blue1:1}},
++   data:actualData,
++  });
++  h.blue.dataState={poolTokens:[{id:'bridge-pool',index:1,slotIndex:1}],placedTokens:Array.from({length:overrides.placed ?? 5},(_,i)=>({id:'bridge-'+i,index:i+2,placementKind:'computer',placementSlot:i+1})),discardedCount:0};
++  actualData.ensurePlayerDataState(h.blue);
++  return h;
++ };
++ const h=make(),before=structuredClone(h.blue);
++ const choice=actualData.listPlaceDataChoices(h.blue).find(c=>c.target==='blueBonus');
++ const profile=h.controller.getAiBlueDataResourceBridgeProfile(choice,h.blue);
++ assert.equal(profile?.followup.actionId,'playCard');
++ assert.equal(profile?.followup.cardInstanceId,'bridge-card');
++ assert.equal(profile?.gain.credits,1);
++ assert.deepEqual(h.blue,before,'both placement simulations must leave real player unchanged');
++ for(const options of [{energy:1},{price:2},{placed:3},{company:'作弊实验室'}]) {
++  const other=make(options),option=actualData.listPlaceDataChoices(other.blue).find(c=>c.target==='blueBonus');
++  assert.equal(other.controller.getAiBlueDataResourceBridgeProfile(option,other.blue),null,JSON.stringify(options));
++ }
++ const grand=make({company:'宇宙大战略集团'});
++ assert(grand.controller.getAiBlueDataResourceBridgeProfile(actualData.listPlaceDataChoices(grand.blue).find(c=>c.target==='blueBonus'),grand.blue));
++}
+diff --git a/randomizer/index.html b/randomizer/index.html
+index f848d374..6796a462 100644
+--- a/randomizer/index.html
++++ b/randomizer/index.html
+@@ -798,7 +798,7 @@
+   <script src="./app/events.js?v=same-seed-restart-1"></script>
+   <script src="./app/action-log-export.js?v=action-log-export-2"></script>
+   <script src="./app/public-api.js?v=app-boundaries-5"></script>
+-  <script src="./app/ai-controller.js?v=free-card-orbit-20260920"></script>
++  <script src="./app/ai-controller.js?v=blue-data-resource-bridge-20260920"></script>
+   <script src="./app.js?v=fangzhou-card-identity-20260906"></script>
+ </body>
+ </html>
