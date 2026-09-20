@@ -1,0 +1,608 @@
+{
+  "scope": "First changed ordinary action or target signature against parent4d9af796. Prior matching signatures do not prove all hidden state identical. Numerical action scores are retained for diagnosis, not causal score attribution.",
+  "rows": [
+    {
+      "case": 4,
+      "sharedSignatures": 136,
+      "before": {
+        "type": "turn-action",
+        "round": 2,
+        "turn": 2,
+        "company": "寰宇超动力",
+        "resources": {
+          "score": 22,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 10,
+          "availableData": 2,
+          "handSize": 5
+        },
+        "action": {
+          "id": "land",
+          "planetId": "saturn",
+          "score": 53.125699999999995,
+          "directScoreGain": 8,
+          "valueBreakdown": {
+            "directScoreGain": 8
+          }
+        },
+        "candidates": [
+          {
+            "id": "launch",
+            "score": 0,
+            "valueBreakdown": {
+              "launchGain": 0,
+              "launchCost": 0,
+              "launchReservePenalty": 0,
+              "postLaunchMovePlanScore": 0,
+              "lateLaunchPenalty": 0,
+              "rawLateLaunchPenalty": 0,
+              "lateLaunchPenaltyRelief": 0,
+              "grandStrategyFinalLaunchTriggerRouteBridge": null,
+              "extraLaunchPacePenalty": 0,
+              "finalSecondMarkExtraLaunchPenalty": 0,
+              "noRouteLaunchPenalty": 0,
+              "weakEarlyPostLaunchRoutePenalty": 0,
+              "terminalStagingOnlyLaunchPenalty": 0
+            }
+          },
+          {
+            "id": "orbit",
+            "planetId": "saturn",
+            "score": 16.040239999999994,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0
+            }
+          },
+          {
+            "id": "land",
+            "planetId": "saturn",
+            "score": 53.125699999999995,
+            "directScoreGain": 8,
+            "valueBreakdown": {
+              "directScoreGain": 8
+            }
+          },
+          {
+            "id": "researchTech",
+            "score": 45.20192602917139,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "bestTechTileId": "blue1",
+              "bestTechType": "blue",
+              "bestTechBonusId": "bonus_1c"
+            }
+          },
+          {
+            "id": "scan",
+            "score": 0,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanEnergyReservationPenalty": 11,
+              "rawScanEnergyReservationPenalty": 11,
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 42.369600000000005,
+              "weakFinalAnalyzeEnergyCap": null
+            }
+          },
+          {
+            "id": "analyze",
+            "score": 42.369600000000005,
+            "directScoreGain": 6,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 42.369600000000005,
+              "rawScore": 37.83,
+              "weightedScore": 42.369600000000005,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 4,
+              "availableData": 2,
+              "energyCost": 1,
+              "directScoreGain": 6,
+              "currentScore": 22,
+              "finalMarkCount": 0,
+              "nextFinalScoreThreshold": 25,
+              "scoreToNextThreshold": 3,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 6,
+              "thresholdCashoutPressure": 7,
+              "readyAnalyzeWindowValue": 16,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 1.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            }
+          },
+          {
+            "id": "playCard",
+            "cardId": "b_131.webp",
+            "score": 15.558037653258944,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 0,
+              "finalUnreadyTaskSetupSuppressed": false
+            }
+          },
+          {
+            "id": "pass",
+            "score": -22.2
+          }
+        ]
+      },
+      "after": {
+        "type": "turn-action",
+        "round": 2,
+        "turn": 2,
+        "company": "寰宇超动力",
+        "resources": {
+          "score": 22,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 10,
+          "availableData": 2,
+          "handSize": 5
+        },
+        "action": {
+          "id": "orbit",
+          "planetId": "venus",
+          "rocketId": 8,
+          "score": 90.02096666666665,
+          "directScoreGain": 9,
+          "valueBreakdown": {
+            "directScoreGain": 9
+          }
+        },
+        "candidates": [
+          {
+            "id": "launch",
+            "score": 0,
+            "valueBreakdown": {
+              "launchGain": 0,
+              "launchCost": 0,
+              "launchReservePenalty": 0,
+              "postLaunchMovePlanScore": 0,
+              "lateLaunchPenalty": 0,
+              "rawLateLaunchPenalty": 0,
+              "lateLaunchPenaltyRelief": 0,
+              "grandStrategyFinalLaunchTriggerRouteBridge": null,
+              "extraLaunchPacePenalty": 0,
+              "finalSecondMarkExtraLaunchPenalty": 0,
+              "noRouteLaunchPenalty": 0,
+              "weakEarlyPostLaunchRoutePenalty": 0,
+              "terminalStagingOnlyLaunchPenalty": 0
+            }
+          },
+          {
+            "id": "orbit",
+            "planetId": "venus",
+            "rocketId": 8,
+            "score": 90.02096666666665,
+            "directScoreGain": 9,
+            "valueBreakdown": {
+              "directScoreGain": 9
+            }
+          },
+          {
+            "id": "land",
+            "planetId": "saturn",
+            "score": 53.125699999999995,
+            "directScoreGain": 8,
+            "valueBreakdown": {
+              "directScoreGain": 8
+            }
+          },
+          {
+            "id": "researchTech",
+            "score": 45.20192602917139,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "bestTechTileId": "blue1",
+              "bestTechType": "blue",
+              "bestTechBonusId": "bonus_1c"
+            }
+          },
+          {
+            "id": "scan",
+            "score": 0,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanEnergyReservationPenalty": 11,
+              "rawScanEnergyReservationPenalty": 11,
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 42.369600000000005,
+              "weakFinalAnalyzeEnergyCap": null
+            }
+          },
+          {
+            "id": "analyze",
+            "score": 42.369600000000005,
+            "directScoreGain": 6,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 42.369600000000005,
+              "rawScore": 37.83,
+              "weightedScore": 42.369600000000005,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 4,
+              "availableData": 2,
+              "energyCost": 1,
+              "directScoreGain": 6,
+              "currentScore": 22,
+              "finalMarkCount": 0,
+              "nextFinalScoreThreshold": 25,
+              "scoreToNextThreshold": 3,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 6,
+              "thresholdCashoutPressure": 7,
+              "readyAnalyzeWindowValue": 16,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 1.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            }
+          },
+          {
+            "id": "playCard",
+            "cardId": "b_131.webp",
+            "score": 15.558037653258944,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 0,
+              "finalUnreadyTaskSetupSuppressed": false
+            }
+          },
+          {
+            "id": "pass",
+            "score": -22.2
+          }
+        ]
+      }
+    },
+    {
+      "case": 19,
+      "sharedSignatures": 155,
+      "before": {
+        "type": "turn-action",
+        "round": 2,
+        "turn": 3,
+        "company": "寰宇超动力",
+        "resources": {
+          "score": 18,
+          "credits": 6,
+          "energy": 1,
+          "publicity": 10,
+          "availableData": 1,
+          "handSize": 3
+        },
+        "action": {
+          "id": "analyze",
+          "score": 41.6528,
+          "directScoreGain": 3,
+          "valueBreakdown": {
+            "available": true,
+            "reason": null,
+            "score": 41.6528,
+            "rawScore": 37.19,
+            "weightedScore": 41.6528,
+            "scoreCapReason": null,
+            "placedCount": 6,
+            "requiredSlot": 6,
+            "dataRoom": 5,
+            "availableData": 1,
+            "energyCost": 1,
+            "directScoreGain": 3,
+            "currentScore": 18,
+            "finalMarkCount": 0,
+            "nextFinalScoreThreshold": 25,
+            "scoreToNextThreshold": 7,
+            "blueTraceDemand": 0,
+            "analyzeBestBlueTraceScore": 3,
+            "thresholdCashoutPressure": 3.6,
+            "readyAnalyzeWindowValue": 14.810000000000002,
+            "lateFullDataAnalyzeRecovery": 0,
+            "lowResourceReadyAnalyzeCashout": 0,
+            "firstThresholdCatchupBonus": 0,
+            "fullComputerBonus": 8,
+            "lateRoundPressure": 1.5,
+            "highScorePushValue": 0,
+            "lowEngineCatchupValue": 0,
+            "postSecondFinalMarkPenalty": 0,
+            "hasBlueTraceFinalFormula": false
+          }
+        },
+        "candidates": [
+          {
+            "id": "launch",
+            "score": 0,
+            "valueBreakdown": {
+              "launchGain": 0,
+              "launchCost": 0,
+              "launchReservePenalty": 0,
+              "postLaunchMovePlanScore": 0,
+              "lateLaunchPenalty": 0,
+              "rawLateLaunchPenalty": 0,
+              "lateLaunchPenaltyRelief": 0,
+              "grandStrategyFinalLaunchTriggerRouteBridge": null,
+              "extraLaunchPacePenalty": 0,
+              "finalSecondMarkExtraLaunchPenalty": 0,
+              "noRouteLaunchPenalty": 0,
+              "weakEarlyPostLaunchRoutePenalty": 0,
+              "terminalStagingOnlyLaunchPenalty": 0
+            }
+          },
+          {
+            "id": "orbit",
+            "planetId": "jupiter",
+            "score": 16.292496,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0
+            }
+          },
+          {
+            "id": "land",
+            "planetId": null,
+            "score": 0,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0
+            }
+          },
+          {
+            "id": "researchTech",
+            "score": 43.12728651878919,
+            "directScoreGain": 3,
+            "valueBreakdown": {
+              "directScoreGain": 3,
+              "bestTechTileId": "orange2",
+              "bestTechType": "orange",
+              "bestTechBonusId": "bonus_3f"
+            }
+          },
+          {
+            "id": "scan",
+            "score": 0,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanEnergyReservationPenalty": 0,
+              "rawScanEnergyReservationPenalty": 0,
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 41.6528,
+              "weakFinalAnalyzeEnergyCap": null
+            }
+          },
+          {
+            "id": "analyze",
+            "score": 41.6528,
+            "directScoreGain": 3,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 41.6528,
+              "rawScore": 37.19,
+              "weightedScore": 41.6528,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 5,
+              "availableData": 1,
+              "energyCost": 1,
+              "directScoreGain": 3,
+              "currentScore": 18,
+              "finalMarkCount": 0,
+              "nextFinalScoreThreshold": 25,
+              "scoreToNextThreshold": 7,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 3,
+              "thresholdCashoutPressure": 3.6,
+              "readyAnalyzeWindowValue": 14.810000000000002,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 1.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            }
+          },
+          {
+            "id": "playCard",
+            "cardId": "dlc_31.png",
+            "score": 35.003683895399995,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 0,
+              "finalUnreadyTaskSetupSuppressed": false
+            }
+          },
+          {
+            "id": "pass",
+            "score": -22.2
+          }
+        ]
+      },
+      "after": {
+        "type": "turn-action",
+        "round": 2,
+        "turn": 3,
+        "company": "寰宇超动力",
+        "resources": {
+          "score": 18,
+          "credits": 6,
+          "energy": 1,
+          "publicity": 10,
+          "availableData": 1,
+          "handSize": 3
+        },
+        "action": {
+          "id": "orbit",
+          "planetId": "saturn",
+          "rocketId": 8,
+          "score": 45.905156,
+          "directScoreGain": 3,
+          "valueBreakdown": {
+            "directScoreGain": 3
+          }
+        },
+        "candidates": [
+          {
+            "id": "launch",
+            "score": 0,
+            "valueBreakdown": {
+              "launchGain": 0,
+              "launchCost": 0,
+              "launchReservePenalty": 0,
+              "postLaunchMovePlanScore": 0,
+              "lateLaunchPenalty": 0,
+              "rawLateLaunchPenalty": 0,
+              "lateLaunchPenaltyRelief": 0,
+              "grandStrategyFinalLaunchTriggerRouteBridge": null,
+              "extraLaunchPacePenalty": 0,
+              "finalSecondMarkExtraLaunchPenalty": 0,
+              "noRouteLaunchPenalty": 0,
+              "weakEarlyPostLaunchRoutePenalty": 0,
+              "terminalStagingOnlyLaunchPenalty": 0
+            }
+          },
+          {
+            "id": "orbit",
+            "planetId": "saturn",
+            "rocketId": 8,
+            "score": 45.905156,
+            "directScoreGain": 3,
+            "valueBreakdown": {
+              "directScoreGain": 3
+            }
+          },
+          {
+            "id": "land",
+            "planetId": null,
+            "score": 0,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0
+            }
+          },
+          {
+            "id": "researchTech",
+            "score": 43.12728651878919,
+            "directScoreGain": 3,
+            "valueBreakdown": {
+              "directScoreGain": 3,
+              "bestTechTileId": "orange2",
+              "bestTechType": "orange",
+              "bestTechBonusId": "bonus_3f"
+            }
+          },
+          {
+            "id": "scan",
+            "score": 0,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanEnergyReservationPenalty": 0,
+              "rawScanEnergyReservationPenalty": 0,
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 41.6528,
+              "weakFinalAnalyzeEnergyCap": null
+            }
+          },
+          {
+            "id": "analyze",
+            "score": 41.6528,
+            "directScoreGain": 3,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 41.6528,
+              "rawScore": 37.19,
+              "weightedScore": 41.6528,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 5,
+              "availableData": 1,
+              "energyCost": 1,
+              "directScoreGain": 3,
+              "currentScore": 18,
+              "finalMarkCount": 0,
+              "nextFinalScoreThreshold": 25,
+              "scoreToNextThreshold": 7,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 3,
+              "thresholdCashoutPressure": 3.6,
+              "readyAnalyzeWindowValue": 14.810000000000002,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 1.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            }
+          },
+          {
+            "id": "playCard",
+            "cardId": "dlc_31.png",
+            "score": 35.003683895399995,
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "c2Type3ProgressValue": 0,
+              "cFinalTaskProgressValue": 0,
+              "endGameExpectedScore": 0,
+              "playCardConversionPressure": 0,
+              "finalUnreadyTaskSetupSuppressed": false
+            }
+          },
+          {
+            "id": "pass",
+            "score": -22.2
+          }
+        ]
+      }
+    }
+  ]
+}
