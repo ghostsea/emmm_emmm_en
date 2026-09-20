@@ -17147,3 +17147,30 @@ for (const hasTarget of [true, false]) {
   if (hasTarget) assert.deepEqual(harness.getHandled(), {type:'play-card',handIndex:0,confirmed:true}, 'zero energy must not block a legal free orbit card');
   else { assert.equal(result.blocked,true); assert.equal(harness.getHandled(),null,'free cost does not waive the target requirement'); }
 }
+
+
+// The company pick stays available unless the next real policy choice is that play.
+{
+ const held={id:'strategy-selected-held',cardId:'strategy-selected-held',cardTypeCode:0,price:1,scanActionCode:0,playEffects:[{type:'gain_resources',options:{gain:{score:12}}}]};
+ const opts={currentPlayerColor:'blue',roundNumber:2,canStartMainAction:true,realisticCanAfford:true,industry:industryModule,
+  blueInitialSelection:{industry:{id:'industry:宇宙大战略集团',label:'宇宙大战略集团'}},blueResources:{credits:2,energy:0,score:10,handSize:1},blueHand:[held],
+  chooseTurnAction:cs=>cs.find(c=>c.id==='scan'&&c.available!==false)||cs.find(c=>c.id==='playCard'&&c.available!==false)||cs[0],
+ };
+ const h=createAiControllerHarness(null,opts);
+ const company={id:'industry',abilityId:'strategy_pick_card',valueBreakdown:{industryPublicPick:{bestCard:{playScore:1}}}};
+ const play={id:'playCard',kind:'main',cardInstanceId:held.id,score:20,available:true};
+ const before=JSON.stringify(h.blue),order=h.controller.getAiStrategySelectedPlayOrder(company,[company,play],h.blue);
+ assert.equal(order?.action,play,'return original candidate so execution retry can reject it');
+ assert.equal(order?.profile.reward.slotId,'yellow');
+ assert.equal(JSON.stringify(h.blue),before,'ordering must not play or clear reward slots');
+ assert.equal(h.controller.getAiStrategySelectedPlayOrder(company,[company,play,{id:'scan',available:true}],h.blue),null,'having a good card is insufficient if actual policy would scan');
+ opts.pendingActionExecuted=true;
+ assert.equal(h.controller.getAiStrategySelectedPlayOrder(company,[company,play],h.blue),null,'after any main action the pick cannot be postponed by a remaining hand card');
+ opts.pendingActionExecuted=false;
+ h.blue.industryStrategyPassiveSlots={yellow:true,red:true,blue:true};
+ assert.equal(h.controller.getAiStrategySelectedPlayOrder(company,[company,play],h.blue),null,'occupied reward slots should be cleared now');
+ h.blue.industryStrategyPassiveSlots={};h.blue.resources.credits=0;
+ assert.equal(h.controller.getAiStrategySelectedPlayOrder(company,[company,play],h.blue),null,'must still afford the selected card');
+ h.blue.resources.credits=2;company.valueBreakdown.industryPublicPick.bestCard.playScore=1000;
+ assert.equal(h.controller.getAiStrategySelectedPlayOrder(company,[company,play],h.blue),null,'preserve an immediately stronger public card');
+}

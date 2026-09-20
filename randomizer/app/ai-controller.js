@@ -25379,6 +25379,37 @@
       };
     }
 
+    function getAiStrategySelectedPlayOrder(selected, candidates, player = getCurrentPlayer()) {
+      if (!player || selected?.id !== "industry" || selected.abilityId !== "strategy_pick_card"
+        || state.pendingActionExecuted || !canStartMainAction()
+        || !industry?.hasGrandStrategyRoundStart?.(player)
+        || (turnState.passedPlayerIds || []).includes(player.id)) return null;
+      const publicCard = selected.valueBreakdown?.industryPublicPick?.bestCard;
+      if (!publicCard) return null;
+      // Use the actual adjusted policy choice, including quick actions, rather than
+      // merely finding a good hand card that might never be played this round.
+      const alternative = ai?.policy?.chooseTurnAction?.(candidates.filter(candidate => candidate !== selected), {
+        playerState, turnState, currentPlayer: player,
+      });
+      if (alternative?.id !== "playCard" || alternative.available === false || alternative.score <= 0) return null;
+      const card = (player.hand || []).find(card => card.id === alternative.cardInstanceId);
+      if (!card) return null;
+      const reward = getAiStrategyPassiveRewardBundleForCard(card, player);
+      if (!reward || scoreAiStrategyPassiveSlotChoice(reward.slotId, player) <= 0) return null;
+      const comparable = buildAiPlayCardCandidate(card, -1, player);
+      const playScore = aiNumber(comparable?.score);
+      if (!comparable || playScore <= 0 || playScore < Math.max(0, aiNumber(publicCard.playScore))) return null;
+      return {
+        action: alternative,
+        profile: {
+          cardInstanceId: card.id, cardId: card.cardId || card.id,
+          reward, playScore, publicCard,
+          occupiedSlots: summarizeAiStrategyPassiveSlots(player)?.occupiedSlotIds || [],
+          scope: "Play the policy-selected held card now before using the company pick. Never suppress the company candidate; reconsider after the main action or any failed execution.",
+        },
+      };
+    }
+
     function runAiTurnActionDecision() {
       const currentPlayer = getCurrentPlayer();
       if (!isAiAutoBattlePlayer(currentPlayer?.id)) {
@@ -25431,7 +25462,7 @@
       const maxAttempts = Math.max(1, candidates.length);
 
       for (let attempt = 0; attempt < maxAttempts; attempt += 1) {
-        const action = ai?.policy?.chooseTurnAction?.(selectableCandidates, {
+        let action = ai?.policy?.chooseTurnAction?.(selectableCandidates, {
           playerState,
           turnState,
           currentPlayer,
@@ -25459,6 +25490,14 @@
             message: rejectedActions.length ? "AI 候选均执行失败" : "AI 没有可执行行动",
             candidates: selectableCandidates,
             rejectedActions,
+          };
+        }
+        const strategyOrder = getAiStrategySelectedPlayOrder(action, selectableCandidates, currentPlayer);
+        if (strategyOrder) {
+          action = strategyOrder.action;
+          action.selectionAdjustment = {
+            ...(action.selectionAdjustment || {}),
+            strategySelectedPlayBeforePick: strategyOrder.profile,
           };
         }
         const resourceLockTradePreviews = action.id === "pass"
@@ -26725,6 +26764,7 @@
       configureDefaultAiOpponent,
       createAiControlSnapshot,
       estimateAiJiuzheCardCompletionFactor,
+      getAiStrategySelectedPlayOrder,
       getAiEarlyDirectScorePlayPassFloor,
       getAiGrandStrategyFinalLaunchTriggerRouteBridgeProfile,
       getAiHuanyuRoundOneScanBeforePaidMoveProfile,
