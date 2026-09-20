@@ -13786,10 +13786,12 @@
 
     function getAiBestLandDirectScoreGain(planetId, choices = [], player = getCurrentPlayer()) {
       const selected = chooseAiLandChoice(choices || [], player)?.choice || null;
-      if (selected) return getAiLandDirectScoreGainForTarget(planetId, selected.target, player);
+      if (selected) return getAiLandDirectScoreGainForTarget(
+        getAiCardLandChoicePlanetId(selected, planetId), selected.target, player,
+      );
       return (choices || []).reduce((best, choice) => Math.max(
         best,
-        getAiLandDirectScoreGainForTarget(planetId, choice.target, player),
+        getAiLandDirectScoreGainForTarget(getAiCardLandChoicePlanetId(choice, planetId), choice.target, player),
       ), getAiLandDirectScoreGainForTarget(planetId, { type: "planet" }, player));
     }
 
@@ -26712,6 +26714,7 @@
     }
 
     return {
+      getAiBestLandDirectScoreGain,
       getAiIntendedPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,

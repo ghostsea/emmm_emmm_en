@@ -17123,3 +17123,18 @@ runAsyncControllerTests()
  }
  assert.equal(h.controller.getAiIntendedPlayCardCandidate([card],h.blue,[event,{...event,action:{id:'end-turn'}}]),null,'later action invalidates old intent');
 }
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue',
+    planetRewards: {
+      EFFECT_TYPES: {}, buildOrbitRewardEffects: () => [],
+      buildPlanetLandRewardEffects: (planetId) => [{ type: 'gain_resources', options: { gain: { score: planetId === 'mars' ? 6 : planetId === 'venus' ? 3 : 0 } } }],
+    },
+  });
+  const choice = { planetId: 'mars', planet: { planetId: 'mars' }, target: { type: 'planet', rocketId: 1 }, energyCost: 2 };
+  const value = harness.controller.getAiBestLandDirectScoreGain('multi-land', [choice, { ...choice, target: { type: 'planet', rocketId: 2 } }], harness.blue);
+  assert.equal(value, 6, 'two Mars probes must value the chosen Mars reward, not the multi-land UI placeholder');
+  assert.equal(harness.controller.getAiBestLandDirectScoreGain('venus', [choice], harness.blue), 6, 'selected planet identity takes precedence over a stale group ID');
+  assert.equal(harness.controller.getAiBestLandDirectScoreGain('venus', [], harness.blue), 3, 'no-choice fallback retains the specified planet');
+}
