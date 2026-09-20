@@ -1,0 +1,119 @@
+{
+  "before": {
+    "scope": "Controlled fourth-round research fixture with an existing yichangdian3 trigger card. Observe whether new b80 setup is still incorrectly preordered for the same event.",
+    "decision": {
+      "id": 32,
+      "action": "playCard",
+      "card": "b_80.webp",
+      "profile": {
+        "cardId": "b_80.webp",
+        "cardInstanceId": "card-67-0",
+        "followupAction": "researchTech",
+        "followupCardInstanceId": null,
+        "followupCost": {
+          "publicity": 6
+        },
+        "resourcesAfterSetup": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 0,
+          "score": 30
+        },
+        "resourcesAfterBothPayments": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 0,
+          "score": 30
+        },
+        "triggerIds": [
+          "b80-blue-tech-pick",
+          "b80-orange-tech-energy",
+          "b80-purple-tech-publicity"
+        ],
+        "rewardValue": 1.5,
+        "originalSetupScore": 27.879200000000004,
+        "displacedRank": 73.345,
+        "orderingMargin": 1.5
+      }
+    },
+    "before": {
+      "credits": 3,
+      "energy": 3,
+      "publicity": 7,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 1,
+      "handSize": 1,
+      "score": 30
+    },
+    "after": {
+      "credits": 2,
+      "energy": 3,
+      "publicity": 7,
+      "availableData": 3,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 1,
+      "handSize": 0,
+      "score": 30
+    },
+    "reserved": [
+      {
+        "id": "alien-yichangdian-3-999",
+        "cardId": "yichangdian_3.webp",
+        "consumed": []
+      },
+      {
+        "id": "card-67-0",
+        "cardId": "b_80.webp",
+        "consumed": []
+      }
+    ],
+    "bugs": []
+  },
+  "after": {
+    "scope": "Controlled fourth-round research fixture with an existing yichangdian3 trigger card. Observe whether new b80 setup is still incorrectly preordered for the same event.",
+    "decision": {
+      "id": 32,
+      "action": "researchTech"
+    },
+    "before": {
+      "credits": 3,
+      "energy": 3,
+      "publicity": 7,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 30
+    },
+    "after": {
+      "credits": 3,
+      "energy": 4,
+      "publicity": 2,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 32
+    },
+    "reserved": [
+      {
+        "id": "alien-yichangdian-3-999",
+        "cardId": "yichangdian_3.webp",
+        "consumed": [
+          "y3-tech-energy"
+        ]
+      }
+    ],
+    "bugs": []
+  },
+  "negativeControl": "Previous 200b helper fails existing first-match competition assertion. New version passes54 tests; actual prior y3 slot is consumed in browser."
+}

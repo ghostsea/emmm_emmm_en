@@ -1,0 +1,135 @@
+{
+  "decision": "held-no-fresh-validation",
+  "sourceCommit": "200b6d9ecbe1d1cdb8b4ac67f473a3dbb92a6614",
+  "pairs": 24,
+  "meanDelta": -1.3541666666666572,
+  "pairedGameStandardError": 1.6284743145027396,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 252.625,
+      "meanDelta": 1.0416666666666572,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 184.54166666666666,
+      "meanDelta": -3.5,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 205.04166666666666,
+      "meanDelta": -4,
+      "minimumDelta": 8
+    }
+  },
+  "distribution": {
+    "mean": -1.3541666666666572,
+    "min": 0,
+    "p10": -9.5,
+    "p25": -9.25,
+    "median": -2.5,
+    "p75": -0.75,
+    "max": 0,
+    "topQuartileMean": 3.8333333333333144,
+    "winnerMean": 2.375,
+    "minimumPerGameMean": -1.8333333333333144,
+    "seats270Plus": 2,
+    "seats300Plus": 2
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 272.2083333333333,
+    "meanDelta": -3.7916666666666665,
+    "improved": 7,
+    "declined": 9,
+    "unchanged": 8
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 163.95833333333334,
+    "meanDelta": -2.4166666666666665,
+    "improved": 2,
+    "declined": 8,
+    "unchanged": 14
+  },
+  "highestBaselineSeat": {
+    "case": 5,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 328,
+    "candidate": 328,
+    "delta": 0
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1144,
+  "continuation": {
+    "setups": 15,
+    "firstActionMatches": 10,
+    "firstActionMatchingReceipt": 9,
+    "laterMatchingReceipt": 14,
+    "passedNext": 0,
+    "companies": {
+      "宇宙大战略集团": {
+        "setups": 8,
+        "firstActionMatches": 5,
+        "firstActionMatchingReceipt": 4,
+        "laterMatchingReceipt": 7,
+        "passedNext": 0
+      },
+      "作弊实验室": {
+        "setups": 5,
+        "firstActionMatches": 3,
+        "firstActionMatchingReceipt": 3,
+        "laterMatchingReceipt": 5,
+        "passedNext": 0
+      },
+      "寰宇超动力": {
+        "setups": 2,
+        "firstActionMatches": 2,
+        "firstActionMatchingReceipt": 2,
+        "laterMatchingReceipt": 2,
+        "passedNext": 0
+      }
+    },
+    "cards": {
+      "b_120.webp": {
+        "setups": 9,
+        "firstActionMatches": 5,
+        "firstActionMatchingReceipt": 5,
+        "laterMatchingReceipt": 9,
+        "passedNext": 0
+      },
+      "b_80.webp": {
+        "setups": 2,
+        "firstActionMatches": 2,
+        "firstActionMatchingReceipt": 1,
+        "laterMatchingReceipt": 1,
+        "passedNext": 0
+      },
+      "b_97.webp": {
+        "setups": 3,
+        "firstActionMatches": 2,
+        "firstActionMatchingReceipt": 2,
+        "laterMatchingReceipt": 3,
+        "passedNext": 0
+      },
+      "yichangdian_3.webp": {
+        "setups": 1,
+        "firstActionMatches": 1,
+        "firstActionMatchingReceipt": 1,
+        "laterMatchingReceipt": 1,
+        "passedNext": 0
+      }
+    },
+    "issues": []
+  },
+  "limitations": "Setup order frequently produces later matching trigger text but mean and low companies decline. Case2 b80 after setup then research loses its trigger to earlier Runezu3; projected new-card-only matches ignore single-choice competition. Separate correction must include existing reserved cards. Case15 setup occurs at140 vs forced early diagnostic54 and cannot inherit that positive result."
+}

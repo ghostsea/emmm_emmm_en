@@ -1,0 +1,739 @@
+{
+  "scope": "Existing runtime evidence: b80 setup1357, research1395, event picks prior Runezu3 at1398 instead of b80. New-card-only projected reward is not additional income.",
+  "sourceCommit": "200b6d9ecbe1d1cdb8b4ac67f473a3dbb92a6614",
+  "profile": {
+    "case": 2,
+    "player": "player-brown",
+    "company": "宇宙大战略集团",
+    "round": 4,
+    "log": 1357,
+    "profile": {
+      "cardId": "b_80.webp",
+      "cardInstanceId": "card-125-0",
+      "followupAction": "researchTech",
+      "followupCardInstanceId": null,
+      "followupCost": {
+        "publicity": 6
+      },
+      "resourcesAfterSetup": {
+        "credits": 3,
+        "energy": 1,
+        "publicity": 7,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 130
+      },
+      "resourcesAfterBothPayments": {
+        "credits": 3,
+        "energy": 1,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 130
+      },
+      "triggerIds": [
+        "b80-blue-tech-pick",
+        "b80-orange-tech-energy",
+        "b80-purple-tech-publicity"
+      ],
+      "rewardValue": 1.5,
+      "originalSetupScore": 11.105599999999997,
+      "displacedRank": 97.392,
+      "orderingMargin": 1.5
+    },
+    "selectedInstanceMatches": true,
+    "intendedCardMatched": true,
+    "paid": true,
+    "paymentEntry": 160,
+    "nextMain": {
+      "log": 1395,
+      "round": 4,
+      "turn": 4,
+      "id": "researchTech"
+    },
+    "firstActionMatches": true,
+    "nextActionReceipt": [],
+    "laterMatchingReceipt": []
+  },
+  "logs": [
+    {
+      "id": 1357,
+      "type": "turn-action",
+      "message": "棕色AI 执行 playCard"
+    },
+    {
+      "id": 1358,
+      "type": "play-card",
+      "message": "棕色AI 选择打出 NASA研究中心"
+    },
+    {
+      "id": 1359,
+      "type": "effect",
+      "message": "AI 处理效果：宇宙战略集团：蓝色奖励槽"
+    },
+    {
+      "id": 1360,
+      "type": "turn-action",
+      "message": "棕色AI 执行 placeData"
+    },
+    {
+      "id": 1361,
+      "type": "turn-action",
+      "message": "棕色AI 执行 end-turn"
+    },
+    {
+      "id": 1395,
+      "type": "turn-action",
+      "message": "棕色AI 执行 researchTech"
+    },
+    {
+      "id": 1396,
+      "type": "tech-placement",
+      "message": "棕色AI 选择科技 purple1",
+      "details": {
+        "selected": {
+          "tileId": "purple1",
+          "techType": "purple",
+          "stackIndex": 1,
+          "bonusId": "bonus_1c",
+          "firstTake": false,
+          "remaining": 1,
+          "available": true,
+          "reason": null,
+          "plan": {
+            "type": "tech-synergy",
+            "mainActionId": "researchTech",
+            "actionId": "scan",
+            "label": "紫1提升扫描公共牌能力",
+            "score": 2.24212,
+            "tileId": "purple1",
+            "techType": "purple"
+          },
+          "score": 58.9530104956,
+          "finalFormulaDeltas": {
+            "d1": 1,
+            "d2": 0.35
+          },
+          "directScoreGain": 0,
+          "valueBreakdown": {
+            "lateTechCatchupValue": 5.6,
+            "lowTechCatchupValue": 7.1,
+            "huanyuOrange2FutureMoveValue": 0,
+            "huanyuRoundOneBlue1CreditEngine": null,
+            "grandStrategyEarlyBlueResourceValue": 0,
+            "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+            "grandStrategyFinalBlue1CreditBridge": null,
+            "huanyuRoundTwoBlue4PublicityBridge": null,
+            "finalHuanyuBlue1AnalyzeRefuel": null,
+            "finalHuanyuBlue2DelayedEnergySubstitution": null,
+            "finalHuanyuPurple4Cashout": null,
+            "finalHuanyuUncashableTechPick": null,
+            "grandStrategyFinalStrandedEnergyCashout": null,
+            "blueResourceClosure": null
+          }
+        },
+        "candidates": [
+          {
+            "tileId": "blue4",
+            "techType": "blue",
+            "stackIndex": 4,
+            "bonusId": "bonus_1m",
+            "firstTake": false,
+            "remaining": 2,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "engine",
+              "label": "蓝科补强数据/分析引擎",
+              "score": 0.7114079999999999,
+              "tileId": "blue4",
+              "techType": "blue"
+            },
+            "score": 34.81690006704,
+            "finalFormulaDeltas": {
+              "d1": 0,
+              "d2": 0.35
+            },
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 3.6,
+              "lowTechCatchupValue": 5.7,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueResourceClosure": {
+                "candidateKind": "blue-tech",
+                "companyId": "industry:宇宙大战略集团",
+                "revealedAlienIds": [
+                  "符文族",
+                  "阿米巴"
+                ],
+                "projectedBlueSlot": 4,
+                "requiredComputerSlot": 6,
+                "placedComputerData": 6,
+                "availableData": 0,
+                "incomeDataPerRound": 1,
+                "remainingIncomePayouts": 0,
+                "projectedAdditionalData": 0,
+                "projectedAnalysisEnergy": 1,
+                "reward": {
+                  "type": "publicity",
+                  "publicity": 2
+                },
+                "resourceGain": {
+                  "publicity": 2
+                },
+                "expectedTriggerCount": 0,
+                "securedTriggerCount": 0,
+                "throughputTriggerCount": 0,
+                "triggerUpperBound": 1,
+                "currentTriggerDataCost": 1,
+                "firstRepeatTriggerDataCost": 7,
+                "steadyRepeatTriggerDataCost": 7,
+                "knownDataBudget": 0,
+                "completedDataCycles": 3,
+                "remainingCycleWindows": 1,
+                "canAnalyzeRepeatCycle": true,
+                "remainingMainActionWindows": 1,
+                "unlockedActions": [],
+                "playableCardDelta": 0,
+                "fullDataCycleDelta": 0,
+                "planetCashoutValue": 0,
+                "perTriggerContinuationValue": 0,
+                "expectedContinuationValue": 0,
+                "sharedOpportunityPenalty": null,
+                "displacedValue": null
+              }
+            }
+          },
+          {
+            "tileId": "orange3",
+            "techType": "orange",
+            "stackIndex": 3,
+            "bonusId": "bonus_1c",
+            "firstTake": false,
+            "remaining": 2,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "land",
+              "label": "橙3降低登陆能量成本",
+              "score": 1.3068,
+              "tileId": "orange3",
+              "techType": "orange"
+            },
+            "score": 44.67117730399999,
+            "finalFormulaDeltas": {
+              "d1": 0,
+              "d2": 0.35
+            },
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 3.6,
+              "lowTechCatchupValue": 5.7,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueResourceClosure": null
+            }
+          },
+          {
+            "tileId": "purple1",
+            "techType": "purple",
+            "stackIndex": 1,
+            "bonusId": "bonus_1c",
+            "firstTake": false,
+            "remaining": 1,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "scan",
+              "label": "紫1提升扫描公共牌能力",
+              "score": 2.24212,
+              "tileId": "purple1",
+              "techType": "purple"
+            },
+            "score": 58.9530104956,
+            "finalFormulaDeltas": {
+              "d1": 1,
+              "d2": 0.35
+            },
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 5.6,
+              "lowTechCatchupValue": 7.1,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueResourceClosure": null
+            }
+          },
+          {
+            "tileId": "purple3",
+            "techType": "purple",
+            "stackIndex": 3,
+            "bonusId": "bonus_1c",
+            "firstTake": false,
+            "remaining": 1,
+            "available": true,
+            "reason": null,
+            "plan": {
+              "type": "tech-synergy",
+              "mainActionId": "researchTech",
+              "actionId": "scan",
+              "label": "紫科支持扫描路线",
+              "score": 2.24212,
+              "tileId": "purple3",
+              "techType": "purple"
+            },
+            "score": 56.4115104956,
+            "finalFormulaDeltas": {
+              "d1": 1,
+              "d2": 0.35
+            },
+            "directScoreGain": 0,
+            "valueBreakdown": {
+              "lateTechCatchupValue": 5.6,
+              "lowTechCatchupValue": 7.1,
+              "huanyuOrange2FutureMoveValue": 0,
+              "huanyuRoundOneBlue1CreditEngine": null,
+              "grandStrategyEarlyBlueResourceValue": 0,
+              "grandStrategyRoundTwoFirstBlue1CreditBridge": null,
+              "grandStrategyFinalBlue1CreditBridge": null,
+              "huanyuRoundTwoBlue4PublicityBridge": null,
+              "finalHuanyuBlue1AnalyzeRefuel": null,
+              "finalHuanyuBlue2DelayedEnergySubstitution": null,
+              "finalHuanyuPurple4Cashout": null,
+              "finalHuanyuUncashableTechPick": null,
+              "grandStrategyFinalStrandedEnergyCashout": null,
+              "blueResourceClosure": null
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": 1397,
+      "type": "effect",
+      "message": "AI 处理效果：获得科技片：purple1"
+    },
+    {
+      "id": 1398,
+      "type": "card-trigger",
+      "message": "棕色AI 选择卡牌触发 符文族3：粉紫科技，符文1奖励",
+      "details": {
+        "selectedIndex": 0,
+        "cardLabel": "3",
+        "effectType": "runezu_symbol_reward",
+        "optionCount": 2
+      }
+    },
+    {
+      "id": 1399,
+      "type": "effect",
+      "message": "AI 处理效果：符文族3：粉紫科技，符文1奖励"
+    },
+    {
+      "id": 1400,
+      "type": "effect",
+      "message": "AI 处理效果：旋转"
+    },
+    {
+      "id": 1401,
+      "type": "effect",
+      "message": "AI 处理效果：获取精选 1 张牌"
+    },
+    {
+      "id": 1402,
+      "type": "pick-card",
+      "message": "棕色AI 精选公共牌 1"
+    },
+    {
+      "id": 1403,
+      "type": "effect",
+      "message": "AI 处理效果：获得 2 个数据"
+    },
+    {
+      "id": 1404,
+      "type": "turn-action",
+      "message": "棕色AI 执行 placeData"
+    },
+    {
+      "id": 1405,
+      "type": "pick-card",
+      "message": "棕色AI 精选公共牌 1"
+    },
+    {
+      "id": 1406,
+      "type": "turn-action",
+      "message": "棕色AI 执行 placeData"
+    },
+    {
+      "id": 1407,
+      "type": "turn-action",
+      "message": "棕色AI 执行 end-turn"
+    }
+  ],
+  "resourceEvents": [
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 160,
+      "stepIndex": 0,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 3,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "打出：NASA研究中心：资源：信用点-1、手牌-1",
+      "resourceDeltas": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "card-125-0",
+          "label": "NASA研究中心",
+          "change": "play",
+          "origin": "normal"
+        }
+      ],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 160,
+      "stepIndex": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 3,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "industry",
+      "sourceDetail": "宇宙战略集团：蓝色奖励槽：+1 数据",
+      "resourceDeltas": {
+        "availableData": 1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 160,
+      "stepIndex": 2,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 3,
+      "pace": "quick",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "放置数据",
+      "resourceDeltas": {
+        "availableData": -1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": true,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 0,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "main",
+      "mainActionType": "researchTech",
+      "sourceCategory": "tech_bonus_other",
+      "sourceDetail": "科技行动：请选择要研究的科技板块",
+      "resourceDeltas": {},
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "main",
+      "mainActionType": "researchTech",
+      "sourceCategory": "tech_bonus_other",
+      "sourceDetail": "选择科技：purple1",
+      "resourceDeltas": {},
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [
+        "purple1"
+      ],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 2,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "main",
+      "mainActionType": "researchTech",
+      "sourceCategory": "tech_bonus_other",
+      "sourceDetail": "获得科技片：purple1：获得科技：purple1",
+      "resourceDeltas": {},
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 3,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "main",
+      "mainActionType": "researchTech",
+      "sourceCategory": "alien",
+      "sourceDetail": "符文族3：粉紫科技，符文1奖励：符文族3：粉紫科技，符文1奖励 符文1(黑圈3)：1信用点",
+      "resourceDeltas": {
+        "credits": 1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": "符文族",
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 4,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "main",
+      "mainActionType": "researchTech",
+      "sourceCategory": "tech_bonus_other",
+      "sourceDetail": "旋转：太阳系旋转：R134随盘旋转->[5,2]#4；R206随盘旋转->[4,1]#4；R248随盘旋转->[4,1]#0",
+      "resourceDeltas": {},
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 5,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "main",
+      "mainActionType": "researchTech",
+      "sourceCategory": "card",
+      "sourceDetail": "获取精选 1 张牌：获得卡牌：加阜大氢谱线望远锐，公共区已补牌：观测比邻星；获取奖励：精选 1 张牌",
+      "resourceDeltas": {},
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 6,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "main",
+      "mainActionType": "researchTech",
+      "sourceCategory": "tech_bonus_other",
+      "sourceDetail": "获得 2 个数据：棕色获得 2/2 个数据；资源：数据+2",
+      "resourceDeltas": {
+        "availableData": 2
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 7,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "quick",
+      "mainActionType": "researchTech",
+      "sourceCategory": "card",
+      "sourceDetail": "放置数据：获得卡牌：观测比邻星，公共区已补牌：可重复使用火箭",
+      "resourceDeltas": {
+        "availableData": -1
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": true,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 8,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "quick",
+      "mainActionType": "researchTech",
+      "sourceCategory": "tech_bonus_other",
+      "sourceDetail": "放置数据：资源：信用点+1",
+      "resourceDeltas": {
+        "credits": 1,
+        "availableData": -1,
+        "handSize": 2
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "card-155-0",
+          "label": "card-155-0",
+          "change": "gain",
+          "origin": "normal"
+        },
+        {
+          "key": "card-158-0",
+          "label": "card-158-0",
+          "change": "gain",
+          "origin": "normal"
+        }
+      ],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": true,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:09678562cbfb1ac42b5e21a4",
+      "entryId": 164,
+      "stepIndex": 9007199254740989,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 236,
+      "roundNumber": 4,
+      "turnNumber": 4,
+      "pace": "main",
+      "sourceCategory": "cost",
+      "sourceDetail": "research tech snapshot cost",
+      "resourceDeltas": {
+        "publicity": -6
+      },
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "confidence": 1,
+      "syntheticResearchCost": true
+    }
+  ]
+}
