@@ -17391,6 +17391,14 @@
         .sort((left, right) => aiNumber(right.score) - aiNumber(left.score))[0] || null;
     }
 
+    function getAiOrbitChoicePreview(check, player = getCurrentPlayer()) {
+      if (!check?.ok) return null;
+      const choices = check.choices?.length ? check.choices : (
+        check.planet?.planetId ? [{ planet: check.planet, planetId: check.planet.planetId }] : []
+      );
+      return chooseAiLandChoice(choices.map(choice => ({ ...choice, actionType: "orbit" })), player)?.choice || null;
+    }
+
     function scoreAiOrbitAction(candidate) {
       if (!candidate?.available) return 0;
       const demand = getAiStrategyDemand(getCurrentPlayer());
@@ -23289,13 +23297,15 @@
       };
       candidates.push(launchCandidate);
       const orbitCheck = actions.canExecute("orbit", context);
+      const orbitChoice = getAiOrbitChoicePreview(orbitCheck, currentPlayer);
       const orbitCandidate = {
         id: "orbit",
         kind: "main",
         available: orbitCheck.ok,
         reason: orbitCheck.message || null,
-        planetId: orbitCheck.planet?.planetId || null,
-        planetName: orbitCheck.planet?.name || null,
+        planetId: orbitChoice?.planetId || orbitChoice?.planet?.planetId || orbitCheck.planet?.planetId || null,
+        planetName: orbitChoice?.planet?.name || orbitCheck.planet?.name || null,
+        rocketId: orbitChoice?.rocketId ?? null,
         finalMarkCashoutIncluded: true,
       };
       orbitCandidate.directScoreGain = orbitCheck.ok
@@ -26712,6 +26722,7 @@
     }
 
     return {
+      getAiOrbitChoicePreview,
       getAiIntendedPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,

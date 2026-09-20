@@ -17164,3 +17164,17 @@ for (const [kind, actionType, expected] of [['normal', 'orbit', 0], ['orbit', un
   h.controller.runAiAutomationStep();
   assert.deepEqual(h.getHandled(),{type:'land-target',selectedIndex:expected},'shared picker must rank the rewards of its actual travel action');
 }
+
+{
+  const h=createAiControllerHarness(null,{
+    currentPlayerColor:'blue',
+    planetRewards:{EFFECT_TYPES:{GAIN_RESOURCES:'gain_resources'},buildOrbitRewardEffects:id=>[{type:'gain_resources',options:{gain:{score:id==='venus'?20:0}}}]},
+  });
+  const mars={planetId:'mars',planet:{planetId:'mars',name:'Mars'},rocketId:1};
+  const venus={planetId:'venus',planet:{planetId:'venus',name:'Venus'},rocketId:2};
+  const selected=h.controller.getAiOrbitChoicePreview({ok:true,planet:mars.planet,choices:[mars,venus]},h.blue);
+  assert.equal(selected.planetId,'venus','normal orbit must preview the target the picker ranks highest, not the first placement');
+  assert.equal(selected.rocketId,2,'target identity preserves the actual probe');
+  assert.equal(h.controller.getAiOrbitChoicePreview({ok:false,choices:[venus]},h.blue),null,'unavailable orbit has no preview');
+  assert.equal(h.controller.getAiOrbitChoicePreview({ok:true,planet:mars.planet},h.blue).planetId,'mars','legacy single target check remains supported');
+}
