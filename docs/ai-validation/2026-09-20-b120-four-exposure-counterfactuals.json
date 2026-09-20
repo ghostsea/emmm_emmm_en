@@ -1,0 +1,510 @@
+{
+  "scope": "All four distinct b120 instances exposed as actual play candidates in fixed24. Each separate counterfactual forces one first legal play and resumes unchanged c0a7 policy. Not a deployable policy or unseen validation. Late cases retained; no selection by outcome.",
+  "cases": 4,
+  "allGamesBugCount": 0,
+  "case15ReplaySemanticLogs": 1718,
+  "sourceCommit": "c0a7f8e41dff7cb015f6fb2317d1850cdbeae4e2",
+  "meanOwnDelta": 1.75,
+  "meanTableDelta": 2.0625,
+  "results": [
+    {
+      "case": 6,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 3,
+      "interventionLog": 834,
+      "matchingPrefixLogs": 833,
+      "resources": {
+        "credits": 1,
+        "energy": 7,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 72
+      },
+      "hand": [
+        {
+          "id": "b_31.webp",
+          "price": 3
+        },
+        {
+          "id": "dlc_8.png",
+          "price": 3
+        },
+        {
+          "id": "b_102.webp",
+          "price": 2
+        },
+        {
+          "id": "b_120.webp",
+          "price": 1
+        },
+        {
+          "id": "b_117.webp",
+          "price": 3
+        }
+      ],
+      "displacedAction": "scan",
+      "displacedScore": 34.073520654818395,
+      "originalCardScore": 8.987594999999997,
+      "payment": {
+        "gameId": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+        "entryId": 100,
+        "stepIndex": 0,
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "finalScore": 248,
+        "roundNumber": 3,
+        "turnNumber": 4,
+        "pace": "main",
+        "mainActionType": "playCard",
+        "sourceCategory": "card",
+        "sourceDetail": "打出：战略规划：资源：信用点-1、手牌-1",
+        "resourceDeltas": {
+          "credits": -1,
+          "handSize": -1
+        },
+        "incomeDeltas": {},
+        "cards": [
+          {
+            "key": "card-121-0",
+            "label": "战略规划",
+            "change": "play",
+            "origin": "normal"
+          }
+        ],
+        "techIds": [],
+        "alienId": null,
+        "industryId": "作弊实验室",
+        "isDataPlacement": false,
+        "confidence": 1
+      },
+      "rewards": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:deba464147520c426c26e127",
+          "entryId": 137,
+          "stepIndex": 1,
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "finalScore": 248,
+          "roundNumber": 4,
+          "turnNumber": 1,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "卡牌触发：打出3费牌：2宣传",
+          "resourceDeltas": {},
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "作弊实验室",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ],
+      "seatRows": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 256,
+          "counterfactual": 248,
+          "delta": -8
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 174,
+          "counterfactual": 129,
+          "delta": -45
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 276,
+          "counterfactual": 291,
+          "delta": 15
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 168,
+          "counterfactual": 172,
+          "delta": 4
+        }
+      ],
+      "ownDelta": -8,
+      "meanDelta": -8.5
+    },
+    {
+      "case": 10,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "round": 4,
+      "interventionLog": 1480,
+      "matchingPrefixLogs": 1479,
+      "resources": {
+        "credits": 3,
+        "energy": 0,
+        "publicity": 2,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 142
+      },
+      "hand": [
+        {
+          "id": "b_120.webp",
+          "price": 1
+        }
+      ],
+      "displacedAction": "move",
+      "displacedScore": 8.540349811982338,
+      "originalCardScore": 2.2712499999999993,
+      "payment": {
+        "gameId": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+        "entryId": 171,
+        "stepIndex": 1,
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "finalScore": 256,
+        "roundNumber": 4,
+        "turnNumber": 9,
+        "pace": "main",
+        "mainActionType": "playCard",
+        "sourceCategory": "card",
+        "sourceDetail": "打出：战略规划：资源：信用点-1、手牌-1",
+        "resourceDeltas": {
+          "credits": -1,
+          "handSize": -1
+        },
+        "incomeDeltas": {},
+        "cards": [
+          {
+            "key": "card-160-0",
+            "label": "战略规划",
+            "change": "play",
+            "origin": "normal"
+          }
+        ],
+        "techIds": [],
+        "alienId": null,
+        "industryId": "作弊实验室",
+        "isDataPlacement": false,
+        "confidence": 1
+      },
+      "rewards": [],
+      "seatRows": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 260,
+          "counterfactual": 256,
+          "delta": -4
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 230,
+          "counterfactual": 235,
+          "delta": 5
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 264,
+          "counterfactual": 261,
+          "delta": -3
+        },
+        {
+          "player": "player-white",
+          "company": "宇宙大战略集团",
+          "baseline": 237,
+          "counterfactual": 237,
+          "delta": 0
+        }
+      ],
+      "ownDelta": -4,
+      "meanDelta": -0.5
+    },
+    {
+      "case": 15,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "interventionLog": 54,
+      "matchingPrefixLogs": 53,
+      "resources": {
+        "credits": 6,
+        "energy": 3,
+        "publicity": 7,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 5,
+        "score": 8
+      },
+      "hand": [
+        {
+          "id": "b_116.webp",
+          "price": 2
+        },
+        {
+          "id": "b_32.webp",
+          "price": 1
+        },
+        {
+          "id": "b_120.webp",
+          "price": 1
+        },
+        {
+          "id": "b_56.webp",
+          "price": 3
+        },
+        {
+          "id": "dlc_17.png",
+          "price": 0
+        }
+      ],
+      "displacedAction": "researchTech",
+      "displacedScore": 50.02616185670791,
+      "originalCardScore": 1.9245250000000007,
+      "payment": {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "entryId": 7,
+        "stepIndex": 0,
+        "playerId": "player-brown",
+        "playerLabel": "棕色",
+        "finalScore": 251,
+        "roundNumber": 1,
+        "turnNumber": 1,
+        "pace": "main",
+        "mainActionType": "playCard",
+        "sourceCategory": "card",
+        "sourceDetail": "打出：战略规划：资源：信用点-1、手牌-1",
+        "resourceDeltas": {
+          "credits": -1,
+          "handSize": -1
+        },
+        "incomeDeltas": {},
+        "cards": [
+          {
+            "key": "card-11-0",
+            "label": "战略规划",
+            "change": "play",
+            "origin": "normal"
+          }
+        ],
+        "techIds": [],
+        "alienId": null,
+        "industryId": "宇宙大战略集团",
+        "isDataPlacement": false,
+        "confidence": 1
+      },
+      "rewards": [
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+          "entryId": 19,
+          "stepIndex": 1,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 251,
+          "roundNumber": 1,
+          "turnNumber": 4,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "卡牌触发：打出3费牌：2宣传",
+          "resourceDeltas": {},
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+          "entryId": 23,
+          "stepIndex": 1,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 251,
+          "roundNumber": 1,
+          "turnNumber": 5,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "卡牌触发：打出2费牌：精选1张牌：卡牌触发精选：造500米口径球面射电望远锐",
+          "resourceDeltas": {},
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        },
+        {
+          "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+          "entryId": 29,
+          "stepIndex": 1,
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "finalScore": 251,
+          "roundNumber": 1,
+          "turnNumber": 6,
+          "pace": "quick",
+          "mainActionType": "playCard",
+          "sourceCategory": "card",
+          "sourceDetail": "卡牌触发：打出1费牌：2分：完成任务+1",
+          "resourceDeltas": {},
+          "incomeDeltas": {},
+          "cards": [],
+          "techIds": [],
+          "alienId": null,
+          "industryId": "宇宙大战略集团",
+          "isDataPlacement": false,
+          "confidence": 1
+        }
+      ],
+      "seatRows": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 284,
+          "counterfactual": 330,
+          "delta": 46
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 166,
+          "counterfactual": 191,
+          "delta": 25
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "baseline": 230,
+          "counterfactual": 251,
+          "delta": 21
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 263,
+          "counterfactual": 248,
+          "delta": -15
+        }
+      ],
+      "ownDelta": 21,
+      "meanDelta": 19.25
+    },
+    {
+      "case": 23,
+      "player": "player-white",
+      "company": "作弊实验室",
+      "round": 4,
+      "interventionLog": 1370,
+      "matchingPrefixLogs": 1369,
+      "resources": {
+        "credits": 2,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 141
+      },
+      "hand": [
+        {
+          "id": "b_120.webp",
+          "price": 1
+        },
+        {
+          "id": "b_57.webp",
+          "price": 2
+        },
+        {
+          "id": "b_46.webp",
+          "price": 3
+        }
+      ],
+      "displacedAction": "researchTech",
+      "displacedScore": 78.319152348424,
+      "originalCardScore": 2.2712499999999993,
+      "payment": {
+        "gameId": "codex-ai-slot-first-random-20260906:dfe9aaaf65d0e898ec1985ca",
+        "entryId": 167,
+        "stepIndex": 2,
+        "playerId": "player-white",
+        "playerLabel": "白色",
+        "finalScore": 218,
+        "roundNumber": 4,
+        "turnNumber": 11,
+        "pace": "main",
+        "mainActionType": "playCard",
+        "sourceCategory": "card",
+        "sourceDetail": "打出：战略规划：资源：信用点-1、手牌-1",
+        "resourceDeltas": {
+          "credits": -1,
+          "handSize": -1
+        },
+        "incomeDeltas": {},
+        "cards": [
+          {
+            "key": "card-146-0",
+            "label": "战略规划",
+            "change": "play",
+            "origin": "normal"
+          }
+        ],
+        "techIds": [],
+        "alienId": null,
+        "industryId": "作弊实验室",
+        "isDataPlacement": false,
+        "confidence": 1
+      },
+      "rewards": [],
+      "seatRows": [
+        {
+          "player": "player-blue",
+          "company": "寰宇超动力",
+          "baseline": 143,
+          "counterfactual": 143,
+          "delta": 0
+        },
+        {
+          "player": "player-green",
+          "company": "宇宙大战略集团",
+          "baseline": 189,
+          "counterfactual": 189,
+          "delta": 0
+        },
+        {
+          "player": "player-brown",
+          "company": "作弊实验室",
+          "baseline": 210,
+          "counterfactual": 204,
+          "delta": -6
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 220,
+          "counterfactual": 218,
+          "delta": -2
+        }
+      ],
+      "ownDelta": -2,
+      "meanDelta": -2
+    }
+  ],
+  "interpretation": "Only early case15 completes all3 trigger slots; late6 with1 credit only realizes3-cost publicity next round; late10/23 realize none. Current hand, actual post-play resource budget and remaining action opportunity must determine future trigger value. Do not automatically prioritize b120 or infer all future paid plays will happen. Hand printed prices are not a proof of legal full-sequence payment."
+}

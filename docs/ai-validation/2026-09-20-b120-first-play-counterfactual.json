@@ -1,0 +1,2087 @@
+{
+  "scope": "Single fixed seed diagnostic on c0a7. Force only first available b120 playCard candidate for brown once, then resume unchanged policy. Not an AI policy candidate, not random validation and not a generalizable gain. All semantic AI logs before54 match after timestamp removal.",
+  "sourceCommit": "c0a7f8e41dff7cb015f6fb2317d1850cdbeae4e2",
+  "case": 15,
+  "prefixLogs": 53,
+  "baselineAction": "researchTech",
+  "intervention": {
+    "log": 54,
+    "action": "playCard",
+    "card": "b_120.webp",
+    "instance": "card-11-0",
+    "payment": {
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "entryId": 7,
+      "stepIndex": 0,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "pace": "main",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "打出：战略规划：资源：信用点-1、手牌-1",
+      "resourceDeltas": {
+        "credits": -1,
+        "handSize": -1
+      },
+      "incomeDeltas": {},
+      "cards": [
+        {
+          "key": "card-11-0",
+          "label": "战略规划",
+          "change": "play",
+          "origin": "normal"
+        }
+      ],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    }
+  },
+  "triggerEvents": [
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "entryId": 19,
+      "stepIndex": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 4,
+      "pace": "quick",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "卡牌触发：打出3费牌：2宣传",
+      "resourceDeltas": {},
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "entryId": 23,
+      "stepIndex": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 5,
+      "pace": "quick",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "卡牌触发：打出2费牌：精选1张牌：卡牌触发精选：造500米口径球面射电望远锐",
+      "resourceDeltas": {},
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    },
+    {
+      "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+      "entryId": 29,
+      "stepIndex": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "finalScore": 251,
+      "roundNumber": 1,
+      "turnNumber": 6,
+      "pace": "quick",
+      "mainActionType": "playCard",
+      "sourceCategory": "card",
+      "sourceDetail": "卡牌触发：打出1费牌：2分：完成任务+1",
+      "resourceDeltas": {},
+      "incomeDeltas": {},
+      "cards": [],
+      "techIds": [],
+      "alienId": null,
+      "industryId": "宇宙大战略集团",
+      "isDataPlacement": false,
+      "confidence": 1
+    }
+  ],
+  "rows": [
+    {
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 284,
+      "counterfactual": 330,
+      "delta": 46
+    },
+    {
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "baseline": 166,
+      "counterfactual": 191,
+      "delta": 25
+    },
+    {
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "baseline": 230,
+      "counterfactual": 251,
+      "delta": 21
+    },
+    {
+      "player": "player-white",
+      "company": "作弊实验室",
+      "baseline": 263,
+      "counterfactual": 248,
+      "delta": -15
+    }
+  ],
+  "meanDelta": 19.25,
+  "resourcePlayers": {
+    "baseline": [
+      {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "playerId": "player-green",
+        "playerLabel": "绿色",
+        "finalScore": 166,
+        "industryId": "寰宇超动力",
+        "alienIds": [
+          "九折",
+          "异常点"
+        ],
+        "setupGain": {
+          "score": 5,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 4,
+          "handSize": 4
+        },
+        "grossGain": {
+          "score": 89,
+          "credits": 18,
+          "energy": 25,
+          "publicity": 39,
+          "availableData": 17,
+          "handSize": 25
+        },
+        "incomeGain": {
+          "score": 0,
+          "credits": 14,
+          "energy": 11,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 7
+        },
+        "nonIncomeGain": {
+          "score": 89,
+          "credits": 4,
+          "energy": 14,
+          "publicity": 39,
+          "availableData": 17,
+          "handSize": 18
+        },
+        "spent": {
+          "score": 0,
+          "credits": 19,
+          "energy": 27,
+          "publicity": 41,
+          "availableData": 21,
+          "handSize": 28
+        },
+        "sourceTotals": {
+          "setup": {
+            "score": 5,
+            "credits": 2,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 4,
+            "handSize": 4
+          },
+          "pass_income": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue1": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "score": 14,
+            "credits": 0,
+            "energy": 5,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 2
+          },
+          "industry": {
+            "score": 0,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 12,
+            "availableData": 0,
+            "handSize": 4
+          },
+          "alien": {
+            "score": 3,
+            "credits": 2,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 0,
+            "handSize": 6
+          },
+          "card": {
+            "score": 7,
+            "credits": 1,
+            "energy": 2,
+            "publicity": 11,
+            "availableData": 8,
+            "handSize": 5
+          },
+          "data_placement": {
+            "score": 6,
+            "credits": 0,
+            "energy": 1,
+            "publicity": 2,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "analysis": {
+            "score": 3,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "score": 56,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 9,
+            "availableData": 8,
+            "handSize": 1
+          },
+          "trade_conversion": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 1,
+            "handSize": 0
+          },
+          "settlement": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        },
+        "endingInventory": {
+          "score": 113,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 1,
+          "availableData": 0,
+          "handSize": 1
+        },
+        "balanceResiduals": {},
+        "utilizationRate": {
+          "score": 0,
+          "credits": 0.95,
+          "energy": 1,
+          "publicity": 0.9761904761904762,
+          "availableData": 1,
+          "handSize": 0.9655172413793104
+        },
+        "nonIncomeShare": {
+          "score": 1,
+          "credits": 0.2222222222222222,
+          "energy": 0.56,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.72
+        },
+        "setupGainWeighted": 33,
+        "grossGainWeighted": 268.5,
+        "incomeGainWeighted": 96,
+        "nonIncomeGainWeighted": 172.5,
+        "weightedActionCost": 294.5,
+        "productiveMainActionCount": 26,
+        "mainActionsPerWeightedCost": 0.08828522920203735,
+        "blue1CreditGain": 1,
+        "blue2EnergyGain": 2,
+        "sameRoundReinvestment": {
+          "score": 0,
+          "credits": 3,
+          "energy": 12,
+          "publicity": 29,
+          "availableData": 15,
+          "handSize": 17
+        },
+        "analysisActionCount": 2,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 1,
+        "cardUse": {
+          "gainedInGame": 24,
+          "played": 7,
+          "income": 2,
+          "discarded": 9,
+          "movePayments": 6,
+          "playedFromGains": 7,
+          "incomeFromGains": 0,
+          "discardedFromGains": 7,
+          "movePaymentsFromGains": 4,
+          "alienGainedInGame": 5,
+          "alienPlayedFromGains": 2
+        },
+        "drawToPlayRate": 0.2916666666666667,
+        "incomeCardConversionRate": 0,
+        "alienCardToPlayRate": 0.4
+      },
+      {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "finalScore": 284,
+        "industryId": "作弊实验室",
+        "alienIds": [
+          "九折",
+          "异常点"
+        ],
+        "setupGain": {
+          "score": 9,
+          "credits": 5,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 1,
+          "handSize": 9
+        },
+        "grossGain": {
+          "score": 109,
+          "credits": 24,
+          "energy": 30,
+          "publicity": 42,
+          "availableData": 42,
+          "handSize": 30
+        },
+        "incomeGain": {
+          "score": 0,
+          "credits": 17,
+          "energy": 16,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 14
+        },
+        "nonIncomeGain": {
+          "score": 109,
+          "credits": 7,
+          "energy": 14,
+          "publicity": 42,
+          "availableData": 42,
+          "handSize": 16
+        },
+        "spent": {
+          "score": 0,
+          "credits": 29,
+          "energy": 31,
+          "publicity": 45,
+          "availableData": 43,
+          "handSize": 37
+        },
+        "sourceTotals": {
+          "setup": {
+            "score": 9,
+            "credits": 5,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 1,
+            "handSize": 9
+          },
+          "pass_income": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue1": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "score": 15,
+            "credits": 1,
+            "energy": 3,
+            "publicity": 2,
+            "availableData": 2,
+            "handSize": 1
+          },
+          "industry": {
+            "score": 0,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 4
+          },
+          "alien": {
+            "score": 0,
+            "credits": 3,
+            "energy": 4,
+            "publicity": 3,
+            "availableData": 2,
+            "handSize": 2
+          },
+          "card": {
+            "score": 22,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 17,
+            "availableData": 15,
+            "handSize": 6
+          },
+          "data_placement": {
+            "score": 22,
+            "credits": 2,
+            "energy": 3,
+            "publicity": 4,
+            "availableData": 0,
+            "handSize": 3
+          },
+          "analysis": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "score": 50,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 16,
+            "availableData": 16,
+            "handSize": 0
+          },
+          "trade_conversion": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 7,
+            "handSize": 0
+          },
+          "settlement": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        },
+        "endingInventory": {
+          "score": 163,
+          "credits": 0,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 2
+        },
+        "balanceResiduals": {},
+        "utilizationRate": {
+          "score": 0,
+          "credits": 1,
+          "energy": 0.96875,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.9487179487179487
+        },
+        "nonIncomeShare": {
+          "score": 1,
+          "credits": 0.2916666666666667,
+          "energy": 0.4666666666666667,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.5333333333333333
+        },
+        "setupGainWeighted": 52.5,
+        "grossGainWeighted": 357,
+        "incomeGainWeighted": 141,
+        "nonIncomeGainWeighted": 216,
+        "weightedActionCost": 400.5,
+        "productiveMainActionCount": 38,
+        "mainActionsPerWeightedCost": 0.09488139825218476,
+        "blue1CreditGain": 3,
+        "blue2EnergyGain": 4,
+        "sameRoundReinvestment": {
+          "score": 0,
+          "credits": 7,
+          "energy": 9,
+          "publicity": 39,
+          "availableData": 40,
+          "handSize": 13
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 5,
+        "fullDataCycleCount": 4,
+        "cardUse": {
+          "gainedInGame": 30,
+          "played": 12,
+          "income": 6,
+          "discarded": 9,
+          "movePayments": 6,
+          "playedFromGains": 9,
+          "incomeFromGains": 0,
+          "discardedFromGains": 8,
+          "movePaymentsFromGains": 2,
+          "alienGainedInGame": 1,
+          "alienPlayedFromGains": 0
+        },
+        "drawToPlayRate": 0.3,
+        "incomeCardConversionRate": 0,
+        "alienCardToPlayRate": 0
+      },
+      {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "playerId": "player-brown",
+        "playerLabel": "棕色",
+        "finalScore": 230,
+        "industryId": "宇宙大战略集团",
+        "alienIds": [
+          "九折",
+          "异常点"
+        ],
+        "setupGain": {
+          "score": 8,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 7
+        },
+        "grossGain": {
+          "score": 98,
+          "credits": 30,
+          "energy": 22,
+          "publicity": 43,
+          "availableData": 38,
+          "handSize": 35
+        },
+        "incomeGain": {
+          "score": 0,
+          "credits": 21,
+          "energy": 11,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 15
+        },
+        "nonIncomeGain": {
+          "score": 98,
+          "credits": 9,
+          "energy": 11,
+          "publicity": 43,
+          "availableData": 38,
+          "handSize": 20
+        },
+        "spent": {
+          "score": 0,
+          "credits": 34,
+          "energy": 25,
+          "publicity": 48,
+          "availableData": 38,
+          "handSize": 39
+        },
+        "sourceTotals": {
+          "setup": {
+            "score": 8,
+            "credits": 4,
+            "energy": 3,
+            "publicity": 7,
+            "availableData": 0,
+            "handSize": 7
+          },
+          "pass_income": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue1": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "score": 5,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 1,
+            "availableData": 0,
+            "handSize": 1
+          },
+          "industry": {
+            "score": 0,
+            "credits": 4,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 7,
+            "handSize": 10
+          },
+          "alien": {
+            "score": 0,
+            "credits": 0,
+            "energy": 2,
+            "publicity": 2,
+            "availableData": 1,
+            "handSize": 2
+          },
+          "card": {
+            "score": 26,
+            "credits": 2,
+            "energy": 4,
+            "publicity": 19,
+            "availableData": 20,
+            "handSize": 7
+          },
+          "data_placement": {
+            "score": 14,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "analysis": {
+            "score": 5,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "score": 48,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 12,
+            "availableData": 9,
+            "handSize": 0
+          },
+          "trade_conversion": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 1,
+            "handSize": 0
+          },
+          "settlement": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        },
+        "endingInventory": {
+          "score": 136,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 3
+        },
+        "balanceResiduals": {},
+        "utilizationRate": {
+          "score": 0,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 0.96,
+          "availableData": 1,
+          "handSize": 0.9285714285714286
+        },
+        "nonIncomeShare": {
+          "score": 1,
+          "credits": 0.3,
+          "energy": 0.5,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.5714285714285714
+        },
+        "setupGainWeighted": 49,
+        "grossGainWeighted": 361,
+        "incomeGainWeighted": 141,
+        "nonIncomeGainWeighted": 220,
+        "weightedActionCost": 399,
+        "productiveMainActionCount": 39,
+        "mainActionsPerWeightedCost": 0.09774436090225563,
+        "blue1CreditGain": 3,
+        "blue2EnergyGain": 0,
+        "sameRoundReinvestment": {
+          "score": 0,
+          "credits": 8,
+          "energy": 10,
+          "publicity": 35,
+          "availableData": 37,
+          "handSize": 19
+        },
+        "analysisActionCount": 5,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 4,
+        "cardUse": {
+          "gainedInGame": 32,
+          "played": 16,
+          "income": 5,
+          "discarded": 7,
+          "movePayments": 6,
+          "playedFromGains": 14,
+          "incomeFromGains": 1,
+          "discardedFromGains": 4,
+          "movePaymentsFromGains": 3,
+          "alienGainedInGame": 1,
+          "alienPlayedFromGains": 0
+        },
+        "drawToPlayRate": 0.4375,
+        "incomeCardConversionRate": 0.045454545454545456,
+        "alienCardToPlayRate": 0
+      },
+      {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "playerId": "player-white",
+        "playerLabel": "白色",
+        "finalScore": 263,
+        "industryId": "作弊实验室",
+        "alienIds": [
+          "异常点",
+          "九折"
+        ],
+        "setupGain": {
+          "score": 8,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 10
+        },
+        "grossGain": {
+          "score": 157,
+          "credits": 25,
+          "energy": 25,
+          "publicity": 51,
+          "availableData": 27,
+          "handSize": 28
+        },
+        "incomeGain": {
+          "score": 0,
+          "credits": 20,
+          "energy": 13,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 14
+        },
+        "nonIncomeGain": {
+          "score": 157,
+          "credits": 5,
+          "energy": 12,
+          "publicity": 51,
+          "availableData": 27,
+          "handSize": 14
+        },
+        "spent": {
+          "score": 0,
+          "credits": 26,
+          "energy": 27,
+          "publicity": 44,
+          "availableData": 29,
+          "handSize": 37
+        },
+        "sourceTotals": {
+          "setup": {
+            "score": 8,
+            "credits": 4,
+            "energy": 2,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 10
+          },
+          "pass_income": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue1": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "score": 16,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 3,
+            "availableData": 2,
+            "handSize": 0
+          },
+          "industry": {
+            "score": 0,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 4
+          },
+          "alien": {
+            "score": 0,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 1
+          },
+          "card": {
+            "score": 84,
+            "credits": 0,
+            "energy": 2,
+            "publicity": 25,
+            "availableData": 14,
+            "handSize": 8
+          },
+          "data_placement": {
+            "score": 8,
+            "credits": 1,
+            "energy": 2,
+            "publicity": 9,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "analysis": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "score": 49,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 11,
+            "availableData": 10,
+            "handSize": 1
+          },
+          "trade_conversion": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 1,
+            "handSize": 0
+          },
+          "settlement": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        },
+        "endingInventory": {
+          "score": 185,
+          "credits": 3,
+          "energy": 0,
+          "publicity": 8,
+          "availableData": 0,
+          "handSize": 1
+        },
+        "balanceResiduals": {},
+        "utilizationRate": {
+          "score": 0,
+          "credits": 0.896551724137931,
+          "energy": 1,
+          "publicity": 0.8461538461538461,
+          "availableData": 1,
+          "handSize": 0.9736842105263158
+        },
+        "nonIncomeShare": {
+          "score": 1,
+          "credits": 0.2,
+          "energy": 0.48,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.5
+        },
+        "setupGainWeighted": 52,
+        "grossGainWeighted": 325.5,
+        "incomeGainWeighted": 141,
+        "nonIncomeGainWeighted": 184.5,
+        "weightedActionCost": 357.5,
+        "productiveMainActionCount": 40,
+        "mainActionsPerWeightedCost": 0.11188811188811189,
+        "blue1CreditGain": 2,
+        "blue2EnergyGain": 2,
+        "sameRoundReinvestment": {
+          "score": 0,
+          "credits": 4,
+          "energy": 11,
+          "publicity": 39,
+          "availableData": 27,
+          "handSize": 11
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2,
+        "cardUse": {
+          "gainedInGame": 26,
+          "played": 16,
+          "income": 7,
+          "discarded": 8,
+          "movePayments": 2,
+          "playedFromGains": 14,
+          "incomeFromGains": 3,
+          "discardedFromGains": 5,
+          "movePaymentsFromGains": 0,
+          "alienGainedInGame": 0,
+          "alienPlayedFromGains": 0
+        },
+        "drawToPlayRate": 0.5384615384615384,
+        "incomeCardConversionRate": 0.13636363636363635,
+        "alienCardToPlayRate": null
+      }
+    ],
+    "counterfactual": [
+      {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "playerId": "player-green",
+        "playerLabel": "绿色",
+        "finalScore": 191,
+        "industryId": "寰宇超动力",
+        "alienIds": [
+          "九折",
+          "异常点"
+        ],
+        "setupGain": {
+          "score": 5,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 4,
+          "handSize": 4
+        },
+        "grossGain": {
+          "score": 138,
+          "credits": 17,
+          "energy": 27,
+          "publicity": 61,
+          "availableData": 27,
+          "handSize": 20
+        },
+        "incomeGain": {
+          "score": 0,
+          "credits": 15,
+          "energy": 14,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 7
+        },
+        "nonIncomeGain": {
+          "score": 138,
+          "credits": 2,
+          "energy": 13,
+          "publicity": 61,
+          "availableData": 27,
+          "handSize": 13
+        },
+        "spent": {
+          "score": 0,
+          "credits": 18,
+          "energy": 29,
+          "publicity": 61,
+          "availableData": 31,
+          "handSize": 21
+        },
+        "sourceTotals": {
+          "setup": {
+            "score": 5,
+            "credits": 2,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 4,
+            "handSize": 4
+          },
+          "pass_income": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue1": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "score": 10,
+            "credits": 0,
+            "energy": 4,
+            "publicity": 12,
+            "availableData": 3,
+            "handSize": 1
+          },
+          "industry": {
+            "score": 0,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 9,
+            "availableData": 1,
+            "handSize": 4
+          },
+          "alien": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 2,
+            "handSize": 2
+          },
+          "card": {
+            "score": 25,
+            "credits": 1,
+            "energy": 3,
+            "publicity": 15,
+            "availableData": 7,
+            "handSize": 6
+          },
+          "data_placement": {
+            "score": 8,
+            "credits": 0,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "analysis": {
+            "score": 3,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "score": 92,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 18,
+            "availableData": 14,
+            "handSize": 0
+          },
+          "trade_conversion": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "settlement": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        },
+        "endingInventory": {
+          "score": 154,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 3
+        },
+        "balanceResiduals": {},
+        "utilizationRate": {
+          "score": 0,
+          "credits": 0.9473684210526315,
+          "energy": 1,
+          "publicity": 0.953125,
+          "availableData": 1,
+          "handSize": 0.875
+        },
+        "nonIncomeShare": {
+          "score": 1,
+          "credits": 0.11764705882352941,
+          "energy": 0.48148148148148145,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.65
+        },
+        "setupGainWeighted": 33,
+        "grossGainWeighted": 293.5,
+        "incomeGainWeighted": 108,
+        "nonIncomeGainWeighted": 185.5,
+        "weightedActionCost": 311.5,
+        "productiveMainActionCount": 35,
+        "mainActionsPerWeightedCost": 0.11235955056179775,
+        "blue1CreditGain": 0,
+        "blue2EnergyGain": 4,
+        "sameRoundReinvestment": {
+          "score": 0,
+          "credits": 1,
+          "energy": 13,
+          "publicity": 55,
+          "availableData": 26,
+          "handSize": 11
+        },
+        "analysisActionCount": 4,
+        "dataTurnoverCount": 4,
+        "fullDataCycleCount": 3,
+        "cardUse": {
+          "gainedInGame": 19,
+          "played": 9,
+          "income": 2,
+          "discarded": 3,
+          "movePayments": 0,
+          "playedFromGains": 9,
+          "incomeFromGains": 0,
+          "discardedFromGains": 3,
+          "movePaymentsFromGains": 0,
+          "alienGainedInGame": 1,
+          "alienPlayedFromGains": 1
+        },
+        "drawToPlayRate": 0.47368421052631576,
+        "incomeCardConversionRate": 0,
+        "alienCardToPlayRate": 1
+      },
+      {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "finalScore": 330,
+        "industryId": "作弊实验室",
+        "alienIds": [
+          "异常点",
+          "九折"
+        ],
+        "setupGain": {
+          "score": 9,
+          "credits": 5,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 1,
+          "handSize": 9
+        },
+        "grossGain": {
+          "score": 104,
+          "credits": 26,
+          "energy": 36,
+          "publicity": 59,
+          "availableData": 54,
+          "handSize": 44
+        },
+        "incomeGain": {
+          "score": 0,
+          "credits": 19,
+          "energy": 19,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 17
+        },
+        "nonIncomeGain": {
+          "score": 104,
+          "credits": 7,
+          "energy": 17,
+          "publicity": 59,
+          "availableData": 54,
+          "handSize": 27
+        },
+        "spent": {
+          "score": 0,
+          "credits": 30,
+          "energy": 38,
+          "publicity": 60,
+          "availableData": 55,
+          "handSize": 53
+        },
+        "sourceTotals": {
+          "setup": {
+            "score": 9,
+            "credits": 5,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 1,
+            "handSize": 9
+          },
+          "pass_income": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue1": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "score": 2,
+            "credits": 2,
+            "energy": 5,
+            "publicity": 3,
+            "availableData": 3,
+            "handSize": 2
+          },
+          "industry": {
+            "score": 0,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 4
+          },
+          "alien": {
+            "score": 0,
+            "credits": 1,
+            "energy": 3,
+            "publicity": 4,
+            "availableData": 1,
+            "handSize": 9
+          },
+          "card": {
+            "score": 36,
+            "credits": 1,
+            "energy": 1,
+            "publicity": 29,
+            "availableData": 18,
+            "handSize": 7
+          },
+          "data_placement": {
+            "score": 16,
+            "credits": 2,
+            "energy": 4,
+            "publicity": 7,
+            "availableData": 0,
+            "handSize": 5
+          },
+          "analysis": {
+            "score": 5,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "score": 45,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 15,
+            "availableData": 24,
+            "handSize": 0
+          },
+          "trade_conversion": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 8,
+            "handSize": 0
+          },
+          "settlement": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        },
+        "endingInventory": {
+          "score": 152,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 0
+        },
+        "balanceResiduals": {},
+        "utilizationRate": {
+          "score": 0,
+          "credits": 0.967741935483871,
+          "energy": 1,
+          "publicity": 0.967741935483871,
+          "availableData": 1,
+          "handSize": 1
+        },
+        "nonIncomeShare": {
+          "score": 1,
+          "credits": 0.2692307692307692,
+          "energy": 0.4722222222222222,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.6136363636363636
+        },
+        "setupGainWeighted": 52.5,
+        "grossGainWeighted": 458,
+        "incomeGainWeighted": 165,
+        "nonIncomeGainWeighted": 293,
+        "weightedActionCost": 505.5,
+        "productiveMainActionCount": 52,
+        "mainActionsPerWeightedCost": 0.10286844708209693,
+        "blue1CreditGain": 2,
+        "blue2EnergyGain": 6,
+        "sameRoundReinvestment": {
+          "score": 0,
+          "credits": 7,
+          "energy": 15,
+          "publicity": 56,
+          "availableData": 54,
+          "handSize": 25
+        },
+        "analysisActionCount": 7,
+        "dataTurnoverCount": 7,
+        "fullDataCycleCount": 6,
+        "cardUse": {
+          "gainedInGame": 42,
+          "played": 15,
+          "income": 6,
+          "discarded": 13,
+          "movePayments": 6,
+          "playedFromGains": 12,
+          "incomeFromGains": 0,
+          "discardedFromGains": 11,
+          "movePaymentsFromGains": 4,
+          "alienGainedInGame": 4,
+          "alienPlayedFromGains": 1
+        },
+        "drawToPlayRate": 0.2857142857142857,
+        "incomeCardConversionRate": 0,
+        "alienCardToPlayRate": 0.25
+      },
+      {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "playerId": "player-brown",
+        "playerLabel": "棕色",
+        "finalScore": 251,
+        "industryId": "宇宙大战略集团",
+        "alienIds": [
+          "异常点",
+          "九折"
+        ],
+        "setupGain": {
+          "score": 8,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "handSize": 7
+        },
+        "grossGain": {
+          "score": 104,
+          "credits": 36,
+          "energy": 16,
+          "publicity": 46,
+          "availableData": 27,
+          "handSize": 26
+        },
+        "incomeGain": {
+          "score": 0,
+          "credits": 25,
+          "energy": 6,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 10
+        },
+        "nonIncomeGain": {
+          "score": 104,
+          "credits": 11,
+          "energy": 10,
+          "publicity": 46,
+          "availableData": 27,
+          "handSize": 16
+        },
+        "spent": {
+          "score": 0,
+          "credits": 39,
+          "energy": 19,
+          "publicity": 51,
+          "availableData": 27,
+          "handSize": 32
+        },
+        "sourceTotals": {
+          "setup": {
+            "score": 8,
+            "credits": 4,
+            "energy": 3,
+            "publicity": 7,
+            "availableData": 0,
+            "handSize": 7
+          },
+          "pass_income": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue1": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "score": 13,
+            "credits": 2,
+            "energy": 4,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "industry": {
+            "score": 0,
+            "credits": 5,
+            "energy": 1,
+            "publicity": 11,
+            "availableData": 4,
+            "handSize": 9
+          },
+          "alien": {
+            "score": 0,
+            "credits": 2,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 2
+          },
+          "card": {
+            "score": 40,
+            "credits": 0,
+            "energy": 2,
+            "publicity": 21,
+            "availableData": 15,
+            "handSize": 3
+          },
+          "data_placement": {
+            "score": 8,
+            "credits": 1,
+            "energy": 2,
+            "publicity": 2,
+            "availableData": 0,
+            "handSize": 1
+          },
+          "analysis": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "score": 43,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 7,
+            "availableData": 7,
+            "handSize": 1
+          },
+          "trade_conversion": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 1,
+            "handSize": 0
+          },
+          "settlement": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        },
+        "endingInventory": {
+          "score": 156,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 1
+        },
+        "balanceResiduals": {},
+        "utilizationRate": {
+          "score": 0,
+          "credits": 0.975,
+          "energy": 1,
+          "publicity": 0.9622641509433962,
+          "availableData": 1,
+          "handSize": 0.9696969696969697
+        },
+        "nonIncomeShare": {
+          "score": 1,
+          "credits": 0.3055555555555556,
+          "energy": 0.625,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.6153846153846154
+        },
+        "setupGainWeighted": 49,
+        "grossGainWeighted": 320.5,
+        "incomeGainWeighted": 123,
+        "nonIncomeGainWeighted": 197.5,
+        "weightedActionCost": 361.5,
+        "productiveMainActionCount": 37,
+        "mainActionsPerWeightedCost": 0.10235131396957123,
+        "blue1CreditGain": 2,
+        "blue2EnergyGain": 2,
+        "sameRoundReinvestment": {
+          "score": 0,
+          "credits": 11,
+          "energy": 9,
+          "publicity": 39,
+          "availableData": 25,
+          "handSize": 14
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 2,
+        "fullDataCycleCount": 2,
+        "cardUse": {
+          "gainedInGame": 25,
+          "played": 15,
+          "income": 5,
+          "discarded": 2,
+          "movePayments": 4,
+          "playedFromGains": 12,
+          "incomeFromGains": 1,
+          "discardedFromGains": 1,
+          "movePaymentsFromGains": 4,
+          "alienGainedInGame": 1,
+          "alienPlayedFromGains": 1
+        },
+        "drawToPlayRate": 0.48,
+        "incomeCardConversionRate": 0.05555555555555555,
+        "alienCardToPlayRate": 1
+      },
+      {
+        "gameId": "codex-ai-slot-first-random-20260906:3d58c76e263de4db1355a4e2",
+        "playerId": "player-white",
+        "playerLabel": "白色",
+        "finalScore": 248,
+        "industryId": "作弊实验室",
+        "alienIds": [
+          "九折",
+          "异常点"
+        ],
+        "setupGain": {
+          "score": 8,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 2,
+          "handSize": 10
+        },
+        "grossGain": {
+          "score": 120,
+          "credits": 22,
+          "energy": 25,
+          "publicity": 53,
+          "availableData": 26,
+          "handSize": 25
+        },
+        "incomeGain": {
+          "score": 0,
+          "credits": 17,
+          "energy": 13,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 14
+        },
+        "nonIncomeGain": {
+          "score": 120,
+          "credits": 5,
+          "energy": 12,
+          "publicity": 53,
+          "availableData": 26,
+          "handSize": 11
+        },
+        "spent": {
+          "score": 0,
+          "credits": 26,
+          "energy": 27,
+          "publicity": 45,
+          "availableData": 28,
+          "handSize": 35
+        },
+        "sourceTotals": {
+          "setup": {
+            "score": 8,
+            "credits": 4,
+            "energy": 2,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 10
+          },
+          "pass_income": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "income_upgrade_immediate": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue1": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_blue2": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "tech_bonus_other": {
+            "score": 26,
+            "credits": 0,
+            "energy": 2,
+            "publicity": 6,
+            "availableData": 3,
+            "handSize": 0
+          },
+          "industry": {
+            "score": 0,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 4
+          },
+          "alien": {
+            "score": 0,
+            "credits": 1,
+            "energy": 4,
+            "publicity": 6,
+            "availableData": 1,
+            "handSize": 2
+          },
+          "card": {
+            "score": 16,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 23,
+            "availableData": 11,
+            "handSize": 4
+          },
+          "data_placement": {
+            "score": 12,
+            "credits": 1,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "analysis": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "planet_board": {
+            "score": 66,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 14,
+            "availableData": 9,
+            "handSize": 1
+          },
+          "trade_conversion": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "cost": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 2,
+            "handSize": 0
+          },
+          "settlement": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          },
+          "unclassified": {
+            "score": 0,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0
+          }
+        },
+        "endingInventory": {
+          "score": 164,
+          "credits": 0,
+          "energy": 0,
+          "publicity": 9,
+          "availableData": 0,
+          "handSize": 0
+        },
+        "balanceResiduals": {},
+        "utilizationRate": {
+          "score": 0,
+          "credits": 1,
+          "energy": 1,
+          "publicity": 0.8333333333333334,
+          "availableData": 1,
+          "handSize": 1
+        },
+        "nonIncomeShare": {
+          "score": 1,
+          "credits": 0.22727272727272727,
+          "energy": 0.48,
+          "publicity": 1,
+          "availableData": 1,
+          "handSize": 0.44
+        },
+        "setupGainWeighted": 52,
+        "grossGainWeighted": 308,
+        "incomeGainWeighted": 132,
+        "nonIncomeGainWeighted": 176,
+        "weightedActionCost": 351,
+        "productiveMainActionCount": 36,
+        "mainActionsPerWeightedCost": 0.10256410256410256,
+        "blue1CreditGain": 2,
+        "blue2EnergyGain": 2,
+        "sameRoundReinvestment": {
+          "score": 0,
+          "credits": 5,
+          "energy": 10,
+          "publicity": 38,
+          "availableData": 26,
+          "handSize": 11
+        },
+        "analysisActionCount": 3,
+        "dataTurnoverCount": 3,
+        "fullDataCycleCount": 2,
+        "cardUse": {
+          "gainedInGame": 23,
+          "played": 11,
+          "income": 6,
+          "discarded": 8,
+          "movePayments": 2,
+          "playedFromGains": 10,
+          "incomeFromGains": 0,
+          "discardedFromGains": 5,
+          "movePaymentsFromGains": 1,
+          "alienGainedInGame": 1,
+          "alienPlayedFromGains": 1
+        },
+        "drawToPlayRate": 0.43478260869565216,
+        "incomeCardConversionRate": 0,
+        "alienCardToPlayRate": 1
+      }
+    ]
+  },
+  "limitations": "Observed completed trigger text establishes 2 publicity, a selected card and2 score plus completion; old parser does not assign those event deltas, so do not treat empty resourceDeltas as no reward. Whole-game gain includes timing/opponent/card-draw divergence and cannot all be assigned to the three rewards."
+}

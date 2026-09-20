@@ -1,0 +1,85 @@
+{
+  "scope": "Real browser b72 readiness followed by task picker, automated confirm and reward drain. No extra route is executed.",
+  "readyMars": 0,
+  "completed": [
+    "b72-mars-task"
+  ],
+  "removed": true,
+  "logs": [
+    {
+      "id": 35,
+      "type": "effect",
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "playerId": "player-brown",
+      "playerLabel": "棕色",
+      "playerResources": {
+        "score": 5,
+        "credits": 3,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 4,
+        "handSize": 0
+      },
+      "scoreboard": [
+        {
+          "playerId": "player-blue",
+          "playerLabel": "蓝色",
+          "score": 8,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 2,
+          "handSize": 7,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-green",
+          "playerLabel": "绿色",
+          "score": 7,
+          "credits": 6,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 0,
+          "handSize": 6,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-brown",
+          "playerLabel": "棕色",
+          "score": 5,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 4,
+          "handSize": 0,
+          "reservedCount": 0,
+          "techCount": 0
+        },
+        {
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "score": 7,
+          "credits": 7,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 2,
+          "handSize": 5,
+          "reservedCount": 0,
+          "techCount": 0
+        }
+      ],
+      "message": "AI 处理效果：火星环绕/登陆：4分",
+      "details": {
+        "logPlayerId": "player-brown",
+        "effectId": "b72-mars-score",
+        "effectType": "gain_resources"
+      },
+      "createdAt": "2026-09-20T10:03:41.649Z"
+    }
+  ],
+  "bugs": []
+}

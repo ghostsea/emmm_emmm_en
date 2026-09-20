@@ -1,0 +1,74 @@
+{
+  "decision": "held-no-fresh-validation",
+  "sourceCommit": "8a31e0ac600d2466be993e155ce5e94133cc17a4",
+  "pairs": 24,
+  "meanDelta": -1.3645833333333428,
+  "pairedGameStandardError": 0.9839034172522606,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 250,
+      "meanDelta": -1.5833333333333428,
+      "minimumDelta": -2
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 186.41666666666666,
+      "meanDelta": -1.625,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 208.375,
+      "meanDelta": -0.6666666666666572,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -1.3645833333333428,
+    "min": 0,
+    "p10": -1.5,
+    "p25": -4,
+    "median": 0,
+    "p75": 0,
+    "max": 0,
+    "topQuartileMean": -0.5,
+    "winnerMean": -0.625,
+    "minimumPerGameMean": -0.6666666666666572,
+    "seats270Plus": 0,
+    "seats300Plus": -1
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 275.5,
+    "meanDelta": -0.5,
+    "improved": 0,
+    "declined": 1,
+    "unchanged": 23
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 165.70833333333334,
+    "meanDelta": -0.6666666666666666,
+    "improved": 0,
+    "declined": 1,
+    "unchanged": 23
+  },
+  "highestBaselineSeat": {
+    "case": 5,
+    "player": "player-blue",
+    "company": "作弊实验室",
+    "baseline": 328,
+    "candidate": 328,
+    "delta": 0
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1137,
+  "limitations": "Ready task exclusion is verified by unit negative control and actual browser readiness/collection, but complete fixed development loses mean and all company means. Keep branch isolated. No new random validation or gain claimed."
+}
