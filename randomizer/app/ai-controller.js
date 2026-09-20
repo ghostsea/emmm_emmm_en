@@ -18623,7 +18623,8 @@
             + (b2SectorScanRecoveryValue > 0 ? 3 : 0),
         )
         : 0;
-      const repeatedScanPenalty = Math.max(0, scanCountThisRound) * (getAiRoundNumber() <= 2 ? 7 : 10);
+      // Repeated scans pay the same rules cost. Current reward, data backlog,
+      // and resource reservation determine their marginal value.
       const earlySetupScanBonus = (
         getAiRoundNumber() <= 2
         && scanCountThisRound <= 0
@@ -18660,7 +18661,6 @@
         - costValue * costMultiplier
         - reservePenalty
         - lateResourceDrainPenalty
-        - repeatedScanPenalty
         - fullDataAnalyzeBacklogPenalty
         - adjustedLowCashoutScanPenalty;
     }
