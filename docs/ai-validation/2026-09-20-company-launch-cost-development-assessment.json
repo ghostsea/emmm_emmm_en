@@ -1,0 +1,51 @@
+{
+  "status": "pending-fresh64",
+  "candidate": "9f8c7d08ca908dd2b294c60e83477892bd0cf3f7",
+  "baseline": "23626195a85ceeb4150115918783abde89158532",
+  "delta": {
+    "mean": 5.197916666666657,
+    "min": -4,
+    "p10": 3,
+    "p25": -1,
+    "median": -9,
+    "p75": 7.5,
+    "max": 38,
+    "topQuartileMean": 26.208333333333314,
+    "winnerMean": 15.041666666666686,
+    "minimumPerGameMean": -1.1666666666666572,
+    "seats270Plus": 11,
+    "seats300Plus": 10
+  },
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 264.7708333333333,
+      "meanDelta": 13.187499999999972,
+      "minimumDelta": -16
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 185.04166666666666,
+      "meanDelta": -3,
+      "minimumDelta": 8
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 206.45833333333334,
+      "meanDelta": -2.5833333333333144,
+      "minimumDelta": -14
+    }
+  },
+  "standardError": 4.184842038954686,
+  "checks": {
+    "games": 48,
+    "bugs": 0,
+    "ledgerSeats": 192,
+    "plays": 1132,
+    "unitTestFiles": 53
+  },
+  "scope": "Company-aware cost corrects the existing rule model; same runtime rules both arms. Standard Cheat launch1credit versus old AI2credit. Main actions and nonincome energy increase for Cheat, but weaker companies decline; complete fresh64 required before adoption."
+}

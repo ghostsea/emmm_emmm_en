@@ -1,0 +1,51 @@
+{
+  "status": "held-not-merged",
+  "candidate": "1f5875cb8708c2a5ec36c9f36c56ba8a1dae84d4",
+  "baseline": "23626195a85ceeb4150115918783abde89158532",
+  "delta": {
+    "mean": -1.578125,
+    "min": 0,
+    "p10": -8.599999999999994,
+    "p25": -1,
+    "median": -2.5,
+    "p75": -7.25,
+    "max": 23,
+    "topQuartileMean": 4.5625,
+    "winnerMean": 0.6875,
+    "minimumPerGameMean": -2.0625,
+    "seats270Plus": -1,
+    "seats300Plus": 1
+  },
+  "companies": {
+    "寰宇超动力": {
+      "seats": 16,
+      "baseline": 198.5,
+      "candidate": 196.0625,
+      "meanDelta": -2.4375,
+      "minimumDelta": 0
+    },
+    "作弊实验室": {
+      "seats": 32,
+      "baseline": 261.15625,
+      "candidate": 260.4375,
+      "meanDelta": -0.71875,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 16,
+      "baseline": 220.3125,
+      "candidate": 217.875,
+      "meanDelta": -2.4375,
+      "minimumDelta": -1
+    }
+  },
+  "standardError": 2.8901519883260467,
+  "checks": {
+    "games": 32,
+    "bugs": 0,
+    "ledgerSeats": 128,
+    "plays": 760,
+    "unitTestFiles": 53
+  },
+  "reason": "Only two games show action identity differences. Mean negative with wide paired uncertainty (SE2.89015); not proof of a universally worse model, but no demonstrated mean or low-company improvement. Keep independently inspectable correctness candidate, do not claim +10 or merge as scoring improvement."
+}

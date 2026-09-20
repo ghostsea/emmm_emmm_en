@@ -1,0 +1,171 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "company": {
+        "id": "industry:作弊实验室",
+        "label": "作弊实验室"
+      },
+      "choice": {
+        "id": "launch",
+        "kind": "main",
+        "available": true,
+        "reason": null,
+        "plan": null,
+        "gain": -3,
+        "cost": 20.8,
+        "score": -23.8,
+        "valueBreakdown": {
+          "launchGain": -3,
+          "launchCost": 12,
+          "launchReservePenalty": 8.8,
+          "postLaunchMovePlanScore": 0,
+          "lateLaunchPenalty": 0,
+          "rawLateLaunchPenalty": 0,
+          "lateLaunchPenaltyRelief": 0,
+          "grandStrategyFinalLaunchTriggerRouteBridge": null,
+          "extraLaunchPacePenalty": 0,
+          "finalSecondMarkExtraLaunchPenalty": 0,
+          "noRouteLaunchPenalty": 0,
+          "weakEarlyPostLaunchRoutePenalty": 26,
+          "terminalStagingOnlyLaunchPenalty": 0
+        },
+        "actionGraph": {
+          "gain": -3,
+          "cost": 20.8,
+          "finalMarginal": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": -22.96
+        },
+        "breakdown": {
+          "launchGain": -3,
+          "launchCost": 12,
+          "launchReservePenalty": 8.8,
+          "postLaunchMovePlanScore": 0,
+          "lateLaunchPenalty": 0,
+          "rawLateLaunchPenalty": 0,
+          "lateLaunchPenaltyRelief": 0,
+          "grandStrategyFinalLaunchTriggerRouteBridge": null,
+          "extraLaunchPacePenalty": 0,
+          "finalSecondMarkExtraLaunchPenalty": 0,
+          "noRouteLaunchPenalty": 0,
+          "weakEarlyPostLaunchRoutePenalty": 26,
+          "terminalStagingOnlyLaunchPenalty": 0,
+          "existingScore": -23.8,
+          "gain": -3,
+          "cost": 20.8,
+          "finalMarginal": 0,
+          "finalMarkCashout": 0,
+          "missingFinalMarkPenalty": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": -22.96,
+          "aiStyle": "route",
+          "aiStyleMultiplier": 1.14,
+          "finalFormulaStyleMultiplier": 1,
+          "missingFinalMarkMultiplier": 1,
+          "netBeforeStyle": -23.8
+        }
+      },
+      "first": {
+        "ok": true,
+        "abilityId": "launchProbe",
+        "message": "发射 R3 -> 扇区[5,1]#4，消耗 1信用点",
+        "undoable": true,
+        "commands": [
+          {
+            "label": "发射消耗 1信用点",
+            "describe": "发射消耗 1信用点",
+            "undo": {}
+          },
+          {
+            "label": "发射火箭 R6",
+            "describe": "移除火箭 R6",
+            "undo": {}
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "payload": {
+          "rocket": {
+            "id": 6,
+            "playerId": "player-white",
+            "color": "white",
+            "surface": "solar-board",
+            "planetsReference": null,
+            "sectorX": 5,
+            "sectorY": 2,
+            "slotIndex": 4,
+            "radius": 156.26,
+            "angleDegrees": 157.5,
+            "launchGrid": {
+              "x": 5,
+              "y": 1
+            },
+            "launchSectorCoordinate": {
+              "x": 5,
+              "y": 1
+            },
+            "playerSequence": 3
+          }
+        },
+        "events": [
+          {
+            "type": "launch",
+            "rocketId": 6,
+            "playerId": "player-white",
+            "source": "launch"
+          }
+        ],
+        "rocket": {
+          "id": 6,
+          "playerId": "player-white",
+          "color": "white",
+          "surface": "solar-board",
+          "planetsReference": null,
+          "sectorX": 5,
+          "sectorY": 2,
+          "slotIndex": 4,
+          "radius": 156.26,
+          "angleDegrees": 157.5,
+          "launchGrid": {
+            "x": 5,
+            "y": 1
+          },
+          "launchSectorCoordinate": {
+            "x": 5,
+            "y": 1
+          },
+          "playerSequence": 3
+        }
+      },
+      "beforeMove": {
+        "credits": 0,
+        "energy": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 35
+      },
+      "afterMove": {
+        "credits": 0,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 0,
+        "score": 35
+      },
+      "next": {
+        "ok": true,
+        "message": "移动：选择移动牌弃置，或直接确认消耗 1 能量"
+      },
+      "bugs": []
+    }
+  }
+}
