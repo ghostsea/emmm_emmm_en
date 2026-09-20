@@ -1,0 +1,111 @@
+{
+  "scope": "Current-default fixed24 shared picker logs whose planetId names an orbit context. Counts establish exposure, not misranking frequency or score gain; mixed Pluto and normal options need separate inspection.",
+  "groups": {
+    "card-pluto-orbit": 1,
+    "multi-orbit": 4,
+    "pluto-orbit-choice": 1
+  },
+  "companies": {
+    "宇宙大战略集团": 2,
+    "寰宇超动力": 3,
+    "作弊实验室": 1
+  },
+  "rows": [
+    {
+      "case": 2,
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "turn": 5,
+      "logPlayerId": "player-brown",
+      "optionCount": 2,
+      "planetId": "card-pluto-orbit",
+      "selectedIndex": 0,
+      "selected": {
+        "label": "环绕土星 - 奖励：获得 2 宣传；土星扇区扫描；获得 1 次收入（R131，0）",
+        "target": null,
+        "score": 29.369295
+      }
+    },
+    {
+      "case": 8,
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "turn": 3,
+      "logPlayerId": "player-white",
+      "optionCount": 2,
+      "planetId": "multi-orbit",
+      "selectedIndex": 0,
+      "selected": {
+        "label": "环绕火星 - 奖励：精选 1 张卡牌；火星扇区扫描；获得 1 次收入（R11，1信用点 + 1能量）",
+        "target": null,
+        "score": -0.3539999999999992
+      }
+    },
+    {
+      "case": 14,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "round": 1,
+      "turn": 2,
+      "logPlayerId": "player-white",
+      "optionCount": 2,
+      "planetId": "multi-orbit",
+      "selectedIndex": 0,
+      "selected": {
+        "label": "环绕金星 - 奖励：首次环绕：额外获得 3 分；获得 6 分；获得 1 次收入（R2，1信用点 + 1能量）",
+        "target": null,
+        "score": 34.513000000000005
+      }
+    },
+    {
+      "case": 21,
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "round": 3,
+      "turn": 3,
+      "logPlayerId": "player-blue",
+      "optionCount": 2,
+      "planetId": "multi-orbit",
+      "selectedIndex": 0,
+      "selected": {
+        "label": "环绕奥陌陌 - 奖励：奥陌陌首次环绕：获得 1 张奥陌陌牌；奥陌陌环绕：10分+1化石；奥陌陌扇区扫描（R9，1信用点 + 1能量）",
+        "target": null,
+        "score": 42.125154300000005
+      }
+    },
+    {
+      "case": 22,
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "round": 2,
+      "turn": 4,
+      "logPlayerId": "player-white",
+      "optionCount": 2,
+      "planetId": "multi-orbit",
+      "selectedIndex": 1,
+      "selected": {
+        "label": "环绕水星 - 奖励：首次环绕：额外获得 3 分；盲抽 1 张卡牌；水星扇区扫描 1/2；水星扇区扫描 2/2；获得 1 次收入（R1，1信用点 + 1能量）",
+        "target": null,
+        "score": 53.336
+      }
+    },
+    {
+      "case": 22,
+      "player": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 4,
+      "logPlayerId": "player-green",
+      "optionCount": 3,
+      "planetId": "pluto-orbit-choice",
+      "selectedIndex": 0,
+      "selected": {
+        "label": "环绕天王星 - 奖励：获得 8 分；盲抽 3 张卡牌；织女一/绘架座β扫描（R222，1信用点 + 1能量）",
+        "target": null,
+        "score": 4.56574
+      }
+    }
+  ]
+}

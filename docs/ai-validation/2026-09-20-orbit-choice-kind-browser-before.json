@@ -1,0 +1,129 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Real dlc30 multi-target orbit picker, completed orbit and reward queue; reward wrappers record and delegate unchanged. Calls originating in AI reveal which reward family ranks orbit choices. Fixture layouts are independently initialized; numerical score differences are not paired gain estimates.",
+      "positions": {
+        "mars": {
+          "x": 1,
+          "y": 2
+        },
+        "mercury": {
+          "x": 3,
+          "y": 1
+        }
+      },
+      "choices": [
+        {
+          "kind": "normal",
+          "actionType": "orbit",
+          "planetId": "mercury",
+          "cost": {}
+        },
+        {
+          "kind": "normal",
+          "actionType": "orbit",
+          "planetId": "mars",
+          "cost": {}
+        }
+      ],
+      "landRewardCallsDuringOrbitChoice": [
+        {
+          "planetId": "mercury",
+          "stack": [
+            "    at Object.buildPlanetLandRewardEffects (<anonymous>:22:229)",
+            "    at getAiLandRewardEffectsForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:12985:58)",
+            "    at scoreAiLandChoice (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14016:29)",
+            "    at http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14073:18"
+          ]
+        },
+        {
+          "planetId": "mercury",
+          "stack": [
+            "    at Object.buildPlanetLandRewardEffects (<anonymous>:22:229)",
+            "    at getAiLandRewardEffectsForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:12985:58)",
+            "    at scoreAiLandResolvedRewardValueForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:13043:23)",
+            "    at scoreAiLandChoice (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14017:36)"
+          ]
+        },
+        {
+          "planetId": "mercury",
+          "stack": [
+            "    at Object.buildPlanetLandRewardEffects (<anonymous>:22:229)",
+            "    at getAiLandRewardEffectsForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:12985:58)",
+            "    at getAiYellowTraceLandCompetitionPenalty (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:13684:48)",
+            "    at scoreAiLandChoice (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14023:34)"
+          ]
+        },
+        {
+          "planetId": "mercury",
+          "stack": [
+            "    at Object.buildPlanetLandRewardEffects (<anonymous>:22:229)",
+            "    at getAiLandDirectScoreGainForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:13784:81)",
+            "    at scoreAiLandChoice (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14026:31)",
+            "    at http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14073:18"
+          ]
+        },
+        {
+          "planetId": "mars",
+          "stack": [
+            "    at Object.buildPlanetLandRewardEffects (<anonymous>:22:229)",
+            "    at getAiLandRewardEffectsForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:12985:58)",
+            "    at scoreAiLandChoice (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14016:29)",
+            "    at http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14073:18"
+          ]
+        },
+        {
+          "planetId": "mars",
+          "stack": [
+            "    at Object.buildPlanetLandRewardEffects (<anonymous>:22:229)",
+            "    at getAiLandRewardEffectsForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:12985:58)",
+            "    at scoreAiLandResolvedRewardValueForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:13043:23)",
+            "    at scoreAiLandChoice (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14017:36)"
+          ]
+        },
+        {
+          "planetId": "mars",
+          "stack": [
+            "    at Object.buildPlanetLandRewardEffects (<anonymous>:22:229)",
+            "    at getAiLandRewardEffectsForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:12985:58)",
+            "    at getAiYellowTraceLandCompetitionPenalty (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:13684:48)",
+            "    at scoreAiLandChoice (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14023:34)"
+          ]
+        },
+        {
+          "planetId": "mars",
+          "stack": [
+            "    at Object.buildPlanetLandRewardEffects (<anonymous>:22:229)",
+            "    at getAiLandDirectScoreGainForTarget (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:13784:81)",
+            "    at scoreAiLandChoice (http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14026:31)",
+            "    at http://127.0.0.1:12184/randomizer/app/ai-controller.js?v=free-card-orbit-20260920:14073:18"
+          ]
+        }
+      ],
+      "orbitRewardCallsDuringOrbitChoice": [],
+      "selected": {
+        "logPlayerId": "player-blue",
+        "optionCount": 2,
+        "planetId": "card-pluto-orbit",
+        "selectedIndex": 0,
+        "selected": {
+          "label": "环绕水星 - 奖励：盲抽 1 张卡牌；水星扇区扫描 1/2；水星扇区扫描 2/2；获得 1 次收入（R50，0）",
+          "target": null,
+          "score": 39.230000000000004
+        }
+      },
+      "endingResources": {
+        "credits": 6,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 4,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 12
+      },
+      "bugs": []
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Real dlc30 multi-target orbit picker, completed orbit and reward queue; reward wrappers record and delegate unchanged. Calls originating in AI reveal which reward family ranks orbit choices. Fixture layouts are independently initialized; numerical score differences are not paired gain estimates.",
+      "positions": {
+        "mars": {
+          "x": 2,
+          "y": 2
+        },
+        "mercury": {
+          "x": 4,
+          "y": 1
+        }
+      },
+      "choices": [
+        {
+          "kind": "normal",
+          "actionType": "orbit",
+          "planetId": "mercury",
+          "cost": {}
+        },
+        {
+          "kind": "normal",
+          "actionType": "orbit",
+          "planetId": "mars",
+          "cost": {}
+        }
+      ],
+      "landRewardCallsDuringOrbitChoice": [],
+      "orbitRewardCallsDuringOrbitChoice": [
+        "mercury",
+        "mercury",
+        "mars",
+        "mars"
+      ],
+      "selected": {
+        "logPlayerId": "player-brown",
+        "optionCount": 2,
+        "planetId": "card-pluto-orbit",
+        "selectedIndex": 0,
+        "selected": {
+          "label": "环绕水星 - 奖励：盲抽 1 张卡牌；水星扇区扫描 1/2；水星扇区扫描 2/2；获得 1 次收入（R48，0）",
+          "target": null,
+          "score": 9.046
+        }
+      },
+      "afterOrbitBeforeRewards": {
+        "credits": 6,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 10
+      },
+      "endingResources": {
+        "credits": 6,
+        "energy": 1,
+        "publicity": 4,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 12
+      },
+      "bugs": []
+    }
+  }
+}
