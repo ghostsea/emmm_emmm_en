@@ -5451,10 +5451,15 @@
       return (player?.hand || []).filter((card) => isMovePaymentCard(card));
     }
 
-    function getAiLaunchPaymentCost(options = {}) {
+    function getAiLaunchPaymentCost(options = {}, player = getCurrentPlayer()) {
+      const source = options.options || options;
+      const hasExplicitCost = source.cost && typeof source.cost === "object" && !Array.isArray(source.cost);
+      const actualOptions = source.skipCost || hasExplicitCost
+        ? source
+        : { ...source, cost: industry?.getStandardLaunchCost?.(player, { credits: 2 }) || { credits: 2 } };
       return ai?.valuation?.getLaunchPaymentCost
-        ? ai.valuation.getLaunchPaymentCost(options)
-        : (options?.skipCost ? {} : (options?.cost || { credits: 2 }));
+        ? ai.valuation.getLaunchPaymentCost(actualOptions)
+        : (actualOptions.skipCost ? {} : actualOptions.cost);
     }
 
     function scoreAiLaunchPaymentCost(options = {}) {
@@ -18618,7 +18623,8 @@
             + (b2SectorScanRecoveryValue > 0 ? 3 : 0),
         )
         : 0;
-      const repeatedScanPenalty = Math.max(0, scanCountThisRound) * (getAiRoundNumber() <= 2 ? 7 : 10);
+      // Repeated scans pay the same rules cost. Current reward, data backlog,
+      // and resource reservation determine their marginal value.
       const earlySetupScanBonus = (
         getAiRoundNumber() <= 2
         && scanCountThisRound <= 0
@@ -18655,7 +18661,6 @@
         - costValue * costMultiplier
         - reservePenalty
         - lateResourceDrainPenalty
-        - repeatedScanPenalty
         - fullDataAnalyzeBacklogPenalty
         - adjustedLowCashoutScanPenalty;
     }
@@ -22018,22 +22023,72 @@
       return true;
     }
 
+    function scoreAiFangzhouPanelDestination(player) {
+      const picker = state.alienTracePickerState || {};
+      const slotIds = Array.isArray(picker.allowedAlienSlotIds)
+        ? picker.allowedAlienSlotIds : aliens.ALIEN_SLOT_IDS || [];
+      const traceTypes = picker.allowedTraceTypes?.length ? picker.allowedTraceTypes : AI_TRACE_TYPES;
+      const species = [
+        ["jiuzhe", jiuzhe, "Jiuzhe"], ["yichangdian", yichangdian, "Yichangdian"],
+        ["fangzhou", fangzhou, "Fangzhou"], ["banrenma", banrenma, "Banrenma"],
+        ["chong", chong, "Chong"], ["amiba", amiba, "Amiba"],
+        ["aomomo", aomomo, "Aomomo"], ["runezu", runezu, "Runezu"],
+      ];
+      let best = -Infinity;
+      function consider(kind, dataset, speciesKey = null) {
+        const target = { kind, previewMode: "trace-board", button: {
+          disabled: false, textContent: "", dataset,
+          matches: selector => speciesKey != null && selector === "[data-" + speciesKey + "-trace-slot]",
+        } };
+        best = Math.max(best, scoreAiAlienTraceTarget(target, player));
+      }
+      for (const rawSlotId of slotIds) {
+        const alienSlot = Number(rawSlotId);
+        const slot = aliens.getAlienSlot?.(alienGameState, alienSlot);
+        if (!slot) continue;
+        for (const traceType of traceTypes) {
+          const trace = slot.traces?.[traceType];
+          if (trace && (!slot.revealed || trace.firstPlaced)) {
+            consider("state-slot", { alienSlot, traceType, stateTraceKind: trace.firstPlaced ? "extra" : "first" });
+          }
+          if (!slot.revealed) continue;
+          for (const [key, module, name] of species) {
+            if (!module?.["is" + name + "RevealedSlot"]?.(alienGameState, alienSlot)) continue;
+            for (const position of getAiAlienModuleTracePositions(module, traceType)) {
+              if (!module?.["canPlace" + name + "Trace"]?.(alienGameState, alienSlot, traceType, Number(position), player,
+                { availableDataCount: getAiAvailableDataTokenCount(player) })?.ok) continue;
+              consider("grid-slot", { alienSlot, traceType, tracePosition: Number(position) }, key);
+            }
+          }
+        }
+      }
+      return best;
+    }
+
     function scoreAiAlienTraceTarget(target, player) {
       if (!target?.button || target.button.disabled) return -Infinity;
       if (!canAiPlaceAlienGridTraceTarget(target, player)) return -Infinity;
       const label = String(target.button.textContent || target.button.title || "");
-      const pickerMode = String(state.alienTracePickerState?.mode || "");
+      const pickerMode = String(target.previewMode || state.alienTracePickerState?.mode || "");
       const mode = getAiAlienTraceTargetMode(target, pickerMode);
+      if (mode === "fangzhou-destination" && target.button.dataset.fangzhouDestination === "panel") {
+        // Navigation has no reward of its own: compare the best legal destination.
+        return scoreAiFangzhouPanelDestination(player);
+      }
       const traceType = getAiAlienTraceTargetTraceType(target);
       const position = getAiAlienTraceTargetPosition(target);
       const fangzhouUseChoice = target.button.dataset.fangzhouUse || null;
       const fangzhouDestinationChoice = target.button.dataset.fangzhouDestination || null;
       const isFangzhouUnlockChoice = (
-        mode === "fangzhou-use"
+        ["fangzhou-use", "fangzhou-unlock-color"].includes(mode)
         && fangzhouUseChoice === "unlock"
       ) || (
         mode === "fangzhou-destination"
         && fangzhouDestinationChoice === "unlock"
+      ) || (
+        target.kind === "state-slot" && target.button.dataset.stateTraceKind === "extra"
+        && fangzhou?.isFangzhouRevealedSlot?.(alienGameState, Number(target.button.dataset.alienSlot))
+        && fangzhou?.canUnlockCard2ForTrace?.(alienGameState, player, traceType)
       );
       const isStateExtraTraceTarget = target.kind === "state-slot"
         && target.button.dataset.stateTraceKind === "extra";
@@ -22133,14 +22188,17 @@
       }
       score += traceDemand * 0.45;
       score += ({ pink: 4, blue: 3.5, yellow: 3 })[traceType] || 0;
-      score += scoreAiAlienGridPosition(scoringMode, traceType, position, label);
-      if (label.includes("未揭示")) score += 3;
-      if (label.includes("得分") || label.includes("分数")) score += 3;
-      if (label.includes("精选")) score += 4.5;
-      if (label.includes("牌")) score += 4.5 * getAiAlienCardConversionMultiplier(player);
-      if (label.includes("信用")) score += 2;
-      if (label.includes("数据") || label.includes("扫描")) score += 1.5;
-      if (label.includes("解锁")) score += 8;
+      // Exact reward objects supersede position and presentation-based reward bonuses.
+      if (!reward) {
+        score += scoreAiAlienGridPosition(scoringMode, traceType, position, label);
+        if (label.includes("未揭示")) score += 3;
+        if (label.includes("得分") || label.includes("分数")) score += 3;
+        if (label.includes("精选")) score += 4.5;
+        if (label.includes("牌")) score += 4.5 * getAiAlienCardConversionMultiplier(player);
+        if (label.includes("信用")) score += 2;
+        if (label.includes("数据") || label.includes("扫描")) score += 1.5;
+        if (label.includes("解锁")) score += 8;
+      }
       if (reward?.pickAlienCard) {
         score += 4 * getAiAlienCardConversionMultiplier(player);
         score -= scoreAiLateAlienCardConversionPenalty(player);
@@ -22238,6 +22296,8 @@
         mode: state.alienTracePickerState?.mode || null,
         alienSlot: button.dataset.alienSlot || null,
         pickerStep: button.dataset.alienPickerStep || null,
+        fangzhouDestination: button.dataset.fangzhouDestination || null,
+        fangzhouUse: button.dataset.fangzhouUse || null,
         traceType: traceType || null,
         position: getAiAlienTraceTargetPosition(target),
         score: target.score,

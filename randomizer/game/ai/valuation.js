@@ -546,12 +546,15 @@
     }
     let value = 3;
     if (rewardValue > 0 || input.reward) value += rewardValue;
-    value += getRevealedTracePositionValue(position);
-    if (mode.includes("fangzhou") && label.includes("解锁")) value += 5;
-    if (mode.includes("yichangdian") && position === 2) value += 2;
-    if (mode.includes("banrenma") || mode.includes("aomomo")) value += position >= 4 ? 1 : position === 2 ? 1.2 : 0.6;
-    if (mode.includes("chong") || mode.includes("amiba") || mode.includes("runezu")) value += position >= 4 ? 0.8 : position === 2 ? 1 : 0.4;
-    if (mode.includes("jiuzhe")) value += position >= 4 ? 0.6 : position === 2 ? 0.8 : 0.25;
+    // Structured rewards already price the outcome; position and UI text are fallback hints.
+    if (!input.reward) {
+      value += getRevealedTracePositionValue(position);
+      if (mode.includes("fangzhou") && label.includes("解锁")) value += 5;
+      if (mode.includes("yichangdian") && position === 2) value += 2;
+      if (mode.includes("banrenma") || mode.includes("aomomo")) value += position >= 4 ? 1 : position === 2 ? 1.2 : 0.6;
+      if (mode.includes("chong") || mode.includes("amiba") || mode.includes("runezu")) value += position >= 4 ? 0.8 : position === 2 ? 1 : 0.4;
+      if (mode.includes("jiuzhe")) value += position >= 4 ? 0.6 : position === 2 ? 0.8 : 0.25;
+    }
     if (mode.includes("jiuzhe") && numeric(input.reward?.threat) > 0) {
       value -= estimateJiuzheThreatPenaltyMarginal({
         ...(input.jiuzheThreatContext || {}),
@@ -559,10 +562,12 @@
         scoreGain: input.reward?.gain?.score,
       });
     }
-    if (label.includes("得分") || label.includes("分数")) value += 2;
-    if (label.includes("精选") || label.includes("牌")) value += DEFAULT_CARD_VALUE;
-    if (label.includes("信用")) value += RESOURCE_VALUES.credits;
-    if (label.includes("数据") || label.includes("扫描")) value += RESOURCE_VALUES.availableData;
+    if (!input.reward) {
+      if (label.includes("得分") || label.includes("分数")) value += 2;
+      if (label.includes("精选") || label.includes("牌")) value += DEFAULT_CARD_VALUE;
+      if (label.includes("信用")) value += RESOURCE_VALUES.credits;
+      if (label.includes("数据") || label.includes("扫描")) value += RESOURCE_VALUES.availableData;
+    }
     return value;
   }
 
