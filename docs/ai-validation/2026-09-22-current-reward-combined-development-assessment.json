@@ -1,0 +1,267 @@
+{
+  "decision": "fresh-validation-required",
+  "sourceCommit": "d9816e068b84a41e9be9b3224b698227604e3d52",
+  "meanDelta": 8.583333333333343,
+  "pairedGameStandardError": 3.1580020666776165,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 264.3125,
+      "meanDelta": 12.729166666666657,
+      "minimumDelta": -6
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 190.25,
+      "meanDelta": 2.208333333333343,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 215.70833333333334,
+      "meanDelta": 6.666666666666686,
+      "minimumDelta": 21
+    }
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 264.5416666666667,
+    "meanDelta": -11.458333333333334,
+    "improved": 9,
+    "declined": 15,
+    "unchanged": 0
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 186.66666666666666,
+    "meanDelta": 20.291666666666668,
+    "improved": 17,
+    "declined": 6,
+    "unchanged": 1
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1140,
+  "roundAid": {
+    "baseline": {
+      "寰宇超动力": {
+        "seats": 24,
+        "score": 188.04166666666666,
+        "main": 28.375,
+        "blue1": 1.0416666666666667,
+        "blue2": 0.4583333333333333,
+        "aid": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 3.0833333333333335,
+          "energy": 10.416666666666666,
+          "publicity": 44.5,
+          "availableData": 21.25,
+          "handSize": 12.416666666666666
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 2.0833333333333335,
+          "energy": 6.416666666666667,
+          "publicity": 41.5,
+          "availableData": 21.25,
+          "handSize": 8.416666666666666
+        },
+        "income": {
+          "credits": 15.833333333333334,
+          "energy": 11.583333333333334,
+          "publicity": 0.041666666666666664,
+          "availableData": 0.5,
+          "handSize": 10.333333333333334
+        }
+      },
+      "作弊实验室": {
+        "seats": 48,
+        "score": 251.58333333333334,
+        "main": 38.666666666666664,
+        "blue1": 1.9375,
+        "blue2": 2.2291666666666665,
+        "aid": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 4.541666666666667,
+          "energy": 12.5,
+          "publicity": 48.833333333333336,
+          "availableData": 37.166666666666664,
+          "handSize": 16.770833333333332
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 3.5416666666666665,
+          "energy": 8.5,
+          "publicity": 48.833333333333336,
+          "availableData": 37.166666666666664,
+          "handSize": 12.770833333333334
+        },
+        "income": {
+          "credits": 18.708333333333332,
+          "energy": 14.5,
+          "publicity": 0.16666666666666666,
+          "availableData": 0.14583333333333334,
+          "handSize": 11.916666666666666
+        }
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "score": 209.04166666666666,
+        "main": 35.041666666666664,
+        "blue1": 1.625,
+        "blue2": 1.7916666666666667,
+        "aid": {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 8.416666666666666,
+          "energy": 7.916666666666667,
+          "publicity": 48.875,
+          "availableData": 34.666666666666664,
+          "handSize": 19.833333333333332
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 7.416666666666667,
+          "energy": 6.916666666666667,
+          "publicity": 48.875,
+          "availableData": 34.666666666666664,
+          "handSize": 15.833333333333334
+        },
+        "income": {
+          "credits": 17.375,
+          "energy": 13.833333333333334,
+          "publicity": 0.25,
+          "availableData": 0.375,
+          "handSize": 11.958333333333334
+        }
+      }
+    },
+    "candidate": {
+      "寰宇超动力": {
+        "seats": 24,
+        "score": 190.25,
+        "main": 28.375,
+        "blue1": 0.875,
+        "blue2": 1.0416666666666667,
+        "aid": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 3.2083333333333335,
+          "energy": 9.958333333333334,
+          "publicity": 41.375,
+          "availableData": 22.791666666666668,
+          "handSize": 13.208333333333334
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 2.2083333333333335,
+          "energy": 5.958333333333333,
+          "publicity": 38.375,
+          "availableData": 22.791666666666668,
+          "handSize": 9.208333333333334
+        },
+        "income": {
+          "credits": 15.833333333333334,
+          "energy": 11.125,
+          "publicity": 0.041666666666666664,
+          "availableData": 0.5833333333333334,
+          "handSize": 10.583333333333334
+        }
+      },
+      "作弊实验室": {
+        "seats": 48,
+        "score": 264.3125,
+        "main": 40.708333333333336,
+        "blue1": 2.2291666666666665,
+        "blue2": 1.9166666666666667,
+        "aid": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 4.666666666666667,
+          "energy": 13.458333333333334,
+          "publicity": 52.729166666666664,
+          "availableData": 37.75,
+          "handSize": 16.8125
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 3.6666666666666665,
+          "energy": 9.458333333333334,
+          "publicity": 52.729166666666664,
+          "availableData": 37.75,
+          "handSize": 12.8125
+        },
+        "income": {
+          "credits": 17.8125,
+          "energy": 15.5625,
+          "publicity": 0.1875,
+          "availableData": 0.1875,
+          "handSize": 11.875
+        }
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "score": 215.70833333333334,
+        "main": 35.083333333333336,
+        "blue1": 2.2083333333333335,
+        "blue2": 1.1666666666666667,
+        "aid": {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 9.416666666666666,
+          "energy": 8.125,
+          "publicity": 48.458333333333336,
+          "availableData": 35.708333333333336,
+          "handSize": 18.291666666666668
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 8.416666666666666,
+          "energy": 7.125,
+          "publicity": 48.458333333333336,
+          "availableData": 35.708333333333336,
+          "handSize": 14.291666666666666
+        },
+        "income": {
+          "credits": 17.416666666666668,
+          "energy": 13.583333333333334,
+          "publicity": 0.125,
+          "availableData": 0.25,
+          "handSize": 12.25
+        }
+      }
+    }
+  },
+  "scope": "Full24 seen development. Mean is first priority, original high and low seats reported separately. Components are assessed together, not summed from previous experiments. Fresh random validation remains necessary for acceptance. Source frozen throughout; one Chrome startup failure recovered with unchanged seeds/source at concurrency2. +10 objective not proven by development results."
+}
