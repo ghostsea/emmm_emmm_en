@@ -1,0 +1,4316 @@
+{
+  "scope": "Controlled real scan, explicit start and two data placements. Both arms match specified Huanyu round3/resources/computer/hand/tech, but setup board/player identity is not a complete identical snapshot and immediate score differs; compare only legal data gain, payment and sixth-slot unlock, not score benefit. Projection ranks current visible targets, caps shared neutral tokens and pool capacity; hidden reward/refill chains are excluded. Full fixed paired policy validation remains required.",
+  "baseline": {
+    "company": {
+      "id": "industry:寰宇超动力",
+      "label": "寰宇超动力"
+    },
+    "round": 3,
+    "before": {
+      "credits": 3,
+      "energy": 4,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 38
+    },
+    "forecast": {
+      "canOpenAnalyze": false
+    },
+    "afterScan": {
+      "credits": 2,
+      "energy": 2,
+      "publicity": 3,
+      "availableData": 2,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 40
+    },
+    "afterPlacement": {
+      "credits": 2,
+      "energy": 2,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 40
+    },
+    "placedComputerData": 6,
+    "bugs": [],
+    "scope": "Explicitly started real scan and placed its two data; no automatic action-ranking or whole-game gain assertion. Both arms use controlled Huanyu round3/4-filled-computer/empty hand and tech fixture."
+  },
+  "candidate": {
+    "company": {
+      "id": "industry:寰宇超动力",
+      "label": "寰宇超动力"
+    },
+    "round": 3,
+    "before": {
+      "credits": 3,
+      "energy": 4,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 38
+    },
+    "forecast": {
+      "placedComputerCount": 4,
+      "availableData": 0,
+      "missingData": 2,
+      "projectedDataGain": 2,
+      "canOpenAnalyze": true,
+      "canPayAnalyzeAfterScan": true,
+      "targets": [
+        {
+          "effectType": "earth_sector_scan",
+          "nebulaId": "sector-1-a",
+          "gainData": true
+        },
+        {
+          "effectType": "public_card_scan",
+          "nebulaId": "sector-3-a",
+          "gainData": true
+        }
+      ]
+    },
+    "afterScan": {
+      "credits": 2,
+      "energy": 2,
+      "publicity": 3,
+      "availableData": 2,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 38
+    },
+    "afterPlacement": {
+      "credits": 2,
+      "energy": 2,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 38
+    },
+    "placedComputerData": 6,
+    "bugs": [],
+    "scope": "Explicitly started real scan and placed its two data; no automatic action-ranking or whole-game gain assertion. Both arms use controlled Huanyu round3/4-filled-computer/empty hand and tech fixture."
+  },
+  "readOnlyScanCapReplay": {
+    "summary": {
+      "case": 1,
+      "scores": [
+        276,
+        267,
+        154,
+        263
+      ],
+      "expected": [
+        276,
+        267,
+        154,
+        263
+      ],
+      "decisions": 91,
+      "changedByCap": 30
+    },
+    "rows": [
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 1,
+        "turn": 1,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 6
+        },
+        "raw": 1.2070322550000032,
+        "actual": 1.2070322550000032,
+        "net": 2.064,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 39.25083704749999,
+        "chosenNet": 44.358,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-17-0",
+            "cardId": "dlc_21.png"
+          },
+          {
+            "id": "card-18-0",
+            "cardId": "b_17.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 1,
+        "turn": 2,
+        "resources": {
+          "credits": 7,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 6
+        },
+        "raw": 9.117915327620798,
+        "actual": 9.117915327620798,
+        "net": 9.86,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 37.06370916216245,
+        "chosenNet": 43.436,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-17-0",
+            "cardId": "dlc_21.png"
+          },
+          {
+            "id": "card-18-0",
+            "cardId": "b_17.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 3,
+        "resources": {
+          "credits": 5,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 6
+        },
+        "raw": 25.050600875,
+        "actual": 10.885,
+        "net": 3.551,
+        "capReason": "优先建立火箭数量",
+        "chosen": "playCard",
+        "chosenScore": 15.380387039999999,
+        "chosenNet": 45.704,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-17-0",
+            "cardId": "dlc_21.png"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 4,
+        "resources": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 11
+        },
+        "raw": 19.513534300500005,
+        "actual": 9.918971369999998,
+        "net": 3.099,
+        "capReason": "优先建立火箭数量",
+        "chosen": "researchTech",
+        "chosenScore": 34.63276538589722,
+        "chosenNet": 38.837,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-17-0",
+            "cardId": "dlc_21.png"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 1,
+        "turn": 5,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 11
+        },
+        "raw": 13.667853125000008,
+        "actual": 2.6678531250000077,
+        "net": 2.561,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "orbit",
+        "chosenScore": 84.10944500000001,
+        "chosenNet": 98.517,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 11,
+          "rawScanEnergyReservationPenalty": 11,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-17-0",
+            "cardId": "dlc_21.png"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 1,
+        "turn": 6,
+        "resources": {
+          "credits": 7,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 8
+        },
+        "raw": 22.170756138439998,
+        "actual": 22.170756138439998,
+        "net": 21.898,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "orbit",
+        "chosenScore": 66.42086743466666,
+        "chosenNet": 70.952,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-17-0",
+            "cardId": "dlc_21.png"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 7,
+        "resources": {
+          "credits": 4,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 6
+        },
+        "raw": 25.856086675,
+        "actual": 10.75,
+        "net": 3.418,
+        "capReason": "优先建立火箭数量",
+        "chosen": "launch",
+        "chosenScore": 14.564454426712516,
+        "chosenNet": 19.124,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-17-0",
+            "cardId": "dlc_21.png"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 8,
+        "resources": {
+          "credits": 5,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 11
+        },
+        "raw": 22.7629843005,
+        "actual": 22.7629843005,
+        "net": 23.087,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 22.7629843005,
+        "chosenNet": 23.087,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-17-0",
+            "cardId": "dlc_21.png"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 1,
+        "turn": 9,
+        "resources": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 20
+        },
+        "raw": 9.670503125000003,
+        "actual": 0,
+        "net": -7.628,
+        "capReason": "保留星球兑现能量",
+        "chosen": "move",
+        "chosenScore": 4.451482373544962,
+        "chosenNet": 5.327,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 11,
+          "rawScanEnergyReservationPenalty": 11,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-69-0",
+            "cardId": "b_126.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 1,
+        "turn": 10,
+        "resources": {
+          "credits": 7,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 13
+        },
+        "raw": 13.975315521560006,
+        "actual": 13.975315521560006,
+        "net": 36.818,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 10.132512882132808,
+        "chosenNet": 41.813,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 2,
+          "scanProjectedAnalyzeUnlock": true,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-69-0",
+            "cardId": "b_126.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 11,
+        "resources": {
+          "credits": 3,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 6
+        },
+        "raw": 23.838336675,
+        "actual": 23.838336675,
+        "net": 16.244,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "move",
+        "chosenScore": 64.03898535932827,
+        "chosenNet": 68.599,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-69-0",
+            "cardId": "b_126.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 11,
+        "resources": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 6
+        },
+        "raw": 21.338336675,
+        "actual": 21.338336675,
+        "net": 13.794,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "land",
+        "chosenScore": 48.282328336000006,
+        "chosenNet": 58.602,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-69-0",
+            "cardId": "b_126.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 12,
+        "resources": {
+          "credits": 5,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 11
+        },
+        "raw": 7.896330350499998,
+        "actual": 7.896330350499998,
+        "net": 5.087,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 8.6680631603968,
+        "chosenNet": 19.536,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-69-0",
+            "cardId": "b_126.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 1,
+        "turn": 13,
+        "resources": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 22
+        },
+        "raw": 9.184192737744,
+        "actual": 9.184192737744,
+        "net": 30.14,
+        "capReason": null,
+        "chosen": "analyze",
+        "chosenScore": 36.007999999999996,
+        "chosenNet": 44.859,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-69-0",
+            "cardId": "b_126.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 15,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 11
+        },
+        "raw": 17.885521041,
+        "actual": 17.885521041,
+        "net": 19.947,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 39.46905116447655,
+        "chosenNet": 43.818,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-69-0",
+            "cardId": "b_126.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 1,
+        "turn": 16,
+        "resources": {
+          "credits": 5,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 25
+        },
+        "raw": 10.24629615248,
+        "actual": 10.24629615248,
+        "net": 39.28,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 37.35604240014399,
+        "chosenNet": 69.208,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-69-0",
+            "cardId": "b_126.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 17,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 25
+        },
+        "raw": 14.121578575000003,
+        "actual": 14.121578575000003,
+        "net": 38.634,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 14.121578575000003,
+        "chosenNet": 38.634,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-73-0",
+            "cardId": "dlc_9.png"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 18,
+        "resources": {
+          "credits": 3,
+          "energy": 4,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 13
+        },
+        "raw": 23.678554441000003,
+        "actual": 23.678554441000003,
+        "net": 25.425,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 23.678554441000003,
+        "chosenNet": 25.425,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-75-0",
+            "cardId": "b_89.webp"
+          },
+          {
+            "id": "card-67-0",
+            "cardId": "dlc_29.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 1,
+        "turn": 19,
+        "resources": {
+          "credits": 5,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 27
+        },
+        "raw": 24.586304590731203,
+        "actual": 24.586304590731203,
+        "net": 49.844,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 27.142849995772938,
+        "chosenNet": 53.356,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-75-0",
+            "cardId": "b_89.webp"
+          },
+          {
+            "id": "card-76-0",
+            "cardId": "b_76.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 21,
+        "resources": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 20
+        },
+        "raw": 12.764836720999998,
+        "actual": 7.290770393810718,
+        "net": -1.472,
+        "capReason": "优先建立火箭数量",
+        "chosen": "analyze",
+        "chosenScore": 35.975519999999996,
+        "chosenNet": 43.808,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-75-0",
+            "cardId": "b_89.webp"
+          },
+          {
+            "id": "card-76-0",
+            "cardId": "b_76.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 1,
+        "turn": 22,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 27
+        },
+        "raw": 15.732742431431198,
+        "actual": 15.732742431431198,
+        "net": 38.803,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 3.6533067468847977,
+        "chosenNet": 46.281,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-75-0",
+            "cardId": "b_89.webp"
+          },
+          {
+            "id": "card-76-0",
+            "cardId": "b_76.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 23,
+        "resources": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 0,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 27
+        },
+        "raw": 11.210388640000005,
+        "actual": 7.5,
+        "net": 26.659,
+        "capReason": "优先建立火箭数量",
+        "chosen": "analyze",
+        "chosenScore": 36.993599999999994,
+        "chosenNet": 41.458,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-75-0",
+            "cardId": "b_89.webp"
+          },
+          {
+            "id": "card-76-0",
+            "cardId": "b_76.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 24,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 25
+        },
+        "raw": 21.688927810999996,
+        "actual": 21.688927810999996,
+        "net": 44.34,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 21.688927810999996,
+        "chosenNet": 44.34,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-75-0",
+            "cardId": "b_89.webp"
+          },
+          {
+            "id": "card-76-0",
+            "cardId": "b_76.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 26,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 34
+        },
+        "raw": 7.886606525000001,
+        "actual": 7.886606525000001,
+        "net": 27.913,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 7.886606525000001,
+        "chosenNet": 27.913,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-75-0",
+            "cardId": "b_89.webp"
+          },
+          {
+            "id": "card-77-0",
+            "cardId": "dlc_39.png"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 1,
+        "resources": {
+          "credits": 4,
+          "energy": 5,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 35
+        },
+        "raw": 94.0737945559824,
+        "actual": 94.0737945559824,
+        "net": 115.577,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 94.0737945559824,
+        "chosenNet": 115.577,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-78-0",
+            "cardId": "b_62.webp"
+          },
+          {
+            "id": "card-79-0",
+            "cardId": "b_43.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "credits": 4,
+          "energy": 5,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 8,
+          "score": 36
+        },
+        "raw": 20.14239914,
+        "actual": 20.14239914,
+        "net": 39.923,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 48.716544512999995,
+        "chosenNet": 74.081,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-78-0",
+            "cardId": "b_62.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 3,
+        "resources": {
+          "credits": 4,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 60
+        },
+        "raw": 29.614302211000005,
+        "actual": 29.614302211000005,
+        "net": 52.65,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 29.614302211000005,
+        "chosenNet": 52.65,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-92-0",
+            "cardId": "b_5.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-19-0",
+            "cardId": "b_109.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 2,
+        "turn": 4,
+        "resources": {
+          "credits": 6,
+          "energy": 4,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 20
+        },
+        "raw": 28.197020680428,
+        "actual": 28.197020680428,
+        "net": 27.659,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 28.197020680428,
+        "chosenNet": 27.659,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-92-0",
+            "cardId": "b_5.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-94-0",
+            "cardId": "b_14.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 5,
+        "resources": {
+          "credits": 4,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 51
+        },
+        "raw": 10.96253501,
+        "actual": 10.96253501,
+        "net": 34.128,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 45.4374414125216,
+        "chosenNet": 64.241,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-92-0",
+            "cardId": "b_5.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-96-0",
+            "cardId": "dlc_42.png"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 6,
+        "resources": {
+          "credits": 4,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 36
+        },
+        "raw": 20.014242705740006,
+        "actual": 20.014242705740006,
+        "net": 39.798,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 20.014242705740006,
+        "chosenNet": 39.798,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-92-0",
+            "cardId": "b_5.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 7,
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 62
+        },
+        "raw": 20.917591361,
+        "actual": 20.917591361,
+        "net": 43.532,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 20.783115284,
+        "chosenNet": 50.668,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-98-0",
+            "cardId": "dlc_40.png"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 2,
+        "turn": 8,
+        "resources": {
+          "credits": 5,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 20
+        },
+        "raw": 5.602482120000005,
+        "actual": 0,
+        "net": -13.363,
+        "capReason": "保留星球兑现能量",
+        "chosen": "move",
+        "chosenScore": 4.3019497200873476,
+        "chosenNet": 4.732,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 11,
+          "rawScanEnergyReservationPenalty": 11,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-98-0",
+            "cardId": "dlc_40.png"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 9,
+        "resources": {
+          "credits": 4,
+          "energy": 3,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 56
+        },
+        "raw": 23.360123234799996,
+        "actual": 23.360123234799996,
+        "net": 46.278,
+        "capReason": null,
+        "chosen": "analyze",
+        "chosenScore": 41.0256,
+        "chosenNet": 47.229,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-98-0",
+            "cardId": "dlc_40.png"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 10,
+        "resources": {
+          "credits": 4,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 41
+        },
+        "raw": 19.389672256869996,
+        "actual": 19.389672256869996,
+        "net": 21.598,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 46.11941833245759,
+        "chosenNet": 65.835,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-98-0",
+            "cardId": "dlc_40.png"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 11,
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 8,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 67
+        },
+        "raw": 36.941049635999995,
+        "actual": 11.117378507569814,
+        "net": 33.254,
+        "capReason": "优先建立火箭数量",
+        "chosen": "playCard",
+        "chosenScore": 17.461044584770267,
+        "chosenNet": 44.382,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 13,
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 62
+        },
+        "raw": 28.644343865599993,
+        "actual": 7.486985000000001,
+        "net": 30.722,
+        "capReason": "优先建立火箭数量",
+        "chosen": "playCard",
+        "chosenScore": 28.365900000000003,
+        "chosenNet": 45.638,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 14,
+        "resources": {
+          "credits": 4,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 41
+        },
+        "raw": 17.38967845687,
+        "actual": 6.3108792477665645,
+        "net": -1.458,
+        "capReason": "优先建立火箭数量",
+        "chosen": "analyze",
+        "chosenScore": 43.2432,
+        "chosenNet": 48.6,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 16,
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 62
+        },
+        "raw": 30.619942491599993,
+        "actual": 7.528160000000001,
+        "net": 30.762,
+        "capReason": "优先建立火箭数量",
+        "chosen": "playCard",
+        "chosenScore": 9.274047776143998,
+        "chosenNet": 51.503,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-97-0",
+            "cardId": "b_102.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 17,
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 48
+        },
+        "raw": 17.972765761780003,
+        "actual": 8.070104220480502,
+        "net": -2.553,
+        "capReason": "优先建立火箭数量",
+        "chosen": "researchTech",
+        "chosenScore": 47.7396719682168,
+        "chosenNet": 86.908,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-102-0",
+            "cardId": "b_137.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 19,
+        "resources": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 66
+        },
+        "raw": 45.588755231200004,
+        "actual": 18.710138177285124,
+        "net": 41.721,
+        "capReason": "优先建立火箭数量",
+        "chosen": "scan",
+        "chosenScore": 18.710138177285124,
+        "chosenNet": 41.721,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-91-0",
+            "cardId": "b_57.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 20,
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 2,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 5,
+          "score": 52
+        },
+        "raw": 35.51873715000001,
+        "actual": 14.6672124888572,
+        "net": 36.977,
+        "capReason": "优先建立火箭数量",
+        "chosen": "playCard",
+        "chosenScore": 20.576374079999994,
+        "chosenNet": 44.999,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-104-0",
+            "cardId": "b_100.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 21,
+        "resources": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 80
+        },
+        "raw": 40.260493121,
+        "actual": 6.845929380462923,
+        "net": 28.776,
+        "capReason": "优先建立火箭数量",
+        "chosen": "researchTech",
+        "chosenScore": 29.643559899199996,
+        "chosenNet": 39.288,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-104-0",
+            "cardId": "b_100.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 23,
+        "resources": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 3,
+          "score": 56
+        },
+        "raw": 38.029430819999995,
+        "actual": 11.418244393908964,
+        "net": 33.57,
+        "capReason": "优先建立火箭数量",
+        "chosen": "researchTech",
+        "chosenScore": 46.648690652199996,
+        "chosenNet": 71.695,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-104-0",
+            "cardId": "b_100.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 24,
+        "resources": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 82
+        },
+        "raw": 39.244795521,
+        "actual": 27.1264,
+        "net": 50.041,
+        "capReason": "优先保持早期移动路线",
+        "chosen": "scan",
+        "chosenScore": 27.1264,
+        "chosenNet": 50.041,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-99-0",
+            "cardId": "b_15.webp"
+          },
+          {
+            "id": "card-104-0",
+            "cardId": "b_100.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 29,
+        "resources": {
+          "credits": 1,
+          "energy": 2,
+          "publicity": 0,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 2,
+          "score": 59
+        },
+        "raw": 47.26082557644397,
+        "actual": 36.26082557644397,
+        "net": 59.62,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "land",
+        "chosenScore": 67.6975,
+        "chosenNet": 83.608,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 11,
+          "rawScanEnergyReservationPenalty": 11,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-106-0",
+            "cardId": "b_117.webp"
+          },
+          {
+            "id": "card-104-0",
+            "cardId": "b_100.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 1,
+        "resources": {
+          "credits": 9,
+          "energy": 6,
+          "publicity": 0,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 5,
+          "score": 67
+        },
+        "raw": 71.86803806680001,
+        "actual": 71.86803806680001,
+        "net": 100.119,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 71.86803806680001,
+        "chosenNet": 100.119,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-106-0",
+            "cardId": "b_117.webp"
+          },
+          {
+            "id": "card-111-0",
+            "cardId": "b_77.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 2,
+        "resources": {
+          "credits": 4,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 91
+        },
+        "raw": 37.328403211,
+        "actual": 37.328403211,
+        "net": 60.739,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 79.0713705802,
+        "chosenNet": 110.257,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-123-0",
+            "cardId": "b_10.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 3,
+        "resources": {
+          "credits": 8,
+          "energy": 6,
+          "publicity": 9,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 20
+        },
+        "raw": 21.458788822000002,
+        "actual": 21.458788822000002,
+        "net": 13.992,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "land",
+        "chosenScore": 94.96864000000001,
+        "chosenNet": 132.818,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-125-0",
+            "cardId": "b_107.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 4,
+        "resources": {
+          "credits": 5,
+          "energy": 5,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 79
+        },
+        "raw": 48.1256725732,
+        "actual": 48.1256725732,
+        "net": 68.468,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 43.5539275872176,
+        "chosenNet": 76.655,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-125-0",
+            "cardId": "b_107.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 5,
+        "resources": {
+          "credits": 9,
+          "energy": 3,
+          "publicity": 0,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 73
+        },
+        "raw": 69.73394406484482,
+        "actual": 69.73394406484482,
+        "net": 94.72,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 69.73394406484482,
+        "chosenNet": 94.72,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-126-0",
+            "cardId": "b_69.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 6,
+        "resources": {
+          "credits": 5,
+          "energy": 5,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 96
+        },
+        "raw": 40.915386211,
+        "actual": 40.915386211,
+        "net": 64.5,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 52.75207399721219,
+        "chosenNet": 88.852,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-127-0",
+            "cardId": "b_111.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 7,
+        "resources": {
+          "credits": 8,
+          "energy": 4,
+          "publicity": 10,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 45
+        },
+        "raw": 27.823528200000005,
+        "actual": 27.823528200000005,
+        "net": 26.711,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "land",
+        "chosenScore": 88.50868000000001,
+        "chosenNet": 135.563,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-127-0",
+            "cardId": "b_111.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 8,
+        "resources": {
+          "credits": 5,
+          "energy": 4,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 5,
+          "score": 79
+        },
+        "raw": 50.13878751320001,
+        "actual": 31.8122543072,
+        "net": 52.48,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "researchTech",
+        "chosenScore": 94.21567191845453,
+        "chosenNet": 128.661,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-127-0",
+            "cardId": "b_111.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 10,
+        "resources": {
+          "credits": 2,
+          "energy": 5,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 101
+        },
+        "raw": 44.01033799099999,
+        "actual": 44.01033799099999,
+        "net": 67.746,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 44.01033799099999,
+        "chosenNet": 67.746,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-127-0",
+            "cardId": "b_111.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 11,
+        "resources": {
+          "credits": 8,
+          "energy": 2,
+          "publicity": 10,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 62
+        },
+        "raw": 23.015516199999997,
+        "actual": 23.015516199999997,
+        "net": 24.342,
+        "capReason": "优先兑现数据分析",
+        "chosen": "researchTech",
+        "chosenScore": 89.622922285,
+        "chosenNet": 113.258,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 48.748000000000005,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-129-0",
+            "cardId": "b_32.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 12,
+        "resources": {
+          "credits": 5,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 5,
+          "score": 79
+        },
+        "raw": 33.72007051320001,
+        "actual": 31.178598307200005,
+        "net": 51.86,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "playCard",
+        "chosenScore": 67.74057649561759,
+        "chosenNet": 127.554,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-129-0",
+            "cardId": "b_32.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 14,
+        "resources": {
+          "credits": 2,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 107
+        },
+        "raw": 41.69289874099999,
+        "actual": 41.69289874099999,
+        "net": 65.316,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 41.69289874099999,
+        "chosenNet": 65.316,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-122-0",
+            "cardId": "b_41.webp"
+          },
+          {
+            "id": "card-129-0",
+            "cardId": "b_32.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 15,
+        "resources": {
+          "credits": 8,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 62
+        },
+        "raw": 30.7705942,
+        "actual": 30.7705942,
+        "net": 29.54,
+        "capReason": "优先兑现数据分析",
+        "chosen": "playCard",
+        "chosenScore": 57.8761712928,
+        "chosenNet": 67.687,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 48.748000000000005,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-130-0",
+            "cardId": "b_88.webp"
+          },
+          {
+            "id": "card-129-0",
+            "cardId": "b_32.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 16,
+        "resources": {
+          "credits": 4,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 1,
+          "handSize": 3,
+          "score": 83
+        },
+        "raw": 85.4762939632,
+        "actual": 24.877076637200002,
+        "net": 45.684,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "scan",
+        "chosenScore": 24.877076637200002,
+        "chosenNet": 45.684,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-130-0",
+            "cardId": "b_88.webp"
+          },
+          {
+            "id": "card-129-0",
+            "cardId": "b_32.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 17,
+        "resources": {
+          "credits": 10,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 75
+        },
+        "raw": 48.85554176655136,
+        "actual": 42.097536000000005,
+        "net": 65.741,
+        "capReason": "优先兑现数据分析",
+        "chosen": "scan",
+        "chosenScore": 42.097536000000005,
+        "chosenNet": 65.741,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 44.097536000000005,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-131-0",
+            "cardId": "b_18.webp"
+          },
+          {
+            "id": "card-132-0",
+            "cardId": "b_12.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 18,
+        "resources": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 9,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 111
+        },
+        "raw": 35.001403591000006,
+        "actual": 35.001403591000006,
+        "net": 58.299,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 35.001403591000006,
+        "chosenNet": 58.299,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-133-0",
+            "cardId": "dlc_31.png"
+          },
+          {
+            "id": "card-132-0",
+            "cardId": "b_12.webp"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 19,
+        "resources": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 62
+        },
+        "raw": 19.2106162,
+        "actual": 19.2106162,
+        "net": 18.443,
+        "capReason": "优先兑现数据分析",
+        "chosen": "researchTech",
+        "chosenScore": 79.77376783687998,
+        "chosenNet": 103.218,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 48.748000000000005,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-133-0",
+            "cardId": "dlc_31.png"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-103-0",
+            "cardId": "b_70.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 23,
+        "resources": {
+          "credits": 6,
+          "energy": 2,
+          "publicity": 1,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 65
+        },
+        "raw": 19.2106162,
+        "actual": 19.2106162,
+        "net": 18.443,
+        "capReason": "优先兑现数据分析",
+        "chosen": "playCard",
+        "chosenScore": 54.65092854400001,
+        "chosenNet": 66.9,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 49.89040000000001,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-135-0",
+            "cardId": "b_104.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 26,
+        "resources": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 117
+        },
+        "raw": 26.288182591,
+        "actual": 26.288182591,
+        "net": 49.163,
+        "capReason": "优先兑现数据分析",
+        "chosen": "analyze",
+        "chosenScore": 45.05244800000001,
+        "chosenNet": 53.938,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 45.05244800000001,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-137-0",
+            "cardId": "b_30.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 27,
+        "resources": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 65
+        },
+        "raw": 19.659180319999997,
+        "actual": 19.659180319999997,
+        "net": 38.838,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 58.6753866272,
+        "chosenNet": 71.08,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-137-0",
+            "cardId": "b_30.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 43,
+        "resources": {
+          "credits": 2,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 0,
+          "score": 119
+        },
+        "raw": 34.026715040999996,
+        "actual": 34.026715040999996,
+        "net": 57.278,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 34.026715040999996,
+        "chosenNet": 57.278,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-149-0",
+            "cardId": "dlc_24.png"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 1,
+        "resources": {
+          "credits": 6,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 125
+        },
+        "raw": 26.773867411,
+        "actual": 26.773867411,
+        "net": 49.672,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 66.63593189556829,
+        "chosenNet": 107.734,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-150-0",
+            "cardId": "b_95.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 4,
+        "turn": 2,
+        "resources": {
+          "credits": 5,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 9,
+          "score": 73
+        },
+        "raw": 29.280581599999998,
+        "actual": 29.280581599999998,
+        "net": 52.408,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 93.00915992320002,
+        "chosenNet": 106.746,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-150-0",
+            "cardId": "b_95.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "turn": 3,
+        "resources": {
+          "credits": 8,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 8,
+          "score": 120
+        },
+        "raw": 21.526246131999997,
+        "actual": 21.526246131999997,
+        "net": 42.4,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 89.53605820800001,
+        "chosenNet": 157.114,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-150-0",
+            "cardId": "b_95.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 4,
+        "resources": {
+          "credits": 12,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 8,
+          "score": 91
+        },
+        "raw": 47.401446527684,
+        "actual": 47.401446527684,
+        "net": 67.588,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 74.9201559872,
+        "chosenNet": 114.628,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-162-0",
+            "cardId": "b_11.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 5,
+        "resources": {
+          "credits": 4,
+          "energy": 5,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 134
+        },
+        "raw": 35.04956296,
+        "actual": 35.04956296,
+        "net": 58.35,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 35.04956296,
+        "chosenNet": 58.35,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-162-0",
+            "cardId": "b_11.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 4,
+        "turn": 6,
+        "resources": {
+          "credits": 3,
+          "energy": 5,
+          "publicity": 10,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 73
+        },
+        "raw": 40.09264259999999,
+        "actual": 40.09264259999999,
+        "net": 63.514,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "researchTech",
+        "chosenScore": 81.77329621499999,
+        "chosenNet": 98.278,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-164-0",
+            "cardId": "b_134.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "turn": 7,
+        "resources": {
+          "credits": 7,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 7,
+          "score": 120
+        },
+        "raw": 21.180180762999996,
+        "actual": 21.180180762999996,
+        "net": 42.061,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 85.18266312216079,
+        "chosenNet": 151.276,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-164-0",
+            "cardId": "b_134.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 8,
+        "resources": {
+          "credits": 10,
+          "energy": 5,
+          "publicity": 3,
+          "availableData": 6,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 91
+        },
+        "raw": 53.56870956494694,
+        "actual": 53.56870956494694,
+        "net": 74.054,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 56.99248942180331,
+        "chosenNet": 92.584,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-164-0",
+            "cardId": "b_134.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 9,
+        "resources": {
+          "credits": 4,
+          "energy": 3,
+          "publicity": 9,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 5,
+          "score": 141
+        },
+        "raw": 26.690312960000004,
+        "actual": 26.690312960000004,
+        "net": 49.584,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 26.944278579,
+        "chosenNet": 53.753,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-136-0",
+            "cardId": "b_90.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 4,
+        "turn": 10,
+        "resources": {
+          "credits": 3,
+          "energy": 6,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 73
+        },
+        "raw": 24.480642599999996,
+        "actual": 24.480642599999996,
+        "net": 47.477,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "land",
+        "chosenScore": 60.3775,
+        "chosenNet": 89.361,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-166-0",
+            "cardId": "dlc_10.png"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "turn": 11,
+        "resources": {
+          "credits": 5,
+          "energy": 4,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 6,
+          "score": 120
+        },
+        "raw": 25.619230762999997,
+        "actual": 25.619230762999997,
+        "net": 46.411,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 80.9790841623608,
+        "chosenNet": 127.553,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-166-0",
+            "cardId": "dlc_10.png"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 12,
+        "resources": {
+          "credits": 8,
+          "energy": 5,
+          "publicity": 5,
+          "availableData": 6,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 94
+        },
+        "raw": 62.09514958765516,
+        "actual": 36.01427000000001,
+        "net": 55.647,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "researchTech",
+        "chosenScore": 45.929405488200004,
+        "chosenNet": 65.225,
+        "breakdown": {
+          "directScoreGain": 4,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-166-0",
+            "cardId": "dlc_10.png"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 13,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 10,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 146
+        },
+        "raw": 25.235226960000002,
+        "actual": 25.235226960000002,
+        "net": 48.058,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "move",
+        "chosenScore": 48.520353064115206,
+        "chosenNet": 51.916,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 42.448448000000006,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 13,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 10,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 146
+        },
+        "raw": 25.235226960000002,
+        "actual": 25.235226960000002,
+        "net": 48.058,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "analyze",
+        "chosenScore": 42.448448000000006,
+        "chosenNet": 51.151,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 42.448448000000006,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 4,
+        "turn": 14,
+        "resources": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 99
+        },
+        "raw": 30.981256600000002,
+        "actual": 21.66695,
+        "net": 44.587,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "researchTech",
+        "chosenScore": 68.3154259645,
+        "chosenNet": 102.036,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "turn": 15,
+        "resources": {
+          "credits": 4,
+          "energy": 5,
+          "publicity": 8,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 120
+        },
+        "raw": 48.729645688,
+        "actual": 48.729645688,
+        "net": 69.06,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 73.69516001691998,
+        "chosenNet": 115.861,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 16,
+        "resources": {
+          "credits": 8,
+          "energy": 5,
+          "publicity": 1,
+          "availableData": 6,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 94
+        },
+        "raw": 59.272134089068004,
+        "actual": 38.303270000000005,
+        "net": 58.047,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "analyze",
+        "chosenScore": 56.262976,
+        "chosenNet": 62.142,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 4,
+        "turn": 18,
+        "resources": {
+          "credits": 3,
+          "energy": 3,
+          "publicity": 0,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 102
+        },
+        "raw": 33.49171760000001,
+        "actual": 30.658500000000004,
+        "net": 53.823,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "land",
+        "chosenScore": 37.658500000000004,
+        "chosenNet": 61.406,
+        "breakdown": {
+          "directScoreGain": 4,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "turn": 19,
+        "resources": {
+          "credits": 4,
+          "energy": 6,
+          "publicity": 2,
+          "availableData": 1,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 123
+        },
+        "raw": 47.295630763,
+        "actual": 47.295630763,
+        "net": 66.731,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 47.295630763,
+        "chosenNet": 66.731,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-134-0",
+            "cardId": "dlc_20.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 20,
+        "resources": {
+          "credits": 8,
+          "energy": 4,
+          "publicity": 5,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 100
+        },
+        "raw": 79.43842855482802,
+        "actual": 38.303270000000005,
+        "net": 61.761,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "scan",
+        "chosenScore": 38.303270000000005,
+        "chosenNet": 61.761,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-165-0",
+            "cardId": "b_98.webp"
+          },
+          {
+            "id": "card-169-0",
+            "cardId": "b_74.webp"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 4,
+        "turn": 22,
+        "resources": {
+          "credits": 3,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 114
+        },
+        "raw": 53.30191860120199,
+        "actual": 53.30191860120199,
+        "net": 77.082,
+        "capReason": null,
+        "chosen": "researchTech",
+        "chosenScore": 67.53369868699998,
+        "chosenNet": 82.33,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-170-0",
+            "cardId": "dlc_34.png"
+          },
+          {
+            "id": "card-172-0",
+            "cardId": "dlc_36.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "turn": 23,
+        "resources": {
+          "credits": 3,
+          "energy": 5,
+          "publicity": 4,
+          "availableData": 4,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 128
+        },
+        "raw": 37.966523283,
+        "actual": 37.966523283,
+        "net": 56.031,
+        "capReason": null,
+        "chosen": "playCard",
+        "chosenScore": 41.907401792499996,
+        "chosenNet": 74.415,
+        "breakdown": {
+          "directScoreGain": 2,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-170-0",
+            "cardId": "dlc_34.png"
+          },
+          {
+            "id": "card-172-0",
+            "cardId": "dlc_36.png"
+          },
+          {
+            "id": "card-167-0",
+            "cardId": "dlc_11.png"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 24,
+        "resources": {
+          "credits": 9,
+          "energy": 3,
+          "publicity": 7,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 3,
+          "score": 106
+        },
+        "raw": 69.19886010274244,
+        "actual": 38.399345000000004,
+        "net": 61.862,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "playCard",
+        "chosenScore": 46.613789610400005,
+        "chosenNet": 69.305,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-170-0",
+            "cardId": "dlc_34.png"
+          },
+          {
+            "id": "card-172-0",
+            "cardId": "dlc_36.png"
+          },
+          {
+            "id": "card-173-0",
+            "cardId": "b_85.webp"
+          }
+        ]
+      },
+      {
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "turn": 27,
+        "resources": {
+          "credits": 1,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 5,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 4,
+          "score": 131
+        },
+        "raw": 45.58355835799999,
+        "actual": 45.58355835799999,
+        "net": 62.272,
+        "capReason": null,
+        "chosen": "scan",
+        "chosenScore": 45.58355835799999,
+        "chosenNet": 62.272,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 0,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-170-0",
+            "cardId": "dlc_34.png"
+          },
+          {
+            "id": "card-172-0",
+            "cardId": "dlc_36.png"
+          },
+          {
+            "id": "card-174-0",
+            "cardId": "dlc_5.png"
+          }
+        ]
+      },
+      {
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 28,
+        "resources": {
+          "credits": 7,
+          "energy": 2,
+          "publicity": 10,
+          "availableData": 2,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 2,
+          "score": 106
+        },
+        "raw": 50.217613533732006,
+        "actual": 29.859910000000006,
+        "net": 51.035,
+        "capReason": "优先兑现当前位置的环绕/登陆",
+        "chosen": "land",
+        "chosenScore": 36.859910000000006,
+        "chosenNet": 52.692,
+        "breakdown": {
+          "directScoreGain": 0,
+          "scanEnergyReservationPenalty": 0,
+          "rawScanEnergyReservationPenalty": 0,
+          "scanDataPlacementOpportunities": 0,
+          "scanProjectedAnalyzeUnlock": false,
+          "analyzeCashoutScore": 40.328736,
+          "weakFinalAnalyzeEnergyCap": null
+        },
+        "publicCards": [
+          {
+            "id": "card-175-0",
+            "cardId": "dlc_18.png"
+          },
+          {
+            "id": "card-172-0",
+            "cardId": "dlc_36.png"
+          },
+          {
+            "id": "card-174-0",
+            "cardId": "dlc_5.png"
+          }
+        ]
+      }
+    ],
+    "scope": "Formal game and independent alien seeds reproduced exactly. Extra score evaluation is read-only and all four final scores match. Earlier attempt omitted the independent alien seed injection and is excluded.",
+    "initialFailure": "scan-cap-audit-1-uncontrolled-aliens.json"
+  },
+  "fixtureSha256": "e367253a136d282b05c2315540a7926815a5a104cc78e13910101fe3144595c7"
+}

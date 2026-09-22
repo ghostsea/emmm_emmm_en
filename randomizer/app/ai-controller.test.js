@@ -1196,6 +1196,7 @@ function makeYichangdianAlienState(options = {}) {
     { type: scanTypes.EARTH_SECTOR_SCAN },
     { type: scanTypes.PUBLIC_CARD_SCAN },
   ];
+  let openScanSlots = 2;
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
     roundNumber: 1,
@@ -1203,9 +1204,16 @@ function makeYichangdianAlienState(options = {}) {
       industry: { id: "industry:宇宙大战略集团", label: "宇宙大战略集团" },
     },
     blueResources: { credits: 2, energy: 4, availableData: 0 },
+    publicCards: [{ id: 'scan-source', scanActionCode: 1 }],
+    buildSectorScanChoicesForX: () => [{ nebulaId: 'scan-source-nebula' }],
+    getPublicScanChoicesForCard: () => ({ ok: true, choices: [{ nebulaId: 'scan-source-nebula' }] }),
     data: {
       ANALYZE_REQUIRED_COMPUTER_SLOT: 6,
       listComputerPlacedTokens: () => Array.from({ length: 4 }, (_, index) => ({ index })),
+      getNextReplaceableNebulaToken: () => openScanSlots > 0 ? { slotIndex: 1 } : null,
+      listNebulaTokens: () => Array.from({ length: openScanSlots }, (_, index) => ({ slotIndex: index + 1 })),
+      listSectorExtraMarks: () => [], getSectorTokenStats: () => ({}),
+      getNebulaCapacity: () => 6, getNebulaSlotScoreReward: () => 0, getNebulaColor: () => 'blue',
     },
     scanEffects: {
       EFFECT_TYPES: scanTypes,
@@ -1231,16 +1239,32 @@ function makeYichangdianAlienState(options = {}) {
   harness.turnState.roundNumber = 2;
   assert.equal(
     harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue),
-    false,
-    "the projected analyze correction should stay scoped to the first round",
+    true,
+    "the same legal data gain must unlock analysis after the first round too",
   );
   harness.turnState.roundNumber = 1;
   harness.blue.initialSelection.industry = { id: "industry:宇宙战略集团", label: "宇宙战略集团" };
   assert.equal(
     harness.controller.canAiGrandStrategyOpenAnalyzeWithProjectedScanData(harness.blue),
-    false,
-    "the projected analyze correction should not alter the ordinary strategy company",
+    true,
+    "ordinary companies follow the same computer data rules",
   );
+  harness.blue.initialSelection.industry = { id: 'industry:寰宇超动力', label: '寰宇超动力' };
+  assert.equal(harness.controller.getAiProjectedScanDataProfile(harness.blue).projectedDataGain, 2);
+  openScanSlots = 1;
+  assert.equal(harness.controller.getAiProjectedScanDataProfile(harness.blue).canOpenAnalyze, false,
+    'two scan effects cannot both claim the same last neutral token');
+  openScanSlots = 0;
+  assert.equal(harness.controller.getAiProjectedScanDataProfile(harness.blue).projectedDataGain, 0,
+    'full-sector extra marks do not supply data');
+  openScanSlots = 2;
+  harness.blue.resources.energy = 2;
+  const drained = harness.controller.getAiProjectedScanDataProfile(harness.blue);
+  assert.equal(drained.canOpenAnalyze, true, 'data readiness is distinct from the energy payment');
+  assert.equal(drained.canPayAnalyzeAfterScan, false, 'spending the last two energy must not waive energy reservation');
+  harness.blue.resources.availableData = 2;
+  assert.equal(harness.controller.getAiProjectedScanDataProfile(harness.blue).canOpenAnalyze, false,
+    'already-held data is not a new benefit from scanning');
 }
 
 {
