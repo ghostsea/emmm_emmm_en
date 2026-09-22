@@ -1,0 +1,69 @@
+{
+  "decision": "fresh32-pending",
+  "sourceCommit": "7355d991f8cc5631b3f0d0e5f568e119bbd3fe72",
+  "meanDelta": 0.9895833333333428,
+  "pairedGameStandardError": 0.5978674296749938,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 252.77083333333334,
+      "meanDelta": 1.1875,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 188.5,
+      "meanDelta": 0.4583333333333428,
+      "minimumDelta": 11
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 210.16666666666666,
+      "meanDelta": 1.125,
+      "minimumDelta": 0
+    }
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 276.25,
+    "meanDelta": 0.25,
+    "improved": 3,
+    "declined": 1,
+    "unchanged": 20
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 168.875,
+    "meanDelta": 2.5,
+    "improved": 3,
+    "declined": 2,
+    "unchanged": 19
+  },
+  "cardPayments": 1137,
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "huanyuResources": {
+    "baseline": {
+      "finalScore": 188.04166666666666,
+      "productiveMainActionCount": 28.375,
+      "analysisActionCount": 2.625,
+      "fullDataCycleCount": 1.625,
+      "blue1CreditGain": 1.0416666666666667,
+      "blue2EnergyGain": 0.4583333333333333
+    },
+    "candidate": {
+      "finalScore": 188.5,
+      "productiveMainActionCount": 28.416666666666668,
+      "analysisActionCount": 2.75,
+      "fullDataCycleCount": 1.75,
+      "blue1CreditGain": 1.0416666666666667,
+      "blue2EnergyGain": 0.4583333333333333
+    }
+  },
+  "scope": "Company-specific ablation, not a calibrated payoff model. Full24 development is seen; positive mean is not acceptance or proof of +10."
+}
