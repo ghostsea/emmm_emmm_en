@@ -1,0 +1,74 @@
+{
+  "decision": "held-no-mean-or-resource-conversion-improvement",
+  "sourceCommit": "7355d991f8cc5631b3f0d0e5f568e119bbd3fe72",
+  "meanDelta": -0.2421875,
+  "pairedGameStandardError": 0.21224022754536442,
+  "companies": {
+    "作弊实验室": {
+      "seats": 64,
+      "baseline": 255.5,
+      "candidate": 255.28125,
+      "meanDelta": -0.21875,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 32,
+      "baseline": 195.59375,
+      "candidate": 195.3125,
+      "meanDelta": -0.28125,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 32,
+      "baseline": 199.5,
+      "candidate": 199.25,
+      "meanDelta": -0.25,
+      "minimumDelta": 0
+    }
+  },
+  "baselineHigh": {
+    "seats": 32,
+    "baselineMean": 291.3125,
+    "candidateMean": 290.4375,
+    "meanDelta": -0.875,
+    "improved": 0,
+    "declined": 2,
+    "unchanged": 30
+  },
+  "baselineLow": {
+    "seats": 32,
+    "baselineMean": 173.84375,
+    "candidateMean": 173.65625,
+    "meanDelta": -0.1875,
+    "improved": 0,
+    "declined": 1,
+    "unchanged": 31
+  },
+  "bugCount": 0,
+  "ledgerSeats": 256,
+  "cardPayments": 1505,
+  "actionOutcomes": {
+    "pairs": 32,
+    "changedActionGames": 4,
+    "changedHuanyuScoreGames": 2,
+    "totals": {
+      "baseline": {
+        "score": 6259,
+        "main": 916,
+        "analysis": 88,
+        "cycles": 56,
+        "blue1": 27,
+        "blue2": 24
+      },
+      "candidate": {
+        "score": 6250,
+        "main": 917,
+        "analysis": 88,
+        "cycles": 56,
+        "blue1": 27,
+        "blue2": 24
+      }
+    }
+  },
+  "interpretation": "All32 frozen pairs including resumed files. Four games change top-level action identity, only two change Huanyu final score (183->177 and213->210); both first divergent states have zero available pool data and choose analyze before scan. Same total analyses and blue receipts across arms. This is failure to demonstrate gain, not proof of a large negative effect. Do not refit on these seeds and relabel them unseen. +10 objective remains unmet."
+}

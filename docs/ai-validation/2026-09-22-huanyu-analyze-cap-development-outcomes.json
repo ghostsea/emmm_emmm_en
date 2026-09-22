@@ -1,0 +1,3613 @@
+{
+  "scope": "Full frozen suite. First divergent top-level action compares identity/round/seat/target, not all nested choices. Exact same-entry resource events describe analyze payment and subsequent quick steps, not causal marginal payoff. Counts include unchanged games.",
+  "summary": {
+    "pairs": 24,
+    "changedActionGames": 7,
+    "changedHuanyuScoreGames": 5,
+    "totals": {
+      "baseline": {
+        "score": 4513,
+        "main": 681,
+        "analysis": 63,
+        "cycles": 39,
+        "blue1": 25,
+        "blue2": 11
+      },
+      "candidate": {
+        "score": 4524,
+        "main": 682,
+        "analysis": 66,
+        "cycles": 42,
+        "blue1": 25,
+        "blue2": 11
+      }
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "huanyu": {
+        "baseline": {
+          "score": 142,
+          "main": 27,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 155,
+              "turn": 5,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文1，已补充新 symbol",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 142,
+          "main": 27,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 155,
+              "turn": 5,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文1，已补充新 symbol",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 2,
+      "huanyu": {
+        "baseline": {
+          "score": 156,
+          "main": 22,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 179,
+              "turn": 8,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文4，已补充新 symbol",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 156,
+          "main": 22,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 179,
+              "turn": 8,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文4，已补充新 symbol",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 3,
+      "huanyu": {
+        "baseline": {
+          "score": 145,
+          "main": 28,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 160,
+              "turn": 9,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2张牌 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 1号位：无奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 139,
+          "main": 28,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 156,
+              "turn": 8,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2信用点 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 3号位：1宣传",
+                  "delta": {
+                    "publicity": 1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "cost",
+                  "text": "snapshot inference: cost",
+                  "delta": {
+                    "credits": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": {
+        "ordinal": 440,
+        "baseline": {
+          "player": "player-green",
+          "round": 4,
+          "turn": 8,
+          "log": 1351,
+          "action": "playCard",
+          "card": "card-150-0",
+          "resources": {
+            "score": 94,
+            "credits": 3,
+            "energy": 0,
+            "publicity": 2,
+            "availableData": 1,
+            "handSize": 5
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": false,
+            "reason": "能量不足，分析需要 1 能量",
+            "score": 0,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.464,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.464,
+              "feasibility": 0,
+              "net": 0
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 4,
+          "turn": 8,
+          "log": 1351,
+          "action": "quickTrade",
+          "resources": {
+            "score": 94,
+            "credits": 3,
+            "energy": 0,
+            "publicity": 2,
+            "availableData": 1,
+            "handSize": 5
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": false,
+            "reason": "能量不足，分析需要 1 能量",
+            "score": 0,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.464,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.464,
+              "feasibility": 0,
+              "net": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "case": 4,
+      "huanyu": {
+        "baseline": {
+          "score": 172,
+          "main": 29,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 2,
+          "blue2": 2,
+          "finalRoundAnalyses": [
+            {
+              "entry": 171,
+              "turn": 7,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 3）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 172,
+          "main": 29,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 2,
+          "blue2": 2,
+          "finalRoundAnalyses": [
+            {
+              "entry": 167,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 3）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": {
+        "ordinal": 474,
+        "baseline": {
+          "player": "player-brown",
+          "round": 4,
+          "turn": 6,
+          "log": 1435,
+          "action": "cardCorner",
+          "card": "card-178-0",
+          "resources": {
+            "score": 124,
+            "credits": 0,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 3
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 7,
+            "directScoreGain": 0,
+            "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 7,
+              "rawScore": 31.129999999999995,
+              "weightedScore": 34.8656,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 124,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            },
+            "actionGraph": {
+              "gain": 7,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 6.077,
+              "feasibility": 1,
+              "net": 13.077
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 7,
+              "rawScore": 31.129999999999995,
+              "weightedScore": 34.8656,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 124,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "existingScore": 7,
+              "gain": 7,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 6.077,
+              "feasibility": 1,
+              "net": 13.077
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-brown",
+          "round": 4,
+          "turn": 6,
+          "log": 1435,
+          "action": "analyze",
+          "resources": {
+            "score": 124,
+            "credits": 0,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 3
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 34.8656,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 34.8656,
+              "rawScore": 31.129999999999995,
+              "weightedScore": 34.8656,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 124,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true
+            },
+            "actionGraph": {
+              "gain": 34.866,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 6.077,
+              "feasibility": 1,
+              "net": 40.942
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 34.8656,
+              "rawScore": 31.129999999999995,
+              "weightedScore": 34.8656,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 124,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true,
+              "existingScore": 34.866,
+              "gain": 34.866,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 6.077,
+              "feasibility": 1,
+              "net": 40.942
+            }
+          }
+        }
+      }
+    },
+    {
+      "case": 5,
+      "huanyu": {
+        "baseline": {
+          "score": 147,
+          "main": 26,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        },
+        "candidate": {
+          "score": 157,
+          "main": 28,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 158,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文4，已补充新 symbol",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：能量+1、手牌-1；收入：能量+1",
+                  "delta": {
+                    "energy": 1,
+                    "handSize": -1,
+                    "availableData": -1
+                  }
+                }
+              ]
+            },
+            {
+              "entry": 170,
+              "turn": 9,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文6，已补充新 symbol",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": {
+        "ordinal": 468,
+        "baseline": {
+          "player": "player-brown",
+          "round": 4,
+          "turn": 6,
+          "log": 1415,
+          "action": "quickTrade",
+          "resources": {
+            "score": 79,
+            "credits": 0,
+            "energy": 2,
+            "publicity": 5,
+            "availableData": 4,
+            "handSize": 3
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 19.5,
+            "directScoreGain": 0,
+            "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 19.5,
+              "rawScore": 45.954,
+              "weightedScore": 51.46848000000001,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 2,
+              "availableData": 4,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 79,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 6.3,
+              "lateFullDataAnalyzeRecovery": 6.7,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 8.524,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            },
+            "actionGraph": {
+              "gain": 19.5,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 3.123,
+              "feasibility": 1,
+              "net": 22.623
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 19.5,
+              "rawScore": 45.954,
+              "weightedScore": 51.46848000000001,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 2,
+              "availableData": 4,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 79,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 6.3,
+              "lateFullDataAnalyzeRecovery": 6.7,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 8.524,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "existingScore": 19.5,
+              "gain": 19.5,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 3.123,
+              "feasibility": 1,
+              "net": 22.623
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-brown",
+          "round": 4,
+          "turn": 6,
+          "log": 1415,
+          "action": "analyze",
+          "resources": {
+            "score": 79,
+            "credits": 0,
+            "energy": 2,
+            "publicity": 5,
+            "availableData": 4,
+            "handSize": 3
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 51.46848000000001,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 51.46848000000001,
+              "rawScore": 45.954,
+              "weightedScore": 51.46848000000001,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 2,
+              "availableData": 4,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 79,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 6.3,
+              "lateFullDataAnalyzeRecovery": 6.7,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 8.524,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true
+            },
+            "actionGraph": {
+              "gain": 51.468,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 3.123,
+              "feasibility": 1,
+              "net": 54.591
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 51.46848000000001,
+              "rawScore": 45.954,
+              "weightedScore": 51.46848000000001,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 2,
+              "availableData": 4,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 79,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 6.3,
+              "lateFullDataAnalyzeRecovery": 6.7,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 8.524,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true,
+              "existingScore": 51.468,
+              "gain": 51.468,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 3.123,
+              "feasibility": 1,
+              "net": 54.591
+            }
+          }
+        }
+      }
+    },
+    {
+      "case": 6,
+      "huanyu": {
+        "baseline": {
+          "score": 174,
+          "main": 27,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 174,
+              "turn": 11,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 5）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 174,
+          "main": 27,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 173,
+              "turn": 10,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 5）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": {
+        "ordinal": 483,
+        "baseline": {
+          "player": "player-green",
+          "round": 4,
+          "turn": 10,
+          "log": 1452,
+          "action": "cardCorner",
+          "card": "card-156-0",
+          "resources": {
+            "score": 105,
+            "credits": 0,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 2
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 7,
+            "directScoreGain": 0,
+            "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 7,
+              "rawScore": 31.129999999999995,
+              "weightedScore": 34.8656,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 105,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            },
+            "actionGraph": {
+              "gain": 7,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 5.78,
+              "feasibility": 1,
+              "net": 12.78
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 7,
+              "rawScore": 31.129999999999995,
+              "weightedScore": 34.8656,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 105,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "existingScore": 7,
+              "gain": 7,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 5.78,
+              "feasibility": 1,
+              "net": 12.78
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 4,
+          "turn": 10,
+          "log": 1452,
+          "action": "analyze",
+          "resources": {
+            "score": 105,
+            "credits": 0,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 2
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 34.8656,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 34.8656,
+              "rawScore": 31.129999999999995,
+              "weightedScore": 34.8656,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 105,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true
+            },
+            "actionGraph": {
+              "gain": 34.866,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 5.78,
+              "feasibility": 1,
+              "net": 40.646
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 34.8656,
+              "rawScore": 31.129999999999995,
+              "weightedScore": 34.8656,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 6,
+              "availableData": 0,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 105,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 4.5,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true,
+              "existingScore": 34.866,
+              "gain": 34.866,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 5.78,
+              "feasibility": 1,
+              "net": 40.646
+            }
+          }
+        }
+      }
+    },
+    {
+      "case": 7,
+      "huanyu": {
+        "baseline": {
+          "score": 174,
+          "main": 22,
+          "analysis": 1,
+          "cycles": 0,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 145,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2信用点 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 1号位：无奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "cost",
+                  "text": "snapshot inference: cost",
+                  "delta": {
+                    "credits": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 174,
+          "main": 22,
+          "analysis": 1,
+          "cycles": 0,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 145,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2信用点 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 1号位：无奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "cost",
+                  "text": "snapshot inference: cost",
+                  "delta": {
+                    "credits": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 8,
+      "huanyu": {
+        "baseline": {
+          "score": 232,
+          "main": 32,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 2,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 164,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2信用点 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：方舟蓝色痕迹 1号位：；方舟蓝色痕迹 1号位 基础奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "alien",
+                  "text": "方舟奖励 4：4分数：绿色 分数+4",
+                  "delta": {
+                    "score": 4
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "cost",
+                  "text": "snapshot inference: cost",
+                  "delta": {
+                    "credits": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 232,
+          "main": 32,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 2,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 164,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2信用点 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：方舟蓝色痕迹 1号位：；方舟蓝色痕迹 1号位 基础奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "alien",
+                  "text": "方舟奖励 4：4分数：绿色 分数+4",
+                  "delta": {
+                    "score": 4
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "cost",
+                  "text": "snapshot inference: cost",
+                  "delta": {
+                    "credits": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 9,
+      "huanyu": {
+        "baseline": {
+          "score": 198,
+          "main": 31,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        },
+        "candidate": {
+          "score": 198,
+          "main": 31,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 10,
+      "huanyu": {
+        "baseline": {
+          "score": 264,
+          "main": 37,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 2,
+          "blue2": 2,
+          "finalRoundAnalyses": [
+            {
+              "entry": 187,
+              "turn": 13,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 7）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 258,
+          "main": 35,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 2,
+          "blue2": 2,
+          "finalRoundAnalyses": [
+            {
+              "entry": 179,
+              "turn": 11,
+              "steps": [
+                {
+                  "source": "card",
+                  "text": "达到 136 分：1信用点打出",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2信用点 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 6）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "cost",
+                  "text": "snapshot inference: cost",
+                  "delta": {
+                    "credits": -3
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": {
+        "ordinal": 513,
+        "baseline": {
+          "player": "player-brown",
+          "round": 4,
+          "turn": 11,
+          "log": 1584,
+          "action": "playCard",
+          "card": "card-145-0",
+          "resources": {
+            "score": 140,
+            "credits": 2,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 3,
+            "handSize": 4
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": false,
+            "reason": "能量不足，分析需要 1 能量",
+            "score": 0,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.536,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.536,
+              "feasibility": 0,
+              "net": 0
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-brown",
+          "round": 4,
+          "turn": 11,
+          "log": 1584,
+          "action": "quickTrade",
+          "resources": {
+            "score": 140,
+            "credits": 2,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 3,
+            "handSize": 4
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": false,
+            "reason": "能量不足，分析需要 1 能量",
+            "score": 0,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": null,
+            "actionGraph": {
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.536,
+              "feasibility": 0,
+              "net": 0
+            },
+            "breakdown": {
+              "existingScore": 0,
+              "gain": 0,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.536,
+              "feasibility": 0,
+              "net": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "case": 11,
+      "huanyu": {
+        "baseline": {
+          "score": 206,
+          "main": 31,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 185,
+              "turn": 10,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2张牌 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 1号位：无奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+2",
+                  "delta": {
+                    "publicity": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "放置数据：获得卡牌：八灵神星探测器，公共区已补牌：建造叶夫帕托里亚望远锐",
+                  "delta": {
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：收入：手牌+1",
+                  "delta": {
+                    "availableData": -1,
+                    "handSize": 1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 206,
+          "main": 31,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 185,
+              "turn": 10,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2张牌 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 1号位：无奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+2",
+                  "delta": {
+                    "publicity": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "放置数据：获得卡牌：八灵神星探测器，公共区已补牌：建造叶夫帕托里亚望远锐",
+                  "delta": {
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：收入：手牌+1",
+                  "delta": {
+                    "availableData": -1,
+                    "handSize": 1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 12,
+      "huanyu": {
+        "baseline": {
+          "score": 202,
+          "main": 28,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 145,
+              "turn": 4,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：九折蓝色痕迹 3号位：1宣传、1/1数据、威胁度+2",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": 1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                }
+              ]
+            },
+            {
+              "entry": 161,
+              "turn": 8,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：奥陌陌蓝色痕迹 1号位：支付1化石、",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 202,
+          "main": 28,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 145,
+              "turn": 4,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：九折蓝色痕迹 3号位：1宣传、1/1数据、威胁度+2",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": 1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                }
+              ]
+            },
+            {
+              "entry": 161,
+              "turn": 8,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：奥陌陌蓝色痕迹 1号位：支付1化石、",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 13,
+      "huanyu": {
+        "baseline": {
+          "score": 239,
+          "main": 34,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 0,
+          "blue2": 1,
+          "finalRoundAnalyses": [
+            {
+              "entry": 175,
+              "turn": 11,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：九折蓝色痕迹 2号位：1宣传、1/1数据、威胁度+2",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": 1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "完成任务：大型离子对撞机实验",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "2个外星人均有蓝色痕迹：2数据：棕色获得 2/2 个数据",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "放置数据：获得卡牌：近地小行星研究，公共区已补牌：凌日系外行星巡天卫星",
+                  "delta": {
+                    "availableData": -1,
+                    "handSize": 1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "availableData": 2
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 239,
+          "main": 34,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 0,
+          "blue2": 1,
+          "finalRoundAnalyses": [
+            {
+              "entry": 175,
+              "turn": 11,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：九折蓝色痕迹 2号位：1宣传、1/1数据、威胁度+2",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": 1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "完成任务：大型离子对撞机实验",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "2个外星人均有蓝色痕迹：2数据：棕色获得 2/2 个数据",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "放置数据：获得卡牌：近地小行星研究，公共区已补牌：凌日系外行星巡天卫星",
+                  "delta": {
+                    "availableData": -1,
+                    "handSize": 1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "availableData": 2
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 14,
+      "huanyu": {
+        "baseline": {
+          "score": 194,
+          "main": 31,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 2,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 172,
+              "turn": 7,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 6）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 194,
+          "main": 31,
+          "analysis": 4,
+          "cycles": 3,
+          "blue1": 2,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 172,
+              "turn": 7,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 6）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 15,
+      "huanyu": {
+        "baseline": {
+          "score": 166,
+          "main": 26,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 2,
+          "finalRoundAnalyses": [
+            {
+              "entry": 174,
+              "turn": 9,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2张牌 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 1号位：无奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：信用点+1、手牌-1；收入：信用点+1",
+                  "delta": {
+                    "credits": 1,
+                    "handSize": -1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据",
+                  "delta": {
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据",
+                  "delta": {
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 166,
+          "main": 26,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 2,
+          "finalRoundAnalyses": [
+            {
+              "entry": 174,
+              "turn": 9,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2张牌 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 1号位：无奖励",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：信用点+1、手牌-1；收入：信用点+1",
+                  "delta": {
+                    "credits": 1,
+                    "handSize": -1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据",
+                  "delta": {
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据",
+                  "delta": {
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 16,
+      "huanyu": {
+        "baseline": {
+          "score": 239,
+          "main": 33,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 3,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 177,
+              "turn": 10,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "快速交易：2张牌 → 1能量",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文5，已补充新 symbol",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -2
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "energy": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 218,
+          "main": 32,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 3,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 159,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文3，已补充新 symbol",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": {
+        "ordinal": 459,
+        "baseline": {
+          "player": "player-green",
+          "round": 4,
+          "turn": 6,
+          "log": 1421,
+          "action": "playCard",
+          "card": "card-159-0",
+          "resources": {
+            "score": 144,
+            "credits": 2,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 3,
+            "handSize": 5
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 8.35,
+            "directScoreGain": 0,
+            "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 8.35,
+              "rawScore": 30.83,
+              "weightedScore": 34.5296,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 3,
+              "availableData": 3,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 144,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 5.85,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            },
+            "actionGraph": {
+              "gain": 8.35,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.896,
+              "feasibility": 1,
+              "net": 13.246
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 8.35,
+              "rawScore": 30.83,
+              "weightedScore": 34.5296,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 3,
+              "availableData": 3,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 144,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 5.85,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "existingScore": 8.35,
+              "gain": 8.35,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.896,
+              "feasibility": 1,
+              "net": 13.246
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-green",
+          "round": 4,
+          "turn": 6,
+          "log": 1421,
+          "action": "analyze",
+          "resources": {
+            "score": 144,
+            "credits": 2,
+            "energy": 1,
+            "publicity": 4,
+            "availableData": 3,
+            "handSize": 5
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 34.5296,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 34.5296,
+              "rawScore": 30.83,
+              "weightedScore": 34.5296,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 3,
+              "availableData": 3,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 144,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 5.85,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true
+            },
+            "actionGraph": {
+              "gain": 34.53,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.896,
+              "feasibility": 1,
+              "net": 39.425
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 34.5296,
+              "rawScore": 30.83,
+              "weightedScore": 34.5296,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 3,
+              "availableData": 3,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 144,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 5.85,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 0,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true,
+              "existingScore": 34.53,
+              "gain": 34.53,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.896,
+              "feasibility": 1,
+              "net": 39.425
+            }
+          }
+        }
+      }
+    },
+    {
+      "case": 17,
+      "huanyu": {
+        "baseline": {
+          "score": 140,
+          "main": 22,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 151,
+              "turn": 3,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 1）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "移动",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "snapshot inference: analysis",
+                  "delta": {
+                    "publicity": 1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 140,
+          "main": 22,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 151,
+              "turn": 3,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 1）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "移动",
+                  "delta": {}
+                },
+                {
+                  "source": "analysis",
+                  "text": "snapshot inference: analysis",
+                  "delta": {
+                    "publicity": 1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 18,
+      "huanyu": {
+        "baseline": {
+          "score": 221,
+          "main": 26,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 2,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        },
+        "candidate": {
+          "score": 221,
+          "main": 26,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 2,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 19,
+      "huanyu": {
+        "baseline": {
+          "score": 177,
+          "main": 26,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 159,
+              "turn": 4,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：奥陌陌蓝色痕迹 1号位：支付1化石、",
+                  "delta": {}
+                },
+                {
+                  "source": "card",
+                  "text": "完成任务：天外来客",
+                  "delta": {}
+                },
+                {
+                  "source": "alien",
+                  "text": "占据奥陌陌化石支付痕迹位：1数据：白色获得 1/1 个数据",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "移动",
+                  "delta": {}
+                },
+                {
+                  "source": "cost",
+                  "text": "snapshot inference: cost",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": 1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 177,
+          "main": 26,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": [
+            {
+              "entry": 159,
+              "turn": 4,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：奥陌陌蓝色痕迹 1号位：支付1化石、",
+                  "delta": {}
+                },
+                {
+                  "source": "card",
+                  "text": "完成任务：天外来客",
+                  "delta": {}
+                },
+                {
+                  "source": "alien",
+                  "text": "占据奥陌陌化石支付痕迹位：1数据：白色获得 1/1 个数据",
+                  "delta": {}
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "移动",
+                  "delta": {}
+                },
+                {
+                  "source": "cost",
+                  "text": "snapshot inference: cost",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": 1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 20,
+      "huanyu": {
+        "baseline": {
+          "score": 238,
+          "main": 33,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 2,
+          "finalRoundAnalyses": [
+            {
+              "entry": 185,
+              "turn": 9,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文4，已补充新 symbol",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 238,
+          "main": 33,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 2,
+          "finalRoundAnalyses": [
+            {
+              "entry": 185,
+              "turn": 9,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：符文族蓝色痕迹 1号位：获得符文4，已补充新 symbol",
+                  "delta": {}
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 21,
+      "huanyu": {
+        "baseline": {
+          "score": 218,
+          "main": 27,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        },
+        "candidate": {
+          "score": 218,
+          "main": 27,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 22,
+      "huanyu": {
+        "baseline": {
+          "score": 128,
+          "main": 26,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 2,
+          "blue2": 1,
+          "finalRoundAnalyses": []
+        },
+        "candidate": {
+          "score": 162,
+          "main": 28,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 2,
+          "blue2": 1,
+          "finalRoundAnalyses": [
+            {
+              "entry": 173,
+              "turn": 7,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 1）；外星人 1 state额外痕迹奖励：3分",
+                  "delta": {
+                    "score": 3
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": {
+        "ordinal": 480,
+        "baseline": {
+          "player": "player-white",
+          "round": 4,
+          "turn": 7,
+          "log": 1556,
+          "action": "scan",
+          "resources": {
+            "score": 77,
+            "credits": 1,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 3,
+            "handSize": 3
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 8.35,
+            "directScoreGain": 0,
+            "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 8.35,
+              "rawScore": 38.221,
+              "weightedScore": 42.80752,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 3,
+              "availableData": 3,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 77,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 5.85,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 7.391,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false
+            },
+            "actionGraph": {
+              "gain": 8.35,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.896,
+              "feasibility": 1,
+              "net": 13.246
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 8.35,
+              "rawScore": 38.221,
+              "weightedScore": 42.80752,
+              "scoreCapReason": "终局分析蓝痕迹与阈值不足",
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 3,
+              "availableData": 3,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 77,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 5.85,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 7.391,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "existingScore": 8.35,
+              "gain": 8.35,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.896,
+              "feasibility": 1,
+              "net": 13.246
+            }
+          }
+        },
+        "candidate": {
+          "player": "player-white",
+          "round": 4,
+          "turn": 7,
+          "log": 1556,
+          "action": "analyze",
+          "resources": {
+            "score": 77,
+            "credits": 1,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 3,
+            "handSize": 3
+          },
+          "analyze": {
+            "id": "analyze",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 42.80752,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "valueBreakdown": {
+              "available": true,
+              "reason": null,
+              "score": 42.80752,
+              "rawScore": 38.221,
+              "weightedScore": 42.80752,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 3,
+              "availableData": 3,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 77,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 5.85,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 7.391,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true
+            },
+            "actionGraph": {
+              "gain": 42.808,
+              "cost": 0,
+              "finalMarginal": 0,
+              "goalBonus": 4.896,
+              "feasibility": 1,
+              "net": 47.703
+            },
+            "breakdown": {
+              "available": true,
+              "reason": null,
+              "score": 42.80752,
+              "rawScore": 38.221,
+              "weightedScore": 42.80752,
+              "scoreCapReason": null,
+              "placedCount": 6,
+              "requiredSlot": 6,
+              "dataRoom": 3,
+              "availableData": 3,
+              "energyCost": 1,
+              "directScoreGain": 0,
+              "currentScore": 77,
+              "finalMarkCount": 3,
+              "nextFinalScoreThreshold": null,
+              "scoreToNextThreshold": 0,
+              "blueTraceDemand": 0,
+              "analyzeBestBlueTraceScore": 0,
+              "thresholdCashoutPressure": 0,
+              "readyAnalyzeWindowValue": 5.85,
+              "lateFullDataAnalyzeRecovery": 0,
+              "lowResourceReadyAnalyzeCashout": 0,
+              "firstThresholdCatchupBonus": 0,
+              "fullComputerBonus": 8,
+              "lateRoundPressure": 4.5,
+              "highScorePushValue": 0,
+              "lowEngineCatchupValue": 7.391,
+              "postSecondFinalMarkPenalty": 0,
+              "hasBlueTraceFinalFormula": false,
+              "huanyuAnalyzeCapAblation": true,
+              "existingScore": 42.808,
+              "gain": 42.808,
+              "cost": 0,
+              "finalMarginal": 0,
+              "finalMarkCashout": 0,
+              "missingFinalMarkPenalty": 0,
+              "goalBonus": 4.896,
+              "feasibility": 1,
+              "net": 47.703
+            }
+          }
+        }
+      }
+    },
+    {
+      "case": 23,
+      "huanyu": {
+        "baseline": {
+          "score": 143,
+          "main": 26,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 1,
+          "finalRoundAnalyses": [
+            {
+              "entry": 146,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：虫族蓝色痕迹 1号位：3宣传",
+                  "delta": {
+                    "publicity": 3
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "完成任务：语言学分析",
+                  "delta": {}
+                },
+                {
+                  "source": "alien",
+                  "text": "同一外星人3个痕迹：在该外星人获得任意痕迹：虫族黄色痕迹 2号位：5分",
+                  "delta": {
+                    "score": 5
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "移动",
+                  "delta": {}
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "publicity": 1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -1
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "candidate": {
+          "score": 143,
+          "main": 26,
+          "analysis": 2,
+          "cycles": 1,
+          "blue1": 0,
+          "blue2": 1,
+          "finalRoundAnalyses": [
+            {
+              "entry": 146,
+              "turn": 6,
+              "steps": [
+                {
+                  "source": "analysis",
+                  "text": "分析数据：资源：能量-1",
+                  "delta": {
+                    "energy": -1
+                  }
+                },
+                {
+                  "source": "alien",
+                  "text": "分析：获得 1 个蓝色外星人痕迹：虫族蓝色痕迹 1号位：3宣传",
+                  "delta": {
+                    "publicity": 3
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "完成任务：语言学分析",
+                  "delta": {}
+                },
+                {
+                  "source": "alien",
+                  "text": "同一外星人3个痕迹：在该外星人获得任意痕迹：虫族黄色痕迹 2号位：5分",
+                  "delta": {
+                    "score": 5
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：分数+2",
+                  "delta": {
+                    "score": 2,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "data_placement",
+                  "text": "放置数据：资源：宣传+1",
+                  "delta": {
+                    "publicity": 1,
+                    "availableData": -1
+                  }
+                },
+                {
+                  "source": "analysis",
+                  "text": "移动",
+                  "delta": {}
+                },
+                {
+                  "source": "alien",
+                  "text": "snapshot inference: alien",
+                  "delta": {
+                    "publicity": 1
+                  }
+                },
+                {
+                  "source": "card",
+                  "text": "snapshot inference: card",
+                  "delta": {
+                    "handSize": -1
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "firstDivergence": null
+    },
+    {
+      "case": 24,
+      "huanyu": {
+        "baseline": {
+          "score": 198,
+          "main": 31,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        },
+        "candidate": {
+          "score": 198,
+          "main": 31,
+          "analysis": 3,
+          "cycles": 2,
+          "blue1": 1,
+          "blue2": 0,
+          "finalRoundAnalyses": []
+        }
+      },
+      "firstDivergence": null
+    }
+  ]
+}
