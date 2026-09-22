@@ -1,0 +1,287 @@
+{
+  "decision": "held-small-uncertain-mean-with-high-tail-decline",
+  "conclusion": "均分点估计小幅正向，但相对配对波动仍小，且原高席与分布高分段同时回落；本组合暂不合入默认策略。寰宇均分增加9.578125，但主行动29→28.59375、蓝1/蓝2奖励下降，不能宣称通过更多资源兑现达成提升。固定24与新随机64不相加，整体+10目标尚未达成。",
+  "sourceCommit": "d9816e068b84a41e9be9b3224b698227604e3d52",
+  "baselineCommit": "c0a7f8e41dff7cb015f6fb2317d1850cdbeae4e2",
+  "meanDelta": 1.58203125,
+  "pairedGameStandardError": 1.89298627378082,
+  "approximate95PercentNormalInterval": [
+    -2.1282218466104075,
+    5.2922843466104075
+  ],
+  "companies": {
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 256.0859375,
+      "candidate": 253.2734375,
+      "meanDelta": -2.8125,
+      "minimumDelta": -10
+    },
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 203.28125,
+      "candidate": 205.65625,
+      "meanDelta": 2.375,
+      "minimumDelta": 23
+    },
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 194.625,
+      "candidate": 204.203125,
+      "meanDelta": 9.578125,
+      "minimumDelta": 26
+    }
+  },
+  "distributionDelta": {
+    "mean": 1.58203125,
+    "min": 26,
+    "p10": 5,
+    "p25": -2,
+    "median": 3,
+    "p75": -1.25,
+    "max": -2,
+    "topQuartileMean": -2.8125,
+    "winnerMean": 0.609375,
+    "minimumPerGameMean": 0.671875,
+    "seats270Plus": -8,
+    "seats300Plus": -2
+  },
+  "baselineHigh": {
+    "seats": 64,
+    "baselineMean": 291.515625,
+    "candidateMean": 260.5,
+    "meanDelta": -31.015625,
+    "improved": 18,
+    "declined": 46,
+    "unchanged": 0
+  },
+  "baselineLow": {
+    "seats": 64,
+    "baselineMean": 172.328125,
+    "candidateMean": 198.734375,
+    "meanDelta": 26.40625,
+    "improved": 45,
+    "declined": 16,
+    "unchanged": 3
+  },
+  "bugCount": 0,
+  "ledgerSeats": 512,
+  "cardPayments": 2979,
+  "roundAid": {
+    "baseline": {
+      "寰宇超动力": {
+        "seats": 64,
+        "score": 194.625,
+        "main": 29,
+        "blue1": 0.953125,
+        "blue2": 0.75,
+        "aid": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 3.28125,
+          "energy": 10.59375,
+          "publicity": 43.828125,
+          "availableData": 22.875,
+          "handSize": 12.796875
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 2.28125,
+          "energy": 6.59375,
+          "publicity": 40.828125,
+          "availableData": 22.875,
+          "handSize": 8.796875
+        },
+        "income": {
+          "credits": 15.90625,
+          "energy": 11.984375,
+          "publicity": 0.140625,
+          "availableData": 0.59375,
+          "handSize": 10.03125
+        }
+      },
+      "作弊实验室": {
+        "seats": 128,
+        "score": 256.0859375,
+        "main": 39.71875,
+        "blue1": 2.1796875,
+        "blue2": 2,
+        "aid": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 4.703125,
+          "energy": 13.015625,
+          "publicity": 48.546875,
+          "availableData": 39.3125,
+          "handSize": 17.09375
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 3.703125,
+          "energy": 9.015625,
+          "publicity": 48.546875,
+          "availableData": 39.3125,
+          "handSize": 13.09375
+        },
+        "income": {
+          "credits": 18.71875,
+          "energy": 15.0078125,
+          "publicity": 0.28125,
+          "availableData": 0.3359375,
+          "handSize": 11.6328125
+        }
+      },
+      "宇宙大战略集团": {
+        "seats": 64,
+        "score": 203.28125,
+        "main": 32.875,
+        "blue1": 1.390625,
+        "blue2": 1.25,
+        "aid": {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 8.34375,
+          "energy": 7.21875,
+          "publicity": 46.453125,
+          "availableData": 32.921875,
+          "handSize": 17.890625
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 7.34375,
+          "energy": 6.21875,
+          "publicity": 46.453125,
+          "availableData": 32.921875,
+          "handSize": 13.890625
+        },
+        "income": {
+          "credits": 17,
+          "energy": 12.859375,
+          "publicity": 0.25,
+          "availableData": 0.234375,
+          "handSize": 11.421875
+        }
+      }
+    },
+    "candidate": {
+      "寰宇超动力": {
+        "seats": 64,
+        "score": 204.203125,
+        "main": 28.59375,
+        "blue1": 0.921875,
+        "blue2": 0.640625,
+        "aid": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 3.453125,
+          "energy": 10.078125,
+          "publicity": 42.78125,
+          "availableData": 24.1875,
+          "handSize": 13.671875
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 2.453125,
+          "energy": 6.078125,
+          "publicity": 39.78125,
+          "availableData": 24.1875,
+          "handSize": 9.671875
+        },
+        "income": {
+          "credits": 15.421875,
+          "energy": 11.984375,
+          "publicity": 0.203125,
+          "availableData": 0.59375,
+          "handSize": 9.859375
+        }
+      },
+      "作弊实验室": {
+        "seats": 128,
+        "score": 253.2734375,
+        "main": 39.875,
+        "blue1": 2.03125,
+        "blue2": 1.921875,
+        "aid": {
+          "credits": 1,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 4.6015625,
+          "energy": 13.078125,
+          "publicity": 49.6796875,
+          "availableData": 37.5,
+          "handSize": 16.1796875
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 3.6015625,
+          "energy": 9.078125,
+          "publicity": 49.6796875,
+          "availableData": 37.5,
+          "handSize": 12.1796875
+        },
+        "income": {
+          "credits": 18.578125,
+          "energy": 15.2734375,
+          "publicity": 0.234375,
+          "availableData": 0.3125,
+          "handSize": 11.296875
+        }
+      },
+      "宇宙大战略集团": {
+        "seats": 64,
+        "score": 205.65625,
+        "main": 33.515625,
+        "blue1": 1.8125,
+        "blue2": 1.28125,
+        "aid": {
+          "credits": 1,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 4
+        },
+        "nonIncome": {
+          "credits": 8.78125,
+          "energy": 7.859375,
+          "publicity": 47.140625,
+          "availableData": 33.015625,
+          "handSize": 18.0625
+        },
+        "nonIncomeWithoutRoundAid": {
+          "credits": 7.78125,
+          "energy": 6.859375,
+          "publicity": 47.140625,
+          "availableData": 33.015625,
+          "handSize": 14.0625
+        },
+        "income": {
+          "credits": 17.015625,
+          "energy": 13.09375,
+          "publicity": 0.296875,
+          "availableData": 0.25,
+          "handSize": 11.5
+        }
+      }
+    }
+  },
+  "scope": "All64 fresh pairs after source freeze; all128 games included. Approximate interval treats paired games as independent units. Mean is first priority; original high and low seats and distribution tails are reported separately. Fixed development and fresh validation effects are not summed. Same recurring company aid per paired seat; aid subtraction does not remove enhanced setup, discounts, or passives. +10 target is not met by this report unless the complete random result supports it."
+}
