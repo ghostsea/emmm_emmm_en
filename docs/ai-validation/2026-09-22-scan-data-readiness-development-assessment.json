@@ -1,0 +1,128 @@
+{
+  "decision": "held-development-mean-declined",
+  "conclusion": "整体与高分段退步，保留独立分支、不合入、不启动新随机验收。602次标准扫描的实际主事务数据获取均不低于预估，但含扇区或外星人附带奖励，不能据此证明逐目标预测完全正确。192次预计数据就绪中59次下一主行动为同轮分析；同时预计可付分析能量的138次中仅46次如此，116次在下一主行动前放入蓝色奖励。补齐数据的可能性不能等同于实际分配计划或必选分析，也不能反推这些蓝色奖励选择都是错误。相对未接受组合的增量不与历史随机效果相加，+10仍未达成。",
+  "sourceCommit": "93de4f922a8a53e5432fd8843fe3c912f8bd485b",
+  "parentCommit": "d9816e068b84a41e9be9b3224b698227604e3d52",
+  "meanDelta": -5.135416666666686,
+  "pairedGameStandardError": 2.699678723448958,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 264.3125,
+      "candidate": 255.85416666666666,
+      "meanDelta": -8.458333333333343,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 190.25,
+      "candidate": 193.875,
+      "meanDelta": 3.625,
+      "minimumDelta": -13
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 215.70833333333334,
+      "candidate": 208.45833333333334,
+      "meanDelta": -7.25,
+      "minimumDelta": -9
+    }
+  },
+  "distributionDelta": {
+    "mean": -5.135416666666686,
+    "min": -13,
+    "p10": -7,
+    "p25": -2.5,
+    "median": -6.5,
+    "p75": -11,
+    "max": 0,
+    "topQuartileMean": -7.833333333333314,
+    "winnerMean": -10.583333333333371,
+    "minimumPerGameMean": 0.08333333333331439,
+    "seats270Plus": -5,
+    "seats300Plus": -4
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 300,
+    "candidateMean": 281.125,
+    "meanDelta": -18.875,
+    "improved": 3,
+    "declined": 11,
+    "unchanged": 10
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 174,
+    "candidateMean": 179.83333333333334,
+    "meanDelta": 5.833333333333333,
+    "improved": 9,
+    "declined": 3,
+    "unchanged": 12
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1121,
+  "scanRealization": {
+    "作弊实验室": {
+      "scans": 388,
+      "predictedData": 600,
+      "actualMainData": 1065,
+      "forecastExceedsObserved": 0,
+      "projectedAnalysisReady": 121,
+      "nextMainActuallyAnalyze": 33,
+      "readyAndEnergyAffordable": 92,
+      "affordableNextMainAnalyze": 26,
+      "readyWithBluePlacementBeforeNextMain": 71,
+      "readyNextMainKinds": {
+        "analyze": 33,
+        "researchTech": 30,
+        "playCard": 19,
+        "pass": 4,
+        "scan": 28,
+        "land": 6,
+        "launch": 1
+      }
+    },
+    "宇宙大战略集团": {
+      "scans": 144,
+      "predictedData": 215,
+      "actualMainData": 377,
+      "forecastExceedsObserved": 0,
+      "projectedAnalysisReady": 41,
+      "nextMainActuallyAnalyze": 18,
+      "readyAndEnergyAffordable": 29,
+      "affordableNextMainAnalyze": 16,
+      "readyWithBluePlacementBeforeNextMain": 25,
+      "readyNextMainKinds": {
+        "analyze": 18,
+        "researchTech": 9,
+        "scan": 4,
+        "land": 2,
+        "playCard": 6,
+        "pass": 1,
+        "orbit": 1
+      }
+    },
+    "寰宇超动力": {
+      "scans": 70,
+      "predictedData": 133,
+      "actualMainData": 184,
+      "forecastExceedsObserved": 0,
+      "projectedAnalysisReady": 30,
+      "nextMainActuallyAnalyze": 8,
+      "readyAndEnergyAffordable": 17,
+      "affordableNextMainAnalyze": 4,
+      "readyWithBluePlacementBeforeNextMain": 20,
+      "readyNextMainKinds": {
+        "analyze": 8,
+        "researchTech": 7,
+        "pass": 3,
+        "land": 4,
+        "playCard": 6,
+        "scan": 2
+      }
+    }
+  },
+  "scope": "All24 seen development pairs against current reward combination, not the original c0a7 default. No component gains or development and random gains are summed. Forecast data receipts include whole main-action side rewards; canOpenAnalyze is a data readiness estimate, not guaranteed immediate analysis or affordable energy. Original combined parent is held after its separate fresh64; it is not an accepted default."
+}
