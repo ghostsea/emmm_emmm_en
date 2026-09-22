@@ -1,0 +1,258 @@
+{
+  "decision": "held-development-mean-declined",
+  "sourceCommit": "ee991c4703dc455bb960ac0c4aa123c220f6bcd7",
+  "parentCommit": "d9816e068b84a41e9be9b3224b698227604e3d52",
+  "meanDelta": -0.8854166666666856,
+  "pairedGameStandardError": 0.49131477673991775,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 264.3125,
+      "candidate": 264.9791666666667,
+      "meanDelta": 0.6666666666666856,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 190.25,
+      "candidate": 189.25,
+      "meanDelta": -1,
+      "minimumDelta": 14
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 215.70833333333334,
+      "candidate": 211.83333333333334,
+      "meanDelta": -3.875,
+      "minimumDelta": -23
+    }
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 300,
+    "candidateMean": 299.125,
+    "meanDelta": -0.875,
+    "improved": 2,
+    "declined": 1,
+    "unchanged": 21
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 174,
+    "candidateMean": 175.08333333333334,
+    "meanDelta": 1.0833333333333333,
+    "improved": 1,
+    "declined": 0,
+    "unchanged": 23
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1137,
+  "launches": {
+    "baseline": {
+      "launch": 93,
+      "positivePlan": 71,
+      "anySameTurnMove": 58,
+      "matchingCoordinateMove": 55,
+      "matchingViaEffect": 15,
+      "nextMainIdentityMatchesForecast": 7,
+      "noSameTurnMoveCases": [
+        {
+          "case": 2,
+          "player": "player-white",
+          "round": 1,
+          "turn": 2,
+          "planScore": 1.0409383627193884,
+          "target": "venus"
+        },
+        {
+          "case": 4,
+          "player": "player-green",
+          "round": 1,
+          "turn": 6,
+          "planScore": 3.492964928320216,
+          "target": "mars"
+        },
+        {
+          "case": 5,
+          "player": "player-blue",
+          "round": 1,
+          "turn": 1,
+          "planScore": 1.5103698344601595,
+          "target": "venus"
+        },
+        {
+          "case": 7,
+          "player": "player-blue",
+          "round": 1,
+          "turn": 1,
+          "planScore": 1.5980378038323204,
+          "target": "mars"
+        },
+        {
+          "case": 10,
+          "player": "player-green",
+          "round": 2,
+          "turn": 2,
+          "planScore": 1.5501283154739225,
+          "target": "mars"
+        },
+        {
+          "case": 14,
+          "player": "player-blue",
+          "round": 2,
+          "turn": 6,
+          "planScore": 19.70606670995456,
+          "target": "mars"
+        },
+        {
+          "case": 19,
+          "player": "player-blue",
+          "round": 1,
+          "turn": 3,
+          "planScore": 1.3605909670963223,
+          "target": "venus"
+        },
+        {
+          "case": 19,
+          "player": "player-brown",
+          "round": 2,
+          "turn": 6,
+          "planScore": 13.184337686773762,
+          "target": "mars"
+        },
+        {
+          "case": 20,
+          "player": "player-brown",
+          "round": 2,
+          "turn": 2,
+          "planScore": 1.6490602109614114,
+          "target": "venus"
+        },
+        {
+          "case": 21,
+          "player": "player-brown",
+          "round": 1,
+          "turn": 3,
+          "planScore": 1.0871327785728004,
+          "target": "venus"
+        },
+        {
+          "case": 22,
+          "player": "player-green",
+          "round": 1,
+          "turn": 4,
+          "planScore": 1.6590179539200038,
+          "target": "venus"
+        },
+        {
+          "case": 22,
+          "player": "player-green",
+          "round": 2,
+          "turn": 1,
+          "planScore": 1.015576224337921,
+          "target": "venus"
+        },
+        {
+          "case": 23,
+          "player": "player-brown",
+          "round": 1,
+          "turn": 1,
+          "planScore": 1.3061974604994075,
+          "target": "venus"
+        }
+      ]
+    },
+    "candidate": {
+      "launch": 90,
+      "positivePlan": 69,
+      "anySameTurnMove": 59,
+      "matchingCoordinateMove": 56,
+      "matchingViaEffect": 15,
+      "nextMainIdentityMatchesForecast": 7,
+      "noSameTurnMoveCases": [
+        {
+          "case": 2,
+          "player": "player-white",
+          "round": 1,
+          "turn": 2,
+          "planScore": 1.0409383627193884,
+          "target": "venus"
+        },
+        {
+          "case": 5,
+          "player": "player-blue",
+          "round": 1,
+          "turn": 1,
+          "planScore": 1.5103698344601595,
+          "target": "venus"
+        },
+        {
+          "case": 7,
+          "player": "player-blue",
+          "round": 1,
+          "turn": 1,
+          "planScore": 1.5980378038323204,
+          "target": "mars"
+        },
+        {
+          "case": 10,
+          "player": "player-green",
+          "round": 2,
+          "turn": 2,
+          "planScore": 1.5501283154739225,
+          "target": "mars"
+        },
+        {
+          "case": 19,
+          "player": "player-blue",
+          "round": 1,
+          "turn": 3,
+          "planScore": 1.3605909670963223,
+          "target": "venus"
+        },
+        {
+          "case": 20,
+          "player": "player-brown",
+          "round": 2,
+          "turn": 2,
+          "planScore": 1.6490602109614114,
+          "target": "venus"
+        },
+        {
+          "case": 21,
+          "player": "player-brown",
+          "round": 1,
+          "turn": 3,
+          "planScore": 1.0871327785728004,
+          "target": "venus"
+        },
+        {
+          "case": 22,
+          "player": "player-green",
+          "round": 1,
+          "turn": 4,
+          "planScore": 1.6590179539200038,
+          "target": "venus"
+        },
+        {
+          "case": 22,
+          "player": "player-green",
+          "round": 2,
+          "turn": 1,
+          "planScore": 1.015576224337921,
+          "target": "venus"
+        },
+        {
+          "case": 23,
+          "player": "player-brown",
+          "round": 1,
+          "turn": 1,
+          "planScore": 1.3061974604994075,
+          "target": "venus"
+        }
+      ]
+    }
+  },
+  "scope": "All24 seen pairs against current reward combination, not the original c0a7 policy. Local forecast consistency improved but mean did not. Retain independent branch; do not merge or run fresh validation for this candidate. Parent random64 remains unchanged. Matching movement is diagnostic and not a causal estimate."
+}
