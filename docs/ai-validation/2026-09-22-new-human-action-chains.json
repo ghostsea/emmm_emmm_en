@@ -1,0 +1,623 @@
+{
+  "scope": "New human trajectories, descriptive only. Old scan penalty shown is arithmetic under the previous scan-count formula, not a counterfactual replay or forecast score gain. Human game uses different company resources and seeds. Parsed score deltas are incomplete, so no total payoff is inferred.",
+  "games": [
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260909-231236.md",
+      "company": "寰宇动力",
+      "score": 296,
+      "rounds": [
+        {
+          "round": 1,
+          "mainActions": 5,
+          "plays": 2,
+          "scans": [],
+          "analyses": []
+        },
+        {
+          "round": 2,
+          "mainActions": 8,
+          "plays": 4,
+          "scans": [],
+          "analyses": []
+        },
+        {
+          "round": 3,
+          "mainActions": 14,
+          "plays": 7,
+          "scans": [
+            {
+              "entry": 106,
+              "turn": 8,
+              "ordinal": 1,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 0
+            },
+            {
+              "entry": 109,
+              "turn": 9,
+              "ordinal": 2,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 10
+            }
+          ],
+          "analyses": [
+            87,
+            112,
+            121
+          ]
+        },
+        {
+          "round": 4,
+          "mainActions": 18,
+          "plays": 5,
+          "scans": [
+            {
+              "entry": 146,
+              "turn": 5,
+              "ordinal": 1,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 0
+            },
+            {
+              "entry": 164,
+              "turn": 9,
+              "ordinal": 2,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 10
+            },
+            {
+              "entry": 174,
+              "turn": 12,
+              "ordinal": 3,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 20
+            },
+            {
+              "entry": 175,
+              "turn": 12,
+              "ordinal": 4,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 30
+            },
+            {
+              "entry": 176,
+              "turn": 12,
+              "ordinal": 5,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 40
+            }
+          ],
+          "analyses": [
+            150,
+            172,
+            177
+          ]
+        }
+      ]
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260919-223731.md",
+      "company": "任务中继站",
+      "score": 362,
+      "rounds": [
+        {
+          "round": 1,
+          "mainActions": 6,
+          "plays": 5,
+          "scans": [],
+          "analyses": []
+        },
+        {
+          "round": 2,
+          "mainActions": 16,
+          "plays": 8,
+          "scans": [
+            {
+              "entry": 37,
+              "turn": 1,
+              "ordinal": 1,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 0
+            }
+          ],
+          "analyses": [
+            57,
+            81
+          ]
+        },
+        {
+          "round": 3,
+          "mainActions": 10,
+          "plays": 4,
+          "scans": [
+            {
+              "entry": 99,
+              "turn": 3,
+              "ordinal": 1,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 0
+            },
+            {
+              "entry": 119,
+              "turn": 8,
+              "ordinal": 2,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 10
+            }
+          ],
+          "analyses": [
+            103,
+            126
+          ]
+        },
+        {
+          "round": 4,
+          "mainActions": 16,
+          "plays": 5,
+          "scans": [
+            {
+              "entry": 155,
+              "turn": 5,
+              "ordinal": 1,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 0
+            },
+            {
+              "entry": 175,
+              "turn": 10,
+              "ordinal": 2,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 10
+            },
+            {
+              "entry": 178,
+              "turn": 11,
+              "ordinal": 3,
+              "scanCountPenaltyIfOnlyApplyingOldFormula": 20
+            }
+          ],
+          "analyses": [
+            167,
+            186
+          ]
+        }
+      ]
+    }
+  ],
+  "huanyuLateChain": {
+    "entries": [
+      172,
+      174,
+      175,
+      176,
+      177
+    ],
+    "observations": [
+      "Entry172 analyzes before three further scans174/175/176, followed by analyze177.",
+      "Entry174 pays1C2E and recovers1C from blue placement.",
+      "Entry175 pays1C2E, receives1E via immediate income and another1E from blue placement; these are distinct income/non-income rewards.",
+      "Entry176 additionally trades2cards for1C and spends1E on launch; scanning is not free.",
+      "Entry177 trades3publicity for a card and2cards for1E, then spends1E to analyze.",
+      "The last three scans are the third/fourth/fifth scans this round; old flat count penalties would be20/30/40 independent of current rewards."
+    ],
+    "events": [
+      {
+        "entry": 172,
+        "source": "analysis",
+        "text": "分析数据：资源：能量-1",
+        "resources": {
+          "energy": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 172,
+        "source": "analysis",
+        "text": "分析：获得 1 个蓝色外星人痕迹：外星人 1 蓝色痕迹 额外 +1（共 5）；外星人 1 state额外痕迹奖励：3分",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "cost",
+        "text": "扫描费用：扫描消耗 1信用点 + 2能量",
+        "resources": {
+          "credits": -1,
+          "energy": -2
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "planet_board",
+        "text": "扇区扫描：天狼星A 槽位4 替换为白色token；获得数据；资源：数据+1",
+        "resources": {
+          "availableData": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "card",
+        "text": "公共牌区扫描 跟踪与数据中继卫星：巴纳德 槽位5 替换为白色token；获得数据；弃除 跟踪与数据中继卫星，公共区留空待扫描结束补牌；资源：数据+1",
+        "resources": {
+          "availableData": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "planet_board",
+        "text": "发射/移动：已累加 1 移动到本次扫描移动效果",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "card",
+        "text": "卡牌快速行动：弃牌换1宣传：资源：手牌-1",
+        "resources": {
+          "handSize": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "cost",
+        "text": "水星扇区扫描：绘架座β 槽位5 替换为白色token；获得数据；消耗 1宣传；资源：数据+1",
+        "resources": {
+          "availableData": 1,
+          "publicity": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "planet_board",
+        "text": "扫描行动：累计移动：R1 -> 扇区[4,2]#4，橙色2：进入小行星，宣传+1",
+        "resources": {
+          "publicity": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "planet_board",
+        "text": "完成扇区：巴纳德：巴纳德第5次结算：白色获胜，棕色保留1枚标记；追加 3 个奖励效果",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "planet_board",
+        "text": "巴纳德参与奖励：白色 +1宣传：白色 宣传+1",
+        "resources": {
+          "publicity": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "planet_board",
+        "text": "巴纳德赢家奖励：白色 +3分：白色 分数+3",
+        "resources": {
+          "score": 3
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "planet_board",
+        "text": "完成扇区：绘架座β：绘架座β第2次结算：绿色获胜，白色保留1枚标记；追加 4 个奖励效果",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "planet_board",
+        "text": "绘架座β参与奖励：白色 +1宣传：白色 宣传+1",
+        "resources": {
+          "publicity": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "alien",
+        "text": "绘架座β赢家奖励：绿色放置粉色外星人痕迹：异常点粉色痕迹 2号位：无奖励",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "card",
+        "text": "补充公共牌区：公共牌区补牌：3:大型轨遒天文台计划；不可撤销：公共牌补牌翻出新牌",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "data_placement",
+        "text": "放置数据：资源：分数+2",
+        "resources": {
+          "score": 2,
+          "availableData": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "tech_bonus_blue1",
+        "text": "放置数据：资源：信用点+1",
+        "resources": {
+          "credits": 1,
+          "availableData": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "data_placement",
+        "text": "放置数据：资源：宣传+1",
+        "resources": {
+          "publicity": 1,
+          "availableData": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 174,
+        "source": "data_placement",
+        "text": "放置数据：资源：分数+2",
+        "resources": {
+          "score": 2,
+          "availableData": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 175,
+        "source": "cost",
+        "text": "扫描费用：扫描消耗 1信用点 + 2能量",
+        "resources": {
+          "credits": -1,
+          "energy": -2
+        },
+        "income": {}
+      },
+      {
+        "entry": 175,
+        "source": "planet_board",
+        "text": "扇区扫描：天狼星A 槽位5 替换为白色token；获得数据；资源：数据+1",
+        "resources": {
+          "availableData": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 175,
+        "source": "card",
+        "text": "公共牌区扫描 大型轨遒天文台计划：室女座61 槽位5 替换为白色token；获得数据；弃除 大型轨遒天文台计划，公共区留空待扫描结束补牌；资源：数据+1",
+        "resources": {
+          "availableData": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 175,
+        "source": "planet_board",
+        "text": "跳过：发射/移动：发射/移动：已跳过",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 175,
+        "source": "cost",
+        "text": "水星扇区扫描：绘架座β 槽位2 替换为白色token；槽位2 +2分；获得数据；消耗 1宣传；资源：数据+1",
+        "resources": {
+          "availableData": 1,
+          "publicity": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 175,
+        "source": "card",
+        "text": "补充公共牌区：公共牌区补牌：3:废弃任务；不可撤销：公共牌补牌翻出新牌",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 175,
+        "source": "tech_bonus_blue2",
+        "text": "放置数据：资源：能量+1、手牌-1；收入：能量+1",
+        "resources": {
+          "energy": 1,
+          "handSize": -1,
+          "availableData": -1
+        },
+        "income": {
+          "energy": 1
+        }
+      },
+      {
+        "entry": 175,
+        "source": "data_placement",
+        "text": "放置数据：资源：分数+2",
+        "resources": {
+          "score": 2,
+          "availableData": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 175,
+        "source": "tech_bonus_blue2",
+        "text": "放置数据：资源：能量+1",
+        "resources": {
+          "energy": 1,
+          "availableData": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "trade_conversion",
+        "text": "快速交易：2张牌 → 1信用点",
+        "resources": {
+          "handSize": -2,
+          "credits": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "cost",
+        "text": "扫描费用：扫描消耗 1信用点 + 2能量",
+        "resources": {
+          "credits": -1,
+          "energy": -2
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "planet_board",
+        "text": "扇区扫描：巴纳德 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1",
+        "resources": {
+          "availableData": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "card",
+        "text": "公共牌区扫描 废弃任务：天狼星A 槽位6 替换为白色token；获得数据；弃除 废弃任务，公共区留空待扫描结束补牌；资源：数据+1",
+        "resources": {
+          "availableData": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "cost",
+        "text": "发射/移动：发射 R2 -> 扇区[4,1]#4，消耗 1能量",
+        "resources": {
+          "energy": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "cost",
+        "text": "水星扇区扫描：绘架座β 槽位3 替换为白色token；获得数据；消耗 1宣传；资源：数据+1",
+        "resources": {
+          "availableData": 1,
+          "publicity": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "planet_board",
+        "text": "完成扇区：天狼星A：天狼星A第2次结算：白色获胜，绿色保留1枚标记；追加 4 个奖励效果",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "planet_board",
+        "text": "天狼星A参与奖励：白色 +1宣传：白色 宣传+1",
+        "resources": {
+          "publicity": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "alien",
+        "text": "天狼星A赢家奖励：白色放置粉色外星人痕迹：方舟粉色痕迹 1号位：；方舟粉色痕迹 1号位 基础奖励；不可撤销：方舟奖励牌翻开新牌",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "alien",
+        "text": "方舟奖励 8：2分数：白色 分数+2",
+        "resources": {
+          "score": 2
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "alien",
+        "text": "方舟奖励 8：1宣传：白色 宣传+1",
+        "resources": {
+          "publicity": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "card",
+        "text": "补充公共牌区：公共牌区补牌：3:新型AI模型；不可撤销：公共牌补牌翻出新牌",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "card",
+        "text": "放置数据：获得卡牌：低功耗微处理器，公共区已补牌：穿越小行星带",
+        "resources": {
+          "handSize": 1,
+          "availableData": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 176,
+        "source": "data_placement",
+        "text": "放置数据",
+        "resources": {
+          "availableData": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 177,
+        "source": "card",
+        "text": "快速交易：3宣传 → 精选1张牌：快速交易精选：穿越小行星带，公共区已补牌：观测巴纳德星",
+        "resources": {
+          "publicity": -3,
+          "handSize": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 177,
+        "source": "analysis",
+        "text": "快速交易：2张牌 → 1能量",
+        "resources": {
+          "handSize": -2,
+          "energy": 1
+        },
+        "income": {}
+      },
+      {
+        "entry": 177,
+        "source": "analysis",
+        "text": "分析数据：资源：能量-1",
+        "resources": {
+          "energy": -1
+        },
+        "income": {}
+      },
+      {
+        "entry": 177,
+        "source": "analysis",
+        "text": "分析：获得 1 个蓝色外星人痕迹：外星人 2 蓝色痕迹 额外 +1（共 1）；外星人 2 state额外痕迹奖励：3分",
+        "resources": {},
+        "income": {}
+      },
+      {
+        "entry": 177,
+        "source": "data_placement",
+        "text": "放置数据：资源：分数+2",
+        "resources": {
+          "score": 2,
+          "availableData": -1
+        },
+        "income": {}
+      }
+    ]
+  }
+}
