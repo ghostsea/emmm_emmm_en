@@ -17111,6 +17111,42 @@ runAsyncControllerTests()
     process.exitCode = 1;
   });
 
+// A legal move that consumes the last energy cannot cash out the destination
+// through orbit/landing. The launch forecast must agree with that paid move.
+for (const [roundNumber, energy, cap] of [[2, 1, 14], [4, 1, 10], [2, 4, null]]) {
+  const choices = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', roundNumber, canStartMainAction: true,
+    canPayForMove: true, realisticCanAfford: true,
+    blueResources: { score: 38, credits: 6, energy, publicity: 3, handSize: 0 },
+    earthCoordinate: { x: 1, y: 1 },
+    planetLocations: [{ planetId: 'earth', x: 1, y: 1 }, { planetId: 'mars', x: 1, y: 2 }],
+    findAvailableSlotIndex: (_state, x, y) => x === 1 && y === 2 ? 0 : null,
+    planetStats: {
+      canAddLandingMarker: () => true, canAddOrbitMarker: () => true,
+      getAvailableSatellitesForLanding: () => [],
+      getPlanetLandingCount: () => 0, getPlanetOrbitCount: () => 0,
+    },
+    actionChecks: { launch: { ok: true } },
+    onChooseTurnAction: candidates => choices.push(...candidates),
+    chooseTurnAction: candidates => candidates.find(c => c.id === 'pass'),
+  });
+  harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+  harness.controller.runAiAutomationStep();
+  const launch = choices.find(c => c.id === 'launch');
+  assert.ok(launch, 'launch must reach policy enumeration');
+  const value = launch.valueBreakdown;
+  if (cap != null) {
+    if (roundNumber === 2) assert.ok(value.postLaunchRouteScore > cap, 'early fixture must exceed staging value');
+    assert.equal(value.postLaunchRouteScoreForGain, Math.min(value.postLaunchRouteScore, cap),
+      'unaffordable cashout has staging value only, without inflating a weaker route');
+  } else {
+    assert.equal(value.postLaunchRouteScoreForGain, value.postLaunchRouteScore,
+      'payable followup keeps the existing launch forecast');
+    assert.ok(launch.plan?.projectedFollowupMainAction?.score > 0);
+  }
+}
+
 {
  const h=createAiControllerHarness(null,{currentPlayerColor:'blue',roundNumber:2});
  const card={cardInstanceId:'intended-instance',available:true,handIndex:3};

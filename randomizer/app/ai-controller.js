@@ -17035,6 +17035,17 @@
       return Math.min(18, 8 + Math.max(0, 50 - currentScore) * 0.4 + Math.min(6, planScore * 0.12));
     }
 
+    function capAiUncashablePlanetArrivalRouteScore(routeScore, followupMainAction) {
+      const arrivedAtPlanet = routeScore?.target?.kind === "planet"
+        && Math.max(0, Math.round(aiNumber(routeScore.target.newDistance))) === 0;
+      if (!arrivedAtPlanet || Math.max(0, aiNumber(followupMainAction?.score)) > 0) {
+        return aiNumber(routeScore?.score);
+      }
+      // Reaching a planet does not pay its orbit/landing reward. Use the same
+      // staging value before launch and when deciding the actual paid move.
+      return Math.min(aiNumber(routeScore.score), getAiRoundNumber() <= 2 ? 14 : 10);
+    }
+
     function scoreAiPostLaunchMovePlan(player = getCurrentPlayer()) {
       if (!player || state.pendingActionExecuted) return null;
       if (!players.canAfford(player, getAiLaunchPaymentCost())) return null;
@@ -17053,8 +17064,6 @@
           const requiredMovePoints = getAiRequiredMovePointsFromCoordinate(player, from);
           if (!canPayForMove(player, requiredMovePoints).ok) return null;
           const routeScore = scoreAiMoveTowardTargets(from, to, player, { mainActionAlreadyUsed: true });
-          const movementGain = applyAiStrategyWeight(applyAiStrategyWeight(routeScore.score, "route", 0.7), "move", 0.8)
-            + direction.score * 0.08;
           const preserveEnergyForRouteCashout = shouldAiPreserveEnergyForRouteCashout(player, to, {
             routeTarget: routeScore.target,
             requiredMovePoints,
@@ -17076,6 +17085,9 @@
             projectedPlayerAfterLaunchMove,
             { ignoreMainActionUsed: true },
           );
+          const routeScoreForGain = capAiUncashablePlanetArrivalRouteScore(routeScore, projectedFollowupMainAction);
+          const movementGain = applyAiStrategyWeight(applyAiStrategyWeight(routeScoreForGain, "route", 0.7), "move", 0.8)
+            + direction.score * 0.08;
           const paymentCost = movePayment.cost;
           const nearestActionablePlanetPenalty = scoreAiNearestActionablePlanetTimingPenalty({
             player,
@@ -17112,6 +17124,7 @@
             requiredMovePoints,
             routeTarget: routeScore.target,
             routeScore: routeScore.score,
+            routeScoreForGain,
             gain: movementGain,
             cost: movementCost,
             score,
@@ -19864,7 +19877,7 @@
         ? aiNumber(routeScore.score)
         : canCashOutRoute
           ? aiNumber(routeScore.score) * (followupMainAction.timing === "next_turn" ? 0.32 : 0.38)
-          : Math.min(aiNumber(routeScore.score), getAiRoundNumber() <= 2 ? 14 : 10);
+          : capAiUncashablePlanetArrivalRouteScore(routeScore, followupMainAction);
       if (!arrivedAtPlanetTarget && routeScoreForGain > 0) {
         routeScoreForGain *= getAiRoundNumber() <= 2 ? 0.82 : getAiRoundNumber() === 3 ? 0.58 : 0.46;
       }
@@ -23326,6 +23339,8 @@
           launchCost: launchValue.launchCost || 0,
           launchReservePenalty: launchValue.launchReservePenalty || 0,
           postLaunchMovePlanScore: postLaunchMovePlan?.score || 0,
+          postLaunchRouteScore: postLaunchMovePlan?.routeScore || 0,
+          postLaunchRouteScoreForGain: postLaunchMovePlan?.routeScoreForGain || 0,
           lateLaunchPenalty: launchValue.lateLaunchPenalty || 0,
           rawLateLaunchPenalty: launchValue.rawLateLaunchPenalty || 0,
           lateLaunchPenaltyRelief: launchValue.lateLaunchPenaltyRelief || 0,
