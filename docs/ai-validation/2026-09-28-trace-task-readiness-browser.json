@@ -1,0 +1,136 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Independent controlled paid b4/b8/b46 plays with owned traces. Hand forecast and no further trace demand checked before play; actual technology effect queue resolves, then task confirmation completes under correct owner. Not paired score evidence.",
+      "rows": [
+        {
+          "cardId": "b_4.webp",
+          "color": "blue",
+          "owner": "player-brown",
+          "cashout": {
+            "count": 1,
+            "directScore": 0,
+            "rewardValue": 4.597,
+            "value": 4.04,
+            "taskIds": [
+              "b4-blue-alien-task"
+            ],
+            "readyBeforePlayTaskIds": [
+              "b4-blue-alien-task"
+            ],
+            "blockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": []
+          },
+          "traceDemand": 0,
+          "beforeTask": {
+            "credits": 7,
+            "energy": 5,
+            "publicity": 5,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 8
+          },
+          "afterTask": {
+            "credits": 7,
+            "energy": 5,
+            "publicity": 5,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 8
+          },
+          "completed": 1,
+          "bugs": []
+        },
+        {
+          "cardId": "b_8.webp",
+          "color": "yellow",
+          "owner": "player-white",
+          "cashout": {
+            "count": 1,
+            "directScore": 2,
+            "rewardValue": 10.507,
+            "value": 14.031,
+            "taskIds": [
+              "b8-yellow-alien-task"
+            ],
+            "readyBeforePlayTaskIds": [
+              "b8-yellow-alien-task"
+            ],
+            "blockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": []
+          },
+          "traceDemand": 0,
+          "beforeTask": {
+            "credits": 7,
+            "energy": 6,
+            "publicity": 4,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 1,
+            "handSize": 0,
+            "score": 6
+          },
+          "afterTask": {
+            "credits": 7,
+            "energy": 6,
+            "publicity": 4,
+            "availableData": 1,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 1,
+            "handSize": 1,
+            "score": 8
+          },
+          "completed": 1,
+          "bugs": []
+        },
+        {
+          "cardId": "b_46.webp",
+          "color": "pink",
+          "owner": "player-white",
+          "cashout": {
+            "count": 1,
+            "directScore": 4,
+            "rewardValue": 23.262,
+            "value": 29.646,
+            "taskIds": [
+              "b46-all-pink-task"
+            ],
+            "readyBeforePlayTaskIds": [
+              "b46-all-pink-task"
+            ],
+            "blockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": []
+          },
+          "traceDemand": 0,
+          "beforeTask": {
+            "credits": 7,
+            "energy": 5,
+            "publicity": 3,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 8
+          },
+          "afterTask": {
+            "credits": 7,
+            "energy": 7,
+            "publicity": 3,
+            "availableData": 4,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 12
+          },
+          "completed": 1,
+          "bugs": []
+        }
+      ]
+    }
+  }
+}

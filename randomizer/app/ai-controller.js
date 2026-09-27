@@ -1003,6 +1003,19 @@
       return null;
     }
 
+    function getAiTraceTaskReadiness(condition, player) {
+      if (!player || !cardEffects.taskConditionMet) return null;
+      if (![
+        "allAliensHaveTrace", "allAliensHavePlayerTrace", "singleAlienTraceSet",
+        "yichangdianAllTraceTypes", "aomomoAllTraceTypes", "aomomoFossilSpendingTrace",
+      ].includes(condition?.type)) return null;
+      // Use the same discovery/face-panel ownership rules as task collection.
+      // Some species accessors initialize grids; isolate those reads from play.
+      return cardEffects.taskConditionMet({ condition }, player, {
+        alienGameState: structuredClone(alienGameState),
+      });
+    }
+
     function summarizeAiTaskCondition(condition = {}, player = null) {
       if (!condition || typeof condition !== "object") return null;
       const nebulaIdsByColor = cardEffects?.NEBULA_IDS_BY_COLOR || endGameScoring?.NEBULA_IDS_BY_COLOR || {};
@@ -1016,11 +1029,12 @@
         ) || 1),
       );
       const currentCount = getAiTaskConditionCurrentCount(condition, player);
-      const met = currentCount == null
+      const traceReadiness = getAiTraceTaskReadiness(condition, player);
+      const met = traceReadiness ?? (currentCount == null
         ? false
         : (condition.type === "resourceEquals"
           ? aiNumber(currentCount) === aiNumber(condition.count)
-          : aiNumber(currentCount) >= targetCount);
+          : aiNumber(currentCount) >= targetCount));
       return {
         type: condition.type || null,
         targetCount,
@@ -11353,6 +11367,8 @@
     function addAiTaskConditionDemand(demand, task, weight, player, context) {
       const condition = task?.condition;
       if (!condition) return;
+      // A satisfied trace condition needs card play/collection, not more traces.
+      if (getAiTraceTaskReadiness(condition, player) === true) return;
       const committedTask = Math.max(0, aiNumber(weight)) >= 0.8;
       const rewardValue = getAiTaskRewardValue(task, player);
       const directScoreReward = committedTask ? getAiTaskDirectScoreReward(task, player) : 0;
@@ -26771,6 +26787,8 @@
       scoreAiNebulaScanChoice,
       scoreAiEffectValue,
       getAiEffectDirectScore,
+      getAiReadyHandTaskCashout,
+      getAiTraceTaskReadiness,
       scoreAiTerminalStagingOnlyLaunchPenalty,
       stopAiAutoBattle,
       sumAiDemandMap,

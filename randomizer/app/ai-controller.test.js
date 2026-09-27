@@ -454,6 +454,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
       getCardModel: (card) => card?.model || null,
       ensureCardEffectState: () => null,
       countMaxSingleAlienTraceMarkers: cardEffects.countMaxSingleAlienTraceMarkers,
+      taskConditionMet: cardEffects.taskConditionMet,
     },
     finalScoring: {
       createFinalScoringState: () => ({}),
@@ -17234,4 +17235,34 @@ for (const roundNumber of [1, 2]) {
     assert.equal(h.controller.getAiEffectDirectScore(normalized, h.blue), 2 * count, 'round each per-alien amount before multiplying');
     assert.equal(h.controller.scoreAiEffectValue(normalized, { player: h.blue }), h.controller.scoreAiEffectValue({ type: 'gain_resources', options: { gain: { score: count * 2, energy: 0, credits: count } } }, { player: h.blue }));
   }
+}
+
+// Trace tasks share runtime ownership/discovery rules; ready hand tasks must
+// cash out instead of asking for an already-owned trace again.
+{
+  for (const [cardId, traceType] of [['b_4.webp','blue'],['b_8.webp','yellow'],['b_46.webp','pink']]) {
+    for (const ready of [false,true]) {
+      const alienGameState={aliens:{1:makeHiddenAlienSlot({[traceType]:'blue'}),2:makeHiddenAlienSlot({[traceType]:ready?'blue':'white'})}};
+      const model=cardEffects.MODELS[cardId],card={id:'trace-card',cardId,price:1,typeCode:2,model,playEffects:model.playEffects};
+      const h=createAiControllerHarness(null,{alienGameState,roundNumber:3,currentPlayerColor:'blue',blueHand:[card]});
+      const before=JSON.stringify({p:h.blue,alienGameState});
+      assert.equal(h.controller.getAiTraceTaskReadiness(model.tasks[0].condition,h.blue),ready);
+      const cashout=h.controller.getAiReadyHandTaskCashout(card,model,h.blue);
+      assert.equal(cashout.count,ready?1:0,cardId+' readiness follows actual ownership');
+      if(ready){assert(cashout.rewardValue>0);assert.equal(h.controller.getAiStrategyDemand(h.blue).traceTypes[traceType]||0,0,'satisfied task contributes no further trace demand');}
+      else assert((h.controller.getAiStrategyDemand(h.blue).traceTypes[traceType]||0)>0,'unsatisfied task still demands missing trace');
+      assert.equal(JSON.stringify({p:h.blue,alienGameState}),before,'forecast must be readonly');
+    }
+  }
+  const alienGameState=makeBanrenmaAlienState();
+  const grid=banrenma.ensureTraceGrid(alienGameState,1);
+  grid.pink[3]={playerColor:'blue'};
+  alienGameState.aliens[2]=makeHiddenAlienSlot({pink:'blue'});
+  const h=createAiControllerHarness(null,{alienGameState});
+  const condition={type:'allAliensHavePlayerTrace',traceType:'pink'},before=JSON.stringify(alienGameState);
+  assert.equal(h.controller.getAiTraceTaskReadiness(condition,h.blue),true,'face and discovery traces combine through runtime API');
+  assert.equal(JSON.stringify(alienGameState),before);
+  assert.equal(h.controller.getAiTraceTaskReadiness({type:'unrecognized'},h.blue),null,'unknown conditions retain existing handling');
+  const empty=createAiControllerHarness(null,{alienGameState:{aliens:{}}});
+  assert.equal(empty.controller.getAiTraceTaskReadiness(condition,empty.blue),false,'zero alien slots cannot satisfy an all-aliens task');
 }

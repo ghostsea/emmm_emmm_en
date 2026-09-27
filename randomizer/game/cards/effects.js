@@ -3473,6 +3473,7 @@
     completeTask,
     collectMatchingTriggers,
     collectReadyTasks,
+    taskConditionMet,
     collectTemporaryTaskRewards,
     countTraceMarkers,
     countMaxSingleAlienTraceMarkers,

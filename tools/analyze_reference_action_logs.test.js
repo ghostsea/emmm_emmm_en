@@ -5,6 +5,12 @@ const {
   normalizeReferenceStep,
 } = require("./analyze_reference_action_logs");
 
+assert.deepEqual(
+  normalizeReferenceStep("每个外星人：2分+1能量：2 个外星人，分数+4、能量+2").resourceDeltas,
+  { score: 4, energy: 2 },
+  "human logs must not count per-alien formula text as another energy reward",
+);
+
 const markdown = `# SETI 行动日志
 
 ## 终局分数

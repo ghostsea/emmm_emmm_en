@@ -1,0 +1,17 @@
+{
+  "scope": "Two isolated behavioral reversions; source worktree unmodified.",
+  "results": [
+    {
+      "name": "readiness",
+      "actual": 0,
+      "expected": 1,
+      "message": "b_4.webp readiness follows actual ownership\n\n0 !== 1\n"
+    },
+    {
+      "name": "demand",
+      "actual": 0.5,
+      "expected": 0,
+      "message": "satisfied task contributes no further trace demand\n\n0.5 !== 0\n"
+    }
+  ]
+}

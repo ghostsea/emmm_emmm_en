@@ -2,6 +2,24 @@ const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
 {
+  for (const count of [0, 1, 2, 3]) {
+    const text = `每个外星人：2分+1能量：${count} 个外星人，分数+${count * 2}、能量+${count}`;
+    assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, count ? { score: count * 2, energy: count } : {});
+    const initial = { id: "p", color: "white", resources: { score: 10, energy: 2 }, hand: [], income: {} };
+    const result = flow.analyzeStructuredActionLog([{
+      id: 1, roundNumber: 2, playerId: "p", actionType: "cardTask",
+      steps: [{ source: "quick", text }],
+      accountingSnapshot: { players: [{ ...initial, resources: { score: 10 + count * 2, energy: 2 + count } }] },
+    }], { initialPlayerStates: [initial] });
+    assert.equal(result.players[0].nonIncomeGain.energy, count);
+    assert.equal(result.players[0].spent.energy, 0, "formula text must not create compensating inferred consumption");
+    assert.equal(result.reconciliation.inferredMagnitude, 0);
+    assert.equal(result.reconciliation.residualMagnitude, 0);
+  }
+  assert.deepEqual(flow.parseDeltaText("奖励：+1能量；额外奖励：能量+2").resourceDeltas, { energy: 3 }, "separate actual gains remain additive");
+}
+
+{
   const initial = { id: "p", resources: { credits: 2, energy: 1 }, hand: [], income: {} };
   const result = flow.analyzeStructuredActionLog([{
     id: 1, roundNumber: 4, playerId: "p", actionType: "land",
