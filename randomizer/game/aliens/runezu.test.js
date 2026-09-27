@@ -6,6 +6,23 @@ const path = require("node:path");
 const runezu = require("./runezu");
 const yichangdian = require("./yichangdian");
 
+// The AI must see the same reward that placement actually settles.
+for (const traceType of runezu.TRACE_TYPES) {
+  for (const position of runezu.TRACE_POSITIONS) {
+    const state = { aliens: { 1: { revealed: true, alienId: runezu.ALIEN_ID } } };
+    const before = structuredClone(state);
+    const preview = runezu.getTraceReward(state, traceType, position);
+    assert.deepEqual(state, before, "reward preview must not mutate the board");
+    assert.equal(preview.gain.score || 0, [0, 0, 2, 3, 7][position]);
+    assert.equal(Boolean(preview.pickAlienCard), position === 2 || position === 3);
+    const placed = runezu.placeRunezuTrace(state, 1, traceType, position, { id: "reward-owner", color: "blue" });
+    assert.equal(placed.ok, true);
+    assert.deepEqual(preview, placed.reward);
+    preview.gain.score = 999;
+    assert.notEqual(runezu.getTraceReward(state, traceType, position).gain.score, 999);
+  }
+}
+
 function assertRunezuTaskRewardEffect(result, symbolIds) {
   if (Object.hasOwn(result, "ok")) assert.equal(result.ok, true);
   if (Object.hasOwn(result, "symbolIds")) assert.deepEqual(result.symbolIds, symbolIds);

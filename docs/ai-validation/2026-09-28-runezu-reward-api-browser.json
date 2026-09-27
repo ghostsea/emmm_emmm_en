@@ -1,0 +1,161 @@
+{
+  "scope": "Controlled revealed Runezu with empty blue targets and a hidden second species. Actual analysis is started explicitly; trace target is chosen autonomously. Setup player/resources can differ, so do not interpret the point difference as a controlled full-game score improvement. Seven sibling reward APIs verified exported; Runezu was missing. Prior generic-premium59b remains held.",
+  "base": {
+    "preview": {
+      "available": true,
+      "reason": null,
+      "score": 33.2976,
+      "rawScore": 29.729999999999997,
+      "weightedScore": 33.2976,
+      "scoreCapReason": null,
+      "placedCount": 6,
+      "requiredSlot": 6,
+      "dataRoom": 6,
+      "availableData": 0,
+      "energyCost": 1,
+      "directScoreGain": 0,
+      "currentScore": 5,
+      "finalMarkCount": 0,
+      "nextFinalScoreThreshold": 25,
+      "scoreToNextThreshold": 20,
+      "blueTraceDemand": 0,
+      "analyzeBestBlueTraceScore": 0,
+      "thresholdCashoutPressure": 0,
+      "readyAnalyzeWindowValue": 8.3,
+      "lateFullDataAnalyzeRecovery": 0,
+      "lowResourceReadyAnalyzeCashout": 0,
+      "firstThresholdCatchupBonus": 0,
+      "fullComputerBonus": 8,
+      "lateRoundPressure": 0,
+      "highScorePushValue": 0,
+      "lowEngineCatchupValue": 0,
+      "postSecondFinalMarkPenalty": 0,
+      "hasBlueTraceFinalFormula": false
+    },
+    "before": {
+      "credits": 5,
+      "energy": 3,
+      "publicity": 4,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 5
+    },
+    "after": {
+      "credits": 5,
+      "energy": 2,
+      "publicity": 5,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 8
+    },
+    "choices": [
+      {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "state-slot",
+        "mode": "trace-board",
+        "alienSlot": "2",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": null,
+        "score": 36.253,
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      }
+    ],
+    "bugs": [],
+    "scope": "Real analysis and trace resolution in controlled revealed Runezu state; autonomous trace target, explicitly started analysis; no whole-game score inference."
+  },
+  "candidate": {
+    "preview": {
+      "available": true,
+      "reason": null,
+      "score": 40.9584,
+      "rawScore": 36.56999999999999,
+      "weightedScore": 40.9584,
+      "scoreCapReason": null,
+      "placedCount": 6,
+      "requiredSlot": 6,
+      "dataRoom": 6,
+      "availableData": 0,
+      "energyCost": 1,
+      "directScoreGain": 7,
+      "currentScore": 7,
+      "finalMarkCount": 0,
+      "nextFinalScoreThreshold": 25,
+      "scoreToNextThreshold": 18,
+      "blueTraceDemand": 0,
+      "analyzeBestBlueTraceScore": 7,
+      "thresholdCashoutPressure": 3.5,
+      "readyAnalyzeWindowValue": 15.14,
+      "lateFullDataAnalyzeRecovery": 0,
+      "lowResourceReadyAnalyzeCashout": 0,
+      "firstThresholdCatchupBonus": 0,
+      "fullComputerBonus": 8,
+      "lateRoundPressure": 0,
+      "highScorePushValue": 0,
+      "lowEngineCatchupValue": 0,
+      "postSecondFinalMarkPenalty": 0,
+      "hasBlueTraceFinalFormula": false
+    },
+    "before": {
+      "credits": 3,
+      "energy": 3,
+      "publicity": 5,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 7
+    },
+    "after": {
+      "credits": 3,
+      "energy": 2,
+      "publicity": 5,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 14
+    },
+    "choices": [
+      {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 4,
+        "score": 56.173,
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      }
+    ],
+    "bugs": [],
+    "scope": "Real analysis and trace resolution in controlled revealed Runezu state; autonomous trace target, explicitly started analysis; no whole-game score inference."
+  }
+}
