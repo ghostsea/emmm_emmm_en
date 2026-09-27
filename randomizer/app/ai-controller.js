@@ -5225,7 +5225,7 @@
         value += Math.max(7.5, scoreAiFangzhouPlacementPotentialAtUnlockCount(player, getAiFangzhouUnlockCount(player)) * 0.42);
       }
       if (effect.scanAction) {
-        const scanScore = getAiSafePositiveScore(() => (
+        const scanScore = options.includeActionPreview === false ? 0 : getAiSafePositiveScore(() => (
           scanEffects?.buildScanEffectQueue ? scoreAiScanAction(player) : 0
         ));
         value += Math.max(8, scanScore * 0.5 + scoreAiScanPriorityFloor(player) * 0.6);
@@ -5236,34 +5236,44 @@
       }
       if (effect.extraSectorScan) value += 3.8;
       if (effect.techAction) {
-        const bestTechScore = getAiSafePositiveScore(() => (listAiResearchTechCandidates() || [])[0]?.score);
+        const bestTechScore = options.includeActionPreview === false ? 0 : getAiSafePositiveScore(() => (listAiResearchTechCandidates() || [])[0]?.score);
         value += Math.max(8.5, bestTechScore * 0.42);
       }
       if (effect.launchIgnoreLimit) {
-        const launchScore = getAiSafePositiveScore(() => scoreAiLaunchAction(player));
+        const launchScore = options.includeActionPreview === false ? 0 : getAiSafePositiveScore(() => scoreAiLaunchAction(player));
         value += Math.max(5, launchScore * 0.45);
       }
       const freeMoves = Math.max(0, Math.round(aiNumber(effect.freeMoves)));
       if (freeMoves > 0) {
-        const bestMoveScore = getAiSafePositiveScore(() => (listAiMoveCandidates() || [])[0]?.score);
+        const bestMoveScore = options.includeActionPreview === false ? 0 : getAiSafePositiveScore(() => (listAiMoveCandidates() || [])[0]?.score);
         value += freeMoves * AI_RESOURCE_VALUES.movement + bestMoveScore * 0.22;
       }
       const cap = Math.max(8, aiNumber(options.cap || 32));
       return roundAiScore(Math.max(0, Math.min(cap, value)));
     }
 
+    // A scan preview values discarded hand cards, which may themselves grant this reward.
+    // Nested rewards retain their intrinsic value without expanding action previews again.
+    let aiFangzhouAdvancedRewardPreviewActive = false;
     function scoreAiFangzhouCard2AdvancedRewardValue(player = getCurrentPlayer()) {
-      const indexes = getAiFangzhouCard1RewardIndexes();
-      if (!indexes.length) return 16;
-      const values = indexes
-        .map((index) => fangzhou?.getCard1Effect?.(index, "advanced"))
-        .map((effect) => scoreAiFangzhouCard1EffectValue(effect, player, { cap: 34 }))
-        .filter((value) => Number.isFinite(Number(value)));
-      if (!values.length) return 16;
-      const average = values.reduce((total, value) => total + value, 0) / values.length;
-      const best = Math.max(...values);
-      const creditReadiness = scoreAiFangzhouCreditReadiness(player) * 0.32;
-      return roundAiScore(Math.min(34, average * 0.78 + best * 0.22 + creditReadiness));
+      const includeActionPreview = !aiFangzhouAdvancedRewardPreviewActive;
+      const previousPreviewActive = aiFangzhouAdvancedRewardPreviewActive;
+      aiFangzhouAdvancedRewardPreviewActive = true;
+      try {
+        const indexes = getAiFangzhouCard1RewardIndexes();
+        if (!indexes.length) return 16;
+        const values = indexes
+          .map((index) => fangzhou?.getCard1Effect?.(index, "advanced"))
+          .map((effect) => scoreAiFangzhouCard1EffectValue(effect, player, { cap: 34, includeActionPreview }))
+          .filter((value) => Number.isFinite(Number(value)));
+        if (!values.length) return 16;
+        const average = values.reduce((total, value) => total + value, 0) / values.length;
+        const best = Math.max(...values);
+        const creditReadiness = scoreAiFangzhouCreditReadiness(player) * 0.32;
+        return roundAiScore(Math.min(34, average * 0.78 + best * 0.22 + creditReadiness));
+      } finally {
+        aiFangzhouAdvancedRewardPreviewActive = previousPreviewActive;
+      }
     }
 
     function scoreAiBanrenmaTraceTimingValue(mode, reward, player = getCurrentPlayer(), position = null) {

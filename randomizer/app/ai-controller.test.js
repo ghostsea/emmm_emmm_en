@@ -17179,3 +17179,37 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
   assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
     'research candidate enumeration must not consume optional triggers');
 }
+
+{
+  const source = require("node:fs").readFileSync(require("node:path").join(__dirname, "ai-controller.js"), "utf8");
+  const start = source.indexOf("    function scoreAiFangzhouCard1EffectValue(");
+  const end = source.indexOf("    function scoreAiBanrenmaTraceTimingValue(", start);
+  let advanced;
+  let scanCalls = 0;
+  const context = {
+    getCurrentPlayer: () => ({}), aiNumber: (v) => Number(v) || 0,
+    AI_RESOURCE_VALUES: { handSize: 4.3, additionalPublicScan: 4, movement: 2 },
+    getAiFangzhouCard1RewardIndexes: () => [1, 2],
+    fangzhou: { getCard1Effect: () => ({ scanAction: true }) },
+    scanEffects: { buildScanEffectQueue: () => [] },
+    scoreAiScanPriorityFloor: () => 0,
+    scoreAiScanAction: () => { scanCalls++; assert.ok(scanCalls <= 4, "nested action previews must not recursively value their own hand cost"); return advanced({}); },
+    getAiSafePositiveScore: (callback) => callback(),
+    scoreAiFangzhouCreditReadiness: () => 0,
+    roundAiScore: (v) => Math.round(v * 1000) / 1000,
+  };
+  advanced = Function(...Object.keys(context), source.slice(start, end) + "; return scoreAiFangzhouCard2AdvancedRewardValue;")(...Object.values(context));
+  assert.equal(advanced({}), 8);
+  assert.equal(scanCalls, 2, "each outer reward previews once; nested rewards keep intrinsic values");
+  assert.equal(advanced({}), 8);
+  assert.equal(scanCalls, 4, "preview guard resets after the completed evaluation");
+  scanCalls = 0;
+  const normalIndexes = context.getAiFangzhouCard1RewardIndexes;
+  let fail = true;
+  context.getAiFangzhouCard1RewardIndexes = () => { if (fail) throw new Error("preview probe"); return normalIndexes(); };
+  advanced = Function(...Object.keys(context), source.slice(start, end) + "; return scoreAiFangzhouCard2AdvancedRewardValue;")(...Object.values(context));
+  assert.throws(() => advanced({}), /preview probe/);
+  fail = false;
+  assert.equal(advanced({}), 8);
+  assert.equal(scanCalls, 2, "preview guard resets after errors too");
+}
