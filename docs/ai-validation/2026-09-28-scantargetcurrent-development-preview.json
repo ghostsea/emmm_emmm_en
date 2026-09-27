@@ -1,0 +1,4523 @@
+{
+  "scope": "Complete 24 candidate runs. Actual play-card selection preview joined by player/card instance/round to the first unused play entry, then its first expected number of scan history steps. First-node restriction supports this join, but inserted scan triggers could affect repeated scans; inspect mismatches individually. Slot score is read from explicit slot +N score text, since resource-only delta text can omit slot awards. Match counts measure preview realization and are not causal score gains. Unmatched is unknown, not a failure or wasted card.",
+  "groups": {
+    "宇宙大战略集团": {
+      "played": 33,
+      "comparable": 33,
+      "allFieldsMatch": 33,
+      "targetMatch": 33,
+      "dataMatch": 33,
+      "slotScoreMatch": 33,
+      "repeats": 17
+    },
+    "作弊实验室": {
+      "played": 73,
+      "comparable": 73,
+      "allFieldsMatch": 73,
+      "targetMatch": 73,
+      "dataMatch": 73,
+      "slotScoreMatch": 73,
+      "repeats": 41
+    },
+    "寰宇超动力": {
+      "played": 24,
+      "comparable": 24,
+      "allFieldsMatch": 24,
+      "targetMatch": 24,
+      "dataMatch": 24,
+      "slotScoreMatch": 24,
+      "repeats": 11
+    }
+  },
+  "rows": [
+    {
+      "case": 1,
+      "logId": 129,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "cardId": "b_1.webp",
+      "instance": "card-65-0",
+      "preview": {
+        "effectId": "b1-virgo-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 2.38,
+        "value": 11.38,
+        "previousValue": 4,
+        "adjustment": 7.379999999999999
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "室女座61扇区扫描 1/2：室女座61 槽位4 替换为白色token；获得数据；资源：数据+1",
+          "室女座61扇区扫描 2/2：室女座61 槽位5 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 1,
+      "logId": 464,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_102.webp",
+      "instance": "card-94-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 1.65,
+        "value": 12.65,
+        "previousValue": 4,
+        "adjustment": 8.65
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位1 替换为绿色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 1,
+      "logId": 604,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_19.webp",
+      "instance": "card-37-pass-1-3",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-3-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.263,
+        "value": 6.763,
+        "previousValue": 2,
+        "adjustment": 4.763
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：比邻星 槽位3 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 1,
+      "logId": 852,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "cardId": "b_128.webp",
+      "instance": "card-124-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.676,
+        "value": 6.176,
+        "previousValue": 2,
+        "adjustment": 4.176
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位4 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 1,
+      "logId": 1028,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_15.webp",
+      "instance": "card-144-0",
+      "preview": {
+        "effectId": "b15-beta-pictoris-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 2,
+        "adjustment": 2.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "绘架座β扇区扫描：绘架座β 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 1,
+      "logId": 1110,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_100.webp",
+      "instance": "card-139-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位3 替换为白色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位4 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 2,
+      "logId": 67,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_45.webp",
+      "instance": "card-56-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.517,
+        "value": 6.017,
+        "previousValue": 4.5,
+        "adjustment": 1.5169999999999995
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 X射线岩石化学探测行屋仪：南河三 槽位4 替换为白色token；获得数据；弃除 X射线岩石化学探测行屋仪，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 2,
+      "logId": 203,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_100.webp",
+      "instance": "card-62-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.699,
+        "value": 6.449,
+        "previousValue": 4,
+        "adjustment": 2.449
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位5 替换为绿色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 已无未替换数据，追加绿色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 2,
+      "logId": 318,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_128.webp",
+      "instance": "card-81-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.312,
+        "value": 7.812,
+        "previousValue": 2,
+        "adjustment": 5.812
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 2,
+      "logId": 774,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_15.webp",
+      "instance": "card-120-0",
+      "preview": {
+        "effectId": "b15-beta-pictoris-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.353,
+        "value": 5.853,
+        "previousValue": 2,
+        "adjustment": 3.8529999999999998
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "绘架座β扇区扫描：绘架座β 槽位3 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 2,
+      "logId": 781,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_14.webp",
+      "instance": "card-43-pass-2-4",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 2.829,
+        "value": 11.829,
+        "previousValue": 4,
+        "adjustment": 7.829000000000001
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位4 替换为绿色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位5 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 2,
+      "logId": 879,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_102.webp",
+      "instance": "card-117-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 1.353,
+        "value": 12.353,
+        "previousValue": 4,
+        "adjustment": 8.353
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位1 替换为绿色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 57,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_1.webp",
+      "instance": "card-12-0",
+      "preview": {
+        "effectId": "b1-virgo-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.597,
+        "value": 10.597,
+        "previousValue": 4,
+        "adjustment": 6.5969999999999995
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "室女座61扇区扫描 1/2：室女座61 槽位3 替换为棕色token；获得数据；资源：数据+1",
+          "室女座61扇区扫描 2/2：室女座61 槽位4 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 396,
+      "company": "寰宇超动力",
+      "round": 2,
+      "cardId": "b_45.webp",
+      "instance": "card-35-pass-1-1",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-3-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 3.028,
+        "value": 7.528,
+        "previousValue": 4.5,
+        "adjustment": 3.0280000000000005
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 艾伦望远锐阵：比邻星 槽位3 替换为绿色token；获得数据；弃除 艾伦望远锐阵，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 466,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "yichangdian_0.webp",
+      "instance": "alien-yichangdian-0-7",
+      "preview": {
+        "effectId": "y0-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 3.518,
+        "value": 8.018,
+        "previousValue": 2,
+        "adjustment": 6.018000000000001
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：南河三 槽位5 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 495,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_19.webp",
+      "instance": "card-78-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-4-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.65,
+        "value": 6.15,
+        "previousValue": 2,
+        "adjustment": 4.15
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：室女座61 槽位4 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 771,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_128.webp",
+      "instance": "card-98-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.604,
+        "value": 8.104,
+        "previousValue": 2,
+        "adjustment": 6.103999999999999
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 1068,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_102.webp",
+      "instance": "card-142-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位3 替换为蓝色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 1110,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_14.webp",
+      "instance": "card-149-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位3 替换为棕色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位4 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 1386,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_63.webp",
+      "instance": "card-166-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 0,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 8,
+        "previousValue": 4,
+        "adjustment": 4
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 0,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位2 替换为棕色token；槽位2 +2分；数据池已满（6/6），本次数据被弃置",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位3 替换为棕色token；数据池已满（6/6），本次数据被弃置"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 3,
+      "logId": 1558,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_15.webp",
+      "instance": "card-173-0",
+      "preview": {
+        "effectId": "b15-beta-pictoris-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 2,
+        "adjustment": 2.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "绘架座β扇区扫描：绘架座β 槽位4 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 4,
+      "logId": 84,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "cardId": "b_1.webp",
+      "instance": "card-15-0",
+      "preview": {
+        "effectId": "b1-virgo-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 1.778,
+        "value": 12.778,
+        "previousValue": 4,
+        "adjustment": 8.778
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "室女座61扇区扫描 1/2：室女座61 槽位1 替换为白色token；获得数据；资源：数据+1",
+          "室女座61扇区扫描 2/2：室女座61 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 4,
+      "logId": 205,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_45.webp",
+      "instance": "card-4-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-2-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.263,
+        "value": 5.763,
+        "previousValue": 4.5,
+        "adjustment": 1.263
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 观测天狼星A：巴纳德 槽位3 替换为蓝色token；获得数据；弃除 观测天狼星A，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 4,
+      "logId": 229,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_14.webp",
+      "instance": "card-85-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.898,
+        "value": 6.648,
+        "previousValue": 4,
+        "adjustment": 2.6479999999999997
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位5 替换为蓝色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 已无未替换数据，追加蓝色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 4,
+      "logId": 464,
+      "company": "寰宇超动力",
+      "round": 2,
+      "cardId": "b_128.webp",
+      "instance": "card-35-pass-1-1",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 3.028,
+        "value": 7.528,
+        "previousValue": 2,
+        "adjustment": 5.5280000000000005
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位3 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 4,
+      "logId": 493,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_19.webp",
+      "instance": "card-99-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.351,
+        "value": 6.851,
+        "previousValue": 2,
+        "adjustment": 4.851
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：南河三 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 4,
+      "logId": 1273,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_63.webp",
+      "instance": "card-180-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 11,
+        "previousValue": 4,
+        "adjustment": 7
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位3 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 5,
+      "logId": 34,
+      "company": "寰宇超动力",
+      "round": 1,
+      "cardId": "b_45.webp",
+      "instance": "card-11-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-2-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.517,
+        "value": 6.017,
+        "previousValue": 4.5,
+        "adjustment": 1.5169999999999995
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 光帆：巴纳德 槽位3 替换为棕色token；获得数据；弃除 光帆，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 5,
+      "logId": 389,
+      "company": "寰宇超动力",
+      "round": 2,
+      "cardId": "b_100.webp",
+      "instance": "card-35-pass-1-1",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 3.762,
+        "value": 12.762,
+        "previousValue": 4,
+        "adjustment": 8.762
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位3 替换为棕色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位4 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 5,
+      "logId": 778,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_19.webp",
+      "instance": "card-103-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.353,
+        "value": 7.853,
+        "previousValue": 2,
+        "adjustment": 5.853
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：南河三 槽位2 替换为棕色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 5,
+      "logId": 1197,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_114.webp",
+      "instance": "card-137-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位3 替换为绿色token；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 槽位4 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 5,
+      "logId": 1286,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_63.webp",
+      "instance": "card-135-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位4 替换为蓝色token；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 5,
+      "logId": 1631,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_1.webp",
+      "instance": "card-188-0",
+      "preview": {
+        "effectId": "b1-virgo-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "室女座61扇区扫描 1/2：室女座61 槽位5 替换为白色token；获得数据；资源：数据+1",
+          "室女座61扇区扫描 2/2：室女座61 槽位6 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 6,
+      "logId": 159,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_14.webp",
+      "instance": "card-1-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 2.38,
+        "value": 13.38,
+        "previousValue": 4,
+        "adjustment": 9.379999999999999
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位1 替换为蓝色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 6,
+      "logId": 722,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "cardId": "b_45.webp",
+      "instance": "card-110-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 2.351,
+        "value": 8.851,
+        "previousValue": 4.5,
+        "adjustment": 4.350999999999999
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 航天飞机：织女一 槽位2 替换为白色token；槽位2 +2分；获得数据；弃除 航天飞机，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 6,
+      "logId": 871,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_63.webp",
+      "instance": "card-39-pass-1-5",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 1.353,
+        "value": 12.353,
+        "previousValue": 4,
+        "adjustment": 8.353
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位1 替换为绿色token；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 6,
+      "logId": 885,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_100.webp",
+      "instance": "card-121-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 0,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 8,
+        "previousValue": 4,
+        "adjustment": 4
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 0,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位2 替换为棕色token；槽位2 +2分；数据池已满（6/6），本次数据被弃置",
+          "南河三扫描 2/2：南河三 槽位3 替换为棕色token；数据池已满（6/6），本次数据被弃置"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 7,
+      "logId": 95,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_100.webp",
+      "instance": "card-8-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 2.38,
+        "value": 11.38,
+        "previousValue": 4,
+        "adjustment": 7.379999999999999
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位3 替换为绿色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位4 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 7,
+      "logId": 102,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_19.webp",
+      "instance": "card-57-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-4-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.699,
+        "value": 8.199,
+        "previousValue": 2,
+        "adjustment": 6.199
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：室女座61 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 7,
+      "logId": 333,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "yichangdian_0.webp",
+      "instance": "alien-yichangdian-0-6",
+      "preview": {
+        "effectId": "y0-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-4-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.32,
+        "value": 5.82,
+        "previousValue": 2,
+        "adjustment": 3.8200000000000003
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：绘架座β 槽位5 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 7,
+      "logId": 372,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_15.webp",
+      "instance": "card-89-0",
+      "preview": {
+        "effectId": "b15-beta-pictoris-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 2.175,
+        "value": 8.675,
+        "previousValue": 2,
+        "adjustment": 6.675000000000001
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "绘架座β扇区扫描：绘架座β 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 7,
+      "logId": 936,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_102.webp",
+      "instance": "card-117-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 0,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 6,
+        "previousValue": 4,
+        "adjustment": 2
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 0,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位3 替换为蓝色token；数据池已满（6/6），本次数据被弃置",
+          "比邻星扫描 2/2：比邻星 槽位4 替换为蓝色token；数据池已满（6/6），本次数据被弃置"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 7,
+      "logId": 945,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_63.webp",
+      "instance": "card-110-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 2.829,
+        "value": 13.829,
+        "previousValue": 4,
+        "adjustment": 9.829
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位3 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 7,
+      "logId": 1287,
+      "company": "寰宇超动力",
+      "round": 4,
+      "cardId": "b_114.webp",
+      "instance": "card-162-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 11,
+        "previousValue": 4,
+        "adjustment": 7
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 槽位3 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 8,
+      "logId": 778,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "yichangdian_0.webp",
+      "instance": "alien-yichangdian-0-3",
+      "preview": {
+        "effectId": "y0-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-3-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.676,
+        "value": 6.176,
+        "previousValue": 2,
+        "adjustment": 4.176
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：比邻星 槽位3 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 8,
+      "logId": 1125,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_1.webp",
+      "instance": "card-160-0",
+      "preview": {
+        "effectId": "b1-virgo-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 11,
+        "previousValue": 4,
+        "adjustment": 7
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "室女座61扇区扫描 1/2：室女座61 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1",
+          "室女座61扇区扫描 2/2：室女座61 槽位3 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 8,
+      "logId": 1208,
+      "company": "寰宇超动力",
+      "round": 4,
+      "cardId": "b_19.webp",
+      "instance": "card-147-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-3-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 2,
+        "adjustment": 2.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：开普勒22 槽位3 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 9,
+      "logId": 290,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_14.webp",
+      "instance": "card-70-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.263,
+        "value": 10.263,
+        "previousValue": 4,
+        "adjustment": 6.263
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位4 替换为蓝色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 9,
+      "logId": 639,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_45.webp",
+      "instance": "card-107-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-2-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.351,
+        "value": 6.851,
+        "previousValue": 4.5,
+        "adjustment": 2.351
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 新闻发言：巴纳德 槽位4 替换为蓝色token；获得数据；弃除 新闻发言，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 9,
+      "logId": 671,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_19.webp",
+      "instance": "card-118-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-2-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.604,
+        "value": 6.104,
+        "previousValue": 2,
+        "adjustment": 4.104
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：巴纳德 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 9,
+      "logId": 788,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_100.webp",
+      "instance": "card-120-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 2.829,
+        "value": 11.829,
+        "previousValue": 4,
+        "adjustment": 7.829000000000001
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位3 替换为蓝色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 9,
+      "logId": 819,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_63.webp",
+      "instance": "card-125-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.353,
+        "value": 10.353,
+        "previousValue": 4,
+        "adjustment": 6.353
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位4 替换为蓝色token；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 10,
+      "logId": 172,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_128.webp",
+      "instance": "card-61-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.699,
+        "value": 6.199,
+        "previousValue": 2,
+        "adjustment": 4.199
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位1 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 10,
+      "logId": 523,
+      "company": "寰宇超动力",
+      "round": 2,
+      "cardId": "b_100.webp",
+      "instance": "card-72-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.263,
+        "value": 7.013,
+        "previousValue": 4,
+        "adjustment": 3.013
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位5 替换为棕色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 已无未替换数据，追加棕色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 10,
+      "logId": 720,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_102.webp",
+      "instance": "card-110-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.468,
+        "value": 10.468,
+        "previousValue": 4,
+        "adjustment": 6.468
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位5 替换为蓝色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 槽位6 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 10,
+      "logId": 1160,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "cardId": "b_114.webp",
+      "instance": "card-130-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.604,
+        "value": 10.604,
+        "previousValue": 4,
+        "adjustment": 6.603999999999999
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位4 替换为白色token；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 槽位5 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 11,
+      "logId": 350,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_45.webp",
+      "instance": "card-37-pass-1-3",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.263,
+        "value": 6.763,
+        "previousValue": 4.5,
+        "adjustment": 2.263
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 火星轨遒门户：南河三 槽位3 替换为棕色token；获得数据；弃除 火星轨遒门户，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 11,
+      "logId": 463,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "cardId": "b_19.webp",
+      "instance": "card-82-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-3-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.263,
+        "value": 6.763,
+        "previousValue": 2,
+        "adjustment": 4.763
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：开普勒22 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 11,
+      "logId": 475,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "yichangdian_0.webp",
+      "instance": "alien-yichangdian-0-1",
+      "preview": {
+        "effectId": "y0-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.175,
+        "value": 6.675,
+        "previousValue": 2,
+        "adjustment": 4.675
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：南河三 槽位4 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 11,
+      "logId": 692,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "cardId": "b_100.webp",
+      "instance": "card-42-pass-2-3",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.829,
+        "value": 7.579,
+        "previousValue": 4,
+        "adjustment": 3.5790000000000006
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位5 替换为蓝色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 已无未替换数据，追加蓝色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 11,
+      "logId": 924,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_102.webp",
+      "instance": "card-125-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.353,
+        "value": 6.103,
+        "previousValue": 4,
+        "adjustment": 2.1029999999999998
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位6 替换为棕色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 已无未替换数据，追加棕色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 12,
+      "logId": 134,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_1.webp",
+      "instance": "card-7-0",
+      "preview": {
+        "effectId": "b1-virgo-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.778,
+        "value": 10.778,
+        "previousValue": 4,
+        "adjustment": 6.7780000000000005
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "室女座61扇区扫描 1/2：室女座61 槽位3 替换为绿色token；获得数据；资源：数据+1",
+          "室女座61扇区扫描 2/2：室女座61 槽位4 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 12,
+      "logId": 240,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_100.webp",
+      "instance": "card-82-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 2.417,
+        "value": 11.417,
+        "previousValue": 4,
+        "adjustment": 7.417
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位4 替换为绿色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位5 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 12,
+      "logId": 310,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "cardId": "b_114.webp",
+      "instance": "card-90-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.65,
+        "value": 10.65,
+        "previousValue": 4,
+        "adjustment": 6.65
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位4 替换为蓝色token；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 12,
+      "logId": 364,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_63.webp",
+      "instance": "card-88-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.65,
+        "value": 6.4,
+        "previousValue": 4,
+        "adjustment": 2.4000000000000004
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位5 替换为绿色token；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 已无未替换数据，追加绿色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 12,
+      "logId": 844,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_19.webp",
+      "instance": "card-110-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-3-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 0,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 3,
+        "previousValue": 2,
+        "adjustment": 1
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 0,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：开普勒22 槽位4 替换为绿色token；数据池已满（6/6），本次数据被弃置"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 12,
+      "logId": 907,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_45.webp",
+      "instance": "card-136-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.748,
+        "value": 8.248,
+        "previousValue": 4.5,
+        "adjustment": 3.7479999999999993
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 入轨拉格朗日点：织女一 槽位2 替换为白色token；槽位2 +2分；获得数据；弃除 入轨拉格朗日点，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 13,
+      "logId": 632,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_114.webp",
+      "instance": "card-118-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.604,
+        "value": 10.604,
+        "previousValue": 4,
+        "adjustment": 6.603999999999999
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位4 替换为白色token；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 槽位5 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 13,
+      "logId": 1090,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_100.webp",
+      "instance": "card-149-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 0,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 8,
+        "previousValue": 4,
+        "adjustment": 4
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 0,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位2 替换为绿色token；槽位2 +2分；数据池已满（6/6），本次数据被弃置",
+          "南河三扫描 2/2：南河三 槽位3 替换为绿色token；数据池已满（6/6），本次数据被弃置"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 13,
+      "logId": 1118,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_128.webp",
+      "instance": "card-138-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 2,
+        "adjustment": 2.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位3 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 13,
+      "logId": 1124,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_19.webp",
+      "instance": "card-157-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-2-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 6.5,
+        "previousValue": 2,
+        "adjustment": 4.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：天狼星A 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 13,
+      "logId": 1155,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_102.webp",
+      "instance": "card-139-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位3 替换为蓝色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 13,
+      "logId": 1519,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_45.webp",
+      "instance": "card-177-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-3-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 4.5,
+        "adjustment": 0
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 火星科学实验室：比邻星 槽位5 替换为蓝色token；获得数据；弃除 火星科学实验室，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 14,
+      "logId": 523,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_128.webp",
+      "instance": "card-83-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.263,
+        "value": 6.763,
+        "previousValue": 2,
+        "adjustment": 4.763
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 14,
+      "logId": 996,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_45.webp",
+      "instance": "card-123-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-2-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.353,
+        "value": 5.853,
+        "previousValue": 4.5,
+        "adjustment": 1.3529999999999998
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 聚娈反应堆：巴纳德 槽位5 替换为蓝色token；获得数据；弃除 聚娈反应堆，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 14,
+      "logId": 1360,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_14.webp",
+      "instance": "card-130-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 11,
+        "previousValue": 4,
+        "adjustment": 7
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位1 替换为绿色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 14,
+      "logId": 1523,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_15.webp",
+      "instance": "card-167-0",
+      "preview": {
+        "effectId": "b15-beta-pictoris-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 2,
+        "adjustment": 2.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "绘架座β扇区扫描：绘架座β 槽位5 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 14,
+      "logId": 1579,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_19.webp",
+      "instance": "card-169-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-2-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 2,
+        "adjustment": 2.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：天狼星A 槽位5 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 15,
+      "logId": 141,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "cardId": "b_63.webp",
+      "instance": "card-50-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 2.417,
+        "value": 11.417,
+        "previousValue": 4,
+        "adjustment": 7.417
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位3 替换为棕色token；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位4 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 15,
+      "logId": 478,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_100.webp",
+      "instance": "card-73-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 3.45,
+        "value": 14.45,
+        "previousValue": 4,
+        "adjustment": 10.45
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位1 替换为白色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 15,
+      "logId": 1138,
+      "company": "寰宇超动力",
+      "round": 4,
+      "cardId": "b_45.webp",
+      "instance": "card-163-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-2-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 4.5,
+        "adjustment": 0
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 轨遒修正：天狼星A 槽位5 替换为绿色token；获得数据；弃除 轨遒修正，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 15,
+      "logId": 1377,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_102.webp",
+      "instance": "card-176-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.75,
+        "previousValue": 4,
+        "adjustment": 0.75
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位6 替换为白色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 已无未替换数据，追加白色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 16,
+      "logId": 55,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "cardId": "b_100.webp",
+      "instance": "card-52-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 1.778,
+        "value": 12.778,
+        "previousValue": 4,
+        "adjustment": 8.778
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位1 替换为蓝色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 16,
+      "logId": 213,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "cardId": "b_14.webp",
+      "instance": "card-19-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.312,
+        "value": 10.312,
+        "previousValue": 4,
+        "adjustment": 6.311999999999999
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位4 替换为蓝色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 16,
+      "logId": 529,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "cardId": "b_19.webp",
+      "instance": "card-78-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.65,
+        "value": 6.15,
+        "previousValue": 2,
+        "adjustment": 4.15
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：南河三 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 16,
+      "logId": 657,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_128.webp",
+      "instance": "card-101-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.263,
+        "value": 6.763,
+        "previousValue": 2,
+        "adjustment": 4.763
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位4 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 16,
+      "logId": 1113,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_102.webp",
+      "instance": "card-151-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位4 替换为蓝色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 槽位5 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 17,
+      "logId": 160,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_14.webp",
+      "instance": "card-70-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 2.38,
+        "value": 13.38,
+        "previousValue": 4,
+        "adjustment": 9.379999999999999
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位1 替换为白色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 17,
+      "logId": 298,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_100.webp",
+      "instance": "card-78-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 2.175,
+        "value": 11.175,
+        "previousValue": 4,
+        "adjustment": 7.175000000000001
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位3 替换为白色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位4 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 17,
+      "logId": 456,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_128.webp",
+      "instance": "card-39-pass-1-5",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 2.263,
+        "value": 8.763,
+        "previousValue": 2,
+        "adjustment": 6.763
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 17,
+      "logId": 589,
+      "company": "寰宇超动力",
+      "round": 2,
+      "cardId": "b_19.webp",
+      "instance": "card-72-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-4-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 2.351,
+        "value": 8.851,
+        "previousValue": 2,
+        "adjustment": 6.850999999999999
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：室女座61 槽位2 替换为棕色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 17,
+      "logId": 663,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "cardId": "b_15.webp",
+      "instance": "card-109-0",
+      "preview": {
+        "effectId": "b15-beta-pictoris-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.263,
+        "value": 6.763,
+        "previousValue": 2,
+        "adjustment": 4.763
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "绘架座β扇区扫描：绘架座β 槽位1 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 17,
+      "logId": 686,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_114.webp",
+      "instance": "card-103-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.604,
+        "value": 10.604,
+        "previousValue": 4,
+        "adjustment": 6.603999999999999
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位4 替换为绿色token；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 槽位5 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 17,
+      "logId": 940,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_1.webp",
+      "instance": "card-126-0",
+      "preview": {
+        "effectId": "b1-virgo-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-a",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.353,
+        "value": 6.103,
+        "previousValue": 4,
+        "adjustment": 2.1029999999999998
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "室女座61扇区扫描 1/2：室女座61 槽位6 替换为白色token；获得数据；资源：数据+1",
+          "室女座61扇区扫描 2/2：室女座61 已无未替换数据，追加白色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 17,
+      "logId": 1147,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_45.webp",
+      "instance": "card-140-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-2-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.829,
+        "value": 7.329,
+        "previousValue": 4.5,
+        "adjustment": 2.8290000000000006
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 更优太阳能板：巴纳德 槽位5 替换为白色token；获得数据；弃除 更优太阳能板，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 18,
+      "logId": 83,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "cardId": "b_128.webp",
+      "instance": "card-50-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.699,
+        "value": 6.199,
+        "previousValue": 2,
+        "adjustment": 4.199
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位1 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 18,
+      "logId": 845,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_19.webp",
+      "instance": "card-105-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "aomomo",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.353,
+        "value": 7.853,
+        "previousValue": 2,
+        "adjustment": 5.853
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：奥陌陌 槽位3 替换为蓝色token；槽位3 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 18,
+      "logId": 919,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_14.webp",
+      "instance": "card-49-pass-3-5",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.75,
+        "previousValue": 4,
+        "adjustment": 0.75
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位5 替换为蓝色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 已无未替换数据，追加蓝色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 19,
+      "logId": 129,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "cardId": "b_45.webp",
+      "instance": "card-19-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-2-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.699,
+        "value": 8.199,
+        "previousValue": 4.5,
+        "adjustment": 3.699
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 X射线岩石化学探测行屋仪：天狼星A 槽位2 替换为棕色token；槽位2 +2分；获得数据；弃除 X射线岩石化学探测行屋仪，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 19,
+      "logId": 321,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "yichangdian_0.webp",
+      "instance": "alien-yichangdian-0-7",
+      "preview": {
+        "effectId": "y0-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-2-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.312,
+        "value": 7.812,
+        "previousValue": 2,
+        "adjustment": 5.812
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：天狼星A 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 19,
+      "logId": 1113,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_19.webp",
+      "instance": "card-134-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "aomomo",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 1,
+        "continuation": 1.353,
+        "value": 6.853,
+        "previousValue": 2,
+        "adjustment": 4.853
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 1,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：奥陌陌 槽位1 替换为白色token；槽位1 +1分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 19,
+      "logId": 1251,
+      "company": "寰宇超动力",
+      "round": 4,
+      "cardId": "b_63.webp",
+      "instance": "card-158-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位3 替换为白色token；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位4 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 19,
+      "logId": 1403,
+      "company": "寰宇超动力",
+      "round": 4,
+      "cardId": "b_114.webp",
+      "instance": "card-148-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 1,
+        "extraMarks": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.75,
+        "previousValue": 4,
+        "adjustment": 0.75
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位6 替换为白色token；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 已无未替换数据，追加白色扫描计数；不获得数据"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 20,
+      "logId": 249,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_45.webp",
+      "instance": "card-10-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-2-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.263,
+        "value": 5.763,
+        "previousValue": 4.5,
+        "adjustment": 1.263
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 大型离子对撞机实验：天狼星A 槽位3 替换为棕色token；获得数据；弃除 大型离子对撞机实验，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 20,
+      "logId": 577,
+      "company": "寰宇超动力",
+      "round": 2,
+      "cardId": "b_100.webp",
+      "instance": "card-68-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 2.263,
+        "value": 11.263,
+        "previousValue": 4,
+        "adjustment": 7.263
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位3 替换为绿色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位4 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 20,
+      "logId": 939,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_128.webp",
+      "instance": "card-125-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.353,
+        "value": 7.853,
+        "previousValue": 2,
+        "adjustment": 5.853
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 20,
+      "logId": 1179,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "cardId": "b_63.webp",
+      "instance": "card-155-0",
+      "preview": {
+        "effectId": "b63-kepler22-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.676,
+        "value": 10.676,
+        "previousValue": 4,
+        "adjustment": 6.676
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "开普勒22扇区扫描 1/2：开普勒22 槽位3 替换为蓝色token；获得数据；资源：数据+1",
+          "开普勒22扇区扫描 2/2：开普勒22 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 20,
+      "logId": 1347,
+      "company": "寰宇超动力",
+      "round": 4,
+      "cardId": "b_14.webp",
+      "instance": "card-164-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位3 替换为绿色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位4 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 21,
+      "logId": 217,
+      "company": "宇宙大战略集团",
+      "round": 1,
+      "cardId": "b_19.webp",
+      "instance": "card-64-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "aomomo",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 1,
+        "continuation": 1.312,
+        "value": 6.812,
+        "previousValue": 2,
+        "adjustment": 4.812
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 1,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：奥陌陌 槽位1 替换为白色token；槽位1 +1分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 21,
+      "logId": 503,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_102.webp",
+      "instance": "card-96-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 3.762,
+        "value": 12.762,
+        "previousValue": 4,
+        "adjustment": 8.762
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位3 替换为棕色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 槽位4 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 21,
+      "logId": 767,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_14.webp",
+      "instance": "card-108-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 3.04,
+        "value": 12.04,
+        "previousValue": 4,
+        "adjustment": 8.04
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位3 替换为蓝色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 21,
+      "logId": 774,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "cardId": "b_114.webp",
+      "instance": "card-91-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 1.353,
+        "value": 10.353,
+        "previousValue": 4,
+        "adjustment": 6.353
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位4 替换为白色token；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 槽位5 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 21,
+      "logId": 1166,
+      "company": "宇宙大战略集团",
+      "round": 4,
+      "cardId": "b_128.webp",
+      "instance": "card-139-0",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 2,
+        "adjustment": 2.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位4 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 21,
+      "logId": 1196,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_45.webp",
+      "instance": "card-132-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 4.5,
+        "adjustment": 0
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 毅力号火星车：南河三 槽位4 替换为棕色token；获得数据；弃除 毅力号火星车，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 21,
+      "logId": 1289,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_1.webp",
+      "instance": "card-168-0",
+      "preview": {
+        "effectId": "b1-virgo-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "室女座61扇区扫描 1/2：室女座61 槽位5 替换为绿色token；获得数据；资源：数据+1",
+          "室女座61扇区扫描 2/2：室女座61 槽位6 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 22,
+      "logId": 64,
+      "company": "作弊实验室",
+      "round": 1,
+      "cardId": "b_100.webp",
+      "instance": "card-6-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 1.597,
+        "value": 12.597,
+        "previousValue": 4,
+        "adjustment": 8.597
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位1 替换为绿色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 22,
+      "logId": 958,
+      "company": "寰宇超动力",
+      "round": 3,
+      "cardId": "b_14.webp",
+      "instance": "card-105-0",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 1.676,
+        "value": 12.676,
+        "previousValue": 4,
+        "adjustment": 8.676
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位3 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 22,
+      "logId": 1511,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_102.webp",
+      "instance": "card-175-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 0,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 6,
+        "previousValue": 4,
+        "adjustment": 2
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 0,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位3 替换为绿色token；数据池已满（6/6），本次数据被弃置",
+          "比邻星扫描 2/2：比邻星 槽位4 替换为绿色token；数据池已满（6/6），本次数据被弃置"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 23,
+      "logId": 342,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "b_45.webp",
+      "instance": "card-89-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 2.873,
+        "value": 7.373,
+        "previousValue": 4.5,
+        "adjustment": 2.873
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 量子计算机：织女一 槽位3 替换为白色token；获得数据；弃除 量子计算机，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 23,
+      "logId": 387,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "cardId": "b_102.webp",
+      "instance": "card-72-0",
+      "preview": {
+        "effectId": "b102-proxima-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-3-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 2.263,
+        "value": 13.263,
+        "previousValue": 4,
+        "adjustment": 9.263
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "比邻星扫描 1/2：比邻星 槽位1 替换为绿色token；获得数据；资源：数据+1",
+          "比邻星扫描 2/2：比邻星 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 23,
+      "logId": 719,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "cardId": "b_128.webp",
+      "instance": "card-42-pass-2-3",
+      "preview": {
+        "effectId": "b128-vega-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.353,
+        "value": 7.853,
+        "previousValue": 2,
+        "adjustment": 5.853
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "织女一扫描：织女一 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 23,
+      "logId": 937,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "cardId": "b_19.webp",
+      "instance": "card-124-0",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-1-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.353,
+        "value": 7.853,
+        "previousValue": 2,
+        "adjustment": 5.853
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：织女一 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 23,
+      "logId": 1160,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_14.webp",
+      "instance": "card-46-pass-3-2",
+      "preview": {
+        "effectId": "b14-barnard-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-b",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 9,
+        "previousValue": 4,
+        "adjustment": 5
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "巴纳德扇区扫描 1/2：巴纳德 槽位3 替换为白色token；获得数据；资源：数据+1",
+          "巴纳德扇区扫描 2/2：巴纳德 槽位4 替换为白色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 24,
+      "logId": 278,
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "cardId": "b_100.webp",
+      "instance": "card-85-0",
+      "preview": {
+        "effectId": "b100-procyon-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 0,
+        "continuation": 3.017,
+        "value": 12.017,
+        "previousValue": 4,
+        "adjustment": 8.017
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "南河三扫描 1/2：南河三 槽位3 替换为蓝色token；获得数据；资源：数据+1",
+          "南河三扫描 2/2：南河三 槽位4 替换为蓝色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 24,
+      "logId": 528,
+      "company": "作弊实验室",
+      "round": 2,
+      "cardId": "banrenma_8.webp",
+      "instance": "alien-banrenma-8-6",
+      "preview": {
+        "effectId": "banrenma-8-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-1-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 3.45,
+        "value": 14.45,
+        "previousValue": 2,
+        "adjustment": 12.45
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "半人马8：选定扇区扫描2次 1/2：南河三 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1",
+          "半人马8：选定扇区扫描2次 2/2：南河三 槽位3 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 24,
+      "logId": 999,
+      "company": "作弊实验室",
+      "round": 3,
+      "cardId": "b_45.webp",
+      "instance": "card-112-0",
+      "preview": {
+        "effectId": "b45-public-scan",
+        "effectType": "card_public_scan",
+        "nebulaId": "sector-3-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 1.676,
+        "value": 6.176,
+        "previousValue": 4.5,
+        "adjustment": 1.6760000000000002
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "公共牌区扫描 超环面仪器：比邻星 槽位3 替换为绿色token；获得数据；弃除 超环面仪器，公共区留空待扫描结束补牌；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 24,
+      "logId": 1016,
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "cardId": "yichangdian_0.webp",
+      "instance": "alien-yichangdian-0-7",
+      "preview": {
+        "effectId": "y0-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-2-a",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 1.54,
+        "value": 8.04,
+        "previousValue": 2,
+        "adjustment": 6.039999999999999
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：天狼星A 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 24,
+      "logId": 1280,
+      "company": "寰宇超动力",
+      "round": 4,
+      "cardId": "b_19.webp",
+      "instance": "card-46-pass-3-2",
+      "preview": {
+        "effectId": "b19-any-sector-scan",
+        "effectType": "card_any_sector_scan",
+        "nebulaId": "sector-3-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 6.5,
+        "previousValue": 2,
+        "adjustment": 4.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "扫描任意扇区：比邻星 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 24,
+      "logId": 1430,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_114.webp",
+      "instance": "card-159-0",
+      "preview": {
+        "effectId": "b114-sirius-scan-1",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-2-a",
+        "repeat": 2,
+        "replaced": 2,
+        "extraMarks": 0,
+        "dataGain": 2,
+        "slotScore": 2,
+        "continuation": 0,
+        "value": 11,
+        "previousValue": 4,
+        "adjustment": 7
+      },
+      "actual": {
+        "scanEvents": 2,
+        "dataGain": 2,
+        "slotScore": 2,
+        "targetMatch": true,
+        "sources": [
+          "天狼星A扫描 1/2：天狼星A 槽位2 替换为绿色token；槽位2 +2分；获得数据；资源：数据+1",
+          "天狼星A扫描 2/2：天狼星A 槽位3 替换为绿色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    },
+    {
+      "case": 24,
+      "logId": 1598,
+      "company": "作弊实验室",
+      "round": 4,
+      "cardId": "b_15.webp",
+      "instance": "card-176-0",
+      "preview": {
+        "effectId": "b15-beta-pictoris-scan",
+        "effectType": "card_scan_nebula",
+        "nebulaId": "sector-4-b",
+        "repeat": 1,
+        "replaced": 1,
+        "extraMarks": 0,
+        "dataGain": 1,
+        "slotScore": 0,
+        "continuation": 0,
+        "value": 4.5,
+        "previousValue": 2,
+        "adjustment": 2.5
+      },
+      "actual": {
+        "scanEvents": 1,
+        "dataGain": 1,
+        "slotScore": 0,
+        "targetMatch": true,
+        "sources": [
+          "绘架座β扇区扫描：绘架座β 槽位5 替换为棕色token；获得数据；资源：数据+1"
+        ]
+      },
+      "matchedEntry": true,
+      "comparable": true,
+      "matches": true
+    }
+  ]
+}
