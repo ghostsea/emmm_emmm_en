@@ -1,0 +1,159 @@
+{
+  "scope": "Current marginal scan valuation plus accepted Runezu reward API. Removes only count-based escalating penalty; preserves actual reward, full-pool backlog, reservation costs and first-scan setup bonus. Controlled real scan payment verified. Historical standalone positive random result does not prove current combination gain.",
+  "tests": 54,
+  "browser": {
+    "company": {
+      "id": "industry:寰宇超动力",
+      "kind": "industry",
+      "label": "寰宇超动力",
+      "src": "../assets/industry/寰宇动力.png",
+      "width": 1382,
+      "height": 1054,
+      "aiOnly": true
+    },
+    "expected": {
+      "credits": 1,
+      "energy": 2
+    },
+    "before": {
+      "credits": 12,
+      "energy": 12,
+      "publicity": 4,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 4,
+      "score": 7
+    },
+    "after": {
+      "credits": 11,
+      "energy": 10,
+      "publicity": 4,
+      "availableData": 2,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 4,
+      "score": 9
+    },
+    "steps": 4,
+    "bugs": [],
+    "scanTargets": [
+      {
+        "logPlayerId": "player-white",
+        "pendingType": "public_scan",
+        "nebulaId": "sector-2-a",
+        "sectorX": null,
+        "label": "天狼星A下一次替换槽位 2",
+        "selectedScore": 8.615,
+        "topChoices": [
+          {
+            "nebulaId": "sector-2-a",
+            "sectorX": null,
+            "label": "天狼星A下一次替换槽位 2",
+            "score": 8.615,
+            "directScoreGain": 2,
+            "b2": null
+          },
+          {
+            "nebulaId": "sector-1-a",
+            "sectorX": null,
+            "label": "南河三下一次替换槽位 1",
+            "score": 6.865,
+            "directScoreGain": 0,
+            "b2": null
+          }
+        ]
+      }
+    ],
+    "action": {
+      "id": 6,
+      "roundNumber": 1,
+      "turnNumber": 1,
+      "rawTurnNumber": 1,
+      "actionCycleNumber": 1,
+      "playerId": "player-white",
+      "playerLabel": "白色",
+      "actionType": "scan",
+      "actionLabel": "扫描行动",
+      "passed": false,
+      "steps": [
+        {
+          "stepId": "history-step-14",
+          "source": "main",
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "text": "扫描费用：扫描消耗 1信用点 + 2能量",
+          "label": "扫描费用",
+          "detail": "扫描消耗 1信用点 + 2能量",
+          "undoable": true,
+          "irreversibleCode": null,
+          "irreversibleReason": "",
+          "playedCard": null,
+          "fangzhouCardChanges": [],
+          "briefing": null
+        },
+        {
+          "stepId": "history-step-15",
+          "source": "main",
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "text": "扇区扫描：天狼星A 槽位1 替换为白色token；获得数据；资源：数据+1",
+          "label": "扇区扫描",
+          "detail": "扇区扫描：天狼星A 槽位1 替换为白色token；获得数据；资源：数据+1",
+          "undoable": true,
+          "irreversibleCode": null,
+          "irreversibleReason": "",
+          "playedCard": null,
+          "fangzhouCardChanges": [],
+          "briefing": {
+            "scanTargets": [
+              {
+                "x": 1,
+                "nebulaId": "sector-2-a",
+                "label": "天狼星A"
+              }
+            ]
+          }
+        },
+        {
+          "stepId": "history-step-16",
+          "source": "main",
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "text": "公共牌区扫描 飞掠木星：天狼星A 槽位2 替换为白色token；槽位2 +2分；获得数据；弃除 飞掠木星，公共区留空待扫描结束补牌；资源：数据+1",
+          "label": "公共牌区扫描 飞掠木星",
+          "detail": "公共牌区扫描 飞掠木星：天狼星A 槽位2 替换为白色token；槽位2 +2分；获得数据；弃除 飞掠木星，公共区留空待扫描结束补牌；资源：数据+1",
+          "undoable": true,
+          "irreversibleCode": null,
+          "irreversibleReason": "",
+          "playedCard": null,
+          "fangzhouCardChanges": [],
+          "briefing": {
+            "scanTargets": [
+              {
+                "x": 1,
+                "nebulaId": "sector-2-a",
+                "label": "天狼星A"
+              }
+            ]
+          }
+        },
+        {
+          "stepId": "history-step-17",
+          "source": "main",
+          "playerId": "player-white",
+          "playerLabel": "白色",
+          "text": "补充公共牌区：公共牌区补牌：2:金星号探测器",
+          "label": "补充公共牌区",
+          "detail": "公共牌区补牌：2:金星号探测器",
+          "undoable": false,
+          "irreversibleCode": "hidden_card_reveal",
+          "irreversibleReason": "公共牌补牌翻出新牌",
+          "playedCard": null,
+          "fangzhouCardChanges": [],
+          "briefing": null
+        }
+      ]
+    }
+  }
+}
