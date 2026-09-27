@@ -1,0 +1,8 @@
+{
+  "scope": "Isolated rollback of ready task exclusion. Production frozen source untouched.",
+  "result": {
+    "actual": 11.2,
+    "expected": 7.6,
+    "message": "only the remaining task keeps future value\n\n11.2 !== 7.6\n"
+  }
+}

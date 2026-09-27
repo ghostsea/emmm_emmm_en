@@ -1,0 +1,105 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Controlled real b68 paid card play, data/free scan effects, then publicity task3score+pick1 and removal. Before play reserve value0 but immediate reward preserved. Not paired score evidence.",
+      "owner": "player-blue",
+      "candidate": {
+        "id": "playCard",
+        "kind": "main",
+        "available": true,
+        "handIndex": 0,
+        "cardId": "b_68.webp",
+        "cardInstanceId": "card-66-0",
+        "cardLabel": "洛弗尔望远锐",
+        "alienCard": false,
+        "price": 3,
+        "cost": {
+          "credits": 3
+        },
+        "typeCode": 2,
+        "reservesAfterPlay": true,
+        "effectTypes": [
+          "gain_data",
+          "card_scan_action"
+        ],
+        "plan": {
+          "type": "card-synergy",
+          "mainActionId": "playCard",
+          "actionId": "scan",
+          "label": "打牌触发扫描路线",
+          "score": 0.7999999999999999,
+          "cardId": "b_68.webp",
+          "effectType": "card_scan_action",
+          "color": null,
+          "nebulaId": null
+        },
+        "finalFormulaDeltas": {
+          "c1": 0.37,
+          "c2": 0.26
+        },
+        "directScoreGain": 0,
+        "score": -15.380134387328003,
+        "valueBreakdown": {
+          "costValue": 18,
+          "cornerOpportunity": 31.0803,
+          "reserveValue": 0,
+          "directScoreGain": 0,
+          "effectValue": 7.699,
+          "strategyPassivePlayValue": 0,
+          "grandStrategyCreditBottleneckPenalty": 0,
+          "finalSelfBlockingPublicityTrap": null,
+          "finalSelfBlockingPublicityTrapPenalty": 0,
+          "c2Type3ProgressValue": 0,
+          "cFinalTaskProgressValue": 0.3377088,
+          "finalUnreadyTaskSetupSuppressed": false,
+          "readyTaskCashoutValue": 15.679,
+          "readyTaskCashoutDirectScore": 3,
+          "readyTaskCashoutCount": 1,
+          "readyTaskCashoutTimingScale": 0.2,
+          "readyTaskBlockedByPlayEffectTaskIds": [],
+          "newlyReadyAfterPlayTaskIds": [],
+          "readyTaskTechReplacementValue": 0,
+          "skippedUnresolvableLaunchForReadyTask": false,
+          "skippedUnresolvableLaunchCount": 0,
+          "skippedUnresolvableMoveBeforeLaterEffect": false,
+          "skippedUnresolvableMoveCount": 0,
+          "chongTaskChainValue": 0,
+          "banrenmaThresholdSetupValue": 0,
+          "playCardConversionPressure": 0,
+          "huanyuFangzhouCreditLockPenalty": 0,
+          "lateCardEnginePressure": 0,
+          "endGameExpectedScore": 0,
+          "chongProbeFossilRewardValue": null,
+          "finalRoundEndGameCardUrgency": 0,
+          "planScore": 0.7999999999999999,
+          "standardActionPremium": 3.2175,
+          "finalSecondMarkNoDirectSetupPenalty": 0,
+          "finalRoundResourceDrainPenalty": 0
+        }
+      },
+      "beforeTask": {
+        "credits": 7,
+        "energy": 5,
+        "publicity": 8,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 7
+      },
+      "afterTask": {
+        "credits": 7,
+        "energy": 5,
+        "publicity": 8,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 10
+      },
+      "completed": 1,
+      "bugs": []
+    }
+  }
+}
