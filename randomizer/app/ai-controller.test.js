@@ -2512,7 +2512,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
 }
 
 {
-  const runGrandFangzhouIncomeChoice = (companyLabel) => {
+  const runGrandFangzhouIncomeChoice = (companyLabel, credits = 0) => {
     const pendingDiscardAction = { type: "place_data_income", selectedIndexes: [] };
     const harness = createAiControllerHarness(null, {
       currentPlayerColor: "blue",
@@ -2522,7 +2522,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
       blueInitialSelection: {
         industry: { id: `industry:${companyLabel}`, label: companyLabel },
       },
-      blueResources: { credits: 0, energy: 2, publicity: 4, handSize: 5, score: 71 },
+      blueResources: { credits, energy: 2, publicity: 4, handSize: 5, score: 71 },
       blueIncome: { credits: 3, energy: 5, handSize: 2 },
       blueHand: [
         {
@@ -2601,8 +2601,8 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
   const ordinary = runGrandFangzhouIncomeChoice("宇宙战略集团");
   assert.equal(
     ordinary.selectedCard?.id,
-    "fangzhou-pink-income",
-    "the throughput correction should not alter the ordinary strategy company",
+    "credit-income-future-play",
+    "ordinary strategy should also preserve Fangzhou's actual advanced reward",
   );
   assert.equal(
     ordinary.preview.find((entry) => entry.cardId === "credit-income-future-play")
@@ -2610,6 +2610,14 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     0,
     "ordinary strategy diagnostics should not receive the grand-strategy correction",
   );
+  const affordable = runGrandFangzhouIncomeChoice("宇宙战略集团", 4);
+  for (const cardId of ["fangzhou_pink_4", "fangzhou_blue_2"]) {
+    const option = affordable.preview.find((entry) => entry.cardId === cardId);
+    assert.equal(option.playableNow, true);
+    assert.ok(option.playValue > 0);
+    assert.ok(Math.abs(option.playValue - option.playScoreNow) < 0.001,
+      "income discard must include the same Fangzhou advanced reward as the actual play candidate");
+  }
 }
 
 {

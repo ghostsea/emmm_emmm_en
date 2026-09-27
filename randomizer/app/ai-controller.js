@@ -12701,7 +12701,7 @@
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
-      const playEffects = details.playEffects || cardEffects.buildPlayEffects?.(card) || [];
+      const playEffects = details.playEffects || getAiPlayEffectsForCard(card);
       const cost = details.cost || getCardPlayCost(card);
       const price = details.price ?? getCardPrice(card);
       const typeCode = details.typeCode ?? getCardTypeCode(card);
