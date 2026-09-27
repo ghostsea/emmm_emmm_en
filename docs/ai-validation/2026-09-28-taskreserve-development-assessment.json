@@ -1,0 +1,197 @@
+{
+  "decision": "hold-no-default-promotion-no-new-random",
+  "reason": "Removing nominal reserve value for immediately collected tasks lowered complete mean and high-score distribution. All predicted task payouts were realized, so lower forecast error does not imply improved action opportunity valuation. Early ready-task play count fell while total counted cashouts rose slightly; neither count establishes causal value. No company/seed gating added.",
+  "models": {
+    "base": "6e317ed350617c9c38169e3f3e615d2a4dc0b560",
+    "candidate": "d99744a4f0aa01489441ccd222f7422587950db9"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 232.65625,
+    "min": 137,
+    "p10": 174,
+    "p25": 193.75,
+    "median": 226.5,
+    "p75": 276.75,
+    "max": 347,
+    "topQuartileMean": 304.625,
+    "winnerMean": 289.7916666666667,
+    "minimumPerGameMean": 175.41666666666666,
+    "seats270Plus": 26,
+    "seats300Plus": 12,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 266.3333333333333,
+        "min": 166
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 190.33333333333334,
+        "min": 137
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 207.625,
+        "min": 138
+      }
+    }
+  },
+  "meanDelta": -3.791666666666657,
+  "pairedGameStandardError": 2.4109439989729284,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 266.3333333333333,
+      "meanDelta": -5.729166666666686,
+      "minimumDelta": 2
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 190.33333333333334,
+      "meanDelta": -6.5,
+      "minimumDelta": 1
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 207.625,
+      "meanDelta": 2.791666666666657,
+      "minimumDelta": 8
+    }
+  },
+  "distribution": {
+    "mean": -3.791666666666657,
+    "min": 7,
+    "p10": 4.5,
+    "p25": -3.75,
+    "median": -2,
+    "p75": -3.25,
+    "max": -38,
+    "topQuartileMean": -4.25,
+    "winnerMean": -6.125,
+    "minimumPerGameMean": -2.1666666666666856,
+    "seats270Plus": -2,
+    "seats300Plus": -2
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 291.4583333333333,
+    "meanDelta": -17.416666666666668,
+    "improved": 7,
+    "declined": 14,
+    "unchanged": 3
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 171.83333333333334,
+    "meanDelta": 0.5416666666666666,
+    "improved": 10,
+    "declined": 9,
+    "unchanged": 5
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1133,
+    "matched": 1133,
+    "intendedCardMatched": 1133,
+    "paid": 1133,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "taskGroups": {
+    "baseline": {
+      "paidReadyTaskCards": 121,
+      "predictedTasks": 121,
+      "actualTasks": 121,
+      "earlyPaidCards": 29,
+      "byCompany": {
+        "宇宙大战略集团": {
+          "paidReadyTaskCards": 27,
+          "actualTasks": 27
+        },
+        "作弊实验室": {
+          "paidReadyTaskCards": 73,
+          "actualTasks": 73
+        },
+        "寰宇超动力": {
+          "paidReadyTaskCards": 21,
+          "actualTasks": 21
+        }
+      }
+    },
+    "candidate": {
+      "paidReadyTaskCards": 123,
+      "predictedTasks": 123,
+      "actualTasks": 123,
+      "earlyPaidCards": 21,
+      "byCompany": {
+        "宇宙大战略集团": {
+          "paidReadyTaskCards": 30,
+          "actualTasks": 30
+        },
+        "作弊实验室": {
+          "paidReadyTaskCards": 73,
+          "actualTasks": 73
+        },
+        "寰宇超动力": {
+          "paidReadyTaskCards": 20,
+          "actualTasks": 20
+        }
+      }
+    }
+  },
+  "interactionMean": 2.8125,
+  "interactionPairedGameStandardError": 2.370574156129722,
+  "absoluteReference": {
+    "meanDelta": 7.59375,
+    "se": 4.046682207511106
+  },
+  "limitations": [
+    "Complete seen24 only. Default fresh-random improvement remains+4.414063; +10 unfinished.",
+    "Four-policy comparison reuses two complete frozen arms;96 unique games,48 newly run.",
+    "Reserve factor implementation is identical in both new arms.",
+    "Shared8e reporting-only change has no event or aggregate resource change; all observed AI ending ledgers close.",
+    "Task realization and downstream activity do not causally attribute resources or lost score to a single action."
+  ]
+}

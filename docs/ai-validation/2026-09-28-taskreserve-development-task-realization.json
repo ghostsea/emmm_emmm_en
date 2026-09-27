@@ -1,0 +1,5859 @@
+{
+  "scope": "All top-level paid cards predicting ready hand tasks in complete paired games. Match instance payment and same-owner/round/raw-turn task confirmation; expected residual reserve value reflects remaining tasks and independent properties. Forecast mismatches are listed for investigation, not hidden. This does not prove opportunity-cost or causal score gains.",
+  "models": {
+    "base": "6e317ed350617c9c38169e3f3e615d2a4dc0b560",
+    "candidate": "d99744a4f0aa01489441ccd222f7422587950db9"
+  },
+  "pairs": 24,
+  "groups": {
+    "baseline": {
+      "paidReadyTaskCards": 121,
+      "predictedTasks": 121,
+      "actualTasks": 121,
+      "earlyPaidCards": 29,
+      "byCompany": {
+        "宇宙大战略集团": {
+          "paidReadyTaskCards": 27,
+          "actualTasks": 27
+        },
+        "作弊实验室": {
+          "paidReadyTaskCards": 73,
+          "actualTasks": 73
+        },
+        "寰宇超动力": {
+          "paidReadyTaskCards": 21,
+          "actualTasks": 21
+        }
+      }
+    },
+    "candidate": {
+      "paidReadyTaskCards": 123,
+      "predictedTasks": 123,
+      "actualTasks": 123,
+      "earlyPaidCards": 21,
+      "byCompany": {
+        "宇宙大战略集团": {
+          "paidReadyTaskCards": 30,
+          "actualTasks": 30
+        },
+        "作弊实验室": {
+          "paidReadyTaskCards": 73,
+          "actualTasks": 73
+        },
+        "寰宇超动力": {
+          "paidReadyTaskCards": 20,
+          "actualTasks": 20
+        }
+      }
+    }
+  },
+  "issues": [],
+  "rows": [
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "traceready-base-1.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_61.webp",
+      "instance": "card-13-0",
+      "round": 1,
+      "rawTurn": 10,
+      "playLog": 129,
+      "paymentEntry": 15,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.504,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "traceready-base-1.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_107.webp",
+      "instance": "card-125-0",
+      "round": 3,
+      "rawTurn": 8,
+      "playLog": 837,
+      "paymentEntry": 97,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.02,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "traceready-base-1.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_116.webp",
+      "instance": "card-153-0",
+      "round": 4,
+      "rawTurn": 4,
+      "playLog": 1243,
+      "paymentEntry": 148,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.825,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "traceready-base-1.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_21.webp",
+      "instance": "card-142-0",
+      "round": 4,
+      "rawTurn": 5,
+      "playLog": 1254,
+      "paymentEntry": 149,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 13.875,
+      "actualTaskIds": [
+        "b21-saturn-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "traceready-base-1.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_103.webp",
+      "instance": "card-139-0",
+      "round": 4,
+      "rawTurn": 7,
+      "playLog": 1271,
+      "paymentEntry": 151,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.901,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "baseline",
+      "file": "traceready-base-1.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-182-0",
+      "round": 4,
+      "rawTurn": 40,
+      "playLog": 1602,
+      "paymentEntry": 184,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "file": "taskreserve-candidate-1.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_61.webp",
+      "instance": "card-13-0",
+      "round": 1,
+      "rawTurn": 19,
+      "playLog": 193,
+      "paymentEntry": 24,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 20.618,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "file": "taskreserve-candidate-1.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-103-0",
+      "round": 3,
+      "rawTurn": 1,
+      "playLog": 616,
+      "paymentEntry": 78,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.409,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "file": "taskreserve-candidate-1.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_104.webp",
+      "instance": "card-78-0",
+      "round": 3,
+      "rawTurn": 22,
+      "playLog": 828,
+      "paymentEntry": 99,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 4.848,
+      "actualTaskIds": [
+        "b104-orbit-count-task"
+      ]
+    },
+    {
+      "case": 1,
+      "side": "candidate",
+      "file": "taskreserve-candidate-1.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_15.webp",
+      "instance": "card-145-0",
+      "round": 4,
+      "rawTurn": 1,
+      "playLog": 1098,
+      "paymentEntry": 133,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 12.957,
+      "actualTaskIds": [
+        "b15-black-sector-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "traceready-base-2.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_61.webp",
+      "instance": "card-73-0",
+      "round": 2,
+      "rawTurn": 4,
+      "playLog": 261,
+      "paymentEntry": 35,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 24.518,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "traceready-base-2.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_126.webp",
+      "instance": "card-41-pass-2-2",
+      "round": 3,
+      "rawTurn": 10,
+      "playLog": 781,
+      "paymentEntry": 95,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.135,
+      "actualTaskIds": [
+        "b126-neptune-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "traceready-base-2.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_127.webp",
+      "instance": "card-108-0",
+      "round": 3,
+      "rawTurn": 17,
+      "playLog": 844,
+      "paymentEntry": 102,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.615,
+      "actualTaskIds": [
+        "b127-uranus-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "traceready-base-2.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_103.webp",
+      "instance": "card-63-0",
+      "round": 3,
+      "rawTurn": 23,
+      "playLog": 898,
+      "paymentEntry": 108,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.708,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "traceready-base-2.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_77.webp",
+      "instance": "card-167-0",
+      "round": 4,
+      "rawTurn": 21,
+      "playLog": 1436,
+      "paymentEntry": 167,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.925,
+      "actualTaskIds": [
+        "b77-mercury-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "taskreserve-candidate-2.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_61.webp",
+      "instance": "card-73-0",
+      "round": 2,
+      "rawTurn": 4,
+      "playLog": 261,
+      "paymentEntry": 35,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 24.518,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "taskreserve-candidate-2.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_126.webp",
+      "instance": "card-41-pass-2-2",
+      "round": 3,
+      "rawTurn": 10,
+      "playLog": 781,
+      "paymentEntry": 95,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.135,
+      "actualTaskIds": [
+        "b126-neptune-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "taskreserve-candidate-2.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_127.webp",
+      "instance": "card-108-0",
+      "round": 3,
+      "rawTurn": 17,
+      "playLog": 844,
+      "paymentEntry": 102,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.615,
+      "actualTaskIds": [
+        "b127-uranus-task"
+      ]
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "taskreserve-candidate-2.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_103.webp",
+      "instance": "card-63-0",
+      "round": 3,
+      "rawTurn": 27,
+      "playLog": 926,
+      "paymentEntry": 112,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.162,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "traceready-base-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_72.webp",
+      "instance": "card-16-0",
+      "round": 1,
+      "rawTurn": 14,
+      "playLog": 159,
+      "paymentEntry": 19,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 20.154,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "traceready-base-3.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-64-0",
+      "round": 2,
+      "rawTurn": 3,
+      "playLog": 304,
+      "paymentEntry": 42,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.025,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "traceready-base-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_107.webp",
+      "instance": "card-105-0",
+      "round": 3,
+      "rawTurn": 4,
+      "playLog": 739,
+      "paymentEntry": 92,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "traceready-base-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_116.webp",
+      "instance": "card-18-0",
+      "round": 3,
+      "rawTurn": 43,
+      "playLog": 1118,
+      "paymentEntry": 131,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 12.739,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "traceready-base-3.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_67.webp",
+      "instance": "card-179-0",
+      "round": 4,
+      "rawTurn": 26,
+      "playLog": 1540,
+      "paymentEntry": 177,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.793,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "traceready-base-3.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_19.webp",
+      "instance": "card-173-0",
+      "round": 4,
+      "rawTurn": 28,
+      "playLog": 1563,
+      "paymentEntry": 179,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 1.275,
+      "actualTaskIds": [
+        "b19-purple-tech-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "taskreserve-candidate-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_72.webp",
+      "instance": "card-16-0",
+      "round": 1,
+      "rawTurn": 14,
+      "playLog": 159,
+      "paymentEntry": 19,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 20.154,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "taskreserve-candidate-3.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-64-0",
+      "round": 2,
+      "rawTurn": 3,
+      "playLog": 304,
+      "paymentEntry": 42,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.025,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "taskreserve-candidate-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_107.webp",
+      "instance": "card-105-0",
+      "round": 3,
+      "rawTurn": 4,
+      "playLog": 739,
+      "paymentEntry": 92,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "taskreserve-candidate-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_116.webp",
+      "instance": "card-18-0",
+      "round": 3,
+      "rawTurn": 43,
+      "playLog": 1118,
+      "paymentEntry": 131,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 12.739,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 3,
+      "side": "candidate",
+      "file": "taskreserve-candidate-3.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_67.webp",
+      "instance": "card-179-0",
+      "round": 4,
+      "rawTurn": 26,
+      "playLog": 1540,
+      "paymentEntry": 177,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.793,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "traceready-base-4.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_107.webp",
+      "instance": "card-42-pass-2-3",
+      "round": 3,
+      "rawTurn": 3,
+      "playLog": 649,
+      "paymentEntry": 90,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.78,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "traceready-base-4.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-120-0",
+      "round": 3,
+      "rawTurn": 5,
+      "playLog": 695,
+      "paymentEntry": 92,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 30.17,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "traceready-base-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-123-0",
+      "round": 3,
+      "rawTurn": 6,
+      "playLog": 707,
+      "paymentEntry": 93,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "traceready-base-4.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_129.webp",
+      "instance": "card-128-0",
+      "round": 3,
+      "rawTurn": 8,
+      "playLog": 728,
+      "paymentEntry": 95,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b129-venus-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "traceready-base-4.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_130.webp",
+      "instance": "card-130-0",
+      "round": 3,
+      "rawTurn": 11,
+      "playLog": 750,
+      "paymentEntry": 98,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "traceready-base-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-118-0",
+      "round": 3,
+      "rawTurn": 14,
+      "playLog": 784,
+      "paymentEntry": 101,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.271,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "traceready-base-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_116.webp",
+      "instance": "card-117-0",
+      "round": 3,
+      "rawTurn": 38,
+      "playLog": 992,
+      "paymentEntry": 125,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.543,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_107.webp",
+      "instance": "card-42-pass-2-3",
+      "round": 3,
+      "rawTurn": 3,
+      "playLog": 649,
+      "paymentEntry": 90,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.78,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-120-0",
+      "round": 3,
+      "rawTurn": 5,
+      "playLog": 695,
+      "paymentEntry": 92,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 30.17,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-123-0",
+      "round": 3,
+      "rawTurn": 6,
+      "playLog": 707,
+      "paymentEntry": 93,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_129.webp",
+      "instance": "card-128-0",
+      "round": 3,
+      "rawTurn": 8,
+      "playLog": 728,
+      "paymentEntry": 95,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b129-venus-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_130.webp",
+      "instance": "card-130-0",
+      "round": 3,
+      "rawTurn": 15,
+      "playLog": 805,
+      "paymentEntry": 102,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-118-0",
+      "round": 3,
+      "rawTurn": 18,
+      "playLog": 833,
+      "paymentEntry": 105,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.271,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_116.webp",
+      "instance": "card-117-0",
+      "round": 3,
+      "rawTurn": 37,
+      "playLog": 1005,
+      "paymentEntry": 124,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 7.066,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_117.webp",
+      "instance": "card-178-0",
+      "round": 4,
+      "rawTurn": 17,
+      "playLog": 1366,
+      "paymentEntry": 163,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.875,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_15.webp",
+      "instance": "card-175-0",
+      "round": 4,
+      "rawTurn": 23,
+      "playLog": 1443,
+      "paymentEntry": 169,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.275,
+      "actualTaskIds": [
+        "b15-black-sector-task"
+      ]
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "taskreserve-candidate-4.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_51.webp",
+      "instance": "card-192-0",
+      "round": 4,
+      "rawTurn": 29,
+      "playLog": 1497,
+      "paymentEntry": 175,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b51-three-pink-task"
+      ]
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "file": "traceready-base-5.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "cardId": "dlc_41.png",
+      "instance": "card-87-0",
+      "round": 2,
+      "rawTurn": 9,
+      "playLog": 402,
+      "paymentEntry": 47,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.25,
+      "actualTaskIds": [
+        "dlc41-four-color-signals"
+      ]
+    },
+    {
+      "case": 5,
+      "side": "baseline",
+      "file": "traceready-base-5.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_130.webp",
+      "instance": "card-46-pass-3-2",
+      "round": 4,
+      "rawTurn": 2,
+      "playLog": 1164,
+      "paymentEntry": 147,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "file": "taskreserve-candidate-5.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "cardId": "dlc_41.png",
+      "instance": "card-87-0",
+      "round": 2,
+      "rawTurn": 9,
+      "playLog": 402,
+      "paymentEntry": 47,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.25,
+      "actualTaskIds": [
+        "dlc41-four-color-signals"
+      ]
+    },
+    {
+      "case": 5,
+      "side": "candidate",
+      "file": "taskreserve-candidate-5.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_130.webp",
+      "instance": "card-46-pass-3-2",
+      "round": 4,
+      "rawTurn": 2,
+      "playLog": 1164,
+      "paymentEntry": 147,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "traceready-base-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_60.webp",
+      "instance": "card-86-0",
+      "round": 2,
+      "rawTurn": 8,
+      "playLog": 397,
+      "paymentEntry": 50,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "traceready-base-6.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_21.webp",
+      "instance": "card-61-0",
+      "round": 2,
+      "rawTurn": 19,
+      "playLog": 515,
+      "paymentEntry": 61,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b21-saturn-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "traceready-base-6.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_130.webp",
+      "instance": "card-97-0",
+      "round": 2,
+      "rawTurn": 26,
+      "playLog": 570,
+      "paymentEntry": 68,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "traceready-base-6.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_129.webp",
+      "instance": "card-103-0",
+      "round": 3,
+      "rawTurn": 1,
+      "playLog": 621,
+      "paymentEntry": 85,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 13.475,
+      "actualTaskIds": [
+        "b129-venus-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "traceready-base-6.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-85-0",
+      "round": 3,
+      "rawTurn": 10,
+      "playLog": 738,
+      "paymentEntry": 94,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.767,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "traceready-base-6.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_77.webp",
+      "instance": "card-156-0",
+      "round": 4,
+      "rawTurn": 9,
+      "playLog": 1210,
+      "paymentEntry": 148,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 27.055,
+      "actualTaskIds": [
+        "b77-mercury-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "taskreserve-candidate-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_60.webp",
+      "instance": "card-86-0",
+      "round": 2,
+      "rawTurn": 8,
+      "playLog": 397,
+      "paymentEntry": 50,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "taskreserve-candidate-6.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_21.webp",
+      "instance": "card-61-0",
+      "round": 2,
+      "rawTurn": 19,
+      "playLog": 515,
+      "paymentEntry": 61,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b21-saturn-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "taskreserve-candidate-6.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-98-0",
+      "round": 3,
+      "rawTurn": 17,
+      "playLog": 863,
+      "paymentEntry": 105,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "taskreserve-candidate-6.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_130.webp",
+      "instance": "card-97-0",
+      "round": 3,
+      "rawTurn": 35,
+      "playLog": 1016,
+      "paymentEntry": 123,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "taskreserve-candidate-6.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_75.webp",
+      "instance": "card-156-0",
+      "round": 4,
+      "rawTurn": 1,
+      "playLog": 1124,
+      "paymentEntry": 146,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b75-mercury-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "taskreserve-candidate-6.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_117.webp",
+      "instance": "card-139-0",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1157,
+      "paymentEntry": 148,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.875,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "taskreserve-candidate-6.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_51.webp",
+      "instance": "card-161-0",
+      "round": 4,
+      "rawTurn": 12,
+      "playLog": 1308,
+      "paymentEntry": 157,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b51-three-pink-task"
+      ]
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "taskreserve-candidate-6.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_107.webp",
+      "instance": "card-49-pass-3-5",
+      "round": 4,
+      "rawTurn": 15,
+      "playLog": 1355,
+      "paymentEntry": 160,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "file": "traceready-base-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-100-0",
+      "round": 2,
+      "rawTurn": 26,
+      "playLog": 539,
+      "paymentEntry": 65,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "file": "traceready-base-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_116.webp",
+      "instance": "card-119-0",
+      "round": 3,
+      "rawTurn": 1,
+      "playLog": 674,
+      "paymentEntry": 90,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.825,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "baseline",
+      "file": "traceready-base-7.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_135.webp",
+      "instance": "card-115-0",
+      "round": 3,
+      "rawTurn": 16,
+      "playLog": 871,
+      "paymentEntry": 105,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.3,
+      "actualTaskIds": [
+        "b135-same-color-sectors-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "taskreserve-candidate-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-100-0",
+      "round": 2,
+      "rawTurn": 26,
+      "playLog": 539,
+      "paymentEntry": 65,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "taskreserve-candidate-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_116.webp",
+      "instance": "card-119-0",
+      "round": 3,
+      "rawTurn": 9,
+      "playLog": 806,
+      "paymentEntry": 98,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.825,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "taskreserve-candidate-7.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_135.webp",
+      "instance": "card-115-0",
+      "round": 3,
+      "rawTurn": 20,
+      "playLog": 934,
+      "paymentEntry": 109,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.3,
+      "actualTaskIds": [
+        "b135-same-color-sectors-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "taskreserve-candidate-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-43-pass-2-4",
+      "round": 3,
+      "rawTurn": 21,
+      "playLog": 947,
+      "paymentEntry": 110,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.122,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "taskreserve-candidate-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_15.webp",
+      "instance": "card-137-0",
+      "round": 3,
+      "rawTurn": 33,
+      "playLog": 1045,
+      "paymentEntry": 122,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.64,
+      "actualTaskIds": [
+        "b15-black-sector-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "taskreserve-candidate-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_130.webp",
+      "instance": "card-158-0",
+      "round": 4,
+      "rawTurn": 4,
+      "playLog": 1211,
+      "paymentEntry": 151,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "taskreserve-candidate-7.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_121.webp",
+      "instance": "card-48-pass-3-4",
+      "round": 4,
+      "rawTurn": 10,
+      "playLog": 1273,
+      "paymentEntry": 157,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.667,
+      "actualTaskIds": [
+        "b121-yellow-traces-task"
+      ]
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "taskreserve-candidate-7.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-190-0",
+      "round": 4,
+      "rawTurn": 38,
+      "playLog": 1602,
+      "paymentEntry": 185,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "traceready-base-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-94-0",
+      "round": 2,
+      "rawTurn": 11,
+      "playLog": 406,
+      "paymentEntry": 50,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "traceready-base-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_75.webp",
+      "instance": "card-113-0",
+      "round": 3,
+      "rawTurn": 2,
+      "playLog": 623,
+      "paymentEntry": 83,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.02,
+      "actualTaskIds": [
+        "b75-mercury-task"
+      ]
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "traceready-base-8.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-46-pass-3-2",
+      "round": 4,
+      "rawTurn": 4,
+      "playLog": 1080,
+      "paymentEntry": 139,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.472,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "traceready-base-8.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_130.webp",
+      "instance": "card-177-0",
+      "round": 4,
+      "rawTurn": 35,
+      "playLog": 1407,
+      "paymentEntry": 170,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "taskreserve-candidate-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-94-0",
+      "round": 2,
+      "rawTurn": 11,
+      "playLog": 406,
+      "paymentEntry": 50,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "taskreserve-candidate-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_75.webp",
+      "instance": "card-113-0",
+      "round": 3,
+      "rawTurn": 2,
+      "playLog": 623,
+      "paymentEntry": 83,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.02,
+      "actualTaskIds": [
+        "b75-mercury-task"
+      ]
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "taskreserve-candidate-8.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-46-pass-3-2",
+      "round": 4,
+      "rawTurn": 8,
+      "playLog": 1117,
+      "paymentEntry": 143,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 5.068,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "taskreserve-candidate-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "dlc_9.png",
+      "instance": "card-155-0",
+      "round": 4,
+      "rawTurn": 9,
+      "playLog": 1132,
+      "paymentEntry": 144,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.657,
+      "actualTaskIds": [
+        "dlc9-three-sector-wins"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "traceready-base-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_12.webp",
+      "instance": "card-129-0",
+      "round": 3,
+      "rawTurn": 25,
+      "playLog": 1032,
+      "paymentEntry": 119,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.51,
+      "actualTaskIds": [
+        "b12-blue-trace-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "traceready-base-9.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_107.webp",
+      "instance": "card-159-0",
+      "round": 4,
+      "rawTurn": 1,
+      "playLog": 1206,
+      "paymentEntry": 148,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "traceready-base-9.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_104.webp",
+      "instance": "card-171-0",
+      "round": 4,
+      "rawTurn": 10,
+      "playLog": 1316,
+      "paymentEntry": 157,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.537,
+      "actualTaskIds": [
+        "b104-orbit-count-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "traceready-base-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_126.webp",
+      "instance": "card-166-0",
+      "round": 4,
+      "rawTurn": 16,
+      "playLog": 1382,
+      "paymentEntry": 163,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.775,
+      "actualTaskIds": [
+        "b126-neptune-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "traceready-base-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_116.webp",
+      "instance": "card-183-0",
+      "round": 4,
+      "rawTurn": 28,
+      "playLog": 1507,
+      "paymentEntry": 175,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.825,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "baseline",
+      "file": "traceready-base-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_130.webp",
+      "instance": "card-187-0",
+      "round": 4,
+      "rawTurn": 37,
+      "playLog": 1600,
+      "paymentEntry": 184,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "taskreserve-candidate-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_12.webp",
+      "instance": "card-129-0",
+      "round": 3,
+      "rawTurn": 25,
+      "playLog": 1032,
+      "paymentEntry": 119,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.51,
+      "actualTaskIds": [
+        "b12-blue-trace-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "taskreserve-candidate-9.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_107.webp",
+      "instance": "card-159-0",
+      "round": 4,
+      "rawTurn": 5,
+      "playLog": 1271,
+      "paymentEntry": 152,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "taskreserve-candidate-9.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_104.webp",
+      "instance": "card-171-0",
+      "round": 4,
+      "rawTurn": 10,
+      "playLog": 1316,
+      "paymentEntry": 157,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.537,
+      "actualTaskIds": [
+        "b104-orbit-count-task"
+      ]
+    },
+    {
+      "case": 9,
+      "side": "candidate",
+      "file": "taskreserve-candidate-9.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_126.webp",
+      "instance": "card-166-0",
+      "round": 4,
+      "rawTurn": 20,
+      "playLog": 1426,
+      "paymentEntry": 167,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.775,
+      "actualTaskIds": [
+        "b126-neptune-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "traceready-base-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_121.webp",
+      "instance": "card-138-0",
+      "round": 3,
+      "rawTurn": 42,
+      "playLog": 1117,
+      "paymentEntry": 130,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b121-yellow-traces-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "traceready-base-10.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_67.webp",
+      "instance": "card-154-0",
+      "round": 4,
+      "rawTurn": 6,
+      "playLog": 1271,
+      "paymentEntry": 151,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "traceready-base-10.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_12.webp",
+      "instance": "card-49-pass-3-5",
+      "round": 4,
+      "rawTurn": 7,
+      "playLog": 1282,
+      "paymentEntry": 152,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 7.725,
+      "actualTaskIds": [
+        "b12-blue-trace-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "traceready-base-10.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_114.webp",
+      "instance": "card-131-0",
+      "round": 4,
+      "rawTurn": 21,
+      "playLog": 1445,
+      "paymentEntry": 166,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.558,
+      "actualTaskIds": [
+        "b114-blue-sectors-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "traceready-base-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_135.webp",
+      "instance": "card-182-0",
+      "round": 4,
+      "rawTurn": 40,
+      "playLog": 1675,
+      "paymentEntry": 185,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.45,
+      "actualTaskIds": [
+        "b135-same-color-sectors-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "taskreserve-candidate-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_121.webp",
+      "instance": "card-138-0",
+      "round": 3,
+      "rawTurn": 42,
+      "playLog": 1117,
+      "paymentEntry": 130,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b121-yellow-traces-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "taskreserve-candidate-10.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_67.webp",
+      "instance": "card-154-0",
+      "round": 4,
+      "rawTurn": 6,
+      "playLog": 1271,
+      "paymentEntry": 151,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "taskreserve-candidate-10.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-164-0",
+      "round": 4,
+      "rawTurn": 13,
+      "playLog": 1360,
+      "paymentEntry": 158,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "taskreserve-candidate-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_135.webp",
+      "instance": "card-165-0",
+      "round": 4,
+      "rawTurn": 16,
+      "playLog": 1391,
+      "paymentEntry": 161,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.45,
+      "actualTaskIds": [
+        "b135-same-color-sectors-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "taskreserve-candidate-10.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_12.webp",
+      "instance": "card-49-pass-3-5",
+      "round": 4,
+      "rawTurn": 19,
+      "playLog": 1417,
+      "paymentEntry": 164,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 7.725,
+      "actualTaskIds": [
+        "b12-blue-trace-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "taskreserve-candidate-10.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_114.webp",
+      "instance": "card-131-0",
+      "round": 4,
+      "rawTurn": 25,
+      "playLog": 1486,
+      "paymentEntry": 170,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.621,
+      "actualTaskIds": [
+        "b114-blue-sectors-task"
+      ]
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "taskreserve-candidate-10.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_126.webp",
+      "instance": "card-182-0",
+      "round": 4,
+      "rawTurn": 44,
+      "playLog": 1685,
+      "paymentEntry": 189,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.775,
+      "actualTaskIds": [
+        "b126-neptune-task"
+      ]
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "traceready-base-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-10-0",
+      "round": 1,
+      "rawTurn": 3,
+      "playLog": 64,
+      "paymentEntry": 8,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "traceready-base-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-105-0",
+      "round": 3,
+      "rawTurn": 1,
+      "playLog": 595,
+      "paymentEntry": 82,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.667,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "traceready-base-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_117.webp",
+      "instance": "card-142-0",
+      "round": 4,
+      "rawTurn": 4,
+      "playLog": 1181,
+      "paymentEntry": 151,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.875,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "taskreserve-candidate-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-10-0",
+      "round": 1,
+      "rawTurn": 7,
+      "playLog": 108,
+      "paymentEntry": 12,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "taskreserve-candidate-11.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_72.webp",
+      "instance": "card-75-0",
+      "round": 2,
+      "rawTurn": 5,
+      "playLog": 289,
+      "paymentEntry": 38,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.25,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "taskreserve-candidate-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-105-0",
+      "round": 3,
+      "rawTurn": 1,
+      "playLog": 617,
+      "paymentEntry": 83,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.011,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "taskreserve-candidate-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-128-0",
+      "round": 3,
+      "rawTurn": 43,
+      "playLog": 1044,
+      "paymentEntry": 125,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "taskreserve-candidate-11.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_12.webp",
+      "instance": "card-141-0",
+      "round": 4,
+      "rawTurn": 37,
+      "playLog": 1533,
+      "paymentEntry": 178,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.15,
+      "actualTaskIds": [
+        "b12-blue-trace-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "traceready-base-12.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-63-0",
+      "round": 1,
+      "rawTurn": 4,
+      "playLog": 63,
+      "paymentEntry": 9,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.879,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "traceready-base-12.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_61.webp",
+      "instance": "card-3-0",
+      "round": 1,
+      "rawTurn": 13,
+      "playLog": 143,
+      "paymentEntry": 18,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.316,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "traceready-base-12.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-111-0",
+      "round": 3,
+      "rawTurn": 18,
+      "playLog": 720,
+      "paymentEntry": 89,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.958,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "traceready-base-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_104.webp",
+      "instance": "card-139-0",
+      "round": 4,
+      "rawTurn": 2,
+      "playLog": 990,
+      "paymentEntry": 126,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.537,
+      "actualTaskIds": [
+        "b104-orbit-count-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "traceready-base-12.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_60.webp",
+      "instance": "card-134-0",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1014,
+      "paymentEntry": 127,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.925,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "traceready-base-12.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_107.webp",
+      "instance": "card-175-0",
+      "round": 4,
+      "rawTurn": 33,
+      "playLog": 1385,
+      "paymentEntry": 157,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "taskreserve-candidate-12.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-63-0",
+      "round": 1,
+      "rawTurn": 4,
+      "playLog": 63,
+      "paymentEntry": 9,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.879,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "taskreserve-candidate-12.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_61.webp",
+      "instance": "card-3-0",
+      "round": 1,
+      "rawTurn": 13,
+      "playLog": 143,
+      "paymentEntry": 18,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.316,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "taskreserve-candidate-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_130.webp",
+      "instance": "card-158-0",
+      "round": 4,
+      "rawTurn": 2,
+      "playLog": 997,
+      "paymentEntry": 129,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "taskreserve-candidate-12.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_107.webp",
+      "instance": "card-182-0",
+      "round": 4,
+      "rawTurn": 36,
+      "playLog": 1401,
+      "paymentEntry": 163,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_127.webp",
+      "instance": "card-59-0",
+      "round": 1,
+      "rawTurn": 16,
+      "playLog": 156,
+      "paymentEntry": 21,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.669,
+      "actualTaskIds": [
+        "b127-uranus-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_130.webp",
+      "instance": "card-88-0",
+      "round": 2,
+      "rawTurn": 1,
+      "playLog": 316,
+      "paymentEntry": 47,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 23.45,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-96-0",
+      "round": 2,
+      "rawTurn": 15,
+      "playLog": 475,
+      "paymentEntry": 61,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 25.513,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_117.webp",
+      "instance": "card-117-0",
+      "round": 3,
+      "rawTurn": 3,
+      "playLog": 651,
+      "paymentEntry": 91,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.825,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-153-0",
+      "round": 4,
+      "rawTurn": 1,
+      "playLog": 1023,
+      "paymentEntry": 139,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_67.webp",
+      "instance": "card-45-pass-3-1",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1054,
+      "paymentEntry": 141,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.605,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_51.webp",
+      "instance": "card-143-0",
+      "round": 4,
+      "rawTurn": 6,
+      "playLog": 1095,
+      "paymentEntry": 144,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b51-three-pink-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "taskreserve-candidate-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_127.webp",
+      "instance": "card-59-0",
+      "round": 2,
+      "rawTurn": 30,
+      "playLog": 552,
+      "paymentEntry": 70,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 14.19,
+      "actualTaskIds": [
+        "b127-uranus-task"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "taskreserve-candidate-13.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "dlc_9.png",
+      "instance": "card-156-0",
+      "round": 4,
+      "rawTurn": 14,
+      "playLog": 1202,
+      "paymentEntry": 149,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.439,
+      "actualTaskIds": [
+        "dlc9-three-sector-wins"
+      ]
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "taskreserve-candidate-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_19.webp",
+      "instance": "card-165-0",
+      "round": 4,
+      "rawTurn": 21,
+      "playLog": 1264,
+      "paymentEntry": 156,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 1.275,
+      "actualTaskIds": [
+        "b19-purple-tech-task"
+      ]
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "file": "traceready-base-14.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-110-0",
+      "round": 3,
+      "rawTurn": 13,
+      "playLog": 801,
+      "paymentEntry": 104,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 7.939,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "file": "traceready-base-14.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_107.webp",
+      "instance": "card-164-0",
+      "round": 4,
+      "rawTurn": 43,
+      "playLog": 1593,
+      "paymentEntry": 189,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 14,
+      "side": "baseline",
+      "file": "traceready-base-14.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_15.webp",
+      "instance": "card-167-0",
+      "round": 4,
+      "rawTurn": 48,
+      "playLog": 1656,
+      "paymentEntry": 194,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.503,
+      "actualTaskIds": [
+        "b15-black-sector-task"
+      ]
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "taskreserve-candidate-14.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-110-0",
+      "round": 3,
+      "rawTurn": 17,
+      "playLog": 835,
+      "paymentEntry": 108,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 7.939,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "taskreserve-candidate-14.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "dlc_41.png",
+      "instance": "card-137-0",
+      "round": 4,
+      "rawTurn": 2,
+      "playLog": 1215,
+      "paymentEntry": 155,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "dlc41-four-color-signals"
+      ]
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "taskreserve-candidate-14.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_126.webp",
+      "instance": "card-48-pass-3-4",
+      "round": 4,
+      "rawTurn": 7,
+      "playLog": 1318,
+      "paymentEntry": 160,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.775,
+      "actualTaskIds": [
+        "b126-neptune-task"
+      ]
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "taskreserve-candidate-14.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_15.webp",
+      "instance": "card-169-0",
+      "round": 4,
+      "rawTurn": 33,
+      "playLog": 1602,
+      "paymentEntry": 186,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 5.675,
+      "actualTaskIds": [
+        "b15-black-sector-task"
+      ]
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "taskreserve-candidate-14.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-176-0",
+      "round": 4,
+      "rawTurn": 43,
+      "playLog": 1677,
+      "paymentEntry": 196,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "traceready-base-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-130-0",
+      "round": 3,
+      "rawTurn": 21,
+      "playLog": 932,
+      "paymentEntry": 110,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "traceready-base-15.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-157-0",
+      "round": 4,
+      "rawTurn": 1,
+      "playLog": 1088,
+      "paymentEntry": 136,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "traceready-base-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_51.webp",
+      "instance": "card-163-0",
+      "round": 4,
+      "rawTurn": 4,
+      "playLog": 1139,
+      "paymentEntry": 139,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b51-three-pink-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "traceready-base-15.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-155-0",
+      "round": 4,
+      "rawTurn": 9,
+      "playLog": 1222,
+      "paymentEntry": 144,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.925,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "traceready-base-15.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_19.webp",
+      "instance": "card-156-0",
+      "round": 4,
+      "rawTurn": 13,
+      "playLog": 1262,
+      "paymentEntry": 148,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 2.591,
+      "actualTaskIds": [
+        "b19-purple-tech-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "traceready-base-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_102.webp",
+      "instance": "card-176-0",
+      "round": 4,
+      "rawTurn": 34,
+      "playLog": 1459,
+      "paymentEntry": 169,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.492,
+      "actualTaskIds": [
+        "b102-red-sectors-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "taskreserve-candidate-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-130-0",
+      "round": 3,
+      "rawTurn": 21,
+      "playLog": 932,
+      "paymentEntry": 110,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "taskreserve-candidate-15.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-157-0",
+      "round": 4,
+      "rawTurn": 1,
+      "playLog": 1088,
+      "paymentEntry": 136,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "taskreserve-candidate-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_51.webp",
+      "instance": "card-163-0",
+      "round": 4,
+      "rawTurn": 4,
+      "playLog": 1139,
+      "paymentEntry": 139,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b51-three-pink-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "taskreserve-candidate-15.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-155-0",
+      "round": 4,
+      "rawTurn": 9,
+      "playLog": 1222,
+      "paymentEntry": 144,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.925,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "taskreserve-candidate-15.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_19.webp",
+      "instance": "card-156-0",
+      "round": 4,
+      "rawTurn": 13,
+      "playLog": 1262,
+      "paymentEntry": 148,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 2.591,
+      "actualTaskIds": [
+        "b19-purple-tech-task"
+      ]
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "taskreserve-candidate-15.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_102.webp",
+      "instance": "card-176-0",
+      "round": 4,
+      "rawTurn": 34,
+      "playLog": 1459,
+      "paymentEntry": 169,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.492,
+      "actualTaskIds": [
+        "b102-red-sectors-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_127.webp",
+      "instance": "card-16-0",
+      "round": 1,
+      "rawTurn": 29,
+      "playLog": 282,
+      "paymentEntry": 34,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.615,
+      "actualTaskIds": [
+        "b127-uranus-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_104.webp",
+      "instance": "card-74-0",
+      "round": 2,
+      "rawTurn": 23,
+      "playLog": 548,
+      "paymentEntry": 65,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 4.681,
+      "actualTaskIds": [
+        "b104-orbit-count-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_107.webp",
+      "instance": "card-112-0",
+      "round": 2,
+      "rawTurn": 34,
+      "playLog": 676,
+      "paymentEntry": 76,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 12.725,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-121-0",
+      "round": 2,
+      "rawTurn": 42,
+      "playLog": 738,
+      "paymentEntry": 84,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_67.webp",
+      "instance": "card-45-pass-3-1",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1158,
+      "paymentEntry": 146,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.045,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-157-0",
+      "round": 4,
+      "rawTurn": 9,
+      "playLog": 1247,
+      "paymentEntry": 152,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_117.webp",
+      "instance": "card-184-0",
+      "round": 4,
+      "rawTurn": 30,
+      "playLog": 1512,
+      "paymentEntry": 173,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.875,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_130.webp",
+      "instance": "card-183-0",
+      "round": 4,
+      "rawTurn": 34,
+      "playLog": 1543,
+      "paymentEntry": 177,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "taskreserve-candidate-16.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_127.webp",
+      "instance": "card-16-0",
+      "round": 1,
+      "rawTurn": 32,
+      "playLog": 310,
+      "paymentEntry": 37,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 14.715,
+      "actualTaskIds": [
+        "b127-uranus-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "taskreserve-candidate-16.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_60.webp",
+      "instance": "card-89-0",
+      "round": 2,
+      "rawTurn": 1,
+      "playLog": 329,
+      "paymentEntry": 44,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "taskreserve-candidate-16.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_104.webp",
+      "instance": "card-74-0",
+      "round": 3,
+      "rawTurn": 15,
+      "playLog": 849,
+      "paymentEntry": 103,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.975,
+      "actualTaskIds": [
+        "b104-orbit-count-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "taskreserve-candidate-16.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_121.webp",
+      "instance": "card-126-0",
+      "round": 3,
+      "rawTurn": 16,
+      "playLog": 866,
+      "paymentEntry": 104,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.297,
+      "actualTaskIds": [
+        "b121-yellow-traces-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "taskreserve-candidate-16.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_21.webp",
+      "instance": "card-158-0",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1127,
+      "paymentEntry": 146,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 13.875,
+      "actualTaskIds": [
+        "b21-saturn-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "taskreserve-candidate-16.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_15.webp",
+      "instance": "card-163-0",
+      "round": 4,
+      "rawTurn": 4,
+      "playLog": 1142,
+      "paymentEntry": 147,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.02,
+      "actualTaskIds": [
+        "b15-black-sector-task"
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "taskreserve-candidate-16.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_67.webp",
+      "instance": "card-45-pass-3-1",
+      "round": 4,
+      "rawTurn": 7,
+      "playLog": 1190,
+      "paymentEntry": 150,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.605,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_129.webp",
+      "instance": "card-83-0",
+      "round": 2,
+      "rawTurn": 2,
+      "playLog": 319,
+      "paymentEntry": 44,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b129-venus-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-75-0",
+      "round": 2,
+      "rawTurn": 3,
+      "playLog": 329,
+      "paymentEntry": 45,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.025,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_77.webp",
+      "instance": "card-91-0",
+      "round": 2,
+      "rawTurn": 5,
+      "playLog": 374,
+      "paymentEntry": 47,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b77-mercury-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "dlc_41.png",
+      "instance": "card-116-0",
+      "round": 3,
+      "rawTurn": 1,
+      "playLog": 690,
+      "paymentEntry": 92,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "dlc41-four-color-signals"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_103.webp",
+      "instance": "card-117-0",
+      "round": 3,
+      "rawTurn": 8,
+      "playLog": 799,
+      "paymentEntry": 99,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.157,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_130.webp",
+      "instance": "card-155-0",
+      "round": 4,
+      "rawTurn": 7,
+      "playLog": 1285,
+      "paymentEntry": 150,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_116.webp",
+      "instance": "card-47-pass-3-3",
+      "round": 4,
+      "rawTurn": 8,
+      "playLog": 1298,
+      "paymentEntry": 151,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.457,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_67.webp",
+      "instance": "card-160-0",
+      "round": 4,
+      "rawTurn": 15,
+      "playLog": 1375,
+      "paymentEntry": 158,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-172-0",
+      "round": 4,
+      "rawTurn": 16,
+      "playLog": 1384,
+      "paymentEntry": 159,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_129.webp",
+      "instance": "card-83-0",
+      "round": 2,
+      "rawTurn": 2,
+      "playLog": 319,
+      "paymentEntry": 44,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b129-venus-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-75-0",
+      "round": 2,
+      "rawTurn": 3,
+      "playLog": 329,
+      "paymentEntry": 45,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 19.025,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_77.webp",
+      "instance": "card-91-0",
+      "round": 2,
+      "rawTurn": 5,
+      "playLog": 374,
+      "paymentEntry": 47,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b77-mercury-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "dlc_41.png",
+      "instance": "card-116-0",
+      "round": 3,
+      "rawTurn": 1,
+      "playLog": 690,
+      "paymentEntry": 92,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "dlc41-four-color-signals"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_103.webp",
+      "instance": "card-117-0",
+      "round": 3,
+      "rawTurn": 8,
+      "playLog": 799,
+      "paymentEntry": 99,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.157,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_130.webp",
+      "instance": "card-155-0",
+      "round": 4,
+      "rawTurn": 7,
+      "playLog": 1285,
+      "paymentEntry": 150,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_116.webp",
+      "instance": "card-47-pass-3-3",
+      "round": 4,
+      "rawTurn": 8,
+      "playLog": 1298,
+      "paymentEntry": 151,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.457,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_67.webp",
+      "instance": "card-160-0",
+      "round": 4,
+      "rawTurn": 15,
+      "playLog": 1375,
+      "paymentEntry": 158,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "taskreserve-candidate-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-172-0",
+      "round": 4,
+      "rawTurn": 16,
+      "playLog": 1384,
+      "paymentEntry": 159,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "traceready-base-18.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_103.webp",
+      "instance": "card-85-0",
+      "round": 2,
+      "rawTurn": 16,
+      "playLog": 429,
+      "paymentEntry": 54,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 24,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "traceready-base-18.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-142-0",
+      "round": 4,
+      "rawTurn": 16,
+      "playLog": 1120,
+      "paymentEntry": 133,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "taskreserve-candidate-18.json",
+      "player": "player-brown",
+      "company": "寰宇超动力",
+      "cardId": "b_103.webp",
+      "instance": "card-85-0",
+      "round": 2,
+      "rawTurn": 16,
+      "playLog": 429,
+      "paymentEntry": 54,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 24,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "taskreserve-candidate-18.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-142-0",
+      "round": 4,
+      "rawTurn": 16,
+      "playLog": 1120,
+      "paymentEntry": 133,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "traceready-base-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-38-pass-1-4",
+      "round": 2,
+      "rawTurn": 30,
+      "playLog": 547,
+      "paymentEntry": 67,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 20.904,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "traceready-base-19.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_129.webp",
+      "instance": "card-104-0",
+      "round": 3,
+      "rawTurn": 4,
+      "playLog": 668,
+      "paymentEntry": 85,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b129-venus-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "traceready-base-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-118-0",
+      "round": 3,
+      "rawTurn": 17,
+      "playLog": 804,
+      "paymentEntry": 98,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "traceready-base-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "aomomo_5.webp",
+      "instance": "alien-aomomo-5-6",
+      "round": 3,
+      "rawTurn": 33,
+      "playLog": 957,
+      "paymentEntry": 114,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.163,
+      "actualTaskIds": [
+        "aomomo5-signal-fossil"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "traceready-base-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_61.webp",
+      "instance": "card-130-0",
+      "round": 3,
+      "rawTurn": 38,
+      "playLog": 1004,
+      "paymentEntry": 119,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "traceready-base-19.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_60.webp",
+      "instance": "card-129-0",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1133,
+      "paymentEntry": 142,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 15.925,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "baseline",
+      "file": "traceready-base-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_19.webp",
+      "instance": "card-102-0",
+      "round": 4,
+      "rawTurn": 24,
+      "playLog": 1379,
+      "paymentEntry": 163,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 1.275,
+      "actualTaskIds": [
+        "b19-purple-tech-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "taskreserve-candidate-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "dlc_42.png",
+      "instance": "card-111-0",
+      "round": 3,
+      "rawTurn": 22,
+      "playLog": 861,
+      "paymentEntry": 103,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 13.6,
+      "actualTaskIds": [
+        "dlc42-all-sectors"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "taskreserve-candidate-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_103.webp",
+      "instance": "card-38-pass-1-4",
+      "round": 3,
+      "rawTurn": 26,
+      "playLog": 894,
+      "paymentEntry": 107,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.744,
+      "actualTaskIds": [
+        "b103-score-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "taskreserve-candidate-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-129-0",
+      "round": 3,
+      "rawTurn": 30,
+      "playLog": 927,
+      "paymentEntry": 111,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "taskreserve-candidate-19.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "b_61.webp",
+      "instance": "card-130-0",
+      "round": 3,
+      "rawTurn": 31,
+      "playLog": 935,
+      "paymentEntry": 112,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "taskreserve-candidate-19.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_130.webp",
+      "instance": "card-161-0",
+      "round": 4,
+      "rawTurn": 30,
+      "playLog": 1354,
+      "paymentEntry": 164,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "taskreserve-candidate-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "dlc_41.png",
+      "instance": "card-155-0",
+      "round": 4,
+      "rawTurn": 37,
+      "playLog": 1417,
+      "paymentEntry": 171,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "dlc41-four-color-signals"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "traceready-base-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-38-pass-1-4",
+      "round": 2,
+      "rawTurn": 3,
+      "playLog": 332,
+      "paymentEntry": 43,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.463,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "traceready-base-20.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_15.webp",
+      "instance": "card-115-0",
+      "round": 3,
+      "rawTurn": 4,
+      "playLog": 862,
+      "paymentEntry": 103,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 11.785,
+      "actualTaskIds": [
+        "b15-black-sector-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "traceready-base-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-123-0",
+      "round": 3,
+      "rawTurn": 6,
+      "playLog": 886,
+      "paymentEntry": 105,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 30.142,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "traceready-base-20.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_107.webp",
+      "instance": "card-139-0",
+      "round": 3,
+      "rawTurn": 15,
+      "playLog": 978,
+      "paymentEntry": 114,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 24.155,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "traceready-base-20.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_67.webp",
+      "instance": "card-47-pass-3-3",
+      "round": 4,
+      "rawTurn": 2,
+      "playLog": 1282,
+      "paymentEntry": 157,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.605,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "traceready-base-20.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_117.webp",
+      "instance": "card-161-0",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1290,
+      "paymentEntry": 158,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.875,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "baseline",
+      "file": "traceready-base-20.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "dlc_41.png",
+      "instance": "card-179-0",
+      "round": 4,
+      "rawTurn": 32,
+      "playLog": 1641,
+      "paymentEntry": 187,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "dlc41-four-color-signals"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "taskreserve-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_72.webp",
+      "instance": "card-38-pass-1-4",
+      "round": 2,
+      "rawTurn": 3,
+      "playLog": 332,
+      "paymentEntry": 43,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 18.463,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "taskreserve-candidate-20.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_15.webp",
+      "instance": "card-115-0",
+      "round": 3,
+      "rawTurn": 4,
+      "playLog": 862,
+      "paymentEntry": 103,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 11.785,
+      "actualTaskIds": [
+        "b15-black-sector-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "taskreserve-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-123-0",
+      "round": 3,
+      "rawTurn": 6,
+      "playLog": 886,
+      "paymentEntry": 105,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 30.142,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "taskreserve-candidate-20.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_107.webp",
+      "instance": "card-139-0",
+      "round": 3,
+      "rawTurn": 15,
+      "playLog": 978,
+      "paymentEntry": 114,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 24.155,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "taskreserve-candidate-20.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_117.webp",
+      "instance": "card-161-0",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1292,
+      "paymentEntry": 158,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.875,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "taskreserve-candidate-20.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_67.webp",
+      "instance": "card-47-pass-3-3",
+      "round": 4,
+      "rawTurn": 6,
+      "playLog": 1344,
+      "paymentEntry": 161,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.605,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "taskreserve-candidate-20.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_127.webp",
+      "instance": "card-183-0",
+      "round": 4,
+      "rawTurn": 11,
+      "playLog": 1409,
+      "paymentEntry": 166,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.665,
+      "actualTaskIds": [
+        "b127-uranus-task"
+      ]
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "file": "traceready-base-21.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_51.webp",
+      "instance": "card-177-0",
+      "round": 4,
+      "rawTurn": 29,
+      "playLog": 1465,
+      "paymentEntry": 164,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b51-three-pink-task"
+      ]
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "file": "taskreserve-candidate-21.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_51.webp",
+      "instance": "card-177-0",
+      "round": 4,
+      "rawTurn": 29,
+      "playLog": 1465,
+      "paymentEntry": 164,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b51-three-pink-task"
+      ]
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "file": "traceready-base-22.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_72.webp",
+      "instance": "card-52-0",
+      "round": 1,
+      "rawTurn": 11,
+      "playLog": 128,
+      "paymentEntry": 16,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b72-mars-task"
+      ]
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "file": "traceready-base-22.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-37-pass-1-3",
+      "round": 2,
+      "rawTurn": 10,
+      "playLog": 481,
+      "paymentEntry": 57,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.422,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "file": "traceready-base-22.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_117.webp",
+      "instance": "card-130-0",
+      "round": 3,
+      "rawTurn": 32,
+      "playLog": 1081,
+      "paymentEntry": 126,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.825,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "file": "traceready-base-22.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_130.webp",
+      "instance": "card-171-0",
+      "round": 4,
+      "rawTurn": 25,
+      "playLog": 1498,
+      "paymentEntry": 177,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "taskreserve-candidate-22.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_107.webp",
+      "instance": "card-121-0",
+      "round": 3,
+      "rawTurn": 22,
+      "playLog": 809,
+      "paymentEntry": 108,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 6.8,
+      "actualTaskIds": [
+        "b107-saturn-task"
+      ]
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "taskreserve-candidate-22.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_116.webp",
+      "instance": "card-3-0",
+      "round": 4,
+      "rawTurn": 7,
+      "playLog": 1255,
+      "paymentEntry": 159,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 3.978,
+      "actualTaskIds": [
+        "b116-landing-count-task"
+      ]
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "taskreserve-candidate-22.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_130.webp",
+      "instance": "card-171-0",
+      "round": 4,
+      "rawTurn": 27,
+      "playLog": 1506,
+      "paymentEntry": 179,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b130-venus-task"
+      ]
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "taskreserve-candidate-22.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_126.webp",
+      "instance": "card-174-0",
+      "round": 4,
+      "rawTurn": 29,
+      "playLog": 1527,
+      "paymentEntry": 181,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 9.775,
+      "actualTaskIds": [
+        "b126-neptune-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "traceready-base-23.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_60.webp",
+      "instance": "card-120-0",
+      "round": 3,
+      "rawTurn": 23,
+      "playLog": 864,
+      "paymentEntry": 108,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "traceready-base-23.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_114.webp",
+      "instance": "card-153-0",
+      "round": 4,
+      "rawTurn": 1,
+      "playLog": 1153,
+      "paymentEntry": 145,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.965,
+      "actualTaskIds": [
+        "b114-blue-sectors-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "traceready-base-23.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_61.webp",
+      "instance": "card-148-0",
+      "round": 4,
+      "rawTurn": 2,
+      "playLog": 1163,
+      "paymentEntry": 146,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "traceready-base-23.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "cardId": "b_12.webp",
+      "instance": "card-150-0",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1182,
+      "paymentEntry": 147,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 7.725,
+      "actualTaskIds": [
+        "b12-blue-trace-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "taskreserve-candidate-23.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_60.webp",
+      "instance": "card-120-0",
+      "round": 3,
+      "rawTurn": 23,
+      "playLog": 864,
+      "paymentEntry": 108,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "taskreserve-candidate-23.json",
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "cardId": "b_61.webp",
+      "instance": "card-148-0",
+      "round": 4,
+      "rawTurn": 2,
+      "playLog": 1168,
+      "paymentEntry": 146,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 8.2,
+      "actualTaskIds": [
+        "b61-jupiter-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "taskreserve-candidate-23.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "cardId": "b_12.webp",
+      "instance": "card-150-0",
+      "round": 4,
+      "rawTurn": 3,
+      "playLog": 1187,
+      "paymentEntry": 147,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 7.725,
+      "actualTaskIds": [
+        "b12-blue-trace-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "taskreserve-candidate-23.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_114.webp",
+      "instance": "card-153-0",
+      "round": 4,
+      "rawTurn": 5,
+      "playLog": 1222,
+      "paymentEntry": 149,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 17.671,
+      "actualTaskIds": [
+        "b114-blue-sectors-task"
+      ]
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "taskreserve-candidate-23.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_51.webp",
+      "instance": "card-162-0",
+      "round": 4,
+      "rawTurn": 24,
+      "playLog": 1449,
+      "paymentEntry": 168,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.289,
+      "actualTaskIds": [
+        "b51-three-pink-task"
+      ]
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "traceready-base-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-65-0",
+      "round": 2,
+      "rawTurn": 7,
+      "playLog": 365,
+      "paymentEntry": 46,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "traceready-base-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_67.webp",
+      "instance": "card-107-0",
+      "round": 3,
+      "rawTurn": 2,
+      "playLog": 675,
+      "paymentEntry": 88,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.422,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "traceready-base-24.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_129.webp",
+      "instance": "card-149-0",
+      "round": 4,
+      "rawTurn": 16,
+      "playLog": 1257,
+      "paymentEntry": 156,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 14.35,
+      "actualTaskIds": [
+        "b129-venus-task"
+      ]
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "traceready-base-24.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_19.webp",
+      "instance": "card-46-pass-3-2",
+      "round": 4,
+      "rawTurn": 48,
+      "playLog": 1569,
+      "paymentEntry": 188,
+      "cost": {
+        "credits": 1
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": null,
+      "predictedCashoutCount": 1,
+      "immediateValue": 1.275,
+      "actualTaskIds": [
+        "b19-purple-tech-task"
+      ]
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "taskreserve-candidate-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_60.webp",
+      "instance": "card-65-0",
+      "round": 3,
+      "rawTurn": 2,
+      "playLog": 607,
+      "paymentEntry": 86,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 32,
+      "actualTaskIds": [
+        "b60-jupiter-task"
+      ]
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "taskreserve-candidate-24.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_67.webp",
+      "instance": "card-111-0",
+      "round": 3,
+      "rawTurn": 4,
+      "playLog": 641,
+      "paymentEntry": 88,
+      "cost": {
+        "credits": 2
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 16.422,
+      "actualTaskIds": [
+        "b67-three-traces-task"
+      ]
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "taskreserve-candidate-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_117.webp",
+      "instance": "card-145-0",
+      "round": 4,
+      "rawTurn": 1,
+      "playLog": 1019,
+      "paymentEntry": 137,
+      "cost": {
+        "credits": 3
+      },
+      "expectedFutureReserveValue": 0,
+      "reportedReserveValue": 0,
+      "predictedCashoutCount": 1,
+      "immediateValue": 10.875,
+      "actualTaskIds": [
+        "b117-orbit-land-count-task"
+      ]
+    }
+  ],
+  "manifest": [
+    {
+      "file": "traceready-base-1.json",
+      "sha256": "67fe4273e024a27ea1a4bc1d3c70dab2d2631c8741c36f8412f39238f2b8d6bd"
+    },
+    {
+      "file": "taskreserve-candidate-1.json",
+      "sha256": "c23a80ab1ee523eb948483e0ee3e0d0eb0227f293aead87cecbc00bbf5c4174b"
+    },
+    {
+      "file": "traceready-base-2.json",
+      "sha256": "3244d12d31552c41dc744dd809c97304ae679ab6e66528509a31927d9b705861"
+    },
+    {
+      "file": "taskreserve-candidate-2.json",
+      "sha256": "487d95bc069d37140e00e3ee1715566e6ba5f2a841f72a2e3a33bf4229183061"
+    },
+    {
+      "file": "traceready-base-3.json",
+      "sha256": "d0cc35dcadd1eb1fdeecbcb4696f606e5917e199defe08993e045ee5802253cf"
+    },
+    {
+      "file": "taskreserve-candidate-3.json",
+      "sha256": "7b89b6468b01ab996f5055d858022443f27aca4e95a66a575f5f3c4a38dca0e6"
+    },
+    {
+      "file": "traceready-base-4.json",
+      "sha256": "4ffd5f480edc5b5cf4ec7cb9558aa609302a069fe26e60ac0c76930c578eb4f7"
+    },
+    {
+      "file": "taskreserve-candidate-4.json",
+      "sha256": "f020871bcfd3a1225efabb4b510428b3cfec62147a46ece195adf79d575887df"
+    },
+    {
+      "file": "traceready-base-5.json",
+      "sha256": "274e45309a1717e78094812f61b513d5f47d1c65caee1c1058c02bcc16bd90f7"
+    },
+    {
+      "file": "taskreserve-candidate-5.json",
+      "sha256": "2551123cd82388d2aaf6cbc4a83305246ffb529de93bf0c09a64237372383b46"
+    },
+    {
+      "file": "traceready-base-6.json",
+      "sha256": "5fa46fcd4ac98e4f1e770dbffb1e525cbec60679a01fa094db4e4fbc77752d69"
+    },
+    {
+      "file": "taskreserve-candidate-6.json",
+      "sha256": "056a2e7b520c250ae87816174e27711386dc2876e632d0e1d171f4d7d26c8d4a"
+    },
+    {
+      "file": "traceready-base-7.json",
+      "sha256": "2829069ce4b035a12ce46a5e9d2c1906c0367578a28111aa5e5803a52ff91227"
+    },
+    {
+      "file": "taskreserve-candidate-7.json",
+      "sha256": "629251d7bc721cf78a0cc696a82523e0e8af5fd38b57acc3da037b2561c51536"
+    },
+    {
+      "file": "traceready-base-8.json",
+      "sha256": "6b0351e39e05129de96922f3c4be28d651db6003535095f5f44513414cf2cecb"
+    },
+    {
+      "file": "taskreserve-candidate-8.json",
+      "sha256": "e599b2dd97aa7e64bd483ba6026296a4a36fed9d9e8196e5c2213cf84ede3e23"
+    },
+    {
+      "file": "traceready-base-9.json",
+      "sha256": "739584395f8bd392680f1f1e5134081552dd23653648af40cc7b455ff58739de"
+    },
+    {
+      "file": "taskreserve-candidate-9.json",
+      "sha256": "03e35c0e05a11a5b03a9e0c310a29d4fc48f26b61723099050d584e8b7086732"
+    },
+    {
+      "file": "traceready-base-10.json",
+      "sha256": "cda78582c62bf19a8783662acbbdf9a655431cfbc127bfb93d6b48bddb8e9a2b"
+    },
+    {
+      "file": "taskreserve-candidate-10.json",
+      "sha256": "e51c012ff4ca3ddb6f4da9f1245fdf50cdb7989f2d2878ec461ff708b48fbc24"
+    },
+    {
+      "file": "traceready-base-11.json",
+      "sha256": "a40a6b77ef192a1a01eb9b8bd16ef4b4e38be0ab7e370c3b16d1bf460fde29e8"
+    },
+    {
+      "file": "taskreserve-candidate-11.json",
+      "sha256": "8e26095e3248f29ae9a3fa71a6b72735a9cf2cf90247a74001d226fa66340f01"
+    },
+    {
+      "file": "traceready-base-12.json",
+      "sha256": "909b03bf704ece24c4ea72039f347011d6d0ef176458cc4321b6c20a9ee97ea0"
+    },
+    {
+      "file": "taskreserve-candidate-12.json",
+      "sha256": "f66219b6813d897bd5246c2d6a327bda20a47c68bc500b0b3123eab6f15ca130"
+    },
+    {
+      "file": "traceready-base-13.json",
+      "sha256": "adbcdec8d5ba0183bffaba9ae35c52255acbbc30d4a3311f67a54b7c5904ab1d"
+    },
+    {
+      "file": "taskreserve-candidate-13.json",
+      "sha256": "7390156f1297d9b71e2a1e86195c73c7f2e7b8675c27952e15b5f5b98f554702"
+    },
+    {
+      "file": "traceready-base-14.json",
+      "sha256": "773fbf2a33675ac0559a0e834428a7251d691ca178dc7bd262813fbb3fb934c6"
+    },
+    {
+      "file": "taskreserve-candidate-14.json",
+      "sha256": "fc405161793da181118045084b56a3bb6b8ee827f4a6e46980c94355836be232"
+    },
+    {
+      "file": "traceready-base-15.json",
+      "sha256": "2751be1db057e906adba2943e40ee2bde8ad6a1b0d833c6e589ba1869729cfdb"
+    },
+    {
+      "file": "taskreserve-candidate-15.json",
+      "sha256": "4175e02db78612e46b258e2c00fe847fe4c6ba52b7fa4396b7644f2b907cc385"
+    },
+    {
+      "file": "traceready-base-16.json",
+      "sha256": "aee274c0d8a03fd7bda31a800de97c9fb98be7b3fbd90870cb34c914749e3854"
+    },
+    {
+      "file": "taskreserve-candidate-16.json",
+      "sha256": "fdcab966ae7438fb21b327424749e59d5c2cdbb38280b796d19b6cc70fe6b613"
+    },
+    {
+      "file": "traceready-base-17.json",
+      "sha256": "76c32fb4e41e8c6f910370a8bb422bc537f89895f2d42715363a576eb361c2cd"
+    },
+    {
+      "file": "taskreserve-candidate-17.json",
+      "sha256": "af91481e0f36d3c3e72ba36521fc4a3d33eb6105dee0edee95f4378ccb9a2e01"
+    },
+    {
+      "file": "traceready-base-18.json",
+      "sha256": "fdd994d219460b291a38369e16ea19cfe2be19255c1c9c603d274378fbd754a9"
+    },
+    {
+      "file": "taskreserve-candidate-18.json",
+      "sha256": "b57935ed20a06bc659f4b6400c44a3d34cb1f53fd90de6fb636af498102041b0"
+    },
+    {
+      "file": "traceready-base-19.json",
+      "sha256": "2005cf4666cd04eb2d2942d9a747a2e972a953781e4365d0ac8db4f00500c285"
+    },
+    {
+      "file": "taskreserve-candidate-19.json",
+      "sha256": "baf4b15c10658018577cddff8f480aa18395bcefc99d060b72e4324a4ce4fa58"
+    },
+    {
+      "file": "traceready-base-20.json",
+      "sha256": "a0a7c469d46bc7a4aac012b7b71d2a95eeace41360659708f13fd4e293274684"
+    },
+    {
+      "file": "taskreserve-candidate-20.json",
+      "sha256": "db884b0b4869c695d500718190893f68503a5d810180c721a2a27389c6a1fd1b"
+    },
+    {
+      "file": "traceready-base-21.json",
+      "sha256": "0746c0bac8f042698d472afa2411d9a82d376470a2ad2482636f3183b357d05f"
+    },
+    {
+      "file": "taskreserve-candidate-21.json",
+      "sha256": "db4e9167157186b736518405ff6028619ad36677dedf3267ecc0fc2683ed41c9"
+    },
+    {
+      "file": "traceready-base-22.json",
+      "sha256": "343ec6e3913c5386298af11a3b677a0a2a0bbd9df973573e197ebd83bbffefca"
+    },
+    {
+      "file": "taskreserve-candidate-22.json",
+      "sha256": "2020253ca9f3cd28a9cdbad079d5eab17328d09c0de1ba3a8347b63dd635fc86"
+    },
+    {
+      "file": "traceready-base-23.json",
+      "sha256": "fcba83d7d722eab9ba1756bea4d2531ca94bc429a2930edeb0767ea4ab8c47c3"
+    },
+    {
+      "file": "taskreserve-candidate-23.json",
+      "sha256": "699eed2bf413917fa3ff36cb06e6576821b227cb1598ab857c46de1f552352f9"
+    },
+    {
+      "file": "traceready-base-24.json",
+      "sha256": "bebddee462bec0a24200be508cff3ebeca0eb1d36012d3a3968456015a331182"
+    },
+    {
+      "file": "taskreserve-candidate-24.json",
+      "sha256": "845bc7cb727d501851e7cec57187934339157dfa62edbe0289ce9c045ef6a1fa"
+    }
+  ]
+}
