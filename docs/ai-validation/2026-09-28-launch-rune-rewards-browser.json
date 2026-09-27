@@ -1,0 +1,349 @@
+{
+  "components": [
+    {
+      "sourceCommit": "76570808cc4072040df7406e1c338ac63dca83bc",
+      "change": "Read actual company standard launch cost unless explicit/free cost is supplied."
+    },
+    {
+      "sourceCommit": "a9b27bb094c60b1bb4de53f44f8691f0b3837087",
+      "change": "Expose existing readonly Runezu getTraceReward used by AI."
+    }
+  ],
+  "baseline": "f542161719d499f43a2e566a0cda070dae6c0ab0",
+  "scope": "Independent two-component development; common empty-income fix on both arms. Does not include generic alien-card value change, bounded preview, tech-count draw, scan-repeat removal or generic analysis premium. Historical point estimates are not added.",
+  "browser": {
+    "launch": {
+      "company": {
+        "id": "industry:作弊实验室",
+        "label": "作弊实验室"
+      },
+      "choice": {
+        "id": "launch",
+        "kind": "main",
+        "available": true,
+        "reason": null,
+        "plan": {
+          "type": "main-then-quick",
+          "mainActionId": "launch",
+          "quickActionId": "move",
+          "direction": "out",
+          "directionLabel": "向外",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "to": {
+            "x": 5,
+            "y": 2
+          },
+          "requiredMovePoints": 1,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 5,
+              "y": 2
+            },
+            "value": 41.412,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "routeScore": 23.61424,
+          "gain": 15.960461762560001,
+          "cost": 7.7,
+          "score": 8.260461762560002,
+          "paymentCost": 6.2,
+          "pathPenalty": 1.5,
+          "nearestActionablePlanetPenalty": 0,
+          "preserveEnergyForRouteCashout": false,
+          "movePayment": {
+            "cost": 6.2,
+            "energySpent": 1,
+            "cardSpent": 0,
+            "remainingEnergy": 2
+          },
+          "projectedResourcesAfterLaunchMove": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 0,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 35
+          },
+          "projectedFollowupMainAction": {
+            "actionId": "land",
+            "planetId": "mars",
+            "planetName": "火星",
+            "energyCost": 2,
+            "choices": [
+              {
+                "target": {
+                  "type": "planet"
+                },
+                "planetId": "mars",
+                "planet": {
+                  "planetId": "mars",
+                  "label": "火星",
+                  "name": "火星",
+                  "wheelId": 2,
+                  "baseX": 2,
+                  "x": 5,
+                  "y": 2,
+                  "fixedAfterSetup": false
+                },
+                "energyCost": 2,
+                "label": "登陆火星"
+              }
+            ],
+            "directScoreGain": 6,
+            "score": 28.919500000000003
+          }
+        },
+        "gain": 30.293987736340483,
+        "cost": 10.2,
+        "score": 20.093987736340484,
+        "valueBreakdown": {
+          "launchGain": 30.293987736340483,
+          "launchCost": 6,
+          "launchReservePenalty": 4.2,
+          "postLaunchMovePlanScore": 8.260461762560002,
+          "lateLaunchPenalty": 0,
+          "rawLateLaunchPenalty": 0,
+          "lateLaunchPenaltyRelief": 0,
+          "grandStrategyFinalLaunchTriggerRouteBridge": null,
+          "extraLaunchPacePenalty": 0,
+          "finalSecondMarkExtraLaunchPenalty": 0,
+          "noRouteLaunchPenalty": 0,
+          "weakEarlyPostLaunchRoutePenalty": 0,
+          "terminalStagingOnlyLaunchPenalty": 0
+        },
+        "actionGraph": {
+          "gain": 30.294,
+          "cost": 10.2,
+          "finalMarginal": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": 22.907
+        },
+        "breakdown": {
+          "launchGain": 30.293987736340483,
+          "launchCost": 6,
+          "launchReservePenalty": 4.2,
+          "postLaunchMovePlanScore": 8.260461762560002,
+          "lateLaunchPenalty": 0,
+          "rawLateLaunchPenalty": 0,
+          "lateLaunchPenaltyRelief": 0,
+          "grandStrategyFinalLaunchTriggerRouteBridge": null,
+          "extraLaunchPacePenalty": 0,
+          "finalSecondMarkExtraLaunchPenalty": 0,
+          "noRouteLaunchPenalty": 0,
+          "weakEarlyPostLaunchRoutePenalty": 0,
+          "terminalStagingOnlyLaunchPenalty": 0,
+          "existingScore": 20.094,
+          "gain": 30.294,
+          "cost": 10.2,
+          "finalMarginal": 0,
+          "finalMarkCashout": 0,
+          "missingFinalMarkPenalty": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": 22.907,
+          "aiStyle": "route",
+          "aiStyleMultiplier": 1.14,
+          "finalFormulaStyleMultiplier": 1,
+          "missingFinalMarkMultiplier": 1,
+          "netBeforeStyle": 20.094
+        }
+      },
+      "first": {
+        "ok": true,
+        "abilityId": "launchProbe",
+        "message": "发射 R3 -> 扇区[5,1]#4，消耗 1信用点",
+        "undoable": true,
+        "commands": [
+          {
+            "label": "发射消耗 1信用点",
+            "describe": "发射消耗 1信用点",
+            "undo": {}
+          },
+          {
+            "label": "发射火箭 R8",
+            "describe": "移除火箭 R8",
+            "undo": {}
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "payload": {
+          "rocket": {
+            "id": 8,
+            "playerId": "player-brown",
+            "color": "brown",
+            "surface": "solar-board",
+            "planetsReference": null,
+            "sectorX": 5,
+            "sectorY": 2,
+            "slotIndex": 4,
+            "radius": 156.26,
+            "angleDegrees": 157.5,
+            "launchGrid": {
+              "x": 5,
+              "y": 1
+            },
+            "launchSectorCoordinate": {
+              "x": 5,
+              "y": 1
+            },
+            "playerSequence": 3
+          }
+        },
+        "events": [
+          {
+            "type": "launch",
+            "rocketId": 8,
+            "playerId": "player-brown",
+            "source": "launch"
+          }
+        ],
+        "rocket": {
+          "id": 8,
+          "playerId": "player-brown",
+          "color": "brown",
+          "surface": "solar-board",
+          "planetsReference": null,
+          "sectorX": 5,
+          "sectorY": 2,
+          "slotIndex": 4,
+          "radius": 156.26,
+          "angleDegrees": 157.5,
+          "launchGrid": {
+            "x": 5,
+            "y": 1
+          },
+          "launchSectorCoordinate": {
+            "x": 5,
+            "y": 1
+          },
+          "playerSequence": 3
+        }
+      },
+      "beforeMove": {
+        "credits": 0,
+        "energy": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 35
+      },
+      "afterMove": {
+        "credits": 0,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 35
+      },
+      "next": {
+        "ok": true,
+        "message": "移动：选择移动牌弃置，或直接确认消耗 1 能量"
+      },
+      "bugs": []
+    },
+    "runezu": {
+      "preview": {
+        "available": true,
+        "reason": null,
+        "score": 41.047999999999995,
+        "rawScore": 36.64999999999999,
+        "weightedScore": 41.047999999999995,
+        "scoreCapReason": null,
+        "placedCount": 6,
+        "requiredSlot": 6,
+        "dataRoom": 6,
+        "availableData": 0,
+        "energyCost": 1,
+        "directScoreGain": 7,
+        "currentScore": 6,
+        "finalMarkCount": 0,
+        "nextFinalScoreThreshold": 25,
+        "scoreToNextThreshold": 19,
+        "blueTraceDemand": 0,
+        "analyzeBestBlueTraceScore": 7,
+        "thresholdCashoutPressure": 3.5,
+        "readyAnalyzeWindowValue": 15.219999999999999,
+        "lateFullDataAnalyzeRecovery": 0,
+        "lowResourceReadyAnalyzeCashout": 0,
+        "firstThresholdCatchupBonus": 0,
+        "fullComputerBonus": 8,
+        "lateRoundPressure": 0,
+        "highScorePushValue": 0,
+        "lowEngineCatchupValue": 0,
+        "postSecondFinalMarkPenalty": 0,
+        "hasBlueTraceFinalFormula": false
+      },
+      "before": {
+        "credits": 4,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 6
+      },
+      "after": {
+        "credits": 4,
+        "energy": 2,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 13
+      },
+      "choices": [
+        {
+          "logPlayerId": "player-green",
+          "logPlayerColor": "green",
+          "kind": "grid-slot",
+          "mode": "trace-board",
+          "alienSlot": "1",
+          "pickerStep": null,
+          "traceType": "blue",
+          "position": 4,
+          "score": 53.5895,
+          "b1TraceValue": {
+            "score": 0,
+            "counts": null,
+            "currentBase": 0,
+            "nextBase": 0,
+            "multiplier": 0,
+            "directMarginal": 0,
+            "potentialValue": 0,
+            "surplusPenalty": 0
+          },
+          "label": ""
+        }
+      ],
+      "bugs": [],
+      "scope": "Real analysis and trace resolution in controlled revealed Runezu state; autonomous trace target, explicitly started analysis; no whole-game score inference."
+    }
+  },
+  "tests": {
+    "files": 54,
+    "syntax": true
+  },
+  "evaluation": "Mean first; high-score distribution next, with companies/low tail and baseline-selected cohorts all reported. Baseline-selected high scores are outcome-conditioned diagnostics, not an automatic veto. Full24 development then frozen new random validation; +10 remains unmet."
+}

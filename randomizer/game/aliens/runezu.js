@@ -1156,6 +1156,7 @@
     isRunezuRevealedSlot,
     ensureTraceGrid,
     getTraceGrid,
+    getTraceReward,
     canPlaceRunezuTrace,
     placeRunezuTrace,
     getTraceEntries,
