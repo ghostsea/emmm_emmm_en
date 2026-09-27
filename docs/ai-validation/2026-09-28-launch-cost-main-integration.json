@@ -1,0 +1,41 @@
+{
+  "scope": "Actual default integration against frozen67d6 on its random64 seed1: scores and steps identical, all spendable resource buckets equal, all four ledgers closed. Main retains income-discard correctness and newer reporting fixes; score-flow formatter and card-use coverage fields are not identical to old report and are not score improvements.",
+  "baseline": "launchrunevalidation64-candidate-1.json",
+  "candidate": "launch-cost-main-1.json",
+  "summary": {
+    "ok": true,
+    "single": true,
+    "blocked": false,
+    "gameEnded": true,
+    "stoppedBeforeRound": null,
+    "steps": 1570,
+    "maxScore": 367,
+    "minPlayerScore": 160,
+    "allPlayersAtLeast70": true,
+    "playerScores": [
+      297,
+      160,
+      207,
+      367
+    ],
+    "bugCount": 0,
+    "actionCounts": null,
+    "opportunities": null,
+    "resourceFlow": {
+      "trackedMagnitude": 2037,
+      "classifiedMagnitude": 2031,
+      "weighted": 0.9970544918998527
+    },
+    "message": "游戏已结束"
+  },
+  "manifest": [
+    {
+      "file": "launchrunevalidation64-candidate-1.json",
+      "sha256": "c0de14569ec10e0361d19ca07020974cb299c520974a156fb6a1fa89e357bfb4"
+    },
+    {
+      "file": "launch-cost-main-1.json",
+      "sha256": "05f802847c5fd351fd0ade557ea58146949a620267c0a61b71a41eafb946aebd"
+    }
+  ]
+}

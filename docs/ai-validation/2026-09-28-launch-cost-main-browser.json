@@ -1,0 +1,232 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "company": {
+        "id": "industry:作弊实验室",
+        "label": "作弊实验室"
+      },
+      "choice": {
+        "id": "launch",
+        "kind": "main",
+        "available": true,
+        "reason": null,
+        "plan": {
+          "type": "main-then-quick",
+          "mainActionId": "launch",
+          "quickActionId": "move",
+          "direction": "out",
+          "directionLabel": "向外",
+          "from": {
+            "x": 5,
+            "y": 1
+          },
+          "to": {
+            "x": 5,
+            "y": 2
+          },
+          "requiredMovePoints": 1,
+          "routeTarget": {
+            "id": "mars",
+            "label": "火星",
+            "kind": "planet",
+            "coordinate": {
+              "x": 5,
+              "y": 2
+            },
+            "value": 48.037,
+            "satelliteOpportunity": null,
+            "taskRouteCashout": null,
+            "nearCompleteTaskRouteCashout": null,
+            "oldDistance": 1,
+            "newDistance": 0,
+            "rotationStagingValue": 0
+          },
+          "routeScore": 27.05924,
+          "gain": 18.23052384256,
+          "cost": 7.7,
+          "score": 10.530523842560001,
+          "paymentCost": 6.2,
+          "pathPenalty": 1.5,
+          "nearestActionablePlanetPenalty": 0,
+          "preserveEnergyForRouteCashout": false,
+          "movePayment": {
+            "cost": 6.2,
+            "energySpent": 1,
+            "cardSpent": 0,
+            "remainingEnergy": 2
+          },
+          "projectedResourcesAfterLaunchMove": {
+            "credits": 0,
+            "energy": 2,
+            "publicity": 0,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 0,
+            "score": 35
+          },
+          "projectedFollowupMainAction": {
+            "score": 0,
+            "actionId": null,
+            "planetId": "mars",
+            "planetName": "火星"
+          }
+        },
+        "gain": 32.29845255298048,
+        "cost": 10.2,
+        "score": 22.09845255298048,
+        "valueBreakdown": {
+          "launchGain": 32.29845255298048,
+          "launchCost": 6,
+          "launchReservePenalty": 4.2,
+          "postLaunchMovePlanScore": 10.530523842560001,
+          "lateLaunchPenalty": 0,
+          "rawLateLaunchPenalty": 0,
+          "lateLaunchPenaltyRelief": 0,
+          "grandStrategyFinalLaunchTriggerRouteBridge": null,
+          "extraLaunchPacePenalty": 0,
+          "finalSecondMarkExtraLaunchPenalty": 0,
+          "noRouteLaunchPenalty": 0,
+          "weakEarlyPostLaunchRoutePenalty": 0,
+          "terminalStagingOnlyLaunchPenalty": 0
+        },
+        "actionGraph": {
+          "gain": 32.298,
+          "cost": 10.2,
+          "finalMarginal": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": 25.192
+        },
+        "breakdown": {
+          "launchGain": 32.29845255298048,
+          "launchCost": 6,
+          "launchReservePenalty": 4.2,
+          "postLaunchMovePlanScore": 10.530523842560001,
+          "lateLaunchPenalty": 0,
+          "rawLateLaunchPenalty": 0,
+          "lateLaunchPenaltyRelief": 0,
+          "grandStrategyFinalLaunchTriggerRouteBridge": null,
+          "extraLaunchPacePenalty": 0,
+          "finalSecondMarkExtraLaunchPenalty": 0,
+          "noRouteLaunchPenalty": 0,
+          "weakEarlyPostLaunchRoutePenalty": 0,
+          "terminalStagingOnlyLaunchPenalty": 0,
+          "existingScore": 22.098,
+          "gain": 32.298,
+          "cost": 10.2,
+          "finalMarginal": 0,
+          "finalMarkCashout": 0,
+          "missingFinalMarkPenalty": 0,
+          "goalBonus": 0,
+          "feasibility": 1,
+          "net": 25.192,
+          "aiStyle": "route",
+          "aiStyleMultiplier": 1.14,
+          "finalFormulaStyleMultiplier": 1,
+          "missingFinalMarkMultiplier": 1,
+          "netBeforeStyle": 22.098
+        }
+      },
+      "first": {
+        "ok": true,
+        "abilityId": "launchProbe",
+        "message": "发射 R3 -> 扇区[5,1]#4，消耗 1信用点",
+        "undoable": true,
+        "commands": [
+          {
+            "label": "发射消耗 1信用点",
+            "describe": "发射消耗 1信用点",
+            "undo": {}
+          },
+          {
+            "label": "发射火箭 R7",
+            "describe": "移除火箭 R7",
+            "undo": {}
+          }
+        ],
+        "cost": {
+          "credits": 1
+        },
+        "payload": {
+          "rocket": {
+            "id": 7,
+            "playerId": "player-blue",
+            "color": "blue",
+            "surface": "solar-board",
+            "planetsReference": null,
+            "sectorX": 5,
+            "sectorY": 2,
+            "slotIndex": 4,
+            "radius": 156.26,
+            "angleDegrees": 157.5,
+            "launchGrid": {
+              "x": 5,
+              "y": 1
+            },
+            "launchSectorCoordinate": {
+              "x": 5,
+              "y": 1
+            },
+            "playerSequence": 3
+          }
+        },
+        "events": [
+          {
+            "type": "launch",
+            "rocketId": 7,
+            "playerId": "player-blue",
+            "source": "launch"
+          }
+        ],
+        "rocket": {
+          "id": 7,
+          "playerId": "player-blue",
+          "color": "blue",
+          "surface": "solar-board",
+          "planetsReference": null,
+          "sectorX": 5,
+          "sectorY": 2,
+          "slotIndex": 4,
+          "radius": 156.26,
+          "angleDegrees": 157.5,
+          "launchGrid": {
+            "x": 5,
+            "y": 1
+          },
+          "launchSectorCoordinate": {
+            "x": 5,
+            "y": 1
+          },
+          "playerSequence": 3
+        }
+      },
+      "beforeMove": {
+        "credits": 0,
+        "energy": 3,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 35
+      },
+      "afterMove": {
+        "credits": 0,
+        "energy": 2,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 35
+      },
+      "next": {
+        "ok": true,
+        "message": "移动：选择移动牌弃置，或直接确认消耗 1 能量"
+      },
+      "bugs": []
+    }
+  }
+}
