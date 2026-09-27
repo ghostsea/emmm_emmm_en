@@ -1,0 +1,24 @@
+{
+  "reason": "Repeated display turn numbers already observed in analysis audit. Bound credit trade followup and land/income choices by rawTurnNumber as well; do not combine later real turns.",
+  "checks": [
+    {
+      "file": "creditunlock-unlock-followup.json",
+      "rows": 66,
+      "aggregatesUnchanged": true,
+      "sha256": "33f74a7bc91c8a1275ce105284e75b973fb939b8264c9f7fdbc96aaa32cc5779"
+    },
+    {
+      "file": "creditunlock-land-card-realization.json",
+      "rows": 103,
+      "aggregatesUnchanged": true,
+      "sha256": "e7d02073c0533743a439088fba592084b7782a24c23a0d10207dc3791f773708"
+    },
+    {
+      "file": "readyanalyze-land-card-realization.json",
+      "rows": 104,
+      "aggregatesUnchanged": true,
+      "sha256": "0bb78f09ed689bdcda830e79a22f60c3c35a67c97bb7600503da4a1f4f0a49d0"
+    }
+  ],
+  "source": "Frozen game model, seed and resource parser are unchanged; this is report-only matching. Full random reports use the corrected helper only after their complete-suite gate."
+}
