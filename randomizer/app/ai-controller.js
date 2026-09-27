@@ -9896,15 +9896,11 @@
       if (actionId === "scan") {
         const directScoreGain = Math.max(0, aiNumber(rawCandidate.directScoreGain));
         const placedCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
-        const scanCountThisRound = countAiStandardScansThisRound(player);
         const canOpenAnalyze = placedCount >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6) - 1
           || rawCandidate.valueBreakdown?.scanProjectedAnalyzeUnlock === true;
         if (directScoreGain <= 0 && !canOpenAnalyze) {
           goalBonusScale = Math.min(goalBonusScale, round <= 2 ? 0.38 : 0.22);
-          urgencyPenalty += Math.min(16, goalBonus * (round <= 2 ? 0.34 : 0.52) + scanCountThisRound * 3.5);
-        } else if (scanCountThisRound >= 1 && directScoreGain < 3) {
-          goalBonusScale = Math.min(goalBonusScale, 0.5);
-          urgencyPenalty += Math.min(10, goalBonus * 0.25 + scanCountThisRound * 2.5);
+          urgencyPenalty += Math.min(16, goalBonus * (round <= 2 ? 0.34 : 0.52));
         }
       }
 
@@ -18606,7 +18602,7 @@
             + (b2SectorScanRecoveryValue > 0 ? 3 : 0),
         )
         : 0;
-      const repeatedScanPenalty = Math.max(0, scanCountThisRound) * (getAiRoundNumber() <= 2 ? 7 : 10);
+      // Repeated scans are valued from current targets and costs, not action history.
       const earlySetupScanBonus = (
         getAiRoundNumber() <= 2
         && scanCountThisRound <= 0
@@ -18643,7 +18639,6 @@
         - costValue * costMultiplier
         - reservePenalty
         - lateResourceDrainPenalty
-        - repeatedScanPenalty
         - fullDataAnalyzeBacklogPenalty
         - adjustedLowCashoutScanPenalty;
     }
@@ -23370,20 +23365,13 @@
       });
       const scanCheck = scanEffects.canExecuteScan(getCurrentPlayer(), { standardAction: true });
       const preMoveCandidates = listAiMoveCandidates();
-      const bestMoveCandidate = preMoveCandidates.reduce((best, candidate) => (
-        aiNumber(candidate?.score) > aiNumber(best?.score) ? candidate : best
-      ), null);
-      const bestMoveScore = Math.max(0, aiNumber(bestMoveCandidate?.score));
       const analyzeCheck = canAiAnalyzeData(currentPlayer);
       const analyzeBreakdown = analyzeCheck.ok ? buildAiAnalyzeActionValueBreakdown(currentPlayer) : null;
       const analyzeScore = analyzeBreakdown ? analyzeBreakdown.score : 0;
       const analyzeDirectScoreGain = Math.max(0, aiNumber(analyzeBreakdown?.directScoreGain));
-      const immediatePlanetActionScore = Math.max(
-        orbitCandidate.available ? Number(orbitCandidate.score || 0) : 0,
-        landCandidate.available ? Number(landCandidate.score || 0) : 0,
-      );
       const scanActionBreakdown = {};
       let scanScore = scanCheck.ok ? scoreAiScanAction(currentPlayer, { breakdown: scanActionBreakdown }) : 0;
+      const scanBaseScore = scanScore;
       const scanDirectScoreGain = scanCheck.ok ? getAiScanDirectScoreGain(currentPlayer) : 0;
       const scanPriorityFloor = scanCheck.ok ? scoreAiScanPriorityFloor(currentPlayer) : 0;
       const scanCurrentScore = Math.max(0, aiNumber(currentPlayer?.resources?.score));
@@ -23395,47 +23383,6 @@
         && scanCurrentScore < scanNextThreshold
         && scanScoreToThreshold <= 3
         && scanCurrentScore + scanDirectScoreGain < scanNextThreshold;
-      const protectB2SectorScanFromPlanetCap = scanCheck.ok
-        && shouldAiProtectB2SectorScanFromPlanetCap(currentPlayer);
-      if (immediatePlanetActionScore >= 12 && !protectB2SectorScanFromPlanetCap) {
-        scanScore = Math.max(
-          scanPriorityFloor,
-          Math.min(scanScore, Math.max(0, immediatePlanetActionScore - 7)),
-        );
-      }
-      if (getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12) {
-        scanScore = Math.max(
-          scanPriorityFloor,
-          Math.min(scanScore, Math.max(0, Number(launchCandidate.score || 0) - 8)),
-        );
-      }
-      if (
-        getAiRoundNumber() >= 3
-        && Math.max(0, aiNumber(currentPlayer?.resources?.score)) < 25
-        && launchCandidate.available
-        && Number(launchCandidate.score || 0) >= 10
-      ) {
-        scanScore = Math.min(scanScore, Math.max(0, Number(launchCandidate.score || 0) - 2));
-      }
-      const bestEarlyMoveScore = getAiRoundNumber() <= 2 ? bestMoveScore : 0;
-      if (bestEarlyMoveScore >= 10) {
-        scanScore = Math.max(
-          scanPriorityFloor,
-          Math.min(scanScore, Math.max(0, bestEarlyMoveScore - 3)),
-        );
-      }
-      const routeCashoutMoveScore = getAiRoundNumber() >= 3
-        && Math.max(0, aiNumber(currentPlayer?.resources?.energy)) <= 3
-        && bestMoveScore >= 16
-        && scanScore <= bestMoveScore + 3
-        ? bestMoveScore
-        : 0;
-      if (routeCashoutMoveScore > 0) {
-        scanScore = Math.max(
-          scanPriorityFloor,
-          Math.min(scanScore, Math.max(0, routeCashoutMoveScore - 3)),
-        );
-      }
       const analyzeCashoutScore = getAiRoundNumber() >= 2
         && Math.max(0, aiNumber(currentPlayer?.resources?.energy)) <= 2
         && analyzeScore >= 18
@@ -23489,27 +23436,13 @@
       }
       const scanScoreCapReason = scanFinalThresholdMiss
         ? "终局临门扫描直接分不足"
-        : scanCheck.ok && immediatePlanetActionScore >= 12 && !protectB2SectorScanFromPlanetCap
-        ? "优先兑现当前位置的环绕/登陆"
-          : scanCheck.ok && getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12
-            ? "优先建立火箭数量"
-            : scanCheck.ok
-              && getAiRoundNumber() >= 3
-              && Math.max(0, aiNumber(currentPlayer?.resources?.score)) < 25
-              && launchCandidate.available
-              && Number(launchCandidate.score || 0) >= 10
-                ? "低于25分时优先发射建立得分路线"
-                : scanCheck.ok && bestEarlyMoveScore >= 10
-                    ? "优先保持早期移动路线"
-                    : scanCheck.ok && routeCashoutMoveScore > 0
-                      ? "优先兑现第3轮移动路线"
-                      : scanCheck.ok && analyzeCashoutScore > 0
-                        ? "优先兑现数据分析"
-                        : scanCheck.ok && weakFinalAnalyzeEnergyCap !== null
-                          ? "保留终局分析能量"
-                          : scanCheck.ok && scanEnergyReservationPenalty > 0
-                            ? "保留星球兑现能量"
-                            : null;
+        : scanCheck.ok && analyzeCashoutScore > 0
+          ? "优先兑现数据分析"
+          : scanCheck.ok && weakFinalAnalyzeEnergyCap !== null
+            ? "保留终局分析能量"
+            : scanCheck.ok && scanEnergyReservationPenalty > 0
+              ? "保留星球兑现能量"
+              : null;
       candidates.push({
         id: "scan",
         kind: "main",
@@ -23521,6 +23454,7 @@
         targetPreview: scanCheck.ok ? buildAiScanActionTargetPreview(currentPlayer) : null,
         valueBreakdown: {
           directScoreGain: scanDirectScoreGain,
+          scanBaseScore,
           scanEnergyReservationPenalty,
           rawScanEnergyReservationPenalty,
           scanAction4Preview: scanActionBreakdown.scanAction4Preview || null,
