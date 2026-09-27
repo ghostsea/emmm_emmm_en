@@ -12686,6 +12686,18 @@
       return roundAiScore(Math.min(14, lostScanCapacity * pairedCreditOpportunity));
     }
 
+    function getAiCardReserveValue(model, reservesAfterPlay, readyTaskCashout = null) {
+      const readyTaskIds = new Set(readyTaskCashout?.taskIds || []);
+      const futureTasks = (model?.tasks || []).filter((task) => !readyTaskIds.has(task.id));
+      const hasFutureValue = futureTasks.length || model?.triggers?.length
+        || model?.endGameScoring || model?.pluto;
+      // A task already valued as an immediate payout is collected and removed;
+      // it cannot also supply the generic value of a future reserved task.
+      return reservesAfterPlay && hasFutureValue
+        ? 4 + futureTasks.length * 3.6 + (model?.triggers?.length || 0) * 2
+        : 0;
+    }
+
     function scoreAiPlayCardValue(card, details = {}) {
       const player = details.player || getCurrentPlayer();
       const model = details.model || cardEffects.getCardModel?.(card) || null;
@@ -12699,15 +12711,7 @@
       const effectValue = details.effectValue ?? playEffects.reduce((total, effect) => (
         total + scoreAiEffectValue(effect, { player, immediate: true })
       ), 0);
-      const hasPersistentModeledValue = Boolean(
-        model?.tasks?.length
-        || model?.triggers?.length
-        || model?.endGameScoring
-        || model?.pluto
-      );
-      const reserveValue = reservesAfterPlay && hasPersistentModeledValue
-        ? 4 + (model?.tasks?.length || 0) * 3.6 + (model?.triggers?.length || 0) * 2
-        : 0;
+      const reserveValue = getAiCardReserveValue(model, reservesAfterPlay, details.readyTaskCashout);
       const endGameValue = model?.endGameScoring ? 5 + getAiRemainingRoundWeight() * 0.5 : 0;
       const plutoValue = model?.pluto ? 8 : 0;
       const costValue = scoreAiResourceBundle(cost);
@@ -19182,6 +19186,7 @@
         valueBreakdown: {
           costValue: scoreAiResourceBundle(cost),
           cornerOpportunity: scoreAiCardCornerOpportunity(card),
+          reserveValue: getAiCardReserveValue(model, reservesAfterPlay, readyTaskCashout),
           directScoreGain,
           effectValue,
           strategyPassivePlayValue,
@@ -26705,6 +26710,8 @@
 
     return {
       getAiIntendedPlayCardCandidate,
+      getAiCardReserveValue,
+      buildAiPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,
