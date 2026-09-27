@@ -1,0 +1,66 @@
+{
+  "decision": "development-positive-await-fresh64",
+  "sourceCommit": "a9b27bb094c60b1bb4de53f44f8691f0b3837087",
+  "parentCommit": "c0a7f8e41dff7cb015f6fb2317d1850cdbeae4e2",
+  "meanDelta": 2.489583333333343,
+  "pairedGameStandardError": 1.1911394616456008,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 255.83333333333334,
+      "meanDelta": 4.25,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 188.70833333333334,
+      "meanDelta": 0.6666666666666856,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 209.83333333333334,
+      "meanDelta": 0.7916666666666856,
+      "minimumDelta": 0
+    }
+  },
+  "distributionDelta": {
+    "mean": 2.489583333333343,
+    "min": 0,
+    "p10": 3.5,
+    "p25": -2.5,
+    "median": 0,
+    "p75": 5.25,
+    "max": 0,
+    "topQuartileMean": 7.958333333333314,
+    "winnerMean": 7.791666666666686,
+    "minimumPerGameMean": 1.2916666666666856,
+    "seats270Plus": 7,
+    "seats300Plus": 2
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 282.25,
+    "meanDelta": 6.25,
+    "improved": 7,
+    "declined": 0,
+    "unchanged": 17
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 173.08333333333334,
+    "meanDelta": 6.708333333333333,
+    "improved": 5,
+    "declined": 3,
+    "unchanged": 16
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1160,
+  "scope": "All24 seen development pairs against c0a7 using the same frozen old parser. Only exports existing Runezu reward API; excludes failed generic analysis resource premium and later main reward logging correction. Positive development is not acceptance. Freeze64 new random pairs before evaluation, report all128 games, means first and original high/low seats and companies. No historical gains added."
+}
