@@ -1577,3 +1577,6 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28 新增通用扫描事务审计 `tools/analyze_ai_scan_transactions.js`：对完整配对两臂按玩家/轮/显示回合及决策-事务顺序逐次匹配，单独列主事务资源与付款后同事务蓝科技奖励；嵌入收入、扫描前快速奖励不算扫描蓝补给，后续同轮标准分析去重。信用随机64两臂3014次扫描全部匹配独立实际付款（每次2能量），当前候选寰宇187次/64局、同轮第三次及以后17次，未显示信用修正带来更多扫描。蓝奖励仅是时间关联，不能证明数据全部来自该次扫描；主事务费用可包含紫科发射等附加支付。已测试重复显示回合、额外奖励归因、共享分析和缺失付款。见[全量复核摘要与输入哈希](ai-validation/2026-09-28-credit-default-scan-transactions.json)。
+
+
+2026-09-28 紫4可支付互斥预估b71505f8已冻结并同步：扫描后按实际公司费用扣资源，复用紫4执行选择器，发射必须可额外付1能量且有容量，移动使用免费1步，互斥分支取最大值并保留既有权重。深度保护防止递归；不预演节点前补给，也不声称穷举额外付费移动路线。55测试、主扫描评分负对照和真实浏览器扫描后跳过/付费发射通过；两组浏览器初态不配对，不计算得分差。此前仅max的0afe固定结果微弱，不能相加。默认未采纳；完整24组以当前863为基线，复用已校验的24局，完成后核对均分、高分、实际扫描资源和补给。见[冻结计划](ai-validation/2026-09-28-purple4-affordable-preview-development-plan.json)、[浏览器](ai-validation/2026-09-28-purple4-affordable-preview-browser.json)、[主评分负对照](ai-validation/2026-09-28-purple4-affordable-preview-negative-control.json)。
