@@ -1582,3 +1582,6 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28 紫4可支付互斥预估b71505f8已冻结并同步：扫描后按实际公司费用扣资源，复用紫4执行选择器，发射必须可额外付1能量且有容量，移动使用免费1步，互斥分支取最大值并保留既有权重。深度保护防止递归；不预演节点前补给，也不声称穷举额外付费移动路线。55测试、主扫描评分负对照和真实浏览器扫描后跳过/付费发射通过；两组浏览器初态不配对，不计算得分差。此前仅max的0afe固定结果微弱，不能相加。默认未采纳；完整24组以当前863为基线，复用已校验的24局，完成后核对均分、高分、实际扫描资源和补给。见[冻结计划](ai-validation/2026-09-28-purple4-affordable-preview-development-plan.json)、[浏览器](ai-validation/2026-09-28-purple4-affordable-preview-browser.json)、[主评分负对照](ai-validation/2026-09-28-purple4-affordable-preview-negative-control.json)。
+
+
+2026-09-28 扫描独立排序与紫4可支付预估组合9c2122b2已冻结同步：56测试及真实浏览器费用检查通过。两个单项固定均分分别-6.5/-2，组合只作为交互假设检验，不预先采纳、不相加。以同一当前863完整24局为基线，另保留两个单项24局及原始f542分数对照；全部完成后比较均分、高分、公司和真实资源兑现。默认不变。见[冻结计划](ai-validation/2026-09-28-scan-purple4-combined-development-plan.json)、[浏览器](ai-validation/2026-09-28-scan-purple4-combined-browser.json)。
