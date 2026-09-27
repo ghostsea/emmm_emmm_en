@@ -1504,3 +1504,5 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28 收入选牌类型修复正式采用：AI收入类型集合补齐card_income与industry_fundamentalism_income，与实际结算分发一致；同样按资源缺口与留牌机会成本选收入。固定24组、新随机16组所有配对席位得分不变；新随机32局0 bug、128席账本/配置、808次真实打牌付款及轮初补助核对通过。标准公司池没有原教旨主义，随机结果不代替机制验证；多选项单测负对照和主分支真实私营投资/第2轮原教旨主义流程分别覆盖决策与执行，两者即时能量+1、永久能量收入+1且无bug。主分支53测试通过。不加入提分总量。见[随机回归评估](ai-validation/2026-09-28-income-discard-types-random16-assessment.json)、[卡牌实际收入](ai-validation/2026-09-28-income-discard-types-main-browser.json)、[公司轮初实际收入](ai-validation/2026-09-28-fundamentalism-income-main-browser.json)。
+
+2026-09-28 新玩家与当前默认按轮核对：完整64局256席逐轮资源和主行动与总账本闭合；新玩家寰宇末轮18行动/28非收入数据，当前寰宇均值9.046875/9.125。主要可见缺口在后期补牌、数据与蓝科返还的连续兑现，不据此强制首轮蓝科。旧人类incomeDeltas不用于推定收入轨道升级，实际收入与非收入分列、显式轮初补助单列。见[按轮报告](ai-validation/2026-09-28-current-human-ai-round-resources.md)。
