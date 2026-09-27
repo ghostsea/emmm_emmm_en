@@ -1,0 +1,160 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "company": {
+        "id": "industry:寰宇超动力",
+        "kind": "industry",
+        "label": "寰宇超动力",
+        "src": "../assets/industry/寰宇动力.png",
+        "width": 1382,
+        "height": 1054,
+        "aiOnly": true
+      },
+      "expected": {
+        "credits": 1,
+        "energy": 2
+      },
+      "before": {
+        "credits": 12,
+        "energy": 12,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 7
+      },
+      "after": {
+        "credits": 11,
+        "energy": 10,
+        "publicity": 5,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 7
+      },
+      "steps": 4,
+      "bugs": [],
+      "scanTargets": [
+        {
+          "logPlayerId": "player-blue",
+          "pendingType": "public_scan",
+          "nebulaId": "sector-3-a",
+          "sectorX": null,
+          "label": "开普勒22下一次替换槽位 3",
+          "selectedScore": 9.387,
+          "topChoices": [
+            {
+              "nebulaId": "sector-3-a",
+              "sectorX": null,
+              "label": "开普勒22下一次替换槽位 3",
+              "score": 9.387,
+              "directScoreGain": 0,
+              "b2": null
+            },
+            {
+              "nebulaId": "sector-4-a",
+              "sectorX": null,
+              "label": "室女座61下一次替换槽位 1",
+              "score": 8.687,
+              "directScoreGain": 0,
+              "b2": null
+            }
+          ]
+        }
+      ],
+      "action": {
+        "id": 6,
+        "roundNumber": 1,
+        "turnNumber": 1,
+        "rawTurnNumber": 1,
+        "actionCycleNumber": 1,
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "actionType": "scan",
+        "actionLabel": "扫描行动",
+        "passed": false,
+        "steps": [
+          {
+            "stepId": "history-step-14",
+            "source": "main",
+            "playerId": "player-blue",
+            "playerLabel": "蓝色",
+            "text": "扫描费用：扫描消耗 1信用点 + 2能量",
+            "label": "扫描费用",
+            "detail": "扫描消耗 1信用点 + 2能量",
+            "undoable": true,
+            "irreversibleCode": null,
+            "irreversibleReason": "",
+            "playedCard": null,
+            "fangzhouCardChanges": [],
+            "briefing": null
+          },
+          {
+            "stepId": "history-step-15",
+            "source": "main",
+            "playerId": "player-blue",
+            "playerLabel": "蓝色",
+            "text": "扇区扫描：绘架座β 槽位1 替换为蓝色token；获得数据；资源：数据+1",
+            "label": "扇区扫描",
+            "detail": "扇区扫描：绘架座β 槽位1 替换为蓝色token；获得数据；资源：数据+1",
+            "undoable": true,
+            "irreversibleCode": null,
+            "irreversibleReason": "",
+            "playedCard": null,
+            "fangzhouCardChanges": [],
+            "briefing": {
+              "scanTargets": [
+                {
+                  "x": 6,
+                  "nebulaId": "sector-4-b",
+                  "label": "绘架座β"
+                }
+              ]
+            }
+          },
+          {
+            "stepId": "history-step-16",
+            "source": "main",
+            "playerId": "player-blue",
+            "playerLabel": "蓝色",
+            "text": "公共牌区扫描 NASA系外行星档案：开普勒22 槽位3 替换为蓝色token；获得数据；弃除 NASA系外行星档案，公共区留空待扫描结束补牌；资源：数据+1",
+            "label": "公共牌区扫描 NASA系外行星档案",
+            "detail": "公共牌区扫描 NASA系外行星档案：开普勒22 槽位3 替换为蓝色token；获得数据；弃除 NASA系外行星档案，公共区留空待扫描结束补牌；资源：数据+1",
+            "undoable": true,
+            "irreversibleCode": null,
+            "irreversibleReason": "",
+            "playedCard": null,
+            "fangzhouCardChanges": [],
+            "briefing": {
+              "scanTargets": [
+                {
+                  "x": 3,
+                  "nebulaId": "sector-3-a",
+                  "label": "开普勒22"
+                }
+              ]
+            }
+          },
+          {
+            "stepId": "history-step-17",
+            "source": "main",
+            "playerId": "player-blue",
+            "playerLabel": "蓝色",
+            "text": "补充公共牌区：公共牌区补牌：1:月球门户空间站",
+            "label": "补充公共牌区",
+            "detail": "公共牌区补牌：1:月球门户空间站",
+            "undoable": false,
+            "irreversibleCode": "hidden_card_reveal",
+            "irreversibleReason": "公共牌补牌翻出新牌",
+            "playedCard": null,
+            "fangzhouCardChanges": [],
+            "briefing": null
+          }
+        ]
+      }
+    }
+  }
+}

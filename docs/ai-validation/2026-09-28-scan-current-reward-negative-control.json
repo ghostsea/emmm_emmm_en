@@ -1,0 +1,8 @@
+{
+  "scope": "Negative control executes the new independent ranking test against unchanged current-default source; fails on score rather than a missing diagnostic field.",
+  "oldExpectedFailure": {
+    "message": "competitor must not overwrite an independently valued scan\n\n4 !== 50\n",
+    "actual": 4,
+    "expected": 50
+  }
+}
