@@ -1,0 +1,156 @@
+{
+  "decision": "hold-not-adopted-no-new-random-test",
+  "models": {
+    "baseline": "67d6fbda86bb889336c8bccb79ff0208bd9d7ce8",
+    "candidate": "62bc5f3478b3726c7d9b9ced4411dced554e148a"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 230.46875,
+    "min": 124,
+    "p10": 166.5,
+    "p25": 192.75,
+    "median": 222.5,
+    "p75": 269.25,
+    "max": 366,
+    "topQuartileMean": 305.9166666666667,
+    "winnerMean": 290.7916666666667,
+    "minimumPerGameMean": 172.95833333333334,
+    "seats270Plus": 24,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 266.25,
+        "min": 170
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 186.16666666666666,
+        "min": 140
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 203.20833333333334,
+        "min": 124
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 228.91666666666666,
+    "min": 124,
+    "p10": 163,
+    "p25": 192.75,
+    "median": 222,
+    "p75": 258.5,
+    "max": 366,
+    "topQuartileMean": 303.7083333333333,
+    "winnerMean": 287.6666666666667,
+    "minimumPerGameMean": 171.54166666666666,
+    "seats270Plus": 21,
+    "seats300Plus": 13,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 263.3541666666667,
+        "min": 170
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 184.66666666666666,
+        "min": 140
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.29166666666666,
+        "min": 124
+      }
+    }
+  },
+  "meanDelta": -1.5520833333333428,
+  "pairedGameStandardError": 1.1906165403163518,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 266.25,
+      "candidate": 263.3541666666667,
+      "meanDelta": -2.8958333333333144,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 186.16666666666666,
+      "candidate": 184.66666666666666,
+      "meanDelta": -1.5,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 203.20833333333334,
+      "candidate": 204.29166666666666,
+      "meanDelta": 1.0833333333333144,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -1.5520833333333428,
+    "min": 0,
+    "p10": -3.5,
+    "p25": 0,
+    "median": -0.5,
+    "p75": -10.75,
+    "max": 0,
+    "topQuartileMean": -2.2083333333333712,
+    "winnerMean": -3.125,
+    "minimumPerGameMean": -1.4166666666666856,
+    "seats270Plus": -3,
+    "seats300Plus": -1
+  },
+  "absoluteMeanDelta": 3.854166666666657,
+  "absolutePairedGameStandardError": 4.3765503636710035,
+  "runtime": {
+    "pairs": 24,
+    "plays": 1135,
+    "matched": 1135,
+    "intendedCardMatched": 1135,
+    "paid": 1135,
+    "issues": []
+  },
+  "followup": {
+    "baseline": {
+      "plans": 30,
+      "readyOrLegacyPlans": 0,
+      "actualAnalysis": 30,
+      "paidOneEnergy": 30,
+      "byCompany": {
+        "作弊实验室": 16,
+        "寰宇超动力": 6,
+        "宇宙大战略集团": 8
+      },
+      "unrealized": []
+    },
+    "candidate": {
+      "plans": 34,
+      "readyOrLegacyPlans": 8,
+      "actualAnalysis": 34,
+      "paidOneEnergy": 34,
+      "byCompany": {
+        "作弊实验室": 18,
+        "寰宇超动力": 6,
+        "宇宙大战略集团": 10
+      },
+      "unrealized": []
+    }
+  },
+  "limitations": [
+    "Seen development seeds only; no fresh validation and no +10 achievement.",
+    "More immediate analysis unlocks did not establish more total analysis or score. Huanyu total analysis fell 2.833333 to 2.708333 and main actions 28.833333 to 28.541667.",
+    "All 64 baseline/candidate unlock plans followed by actual analysis and payment. Duplicate display turn numbers are aligned by decision and payment-entry ordinal, not aggregated as one payment; raw turn bounds the next action.",
+    "Existing model score floor28 and discard cap6 are not empirically validated by successful execution.",
+    "Round aid checked equal. Resource weights and old incomplete hand-instance coverage do not establish a causal conversion rate."
+  ]
+}
