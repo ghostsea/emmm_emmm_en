@@ -1,0 +1,2811 @@
+{
+  "scope": "Reporting correctness only. Unobserved negative resource balance now means unknown ending/utilization and an explicit deficit, not zero inventory or >100% use. Deficits do not identify whether inflows are missing or outflows overstated. No resource events, source totals, action counts, card use or game policy changed. Human exports lack complete snapshots; figures remain descriptive observed text. Frozen trace-readiness runs are untouched.",
+  "oldSourceSha256": "c6bf4578757506a3f25d7d0f929c7b40b76bb2b70f9a12ccd167f2012a75b8c9",
+  "newSourceSha256": "7e515aab5a2a0339b64ca9f14044a41c94015939867b885861224a828645ee39",
+  "inputFiles": [
+    {
+      "file": "参考行动日志\\3人局348.md",
+      "sha256": "36902d347336ef85a8917a25282370edd49f854c075879f65f13e03cda6f97fe"
+    },
+    {
+      "file": "参考行动日志\\4G哥304寰宇动力.md",
+      "sha256": "a4974480a8c1e4e2c500ab96f131e6f864e13187bffe6560a1abfbcb56c597e0"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260806-014849.md",
+      "sha256": "0424316de363e37a7c9e226be5d6f3d688278cf67622b8421d861cc92894ef73"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260806-233701.md",
+      "sha256": "740108ba1079bf77a2b72a7c6c1fc59c4b6d71fe0ce9332177eac1665cb51b45"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260807-203749.md",
+      "sha256": "2cd7582fc06eb14a91371cbc2cf61d556136ab3e60d41692eb5fe31f10576d84"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260909-231236.md",
+      "sha256": "f1a0d815619bef5d376ca3c12cf9760c68d1acc51e00278009b09d817a67b8ae"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260919-223731.md",
+      "sha256": "f2c2300ffa999f1d934a185f1c0d0710d569f47c623eba14bd8372c0d9f54e05"
+    },
+    {
+      "file": "参考行动日志\\任务中继站283.md",
+      "sha256": "8082db3520a54499c393c442eed6b5cb0f613773d7ec2d0800d314b8824fd3d1"
+    },
+    {
+      "file": "参考行动日志\\哨兵224.md",
+      "sha256": "f28403247132eb210493a071fc74a8a13b00fe63f73326c754e5ad22a6a89813"
+    },
+    {
+      "file": "参考行动日志\\宇宙战略245.md",
+      "sha256": "8b2c231980ffd23455b8540a8740e27754fbb0679646571331a2dc431bf2815b"
+    },
+    {
+      "file": "参考行动日志\\宇宙战略374.md",
+      "sha256": "d0416a1cc1ea65ba26382b9f29c99aa2ff528b60d5f9177007c94bfe1b72ad0d"
+    },
+    {
+      "file": "参考行动日志\\宇宙战略集团342.md",
+      "sha256": "9665833a7f1e4fc19b154b0661ea88040efa2bd192c32d6e1453f1c614febd3e"
+    },
+    {
+      "file": "参考行动日志\\寰宇291.md",
+      "sha256": "b4707899699c53ba8d5a505a3f271a8da0e3721e225d1bf41a32880e4b9f798d"
+    },
+    {
+      "file": "参考行动日志\\寰宇动力285.md",
+      "sha256": "fafc9e6ae35b4314d30bdf2468da8e0681d83e65645437d3a9a6f734827c3d7c"
+    },
+    {
+      "file": "参考行动日志\\层云261.md",
+      "sha256": "7753cbda2cd6fd25b9976365f9230e06ca68b13072b42aafedf47dbd2b52ce4a"
+    },
+    {
+      "file": "参考行动日志\\层云核心.md",
+      "sha256": "a12f37b2e2bc802bb00176dd4574493ebe4deee6a7db7c49c153901f6bc80bd1"
+    },
+    {
+      "file": "参考行动日志\\深空探测314.md",
+      "sha256": "bfaca7289a8d289603eac5edf8b2b2cf7b2c30a4b80d1168caefd724b3d1045a"
+    },
+    {
+      "file": "参考行动日志\\赫利昂266.md",
+      "sha256": "ac87e8de93a7d86f90a03f2da733c3f161f712a39fbaedab0b2499c1812a76a2"
+    }
+  ],
+  "uniqueGames": 17,
+  "players": 66,
+  "changedPlayers": 65,
+  "rows": [
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\3人局348.md",
+      "player": "白色",
+      "company": "异星实验室",
+      "score": 348,
+      "deficits": {
+        "credits": 2,
+        "availableData": 11
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.0740740740740742,
+        "energy": 0.6571428571428571,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8275862068965517
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.6571428571428571,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8275862068965517
+      },
+      "beforeEnding": {
+        "score": 348,
+        "credits": 0,
+        "energy": 12,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      },
+      "afterEnding": {
+        "score": 348,
+        "credits": null,
+        "energy": 12,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\3人局348.md",
+      "player": "棕色",
+      "company": "寰宇超动力",
+      "score": 204,
+      "deficits": {
+        "publicity": 20,
+        "availableData": 7
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9285714285714286,
+        "energy": 0.6470588235294118,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9629629629629629
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9285714285714286,
+        "energy": 0.6470588235294118,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9629629629629629
+      },
+      "beforeEnding": {
+        "score": 204,
+        "credits": 2,
+        "energy": 6,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      },
+      "afterEnding": {
+        "score": 204,
+        "credits": 2,
+        "energy": 6,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\3人局348.md",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "score": 244,
+      "deficits": {
+        "credits": 1
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.0476190476190477,
+        "energy": 0.7777777777777778,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8823529411764706
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.7777777777777778,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8823529411764706
+      },
+      "beforeEnding": {
+        "score": 244,
+        "credits": 0,
+        "energy": 6,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      },
+      "afterEnding": {
+        "score": 244,
+        "credits": null,
+        "energy": 6,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\4G哥304寰宇动力.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 304,
+      "deficits": {
+        "publicity": 27,
+        "availableData": 18
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.7586206896551724,
+        "energy": 0.7241379310344828,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9642857142857143
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.7586206896551724,
+        "energy": 0.7241379310344828,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9642857142857143
+      },
+      "beforeEnding": {
+        "score": 304,
+        "credits": 7,
+        "energy": 8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      },
+      "afterEnding": {
+        "score": 304,
+        "credits": 7,
+        "energy": 8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\4G哥304寰宇动力.md",
+      "player": "棕色",
+      "company": "作弊实验室",
+      "score": 199,
+      "deficits": {
+        "availableData": 11
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9473684210526315,
+        "energy": 0.65,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7391304347826086
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9473684210526315,
+        "energy": 0.65,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7391304347826086
+      },
+      "beforeEnding": {
+        "score": 199,
+        "credits": 1,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      },
+      "afterEnding": {
+        "score": 199,
+        "credits": 1,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\4G哥304寰宇动力.md",
+      "player": "蓝色",
+      "company": "作弊实验室",
+      "score": 205,
+      "deficits": {
+        "availableData": 7
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.7727272727272727,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8260869565217391
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.7727272727272727,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8260869565217391
+      },
+      "beforeEnding": {
+        "score": 205,
+        "credits": 0,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      },
+      "afterEnding": {
+        "score": 205,
+        "credits": 0,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\4G哥304寰宇动力.md",
+      "player": "绿色",
+      "company": "寰宇超动力",
+      "score": 147,
+      "deficits": {
+        "publicity": 14
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.5625,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8421052631578947
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.5625,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8421052631578947
+      },
+      "beforeEnding": {
+        "score": 147,
+        "credits": 0,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      },
+      "afterEnding": {
+        "score": 147,
+        "credits": 0,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-014849.md",
+      "player": "白色",
+      "company": "异星实验室",
+      "score": 357,
+      "deficits": {
+        "availableData": 26
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9230769230769231,
+        "energy": 0.7307692307692307,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8666666666666667
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9230769230769231,
+        "energy": 0.7307692307692307,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8666666666666667
+      },
+      "beforeEnding": {
+        "score": 357,
+        "credits": 2,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      },
+      "afterEnding": {
+        "score": 357,
+        "credits": 2,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-014849.md",
+      "player": "棕色",
+      "company": "宇宙大战略集团",
+      "score": 176,
+      "deficits": {
+        "credits": 1,
+        "publicity": 20,
+        "availableData": 4
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.04,
+        "energy": 0.8823529411764706,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6764705882352942
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.8823529411764706,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6764705882352942
+      },
+      "beforeEnding": {
+        "score": 176,
+        "credits": 0,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 11
+      },
+      "afterEnding": {
+        "score": 176,
+        "credits": null,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 11
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-014849.md",
+      "player": "蓝色",
+      "company": "作弊实验室",
+      "score": 248,
+      "deficits": {
+        "credits": 1,
+        "energy": 2,
+        "availableData": 9
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.05,
+        "energy": 1.0909090909090908,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7241379310344828
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7241379310344828
+      },
+      "beforeEnding": {
+        "score": 248,
+        "credits": 0,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      },
+      "afterEnding": {
+        "score": 248,
+        "credits": null,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-014849.md",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "score": 285,
+      "deficits": {
+        "availableData": 15
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9047619047619048,
+        "energy": 0.88,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9047619047619048,
+        "energy": 0.88,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7
+      },
+      "beforeEnding": {
+        "score": 285,
+        "credits": 2,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 9
+      },
+      "afterEnding": {
+        "score": 285,
+        "credits": 2,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 9
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-233701.md",
+      "player": "白色",
+      "company": "芬威克研究中心",
+      "score": 291,
+      "deficits": {
+        "publicity": 16,
+        "availableData": 16
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.8064516129032258,
+        "energy": 0.7058823529411765,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8214285714285714
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.8064516129032258,
+        "energy": 0.7058823529411765,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8214285714285714
+      },
+      "beforeEnding": {
+        "score": 291,
+        "credits": 6,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      },
+      "afterEnding": {
+        "score": 291,
+        "credits": 6,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-233701.md",
+      "player": "棕色",
+      "company": "宇宙大战略集团",
+      "score": 205,
+      "deficits": {
+        "credits": 2,
+        "publicity": 22,
+        "availableData": 10
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.1,
+        "energy": 0.6842105263157895,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9090909090909091
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.6842105263157895,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9090909090909091
+      },
+      "beforeEnding": {
+        "score": 205,
+        "credits": 0,
+        "energy": 6,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      },
+      "afterEnding": {
+        "score": 205,
+        "credits": null,
+        "energy": 6,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260806-233701.md",
+      "player": "绿色",
+      "company": "寰宇超动力",
+      "score": 202,
+      "deficits": {
+        "publicity": 14
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.875,
+        "energy": 0.8421052631578947,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7407407407407407
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.875,
+        "energy": 0.8421052631578947,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7407407407407407
+      },
+      "beforeEnding": {
+        "score": 202,
+        "credits": 3,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 202,
+        "credits": 3,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260807-203749.md",
+      "player": "白色",
+      "company": "芬威克研究中心",
+      "score": 297,
+      "deficits": {
+        "publicity": 37,
+        "availableData": 16,
+        "handSize": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9545454545454546,
+        "energy": 0.7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1.12
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9545454545454546,
+        "energy": 0.7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": null
+      },
+      "beforeEnding": {
+        "score": 297,
+        "credits": 1,
+        "energy": 12,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0
+      },
+      "afterEnding": {
+        "score": 297,
+        "credits": 1,
+        "energy": 12,
+        "publicity": null,
+        "availableData": null,
+        "handSize": null
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260807-203749.md",
+      "player": "棕色",
+      "company": "作弊实验室",
+      "score": 209,
+      "deficits": {
+        "credits": 2,
+        "availableData": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.1111111111111112,
+        "energy": 0.6428571428571429,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8076923076923077
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.6428571428571429,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8076923076923077
+      },
+      "beforeEnding": {
+        "score": 209,
+        "credits": 0,
+        "energy": 10,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      },
+      "afterEnding": {
+        "score": 209,
+        "credits": null,
+        "energy": 10,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260807-203749.md",
+      "player": "蓝色",
+      "company": "寰宇超动力",
+      "score": 191,
+      "deficits": {
+        "publicity": 20,
+        "availableData": 6
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.8333333333333334,
+        "energy": 0.6521739130434783,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7142857142857143
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.8333333333333334,
+        "energy": 0.6521739130434783,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7142857142857143
+      },
+      "beforeEnding": {
+        "score": 191,
+        "credits": 3,
+        "energy": 8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      },
+      "afterEnding": {
+        "score": 191,
+        "credits": 3,
+        "energy": 8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260807-203749.md",
+      "player": "绿色",
+      "company": "宇宙大战略集团",
+      "score": 159,
+      "deficits": {
+        "publicity": 9,
+        "availableData": 9
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9230769230769231,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.782608695652174
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9230769230769231,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.782608695652174
+      },
+      "beforeEnding": {
+        "score": 159,
+        "credits": 2,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      },
+      "afterEnding": {
+        "score": 159,
+        "credits": 2,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260909-231236.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 296,
+      "deficits": {
+        "credits": 3,
+        "publicity": 12,
+        "handSize": 9
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.0909090909090908,
+        "energy": 0.967741935483871,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1.2647058823529411
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.967741935483871,
+        "publicity": null,
+        "availableData": null,
+        "handSize": null
+      },
+      "beforeEnding": {
+        "score": 296,
+        "credits": 0,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0
+      },
+      "afterEnding": {
+        "score": 296,
+        "credits": null,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": null
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260909-231236.md",
+      "player": "棕色",
+      "company": "宇宙大战略集团",
+      "score": 153,
+      "deficits": {
+        "publicity": 7,
+        "availableData": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.8823529411764706,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.78125
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.8823529411764706,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.78125
+      },
+      "beforeEnding": {
+        "score": 153,
+        "credits": 0,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 153,
+        "credits": 0,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260909-231236.md",
+      "player": "蓝色",
+      "company": "寰宇超动力",
+      "score": 208,
+      "deficits": {
+        "publicity": 4,
+        "availableData": 1
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.96875,
+        "energy": 0.9565217391304348,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8518518518518519
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.96875,
+        "energy": 0.9565217391304348,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8518518518518519
+      },
+      "beforeEnding": {
+        "score": 208,
+        "credits": 1,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      },
+      "afterEnding": {
+        "score": 208,
+        "credits": 1,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260919-223731.md",
+      "player": "白色",
+      "company": "任务中继站",
+      "score": 362,
+      "deficits": {
+        "credits": 3,
+        "energy": 3,
+        "publicity": 4
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.096774193548387,
+        "energy": 1.09375,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9761904761904762
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9761904761904762
+      },
+      "beforeEnding": {
+        "score": 362,
+        "credits": 0,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      },
+      "afterEnding": {
+        "score": 362,
+        "credits": null,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260919-223731.md",
+      "player": "棕色",
+      "company": "宇宙大战略集团",
+      "score": 222,
+      "deficits": {
+        "publicity": 9,
+        "availableData": 1
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.9166666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8181818181818182
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.9166666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8181818181818182
+      },
+      "beforeEnding": {
+        "score": 222,
+        "credits": 0,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      },
+      "afterEnding": {
+        "score": 222,
+        "credits": 0,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260919-223731.md",
+      "player": "蓝色",
+      "company": "作弊实验室",
+      "score": 249,
+      "deficits": {
+        "energy": 1,
+        "availableData": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.7391304347826086,
+        "energy": 1.0384615384615385,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9512195121951219
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.7391304347826086,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9512195121951219
+      },
+      "beforeEnding": {
+        "score": 249,
+        "credits": 6,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 2
+      },
+      "afterEnding": {
+        "score": 249,
+        "credits": 6,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 2
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260919-223731.md",
+      "player": "绿色",
+      "company": "寰宇超动力",
+      "score": 191,
+      "deficits": {
+        "publicity": 10
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9655172413793104,
+        "energy": 0.9583333333333334,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8518518518518519
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9655172413793104,
+        "energy": 0.9583333333333334,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8518518518518519
+      },
+      "beforeEnding": {
+        "score": 191,
+        "credits": 1,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      },
+      "afterEnding": {
+        "score": 191,
+        "credits": 1,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\任务中继站283.md",
+      "player": "白色",
+      "company": "任务中继站",
+      "score": 283,
+      "deficits": {
+        "publicity": 23,
+        "availableData": 20
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.8275862068965517,
+        "energy": 0.6666666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7297297297297297
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.8275862068965517,
+        "energy": 0.6666666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7297297297297297
+      },
+      "beforeEnding": {
+        "score": 283,
+        "credits": 5,
+        "energy": 6,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 10
+      },
+      "afterEnding": {
+        "score": 283,
+        "credits": 5,
+        "energy": 6,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 10
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\任务中继站283.md",
+      "player": "棕色",
+      "company": "宇宙大战略集团",
+      "score": 212,
+      "deficits": {
+        "credits": 1,
+        "publicity": 20,
+        "availableData": 4
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.04,
+        "energy": 0.6111111111111112,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8974358974358975
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.6111111111111112,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8974358974358975
+      },
+      "beforeEnding": {
+        "score": 212,
+        "credits": 0,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      },
+      "afterEnding": {
+        "score": 212,
+        "credits": null,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\任务中继站283.md",
+      "player": "蓝色",
+      "company": "寰宇超动力",
+      "score": 274,
+      "deficits": {
+        "publicity": 18,
+        "availableData": 6
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.88,
+        "energy": 0.9259259259259259,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8787878787878788
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.88,
+        "energy": 0.9259259259259259,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8787878787878788
+      },
+      "beforeEnding": {
+        "score": 274,
+        "credits": 3,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      },
+      "afterEnding": {
+        "score": 274,
+        "credits": 3,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\任务中继站283.md",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "score": 263,
+      "deficits": {
+        "availableData": 16
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.7916666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.825
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.7916666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.825
+      },
+      "beforeEnding": {
+        "score": 263,
+        "credits": 0,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 263,
+        "credits": 0,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\哨兵224.md",
+      "player": "白色",
+      "company": "哨兵探测网络",
+      "score": 224,
+      "deficits": {
+        "publicity": 27,
+        "availableData": 24
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.8787878787878788,
+        "energy": 0.6666666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.90625
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.8787878787878788,
+        "energy": 0.6666666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.90625
+      },
+      "beforeEnding": {
+        "score": 224,
+        "credits": 4,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      },
+      "afterEnding": {
+        "score": 224,
+        "credits": 4,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\哨兵224.md",
+      "player": "棕色",
+      "company": "寰宇超动力",
+      "score": 172,
+      "deficits": {
+        "publicity": 12,
+        "availableData": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.8125,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6428571428571429
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.8125,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6428571428571429
+      },
+      "beforeEnding": {
+        "score": 172,
+        "credits": 3,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 10
+      },
+      "afterEnding": {
+        "score": 172,
+        "credits": 3,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 10
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\哨兵224.md",
+      "player": "蓝色",
+      "company": "作弊实验室",
+      "score": 212,
+      "deficits": {
+        "availableData": 6
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9166666666666666,
+        "energy": 0.9230769230769231,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.59375
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9166666666666666,
+        "energy": 0.9230769230769231,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.59375
+      },
+      "beforeEnding": {
+        "score": 212,
+        "credits": 2,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 13
+      },
+      "afterEnding": {
+        "score": 212,
+        "credits": 2,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 13
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\哨兵224.md",
+      "player": "绿色",
+      "company": "宇宙大战略集团",
+      "score": 160,
+      "deficits": {
+        "publicity": 12,
+        "availableData": 11
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9090909090909091,
+        "energy": 0.7083333333333334,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.75
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9090909090909091,
+        "energy": 0.7083333333333334,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.75
+      },
+      "beforeEnding": {
+        "score": 160,
+        "credits": 2,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 160,
+        "credits": 2,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略245.md",
+      "player": "白色",
+      "company": "宇宙战略集团",
+      "score": 245,
+      "deficits": {
+        "publicity": 14,
+        "availableData": 15
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.7666666666666667,
+        "energy": 0.4117647058823529,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.7666666666666667,
+        "energy": 0.4117647058823529,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9
+      },
+      "beforeEnding": {
+        "score": 245,
+        "credits": 7,
+        "energy": 10,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      },
+      "afterEnding": {
+        "score": 245,
+        "credits": 7,
+        "energy": 10,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略245.md",
+      "player": "棕色",
+      "company": "宇宙大战略集团",
+      "score": 180,
+      "deficits": {
+        "publicity": 4,
+        "availableData": 6
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9583333333333334,
+        "energy": 0.85,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8484848484848485
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9583333333333334,
+        "energy": 0.85,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8484848484848485
+      },
+      "beforeEnding": {
+        "score": 180,
+        "credits": 1,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      },
+      "afterEnding": {
+        "score": 180,
+        "credits": 1,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略245.md",
+      "player": "蓝色",
+      "company": "寰宇超动力",
+      "score": 163,
+      "deficits": {
+        "publicity": 14
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.8823529411764706,
+        "energy": 0.5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.72
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.8823529411764706,
+        "energy": 0.5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.72
+      },
+      "beforeEnding": {
+        "score": 163,
+        "credits": 2,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 163,
+        "credits": 2,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略245.md",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "score": 263,
+      "deficits": {
+        "availableData": 17
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.96875,
+        "energy": 0.7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6756756756756757
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.96875,
+        "energy": 0.7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6756756756756757
+      },
+      "beforeEnding": {
+        "score": 263,
+        "credits": 1,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 12
+      },
+      "afterEnding": {
+        "score": 263,
+        "credits": 1,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 12
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略374.md",
+      "player": "白色",
+      "company": "宇宙战略集团",
+      "score": 374,
+      "deficits": {
+        "publicity": 36,
+        "availableData": 5
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.96875,
+        "energy": 0.9523809523809523,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9666666666666667
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.96875,
+        "energy": 0.9523809523809523,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9666666666666667
+      },
+      "beforeEnding": {
+        "score": 374,
+        "credits": 1,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      },
+      "afterEnding": {
+        "score": 374,
+        "credits": 1,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略374.md",
+      "player": "棕色",
+      "company": "作弊实验室",
+      "score": 165,
+      "deficits": {
+        "credits": 2,
+        "availableData": 5
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.105263157894737,
+        "energy": 0.7307692307692307,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7419354838709677
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.7307692307692307,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7419354838709677
+      },
+      "beforeEnding": {
+        "score": 165,
+        "credits": 0,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      },
+      "afterEnding": {
+        "score": 165,
+        "credits": null,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略374.md",
+      "player": "蓝色",
+      "company": "作弊实验室",
+      "score": 194,
+      "deficits": {
+        "credits": 2,
+        "availableData": 12
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.105263157894737,
+        "energy": 0.782608695652174,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.78125
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.782608695652174,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.78125
+      },
+      "beforeEnding": {
+        "score": 194,
+        "credits": 0,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 194,
+        "credits": null,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略374.md",
+      "player": "绿色",
+      "company": "寰宇超动力",
+      "score": 179,
+      "deficits": {
+        "publicity": 20,
+        "availableData": 6
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.95,
+        "energy": 0.5882352941176471,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.782608695652174
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.95,
+        "energy": 0.5882352941176471,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.782608695652174
+      },
+      "beforeEnding": {
+        "score": 179,
+        "credits": 1,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      },
+      "afterEnding": {
+        "score": 179,
+        "credits": 1,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略集团342.md",
+      "player": "白色",
+      "company": "宇宙战略集团",
+      "score": 342,
+      "deficits": {
+        "publicity": 20,
+        "availableData": 19
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.7878787878787878,
+        "energy": 0.625,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.967741935483871
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.7878787878787878,
+        "energy": 0.625,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.967741935483871
+      },
+      "beforeEnding": {
+        "score": 342,
+        "credits": 7,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      },
+      "afterEnding": {
+        "score": 342,
+        "credits": 7,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略集团342.md",
+      "player": "棕色",
+      "company": "寰宇超动力",
+      "score": 180,
+      "deficits": {
+        "publicity": 32,
+        "availableData": 12
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.6666666666666666,
+        "energy": 0.875,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7857142857142857
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.6666666666666666,
+        "energy": 0.875,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7857142857142857
+      },
+      "beforeEnding": {
+        "score": 180,
+        "credits": 6,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      },
+      "afterEnding": {
+        "score": 180,
+        "credits": 6,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略集团342.md",
+      "player": "蓝色",
+      "company": "宇宙大战略集团",
+      "score": 195,
+      "deficits": {
+        "publicity": 18,
+        "availableData": 15
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.88,
+        "energy": 0.8421052631578947,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.88,
+        "energy": 0.8421052631578947,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      },
+      "beforeEnding": {
+        "score": 195,
+        "credits": 3,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0
+      },
+      "afterEnding": {
+        "score": 195,
+        "credits": 3,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\宇宙战略集团342.md",
+      "player": "绿色",
+      "company": "寰宇超动力",
+      "score": 193,
+      "deficits": {
+        "publicity": 10,
+        "availableData": 8
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9523809523809523,
+        "energy": 0.5909090909090909,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6451612903225806
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9523809523809523,
+        "energy": 0.5909090909090909,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6451612903225806
+      },
+      "beforeEnding": {
+        "score": 193,
+        "credits": 1,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 11
+      },
+      "afterEnding": {
+        "score": 193,
+        "credits": 1,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 11
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇291.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 291,
+      "deficits": {
+        "publicity": 17,
+        "availableData": 5,
+        "handSize": 1
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.8620689655172413,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1.0357142857142858
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.8620689655172413,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": null
+      },
+      "beforeEnding": {
+        "score": 291,
+        "credits": 4,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0
+      },
+      "afterEnding": {
+        "score": 291,
+        "credits": 4,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": null
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇291.md",
+      "player": "棕色",
+      "company": "宇宙大战略集团",
+      "score": 172,
+      "deficits": {
+        "publicity": 11,
+        "availableData": 6
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.84,
+        "energy": 0.8333333333333334,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.75
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.84,
+        "energy": 0.8333333333333334,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.75
+      },
+      "beforeEnding": {
+        "score": 172,
+        "credits": 4,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 172,
+        "credits": 4,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇291.md",
+      "player": "蓝色",
+      "company": "寰宇超动力",
+      "score": 213,
+      "deficits": {
+        "publicity": 9,
+        "availableData": 7
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.8125,
+        "energy": 0.8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.782608695652174
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.8125,
+        "energy": 0.8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.782608695652174
+      },
+      "beforeEnding": {
+        "score": 213,
+        "credits": 3,
+        "energy": 4,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      },
+      "afterEnding": {
+        "score": 213,
+        "credits": 3,
+        "energy": 4,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 5
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇291.md",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "score": 231,
+      "deficits": {
+        "credits": 2,
+        "availableData": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.0833333333333333,
+        "energy": 0.5555555555555556,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7333333333333333
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.5555555555555556,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7333333333333333
+      },
+      "beforeEnding": {
+        "score": 231,
+        "credits": 0,
+        "energy": 8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      },
+      "afterEnding": {
+        "score": 231,
+        "credits": null,
+        "energy": 8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇动力285.md",
+      "player": "白色",
+      "company": "寰宇动力",
+      "score": 285,
+      "deficits": {
+        "publicity": 19,
+        "availableData": 14,
+        "handSize": 6
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.96875,
+        "energy": 0.7741935483870968,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1.2307692307692308
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.96875,
+        "energy": 0.7741935483870968,
+        "publicity": null,
+        "availableData": null,
+        "handSize": null
+      },
+      "beforeEnding": {
+        "score": 285,
+        "credits": 1,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0
+      },
+      "afterEnding": {
+        "score": 285,
+        "credits": 1,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": null
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇动力285.md",
+      "player": "棕色",
+      "company": "寰宇超动力",
+      "score": 190,
+      "deficits": {
+        "credits": 2,
+        "publicity": 14,
+        "availableData": 1
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.0740740740740742,
+        "energy": 0.5217391304347826,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7666666666666667
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.5217391304347826,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7666666666666667
+      },
+      "beforeEnding": {
+        "score": 190,
+        "credits": 0,
+        "energy": 11,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 190,
+        "credits": null,
+        "energy": 11,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇动力285.md",
+      "player": "蓝色",
+      "company": "作弊实验室",
+      "score": 237,
+      "deficits": {
+        "credits": 1,
+        "availableData": 11
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.0416666666666667,
+        "energy": 0.5625,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7333333333333333
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.5625,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7333333333333333
+      },
+      "beforeEnding": {
+        "score": 237,
+        "credits": 0,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      },
+      "afterEnding": {
+        "score": 237,
+        "credits": null,
+        "energy": 7,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\寰宇动力285.md",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "score": 243,
+      "deficits": {
+        "credits": 1,
+        "availableData": 7
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.0454545454545454,
+        "energy": 0.5357142857142857,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6206896551724138
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.5357142857142857,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6206896551724138
+      },
+      "beforeEnding": {
+        "score": 243,
+        "credits": 0,
+        "energy": 13,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 11
+      },
+      "afterEnding": {
+        "score": 243,
+        "credits": null,
+        "energy": 13,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 11
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\层云261.md",
+      "player": "白色",
+      "company": "层云核心",
+      "score": 261,
+      "deficits": {
+        "credits": 3,
+        "publicity": 25,
+        "availableData": 2
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.125,
+        "energy": 0.8666666666666667,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9629629629629629
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.8666666666666667,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.9629629629629629
+      },
+      "beforeEnding": {
+        "score": 261,
+        "credits": 0,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      },
+      "afterEnding": {
+        "score": 261,
+        "credits": null,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 1
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\层云261.md",
+      "player": "棕色",
+      "company": "寰宇超动力",
+      "score": 172,
+      "deficits": {
+        "publicity": 9,
+        "availableData": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9523809523809523,
+        "energy": 0.9333333333333333,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7142857142857143
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9523809523809523,
+        "energy": 0.9333333333333333,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7142857142857143
+      },
+      "beforeEnding": {
+        "score": 172,
+        "credits": 1,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      },
+      "afterEnding": {
+        "score": 172,
+        "credits": 1,
+        "energy": 1,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 8
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\层云261.md",
+      "player": "蓝色",
+      "company": "作弊实验室",
+      "score": 227,
+      "deficits": {
+        "credits": 2,
+        "availableData": 7
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.1428571428571428,
+        "energy": 0.6538461538461539,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8181818181818182
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.6538461538461539,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8181818181818182
+      },
+      "beforeEnding": {
+        "score": 227,
+        "credits": 0,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      },
+      "afterEnding": {
+        "score": 227,
+        "credits": null,
+        "energy": 9,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\层云261.md",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "score": 158,
+      "deficits": {
+        "credits": 1,
+        "availableData": 2
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1.0588235294117647,
+        "energy": 0.9166666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7857142857142857
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": null,
+        "energy": 0.9166666666666666,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7857142857142857
+      },
+      "beforeEnding": {
+        "score": 158,
+        "credits": 0,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      },
+      "afterEnding": {
+        "score": 158,
+        "credits": null,
+        "energy": 2,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\深空探测314.md",
+      "player": "白色",
+      "company": "深空探测",
+      "score": 314,
+      "deficits": {
+        "publicity": 28,
+        "availableData": 32
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.7307692307692307,
+        "energy": 0.23809523809523808,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6388888888888888
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.7307692307692307,
+        "energy": 0.23809523809523808,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.6388888888888888
+      },
+      "beforeEnding": {
+        "score": 314,
+        "credits": 7,
+        "energy": 16,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 13
+      },
+      "afterEnding": {
+        "score": 314,
+        "credits": 7,
+        "energy": 16,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 13
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\深空探测314.md",
+      "player": "棕色",
+      "company": "宇宙大战略集团",
+      "score": 181,
+      "deficits": {
+        "publicity": 25,
+        "availableData": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.6875,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7741935483870968
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 0.6875,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7741935483870968
+      },
+      "beforeEnding": {
+        "score": 181,
+        "credits": 0,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 181,
+        "credits": 0,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\深空探测314.md",
+      "player": "蓝色",
+      "company": "寰宇超动力",
+      "score": 169,
+      "deficits": {
+        "publicity": 15,
+        "availableData": 4
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.9523809523809523,
+        "energy": 0.8636363636363636,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7586206896551724
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.9523809523809523,
+        "energy": 0.8636363636363636,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7586206896551724
+      },
+      "beforeEnding": {
+        "score": 169,
+        "credits": 1,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 169,
+        "credits": 1,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\深空探测314.md",
+      "player": "绿色",
+      "company": "作弊实验室",
+      "score": 312,
+      "deficits": {
+        "availableData": 3
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.875,
+        "energy": 0.8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7804878048780488
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.875,
+        "energy": 0.8,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7804878048780488
+      },
+      "beforeEnding": {
+        "score": 312,
+        "credits": 3,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 9
+      },
+      "afterEnding": {
+        "score": 312,
+        "credits": 3,
+        "energy": 5,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 9
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\赫利昂266.md",
+      "player": "白色",
+      "company": "赫利昂联合体",
+      "score": 266,
+      "deficits": {
+        "publicity": 31,
+        "availableData": 16
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.75,
+        "energy": 0.5853658536585366,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8636363636363636
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.75,
+        "energy": 0.5853658536585366,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8636363636363636
+      },
+      "beforeEnding": {
+        "score": 266,
+        "credits": 5,
+        "energy": 17,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      },
+      "afterEnding": {
+        "score": 266,
+        "credits": 5,
+        "energy": 17,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 3
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\赫利昂266.md",
+      "player": "棕色",
+      "company": "寰宇超动力",
+      "score": 141,
+      "deficits": {
+        "energy": 1,
+        "publicity": 8
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.92,
+        "energy": 1.0666666666666667,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.92,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.8
+      },
+      "beforeEnding": {
+        "score": 141,
+        "credits": 2,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      },
+      "afterEnding": {
+        "score": 141,
+        "credits": 2,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 4
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\赫利昂266.md",
+      "player": "蓝色",
+      "company": "作弊实验室",
+      "score": 191,
+      "deficits": {
+        "energy": 3,
+        "availableData": 1
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": 1.1111111111111112,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7741935483870968
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 1,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7741935483870968
+      },
+      "beforeEnding": {
+        "score": 191,
+        "credits": 0,
+        "energy": 0,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      },
+      "afterEnding": {
+        "score": 191,
+        "credits": 0,
+        "energy": null,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 7
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\赫利昂266.md",
+      "player": "绿色",
+      "company": "宇宙大战略集团",
+      "score": 179,
+      "deficits": {
+        "publicity": 5
+      },
+      "beforeUtilization": {
+        "score": 0,
+        "credits": 0.88,
+        "energy": 0.7692307692307693,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7777777777777778
+      },
+      "afterUtilization": {
+        "score": 0,
+        "credits": 0.88,
+        "energy": 0.7692307692307693,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 0.7777777777777778
+      },
+      "beforeEnding": {
+        "score": 179,
+        "credits": 3,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      },
+      "afterEnding": {
+        "score": 179,
+        "credits": 3,
+        "energy": 3,
+        "publicity": null,
+        "availableData": null,
+        "handSize": 6
+      }
+    }
+  ]
+}

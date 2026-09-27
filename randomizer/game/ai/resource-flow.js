@@ -398,11 +398,18 @@
     const unreconciledResourceKeys = new Set(options.unreconciledResourceKeys || []);
     const providedEndingInventory = options.endingInventories?.[compositePlayerKey]
       ?? options.endingInventories?.[row.playerId];
+    // Without an observed ending, negative accounting is evidence of missing
+    // gains or overcounted spending, not a known empty inventory.
+    const unexplainedResourceDeficits = providedEndingInventory ? {} : Object.fromEntries(
+      SPENDABLE_RESOURCE_KEYS.map((key) => [
+        key, row.spent[key] - row.setupGain[key] - row.grossGain[key],
+      ]).filter(([, value]) => value > 1e-9),
+    );
     const endingInventory = providedEndingInventory
       ? normalizeResourceMap(providedEndingInventory)
       : Object.fromEntries(TRACKED_RESOURCE_KEYS.map((key) => [
         key,
-        unreconciledResourceKeys.has(key)
+        unreconciledResourceKeys.has(key) || Boolean(unexplainedResourceDeficits[key])
           ? null
           : (key === "score"
           ? row.finalScore
@@ -418,7 +425,8 @@
       ]).filter(([, value]) => Math.abs(value) > 1e-9))
       : null;
     for (const key of TRACKED_RESOURCE_KEYS) {
-      utilizationRate[key] = unreconciledResourceKeys.has(key) || Boolean(balanceResiduals?.[key])
+      utilizationRate[key] = unreconciledResourceKeys.has(key)
+        || Boolean(balanceResiduals?.[key]) || Boolean(unexplainedResourceDeficits[key])
         ? null
         : divideOrNull(row.spent[key], row.setupGain[key] + row.grossGain[key]);
       nonIncomeShare[key] = divideOrNull(
@@ -442,6 +450,7 @@
       alienIds: [...row.alienIds],
       endingInventory,
       balanceResiduals,
+      unexplainedResourceDeficits,
       utilizationRate,
       nonIncomeShare,
       setupGainWeighted: weightedResourceMap(row.setupGain),
