@@ -1,0 +1,882 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Four separate controlled no-rocket purple4 states at energy2 or3 and paid/discounted company scan costs, with unpaired random setup. Actual paid scan followed by skip or paid1energy launch; no score claim. Preview ignores unknown rewards before the node.",
+      "cases": [
+        {
+          "company": "寰宇超动力",
+          "scanCandidate": {
+            "id": "scan",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 10.098236675,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "targetPreview": {
+              "effectCount": 3,
+              "effects": [
+                {
+                  "effectType": "earth_sector_scan",
+                  "pendingType": "sector_scan",
+                  "topChoices": [
+                    {
+                      "nebulaId": "sector-2-b",
+                      "sectorX": 6,
+                      "label": "扇区 6：巴纳德",
+                      "score": 7.061,
+                      "directScoreGain": 0,
+                      "b2": null,
+                      "effectType": "earth_sector_scan",
+                      "pendingType": "sector_scan"
+                    }
+                  ]
+                }
+              ],
+              "topChoices": [
+                {
+                  "nebulaId": "sector-2-b",
+                  "sectorX": 6,
+                  "label": "扇区 6：巴纳德",
+                  "score": 7.061,
+                  "directScoreGain": 0,
+                  "b2": null,
+                  "effectType": "earth_sector_scan",
+                  "pendingType": "sector_scan"
+                }
+              ]
+            },
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanBaseScore": 10.098236675,
+              "scanValueModel": "paid-current-value",
+              "scanEnergyReservationPenalty": 0,
+              "rawScanEnergyReservationPenalty": 0,
+              "scanAction4Preview": {
+                "score": 0,
+                "choices": [],
+                "resourcesAfterScanPayment": {
+                  "credits": 2,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 0,
+                  "aomomoFossils": 0,
+                  "additionalPublicScan": 0,
+                  "handSize": 3,
+                  "score": 6
+                }
+              },
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 0,
+              "weakFinalAnalyzeEnergyCap": null
+            }
+          },
+          "before": {
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 6
+          },
+          "preview": {
+            "score": 0,
+            "choices": [],
+            "resourcesAfterScanPayment": {
+              "credits": 2,
+              "energy": 0,
+              "publicity": 4,
+              "availableData": 0,
+              "aomomoFossils": 0,
+              "additionalPublicScan": 0,
+              "handSize": 3,
+              "score": 6
+            }
+          },
+          "legacyComponent": 10.35,
+          "after": {
+            "credits": 2,
+            "energy": 0,
+            "publicity": 4,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 8
+          },
+          "rocketCount": 0,
+          "choices": [
+            {
+              "id": 37,
+              "type": "scan-action-4-skip",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 8,
+                "credits": 2,
+                "energy": 0,
+                "publicity": 4,
+                "availableData": 2,
+                "handSize": 3
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 8,
+                  "credits": 7,
+                  "energy": 3,
+                  "publicity": 3,
+                  "availableData": 1,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 7,
+                  "credits": 6,
+                  "energy": 3,
+                  "publicity": 6,
+                  "availableData": 2,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 8,
+                  "credits": 2,
+                  "energy": 0,
+                  "publicity": 4,
+                  "availableData": 2,
+                  "handSize": 3,
+                  "reservedCount": 0,
+                  "techCount": 1
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 7,
+                  "credits": 6,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 0,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "棕色AI 没有正收益的扫描发射/移动选择，跳过效果",
+              "details": {
+                "selected": null,
+                "candidates": []
+              },
+              "createdAt": "2026-09-27T21:54:43.465Z"
+            }
+          ],
+          "bugs": []
+        },
+        {
+          "company": "寰宇超动力",
+          "scanCandidate": {
+            "id": "scan",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 27.249139378811996,
+            "directScoreGain": 0,
+            "scoreCapReason": null,
+            "targetPreview": {
+              "effectCount": 3,
+              "effects": [
+                {
+                  "effectType": "earth_sector_scan",
+                  "pendingType": "sector_scan",
+                  "topChoices": [
+                    {
+                      "nebulaId": "sector-1-a",
+                      "sectorX": 7,
+                      "label": "扇区 7：南河三",
+                      "score": 8.736,
+                      "directScoreGain": 0,
+                      "b2": null,
+                      "effectType": "earth_sector_scan",
+                      "pendingType": "sector_scan"
+                    }
+                  ]
+                }
+              ],
+              "topChoices": [
+                {
+                  "nebulaId": "sector-1-a",
+                  "sectorX": 7,
+                  "label": "扇区 7：南河三",
+                  "score": 8.736,
+                  "directScoreGain": 0,
+                  "b2": null,
+                  "effectType": "earth_sector_scan",
+                  "pendingType": "sector_scan"
+                }
+              ]
+            },
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanBaseScore": 27.249139378811996,
+              "scanValueModel": "paid-current-value",
+              "scanEnergyReservationPenalty": 0,
+              "rawScanEnergyReservationPenalty": 0,
+              "scanAction4Preview": {
+                "score": 7.5600000000000005,
+                "choices": [
+                  {
+                    "choice": "launch",
+                    "score": 7.5600000000000005,
+                    "unscaledScore": 16.8,
+                    "rocketId": null
+                  }
+                ],
+                "resourcesAfterScanPayment": {
+                  "credits": 2,
+                  "energy": 1,
+                  "publicity": 5,
+                  "availableData": 0,
+                  "aomomoFossils": 0,
+                  "additionalPublicScan": 0,
+                  "handSize": 4,
+                  "score": 7
+                }
+              },
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 0,
+              "weakFinalAnalyzeEnergyCap": null
+            }
+          },
+          "before": {
+            "credits": 3,
+            "energy": 3,
+            "publicity": 5,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 7
+          },
+          "preview": {
+            "score": 7.5600000000000005,
+            "choices": [
+              {
+                "choice": "launch",
+                "score": 7.5600000000000005,
+                "unscaledScore": 16.8,
+                "rocketId": null
+              }
+            ],
+            "resourcesAfterScanPayment": {
+              "credits": 2,
+              "energy": 1,
+              "publicity": 5,
+              "availableData": 0,
+              "aomomoFossils": 0,
+              "additionalPublicScan": 0,
+              "handSize": 4,
+              "score": 7
+            }
+          },
+          "legacyComponent": 10.35,
+          "after": {
+            "credits": 2,
+            "energy": 0,
+            "publicity": 5,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 7
+          },
+          "rocketCount": 1,
+          "choices": [
+            {
+              "id": 37,
+              "type": "scan-action-4",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-brown",
+              "playerLabel": "棕色",
+              "playerResources": {
+                "score": 7,
+                "credits": 2,
+                "energy": 1,
+                "publicity": 5,
+                "availableData": 2,
+                "handSize": 4
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 8,
+                  "credits": 6,
+                  "energy": 3,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 7,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 6,
+                  "credits": 6,
+                  "energy": 3,
+                  "publicity": 5,
+                  "availableData": 4,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 7,
+                  "credits": 2,
+                  "energy": 1,
+                  "publicity": 5,
+                  "availableData": 2,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 1
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 7,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 2,
+                  "availableData": 1,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "棕色AI 选择扫描发射/移动：launch",
+              "details": {
+                "selected": {
+                  "id": "launch",
+                  "kind": "effect",
+                  "choice": "launch",
+                  "available": true,
+                  "gain": 23,
+                  "cost": 6.2,
+                  "score": 16.8,
+                  "valueBreakdown": {
+                    "launchGain": 23,
+                    "launchCost": 6.2,
+                    "scanAction4": true,
+                    "skipCost": false
+                  }
+                },
+                "candidates": [
+                  {
+                    "id": "launch",
+                    "kind": "effect",
+                    "choice": "launch",
+                    "available": true,
+                    "gain": 23,
+                    "cost": 6.2,
+                    "score": 16.8,
+                    "valueBreakdown": {
+                      "launchGain": 23,
+                      "launchCost": 6.2,
+                      "scanAction4": true,
+                      "skipCost": false
+                    }
+                  }
+                ]
+              },
+              "createdAt": "2026-09-27T21:54:44.012Z"
+            }
+          ],
+          "bugs": []
+        },
+        {
+          "company": "作弊实验室",
+          "scanCandidate": {
+            "id": "scan",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 10.7,
+            "directScoreGain": 0,
+            "scoreCapReason": "优先建立火箭数量",
+            "targetPreview": {
+              "effectCount": 3,
+              "effects": [
+                {
+                  "effectType": "earth_sector_scan",
+                  "pendingType": "sector_scan",
+                  "topChoices": [
+                    {
+                      "nebulaId": "sector-3-b",
+                      "sectorX": 6,
+                      "label": "扇区 6：比邻星",
+                      "score": 6.919,
+                      "directScoreGain": 0,
+                      "b2": {
+                        "focus": 0,
+                        "active": true,
+                        "marked": false,
+                        "sectorWins": 0,
+                        "orbitLandCount": 1,
+                        "deficit": 1,
+                        "multiplier": 2,
+                        "ownCount": 0,
+                        "openCount": 6,
+                        "markedCount": 0,
+                        "maxOtherCount": 0,
+                        "winsAfterScan": true,
+                        "raceLost": false
+                      },
+                      "effectType": "earth_sector_scan",
+                      "pendingType": "sector_scan"
+                    }
+                  ]
+                }
+              ],
+              "topChoices": [
+                {
+                  "nebulaId": "sector-3-b",
+                  "sectorX": 6,
+                  "label": "扇区 6：比邻星",
+                  "score": 6.919,
+                  "directScoreGain": 0,
+                  "b2": {
+                    "focus": 0,
+                    "active": true,
+                    "marked": false,
+                    "sectorWins": 0,
+                    "orbitLandCount": 1,
+                    "deficit": 1,
+                    "multiplier": 2,
+                    "ownCount": 0,
+                    "openCount": 6,
+                    "markedCount": 0,
+                    "maxOtherCount": 0,
+                    "winsAfterScan": true,
+                    "raceLost": false
+                  },
+                  "effectType": "earth_sector_scan",
+                  "pendingType": "sector_scan"
+                }
+              ]
+            },
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanBaseScore": 18.4159457326,
+              "scanValueModel": "discounted-scan-guardrails",
+              "scanEnergyReservationPenalty": 0,
+              "rawScanEnergyReservationPenalty": 0,
+              "scanAction4Preview": {
+                "score": 0,
+                "choices": [],
+                "resourcesAfterScanPayment": {
+                  "credits": 3,
+                  "energy": 0,
+                  "publicity": 3,
+                  "availableData": 0,
+                  "aomomoFossils": 0,
+                  "additionalPublicScan": 0,
+                  "handSize": 2,
+                  "score": 3
+                }
+              },
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 0,
+              "weakFinalAnalyzeEnergyCap": null
+            }
+          },
+          "before": {
+            "credits": 3,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 3
+          },
+          "preview": {
+            "score": 0,
+            "choices": [],
+            "resourcesAfterScanPayment": {
+              "credits": 3,
+              "energy": 0,
+              "publicity": 3,
+              "availableData": 0,
+              "aomomoFossils": 0,
+              "additionalPublicScan": 0,
+              "handSize": 2,
+              "score": 3
+            }
+          },
+          "legacyComponent": 8.5888512,
+          "after": {
+            "credits": 3,
+            "energy": 0,
+            "publicity": 3,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 2,
+            "score": 5
+          },
+          "rocketCount": 0,
+          "choices": [
+            {
+              "id": 37,
+              "type": "scan-action-4-skip",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-blue",
+              "playerLabel": "蓝色",
+              "playerResources": {
+                "score": 5,
+                "credits": 3,
+                "energy": 0,
+                "publicity": 3,
+                "availableData": 2,
+                "handSize": 2
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 5,
+                  "credits": 3,
+                  "energy": 0,
+                  "publicity": 3,
+                  "availableData": 2,
+                  "handSize": 2,
+                  "reservedCount": 0,
+                  "techCount": 1
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 10,
+                  "credits": 5,
+                  "energy": 3,
+                  "publicity": 4,
+                  "availableData": 1,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 6,
+                  "credits": 6,
+                  "energy": 3,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 7,
+                  "credits": 7,
+                  "energy": 4,
+                  "publicity": 7,
+                  "availableData": 0,
+                  "handSize": 5,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "蓝色AI 没有正收益的扫描发射/移动选择，跳过效果",
+              "details": {
+                "selected": null,
+                "candidates": []
+              },
+              "createdAt": "2026-09-27T21:54:44.599Z"
+            }
+          ],
+          "bugs": []
+        },
+        {
+          "company": "作弊实验室",
+          "scanCandidate": {
+            "id": "scan",
+            "kind": "main",
+            "available": true,
+            "reason": null,
+            "score": 10.725,
+            "directScoreGain": 0,
+            "scoreCapReason": "优先建立火箭数量",
+            "targetPreview": {
+              "effectCount": 3,
+              "effects": [
+                {
+                  "effectType": "earth_sector_scan",
+                  "pendingType": "sector_scan",
+                  "topChoices": [
+                    {
+                      "nebulaId": "sector-4-a",
+                      "sectorX": 5,
+                      "label": "扇区 5：室女座61",
+                      "score": 6.99,
+                      "directScoreGain": 0,
+                      "b2": {
+                        "focus": 0,
+                        "active": true,
+                        "marked": false,
+                        "sectorWins": 0,
+                        "orbitLandCount": 2,
+                        "deficit": 2,
+                        "multiplier": 2,
+                        "ownCount": 0,
+                        "openCount": 6,
+                        "markedCount": 0,
+                        "maxOtherCount": 0,
+                        "winsAfterScan": true,
+                        "raceLost": false
+                      },
+                      "effectType": "earth_sector_scan",
+                      "pendingType": "sector_scan"
+                    }
+                  ]
+                }
+              ],
+              "topChoices": [
+                {
+                  "nebulaId": "sector-4-a",
+                  "sectorX": 5,
+                  "label": "扇区 5：室女座61",
+                  "score": 6.99,
+                  "directScoreGain": 0,
+                  "b2": {
+                    "focus": 0,
+                    "active": true,
+                    "marked": false,
+                    "sectorWins": 0,
+                    "orbitLandCount": 2,
+                    "deficit": 2,
+                    "multiplier": 2,
+                    "ownCount": 0,
+                    "openCount": 6,
+                    "markedCount": 0,
+                    "maxOtherCount": 0,
+                    "winsAfterScan": true,
+                    "raceLost": false
+                  },
+                  "effectType": "earth_sector_scan",
+                  "pendingType": "sector_scan"
+                }
+              ]
+            },
+            "valueBreakdown": {
+              "directScoreGain": 0,
+              "scanBaseScore": 26.658463155,
+              "scanValueModel": "discounted-scan-guardrails",
+              "scanEnergyReservationPenalty": 0,
+              "rawScanEnergyReservationPenalty": 0,
+              "scanAction4Preview": {
+                "score": 5.855760000000001,
+                "choices": [
+                  {
+                    "choice": "launch",
+                    "score": 5.855760000000001,
+                    "unscaledScore": 13.012800000000002,
+                    "rocketId": null
+                  }
+                ],
+                "resourcesAfterScanPayment": {
+                  "credits": 3,
+                  "energy": 1,
+                  "publicity": 5,
+                  "availableData": 0,
+                  "aomomoFossils": 0,
+                  "additionalPublicScan": 0,
+                  "handSize": 4,
+                  "score": 6
+                }
+              },
+              "scanDataPlacementOpportunities": 0,
+              "scanProjectedAnalyzeUnlock": false,
+              "analyzeCashoutScore": 0,
+              "weakFinalAnalyzeEnergyCap": null
+            }
+          },
+          "before": {
+            "credits": 3,
+            "energy": 3,
+            "publicity": 5,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 6
+          },
+          "preview": {
+            "score": 5.855760000000001,
+            "choices": [
+              {
+                "choice": "launch",
+                "score": 5.855760000000001,
+                "unscaledScore": 13.012800000000002,
+                "rocketId": null
+              }
+            ],
+            "resourcesAfterScanPayment": {
+              "credits": 3,
+              "energy": 1,
+              "publicity": 5,
+              "availableData": 0,
+              "aomomoFossils": 0,
+              "additionalPublicScan": 0,
+              "handSize": 4,
+              "score": 6
+            }
+          },
+          "legacyComponent": 8.645760000000001,
+          "after": {
+            "credits": 3,
+            "energy": 0,
+            "publicity": 5,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 4,
+            "score": 8
+          },
+          "rocketCount": 1,
+          "choices": [
+            {
+              "id": 37,
+              "type": "scan-action-4",
+              "roundNumber": 1,
+              "turnNumber": 1,
+              "rawTurnNumber": 1,
+              "playerId": "player-green",
+              "playerLabel": "绿色",
+              "playerResources": {
+                "score": 8,
+                "credits": 3,
+                "energy": 1,
+                "publicity": 5,
+                "availableData": 2,
+                "handSize": 4
+              },
+              "scoreboard": [
+                {
+                  "playerId": "player-blue",
+                  "playerLabel": "蓝色",
+                  "score": 6,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 1,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-green",
+                  "playerLabel": "绿色",
+                  "score": 8,
+                  "credits": 3,
+                  "energy": 1,
+                  "publicity": 5,
+                  "availableData": 2,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 1
+                },
+                {
+                  "playerId": "player-brown",
+                  "playerLabel": "棕色",
+                  "score": 8,
+                  "credits": 5,
+                  "energy": 4,
+                  "publicity": 6,
+                  "availableData": 2,
+                  "handSize": 4,
+                  "reservedCount": 0,
+                  "techCount": 0
+                },
+                {
+                  "playerId": "player-white",
+                  "playerLabel": "白色",
+                  "score": 6,
+                  "credits": 5,
+                  "energy": 3,
+                  "publicity": 2,
+                  "availableData": 2,
+                  "handSize": 6,
+                  "reservedCount": 0,
+                  "techCount": 0
+                }
+              ],
+              "message": "绿色AI 选择扫描发射/移动：launch",
+              "details": {
+                "selected": {
+                  "id": "launch",
+                  "kind": "effect",
+                  "choice": "launch",
+                  "available": true,
+                  "gain": 19.2128,
+                  "cost": 6.2,
+                  "score": 13.012800000000002,
+                  "valueBreakdown": {
+                    "launchGain": 19.2128,
+                    "launchCost": 6.2,
+                    "scanAction4": true,
+                    "skipCost": false
+                  }
+                },
+                "candidates": [
+                  {
+                    "id": "launch",
+                    "kind": "effect",
+                    "choice": "launch",
+                    "available": true,
+                    "gain": 19.2128,
+                    "cost": 6.2,
+                    "score": 13.012800000000002,
+                    "valueBreakdown": {
+                      "launchGain": 19.2128,
+                      "launchCost": 6.2,
+                      "scanAction4": true,
+                      "skipCost": false
+                    }
+                  }
+                ]
+              },
+              "createdAt": "2026-09-27T21:54:45.402Z"
+            }
+          ],
+          "bugs": []
+        }
+      ]
+    }
+  }
+}
