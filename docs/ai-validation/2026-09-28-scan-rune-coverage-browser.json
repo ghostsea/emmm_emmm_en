@@ -1,0 +1,286 @@
+{
+  "scope": "Scan effect coverage on accepted Runezu reward API policy. Common empty-income runtime; no company launch-price or scan repetition penalty changes. Actual payments and rewards verified; no score gain implied by controlled scenes.",
+  "tests": 53,
+  "scans": [
+    {
+      "before": {
+        "credits": 20,
+        "energy": 10,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 7
+      },
+      "after": {
+        "credits": 18,
+        "energy": 10,
+        "publicity": 4,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 9
+      },
+      "payment": [],
+      "candidate": {
+        "effects": [
+          {
+            "id": "b100-procyon-scan-1",
+            "type": "card_scan_nebula",
+            "label": "南河三扫描 1/2",
+            "icon": "blue_scan",
+            "options": {
+              "nebulaId": "sector-1-a",
+              "gainData": true,
+              "repeat": 1
+            },
+            "status": "pending"
+          },
+          {
+            "id": "b100-procyon-scan-2",
+            "type": "card_scan_nebula",
+            "label": "南河三扫描 2/2",
+            "icon": "blue_scan",
+            "options": {
+              "nebulaId": "sector-1-a",
+              "gainData": true,
+              "repeat": 1
+            },
+            "status": "pending"
+          }
+        ],
+        "values": [
+          4.5,
+          4.5
+        ]
+      },
+      "cardId": "b_100.webp",
+      "expectedData": 2,
+      "actualData": 2,
+      "totalResourceDataDelta": 2,
+      "scans": [
+        "南河三扫描 1/2：南河三 槽位1 替换为蓝色token；获得数据；资源：数据+1",
+        "南河三扫描 2/2：南河三 槽位2 替换为蓝色token；槽位2 +2分；获得数据；资源：数据+1"
+      ],
+      "moves": [],
+      "steps": 2,
+      "bugs": [],
+      "probeChoices": []
+    },
+    {
+      "before": {
+        "credits": 20,
+        "energy": 10,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 7
+      },
+      "after": {
+        "credits": 18,
+        "energy": 10,
+        "publicity": 5,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 9
+      },
+      "payment": [],
+      "candidate": {
+        "effects": [
+          {
+            "id": "b102-proxima-scan-1",
+            "type": "card_scan_nebula",
+            "label": "比邻星扫描 1/2",
+            "icon": "red_scan",
+            "options": {
+              "nebulaId": "sector-3-b",
+              "gainData": true,
+              "repeat": 1
+            },
+            "status": "pending"
+          },
+          {
+            "id": "b102-proxima-scan-2",
+            "type": "card_scan_nebula",
+            "label": "比邻星扫描 2/2",
+            "icon": "red_scan",
+            "options": {
+              "nebulaId": "sector-3-b",
+              "gainData": true,
+              "repeat": 1
+            },
+            "status": "pending"
+          }
+        ],
+        "values": [
+          4.5,
+          4.5
+        ]
+      },
+      "cardId": "b_102.webp",
+      "expectedData": 2,
+      "actualData": 2,
+      "totalResourceDataDelta": 2,
+      "scans": [
+        "比邻星扫描 1/2：比邻星 槽位1 替换为白色token；获得数据；资源：数据+1",
+        "比邻星扫描 2/2：比邻星 槽位2 替换为白色token；槽位2 +2分；获得数据；资源：数据+1"
+      ],
+      "moves": [],
+      "steps": 2,
+      "bugs": [],
+      "probeChoices": []
+    },
+    {
+      "before": {
+        "credits": 20,
+        "energy": 10,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 6
+      },
+      "after": {
+        "credits": 18,
+        "energy": 10,
+        "publicity": 4,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 6
+      },
+      "payment": [],
+      "candidate": {
+        "effects": [
+          {
+            "id": "b114-sirius-scan-1",
+            "type": "card_scan_nebula",
+            "label": "天狼星A扫描 1/2",
+            "icon": "blue_scan",
+            "options": {
+              "nebulaId": "sector-2-a",
+              "gainData": true,
+              "repeat": 1
+            },
+            "status": "pending"
+          },
+          {
+            "id": "b114-sirius-scan-2",
+            "type": "card_scan_nebula",
+            "label": "天狼星A扫描 2/2",
+            "icon": "blue_scan",
+            "options": {
+              "nebulaId": "sector-2-a",
+              "gainData": true,
+              "repeat": 1
+            },
+            "status": "pending"
+          }
+        ],
+        "values": [
+          4.5,
+          4.5
+        ]
+      },
+      "cardId": "b_114.webp",
+      "expectedData": 2,
+      "actualData": 2,
+      "totalResourceDataDelta": 2,
+      "scans": [
+        "天狼星A扫描 1/2：天狼星A 槽位3 替换为白色token；获得数据；资源：数据+1",
+        "天狼星A扫描 2/2：天狼星A 槽位4 替换为白色token；获得数据；资源：数据+1"
+      ],
+      "moves": [],
+      "steps": 2,
+      "bugs": [],
+      "probeChoices": []
+    }
+  ],
+  "rune": {
+    "preview": {
+      "available": true,
+      "reason": null,
+      "score": 41.047999999999995,
+      "rawScore": 36.64999999999999,
+      "weightedScore": 41.047999999999995,
+      "scoreCapReason": null,
+      "placedCount": 6,
+      "requiredSlot": 6,
+      "dataRoom": 6,
+      "availableData": 0,
+      "energyCost": 1,
+      "directScoreGain": 7,
+      "currentScore": 6,
+      "finalMarkCount": 0,
+      "nextFinalScoreThreshold": 25,
+      "scoreToNextThreshold": 19,
+      "blueTraceDemand": 0,
+      "analyzeBestBlueTraceScore": 7,
+      "thresholdCashoutPressure": 3.5,
+      "readyAnalyzeWindowValue": 15.219999999999999,
+      "lateFullDataAnalyzeRecovery": 0,
+      "lowResourceReadyAnalyzeCashout": 0,
+      "firstThresholdCatchupBonus": 0,
+      "fullComputerBonus": 8,
+      "lateRoundPressure": 0,
+      "highScorePushValue": 0,
+      "lowEngineCatchupValue": 0,
+      "postSecondFinalMarkPenalty": 0,
+      "hasBlueTraceFinalFormula": false
+    },
+    "before": {
+      "credits": 3,
+      "energy": 3,
+      "publicity": 4,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 6
+    },
+    "after": {
+      "credits": 3,
+      "energy": 2,
+      "publicity": 4,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 13
+    },
+    "choices": [
+      {
+        "logPlayerId": "player-white",
+        "logPlayerColor": "white",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 4,
+        "score": 55.01350000000001,
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      }
+    ],
+    "bugs": [],
+    "scope": "Real analysis and trace resolution in controlled revealed Runezu state; autonomous trace target, explicitly started analysis; no whole-game score inference."
+  }
+}
