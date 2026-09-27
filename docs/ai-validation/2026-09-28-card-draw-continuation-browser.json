@@ -1,0 +1,92 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Actual b83 play pays2 draws3; b122 pays1 and resolves selected-card effect through real blind-draw fallback. Independent controlled setups, no paired score evidence.",
+      "rows": [
+        {
+          "cardId": "b_83.webp",
+          "count": 3,
+          "price": 2,
+          "before": {
+            "credits": 10,
+            "energy": 3,
+            "publicity": 3,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 3
+          },
+          "after": {
+            "credits": 8,
+            "energy": 3,
+            "publicity": 3,
+            "availableData": 2,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 3,
+            "score": 3
+          },
+          "hand": [
+            {
+              "id": "card-67-0",
+              "cardId": "dlc_15.png"
+            },
+            {
+              "id": "card-68-0",
+              "cardId": "dlc_12.png"
+            },
+            {
+              "id": "card-69-0",
+              "cardId": "b_106.webp"
+            }
+          ],
+          "values": {
+            "draw": 19.684000000000005,
+            "pick": 8.279
+          },
+          "fallbackUsed": false,
+          "bugs": []
+        },
+        {
+          "cardId": "b_122.webp",
+          "count": 1,
+          "price": 1,
+          "before": {
+            "credits": 10,
+            "energy": 3,
+            "publicity": 6,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 8
+          },
+          "after": {
+            "credits": 9,
+            "energy": 3,
+            "publicity": 6,
+            "availableData": 0,
+            "aomomoFossils": 0,
+            "additionalPublicScan": 0,
+            "handSize": 1,
+            "score": 8
+          },
+          "hand": [
+            {
+              "id": "card-137-0",
+              "cardId": "b_78.webp"
+            }
+          ],
+          "values": {
+            "draw": 8.279,
+            "pick": 8.279
+          },
+          "fallbackUsed": true,
+          "bugs": []
+        }
+      ]
+    }
+  }
+}
