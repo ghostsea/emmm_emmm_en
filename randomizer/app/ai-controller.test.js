@@ -17266,3 +17266,28 @@ for (const roundNumber of [1, 2]) {
   const empty=createAiControllerHarness(null,{alienGameState:{aliens:{}}});
   assert.equal(empty.controller.getAiTraceTaskReadiness(condition,empty.blue),false,'zero alien slots cannot satisfy an all-aliens task');
 }
+
+// Already-valued immediate tasks cannot also be future reserved-card income.
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: 'blue' });
+  const model = { tasks: [{ id: 'ready' }, { id: 'future' }] };
+  const reserve = h.controller.getAiCardReserveValue;
+  assert.equal(reserve(model, true), 11.2, 'unassessed future tasks retain their value');
+  assert.equal(reserve(model, true, { taskIds: ['ready'] }), 7.6, 'only the remaining task keeps future value');
+  assert.equal(reserve(model, true, { taskIds: ['ready', 'future'] }), 0, 'collected task-only card has no residual reserve value');
+  assert.equal(reserve({ ...model, triggers: [{ id: 'trigger' }] }, true, { taskIds: ['ready', 'future'] }), 6, 'a separate future trigger retains existing value');
+  assert.equal(reserve({ ...model, endGameScoring: {} }, true, { taskIds: ['ready', 'future'] }), 4, 'end-game value remains independently persistent');
+  assert.equal(reserve(model, false, { taskIds: [] }), 0);
+  for (const ready of [false, true]) {
+    const taskModel = { cardType: 2, tasks: [{ id: 'credits-task', condition: { type: 'resourceThreshold', resource: 'credits', count: 3 }, rewards: [{ type: 'gain_resources', options: { gain: { score: 4 } } }] }], playEffects: [] };
+    const card = { id: 'task-card', cardId: 'test-task', price: 1, typeCode: 2, model: taskModel, playEffects: [] };
+    const x = createAiControllerHarness(null, { currentPlayerColor: 'blue', blueHand: [card], roundNumber: 3 });
+    x.blue.resources.credits = ready ? 5 : 2;
+    const before = JSON.stringify(x.blue), candidate = x.controller.buildAiPlayCardCandidate(card, 0, x.blue);
+    assert(candidate, 'task card remains legal');
+    assert.equal(candidate.valueBreakdown.readyTaskCashoutCount, ready ? 1 : 0);
+    assert.equal(candidate.valueBreakdown.reserveValue, ready ? 0 : 7.6);
+    if (ready) assert(candidate.valueBreakdown.readyTaskCashoutValue > 0, 'retain the real immediate reward');
+    assert.equal(JSON.stringify(x.blue), before, 'valuation is readonly');
+  }
+}

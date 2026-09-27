@@ -2,6 +2,25 @@ const assert = require("node:assert/strict");
 const flow = require("./resource-flow");
 
 {
+  const events = [
+    { gameId: "incomplete", playerId: "p", sourceCategory: "setup", resourceDeltas: { credits: 2, energy: 3 } },
+    { gameId: "incomplete", playerId: "p", sourceCategory: "cost", resourceDeltas: { credits: -3, energy: -2 } },
+  ];
+  const row = flow.summarizeResourceEvents(events).players[0];
+  assert.deepEqual(row.unexplainedResourceDeficits, { credits: 1 });
+  assert.equal(row.balanceResiduals, null, "no ending observation is available");
+  assert.equal(row.endingInventory.credits, null, "missing resource evidence is not an empty inventory");
+  assert.equal(row.utilizationRate.credits, null, "do not report 150% utilization from incomplete history");
+  assert.equal(row.endingInventory.energy, 1);
+  assert.equal(row.utilizationRate.energy, 2 / 3, "unaffected resources retain their estimate");
+  const observed = flow.summarizeResourceEvents(events, { endingInventories: { p: { credits: 0, energy: 1 } } }).players[0];
+  assert.equal(observed.endingInventory.credits, 0, "retain explicitly observed ending");
+  assert.equal(observed.balanceResiduals.credits, -1);
+  assert.equal(observed.utilizationRate.credits, null);
+  assert.deepEqual(observed.unexplainedResourceDeficits, {}, "observed mismatch is already represented by balanceResiduals");
+}
+
+{
   for (const count of [0, 1, 2, 3]) {
     const text = `每个外星人：2分+1能量：${count} 个外星人，分数+${count * 2}、能量+${count}`;
     assert.deepEqual(flow.parseDeltaText(text).resourceDeltas, count ? { score: count * 2, energy: count } : {});
