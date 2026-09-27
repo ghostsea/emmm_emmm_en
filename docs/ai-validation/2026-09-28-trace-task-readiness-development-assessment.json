@@ -1,0 +1,440 @@
+{
+  "decision": "hold-trace-readiness-combination-no-default-promotion-no-new-random",
+  "reason": "All immediate forecasts were realizable and more trace tasks completed, but full mean and high distribution fell versus current default and versus count-reward parent. Keep accuracy candidate isolated until action opportunity cost and ready-vs-future value interactions are resolved. No seed/company exceptions.",
+  "models": {
+    "base": "6e317ed350617c9c38169e3f3e615d2a4dc0b560",
+    "candidate": "3164b2fc251298e21c210c43759d5927373a01be"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 234.52083333333334,
+    "min": 130,
+    "p10": 168,
+    "p25": 194.5,
+    "median": 229,
+    "p75": 272.75,
+    "max": 373,
+    "topQuartileMean": 305.6666666666667,
+    "winnerMean": 293.625,
+    "minimumPerGameMean": 177.95833333333334,
+    "seats270Plus": 26,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 269.7083333333333,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.04166666666666,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 202.625,
+        "min": 130
+      }
+    }
+  },
+  "meanDelta": -1.9270833333333144,
+  "pairedGameStandardError": 2.5631286418127126,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 269.7083333333333,
+      "meanDelta": -2.3541666666666856,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 196.04166666666666,
+      "meanDelta": -0.7916666666666856,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 202.625,
+      "meanDelta": -2.208333333333343,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -1.9270833333333144,
+    "min": 0,
+    "p10": -1.5,
+    "p25": -3,
+    "median": 0.5,
+    "p75": -7.25,
+    "max": -12,
+    "topQuartileMean": -3.2083333333333144,
+    "winnerMean": -2.2916666666666856,
+    "minimumPerGameMean": 0.375,
+    "seats270Plus": -2,
+    "seats300Plus": 0
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 302.625,
+    "meanDelta": -6.25,
+    "improved": 4,
+    "declined": 8,
+    "unchanged": 12
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 172.875,
+    "meanDelta": 1.5833333333333333,
+    "improved": 2,
+    "declined": 5,
+    "unchanged": 17
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1114,
+    "matched": 1114,
+    "intendedCardMatched": 1114,
+    "paid": 1114,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "taskGroups": {
+    "baseline": {
+      "all": {
+        "paidPlays": 20,
+        "predictedImmediate": 0,
+        "actualImmediate": 6,
+        "later": 9,
+        "totalTraceTasksCompleted": 15,
+        "earlyTraceTasksCompleted": 1,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 3,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 3,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 3,
+            "immediate": 1
+          },
+          "b_8.webp": {
+            "paidPlays": 2,
+            "immediate": 1
+          },
+          "b_46.webp": {
+            "paidPlays": 9,
+            "immediate": 4
+          }
+        }
+      },
+      "作弊实验室": {
+        "paidPlays": 9,
+        "predictedImmediate": 0,
+        "actualImmediate": 3,
+        "later": 6,
+        "totalTraceTasksCompleted": 9,
+        "earlyTraceTasksCompleted": 0,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 2,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_8.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_46.webp": {
+            "paidPlays": 4,
+            "immediate": 2
+          }
+        }
+      },
+      "宇宙大战略集团": {
+        "paidPlays": 8,
+        "predictedImmediate": 0,
+        "actualImmediate": 2,
+        "later": 1,
+        "totalTraceTasksCompleted": 3,
+        "earlyTraceTasksCompleted": 1,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_8.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "b_46.webp": {
+            "paidPlays": 5,
+            "immediate": 2
+          }
+        }
+      },
+      "寰宇超动力": {
+        "paidPlays": 3,
+        "predictedImmediate": 0,
+        "actualImmediate": 1,
+        "later": 2,
+        "totalTraceTasksCompleted": 3,
+        "earlyTraceTasksCompleted": 0,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_8.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_46.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          }
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "paidPlays": 27,
+        "predictedImmediate": 11,
+        "actualImmediate": 11,
+        "later": 12,
+        "totalTraceTasksCompleted": 23,
+        "earlyTraceTasksCompleted": 2,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 4,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 5,
+            "immediate": 2
+          },
+          "b_4.webp": {
+            "paidPlays": 4,
+            "immediate": 2
+          },
+          "b_8.webp": {
+            "paidPlays": 4,
+            "immediate": 3
+          },
+          "b_46.webp": {
+            "paidPlays": 10,
+            "immediate": 4
+          }
+        }
+      },
+      "作弊实验室": {
+        "paidPlays": 15,
+        "predictedImmediate": 7,
+        "actualImmediate": 7,
+        "later": 8,
+        "totalTraceTasksCompleted": 15,
+        "earlyTraceTasksCompleted": 2,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 2,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 4,
+            "immediate": 1
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_8.webp": {
+            "paidPlays": 3,
+            "immediate": 2
+          },
+          "b_46.webp": {
+            "paidPlays": 5,
+            "immediate": 3
+          }
+        }
+      },
+      "宇宙大战略集团": {
+        "paidPlays": 9,
+        "predictedImmediate": 3,
+        "actualImmediate": 3,
+        "later": 2,
+        "totalTraceTasksCompleted": 5,
+        "earlyTraceTasksCompleted": 0,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_4.webp": {
+            "paidPlays": 2,
+            "immediate": 1
+          },
+          "b_8.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "b_46.webp": {
+            "paidPlays": 5,
+            "immediate": 1
+          }
+        }
+      },
+      "寰宇超动力": {
+        "paidPlays": 3,
+        "predictedImmediate": 1,
+        "actualImmediate": 1,
+        "later": 2,
+        "totalTraceTasksCompleted": 3,
+        "earlyTraceTasksCompleted": 0,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_8.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_46.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          }
+        }
+      }
+    }
+  },
+  "taskPayoutCounts": {
+    "baseline": 6,
+    "candidate": 7
+  },
+  "parentComparison": {
+    "meanDelta": -0.7708333333333144,
+    "se": 0.7761032158745519
+  },
+  "absoluteReference": {
+    "meanDelta": 9.458333333333343,
+    "se": 3.6222086537637455
+  },
+  "limitations": [
+    "Seen24 development only, no +10 achievement.",
+    "Source resource-flow differences between frozen arms are line endings only; both use corrected counted-reward parser.",
+    "Newer shared8e report reliability fix does not change events, resource totals or behavior; frozen sources untouched.",
+    "Task completion and subsequent actions are descriptive; no causal resource-use attribution.",
+    "All24 refreshed baseline scores and steps equal prior863 baseline, demonstrating nonbehavioral accounting refresh.",
+    "Human exports have missing resource evidence; unexplained deficits and unknown utilization are reported separately."
+  ]
+}

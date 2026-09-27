@@ -1,0 +1,2576 @@
+{
+  "scope": "Complete paired games only. Six catalog cards with affected trace tasks; top-level paid instances matched to same owner/round/raw-turn decision. Every predicted immediate task is required to complete in that same turn and have a real history completion. Later completion and same-round subsequent main action counts are descriptive, not proof that task resources causally funded those actions. Shared parser baseline replay requires all24 exact scores/steps, with new corrected ledgers. Special trace types with no catalog card remain unit/API coverage only.",
+  "models": {
+    "base": "6e317ed350617c9c38169e3f3e615d2a4dc0b560",
+    "candidate": "3164b2fc251298e21c210c43759d5927373a01be"
+  },
+  "pairs": 24,
+  "affected": {
+    "aomomo_3.webp": [
+      {
+        "id": "aomomo3-all-trace-types",
+        "condition": {
+          "type": "aomomoAllTraceTypes"
+        },
+        "rewards": [
+          {
+            "id": "aomomo3-fossil",
+            "type": "gain_resources",
+            "label": "奥陌陌三色痕迹：1化石",
+            "icon": "publicity",
+            "options": {
+              "gain": {
+                "aomomoFossils": 1
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "aomomo_9.webp": [
+      {
+        "id": "aomomo9-fossil-spending-trace",
+        "condition": {
+          "type": "aomomoFossilSpendingTrace"
+        },
+        "rewards": [
+          {
+            "id": "aomomo9-data",
+            "type": "gain_data",
+            "label": "占据奥陌陌化石支付痕迹位：1数据",
+            "icon": "data",
+            "options": {
+              "count": 1
+            }
+          }
+        ]
+      }
+    ],
+    "yichangdian_1.webp": [
+      {
+        "id": "y1-all-trace-types",
+        "condition": {
+          "type": "yichangdianAllTraceTypes"
+        },
+        "rewards": [
+          {
+            "id": "y1-all-trace-types-reward",
+            "type": "gain_resources",
+            "label": "异常点三色痕迹：3分2宣传",
+            "icon": "score",
+            "options": {
+              "gain": {
+                "score": 3,
+                "publicity": 2
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "b_4.webp": [
+      {
+        "id": "b4-blue-alien-task",
+        "condition": {
+          "type": "allAliensHavePlayerTrace",
+          "traceType": "blue"
+        },
+        "rewards": [
+          {
+            "id": "b4-blue-alien-reward",
+            "type": "gain_data",
+            "label": "2个外星人均有蓝色痕迹：2数据",
+            "icon": "data",
+            "options": {
+              "count": 2
+            }
+          }
+        ]
+      }
+    ],
+    "b_8.webp": [
+      {
+        "id": "b8-yellow-alien-task",
+        "condition": {
+          "type": "allAliensHavePlayerTrace",
+          "traceType": "yellow"
+        },
+        "rewards": [
+          {
+            "id": "b8-yellow-alien-score",
+            "type": "gain_resources",
+            "label": "2个外星人均有黄色痕迹：2分",
+            "icon": "score",
+            "options": {
+              "gain": {
+                "score": 2
+              }
+            }
+          },
+          {
+            "id": "b8-yellow-alien-draw",
+            "type": "draw_cards",
+            "label": "2个外星人均有黄色痕迹：1盲抽",
+            "icon": "blind_card",
+            "options": {
+              "count": 1
+            }
+          }
+        ]
+      }
+    ],
+    "b_46.webp": [
+      {
+        "id": "b46-all-pink-task",
+        "condition": {
+          "type": "allAliensHavePlayerTrace",
+          "traceType": "pink"
+        },
+        "rewards": [
+          {
+            "id": "b46-all-pink-reward",
+            "type": "card_count_aliens_resource",
+            "label": "每个外星人：2分+1能量",
+            "icon": "alien_trace",
+            "options": {
+              "gainPerAlien": {
+                "score": 2,
+                "energy": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "groups": {
+    "baseline": {
+      "all": {
+        "paidPlays": 20,
+        "predictedImmediate": 0,
+        "actualImmediate": 6,
+        "later": 9,
+        "totalTraceTasksCompleted": 15,
+        "earlyTraceTasksCompleted": 1,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 3,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 3,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 3,
+            "immediate": 1
+          },
+          "b_8.webp": {
+            "paidPlays": 2,
+            "immediate": 1
+          },
+          "b_46.webp": {
+            "paidPlays": 9,
+            "immediate": 4
+          }
+        }
+      },
+      "作弊实验室": {
+        "paidPlays": 9,
+        "predictedImmediate": 0,
+        "actualImmediate": 3,
+        "later": 6,
+        "totalTraceTasksCompleted": 9,
+        "earlyTraceTasksCompleted": 0,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 2,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_8.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_46.webp": {
+            "paidPlays": 4,
+            "immediate": 2
+          }
+        }
+      },
+      "宇宙大战略集团": {
+        "paidPlays": 8,
+        "predictedImmediate": 0,
+        "actualImmediate": 2,
+        "later": 1,
+        "totalTraceTasksCompleted": 3,
+        "earlyTraceTasksCompleted": 1,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_8.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "b_46.webp": {
+            "paidPlays": 5,
+            "immediate": 2
+          }
+        }
+      },
+      "寰宇超动力": {
+        "paidPlays": 3,
+        "predictedImmediate": 0,
+        "actualImmediate": 1,
+        "later": 2,
+        "totalTraceTasksCompleted": 3,
+        "earlyTraceTasksCompleted": 0,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_8.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_46.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          }
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "paidPlays": 27,
+        "predictedImmediate": 11,
+        "actualImmediate": 11,
+        "later": 12,
+        "totalTraceTasksCompleted": 23,
+        "earlyTraceTasksCompleted": 2,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 4,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 5,
+            "immediate": 2
+          },
+          "b_4.webp": {
+            "paidPlays": 4,
+            "immediate": 2
+          },
+          "b_8.webp": {
+            "paidPlays": 4,
+            "immediate": 3
+          },
+          "b_46.webp": {
+            "paidPlays": 10,
+            "immediate": 4
+          }
+        }
+      },
+      "作弊实验室": {
+        "paidPlays": 15,
+        "predictedImmediate": 7,
+        "actualImmediate": 7,
+        "later": 8,
+        "totalTraceTasksCompleted": 15,
+        "earlyTraceTasksCompleted": 2,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 2,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 4,
+            "immediate": 1
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_8.webp": {
+            "paidPlays": 3,
+            "immediate": 2
+          },
+          "b_46.webp": {
+            "paidPlays": 5,
+            "immediate": 3
+          }
+        }
+      },
+      "宇宙大战略集团": {
+        "paidPlays": 9,
+        "predictedImmediate": 3,
+        "actualImmediate": 3,
+        "later": 2,
+        "totalTraceTasksCompleted": 5,
+        "earlyTraceTasksCompleted": 0,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_4.webp": {
+            "paidPlays": 2,
+            "immediate": 1
+          },
+          "b_8.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "b_46.webp": {
+            "paidPlays": 5,
+            "immediate": 1
+          }
+        }
+      },
+      "寰宇超动力": {
+        "paidPlays": 3,
+        "predictedImmediate": 1,
+        "actualImmediate": 1,
+        "later": 2,
+        "totalTraceTasksCompleted": 3,
+        "earlyTraceTasksCompleted": 0,
+        "byCard": {
+          "aomomo_3.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "aomomo_9.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "yichangdian_1.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          },
+          "b_4.webp": {
+            "paidPlays": 1,
+            "immediate": 0
+          },
+          "b_8.webp": {
+            "paidPlays": 1,
+            "immediate": 1
+          },
+          "b_46.webp": {
+            "paidPlays": 0,
+            "immediate": 0
+          }
+        }
+      }
+    }
+  },
+  "rows": [
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "traceready-base-2.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_8.webp",
+      "cardInstance": "card-81-0",
+      "round": 2,
+      "rawTurn": 38,
+      "decisionLogId": 567,
+      "playLogId": 568,
+      "paymentEntry": 69,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b8-yellow-alien-task",
+          "round": 4,
+          "rawTurn": 17
+        }
+      ]
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "traceready-candidate-2.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_8.webp",
+      "cardInstance": "card-81-0",
+      "round": 2,
+      "rawTurn": 38,
+      "decisionLogId": 567,
+      "playLogId": 568,
+      "paymentEntry": 69,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b8-yellow-alien-task",
+          "round": 4,
+          "rawTurn": 17
+        }
+      ]
+    },
+    {
+      "case": 3,
+      "side": "baseline",
+      "file": "traceready-base-3.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "yichangdian_1.webp",
+      "cardInstance": "alien-yichangdian-1-5",
+      "round": 2,
+      "rawTurn": 1,
+      "decisionLogId": 269,
+      "playLogId": 270,
+      "paymentEntry": 40,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 4,
+      "side": "baseline",
+      "file": "traceready-base-4.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_4.webp",
+      "cardInstance": "card-170-0",
+      "round": 4,
+      "rawTurn": 11,
+      "decisionLogId": 1258,
+      "playLogId": 1259,
+      "paymentEntry": 157,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 4,
+      "side": "candidate",
+      "file": "traceready-candidate-4.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_4.webp",
+      "cardInstance": "card-170-0",
+      "round": 4,
+      "rawTurn": 11,
+      "decisionLogId": 1258,
+      "playLogId": 1259,
+      "paymentEntry": 157,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "traceready-base-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_8.webp",
+      "cardInstance": "card-100-0",
+      "round": 3,
+      "rawTurn": 11,
+      "decisionLogId": 751,
+      "playLogId": 752,
+      "paymentEntry": 95,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [
+        "b8-yellow-alien-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "traceready-candidate-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_8.webp",
+      "cardInstance": "card-100-0",
+      "round": 3,
+      "rawTurn": 11,
+      "decisionLogId": 751,
+      "playLogId": 752,
+      "paymentEntry": 95,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 18.73,
+      "actualImmediateTaskIds": [
+        "b8-yellow-alien-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "traceready-candidate-7.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "yichangdian_1.webp",
+      "cardInstance": "alien-yichangdian-1-9",
+      "round": 3,
+      "rawTurn": 4,
+      "decisionLogId": 717,
+      "playLogId": 718,
+      "paymentEntry": 93,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 25.211,
+      "actualImmediateTaskIds": [
+        "y1-all-trace-types"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "traceready-base-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "yichangdian_1.webp",
+      "cardInstance": "alien-yichangdian-1-6",
+      "round": 3,
+      "rawTurn": 30,
+      "decisionLogId": 886,
+      "playLogId": 887,
+      "paymentEntry": 111,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "y1-all-trace-types",
+          "round": 4,
+          "rawTurn": 21
+        }
+      ]
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "traceready-candidate-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "yichangdian_1.webp",
+      "cardInstance": "alien-yichangdian-1-6",
+      "round": 3,
+      "rawTurn": 30,
+      "decisionLogId": 886,
+      "playLogId": 887,
+      "paymentEntry": 111,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "y1-all-trace-types",
+          "round": 4,
+          "rawTurn": 21
+        }
+      ]
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "traceready-base-10.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-39-pass-1-5",
+      "round": 2,
+      "rawTurn": 33,
+      "decisionLogId": 561,
+      "playLogId": 562,
+      "paymentEntry": 69,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [
+        "b46-all-pink-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "traceready-candidate-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_8.webp",
+      "cardInstance": "card-65-0",
+      "round": 2,
+      "rawTurn": 6,
+      "decisionLogId": 329,
+      "playLogId": 330,
+      "paymentEntry": 42,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 18.565,
+      "actualImmediateTaskIds": [
+        "b8-yellow-alien-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "traceready-candidate-10.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-39-pass-1-5",
+      "round": 2,
+      "rawTurn": 25,
+      "decisionLogId": 508,
+      "playLogId": 509,
+      "paymentEntry": 61,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "traceready-base-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "yichangdian_1.webp",
+      "cardInstance": "alien-yichangdian-1-6",
+      "round": 2,
+      "rawTurn": 31,
+      "decisionLogId": 545,
+      "playLogId": 546,
+      "paymentEntry": 65,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "y1-all-trace-types",
+          "round": 3,
+          "rawTurn": 1
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "traceready-base-11.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-158-0",
+      "round": 4,
+      "rawTurn": 15,
+      "decisionLogId": 1312,
+      "playLogId": 1313,
+      "paymentEntry": 162,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "traceready-candidate-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "yichangdian_1.webp",
+      "cardInstance": "alien-yichangdian-1-6",
+      "round": 2,
+      "rawTurn": 31,
+      "decisionLogId": 545,
+      "playLogId": 546,
+      "paymentEntry": 65,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "y1-all-trace-types",
+          "round": 3,
+          "rawTurn": 1
+        }
+      ]
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "traceready-candidate-11.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-158-0",
+      "round": 4,
+      "rawTurn": 15,
+      "decisionLogId": 1312,
+      "playLogId": 1313,
+      "paymentEntry": 162,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "traceready-base-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "aomomo_9.webp",
+      "cardInstance": "alien-aomomo-9-9",
+      "round": 3,
+      "rawTurn": 27,
+      "decisionLogId": 810,
+      "playLogId": 811,
+      "paymentEntry": 98,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "aomomo9-fossil-spending-trace",
+          "round": 3,
+          "rawTurn": 31
+        }
+      ]
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "traceready-candidate-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "cardId": "aomomo_9.webp",
+      "cardInstance": "alien-aomomo-9-9",
+      "round": 3,
+      "rawTurn": 27,
+      "decisionLogId": 810,
+      "playLogId": 811,
+      "paymentEntry": 98,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "aomomo9-fossil-spending-trace",
+          "round": 3,
+          "rawTurn": 31
+        }
+      ]
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-147-0",
+      "round": 4,
+      "rawTurn": 13,
+      "decisionLogId": 1170,
+      "playLogId": 1171,
+      "paymentEntry": 151,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [
+        "b46-all-pink-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "traceready-candidate-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-147-0",
+      "round": 4,
+      "rawTurn": 5,
+      "decisionLogId": 1089,
+      "playLogId": 1090,
+      "paymentEntry": 143,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 17.02,
+      "actualImmediateTaskIds": [
+        "b46-all-pink-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "traceready-candidate-14.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "b_8.webp",
+      "cardInstance": "card-109-0",
+      "round": 3,
+      "rawTurn": 14,
+      "decisionLogId": 814,
+      "playLogId": 815,
+      "paymentEntry": 105,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 7.915,
+      "actualImmediateTaskIds": [
+        "b8-yellow-alien-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "traceready-candidate-14.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "cardId": "b_4.webp",
+      "cardInstance": "card-154-0",
+      "round": 4,
+      "rawTurn": 15,
+      "decisionLogId": 1345,
+      "playLogId": 1346,
+      "paymentEntry": 160,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 3.537,
+      "actualImmediateTaskIds": [
+        "b4-blue-alien-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "traceready-base-15.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_4.webp",
+      "cardInstance": "card-75-0",
+      "round": 2,
+      "rawTurn": 8,
+      "decisionLogId": 369,
+      "playLogId": 370,
+      "paymentEntry": 45,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b4-blue-alien-task",
+          "round": 4,
+          "rawTurn": 10
+        }
+      ]
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "traceready-candidate-15.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "cardId": "b_4.webp",
+      "cardInstance": "card-75-0",
+      "round": 2,
+      "rawTurn": 8,
+      "decisionLogId": 369,
+      "playLogId": 370,
+      "paymentEntry": 45,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b4-blue-alien-task",
+          "round": 4,
+          "rawTurn": 10
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-129-0",
+      "round": 3,
+      "rawTurn": 30,
+      "decisionLogId": 1022,
+      "playLogId": 1023,
+      "paymentEntry": 123,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b46-all-pink-task",
+          "round": 4,
+          "rawTurn": 5
+        }
+      ]
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "traceready-candidate-16.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-129-0",
+      "round": 3,
+      "rawTurn": 30,
+      "decisionLogId": 1022,
+      "playLogId": 1023,
+      "paymentEntry": 123,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b46-all-pink-task",
+          "round": 4,
+          "rawTurn": 5
+        }
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-62-0",
+      "round": 2,
+      "rawTurn": 27,
+      "decisionLogId": 577,
+      "playLogId": 578,
+      "paymentEntry": 69,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b46-all-pink-task",
+          "round": 3,
+          "rawTurn": 2
+        }
+      ]
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_4.webp",
+      "cardInstance": "card-114-0",
+      "round": 3,
+      "rawTurn": 21,
+      "decisionLogId": 945,
+      "playLogId": 946,
+      "paymentEntry": 112,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [
+        "b4-blue-alien-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "traceready-candidate-17.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-62-0",
+      "round": 2,
+      "rawTurn": 27,
+      "decisionLogId": 577,
+      "playLogId": 578,
+      "paymentEntry": 69,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b46-all-pink-task",
+          "round": 3,
+          "rawTurn": 2
+        }
+      ]
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "traceready-candidate-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_4.webp",
+      "cardInstance": "card-114-0",
+      "round": 3,
+      "rawTurn": 21,
+      "decisionLogId": 945,
+      "playLogId": 946,
+      "paymentEntry": 112,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 5.996,
+      "actualImmediateTaskIds": [
+        "b4-blue-alien-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "traceready-base-18.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-18-0",
+      "round": 1,
+      "rawTurn": 10,
+      "decisionLogId": 122,
+      "playLogId": 123,
+      "paymentEntry": 15,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "traceready-base-18.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "aomomo_9.webp",
+      "cardInstance": "alien-aomomo-9-8",
+      "round": 2,
+      "rawTurn": 21,
+      "decisionLogId": 465,
+      "playLogId": 466,
+      "paymentEntry": 59,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "aomomo9-fossil-spending-trace",
+          "round": 3,
+          "rawTurn": 14
+        }
+      ]
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "traceready-candidate-18.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-18-0",
+      "round": 1,
+      "rawTurn": 10,
+      "decisionLogId": 122,
+      "playLogId": 123,
+      "paymentEntry": 15,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "b46-all-pink-task",
+          "round": 3,
+          "rawTurn": 24
+        }
+      ]
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "traceready-candidate-18.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "aomomo_9.webp",
+      "cardInstance": "alien-aomomo-9-8",
+      "round": 3,
+      "rawTurn": 21,
+      "decisionLogId": 773,
+      "playLogId": 774,
+      "paymentEntry": 96,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "aomomo9-fossil-spending-trace",
+          "round": 3,
+          "rawTurn": 33
+        }
+      ]
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "traceready-candidate-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "cardId": "yichangdian_1.webp",
+      "cardInstance": "alien-yichangdian-1-5",
+      "round": 2,
+      "rawTurn": 3,
+      "decisionLogId": 284,
+      "playLogId": 285,
+      "paymentEntry": 40,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 32,
+      "actualImmediateTaskIds": [
+        "y1-all-trace-types"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "traceready-candidate-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "aomomo_9.webp",
+      "cardInstance": "alien-aomomo-9-5",
+      "round": 3,
+      "rawTurn": 17,
+      "decisionLogId": 876,
+      "playLogId": 877,
+      "paymentEntry": 103,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "aomomo9-fossil-spending-trace",
+          "round": 4,
+          "rawTurn": 4
+        }
+      ]
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "traceready-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-156-0",
+      "round": 4,
+      "rawTurn": 1,
+      "decisionLogId": 1268,
+      "playLogId": 1269,
+      "paymentEntry": 156,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 17.02,
+      "actualImmediateTaskIds": [
+        "b46-all-pink-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "file": "traceready-base-21.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "aomomo_9.webp",
+      "cardInstance": "alien-aomomo-9-5",
+      "round": 1,
+      "rawTurn": 29,
+      "decisionLogId": 261,
+      "playLogId": 262,
+      "paymentEntry": 34,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "aomomo9-fossil-spending-trace",
+          "round": 4,
+          "rawTurn": 23
+        }
+      ]
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "file": "traceready-candidate-21.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "cardId": "aomomo_9.webp",
+      "cardInstance": "alien-aomomo-9-5",
+      "round": 1,
+      "rawTurn": 29,
+      "decisionLogId": 261,
+      "playLogId": 262,
+      "paymentEntry": 34,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "aomomo9-fossil-spending-trace",
+          "round": 4,
+          "rawTurn": 23
+        }
+      ]
+    },
+    {
+      "case": 22,
+      "side": "baseline",
+      "file": "traceready-base-22.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-40-pass-2-1",
+      "round": 3,
+      "rawTurn": 20,
+      "decisionLogId": 972,
+      "playLogId": 973,
+      "paymentEntry": 114,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 22,
+      "side": "candidate",
+      "file": "traceready-candidate-22.json",
+      "player": "player-blue",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-40-pass-2-1",
+      "round": 3,
+      "rawTurn": 20,
+      "decisionLogId": 972,
+      "playLogId": 973,
+      "paymentEntry": 114,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": []
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "traceready-base-23.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-97-0",
+      "round": 3,
+      "rawTurn": 8,
+      "decisionLogId": 724,
+      "playLogId": 725,
+      "paymentEntry": 93,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [
+        "b46-all-pink-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "traceready-candidate-23.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-97-0",
+      "round": 3,
+      "rawTurn": 8,
+      "decisionLogId": 724,
+      "playLogId": 725,
+      "paymentEntry": 93,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 21.836,
+      "actualImmediateTaskIds": [
+        "b46-all-pink-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "traceready-base-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-60-0",
+      "round": 3,
+      "rawTurn": 30,
+      "decisionLogId": 950,
+      "playLogId": 951,
+      "paymentEntry": 116,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [
+        "b46-all-pink-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "traceready-candidate-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "b_46.webp",
+      "cardInstance": "card-60-0",
+      "round": 3,
+      "rawTurn": 10,
+      "decisionLogId": 760,
+      "playLogId": 761,
+      "paymentEntry": 96,
+      "predictedImmediateCount": 1,
+      "predictedImmediateValue": 32,
+      "actualImmediateTaskIds": [
+        "b46-all-pink-task"
+      ],
+      "laterTasks": []
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "traceready-candidate-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "cardId": "yichangdian_1.webp",
+      "cardInstance": "alien-yichangdian-1-9",
+      "round": 3,
+      "rawTurn": 26,
+      "decisionLogId": 942,
+      "playLogId": 943,
+      "paymentEntry": 112,
+      "predictedImmediateCount": 0,
+      "predictedImmediateValue": 0,
+      "actualImmediateTaskIds": [],
+      "laterTasks": [
+        {
+          "taskId": "y1-all-trace-types",
+          "round": 3,
+          "rawTurn": 40
+        }
+      ]
+    }
+  ],
+  "allTasks": [
+    {
+      "case": 2,
+      "side": "baseline",
+      "file": "traceready-base-2.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b8-yellow-alien-task",
+      "cardLabel": "阿波罗1号任务",
+      "round": 4,
+      "rawTurn": 17,
+      "readyLogId": 1407,
+      "confirmLogId": 1408,
+      "historyEntry": 163,
+      "historyStep": 3,
+      "subsequentSameRoundMainActions": 5
+    },
+    {
+      "case": 2,
+      "side": "candidate",
+      "file": "traceready-candidate-2.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b8-yellow-alien-task",
+      "cardLabel": "阿波罗1号任务",
+      "round": 4,
+      "rawTurn": 17,
+      "readyLogId": 1407,
+      "confirmLogId": 1408,
+      "historyEntry": 163,
+      "historyStep": 3,
+      "subsequentSameRoundMainActions": 5
+    },
+    {
+      "case": 6,
+      "side": "baseline",
+      "file": "traceready-base-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "taskId": "b8-yellow-alien-task",
+      "cardLabel": "阿波罗1号任务",
+      "round": 3,
+      "rawTurn": 11,
+      "readyLogId": 759,
+      "confirmLogId": 760,
+      "historyEntry": 95,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 4
+    },
+    {
+      "case": 6,
+      "side": "candidate",
+      "file": "traceready-candidate-6.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "taskId": "b8-yellow-alien-task",
+      "cardLabel": "阿波罗1号任务",
+      "round": 3,
+      "rawTurn": 11,
+      "readyLogId": 759,
+      "confirmLogId": 760,
+      "historyEntry": 95,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 4
+    },
+    {
+      "case": 7,
+      "side": "candidate",
+      "file": "traceready-candidate-7.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "taskId": "y1-all-trace-types",
+      "cardLabel": "我们被监视了?",
+      "round": 3,
+      "rawTurn": 4,
+      "readyLogId": 721,
+      "confirmLogId": 722,
+      "historyEntry": 93,
+      "historyStep": 3,
+      "subsequentSameRoundMainActions": 9
+    },
+    {
+      "case": 8,
+      "side": "baseline",
+      "file": "traceready-base-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "taskId": "y1-all-trace-types",
+      "cardLabel": "我们被监视了?",
+      "round": 4,
+      "rawTurn": 21,
+      "readyLogId": 1294,
+      "confirmLogId": 1295,
+      "historyEntry": 156,
+      "historyStep": 18,
+      "subsequentSameRoundMainActions": 4
+    },
+    {
+      "case": 8,
+      "side": "candidate",
+      "file": "traceready-candidate-8.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "taskId": "y1-all-trace-types",
+      "cardLabel": "我们被监视了?",
+      "round": 4,
+      "rawTurn": 21,
+      "readyLogId": 1294,
+      "confirmLogId": 1295,
+      "historyEntry": 156,
+      "historyStep": 18,
+      "subsequentSameRoundMainActions": 4
+    },
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "traceready-base-10.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 2,
+      "rawTurn": 33,
+      "readyLogId": 573,
+      "confirmLogId": 574,
+      "historyEntry": 69,
+      "historyStep": 8,
+      "subsequentSameRoundMainActions": 2
+    },
+    {
+      "case": 10,
+      "side": "candidate",
+      "file": "traceready-candidate-10.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b8-yellow-alien-task",
+      "cardLabel": "阿波罗1号任务",
+      "round": 2,
+      "rawTurn": 6,
+      "readyLogId": 336,
+      "confirmLogId": 337,
+      "historyEntry": 42,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 9
+    },
+    {
+      "case": 11,
+      "side": "baseline",
+      "file": "traceready-base-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "taskId": "y1-all-trace-types",
+      "cardLabel": "我们被监视了?",
+      "round": 3,
+      "rawTurn": 1,
+      "readyLogId": 602,
+      "confirmLogId": 603,
+      "historyEntry": 82,
+      "historyStep": 4,
+      "subsequentSameRoundMainActions": 14
+    },
+    {
+      "case": 11,
+      "side": "candidate",
+      "file": "traceready-candidate-11.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "taskId": "y1-all-trace-types",
+      "cardLabel": "我们被监视了?",
+      "round": 3,
+      "rawTurn": 1,
+      "readyLogId": 602,
+      "confirmLogId": 603,
+      "historyEntry": 82,
+      "historyStep": 4,
+      "subsequentSameRoundMainActions": 14
+    },
+    {
+      "case": 12,
+      "side": "baseline",
+      "file": "traceready-base-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "taskId": "aomomo9-fossil-spending-trace",
+      "cardLabel": "天外来客",
+      "round": 3,
+      "rawTurn": 31,
+      "readyLogId": 843,
+      "confirmLogId": 844,
+      "historyEntry": 102,
+      "historyStep": 3,
+      "subsequentSameRoundMainActions": 1
+    },
+    {
+      "case": 12,
+      "side": "candidate",
+      "file": "traceready-candidate-12.json",
+      "player": "player-white",
+      "company": "寰宇超动力",
+      "taskId": "aomomo9-fossil-spending-trace",
+      "cardLabel": "天外来客",
+      "round": 3,
+      "rawTurn": 31,
+      "readyLogId": 843,
+      "confirmLogId": 844,
+      "historyEntry": 102,
+      "historyStep": 3,
+      "subsequentSameRoundMainActions": 1
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 4,
+      "rawTurn": 13,
+      "readyLogId": 1177,
+      "confirmLogId": 1178,
+      "historyEntry": 151,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 9
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "traceready-candidate-13.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 4,
+      "rawTurn": 5,
+      "readyLogId": 1096,
+      "confirmLogId": 1097,
+      "historyEntry": 143,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 7
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "traceready-candidate-14.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "taskId": "b8-yellow-alien-task",
+      "cardLabel": "阿波罗1号任务",
+      "round": 3,
+      "rawTurn": 14,
+      "readyLogId": 821,
+      "confirmLogId": 822,
+      "historyEntry": 105,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 7
+    },
+    {
+      "case": 14,
+      "side": "candidate",
+      "file": "traceready-candidate-14.json",
+      "player": "player-brown",
+      "company": "宇宙大战略集团",
+      "taskId": "b4-blue-alien-task",
+      "cardLabel": "大型离子对撞机实验",
+      "round": 4,
+      "rawTurn": 15,
+      "readyLogId": 1354,
+      "confirmLogId": 1355,
+      "historyEntry": 160,
+      "historyStep": 6,
+      "subsequentSameRoundMainActions": 10
+    },
+    {
+      "case": 15,
+      "side": "baseline",
+      "file": "traceready-base-15.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "taskId": "b4-blue-alien-task",
+      "cardLabel": "大型离子对撞机实验",
+      "round": 4,
+      "rawTurn": 10,
+      "readyLogId": 1232,
+      "confirmLogId": 1233,
+      "historyEntry": 145,
+      "historyStep": 2,
+      "subsequentSameRoundMainActions": 3
+    },
+    {
+      "case": 15,
+      "side": "candidate",
+      "file": "traceready-candidate-15.json",
+      "player": "player-green",
+      "company": "寰宇超动力",
+      "taskId": "b4-blue-alien-task",
+      "cardLabel": "大型离子对撞机实验",
+      "round": 4,
+      "rawTurn": 10,
+      "readyLogId": 1232,
+      "confirmLogId": 1233,
+      "historyEntry": 145,
+      "historyStep": 2,
+      "subsequentSameRoundMainActions": 3
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 4,
+      "rawTurn": 5,
+      "readyLogId": 1208,
+      "confirmLogId": 1209,
+      "historyEntry": 148,
+      "historyStep": 11,
+      "subsequentSameRoundMainActions": 9
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "traceready-candidate-16.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 4,
+      "rawTurn": 5,
+      "readyLogId": 1208,
+      "confirmLogId": 1209,
+      "historyEntry": 148,
+      "historyStep": 11,
+      "subsequentSameRoundMainActions": 9
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 3,
+      "rawTurn": 2,
+      "readyLogId": 727,
+      "confirmLogId": 728,
+      "historyEntry": 93,
+      "historyStep": 12,
+      "subsequentSameRoundMainActions": 12
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b4-blue-alien-task",
+      "cardLabel": "大型离子对撞机实验",
+      "round": 3,
+      "rawTurn": 21,
+      "readyLogId": 952,
+      "confirmLogId": 953,
+      "historyEntry": 112,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 6
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "traceready-candidate-17.json",
+      "player": "player-white",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 3,
+      "rawTurn": 2,
+      "readyLogId": 727,
+      "confirmLogId": 728,
+      "historyEntry": 93,
+      "historyStep": 12,
+      "subsequentSameRoundMainActions": 12
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "traceready-candidate-17.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b4-blue-alien-task",
+      "cardLabel": "大型离子对撞机实验",
+      "round": 3,
+      "rawTurn": 21,
+      "readyLogId": 952,
+      "confirmLogId": 953,
+      "historyEntry": 112,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 6
+    },
+    {
+      "case": 18,
+      "side": "baseline",
+      "file": "traceready-base-18.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "taskId": "aomomo9-fossil-spending-trace",
+      "cardLabel": "天外来客",
+      "round": 3,
+      "rawTurn": 14,
+      "readyLogId": 711,
+      "confirmLogId": 712,
+      "historyEntry": 86,
+      "historyStep": 2,
+      "subsequentSameRoundMainActions": 5
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "traceready-candidate-18.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 3,
+      "rawTurn": 24,
+      "readyLogId": 829,
+      "confirmLogId": 830,
+      "historyEntry": 99,
+      "historyStep": 15,
+      "subsequentSameRoundMainActions": 4
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "traceready-candidate-18.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "aomomo9-fossil-spending-trace",
+      "cardLabel": "天外来客",
+      "round": 3,
+      "rawTurn": 33,
+      "readyLogId": 896,
+      "confirmLogId": 897,
+      "historyEntry": 108,
+      "historyStep": 2,
+      "subsequentSameRoundMainActions": 2
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "traceready-candidate-19.json",
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "taskId": "y1-all-trace-types",
+      "cardLabel": "我们被监视了?",
+      "round": 2,
+      "rawTurn": 3,
+      "readyLogId": 288,
+      "confirmLogId": 289,
+      "historyEntry": 40,
+      "historyStep": 2,
+      "subsequentSameRoundMainActions": 11
+    },
+    {
+      "case": 19,
+      "side": "candidate",
+      "file": "traceready-candidate-19.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "aomomo9-fossil-spending-trace",
+      "cardLabel": "天外来客",
+      "round": 4,
+      "rawTurn": 4,
+      "readyLogId": 1130,
+      "confirmLogId": 1131,
+      "historyEntry": 138,
+      "historyStep": 10,
+      "subsequentSameRoundMainActions": 10
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "traceready-candidate-20.json",
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 4,
+      "rawTurn": 1,
+      "readyLogId": 1276,
+      "confirmLogId": 1277,
+      "historyEntry": 156,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 12
+    },
+    {
+      "case": 21,
+      "side": "baseline",
+      "file": "traceready-base-21.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "taskId": "aomomo9-fossil-spending-trace",
+      "cardLabel": "天外来客",
+      "round": 4,
+      "rawTurn": 23,
+      "readyLogId": 1393,
+      "confirmLogId": 1394,
+      "historyEntry": 158,
+      "historyStep": 11,
+      "subsequentSameRoundMainActions": 3
+    },
+    {
+      "case": 21,
+      "side": "candidate",
+      "file": "traceready-candidate-21.json",
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "taskId": "aomomo9-fossil-spending-trace",
+      "cardLabel": "天外来客",
+      "round": 4,
+      "rawTurn": 23,
+      "readyLogId": 1393,
+      "confirmLogId": 1394,
+      "historyEntry": 158,
+      "historyStep": 11,
+      "subsequentSameRoundMainActions": 3
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "traceready-base-23.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 3,
+      "rawTurn": 8,
+      "readyLogId": 732,
+      "confirmLogId": 733,
+      "historyEntry": 93,
+      "historyStep": 6,
+      "subsequentSameRoundMainActions": 5
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "traceready-candidate-23.json",
+      "player": "player-green",
+      "company": "宇宙大战略集团",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 3,
+      "rawTurn": 8,
+      "readyLogId": 732,
+      "confirmLogId": 733,
+      "historyEntry": 93,
+      "historyStep": 6,
+      "subsequentSameRoundMainActions": 5
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "traceready-base-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 3,
+      "rawTurn": 30,
+      "readyLogId": 957,
+      "confirmLogId": 958,
+      "historyEntry": 116,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 6
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "traceready-candidate-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "b46-all-pink-task",
+      "cardLabel": "建造大型米波射电望远锐",
+      "round": 3,
+      "rawTurn": 10,
+      "readyLogId": 767,
+      "confirmLogId": 768,
+      "historyEntry": 96,
+      "historyStep": 5,
+      "subsequentSameRoundMainActions": 11
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "traceready-candidate-24.json",
+      "player": "player-green",
+      "company": "作弊实验室",
+      "taskId": "y1-all-trace-types",
+      "cardLabel": "我们被监视了?",
+      "round": 3,
+      "rawTurn": 40,
+      "readyLogId": 1054,
+      "confirmLogId": 1055,
+      "historyEntry": 126,
+      "historyStep": 2,
+      "subsequentSameRoundMainActions": 3
+    }
+  ],
+  "baselineReplay": [
+    {
+      "case": 1,
+      "file": "traceready-base-1.json",
+      "oldFile": "scanindependent-base-1.json",
+      "scores": [
+        305,
+        304,
+        201,
+        237
+      ],
+      "steps": 1619,
+      "oldSha256": "df56cb6a863f93ee1e5835b2b893f10e1be394c5494fd3f6f8acfc088e3cfe7b"
+    },
+    {
+      "case": 2,
+      "file": "traceready-base-2.json",
+      "oldFile": "scanindependent-base-2.json",
+      "scores": [
+        136,
+        221,
+        222,
+        299
+      ],
+      "steps": 1462,
+      "oldSha256": "79124248187ce716579ca7176fe3443e2b32924a776ace1b9e8719a76756b4f7"
+    },
+    {
+      "case": 3,
+      "file": "traceready-base-3.json",
+      "oldFile": "scanindependent-base-3.json",
+      "scores": [
+        279,
+        179,
+        324,
+        268
+      ],
+      "steps": 1616,
+      "oldSha256": "e552aecbe1126ac3022b9b309ea0ebfae088a9e0b7cc1781e153e164e2d729d5"
+    },
+    {
+      "case": 4,
+      "file": "traceready-base-4.json",
+      "oldFile": "scanindependent-base-4.json",
+      "scores": [
+        306,
+        221,
+        250,
+        219
+      ],
+      "steps": 1536,
+      "oldSha256": "58c1ef854c4a941d86b7e2326b7ba06f016b29d3fb3836839bba2abc6f941db4"
+    },
+    {
+      "case": 5,
+      "file": "traceready-base-5.json",
+      "oldFile": "scanindependent-base-5.json",
+      "scores": [
+        279,
+        228,
+        208,
+        318
+      ],
+      "steps": 1581,
+      "oldSha256": "e1642870c40663c375f682b02c2bf2523087121f10b410f9f7a13dca03765327"
+    },
+    {
+      "case": 6,
+      "file": "traceready-base-6.json",
+      "oldFile": "scanindependent-base-6.json",
+      "scores": [
+        207,
+        164,
+        257,
+        247
+      ],
+      "steps": 1429,
+      "oldSha256": "4d99cb20af076b1e586c633725cd214c20a5435090e09c05b64babc4c969a1f6"
+    },
+    {
+      "case": 7,
+      "file": "traceready-base-7.json",
+      "oldFile": "scanindependent-base-7.json",
+      "scores": [
+        297,
+        263,
+        223,
+        157
+      ],
+      "steps": 1561,
+      "oldSha256": "58f7fb8f4c3f2d8175037fc7245a384b2526040779a25fa911a440c13019bc84"
+    },
+    {
+      "case": 8,
+      "file": "traceready-base-8.json",
+      "oldFile": "scanindependent-base-8.json",
+      "scores": [
+        229,
+        237,
+        164,
+        215
+      ],
+      "steps": 1414,
+      "oldSha256": "b5dae14d431b125d8bbe8aeac52bd99fd99b063060d12afcedcd00cb1475a828"
+    },
+    {
+      "case": 9,
+      "file": "traceready-base-9.json",
+      "oldFile": "scanindependent-base-9.json",
+      "scores": [
+        312,
+        130,
+        304,
+        187
+      ],
+      "steps": 1584,
+      "oldSha256": "28683adf150ed8228112da349e256bb457060e198fe00498aef5f53f533d62e0"
+    },
+    {
+      "case": 10,
+      "file": "traceready-base-10.json",
+      "oldFile": "scanindependent-base-10.json",
+      "scores": [
+        285,
+        385,
+        201,
+        252
+      ],
+      "steps": 1736,
+      "oldSha256": "560b1ffe25c0d82a04bd388498a64d5801899008b2fdca77412b664e69520721"
+    },
+    {
+      "case": 11,
+      "file": "traceready-base-11.json",
+      "oldFile": "scanindependent-base-11.json",
+      "scores": [
+        192,
+        193,
+        257,
+        263
+      ],
+      "steps": 1495,
+      "oldSha256": "3bfbb6f035feae531ca3c61008286690f26d1cc445b01ee849c81ad82858417b"
+    },
+    {
+      "case": 12,
+      "file": "traceready-base-12.json",
+      "oldFile": "scanindependent-base-12.json",
+      "scores": [
+        219,
+        319,
+        170,
+        223
+      ],
+      "steps": 1425,
+      "oldSha256": "8097e66de6bb0921de43bc6563e6eebf9b1ab2a006fd626ff04b0821e6ec81c9"
+    },
+    {
+      "case": 13,
+      "file": "traceready-base-13.json",
+      "oldFile": "scanindependent-base-13.json",
+      "scores": [
+        203,
+        322,
+        233,
+        198
+      ],
+      "steps": 1511,
+      "oldSha256": "10da76bfea95b3b6e6dad210315e90b97fd86d8d118ba8ac0d50e84eeeeff9da"
+    },
+    {
+      "case": 14,
+      "file": "traceready-base-14.json",
+      "oldFile": "scanindependent-base-14.json",
+      "scores": [
+        283,
+        332,
+        169,
+        250
+      ],
+      "steps": 1661,
+      "oldSha256": "f369e1155fd26ae06d7967c30d011a36cae1fba38de1782e63a7cf4faa738120"
+    },
+    {
+      "case": 15,
+      "file": "traceready-base-15.json",
+      "oldFile": "scanindependent-base-15.json",
+      "scores": [
+        247,
+        174,
+        240,
+        211
+      ],
+      "steps": 1435,
+      "oldSha256": "dc2529125a7fbd00818975e1e4aecc37c17c56ba00543919ae4028cfbe40be7c"
+    },
+    {
+      "case": 16,
+      "file": "traceready-base-16.json",
+      "oldFile": "scanindependent-base-16.json",
+      "scores": [
+        147,
+        183,
+        322,
+        321
+      ],
+      "steps": 1522,
+      "oldSha256": "a59fc1ed7f952554089f71870c1d30479965f0a0c9a281d802948ee1f95edb14"
+    },
+    {
+      "case": 17,
+      "file": "traceready-base-17.json",
+      "oldFile": "scanindependent-base-17.json",
+      "scores": [
+        180,
+        295,
+        180,
+        240
+      ],
+      "steps": 1484,
+      "oldSha256": "4edd472d0c63c1bf83d88742c08469545ac739c5421d12c01dc4744b172283b0"
+    },
+    {
+      "case": 18,
+      "file": "traceready-base-18.json",
+      "oldFile": "scanindependent-base-18.json",
+      "scores": [
+        210,
+        208,
+        206,
+        155
+      ],
+      "steps": 1274,
+      "oldSha256": "4a597e21e7ade6481d3675ffc30aab1a5d244e3652c0db351857707d911b3686"
+    },
+    {
+      "case": 19,
+      "file": "traceready-base-19.json",
+      "oldFile": "scanindependent-base-19.json",
+      "scores": [
+        299,
+        216,
+        196,
+        162
+      ],
+      "steps": 1469,
+      "oldSha256": "f16ff18494c1dd70fd7863e39a863a33ec412897eab5c4326b22f95319a9d4ac"
+    },
+    {
+      "case": 20,
+      "file": "traceready-base-20.json",
+      "oldFile": "scanindependent-base-20.json",
+      "scores": [
+        225,
+        219,
+        294,
+        288
+      ],
+      "steps": 1720,
+      "oldSha256": "abe2b59b806fc95bbb4694e4038ef74920287fd9512aaf35ed7b3283141e0390"
+    },
+    {
+      "case": 21,
+      "file": "traceready-base-21.json",
+      "oldFile": "scanindependent-base-21.json",
+      "scores": [
+        195,
+        258,
+        297,
+        203
+      ],
+      "steps": 1539,
+      "oldSha256": "15a0a65a365e63bf28fc48f8cabb38b01f6f774b4adb97a8c38c3ba9ff080124"
+    },
+    {
+      "case": 22,
+      "file": "traceready-base-22.json",
+      "oldFile": "scanindependent-base-22.json",
+      "scores": [
+        170,
+        308,
+        272,
+        166
+      ],
+      "steps": 1538,
+      "oldSha256": "0c369e45d4ef31d0ccd9d5f9c97ac904f2adfe2100322a5227e1c0dc6b0f1575"
+    },
+    {
+      "case": 23,
+      "file": "traceready-base-23.json",
+      "oldFile": "scanindependent-base-23.json",
+      "scores": [
+        186,
+        176,
+        270,
+        294
+      ],
+      "steps": 1605,
+      "oldSha256": "78c0d012b480859a511a92fac54774c97891cf2fcc0b2461d5d32aeb1ec2a7c6"
+    },
+    {
+      "case": 24,
+      "file": "traceready-base-24.json",
+      "oldFile": "scanindependent-base-24.json",
+      "scores": [
+        200,
+        260,
+        246,
+        234
+      ],
+      "steps": 1537,
+      "oldSha256": "f5eb5f28ef86904a9998bd2ba02e46052be317aba2511904f069d5686f3dad0f"
+    }
+  ],
+  "sourceDifferences": [
+    {
+      "file": "randomizer/app/ai-controller.js",
+      "onlyLineEndings": false
+    },
+    {
+      "file": "randomizer/app/ai-controller.test.js",
+      "onlyLineEndings": false
+    },
+    {
+      "file": "randomizer/game/ai/resource-flow.js",
+      "onlyLineEndings": true
+    },
+    {
+      "file": "randomizer/game/ai/resource-flow.test.js",
+      "onlyLineEndings": true
+    },
+    {
+      "file": "randomizer/game/cards/effects.js",
+      "onlyLineEndings": false
+    },
+    {
+      "file": "randomizer/index.html",
+      "onlyLineEndings": false
+    }
+  ],
+  "manifest": [
+    {
+      "file": "traceready-base-1.json",
+      "sha256": "67fe4273e024a27ea1a4bc1d3c70dab2d2631c8741c36f8412f39238f2b8d6bd"
+    },
+    {
+      "file": "traceready-candidate-1.json",
+      "sha256": "7c66dad4d951ad8e973727e8b54e8dac4d8622428226f289d19497220a4f2b6f"
+    },
+    {
+      "file": "traceready-base-2.json",
+      "sha256": "3244d12d31552c41dc744dd809c97304ae679ab6e66528509a31927d9b705861"
+    },
+    {
+      "file": "traceready-candidate-2.json",
+      "sha256": "69aab072b5c56e8bc25afe9d859a7fed90c04246426d8b770b96fc9dc97c3543"
+    },
+    {
+      "file": "traceready-base-3.json",
+      "sha256": "d0cc35dcadd1eb1fdeecbcb4696f606e5917e199defe08993e045ee5802253cf"
+    },
+    {
+      "file": "traceready-candidate-3.json",
+      "sha256": "c036315380fd946bace8eb46123c2f5d3f9ceef5e3a3074ff01051769c8fb45f"
+    },
+    {
+      "file": "traceready-base-4.json",
+      "sha256": "4ffd5f480edc5b5cf4ec7cb9558aa609302a069fe26e60ac0c76930c578eb4f7"
+    },
+    {
+      "file": "traceready-candidate-4.json",
+      "sha256": "7f787c43caba6eba69069ae51206d8afde55b936b5e58976443ad277be032616"
+    },
+    {
+      "file": "traceready-base-5.json",
+      "sha256": "274e45309a1717e78094812f61b513d5f47d1c65caee1c1058c02bcc16bd90f7"
+    },
+    {
+      "file": "traceready-candidate-5.json",
+      "sha256": "f5bdd758dd75fa40ffb7c13b892cafb9ad132406e9764470a675d90285b0326a"
+    },
+    {
+      "file": "traceready-base-6.json",
+      "sha256": "5fa46fcd4ac98e4f1e770dbffb1e525cbec60679a01fa094db4e4fbc77752d69"
+    },
+    {
+      "file": "traceready-candidate-6.json",
+      "sha256": "a8d1ebc6e89f18f9067a352342ec739bd7002038cd8c07ac8d6a510bcc5bcab6"
+    },
+    {
+      "file": "traceready-base-7.json",
+      "sha256": "2829069ce4b035a12ce46a5e9d2c1906c0367578a28111aa5e5803a52ff91227"
+    },
+    {
+      "file": "traceready-candidate-7.json",
+      "sha256": "255fe1bb634f37d5ae86521178ffa80ff7f3af87d311b5620cdd7a860d1db67b"
+    },
+    {
+      "file": "traceready-base-8.json",
+      "sha256": "6b0351e39e05129de96922f3c4be28d651db6003535095f5f44513414cf2cecb"
+    },
+    {
+      "file": "traceready-candidate-8.json",
+      "sha256": "36082623417acd8a955c6a0229900165af010973838b21f771c44c07755eb65a"
+    },
+    {
+      "file": "traceready-base-9.json",
+      "sha256": "739584395f8bd392680f1f1e5134081552dd23653648af40cc7b455ff58739de"
+    },
+    {
+      "file": "traceready-candidate-9.json",
+      "sha256": "5169785c538d7d1dc5a956a0812ee8828fd805dc0af56f92c566fd1dd686a864"
+    },
+    {
+      "file": "traceready-base-10.json",
+      "sha256": "cda78582c62bf19a8783662acbbdf9a655431cfbc127bfb93d6b48bddb8e9a2b"
+    },
+    {
+      "file": "traceready-candidate-10.json",
+      "sha256": "56d65875588ac130ceecdc01b8540517a1da12200a32df3ccd84beacbd464b39"
+    },
+    {
+      "file": "traceready-base-11.json",
+      "sha256": "a40a6b77ef192a1a01eb9b8bd16ef4b4e38be0ab7e370c3b16d1bf460fde29e8"
+    },
+    {
+      "file": "traceready-candidate-11.json",
+      "sha256": "56d3e9cb0d53c2c29661c491d05549171b69fcb46606174b561a753fb70190d6"
+    },
+    {
+      "file": "traceready-base-12.json",
+      "sha256": "909b03bf704ece24c4ea72039f347011d6d0ef176458cc4321b6c20a9ee97ea0"
+    },
+    {
+      "file": "traceready-candidate-12.json",
+      "sha256": "f28f5296be7e0d55939f00d1f7cf20ddaf87b04e549b8af4ae1a677c49202d58"
+    },
+    {
+      "file": "traceready-base-13.json",
+      "sha256": "adbcdec8d5ba0183bffaba9ae35c52255acbbc30d4a3311f67a54b7c5904ab1d"
+    },
+    {
+      "file": "traceready-candidate-13.json",
+      "sha256": "176ffe6908f308af5aa9fcfeeb0df8ca0f56ee2cf5dd145c769fb9744110891f"
+    },
+    {
+      "file": "traceready-base-14.json",
+      "sha256": "773fbf2a33675ac0559a0e834428a7251d691ca178dc7bd262813fbb3fb934c6"
+    },
+    {
+      "file": "traceready-candidate-14.json",
+      "sha256": "479e6a52c23dfa71379742b05260fc2c94747c68eba76172f1914222c77c32ff"
+    },
+    {
+      "file": "traceready-base-15.json",
+      "sha256": "2751be1db057e906adba2943e40ee2bde8ad6a1b0d833c6e589ba1869729cfdb"
+    },
+    {
+      "file": "traceready-candidate-15.json",
+      "sha256": "02ecbcfe5e16bd68332efe40a6564fce1634170875fb047248415013e03df44c"
+    },
+    {
+      "file": "traceready-base-16.json",
+      "sha256": "aee274c0d8a03fd7bda31a800de97c9fb98be7b3fbd90870cb34c914749e3854"
+    },
+    {
+      "file": "traceready-candidate-16.json",
+      "sha256": "062d53492536c206a8208468a71941a5ba5d77697a62385b10d2a837c400ca31"
+    },
+    {
+      "file": "traceready-base-17.json",
+      "sha256": "76c32fb4e41e8c6f910370a8bb422bc537f89895f2d42715363a576eb361c2cd"
+    },
+    {
+      "file": "traceready-candidate-17.json",
+      "sha256": "68b9b8118d24c5c2f9078223c3a23d6a0f0efbf5890a6d9d0af918bd8c8d45ed"
+    },
+    {
+      "file": "traceready-base-18.json",
+      "sha256": "fdd994d219460b291a38369e16ea19cfe2be19255c1c9c603d274378fbd754a9"
+    },
+    {
+      "file": "traceready-candidate-18.json",
+      "sha256": "724908e79a0a66c6070e0e35d921f79c230b9c4cc01957d611cba76460f103b7"
+    },
+    {
+      "file": "traceready-base-19.json",
+      "sha256": "2005cf4666cd04eb2d2942d9a747a2e972a953781e4365d0ac8db4f00500c285"
+    },
+    {
+      "file": "traceready-candidate-19.json",
+      "sha256": "9945232a67df08f750acef73cbcd8094a9eafd425d12cfb77dc2198e2229394a"
+    },
+    {
+      "file": "traceready-base-20.json",
+      "sha256": "a0a7c469d46bc7a4aac012b7b71d2a95eeace41360659708f13fd4e293274684"
+    },
+    {
+      "file": "traceready-candidate-20.json",
+      "sha256": "b5c6d770bd7fbc4169ae42e84ff191fcbaa66549041d8af34de6054acc2aa5c2"
+    },
+    {
+      "file": "traceready-base-21.json",
+      "sha256": "0746c0bac8f042698d472afa2411d9a82d376470a2ad2482636f3183b357d05f"
+    },
+    {
+      "file": "traceready-candidate-21.json",
+      "sha256": "86d1648fe237626b348beca70f69e7fadc73f0ed5a7eb5b27a25679039ec278a"
+    },
+    {
+      "file": "traceready-base-22.json",
+      "sha256": "343ec6e3913c5386298af11a3b677a0a2a0bbd9df973573e197ebd83bbffefca"
+    },
+    {
+      "file": "traceready-candidate-22.json",
+      "sha256": "df7aa4d4672f998b7e2c82c56ca445d4b5381ffe2b21994585148acf1f695cb8"
+    },
+    {
+      "file": "traceready-base-23.json",
+      "sha256": "fcba83d7d722eab9ba1756bea4d2531ca94bc429a2930edeb0767ea4ab8c47c3"
+    },
+    {
+      "file": "traceready-candidate-23.json",
+      "sha256": "2228230d403ce91cdab3d26d526a95499a03ca6f98f1a461276c916b7fcb5f5b"
+    },
+    {
+      "file": "traceready-base-24.json",
+      "sha256": "bebddee462bec0a24200be508cff3ebeca0eb1d36012d3a3968456015a331182"
+    },
+    {
+      "file": "traceready-candidate-24.json",
+      "sha256": "28b6d98862eaad29d781d545d54efb5dd40f1b3887735d0e61d667648af7e3ab"
+    }
+  ]
+}

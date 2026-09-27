@@ -1,0 +1,508 @@
+{
+  "scope": "Complete48 games from frozen policies sharing the corrected counted-reward parser. Every b46 task matches same-owner/round/turn completion and actual reward text. Reported ledger deltas must exactly equal separately parsed actual payout; no formula-label energy is added. These are transaction checks, not causal score estimates.",
+  "pairs": 24,
+  "models": {
+    "base": "6e317ed350617c9c38169e3f3e615d2a4dc0b560",
+    "candidate": "3164b2fc251298e21c210c43759d5927373a01be"
+  },
+  "parserSha256": "7e515aab5a2a0339b64ca9f14044a41c94015939867b885861224a828645ee39",
+  "counts": {
+    "baseline": 6,
+    "candidate": 7
+  },
+  "rows": [
+    {
+      "case": 10,
+      "side": "baseline",
+      "file": "traceready-base-10.json",
+      "owner": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 2,
+      "turn": 9,
+      "rawTurn": 33,
+      "entry": 69,
+      "step": 9,
+      "taskValue": 2,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 13,
+      "side": "baseline",
+      "file": "traceready-base-13.json",
+      "owner": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 4,
+      "rawTurn": 13,
+      "entry": 151,
+      "step": 6,
+      "taskValue": 2,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 13,
+      "side": "candidate",
+      "file": "traceready-candidate-13.json",
+      "owner": "player-green",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 2,
+      "rawTurn": 5,
+      "entry": 143,
+      "step": 6,
+      "taskValue": 12.4,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 16,
+      "side": "baseline",
+      "file": "traceready-base-16.json",
+      "owner": "player-white",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 2,
+      "rawTurn": 5,
+      "entry": 148,
+      "step": 12,
+      "taskValue": 2,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 16,
+      "side": "candidate",
+      "file": "traceready-candidate-16.json",
+      "owner": "player-white",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 2,
+      "rawTurn": 5,
+      "entry": 148,
+      "step": 12,
+      "taskValue": 12.4,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 17,
+      "side": "baseline",
+      "file": "traceready-base-17.json",
+      "owner": "player-white",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 1,
+      "rawTurn": 2,
+      "entry": 93,
+      "step": 13,
+      "taskValue": 2,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 17,
+      "side": "candidate",
+      "file": "traceready-candidate-17.json",
+      "owner": "player-white",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 1,
+      "rawTurn": 2,
+      "entry": 93,
+      "step": 13,
+      "taskValue": 12.4,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 18,
+      "side": "candidate",
+      "file": "traceready-candidate-18.json",
+      "owner": "player-white",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "turn": 6,
+      "rawTurn": 24,
+      "entry": 99,
+      "step": 16,
+      "taskValue": 15.194,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 20,
+      "side": "candidate",
+      "file": "traceready-candidate-20.json",
+      "owner": "player-brown",
+      "company": "作弊实验室",
+      "round": 4,
+      "turn": 1,
+      "rawTurn": 1,
+      "entry": 156,
+      "step": 6,
+      "taskValue": 12.4,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 23,
+      "side": "baseline",
+      "file": "traceready-base-23.json",
+      "owner": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "turn": 2,
+      "rawTurn": 8,
+      "entry": 93,
+      "step": 7,
+      "taskValue": 2,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 23,
+      "side": "candidate",
+      "file": "traceready-candidate-23.json",
+      "owner": "player-green",
+      "company": "宇宙大战略集团",
+      "round": 3,
+      "turn": 2,
+      "rawTurn": 8,
+      "entry": 93,
+      "step": 7,
+      "taskValue": 15.656,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 24,
+      "side": "baseline",
+      "file": "traceready-base-24.json",
+      "owner": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 8,
+      "rawTurn": 30,
+      "entry": 116,
+      "step": 6,
+      "taskValue": 2,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    },
+    {
+      "case": 24,
+      "side": "candidate",
+      "file": "traceready-candidate-24.json",
+      "owner": "player-green",
+      "company": "作弊实验室",
+      "round": 3,
+      "turn": 3,
+      "rawTurn": 10,
+      "entry": 96,
+      "step": 6,
+      "taskValue": 25.05,
+      "alienCount": 2,
+      "source": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+      "correctedTextResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "reportedResourceDeltas": {
+        "score": 4,
+        "energy": 2
+      }
+    }
+  ],
+  "manifest": [
+    {
+      "file": "traceready-base-1.json",
+      "sha256": "67fe4273e024a27ea1a4bc1d3c70dab2d2631c8741c36f8412f39238f2b8d6bd"
+    },
+    {
+      "file": "traceready-candidate-1.json",
+      "sha256": "7c66dad4d951ad8e973727e8b54e8dac4d8622428226f289d19497220a4f2b6f"
+    },
+    {
+      "file": "traceready-base-2.json",
+      "sha256": "3244d12d31552c41dc744dd809c97304ae679ab6e66528509a31927d9b705861"
+    },
+    {
+      "file": "traceready-candidate-2.json",
+      "sha256": "69aab072b5c56e8bc25afe9d859a7fed90c04246426d8b770b96fc9dc97c3543"
+    },
+    {
+      "file": "traceready-base-3.json",
+      "sha256": "d0cc35dcadd1eb1fdeecbcb4696f606e5917e199defe08993e045ee5802253cf"
+    },
+    {
+      "file": "traceready-candidate-3.json",
+      "sha256": "c036315380fd946bace8eb46123c2f5d3f9ceef5e3a3074ff01051769c8fb45f"
+    },
+    {
+      "file": "traceready-base-4.json",
+      "sha256": "4ffd5f480edc5b5cf4ec7cb9558aa609302a069fe26e60ac0c76930c578eb4f7"
+    },
+    {
+      "file": "traceready-candidate-4.json",
+      "sha256": "7f787c43caba6eba69069ae51206d8afde55b936b5e58976443ad277be032616"
+    },
+    {
+      "file": "traceready-base-5.json",
+      "sha256": "274e45309a1717e78094812f61b513d5f47d1c65caee1c1058c02bcc16bd90f7"
+    },
+    {
+      "file": "traceready-candidate-5.json",
+      "sha256": "f5bdd758dd75fa40ffb7c13b892cafb9ad132406e9764470a675d90285b0326a"
+    },
+    {
+      "file": "traceready-base-6.json",
+      "sha256": "5fa46fcd4ac98e4f1e770dbffb1e525cbec60679a01fa094db4e4fbc77752d69"
+    },
+    {
+      "file": "traceready-candidate-6.json",
+      "sha256": "a8d1ebc6e89f18f9067a352342ec739bd7002038cd8c07ac8d6a510bcc5bcab6"
+    },
+    {
+      "file": "traceready-base-7.json",
+      "sha256": "2829069ce4b035a12ce46a5e9d2c1906c0367578a28111aa5e5803a52ff91227"
+    },
+    {
+      "file": "traceready-candidate-7.json",
+      "sha256": "255fe1bb634f37d5ae86521178ffa80ff7f3af87d311b5620cdd7a860d1db67b"
+    },
+    {
+      "file": "traceready-base-8.json",
+      "sha256": "6b0351e39e05129de96922f3c4be28d651db6003535095f5f44513414cf2cecb"
+    },
+    {
+      "file": "traceready-candidate-8.json",
+      "sha256": "36082623417acd8a955c6a0229900165af010973838b21f771c44c07755eb65a"
+    },
+    {
+      "file": "traceready-base-9.json",
+      "sha256": "739584395f8bd392680f1f1e5134081552dd23653648af40cc7b455ff58739de"
+    },
+    {
+      "file": "traceready-candidate-9.json",
+      "sha256": "5169785c538d7d1dc5a956a0812ee8828fd805dc0af56f92c566fd1dd686a864"
+    },
+    {
+      "file": "traceready-base-10.json",
+      "sha256": "cda78582c62bf19a8783662acbbdf9a655431cfbc127bfb93d6b48bddb8e9a2b"
+    },
+    {
+      "file": "traceready-candidate-10.json",
+      "sha256": "56d65875588ac130ceecdc01b8540517a1da12200a32df3ccd84beacbd464b39"
+    },
+    {
+      "file": "traceready-base-11.json",
+      "sha256": "a40a6b77ef192a1a01eb9b8bd16ef4b4e38be0ab7e370c3b16d1bf460fde29e8"
+    },
+    {
+      "file": "traceready-candidate-11.json",
+      "sha256": "56d3e9cb0d53c2c29661c491d05549171b69fcb46606174b561a753fb70190d6"
+    },
+    {
+      "file": "traceready-base-12.json",
+      "sha256": "909b03bf704ece24c4ea72039f347011d6d0ef176458cc4321b6c20a9ee97ea0"
+    },
+    {
+      "file": "traceready-candidate-12.json",
+      "sha256": "f28f5296be7e0d55939f00d1f7cf20ddaf87b04e549b8af4ae1a677c49202d58"
+    },
+    {
+      "file": "traceready-base-13.json",
+      "sha256": "adbcdec8d5ba0183bffaba9ae35c52255acbbc30d4a3311f67a54b7c5904ab1d"
+    },
+    {
+      "file": "traceready-candidate-13.json",
+      "sha256": "176ffe6908f308af5aa9fcfeeb0df8ca0f56ee2cf5dd145c769fb9744110891f"
+    },
+    {
+      "file": "traceready-base-14.json",
+      "sha256": "773fbf2a33675ac0559a0e834428a7251d691ca178dc7bd262813fbb3fb934c6"
+    },
+    {
+      "file": "traceready-candidate-14.json",
+      "sha256": "479e6a52c23dfa71379742b05260fc2c94747c68eba76172f1914222c77c32ff"
+    },
+    {
+      "file": "traceready-base-15.json",
+      "sha256": "2751be1db057e906adba2943e40ee2bde8ad6a1b0d833c6e589ba1869729cfdb"
+    },
+    {
+      "file": "traceready-candidate-15.json",
+      "sha256": "02ecbcfe5e16bd68332efe40a6564fce1634170875fb047248415013e03df44c"
+    },
+    {
+      "file": "traceready-base-16.json",
+      "sha256": "aee274c0d8a03fd7bda31a800de97c9fb98be7b3fbd90870cb34c914749e3854"
+    },
+    {
+      "file": "traceready-candidate-16.json",
+      "sha256": "062d53492536c206a8208468a71941a5ba5d77697a62385b10d2a837c400ca31"
+    },
+    {
+      "file": "traceready-base-17.json",
+      "sha256": "76c32fb4e41e8c6f910370a8bb422bc537f89895f2d42715363a576eb361c2cd"
+    },
+    {
+      "file": "traceready-candidate-17.json",
+      "sha256": "68b9b8118d24c5c2f9078223c3a23d6a0f0efbf5890a6d9d0af918bd8c8d45ed"
+    },
+    {
+      "file": "traceready-base-18.json",
+      "sha256": "fdd994d219460b291a38369e16ea19cfe2be19255c1c9c603d274378fbd754a9"
+    },
+    {
+      "file": "traceready-candidate-18.json",
+      "sha256": "724908e79a0a66c6070e0e35d921f79c230b9c4cc01957d611cba76460f103b7"
+    },
+    {
+      "file": "traceready-base-19.json",
+      "sha256": "2005cf4666cd04eb2d2942d9a747a2e972a953781e4365d0ac8db4f00500c285"
+    },
+    {
+      "file": "traceready-candidate-19.json",
+      "sha256": "9945232a67df08f750acef73cbcd8094a9eafd425d12cfb77dc2198e2229394a"
+    },
+    {
+      "file": "traceready-base-20.json",
+      "sha256": "a0a7c469d46bc7a4aac012b7b71d2a95eeace41360659708f13fd4e293274684"
+    },
+    {
+      "file": "traceready-candidate-20.json",
+      "sha256": "b5c6d770bd7fbc4169ae42e84ff191fcbaa66549041d8af34de6054acc2aa5c2"
+    },
+    {
+      "file": "traceready-base-21.json",
+      "sha256": "0746c0bac8f042698d472afa2411d9a82d376470a2ad2482636f3183b357d05f"
+    },
+    {
+      "file": "traceready-candidate-21.json",
+      "sha256": "86d1648fe237626b348beca70f69e7fadc73f0ed5a7eb5b27a25679039ec278a"
+    },
+    {
+      "file": "traceready-base-22.json",
+      "sha256": "343ec6e3913c5386298af11a3b677a0a2a0bbd9df973573e197ebd83bbffefca"
+    },
+    {
+      "file": "traceready-candidate-22.json",
+      "sha256": "df7aa4d4672f998b7e2c82c56ca445d4b5381ffe2b21994585148acf1f695cb8"
+    },
+    {
+      "file": "traceready-base-23.json",
+      "sha256": "fcba83d7d722eab9ba1756bea4d2531ca94bc429a2930edeb0767ea4ab8c47c3"
+    },
+    {
+      "file": "traceready-candidate-23.json",
+      "sha256": "2228230d403ce91cdab3d26d526a95499a03ca6f98f1a461276c916b7fcb5f5b"
+    },
+    {
+      "file": "traceready-base-24.json",
+      "sha256": "bebddee462bec0a24200be508cff3ebeca0eb1d36012d3a3968456015a331182"
+    },
+    {
+      "file": "traceready-candidate-24.json",
+      "sha256": "28b6d98862eaad29d781d545d54efb5dd40f1b3887735d0e61d667648af7e3ab"
+    }
+  ]
+}
