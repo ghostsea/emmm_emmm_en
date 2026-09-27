@@ -1,0 +1,145 @@
+{
+  "originalAttempt": {
+    "at": "2026-09-27T17:10:12.646Z",
+    "candidateCommit": "54cc3fac09cbc391b81fa80f919afaa77c889bfd",
+    "cases": [
+      8,
+      10
+    ],
+    "reason": "Case8 renderer remained CPU-active but all Runtime.evaluate/Debugger/Tracing requests timed out. Same case8 seed and alien seed with diagnostic play-value depth bound completed and recorded Fangzhou advanced reward -> scan -> hand-card opportunity -> play-value recursion. Cases8 and10 test browser/runner processes deliberately stopped after capture; not accepted games, not runtime bugCount0, not replaced by diagnostic scores.",
+    "diagnostic": "alien-card-recursion-exact-browser.json",
+    "excludedDiagnostic": "alien-card-recursion-browser.json used an incorrect independent alien seed and is not a same-seed replay.",
+    "next": "New separate bounded candidate and full24 rerun, preserving original suite and artifacts."
+  },
+  "diagnostic": {
+    "summary": {
+      "ok": true,
+      "steps": 1751,
+      "stopped": false,
+      "blocked": false,
+      "gameEnded": true,
+      "stoppedBeforeRound": null,
+      "seed": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+      "message": "游戏已结束"
+    },
+    "recursions": [
+      {
+        "card": "b_135.webp",
+        "stack": "Error\n    at scoreAiPlayCardValue (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:12701:282)\n    at scoreAiScanCard (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18218:23)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18254:25\n    at Array.map (<anonymous>)\n    at getAiBestHandScanIndex (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18251:10)\n    at scoreAiScanAction (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18580:32)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5229:47\n    at getAiSafePositiveScore (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5200:23)\n    at scoreAiFangzhouCard1EffectValue (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5228:27)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5260:26"
+      },
+      {
+        "card": "fangzhou_blue_3",
+        "stack": "Error\n    at scoreAiPlayCardValue (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:12701:282)\n    at scoreAiScanCard (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18218:23)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18254:25\n    at Array.map (<anonymous>)\n    at getAiBestHandScanIndex (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18251:10)\n    at scoreAiScanAction (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18580:32)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5229:47\n    at getAiSafePositiveScore (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5200:23)\n    at scoreAiFangzhouCard1EffectValue (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5228:27)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5260:26"
+      },
+      {
+        "card": "b_127.webp",
+        "stack": "Error\n    at scoreAiPlayCardValue (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:12701:282)\n    at scoreAiScanCard (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18218:23)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18254:25\n    at Array.map (<anonymous>)\n    at getAiBestHandScanIndex (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18251:10)\n    at scoreAiScanAction (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:18580:32)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5229:47\n    at getAiSafePositiveScore (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5200:23)\n    at scoreAiFangzhouCard1EffectValue (http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5228:27)\n    at http://127.0.0.1:12809/randomizer/app/ai-controller.js?v=alien-card-value-source-20260928:5260:26"
+      }
+    ]
+  },
+  "fix": "Only outer Fangzhou advanced reward expands action previews. Nested advanced rewards still value concrete gain/data/draw/trace and existing primitive scan/tech/launch/move values, without recursively asking whole actions for their own hand-card costs. Guard restored in finally; no global runtime mutation, no deck peeking.",
+  "tests": {
+    "files": 53,
+    "negativeControl": true,
+    "restoresAfterErrors": true
+  },
+  "replays": [
+    {
+      "case": 8,
+      "options": {
+        "seed": "codex-ai-slot-first-random-20260906:7dbcf6c21dc35daee386c9af",
+        "alienSeed": "codex-ai-slot-first-aliens-20260906:c142c279b3cc60afb54b73f1",
+        "alienRandomMode": "independent-slots-v1",
+        "games": 5,
+        "activePlayerCount": 4,
+        "maxSteps": 2500,
+        "stepDelayMs": 0,
+        "maxBugRepeats": 1,
+        "sequenceWindowTurns": 6,
+        "yieldEverySteps": 20,
+        "stopOnBlocked": true,
+        "includeLogs": true,
+        "retainAnalysis": false,
+        "includeSampleDiagnostics": false,
+        "single": true,
+        "reset": true
+      },
+      "summary": {
+        "ok": true,
+        "single": true,
+        "blocked": false,
+        "gameEnded": true,
+        "stoppedBeforeRound": null,
+        "steps": 1751,
+        "maxScore": 338,
+        "minPlayerScore": 195,
+        "allPlayersAtLeast70": true,
+        "playerScores": [
+          201,
+          220,
+          338,
+          195
+        ],
+        "bugCount": 0,
+        "actionCounts": null,
+        "opportunities": null,
+        "resourceFlow": {
+          "trackedMagnitude": 2169,
+          "classifiedMagnitude": 2168,
+          "weighted": 0.9995389580451821
+        },
+        "message": "游戏已结束"
+      },
+      "sha256": "85ec070b8f43cde6ea001e0b961a44858dc7eaf3955d4302de4532eefd19fa9f"
+    },
+    {
+      "case": 10,
+      "options": {
+        "seed": "codex-ai-slot-first-random-20260906:f3458fd8a92025bd1b25dd9f",
+        "alienSeed": "codex-ai-slot-first-aliens-20260906:b0df78428bdb92a958aeba37",
+        "alienRandomMode": "independent-slots-v1",
+        "games": 5,
+        "activePlayerCount": 4,
+        "maxSteps": 2500,
+        "stepDelayMs": 0,
+        "maxBugRepeats": 1,
+        "sequenceWindowTurns": 6,
+        "yieldEverySteps": 20,
+        "stopOnBlocked": true,
+        "includeLogs": true,
+        "retainAnalysis": false,
+        "includeSampleDiagnostics": false,
+        "single": true,
+        "reset": true
+      },
+      "summary": {
+        "ok": true,
+        "single": true,
+        "blocked": false,
+        "gameEnded": true,
+        "stoppedBeforeRound": null,
+        "steps": 1475,
+        "maxScore": 253,
+        "minPlayerScore": 219,
+        "allPlayersAtLeast70": true,
+        "playerScores": [
+          253,
+          252,
+          253,
+          219
+        ],
+        "bugCount": 0,
+        "actionCounts": null,
+        "opportunities": null,
+        "resourceFlow": {
+          "trackedMagnitude": 1965,
+          "classifiedMagnitude": 1964,
+          "weighted": 0.9994910941475827
+        },
+        "message": "游戏已结束"
+      },
+      "sha256": "06007051ce19075b4d67052585eddb6b6872b42d5ad69cac6c8e37acc88d3623"
+    }
+  ],
+  "scope": "Recursion diagnosis only; depth2 diagnostic run is not accepted policy score. Actual fixed runtime fully reran both prior hung seeds. All24 candidate games must be rerun with shared f542 baseline before policy assessment. Other unrelated frozen queues remain intact."
+}
