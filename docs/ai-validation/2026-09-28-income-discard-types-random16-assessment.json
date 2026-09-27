@@ -1,0 +1,63 @@
+{
+  "decision": "adopt-correctness-fix-no-score-gain-claim",
+  "candidate": "41a89333fcbebb2ed3f46c7c421a41ccb37ed625",
+  "pairs": 16,
+  "baselineMean": 227.09375,
+  "candidateMean": 227.09375,
+  "delta": {
+    "mean": 0,
+    "min": 0,
+    "p10": 0,
+    "p25": 0,
+    "median": 0,
+    "p75": 0,
+    "max": 0,
+    "topQuartileMean": 0,
+    "winnerMean": 0,
+    "minimumPerGameMean": 0,
+    "seats270Plus": 0,
+    "seats300Plus": 0
+  },
+  "companies": {
+    "作弊实验室": {
+      "seats": 32,
+      "baseline": 253.15625,
+      "candidate": 253.15625,
+      "meanDelta": 0,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 16,
+      "baseline": 196.0625,
+      "candidate": 196.0625,
+      "meanDelta": 0,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 16,
+      "baseline": 206,
+      "candidate": 206,
+      "meanDelta": 0,
+      "minimumDelta": 0
+    }
+  },
+  "bugCount": 0,
+  "ledgerSeats": 128,
+  "cardPayments": 808,
+  "exposure": {
+    "counts": {
+      "baseline:initial_income": 208,
+      "baseline:place_data_income": 265,
+      "baseline:planet_reward_income": 77,
+      "baseline:trade": 86,
+      "candidate:initial_income": 208,
+      "candidate:place_data_income": 265,
+      "candidate:planet_reward_income": 77,
+      "candidate:trade": 86,
+      "baseline:pass_hand_limit": 10,
+      "candidate:pass_hand_limit": 10
+    },
+    "affected": []
+  },
+  "scope": "Fresh16 is default-company regression, not power evidence for rare income flows or Fundamentalism, which is outside the standard pool. Both actual affected flows and resource-sensitive multi-card decisions validated separately. Fixed24 and random16 all paired seat scores unchanged. No addition to accepted +2.546875 gain."
+}

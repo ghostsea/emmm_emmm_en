@@ -1,0 +1,175 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "before": {
+        "resources": {
+          "credits": 4,
+          "energy": 0,
+          "publicity": 8,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 1,
+          "score": 5
+        },
+        "income": {
+          "credits": 2,
+          "energy": 2,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0,
+          "additionalPublicScan": 0
+        }
+      },
+      "after": {
+        "resources": {
+          "credits": 4,
+          "energy": 1,
+          "publicity": 8,
+          "availableData": 0,
+          "aomomoFossils": 0,
+          "additionalPublicScan": 0,
+          "handSize": 0,
+          "score": 5
+        },
+        "income": {
+          "credits": 2,
+          "energy": 3,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0,
+          "additionalPublicScan": 0
+        },
+        "claimedRound": 2
+      },
+      "discard": {
+        "id": 53,
+        "type": "discard",
+        "roundNumber": 2,
+        "turnNumber": 1,
+        "rawTurnNumber": 2,
+        "playerId": "player-white",
+        "playerLabel": "白色",
+        "playerResources": {
+          "score": 5,
+          "credits": 4,
+          "energy": 0,
+          "publicity": 8,
+          "availableData": 0,
+          "handSize": 1
+        },
+        "scoreboard": [
+          {
+            "playerId": "player-blue",
+            "playerLabel": "蓝色",
+            "score": 5,
+            "credits": 4,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 1,
+            "reservedCount": 0,
+            "techCount": 0
+          },
+          {
+            "playerId": "player-green",
+            "playerLabel": "绿色",
+            "score": 9,
+            "credits": 2,
+            "energy": 1,
+            "publicity": 7,
+            "availableData": 0,
+            "handSize": 3,
+            "reservedCount": 0,
+            "techCount": 0
+          },
+          {
+            "playerId": "player-brown",
+            "playerLabel": "棕色",
+            "score": 5,
+            "credits": 4,
+            "energy": 0,
+            "publicity": 2,
+            "availableData": 2,
+            "handSize": 1,
+            "reservedCount": 0,
+            "techCount": 0
+          },
+          {
+            "playerId": "player-white",
+            "playerLabel": "白色",
+            "score": 5,
+            "credits": 4,
+            "energy": 0,
+            "publicity": 8,
+            "availableData": 0,
+            "handSize": 1,
+            "reservedCount": 0,
+            "techCount": 0
+          }
+        ],
+        "message": "白色AI 弃牌 1 张",
+        "details": {
+          "logPlayerId": "player-white",
+          "logPlayerColor": "white",
+          "selectedIndexes": [
+            0
+          ],
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_3.webp",
+              "cardInstanceId": "card-70-0",
+              "cardLabel": "阿尔冈金射电天文台"
+            }
+          ],
+          "pendingType": "industry_fundamentalism_income",
+          "incomeGainByIndex": [
+            {
+              "energy": 1
+            }
+          ],
+          "incomeDiscardPreview": {
+            "pendingType": "industry_fundamentalism_income",
+            "count": 1,
+            "handSize": 1,
+            "resources": {
+              "score": 5,
+              "credits": 4,
+              "energy": 0,
+              "publicity": 8,
+              "availableData": 0
+            },
+            "options": [
+              {
+                "index": 0,
+                "selected": true,
+                "cardId": "b_3.webp",
+                "cardLabel": "阿尔冈金射电天文台",
+                "incomeGain": {
+                  "energy": 1
+                },
+                "incomeScore": 19.293,
+                "finalFormulaFit": 2,
+                "routeEnergyFit": 11,
+                "grandFangzhouCreditThroughputFit": 0,
+                "playValue": 10.342,
+                "playableNow": true,
+                "playScoreNow": 10.342,
+                "playDirectScoreNow": 0,
+                "discardOpportunityCost": 1.241,
+                "handScarcityCost": 10,
+                "netAfterDiscard": 21.052
+              }
+            ]
+          },
+          "tradeId": null
+        },
+        "createdAt": "2026-09-27T18:49:12.331Z"
+      },
+      "bugs": [],
+      "scope": "Actual turn transition starts Fundamentalism round-2 income flow. AI chooses and discards an energy-income card; immediate payout, permanent income and once-per-round marker verified. Controlled single-card runtime coverage, not score evidence."
+    }
+  }
+}
