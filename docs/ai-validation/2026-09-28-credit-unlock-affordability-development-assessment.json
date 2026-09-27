@@ -1,0 +1,113 @@
+{
+  "decision": "promising-development-freeze-fresh-triples-not-yet-adopted",
+  "models": {
+    "base": "67d6fbda86bb889336c8bccb79ff0208bd9d7ce8",
+    "candidate": "8f6ca0095995f65303aa19208fbf85df5ebd4c67"
+  },
+  "pairs": 24,
+  "meanDelta": 5.979166666666657,
+  "pairedGameStandardError": 3.018733653099837,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 266.25,
+      "candidate": 272.0625,
+      "meanDelta": 5.8125,
+      "minimumDelta": -6
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 186.16666666666666,
+      "candidate": 196.83333333333334,
+      "meanDelta": 10.666666666666686,
+      "minimumDelta": -4
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 203.20833333333334,
+      "candidate": 204.83333333333334,
+      "meanDelta": 1.625,
+      "minimumDelta": 6
+    }
+  },
+  "distribution": {
+    "mean": 5.979166666666657,
+    "min": 6,
+    "p10": 3,
+    "p25": 4.75,
+    "median": 6,
+    "p75": 10.75,
+    "max": 19,
+    "topQuartileMean": 2.9583333333333144,
+    "winnerMean": 5.125,
+    "minimumPerGameMean": 4.625,
+    "seats270Plus": 4,
+    "seats300Plus": 0
+  },
+  "absoluteMeanDelta": 11.385416666666657,
+  "absolutePairedGameStandardError": 4.135361907789175,
+  "runtime": {
+    "pairs": 24,
+    "plays": 1125,
+    "matched": 1125,
+    "intendedCardMatched": 1125,
+    "paid": 1125,
+    "issues": []
+  },
+  "followup": {
+    "baseline": {
+      "trades": 18,
+      "cardTrades": 17,
+      "roundOne": 0,
+      "alreadyHadCredit": 3,
+      "targetDiscarded": 0,
+      "unverifiedDiscard": 0,
+      "plannedModelPlayedSameTurn": 16,
+      "anySameTurnPaidPlay": 16,
+      "companies": {
+        "宇宙大战略集团": {
+          "trades": 5,
+          "plannedModelPlayedSameTurn": 3
+        },
+        "作弊实验室": {
+          "trades": 6,
+          "plannedModelPlayedSameTurn": 6
+        },
+        "寰宇超动力": {
+          "trades": 7,
+          "plannedModelPlayedSameTurn": 7
+        }
+      }
+    },
+    "candidate": {
+      "trades": 48,
+      "cardTrades": 47,
+      "roundOne": 4,
+      "alreadyHadCredit": 27,
+      "targetDiscarded": 0,
+      "unverifiedDiscard": 0,
+      "plannedModelPlayedSameTurn": 46,
+      "anySameTurnPaidPlay": 46,
+      "companies": {
+        "作弊实验室": {
+          "trades": 21,
+          "plannedModelPlayedSameTurn": 21
+        },
+        "宇宙大战略集团": {
+          "trades": 13,
+          "plannedModelPlayedSameTurn": 11
+        },
+        "寰宇超动力": {
+          "trades": 14,
+          "plannedModelPlayedSameTurn": 14
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Seen development seeds are not independent holdout evidence; goal +10 not achieved despite development absolute +11.3854.",
+    "Forty-six same-turn model matches do not prove identical original instances if duplicate cards; discard audit separately verifies target preservation.",
+    "Action counts are descriptive and do not explain the entire score difference.",
+    "Frozen parsers predate unknown hand-removal coverage; income-card conversion is conditional on observed known uses."
+  ]
+}
