@@ -448,6 +448,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         CARD_CORNER_EVENT_REWARD: "card_corner_event_reward",
         CONDITIONAL_REWARD: "card_conditional_reward",
         COUNT_ROCKETS_REWARD: "card_count_rockets_reward",
+        COUNT_ALIENS_RESOURCE: "card_count_aliens_resource",
       },
       buildPlayEffects: (card) => card?.playEffects || [],
       getCardModel: (card) => card?.model || null,
@@ -17215,5 +17216,22 @@ for (const roundNumber of [1, 2]) {
     assert.ok(trade,'actual payment gap should be considered regardless of round/current credits');
     assert.equal(trade.preserveHandIndex,0);
     assert.equal(executions[0]?.preserveHandIndex,0,'execution must preserve the card used by the unlock valuation');
+  }
+}
+
+// The b46 reward uses present alien slots, including unrevealed tracks, not a
+// generic card-effect constant or the number of currently revealed species.
+{
+  const reward = cardEffects.MODELS['b_46.webp'].tasks[0].rewards[0];
+  for (const count of [0, 1, 2, 3]) {
+    const alienGameState = { aliens: Object.fromEntries(Array.from({ length: count }, (_, i) => [String(i + 1), { revealed: i === 0, traces: {} }])) };
+    const h = createAiControllerHarness(null, { alienGameState, roundNumber: 2 });
+    const before = JSON.stringify({ player: h.blue, alienGameState });
+    assert.equal(h.controller.getAiEffectDirectScore(reward, h.blue), count * 2);
+    assert.equal(h.controller.scoreAiEffectValue(reward, { player: h.blue }), h.controller.scoreAiEffectValue({ type: 'gain_resources', options: { gain: { score: count * 2, energy: count } } }, { player: h.blue }));
+    assert.equal(JSON.stringify({ player: h.blue, alienGameState }), before, 'reward valuation must not change game state');
+    const normalized = { type: 'card_count_aliens_resource', options: { gainPerAlien: { score: 1.6, energy: -1, credits: '0.6' } } };
+    assert.equal(h.controller.getAiEffectDirectScore(normalized, h.blue), 2 * count, 'round each per-alien amount before multiplying');
+    assert.equal(h.controller.scoreAiEffectValue(normalized, { player: h.blue }), h.controller.scoreAiEffectValue({ type: 'gain_resources', options: { gain: { score: count * 2, energy: 0, credits: count } } }, { player: h.blue }));
   }
 }

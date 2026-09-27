@@ -1603,3 +1603,5 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28 卡牌补给组合b07a4b4f已冻结同步：在当前信用实际缺口解锁策略上，合并既有普通抽牌/精选阶段价值和两类漏覆盖的卡牌扫描估值，54测试、三项单独回退负对照及5种真实打牌付款/奖励检查通过。没有引入失败的标准扫描、紫4、费用分流或新系数。完整固定24复用当前863基线，按实际打牌事务核对补牌/数据与后续用途；有整体改善再冻结新随机三版本，不能相加历史单项弱正值。见[计划](ai-validation/2026-09-28-card-supply-current-value-development-plan.json)、[补牌实测](ai-validation/2026-09-28-card-supply-current-value-draw-browser.json)、[扫描实测](ai-validation/2026-09-28-card-supply-current-value-scan-browser.json)。
+
+2026-09-28 按外星人数量奖励独立候选：COUNT_ALIENS_RESOURCE按运行时现有alien槽位数量（包括尚未揭示的发现轨道）乘以每种已归一化资源，交给现有资源收益模型；直接分数同样读取实际score总量。修复b46任务从通用2点/直接0分遗漏到实际奖励，不预测隐藏物种，不改奖励规则或其他补牌/扫描系数。54测试覆盖0/1/2/3槽、取整、负数和只读；两项隔离回退负对照失败。真实浏览器b46任务准确获得4分2能量，待完整固定及随机验证，暂不合入默认。

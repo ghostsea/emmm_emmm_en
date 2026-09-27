@@ -10779,6 +10779,14 @@
       )).length;
     }
 
+    function getAiCountAliensResourceGain(effect) {
+      // Match executeCountAliensResourceEffect: count current alien slots,
+      // including discovery tracks, and normalize each per-alien reward first.
+      const alienCount = Object.keys(alienGameState?.aliens || {}).length;
+      return Object.fromEntries(Object.entries(effect?.options?.gainPerAlien || {})
+        .map(([resource, amount]) => [resource, Math.max(0, Math.round(aiNumber(amount))) * alienCount]));
+    }
+
     function scoreAiEffectValue(effect, options = {}) {
       if (!effect) return 0;
       const type = effect.type;
@@ -10876,6 +10884,8 @@
           const count = Math.max(0, currentIncomeCount - baseIncomeCount);
           return scoreAiCountedResourceGain({ [resource]: Math.round(count * per) }, player);
         }
+        case cardEffects.EFFECT_TYPES.COUNT_ALIENS_RESOURCE:
+          return scoreAiCountedResourceGain(getAiCountAliensResourceGain(effect), player);
         case cardEffects.EFFECT_TYPES.OPTIONAL_DISCARD_SCAN: {
           const handScans = Math.min(
             Math.max(1, Math.round(aiNumber(effectOptions.count || 1))),
@@ -13696,6 +13706,9 @@
       if (!effect) return 0;
       const type = effect.type;
       const effectOptions = effect.options || {};
+      if (type === cardEffects.EFFECT_TYPES.COUNT_ALIENS_RESOURCE) {
+        return Math.max(0, aiNumber(getAiCountAliensResourceGain(effect).score));
+      }
       if (type === planetRewards.EFFECT_TYPES?.GAIN_RESOURCES || type === "gain_resources") {
         return Math.max(0, aiNumber(effectOptions.gain?.score));
       }
@@ -26756,6 +26769,8 @@
       scoreAiFullSectorExtraMark,
       scoreAiLastSectorWinTaskCashout,
       scoreAiNebulaScanChoice,
+      scoreAiEffectValue,
+      getAiEffectDirectScore,
       scoreAiTerminalStagingOnlyLaunchPenalty,
       stopAiAutoBattle,
       sumAiDemandMap,

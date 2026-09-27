@@ -1,0 +1,17 @@
+{
+  "scope": "Isolated module source rollback of value and direct-score paths; production source untouched.",
+  "results": [
+    {
+      "name": "value",
+      "actual": 2,
+      "expected": 0.66,
+      "message": "Expected values to be strictly equal:\n\n2 !== 0.66\n"
+    },
+    {
+      "name": "direct",
+      "actual": 0,
+      "expected": 2,
+      "message": "Expected values to be strictly equal:\n\n0 !== 2\n"
+    }
+  ]
+}
