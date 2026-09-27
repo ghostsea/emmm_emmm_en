@@ -1,0 +1,157 @@
+{
+  "decision": "hold-accurate-counted-reward-candidate-no-default-promotion-no-fresh-random",
+  "reason": "Actual reward bundle/direct score now match runtime but resulting policy changed3of24 whole-game outcomes and lowered complete mean/high distribution. Six b46 tasks paid on each side; correction does not create additional reward by itself. Keep isolated while revisiting prospective task value interactions; no company/seed exceptions.",
+  "models": {
+    "base": "863a01035dcb6f664fc9403a75126f30e5f42392",
+    "candidate": "55dd6666f7503dee5d186c587dbe43fceb7cea08"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 235.29166666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 200.25,
+    "median": 228.5,
+    "p75": 273.75,
+    "max": 385,
+    "topQuartileMean": 307,
+    "winnerMean": 293.7083333333333,
+    "minimumPerGameMean": 179.25,
+    "seats270Plus": 26,
+    "seats300Plus": 13,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 269.5416666666667,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 195.95833333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 206.125,
+        "min": 130
+      }
+    }
+  },
+  "meanDelta": -1.15625,
+  "pairedGameStandardError": 2.490780668357276,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 269.5416666666667,
+      "meanDelta": -2.5208333333333144,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 195.95833333333334,
+      "meanDelta": -0.875,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 206.125,
+      "meanDelta": 1.2916666666666572,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -1.15625,
+    "min": 0,
+    "p10": 0,
+    "p25": 2.75,
+    "median": 0,
+    "p75": -6.25,
+    "max": 0,
+    "topQuartileMean": -1.875,
+    "winnerMean": -2.2083333333333712,
+    "minimumPerGameMean": 1.6666666666666572,
+    "seats270Plus": -2,
+    "seats300Plus": -1
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 306.0833333333333,
+    "meanDelta": -2.7916666666666665,
+    "improved": 0,
+    "declined": 1,
+    "unchanged": 23
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 173.58333333333334,
+    "meanDelta": 2.2916666666666665,
+    "improved": 1,
+    "declined": 1,
+    "unchanged": 22
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1117,
+    "matched": 1117,
+    "intendedCardMatched": 1117,
+    "paid": 1117,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "taskPayoutCounts": {
+    "baseline": 6,
+    "candidate": 6
+  },
+  "absoluteReference": {
+    "meanDelta": 10.229166666666657,
+    "se": 3.535755403609614
+  },
+  "limitations": [
+    "Seen24 development only. +10 not achieved.",
+    "All frozen policies predate shared resource label parser5ffc5710. Each b46 reward event reports3 energy despite actual2, with possible compensating inferred consumption. Raw aggregate resources archived with this caveat, not represented as fully corrected.",
+    "Current corrected parser applied to payout text separately; no raw snapshots available to rebuild old full AI accounting in-place.",
+    "Reference human18files17unique fully reparsed separately. New362point log non-income energy18, not19.",
+    "Company score differences include shared board/deck interactions."
+  ]
+}
