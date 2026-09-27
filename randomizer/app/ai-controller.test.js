@@ -1428,7 +1428,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     cardName: "Low signal public card",
     price: 0,
     scanActionCode: 1,
-    playEffects: [{ type: "draw_cards", options: { count: 1 } }],
+    playEffects: [],
   };
   const harness = createAiControllerHarness(null, {
     currentPlayerColor: "blue",
@@ -17172,15 +17172,23 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
     'research candidate enumeration must not consume optional triggers');
 }
 
-// Selecting a card allows a blind draw, and uses the same phase value per card.
+// Equivalent hand-resource effects share phase and low-hand continuation value.
 for (const round of [1, 2, 3, 4]) {
-  const h = createAiControllerHarness(null, { currentPlayerColor: 'blue', roundNumber: round, blueHand: [], blueResources: { credits: 1, energy: 1, handSize: 0 } });
-  const before = JSON.stringify(h.blue);
-  const one = h.controller.scoreAiEffectValue({ type: 'draw_cards', options: { count: 1 } }, { player: h.blue });
-  const two = h.controller.scoreAiEffectValue({ type: 'draw_cards', options: { count: 2 } }, { player: h.blue });
-  const pick = h.controller.scoreAiEffectValue({ type: 'pick_card', options: { count: 1 } }, { player: h.blue });
-  assert.equal(one, round <= 2 ? 5.4 : 4.3, 'draw uses the configured phase hand value');
-  assert.equal(two, one * 2, 'actual draw count is retained');
-  assert.equal(pick, one, 'blind-draw fallback gives selection the same base hand value');
-  assert.equal(JSON.stringify(h.blue), before, 'valuation does not draw or mutate player state');
+  const values = [];
+  for (const handSize of [0, 4]) {
+    const h = createAiControllerHarness(null, { currentPlayerColor: 'blue', roundNumber: round, blueHand: Array.from({length: handSize}, (_,i)=>({id:'retained-'+i})), blueResources: { credits: 1, energy: 1, handSize, score: 100 } });
+    const before = JSON.stringify(h.blue);
+    const score = effect => h.controller.scoreAiEffectValue(effect, { player: h.blue });
+    const one = score({ type: 'draw_cards', options: { count: 1 } });
+    const two = score({ type: 'draw_cards', options: { count: 2 } });
+    const pick = score({ type: 'pick_card', options: { count: 1 } });
+    assert.equal(one, score({type:'gain_resources', options:{gain:{handSize:1}}}), 'equivalent hand gain must not lose continuation value');
+    assert.equal(two, score({type:'gain_resources', options:{gain:{handSize:2}}}), 'multiple draws retain their actual resource count');
+    assert.equal(pick, one, 'selected card retains its actual blind-draw fallback');
+    if (handSize === 4) assert.equal(one, round <= 2 ? 5.4 : 4.3, 'adequate hand has only base phase value');
+    assert.equal(JSON.stringify(h.blue), before, 'valuation must not draw or mutate player state');
+    values.push(one);
+  }
+  if (round < 4) assert(values[0] > values[1], 'low hand uses existing continuation value before final round');
+  else assert.equal(values[0], values[1], 'final-round continuation remains disabled in this isolated candidate');
 }

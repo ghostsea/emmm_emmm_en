@@ -10835,10 +10835,10 @@
             alienSlotId: effectOptions.alienSlotId,
           });
         case "draw_cards":
-          return scoreAiResourceBundle({ handSize: Math.max(0, Math.round(aiNumber(effectOptions.count || 1))) });
+          return scoreAiCountedResourceGain({ handSize: Math.max(0, Math.round(aiNumber(effectOptions.count || 1))) }, player);
         case "pick_card":
           // The actual selection also permits one blind draw.
-          return scoreAiResourceBundle({ handSize: 1 });
+          return scoreAiCountedResourceGain({ handSize: 1 }, player);
         case "launch":
           return 6;
         case "research_tech_select":
