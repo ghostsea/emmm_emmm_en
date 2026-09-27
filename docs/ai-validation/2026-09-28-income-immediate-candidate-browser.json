@@ -1,0 +1,144 @@
+{
+  "before": {
+    "resources": {
+      "credits": 3,
+      "energy": 0,
+      "publicity": 4,
+      "availableData": 1,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 100
+    },
+    "income": {
+      "credits": 2,
+      "energy": 2,
+      "handSize": 2,
+      "availableData": 0,
+      "publicity": 0,
+      "additionalPublicScan": 0
+    }
+  },
+  "after": {
+    "resources": {
+      "credits": 3,
+      "energy": 1,
+      "publicity": 4,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 100
+    },
+    "income": {
+      "credits": 2,
+      "energy": 3,
+      "handSize": 2,
+      "availableData": 0,
+      "publicity": 0,
+      "additionalPublicScan": 0
+    }
+  },
+  "preview": {
+    "pendingType": "place_data_income",
+    "count": 1,
+    "handSize": 1,
+    "resources": {
+      "score": 100,
+      "credits": 3,
+      "energy": 0,
+      "publicity": 4,
+      "availableData": 1
+    },
+    "options": [
+      {
+        "index": 0,
+        "selected": false,
+        "cardId": "b_3.webp",
+        "cardLabel": "阿尔冈金射电天文台",
+        "incomeGain": {
+          "energy": 1
+        },
+        "incomeScore": 1.767,
+        "finalFormulaFit": 2,
+        "routeEnergyFit": 9,
+        "grandFangzhouCreditThroughputFit": 0,
+        "playValue": 30.906,
+        "playableNow": true,
+        "playScoreNow": 30.906,
+        "playDirectScoreNow": 0,
+        "discardOpportunityCost": 3.709,
+        "handScarcityCost": 10,
+        "netAfterDiscard": -0.942
+      }
+    ]
+  },
+  "placed": {
+    "ok": true,
+    "abilityId": "placeData",
+    "message": "放置数据：序号 4 自数据池槽位1 → 第一排放置位4 (56.31%,68.18%)，额外获得 1 次收入",
+    "undoable": true,
+    "commands": [
+      {
+        "label": "放置数据",
+        "describe": "恢复数据池与放置区",
+        "undo": {}
+      }
+    ],
+    "cost": {},
+    "payload": {
+      "placementKind": "computer",
+      "placementSlot": 4,
+      "blueTileId": null,
+      "slotBonus": {
+        "type": "income"
+      },
+      "slotBonuses": [
+        {
+          "type": "income"
+        }
+      ],
+      "choices": [
+        {
+          "target": "computer",
+          "placementSlot": 4,
+          "label": "第一排放置位 4",
+          "description": "按从左到右放入第一排第 4 位，额外获得 1 次收入"
+        }
+      ]
+    },
+    "events": [],
+    "token": {
+      "id": "data-token-8",
+      "index": 4,
+      "placementKind": "computer",
+      "placementSlot": 4,
+      "percentX": 56.31,
+      "percentY": 68.18
+    },
+    "poolToken": {
+      "id": "data-token-8",
+      "index": 4,
+      "slotIndex": 1,
+      "percentX": 17.74,
+      "percentY": 66.08
+    },
+    "placementKind": "computer",
+    "placementSlot": 4,
+    "slotBonus": {
+      "type": "income"
+    },
+    "slotBonuses": [
+      {
+        "type": "income"
+      }
+    ],
+    "layout": {
+      "percentX": 56.31,
+      "percentY": 68.18,
+      "scalePercent": 11.8
+    }
+  },
+  "bugs": [],
+  "scope": "Controlled final-round computer slot 4 income: consume one data, discard one card, gain immediate energy and permanent income. No future PASS payouts or score gain claim."
+}
