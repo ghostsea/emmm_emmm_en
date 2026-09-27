@@ -1,0 +1,2035 @@
+{
+  "change": "Generic scoreAiPlayCardValue now defaults to getAiPlayEffectsForCard, matching currently implemented special alien card effects used by the actual play candidate.",
+  "scope": "Shared card retention/value entry also serves income discard and hand opportunity evaluation. Existing coefficients, discard cap and actual card execution unchanged. No forced play or preservation. Baseline and candidate both include common empty-income skip fix; excludes Runezu reward export and failed analysis premium.",
+  "diagnostic": {
+    "scope": "All24 candidate games, selected income discards currently playable, local candidate score minus generic fallback >1. Same-income alternatives shown; not a proof of better total-game outcome or affordability after another action.",
+    "rows": [
+      {
+        "case": 1,
+        "log": 483,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 3,
+        "resources": {
+          "score": 54,
+          "credits": 2,
+          "energy": 2,
+          "publicity": 3,
+          "availableData": 2
+        },
+        "card": "runezu_8.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 3.976,
+        "gap": 3.976,
+        "alternatives": [
+          {
+            "card": "dlc_39.png",
+            "playValue": 20.651,
+            "playScore": null,
+            "playable": false,
+            "net": 22.595
+          }
+        ],
+        "selectedNet": 25.073
+      },
+      {
+        "case": 2,
+        "log": 527,
+        "player": "player-white",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 7,
+        "resources": {
+          "score": 43,
+          "credits": 10,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 3
+        },
+        "card": "amiba_9.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 30.087,
+        "gap": 30.087,
+        "alternatives": [
+          {
+            "card": "amiba_4.webp",
+            "playValue": 0,
+            "playScore": 7.006,
+            "playable": true,
+            "net": 29.75
+          }
+        ],
+        "selectedNet": 29.75
+      },
+      {
+        "case": 2,
+        "log": 788,
+        "player": "player-brown",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 1,
+        "resources": {
+          "score": 88,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0
+        },
+        "card": "amiba_2.webp",
+        "defaultPlayValue": 18.52,
+        "actualPlayScore": 28.64,
+        "gap": 10.120000000000001,
+        "alternatives": [],
+        "selectedNet": 7.498
+      },
+      {
+        "case": 2,
+        "log": 893,
+        "player": "player-blue",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 4,
+        "resources": {
+          "score": 70,
+          "credits": 5,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 2
+        },
+        "card": "amiba_6.webp",
+        "defaultPlayValue": 14.6,
+        "actualPlayScore": 17.6,
+        "gap": 3.0000000000000018,
+        "alternatives": [],
+        "selectedNet": -6.532
+      },
+      {
+        "case": 2,
+        "log": 956,
+        "player": "player-white",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 6,
+        "resources": {
+          "score": 75,
+          "credits": 1,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 2
+        },
+        "card": "amiba_7.webp",
+        "defaultPlayValue": 15.503,
+        "actualPlayScore": 30.741,
+        "gap": 15.238,
+        "alternatives": [
+          {
+            "card": "runezu_8.webp",
+            "playValue": 17.489,
+            "playScore": 23.289,
+            "playable": true,
+            "net": 3.231
+          },
+          {
+            "card": "b_61.webp",
+            "playValue": 48.849,
+            "playScore": null,
+            "playable": false,
+            "net": -0.532
+          }
+        ],
+        "selectedNet": 3.47
+      },
+      {
+        "case": 5,
+        "log": 739,
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 2,
+        "resources": {
+          "score": 65,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 5,
+          "availableData": 0
+        },
+        "card": "runezu_5.webp",
+        "defaultPlayValue": 15.733,
+        "actualPlayScore": 18.733,
+        "gap": 3,
+        "alternatives": [
+          {
+            "card": "b_70.webp",
+            "playValue": 21.886,
+            "playScore": 21.886,
+            "playable": true,
+            "net": 7.312
+          },
+          {
+            "card": "b_19.webp",
+            "playValue": 51.934,
+            "playScore": 51.934,
+            "playable": true,
+            "net": 3.707
+          },
+          {
+            "card": "b_116.webp",
+            "playValue": 73.234,
+            "playScore": null,
+            "playable": false,
+            "net": 1.939
+          }
+        ],
+        "selectedNet": 8.051
+      },
+      {
+        "case": 5,
+        "log": 784,
+        "player": "player-white",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 3,
+        "resources": {
+          "score": 70,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 4,
+          "availableData": 3
+        },
+        "card": "runezu_9.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 28.253,
+        "gap": 28.253,
+        "alternatives": [
+          {
+            "card": "b_2.webp",
+            "playValue": 7.036,
+            "playScore": 7.036,
+            "playable": true,
+            "net": 14.546
+          }
+        ],
+        "selectedNet": 15.39
+      },
+      {
+        "case": 6,
+        "log": 431,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 34,
+          "credits": 5,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1
+        },
+        "card": "amiba_4.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 8.103,
+        "gap": 8.103,
+        "alternatives": [
+          {
+            "card": "b_59.webp",
+            "playValue": 0.776,
+            "playScore": 0.776,
+            "playable": true,
+            "net": 23.607
+          },
+          {
+            "card": "b_65.webp",
+            "playValue": 1.257,
+            "playScore": 1.257,
+            "playable": true,
+            "net": 23.549
+          }
+        ],
+        "selectedNet": 23.7
+      },
+      {
+        "case": 7,
+        "log": 1057,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 1,
+        "resources": {
+          "score": 91,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 4,
+          "availableData": 0
+        },
+        "card": "b_121.webp",
+        "defaultPlayValue": 58.878,
+        "actualPlayScore": 81.432,
+        "gap": 22.554000000000002,
+        "alternatives": [
+          {
+            "card": "b_8.webp",
+            "playValue": 60.737,
+            "playScore": 60.737,
+            "playable": true,
+            "net": -2.038
+          },
+          {
+            "card": "b_15.webp",
+            "playValue": 60.942,
+            "playScore": 67.707,
+            "playable": true,
+            "net": -2.063
+          }
+        ],
+        "selectedNet": -1.815
+      },
+      {
+        "case": 8,
+        "log": 247,
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 1,
+        "turn": 6,
+        "resources": {
+          "score": 20,
+          "credits": 4,
+          "energy": 1,
+          "publicity": 0,
+          "availableData": 0
+        },
+        "card": "b_61.webp",
+        "defaultPlayValue": 2.634,
+        "actualPlayScore": 7.746,
+        "gap": 5.112,
+        "alternatives": [
+          {
+            "card": "dlc_16.png",
+            "playValue": 4.347,
+            "playScore": 4.347,
+            "playable": true,
+            "net": 20.842
+          }
+        ],
+        "selectedNet": 21.047
+      },
+      {
+        "case": 8,
+        "log": 370,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 2,
+        "resources": {
+          "score": 42,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 1,
+          "availableData": 0
+        },
+        "card": "fangzhou_blue_4",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 4.554,
+        "gap": 4.554,
+        "alternatives": [
+          {
+            "card": "b_66.webp",
+            "playValue": 19.816,
+            "playScore": 19.816,
+            "playable": true,
+            "net": 13.472
+          },
+          {
+            "card": "b_34.webp",
+            "playValue": 27.074,
+            "playScore": null,
+            "playable": false,
+            "net": 12.601
+          }
+        ],
+        "selectedNet": 15.85
+      },
+      {
+        "case": 8,
+        "log": 659,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 1,
+        "resources": {
+          "score": 79,
+          "credits": 5,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 2
+        },
+        "card": "fangzhou_pink_4",
+        "defaultPlayValue": 11.739,
+        "actualPlayScore": 34.997,
+        "gap": 23.258,
+        "alternatives": [
+          {
+            "card": "b_123.webp",
+            "playValue": 14.634,
+            "playScore": 14.634,
+            "playable": true,
+            "net": 0.694
+          },
+          {
+            "card": "b_109.webp",
+            "playValue": 27.046,
+            "playScore": 27.046,
+            "playable": true,
+            "net": -0.796
+          },
+          {
+            "card": "b_8.webp",
+            "playValue": 49.121,
+            "playScore": 49.121,
+            "playable": true,
+            "net": -3.445
+          },
+          {
+            "card": "b_113.webp",
+            "playValue": 55.779,
+            "playScore": 55.779,
+            "playable": true,
+            "net": -4.243
+          }
+        ],
+        "selectedNet": 1.041
+      },
+      {
+        "case": 8,
+        "log": 718,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 1,
+        "resources": {
+          "score": 44,
+          "credits": 3,
+          "energy": 6,
+          "publicity": 5,
+          "availableData": 2
+        },
+        "card": "fangzhou_blue_4",
+        "defaultPlayValue": 7.069,
+        "actualPlayScore": 28.327,
+        "gap": 21.258000000000003,
+        "alternatives": [
+          {
+            "card": "b_122.webp",
+            "playValue": 15.964,
+            "playScore": 15.964,
+            "playable": true,
+            "net": 4.124
+          },
+          {
+            "card": "b_49.webp",
+            "playValue": 33.566,
+            "playScore": 33.566,
+            "playable": true,
+            "net": 2.012
+          }
+        ],
+        "selectedNet": 5.192
+      },
+      {
+        "case": 8,
+        "log": 1208,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 1,
+        "resources": {
+          "score": 140,
+          "credits": 7,
+          "energy": 4,
+          "publicity": 2,
+          "availableData": 0
+        },
+        "card": "fangzhou_yellow_1",
+        "defaultPlayValue": 22.209,
+        "actualPlayScore": 41.711,
+        "gap": 19.502,
+        "alternatives": [
+          {
+            "card": "b_41.webp",
+            "playValue": 32.704,
+            "playScore": 32.704,
+            "playable": true,
+            "net": -3.924
+          },
+          {
+            "card": "b_9.webp",
+            "playValue": 35.581,
+            "playScore": 35.581,
+            "playable": true,
+            "net": -4.27
+          },
+          {
+            "card": "yichangdian_5.webp",
+            "playValue": 46.095,
+            "playScore": 46.095,
+            "playable": true,
+            "net": -5.531
+          }
+        ],
+        "selectedNet": -2.665
+      },
+      {
+        "case": 9,
+        "log": 1317,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 4,
+        "resources": {
+          "score": 148,
+          "credits": 3,
+          "energy": 3,
+          "publicity": 9,
+          "availableData": 3
+        },
+        "card": "b_1.webp",
+        "defaultPlayValue": 8.308,
+        "actualPlayScore": 19.96,
+        "gap": 11.652000000000001,
+        "alternatives": [],
+        "selectedNet": 17.953
+      },
+      {
+        "case": 10,
+        "log": 358,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 2,
+        "turn": 4,
+        "resources": {
+          "score": 28,
+          "credits": 5,
+          "energy": 0,
+          "publicity": 7,
+          "availableData": 0
+        },
+        "card": "fangzhou_blue_2",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 6.086,
+        "gap": 6.086,
+        "alternatives": [
+          {
+            "card": "b_69.webp",
+            "playValue": 19.07,
+            "playScore": 19.07,
+            "playable": true,
+            "net": 28.412
+          }
+        ],
+        "selectedNet": 30.7
+      },
+      {
+        "case": 10,
+        "log": 628,
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 3,
+        "resources": {
+          "score": 66,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 1
+        },
+        "card": "fangzhou_yellow_4",
+        "defaultPlayValue": 1.419,
+        "actualPlayScore": 25.735,
+        "gap": 24.316,
+        "alternatives": [],
+        "selectedNet": 9.07
+      },
+      {
+        "case": 10,
+        "log": 687,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 4,
+        "resources": {
+          "score": 54,
+          "credits": 6,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0
+        },
+        "card": "fangzhou_yellow_2",
+        "defaultPlayValue": 0.525,
+        "actualPlayScore": 25.108,
+        "gap": 24.583000000000002,
+        "alternatives": [
+          {
+            "card": "b_31.webp",
+            "playValue": 8.206,
+            "playScore": 8.206,
+            "playable": true,
+            "net": 1.815
+          },
+          {
+            "card": "b_111.webp",
+            "playValue": 10.817,
+            "playScore": 10.817,
+            "playable": true,
+            "net": 1.502
+          }
+        ],
+        "selectedNet": 2.737
+      },
+      {
+        "case": 13,
+        "log": 689,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 3,
+        "resources": {
+          "score": 100,
+          "credits": 2,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1
+        },
+        "card": "fangzhou_blue_2",
+        "defaultPlayValue": 3.457,
+        "actualPlayScore": 23.102,
+        "gap": 19.645,
+        "alternatives": [
+          {
+            "card": "fangzhou_pink_2",
+            "playValue": 3.457,
+            "playScore": 23.102,
+            "playable": true,
+            "net": 21.105
+          },
+          {
+            "card": "b_93.webp",
+            "playValue": 15.099,
+            "playScore": null,
+            "playable": false,
+            "net": 19.708
+          },
+          {
+            "card": "b_95.webp",
+            "playValue": 33.654,
+            "playScore": null,
+            "playable": false,
+            "net": 17.481
+          }
+        ],
+        "selectedNet": 21.105
+      },
+      {
+        "case": 13,
+        "log": 734,
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "round": 3,
+        "turn": 4,
+        "resources": {
+          "score": 92,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 1
+        },
+        "card": "fangzhou_yellow_2",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 19.768,
+        "gap": 19.768,
+        "alternatives": [
+          {
+            "card": "b_48.webp",
+            "playValue": 0,
+            "playScore": null,
+            "playable": false,
+            "net": 17.8
+          }
+        ],
+        "selectedNet": 17.8
+      },
+      {
+        "case": 13,
+        "log": 1081,
+        "player": "player-white",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 2,
+        "resources": {
+          "score": 83,
+          "credits": 3,
+          "energy": 5,
+          "publicity": 5,
+          "availableData": 1
+        },
+        "card": "fangzhou_blue_4",
+        "defaultPlayValue": 5.722,
+        "actualPlayScore": 24.618,
+        "gap": 18.895999999999997,
+        "alternatives": [
+          {
+            "card": "fangzhou_pink_3",
+            "playValue": 5.722,
+            "playScore": 24.618,
+            "playable": true,
+            "net": -4.687
+          }
+        ],
+        "selectedNet": -4.687
+      },
+      {
+        "case": 13,
+        "log": 1187,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 5,
+        "resources": {
+          "score": 142,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 1
+        },
+        "card": "fangzhou_yellow_1",
+        "defaultPlayValue": 1.83,
+        "actualPlayScore": 19.369,
+        "gap": 17.539,
+        "alternatives": [
+          {
+            "card": "dlc_13.png",
+            "playValue": 13.782,
+            "playScore": 13.782,
+            "playable": true,
+            "net": 19.796
+          },
+          {
+            "card": "b_90.webp",
+            "playValue": 14.782,
+            "playScore": 14.782,
+            "playable": true,
+            "net": 19.676
+          },
+          {
+            "card": "b_139.webp",
+            "playValue": 27.425,
+            "playScore": 27.425,
+            "playable": true,
+            "net": 18.159
+          }
+        ],
+        "selectedNet": 21.23
+      },
+      {
+        "case": 14,
+        "log": 736,
+        "player": "player-brown",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 1,
+        "resources": {
+          "score": 34,
+          "credits": 4,
+          "energy": 5,
+          "publicity": 7,
+          "availableData": 0
+        },
+        "card": "fangzhou_pink_2",
+        "defaultPlayValue": 7.15,
+        "actualPlayScore": 28.557,
+        "gap": 21.406999999999996,
+        "alternatives": [
+          {
+            "card": "fangzhou_blue_2",
+            "playValue": 11.008,
+            "playScore": 32.415,
+            "playable": true,
+            "net": 3.229
+          },
+          {
+            "card": "b_60.webp",
+            "playValue": 53.502,
+            "playScore": null,
+            "playable": false,
+            "net": -1.87
+          }
+        ],
+        "selectedNet": 3.692
+      },
+      {
+        "case": 14,
+        "log": 1252,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 4,
+        "turn": 2,
+        "resources": {
+          "score": 124,
+          "credits": 12,
+          "energy": 6,
+          "publicity": 4,
+          "availableData": 1
+        },
+        "card": "b_12.webp",
+        "defaultPlayValue": 29.882,
+        "actualPlayScore": 39.09,
+        "gap": 9.208000000000002,
+        "alternatives": [],
+        "selectedNet": 0.414
+      },
+      {
+        "case": 16,
+        "log": 375,
+        "player": "player-green",
+        "company": "寰宇超动力",
+        "round": 2,
+        "turn": 1,
+        "resources": {
+          "score": 23,
+          "credits": 4,
+          "energy": 2,
+          "publicity": 6,
+          "availableData": 2
+        },
+        "card": "b_104.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 3.099,
+        "gap": 3.099,
+        "alternatives": [
+          {
+            "card": "b_92.webp",
+            "playValue": 0,
+            "playScore": -0.735,
+            "playable": true,
+            "net": 27.355
+          }
+        ],
+        "selectedNet": 27.355
+      },
+      {
+        "case": 16,
+        "log": 572,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 7,
+        "resources": {
+          "score": 60,
+          "credits": 2,
+          "energy": 0,
+          "publicity": 2,
+          "availableData": 2
+        },
+        "card": "runezu_7.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 3.005,
+        "gap": 3.005,
+        "alternatives": [
+          {
+            "card": "dlc_30.png",
+            "playValue": 4.801,
+            "playScore": null,
+            "playable": false,
+            "net": 23.124
+          },
+          {
+            "card": "b_62.webp",
+            "playValue": 6.965,
+            "playScore": null,
+            "playable": false,
+            "net": 22.864
+          }
+        ],
+        "selectedNet": 23.7
+      },
+      {
+        "case": 17,
+        "log": 416,
+        "player": "player-white",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 3,
+        "resources": {
+          "score": 50,
+          "credits": 2,
+          "energy": 3,
+          "publicity": 8,
+          "availableData": 0
+        },
+        "card": "banrenma_1.webp",
+        "defaultPlayValue": 6.889,
+        "actualPlayScore": 9.889,
+        "gap": 2.999999999999999,
+        "alternatives": [
+          {
+            "card": "b_75.webp",
+            "playValue": 6.939,
+            "playScore": 6.939,
+            "playable": true,
+            "net": 24.021
+          }
+        ],
+        "selectedNet": 24.027
+      },
+      {
+        "case": 17,
+        "log": 664,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 10,
+        "resources": {
+          "score": 69,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 3,
+          "availableData": 1
+        },
+        "card": "amiba_6.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 2.674,
+        "gap": 2.674,
+        "alternatives": [
+          {
+            "card": "amiba_0.webp",
+            "playValue": 0,
+            "playScore": null,
+            "playable": false,
+            "net": 30.865
+          }
+        ],
+        "selectedNet": 30.865
+      },
+      {
+        "case": 18,
+        "log": 679,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 3,
+        "turn": 2,
+        "resources": {
+          "score": 59,
+          "credits": 4,
+          "energy": 4,
+          "publicity": 6,
+          "availableData": 0
+        },
+        "card": "chong_7.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 19.598,
+        "gap": 19.598,
+        "alternatives": [
+          {
+            "card": "b_6.webp",
+            "playValue": 8.555,
+            "playScore": 8.555,
+            "playable": true,
+            "net": 3.693
+          }
+        ],
+        "selectedNet": 4.72
+      },
+      {
+        "case": 21,
+        "log": 1194,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "round": 4,
+        "turn": 3,
+        "resources": {
+          "score": 89,
+          "credits": 3,
+          "energy": 6,
+          "publicity": 4,
+          "availableData": 1
+        },
+        "card": "fangzhou_blue_4",
+        "defaultPlayValue": 24.623,
+        "actualPlayScore": 49.997,
+        "gap": 25.374,
+        "alternatives": [
+          {
+            "card": "b_38.webp",
+            "playValue": 42.159,
+            "playScore": null,
+            "playable": false,
+            "net": -0.392
+          },
+          {
+            "card": "dlc_18.png",
+            "playValue": 45.079,
+            "playScore": 45.079,
+            "playable": true,
+            "net": -0.743
+          }
+        ],
+        "selectedNet": 1.712
+      },
+      {
+        "case": 22,
+        "log": 351,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 3,
+        "resources": {
+          "score": 34,
+          "credits": 5,
+          "energy": 3,
+          "publicity": 8,
+          "availableData": 0
+        },
+        "card": "b_67.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 12.858,
+        "gap": 12.858,
+        "alternatives": [],
+        "selectedNet": 14.6
+      },
+      {
+        "case": 22,
+        "log": 659,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 1,
+        "resources": {
+          "score": 82,
+          "credits": 6,
+          "energy": 4,
+          "publicity": 3,
+          "availableData": 3
+        },
+        "card": "chong_7.webp",
+        "defaultPlayValue": 0,
+        "actualPlayScore": 28.794,
+        "gap": 28.794,
+        "alternatives": [
+          {
+            "card": "chong_5.webp",
+            "playValue": 20.605,
+            "playScore": null,
+            "playable": false,
+            "net": 7.677
+          },
+          {
+            "card": "dlc_22.png",
+            "playValue": 22.432,
+            "playScore": null,
+            "playable": false,
+            "net": 7.458
+          },
+          {
+            "card": "b_74.webp",
+            "playValue": 28.872,
+            "playScore": 28.872,
+            "playable": true,
+            "net": 6.685
+          }
+        ],
+        "selectedNet": 10.15
+      },
+      {
+        "case": 23,
+        "log": 356,
+        "player": "player-white",
+        "company": "作弊实验室",
+        "round": 2,
+        "turn": 4,
+        "resources": {
+          "score": 24,
+          "credits": 8,
+          "energy": 1,
+          "publicity": 4,
+          "availableData": 1
+        },
+        "card": "b_130.webp",
+        "defaultPlayValue": 5.71,
+        "actualPlayScore": 34.318,
+        "gap": 28.607999999999997,
+        "alternatives": [],
+        "selectedNet": 25.965
+      },
+      {
+        "case": 23,
+        "log": 835,
+        "player": "player-white",
+        "company": "作弊实验室",
+        "round": 3,
+        "turn": 7,
+        "resources": {
+          "score": 70,
+          "credits": 8,
+          "energy": 1,
+          "publicity": 3,
+          "availableData": 3
+        },
+        "card": "amiba_3.webp",
+        "defaultPlayValue": 0.435,
+        "actualPlayScore": 2.535,
+        "gap": 2.1,
+        "alternatives": [],
+        "selectedNet": 13.648
+      }
+    ]
+  },
+  "browser": {
+    "base": {
+      "preview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 1,
+        "resources": {
+          "score": 60,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 3
+        },
+        "options": [
+          {
+            "index": 0,
+            "selected": true,
+            "cardId": "fangzhou_blue_4",
+            "cardLabel": "方舟蓝色痕迹 4",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 1.435,
+            "finalFormulaFit": 2,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 0.434,
+            "playableNow": true,
+            "playScoreNow": 19.295,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 0.052,
+            "handScarcityCost": 10,
+            "netAfterDiscard": -6.617
+          }
+        ]
+      },
+      "before": {
+        "credits": 4,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 60
+      },
+      "paid": {
+        "credits": 2,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 60
+      },
+      "selected": {
+        "ok": true,
+        "card": {
+          "traceType": "blue",
+          "variant": 4,
+          "cardId": "fangzhou_blue_4",
+          "src": "../assets/aliens/方舟/cards2/blue_4.png",
+          "label": "方舟蓝色痕迹 4",
+          "cardName": "方舟蓝色痕迹 4",
+          "price": 2,
+          "cardTypeCode": 0,
+          "discardActionCode": "fangzhou_basic",
+          "scanActionCode": 1,
+          "incomeCode": 0,
+          "set": "alien:方舟:card2",
+          "faceUp": false,
+          "id": "fangzhou-value-smoke",
+          "fangzhouCard2": true
+        },
+        "reserved": false,
+        "flipResult": {
+          "ok": true,
+          "index": 0,
+          "tier": "advanced",
+          "effect": {
+            "gain": {
+              "energy": 2
+            },
+            "alienTrace": "yellow"
+          },
+          "definition": {
+            "index": 0,
+            "label": "方舟奖励 0",
+            "basic": {
+              "gain": {
+                "score": 1,
+                "energy": 1
+              }
+            },
+            "advanced": {
+              "gain": {
+                "energy": 2
+              },
+              "alienTrace": "yellow"
+            }
+          },
+          "src": "../assets/aliens/方舟/cards/0.webp",
+          "label": "方舟奖励 0",
+          "message": "方舟高级奖励：方舟奖励 0",
+          "reshuffled": false
+        },
+        "followUps": [
+          {
+            "type": "gain_resources",
+            "label": "方舟奖励 0：2能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 2
+              },
+              "targetPlayerId": "player-green",
+              "targetPlayerColor": "green"
+            }
+          },
+          {
+            "type": "alien_trace",
+            "label": "方舟奖励 0：黄色痕迹外星人痕迹",
+            "icon": "alien_yellow",
+            "options": {
+              "traceType": "yellow",
+              "targetPlayerId": "player-green",
+              "targetPlayerColor": "green"
+            }
+          }
+        ],
+        "message": "打出 方舟蓝色痕迹 4：请依次点击效果"
+      },
+      "logs": [
+        {
+          "id": 30,
+          "type": "effect",
+          "details": {
+            "logPlayerId": "player-white",
+            "effectId": "initial-income-player-white-4",
+            "effectType": "initial_income"
+          }
+        },
+        {
+          "id": 31,
+          "type": "discard",
+          "details": {
+            "logPlayerId": "player-white",
+            "logPlayerColor": "white",
+            "selectedIndexes": [
+              0
+            ],
+            "selectedCards": [
+              {
+                "handIndex": 0,
+                "cardId": "b_15.webp",
+                "cardInstanceId": "card-14-0",
+                "cardLabel": "观测老人增四"
+              }
+            ],
+            "pendingType": "initial_income",
+            "incomeGainByIndex": [
+              {
+                "energy": 1
+              },
+              {
+                "energy": 1
+              },
+              {
+                "energy": 1
+              },
+              {
+                "handSize": 1
+              },
+              {
+                "energy": 1
+              },
+              {
+                "energy": 1
+              },
+              {
+                "handSize": 1
+              }
+            ],
+            "incomeDiscardPreview": {
+              "pendingType": "initial_income",
+              "count": 1,
+              "handSize": 7,
+              "resources": {
+                "score": 10,
+                "credits": 4,
+                "energy": 4,
+                "publicity": 3,
+                "availableData": 1
+              },
+              "options": [
+                {
+                  "index": 0,
+                  "selected": true,
+                  "cardId": "b_15.webp",
+                  "cardLabel": "观测老人增四",
+                  "incomeGain": {
+                    "energy": 1
+                  },
+                  "incomeScore": 22.644,
+                  "finalFormulaFit": 2,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 0,
+                  "playableNow": true,
+                  "playScoreNow": -5.225,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 0,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 24.644
+                },
+                {
+                  "index": 2,
+                  "selected": false,
+                  "cardId": "b_27.webp",
+                  "cardLabel": "日冕摄谱仪",
+                  "incomeGain": {
+                    "energy": 1
+                  },
+                  "incomeScore": 22.644,
+                  "finalFormulaFit": 2,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 1.028,
+                  "playableNow": false,
+                  "playScoreNow": null,
+                  "playDirectScoreNow": null,
+                  "discardOpportunityCost": 0.123,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 24.52
+                },
+                {
+                  "index": 5,
+                  "selected": false,
+                  "cardId": "b_81.webp",
+                  "cardLabel": "近地小行星研究",
+                  "incomeGain": {
+                    "energy": 1
+                  },
+                  "incomeScore": 22.644,
+                  "finalFormulaFit": 2,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 2.651,
+                  "playableNow": true,
+                  "playScoreNow": 2.651,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 0.318,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 24.325
+                },
+                {
+                  "index": 4,
+                  "selected": false,
+                  "cardId": "dlc_23.png",
+                  "cardLabel": "中性浮力训练",
+                  "incomeGain": {
+                    "energy": 1
+                  },
+                  "incomeScore": 22.644,
+                  "finalFormulaFit": 2,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 6.064,
+                  "playableNow": true,
+                  "playScoreNow": 6.064,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 0.728,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 23.916
+                },
+                {
+                  "index": 1,
+                  "selected": false,
+                  "cardId": "b_21.webp",
+                  "cardLabel": "卡西尼号探测器",
+                  "incomeGain": {
+                    "energy": 1
+                  },
+                  "incomeScore": 22.644,
+                  "finalFormulaFit": 2,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 16.267,
+                  "playableNow": true,
+                  "playScoreNow": 16.267,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 1.952,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 22.691
+                },
+                {
+                  "index": 3,
+                  "selected": false,
+                  "cardId": "b_115.webp",
+                  "cardLabel": "案尔维会议",
+                  "incomeGain": {
+                    "handSize": 1
+                  },
+                  "incomeScore": 19.35,
+                  "finalFormulaFit": 0,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 12.376,
+                  "playableNow": true,
+                  "playScoreNow": 12.376,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 1.485,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 17.865
+                },
+                {
+                  "index": 6,
+                  "selected": false,
+                  "cardId": "b_98.webp",
+                  "cardLabel": "发射前试验",
+                  "incomeGain": {
+                    "handSize": 1
+                  },
+                  "incomeScore": 19.35,
+                  "finalFormulaFit": 0,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 16.961,
+                  "playableNow": true,
+                  "playScoreNow": 16.961,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 2.035,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 17.315
+                }
+              ]
+            },
+            "tradeId": null
+          }
+        },
+        {
+          "id": 32,
+          "type": "play-card",
+          "details": {
+            "selected": {
+              "id": "playCard",
+              "kind": "main",
+              "available": true,
+              "handIndex": 0,
+              "cardId": "fangzhou_blue_4",
+              "cardInstanceId": "fangzhou-value-smoke",
+              "cardLabel": "方舟蓝色痕迹 4",
+              "alienCard": true,
+              "price": 2,
+              "cost": {
+                "credits": 2
+              },
+              "typeCode": 0,
+              "reservesAfterPlay": false,
+              "effectTypes": [
+                "fangzhou_card2_advanced_reward"
+              ],
+              "plan": null,
+              "finalFormulaDeltas": {},
+              "directScoreGain": 0,
+              "score": 19.29525,
+              "valueBreakdown": {
+                "costValue": 9,
+                "cornerOpportunity": 4.4350000000000005,
+                "directScoreGain": 0,
+                "effectValue": 18.861,
+                "strategyPassivePlayValue": 0,
+                "grandStrategyCreditBottleneckPenalty": 0,
+                "finalSelfBlockingPublicityTrap": null,
+                "finalSelfBlockingPublicityTrapPenalty": 0,
+                "c2Type3ProgressValue": 0,
+                "cFinalTaskProgressValue": 0,
+                "finalUnreadyTaskSetupSuppressed": false,
+                "readyTaskCashoutValue": 0,
+                "readyTaskCashoutDirectScore": 0,
+                "readyTaskCashoutCount": 0,
+                "readyTaskCashoutTimingScale": 1,
+                "readyTaskBlockedByPlayEffectTaskIds": [],
+                "newlyReadyAfterPlayTaskIds": [],
+                "readyTaskTechReplacementValue": 0,
+                "skippedUnresolvableLaunchForReadyTask": false,
+                "skippedUnresolvableLaunchCount": 0,
+                "skippedUnresolvableMoveBeforeLaterEffect": false,
+                "skippedUnresolvableMoveCount": 0,
+                "chongTaskChainValue": 0,
+                "banrenmaThresholdSetupValue": 0,
+                "playCardConversionPressure": 5,
+                "huanyuFangzhouCreditLockPenalty": 0,
+                "lateCardEnginePressure": 0,
+                "endGameExpectedScore": 0,
+                "chongProbeFossilRewardValue": null,
+                "finalRoundEndGameCardUrgency": 0,
+                "planScore": 0,
+                "standardActionPremium": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "finalRoundResourceDrainPenalty": 0
+              }
+            },
+            "selectedLabel": "方舟蓝色痕迹 4",
+            "intendedCardMatched": false,
+            "candidates": [
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 0,
+                "cardId": "fangzhou_blue_4",
+                "cardInstanceId": "fangzhou-value-smoke",
+                "cardLabel": "方舟蓝色痕迹 4",
+                "alienCard": true,
+                "price": 2,
+                "cost": {
+                  "credits": 2
+                },
+                "typeCode": 0,
+                "reservesAfterPlay": false,
+                "effectTypes": [
+                  "fangzhou_card2_advanced_reward"
+                ],
+                "plan": null,
+                "finalFormulaDeltas": {},
+                "directScoreGain": 0,
+                "score": 19.29525,
+                "valueBreakdown": {
+                  "costValue": 9,
+                  "cornerOpportunity": 4.4350000000000005,
+                  "directScoreGain": 0,
+                  "effectValue": 18.861,
+                  "strategyPassivePlayValue": 0,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 5,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 0,
+                  "standardActionPremium": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "scope": "Controlled Fangzhou card2 generic income preservation preview versus available actual play candidate; explicit card selection then real2-credit payment. No full-game improvement claim."
+    },
+    "candidate": {
+      "preview": {
+        "pendingType": "place_data_income",
+        "count": 1,
+        "handSize": 1,
+        "resources": {
+          "score": 60,
+          "credits": 4,
+          "energy": 3,
+          "publicity": 3,
+          "availableData": 0
+        },
+        "options": [
+          {
+            "index": 0,
+            "selected": true,
+            "cardId": "fangzhou_blue_4",
+            "cardLabel": "方舟蓝色痕迹 4",
+            "incomeGain": {
+              "credits": 1
+            },
+            "incomeScore": 0.22,
+            "finalFormulaFit": -1.5,
+            "routeEnergyFit": 0,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 19.962,
+            "playableNow": true,
+            "playScoreNow": 19.962,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 2.395,
+            "handScarcityCost": 10,
+            "netAfterDiscard": -13.675
+          }
+        ]
+      },
+      "before": {
+        "credits": 4,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 60
+      },
+      "paid": {
+        "credits": 2,
+        "energy": 3,
+        "publicity": 3,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 60
+      },
+      "selected": {
+        "ok": true,
+        "card": {
+          "traceType": "blue",
+          "variant": 4,
+          "cardId": "fangzhou_blue_4",
+          "src": "../assets/aliens/方舟/cards2/blue_4.png",
+          "label": "方舟蓝色痕迹 4",
+          "cardName": "方舟蓝色痕迹 4",
+          "price": 2,
+          "cardTypeCode": 0,
+          "discardActionCode": "fangzhou_basic",
+          "scanActionCode": 1,
+          "incomeCode": 0,
+          "set": "alien:方舟:card2",
+          "faceUp": false,
+          "id": "fangzhou-value-smoke",
+          "fangzhouCard2": true
+        },
+        "reserved": false,
+        "flipResult": {
+          "ok": true,
+          "index": 0,
+          "tier": "advanced",
+          "effect": {
+            "gain": {
+              "energy": 2
+            },
+            "alienTrace": "yellow"
+          },
+          "definition": {
+            "index": 0,
+            "label": "方舟奖励 0",
+            "basic": {
+              "gain": {
+                "score": 1,
+                "energy": 1
+              }
+            },
+            "advanced": {
+              "gain": {
+                "energy": 2
+              },
+              "alienTrace": "yellow"
+            }
+          },
+          "src": "../assets/aliens/方舟/cards/0.webp",
+          "label": "方舟奖励 0",
+          "message": "方舟高级奖励：方舟奖励 0",
+          "reshuffled": false
+        },
+        "followUps": [
+          {
+            "type": "gain_resources",
+            "label": "方舟奖励 0：2能量",
+            "icon": "energy",
+            "options": {
+              "gain": {
+                "energy": 2
+              },
+              "targetPlayerId": "player-green",
+              "targetPlayerColor": "green"
+            }
+          },
+          {
+            "type": "alien_trace",
+            "label": "方舟奖励 0：黄色痕迹外星人痕迹",
+            "icon": "alien_yellow",
+            "options": {
+              "traceType": "yellow",
+              "targetPlayerId": "player-green",
+              "targetPlayerColor": "green"
+            }
+          }
+        ],
+        "message": "打出 方舟蓝色痕迹 4：请依次点击效果"
+      },
+      "logs": [
+        {
+          "id": 30,
+          "type": "effect",
+          "details": {
+            "logPlayerId": "player-brown",
+            "effectId": "initial-income-player-brown-4",
+            "effectType": "initial_income"
+          }
+        },
+        {
+          "id": 31,
+          "type": "discard",
+          "details": {
+            "logPlayerId": "player-brown",
+            "logPlayerColor": "brown",
+            "selectedIndexes": [
+              4
+            ],
+            "selectedCards": [
+              {
+                "handIndex": 4,
+                "cardId": "b_29.webp",
+                "cardInstanceId": "card-60-0",
+                "cardLabel": "蜻蜓号"
+              }
+            ],
+            "pendingType": "initial_income",
+            "incomeGainByIndex": [
+              {
+                "handSize": 1
+              },
+              {
+                "energy": 1
+              },
+              {
+                "handSize": 1
+              },
+              {
+                "handSize": 1
+              },
+              {
+                "credits": 1
+              },
+              {
+                "handSize": 1
+              },
+              {
+                "energy": 1
+              }
+            ],
+            "incomeDiscardPreview": {
+              "pendingType": "initial_income",
+              "count": 1,
+              "handSize": 7,
+              "resources": {
+                "score": 6,
+                "credits": 4,
+                "energy": 3,
+                "publicity": 1,
+                "availableData": 3
+              },
+              "options": [
+                {
+                  "index": 4,
+                  "selected": true,
+                  "cardId": "b_29.webp",
+                  "cardLabel": "蜻蜓号",
+                  "incomeGain": {
+                    "credits": 1
+                  },
+                  "incomeScore": 26.678,
+                  "finalFormulaFit": 2.667,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 16.696,
+                  "playableNow": false,
+                  "playScoreNow": null,
+                  "playDirectScoreNow": null,
+                  "discardOpportunityCost": 2.003,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 27.341
+                },
+                {
+                  "index": 1,
+                  "selected": false,
+                  "cardId": "b_22.webp",
+                  "cardLabel": "钱愆拉空间天文台",
+                  "incomeGain": {
+                    "energy": 1
+                  },
+                  "incomeScore": 22.378,
+                  "finalFormulaFit": 2.667,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 0,
+                  "playableNow": false,
+                  "playScoreNow": null,
+                  "playDirectScoreNow": null,
+                  "discardOpportunityCost": 0,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 25.044
+                },
+                {
+                  "index": 6,
+                  "selected": false,
+                  "cardId": "dlc_10.png",
+                  "cardLabel": "太空第一人",
+                  "incomeGain": {
+                    "energy": 1
+                  },
+                  "incomeScore": 22.378,
+                  "finalFormulaFit": 2.667,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 5.012,
+                  "playableNow": true,
+                  "playScoreNow": 5.012,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 0.601,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 24.443
+                },
+                {
+                  "index": 0,
+                  "selected": false,
+                  "cardId": "b_11.webp",
+                  "cardLabel": "飞掠小行星",
+                  "incomeGain": {
+                    "handSize": 1
+                  },
+                  "incomeScore": 21.603,
+                  "finalFormulaFit": 2.667,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 1.411,
+                  "playableNow": false,
+                  "playScoreNow": null,
+                  "playDirectScoreNow": null,
+                  "discardOpportunityCost": 0.169,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 24.1
+                },
+                {
+                  "index": 5,
+                  "selected": false,
+                  "cardId": "b_72.webp",
+                  "cardLabel": "火星探测计划",
+                  "incomeGain": {
+                    "handSize": 1
+                  },
+                  "incomeScore": 21.603,
+                  "finalFormulaFit": 2.667,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 2.883,
+                  "playableNow": true,
+                  "playScoreNow": 2.883,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 0.346,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 23.923
+                },
+                {
+                  "index": 2,
+                  "selected": false,
+                  "cardId": "b_115.webp",
+                  "cardLabel": "案尔维会议",
+                  "incomeGain": {
+                    "handSize": 1
+                  },
+                  "incomeScore": 21.603,
+                  "finalFormulaFit": 2.667,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 10.706,
+                  "playableNow": true,
+                  "playScoreNow": 10.706,
+                  "playDirectScoreNow": 0,
+                  "discardOpportunityCost": 1.285,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 22.985
+                },
+                {
+                  "index": 3,
+                  "selected": false,
+                  "cardId": "b_91.webp",
+                  "cardLabel": "毅力号火星车",
+                  "incomeGain": {
+                    "handSize": 1
+                  },
+                  "incomeScore": 21.603,
+                  "finalFormulaFit": 2.667,
+                  "routeEnergyFit": 0,
+                  "grandFangzhouCreditThroughputFit": 0,
+                  "playValue": 15.005,
+                  "playableNow": false,
+                  "playScoreNow": null,
+                  "playDirectScoreNow": null,
+                  "discardOpportunityCost": 1.801,
+                  "handScarcityCost": 0,
+                  "netAfterDiscard": 22.469
+                }
+              ]
+            },
+            "tradeId": null
+          }
+        },
+        {
+          "id": 32,
+          "type": "play-card",
+          "details": {
+            "selected": {
+              "id": "playCard",
+              "kind": "main",
+              "available": true,
+              "handIndex": 0,
+              "cardId": "fangzhou_blue_4",
+              "cardInstanceId": "fangzhou-value-smoke",
+              "cardLabel": "方舟蓝色痕迹 4",
+              "alienCard": true,
+              "price": 2,
+              "cost": {
+                "credits": 2
+              },
+              "typeCode": 0,
+              "reservesAfterPlay": false,
+              "effectTypes": [
+                "fangzhou_card2_advanced_reward"
+              ],
+              "plan": null,
+              "finalFormulaDeltas": {},
+              "directScoreGain": 0,
+              "score": 19.962000000000003,
+              "valueBreakdown": {
+                "costValue": 9,
+                "cornerOpportunity": 3.2199999999999998,
+                "directScoreGain": 0,
+                "effectValue": 18.981,
+                "strategyPassivePlayValue": 0,
+                "grandStrategyCreditBottleneckPenalty": 0,
+                "finalSelfBlockingPublicityTrap": null,
+                "finalSelfBlockingPublicityTrapPenalty": 0,
+                "c2Type3ProgressValue": 0,
+                "cFinalTaskProgressValue": 0,
+                "finalUnreadyTaskSetupSuppressed": false,
+                "readyTaskCashoutValue": 0,
+                "readyTaskCashoutDirectScore": 0,
+                "readyTaskCashoutCount": 0,
+                "readyTaskCashoutTimingScale": 1,
+                "readyTaskBlockedByPlayEffectTaskIds": [],
+                "newlyReadyAfterPlayTaskIds": [],
+                "readyTaskTechReplacementValue": 0,
+                "skippedUnresolvableLaunchForReadyTask": false,
+                "skippedUnresolvableLaunchCount": 0,
+                "skippedUnresolvableMoveBeforeLaterEffect": false,
+                "skippedUnresolvableMoveCount": 0,
+                "chongTaskChainValue": 0,
+                "banrenmaThresholdSetupValue": 0,
+                "playCardConversionPressure": 5,
+                "huanyuFangzhouCreditLockPenalty": 0,
+                "lateCardEnginePressure": 0,
+                "endGameExpectedScore": 0,
+                "chongProbeFossilRewardValue": null,
+                "finalRoundEndGameCardUrgency": 0,
+                "planScore": 0,
+                "standardActionPremium": 0,
+                "finalSecondMarkNoDirectSetupPenalty": 0,
+                "finalRoundResourceDrainPenalty": 0
+              }
+            },
+            "selectedLabel": "方舟蓝色痕迹 4",
+            "intendedCardMatched": false,
+            "candidates": [
+              {
+                "id": "playCard",
+                "kind": "main",
+                "available": true,
+                "handIndex": 0,
+                "cardId": "fangzhou_blue_4",
+                "cardInstanceId": "fangzhou-value-smoke",
+                "cardLabel": "方舟蓝色痕迹 4",
+                "alienCard": true,
+                "price": 2,
+                "cost": {
+                  "credits": 2
+                },
+                "typeCode": 0,
+                "reservesAfterPlay": false,
+                "effectTypes": [
+                  "fangzhou_card2_advanced_reward"
+                ],
+                "plan": null,
+                "finalFormulaDeltas": {},
+                "directScoreGain": 0,
+                "score": 19.962000000000003,
+                "valueBreakdown": {
+                  "costValue": 9,
+                  "cornerOpportunity": 3.2199999999999998,
+                  "directScoreGain": 0,
+                  "effectValue": 18.981,
+                  "strategyPassivePlayValue": 0,
+                  "grandStrategyCreditBottleneckPenalty": 0,
+                  "finalSelfBlockingPublicityTrap": null,
+                  "finalSelfBlockingPublicityTrapPenalty": 0,
+                  "c2Type3ProgressValue": 0,
+                  "cFinalTaskProgressValue": 0,
+                  "finalUnreadyTaskSetupSuppressed": false,
+                  "readyTaskCashoutValue": 0,
+                  "readyTaskCashoutDirectScore": 0,
+                  "readyTaskCashoutCount": 0,
+                  "readyTaskCashoutTimingScale": 1,
+                  "readyTaskBlockedByPlayEffectTaskIds": [],
+                  "newlyReadyAfterPlayTaskIds": [],
+                  "readyTaskTechReplacementValue": 0,
+                  "skippedUnresolvableLaunchForReadyTask": false,
+                  "skippedUnresolvableLaunchCount": 0,
+                  "skippedUnresolvableMoveBeforeLaterEffect": false,
+                  "skippedUnresolvableMoveCount": 0,
+                  "chongTaskChainValue": 0,
+                  "banrenmaThresholdSetupValue": 0,
+                  "playCardConversionPressure": 5,
+                  "huanyuFangzhouCreditLockPenalty": 0,
+                  "lateCardEnginePressure": 0,
+                  "endGameExpectedScore": 0,
+                  "chongProbeFossilRewardValue": null,
+                  "finalRoundEndGameCardUrgency": 0,
+                  "planScore": 0,
+                  "standardActionPremium": 0,
+                  "finalSecondMarkNoDirectSetupPenalty": 0,
+                  "finalRoundResourceDrainPenalty": 0
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "scope": "Controlled Fangzhou card2 generic income preservation preview versus available actual play candidate; explicit card selection then real2-credit payment. No full-game improvement claim."
+    }
+  },
+  "limitations": "Controlled browser initial data differs across arms, so only internal generic/actual path consistency and real 2-credit payment verified; cross-arm point differences are not causal evidence. Diagnostic differences for ordinary cards may reflect other preview details rather than this defect. Local preservation value does not prove better final score.",
+  "tests": {
+    "files": 53,
+    "negativeControl": "New preservation regression fails against old controller; candidate passes.",
+    "browser": "Fangzhou blue4 generic19.962 equals actual19.962; old generic0.434 versus actual19.295. Both pay2credits."
+  }
+}
