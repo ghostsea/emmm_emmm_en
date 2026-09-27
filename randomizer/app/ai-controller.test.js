@@ -17171,3 +17171,16 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
   assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
     'research candidate enumeration must not consume optional triggers');
 }
+
+// Selecting a card allows a blind draw, and uses the same phase value per card.
+for (const round of [1, 2, 3, 4]) {
+  const h = createAiControllerHarness(null, { currentPlayerColor: 'blue', roundNumber: round, blueHand: [], blueResources: { credits: 1, energy: 1, handSize: 0 } });
+  const before = JSON.stringify(h.blue);
+  const one = h.controller.scoreAiEffectValue({ type: 'draw_cards', options: { count: 1 } }, { player: h.blue });
+  const two = h.controller.scoreAiEffectValue({ type: 'draw_cards', options: { count: 2 } }, { player: h.blue });
+  const pick = h.controller.scoreAiEffectValue({ type: 'pick_card', options: { count: 1 } }, { player: h.blue });
+  assert.equal(one, round <= 2 ? 5.4 : 4.3, 'draw uses the configured phase hand value');
+  assert.equal(two, one * 2, 'actual draw count is retained');
+  assert.equal(pick, one, 'blind-draw fallback gives selection the same base hand value');
+  assert.equal(JSON.stringify(h.blue), before, 'valuation does not draw or mutate player state');
+}
