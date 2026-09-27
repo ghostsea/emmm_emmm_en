@@ -17171,3 +17171,20 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
   assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
     'research candidate enumeration must not consume optional triggers');
 }
+
+// Card and Fundamentalism income must use the same resource-aware decision as other income.
+for (const type of ['income', 'card_income', 'industry_fundamentalism_income']) {
+  const pending = { type, selectedIndexes: [] };
+  const h = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', roundNumber: 2, pendingDiscardAction: pending, discardCount: 1,
+    blueResources: { credits: 10, energy: 0, handSize: 2, score: 20 },
+    blueIncome: { credits: 6, energy: 1, handSize: 2 },
+    blueHand: [{ id: 'excess-credit', aiValue: 1, incomeGain: { credits: 1 } }, { id: 'needed-energy', aiValue: 1, incomeGain: { energy: 1 } }],
+  });
+  h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+  assert.equal(h.controller.runAiAutomationStep().ok, true);
+  assert.deepEqual(pending.selectedIndexes, [1], type + ' must select energy income instead of a generic low-card discard');
+  const events=h.controller.getAiAutoBattleReport({includeAnalysis:false,includeDiagnostics:false}).logs;
+  const discard=events.find(e=>e.type==='discard');
+  assert(discard?.details?.incomeDiscardPreview, type + ' must include income preview for audit');
+}

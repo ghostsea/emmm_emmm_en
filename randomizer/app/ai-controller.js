@@ -303,6 +303,8 @@
     const AI_INCOME_DISCARD_TYPES = new Set([
       "income",
       "initial_income",
+      "card_income",
+      "industry_fundamentalism_income",
       "planet_reward_income",
       "place_data_income",
       "industry_helios_income",

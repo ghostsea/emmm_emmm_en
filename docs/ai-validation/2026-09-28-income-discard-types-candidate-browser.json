@@ -1,0 +1,169 @@
+{
+  "before": {
+    "resources": {
+      "credits": 3,
+      "energy": 0,
+      "publicity": 5,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 2,
+      "score": 100
+    },
+    "income": {
+      "credits": 2,
+      "energy": 2,
+      "handSize": 2,
+      "availableData": 0,
+      "publicity": 0,
+      "additionalPublicScan": 0
+    }
+  },
+  "after": {
+    "resources": {
+      "credits": 1,
+      "energy": 1,
+      "publicity": 5,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 100
+    },
+    "income": {
+      "credits": 2,
+      "energy": 3,
+      "handSize": 2,
+      "availableData": 0,
+      "publicity": 0,
+      "additionalPublicScan": 0
+    }
+  },
+  "discard": {
+    "id": 33,
+    "type": "discard",
+    "roundNumber": 2,
+    "turnNumber": 1,
+    "rawTurnNumber": 1,
+    "playerId": "player-green",
+    "playerLabel": "绿色",
+    "playerResources": {
+      "score": 100,
+      "credits": 1,
+      "energy": 0,
+      "publicity": 5,
+      "availableData": 0,
+      "handSize": 1
+    },
+    "scoreboard": [
+      {
+        "playerId": "player-blue",
+        "playerLabel": "蓝色",
+        "score": 9,
+        "credits": 5,
+        "energy": 4,
+        "publicity": 2,
+        "availableData": 1,
+        "handSize": 7,
+        "reservedCount": 0,
+        "techCount": 0
+      },
+      {
+        "playerId": "player-green",
+        "playerLabel": "绿色",
+        "score": 100,
+        "credits": 1,
+        "energy": 0,
+        "publicity": 5,
+        "availableData": 0,
+        "handSize": 1,
+        "reservedCount": 0,
+        "techCount": 0
+      },
+      {
+        "playerId": "player-brown",
+        "playerLabel": "棕色",
+        "score": 10,
+        "credits": 5,
+        "energy": 3,
+        "publicity": 2,
+        "availableData": 2,
+        "handSize": 6,
+        "reservedCount": 0,
+        "techCount": 0
+      },
+      {
+        "playerId": "player-white",
+        "playerLabel": "白色",
+        "score": 8,
+        "credits": 5,
+        "energy": 4,
+        "publicity": 7,
+        "availableData": 0,
+        "handSize": 5,
+        "reservedCount": 0,
+        "techCount": 0
+      }
+    ],
+    "message": "绿色AI 弃牌 1 张",
+    "details": {
+      "logPlayerId": "player-green",
+      "logPlayerColor": "green",
+      "selectedIndexes": [
+        0
+      ],
+      "selectedCards": [
+        {
+          "handIndex": 0,
+          "cardId": "b_3.webp",
+          "cardInstanceId": "card-69-0",
+          "cardLabel": "阿尔冈金射电天文台"
+        }
+      ],
+      "pendingType": "card_income",
+      "incomeGainByIndex": [
+        {
+          "energy": 1
+        }
+      ],
+      "incomeDiscardPreview": {
+        "pendingType": "card_income",
+        "count": 1,
+        "handSize": 1,
+        "resources": {
+          "score": 100,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 5,
+          "availableData": 0
+        },
+        "options": [
+          {
+            "index": 0,
+            "selected": true,
+            "cardId": "b_3.webp",
+            "cardLabel": "阿尔冈金射电天文台",
+            "incomeGain": {
+              "energy": 1
+            },
+            "incomeScore": 18.65,
+            "finalFormulaFit": -1.5,
+            "routeEnergyFit": 9,
+            "grandFangzhouCreditThroughputFit": 0,
+            "playValue": 11.591,
+            "playableNow": true,
+            "playScoreNow": 11.591,
+            "playDirectScoreNow": 0,
+            "discardOpportunityCost": 1.391,
+            "handScarcityCost": 10,
+            "netAfterDiscard": 14.759
+          }
+        ]
+      },
+      "tradeId": null
+    },
+    "createdAt": "2026-09-27T18:09:36.260Z"
+  },
+  "bugs": [],
+  "scope": "Controlled actual Private Investment pays 2 credits and resolves mandatory card income, energy +1 and permanent income +1. No score improvement claim."
+}
