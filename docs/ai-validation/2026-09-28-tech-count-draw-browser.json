@@ -1,0 +1,288 @@
+{
+  "scope": "Only card_count_tech_types_reward draw valuation changes from fallback2 to maximum currently owned orange/purple/blue count times existing per-card value4.3. Income fallback, owned-tech data reward, retention coefficients and actual execution unchanged. Includes common empty-income skip fix; no Runezu export or alien-card value-source candidate.",
+  "humanEvidence": {
+    "source": "参考行动日志/seti-action-log-20260919-223731.md",
+    "entry": 171,
+    "player": "white",
+    "round": 4,
+    "turn": 9,
+    "paidCredits": 2,
+    "incomeImmediateCredits": 1,
+    "drawCards": 4,
+    "limitations": "Human late-round example of actual supply, not paired causal score evidence. Blind cards identities not visible in that event."
+  },
+  "browser": {
+    "base": {
+      "before": {
+        "credits": 4,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 6
+      },
+      "after": {
+        "credits": 2,
+        "energy": 0,
+        "publicity": 6,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 6
+      },
+      "hand": 4,
+      "steps": [
+        {
+          "id": "dlc34-income",
+          "type": "card_income",
+          "hand": 0,
+          "result": {
+            "ok": true,
+            "undoable": true,
+            "skipped": true,
+            "message": "增加一次收入：没有手牌可用于收入，已跳过"
+          },
+          "effectResult": {
+            "ok": true,
+            "undoable": true,
+            "skipped": true,
+            "message": "增加一次收入：没有手牌可用于收入，已跳过"
+          }
+        },
+        {
+          "id": "dlc34-max-tech-draw",
+          "type": "card_count_tech_types_reward",
+          "hand": 0,
+          "result": {
+            "ok": true,
+            "undoable": false,
+            "irreversible": {
+              "code": "hidden_card_reveal",
+              "reason": "盲抽翻出新牌"
+            },
+            "message": "按最多科技类型数量盲抽：最多科技类型 4，盲抽 4/4 张",
+            "payload": {
+              "count": 4
+            }
+          },
+          "effectResult": {
+            "ok": true,
+            "undoable": false,
+            "irreversible": {
+              "code": "hidden_card_reveal",
+              "reason": "盲抽翻出新牌"
+            },
+            "message": "按最多科技类型数量盲抽：最多科技类型 4，盲抽 4/4 张",
+            "payload": {
+              "count": 4
+            }
+          }
+        }
+      ],
+      "play": [
+        {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "dlc_34.png",
+          "cardInstanceId": "card-67-0",
+          "cardLabel": "私营部门投资",
+          "alienCard": false,
+          "price": 2,
+          "cost": {
+            "credits": 2
+          },
+          "typeCode": 0,
+          "reservesAfterPlay": false,
+          "effectTypes": [
+            "card_income",
+            "card_count_tech_types_reward"
+          ],
+          "plan": null,
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": -21.487075,
+          "valueBreakdown": {
+            "costValue": 12,
+            "cornerOpportunity": 32.1935,
+            "directScoreGain": 0,
+            "effectValue": 4,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        }
+      ]
+    },
+    "candidate": {
+      "before": {
+        "credits": 4,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 3
+      },
+      "after": {
+        "credits": 2,
+        "energy": 0,
+        "publicity": 3,
+        "availableData": 3,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 4,
+        "score": 3
+      },
+      "hand": 4,
+      "steps": [
+        {
+          "id": "dlc34-income",
+          "type": "card_income",
+          "hand": 0,
+          "result": {
+            "ok": true,
+            "undoable": true,
+            "skipped": true,
+            "message": "增加一次收入：没有手牌可用于收入，已跳过"
+          },
+          "effectResult": {
+            "ok": true,
+            "undoable": true,
+            "skipped": true,
+            "message": "增加一次收入：没有手牌可用于收入，已跳过"
+          }
+        },
+        {
+          "id": "dlc34-max-tech-draw",
+          "type": "card_count_tech_types_reward",
+          "hand": 0,
+          "result": {
+            "ok": true,
+            "undoable": false,
+            "irreversible": {
+              "code": "hidden_card_reveal",
+              "reason": "盲抽翻出新牌"
+            },
+            "message": "按最多科技类型数量盲抽：最多科技类型 4，盲抽 4/4 张",
+            "payload": {
+              "count": 4
+            }
+          },
+          "effectResult": {
+            "ok": true,
+            "undoable": false,
+            "irreversible": {
+              "code": "hidden_card_reveal",
+              "reason": "盲抽翻出新牌"
+            },
+            "message": "按最多科技类型数量盲抽：最多科技类型 4，盲抽 4/4 张",
+            "payload": {
+              "count": 4
+            }
+          }
+        }
+      ],
+      "play": [
+        {
+          "id": "playCard",
+          "kind": "main",
+          "available": true,
+          "handIndex": 0,
+          "cardId": "dlc_34.png",
+          "cardInstanceId": "card-67-0",
+          "cardLabel": "私营部门投资",
+          "alienCard": false,
+          "price": 2,
+          "cost": {
+            "credits": 2
+          },
+          "typeCode": 0,
+          "reservesAfterPlay": false,
+          "effectTypes": [
+            "card_income",
+            "card_count_tech_types_reward"
+          ],
+          "plan": null,
+          "finalFormulaDeltas": {},
+          "directScoreGain": 0,
+          "score": -8.058635000000002,
+          "valueBreakdown": {
+            "costValue": 12,
+            "cornerOpportunity": 36.130300000000005,
+            "directScoreGain": 0,
+            "effectValue": 19.2,
+            "strategyPassivePlayValue": 0,
+            "grandStrategyCreditBottleneckPenalty": 0,
+            "finalSelfBlockingPublicityTrap": null,
+            "finalSelfBlockingPublicityTrapPenalty": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "finalUnreadyTaskSetupSuppressed": false,
+            "readyTaskCashoutValue": 0,
+            "readyTaskCashoutDirectScore": 0,
+            "readyTaskCashoutCount": 0,
+            "readyTaskCashoutTimingScale": 0.2,
+            "readyTaskBlockedByPlayEffectTaskIds": [],
+            "newlyReadyAfterPlayTaskIds": [],
+            "readyTaskTechReplacementValue": 0,
+            "skippedUnresolvableLaunchForReadyTask": false,
+            "skippedUnresolvableLaunchCount": 0,
+            "skippedUnresolvableMoveBeforeLaterEffect": false,
+            "skippedUnresolvableMoveCount": 0,
+            "chongTaskChainValue": 0,
+            "banrenmaThresholdSetupValue": 0,
+            "playCardConversionPressure": 0,
+            "huanyuFangzhouCreditLockPenalty": 0,
+            "lateCardEnginePressure": 0,
+            "endGameExpectedScore": 0,
+            "chongProbeFossilRewardValue": null,
+            "finalRoundEndGameCardUrgency": 0,
+            "planScore": 0,
+            "standardActionPremium": 0,
+            "finalSecondMarkNoDirectSetupPenalty": 0,
+            "finalRoundResourceDrainPenalty": 0
+          }
+        }
+      ]
+    },
+    "limitations": "Different random setup state, so total candidate score difference is not causal evidence. Both real payments2 and draw4 verified; only direct effect component compared."
+  },
+  "tests": {
+    "files": 53,
+    "negativeControl": "Old controller fails the max-owned-count assertion.",
+    "coverage": "0/1/2/3/4 maximum count, false ownership, non-color keys, disabled owned tech, equals normal draw effect with the same count."
+  }
+}
