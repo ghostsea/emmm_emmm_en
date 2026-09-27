@@ -1,0 +1,416 @@
+{
+  "scope": "All3 Huanyu zero-main R1 cases among64 current-default completed games (22,32,62), selected before counterfactual outcomes. In each same frozen8f model, force one first otherwise-selected paid move to the already legal standard scan inR1, then resume unchanged policy. Verify full semantic log prefix excluding timestamps, displaced resources, actual scan1credit2energy payment and successful terminal run. Diagnostic only, no production gate, no unseen-validation claim; all outcomes retained. Queue only after paidscan24 workers finish, maximum3 concurrent diagnostic games.",
+  "model": "8f6ca0095995f65303aa19208fbf85df5ebd4c67",
+  "cases": 3,
+  "rows": [
+    {
+      "case": 22,
+      "player": "player-green",
+      "interventionLog": 42,
+      "matchingPrefixLogs": 41,
+      "resources": {
+        "credits": 3,
+        "energy": 2,
+        "publicity": 4,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 3
+      },
+      "displacedMoveScore": 3.0519726904738826,
+      "scanScore": 0,
+      "actualScan": {
+        "case": 22,
+        "side": "counterfactual",
+        "player": "player-green",
+        "company": "寰宇超动力",
+        "logId": 42,
+        "entryId": 6,
+        "round": 1,
+        "displayTurn": 1,
+        "rawTurn": 1,
+        "ordinal": 1,
+        "before": {
+          "score": 3,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 4,
+          "availableData": 0,
+          "handSize": 3
+        },
+        "selectedScore": 0,
+        "capReason": "保留星球兑现能量",
+        "payment": {
+          "credits": 1,
+          "energy": 2,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 2,
+            "publicity": 0
+          },
+          "spent": {
+            "credits": 1,
+            "energy": 2,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          }
+        },
+        "sameTransactionBlueRewardsAfterPayment": {
+          "blue1CreditGain": 0,
+          "blue2EnergyGain": 0
+        },
+        "nextMain": "pass",
+        "laterSameRoundAnalysisLogId": null,
+        "interveningMainActions": null
+      },
+      "seats": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 345,
+          "counterfactual": 180,
+          "delta": -165
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 144,
+          "counterfactual": 181,
+          "delta": 37
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "baseline": 227,
+          "counterfactual": 187,
+          "delta": -40
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 276,
+          "counterfactual": 246,
+          "delta": -30
+        }
+      ],
+      "ownDelta": 37,
+      "tableMeanDelta": -49.5,
+      "companyResourceChanges": {
+        "productiveMainActionCount": {
+          "before": 26,
+          "after": 24
+        },
+        "analysisActionCount": {
+          "before": 2,
+          "after": 3
+        },
+        "blue1CreditGain": {
+          "before": 0,
+          "after": 0
+        },
+        "blue2EnergyGain": {
+          "before": 0,
+          "after": 0
+        }
+      }
+    },
+    {
+      "case": 32,
+      "player": "player-brown",
+      "interventionLog": 41,
+      "matchingPrefixLogs": 40,
+      "resources": {
+        "credits": 3,
+        "energy": 2,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 6
+      },
+      "displacedMoveScore": 3.462967563233282,
+      "scanScore": 7.578553124999999,
+      "actualScan": {
+        "case": 32,
+        "side": "counterfactual",
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "logId": 41,
+        "entryId": 6,
+        "round": 1,
+        "displayTurn": 1,
+        "rawTurn": 1,
+        "ordinal": 1,
+        "before": {
+          "score": 6,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 3
+        },
+        "selectedScore": 7.578553124999999,
+        "capReason": null,
+        "payment": {
+          "credits": 1,
+          "energy": 2,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 2,
+            "publicity": 0
+          },
+          "spent": {
+            "credits": 1,
+            "energy": 2,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          }
+        },
+        "sameTransactionBlueRewardsAfterPayment": {
+          "blue1CreditGain": 0,
+          "blue2EnergyGain": 0
+        },
+        "nextMain": "pass",
+        "laterSameRoundAnalysisLogId": null,
+        "interveningMainActions": null
+      },
+      "seats": [
+        {
+          "player": "player-blue",
+          "company": "宇宙大战略集团",
+          "baseline": 194,
+          "counterfactual": 165,
+          "delta": -29
+        },
+        {
+          "player": "player-green",
+          "company": "作弊实验室",
+          "baseline": 206,
+          "counterfactual": 238,
+          "delta": 32
+        },
+        {
+          "player": "player-brown",
+          "company": "寰宇超动力",
+          "baseline": 174,
+          "counterfactual": 198,
+          "delta": 24
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 273,
+          "counterfactual": 196,
+          "delta": -77
+        }
+      ],
+      "ownDelta": 24,
+      "tableMeanDelta": -12.5,
+      "companyResourceChanges": {
+        "productiveMainActionCount": {
+          "before": 24,
+          "after": 24
+        },
+        "analysisActionCount": {
+          "before": 2,
+          "after": 3
+        },
+        "blue1CreditGain": {
+          "before": 2,
+          "after": 0
+        },
+        "blue2EnergyGain": {
+          "before": 0,
+          "after": 0
+        }
+      }
+    },
+    {
+      "case": 62,
+      "player": "player-green",
+      "interventionLog": 41,
+      "matchingPrefixLogs": 40,
+      "resources": {
+        "credits": 3,
+        "energy": 2,
+        "publicity": 5,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 1,
+        "handSize": 3,
+        "score": 7
+      },
+      "displacedMoveScore": 6.300086908820572,
+      "scanScore": 0,
+      "actualScan": {
+        "case": 62,
+        "side": "counterfactual",
+        "player": "player-green",
+        "company": "寰宇超动力",
+        "logId": 41,
+        "entryId": 6,
+        "round": 1,
+        "displayTurn": 1,
+        "rawTurn": 1,
+        "ordinal": 1,
+        "before": {
+          "score": 7,
+          "credits": 3,
+          "energy": 2,
+          "publicity": 5,
+          "availableData": 0,
+          "handSize": 3
+        },
+        "selectedScore": 0,
+        "capReason": "保留星球兑现能量",
+        "payment": {
+          "credits": 1,
+          "energy": 2,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 3,
+            "publicity": 0
+          },
+          "spent": {
+            "credits": 1,
+            "energy": 2,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          }
+        },
+        "sameTransactionBlueRewardsAfterPayment": {
+          "blue1CreditGain": 0,
+          "blue2EnergyGain": 0
+        },
+        "nextMain": "researchTech",
+        "laterSameRoundAnalysisLogId": null,
+        "interveningMainActions": null
+      },
+      "seats": [
+        {
+          "player": "player-blue",
+          "company": "作弊实验室",
+          "baseline": 223,
+          "counterfactual": 239,
+          "delta": 16
+        },
+        {
+          "player": "player-green",
+          "company": "寰宇超动力",
+          "baseline": 200,
+          "counterfactual": 190,
+          "delta": -10
+        },
+        {
+          "player": "player-brown",
+          "company": "宇宙大战略集团",
+          "baseline": 278,
+          "counterfactual": 237,
+          "delta": -41
+        },
+        {
+          "player": "player-white",
+          "company": "作弊实验室",
+          "baseline": 279,
+          "counterfactual": 241,
+          "delta": -38
+        }
+      ],
+      "ownDelta": -10,
+      "tableMeanDelta": -18.25,
+      "companyResourceChanges": {
+        "productiveMainActionCount": {
+          "before": 27,
+          "after": 27
+        },
+        "analysisActionCount": {
+          "before": 4,
+          "after": 2
+        },
+        "blue1CreditGain": {
+          "before": 0,
+          "after": 2
+        },
+        "blue2EnergyGain": {
+          "before": 0,
+          "after": 0
+        }
+      }
+    }
+  ],
+  "manifest": [
+    {
+      "file": "creditabsolute64-candidate-22.json",
+      "sha256": "11fc8dbe5c8e701ce9a0029f8f4a80fb9a0f4d949016a777ff1cb864fdf79fca"
+    },
+    {
+      "file": "opening-scan-counterfactual-22.json",
+      "sha256": "f4dc92bc83999098f381e3ed33a622d8fa4e3c7ae21d57dee13b2439c1b05a1b"
+    },
+    {
+      "file": "creditabsolute64-candidate-32.json",
+      "sha256": "6f3ffe94b196a2ae551e4b1c1405885694cff494cdffdba0191a33f7defe1337"
+    },
+    {
+      "file": "opening-scan-counterfactual-32.json",
+      "sha256": "6ccbc19bcad0467157e6f55273607cdc236373dc67db9ede840de9a0871e5c42"
+    },
+    {
+      "file": "creditabsolute64-candidate-62.json",
+      "sha256": "58ad99b26e2c68da86fee95eae44411fa8fa4b0a577eba574c56aba9188a5997"
+    },
+    {
+      "file": "opening-scan-counterfactual-62.json",
+      "sha256": "cab409c8097cdc7eb87e345ef669bba8170d4eef935129c13e96ad34053a7be3"
+    }
+  ],
+  "meanOwnDelta": 17,
+  "meanTableDelta": -26.75
+}

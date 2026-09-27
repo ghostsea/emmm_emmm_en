@@ -1,0 +1,124 @@
+{
+  "decision": "reject-cost-regime-split-no-fresh-random",
+  "models": {
+    "base": "863a01035dcb6f664fc9403a75126f30e5f42392",
+    "candidate": "a0e23c36a040f388604c43b69bc40aa3f23cc7dd"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 234.36458333333334,
+    "min": 117,
+    "p10": 170,
+    "p25": 197.25,
+    "median": 226.5,
+    "p75": 282.25,
+    "max": 349,
+    "topQuartileMean": 308.5833333333333,
+    "winnerMean": 297.25,
+    "minimumPerGameMean": 173.33333333333334,
+    "seats270Plus": 29,
+    "seats300Plus": 16,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 270.375,
+        "min": 181
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 186.41666666666666,
+        "min": 123
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 210.29166666666666,
+        "min": 117
+      }
+    }
+  },
+  "meanDelta": -2.0833333333333144,
+  "pairedGameStandardError": 3.5975241419191084,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 270.375,
+      "meanDelta": -1.6875,
+      "minimumDelta": 17
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 186.41666666666666,
+      "meanDelta": -10.416666666666686,
+      "minimumDelta": -13
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 210.29166666666666,
+      "meanDelta": 5.458333333333314,
+      "minimumDelta": -13
+    }
+  },
+  "validation": {
+    "games": 48,
+    "bugs": 0,
+    "ledgerSeats": 192,
+    "paidCardPlays": 1137,
+    "companyAidIdentical": true,
+    "actualScanCostModels": {
+      "作弊实验室": {
+        "scans": 380,
+        "paidCreditScans": 0,
+        "discountedScans": 380
+      },
+      "宇宙大战略集团": {
+        "scans": 135,
+        "paidCreditScans": 135,
+        "discountedScans": 0
+      },
+      "寰宇超动力": {
+        "scans": 87,
+        "paidCreditScans": 87,
+        "discountedScans": 0
+      }
+    }
+  },
+  "interpretation": "Global mean and Huanyu regress. Candidate Huanyu/Grand scan model is the same as global9c2122b2 but discounted-scan opponents retain older guards, demonstrating that prior company subgroup gains cannot be treated as isolated individual-policy effects. Shared boards and card streams may explain response changes; no causal attribution to one exact action. Do not adopt or run fresh validation for this negative development candidate. Originalf542 comparison+9.302083 on seen seeds is not an improvement over current default and is not evidence of the+10 goal."
+}

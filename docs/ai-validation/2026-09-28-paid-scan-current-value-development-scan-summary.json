@@ -1,0 +1,449 @@
+{
+  "scope": "All standard scan decisions in both complete arms, matched to unique paid transactions by player/round/display-turn and ordinal. Main resources exclude separate quick actions. Blue rewards cover only the same transaction after scan payment, with prior technology ownership and embedded income excluded; this is temporal association, not proof that the rewarded data came from this scan. Later same-round standard analysis may follow multiple scans and is deduplicated. No final-score attribution or inference about unlogged effects.",
+  "sourceSuiteSha256": "e2816014ac422a301b09a920a0a5ea4ded660974cd7dc35fe0f131a019c14728",
+  "models": {
+    "base": "863a01035dcb6f664fc9403a75126f30e5f42392",
+    "candidate": "a0e23c36a040f388604c43b69bc40aa3f23cc7dd"
+  },
+  "pairs": 24,
+  "groups": {
+    "baseline": {
+      "作弊实验室": {
+        "scans": 381,
+        "thirdOrLater": 89,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 18,
+            "energy": 4,
+            "handSize": 47,
+            "availableData": 1116,
+            "publicity": 328
+          },
+          "spent": {
+            "credits": 0,
+            "energy": 796,
+            "handSize": 169,
+            "availableData": 0,
+            "publicity": 191
+          }
+        },
+        "sameTransactionBlueCredit": 66,
+        "sameTransactionBlueEnergy": 64,
+        "nextMainAnalysis": 77,
+        "laterSameRoundAnalysis": 302,
+        "distinctLaterAnalyses": 178
+      },
+      "宇宙大战略集团": {
+        "scans": 126,
+        "thirdOrLater": 11,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 7,
+            "energy": 1,
+            "handSize": 11,
+            "availableData": 323,
+            "publicity": 89
+          },
+          "spent": {
+            "credits": 126,
+            "energy": 264,
+            "handSize": 43,
+            "availableData": 0,
+            "publicity": 29
+          }
+        },
+        "sameTransactionBlueCredit": 15,
+        "sameTransactionBlueEnergy": 14,
+        "nextMainAnalysis": 39,
+        "laterSameRoundAnalysis": 97,
+        "distinctLaterAnalyses": 69
+      },
+      "寰宇超动力": {
+        "scans": 80,
+        "thirdOrLater": 9,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 1,
+            "energy": 2,
+            "handSize": 1,
+            "availableData": 209,
+            "publicity": 46
+          },
+          "spent": {
+            "credits": 80,
+            "energy": 166,
+            "handSize": 9,
+            "availableData": 0,
+            "publicity": 32
+          }
+        },
+        "sameTransactionBlueCredit": 11,
+        "sameTransactionBlueEnergy": 13,
+        "nextMainAnalysis": 19,
+        "laterSameRoundAnalysis": 51,
+        "distinctLaterAnalyses": 35
+      }
+    },
+    "candidate": {
+      "作弊实验室": {
+        "scans": 380,
+        "thirdOrLater": 76,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 13,
+            "energy": 4,
+            "handSize": 44,
+            "availableData": 1089,
+            "publicity": 330
+          },
+          "spent": {
+            "credits": 0,
+            "energy": 813,
+            "handSize": 153,
+            "availableData": 0,
+            "publicity": 184
+          }
+        },
+        "sameTransactionBlueCredit": 69,
+        "sameTransactionBlueEnergy": 65,
+        "nextMainAnalysis": 66,
+        "laterSameRoundAnalysis": 293,
+        "distinctLaterAnalyses": 171
+      },
+      "宇宙大战略集团": {
+        "scans": 135,
+        "thirdOrLater": 15,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 6,
+            "energy": 1,
+            "handSize": 8,
+            "availableData": 339,
+            "publicity": 86
+          },
+          "spent": {
+            "credits": 135,
+            "energy": 275,
+            "handSize": 43,
+            "availableData": 0,
+            "publicity": 40
+          }
+        },
+        "sameTransactionBlueCredit": 17,
+        "sameTransactionBlueEnergy": 13,
+        "nextMainAnalysis": 35,
+        "laterSameRoundAnalysis": 106,
+        "distinctLaterAnalyses": 68
+      },
+      "寰宇超动力": {
+        "scans": 87,
+        "thirdOrLater": 9,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 3,
+            "energy": 0,
+            "handSize": 5,
+            "availableData": 224,
+            "publicity": 49
+          },
+          "spent": {
+            "credits": 87,
+            "energy": 181,
+            "handSize": 18,
+            "availableData": 0,
+            "publicity": 22
+          }
+        },
+        "sameTransactionBlueCredit": 14,
+        "sameTransactionBlueEnergy": 4,
+        "nextMainAnalysis": 12,
+        "laterSameRoundAnalysis": 52,
+        "distinctLaterAnalyses": 34
+      }
+    }
+  },
+  "manifest": [
+    {
+      "file": "scanindependent-base-1.json",
+      "side": "baseline",
+      "sha256": "df56cb6a863f93ee1e5835b2b893f10e1be394c5494fd3f6f8acfc088e3cfe7b"
+    },
+    {
+      "file": "paidscan-candidate-1.json",
+      "side": "candidate",
+      "sha256": "b3e9f7101144b2cf3d85355b9b0284b0b9e739a4f4de455ee0c24cb97dd05b6b"
+    },
+    {
+      "file": "scanindependent-base-2.json",
+      "side": "baseline",
+      "sha256": "79124248187ce716579ca7176fe3443e2b32924a776ace1b9e8719a76756b4f7"
+    },
+    {
+      "file": "paidscan-candidate-2.json",
+      "side": "candidate",
+      "sha256": "a9fe84bc3f43f7e8615a11119a052226803505488dbd2ca962d087ff191fd8bb"
+    },
+    {
+      "file": "scanindependent-base-3.json",
+      "side": "baseline",
+      "sha256": "e552aecbe1126ac3022b9b309ea0ebfae088a9e0b7cc1781e153e164e2d729d5"
+    },
+    {
+      "file": "paidscan-candidate-3.json",
+      "side": "candidate",
+      "sha256": "a17e1e54c830ba2ea22c0799d757c59425b550e236719473eecaec8ecfb0bbc5"
+    },
+    {
+      "file": "scanindependent-base-4.json",
+      "side": "baseline",
+      "sha256": "58c1ef854c4a941d86b7e2326b7ba06f016b29d3fb3836839bba2abc6f941db4"
+    },
+    {
+      "file": "paidscan-candidate-4.json",
+      "side": "candidate",
+      "sha256": "3c28b8e9c1d9a79c177bf14c0318068985ac34140e22138da913c8efabab4ff1"
+    },
+    {
+      "file": "scanindependent-base-5.json",
+      "side": "baseline",
+      "sha256": "e1642870c40663c375f682b02c2bf2523087121f10b410f9f7a13dca03765327"
+    },
+    {
+      "file": "paidscan-candidate-5.json",
+      "side": "candidate",
+      "sha256": "34ef7eb65ff635fac3ed1dd9288790122eb7697bfb6d782141ad9945e4adf40b"
+    },
+    {
+      "file": "scanindependent-base-6.json",
+      "side": "baseline",
+      "sha256": "4d99cb20af076b1e586c633725cd214c20a5435090e09c05b64babc4c969a1f6"
+    },
+    {
+      "file": "paidscan-candidate-6.json",
+      "side": "candidate",
+      "sha256": "ea2687f26e95a534c67c595c38a73fa2024fb232a6b8a06da79c847a0683e1ca"
+    },
+    {
+      "file": "scanindependent-base-7.json",
+      "side": "baseline",
+      "sha256": "58f7fb8f4c3f2d8175037fc7245a384b2526040779a25fa911a440c13019bc84"
+    },
+    {
+      "file": "paidscan-candidate-7.json",
+      "side": "candidate",
+      "sha256": "0e14cdb5e781b01467ab8b51e55eac0b851a5a20006000597aa1be3d103db558"
+    },
+    {
+      "file": "scanindependent-base-8.json",
+      "side": "baseline",
+      "sha256": "b5dae14d431b125d8bbe8aeac52bd99fd99b063060d12afcedcd00cb1475a828"
+    },
+    {
+      "file": "paidscan-candidate-8.json",
+      "side": "candidate",
+      "sha256": "b61de0b18b8903a2445cb9b3d59f5fd10e7c1e2aed5ea7a70354325c1d38f70e"
+    },
+    {
+      "file": "scanindependent-base-9.json",
+      "side": "baseline",
+      "sha256": "28683adf150ed8228112da349e256bb457060e198fe00498aef5f53f533d62e0"
+    },
+    {
+      "file": "paidscan-candidate-9.json",
+      "side": "candidate",
+      "sha256": "766a2b75bc813c06834d209cd0fb0ae6309eb4fbda39f630411e86c00ca74cb4"
+    },
+    {
+      "file": "scanindependent-base-10.json",
+      "side": "baseline",
+      "sha256": "560b1ffe25c0d82a04bd388498a64d5801899008b2fdca77412b664e69520721"
+    },
+    {
+      "file": "paidscan-candidate-10.json",
+      "side": "candidate",
+      "sha256": "1449d648e3d9a23adef8a6ceea266c88805f0630d8e151bbc5fa79ff46349543"
+    },
+    {
+      "file": "scanindependent-base-11.json",
+      "side": "baseline",
+      "sha256": "3bfbb6f035feae531ca3c61008286690f26d1cc445b01ee849c81ad82858417b"
+    },
+    {
+      "file": "paidscan-candidate-11.json",
+      "side": "candidate",
+      "sha256": "f2fd6984a368669d6be38b0cacd8ce996f68c0e64af2044247541d43ded5b0fe"
+    },
+    {
+      "file": "scanindependent-base-12.json",
+      "side": "baseline",
+      "sha256": "8097e66de6bb0921de43bc6563e6eebf9b1ab2a006fd626ff04b0821e6ec81c9"
+    },
+    {
+      "file": "paidscan-candidate-12.json",
+      "side": "candidate",
+      "sha256": "fb8bb72794d34f2f21f1fd8aa259eb0f1a07a03741ad6bdfef256af5c7ad6222"
+    },
+    {
+      "file": "scanindependent-base-13.json",
+      "side": "baseline",
+      "sha256": "10da76bfea95b3b6e6dad210315e90b97fd86d8d118ba8ac0d50e84eeeeff9da"
+    },
+    {
+      "file": "paidscan-candidate-13.json",
+      "side": "candidate",
+      "sha256": "3868cb5854d71720f42b7d3ec7de62980e4ac98bf9aae3ca38e9eb1c09d1e7e7"
+    },
+    {
+      "file": "scanindependent-base-14.json",
+      "side": "baseline",
+      "sha256": "f369e1155fd26ae06d7967c30d011a36cae1fba38de1782e63a7cf4faa738120"
+    },
+    {
+      "file": "paidscan-candidate-14.json",
+      "side": "candidate",
+      "sha256": "7b1abfda8ba0f1c4cfb9df31b20946be16eef7736a88261ffc3f64d9f27f0e1b"
+    },
+    {
+      "file": "scanindependent-base-15.json",
+      "side": "baseline",
+      "sha256": "dc2529125a7fbd00818975e1e4aecc37c17c56ba00543919ae4028cfbe40be7c"
+    },
+    {
+      "file": "paidscan-candidate-15.json",
+      "side": "candidate",
+      "sha256": "d4c5254089f8c3d0b37c1cbfe494498464e0b69e6218c8457ce51a1d1b759e66"
+    },
+    {
+      "file": "scanindependent-base-16.json",
+      "side": "baseline",
+      "sha256": "a59fc1ed7f952554089f71870c1d30479965f0a0c9a281d802948ee1f95edb14"
+    },
+    {
+      "file": "paidscan-candidate-16.json",
+      "side": "candidate",
+      "sha256": "ad39b0a980b4e2f0eb5954d36fb9422f3be6c37b427a9d206d8947c51be53f88"
+    },
+    {
+      "file": "scanindependent-base-17.json",
+      "side": "baseline",
+      "sha256": "4edd472d0c63c1bf83d88742c08469545ac739c5421d12c01dc4744b172283b0"
+    },
+    {
+      "file": "paidscan-candidate-17.json",
+      "side": "candidate",
+      "sha256": "4ebd089ba1cc17779aed6a94e1d9d5a32333de3fbb0c4d56f5bae53f9a6bad8c"
+    },
+    {
+      "file": "scanindependent-base-18.json",
+      "side": "baseline",
+      "sha256": "4a597e21e7ade6481d3675ffc30aab1a5d244e3652c0db351857707d911b3686"
+    },
+    {
+      "file": "paidscan-candidate-18.json",
+      "side": "candidate",
+      "sha256": "4816b122c1b24344aab4dcc73c07d49baad85c979d244f45b4f9cce53a98bbba"
+    },
+    {
+      "file": "scanindependent-base-19.json",
+      "side": "baseline",
+      "sha256": "f16ff18494c1dd70fd7863e39a863a33ec412897eab5c4326b22f95319a9d4ac"
+    },
+    {
+      "file": "paidscan-candidate-19.json",
+      "side": "candidate",
+      "sha256": "390a9081788e7f469a30d750e3cdd242ec03ad2f9c70e8bbf30347adeb010c92"
+    },
+    {
+      "file": "scanindependent-base-20.json",
+      "side": "baseline",
+      "sha256": "abe2b59b806fc95bbb4694e4038ef74920287fd9512aaf35ed7b3283141e0390"
+    },
+    {
+      "file": "paidscan-candidate-20.json",
+      "side": "candidate",
+      "sha256": "69976ebfef3cd10379293aa3d558f1dd8414533f7508cca319566b718f6adbbc"
+    },
+    {
+      "file": "scanindependent-base-21.json",
+      "side": "baseline",
+      "sha256": "15a0a65a365e63bf28fc48f8cabb38b01f6f774b4adb97a8c38c3ba9ff080124"
+    },
+    {
+      "file": "paidscan-candidate-21.json",
+      "side": "candidate",
+      "sha256": "9df4ee4986ed324323168899a11bd2f88776724bca90547e4469a5a28f8182ab"
+    },
+    {
+      "file": "scanindependent-base-22.json",
+      "side": "baseline",
+      "sha256": "0c369e45d4ef31d0ccd9d5f9c97ac904f2adfe2100322a5227e1c0dc6b0f1575"
+    },
+    {
+      "file": "paidscan-candidate-22.json",
+      "side": "candidate",
+      "sha256": "f403ed8cf7c4cd335be1f2b924a2e46b7b9c8833ba45a49e90bc9e5f6c506df4"
+    },
+    {
+      "file": "scanindependent-base-23.json",
+      "side": "baseline",
+      "sha256": "78c0d012b480859a511a92fac54774c97891cf2fcc0b2461d5d32aeb1ec2a7c6"
+    },
+    {
+      "file": "paidscan-candidate-23.json",
+      "side": "candidate",
+      "sha256": "b765529594016a0c59b2182d4491e8350cb3aff275f76d661806e5809a587f2c"
+    },
+    {
+      "file": "scanindependent-base-24.json",
+      "side": "baseline",
+      "sha256": "f5eb5f28ef86904a9998bd2ba02e46052be317aba2511904f069d5686f3dad0f"
+    },
+    {
+      "file": "paidscan-candidate-24.json",
+      "side": "candidate",
+      "sha256": "1ddbde8b92cff0925c08089bdaa1ac496a8b86d144a8bf5a0188c274fdef268d"
+    }
+  ]
+}
