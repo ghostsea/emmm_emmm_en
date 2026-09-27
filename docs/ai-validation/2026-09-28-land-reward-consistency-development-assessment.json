@@ -1,0 +1,405 @@
+{
+  "decision": "hold-not-adopted-no-new-random-test",
+  "models": {
+    "baseline": "67d6fbda86bb889336c8bccb79ff0208bd9d7ce8",
+    "candidate": "fca2d76e2ec4af3b79d669bf4c6408911c9abd84"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 230.46875,
+    "min": 124,
+    "p10": 166.5,
+    "p25": 192.75,
+    "median": 222.5,
+    "p75": 269.25,
+    "max": 366,
+    "topQuartileMean": 305.9166666666667,
+    "winnerMean": 290.7916666666667,
+    "minimumPerGameMean": 172.95833333333334,
+    "seats270Plus": 24,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 266.25,
+        "min": 170
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 186.16666666666666,
+        "min": 140
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 203.20833333333334,
+        "min": 124
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 227.08333333333334,
+    "min": 123,
+    "p10": 165,
+    "p25": 194.25,
+    "median": 222,
+    "p75": 262,
+    "max": 336,
+    "topQuartileMean": 291.1666666666667,
+    "winnerMean": 285.0833333333333,
+    "minimumPerGameMean": 174.875,
+    "seats270Plus": 21,
+    "seats300Plus": 6,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 256.9791666666667,
+        "min": 172
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 190.41666666666666,
+        "min": 140
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 203.95833333333334,
+        "min": 123
+      }
+    }
+  },
+  "meanDelta": -3.385416666666657,
+  "pairedGameStandardError": 4.192599889451819,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 266.25,
+      "candidate": 256.9791666666667,
+      "meanDelta": -9.270833333333314,
+      "minimumDelta": 2
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 186.16666666666666,
+      "candidate": 190.41666666666666,
+      "meanDelta": 4.25,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 203.20833333333334,
+      "candidate": 203.95833333333334,
+      "meanDelta": 0.75,
+      "minimumDelta": -1
+    }
+  },
+  "distribution": {
+    "mean": -3.385416666666657,
+    "min": -1,
+    "p10": -1.5,
+    "p25": 1.5,
+    "median": -0.5,
+    "p75": -7.25,
+    "max": -30,
+    "topQuartileMean": -14.75,
+    "winnerMean": -5.708333333333371,
+    "minimumPerGameMean": 1.9166666666666572,
+    "seats270Plus": -3,
+    "seats300Plus": -8
+  },
+  "absoluteMeanDelta": 2.020833333333343,
+  "absolutePairedGameStandardError": 3.604103836262266,
+  "runtime": {
+    "pairs": 24,
+    "plays": 1116,
+    "matched": 1116,
+    "intendedCardMatched": 1116,
+    "paid": 1116,
+    "issues": []
+  },
+  "landResources": {
+    "baseline": {
+      "all": {
+        "plays": 53,
+        "earlyPlays": 21,
+        "incomeChoices": 8,
+        "cards": {
+          "b_34.webp": 16,
+          "dlc_31.png": 14,
+          "dlc_1.png": 7,
+          "b_91.webp": 6,
+          "dlc_6.png": 7,
+          "b_29.webp": 3
+        },
+        "incomeGain": {
+          "credits": 3,
+          "energy": 1,
+          "handSize": 4,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 4,
+          "energy": 4,
+          "handSize": 24,
+          "availableData": 46,
+          "publicity": 26
+        },
+        "spent": {
+          "credits": 76,
+          "energy": 0,
+          "handSize": 61,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "作弊实验室": {
+        "plays": 30,
+        "earlyPlays": 13,
+        "incomeChoices": 6,
+        "cards": {
+          "b_34.webp": 11,
+          "dlc_31.png": 7,
+          "dlc_6.png": 3,
+          "dlc_1.png": 5,
+          "b_91.webp": 3,
+          "b_29.webp": 1
+        },
+        "incomeGain": {
+          "credits": 3,
+          "energy": 1,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 0,
+          "energy": 4,
+          "handSize": 12,
+          "availableData": 19,
+          "publicity": 16
+        },
+        "spent": {
+          "credits": 44,
+          "energy": 0,
+          "handSize": 36,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "宇宙大战略集团": {
+        "plays": 7,
+        "earlyPlays": 3,
+        "incomeChoices": 0,
+        "cards": {
+          "b_34.webp": 2,
+          "b_91.webp": 1,
+          "dlc_31.png": 2,
+          "dlc_6.png": 2
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 3,
+          "energy": 0,
+          "handSize": 5,
+          "availableData": 9,
+          "publicity": 3
+        },
+        "spent": {
+          "credits": 11,
+          "energy": 0,
+          "handSize": 7,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "寰宇超动力": {
+        "plays": 16,
+        "earlyPlays": 5,
+        "incomeChoices": 2,
+        "cards": {
+          "dlc_1.png": 2,
+          "b_91.webp": 2,
+          "dlc_31.png": 5,
+          "b_34.webp": 3,
+          "b_29.webp": 2,
+          "dlc_6.png": 2
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 1,
+          "energy": 0,
+          "handSize": 7,
+          "availableData": 18,
+          "publicity": 7
+        },
+        "spent": {
+          "credits": 21,
+          "energy": 0,
+          "handSize": 18,
+          "availableData": 0,
+          "publicity": 0
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "plays": 54,
+        "earlyPlays": 24,
+        "incomeChoices": 10,
+        "cards": {
+          "b_34.webp": 16,
+          "dlc_31.png": 11,
+          "dlc_1.png": 9,
+          "b_91.webp": 7,
+          "b_29.webp": 6,
+          "dlc_6.png": 5
+        },
+        "incomeGain": {
+          "credits": 4,
+          "energy": 4,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 4,
+          "energy": 4,
+          "handSize": 28,
+          "availableData": 48,
+          "publicity": 20
+        },
+        "spent": {
+          "credits": 75,
+          "energy": 0,
+          "handSize": 64,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "作弊实验室": {
+        "plays": 28,
+        "earlyPlays": 13,
+        "incomeChoices": 8,
+        "cards": {
+          "b_34.webp": 11,
+          "dlc_31.png": 5,
+          "dlc_6.png": 2,
+          "b_29.webp": 3,
+          "b_91.webp": 2,
+          "dlc_1.png": 5
+        },
+        "incomeGain": {
+          "credits": 4,
+          "energy": 2,
+          "handSize": 2,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 0,
+          "energy": 4,
+          "handSize": 11,
+          "availableData": 23,
+          "publicity": 9
+        },
+        "spent": {
+          "credits": 41,
+          "energy": 0,
+          "handSize": 36,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "宇宙大战略集团": {
+        "plays": 8,
+        "earlyPlays": 4,
+        "incomeChoices": 0,
+        "cards": {
+          "b_34.webp": 2,
+          "b_91.webp": 3,
+          "dlc_31.png": 2,
+          "dlc_6.png": 1
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 3,
+          "energy": 0,
+          "handSize": 8,
+          "availableData": 9,
+          "publicity": 2
+        },
+        "spent": {
+          "credits": 11,
+          "energy": 0,
+          "handSize": 8,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "寰宇超动力": {
+        "plays": 18,
+        "earlyPlays": 7,
+        "incomeChoices": 2,
+        "cards": {
+          "dlc_1.png": 4,
+          "b_29.webp": 3,
+          "b_91.webp": 2,
+          "dlc_31.png": 4,
+          "b_34.webp": 3,
+          "dlc_6.png": 2
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 2,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 1,
+          "energy": 0,
+          "handSize": 9,
+          "availableData": 16,
+          "publicity": 9
+        },
+        "spent": {
+          "credits": 23,
+          "energy": 0,
+          "handSize": 20,
+          "availableData": 0,
+          "publicity": 0
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Seen development sample only; do not select positive Huanyu effect as whole-policy success.",
+    "53 to54 land-card plays,21 to24 early plays,8 to10 planet income selections did not translate to overall mean gain.",
+    "All companies confirmed main-action means fell; Huanyu28.833333 to28.416667 despite score+4.25. Blue1/2 means fell1.166667/1.125 to1.041667/.791667.",
+    "Actual card payments and resource receipts verified; target/choice matching bounded by raw turn. Old parser score labels are not used as true score gains.",
+    "Actual post-payment target can differ from prepayment preview when resources change. Existing controlled C2 b34 scenario chose Europa after predicted Io. This is not a full postpayment lookahead model.",
+    "No causal decomposition of company differences, no new coefficients or selected random subset, no +10 achievement."
+  ]
+}
