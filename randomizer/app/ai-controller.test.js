@@ -17171,3 +17171,27 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
   assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
     'research candidate enumeration must not consume optional triggers');
 }
+
+{
+  const alienGameState = makeBanrenmaAlienState();
+  const harness = createAiControllerHarness("blue", {
+    alienGameState, blueResources: { credits: 2, energy: 2, availableData: 0, handSize: 0 },
+  });
+  const before = JSON.stringify({ player: harness.blue, alienGameState });
+  const profile = harness.controller.getAiAnalyzeRevealedRewardProfile(harness.blue);
+  assert.equal(profile.directScoreBaseline, 5);
+  assert.equal(profile.best.position, 5, "same legal bundle offers score and an alien card");
+  assert(profile.resourcePremium > 0, "alien card reward adds value beyond the direct score");
+  assert(profile.choices.every(c => ![1, 2].includes(c.position)), "unaffordable data-paid squares cannot add reward");
+  assert.equal(JSON.stringify({ player: harness.blue, alienGameState }), before, "preview must be read-only");
+
+  harness.blue.resources.availableData = 3;
+  const paid = harness.controller.getAiAnalyzeRevealedRewardProfile(harness.blue);
+  assert.equal(paid.directScoreBaseline, 15);
+  assert(paid.choices.find(c => c.position === 2).paymentValue > 0, "additional trace data is a cost");
+  assert.equal(paid.resourcePremium, 0, "do not combine 15 points on one square and another square's card");
+
+  alienGameState.aliens[1].revealed = false;
+  assert.equal(harness.controller.getAiAnalyzeRevealedRewardProfile(harness.blue).resourcePremium, 0,
+    "unrevealed species cannot supply known face rewards");
+}

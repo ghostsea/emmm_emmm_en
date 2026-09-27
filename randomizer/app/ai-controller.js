@@ -17537,6 +17537,58 @@
         - energyCost * getAiResourceValuesForRound(currentPlayer).energy * 0.25;
     }
 
+    function getAiAnalyzeRevealedRewardProfile(player = getCurrentPlayer()) {
+      const paidPlayer = { ...player, resources: { ...(player?.resources || {}),
+        energy: Math.max(0, aiNumber(player?.resources?.energy) - getAiAnalyzeEnergyCost(player)) } };
+      const choices = [];
+      const add = (alienSlotId, mode, position, reward) => {
+        if (!reward) return;
+        const gain = getAiActualResourceGain({ ...(reward.gain || {}),
+          availableData: aiNumber(reward.gain?.availableData) + aiNumber(reward.dataCount) }, paidPlayer);
+        const directScore = Math.max(0, aiNumber(gain.score));
+        const resourceValue = scoreAiResourceBundle(gain)
+          + Math.max(0, aiNumber(reward.drawCards || reward.blindDraw)) * getAiResourceValuesForRound().handSize
+          + (reward.pickCard ? getAiResourceValuesForRound().handSize : 0)
+          + (reward.pickAlienCard ? getAiAlienCardExpectedValue(paidPlayer) : 0);
+        const paymentValue = Math.max(0, aiNumber(reward.payData)) * getAiResourceValuesForRound().availableData
+          + Math.max(0, aiNumber(reward.payFossils)) * getAiAomomoFossilUnitValue(paidPlayer);
+        const threatPenalty = mode === "jiuzhe-grid" && reward.threat
+          ? aiNumber(ai?.valuation?.estimateJiuzheThreatPenaltyMarginal?.({
+            ...getAiJiuzheThreatValuationContext(paidPlayer), addedThreat: reward.threat, scoreGain: directScore,
+          })) : 0;
+        choices.push({ alienSlotId, mode, position, directScore, resourceValue, paymentValue, threatPenalty,
+          netRewardValue: resourceValue - paymentValue - threatPenalty, reward });
+      };
+      const modules = [
+        [jiuzhe, "Jiuzhe", "jiuzhe-grid"], [yichangdian, "Yichangdian", "yichangdian-grid"],
+        [fangzhou, "Fangzhou", "fangzhou-grid"], [banrenma, "Banrenma", "banrenma-grid"],
+        [chong, "Chong", "chong-grid"], [amiba, "Amiba", "amiba-grid"],
+        [aomomo, "Aomomo", "aomomo-grid"], [runezu, "Runezu", "runezu-grid"],
+      ];
+      for (const alienSlotId of aliens.ALIEN_SLOT_IDS || []) {
+        for (const [module, name, mode] of modules) {
+          if (!module?.[`is${name}RevealedSlot`]?.(alienGameState, alienSlotId)) continue;
+          const grid = module.getTraceGrid?.(alienGameState, alienSlotId);
+          for (const rawPosition of getAiAlienModuleTracePositions(module, "blue")) {
+            const position = Number(rawPosition), canPlace = module[`canPlace${name}Trace`];
+            const legal = typeof canPlace === "function"
+              ? canPlace(alienGameState, alienSlotId, "blue", position, player)?.ok
+              : (mode === "yichangdian-grid" && position === 1) || !grid?.blue?.[position];
+            if (legal) add(alienSlotId, mode, position, getAiAlienTraceTargetReward(mode, "blue", position));
+          }
+          if (mode === "fangzhou-grid" && fangzhou.canUnlockCard2ForTrace?.(alienGameState, player, "blue")) {
+            add(alienSlotId, "fangzhou-unlock", null, fangzhou.getCard2UnlockTraceReward?.());
+          }
+        }
+      }
+      const directScoreBaseline = Math.max(0, ...choices.map(choice => choice.directScore));
+      const best = [...choices].sort((a, b) => b.netRewardValue - a.netRewardValue)[0] || null;
+      // Compare whole alternatives: never add the best score on one square
+      // to the best resource reward on a different square.
+      return { directScoreBaseline, best,
+        resourcePremium: Math.max(0, aiNumber(best?.netRewardValue) - directScoreBaseline), choices };
+    }
+
     function buildAiAnalyzeActionValueBreakdown(player = getCurrentPlayer()) {
       const check = canAiAnalyzeData(player);
       if (!check?.ok) {
@@ -17566,6 +17618,8 @@
       const bestBlueTraceScore = Math.max(0, aiNumber(getAiBestRevealedAlienTraceDirectScore(player, "blue")));
       const availableData = Math.max(0, aiNumber(player?.resources?.availableData));
       const energyCost = getAiAnalyzeEnergyCost(player);
+      const revealedRewardProfile = getAiAnalyzeRevealedRewardProfile(player);
+      const revealedResourcePremium = revealedRewardProfile.resourcePremium;
       const thresholdCashoutPressure = nextThreshold && currentScore < nextThreshold
         ? Math.min(
           7,
@@ -17619,6 +17673,7 @@
         ? 1.4
         : 0;
       const rawScore = 7
+        + revealedResourcePremium
         + placedCount * 1.15
         + fullComputerBonus * 0.8
         + Math.min(4, dataRoom * 0.55)
@@ -17656,6 +17711,7 @@
           weightedScore,
           roundAiScore(
             7
+              + revealedResourcePremium
               + bestBlueTraceScore * 2
               + Math.min(2.5, availableData * 0.45)
               + lateFullDataAnalyzeRecovery
@@ -17675,6 +17731,8 @@
         dataRoom,
         availableData,
         energyCost,
+        revealedResourcePremium,
+        revealedRewardProfile,
         directScoreGain: bestBlueTraceScore,
         currentScore,
         finalMarkCount: finalMarks,
@@ -26717,6 +26775,7 @@
 
     return {
       getAiIntendedPlayCardCandidate,
+      getAiAnalyzeRevealedRewardProfile,
       aiNumber,
       applyAiStrategyTuning,
       applyAiStrategyTuningRecommendation,
