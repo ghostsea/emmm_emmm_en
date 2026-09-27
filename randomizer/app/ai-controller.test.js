@@ -17188,3 +17188,30 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
   }
   assert.equal(JSON.stringify(h.blue), before, "effect valuation must not grant data or execute scans");
 }
+
+// Income upgrades pay once immediately, including the final round with no later PASS income.
+{
+  const realPlayers = require('../game/players');
+  const make = (resources = {}) => createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', roundNumber: 4, aiValuation: setiAi.valuation,
+    blueHand: [{ id: 'income-discard', aiValue: 3 }],
+    blueResources: { credits: 2, energy: 0, handSize: 1, publicity: 0, availableData: 0, ...resources },
+    blueIncome: { credits: 2, energy: 2, handSize: 2 },
+  });
+  const h = make(), before = structuredClone(h.blue);
+  assert.equal(setiAi.valuation.getRemainingIncomeMultiplier(4), 0);
+  assert.ok(Math.abs(h.controller.scoreAiIncomeOpportunityValue(h.blue, { energy: 1 }) - 1.2) < 1e-9,
+    'one immediate energy retains value after the existing three-point income discard cost; no future payout is invented');
+  const actual = structuredClone(h.blue);
+  realPlayers.gainIncome(actual, { energy: 1 });
+  assert.equal(actual.resources.energy, before.resources.energy + 1);
+  assert.equal(actual.income.energy, before.income.energy + 1);
+  assert.deepEqual(h.blue, before, 'valuation must not grant immediate income or discard cards');
+  const capped = make({ publicity: 10, availableData: 6 });
+  assert.equal(capped.controller.scoreAiIncomeOpportunityValue(capped.blue, { availableData: 4 }), 0,
+    'the last-round full data pool has no immediate or future data gain');
+  assert.equal(capped.controller.scoreAiIncomeOpportunityValue(capped.blue, { publicity: 4 }), 0,
+    'the last-round full publicity track has no immediate or future publicity gain');
+  const empty = make();
+  assert.ok(empty.controller.scoreAiIncomeOpportunityValue(empty.blue, { availableData: 4 }) > 0);
+}

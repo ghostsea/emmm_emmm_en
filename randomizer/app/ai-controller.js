@@ -10192,6 +10192,7 @@
       return Math.max(
         0,
         netValue
+          + scoreAiResourceBundle(getAiImmediateIncomeRewardGain(player, gain))
           + creditNeed
           + energyNeed
           + handNeed
@@ -26718,6 +26719,7 @@
     }
 
     return {
+      scoreAiIncomeOpportunityValue,
       getAiIntendedPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,
