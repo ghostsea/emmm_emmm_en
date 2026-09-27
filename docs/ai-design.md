@@ -1465,3 +1465,6 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 
 
 2026-09-28T02:14+08 三版本随机验收已冻结：在逐文件校验28f264d3、52af42e4与f542基线后，于2026-09-27T18:14:11.244Z生成全新64组独立游戏/外星人种子。共192局，两份配对计划分别记录候选对原始与候选对当前默认，全部完成及核对后才接受。详见2026-09-28-scanruneabsolute64-fresh-plan.json和scanruneincremental64-fresh-plan.json。
+
+
+2026-09-28 原教旨主义收入补充实际浏览器：使用真实轮转触发第2轮公司收入，AI弃能量收入牌，即时能量+1、永久能量收入+1，industryFundamentalismRoundStartIncomeRound=2；两版均0bug。旧版incomeGainByIndex/收入预览为null，41a89333包含实际收入选项并用收入决策。此单牌场景补齐真实轮初接线覆盖，不证明多牌策略得分；两种类型的多牌选择由负对照单测验证。冻结候选源码未修改，见2026-09-28-fundamentalism-income-*-browser.json。
