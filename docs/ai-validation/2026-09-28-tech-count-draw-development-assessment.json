@@ -1,0 +1,92 @@
+{
+  "decision": "hold-no-demonstrated-development-gain",
+  "candidate": "e29d735ddb24d4d29c42ec2cf8b809b9a39ff9be",
+  "baseline": "f542161719d499f43a2e566a0cda070dae6c0ab0",
+  "meanDelta": -0.09375,
+  "pairedGameStandardError": 0.7983810186281968,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 250.54166666666666,
+      "meanDelta": -1.0416666666666856,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 188.5,
+      "meanDelta": 0.4583333333333428,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 210.29166666666666,
+      "meanDelta": 1.25,
+      "minimumDelta": 0
+    }
+  },
+  "distribution": {
+    "mean": -0.09375,
+    "min": 0,
+    "p10": 1,
+    "p25": 0,
+    "median": 0.5,
+    "p75": -0.75,
+    "max": 0,
+    "topQuartileMean": 0.5,
+    "winnerMean": -0.25,
+    "minimumPerGameMean": 0.5833333333333428,
+    "seats270Plus": 0,
+    "seats300Plus": 0
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 274.625,
+    "meanDelta": -1.375,
+    "improved": 2,
+    "declined": 3,
+    "unchanged": 19
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 166.58333333333334,
+    "meanDelta": 0.20833333333333334,
+    "improved": 1,
+    "declined": 1,
+    "unchanged": 22
+  },
+  "completeGames": 48,
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "candidateCardPayments": 1145,
+  "drawRealization": {
+    "baseline": {
+      "作弊实验室": {
+        "plays": 0,
+        "drawn": 0,
+        "identified": 0,
+        "fates": {},
+        "sameRoundUsed": 0,
+        "withLaterMain": 0
+      }
+    },
+    "candidate": {
+      "作弊实验室": {
+        "plays": 1,
+        "drawn": 4,
+        "identified": 4,
+        "fates": {
+          "unobserved": 3,
+          "play": 1
+        },
+        "sameRoundUsed": 1,
+        "withLaterMain": 1
+      }
+    }
+  },
+  "scope": "All24 development pairs. Tiny negative mean within sample variability does not prove harm, but no overall gain shown. One newly played Private Investment drew4, one card later played;3 unobserved uses, not proof of zero value. Old parser attached4 identities to a later data-placement snapshot in same transaction; sole positive hand-gain event and exact4 identities allow explicit transaction-level attribution, without changing frozen parser or raw outputs. No fresh validation for this standalone candidate."
+}

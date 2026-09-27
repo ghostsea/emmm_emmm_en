@@ -1,0 +1,998 @@
+{
+  "source": "docs/ai-validation/2026-09-20-company-launch-safe-random64-paired-cohorts.json",
+  "scope": "Synthetic diagnostic using only the64 baseline games, permuting the same scores within each company across case/seat. No policy change and exactly identical overall/company score distributions. This is not a gameplay experiment, not candidate performance, and must not be subtracted as a correction from actual paired results.",
+  "finding": "Selecting high seats by baseline outcome can show a negative matched-high mean after score reassignment despite an exactly preserved high-score distribution. Continue reporting matched cohorts as diagnostics; evaluate user priority with overall mean first, high-score distribution and company/low-tail outcomes next, without treating this selected cohort as an automatic veto.",
+  "trials": 127,
+  "syntheticBaselineHighDelta": {
+    "mean": -35.54970472440945,
+    "min": -43.15625,
+    "max": -27.375
+  },
+  "actualCompanyLaunchResult": {
+    "decision": "hold-independent-branch",
+    "reason": "Corrects observed company launch cost preview and improves both fixed and fresh point estimates, but +10 is unmet; fresh paired game uncertainty, Grand Strategy loss and original high-score cohort declines remain material. No claim all high scores preserved. Do not silently merge as completed objective.",
+    "pairs": 64,
+    "bugCount": 0,
+    "ledgerSeats": 512,
+    "cardPayments": 3007,
+    "baselineMean": 226.6171875,
+    "candidateMean": 229.4375,
+    "meanDelta": 2.8203125,
+    "pairedGameStandardError": 2.033598830841301,
+    "approximateNormal95Interval": [
+      -1.1655412084489503,
+      6.80616620844895
+    ],
+    "companies": {
+      "作弊实验室": {
+        "seats": 128,
+        "baseline": 251.484375,
+        "candidate": 256.53125,
+        "meanDelta": 5.046875,
+        "minimumDelta": -28
+      },
+      "宇宙大战略集团": {
+        "seats": 64,
+        "baseline": 207.75,
+        "candidate": 202.46875,
+        "meanDelta": -5.28125,
+        "minimumDelta": -8
+      },
+      "寰宇超动力": {
+        "seats": 64,
+        "baseline": 195.75,
+        "candidate": 202.21875,
+        "meanDelta": 6.46875,
+        "minimumDelta": -10
+      }
+    },
+    "distribution": {
+      "mean": 2.8203125,
+      "min": -10,
+      "p10": 3.5,
+      "p25": 0,
+      "median": -4,
+      "p75": 2,
+      "max": 38,
+      "topQuartileMean": 11.34375,
+      "winnerMean": 14.3125,
+      "minimumPerGameMean": 3.9375,
+      "seats270Plus": 10,
+      "seats300Plus": 10
+    },
+    "baselineHighCohort": {
+      "seats": 64,
+      "baselineMean": 282.46875,
+      "candidateMean": 260.921875,
+      "meanDelta": -21.546875,
+      "improved": 20,
+      "declined": 44,
+      "unchanged": 0
+    },
+    "baselineLowCohort": {
+      "seats": 64,
+      "baselineMean": 175.015625,
+      "candidateMean": 203.125,
+      "meanDelta": 28.109375,
+      "improved": 53,
+      "declined": 11,
+      "unchanged": 0
+    },
+    "highestBaselineSeat": {
+      "case": 64,
+      "player": "player-blue",
+      "company": "作弊实验室",
+      "baseline": 349,
+      "candidate": 374,
+      "delta": 25
+    },
+    "payments": {
+      "baseline": {
+        "launches": 145,
+        "actualPaymentsMatched": 145,
+        "projected": 88,
+        "previewCostMismatches": 57,
+        "issues": []
+      },
+      "candidate": {
+        "launches": 249,
+        "actualPaymentsMatched": 249,
+        "projected": 161,
+        "previewCostMismatches": 0,
+        "issues": []
+      }
+    },
+    "rule": "All64 preregistered fresh pairs retained. These seeds are now seen; no code changed during validation. Costs are actual-rule modeling, not additional player resources. Same c0a7f8e4 execution rules on both arms."
+  },
+  "values": [
+    {
+      "shift": 1,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.953125
+    },
+    {
+      "shift": 2,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.828125
+    },
+    {
+      "shift": 3,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -31.265625
+    },
+    {
+      "shift": 4,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.03125
+    },
+    {
+      "shift": 5,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -31.125
+    },
+    {
+      "shift": 6,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.703125
+    },
+    {
+      "shift": 7,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -30.796875
+    },
+    {
+      "shift": 8,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.515625
+    },
+    {
+      "shift": 9,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.296875
+    },
+    {
+      "shift": 10,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.96875
+    },
+    {
+      "shift": 11,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.921875
+    },
+    {
+      "shift": 12,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -30.359375
+    },
+    {
+      "shift": 13,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.78125
+    },
+    {
+      "shift": 14,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -31.0625
+    },
+    {
+      "shift": 15,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.25
+    },
+    {
+      "shift": 16,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -36.71875
+    },
+    {
+      "shift": 17,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.828125
+    },
+    {
+      "shift": 18,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34
+    },
+    {
+      "shift": 19,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.859375
+    },
+    {
+      "shift": 20,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -29.71875
+    },
+    {
+      "shift": 21,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -42.203125
+    },
+    {
+      "shift": 22,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -36.328125
+    },
+    {
+      "shift": 23,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.71875
+    },
+    {
+      "shift": 24,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.234375
+    },
+    {
+      "shift": 25,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.140625
+    },
+    {
+      "shift": 26,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.703125
+    },
+    {
+      "shift": 27,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -30.5
+    },
+    {
+      "shift": 28,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.21875
+    },
+    {
+      "shift": 29,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.625
+    },
+    {
+      "shift": 30,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.953125
+    },
+    {
+      "shift": 31,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.65625
+    },
+    {
+      "shift": 32,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.71875
+    },
+    {
+      "shift": 33,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.9375
+    },
+    {
+      "shift": 34,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -40.015625
+    },
+    {
+      "shift": 35,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.8125
+    },
+    {
+      "shift": 36,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -30.359375
+    },
+    {
+      "shift": 37,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.09375
+    },
+    {
+      "shift": 38,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.59375
+    },
+    {
+      "shift": 39,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.140625
+    },
+    {
+      "shift": 40,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.921875
+    },
+    {
+      "shift": 41,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -28.71875
+    },
+    {
+      "shift": 42,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.140625
+    },
+    {
+      "shift": 43,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.09375
+    },
+    {
+      "shift": 44,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -29.671875
+    },
+    {
+      "shift": 45,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -39.453125
+    },
+    {
+      "shift": 46,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.9375
+    },
+    {
+      "shift": 47,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.640625
+    },
+    {
+      "shift": 48,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.734375
+    },
+    {
+      "shift": 49,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -36.75
+    },
+    {
+      "shift": 50,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -39.328125
+    },
+    {
+      "shift": 51,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.46875
+    },
+    {
+      "shift": 52,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.71875
+    },
+    {
+      "shift": 53,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.171875
+    },
+    {
+      "shift": 54,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.25
+    },
+    {
+      "shift": 55,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.8125
+    },
+    {
+      "shift": 56,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.234375
+    },
+    {
+      "shift": 57,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -40.75
+    },
+    {
+      "shift": 58,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.984375
+    },
+    {
+      "shift": 59,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.25
+    },
+    {
+      "shift": 60,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -29.171875
+    },
+    {
+      "shift": 61,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.75
+    },
+    {
+      "shift": 62,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.0625
+    },
+    {
+      "shift": 63,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.890625
+    },
+    {
+      "shift": 64,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -29.40625
+    },
+    {
+      "shift": 65,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.359375
+    },
+    {
+      "shift": 66,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.953125
+    },
+    {
+      "shift": 67,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.59375
+    },
+    {
+      "shift": 68,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -30.6875
+    },
+    {
+      "shift": 69,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.90625
+    },
+    {
+      "shift": 70,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.109375
+    },
+    {
+      "shift": 71,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -40.0625
+    },
+    {
+      "shift": 72,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.734375
+    },
+    {
+      "shift": 73,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -30.03125
+    },
+    {
+      "shift": 74,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -42.484375
+    },
+    {
+      "shift": 75,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.84375
+    },
+    {
+      "shift": 76,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -43.15625
+    },
+    {
+      "shift": 77,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.109375
+    },
+    {
+      "shift": 78,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.4375
+    },
+    {
+      "shift": 79,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.109375
+    },
+    {
+      "shift": 80,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -30.78125
+    },
+    {
+      "shift": 81,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.359375
+    },
+    {
+      "shift": 82,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -30.5
+    },
+    {
+      "shift": 83,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.984375
+    },
+    {
+      "shift": 84,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -29.328125
+    },
+    {
+      "shift": 85,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -38.578125
+    },
+    {
+      "shift": 86,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -39.609375
+    },
+    {
+      "shift": 87,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -29.515625
+    },
+    {
+      "shift": 88,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.40625
+    },
+    {
+      "shift": 89,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.15625
+    },
+    {
+      "shift": 90,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -39.484375
+    },
+    {
+      "shift": 91,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.71875
+    },
+    {
+      "shift": 92,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.421875
+    },
+    {
+      "shift": 93,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -40.421875
+    },
+    {
+      "shift": 94,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -40.765625
+    },
+    {
+      "shift": 95,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.15625
+    },
+    {
+      "shift": 96,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -39.34375
+    },
+    {
+      "shift": 97,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.640625
+    },
+    {
+      "shift": 98,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.578125
+    },
+    {
+      "shift": 99,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.0625
+    },
+    {
+      "shift": 100,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.53125
+    },
+    {
+      "shift": 101,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.171875
+    },
+    {
+      "shift": 102,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.90625
+    },
+    {
+      "shift": 103,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -40.296875
+    },
+    {
+      "shift": 104,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.8125
+    },
+    {
+      "shift": 105,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.3125
+    },
+    {
+      "shift": 106,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -36.65625
+    },
+    {
+      "shift": 107,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -39.140625
+    },
+    {
+      "shift": 108,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.234375
+    },
+    {
+      "shift": 109,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.171875
+    },
+    {
+      "shift": 110,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -36.21875
+    },
+    {
+      "shift": 111,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -27.375
+    },
+    {
+      "shift": 112,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.625
+    },
+    {
+      "shift": 113,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -31.859375
+    },
+    {
+      "shift": 114,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -32.59375
+    },
+    {
+      "shift": 115,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -41.015625
+    },
+    {
+      "shift": 116,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.984375
+    },
+    {
+      "shift": 117,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -37.90625
+    },
+    {
+      "shift": 118,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -33.859375
+    },
+    {
+      "shift": 119,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -34.5625
+    },
+    {
+      "shift": 120,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.25
+    },
+    {
+      "shift": 121,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -29.140625
+    },
+    {
+      "shift": 122,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -39.453125
+    },
+    {
+      "shift": 123,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -28.984375
+    },
+    {
+      "shift": 124,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.890625
+    },
+    {
+      "shift": 125,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -27.90625
+    },
+    {
+      "shift": 126,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -36.609375
+    },
+    {
+      "shift": 127,
+      "overallDelta": 0,
+      "topQuartileDistributionDelta": 0,
+      "maximumDelta": 0,
+      "baselineSelectedHighDelta": -35.703125
+    }
+  ]
+}
