@@ -1,0 +1,172 @@
+{
+  "decision": "reject-global-combination-no-new-random",
+  "models": {
+    "base": "863a01035dcb6f664fc9403a75126f30e5f42392",
+    "candidate": "9c2122b2792d30eb85caf89bf9f4a63368ad51ec"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 231.6875,
+    "min": 142,
+    "p10": 179,
+    "p25": 196,
+    "median": 222,
+    "p75": 265.75,
+    "max": 337,
+    "topQuartileMean": 293.8333333333333,
+    "winnerMean": 286.0416666666667,
+    "minimumPerGameMean": 183.41666666666666,
+    "seats270Plus": 20,
+    "seats300Plus": 9,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 255.27083333333334,
+        "min": 181
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 200.875,
+        "min": 142
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 215.33333333333334,
+        "min": 158
+      }
+    }
+  },
+  "meanDelta": -4.760416666666657,
+  "pairedGameStandardError": 3.911772666068724,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 255.27083333333334,
+      "meanDelta": -16.791666666666657,
+      "minimumDelta": 17
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 200.875,
+      "meanDelta": 4.041666666666657,
+      "minimumDelta": 6
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 215.33333333333334,
+      "meanDelta": 10.5,
+      "minimumDelta": 28
+    }
+  },
+  "interaction": {
+    "mean": 3.7395833333333335,
+    "pairedGameStandardError": 2.033654745252122
+  },
+  "validation": {
+    "pairedGames": 48,
+    "bugs": 0,
+    "ledgerSeats": 192,
+    "paidCardPlays": 1106,
+    "companyAidIdentical": true,
+    "fourPolicyCompleteGames": 96
+  },
+  "purple4": {
+    "baseline": {
+      "作弊实验室": {
+        "nodes": 135,
+        "launch": 34,
+        "move": 85,
+        "skip": 16,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      },
+      "宇宙大战略集团": {
+        "nodes": 24,
+        "launch": 12,
+        "move": 9,
+        "skip": 3,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      },
+      "寰宇超动力": {
+        "nodes": 19,
+        "launch": 6,
+        "move": 12,
+        "skip": 1,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      }
+    },
+    "candidate": {
+      "作弊实验室": {
+        "nodes": 133,
+        "launch": 33,
+        "move": 86,
+        "skip": 14,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      },
+      "宇宙大战略集团": {
+        "nodes": 33,
+        "launch": 15,
+        "move": 13,
+        "skip": 5,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      },
+      "寰宇超动力": {
+        "nodes": 22,
+        "launch": 6,
+        "move": 16,
+        "skip": 0,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      }
+    }
+  },
+  "interpretation": "Positive interaction3.739583 (SE2.033655) does not reverse negative total-4.760417 versus current default. Huanyu+4.041667 and Grand+10.5 but Cheat-16.791667, high-quartile-15.041667. Current default remains unchanged; no fresh random for global combination. Company-differentiated response motivates a separately preregistered cost-aware scan model experiment; selecting development winners alone cannot justify adoption. Resource outcomes include shared-board/card-stream effects. Zero-main R1 diagnostics are observational, not evidence of avoidable loss or a policy gate."
+}

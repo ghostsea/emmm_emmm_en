@@ -1,0 +1,414 @@
+{
+  "scope": "All3 Huanyu seats with zero selected R1 main action among64 completed current-default games. Quick moves and data placement may still occur; zero mains is not zero activity or necessarily avoidable loss. No first-main snapshot means missing, never zero-hand evidence.",
+  "rows": [
+    {
+      "case": 22,
+      "player": "player-green",
+      "final": 144,
+      "turns": [
+        {
+          "id": 33,
+          "action": "industry",
+          "kind": "quick",
+          "resources": {
+            "score": 3,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 3,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 39,
+          "action": "placeData",
+          "kind": "quick",
+          "resources": {
+            "score": 3,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 3,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 40,
+          "action": "placeData",
+          "kind": "quick",
+          "resources": {
+            "score": 3,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 3,
+            "availableData": 2,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 41,
+          "action": "placeData",
+          "kind": "quick",
+          "resources": {
+            "score": 3,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 1,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 42,
+          "action": "move",
+          "kind": "quick",
+          "resources": {
+            "score": 3,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 0,
+            "handSize": 3
+          },
+          "energyCost": 1
+        },
+        {
+          "id": 45,
+          "action": "pass",
+          "kind": "pass",
+          "resources": {
+            "score": 3,
+            "credits": 3,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 50,
+          "action": "end-turn",
+          "kind": "end-turn",
+          "resources": {
+            "score": 3,
+            "credits": 3,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 4
+          }
+        }
+      ],
+      "passAlternatives": [
+        {
+          "id": "playCard",
+          "score": -15.964984955345601,
+          "net": -23.982
+        }
+      ],
+      "beforePaidMoveScan": [
+        {
+          "available": true,
+          "score": 0,
+          "net": -13.37,
+          "valueBreakdown": {
+            "directScoreGain": 0,
+            "scanEnergyReservationPenalty": 11,
+            "rawScanEnergyReservationPenalty": 11,
+            "scanDataPlacementOpportunities": 0,
+            "scanProjectedAnalyzeUnlock": false,
+            "analyzeCashoutScore": 0,
+            "weakFinalAnalyzeEnergyCap": null
+          }
+        }
+      ],
+      "paidMoveDetails": {
+        "requiredMovePoints": 1,
+        "moveEnergySpent": 1,
+        "moveCardSpent": 0,
+        "energyAfterMovePayment": 1,
+        "followupScore": 0
+      },
+      "passCard": {
+        "cardId": "b_93.webp",
+        "cardLabel": "X射线岩石化学探测行屋仪",
+        "score": -15.964984955345601,
+        "directScoreGain": 7,
+        "available": true,
+        "net": -23.982
+      }
+    },
+    {
+      "case": 32,
+      "player": "player-brown",
+      "final": 174,
+      "turns": [
+        {
+          "id": 33,
+          "action": "industry",
+          "kind": "quick",
+          "resources": {
+            "score": 6,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 2,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 39,
+          "action": "placeData",
+          "kind": "quick",
+          "resources": {
+            "score": 6,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 2,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 40,
+          "action": "placeData",
+          "kind": "quick",
+          "resources": {
+            "score": 6,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 1,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 41,
+          "action": "move",
+          "kind": "quick",
+          "resources": {
+            "score": 6,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 3
+          },
+          "energyCost": 1
+        },
+        {
+          "id": 44,
+          "action": "pass",
+          "kind": "pass",
+          "resources": {
+            "score": 6,
+            "credits": 3,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 49,
+          "action": "end-turn",
+          "kind": "end-turn",
+          "resources": {
+            "score": 6,
+            "credits": 3,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 4
+          }
+        }
+      ],
+      "passAlternatives": [
+        {
+          "id": "playCard",
+          "score": -27.046027749999997,
+          "net": -35.184
+        }
+      ],
+      "beforePaidMoveScan": [
+        {
+          "available": true,
+          "score": 7.578553124999999,
+          "net": 8.292,
+          "valueBreakdown": {
+            "directScoreGain": 0,
+            "scanEnergyReservationPenalty": 0,
+            "rawScanEnergyReservationPenalty": 0,
+            "scanDataPlacementOpportunities": 0,
+            "scanProjectedAnalyzeUnlock": false,
+            "analyzeCashoutScore": 0,
+            "weakFinalAnalyzeEnergyCap": null
+          }
+        }
+      ],
+      "paidMoveDetails": {
+        "requiredMovePoints": 1,
+        "moveEnergySpent": 1,
+        "moveCardSpent": 0,
+        "energyAfterMovePayment": 1,
+        "followupScore": 0
+      },
+      "passCard": {
+        "cardId": "dlc_3.png",
+        "cardLabel": "NASA深空网络",
+        "score": -27.046027749999997,
+        "directScoreGain": 0,
+        "available": true,
+        "net": -35.184
+      }
+    },
+    {
+      "case": 62,
+      "player": "player-green",
+      "final": 200,
+      "turns": [
+        {
+          "id": 33,
+          "action": "industry",
+          "kind": "quick",
+          "resources": {
+            "score": 7,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 2,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 39,
+          "action": "placeData",
+          "kind": "quick",
+          "resources": {
+            "score": 7,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 2,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 40,
+          "action": "placeData",
+          "kind": "quick",
+          "resources": {
+            "score": 7,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 4,
+            "availableData": 1,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 41,
+          "action": "move",
+          "kind": "quick",
+          "resources": {
+            "score": 7,
+            "credits": 3,
+            "energy": 2,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 3
+          },
+          "energyCost": 1
+        },
+        {
+          "id": 44,
+          "action": "pass",
+          "kind": "pass",
+          "resources": {
+            "score": 7,
+            "credits": 3,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 3
+          }
+        },
+        {
+          "id": 49,
+          "action": "end-turn",
+          "kind": "end-turn",
+          "resources": {
+            "score": 7,
+            "credits": 3,
+            "energy": 1,
+            "publicity": 5,
+            "availableData": 0,
+            "handSize": 4
+          }
+        }
+      ],
+      "passAlternatives": [
+        {
+          "id": "playCard",
+          "score": -9.786186513314298,
+          "net": -16.744
+        }
+      ],
+      "beforePaidMoveScan": [
+        {
+          "available": true,
+          "score": 0,
+          "net": -9.222,
+          "valueBreakdown": {
+            "directScoreGain": 0,
+            "scanEnergyReservationPenalty": 11,
+            "rawScanEnergyReservationPenalty": 11,
+            "scanDataPlacementOpportunities": 0,
+            "scanProjectedAnalyzeUnlock": false,
+            "analyzeCashoutScore": 0,
+            "weakFinalAnalyzeEnergyCap": null
+          }
+        }
+      ],
+      "paidMoveDetails": {
+        "requiredMovePoints": 1,
+        "moveEnergySpent": 1,
+        "moveCardSpent": 0,
+        "energyAfterMovePayment": 1,
+        "followupScore": 0
+      },
+      "passCard": {
+        "cardId": "b_85.webp",
+        "cardLabel": "ODINUS号任务",
+        "score": -9.786186513314298,
+        "directScoreGain": 2,
+        "available": true,
+        "net": -16.744
+      }
+    }
+  ],
+  "model": "8f6ca0095995f65303aa19208fbf85df5ebd4c67",
+  "totalGames": 64,
+  "totalHuanyuSeats": 64,
+  "sourceSuite": "creditabsolute64-suite.json",
+  "manifest": [
+    {
+      "file": "creditabsolute64-candidate-22.json",
+      "seed": "codex-ai-credit-unlock-20260928:4f17477350f62fe5bf141881",
+      "alienSeed": "codex-ai-credit-unlock-aliens-20260928:47f30417380b47b30b06adf8",
+      "sha256": "11fc8dbe5c8e701ce9a0029f8f4a80fb9a0f4d949016a777ff1cb864fdf79fca"
+    },
+    {
+      "file": "creditabsolute64-candidate-32.json",
+      "seed": "codex-ai-credit-unlock-20260928:0b57b4d21704033714f81860",
+      "alienSeed": "codex-ai-credit-unlock-aliens-20260928:46ddb029c82dfcd7e204ca7b",
+      "sha256": "6f3ffe94b196a2ae551e4b1c1405885694cff494cdffdba0191a33f7defe1337"
+    },
+    {
+      "file": "creditabsolute64-candidate-62.json",
+      "seed": "codex-ai-credit-unlock-20260928:a1ae84aca0b0f7f1f3deb0de",
+      "alienSeed": "codex-ai-credit-unlock-aliens-20260928:7bbd817dda27a2f78cbeb097",
+      "sha256": "58ad99b26e2c68da86fee95eae44411fa8fa4b0a577eba574c56aba9188a5997"
+    }
+  ]
+}
