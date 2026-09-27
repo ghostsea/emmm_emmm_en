@@ -1,0 +1,197 @@
+{
+  "scope": "One complete deterministic integration check against accepted Runezu frozen seed1. Final scores, steps, all spendable resource flow buckets, productive main actions and prior card counters identical. Score-flow fields differ because this old frozen reference predates the already-adopted score reward formatter fix; final score is equal, not a new score gain. New fields expose snapshot-confirmed hand removals with unknown purpose. No population coverage claim from one game. Existing frozen batch parsers are unchanged; do not silently mix their old card-use denominators with new diagnostics.",
+  "summary": {
+    "ok": true,
+    "single": true,
+    "blocked": false,
+    "gameEnded": true,
+    "stoppedBeforeRound": null,
+    "steps": 1528,
+    "maxScore": 300,
+    "minPlayerScore": 195,
+    "allPlayersAtLeast70": true,
+    "playerScores": [
+      195,
+      300,
+      217,
+      196
+    ],
+    "bugCount": 0,
+    "actionCounts": null,
+    "opportunities": null,
+    "resourceFlow": {
+      "trackedMagnitude": 1975,
+      "classifiedMagnitude": 1974,
+      "weighted": 0.999493670886076
+    },
+    "message": "游戏已结束"
+  },
+  "baseline": "runeapirepaired64-candidate-1.json",
+  "candidate": "hand-use-coverage-main-1.json",
+  "sourceHashes": {
+    "runeapirepaired64-candidate-1.json": "b5f00de8c40b0e987c825e10d18813b8afe9f430e3ae6b119410cb86ff9951e7",
+    "hand-use-coverage-main-1.json": "38b8acee2a1c71691ee3bf54ffe6cba26c4d89ff942ce3061b77b50f06d03283"
+  },
+  "rows": [
+    {
+      "player": "player-blue",
+      "company": "寰宇超动力",
+      "score": 195,
+      "old": {
+        "gainedInGame": 22,
+        "played": 10,
+        "income": 5,
+        "discarded": 2,
+        "movePayments": 0,
+        "playedFromGains": 9,
+        "incomeFromGains": 1,
+        "discardedFromGains": 1,
+        "movePaymentsFromGains": 0,
+        "alienGainedInGame": 1,
+        "alienPlayedFromGains": 0
+      },
+      "current": {
+        "gainedInGame": 22,
+        "played": 10,
+        "income": 5,
+        "discarded": 2,
+        "movePayments": 0,
+        "unknownRemovals": 11,
+        "playedFromGains": 9,
+        "incomeFromGains": 1,
+        "discardedFromGains": 1,
+        "movePaymentsFromGains": 0,
+        "unknownRemovalsFromGains": 10,
+        "alienGainedInGame": 1,
+        "alienPlayedFromGains": 0,
+        "untracedGains": 1,
+        "knownRemovalUseRate": 0.5238095238095238
+      },
+      "endingHand": 1,
+      "nonIncomeScoreLog": {
+        "old": 106,
+        "current": 120
+      }
+    },
+    {
+      "player": "player-green",
+      "company": "作弊实验室",
+      "score": 300,
+      "old": {
+        "gainedInGame": 31,
+        "played": 15,
+        "income": 4,
+        "discarded": 12,
+        "movePayments": 2,
+        "playedFromGains": 11,
+        "incomeFromGains": 0,
+        "discardedFromGains": 10,
+        "movePaymentsFromGains": 1,
+        "alienGainedInGame": 0,
+        "alienPlayedFromGains": 0
+      },
+      "current": {
+        "gainedInGame": 31,
+        "played": 15,
+        "income": 4,
+        "discarded": 12,
+        "movePayments": 2,
+        "unknownRemovals": 10,
+        "playedFromGains": 11,
+        "incomeFromGains": 0,
+        "discardedFromGains": 10,
+        "movePaymentsFromGains": 1,
+        "unknownRemovalsFromGains": 9,
+        "alienGainedInGame": 0,
+        "alienPlayedFromGains": 0,
+        "untracedGains": 0,
+        "knownRemovalUseRate": 0.7096774193548387
+      },
+      "endingHand": 0,
+      "nonIncomeScoreLog": {
+        "old": 156,
+        "current": 193
+      }
+    },
+    {
+      "player": "player-brown",
+      "company": "作弊实验室",
+      "score": 217,
+      "old": {
+        "gainedInGame": 26,
+        "played": 10,
+        "income": 5,
+        "discarded": 13,
+        "movePayments": 2,
+        "playedFromGains": 8,
+        "incomeFromGains": 0,
+        "discardedFromGains": 10,
+        "movePaymentsFromGains": 0,
+        "alienGainedInGame": 0,
+        "alienPlayedFromGains": 0
+      },
+      "current": {
+        "gainedInGame": 26,
+        "played": 10,
+        "income": 5,
+        "discarded": 13,
+        "movePayments": 2,
+        "unknownRemovals": 10,
+        "playedFromGains": 8,
+        "incomeFromGains": 0,
+        "discardedFromGains": 10,
+        "movePaymentsFromGains": 0,
+        "unknownRemovalsFromGains": 8,
+        "alienGainedInGame": 0,
+        "alienPlayedFromGains": 0,
+        "untracedGains": 0,
+        "knownRemovalUseRate": 0.6923076923076923
+      },
+      "endingHand": 0,
+      "nonIncomeScoreLog": {
+        "old": 95,
+        "current": 111
+      }
+    },
+    {
+      "player": "player-white",
+      "company": "宇宙大战略集团",
+      "score": 196,
+      "old": {
+        "gainedInGame": 31,
+        "played": 14,
+        "income": 4,
+        "discarded": 8,
+        "movePayments": 2,
+        "playedFromGains": 10,
+        "incomeFromGains": 0,
+        "discardedFromGains": 8,
+        "movePaymentsFromGains": 1,
+        "alienGainedInGame": 0,
+        "alienPlayedFromGains": 0
+      },
+      "current": {
+        "gainedInGame": 31,
+        "played": 14,
+        "income": 4,
+        "discarded": 8,
+        "movePayments": 2,
+        "unknownRemovals": 12,
+        "playedFromGains": 10,
+        "incomeFromGains": 0,
+        "discardedFromGains": 8,
+        "movePaymentsFromGains": 1,
+        "unknownRemovalsFromGains": 12,
+        "alienGainedInGame": 0,
+        "alienPlayedFromGains": 0,
+        "untracedGains": 0,
+        "knownRemovalUseRate": 0.6129032258064516
+      },
+      "endingHand": 0,
+      "nonIncomeScoreLog": {
+        "old": 88,
+        "current": 104
+      }
+    }
+  ]
+}

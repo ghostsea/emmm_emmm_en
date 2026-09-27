@@ -497,6 +497,36 @@ for (const playerId of ["p1", "p2"]) {
   assert.equal(playerFlow.cardUse.alienGainedInGame, 1);
 }
 
+{
+  const a={id:"played-a",label:"打出的牌"},b={id:"income-b",label:"收入牌"},c={id:"unknown-c",label:"移出牌"};
+  const player=(hand,income={})=>({id:"p1",color:"white",hand,resources:{handSize:hand.length,credits:income.credits||0},income});
+  const initial=player([]);
+  const entries=[
+    {id:1,roundNumber:2,playerId:"p1",actionType:"scan",steps:[{source:"main",text:"资源：手牌+3"}],accountingSnapshot:{players:[player([a,b,c])]}},
+    {id:2,roundNumber:2,playerId:"p1",actionType:"playCard",steps:[
+      {source:"main",text:"打出：打出的牌：资源：手牌-1",playedCard:a},
+      {source:"quick",text:"收入：弃掉 收入牌，信用点+1（已即时获得）"},
+    ],accountingSnapshot:{players:[player([],{credits:1})]}},
+  ];
+  const r=flow.analyzeStructuredActionLog(entries,{initialPlayerStates:[initial]});
+  const p=r.players[0],unknown=r.events.filter(e=>e.syntheticHandRemoval);
+  assert.equal(unknown.length,1);
+  assert.deepEqual(unknown[0].cards.map(c=>[c.key,c.change]),[[c.id,"unknown_removal"]]);
+  assert.deepEqual(unknown[0].resourceDeltas,{},"identity diagnostics cannot add another payment");
+  assert.equal(p.cardUse.playedFromGains,1);
+  assert.equal(p.cardUse.incomeFromGains,1);
+  assert.equal(p.cardUse.unknownRemovalsFromGains,1);
+  assert.equal(p.cardUse.discardedFromGains,0,"an unexplained removal must not be guessed as discard");
+  assert.equal(p.cardUse.untracedGains,0);
+  assert.equal(p.cardUse.knownRemovalUseRate,2/3);
+  assert.equal(p.spent.handSize,3);
+  assert.equal(r.reconciliation.residualMagnitude,0);
+  const unobserved=flow.analyzeStructuredActionLog(entries.map(({accountingSnapshot,...e})=>e),{initialPlayerStates:[initial]});
+  assert.equal(unobserved.events.filter(e=>e.syntheticHandRemoval).length,0,"missing snapshots cannot prove removal identities");
+  const partial=flow.analyzeStructuredActionLog([{id:3,roundNumber:2,playerId:"p2",actionType:"scan",steps:[],accountingSnapshot:{players:[{id:"p2",hand:[],resources:{}}]}}],{initialPlayerStates:[player([c]),{id:"p2",hand:[],resources:{}}]});
+  assert.equal(partial.events.filter(e=>e.syntheticHandRemoval).length,0,"a player omitted from a partial snapshot has no observed after-hand");
+}
+
 const structuredResearchCost = flow.analyzeStructuredActionLog([{
   id: 8, roundNumber: 1, turnNumber: 5, playerId: "p1", playerLabel: "白色",
   actionType: "researchTech", actionLabel: "科技行动",

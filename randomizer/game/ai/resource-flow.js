@@ -326,10 +326,12 @@
       income: 0,
       discarded: 0,
       movePayments: 0,
+      unknownRemovals: 0,
       playedFromGains: 0,
       incomeFromGains: 0,
       discardedFromGains: 0,
       movePaymentsFromGains: 0,
+      unknownRemovalsFromGains: 0,
       alienGainedInGame: 0,
       alienPlayedFromGains: 0,
     };
@@ -361,6 +363,7 @@
           income: "income",
           discard: "discarded",
           move_payment: "movePayments",
+          unknown_removal: "unknownRemovals",
         };
         const counter = counterByChange[card.change];
         if (!counter) continue;
@@ -372,6 +375,7 @@
           income: "incomeFromGains",
           discard: "discardedFromGains",
           move_payment: "movePaymentsFromGains",
+          unknown_removal: "unknownRemovalsFromGains",
         }[card.change];
         cardUse[fromGainsCounter] += 1;
         if (card.change === "play" && gained.origin === "alien") {
@@ -380,6 +384,11 @@
       }
     }
 
+    // Unmatched gains may have an unrecorded use; they are not ending hand stock.
+    cardUse.untracedGains = [...gainedCards.values()].reduce((count, cards) => count + cards.length, 0);
+    const knownUses = cardUse.playedFromGains + cardUse.incomeFromGains
+      + cardUse.discardedFromGains + cardUse.movePaymentsFromGains;
+    cardUse.knownRemovalUseRate = divideOrNull(knownUses, knownUses + cardUse.unknownRemovalsFromGains);
     return cardUse;
   }
 
@@ -1236,6 +1245,7 @@
     if (!beforeStates || !afterStates) return;
     const entryId = entry.id ?? entry.entryId ?? null;
     for (const [playerId, beforePlayer] of beforeStates) {
+      if (!afterStates.has(playerId)) continue;
       const removals = getStructuredHandRemovals(beforePlayer, afterStates.get(playerId));
       if (!removals.length) continue;
       const playerEvents = entryEvents.filter((event) => (
@@ -1276,6 +1286,29 @@
             label: removal.label || card.label,
           };
         }
+      }
+      if (remaining.length) {
+        // A snapshot proves these identities left the hand, not why. Do not
+        // silently retain them or guess discard/income from net resource changes.
+        entryEvents.push({
+          gameId: playerEvents[0]?.gameId || "ai-game",
+          entryId,
+          stepIndex: Number.MAX_SAFE_INTEGER - 2,
+          playerId,
+          playerLabel: beforePlayer.playerLabel,
+          roundNumber: Number(entry.roundNumber) || 0,
+          turnNumber: Number(entry.turnNumber) || 0,
+          pace: entry.actionType || null,
+          sourceCategory: "unclassified",
+          sourceDetail: "snapshot hand removal: purpose unknown",
+          resourceDeltas: {},
+          incomeDeltas: {},
+          cards: remaining.map(card => ({ ...card, change: "unknown_removal", explicitIdentity: true })),
+          techIds: [],
+          industryId: beforePlayer.industryId,
+          confidence: 1,
+          syntheticHandRemoval: true,
+        });
       }
     }
   }
@@ -1536,7 +1569,6 @@
         options,
       );
       attachStructuredHandGains(entryEvents, previousStates, snapshotStates, entry);
-      attachStructuredHandUses(entryEvents, previousStates, snapshotStates, entry);
       inferredMagnitude += appendStructuredSnapshotInferences(
         entryEvents,
         entry,
@@ -1544,6 +1576,8 @@
         snapshotStates,
         options,
       );
+      // Identity-only diagnostics must not affect resource-source inference.
+      attachStructuredHandUses(entryEvents, previousStates, snapshotStates, entry);
       events.push(...entryEvents);
       if (snapshotStates) {
         previousStates = snapshotStates;
