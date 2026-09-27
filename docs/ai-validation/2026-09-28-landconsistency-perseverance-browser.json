@@ -1,0 +1,206 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Actual b91 paid one credit then free Mars landing with two retained income cards. Controlled execution; not score efficacy.",
+      "preview": {
+        "choice": {
+          "actionType": "land",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 8
+          },
+          "rocketId": 8,
+          "planetId": "mars",
+          "planet": {
+            "planetId": "mars",
+            "label": "火星",
+            "name": "火星",
+            "wheelId": 2,
+            "baseX": 2,
+            "x": 2,
+            "y": 2,
+            "fixedAfterSetup": false
+          },
+          "satelliteId": "phobos-deimos",
+          "rewardSummary": "获得 8 分；获得收入 1/2；获得收入 2/2；指定目标登陆：4分",
+          "energyCost": 2,
+          "cost": {},
+          "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2；指定目标登陆：4分（火星，R8，0）"
+        },
+        "planetId": "mars",
+        "rewards": [
+          {
+            "type": "gain_resources",
+            "label": "获得 8 分",
+            "icon": "score",
+            "options": {
+              "gain": {
+                "score": 8
+              }
+            },
+            "id": "planet-reward-0",
+            "status": "pending"
+          },
+          {
+            "type": "income",
+            "label": "获得收入 1/2",
+            "icon": "income",
+            "needsUserChoice": true,
+            "options": {
+              "count": 1
+            },
+            "id": "planet-reward-1",
+            "status": "pending"
+          },
+          {
+            "type": "income",
+            "label": "获得收入 2/2",
+            "icon": "income",
+            "needsUserChoice": true,
+            "options": {
+              "count": 1
+            },
+            "id": "planet-reward-2",
+            "status": "pending"
+          },
+          {
+            "id": "b91-land-score",
+            "type": "gain_resources",
+            "label": "指定目标登陆：4分",
+            "icon": "score",
+            "options": {
+              "gain": {
+                "score": 4
+              }
+            }
+          }
+        ],
+        "directScore": 12,
+        "rewardValue": 102.28037333333334
+      },
+      "position": {
+        "x": 2,
+        "y": 2
+      },
+      "effect": {
+        "id": "b91-land",
+        "type": "card_land",
+        "label": "登陆；火星/水星/卫星奖励4分",
+        "icon": "land",
+        "options": {
+          "skipCost": true,
+          "allowDuplicateLanding": false,
+          "allowDuplicateSatelliteLanding": false,
+          "allowSatelliteWithoutTech": false,
+          "forceFirstLandingReward": false,
+          "grantRewards": true,
+          "afterLandRewards": [
+            {
+              "planetIds": [
+                "mars",
+                "mercury"
+              ],
+              "includeSatellites": true,
+              "effect": {
+                "id": "b91-land-score",
+                "type": "gain_resources",
+                "label": "指定目标登陆：4分",
+                "icon": "score",
+                "options": {
+                  "gain": {
+                    "score": 4
+                  }
+                }
+              }
+            }
+          ],
+          "rememberPreLandingOwnMarker": false,
+          "rememberPreLandingMarker": false,
+          "repeat": 1
+        },
+        "status": "pending"
+      },
+      "ownsOrange4": true,
+      "normal": {
+        "ok": false
+      },
+      "cardChoices": [
+        {
+          "planetId": "mars",
+          "target": {
+            "type": "planet",
+            "rocketId": 8
+          },
+          "cost": {},
+          "reward": "首次登陆：额外获得 2 个数据；获得 6 分；获得 1 个黄色外星人标记；指定目标登陆：4分"
+        },
+        {
+          "planetId": "mars",
+          "target": {
+            "type": "satellite",
+            "satelliteId": "phobos-deimos",
+            "rocketId": 8
+          },
+          "cost": {},
+          "reward": "获得 8 分；获得收入 1/2；获得收入 2/2；指定目标登陆：4分"
+        }
+      ],
+      "topLevel": {
+        "card": "b_91.webp",
+        "directScore": 12
+      },
+      "selection": {
+        "ok": true,
+        "card": {
+          "id": "card-67-0",
+          "cardId": "b_91.webp",
+          "set": "basic",
+          "cardName": "毅力号火星车",
+          "src": "../assets/cards/basic/split/b_91.webp",
+          "faceUp": true,
+          "price": 1,
+          "cardTypeCode": 0,
+          "discardActionCode": 0,
+          "scanActionCode": 2,
+          "incomeCode": 2
+        },
+        "reserved": false,
+        "message": "打出 毅力号火星车：请依次点击效果"
+      },
+      "steps": 8,
+      "endingResources": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 22
+      },
+      "decisions": [
+        {
+          "type": "land-target",
+          "details": {
+            "logPlayerId": "player-white",
+            "optionCount": 2,
+            "planetId": "card-pluto-land",
+            "selectedIndex": 1,
+            "selected": {
+              "label": "登陆火卫一/火卫二 - 奖励：获得 8 分；获得收入 1/2；获得收入 2/2；指定目标登陆：4分（火星，R8，0）",
+              "target": {
+                "type": "satellite",
+                "satelliteId": "phobos-deimos",
+                "rocketId": 8
+              },
+              "score": 89.78037333333334
+            }
+          }
+        }
+      ],
+      "bugs": []
+    }
+  }
+}

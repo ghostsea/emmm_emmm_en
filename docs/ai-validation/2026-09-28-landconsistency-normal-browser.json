@@ -1,0 +1,366 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Matched real browser two-planet setup; force ordinary land to inspect preview versus autonomous target selection and actual payment. No full-game score claim.",
+      "positions": {
+        "mars": {
+          "x": 1,
+          "y": 2
+        },
+        "jupiter": {
+          "x": 2,
+          "y": 3
+        }
+      },
+      "check": {
+        "ok": true,
+        "message": null,
+        "planet": {
+          "planetId": "multi-land",
+          "name": "登陆目标"
+        },
+        "energyCost": 1,
+        "choices": [
+          {
+            "target": {
+              "type": "planet",
+              "rocketId": 39
+            },
+            "rocketId": 39,
+            "planetId": "jupiter",
+            "planet": {
+              "planetId": "jupiter",
+              "label": "木星",
+              "name": "木星",
+              "wheelId": 3,
+              "baseX": 3,
+              "x": 2,
+              "y": 3,
+              "fixedAfterSetup": false
+            },
+            "energyCost": 1,
+            "label": "登陆木星（主星，R39，1能量）"
+          },
+          {
+            "target": {
+              "type": "planet",
+              "rocketId": 38
+            },
+            "rocketId": 38,
+            "planetId": "mars",
+            "planet": {
+              "planetId": "mars",
+              "label": "火星",
+              "name": "火星",
+              "wheelId": 2,
+              "baseX": 2,
+              "x": 1,
+              "y": 2,
+              "fixedAfterSetup": false
+            },
+            "energyCost": 2,
+            "label": "登陆火星（主星，R38，2能量）"
+          }
+        ]
+      },
+      "preview": {
+        "id": "land",
+        "kind": "main",
+        "available": true,
+        "reason": null,
+        "planetId": "jupiter",
+        "planetName": "木星",
+        "energyCost": 1,
+        "choices": [
+          {
+            "target": {
+              "type": "planet",
+              "rocketId": 39
+            },
+            "rocketId": 39,
+            "planetId": "jupiter",
+            "planet": {
+              "planetId": "jupiter",
+              "label": "木星",
+              "name": "木星",
+              "wheelId": 3,
+              "baseX": 3,
+              "x": 2,
+              "y": 3,
+              "fixedAfterSetup": false
+            },
+            "energyCost": 1,
+            "label": "登陆木星（主星，R39，1能量）"
+          },
+          {
+            "target": {
+              "type": "planet",
+              "rocketId": 38
+            },
+            "rocketId": 38,
+            "planetId": "mars",
+            "planet": {
+              "planetId": "mars",
+              "label": "火星",
+              "name": "火星",
+              "wheelId": 2,
+              "baseX": 2,
+              "x": 1,
+              "y": 2,
+              "fixedAfterSetup": false
+            },
+            "energyCost": 2,
+            "label": "登陆火星（主星，R38，2能量）"
+          }
+        ],
+        "finalMarkCashoutIncluded": true,
+        "selectedChoiceIndex": 0,
+        "selectedRocketId": 39,
+        "selectedTarget": {
+          "type": "planet",
+          "rocketId": 39
+        },
+        "directScoreGain": 7,
+        "valueBreakdown": {
+          "directScoreGain": 7
+        },
+        "finalFormulaDeltas": {
+          "b2": 0
+        },
+        "score": 36.7994,
+        "actionGraph": {
+          "gain": 36.799,
+          "cost": 0,
+          "finalMarginal": 0,
+          "goalBonus": 5.48,
+          "feasibility": 1,
+          "net": 48.621
+        },
+        "breakdown": {
+          "directScoreGain": 7,
+          "existingScore": 36.799,
+          "gain": 36.799,
+          "cost": 0,
+          "finalMarginal": 0,
+          "finalMarkCashout": 0,
+          "missingFinalMarkPenalty": 0,
+          "goalBonus": 5.48,
+          "feasibility": 1,
+          "net": 48.621,
+          "aiStyle": "route",
+          "aiStyleMultiplier": 1.15,
+          "finalFormulaStyleMultiplier": 1,
+          "missingFinalMarkMultiplier": 1,
+          "netBeforeStyle": 42.279
+        }
+      },
+      "autonomous": {
+        "id": "land",
+        "kind": "main",
+        "available": true,
+        "reason": null,
+        "planetId": "jupiter",
+        "planetName": "木星",
+        "energyCost": 1,
+        "choices": [
+          {
+            "target": {
+              "type": "planet",
+              "rocketId": 39
+            },
+            "rocketId": 39,
+            "planetId": "jupiter",
+            "planet": {
+              "planetId": "jupiter",
+              "label": "木星",
+              "name": "木星",
+              "wheelId": 3,
+              "baseX": 3,
+              "x": 2,
+              "y": 3,
+              "fixedAfterSetup": false
+            },
+            "energyCost": 1,
+            "label": "登陆木星（主星，R39，1能量）"
+          },
+          {
+            "target": {
+              "type": "planet",
+              "rocketId": 38
+            },
+            "rocketId": 38,
+            "planetId": "mars",
+            "planet": {
+              "planetId": "mars",
+              "label": "火星",
+              "name": "火星",
+              "wheelId": 2,
+              "baseX": 2,
+              "x": 1,
+              "y": 2,
+              "fixedAfterSetup": false
+            },
+            "energyCost": 2,
+            "label": "登陆火星（主星，R38，2能量）"
+          }
+        ],
+        "finalMarkCashoutIncluded": true,
+        "selectedChoiceIndex": 0,
+        "selectedRocketId": 39,
+        "selectedTarget": {
+          "type": "planet",
+          "rocketId": 39
+        },
+        "directScoreGain": 7,
+        "valueBreakdown": {
+          "directScoreGain": 7
+        },
+        "finalFormulaDeltas": {
+          "b2": 0
+        },
+        "score": 36.7994,
+        "actionGraph": {
+          "gain": 36.799,
+          "cost": 0,
+          "finalMarginal": 0,
+          "goalBonus": 5.48,
+          "feasibility": 1,
+          "net": 48.621
+        },
+        "breakdown": {
+          "directScoreGain": 7,
+          "existingScore": 36.799,
+          "gain": 36.799,
+          "cost": 0,
+          "finalMarginal": 0,
+          "finalMarkCashout": 0,
+          "missingFinalMarkPenalty": 0,
+          "goalBonus": 5.48,
+          "feasibility": 1,
+          "net": 48.621,
+          "aiStyle": "route",
+          "aiStyleMultiplier": 1.15,
+          "finalFormulaStyleMultiplier": 1,
+          "missingFinalMarkMultiplier": 1,
+          "netBeforeStyle": 42.279
+        }
+      },
+      "chosen": {
+        "target": {
+          "type": "planet",
+          "rocketId": 39
+        },
+        "rocketId": 39,
+        "planetId": "jupiter",
+        "planet": {
+          "planetId": "jupiter",
+          "label": "木星",
+          "name": "木星",
+          "wheelId": 3,
+          "baseX": 3,
+          "x": 2,
+          "y": 3,
+          "fixedAfterSetup": false
+        },
+        "energyCost": 1,
+        "label": "登陆木星（主星，R39，1能量）"
+      },
+      "pick": {
+        "id": 33,
+        "type": "land-target",
+        "roundNumber": 1,
+        "turnNumber": 1,
+        "rawTurnNumber": 1,
+        "playerId": "player-white",
+        "playerLabel": "白色",
+        "playerResources": {
+          "score": 35,
+          "credits": 2,
+          "energy": 4,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 0
+        },
+        "scoreboard": [
+          {
+            "playerId": "player-blue",
+            "playerLabel": "蓝色",
+            "score": 5,
+            "credits": 5,
+            "energy": 4,
+            "publicity": 1,
+            "availableData": 2,
+            "handSize": 6,
+            "reservedCount": 0,
+            "techCount": 0
+          },
+          {
+            "playerId": "player-green",
+            "playerLabel": "绿色",
+            "score": 10,
+            "credits": 5,
+            "energy": 3,
+            "publicity": 3,
+            "availableData": 1,
+            "handSize": 6,
+            "reservedCount": 0,
+            "techCount": 0
+          },
+          {
+            "playerId": "player-brown",
+            "playerLabel": "棕色",
+            "score": 7,
+            "credits": 6,
+            "energy": 4,
+            "publicity": 5,
+            "availableData": 2,
+            "handSize": 5,
+            "reservedCount": 0,
+            "techCount": 0
+          },
+          {
+            "playerId": "player-white",
+            "playerLabel": "白色",
+            "score": 35,
+            "credits": 2,
+            "energy": 4,
+            "publicity": 0,
+            "availableData": 0,
+            "handSize": 0,
+            "reservedCount": 0,
+            "techCount": 2
+          }
+        ],
+        "message": "白色AI 选择登陆目标 1",
+        "details": {
+          "logPlayerId": "player-white",
+          "optionCount": 2,
+          "planetId": "multi-land",
+          "selectedIndex": 0,
+          "selected": {
+            "label": "登陆木星 - 奖励：首次登陆：额外获得 2 个数据；获得 7 分；获得 1 个黄色外星人标记（主星，R39，1能量）",
+            "target": {
+              "type": "planet",
+              "rocketId": 39
+            },
+            "score": 28.566000000000003
+          }
+        },
+        "createdAt": "2026-09-27T20:16:10.115Z"
+      },
+      "after": {
+        "credits": 2,
+        "energy": 3,
+        "publicity": 1,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 47
+      },
+      "ledger": [],
+      "bugs": []
+    }
+  }
+}
