@@ -10911,6 +10911,13 @@
             * getAiConditionRewardMultiplier(effectOptions.condition, player, {
               immediate: options.immediate === true,
             }).multiplier;
+        case cardEffects.EFFECT_TYPES.COUNT_TECH_TYPES_REWARD: {
+          if (effectOptions.reward !== "draw") return 0;
+          const ownedTiles = player?.techState?.ownedTiles || {};
+          const count = Math.max(0, ...AI_TECH_TYPES.map((techType) => Object.keys(ownedTiles)
+            .filter((tileId) => ownedTiles[tileId] && tileId.startsWith(techType)).length));
+          return count * AI_RESOURCE_VALUES.handSize;
+        }
         case cardEffects.EFFECT_TYPES.COUNT_ROCKETS_REWARD: {
           const count = countAiRocketsForReward(player, effectOptions);
           const total = Math.max(0, Math.round(count * aiNumber(effectOptions.per || 1)));

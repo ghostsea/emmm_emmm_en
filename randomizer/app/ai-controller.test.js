@@ -447,6 +447,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         PAY_CREDITS_FOR_REWARD: "card_pay_credits_for_reward",
         CARD_CORNER_EVENT_REWARD: "card_corner_event_reward",
         CONDITIONAL_REWARD: "card_conditional_reward",
+        COUNT_TECH_TYPES_REWARD: cardEffects.EFFECT_TYPES.COUNT_TECH_TYPES_REWARD,
         COUNT_ROCKETS_REWARD: "card_count_rockets_reward",
       },
       buildPlayEffects: (card) => card?.playEffects || [],
@@ -17170,4 +17171,38 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
     'optional elevator launch must not block research with one or zero free rocket slots');
   assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
     'research candidate enumeration must not consume optional triggers');
+}
+
+{
+  const effectValue = (ownedTiles, effect, disabledTiles = {}) => {
+    const candidates = [];
+    const card = { id: "tech-draw-value", price: 0, typeCode: 0,
+      playEffects: [{ type: "gain_resources", options: { gain: { score: 1 } } }, ...effect] };
+    const h = createAiControllerHarness(null, {
+      currentPlayerColor: "blue", roundNumber: 3, canStartMainAction: true,
+      realisticCanAfford: true, recordBeginPlayCard: true,
+      blueResources: { score: 60, credits: 2, energy: 2, handSize: 1 }, blueHand: [card],
+      blueTechState: { ownedTiles, disabledTiles },
+      onChooseTurnAction: (items) => candidates.push(...items),
+      chooseTurnAction: (items) => items.find((item) => item.id === "playCard"),
+    });
+    h.controller.configureAiAutoBattle({ playerIds: [h.blue.id], suppressAutoSchedule: true });
+    assert.equal(h.controller.runAiAutomationStep().ok, true);
+    const candidate = candidates.find((item) => item.id === "playCard")?.playableCards?.[0];
+    assert.ok(candidate);
+    return candidate.valueBreakdown.effectValue;
+  };
+  const counted = [{ type: cardEffects.EFFECT_TYPES.COUNT_TECH_TYPES_REWARD, options: { reward: "draw" } }];
+  for (const [owned, count] of [
+    [{}, 0], [{ orange1: true }, 1],
+    [{ orange1: true, orange2: true, purple1: true, blue1: true }, 2],
+    [{ blue1: true, blue2: true, blue3: true, blue4: false, extra1: true }, 3],
+    [{ purple1: true, purple2: true, purple3: true, purple4: true }, 4],
+  ]) {
+    const draw = count ? [{ type: "draw_cards", options: { count } }] : [];
+    assert.equal(effectValue(owned, counted), effectValue(owned, draw),
+      "use the largest actually owned color count, not total tiles or a fixed fallback");
+  }
+  assert.equal(effectValue({ blue1: true, blue2: true }, counted, { blue2: true }),
+    effectValue({ blue1: true, blue2: true }, counted), "disabled tiles remain owned for this reward");
 }
