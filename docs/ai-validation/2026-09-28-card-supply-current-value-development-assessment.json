@@ -1,0 +1,590 @@
+{
+  "decision": "hold-combined-card-supply-no-fresh-random-no-default-change",
+  "reason": "Complete seen fixed24 has lower overall mean and Huanyu mean, lower high-quartile distribution. More affected card plays do not yield more total data or analysis. Historical positive components do not add or establish value on this current default.",
+  "models": {
+    "base": "863a01035dcb6f664fc9403a75126f30e5f42392",
+    "candidate": "b07a4b4f9b2cae6e92d0d29cfb9512d1be0d0cec"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 235.83333333333334,
+    "min": 137,
+    "p10": 179,
+    "p25": 197.75,
+    "median": 227.5,
+    "p75": 270.75,
+    "max": 352,
+    "topQuartileMean": 306.6666666666667,
+    "winnerMean": 300,
+    "minimumPerGameMean": 180.83333333333334,
+    "seats270Plus": 25,
+    "seats300Plus": 15,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.4166666666667,
+        "min": 196
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 189.625,
+        "min": 137
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 208.875,
+        "min": 160
+      }
+    }
+  },
+  "meanDelta": -0.6145833333333144,
+  "pairedGameStandardError": 4.4700335560766975,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 272.4166666666667,
+      "meanDelta": 0.3541666666666856,
+      "minimumDelta": 32
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 189.625,
+      "meanDelta": -7.208333333333343,
+      "minimumDelta": 1
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 208.875,
+      "meanDelta": 4.041666666666657,
+      "minimumDelta": 30
+    }
+  },
+  "distribution": {
+    "mean": -0.6145833333333144,
+    "min": 7,
+    "p10": 9.5,
+    "p25": 0.25,
+    "median": -1,
+    "p75": -9.25,
+    "max": -33,
+    "topQuartileMean": -2.2083333333333144,
+    "winnerMean": 4.083333333333314,
+    "minimumPerGameMean": 3.25,
+    "seats270Plus": -3,
+    "seats300Plus": 1
+  },
+  "baselineHighCohort": {
+    "seats": 24,
+    "baselineMean": 308.875,
+    "candidateMean": 281.75,
+    "meanDelta": -27.125,
+    "improved": 7,
+    "declined": 17,
+    "unchanged": 0
+  },
+  "baselineLowCohort": {
+    "seats": 24,
+    "baselineMean": 171.29166666666666,
+    "candidateMean": 192.91666666666666,
+    "meanDelta": 21.625,
+    "improved": 17,
+    "declined": 7,
+    "unchanged": 0
+  },
+  "runtime": {
+    "pairs": 24,
+    "plays": 1164,
+    "matched": 1164,
+    "intendedCardMatched": 1164,
+    "paid": 1164,
+    "issues": []
+  },
+  "accountingSeats": 192,
+  "configurationGames": 48,
+  "affectedTransactions": {
+    "baseline": {
+      "all": {
+        "plays": 132,
+        "earlyPlays": 44,
+        "uniquePaidEntries": 132,
+        "cards": {
+          "b_121.webp": 12,
+          "b_1.webp": 7,
+          "b_31.webp": 1,
+          "b_21.webp": 5,
+          "b_63.webp": 10,
+          "b_128.webp": 10,
+          "runezu_5.webp": 5,
+          "amiba_6.webp": 4,
+          "amiba_5.webp": 2,
+          "b_14.webp": 9,
+          "b_19.webp": 12,
+          "b_94.webp": 4,
+          "b_9.webp": 2,
+          "b_83.webp": 8,
+          "amiba_7.webp": 2,
+          "b_114.webp": 6,
+          "b_100.webp": 8,
+          "amiba_2.webp": 3,
+          "b_15.webp": 7,
+          "dlc_41.png": 5,
+          "yichangdian_0.webp": 4,
+          "b_102.webp": 5,
+          "banrenma_0.webp": 1
+        },
+        "knownGainedInstances": 31,
+        "firstRecordedUses": {
+          "play": 13,
+          "unknown_removal": 12,
+          "no_recorded_use": 1,
+          "discard": 4,
+          "income": 1
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 10,
+          "energy": 0,
+          "handSize": 34,
+          "availableData": 146,
+          "publicity": 71
+        },
+        "spent": {
+          "credits": 217,
+          "energy": 1,
+          "handSize": 143,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "作弊实验室": {
+        "plays": 73,
+        "earlyPlays": 23,
+        "uniquePaidEntries": 73,
+        "cards": {
+          "b_121.webp": 5,
+          "b_21.webp": 3,
+          "amiba_6.webp": 3,
+          "amiba_5.webp": 1,
+          "b_1.webp": 4,
+          "b_14.webp": 7,
+          "b_19.webp": 7,
+          "b_94.webp": 3,
+          "b_9.webp": 1,
+          "b_83.webp": 3,
+          "amiba_7.webp": 2,
+          "amiba_2.webp": 2,
+          "b_63.webp": 7,
+          "b_100.webp": 3,
+          "yichangdian_0.webp": 2,
+          "b_15.webp": 3,
+          "b_128.webp": 4,
+          "b_102.webp": 4,
+          "b_114.webp": 3,
+          "runezu_5.webp": 1,
+          "banrenma_0.webp": 1,
+          "dlc_41.png": 4
+        },
+        "knownGainedInstances": 14,
+        "firstRecordedUses": {
+          "unknown_removal": 6,
+          "play": 6,
+          "no_recorded_use": 1,
+          "income": 1
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 15,
+          "availableData": 78,
+          "publicity": 33
+        },
+        "spent": {
+          "credits": 120,
+          "energy": 1,
+          "handSize": 81,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "宇宙大战略集团": {
+        "plays": 39,
+        "earlyPlays": 15,
+        "uniquePaidEntries": 39,
+        "cards": {
+          "b_1.webp": 3,
+          "b_128.webp": 5,
+          "runezu_5.webp": 3,
+          "b_63.webp": 1,
+          "b_121.webp": 5,
+          "b_21.webp": 1,
+          "b_114.webp": 2,
+          "b_100.webp": 4,
+          "dlc_41.png": 1,
+          "b_83.webp": 3,
+          "amiba_2.webp": 1,
+          "b_19.webp": 3,
+          "b_102.webp": 1,
+          "b_9.webp": 1,
+          "yichangdian_0.webp": 1,
+          "b_14.webp": 1,
+          "b_15.webp": 1,
+          "amiba_6.webp": 1,
+          "amiba_5.webp": 1
+        },
+        "knownGainedInstances": 11,
+        "firstRecordedUses": {
+          "play": 6,
+          "discard": 2,
+          "unknown_removal": 3
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 10,
+          "energy": 0,
+          "handSize": 12,
+          "availableData": 47,
+          "publicity": 29
+        },
+        "spent": {
+          "credits": 64,
+          "energy": 0,
+          "handSize": 39,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "寰宇超动力": {
+        "plays": 20,
+        "earlyPlays": 6,
+        "uniquePaidEntries": 20,
+        "cards": {
+          "b_31.webp": 1,
+          "b_63.webp": 2,
+          "runezu_5.webp": 1,
+          "b_121.webp": 2,
+          "b_83.webp": 2,
+          "b_128.webp": 1,
+          "b_15.webp": 3,
+          "b_100.webp": 1,
+          "b_114.webp": 1,
+          "yichangdian_0.webp": 1,
+          "b_94.webp": 1,
+          "b_19.webp": 2,
+          "b_14.webp": 1,
+          "b_21.webp": 1
+        },
+        "knownGainedInstances": 6,
+        "firstRecordedUses": {
+          "unknown_removal": 3,
+          "discard": 2,
+          "play": 1
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 7,
+          "availableData": 21,
+          "publicity": 9
+        },
+        "spent": {
+          "credits": 33,
+          "energy": 0,
+          "handSize": 23,
+          "availableData": 0,
+          "publicity": 0
+        }
+      }
+    },
+    "candidate": {
+      "all": {
+        "plays": 193,
+        "earlyPlays": 69,
+        "uniquePaidEntries": 193,
+        "cards": {
+          "b_1.webp": 11,
+          "b_121.webp": 12,
+          "b_102.webp": 12,
+          "b_19.webp": 17,
+          "b_21.webp": 11,
+          "b_128.webp": 15,
+          "b_15.webp": 12,
+          "b_63.webp": 11,
+          "b_100.webp": 19,
+          "amiba_6.webp": 6,
+          "amiba_5.webp": 2,
+          "b_14.webp": 10,
+          "amiba_7.webp": 3,
+          "b_83.webp": 7,
+          "runezu_5.webp": 6,
+          "yichangdian_0.webp": 5,
+          "dlc_41.png": 10,
+          "b_114.webp": 11,
+          "b_94.webp": 6,
+          "amiba_2.webp": 2,
+          "banrenma_0.webp": 2,
+          "banrenma_5.webp": 1,
+          "b_122.webp": 1,
+          "b_9.webp": 1
+        },
+        "knownGainedInstances": 31,
+        "firstRecordedUses": {
+          "play": 15,
+          "discard": 7,
+          "unknown_removal": 9
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 15,
+          "energy": 0,
+          "handSize": 36,
+          "availableData": 228,
+          "publicity": 91
+        },
+        "spent": {
+          "credits": 317,
+          "energy": 4,
+          "handSize": 208,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "作弊实验室": {
+        "plays": 107,
+        "earlyPlays": 43,
+        "uniquePaidEntries": 107,
+        "cards": {
+          "b_121.webp": 6,
+          "b_102.webp": 7,
+          "b_19.webp": 10,
+          "b_15.webp": 7,
+          "b_21.webp": 5,
+          "b_100.webp": 9,
+          "amiba_6.webp": 5,
+          "amiba_5.webp": 2,
+          "b_128.webp": 9,
+          "b_83.webp": 2,
+          "b_1.webp": 5,
+          "yichangdian_0.webp": 3,
+          "b_14.webp": 4,
+          "dlc_41.png": 6,
+          "b_63.webp": 6,
+          "amiba_7.webp": 1,
+          "b_94.webp": 3,
+          "runezu_5.webp": 3,
+          "amiba_2.webp": 2,
+          "b_114.webp": 9,
+          "banrenma_0.webp": 2,
+          "b_9.webp": 1
+        },
+        "knownGainedInstances": 18,
+        "firstRecordedUses": {
+          "play": 7,
+          "unknown_removal": 6,
+          "discard": 5
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 21,
+          "availableData": 116,
+          "publicity": 48
+        },
+        "spent": {
+          "credits": 171,
+          "energy": 2,
+          "handSize": 113,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "宇宙大战略集团": {
+        "plays": 59,
+        "earlyPlays": 18,
+        "uniquePaidEntries": 59,
+        "cards": {
+          "b_1.webp": 5,
+          "b_21.webp": 4,
+          "b_128.webp": 4,
+          "b_100.webp": 7,
+          "b_63.webp": 2,
+          "b_14.webp": 5,
+          "amiba_7.webp": 2,
+          "b_102.webp": 4,
+          "b_15.webp": 5,
+          "dlc_41.png": 4,
+          "b_114.webp": 2,
+          "b_121.webp": 3,
+          "b_83.webp": 3,
+          "b_19.webp": 4,
+          "banrenma_5.webp": 1,
+          "b_94.webp": 1,
+          "yichangdian_0.webp": 1,
+          "b_122.webp": 1,
+          "runezu_5.webp": 1
+        },
+        "knownGainedInstances": 10,
+        "firstRecordedUses": {
+          "discard": 2,
+          "unknown_removal": 2,
+          "play": 6
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 15,
+          "energy": 0,
+          "handSize": 12,
+          "availableData": 79,
+          "publicity": 36
+        },
+        "spent": {
+          "credits": 101,
+          "energy": 2,
+          "handSize": 62,
+          "availableData": 0,
+          "publicity": 0
+        }
+      },
+      "寰宇超动力": {
+        "plays": 27,
+        "earlyPlays": 8,
+        "uniquePaidEntries": 27,
+        "cards": {
+          "b_63.webp": 3,
+          "runezu_5.webp": 2,
+          "b_121.webp": 3,
+          "b_128.webp": 2,
+          "b_83.webp": 2,
+          "b_100.webp": 3,
+          "b_19.webp": 3,
+          "yichangdian_0.webp": 1,
+          "b_102.webp": 1,
+          "b_94.webp": 2,
+          "b_21.webp": 2,
+          "b_1.webp": 1,
+          "b_14.webp": 1,
+          "amiba_6.webp": 1
+        },
+        "knownGainedInstances": 3,
+        "firstRecordedUses": {
+          "play": 2,
+          "unknown_removal": 1
+        },
+        "incomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 0,
+          "availableData": 0,
+          "publicity": 0
+        },
+        "nonIncomeGain": {
+          "credits": 0,
+          "energy": 0,
+          "handSize": 3,
+          "availableData": 33,
+          "publicity": 7
+        },
+        "spent": {
+          "credits": 45,
+          "energy": 0,
+          "handSize": 33,
+          "availableData": 0,
+          "publicity": 0
+        }
+      }
+    }
+  },
+  "absoluteReference": {
+    "meanDelta": 10.770833333333343,
+    "se": 3.634137554758792
+  },
+  "limitations": [
+    "Seen development seeds only, no new random validation or +10 achievement claim.",
+    "Company groups share board/deck interactions; not isolated company policy causal effects.",
+    "Affected transaction gains include all same-main chain rewards, not only changed printed effects.",
+    "Known card uses have unresolved removals; do not call all non-played cards wasted.",
+    "Gross non-income contains company recurring aid and exchanges."
+  ]
+}
