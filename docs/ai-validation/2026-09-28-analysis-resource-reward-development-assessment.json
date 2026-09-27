@@ -1,0 +1,169 @@
+{
+  "decision": "held-not-adopted",
+  "sourceCommit": "59b1e7175642add0f01d785927020ce5a797d469",
+  "parentCommit": "c0a7f8e41dff7cb015f6fb2317d1850cdbeae4e2",
+  "meanDelta": -0.75,
+  "pairedGameStandardError": 1.1893816137760016,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 252.79166666666666,
+      "meanDelta": 1.2083333333333144,
+      "minimumDelta": -3
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 184.54166666666666,
+      "meanDelta": -3.5,
+      "minimumDelta": 12
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 207.125,
+      "meanDelta": -1.9166666666666572,
+      "minimumDelta": 0
+    }
+  },
+  "distributionDelta": {
+    "mean": -0.75,
+    "min": 10,
+    "p10": 1,
+    "p25": -10,
+    "median": 0.5,
+    "p75": 0,
+    "max": 0,
+    "topQuartileMean": -0.7916666666666856,
+    "winnerMean": 0.375,
+    "minimumPerGameMean": -0.1666666666666572,
+    "seats270Plus": -1,
+    "seats300Plus": 1
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 275,
+    "meanDelta": -1,
+    "improved": 4,
+    "declined": 2,
+    "unchanged": 18
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 169.08333333333334,
+    "meanDelta": 2.7083333333333335,
+    "improved": 7,
+    "declined": 3,
+    "unchanged": 14
+  },
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "cardPayments": 1144,
+  "realization": {
+    "baseline": {
+      "宇宙大战略集团": {
+        "analyses": 102,
+        "positivePremium": 0,
+        "gridTargetsComparable": 0,
+        "sameBestGridTarget": 0,
+        "knownCardGains": 13,
+        "knownAlienCardGains": 12,
+        "knownAlienCardsLaterPlayed": 5,
+        "knownAlienCardsUsedForIncome": 4,
+        "transactionGain": {
+          "credits": 1,
+          "energy": 5,
+          "handSize": 27,
+          "availableData": 15
+        }
+      },
+      "作弊实验室": {
+        "analyses": 210,
+        "positivePremium": 0,
+        "gridTargetsComparable": 0,
+        "sameBestGridTarget": 0,
+        "knownCardGains": 29,
+        "knownAlienCardGains": 29,
+        "knownAlienCardsLaterPlayed": 8,
+        "knownAlienCardsUsedForIncome": 6,
+        "transactionGain": {
+          "credits": 1,
+          "energy": 5,
+          "handSize": 53,
+          "availableData": 27
+        }
+      },
+      "寰宇超动力": {
+        "analyses": 63,
+        "positivePremium": 0,
+        "gridTargetsComparable": 0,
+        "sameBestGridTarget": 0,
+        "knownCardGains": 12,
+        "knownAlienCardGains": 11,
+        "knownAlienCardsLaterPlayed": 5,
+        "knownAlienCardsUsedForIncome": 2,
+        "transactionGain": {
+          "credits": 1,
+          "energy": 0,
+          "handSize": 21,
+          "availableData": 11
+        }
+      }
+    },
+    "candidate": {
+      "宇宙大战略集团": {
+        "analyses": 102,
+        "positivePremium": 51,
+        "gridTargetsComparable": 65,
+        "sameBestGridTarget": 34,
+        "knownCardGains": 12,
+        "knownAlienCardGains": 11,
+        "knownAlienCardsLaterPlayed": 4,
+        "knownAlienCardsUsedForIncome": 4,
+        "transactionGain": {
+          "credits": 0,
+          "energy": 4,
+          "handSize": 25,
+          "availableData": 13
+        }
+      },
+      "作弊实验室": {
+        "analyses": 211,
+        "positivePremium": 91,
+        "gridTargetsComparable": 120,
+        "sameBestGridTarget": 61,
+        "knownCardGains": 31,
+        "knownAlienCardGains": 31,
+        "knownAlienCardsLaterPlayed": 7,
+        "knownAlienCardsUsedForIncome": 4,
+        "transactionGain": {
+          "credits": 1,
+          "energy": 3,
+          "handSize": 57,
+          "availableData": 28
+        }
+      },
+      "寰宇超动力": {
+        "analyses": 62,
+        "positivePremium": 33,
+        "gridTargetsComparable": 40,
+        "sameBestGridTarget": 25,
+        "knownCardGains": 12,
+        "knownAlienCardGains": 11,
+        "knownAlienCardsLaterPlayed": 5,
+        "knownAlienCardsUsedForIncome": 3,
+        "transactionGain": {
+          "credits": 1,
+          "energy": 0,
+          "handSize": 20,
+          "availableData": 9
+        }
+      }
+    }
+  },
+  "scope": "Complete24 seen development pairs against c0a7 default with the same frozen resource parser. No fresh random acceptance run because overall and low-company means did not improve. Realization is descriptive: whole main-paced analysis steps may include chained rewards, and known card identities do not cover all hand gains. Source is retained in its independent branch; default policy unchanged.",
+  "conclusion": "均分-0.75，寰宇-3.5、大战略-1.916667；未实现+10，不合入、不启动新随机验收。175次正补充估值中，可比较网格的162次有81次与预估最佳落点一致、81次不同，另13次不适用该比较；差异包含物种特殊收益和执行时状态变化，不能直接判为选择错误。两侧标准分析均为375次，寰宇63→62；可追踪分析补入外星人牌52→53，之后打出18→16，不能把补牌估值直接当得分增益。"
+}
