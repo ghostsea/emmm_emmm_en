@@ -1,0 +1,67 @@
+{
+  "decision": "development-positive-test-on-current-runezu-policy",
+  "candidate": "333c3593df0b7432c761e75049d4532222277275",
+  "baseline": "f542161719d499f43a2e566a0cda070dae6c0ab0",
+  "meanDelta": 4.427083333333343,
+  "pairedGameStandardError": 2.9111028389303772,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 257.6458333333333,
+      "meanDelta": 6.062499999999972,
+      "minimumDelta": -16
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 195.875,
+      "meanDelta": 7.833333333333343,
+      "minimumDelta": 2
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 206.79166666666666,
+      "meanDelta": -2.25,
+      "minimumDelta": 4
+    }
+  },
+  "distribution": {
+    "mean": 4.427083333333343,
+    "min": 2,
+    "p10": 4,
+    "p25": 3.75,
+    "median": -3,
+    "p75": 2.25,
+    "max": 41,
+    "topQuartileMean": 15.416666666666686,
+    "winnerMean": 12.125,
+    "minimumPerGameMean": 6.083333333333343,
+    "seats270Plus": 6,
+    "seats300Plus": 4
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 260.5833333333333,
+    "meanDelta": -15.416666666666666,
+    "improved": 4,
+    "declined": 18,
+    "unchanged": 2
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 178.79166666666666,
+    "meanDelta": 12.416666666666666,
+    "improved": 15,
+    "declined": 9,
+    "unchanged": 0
+  },
+  "completeGames": 48,
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "candidateCardPayments": 1194,
+  "scope": "Full24 known development pairs. Positive mean and high distribution, Huanyu improves but Grand declines. Default has meanwhile accepted Runezu API; next test coverage on current Runezu policy before fresh holdout. No blind addition of +4.427 and Runezu gains. Existing prices unchanged; rule/model consistency and local test success are not proof of overall optimality."
+}
