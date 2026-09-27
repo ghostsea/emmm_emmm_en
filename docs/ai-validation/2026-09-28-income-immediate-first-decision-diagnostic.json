@@ -1,0 +1,2324 @@
+{
+  "scope": "Full completed suite. Earliest identity difference among selected logged decision types; does not cover every nested decision or prove that the first difference caused all downstream score changes. Worst seat selected retrospectively for diagnosis; all seats remain in acceptance metrics. Shared-value changes can change discard opportunity costs even for the same income type. Does not assign later company score losses causally to one early choice.",
+  "summary": {
+    "cases": 24,
+    "firstDiscardCases": 20,
+    "firstInitialIncomeCases": 20,
+    "sameIncomeTypeDifferentCard": 11,
+    "firstGrand": 6
+  },
+  "rows": [
+    {
+      "case": 1,
+      "worst": {
+        "case": 1,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "baseline": 270,
+        "candidate": 223,
+        "delta": -47
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "b_125.webp",
+              "cardInstanceId": "card-10-0",
+              "cardLabel": "轨遒修正"
+            }
+          ],
+          "selectedGains": [
+            {
+              "handSize": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_125.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_82.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.378,
+              "playValue": 0,
+              "net": 32.044
+            },
+            {
+              "id": "b_47.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.378,
+              "playValue": 0,
+              "net": 32.044
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_82.webp",
+              "cardInstanceId": "card-9-0",
+              "cardLabel": "NEAR 舒梅克号探测器"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_82.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.378,
+              "playValue": 0,
+              "net": 38.044
+            },
+            {
+              "id": "b_47.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.378,
+              "playValue": 0,
+              "net": 38.044
+            },
+            {
+              "id": "b_125.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 35.028,
+              "playValue": 0,
+              "net": 37.694
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 2,
+      "worst": {
+        "case": 2,
+        "player": "player-blue",
+        "company": "寰宇超动力",
+        "baseline": 194,
+        "candidate": 140,
+        "delta": -54
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-green",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 2,
+              "cardId": "b_123.webp",
+              "cardInstanceId": "card-58-0",
+              "cardLabel": "望远锐时间分配"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_123.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 0,
+              "net": 25.8
+            },
+            {
+              "id": "b_76.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 1.382,
+              "net": 25.634
+            },
+            {
+              "id": "dlc_33.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 4.064,
+              "net": 25.312
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-green",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "b_76.webp",
+              "cardInstanceId": "card-7-0",
+              "cardLabel": "飞掠水星"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_76.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 0,
+              "net": 32
+            },
+            {
+              "id": "b_123.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 0,
+              "net": 32
+            },
+            {
+              "id": "dlc_33.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 1.274,
+              "net": 31.847
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 3,
+      "worst": {
+        "case": 3,
+        "player": "player-green",
+        "company": "寰宇超动力",
+        "baseline": 160,
+        "candidate": 174,
+        "delta": 14
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "turn-action",
+          "round": 1,
+          "player": "player-white",
+          "selectedGains": [],
+          "action": "move"
+        },
+        "candidate": {
+          "type": "turn-action",
+          "round": 1,
+          "player": "player-white",
+          "selectedGains": [],
+          "action": "cardCorner"
+        }
+      }
+    },
+    {
+      "case": 4,
+      "worst": {
+        "case": 4,
+        "player": "player-white",
+        "company": "宇宙大战略集团",
+        "baseline": 268,
+        "candidate": 227,
+        "delta": -41
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-green",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 6,
+              "cardId": "b_31.webp",
+              "cardInstanceId": "card-57-0",
+              "cardLabel": "建造埃菲尔斯贝格望远锐"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_31.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 23.266,
+              "playValue": 0,
+              "net": 27.266
+            },
+            {
+              "id": "b_106.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 23.266,
+              "playValue": 0.878,
+              "net": 27.161
+            },
+            {
+              "id": "dlc_30.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 23.266,
+              "playValue": 1.688,
+              "net": 27.064
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-green",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 4,
+              "cardId": "dlc_30.png",
+              "cardInstanceId": "card-55-0",
+              "cardLabel": "晓号轨道器"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "dlc_30.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 29.466,
+              "playValue": 0,
+              "net": 33.466
+            },
+            {
+              "id": "b_106.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 29.466,
+              "playValue": 0,
+              "net": 33.466
+            },
+            {
+              "id": "b_31.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 29.466,
+              "playValue": 0,
+              "net": 33.466
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 5,
+      "worst": {
+        "case": 5,
+        "player": "player-green",
+        "company": "宇宙大战略集团",
+        "baseline": 245,
+        "candidate": 193,
+        "delta": -52
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-green",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 5,
+              "cardId": "dlc_9.png",
+              "cardInstanceId": "card-51-0",
+              "cardLabel": "月坑射电望远镜"
+            }
+          ],
+          "selectedGains": [
+            {
+              "handSize": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "dlc_9.png",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_112.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.528,
+              "playValue": 0,
+              "net": 32.194
+            },
+            {
+              "id": "b_132.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.528,
+              "playValue": 0,
+              "net": 32.194
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-green",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_112.webp",
+              "cardInstanceId": "card-5-0",
+              "cardLabel": "SETI@Home"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_112.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.528,
+              "playValue": 0,
+              "net": 38.194
+            },
+            {
+              "id": "b_132.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.528,
+              "playValue": 0,
+              "net": 38.194
+            },
+            {
+              "id": "dlc_9.png",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 35.028,
+              "playValue": 0,
+              "net": 37.694
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 6,
+      "worst": {
+        "case": 6,
+        "player": "player-green",
+        "company": "寰宇超动力",
+        "baseline": 174,
+        "candidate": 184,
+        "delta": 10
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 7,
+              "cardId": "b_39.webp",
+              "cardInstanceId": "card-64-0",
+              "cardLabel": "首张罴洞照片"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_39.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 24.15,
+              "playValue": 0,
+              "net": 24.15
+            },
+            {
+              "id": "b_76.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 24.15,
+              "playValue": 1.947,
+              "net": 23.916
+            },
+            {
+              "id": "dlc_14.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 24.15,
+              "playValue": 19.308,
+              "net": 21.833
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 2,
+              "cardId": "b_76.webp",
+              "cardInstanceId": "card-12-0",
+              "cardLabel": "飞掠水星"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_76.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 30.35,
+              "playValue": 0,
+              "net": 30.35
+            },
+            {
+              "id": "b_39.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 30.35,
+              "playValue": 0,
+              "net": 30.35
+            },
+            {
+              "id": "dlc_14.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 30.35,
+              "playValue": 16.653,
+              "net": 28.352
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 7,
+      "worst": {
+        "case": 7,
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "baseline": 271,
+        "candidate": 198,
+        "delta": -73
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-white",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "b_132.webp",
+              "cardInstanceId": "card-14-0",
+              "cardLabel": "甚高能辐射成像望远锐"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_132.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.644,
+              "playValue": 0,
+              "net": 31.644
+            },
+            {
+              "id": "b_127.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.644,
+              "playValue": 2.368,
+              "net": 31.359
+            },
+            {
+              "id": "b_139.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.25,
+              "playValue": 6.813,
+              "net": 28.433
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-white",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_127.webp",
+              "cardInstanceId": "card-13-0",
+              "cardLabel": "天王星轨遒器与探测器"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_127.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.644,
+              "playValue": 0,
+              "net": 37.644
+            },
+            {
+              "id": "b_132.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.644,
+              "playValue": 0,
+              "net": 37.644
+            },
+            {
+              "id": "b_139.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 34.65,
+              "playValue": 4.383,
+              "net": 34.124
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 8,
+      "worst": {
+        "case": 8,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "baseline": 302,
+        "candidate": 267,
+        "delta": -35
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 5,
+              "cardId": "b_39.webp",
+              "cardInstanceId": "card-56-0",
+              "cardLabel": "首张罴洞照片"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_39.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 0,
+              "net": 25.8
+            },
+            {
+              "id": "dlc_33.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 2.025,
+              "net": 25.557
+            },
+            {
+              "id": "b_136.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 5.993,
+              "net": 25.081
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 3,
+              "cardId": "dlc_33.png",
+              "cardInstanceId": "card-12-0",
+              "cardLabel": "延期发射"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "dlc_33.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 0,
+              "net": 32
+            },
+            {
+              "id": "b_39.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 0,
+              "net": 32
+            },
+            {
+              "id": "b_136.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 3.203,
+              "net": 31.616
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 9,
+      "worst": {
+        "case": 9,
+        "player": "player-blue",
+        "company": "作弊实验室",
+        "baseline": 257,
+        "candidate": 235,
+        "delta": -22
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-white",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_20.webp",
+              "cardInstanceId": "card-13-0",
+              "cardLabel": "卡纳维拉尔角太空军基地"
+            }
+          ],
+          "selectedGains": [
+            {
+              "handSize": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_20.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_83.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.378,
+              "playValue": 0,
+              "net": 32.044
+            },
+            {
+              "id": "b_74.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.378,
+              "playValue": 3.884,
+              "net": 31.578
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-white",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "b_83.webp",
+              "cardInstanceId": "card-14-0",
+              "cardLabel": "NASA创新先迸概念计划"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_83.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.378,
+              "playValue": 0,
+              "net": 38.044
+            },
+            {
+              "id": "b_74.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.378,
+              "playValue": 1.184,
+              "net": 37.902
+            },
+            {
+              "id": "b_20.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 35.028,
+              "playValue": 0,
+              "net": 37.694
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 10,
+      "worst": {
+        "case": 10,
+        "player": "player-brown",
+        "company": "寰宇超动力",
+        "baseline": 264,
+        "candidate": 204,
+        "delta": -60
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "pick-card",
+          "round": 2,
+          "player": "player-white",
+          "pendingType": "industry_strategy_pick",
+          "selectedGains": []
+        },
+        "candidate": {
+          "type": "pick-card",
+          "round": 2,
+          "player": "player-white",
+          "pendingType": "industry_strategy_pick",
+          "selectedGains": []
+        }
+      }
+    },
+    {
+      "case": 11,
+      "worst": {
+        "case": 11,
+        "player": "player-white",
+        "company": "作弊实验室",
+        "baseline": 318,
+        "candidate": 272,
+        "delta": -46
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "pick-card",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "tech_bonus_pick_card",
+          "selectedGains": []
+        },
+        "candidate": {
+          "type": "pick-card",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "tech_bonus_pick_card",
+          "selectedGains": []
+        }
+      }
+    },
+    {
+      "case": 12,
+      "worst": {
+        "case": 12,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "baseline": 186,
+        "candidate": 157,
+        "delta": -29
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-blue",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 6,
+              "cardId": "b_2.webp",
+              "cardInstanceId": "card-52-0",
+              "cardLabel": "高级导航系统"
+            }
+          ],
+          "selectedGains": [
+            {
+              "handSize": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_2.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_25.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0.775,
+              "net": 32.201
+            },
+            {
+              "id": "b_120.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.528,
+              "playValue": 0.549,
+              "net": 32.128
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-blue",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 5,
+              "cardId": "b_120.webp",
+              "cardInstanceId": "card-51-0",
+              "cardLabel": "战略规划"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_120.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.528,
+              "playValue": 0,
+              "net": 38.194
+            },
+            {
+              "id": "b_61.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.528,
+              "playValue": 1.123,
+              "net": 38.059
+            },
+            {
+              "id": "b_25.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 35.028,
+              "playValue": 0,
+              "net": 37.694
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 13,
+      "worst": {
+        "case": 13,
+        "player": "player-blue",
+        "company": "宇宙大战略集团",
+        "baseline": 203,
+        "candidate": 173,
+        "delta": -30
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 2,
+              "cardId": "b_20.webp",
+              "cardInstanceId": "card-11-0",
+              "cardLabel": "卡纳维拉尔角太空军基地"
+            }
+          ],
+          "selectedGains": [
+            {
+              "handSize": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_20.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_38.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.378,
+              "playValue": 0,
+              "net": 32.044
+            },
+            {
+              "id": "dlc_4.png",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.378,
+              "playValue": 0,
+              "net": 32.044
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_38.webp",
+              "cardInstanceId": "card-9-0",
+              "cardLabel": "造500米口径球面射电望远锐"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_38.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.378,
+              "playValue": 0,
+              "net": 38.044
+            },
+            {
+              "id": "dlc_4.png",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.378,
+              "playValue": 0,
+              "net": 38.044
+            },
+            {
+              "id": "b_71.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.378,
+              "playValue": 0,
+              "net": 38.044
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 14,
+      "worst": {
+        "case": 14,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "baseline": 248,
+        "candidate": 230,
+        "delta": -18
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-white",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 2,
+              "cardId": "b_38.webp",
+              "cardInstanceId": "card-15-0",
+              "cardLabel": "造500米口径球面射电望远锐"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_38.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 25.894,
+              "playValue": 0,
+              "net": 27.894
+            },
+            {
+              "id": "b_130.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.743,
+              "playValue": 0,
+              "net": 27.743
+            },
+            {
+              "id": "b_69.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.743,
+              "playValue": 3.371,
+              "net": 27.339
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-white",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 3,
+              "cardId": "b_130.webp",
+              "cardInstanceId": "card-16-0",
+              "cardLabel": "金星探测计划"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_130.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.943,
+              "playValue": 0,
+              "net": 33.944
+            },
+            {
+              "id": "b_38.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 31.894,
+              "playValue": 0,
+              "net": 33.894
+            },
+            {
+              "id": "b_69.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.943,
+              "playValue": 0.713,
+              "net": 33.858
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 15,
+      "worst": {
+        "case": 15,
+        "player": "player-brown",
+        "company": "宇宙大战略集团",
+        "baseline": 230,
+        "candidate": 125,
+        "delta": -105
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 3,
+              "cardId": "b_79.webp",
+              "cardInstanceId": "card-12-0",
+              "cardLabel": "NASA每日-圈"
+            }
+          ],
+          "selectedGains": [
+            {
+              "handSize": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_79.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_56.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_63.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.528,
+              "playValue": 0,
+              "net": 32.194
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 2,
+              "cardId": "b_120.webp",
+              "cardInstanceId": "card-11-0",
+              "cardLabel": "战略规划"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_120.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.528,
+              "playValue": 0,
+              "net": 38.194
+            },
+            {
+              "id": "b_63.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.528,
+              "playValue": 0,
+              "net": 38.194
+            },
+            {
+              "id": "dlc_16.png",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.528,
+              "playValue": 0,
+              "net": 38.194
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 16,
+      "worst": {
+        "case": 16,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "baseline": 277,
+        "candidate": 256,
+        "delta": -21
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 8,
+              "cardId": "dlc_26.png",
+              "cardInstanceId": "card-57-0",
+              "cardLabel": "新型AI模型"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "dlc_26.png",
+              "gain": {
+                "credits": 1
+              },
+              "score": 30.778,
+              "playValue": 0,
+              "net": 33.444
+            },
+            {
+              "id": "b_18.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 30.778,
+              "playValue": 1.622,
+              "net": 33.25
+            },
+            {
+              "id": "b_119.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 30.778,
+              "playValue": 3.385,
+              "net": 33.038
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 7,
+              "cardId": "b_18.webp",
+              "cardInstanceId": "card-56-0",
+              "cardLabel": "突破观察"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_18.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 36.778,
+              "playValue": 0,
+              "net": 39.444
+            },
+            {
+              "id": "dlc_26.png",
+              "gain": {
+                "credits": 1
+              },
+              "score": 36.778,
+              "playValue": 0,
+              "net": 39.444
+            },
+            {
+              "id": "b_119.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 36.778,
+              "playValue": 0.816,
+              "net": 39.346
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 17,
+      "worst": {
+        "case": 17,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "baseline": 259,
+        "candidate": 244,
+        "delta": -15
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 3,
+              "cardId": "b_125.webp",
+              "cardInstanceId": "card-12-0",
+              "cardLabel": "轨遒修正"
+            }
+          ],
+          "selectedGains": [
+            {
+              "handSize": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_125.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_79.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_83.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.378,
+              "playValue": 0,
+              "net": 32.044
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "b_83.webp",
+              "cardInstanceId": "card-10-0",
+              "cardLabel": "NASA创新先迸概念计划"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_83.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.378,
+              "playValue": 0,
+              "net": 38.044
+            },
+            {
+              "id": "b_125.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 35.028,
+              "playValue": 0,
+              "net": 37.694
+            },
+            {
+              "id": "b_79.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 35.028,
+              "playValue": 0,
+              "net": 37.694
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 18,
+      "worst": {
+        "case": 18,
+        "player": "player-green",
+        "company": "作弊实验室",
+        "baseline": 247,
+        "candidate": 212,
+        "delta": -35
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 3,
+              "cardId": "b_84.webp",
+              "cardInstanceId": "card-12-0",
+              "cardLabel": "诺托射电天文台"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_84.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.743,
+              "playValue": 0,
+              "net": 27.743
+            },
+            {
+              "id": "b_45.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.743,
+              "playValue": 1.71,
+              "net": 27.538
+            },
+            {
+              "id": "b_69.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.743,
+              "playValue": 2.681,
+              "net": 27.422
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_69.webp",
+              "cardInstanceId": "card-9-0",
+              "cardLabel": "低成本航天发射"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_69.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.943,
+              "playValue": 0,
+              "net": 33.944
+            },
+            {
+              "id": "b_45.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.943,
+              "playValue": 0,
+              "net": 33.944
+            },
+            {
+              "id": "b_84.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.943,
+              "playValue": 0,
+              "net": 33.944
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 19,
+      "worst": {
+        "case": 19,
+        "player": "player-white",
+        "company": "寰宇超动力",
+        "baseline": 177,
+        "candidate": 134,
+        "delta": -43
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-blue",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 2,
+              "cardId": "b_15.webp",
+              "cardInstanceId": "card-4-0",
+              "cardLabel": "观测老人增四"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_15.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 24.85,
+              "playValue": 0,
+              "net": 24.85
+            },
+            {
+              "id": "dlc_3.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 24.85,
+              "playValue": 0,
+              "net": 24.85
+            },
+            {
+              "id": "b_14.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 24.85,
+              "playValue": 0,
+              "net": 24.85
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-blue",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "b_62.webp",
+              "cardInstanceId": "card-3-0",
+              "cardLabel": "飞掠木星"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_62.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.05,
+              "playValue": 0,
+              "net": 31.05
+            },
+            {
+              "id": "b_15.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.05,
+              "playValue": 0,
+              "net": 31.05
+            },
+            {
+              "id": "dlc_3.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.05,
+              "playValue": 0,
+              "net": 31.05
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 20,
+      "worst": {
+        "case": 20,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "baseline": 310,
+        "candidate": 274,
+        "delta": -36
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-blue",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_137.webp",
+              "cardInstanceId": "card-1-0",
+              "cardLabel": "建造叶夫帕托里亚望远锐"
+            }
+          ],
+          "selectedGains": [
+            {
+              "handSize": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_137.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "dlc_9.png",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 29.628,
+              "playValue": 0,
+              "net": 32.294
+            },
+            {
+              "id": "b_47.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 29.528,
+              "playValue": 0,
+              "net": 32.194
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-blue",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 3,
+              "cardId": "b_47.webp",
+              "cardInstanceId": "card-4-0",
+              "cardLabel": "政府资助"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_47.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 35.528,
+              "playValue": 0,
+              "net": 38.194
+            },
+            {
+              "id": "b_137.webp",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 35.028,
+              "playValue": 0,
+              "net": 37.694
+            },
+            {
+              "id": "dlc_9.png",
+              "gain": {
+                "handSize": 1
+              },
+              "score": 35.028,
+              "playValue": 0,
+              "net": 37.694
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 21,
+      "worst": {
+        "case": 21,
+        "player": "player-brown",
+        "company": "作弊实验室",
+        "baseline": 216,
+        "candidate": 173,
+        "delta": -43
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "turn-action",
+          "round": 1,
+          "player": "player-brown",
+          "selectedGains": [],
+          "action": "playCard"
+        },
+        "candidate": {
+          "type": "turn-action",
+          "round": 1,
+          "player": "player-brown",
+          "selectedGains": [],
+          "action": "placeData"
+        }
+      }
+    },
+    {
+      "case": 22,
+      "worst": {
+        "case": 22,
+        "player": "player-blue",
+        "company": "宇宙大战略集团",
+        "baseline": 235,
+        "candidate": 206,
+        "delta": -29
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "dlc_34.png",
+              "cardInstanceId": "card-10-0",
+              "cardLabel": "私营部门投资"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "dlc_34.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.1,
+              "playValue": 0,
+              "net": 25.1
+            },
+            {
+              "id": "b_85.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.1,
+              "playValue": 0,
+              "net": 25.1
+            },
+            {
+              "id": "b_95.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.1,
+              "playValue": 0,
+              "net": 25.1
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_121.webp",
+              "cardInstanceId": "card-9-0",
+              "cardLabel": "水熊虫研究"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_121.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.3,
+              "playValue": 0,
+              "net": 31.3
+            },
+            {
+              "id": "dlc_34.png",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.3,
+              "playValue": 0,
+              "net": 31.3
+            },
+            {
+              "id": "b_85.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 31.3,
+              "playValue": 0,
+              "net": 31.3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 23,
+      "worst": {
+        "case": 23,
+        "player": "player-green",
+        "company": "宇宙大战略集团",
+        "baseline": 189,
+        "candidate": 153,
+        "delta": -36
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "b_22.webp",
+              "cardInstanceId": "card-12-0",
+              "cardLabel": "钱愆拉空间天文台"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_22.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 0,
+              "net": 25.8
+            },
+            {
+              "id": "b_42.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 0,
+              "net": 25.8
+            },
+            {
+              "id": "b_8.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 25.8,
+              "playValue": 0,
+              "net": 25.8
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_27.webp",
+              "cardInstanceId": "card-9-0",
+              "cardLabel": "日冕摄谱仪"
+            }
+          ],
+          "selectedGains": [
+            {
+              "energy": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_27.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 0,
+              "net": 32
+            },
+            {
+              "id": "b_22.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 0,
+              "net": 32
+            },
+            {
+              "id": "b_42.webp",
+              "gain": {
+                "energy": 1
+              },
+              "score": 32,
+              "playValue": 0,
+              "net": 32
+            }
+          ]
+        }
+      }
+    },
+    {
+      "case": 24,
+      "worst": {
+        "case": 24,
+        "player": "player-blue",
+        "company": "宇宙大战略集团",
+        "baseline": 233,
+        "candidate": 173,
+        "delta": -60
+      },
+      "first": {
+        "sameResources": true,
+        "base": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 1,
+              "cardId": "b_128.webp",
+              "cardInstanceId": "card-10-0",
+              "cardLabel": "观测织女星"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_128.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 31.044,
+              "playValue": 0,
+              "net": 33.044
+            },
+            {
+              "id": "b_86.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 31.044,
+              "playValue": 0,
+              "net": 33.044
+            },
+            {
+              "id": "b_118.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 31.044,
+              "playValue": 0,
+              "net": 33.044
+            }
+          ]
+        },
+        "candidate": {
+          "type": "discard",
+          "round": 1,
+          "player": "player-brown",
+          "pendingType": "initial_income",
+          "selectedCards": [
+            {
+              "handIndex": 0,
+              "cardId": "b_13.webp",
+              "cardInstanceId": "card-9-0",
+              "cardLabel": "进入大气层"
+            }
+          ],
+          "selectedGains": [
+            {
+              "credits": 1
+            }
+          ],
+          "options": [
+            {
+              "id": "b_13.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 37.044,
+              "playValue": 0,
+              "net": 39.044
+            },
+            {
+              "id": "b_128.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 37.044,
+              "playValue": 0,
+              "net": 39.044
+            },
+            {
+              "id": "b_97.webp",
+              "gain": {
+                "credits": 1
+              },
+              "score": 37.044,
+              "playValue": 0,
+              "net": 39.044
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
