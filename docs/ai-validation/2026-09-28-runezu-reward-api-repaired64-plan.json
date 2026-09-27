@@ -712,7 +712,7 @@
       "candidate": "runeapirepaired64-candidate-64.json"
     }
   ],
-  "scope": "Full24 seen development vs c0a7 default policy and same frozen resource parser. Export existing Runezu getTraceReward so current AI sees actual trace score and card rewards. No generic analysis premium, no game-rule or resource changes. All24 required; new frozen random validation only after development assessment. Mean first, original high and low seats and company/resource changes reported.",
+  "scope": "All64 original random pairs fully rerun after common empty-income skip fix, with original failed attempt retained. No replacement seeds, no partial aggregation, no income valuation or other policy changes. Same old resource parser and no later reward text fix in either arm. 128 successful games plus all audits required. Seed-generated timestamp remains original; not a newly drawn holdout.",
   "developmentSource": "runeapi",
   "previousAttempt": "runeapivalidation64",
   "originalFrozenAt": "2026-09-27T16:35:07.683Z",
@@ -729,5 +729,10 @@
         "fingerprint": "8442f21502b2994288925d075ae22c0ea0ce4847daadbed3c215bf384e1c8fc2"
       }
     }
+  },
+  "scopeCorrection": {
+    "at": "2026-09-27T17:18:05.306Z",
+    "previousScope": "Full24 seen development vs c0a7 default policy and same frozen resource parser. Export existing Runezu getTraceReward so current AI sees actual trace score and card rewards. No generic analysis premium, no game-rule or resource changes. All24 required; new frozen random validation only after development assessment. Mean first, original high and low seats and company/resource changes reported.",
+    "reason": "Inherited summary scope is replaced by this suite own rule. Commit, per-file hashes, random seeds, harness, and run outputs unchanged."
   }
 }
