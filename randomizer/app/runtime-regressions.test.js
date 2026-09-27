@@ -40,6 +40,42 @@ function loadNamedFunction(functionName, dependencies = {}) {
 }
 
 {
+  for (const name of ["openInitialIncomeEffect", "openCardIncomeEffect"]) {
+    const owner = { id: "income-owner", hand: [], resources: { credits: 2 } };
+    const turnPlayer = { id: "turn-player", hand: [{ id: "other-hand" }] };
+    const effect = { label: "收入", options: { playerId: owner.id } };
+    const completed = [];
+    let selections = 0;
+    const open = loadNamedFunction(name, {
+      getPlayerById: () => owner,
+      getEffectOwnerPlayer: () => owner,
+      getCurrentPlayer: () => turnPlayer,
+      cardState: {},
+      rocketState: {},
+      renderStateReadout: () => {},
+      completeCurrentActionEffect: (status) => completed.push(status),
+      beginDiscardSelection: (count, pending) => {
+        selections += 1;
+        assert.equal(count, 1);
+        assert.equal(pending.player, owner);
+        return { ok: true };
+      },
+    });
+    const before = structuredClone(owner);
+    const skipped = open(effect);
+    assert.equal(skipped.ok, true, `${name}: empty income is not an AI failure`);
+    assert.equal(skipped.skipped, true);
+    assert.deepEqual(completed, ["skipped"]);
+    assert.equal(selections, 0);
+    assert.deepEqual(owner, before, "skip grants no income or resources");
+    owner.hand.push({ id: "income-card" });
+    assert.equal(open({ label: "收入", options: {} }).ok, true);
+    assert.equal(selections, 1, "available hand still requires selection");
+    assert.deepEqual(completed, ["skipped"], "selection must not auto-complete");
+  }
+}
+
+{
   const formatPlanetRewardGain = loadNamedFunction("formatPlanetRewardGain", {
     INCOME_GAIN_LABELS: { energy: "能量" },
   });

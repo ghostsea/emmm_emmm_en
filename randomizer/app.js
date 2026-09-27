@@ -20056,6 +20056,18 @@
   function openInitialIncomeEffect(effect) {
     const playerId = effect?.options?.playerId;
     const incomePlayer = getPlayerById(playerId) || getCurrentPlayer();
+    if (incomePlayer && !incomePlayer.hand?.length) {
+      effect.result = {
+        ok: true,
+        undoable: false,
+        skipped: true,
+        message: `${effect.label}：没有手牌可用于收入，已跳过`,
+      };
+      rocketState.statusNote = effect.result.message;
+      completeCurrentActionEffect("skipped");
+      renderStateReadout();
+      return effect.result;
+    }
 
     const result = beginDiscardSelection(1, {
       type: "initial_income",
@@ -20074,6 +20086,18 @@
 
   function openCardIncomeEffect(effect) {
     const incomePlayer = getEffectOwnerPlayer(effect) || getCurrentPlayer();
+    if (incomePlayer && !incomePlayer.hand?.length) {
+      effect.result = {
+        ok: true,
+        undoable: true,
+        skipped: true,
+        message: `${effect.label}：没有手牌可用于收入，已跳过`,
+      };
+      rocketState.statusNote = effect.result.message;
+      completeCurrentActionEffect("skipped");
+      renderStateReadout();
+      return effect.result;
+    }
     const result = beginDiscardSelection(1, {
       type: "card_income",
       player: incomePlayer,

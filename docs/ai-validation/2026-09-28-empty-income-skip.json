@@ -1,0 +1,411 @@
+{
+  "issue": "Empty-hand card income already skipped its effect node but returned ok:false, stopping AI before later card draw. Initial income shared this mismatch.",
+  "scope": "Return successful skipped result only when the income owner exists and has no hand. Preserve effect order, income rules, normal discard selection and unrelated errors.",
+  "failedOriginal": {
+    "options": {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6e22636a0e61a3c288894105",
+      "alienSeed": "codex-ai-runezu-reward-api-aliens-20260928:65e192bb26079210bc911f46",
+      "alienRandomMode": "independent-slots-v1",
+      "games": 5,
+      "activePlayerCount": 4,
+      "maxSteps": 2500,
+      "stepDelayMs": 0,
+      "maxBugRepeats": 1,
+      "sequenceWindowTurns": 6,
+      "yieldEverySteps": 20,
+      "stopOnBlocked": true,
+      "includeLogs": true,
+      "retainAnalysis": false,
+      "includeSampleDiagnostics": false,
+      "single": true,
+      "reset": true
+    },
+    "summary": {
+      "ok": false,
+      "single": true,
+      "blocked": true,
+      "gameEnded": false,
+      "stoppedBeforeRound": null,
+      "steps": 1548,
+      "maxScore": 324,
+      "minPlayerScore": 150,
+      "allPlayersAtLeast70": true,
+      "playerScores": [
+        210,
+        153,
+        324,
+        150
+      ],
+      "bugCount": 1,
+      "actionCounts": null,
+      "opportunities": null,
+      "resourceFlow": {
+        "trackedMagnitude": 2008,
+        "classifiedMagnitude": 2008,
+        "weighted": 1
+      },
+      "message": "手牌不足，需要弃置 1 张牌"
+    },
+    "bug": [
+      {
+        "id": 1599,
+        "type": "bug",
+        "roundNumber": 4,
+        "turnNumber": 11,
+        "rawTurnNumber": 43,
+        "playerId": "player-brown",
+        "playerLabel": "棕色",
+        "playerResources": {
+          "score": 186,
+          "credits": 1,
+          "energy": 0,
+          "publicity": 8,
+          "availableData": 0,
+          "handSize": 0
+        },
+        "scoreboard": [
+          {
+            "playerId": "player-blue",
+            "playerLabel": "蓝色",
+            "score": 129,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 1,
+            "availableData": 0,
+            "handSize": 0,
+            "reservedCount": 4,
+            "techCount": 12
+          },
+          {
+            "playerId": "player-green",
+            "playerLabel": "绿色",
+            "score": 105,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 6,
+            "availableData": 0,
+            "handSize": 0,
+            "reservedCount": 1,
+            "techCount": 9
+          },
+          {
+            "playerId": "player-brown",
+            "playerLabel": "棕色",
+            "score": 186,
+            "credits": 1,
+            "energy": 0,
+            "publicity": 8,
+            "availableData": 0,
+            "handSize": 0,
+            "reservedCount": 4,
+            "techCount": 12
+          },
+          {
+            "playerId": "player-white",
+            "playerLabel": "白色",
+            "score": 109,
+            "credits": 0,
+            "energy": 0,
+            "publicity": 0,
+            "availableData": 5,
+            "handSize": 0,
+            "reservedCount": 6,
+            "techCount": 11
+          }
+        ],
+        "message": "手牌不足，需要弃置 1 张牌",
+        "details": {
+          "result": {
+            "ok": false,
+            "message": "手牌不足，需要弃置 1 张牌"
+          },
+          "repeatCount": 1
+        },
+        "createdAt": "2026-09-27T16:42:06.011Z"
+      }
+    ],
+    "pending": {
+      "actionEffectFlowActive": true,
+      "currentEffect": {
+        "id": "dlc34-max-tech-draw",
+        "type": "card_count_tech_types_reward",
+        "label": "按最多科技类型数量盲抽",
+        "status": "active"
+      },
+      "pendingScanTargetType": null,
+      "pendingPublicScanQueue": false,
+      "pendingHandScan": false,
+      "pendingPassReserve": false,
+      "pendingCardSelection": false,
+      "pendingPlayCardSelection": false,
+      "pendingMovePayment": false,
+      "pendingCardTrigger": false,
+      "pendingCardTriggerFreeMove": false,
+      "pendingCardCornerFreeMove": false,
+      "pendingCardTaskCompletion": false,
+      "pendingStrategyPassiveSlotChoice": false,
+      "pendingJiuzheCardPlay": false,
+      "pendingYichangdianCardGain": false,
+      "pendingYichangdianCornerAction": false,
+      "pendingBanrenmaCardGain": false,
+      "pendingBanrenmaOpportunity": false,
+      "pendingChongTaskCompletion": false,
+      "pendingChongCardGain": false,
+      "pendingChongFossilChoice": false,
+      "pendingAmibaCardGain": false,
+      "pendingAmibaSymbolChoice": false,
+      "pendingAmibaTraceRemoval": false,
+      "pendingAomomoCardGain": false,
+      "pendingRunezuCardGain": false,
+      "pendingRunezuSymbolBranch": false,
+      "pendingRunezuFaceSymbolPlacement": false,
+      "pendingAlienTrace": false,
+      "pendingLandTarget": false,
+      "pendingScanAction4": false,
+      "pendingDataPlacement": false,
+      "pendingDataPlacementAction": false,
+      "pendingActionEffectCardMove": false,
+      "pendingActionEffectFreeMove": false,
+      "pendingIndustryAbility": false,
+      "pendingIndustryFreeMove": false,
+      "pendingIndustryHandSelection": false
+    }
+  },
+  "replay": {
+    "summary": {
+      "ok": true,
+      "single": true,
+      "blocked": false,
+      "gameEnded": true,
+      "stoppedBeforeRound": null,
+      "steps": 1561,
+      "maxScore": 338,
+      "minPlayerScore": 150,
+      "allPlayersAtLeast70": true,
+      "playerScores": [
+        210,
+        153,
+        338,
+        150
+      ],
+      "bugCount": 0,
+      "actionCounts": null,
+      "opportunities": null,
+      "resourceFlow": {
+        "trackedMagnitude": 2028,
+        "classifiedMagnitude": 2028,
+        "weighted": 1
+      },
+      "message": "游戏已结束"
+    },
+    "tail": [
+      {
+        "id": 1595,
+        "type": "turn-action",
+        "message": "蓝色AI 执行 end-turn"
+      },
+      {
+        "id": 1596,
+        "type": "turn-action",
+        "message": "棕色AI 执行 playCard"
+      },
+      {
+        "id": 1597,
+        "type": "play-card",
+        "message": "棕色AI 选择打出 私营部门投资"
+      },
+      {
+        "id": 1598,
+        "type": "effect",
+        "message": "AI 处理效果：增加一次收入",
+        "details": {
+          "logPlayerId": "player-brown",
+          "effectId": "dlc34-income",
+          "effectType": "card_income"
+        }
+      },
+      {
+        "id": 1599,
+        "type": "effect",
+        "message": "AI 处理效果：按最多科技类型数量盲抽",
+        "details": {
+          "logPlayerId": "player-brown",
+          "effectId": "dlc34-max-tech-draw",
+          "effectType": "card_count_tech_types_reward"
+        }
+      },
+      {
+        "id": 1600,
+        "type": "turn-action",
+        "message": "棕色AI 执行 end-turn"
+      },
+      {
+        "id": 1601,
+        "type": "turn-action",
+        "message": "棕色AI 执行 playCard"
+      },
+      {
+        "id": 1602,
+        "type": "play-card",
+        "message": "棕色AI 选择打出 观测织女星"
+      },
+      {
+        "id": 1603,
+        "type": "effect",
+        "message": "AI 处理效果：织女一扫描",
+        "details": {
+          "logPlayerId": "player-brown",
+          "effectId": "b128-vega-scan",
+          "effectType": "card_scan_nebula"
+        }
+      },
+      {
+        "id": 1604,
+        "type": "effect",
+        "message": "AI 处理效果：完成扇区：织女一",
+        "details": {
+          "logPlayerId": "player-brown",
+          "effectId": "end-flow-followup-1",
+          "effectType": "sector_finish_scan"
+        }
+      },
+      {
+        "id": 1605,
+        "type": "effect",
+        "message": "AI 处理效果：织女一参与奖励：棕色 +1宣传",
+        "details": {
+          "logPlayerId": "player-brown",
+          "effectId": "sector-sector-1-b-publicity-player-brown-4",
+          "effectType": "gain_resources"
+        }
+      },
+      {
+        "id": 1606,
+        "type": "effect",
+        "message": "AI 处理效果：织女一参与奖励：白色 +1宣传",
+        "details": {
+          "logPlayerId": "player-white",
+          "effectId": "sector-sector-1-b-publicity-player-white-4",
+          "effectType": "gain_resources"
+        }
+      },
+      {
+        "id": 1607,
+        "type": "effect",
+        "message": "AI 处理效果：织女一赢家奖励：棕色 +5分",
+        "details": {
+          "logPlayerId": "player-brown",
+          "effectId": "sector-sector-1-b-winner-score-4",
+          "effectType": "gain_resources"
+        }
+      },
+      {
+        "id": 1608,
+        "type": "turn-action",
+        "message": "棕色AI 执行 placeData"
+      },
+      {
+        "id": 1609,
+        "type": "turn-action",
+        "message": "棕色AI 执行 end-turn"
+      },
+      {
+        "id": 1610,
+        "type": "turn-action",
+        "message": "棕色AI 执行 pass"
+      },
+      {
+        "id": 1611,
+        "type": "turn-action",
+        "message": "棕色AI 执行 end-turn"
+      },
+      {
+        "id": 1612,
+        "type": "finish",
+        "message": "游戏已结束"
+      }
+    ]
+  },
+  "controlledBrowser": {
+    "before": {
+      "credits": 4,
+      "energy": 0,
+      "publicity": 4,
+      "availableData": 2,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 5
+    },
+    "after": {
+      "credits": 2,
+      "energy": 0,
+      "publicity": 4,
+      "availableData": 2,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 2,
+      "score": 5
+    },
+    "hand": 2,
+    "steps": [
+      {
+        "id": "dlc34-income",
+        "type": "card_income",
+        "hand": 0,
+        "result": {
+          "ok": true,
+          "undoable": true,
+          "skipped": true,
+          "message": "增加一次收入：没有手牌可用于收入，已跳过"
+        },
+        "effectResult": {
+          "ok": true,
+          "undoable": true,
+          "skipped": true,
+          "message": "增加一次收入：没有手牌可用于收入，已跳过"
+        }
+      },
+      {
+        "id": "dlc34-max-tech-draw",
+        "type": "card_count_tech_types_reward",
+        "hand": 0,
+        "result": {
+          "ok": true,
+          "undoable": false,
+          "irreversible": {
+            "code": "hidden_card_reveal",
+            "reason": "盲抽翻出新牌"
+          },
+          "message": "按最多科技类型数量盲抽：最多科技类型 2，盲抽 2/2 张",
+          "payload": {
+            "count": 2
+          }
+        },
+        "effectResult": {
+          "ok": true,
+          "undoable": false,
+          "irreversible": {
+            "code": "hidden_card_reveal",
+            "reason": "盲抽翻出新牌"
+          },
+          "message": "按最多科技类型数量盲抽：最多科技类型 2，盲抽 2/2 张",
+          "payload": {
+            "count": 2
+          }
+        }
+      }
+    ]
+  },
+  "tests": {
+    "syntax": true,
+    "testFiles": 53
+  },
+  "sourceHashes": {
+    "runeapivalidation64-base-12.json": "b6a2581732581ab2275ad82ec468c9260221ab73afa7de9cc9a242849eaa3544",
+    "runeapivalidation64-candidate-12.json": "2f48a3f0760baeb1708221dd5c6f45ae643282fa181299eea736b43a9c20a014",
+    "empty-income-case12-main.json": "d0669a4ff8bb0bb7f87febc0266d1ddd6aa9026f7a0719d801fe966c8ff2de04",
+    "empty-income-browser.json": "1cb29004445c1e2d0b40992a46d753ffa1b6569c99229c5dd03ba5a3c397e25b"
+  },
+  "validationRestart": "Original random64 stopped at pair12,22 games completed and2 blocked. Preserve all original artifacts. Rerun all64 same pairs with identical fix on both frozen arms; not a fresh seed draw and no partial aggregate acceptance."
+}

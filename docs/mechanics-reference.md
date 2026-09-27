@@ -560,3 +560,5 @@ python tools/build_card_catalog_js.py
 ```powershell
 python tools/analyze_alien_cards.py
 ```
+
+- 收入效果结算时若所属玩家已无手牌，初始收入与卡牌收入正常跳过该节点并继续后续效果，返回成功跳过而不是运行错误；不会凭空增加收入，也不会提前领取后续抽牌再倒回收入节点。
