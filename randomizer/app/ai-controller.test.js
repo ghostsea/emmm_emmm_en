@@ -17197,3 +17197,27 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
   const empty = make();
   assert.ok(empty.controller.scoreAiIncomeOpportunityValue(empty.blue, { availableData: 4 }) > 0);
 }
+
+// When deciding which card to turn into income, an income alternative must not
+// suppress the opportunity value of retaining an otherwise identical play.
+{
+  const pending = { type: 'initial_income', selectedIndexes: [] };
+  const h = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', roundNumber: 1, pendingDiscardAction: pending, discardCount: 1,
+    blueResources: { credits: 3, energy: 2, handSize: 2, score: 5 },
+    blueIncome: { credits: 2, energy: 2, handSize: 2 },
+    blueHand: [{ id:'strong', price:2, incomeGain:{credits:1}, playEffects:[{type:'gain_resources',options:{gain:{score:4}}}] },
+               { id:'weak', price:2, incomeGain:{credits:1}, playEffects:[{type:'gain_resources',options:{gain:{score:1}}}] }],
+  });
+  const strong=h.blue.hand[0], original=structuredClone(h.blue);
+  const cost=h.controller.scoreAiIncomeDiscardSelectionOpportunityCost(h.blue,strong);
+  const largerAlternative={...strong,incomeGain:{credits:4}};
+  assert.equal(h.controller.scoreAiIncomeDiscardSelectionOpportunityCost(h.blue,largerAlternative),cost,
+    'income value is compared separately and cannot reduce the cost of losing the same play');
+  assert(h.controller.scoreAiPlayCardValue(strong,{player:h.blue}) > h.controller.scoreAiPlayCardValue(largerAlternative,{player:h.blue}),
+    'ordinary play selection still considers the income alternative');
+  assert.deepEqual(h.blue,original,'opportunity evaluation is read-only');
+  h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+  assert.equal(h.controller.runAiAutomationStep().ok,true);
+  assert.deepEqual(pending.selectedIndexes,[1],'equal income should discard the weaker play, not a clamp-created tie');
+}

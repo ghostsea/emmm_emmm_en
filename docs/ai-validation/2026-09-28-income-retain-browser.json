@@ -1,0 +1,105 @@
+{
+  "before": {
+    "credits": 2,
+    "energy": 2,
+    "publicity": 4,
+    "availableData": 1,
+    "aomomoFossils": 0,
+    "additionalPublicScan": 0,
+    "handSize": 2,
+    "score": 5
+  },
+  "after": {
+    "resources": {
+      "credits": 3,
+      "energy": 2,
+      "publicity": 4,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 5
+    },
+    "income": {
+      "credits": 3,
+      "energy": 2,
+      "handSize": 2,
+      "availableData": 0,
+      "publicity": 0,
+      "additionalPublicScan": 0
+    },
+    "remaining": [
+      "b_127.webp"
+    ]
+  },
+  "preview": {
+    "pendingType": "place_data_income",
+    "count": 1,
+    "handSize": 2,
+    "resources": {
+      "score": 5,
+      "credits": 2,
+      "energy": 2,
+      "publicity": 4,
+      "availableData": 1
+    },
+    "options": [
+      {
+        "index": 1,
+        "selected": false,
+        "cardId": "b_132.webp",
+        "cardLabel": "甚高能辐射成像望远锐",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 38.9,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "grandFangzhouCreditThroughputFit": 0,
+        "playValue": 0,
+        "playableNow": true,
+        "playScoreNow": -20.018,
+        "playDirectScoreNow": 0,
+        "discardOpportunityCost": 0,
+        "handScarcityCost": 6,
+        "netAfterDiscard": 32.9
+      },
+      {
+        "index": 0,
+        "selected": false,
+        "cardId": "b_127.webp",
+        "cardLabel": "天王星轨遒器与探测器",
+        "incomeGain": {
+          "credits": 1
+        },
+        "incomeScore": 38.9,
+        "finalFormulaFit": 0,
+        "routeEnergyFit": 0,
+        "grandFangzhouCreditThroughputFit": 0,
+        "playValue": 0,
+        "playableNow": false,
+        "playScoreNow": null,
+        "playDirectScoreNow": null,
+        "discardOpportunityCost": 2.005,
+        "handScarcityCost": 6,
+        "netAfterDiscard": 30.895
+      }
+    ]
+  },
+  "costs": [
+    {
+      "card": "b_127.webp",
+      "normalPlayValue": -0.7963314236822221,
+      "comparisonValue": 16.708668576317777,
+      "incomeCost": 2.005040229158133
+    },
+    {
+      "card": "b_132.webp",
+      "normalPlayValue": -20.018012,
+      "comparisonValue": -2.5130119999999994,
+      "incomeCost": 0
+    }
+  ],
+  "bugs": [],
+  "scope": "Real b127/b132 computer-income choice; preview priority matches discarded instance, one credit arrives immediately and income increases. Normal play includes income alternative; discard comparison excludes it. Controlled state, no score uplift claim."
+}

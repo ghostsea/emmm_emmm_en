@@ -2008,7 +2008,7 @@
           );
           const playCandidate = buildAiPlayCardCandidate(card, index, player);
           const playValue = Math.max(0, scoreAiPlayCardValue(card, { player }));
-          const discardOpportunityCost = scoreAiIncomeDiscardSelectionOpportunityCost(player, card, { playValue });
+          const discardOpportunityCost = scoreAiIncomeDiscardSelectionOpportunityCost(player, card);
           const value = incomeScore + finalFormulaFit + routeEnergyFit + grandFangzhouCreditThroughputFit;
           return {
             index,
@@ -2076,11 +2076,14 @@
       };
     }
 
-    function scoreAiIncomeDiscardSelectionOpportunityCost(player, card, options = {}) {
+    function scoreAiIncomeDiscardSelectionOpportunityCost(player, card) {
       if (!player || !card) return 0;
-      const playValue = options.playValue == null
-        ? Math.max(0, scoreAiPlayCardValue(card, { player }))
-        : Math.max(0, aiNumber(options.playValue));
+      // Income is already valued by the discard comparison, so do not subtract
+      // the same alternative from the value of keeping this card for play.
+      const playValue = Math.max(0, scoreAiPlayCardValue(card, {
+        player,
+        includeIncomeAlternative: false,
+      }));
       return Math.min(8, playValue * 0.12);
     }
 
@@ -2245,7 +2248,7 @@
             ? scoreAiMultiIncomeSequenceFit(simulatedPlayer, gain, target - selected.length)
             : 0;
           const playValue = Math.max(0, scoreAiPlayCardValue(card, { player: simulatedPlayer }));
-          const discardOpportunityCost = scoreAiIncomeDiscardSelectionOpportunityCost(simulatedPlayer, card, { playValue });
+          const discardOpportunityCost = scoreAiIncomeDiscardSelectionOpportunityCost(simulatedPlayer, card);
           return {
             index,
             incomeScore,
@@ -10599,7 +10602,7 @@
       return countAiPlayerTech(player);
     }
 
-    function scoreAiCardCornerOpportunity(card) {
+    function scoreAiCardCornerOpportunity(card, options = {}) {
       let value = 0;
       const runezuRevealed = runezu?.isRunezuRevealedSlot
         && (aliens?.ALIEN_SLOT_IDS || []).some((alienSlotId) => (
@@ -10622,7 +10625,7 @@
       }
       if (getPublicScanChoicesForCard(card).ok) value += 3;
       const incomeGain = cards.getIncomeGainForCard?.(card);
-      if (incomeGain) value += scoreAiIncomeOpportunityValue(getCurrentPlayer(), incomeGain);
+      if (incomeGain && options.includeIncome !== false) value += scoreAiIncomeOpportunityValue(getCurrentPlayer(), incomeGain);
       return value;
     }
 
@@ -12724,7 +12727,7 @@
       const endGameValue = model?.endGameScoring ? 5 + getAiRemainingRoundWeight() * 0.5 : 0;
       const plutoValue = model?.pluto ? 8 : 0;
       const costValue = scoreAiResourceBundle(cost);
-      const cornerOpportunity = scoreAiCardCornerOpportunity(card);
+      const cornerOpportunity = scoreAiCardCornerOpportunity(card, { includeIncome: details.includeIncomeAlternative !== false });
       const demandFit = scoreAiCardDemandFit(card, model, playEffects, player);
       const endGameExpectedScore = details.endGameExpectedScore ?? scoreAiCardEndGameExpectedValue(card, model, player);
       const readyTaskCashoutValue = Math.max(0, aiNumber(details.readyTaskCashout?.value));
@@ -26717,6 +26720,8 @@
     }
 
     return {
+      scoreAiIncomeDiscardSelectionOpportunityCost,
+      scoreAiPlayCardValue,
       scoreAiIncomeOpportunityValue,
       getAiIntendedPlayCardCandidate,
       aiNumber,
