@@ -1,0 +1,58 @@
+{
+  "decision": "hold-no-new-random",
+  "phase": "seen-seed-development",
+  "fullPairs": 24,
+  "primary": {
+    "baseline": "52af42e4 accepted Runezu",
+    "mean": 0.1354166666666572,
+    "se": 2.42747983014999,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "baseline": 255.83333333333334,
+        "candidate": 252.72916666666666,
+        "meanDelta": -3.1041666666666856,
+        "minimumDelta": -4
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "baseline": 188.70833333333334,
+        "candidate": 193.08333333333334,
+        "meanDelta": 4.375,
+        "minimumDelta": 4
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "baseline": 209.83333333333334,
+        "candidate": 212.20833333333334,
+        "meanDelta": 2.375,
+        "minimumDelta": -21
+      }
+    },
+    "distribution": {
+      "mean": 0.1354166666666572,
+      "min": -11,
+      "p10": 4,
+      "p25": 7.25,
+      "median": -9,
+      "p75": -13.75,
+      "max": 3,
+      "topQuartileMean": 5.083333333333371,
+      "winnerMean": 4.25,
+      "minimumPerGameMean": 7.458333333333314,
+      "seats270Plus": -3,
+      "seats300Plus": 6
+    }
+  },
+  "absolute": {
+    "baseline": "f542 safety default",
+    "mean": 2.625,
+    "se": 2.6423683519233983
+  },
+  "limitations": [
+    "Development seeds previously seen; not independent acceptance.",
+    "Baseline-selected high cohort is diagnostic and subject to regression to mean, still reported.",
+    "Resource non-income buckets include AI aid; aid audit subtracts explicit round aid only, not all starting and passive advantages."
+  ],
+  "accepted": false
+}
