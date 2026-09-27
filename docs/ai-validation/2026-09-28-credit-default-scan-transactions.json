@@ -1,0 +1,854 @@
+{
+  "scope": "All standard scan decisions in both complete arms, matched to unique paid transactions by player/round/display-turn and ordinal. Main resources exclude separate quick actions. Blue rewards cover only the same transaction after scan payment, with prior technology ownership and embedded income excluded; this is temporal association, not proof that the rewarded data came from this scan. Later same-round standard analysis may follow multiple scans and is deduplicated. No final-score attribution or inference about unlogged effects.",
+  "pairs": 64,
+  "sourceSuiteSha256": "83b6c660e75bf4a46d9e865a7a0536555a54dfec892fea7942d6d7a10ff8ec1a",
+  "models": {
+    "base": "67d6fbda86bb889336c8bccb79ff0208bd9d7ce8",
+    "candidate": "8f6ca0095995f65303aa19208fbf85df5ebd4c67"
+  },
+  "allScanDecisionsPaired": 3014,
+  "uniquePaidTransactions": 3014,
+  "eachStandardScanPaidTwoEnergy": true,
+  "groups": {
+    "baseline": {
+      "宇宙大战略集团": {
+        "scans": 329,
+        "thirdOrLater": 33,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 6,
+            "energy": 3,
+            "handSize": 25,
+            "availableData": 858,
+            "publicity": 235
+          },
+          "spent": {
+            "credits": 329,
+            "energy": 675,
+            "handSize": 69,
+            "availableData": 0,
+            "publicity": 118
+          }
+        },
+        "sameTransactionBlueCredit": 56,
+        "sameTransactionBlueEnergy": 32,
+        "nextMainAnalysis": 86,
+        "laterSameRoundAnalysis": 249,
+        "distinctLaterAnalyses": 180
+      },
+      "作弊实验室": {
+        "scans": 994,
+        "thirdOrLater": 192,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 34,
+            "energy": 12,
+            "handSize": 120,
+            "availableData": 2735,
+            "publicity": 790
+          },
+          "spent": {
+            "credits": 0,
+            "energy": 2118,
+            "handSize": 339,
+            "availableData": 0,
+            "publicity": 405
+          }
+        },
+        "sameTransactionBlueCredit": 159,
+        "sameTransactionBlueEnergy": 148,
+        "nextMainAnalysis": 169,
+        "laterSameRoundAnalysis": 745,
+        "distinctLaterAnalyses": 449
+      },
+      "寰宇超动力": {
+        "scans": 189,
+        "thirdOrLater": 19,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 3,
+            "energy": 1,
+            "handSize": 12,
+            "availableData": 487,
+            "publicity": 106
+          },
+          "spent": {
+            "credits": 189,
+            "energy": 398,
+            "handSize": 50,
+            "availableData": 0,
+            "publicity": 41
+          }
+        },
+        "sameTransactionBlueCredit": 24,
+        "sameTransactionBlueEnergy": 28,
+        "nextMainAnalysis": 33,
+        "laterSameRoundAnalysis": 127,
+        "distinctLaterAnalyses": 89
+      }
+    },
+    "candidate": {
+      "宇宙大战略集团": {
+        "scans": 329,
+        "thirdOrLater": 35,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 7,
+            "energy": 5,
+            "handSize": 23,
+            "availableData": 850,
+            "publicity": 251
+          },
+          "spent": {
+            "credits": 329,
+            "energy": 680,
+            "handSize": 63,
+            "availableData": 0,
+            "publicity": 126
+          }
+        },
+        "sameTransactionBlueCredit": 59,
+        "sameTransactionBlueEnergy": 40,
+        "nextMainAnalysis": 84,
+        "laterSameRoundAnalysis": 242,
+        "distinctLaterAnalyses": 172
+      },
+      "作弊实验室": {
+        "scans": 986,
+        "thirdOrLater": 191,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 32,
+            "energy": 15,
+            "handSize": 119,
+            "availableData": 2744,
+            "publicity": 794
+          },
+          "spent": {
+            "credits": 0,
+            "energy": 2085,
+            "handSize": 336,
+            "availableData": 0,
+            "publicity": 419
+          }
+        },
+        "sameTransactionBlueCredit": 164,
+        "sameTransactionBlueEnergy": 140,
+        "nextMainAnalysis": 168,
+        "laterSameRoundAnalysis": 742,
+        "distinctLaterAnalyses": 439
+      },
+      "寰宇超动力": {
+        "scans": 187,
+        "thirdOrLater": 17,
+        "mainResources": {
+          "incomeGain": {
+            "credits": 0,
+            "energy": 0,
+            "handSize": 0,
+            "availableData": 0,
+            "publicity": 0
+          },
+          "nonIncomeGain": {
+            "credits": 3,
+            "energy": 2,
+            "handSize": 14,
+            "availableData": 480,
+            "publicity": 105
+          },
+          "spent": {
+            "credits": 187,
+            "energy": 392,
+            "handSize": 48,
+            "availableData": 0,
+            "publicity": 39
+          }
+        },
+        "sameTransactionBlueCredit": 26,
+        "sameTransactionBlueEnergy": 27,
+        "nextMainAnalysis": 38,
+        "laterSameRoundAnalysis": 129,
+        "distinctLaterAnalyses": 89
+      }
+    }
+  },
+  "manifest": [
+    {
+      "file": "creditincremental64-base-1.json",
+      "side": "baseline",
+      "sha256": "4ff36647eae116066f44469841e83e9ff0f7f3928f809f82c3edcd7c89713870"
+    },
+    {
+      "file": "creditabsolute64-candidate-1.json",
+      "side": "candidate",
+      "sha256": "c3f1bb3033e1a1cdb697250001e6da07b560c891355c5b0e93c0dcd45dd0065b"
+    },
+    {
+      "file": "creditincremental64-base-2.json",
+      "side": "baseline",
+      "sha256": "812bc401cc4fc3a46483a98335a18b94545c59a0abbf3d7065f4837dea26a15c"
+    },
+    {
+      "file": "creditabsolute64-candidate-2.json",
+      "side": "candidate",
+      "sha256": "12341f32fa4702422748d34886bed5b7beb3adc9919ff3a1cc9ef42c183ca37e"
+    },
+    {
+      "file": "creditincremental64-base-3.json",
+      "side": "baseline",
+      "sha256": "92330c8f8d173d537fe13eec7ae681b3eae327c7fba66e370b901d4174e9bd0f"
+    },
+    {
+      "file": "creditabsolute64-candidate-3.json",
+      "side": "candidate",
+      "sha256": "1ca9d3b426819b5d1e9e825e9129c64ea6b74aa12c2439117f0ed860a6153764"
+    },
+    {
+      "file": "creditincremental64-base-4.json",
+      "side": "baseline",
+      "sha256": "2c20ed4966ced3720dadc93d1b8d7ba4aabb38994648d0c98ac50135e0eb228f"
+    },
+    {
+      "file": "creditabsolute64-candidate-4.json",
+      "side": "candidate",
+      "sha256": "84bc37da38fcc17df7fa2eee3ea5bc3ed9b95c5c1ce1716588441f0ca44cf3c9"
+    },
+    {
+      "file": "creditincremental64-base-5.json",
+      "side": "baseline",
+      "sha256": "f148ebdebee2d83db7ab9084d293e8326c077a020c3c25d4b73a244af54f28a7"
+    },
+    {
+      "file": "creditabsolute64-candidate-5.json",
+      "side": "candidate",
+      "sha256": "69af4fed4e95bd60a247725e6d47653123c335c77b8d77f48e723bf5456cd637"
+    },
+    {
+      "file": "creditincremental64-base-6.json",
+      "side": "baseline",
+      "sha256": "fcbff1dffa098b6d4152224a904ef43a19ac4b8d96453a90d8d5e07a9dadb6ce"
+    },
+    {
+      "file": "creditabsolute64-candidate-6.json",
+      "side": "candidate",
+      "sha256": "4e23f482a00dfb3f344cd898d129c581d26670e163f20e5873eda4c4620e3793"
+    },
+    {
+      "file": "creditincremental64-base-7.json",
+      "side": "baseline",
+      "sha256": "31d58ceef052ae7f639ddc89b4c2a2310fdf718d9f6960da4945444e70573e96"
+    },
+    {
+      "file": "creditabsolute64-candidate-7.json",
+      "side": "candidate",
+      "sha256": "9cb04d58b78d2aa682928d214acbe7ad0480ae33c4eb8cff295dffcfc0010191"
+    },
+    {
+      "file": "creditincremental64-base-8.json",
+      "side": "baseline",
+      "sha256": "81a367dc692d1b5878b57280998784179b2000006ad0f145b69cb16b2d879a3d"
+    },
+    {
+      "file": "creditabsolute64-candidate-8.json",
+      "side": "candidate",
+      "sha256": "728ed9cbf0813daf14f912e975e455e110861d2258696b2d6d85636d1ded7bc3"
+    },
+    {
+      "file": "creditincremental64-base-9.json",
+      "side": "baseline",
+      "sha256": "17852f391f631dee7a842ac009f5788f94ebe468f155dd84ec0da5cc83a0fc1b"
+    },
+    {
+      "file": "creditabsolute64-candidate-9.json",
+      "side": "candidate",
+      "sha256": "e9eb3d1a48afe14a9cdda8500a9ee15feb3d459fbaf8ac0c70c6577943f17f63"
+    },
+    {
+      "file": "creditincremental64-base-10.json",
+      "side": "baseline",
+      "sha256": "cbcb93b0a1a4418100ee19b8ac0617bd9faa04bb1f5babd1c2324fd8cc9a503d"
+    },
+    {
+      "file": "creditabsolute64-candidate-10.json",
+      "side": "candidate",
+      "sha256": "066e2e72a65acd686fee06be656f40b587ef4020c691ab7a4510b413034f52ee"
+    },
+    {
+      "file": "creditincremental64-base-11.json",
+      "side": "baseline",
+      "sha256": "119d5fc817be17ce499fc2648b748a21dae9ec6fccd3dda0b60bd1f5eb8c9677"
+    },
+    {
+      "file": "creditabsolute64-candidate-11.json",
+      "side": "candidate",
+      "sha256": "2b592c6210c6614604e241445a5e626a3f083dffc486f726a52734492a0ddf56"
+    },
+    {
+      "file": "creditincremental64-base-12.json",
+      "side": "baseline",
+      "sha256": "ff5ac84584e8282d545e86aba74e7794431a24b27456d2c832773dae8d58ae52"
+    },
+    {
+      "file": "creditabsolute64-candidate-12.json",
+      "side": "candidate",
+      "sha256": "714a5a83b668b9572c079314aee22212b729af6eae17c1c58f286097e5ff6dac"
+    },
+    {
+      "file": "creditincremental64-base-13.json",
+      "side": "baseline",
+      "sha256": "41e24202632d26dc04d1edbe298bfedae0b9bc0f8a169e574246cb6828c7f128"
+    },
+    {
+      "file": "creditabsolute64-candidate-13.json",
+      "side": "candidate",
+      "sha256": "78fee30290fb7d54756d3d1e38a72d063145587fab8ec45a33628ecb82458033"
+    },
+    {
+      "file": "creditincremental64-base-14.json",
+      "side": "baseline",
+      "sha256": "ff68b9e0b6e119d69faea37e37d41479c659ffc26da63f63d10e2206da33ba99"
+    },
+    {
+      "file": "creditabsolute64-candidate-14.json",
+      "side": "candidate",
+      "sha256": "86a13e733784dbf46fae5bb82f12b1002df50b2a14d83cc1cee2ae87e3fb5aa9"
+    },
+    {
+      "file": "creditincremental64-base-15.json",
+      "side": "baseline",
+      "sha256": "1625b889bf28272755830459b78bb895463491431fdeef72289a0c6a11ce8f66"
+    },
+    {
+      "file": "creditabsolute64-candidate-15.json",
+      "side": "candidate",
+      "sha256": "974722a0be48f160a08eb4a6df339447f5c9cd5d8c23ceac87ae1a804ae2b992"
+    },
+    {
+      "file": "creditincremental64-base-16.json",
+      "side": "baseline",
+      "sha256": "156923b5591a78b617c66d7dd7f2dae1adde3e10a702a7b0207f11ab7e7385d3"
+    },
+    {
+      "file": "creditabsolute64-candidate-16.json",
+      "side": "candidate",
+      "sha256": "6bba5c5b38020b3a8594f86d25de2d20d5d6f2ba25d8e3265325b5428349bd68"
+    },
+    {
+      "file": "creditincremental64-base-17.json",
+      "side": "baseline",
+      "sha256": "e00dd965d78ceb6693f286a4fea4eff0a26d4dd21be7a0bf59493e4ec1442932"
+    },
+    {
+      "file": "creditabsolute64-candidate-17.json",
+      "side": "candidate",
+      "sha256": "008780efdb68d24400f969c061be76b6aed6bc4de5aec0e719c09426e9783e8d"
+    },
+    {
+      "file": "creditincremental64-base-18.json",
+      "side": "baseline",
+      "sha256": "408b972af6d093e27ece7cca424b2a4d175b4f0f4b590c357b061a855891fac4"
+    },
+    {
+      "file": "creditabsolute64-candidate-18.json",
+      "side": "candidate",
+      "sha256": "c539e04ccc41aa8aa7047557810e3ef85a280d40b5f1223081b85ea953f07381"
+    },
+    {
+      "file": "creditincremental64-base-19.json",
+      "side": "baseline",
+      "sha256": "f9140eb1203a25a4f91c225b98fa520dddbc8d8ae6526a0b6f988fc112741e02"
+    },
+    {
+      "file": "creditabsolute64-candidate-19.json",
+      "side": "candidate",
+      "sha256": "626b843bc1c0e23054adbd7713d41db21477751ceadc7ce806267c06a464acbd"
+    },
+    {
+      "file": "creditincremental64-base-20.json",
+      "side": "baseline",
+      "sha256": "e9348d72e23b3dc42e0c4afb09dc89dfe532ddfe34b727fa57b9f49fc02f1a3b"
+    },
+    {
+      "file": "creditabsolute64-candidate-20.json",
+      "side": "candidate",
+      "sha256": "bb3212ea800bacdf51baff3ce3f809299a8eb949efc9c5fbaee6ab9d4896df37"
+    },
+    {
+      "file": "creditincremental64-base-21.json",
+      "side": "baseline",
+      "sha256": "0748b76ef62ddb2bd01d0dc5032acb3e2a9cb48d553c575b1dc5148261bb5a53"
+    },
+    {
+      "file": "creditabsolute64-candidate-21.json",
+      "side": "candidate",
+      "sha256": "982efda224ae9eb151364a42272d752da0e1a00feb81e4d27ae15603d6841d64"
+    },
+    {
+      "file": "creditincremental64-base-22.json",
+      "side": "baseline",
+      "sha256": "1c77900b7e8f54fc3304eb4fc901a6c968cda79d5dc25b5fb71c45cfbbc88250"
+    },
+    {
+      "file": "creditabsolute64-candidate-22.json",
+      "side": "candidate",
+      "sha256": "11fc8dbe5c8e701ce9a0029f8f4a80fb9a0f4d949016a777ff1cb864fdf79fca"
+    },
+    {
+      "file": "creditincremental64-base-23.json",
+      "side": "baseline",
+      "sha256": "91e8c1ea5f5bae70034831b69497b68cd97115466b9bb90c1568e3ba9d4c6b1e"
+    },
+    {
+      "file": "creditabsolute64-candidate-23.json",
+      "side": "candidate",
+      "sha256": "03560c15d44d270a7d43df1eb89b2a3b54d207420ecb25b0a618bf9f58a89cf1"
+    },
+    {
+      "file": "creditincremental64-base-24.json",
+      "side": "baseline",
+      "sha256": "c63860e702df2b6c46add454466fffc3b16e52c1a8e8317ba0eb9a262263b86a"
+    },
+    {
+      "file": "creditabsolute64-candidate-24.json",
+      "side": "candidate",
+      "sha256": "b79852e12a739527dfb493238bc99d3def9ce1208f8d0e93a5eeb697c6745ed8"
+    },
+    {
+      "file": "creditincremental64-base-25.json",
+      "side": "baseline",
+      "sha256": "76b52f37a43338fd182539b5b6858e5b67da5a955a6bc807d1de5cf312aa8aee"
+    },
+    {
+      "file": "creditabsolute64-candidate-25.json",
+      "side": "candidate",
+      "sha256": "17ede2013f7cfcfe1e5010b80fa8d1c9be2978b789c0487c19834db739b7e954"
+    },
+    {
+      "file": "creditincremental64-base-26.json",
+      "side": "baseline",
+      "sha256": "3e1ca86826d539ea45425a0577ee15ded46bf4759226e7849886f5d01b11dd89"
+    },
+    {
+      "file": "creditabsolute64-candidate-26.json",
+      "side": "candidate",
+      "sha256": "135f14c8ceef1daef55761f94a21cf17c2e21783104a85498c52a0af1c65518c"
+    },
+    {
+      "file": "creditincremental64-base-27.json",
+      "side": "baseline",
+      "sha256": "fb8bc7f17ecf6c4554390d8788ba17b8cae6f4ab8fb5d21cb8fb59abb2438112"
+    },
+    {
+      "file": "creditabsolute64-candidate-27.json",
+      "side": "candidate",
+      "sha256": "f738eccd60b5c1bce9b49e896c3c1cf491d63f0b9d9ceea23d1bef5ad535db92"
+    },
+    {
+      "file": "creditincremental64-base-28.json",
+      "side": "baseline",
+      "sha256": "870b96df7adaa08f761c7fb9bf524e63bea1412f8b4fa5022e8aed1f56df034b"
+    },
+    {
+      "file": "creditabsolute64-candidate-28.json",
+      "side": "candidate",
+      "sha256": "2c46b1732f69644399e44510d771a587ad26b0fbffae0a4d0037179ccbb469b4"
+    },
+    {
+      "file": "creditincremental64-base-29.json",
+      "side": "baseline",
+      "sha256": "28054db150517cc675bb9adf28156648f579d7ae73abb124bbf274d06798b37f"
+    },
+    {
+      "file": "creditabsolute64-candidate-29.json",
+      "side": "candidate",
+      "sha256": "477932edba61d4a0aebdf6c5eb54bfd115c6a3add9826cc9cca3a1f7c7aac186"
+    },
+    {
+      "file": "creditincremental64-base-30.json",
+      "side": "baseline",
+      "sha256": "e2350cb63a589a228decbdc817c5fad75548527b6faf2ecf8adea65c7c98f1c6"
+    },
+    {
+      "file": "creditabsolute64-candidate-30.json",
+      "side": "candidate",
+      "sha256": "125be206b3cb412e48beac6628a68e36784b2c6ccad8e2c0427755a0e5020618"
+    },
+    {
+      "file": "creditincremental64-base-31.json",
+      "side": "baseline",
+      "sha256": "9199a73176cff30f27b6fc8c6b54bbc0c77aa20308fe26544c68f6e597ebe736"
+    },
+    {
+      "file": "creditabsolute64-candidate-31.json",
+      "side": "candidate",
+      "sha256": "452585f55d8e1dcf1f8978b711701e1e76d89624dc32df30070c310d7a41ed17"
+    },
+    {
+      "file": "creditincremental64-base-32.json",
+      "side": "baseline",
+      "sha256": "65c8c9923062d220b51457d683644016241515c813a384d5ecc7202159dea308"
+    },
+    {
+      "file": "creditabsolute64-candidate-32.json",
+      "side": "candidate",
+      "sha256": "6f3ffe94b196a2ae551e4b1c1405885694cff494cdffdba0191a33f7defe1337"
+    },
+    {
+      "file": "creditincremental64-base-33.json",
+      "side": "baseline",
+      "sha256": "48dcdf58aca35e40b885c12495f1d4736f9c413fca0e4820dabd59ecbd9354b2"
+    },
+    {
+      "file": "creditabsolute64-candidate-33.json",
+      "side": "candidate",
+      "sha256": "4e47d61aa4c58623394128262b9311693bbe24f800e94c3148ee6d8da92db6fd"
+    },
+    {
+      "file": "creditincremental64-base-34.json",
+      "side": "baseline",
+      "sha256": "3e824e16967142c1349c1a47133b1c8a6b629e415bc0231959eb84ad7daff09e"
+    },
+    {
+      "file": "creditabsolute64-candidate-34.json",
+      "side": "candidate",
+      "sha256": "2828a9bc4df294829459e13857d46bcb1a11951ff90047fd9d5256d40ec18c86"
+    },
+    {
+      "file": "creditincremental64-base-35.json",
+      "side": "baseline",
+      "sha256": "3680e3dee0db4bac3cb0fb7fdf93fc4ddb4a8e1eee75b8014ba05829568bc97b"
+    },
+    {
+      "file": "creditabsolute64-candidate-35.json",
+      "side": "candidate",
+      "sha256": "1f3d7c32b882d412e1106a5e5fe8d80a79d9b43051e3f093f089649b85bf1177"
+    },
+    {
+      "file": "creditincremental64-base-36.json",
+      "side": "baseline",
+      "sha256": "5189751abcc0e4bb3683bc3d3a29e21daca0ea2bb05a69565db9868d74bef5c7"
+    },
+    {
+      "file": "creditabsolute64-candidate-36.json",
+      "side": "candidate",
+      "sha256": "f7e8d1a3d9ad2443f1b9edffc0fb5ca2c2f5c14b3b62eff33f8a3481c5443c6f"
+    },
+    {
+      "file": "creditincremental64-base-37.json",
+      "side": "baseline",
+      "sha256": "cf52917f9f340f93aacfc8aae5efa79b2085d1ea786e46b0bd59e713d0f6d70b"
+    },
+    {
+      "file": "creditabsolute64-candidate-37.json",
+      "side": "candidate",
+      "sha256": "6db6be38a7379c36036aa67fc8be846c67f28c0b90cfedf789d882cd16468ff2"
+    },
+    {
+      "file": "creditincremental64-base-38.json",
+      "side": "baseline",
+      "sha256": "bde550685147b7cc07f8c374bdab009ec64cb9c607cbdac2da8636c7f4ff03db"
+    },
+    {
+      "file": "creditabsolute64-candidate-38.json",
+      "side": "candidate",
+      "sha256": "20934aa13bea10dbb43a24424ecb58d38e6c4928d8085583a63c00b05ae69599"
+    },
+    {
+      "file": "creditincremental64-base-39.json",
+      "side": "baseline",
+      "sha256": "ca0a1b460e8280c84548324053177bc7cc362f89a643c1bb080af62c58765671"
+    },
+    {
+      "file": "creditabsolute64-candidate-39.json",
+      "side": "candidate",
+      "sha256": "eebc7ef773d276a0efb2c8f45fe30a8dd818cfad9a9e8e7ac3373ea1e3b67c15"
+    },
+    {
+      "file": "creditincremental64-base-40.json",
+      "side": "baseline",
+      "sha256": "cd137e8d211dd66b3a518d01b48c0a8a38f5d7ccd232acfaf1caabb1a5c19ec9"
+    },
+    {
+      "file": "creditabsolute64-candidate-40.json",
+      "side": "candidate",
+      "sha256": "37b6230c688dcd2008b6941a82b5daef7896c7f033a68642d54234891f1549f7"
+    },
+    {
+      "file": "creditincremental64-base-41.json",
+      "side": "baseline",
+      "sha256": "6afbf1583fe9bc1ccb4add24137e6269693b3a51b32d9fd0a9a4381e943ef024"
+    },
+    {
+      "file": "creditabsolute64-candidate-41.json",
+      "side": "candidate",
+      "sha256": "113e739297083413d99da6b731020f3467df1c56dffbca285168c40ff3709e5f"
+    },
+    {
+      "file": "creditincremental64-base-42.json",
+      "side": "baseline",
+      "sha256": "58b926d24ffae72e5c16b2c511c048441e693b6b8ee1599fdad6942069b5ecb9"
+    },
+    {
+      "file": "creditabsolute64-candidate-42.json",
+      "side": "candidate",
+      "sha256": "6771fafd3b875e40918a8340b5aabcbe67a0fc5f38b74830fa4c396e42c72d74"
+    },
+    {
+      "file": "creditincremental64-base-43.json",
+      "side": "baseline",
+      "sha256": "cd7672058a220a85f26e929d02313487c762c4fe9dce745d266abd360cd5ccaa"
+    },
+    {
+      "file": "creditabsolute64-candidate-43.json",
+      "side": "candidate",
+      "sha256": "10c3671a2f3bd5f9f7dfcdb0915117d76b5fa00d2e5ae4e5e8894cb022f6ad13"
+    },
+    {
+      "file": "creditincremental64-base-44.json",
+      "side": "baseline",
+      "sha256": "3c73d81d0160f3340460d8e56a2714b5acb5084a5438f59127df9628f38dcd25"
+    },
+    {
+      "file": "creditabsolute64-candidate-44.json",
+      "side": "candidate",
+      "sha256": "8aad3d0df2e9bbe3f4433cb5cd3c5d17a2491ab14049124ff3af56bb9507d575"
+    },
+    {
+      "file": "creditincremental64-base-45.json",
+      "side": "baseline",
+      "sha256": "0e3aa9cf4841ccb760e7a8eb5440d1e83d5976a3d25063f00b806ac73e4dd084"
+    },
+    {
+      "file": "creditabsolute64-candidate-45.json",
+      "side": "candidate",
+      "sha256": "bd65b9a5eba3072171efb684d4174877a5e16e425b0cc93eb6b0241efe15bef6"
+    },
+    {
+      "file": "creditincremental64-base-46.json",
+      "side": "baseline",
+      "sha256": "eed047d3d80c4bc893969959fa0ef156045852b06a9fb70020707b07fd5aa533"
+    },
+    {
+      "file": "creditabsolute64-candidate-46.json",
+      "side": "candidate",
+      "sha256": "052bd7602931af85ae3236674e9101650ffdb0215fbbfe355c4f9103878d035e"
+    },
+    {
+      "file": "creditincremental64-base-47.json",
+      "side": "baseline",
+      "sha256": "78381faea64a078e07c9a4f4ce4bd5cab0de7062f9fee2b90659755d9b7935c1"
+    },
+    {
+      "file": "creditabsolute64-candidate-47.json",
+      "side": "candidate",
+      "sha256": "b833e5d074cc9dcf22b597d13f99ea990240a8008fe0122c90695cf5234cb25d"
+    },
+    {
+      "file": "creditincremental64-base-48.json",
+      "side": "baseline",
+      "sha256": "e50a14776098708a24b3d4b63c61c8d07a1cff3a7d3675653149e2a15cabf57c"
+    },
+    {
+      "file": "creditabsolute64-candidate-48.json",
+      "side": "candidate",
+      "sha256": "ecf023350dd7eb37d9b42d9c798b9317dc754f3b435896f17730abaeb31fd68d"
+    },
+    {
+      "file": "creditincremental64-base-49.json",
+      "side": "baseline",
+      "sha256": "547b94f59140411eb384b66042d906a4c017028954af20a8c852d8fcac0d035f"
+    },
+    {
+      "file": "creditabsolute64-candidate-49.json",
+      "side": "candidate",
+      "sha256": "510aede50db30c92a29d0c71406f8ca69ae0c30eb6631f25d42526d02c8c4908"
+    },
+    {
+      "file": "creditincremental64-base-50.json",
+      "side": "baseline",
+      "sha256": "e30049e34bd70f82387feb3e23a1f2a9d3cac2cc117d491d136643e0c57ef8b5"
+    },
+    {
+      "file": "creditabsolute64-candidate-50.json",
+      "side": "candidate",
+      "sha256": "8b9e7c6f8fe7abd55c7c1fd52c60d0f559a91fcd5c1d1d643edf3febf041c1f7"
+    },
+    {
+      "file": "creditincremental64-base-51.json",
+      "side": "baseline",
+      "sha256": "6cb17b720bf514d70a706bf26e948de0ad3192f5173e6e5bc65085d2286bf933"
+    },
+    {
+      "file": "creditabsolute64-candidate-51.json",
+      "side": "candidate",
+      "sha256": "be70c3e6de79c8272b58bd9905a144eebab744f669c1ffe24c63c4b2c53fb910"
+    },
+    {
+      "file": "creditincremental64-base-52.json",
+      "side": "baseline",
+      "sha256": "0c0e37a174365a4514c60df31b8c4a1e6ce3299f8233b1e3a411828cda540458"
+    },
+    {
+      "file": "creditabsolute64-candidate-52.json",
+      "side": "candidate",
+      "sha256": "3c360687d65e71fefcefda9327143f3b7d65fe64caa4930998b1f99407f4fb98"
+    },
+    {
+      "file": "creditincremental64-base-53.json",
+      "side": "baseline",
+      "sha256": "b790cd665cb60a14a54a310a791482ad54d1eed16b5a8b6824e1106e0df38030"
+    },
+    {
+      "file": "creditabsolute64-candidate-53.json",
+      "side": "candidate",
+      "sha256": "0cc59eeeb09c408ed45fc0b08eef6ad6abfde79078b4be1e795c5b4680d14b82"
+    },
+    {
+      "file": "creditincremental64-base-54.json",
+      "side": "baseline",
+      "sha256": "0acf3008cff7c7f0711e8dcf3cdfae5c51bb7ca170a002665c97a17eae4e9011"
+    },
+    {
+      "file": "creditabsolute64-candidate-54.json",
+      "side": "candidate",
+      "sha256": "f911250f6aa7c082e0dc3a6d2bc9b2f00277433f68242856a199bc90b1af58bc"
+    },
+    {
+      "file": "creditincremental64-base-55.json",
+      "side": "baseline",
+      "sha256": "eb512d9ada8b17317d03557f6be9ded3a44c7f9a10cb7015e986cb1ec8549777"
+    },
+    {
+      "file": "creditabsolute64-candidate-55.json",
+      "side": "candidate",
+      "sha256": "ca87b9ca2fd89e06d6f9e056827d405c1a5a21a3176a3b0e530e7fb447368dee"
+    },
+    {
+      "file": "creditincremental64-base-56.json",
+      "side": "baseline",
+      "sha256": "dd1a7955079bfc35c739da5282388c1bac384a69856a5373eea38d55e36f12d7"
+    },
+    {
+      "file": "creditabsolute64-candidate-56.json",
+      "side": "candidate",
+      "sha256": "c5d11d6d6b8e51d436c7d443dfffc80c1977de388f053af1a3126b50c996cbf0"
+    },
+    {
+      "file": "creditincremental64-base-57.json",
+      "side": "baseline",
+      "sha256": "5baaa125c54917c9290271b5dad439ac3b5d3e1ec2cb567e524c8ec00a1eb611"
+    },
+    {
+      "file": "creditabsolute64-candidate-57.json",
+      "side": "candidate",
+      "sha256": "19badd410372bba4af19593132f4ee4e2ae238c7c1d35e886e920ab113e9c812"
+    },
+    {
+      "file": "creditincremental64-base-58.json",
+      "side": "baseline",
+      "sha256": "48b32adcd518066a4d9f597bf08b93a2dfb861143fb1dd12d7e646cce2e92b01"
+    },
+    {
+      "file": "creditabsolute64-candidate-58.json",
+      "side": "candidate",
+      "sha256": "411f09cc1d0e5ed1ced6fcb59c61e176be37f06b5564d5565238f70faf826cd5"
+    },
+    {
+      "file": "creditincremental64-base-59.json",
+      "side": "baseline",
+      "sha256": "00b7f02847c3e8647ecff4634b6d2892f95d50e2ef1431e33e208fc401c28778"
+    },
+    {
+      "file": "creditabsolute64-candidate-59.json",
+      "side": "candidate",
+      "sha256": "7a6bc84ade5c241ec1fe3045e1c5d51f96b8fef03c24c3a50ecef68d6b24330d"
+    },
+    {
+      "file": "creditincremental64-base-60.json",
+      "side": "baseline",
+      "sha256": "8f4c37164763e4397018555544429914b8be1a432fbb1a519d9c5d1a8f8ceb2e"
+    },
+    {
+      "file": "creditabsolute64-candidate-60.json",
+      "side": "candidate",
+      "sha256": "37a59869d66454be564bd8bf38b149adba7025a8169167ea85373ec093e43050"
+    },
+    {
+      "file": "creditincremental64-base-61.json",
+      "side": "baseline",
+      "sha256": "44d20be68a6a6efc3b2a29f085cca71e7138d9980a46cc963166951d7c25b1f0"
+    },
+    {
+      "file": "creditabsolute64-candidate-61.json",
+      "side": "candidate",
+      "sha256": "ac6bc717c340ca33c36f63cf74b844b36a0abcbffed7705c8b0576aab7f3924d"
+    },
+    {
+      "file": "creditincremental64-base-62.json",
+      "side": "baseline",
+      "sha256": "b60d604abc3762dd7ba44d1b071e611192612c0a9fc6681ae02291f61d62ea33"
+    },
+    {
+      "file": "creditabsolute64-candidate-62.json",
+      "side": "candidate",
+      "sha256": "58ad99b26e2c68da86fee95eae44411fa8fa4b0a577eba574c56aba9188a5997"
+    },
+    {
+      "file": "creditincremental64-base-63.json",
+      "side": "baseline",
+      "sha256": "d05177c8da95d0245b9903e88f9d52d78a32fdb45e514ace578b75429efe3901"
+    },
+    {
+      "file": "creditabsolute64-candidate-63.json",
+      "side": "candidate",
+      "sha256": "65a9f9b5155f620217a990be303c4c8b3ef3ccfac6b0cd332364cea054b92a1b"
+    },
+    {
+      "file": "creditincremental64-base-64.json",
+      "side": "baseline",
+      "sha256": "454924ba206d192f21261fbbdde50cc1b061957bf355d987fe440c56d27af8a8"
+    },
+    {
+      "file": "creditabsolute64-candidate-64.json",
+      "side": "candidate",
+      "sha256": "338fbabe221fa81334af89f75e66ad76bd42ab51b4188f4850ffe1db3552ba52"
+    }
+  ],
+  "auditToolSha256": "c31f52ab710c1df4f0f1d3f0208d3971fe56bf35c36fd2de41d7c88fa7b54cf5",
+  "tests": "Repeated display turns, distinct transactions, exclude prepayment and embedded income, prior tech ownership, shared later analysis deduplication, missing and duplicate payments."
+}
