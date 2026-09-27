@@ -7,31 +7,31 @@
         "credits": 1,
         "energy": 0,
         "publicity": 0,
-        "availableData": 2,
+        "availableData": 0,
         "aomomoFossils": 0,
         "additionalPublicScan": 0,
         "handSize": 3,
-        "score": 6
+        "score": 7
       },
       "afterTrade": {
         "credits": 2,
         "energy": 0,
         "publicity": 0,
-        "availableData": 2,
+        "availableData": 0,
         "aomomoFossils": 0,
         "additionalPublicScan": 0,
         "handSize": 1,
-        "score": 6
+        "score": 7
       },
       "after": {
         "credits": 0,
         "energy": 0,
-        "publicity": 2,
-        "availableData": 2,
+        "publicity": 1,
+        "availableData": 0,
         "aomomoFossils": 0,
         "additionalPublicScan": 0,
         "handSize": 0,
-        "score": 8
+        "score": 7
       },
       "plan": {
         "id": "quickTrade",
@@ -41,15 +41,15 @@
         "label": "2张牌 → 1信用点",
         "preserveHandIndex": 0,
         "reason": "主行动前：交易信用点解锁高价值打牌",
-        "score": 8.602,
+        "score": 8.336,
         "valueBreakdown": {
           "mainUnlockTrade": true,
           "bestPlayCard": {
             "handIndex": 0,
             "cardId": "b_66.webp",
             "cardLabel": "光帆",
-            "score": 16.216,
-            "continuationValue": 16.216,
+            "score": 15.813,
+            "continuationValue": 15.813,
             "directScoreGain": 0,
             "finalDeltaValue": 0,
             "c2Type3ProgressValue": 0,
@@ -62,7 +62,7 @@
           "finalMarkCount": 0,
           "nextFinalMarkThreshold": 25,
           "thresholdBonus": 0,
-          "concreteFinalValue": 5.349,
+          "concreteFinalValue": 5,
           "measurableFinalValue": 0,
           "finalLowTailOneCreditUnlock": false,
           "huanyuWithoutCompletedTasks": true,
