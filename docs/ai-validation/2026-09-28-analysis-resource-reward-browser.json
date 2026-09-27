@@ -1,0 +1,244 @@
+{
+  "scope": "Controlled revealed Centauri analysis. Each arm explicitly starts legal analysis and autonomously chooses blue5, pays1 energy, gains5score and1alien card. Other setup state is not fully controlled across arms; do not interpret preview-score differences or final scores as a paired policy win. All effects beyond immediate resource bundle remain outside this new premium.",
+  "baseline": {
+    "preview": {
+      "available": true,
+      "reason": null,
+      "score": 39.076800000000006,
+      "rawScore": 34.89,
+      "weightedScore": 39.076800000000006,
+      "scoreCapReason": null,
+      "placedCount": 6,
+      "requiredSlot": 6,
+      "dataRoom": 6,
+      "availableData": 0,
+      "energyCost": 1,
+      "directScoreGain": 5,
+      "currentScore": 3,
+      "finalMarkCount": 0,
+      "nextFinalScoreThreshold": 25,
+      "scoreToNextThreshold": 22,
+      "blueTraceDemand": 0,
+      "analyzeBestBlueTraceScore": 5,
+      "thresholdCashoutPressure": 2.5,
+      "readyAnalyzeWindowValue": 13.46,
+      "lateFullDataAnalyzeRecovery": 0,
+      "lowResourceReadyAnalyzeCashout": 0,
+      "firstThresholdCatchupBonus": 0,
+      "fullComputerBonus": 8,
+      "lateRoundPressure": 0,
+      "highScorePushValue": 0,
+      "lowEngineCatchupValue": 0,
+      "postSecondFinalMarkPenalty": 0,
+      "hasBlueTraceFinalFormula": false
+    },
+    "before": {
+      "credits": 3,
+      "energy": 3,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 3
+    },
+    "after": {
+      "credits": 3,
+      "energy": 2,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 8
+    },
+    "choices": [
+      {
+        "logPlayerId": "player-blue",
+        "logPlayerColor": "blue",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 5,
+        "score": 61.983000000000004,
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      }
+    ],
+    "bugs": [],
+    "scope": "Real analysis and trace resolution in controlled revealed Centauri state; autonomous trace target, explicitly started analysis; no whole-game score inference."
+  },
+  "candidate": {
+    "preview": {
+      "available": true,
+      "reason": null,
+      "score": 45.98720000000001,
+      "rawScore": 41.06,
+      "weightedScore": 45.98720000000001,
+      "scoreCapReason": null,
+      "placedCount": 6,
+      "requiredSlot": 6,
+      "dataRoom": 6,
+      "availableData": 0,
+      "energyCost": 1,
+      "revealedResourcePremium": 6.489999999999998,
+      "revealedRewardProfile": {
+        "directScoreBaseline": 5,
+        "best": {
+          "alienSlotId": 1,
+          "mode": "banrenma-grid",
+          "position": 5,
+          "directScore": 5,
+          "resourceValue": 11.489999999999998,
+          "paymentValue": 0,
+          "threatPenalty": 0,
+          "netRewardValue": 11.489999999999998,
+          "reward": {
+            "payData": 0,
+            "gain": {
+              "score": 5
+            },
+            "pickAlienCard": true,
+            "alienTrace": false,
+            "label": null
+          }
+        },
+        "resourcePremium": 6.489999999999998,
+        "choices": [
+          {
+            "alienSlotId": 1,
+            "mode": "banrenma-grid",
+            "position": 3,
+            "directScore": 5,
+            "resourceValue": 5,
+            "paymentValue": 0,
+            "threatPenalty": 0,
+            "netRewardValue": 5,
+            "reward": {
+              "payData": 0,
+              "gain": {
+                "score": 5
+              },
+              "pickAlienCard": false,
+              "alienTrace": false,
+              "label": null
+            }
+          },
+          {
+            "alienSlotId": 1,
+            "mode": "banrenma-grid",
+            "position": 4,
+            "directScore": 3,
+            "resourceValue": 9.489999999999998,
+            "paymentValue": 0,
+            "threatPenalty": 0,
+            "netRewardValue": 9.489999999999998,
+            "reward": {
+              "payData": 0,
+              "gain": {
+                "score": 3
+              },
+              "pickAlienCard": true,
+              "alienTrace": false,
+              "label": null
+            }
+          },
+          {
+            "alienSlotId": 1,
+            "mode": "banrenma-grid",
+            "position": 5,
+            "directScore": 5,
+            "resourceValue": 11.489999999999998,
+            "paymentValue": 0,
+            "threatPenalty": 0,
+            "netRewardValue": 11.489999999999998,
+            "reward": {
+              "payData": 0,
+              "gain": {
+                "score": 5
+              },
+              "pickAlienCard": true,
+              "alienTrace": false,
+              "label": null
+            }
+          }
+        ]
+      },
+      "directScoreGain": 5,
+      "currentScore": 7,
+      "finalMarkCount": 0,
+      "nextFinalScoreThreshold": 25,
+      "scoreToNextThreshold": 18,
+      "blueTraceDemand": 0,
+      "analyzeBestBlueTraceScore": 5,
+      "thresholdCashoutPressure": 2.5,
+      "readyAnalyzeWindowValue": 13.14,
+      "lateFullDataAnalyzeRecovery": 0,
+      "lowResourceReadyAnalyzeCashout": 0,
+      "firstThresholdCatchupBonus": 0,
+      "fullComputerBonus": 8,
+      "lateRoundPressure": 0,
+      "highScorePushValue": 0,
+      "lowEngineCatchupValue": 0,
+      "postSecondFinalMarkPenalty": 0,
+      "hasBlueTraceFinalFormula": false
+    },
+    "before": {
+      "credits": 3,
+      "energy": 3,
+      "publicity": 5,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 7
+    },
+    "after": {
+      "credits": 3,
+      "energy": 2,
+      "publicity": 5,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 1,
+      "score": 12
+    },
+    "choices": [
+      {
+        "logPlayerId": "player-brown",
+        "logPlayerColor": "brown",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 5,
+        "score": 61.797,
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      }
+    ],
+    "bugs": [],
+    "scope": "Real analysis and trace resolution in controlled revealed Centauri state; autonomous trace target, explicitly started analysis; no whole-game score inference."
+  }
+}
