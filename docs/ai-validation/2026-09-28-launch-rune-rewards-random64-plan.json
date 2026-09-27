@@ -320,7 +320,9 @@
   },
   "runtimeDifferences": [
     "randomizer/app/ai-controller.js",
-    "randomizer/app/ai-controller.test.js",
+    "randomizer/app/ai-launch-cost.test.js",
+    "randomizer/game/aliens/runezu.js",
+    "randomizer/game/aliens/runezu.test.js",
     "randomizer/index.html"
   ],
   "harnessHashes": {
@@ -714,5 +716,14 @@
     }
   ],
   "scope": "New64 random pairs after frozen launch-cost plus Runezu-export candidate67d6 and common-runtime baselinef542. Full128 complete games and accounting/runtime/configuration/aid audits before assessment. Mean first; high-score distribution second; report all company and low-tail results, paired uncertainty and baseline-selected cohorts without automatic outcome-conditioned veto. No seed replacement, partial score decisions or adding historical gains.",
-  "developmentSource": "docs/ai-validation/2026-09-28-launch-rune-rewards-development-assessment.json"
+  "developmentSource": "docs/ai-validation/2026-09-28-launch-rune-rewards-development-assessment.json",
+  "differenceListCorrection": {
+    "at": "2026-09-27T17:42:05.726Z",
+    "previous": [
+      "randomizer/app/ai-controller.js",
+      "randomizer/app/ai-controller.test.js",
+      "randomizer/index.html"
+    ],
+    "scope": "Metadata-only difference list recomputed from unchanged frozen per-file hashes. No runtime, seeds, output or fingerprints changed."
+  }
 }

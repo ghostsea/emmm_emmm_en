@@ -320,7 +320,9 @@
   },
   "runtimeDifferences": [
     "randomizer/app/ai-controller.js",
-    "randomizer/app/ai-controller.test.js",
+    "randomizer/app/ai-launch-cost.test.js",
+    "randomizer/game/aliens/runezu.js",
+    "randomizer/game/aliens/runezu.test.js",
     "randomizer/index.html"
   ],
   "harnessHashes": {
@@ -473,5 +475,14 @@
       "candidate": "launchrune-candidate-24.json"
     }
   ],
-  "scope": "All24 existing development pairs against f542 default policy with common empty-income fix. Candidate combines actual company launch cost and existing Runezu trace reward export only. Reuse complete identical baseline outputs from aliencardvalue. Mean first and high-score distribution second; report companies/low tail/paired uncertainty and original high-low cohorts without automatic veto from outcome-conditioned high cohort. Full48 games and audits; historical individual gains are not added. A positive development result requires new frozen random validation before acceptance."
+  "scope": "All24 existing development pairs against f542 default policy with common empty-income fix. Candidate combines actual company launch cost and existing Runezu trace reward export only. Reuse complete identical baseline outputs from aliencardvalue. Mean first and high-score distribution second; report companies/low tail/paired uncertainty and original high-low cohorts without automatic veto from outcome-conditioned high cohort. Full48 games and audits; historical individual gains are not added. A positive development result requires new frozen random validation before acceptance.",
+  "differenceListCorrection": {
+    "at": "2026-09-27T17:42:05.720Z",
+    "previous": [
+      "randomizer/app/ai-controller.js",
+      "randomizer/app/ai-controller.test.js",
+      "randomizer/index.html"
+    ],
+    "scope": "Metadata-only difference list recomputed from unchanged frozen per-file hashes. No runtime, seeds, output or fingerprints changed."
+  }
 }
