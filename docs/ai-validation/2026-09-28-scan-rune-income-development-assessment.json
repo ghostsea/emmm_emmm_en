@@ -1,0 +1,54 @@
+{
+  "decision": "reject combination for current development; no fresh random run",
+  "phase": "seen-seed-development",
+  "pairs": 24,
+  "baseline": 227.55208333333334,
+  "candidate": 226.11458333333334,
+  "delta": {
+    "mean": -1.4375,
+    "min": 7,
+    "p10": 3,
+    "p25": -2.75,
+    "median": -11,
+    "p75": -4,
+    "max": 30,
+    "topQuartileMean": 6.25,
+    "winnerMean": 5.625,
+    "minimumPerGameMean": 5.333333333333314,
+    "seats270Plus": -2,
+    "seats300Plus": 3
+  },
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 255.83333333333334,
+      "candidate": 254.91666666666666,
+      "meanDelta": -0.9166666666666856,
+      "minimumDelta": -22
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.70833333333334,
+      "candidate": 194.875,
+      "meanDelta": 6.166666666666657,
+      "minimumDelta": 7
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.83333333333334,
+      "candidate": 199.75,
+      "meanDelta": -10.083333333333343,
+      "minimumDelta": 3
+    }
+  },
+  "se": 3.694003721760011,
+  "bugs": 0,
+  "auditSeats": 192,
+  "playPayments": 1155,
+  "accepted": false,
+  "limitations": [
+    "Negative complete same-seed interaction with individually positive components.",
+    "Development seeds seen; reject as a development choice, not proof of globally negative effect.",
+    "Do not sum individual gains."
+  ]
+}

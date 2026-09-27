@@ -1,0 +1,54 @@
+{
+  "decision": "hold; small original-baseline gain, no paired current-Rune increment tested; prioritize stronger candidates",
+  "phase": "fresh-random-policy-validation",
+  "pairs": 64,
+  "baseline": 224.45703125,
+  "candidate": 226.54296875,
+  "delta": {
+    "mean": 2.0859375,
+    "min": -15,
+    "p10": 4.5,
+    "p25": 7.75,
+    "median": 6,
+    "p75": 1.75,
+    "max": 31,
+    "topQuartileMean": -0.328125,
+    "winnerMean": 1.515625,
+    "minimumPerGameMean": 4.296875,
+    "seats270Plus": 4,
+    "seats300Plus": -4
+  },
+  "companies": {
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 255.6875,
+      "candidate": 258.4453125,
+      "meanDelta": 2.7578125,
+      "minimumDelta": 25
+    },
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 193.140625,
+      "candidate": 194.71875,
+      "meanDelta": 1.578125,
+      "minimumDelta": -15
+    },
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 193.3125,
+      "candidate": 194.5625,
+      "meanDelta": 1.25,
+      "minimumDelta": 6
+    }
+  },
+  "se": 2.019722469820229,
+  "bugs": 0,
+  "auditSeats": 512,
+  "playPayments": 3008,
+  "accepted": false,
+  "limitations": [
+    "Reference is original f542, not accepted Runezu52af. Do not compare effect estimates across independent random seed sets as paired increments.",
+    "Original high/low selected cohorts reported as diagnostics; no automatic high-cohort veto.",
+    "Ten-point goal remains unmet."
+  ]
+}
