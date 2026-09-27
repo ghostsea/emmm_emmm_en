@@ -1,0 +1,54 @@
+{
+  "decision": "Keep frozen, test interaction with scan coverage before selecting a fresh random candidate. Not accepted yet.",
+  "phase": "seen-seed-development",
+  "pairs": 24,
+  "mean": 4.041666666666657,
+  "se": 2.928482793773928,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 255.83333333333334,
+      "candidate": 263.7083333333333,
+      "meanDelta": 7.874999999999972,
+      "minimumDelta": -29
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.70833333333334,
+      "candidate": 198.08333333333334,
+      "meanDelta": 9.375,
+      "minimumDelta": 6
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.83333333333334,
+      "candidate": 200.875,
+      "meanDelta": -8.958333333333343,
+      "minimumDelta": -13
+    }
+  },
+  "distribution": {
+    "mean": 4.041666666666657,
+    "min": -3,
+    "p10": 3,
+    "p25": -0.5,
+    "median": -2,
+    "p75": 6,
+    "max": 17,
+    "topQuartileMean": 15.916666666666686,
+    "winnerMean": 15.625,
+    "minimumPerGameMean": 2.75,
+    "seats270Plus": 5,
+    "seats300Plus": 7
+  },
+  "absolute": {
+    "mean": 6.53125,
+    "se": 2.8360352832285765
+  },
+  "risks": [
+    "Grand Strategy mean -8.958333 despite overall positive mean.",
+    "Shared income function affects card choice and effects, not only explicit income decisions.",
+    "Seen seeds, no independent holdout yet."
+  ],
+  "accepted": false
+}
