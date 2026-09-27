@@ -14176,7 +14176,7 @@ for (const aiDifficulty of ["laughable", "weak_start"]) {
     .find((candidate) => candidate.id === "quickTrade" && candidate.tradeId === "cards-for-energy");
   assert.ok(tradeCandidate, "Grand Strategy ready-analyze trade should be enumerated");
   assert.equal(tradeCandidate.reason, "资源锁：弃牌换能量解锁分析");
-  assert.equal(tradeCandidate.valueBreakdown?.grandStrategyRoundOneAnalyzeUnlock, true);
+  assert.equal(tradeCandidate.valueBreakdown?.readyAnalyzeTradeUnlock, true);
   assert.equal(tradeCandidate.valueBreakdown?.unlockedMainAction?.actionId, "analyze");
   assert.ok(
     Number(tradeCandidate.valueBreakdown?.unlockedMainAction?.score || 0) >= 28,
@@ -17170,4 +17170,45 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
     'optional elevator launch must not block research with one or zero free rocket slots');
   assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
     'research candidate enumeration must not consume optional triggers');
+}
+
+// Ready analysis is a real board/payment condition, not a company/score window.
+for (const scenario of [
+  { company: "寰宇超动力", round: 1, score: 17, ready: true },
+  { company: "作弊实验室", round: 1, score: 17, ready: true },
+  { company: "宇宙大战略集团", round: 2, score: 17, ready: true },
+  { company: "寰宇超动力", round: 1, score: 17, ready: false },
+]) {
+  const choices = [];
+  const tokens = Array.from({ length: scenario.ready ? 6 : 5 }, (_, i) => ({ placementSlot: i + 1 }));
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: "blue", roundNumber: scenario.round,
+    canStartMainAction: true, realisticCanAfford: true, recordQuickTrade: true,
+    quickTrades: { "cards-for-energy": {
+      id: "cards-for-energy", cost: { handSize: 2 }, gain: { energy: 1 },
+    } },
+    blueInitialSelection: { industry: { id: "industry:" + scenario.company, label: scenario.company } },
+    blueResources: { score: scenario.score, credits: 1, energy: 0, publicity: 0, availableData: 6, handSize: 2 },
+    blueHand: [
+      { id: "ready-analysis-filler-a", cardName: "Ready analysis filler A", price: 2 },
+      { id: "ready-analysis-filler-b", cardName: "Ready analysis filler B", price: 2 },
+    ],
+    data: {
+      ANALYZE_REQUIRED_COMPUTER_SLOT: 6, ANALYZE_ENERGY_COST: 1,
+      canAnalyzeData: p => ({ ok: scenario.ready && Number(p.resources.energy || 0) >= 1 }),
+      listComputerPlacedTokens: () => tokens,
+    },
+    onChooseTurnAction: candidates => choices.push(...candidates),
+    chooseTurnAction: candidates => candidates.filter(x => x.available !== false).sort((a,b) => Number(b.score || 0)-Number(a.score || 0))[0] || null,
+  });
+  harness.controller.configureAiAutoBattle({ playerIds: [harness.blue.id], suppressAutoSchedule: true });
+  harness.controller.runAiAutomationStep();
+  const candidate = choices.find(x => x.valueBreakdown?.readyAnalyzeTradeUnlock);
+  assert.equal(Boolean(candidate), scenario.ready, JSON.stringify(scenario));
+  if (candidate) {
+    assert.equal(candidate.valueBreakdown.unlockedMainAction.actionId, "analyze");
+    assert.ok(candidate.valueBreakdown.unlockedMainAction.score >= 28);
+    assert.ok(candidate.valueBreakdown.discardCost <= 6);
+    assert.deepEqual(harness.getHandled(), { type: "quick-trade", tradeId: "cards-for-energy" });
+  }
 }

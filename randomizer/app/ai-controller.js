@@ -7438,25 +7438,17 @@
       const allowExtendedResourceLock = player.aiDifficulty !== AI_DIFFICULTY_WEAK_START;
       const playCardCandidate = (candidates || []).find((candidate) => candidate?.id === "playCard");
       const industryCard = getAiIndustryCard(player);
-      const grandStrategyRoundOneAnalyzeWindow = Boolean(
+      // A full computer can be cashed out after one energy trade regardless of
+      // company, round, publicity or the player's accumulated score.
+      const readyAnalyzeTradeWindow = Boolean(
         allowExtendedResourceLock
         && tradeId === "cards-for-energy"
-        && getAiRoundNumber() === 1
-        && (
-          industryCard?.id === AI_GRAND_STRATEGY_INDUSTRY_ID
-          || industryCard?.label === AI_GRAND_STRATEGY_INDUSTRY_LABEL
-        )
-        && normalizeAiDifficulty(player.aiDifficulty || aiAutoBattleState.aiDifficulty) === AI_DIFFICULTY_LAUGHABLE
-        && currentScore >= 15
-        && currentScore <= 24
-        && aiNumber(resources.credits) === 1
-        && aiNumber(resources.energy) === 0
-        && aiNumber(resources.publicity) >= 5
-        && aiNumber(resources.availableData) >= 1
         && handSize === 2
+        && hasAiAnalyzeReadyDataSlot(player)
+        && !canAiAnalyzeData(player).ok
       );
-      if (getAiRoundNumber() < 2 && !grandStrategyRoundOneAnalyzeWindow) return null;
-      if (currentScore < 35 && !grandStrategyRoundOneAnalyzeWindow) return null;
+      const needsReadyAnalyzeUnlock = getAiRoundNumber() < 2 || currentScore < 35;
+      if (needsReadyAnalyzeUnlock && !readyAnalyzeTradeWindow) return null;
       const terminalDeadPlayProfile = getAiTerminalDeadPlayProfile(playCardCandidate, player);
       const grandFinalDeadPlayScanWindow = Boolean(
         allowExtendedResourceLock
@@ -7923,16 +7915,16 @@
       }
       const bestAction = postTradeMainActions[0] || null;
       if (!bestAction) return null;
-      if (
-        grandStrategyRoundOneAnalyzeWindow
-        && (
-          bestAction.actionId !== "analyze"
-          || aiNumber(bestAction.score) < 28
-          || handAfterTrade !== 0
-        )
-      ) {
-        return null;
-      }
+      const discardCost = bestAction.actionId === "playCard" && Number.isFinite(bestAction.discardCost)
+        ? bestAction.discardCost
+        : estimateAiTradeDiscardOpportunityCost(player, trade);
+      if (!Number.isFinite(discardCost)) return null;
+      const readyAnalyzeTradeUnlock = readyAnalyzeTradeWindow
+        && bestAction.actionId === "analyze"
+        && aiNumber(bestAction.score) >= 28
+        && handAfterTrade === 0
+        && discardCost <= 6;
+      if (needsReadyAnalyzeUnlock && !readyAnalyzeTradeUnlock) return null;
       const weakStartFinalDeadHandAnalyzeUnlock = !allowExtendedResourceLock
         && tradeId === "cards-for-energy"
         && bestAction.actionId === "analyze"
@@ -7989,16 +7981,11 @@
         && aiNumber(bestAction.score) < 35
         && !launchUnlockSafe
         && !weakStartFinalAnalyzeRecoveryUnlock
-        && !grandStrategyRoundOneAnalyzeWindow
+        && !readyAnalyzeTradeUnlock
         && !grandStrategyRoundThreeDeadHandScanUnlock
         && !cheatLabFinalBlindLandUnlock
       ) return null;
 
-      const discardCost = bestAction.actionId === "playCard" && Number.isFinite(bestAction.discardCost)
-        ? bestAction.discardCost
-        : estimateAiTradeDiscardOpportunityCost(player, trade);
-      if (!Number.isFinite(discardCost)) return null;
-      if (grandStrategyRoundOneAnalyzeWindow && discardCost > 6) return null;
       if (grandStrategyRoundThreeDeadHandScanUnlock && discardCost > 6) return null;
       if (
         resourceLockLandUnlock
@@ -8125,7 +8112,7 @@
           terminalBestNonDeadPlayScore: roundAiScore(terminalDeadPlayProfile.bestNonDeadScore),
           weakStartFinalDeadHandAnalyzeUnlock,
           weakStartFinalStrandedAnalyzeUnlock,
-          grandStrategyRoundOneAnalyzeUnlock: grandStrategyRoundOneAnalyzeWindow,
+          readyAnalyzeTradeUnlock,
           grandFinalFangzhouCometPlayUnlock,
           weakStartAlienPlayUnlock: weakStartAlienPlayUnlockSafe,
           weakStartAlienPlayConcreteValue: roundAiScore(weakStartAlienPlayConcreteValue),

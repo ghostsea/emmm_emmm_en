@@ -1,0 +1,53 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "stage": "preview",
+      "plan": null,
+      "before": {
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 17
+      },
+      "hand": [
+        {
+          "id": "card-69-0",
+          "cardId": "b_4.webp",
+          "set": "basic",
+          "cardName": "大型离子对撞机实验",
+          "src": "../assets/cards/basic/split/b_4.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 2,
+          "discardActionCode": 2,
+          "scanActionCode": 2,
+          "incomeCode": 0
+        },
+        {
+          "id": "card-70-0",
+          "cardId": "b_8.webp",
+          "set": "basic",
+          "cardName": "阿波罗1号任务",
+          "src": "../assets/cards/basic/split/b_8.webp",
+          "faceUp": true,
+          "price": 3,
+          "cardTypeCode": 2,
+          "discardActionCode": 1,
+          "scanActionCode": 2,
+          "incomeCode": 1
+        }
+      ],
+      "analysis": {
+        "available": false,
+        "reason": "能量不足，分析需要 1 能量",
+        "score": 0,
+        "energyCost": 1
+      }
+    }
+  }
+}
