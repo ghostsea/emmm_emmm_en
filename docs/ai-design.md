@@ -1518,3 +1518,5 @@ $tests = rg --files randomizer | Where-Object { $_ -match '\.test\.js$' } | Sort
 2026-09-28 普通補牌估值候选df602044：draw_cards原固定每张4.3、pick_card固定3，与前两轮手牌阶段价值5.4不一致；实际精选可盲抽。现只使这两种普通效果用现有阶段手牌资源值：前两轮5.4、后两轮4.3，盲抽保留实际数量，精选按一张。未增加公共牌品质或连锁奖励，不修改外星奖励bundle和动态科技计数抽牌。53测试、分别回退draw与pick的负对照通过；实际b83支付2信用抽3，b122支付1信用通过精选盲抽1，无bug。相对52af符文基线冻结固定24组，另同种子f542直接目标对照；未进入默认，局部一致性不代表提分。见[计划](ai-validation/2026-09-28-card-draw-resource-development-plan.json)、[实际付款与补牌](ai-validation/2026-09-28-card-draw-resource-browser.json)。
 
 2026-09-28 当前默认行动内资源归因：完整64局逐席主行动数闭合；寰宇标准扫描均值2.984次、8.219数据、每次2.754，对比新真人7次、21数据、每次3；打牌9.656次/行动内5.172数据/1.234补牌，对比真人18/14/5。只统计main步骤，排除quick放置和交易，不把事务里的附带外星人/任务奖励单独归因于牌面。差距主要提示后期补给和行动数量，不能据此给扫描加固定分。见[实际资源归因](ai-validation/2026-09-28-current-main-resource-attribution.md)。
+
+2026-09-28 公司费用67d6补齐既有随机64组的52af默认对照：两份模型源码在原种子生成前已冻结，本次观察过原始基线结果后才声明补充对照，不称为新抽取留出集。候选64局直接复用，新增52af同种子64局；所有结果及执行/账本/补助核对完整后判断。排在普通补牌固定24队列正常结束后启动。见[补充计划](ai-validation/2026-09-28-launch-rune-default-comparison-plan.json)。同时修正现有计划复制开发文本遗留的scope展示字段，原内容保留developmentScope，模型/种子/时间/验收规则逐字核对未变；见[核对记录](ai-validation/2026-09-28-validation-plan-scope-correction.json)。

@@ -714,7 +714,9 @@
       "candidate": "scanruneabsolute64-candidate-64.json"
     }
   ],
-  "scope": "All24 seen pairs fully rerun48 games. Baseline52af is accepted Runezu API policy with common empty-income fix and old resource parser; candidate adds only scan effect coverage. Primary comparison is incremental to current accepted policy. Secondary full24 comparison to original f542 safety baseline using complete aliencardvalue-base files measures absolute goal gain without adding estimates. Mean first, high distribution second, report company/low tails and uncertainty. Fresh random validation after positive development.",
+  "scope": "Complete new64 seed triples: original f542 safety policy, accepted Runezu52af policy, and Runezu plus scan-card coverage28f. This suite is incremental comparison to current Runezu default. All192 unique games finish before acceptance. Frozen source and independent crypto seeds; evaluate full mean first, high-score distribution second, disclose company/low-tail/paired uncertainty. Income experiments and repeated-scan penalty candidate excluded. No summed historical estimates.",
   "developmentSource": "scanrunecoverage",
-  "companionSuite": "scanruneabsolute64-suite.json"
+  "companionSuite": "scanruneabsolute64-suite.json",
+  "developmentScope": "All24 seen pairs fully rerun48 games. Baseline52af is accepted Runezu API policy with common empty-income fix and old resource parser; candidate adds only scan effect coverage. Primary comparison is incremental to current accepted policy. Secondary full24 comparison to original f542 safety baseline using complete aliencardvalue-base files measures absolute goal gain without adding estimates. Mean first, high distribution second, report company/low tails and uncertainty. Fresh random validation after positive development.",
+  "metadataCorrection": "Display-only scope updated from inherited development description. Frozen models, seeds, harness hashes, timestamps and acceptance rule unchanged."
 }

@@ -1,0 +1,30 @@
+{
+  "scope": "Fix inherited display-only development scope in current plans; compare exact frozen core before and after. No source, seed, rule, result or queue changes.",
+  "evidence": [
+    {
+      "suite": "scanruneabsolute64",
+      "coreSha256": "5a534dfb070a8a62dc9fe2f870acf4a7f0e44c6276c7a7e6d1abfe001bc6062d",
+      "coreUnchanged": true
+    },
+    {
+      "suite": "scanruneincremental64",
+      "coreSha256": "34a05a4d8d1f6ff89c6b69ca0ccfb565c60ab0aafad5a37a40f9a32bd2684455",
+      "coreUnchanged": true
+    },
+    {
+      "suite": "incomeabsolute64",
+      "coreSha256": "20b5a7045544c06bf80d33ee84e5908160329855da424b0a661c1a186c80ce36",
+      "coreUnchanged": true
+    },
+    {
+      "suite": "incomeincremental64",
+      "coreSha256": "dc038733a478ead6ee21ea7560f97288085ef946e0b9e8df340c7eab0984688b",
+      "coreUnchanged": true
+    },
+    {
+      "suite": "carddrawresource",
+      "coreSha256": "57dd2d95f322cdc42624bb0f2929be0dec7ad9c52dbcdacd8c283ad8f0160786",
+      "coreUnchanged": true
+    }
+  ]
+}
