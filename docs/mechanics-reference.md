@@ -560,3 +560,5 @@ python tools/build_card_catalog_js.py
 ```powershell
 python tools/analyze_alien_cards.py
 ```
+
+- 空手初始收入及卡牌收入正常跳过并返回成功，继续后续效果；不预支后续抽牌，也不凭空增加收入。用于修复随机验证第12组的共同停机错误。
