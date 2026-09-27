@@ -1,0 +1,67 @@
+{
+  "decision": "proceed-fresh-random64",
+  "candidate": "67d6fbda86bb889336c8bccb79ff0208bd9d7ce8",
+  "baseline": "f542161719d499f43a2e566a0cda070dae6c0ab0",
+  "meanDelta": 5.40625,
+  "pairedGameStandardError": 4.334878465294825,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 266.25,
+      "meanDelta": 14.666666666666657,
+      "minimumDelta": -16
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 186.16666666666666,
+      "meanDelta": -1.875,
+      "minimumDelta": 12
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 203.20833333333334,
+      "meanDelta": -5.833333333333314,
+      "minimumDelta": -14
+    }
+  },
+  "distribution": {
+    "mean": 5.40625,
+    "min": -4,
+    "p10": 0,
+    "p25": -5.25,
+    "median": -7,
+    "p75": 12.25,
+    "max": 38,
+    "topQuartileMean": 29.916666666666686,
+    "winnerMean": 19.83333333333337,
+    "minimumPerGameMean": 0.5416666666666856,
+    "seats270Plus": 12,
+    "seats300Plus": 11
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 267.4166666666667,
+    "meanDelta": -8.583333333333334,
+    "improved": 12,
+    "declined": 12,
+    "unchanged": 0
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 181.04166666666666,
+    "meanDelta": 14.666666666666666,
+    "improved": 16,
+    "declined": 8,
+    "unchanged": 0
+  },
+  "completeGames": 48,
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "candidateCardPayments": 1133,
+  "scope": "Full24 development pairs positive mean but company imbalance and uncertainty; fresh64 required, no default adoption or +10 claim. Original high seat cohorts reported but not automatic veto."
+}

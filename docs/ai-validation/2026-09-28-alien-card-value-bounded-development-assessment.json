@@ -1,0 +1,67 @@
+{
+  "decision": "hold-small-development-gain",
+  "candidate": "04eac244a317a4eadad9ea5ae3ea16129d9e3466",
+  "baseline": "f542161719d499f43a2e566a0cda070dae6c0ab0",
+  "meanDelta": 0.2708333333333428,
+  "pairedGameStandardError": 1.4256098258653611,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 251.58333333333334,
+      "candidate": 251.85416666666666,
+      "meanDelta": 0.2708333333333144,
+      "minimumDelta": -3
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 188.04166666666666,
+      "candidate": 187.41666666666666,
+      "meanDelta": -0.625,
+      "minimumDelta": 11
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 209.04166666666666,
+      "candidate": 210.20833333333334,
+      "meanDelta": 1.1666666666666856,
+      "minimumDelta": -3
+    }
+  },
+  "distribution": {
+    "mean": 0.2708333333333428,
+    "min": 7,
+    "p10": 0,
+    "p25": -0.25,
+    "median": -4,
+    "p75": -3,
+    "max": 10,
+    "topQuartileMean": 3.4583333333333144,
+    "winnerMean": 4.958333333333371,
+    "minimumPerGameMean": 2.833333333333343,
+    "seats270Plus": 2,
+    "seats300Plus": 0
+  },
+  "baselineHigh": {
+    "seats": 24,
+    "baselineMean": 276,
+    "candidateMean": 269.4166666666667,
+    "meanDelta": -6.583333333333333,
+    "improved": 6,
+    "declined": 10,
+    "unchanged": 8
+  },
+  "baselineLow": {
+    "seats": 24,
+    "baselineMean": 166.375,
+    "candidateMean": 171.54166666666666,
+    "meanDelta": 5.166666666666667,
+    "improved": 8,
+    "declined": 7,
+    "unchanged": 9
+  },
+  "completeGames": 48,
+  "bugCount": 0,
+  "ledgerSeats": 192,
+  "candidateCardPayments": 1143,
+  "scope": "Full24 development pairs after bounded recursion fix. Small mean gain with H decline and reduced main actions/analysis; hold standalone and prioritize larger candidates, not proof of harm. Original failed54cc partial games excluded."
+}
