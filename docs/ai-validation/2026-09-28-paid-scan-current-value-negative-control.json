@@ -1,0 +1,17 @@
+{
+  "scope": "Same tests against two frozen prior controller sources, each must fail a numeric behavior assertion, not a missing API.",
+  "rows": [
+    {
+      "commit": "b71505f8",
+      "message": "same current state must not receive an accumulated repeat cost",
+      "actual": -19.16,
+      "expected": 1.8399999999999999
+    },
+    {
+      "commit": "9c2122b2",
+      "message": "discounted scan retains repeated-action guardrail",
+      "actual": 11.84,
+      "expected": -18.16
+    }
+  ]
+}

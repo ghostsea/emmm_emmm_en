@@ -9896,13 +9896,14 @@
       if (actionId === "scan") {
         const directScoreGain = Math.max(0, aiNumber(rawCandidate.directScoreGain));
         const placedCount = Math.max(0, (data.listComputerPlacedTokens?.(player) || []).length);
+        const paidScanValueModel = aiNumber(scanEffects.getStandardScanCost?.(player)?.credits) > 0;
         const scanCountThisRound = countAiStandardScansThisRound(player);
         const canOpenAnalyze = placedCount >= (data.ANALYZE_REQUIRED_COMPUTER_SLOT || 6) - 1
           || rawCandidate.valueBreakdown?.scanProjectedAnalyzeUnlock === true;
         if (directScoreGain <= 0 && !canOpenAnalyze) {
           goalBonusScale = Math.min(goalBonusScale, round <= 2 ? 0.38 : 0.22);
-          urgencyPenalty += Math.min(16, goalBonus * (round <= 2 ? 0.34 : 0.52) + scanCountThisRound * 3.5);
-        } else if (scanCountThisRound >= 1 && directScoreGain < 3) {
+          urgencyPenalty += Math.min(16, goalBonus * (round <= 2 ? 0.34 : 0.52) + (paidScanValueModel ? 0 : scanCountThisRound * 3.5));
+        } else if (!paidScanValueModel && scanCountThisRound >= 1 && directScoreGain < 3) {
           goalBonusScale = Math.min(goalBonusScale, 0.5);
           urgencyPenalty += Math.min(10, goalBonus * 0.25 + scanCountThisRound * 2.5);
         }
@@ -18541,7 +18542,7 @@
       return penalty;
     }
 
-    function scoreAiScanAction(player = getCurrentPlayer()) {
+    function scoreAiScanAction(player = getCurrentPlayer(), options = {}) {
       const effects = scanEffects.buildScanEffectQueue(player, {
         fullScanAction: true,
         turnState,
@@ -18568,9 +18569,9 @@
           const bestHandScan = getAiBestHandScanIndex(player);
           if (bestHandScan) value += bestHandScan.score;
         } else if (effect.type === scanEffects.EFFECT_TYPES.SCAN_ACTION_4) {
-          value += Math.max(0, scoreAiLaunchAction(player) * 0.45);
-          const bestMove = listAiMoveCandidates()[0];
-          if (bestMove) value += Math.max(0, aiNumber(bestMove.score) * 0.35);
+          const preview = getAiScanAction4RewardPreview(player, { effect });
+          value += preview.score;
+          if (options.breakdown) options.breakdown.scanAction4Preview = preview;
         }
       }
       const earlyEngineValue = scoreAiEarlyScanEngineValue(player);
@@ -18606,7 +18607,9 @@
             + (b2SectorScanRecoveryValue > 0 ? 3 : 0),
         )
         : 0;
-      const repeatedScanPenalty = Math.max(0, scanCountThisRound) * (getAiRoundNumber() <= 2 ? 7 : 10);
+      const paidScanValueModel = aiNumber(scanEffects.getStandardScanCost(player)?.credits) > 0;
+      const repeatedScanPenalty = paidScanValueModel ? 0
+        : Math.max(0, scanCountThisRound) * (getAiRoundNumber() <= 2 ? 7 : 10);
       const earlySetupScanBonus = (
         getAiRoundNumber() <= 2
         && scanCountThisRound <= 0
@@ -21495,10 +21498,41 @@
       return executeIndustryFreeMove(selected.deltaX, selected.deltaY, selected.rocketId);
     }
 
-    function listAiScanAction4Candidates(currentPlayer = getCurrentPlayer()) {
+    let aiScanAction4PreviewDepth = 0;
+
+    function getAiScanAction4RewardPreview(player = getCurrentPlayer(), options = {}) {
+      if (!player || aiScanAction4PreviewDepth > 0) return { score: 0, choices: [], nested: true };
+      const cost = options.scanCost || scanEffects.getStandardScanCost(player);
+      const afterScan = createAiPlayerAfterResourceGain(player, Object.fromEntries(
+        Object.entries(cost).map(([key, value]) => [key, -Math.max(0, aiNumber(value))]),
+      ));
+      if (!afterScan || Object.keys(cost).some(key => aiNumber(afterScan.resources?.[key]) < 0)) {
+        return { score: 0, choices: [], unavailable: true };
+      }
+      aiScanAction4PreviewDepth += 1;
+      try {
+        const effect = options.effect || { type: scanEffects.EFFECT_TYPES.SCAN_ACTION_4, options: {} };
+        const choices = listAiScanAction4Candidates(afterScan, { effect }).map(candidate => ({
+          choice: candidate.choice,
+          score: Math.max(0, aiNumber(candidate.score)) * (candidate.choice === "launch" ? 0.45 : 0.35),
+          unscaledScore: aiNumber(candidate.score),
+          rocketId: candidate.rocketId ?? null,
+        }));
+        // One purple-4 node grants one choice. Preserve the existing branch weights.
+        return {
+          score: choices.reduce((best, choice) => Math.max(best, choice.score), 0),
+          choices,
+          resourcesAfterScanPayment: { ...afterScan.resources },
+        };
+      } finally {
+        aiScanAction4PreviewDepth -= 1;
+      }
+    }
+
+    function listAiScanAction4Candidates(currentPlayer = getCurrentPlayer(), options = {}) {
       if (!currentPlayer) return [];
       const candidates = [];
-      const effect = getCurrentActionEffect?.() || null;
+      const effect = options.effect || getCurrentActionEffect?.() || null;
       const skipCost = Boolean(effect?.options?.skipCost);
       const rocketLimit = abilities.rocket.getRocketLimitForPlayer(currentPlayer, createActionContext());
       const activeRocketCount = rocketActions.getRocketsForPlayer
@@ -21528,6 +21562,8 @@
 
       candidates.push(...listAiEffectMoveCandidates({
         id: "move",
+        player: currentPlayer,
+        effect,
         free: true,
         poolRemaining: 1,
       }).map((candidate) => ({
@@ -23349,7 +23385,10 @@
         orbitCandidate.available ? Number(orbitCandidate.score || 0) : 0,
         landCandidate.available ? Number(landCandidate.score || 0) : 0,
       );
-      let scanScore = scanCheck.ok ? scoreAiScanAction(currentPlayer) : 0;
+      const paidScanValueModel = aiNumber(scanEffects.getStandardScanCost(currentPlayer)?.credits) > 0;
+      const scanActionBreakdown = {};
+      let scanScore = scanCheck.ok ? scoreAiScanAction(currentPlayer, { breakdown: scanActionBreakdown }) : 0;
+      const scanBaseScore = scanScore;
       const scanDirectScoreGain = scanCheck.ok ? getAiScanDirectScoreGain(currentPlayer) : 0;
       const scanPriorityFloor = scanCheck.ok ? scoreAiScanPriorityFloor(currentPlayer) : 0;
       const scanCurrentScore = Math.max(0, aiNumber(currentPlayer?.resources?.score));
@@ -23361,36 +23400,37 @@
         && scanCurrentScore < scanNextThreshold
         && scanScoreToThreshold <= 3
         && scanCurrentScore + scanDirectScoreGain < scanNextThreshold;
-      const protectB2SectorScanFromPlanetCap = scanCheck.ok
-        && shouldAiProtectB2SectorScanFromPlanetCap(currentPlayer);
+      const protectB2SectorScanFromPlanetCap = paidScanValueModel || (scanCheck.ok
+        && shouldAiProtectB2SectorScanFromPlanetCap(currentPlayer));
       if (immediatePlanetActionScore >= 12 && !protectB2SectorScanFromPlanetCap) {
         scanScore = Math.max(
           scanPriorityFloor,
           Math.min(scanScore, Math.max(0, immediatePlanetActionScore - 7)),
         );
       }
-      if (getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12) {
+      if (!paidScanValueModel && getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12) {
         scanScore = Math.max(
           scanPriorityFloor,
           Math.min(scanScore, Math.max(0, Number(launchCandidate.score || 0) - 8)),
         );
       }
       if (
-        getAiRoundNumber() >= 3
+        !paidScanValueModel
+        && getAiRoundNumber() >= 3
         && Math.max(0, aiNumber(currentPlayer?.resources?.score)) < 25
         && launchCandidate.available
         && Number(launchCandidate.score || 0) >= 10
       ) {
         scanScore = Math.min(scanScore, Math.max(0, Number(launchCandidate.score || 0) - 2));
       }
-      const bestEarlyMoveScore = getAiRoundNumber() <= 2 ? bestMoveScore : 0;
+      const bestEarlyMoveScore = !paidScanValueModel && getAiRoundNumber() <= 2 ? bestMoveScore : 0;
       if (bestEarlyMoveScore >= 10) {
         scanScore = Math.max(
           scanPriorityFloor,
           Math.min(scanScore, Math.max(0, bestEarlyMoveScore - 3)),
         );
       }
-      const routeCashoutMoveScore = getAiRoundNumber() >= 3
+      const routeCashoutMoveScore = !paidScanValueModel && getAiRoundNumber() >= 3
         && Math.max(0, aiNumber(currentPlayer?.resources?.energy)) <= 3
         && bestMoveScore >= 16
         && scanScore <= bestMoveScore + 3
@@ -23457,9 +23497,10 @@
         ? "终局临门扫描直接分不足"
         : scanCheck.ok && immediatePlanetActionScore >= 12 && !protectB2SectorScanFromPlanetCap
         ? "优先兑现当前位置的环绕/登陆"
-          : scanCheck.ok && getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12
+          : scanCheck.ok && !paidScanValueModel && getAiRoundNumber() <= 2 && launchCandidate.available && Number(launchCandidate.score || 0) >= 12
             ? "优先建立火箭数量"
             : scanCheck.ok
+              && !paidScanValueModel
               && getAiRoundNumber() >= 3
               && Math.max(0, aiNumber(currentPlayer?.resources?.score)) < 25
               && launchCandidate.available
@@ -23487,8 +23528,11 @@
         targetPreview: scanCheck.ok ? buildAiScanActionTargetPreview(currentPlayer) : null,
         valueBreakdown: {
           directScoreGain: scanDirectScoreGain,
+          scanBaseScore,
+          scanValueModel: paidScanValueModel ? "paid-current-value" : "discounted-scan-guardrails",
           scanEnergyReservationPenalty,
           rawScanEnergyReservationPenalty,
+          scanAction4Preview: scanActionBreakdown.scanAction4Preview || null,
           scanDataPlacementOpportunities: scanProjectedAnalyzeUnlock ? 2 : 0,
           scanProjectedAnalyzeUnlock,
           analyzeCashoutScore,
