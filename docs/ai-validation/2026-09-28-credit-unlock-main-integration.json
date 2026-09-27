@@ -1,0 +1,38 @@
+{
+  "scope": "Main integration only:54 test files plus actual R1 b66 preserve/discard/pay2 browser scenario; first full fresh64 case rerun. This one case is not another whole64 statistical validation. Main preserves shared newer income-type/reporting fixes.",
+  "frozenModel": "8f6ca0095995f65303aa19208fbf85df5ebd4c67",
+  "sourceComparison": "controller differs only in the already-adopted card_income and industry_fundamentalism_income income type coverage",
+  "tests": 54,
+  "scores": [
+    298,
+    225,
+    204,
+    242
+  ],
+  "steps": 1598,
+  "bugs": 0,
+  "spendableResourceBucketsEqual": true,
+  "scoreFlowDifference": "Expected newer reward text records previously omitted alien score. Score-flow magnitudes are not actual terminal scores.",
+  "manifest": [
+    {
+      "file": "tmp/ai-20260905/creditabsolute64-candidate-1.json",
+      "sha256": "c3f1bb3033e1a1cdb697250001e6da07b560c891355c5b0e93c0dcd45dd0065b"
+    },
+    {
+      "file": "tmp/ai-20260905/credit-main-random64-case1.json",
+      "sha256": "ee44c24da0075f16189d4ea09f61b4fd2764d59dcb44d0945f19ffb128f322f1"
+    },
+    {
+      "file": "randomizer/app/ai-controller.js",
+      "sha256": "f50d664da717252b6bfea79dec877d7719b7cb72e19b4d89580495d5ae2c3d45"
+    },
+    {
+      "file": "randomizer/app/ai-controller.test.js",
+      "sha256": "8463878c3ca719f833d236049d600264c0f2f63d56680ba183e089f253a68eca"
+    },
+    {
+      "file": "randomizer/index.html",
+      "sha256": "73a443ef2f6b5fd434616c89d8efd39817a1e423c1b47ab9d7d04d6d888311e2"
+    }
+  ]
+}

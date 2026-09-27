@@ -1,0 +1,80 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Controlled round1 actual b66: one credit and three cards, discard two different actual cards for credit while preserving planned instance, pay two credits and resolve four movement. No score inference.",
+      "before": {
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 3,
+        "score": 6
+      },
+      "afterTrade": {
+        "credits": 2,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 1,
+        "score": 6
+      },
+      "after": {
+        "credits": 0,
+        "energy": 0,
+        "publicity": 4,
+        "availableData": 2,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 8
+      },
+      "plan": {
+        "id": "quickTrade",
+        "kind": "quick",
+        "available": true,
+        "tradeId": "cards-for-credit",
+        "label": "2张牌 → 1信用点",
+        "preserveHandIndex": 0,
+        "reason": "主行动前：交易信用点解锁高价值打牌",
+        "score": 8.659,
+        "valueBreakdown": {
+          "mainUnlockTrade": true,
+          "bestPlayCard": {
+            "handIndex": 0,
+            "cardId": "b_66.webp",
+            "cardLabel": "光帆",
+            "score": 16.301,
+            "continuationValue": 16.301,
+            "directScoreGain": 0,
+            "finalDeltaValue": 0,
+            "c2Type3ProgressValue": 0,
+            "cFinalTaskProgressValue": 0,
+            "endGameExpectedScore": 0
+          },
+          "currentBestPlayScore": 0,
+          "newlyUnlocked": true,
+          "discardCost": 6,
+          "finalMarkCount": 0,
+          "nextFinalMarkThreshold": 25,
+          "thresholdBonus": 0,
+          "concreteFinalValue": 5.423,
+          "measurableFinalValue": 0,
+          "finalLowTailOneCreditUnlock": false,
+          "huanyuWithoutCompletedTasks": true,
+          "finalHighScoreOneCreditUnlock": false,
+          "highScoreProjectedScore": 0,
+          "grandFangzhouRoundTwoOverflowUnlock": false,
+          "passOverflowDiscardCount": 0,
+          "passOverflowDiscardIndexes": [],
+          "avoidedPassOverflowDiscardValue": 0
+        }
+      },
+      "bugs": []
+    }
+  }
+}

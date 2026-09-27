@@ -956,6 +956,7 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
   }
   if (options.recordQuickTrade) {
     context.runQuickTrade = (tradeId, tradeOptions = {}) => {
+      options.onQuickTrade?.(tradeId, tradeOptions);
       const event = {
         type: "quick-trade",
         tradeId,
@@ -17187,4 +17188,32 @@ for (const type of ['income', 'card_income', 'industry_fundamentalism_income']) 
   const events=h.controller.getAiAutoBattleReport({includeAnalysis:false,includeDiagnostics:false}).logs;
   const discard=events.find(e=>e.type==='discard');
   assert(discard?.details?.incomeDiscardPreview, type + ' must include income preview for audit');
+}
+
+// Credit unlocks depend on the actual payment gap, including the first round.
+for (const roundNumber of [1, 2]) {
+  for (const [credits, price, expected] of [[0,1,true],[1,2,true],[2,3,true],[1,1,false],[1,3,false],[2,2,false]]) {
+    const choices=[], executions=[];
+    const h=createAiControllerHarness(null,{
+      currentPlayerColor:'blue', roundNumber, canStartMainAction:true,
+      realisticCanAfford:true, recordQuickTrade:true,
+      blueResources:{score:12,credits,energy:0,publicity:0,availableData:0,handSize:3},
+      blueHand:[
+        {id:'gap-card',cardName:'Payment gap card',price,typeCode:1,playEffects:[{type:'gain_resources',options:{gain:{score:20}}}]},
+        {id:'filler-a',cardName:'Filler A',price:8},
+        {id:'filler-b',cardName:'Filler B',price:8},
+      ],
+      quickTrades:{'cards-for-credit':{id:'cards-for-credit',cost:{handSize:2},gain:{credits:1}}},
+      onChooseTurnAction:cs=>choices.push(...cs),
+      chooseTurnAction:cs=>cs.find(c=>c.valueBreakdown?.mainUnlockTrade)||null,
+      onQuickTrade:(id,opts)=>executions.push({id,...opts}),
+    });
+    h.controller.configureAiAutoBattle({playerIds:[h.blue.id],suppressAutoSchedule:true});
+    h.controller.runAiAutomationStep();
+    const trade=choices.find(c=>c.valueBreakdown?.mainUnlockTrade);
+    if (!expected) { assert.equal(trade,undefined,'trade must newly make the target playable, not merely alter its score'); continue; }
+    assert.ok(trade,'actual payment gap should be considered regardless of round/current credits');
+    assert.equal(trade.preserveHandIndex,0);
+    assert.equal(executions[0]?.preserveHandIndex,0,'execution must preserve the card used by the unlock valuation');
+  }
 }

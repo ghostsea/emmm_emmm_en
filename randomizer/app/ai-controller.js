@@ -7197,16 +7197,6 @@
         && currentBestScore < 8
         && Math.max(0, Math.round(aiNumber(player.completedTaskCount))) === 0
       );
-      if (
-        currentCredits > 0
-        && !(
-          finalLowTailOneCreditUnlock
-          || finalHighScoreOneCreditUnlock
-          || grandFangzhouRoundTwoOverflowWindow
-        )
-      ) {
-        return null;
-      }
       const simulatedPlayer = createAiPlayerAfterQuickTrade(player, trade);
       if (!simulatedPlayer) return null;
       const postTradeCandidates = hand
@@ -7236,10 +7226,8 @@
         .sort((left, right) => aiNumber(right.continuationValue) - aiNumber(left.continuationValue));
       const bestPlay = postTradeCandidates[0] || null;
       if (!bestPlay) return null;
-      const currentSameCardScore = aiNumber(currentPlayableByIndex.get(bestPlay.handIndex)?.score);
-      const newlyUnlocked = !currentPlayableByIndex.has(bestPlay.handIndex)
-        || aiNumber(bestPlay.score) > currentSameCardScore + 1;
-      if (!newlyUnlocked && currentBestScore >= aiNumber(bestPlay.score) - 0.5) return null;
+      const newlyUnlocked = !currentPlayableByIndex.has(bestPlay.handIndex);
+      if (!newlyUnlocked) return null;
       const breakdown = bestPlay.valueBreakdown || {};
       const directScoreGain = Math.max(0, aiNumber(bestPlay.directScoreGain));
       const c2Type3ProgressValue = Math.max(0, aiNumber(breakdown.c2Type3ProgressValue));
@@ -7292,13 +7280,6 @@
         && passOverflowDiscardIndexes.some((handIndex) => Number(handIndex) === Number(bestPlay.handIndex))
         && discardCost <= 6
       );
-      if (
-        grandFangzhouRoundTwoOverflowWindow
-        && !grandFangzhouRoundTwoOverflowUnlock
-        && !(finalLowTailOneCreditUnlock || finalHighScoreOneCreditUnlock)
-      ) {
-        return null;
-      }
       const avoidedPassOverflowDiscardValue = grandFangzhouRoundTwoOverflowUnlock
         ? Math.min(7, Math.max(0, aiNumber(bestPlay.score)) * 0.75)
         : 0;
@@ -7318,6 +7299,7 @@
         available: true,
         tradeId: trade.id,
         label: trade.label || trade.id,
+        preserveHandIndex: bestPlay.handIndex,
         reason: "主行动前：交易信用点解锁高价值打牌",
         score: roundAiScore(Math.min(42, score)),
         valueBreakdown: {
@@ -7359,7 +7341,6 @@
         !player
         || !quickTrades?.getTradeAction
         || typeof runQuickTrade !== "function"
-        || getAiRoundNumber() < 2
         || state.pendingActionExecuted
         || !canStartMainAction()
         || (turnState.passedPlayerIds || []).includes(player.id)

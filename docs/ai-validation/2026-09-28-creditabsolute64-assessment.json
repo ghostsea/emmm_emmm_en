@@ -1,0 +1,181 @@
+{
+  "decision": "adopt-small-positive-increment-after-main-integration",
+  "comparison": "creditabsolute64",
+  "models": {
+    "baseline": "f542161719d499f43a2e566a0cda070dae6c0ab0",
+    "candidate": "8f6ca0095995f65303aa19208fbf85df5ebd4c67"
+  },
+  "pairs": 64,
+  "baseline": {
+    "games": 64,
+    "seats": 256,
+    "mean": 230.09375,
+    "min": 151,
+    "p10": 177.5,
+    "p25": 193,
+    "median": 224,
+    "p75": 260.25,
+    "max": 393,
+    "topQuartileMean": 292.546875,
+    "winnerMean": 283.984375,
+    "minimumPerGameMean": 185.359375,
+    "seats270Plus": 51,
+    "seats300Plus": 19,
+    "companies": {
+      "宇宙大战略集团": {
+        "seats": 64,
+        "mean": 206.359375,
+        "min": 154
+      },
+      "作弊实验室": {
+        "seats": 128,
+        "mean": 257.875,
+        "min": 176
+      },
+      "寰宇超动力": {
+        "seats": 64,
+        "mean": 198.265625,
+        "min": 151
+      }
+    }
+  },
+  "candidate": {
+    "games": 64,
+    "seats": 256,
+    "mean": 234.5078125,
+    "min": 112,
+    "p10": 174.5,
+    "p25": 201.5,
+    "median": 232,
+    "p75": 264,
+    "max": 352,
+    "topQuartileMean": 297.828125,
+    "winnerMean": 290.578125,
+    "minimumPerGameMean": 183.234375,
+    "seats270Plus": 56,
+    "seats300Plus": 24,
+    "companies": {
+      "宇宙大战略集团": {
+        "seats": 64,
+        "mean": 209.453125,
+        "min": 112
+      },
+      "作弊实验室": {
+        "seats": 128,
+        "mean": 264.2578125,
+        "min": 175
+      },
+      "寰宇超动力": {
+        "seats": 64,
+        "mean": 200.0625,
+        "min": 144
+      }
+    }
+  },
+  "meanDelta": 4.4140625,
+  "pairedGameStandardError": 1.9394848604068864,
+  "companies": {
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 206.359375,
+      "candidate": 209.453125,
+      "meanDelta": 3.09375,
+      "minimumDelta": -42
+    },
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 257.875,
+      "candidate": 264.2578125,
+      "meanDelta": 6.3828125,
+      "minimumDelta": -1
+    },
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 198.265625,
+      "candidate": 200.0625,
+      "meanDelta": 1.796875,
+      "minimumDelta": -7
+    }
+  },
+  "distribution": {
+    "mean": 4.4140625,
+    "min": -39,
+    "p10": -3,
+    "p25": 8.5,
+    "median": 8,
+    "p75": 3.75,
+    "max": -41,
+    "topQuartileMean": 5.28125,
+    "winnerMean": 6.59375,
+    "minimumPerGameMean": -2.125,
+    "seats270Plus": 5,
+    "seats300Plus": 5
+  },
+  "runtime": {
+    "pairs": 64,
+    "plays": 3074,
+    "matched": 3074,
+    "intendedCardMatched": 3074,
+    "paid": 3074,
+    "issues": []
+  },
+  "followup": {
+    "baseline": {
+      "trades": 48,
+      "cardTrades": 45,
+      "roundOne": 0,
+      "alreadyHadCredit": 8,
+      "targetDiscarded": 0,
+      "unverifiedDiscard": 0,
+      "plannedModelPlayedSameTurn": 44,
+      "anySameTurnPaidPlay": 45,
+      "companies": {
+        "作弊实验室": {
+          "trades": 15,
+          "plannedModelPlayedSameTurn": 15
+        },
+        "寰宇超动力": {
+          "trades": 16,
+          "plannedModelPlayedSameTurn": 14
+        },
+        "宇宙大战略集团": {
+          "trades": 17,
+          "plannedModelPlayedSameTurn": 15
+        }
+      }
+    },
+    "candidate": {
+      "trades": 115,
+      "cardTrades": 107,
+      "roundOne": 6,
+      "alreadyHadCredit": 67,
+      "targetDiscarded": 0,
+      "unverifiedDiscard": 0,
+      "plannedModelPlayedSameTurn": 107,
+      "anySameTurnPaidPlay": 110,
+      "companies": {
+        "宇宙大战略集团": {
+          "trades": 38,
+          "plannedModelPlayedSameTurn": 33
+        },
+        "作弊实验室": {
+          "trades": 51,
+          "plannedModelPlayedSameTurn": 49
+        },
+        "寰宇超动力": {
+          "trades": 26,
+          "plannedModelPlayedSameTurn": 25
+        }
+      }
+    }
+  },
+  "limitations": [
+    "Full fresh64 three-policy suite:192 unique games, same64 candidate games shared across both comparisons. Do not count as two independent replications or add historical deltas.",
+    "Increment over current default .80859375 with SE .94958713 is small and uncertain, not statistically established large gain. Both lower-scoring companies and top-quartile point estimates positive; adopt according to mean-first priority and actual affordability correction.",
+    "Incremental 300-plus seats29 to24, min114 to112; original-reference maximum393 to352 and min151 to112 despite top-quartile+5.28125. Extreme scores are not guaranteed protected.",
+    "Absolute +4.4140625 is below +10; goal incomplete.",
+    "53 to115 credit-unlock trades versus current default;51 to107 planned model plays in same raw turn. Model ID does not prove original identity with duplicate models; actual chosen instance payment independently verified. No target discarded among audited trade indices.",
+    "Huanyu main actions28.75 to28.78125 and analysis2.78125 to2.75 versus current default; not a large resource-to-action closure gain.",
+    "Frozen strategy is8f6ca009. Main integration retains newer shared income-type and reporting fixes; separate integration check reports its scope."
+  ]
+}
