@@ -10823,9 +10823,10 @@
             alienSlotId: effectOptions.alienSlotId,
           });
         case "draw_cards":
-          return Math.max(0, Math.round(aiNumber(effectOptions.count || 1))) * AI_RESOURCE_VALUES.handSize;
+          return scoreAiResourceBundle({ handSize: Math.max(0, Math.round(aiNumber(effectOptions.count || 1))) });
         case "pick_card":
-          return 3;
+          // Selection permits a blind draw, using the same phase hand value.
+          return scoreAiResourceBundle({ handSize: 1 });
         case "launch":
           return 6;
         case "research_tech_select":
@@ -10883,6 +10884,8 @@
           );
           return handScans * 2.5;
         }
+        case cardEffects.EFFECT_TYPES.SCAN_NEBULA:
+        case cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN:
         case cardEffects.EFFECT_TYPES.SECTOR_X_SCAN:
         case cardEffects.EFFECT_TYPES.PLANET_SECTOR_SCAN:
         case cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE:
@@ -26704,6 +26707,7 @@
     }
 
     return {
+      scoreAiEffectValue,
       getAiIntendedPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,

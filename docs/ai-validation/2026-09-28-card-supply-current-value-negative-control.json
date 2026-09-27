@@ -1,0 +1,23 @@
+{
+  "scope": "Revert one component at a time through an isolated module loader, production files unchanged; unchanged full controller tests must fail a numeric behavioral assertion, not an absent API.",
+  "rows": [
+    {
+      "negative": "draw",
+      "message": "draw uses the configured phase hand value\n\n4.3 !== 5.4\n",
+      "actual": 4.3,
+      "expected": 5.4
+    },
+    {
+      "negative": "pick",
+      "message": "blind-draw fallback gives selection the same base hand value\n\n3 !== 5.4\n",
+      "actual": 3,
+      "expected": 5.4
+    },
+    {
+      "negative": "scan",
+      "message": "the actual two-scan card model must price two data-producing scans, not one unknown-card fallback\n\n2 !== 9\n",
+      "actual": 2,
+      "expected": 9
+    }
+  ]
+}

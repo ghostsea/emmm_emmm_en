@@ -442,6 +442,8 @@ function createAiControllerHarness(pendingPlayerColor, options = {}) {
         CARD_LAND: "card_land",
         LANDING_SECTOR_SCAN: "card_landing_sector_scan",
         FREE_MOVE: "free_move",
+        SCAN_NEBULA: cardEffects.EFFECT_TYPES.SCAN_NEBULA,
+        ANY_SECTOR_SCAN: cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN,
         SCAN_COLOR_CHOICE: "card_scan_color_choice",
         RESEARCH_TECH: "card_research_tech",
         PAY_CREDITS_FOR_REWARD: "card_pay_credits_for_reward",
@@ -17216,4 +17218,34 @@ for (const roundNumber of [1, 2]) {
     assert.equal(trade.preserveHandIndex,0);
     assert.equal(executions[0]?.preserveHandIndex,0,'execution must preserve the card used by the unlock valuation');
   }
+}
+
+
+// Selecting a card allows a blind draw, and uses the same phase value per card.
+for (const round of [1, 2, 3, 4]) {
+  const h = createAiControllerHarness(null, { currentPlayerColor: 'blue', roundNumber: round, blueHand: [], blueResources: { credits: 1, energy: 1, handSize: 0 } });
+  const before = JSON.stringify(h.blue);
+  const one = h.controller.scoreAiEffectValue({ type: 'draw_cards', options: { count: 1 } }, { player: h.blue });
+  const two = h.controller.scoreAiEffectValue({ type: 'draw_cards', options: { count: 2 } }, { player: h.blue });
+  const pick = h.controller.scoreAiEffectValue({ type: 'pick_card', options: { count: 1 } }, { player: h.blue });
+  assert.equal(one, round <= 2 ? 5.4 : 4.3, 'draw uses the configured phase hand value');
+  assert.equal(two, one * 2, 'actual draw count is retained');
+  assert.equal(pick, one, 'blind-draw fallback gives selection the same base hand value');
+  assert.equal(JSON.stringify(h.blue), before, 'valuation does not draw or mutate player state');
+}
+
+
+{
+  const h = createAiControllerHarness(null, { currentPlayerColor: "blue", techCounts: { orange: 0, purple: 0, blue: 0 } });
+  const before = JSON.stringify(h.blue);
+  const twoScans = cardEffects.getCardModel({ cardId: "b_100.webp" }).playEffects[0];
+  assert.equal(twoScans.options.repeat, 2);
+  assert.equal(h.controller.scoreAiEffectValue(twoScans, { player: h.blue, immediate: true }), 9,
+    "the actual two-scan card model must price two data-producing scans, not one unknown-card fallback");
+  for (const type of [cardEffects.EFFECT_TYPES.SCAN_NEBULA, cardEffects.EFFECT_TYPES.ANY_SECTOR_SCAN, cardEffects.EFFECT_TYPES.SCAN_COLOR_CHOICE]) {
+    assert.equal(h.controller.scoreAiEffectValue({ type, options: { gainData: true } }), 4.5);
+    assert.equal(h.controller.scoreAiEffectValue({ type, options: { gainData: false } }), 3);
+    assert.equal(h.controller.scoreAiEffectValue({ type, options: { gainData: false, repeat: 2 } }), 6);
+  }
+  assert.equal(JSON.stringify(h.blue), before, "effect valuation must not grant data or execute scans");
 }
