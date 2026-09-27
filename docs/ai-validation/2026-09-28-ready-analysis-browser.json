@@ -1,0 +1,105 @@
+{
+  "result": {
+    "type": "object",
+    "value": {
+      "scope": "Controlled Huanyu round1 score17, full real computer, two real cards -> one energy -> real analysis payment, board clear and blue trace resolution. No efficacy claim.",
+      "before": {
+        "credits": 1,
+        "energy": 0,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 2,
+        "score": 17
+      },
+      "afterTrade": {
+        "credits": 1,
+        "energy": 1,
+        "publicity": 0,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 17
+      },
+      "after": {
+        "credits": 1,
+        "energy": 0,
+        "publicity": 1,
+        "availableData": 0,
+        "aomomoFossils": 0,
+        "additionalPublicScan": 0,
+        "handSize": 0,
+        "score": 20
+      },
+      "plan": {
+        "id": "quickTrade",
+        "kind": "quick",
+        "available": true,
+        "tradeId": "cards-for-energy",
+        "label": "2张牌 → 1能量",
+        "preserveHandIndex": null,
+        "reason": "资源锁：弃牌换能量解锁分析",
+        "score": 18.573,
+        "valueBreakdown": {
+          "resourceLockMainUnlockTrade": true,
+          "unlockedMainAction": {
+            "actionId": "analyze",
+            "score": 34.833,
+            "currentScore": 0,
+            "directScoreGain": 0,
+            "concreteValue": 34.833,
+            "cardId": null,
+            "cardLabel": null,
+            "handIndex": null,
+            "planetId": null,
+            "planetName": null
+          },
+          "currentScore": 17,
+          "handSize": 2,
+          "handAfterTrade": 0,
+          "discardCost": 6,
+          "nextFinalMarkThreshold": 25,
+          "thresholdBonus": 0,
+          "analyzeBonus": 2.5,
+          "scanBonus": 0,
+          "playBonus": 0,
+          "launchBonus": 0,
+          "earlyLowScoreScanUnlock": false,
+          "directScoreScanUnlock": false,
+          "grandStrategyRoundThreeDeadHandScanUnlock": false,
+          "grandStrategyRoundThreeAlienScanSetupUnlock": false,
+          "grandStrategyRoundThreeAmibaAnalyzeCycleUnlock": false,
+          "projectedAlienScanDataCount": 0,
+          "grandFangzhouRoundTwoLandUnlock": false,
+          "cheatLabRunezuRoundTwoMarsLandUnlock": false,
+          "huanyuAomomoRoundTwoFirstLandUnlock": false,
+          "cheatLabFinalBlindLandUnlock": false,
+          "cheatLabFinalBlindLandBridge": {
+            "active": false,
+            "beforeBlindDraw": false,
+            "afterBlindDraw": false,
+            "cardsForEnergyHandCost": 2,
+            "cardsForEnergyGain": 1,
+            "projectedScore": 0,
+            "planetCashoutScore": 0,
+            "planetCashoutPlan": null
+          },
+          "grandFinalDeadPlayScanUnlock": false,
+          "terminalDeadPlayCardId": null,
+          "terminalDeadPlayScore": 0,
+          "terminalBestNonDeadPlayScore": 0,
+          "weakStartFinalDeadHandAnalyzeUnlock": false,
+          "weakStartFinalStrandedAnalyzeUnlock": false,
+          "readyAnalyzeTradeUnlock": true,
+          "grandFinalFangzhouCometPlayUnlock": false,
+          "weakStartAlienPlayUnlock": false,
+          "weakStartAlienPlayConcreteValue": 0,
+          "bestExistingScore": null
+        }
+      },
+      "bugs": []
+    }
+  }
+}
