@@ -30,6 +30,7 @@
 - `randomizer/app/events.js`：只做事件到 app 回调的路由。新增按钮、overlay、拖拽入口时优先改这里；不要在这里实现规则结算。
 - `randomizer/app/action-log-export.js`：只做纯 Markdown 格式化和文件名生成，不读 DOM、不读取隐藏牌序，也不触发浏览器下载。
 - 行动日志草稿由原始回合及主行动发起者持有。外星揭示奖励等流程临时切换结算玩家时，追加步骤不得重建同回合草稿；每个步骤独立保存 `playerId/playerLabel`，资源解析先用明确文本归属，再回退步骤玩家及条目玩家。新回合或显式新行动仍按正常入口创建草稿。
+- 外星人奖励和奖励队列文案使用 `formatPlanetRewardGain`，包含分数等收益字段；`players.formatResourceCost` 仅格式化费用，不能用于得分奖励，否则纯得分可能显示为“无奖励”。此文案修复不改变实际奖励结算；旧日志缺失的分数不能靠文字推定为零。
 - `randomizer/app/public-api.js`：只组装 `window.SetiRandomizer` 暴露面。新增调试 API 时优先改这里，保持 API 与运行态编排分离。
 - `randomizer/app/ai-controller.js`：AI 层。内部维护 AI 批跑状态、策略权重和需求缓存；需要读取 app pending 状态时通过 `state` getter/setter，不要在模块内复制 pending 值。
 - `randomizer/app.js`：编排层。可以组合规则模块、维护运行时 pending 状态和刷新 UI，但不应再新增大段静态配置、散落的 DOM 查询清单、事件绑定清单、公开 API 清单或 AI 策略逻辑。

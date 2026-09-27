@@ -18869,7 +18869,7 @@
     if (reward?.gain && Object.keys(reward.gain).length) {
       players.gainResources(currentPlayer, reward.gain);
       addScoreSourceFromGain(currentPlayer, SCORE_SOURCE_KEYS.ALIEN_EFFECT, reward.gain);
-      messageParts.push(`${cards.getCardLabel(card)} 左上角：${players.formatResourceCost(reward.gain)}`);
+      messageParts.push(`${cards.getCardLabel(card)} 左上角：${formatPlanetRewardGain(reward.gain)}`);
     }
     if (reward?.dataCount) {
       for (let index = 0; index < reward.dataCount; index += 1) {
@@ -22670,7 +22670,7 @@
     if (!queueApi) return [];
     return queueApi.buildCard1EffectQueue(effect, labelPrefix, {
       getTraceTypeLabel: aliens.getTraceTypeLabel,
-      formatGain: (gain) => players.formatResourceCost(gain),
+      formatGain: formatPlanetRewardGain,
     });
   }
 
@@ -22783,7 +22783,7 @@
     const messages = [];
     if (Object.keys(reward.gain || {}).length) {
       players.gainResources(player, reward.gain);
-      messages.push(players.formatResourceCost(reward.gain));
+      messages.push(formatPlanetRewardGain(reward.gain));
     }
     const basicCount = Math.max(0, Math.round(Number(reward.basicRewardCount) || 0));
     let irreversible = null;
@@ -23077,7 +23077,7 @@
     const messages = [];
     if (Object.keys(reward.gain || {}).length) {
       players.gainResources(player, reward.gain);
-      messages.push(players.formatResourceCost(reward.gain));
+      messages.push(formatPlanetRewardGain(reward.gain));
     }
     const dataCount = Math.max(0, Math.round(Number(reward.dataCount) || 0));
     if (dataCount > 0) {
@@ -23112,7 +23112,7 @@
     const messages = [];
     if (Object.keys(reward.gain || {}).length) {
       players.gainResources(player, reward.gain);
-      messages.push(players.formatResourceCost(reward.gain));
+      messages.push(formatPlanetRewardGain(reward.gain));
     }
     const dataCount = Math.max(0, Math.round(Number(reward.dataCount) || 0));
     if (dataCount > 0) {
@@ -23172,7 +23172,7 @@
     }
     if (Object.keys(reward.gain || {}).length) {
       players.gainResources(player, reward.gain);
-      messages.push(players.formatResourceCost(reward.gain));
+      messages.push(formatPlanetRewardGain(reward.gain));
     }
     if (reward.pickAlienCard) messages.push("外星人牌");
     if (reward.alienTrace) messages.push("任意外星人痕迹");
@@ -23196,7 +23196,7 @@
     }
     if (Object.keys(reward.gain || {}).length) {
       players.gainResources(player, reward.gain);
-      messages.push(players.formatResourceCost(reward.gain));
+      messages.push(formatPlanetRewardGain(reward.gain));
     }
     const dataCount = Math.max(0, Math.round(Number(reward.dataCount) || 0));
     if (dataCount > 0) {

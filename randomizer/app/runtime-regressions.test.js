@@ -40,6 +40,25 @@ function loadNamedFunction(functionName, dependencies = {}) {
 }
 
 {
+  const formatPlanetRewardGain = loadNamedFunction("formatPlanetRewardGain", {
+    INCOME_GAIN_LABELS: { energy: "能量" },
+  });
+  for (const name of ["applyJiuzheRewardToPlayer", "applyYichangdianRewardToPlayer",
+    "applyFangzhouTraceRewardToPlayer", "applyBanrenmaRewardToPlayer", "applyAomomoRewardToPlayer"]) {
+    const applyReward = loadNamedFunction(name, { players: playerModule, formatPlanetRewardGain });
+    for (const gain of [{ score: 3 }, { score: 3, energy: 1 }]) {
+      const player = { resources: { score: 10, energy: 0 } };
+      const result = applyReward(player, { gain }, "痕迹奖励");
+      assert.equal(result.ok, true);
+      assert.equal(player.resources.score, 13);
+      assert.match(result.message, /分数\+3/, `${name} must report the awarded points`);
+      assert.doesNotMatch(result.message, /无奖励/);
+      if (gain.energy) assert.match(result.message, /能量\+1/);
+    }
+  }
+}
+
+{
   const taskOwner = { id: "player-green", color: "green" };
   const turnPlayer = { id: "player-brown", color: "brown" };
   const flow = {

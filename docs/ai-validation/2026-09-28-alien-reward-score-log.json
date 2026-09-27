@@ -1,0 +1,224 @@
+{
+  "scope": "Reward text repair only. Existing actual score was correct. API spy replay used the exact game and independent alien seeds and reproduced the old analysis-resource candidate scores and1482 steps; diagnostic direct-stepping replay without the full seeded lifecycle was excluded. Main logging fix reproduces default four scores and1429 steps. Controlled browser history commits a blue2 reward with points now printed. Does not rewrite historical raw logs or claim score improvement.",
+  "seed": "codex-ai-slot-first-random-20260906:fd855f4b4347aa95155d45cc",
+  "alienSeed": "codex-ai-slot-first-aliens-20260906:71144da33b6304636710eae2",
+  "oldCandidate": {
+    "players": [
+      {
+        "player": "player-blue",
+        "score": 270
+      },
+      {
+        "player": "player-green",
+        "score": 142
+      },
+      {
+        "player": "player-brown",
+        "score": 243
+      },
+      {
+        "player": "player-white",
+        "score": 217
+      }
+    ],
+    "steps": 1482,
+    "pureScoreSpies": [
+      {
+        "label": "异常点蓝色痕迹 2号位",
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 3
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "player": "player-blue",
+        "score": 66
+      },
+      {
+        "label": "异常点蓝色痕迹 1号位",
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 2
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "player": "player-green",
+        "score": 58
+      },
+      {
+        "label": "异常点蓝色痕迹 1号位",
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 2
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "player": "player-white",
+        "score": 63
+      },
+      {
+        "label": "异常点蓝色痕迹 1号位",
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 2
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "player": "player-brown",
+        "score": 84
+      },
+      {
+        "label": "异常点蓝色痕迹 1号位",
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 2
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "player": "player-white",
+        "score": 111
+      },
+      {
+        "label": "异常点蓝色痕迹 1号位",
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 2
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "player": "player-brown",
+        "score": 123
+      },
+      {
+        "label": "异常点蓝色痕迹 1号位",
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 2
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "player": "player-blue",
+        "score": 145
+      },
+      {
+        "label": "异常点蓝色痕迹 1号位",
+        "reward": {
+          "traceType": null,
+          "gain": {
+            "score": 2
+          },
+          "dataCount": 0,
+          "pickAlienCard": false,
+          "pickCard": false
+        },
+        "player": "player-white",
+        "score": 121
+      }
+    ]
+  },
+  "mainRegression": {
+    "players": [
+      {
+        "player": "player-blue",
+        "score": 258
+      },
+      {
+        "player": "player-green",
+        "score": 145
+      },
+      {
+        "player": "player-brown",
+        "score": 227
+      },
+      {
+        "player": "player-white",
+        "score": 224
+      }
+    ],
+    "steps": 1429,
+    "baselineMatches": true
+  },
+  "controlled": {
+    "before": {
+      "credits": 3,
+      "energy": 3,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 3
+    },
+    "after": {
+      "credits": 3,
+      "energy": 2,
+      "publicity": 3,
+      "availableData": 0,
+      "aomomoFossils": 0,
+      "additionalPublicScan": 0,
+      "handSize": 0,
+      "score": 6
+    },
+    "choices": [
+      {
+        "logPlayerId": "player-green",
+        "logPlayerColor": "green",
+        "kind": "grid-slot",
+        "mode": "trace-board",
+        "alienSlot": "1",
+        "pickerStep": null,
+        "traceType": "blue",
+        "position": 2,
+        "score": 35.550000000000004,
+        "b1TraceValue": {
+          "score": 0,
+          "counts": null,
+          "currentBase": 0,
+          "nextBase": 0,
+          "multiplier": 0,
+          "directMarginal": 0,
+          "potentialValue": 0,
+          "surplusPenalty": 0
+        },
+        "label": ""
+      }
+    ],
+    "historyTexts": [
+      "分析：获得 1 个蓝色外星人痕迹：异常点蓝色痕迹 2号位：分数+3"
+    ]
+  },
+  "tests": {
+    "testFiles": 53,
+    "rewardApplicationCases": 10
+  },
+  "siblingCoverage": [
+    "Jiuzhe",
+    "Yichangdian",
+    "Fangzhou",
+    "Banrenma",
+    "Aomomo",
+    "card corner gain",
+    "Fangzhou card1 queue"
+  ]
+}
