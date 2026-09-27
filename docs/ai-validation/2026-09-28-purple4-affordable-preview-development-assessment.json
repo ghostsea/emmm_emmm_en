@@ -1,0 +1,167 @@
+{
+  "decision": "reject-independent-purple4-preview-no-fresh-random",
+  "models": {
+    "base": "863a01035dcb6f664fc9403a75126f30e5f42392",
+    "candidate": "b71505f81a72ba2ec1b744be7cc65e36b08d90d8"
+  },
+  "pairs": 24,
+  "baseline": {
+    "games": 24,
+    "seats": 96,
+    "mean": 236.44791666666666,
+    "min": 130,
+    "p10": 169.5,
+    "p25": 197.5,
+    "median": 228.5,
+    "p75": 280,
+    "max": 385,
+    "topQuartileMean": 308.875,
+    "winnerMean": 295.9166666666667,
+    "minimumPerGameMean": 177.58333333333334,
+    "seats270Plus": 28,
+    "seats300Plus": 14,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 272.0625,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 196.83333333333334,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.83333333333334,
+        "min": 130
+      }
+    }
+  },
+  "candidate": {
+    "games": 24,
+    "seats": 96,
+    "mean": 234.44791666666666,
+    "min": 116,
+    "p10": 169,
+    "p25": 198,
+    "median": 231.5,
+    "p75": 273.75,
+    "max": 374,
+    "topQuartileMean": 305.9583333333333,
+    "winnerMean": 294.3333333333333,
+    "minimumPerGameMean": 173.83333333333334,
+    "seats270Plus": 26,
+    "seats300Plus": 15,
+    "companies": {
+      "作弊实验室": {
+        "seats": 48,
+        "mean": 269.125,
+        "min": 164
+      },
+      "寰宇超动力": {
+        "seats": 24,
+        "mean": 195,
+        "min": 136
+      },
+      "宇宙大战略集团": {
+        "seats": 24,
+        "mean": 204.54166666666666,
+        "min": 116
+      }
+    }
+  },
+  "meanDelta": -2,
+  "pairedGameStandardError": 1.4520568869360975,
+  "companies": {
+    "作弊实验室": {
+      "seats": 48,
+      "baseline": 272.0625,
+      "candidate": 269.125,
+      "meanDelta": -2.9375,
+      "minimumDelta": 0
+    },
+    "寰宇超动力": {
+      "seats": 24,
+      "baseline": 196.83333333333334,
+      "candidate": 195,
+      "meanDelta": -1.8333333333333428,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 24,
+      "baseline": 204.83333333333334,
+      "candidate": 204.54166666666666,
+      "meanDelta": -0.2916666666666856,
+      "minimumDelta": -14
+    }
+  },
+  "validation": {
+    "games": 48,
+    "bugs": 0,
+    "ledgerSeats": 192,
+    "paidCardPlays": 1129,
+    "companyAidIdentical": true
+  },
+  "purple4": {
+    "baseline": {
+      "作弊实验室": {
+        "nodes": 135,
+        "launch": 34,
+        "move": 85,
+        "skip": 16,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      },
+      "宇宙大战略集团": {
+        "nodes": 24,
+        "launch": 12,
+        "move": 9,
+        "skip": 3,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      },
+      "寰宇超动力": {
+        "nodes": 19,
+        "launch": 6,
+        "move": 12,
+        "skip": 1,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      }
+    },
+    "candidate": {
+      "作弊实验室": {
+        "nodes": 124,
+        "launch": 35,
+        "move": 79,
+        "skip": 10,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      },
+      "宇宙大战略集团": {
+        "nodes": 22,
+        "launch": 11,
+        "move": 9,
+        "skip": 2,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      },
+      "寰宇超动力": {
+        "nodes": 21,
+        "launch": 7,
+        "move": 13,
+        "skip": 1,
+        "positivePreviewThenSkip": 0,
+        "zeroPreviewThenAct": 0,
+        "nodeCreditsOrEnergyChanged": 0
+      }
+    }
+  },
+  "interpretation": "All selected candidate purple4 nodes have legal post-scan resource previews and exactly matched actual launch extra1 energy or movement grants. No positive preview then skip, no unpredicted credit/energy change in these selected scans. This does not validate alternative scans never selected, final route realization or prove score causality. Mean, all company means, high quartile and lower tail regress. Keep isolated branch, no adoption/no new random for this standalone candidate. Test interaction with previously rejected scan independent ranking separately, not adding single-factor results."
+}
