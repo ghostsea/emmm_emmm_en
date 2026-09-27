@@ -18541,7 +18541,7 @@
       return penalty;
     }
 
-    function scoreAiScanAction(player = getCurrentPlayer()) {
+    function scoreAiScanAction(player = getCurrentPlayer(), options = {}) {
       const effects = scanEffects.buildScanEffectQueue(player, {
         fullScanAction: true,
         turnState,
@@ -18568,9 +18568,9 @@
           const bestHandScan = getAiBestHandScanIndex(player);
           if (bestHandScan) value += bestHandScan.score;
         } else if (effect.type === scanEffects.EFFECT_TYPES.SCAN_ACTION_4) {
-          value += Math.max(0, scoreAiLaunchAction(player) * 0.45);
-          const bestMove = listAiMoveCandidates()[0];
-          if (bestMove) value += Math.max(0, aiNumber(bestMove.score) * 0.35);
+          const preview = getAiScanAction4RewardPreview(player, { effect });
+          value += preview.score;
+          if (options.breakdown) options.breakdown.scanAction4Preview = preview;
         }
       }
       const earlyEngineValue = scoreAiEarlyScanEngineValue(player);
@@ -21495,10 +21495,41 @@
       return executeIndustryFreeMove(selected.deltaX, selected.deltaY, selected.rocketId);
     }
 
-    function listAiScanAction4Candidates(currentPlayer = getCurrentPlayer()) {
+    let aiScanAction4PreviewDepth = 0;
+
+    function getAiScanAction4RewardPreview(player = getCurrentPlayer(), options = {}) {
+      if (!player || aiScanAction4PreviewDepth > 0) return { score: 0, choices: [], nested: true };
+      const cost = options.scanCost || scanEffects.getStandardScanCost(player);
+      const afterScan = createAiPlayerAfterResourceGain(player, Object.fromEntries(
+        Object.entries(cost).map(([key, value]) => [key, -Math.max(0, aiNumber(value))]),
+      ));
+      if (!afterScan || Object.keys(cost).some(key => aiNumber(afterScan.resources?.[key]) < 0)) {
+        return { score: 0, choices: [], unavailable: true };
+      }
+      aiScanAction4PreviewDepth += 1;
+      try {
+        const effect = options.effect || { type: scanEffects.EFFECT_TYPES.SCAN_ACTION_4, options: {} };
+        const choices = listAiScanAction4Candidates(afterScan, { effect }).map(candidate => ({
+          choice: candidate.choice,
+          score: Math.max(0, aiNumber(candidate.score)) * (candidate.choice === "launch" ? 0.45 : 0.35),
+          unscaledScore: aiNumber(candidate.score),
+          rocketId: candidate.rocketId ?? null,
+        }));
+        // One purple-4 node grants one choice. Preserve the existing branch weights.
+        return {
+          score: choices.reduce((best, choice) => Math.max(best, choice.score), 0),
+          choices,
+          resourcesAfterScanPayment: { ...afterScan.resources },
+        };
+      } finally {
+        aiScanAction4PreviewDepth -= 1;
+      }
+    }
+
+    function listAiScanAction4Candidates(currentPlayer = getCurrentPlayer(), options = {}) {
       if (!currentPlayer) return [];
       const candidates = [];
-      const effect = getCurrentActionEffect?.() || null;
+      const effect = options.effect || getCurrentActionEffect?.() || null;
       const skipCost = Boolean(effect?.options?.skipCost);
       const rocketLimit = abilities.rocket.getRocketLimitForPlayer(currentPlayer, createActionContext());
       const activeRocketCount = rocketActions.getRocketsForPlayer
@@ -21528,6 +21559,8 @@
 
       candidates.push(...listAiEffectMoveCandidates({
         id: "move",
+        player: currentPlayer,
+        effect,
         free: true,
         poolRemaining: 1,
       }).map((candidate) => ({
@@ -23349,7 +23382,8 @@
         orbitCandidate.available ? Number(orbitCandidate.score || 0) : 0,
         landCandidate.available ? Number(landCandidate.score || 0) : 0,
       );
-      let scanScore = scanCheck.ok ? scoreAiScanAction(currentPlayer) : 0;
+      const scanActionBreakdown = {};
+      let scanScore = scanCheck.ok ? scoreAiScanAction(currentPlayer, { breakdown: scanActionBreakdown }) : 0;
       const scanDirectScoreGain = scanCheck.ok ? getAiScanDirectScoreGain(currentPlayer) : 0;
       const scanPriorityFloor = scanCheck.ok ? scoreAiScanPriorityFloor(currentPlayer) : 0;
       const scanCurrentScore = Math.max(0, aiNumber(currentPlayer?.resources?.score));
@@ -23489,6 +23523,7 @@
           directScoreGain: scanDirectScoreGain,
           scanEnergyReservationPenalty,
           rawScanEnergyReservationPenalty,
+          scanAction4Preview: scanActionBreakdown.scanAction4Preview || null,
           scanDataPlacementOpportunities: scanProjectedAnalyzeUnlock ? 2 : 0,
           scanProjectedAnalyzeUnlock,
           analyzeCashoutScore,

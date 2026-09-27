@@ -1,0 +1,8 @@
+{
+  "scope": "New full-scan integration test with unchanged old main scorer, retaining real new legality preview in harness. Old scorer fails on invented inaccessible purple4 value, not missing function.",
+  "expectedFailure": {
+    "message": "an unavailable purple4 branch must add no main-action value\n\n-9.16 !== -18.16\n",
+    "actual": -9.16,
+    "expected": -18.16
+  }
+}
