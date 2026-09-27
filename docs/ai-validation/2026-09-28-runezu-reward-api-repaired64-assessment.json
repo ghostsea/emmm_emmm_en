@@ -1,0 +1,67 @@
+{
+  "decision": "accept-runezu-reward-api-incremental",
+  "candidate": "52af42e40eec0aeed0a9a4ac1b0c82e95cb72d1b",
+  "baseline": "f542161719d499f43a2e566a0cda070dae6c0ab0",
+  "meanDelta": 2.546875,
+  "pairedGameStandardError": 0.917594143211881,
+  "companies": {
+    "寰宇超动力": {
+      "seats": 64,
+      "baseline": 198.234375,
+      "candidate": 200.53125,
+      "meanDelta": 2.296875,
+      "minimumDelta": -6
+    },
+    "作弊实验室": {
+      "seats": 128,
+      "baseline": 251.3515625,
+      "candidate": 255.328125,
+      "meanDelta": 3.9765625,
+      "minimumDelta": 0
+    },
+    "宇宙大战略集团": {
+      "seats": 64,
+      "baseline": 197.46875,
+      "candidate": 197.40625,
+      "meanDelta": -0.0625,
+      "minimumDelta": -7
+    }
+  },
+  "distribution": {
+    "mean": 2.546875,
+    "min": -6,
+    "p10": 0,
+    "p25": 2.5,
+    "median": 1,
+    "p75": 1.25,
+    "max": 18,
+    "topQuartileMean": 7.6875,
+    "winnerMean": 5.90625,
+    "minimumPerGameMean": 1.578125,
+    "seats270Plus": 6,
+    "seats300Plus": 5
+  },
+  "baselineHigh": {
+    "seats": 64,
+    "baselineMean": 284.53125,
+    "candidateMean": 285.640625,
+    "meanDelta": 1.109375,
+    "improved": 15,
+    "declined": 9,
+    "unchanged": 40
+  },
+  "baselineLow": {
+    "seats": 64,
+    "baselineMean": 172.34375,
+    "candidateMean": 177.46875,
+    "meanDelta": 5.125,
+    "improved": 13,
+    "declined": 4,
+    "unchanged": 47
+  },
+  "completeGames": 128,
+  "bugCount": 0,
+  "ledgerSeats": 512,
+  "candidateCardPayments": 3094,
+  "scope": "All64 originally fresh random pairs fully rerun after common empty-income runtime fix. No replacement seeds or partial score selection; 128 successful games,512 ledger/config seats,3094 exact candidate card payments and identical recurring aid. Accept local effect API correction with positive mean and high distribution; Grand essentially flat and worst seat6 lower are disclosed. This incremental result is not +10 and is not added to other candidates. Main integration additionally has reward text formatting fix, which does not change rewards; browser and tests rechecked."
+}

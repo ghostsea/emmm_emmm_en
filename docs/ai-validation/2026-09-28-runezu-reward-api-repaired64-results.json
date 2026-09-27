@@ -1,0 +1,4245 @@
+{
+  "resourceCompanies": {
+    "baseline": {
+      "寰宇超动力": {
+        "playerCount": 64,
+        "averageFinalScore": 198.234375,
+        "setupGainWeighted": 33.578125,
+        "incomeGainWeighted": 116.109375,
+        "nonIncomeGainWeighted": 164.734375,
+        "weightedActionCost": 304.460938,
+        "mainActionsPerWeightedCost": 0.094995,
+        "analysisActionCount": 2.75,
+        "dataTurnoverCount": 2.515625,
+        "fullDataCycleCount": 1.75,
+        "drawToPlayRate": 0.360639,
+        "incomeCardConversionRate": 0.075045,
+        "alienCardToPlayRate": 0.400376,
+        "blue1CreditGain": 1.59375,
+        "blue2EnergyGain": 0.90625,
+        "utilizationCredits": 0.976581,
+        "utilizationEnergy": 0.987389,
+        "utilizationPublicity": 0.937221,
+        "utilizationAvailableData": 0.977044,
+        "utilizationHandSize": 0.956309,
+        "sameRoundReinvestmentWeighted": 143.21875,
+        "sameRoundReinvestmentRate": 0.868972,
+        "confirmedMainActions": 28.875
+      },
+      "作弊实验室": {
+        "playerCount": 128,
+        "averageFinalScore": 251.351563,
+        "setupGainWeighted": 49.285156,
+        "incomeGainWeighted": 136.507813,
+        "nonIncomeGainWeighted": 211.132813,
+        "weightedActionCost": 385.25,
+        "mainActionsPerWeightedCost": 0.104108,
+        "analysisActionCount": 4.53125,
+        "dataTurnoverCount": 4.273438,
+        "fullDataCycleCount": 3.53125,
+        "drawToPlayRate": 0.372217,
+        "incomeCardConversionRate": 0.035545,
+        "alienCardToPlayRate": 0.47085,
+        "blue1CreditGain": 2.03125,
+        "blue2EnergyGain": 2.023438,
+        "utilizationCredits": 0.956291,
+        "utilizationEnergy": 0.994746,
+        "utilizationPublicity": 0.929358,
+        "utilizationAvailableData": 0.990787,
+        "utilizationHandSize": 0.970327,
+        "sameRoundReinvestmentWeighted": 190.554688,
+        "sameRoundReinvestmentRate": 0.901969,
+        "confirmedMainActions": 40.0625
+      },
+      "宇宙大战略集团": {
+        "playerCount": 64,
+        "averageFinalScore": 197.46875,
+        "setupGainWeighted": 50.257813,
+        "incomeGainWeighted": 124.695313,
+        "nonIncomeGainWeighted": 193.71875,
+        "weightedActionCost": 360.039063,
+        "mainActionsPerWeightedCost": 0.091184,
+        "analysisActionCount": 4.046875,
+        "dataTurnoverCount": 3.765625,
+        "fullDataCycleCount": 3.046875,
+        "drawToPlayRate": 0.38716,
+        "incomeCardConversionRate": 0.049072,
+        "alienCardToPlayRate": 0.392754,
+        "blue1CreditGain": 1.625,
+        "blue2EnergyGain": 1.09375,
+        "utilizationCredits": 0.985798,
+        "utilizationEnergy": 0.990469,
+        "utilizationPublicity": 0.948082,
+        "utilizationAvailableData": 0.990747,
+        "utilizationHandSize": 0.968311,
+        "sameRoundReinvestmentWeighted": 171.648438,
+        "sameRoundReinvestmentRate": 0.884457,
+        "confirmedMainActions": 32.828125
+      }
+    },
+    "candidate": {
+      "寰宇超动力": {
+        "playerCount": 64,
+        "averageFinalScore": 200.53125,
+        "setupGainWeighted": 33.578125,
+        "incomeGainWeighted": 116.5625,
+        "nonIncomeGainWeighted": 165.8125,
+        "weightedActionCost": 306.5625,
+        "mainActionsPerWeightedCost": 0.095473,
+        "analysisActionCount": 2.90625,
+        "dataTurnoverCount": 2.609375,
+        "fullDataCycleCount": 1.90625,
+        "drawToPlayRate": 0.363627,
+        "incomeCardConversionRate": 0.072598,
+        "alienCardToPlayRate": 0.35339,
+        "blue1CreditGain": 1.578125,
+        "blue2EnergyGain": 0.984375,
+        "utilizationCredits": 0.977233,
+        "utilizationEnergy": 0.986269,
+        "utilizationPublicity": 0.939295,
+        "utilizationAvailableData": 0.981387,
+        "utilizationHandSize": 0.961468,
+        "sameRoundReinvestmentWeighted": 144.882813,
+        "sameRoundReinvestmentRate": 0.872525,
+        "confirmedMainActions": 29.21875
+      },
+      "作弊实验室": {
+        "playerCount": 128,
+        "averageFinalScore": 255.328125,
+        "setupGainWeighted": 49.285156,
+        "incomeGainWeighted": 137.28125,
+        "nonIncomeGainWeighted": 214.90625,
+        "weightedActionCost": 389.34375,
+        "mainActionsPerWeightedCost": 0.103811,
+        "analysisActionCount": 4.578125,
+        "dataTurnoverCount": 4.3125,
+        "fullDataCycleCount": 3.578125,
+        "drawToPlayRate": 0.369836,
+        "incomeCardConversionRate": 0.037175,
+        "alienCardToPlayRate": 0.45227,
+        "blue1CreditGain": 2.117188,
+        "blue2EnergyGain": 2.101563,
+        "utilizationCredits": 0.955819,
+        "utilizationEnergy": 0.994375,
+        "utilizationPublicity": 0.926867,
+        "utilizationAvailableData": 0.987357,
+        "utilizationHandSize": 0.970631,
+        "sameRoundReinvestmentWeighted": 193.789063,
+        "sameRoundReinvestmentRate": 0.900863,
+        "confirmedMainActions": 40.375
+      },
+      "宇宙大战略集团": {
+        "playerCount": 64,
+        "averageFinalScore": 197.40625,
+        "setupGainWeighted": 50.257813,
+        "incomeGainWeighted": 124.992188,
+        "nonIncomeGainWeighted": 194.210938,
+        "weightedActionCost": 360.484375,
+        "mainActionsPerWeightedCost": 0.091444,
+        "analysisActionCount": 4.015625,
+        "dataTurnoverCount": 3.78125,
+        "fullDataCycleCount": 3.015625,
+        "drawToPlayRate": 0.387216,
+        "incomeCardConversionRate": 0.049752,
+        "alienCardToPlayRate": 0.362153,
+        "blue1CreditGain": 1.578125,
+        "blue2EnergyGain": 1.03125,
+        "utilizationCredits": 0.986734,
+        "utilizationEnergy": 0.990197,
+        "utilizationPublicity": 0.948502,
+        "utilizationAvailableData": 0.984645,
+        "utilizationHandSize": 0.966706,
+        "sameRoundReinvestmentWeighted": 171.664063,
+        "sameRoundReinvestmentRate": 0.882335,
+        "confirmedMainActions": 32.984375
+      }
+    }
+  },
+  "completedAt": "2026-09-27T17:43:10.937Z",
+  "frozenAt": "2026-09-27T16:52:20.792Z",
+  "seedGeneratedAt": "2026-09-27T16:35:07.685Z",
+  "modelFingerprints": {
+    "base": "6ef94a21e8b5a4bead6a90d5438a591330fd1e96b6a7e253a98daa65a291f7ad",
+    "candidate": "8442f21502b2994288925d075ae22c0ea0ce4847daadbed3c215bf384e1c8fc2"
+  },
+  "report": {
+    "baseline": {
+      "games": 64,
+      "seats": 256,
+      "mean": 224.6015625,
+      "min": 131,
+      "p10": 173,
+      "p25": 190,
+      "median": 220,
+      "p75": 252,
+      "max": 354,
+      "topQuartileMean": 284.53125,
+      "winnerMean": 275.8125,
+      "minimumPerGameMean": 178.96875,
+      "seats270Plus": 41,
+      "seats300Plus": 20,
+      "companies": {
+        "寰宇超动力": {
+          "seats": 64,
+          "mean": 198.234375,
+          "min": 131
+        },
+        "作弊实验室": {
+          "seats": 128,
+          "mean": 251.3515625,
+          "min": 145
+        },
+        "宇宙大战略集团": {
+          "seats": 64,
+          "mean": 197.46875,
+          "min": 141
+        }
+      }
+    },
+    "candidate": {
+      "games": 64,
+      "seats": 256,
+      "mean": 227.1484375,
+      "min": 125,
+      "p10": 173,
+      "p25": 192.5,
+      "median": 221,
+      "p75": 253.25,
+      "max": 372,
+      "topQuartileMean": 292.21875,
+      "winnerMean": 281.71875,
+      "minimumPerGameMean": 180.546875,
+      "seats270Plus": 47,
+      "seats300Plus": 25,
+      "companies": {
+        "寰宇超动力": {
+          "seats": 64,
+          "mean": 200.53125,
+          "min": 125
+        },
+        "作弊实验室": {
+          "seats": 128,
+          "mean": 255.328125,
+          "min": 145
+        },
+        "宇宙大战略集团": {
+          "seats": 64,
+          "mean": 197.40625,
+          "min": 134
+        }
+      }
+    },
+    "companies": {
+      "寰宇超动力": {
+        "seats": 64,
+        "baseline": 198.234375,
+        "candidate": 200.53125,
+        "meanDelta": 2.296875,
+        "minimumDelta": -6
+      },
+      "作弊实验室": {
+        "seats": 128,
+        "baseline": 251.3515625,
+        "candidate": 255.328125,
+        "meanDelta": 3.9765625,
+        "minimumDelta": 0
+      },
+      "宇宙大战略集团": {
+        "seats": 64,
+        "baseline": 197.46875,
+        "candidate": 197.40625,
+        "meanDelta": -0.0625,
+        "minimumDelta": -7
+      }
+    },
+    "delta": {
+      "mean": 2.546875,
+      "min": -6,
+      "p10": 0,
+      "p25": 2.5,
+      "median": 1,
+      "p75": 1.25,
+      "max": 18,
+      "topQuartileMean": 7.6875,
+      "winnerMean": 5.90625,
+      "minimumPerGameMean": 1.578125,
+      "seats270Plus": 6,
+      "seats300Plus": 5
+    },
+    "pairedGameMeanDeltaStandardError": 0.917594143211881,
+    "gamesImproved": 14,
+    "gamesRegressed": 3,
+    "pairs": [
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:de974a6ea31c03727278b5d3",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 195,
+            "candidate": 195,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 300,
+            "candidate": 300,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 217,
+            "candidate": 217,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 196,
+            "candidate": 196,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:7de8e85cece29fe6a1415095",
+        "meanDelta": 3.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 221,
+            "candidate": 196,
+            "delta": -25
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 168,
+            "candidate": 189,
+            "delta": 21
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 299,
+            "candidate": 291,
+            "delta": -8
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 221,
+            "candidate": 247,
+            "delta": 26
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:e5f0dd20cb5df7c35f83ffbf",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 252,
+            "candidate": 252,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 205,
+            "candidate": 205,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 234,
+            "candidate": 234,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 228,
+            "candidate": 228,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:5f1bf34780801e8946af83ec",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 250,
+            "candidate": 250,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 216,
+            "candidate": 216,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 205,
+            "candidate": 205,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 195,
+            "candidate": 195,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:033e0574c4897d047502d84c",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 269,
+            "candidate": 269,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 221,
+            "candidate": 221,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 224,
+            "candidate": 224,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 220,
+            "candidate": 220,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:83a5a86bffa1478f37b5e6eb",
+        "meanDelta": -5.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 186,
+            "candidate": 208,
+            "delta": 22
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 251,
+            "candidate": 274,
+            "delta": 23
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 245,
+            "candidate": 212,
+            "delta": -33
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 202,
+            "candidate": 169,
+            "delta": -33
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:b129371be3d7677a8d95e8b9",
+        "meanDelta": 12,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 242,
+            "candidate": 321,
+            "delta": 79
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 194,
+            "candidate": 204,
+            "delta": 10
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 231,
+            "candidate": 270,
+            "delta": 39
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 257,
+            "candidate": 177,
+            "delta": -80
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:6a4b1da940f0281aed0c1c09",
+        "meanDelta": 3,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 286,
+            "candidate": 331,
+            "delta": 45
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 155,
+            "candidate": 159,
+            "delta": 4
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 219,
+            "candidate": 187,
+            "delta": -32
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 290,
+            "candidate": 285,
+            "delta": -5
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:0edce5abb655ebc063c88533",
+        "meanDelta": 33.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 262,
+            "candidate": 305,
+            "delta": 43
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 292,
+            "candidate": 307,
+            "delta": 15
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 173,
+            "candidate": 207,
+            "delta": 34
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 142,
+            "candidate": 185,
+            "delta": 43
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:de8dc81c1fdb0482b40c3656",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 170,
+            "candidate": 170,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 239,
+            "candidate": 239,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 228,
+            "candidate": 228,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 173,
+            "candidate": 173,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:bde644a475aa518bf0442b76",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 185,
+            "candidate": 185,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 184,
+            "candidate": 184,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 180,
+            "candidate": 180,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 205,
+            "candidate": 205,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:6e22636a0e61a3c288894105",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 210,
+            "candidate": 210,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 153,
+            "candidate": 153,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 338,
+            "candidate": 338,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 150,
+            "candidate": 150,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:5af38845ab87b9e5db60e981",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 233,
+            "candidate": 233,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 189,
+            "candidate": 189,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 241,
+            "candidate": 241,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 230,
+            "candidate": 230,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:2dde2da88b4ef22c357e5687",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 270,
+            "candidate": 270,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 179,
+            "candidate": 179,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 221,
+            "candidate": 221,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 303,
+            "candidate": 303,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:87aa49eb9dc46a6810bfbfe6",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 301,
+            "candidate": 301,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 309,
+            "candidate": 309,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 195,
+            "candidate": 195,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 141,
+            "candidate": 141,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:ceb453ac5fd76769494a6131",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 209,
+            "candidate": 209,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 201,
+            "candidate": 201,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 332,
+            "candidate": 332,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 209,
+            "candidate": 209,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:146541e12f567b78a34acd6e",
+        "meanDelta": 21.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 265,
+            "candidate": 242,
+            "delta": -23
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 277,
+            "candidate": 362,
+            "delta": 85
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 242,
+            "candidate": 224,
+            "delta": -18
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 194,
+            "candidate": 236,
+            "delta": 42
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:635d77e30fb0999eedcce27d",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 304,
+            "candidate": 304,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 246,
+            "candidate": 246,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 207,
+            "candidate": 207,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 182,
+            "candidate": 182,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:aad14a4ac696e8b81722cec4",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 261,
+            "candidate": 261,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 182,
+            "candidate": 182,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 198,
+            "candidate": 198,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 222,
+            "candidate": 222,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:8ae7f9c7ed7a3cc5578aed70",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 245,
+            "candidate": 245,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 221,
+            "candidate": 221,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 179,
+            "candidate": 179,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 214,
+            "candidate": 214,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:7aa63104cf86c8dc47555040",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 180,
+            "candidate": 180,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 248,
+            "candidate": 248,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 214,
+            "candidate": 214,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 287,
+            "candidate": 287,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:d66eacf6303f8a2c03ee75bb",
+        "meanDelta": 5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 262,
+            "candidate": 297,
+            "delta": 35
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 295,
+            "candidate": 296,
+            "delta": 1
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 204,
+            "candidate": 207,
+            "delta": 3
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 179,
+            "candidate": 160,
+            "delta": -19
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:afadaee6ef3dfbac1a53bfa7",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 319,
+            "candidate": 319,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 236,
+            "candidate": 236,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 196,
+            "candidate": 196,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 145,
+            "candidate": 145,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:5b37ddc3a3c862dce3676591",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 278,
+            "candidate": 278,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 205,
+            "candidate": 205,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 227,
+            "candidate": 227,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 259,
+            "candidate": 259,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:cd3f1283ed7304faa4039977",
+        "meanDelta": 11.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 283,
+            "candidate": 284,
+            "delta": 1
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 179,
+            "candidate": 191,
+            "delta": 12
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 159,
+            "candidate": 186,
+            "delta": 27
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 190,
+            "candidate": 197,
+            "delta": 7
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:1132c66f648f8655bb3f1e0a",
+        "meanDelta": -4.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 205,
+            "candidate": 194,
+            "delta": -11
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 216,
+            "candidate": 210,
+            "delta": -6
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 261,
+            "candidate": 255,
+            "delta": -6
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 190,
+            "candidate": 196,
+            "delta": 6
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:ea03a97bdcec8ff1ca7d6a4f",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 238,
+            "candidate": 238,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 160,
+            "candidate": 160,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 254,
+            "candidate": 254,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 187,
+            "candidate": 187,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:8369244fe52f3a24adf7a791",
+        "meanDelta": -9.75,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 240,
+            "candidate": 210,
+            "delta": -30
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 181,
+            "candidate": 230,
+            "delta": 49
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 281,
+            "candidate": 289,
+            "delta": 8
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 309,
+            "candidate": 243,
+            "delta": -66
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:682974d9ada9d999d904d516",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 242,
+            "candidate": 242,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 216,
+            "candidate": 216,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 319,
+            "candidate": 319,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 256,
+            "candidate": 256,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:6f5b04e616b514f1bb1c0e74",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 207,
+            "candidate": 207,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 178,
+            "candidate": 178,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 310,
+            "candidate": 310,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 220,
+            "candidate": 220,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:5bf70a9c0c67a6beb9287576",
+        "meanDelta": 15,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 131,
+            "candidate": 125,
+            "delta": -6
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 283,
+            "candidate": 304,
+            "delta": 21
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 252,
+            "candidate": 266,
+            "delta": 14
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 209,
+            "candidate": 240,
+            "delta": 31
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:8cc7b32d5c2f28f0298ed1b7",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 172,
+            "candidate": 172,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 218,
+            "candidate": 218,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 263,
+            "candidate": 263,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 237,
+            "candidate": 237,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:b604de79aed191f433120c19",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 213,
+            "candidate": 213,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 202,
+            "candidate": 202,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 191,
+            "candidate": 191,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 214,
+            "candidate": 214,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:1ea26c44f975dab80c16e0fa",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 253,
+            "candidate": 253,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 222,
+            "candidate": 222,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 186,
+            "candidate": 186,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 233,
+            "candidate": 233,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:8c304d9c38c132ad7150c131",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 190,
+            "candidate": 190,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 235,
+            "candidate": 235,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 189,
+            "candidate": 189,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 300,
+            "candidate": 300,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:5571765f5f5ec241f78b98ba",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 227,
+            "candidate": 196,
+            "delta": -31
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 263,
+            "candidate": 352,
+            "delta": 89
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 203,
+            "candidate": 179,
+            "delta": -24
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 279,
+            "candidate": 245,
+            "delta": -34
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:a58a92cf45a99ded9a4237b2",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 140,
+            "candidate": 140,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 239,
+            "candidate": 239,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 221,
+            "candidate": 221,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 206,
+            "candidate": 206,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:d929bc953477635346708da8",
+        "meanDelta": 1.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 207,
+            "candidate": 209,
+            "delta": 2
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 235,
+            "candidate": 258,
+            "delta": 23
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 300,
+            "candidate": 290,
+            "delta": -10
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 184,
+            "candidate": 174,
+            "delta": -10
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:0f42cb33e3bba168db08ef5b",
+        "meanDelta": 5.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 176,
+            "candidate": 134,
+            "delta": -42
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 279,
+            "candidate": 286,
+            "delta": 7
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 323,
+            "candidate": 328,
+            "delta": 5
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 182,
+            "candidate": 233,
+            "delta": 51
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:c656e19f6d41e5c00f4f737b",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 305,
+            "candidate": 305,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 354,
+            "candidate": 354,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 186,
+            "candidate": 186,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 266,
+            "candidate": 266,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:8bf367a9dfd289743f6bbe6f",
+        "meanDelta": 23,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 244,
+            "candidate": 283,
+            "delta": 39
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 219,
+            "candidate": 223,
+            "delta": 4
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 178,
+            "candidate": 188,
+            "delta": 10
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 188,
+            "candidate": 227,
+            "delta": 39
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:dd5626b80b354354086ed07b",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 189,
+            "candidate": 189,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 185,
+            "candidate": 185,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 197,
+            "candidate": 197,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 235,
+            "candidate": 235,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:6c6258189b45f526eb3264a4",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 169,
+            "candidate": 169,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 184,
+            "candidate": 184,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 253,
+            "candidate": 253,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 231,
+            "candidate": 231,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:5014c09dc0bfea3c4bd3be6c",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 223,
+            "candidate": 223,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 213,
+            "candidate": 213,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 232,
+            "candidate": 232,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 188,
+            "candidate": 188,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:e9084d92d7a20a8d9eaeb7e7",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 237,
+            "candidate": 237,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 215,
+            "candidate": 215,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 257,
+            "candidate": 257,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 219,
+            "candidate": 219,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:91f0573c6ab1b21cfef5cf1e",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 243,
+            "candidate": 243,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 215,
+            "candidate": 215,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 211,
+            "candidate": 211,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 242,
+            "candidate": 242,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:239e53ac20006a0cc3c1ee3f",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 184,
+            "candidate": 184,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 279,
+            "candidate": 279,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 142,
+            "candidate": 142,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 231,
+            "candidate": 231,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:5e418c0482bd31f3b6ceedca",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 170,
+            "candidate": 170,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 234,
+            "candidate": 234,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 195,
+            "candidate": 195,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 193,
+            "candidate": 193,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:229f755dd7a793f4a70a1d8e",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 220,
+            "candidate": 220,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 269,
+            "candidate": 269,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 193,
+            "candidate": 193,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 239,
+            "candidate": 239,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:d28e53480adffdae0693af6d",
+        "meanDelta": 27.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 250,
+            "candidate": 298,
+            "delta": 48
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 338,
+            "candidate": 267,
+            "delta": -71
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 203,
+            "candidate": 262,
+            "delta": 59
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 174,
+            "candidate": 248,
+            "delta": 74
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:55461edeb801d543bfd3352d",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 216,
+            "candidate": 216,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 165,
+            "candidate": 165,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 252,
+            "candidate": 252,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 170,
+            "candidate": 170,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:69e3abbda782fde63438455b",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 201,
+            "candidate": 201,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 258,
+            "candidate": 258,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 239,
+            "candidate": 239,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 219,
+            "candidate": 219,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:554c2064717da18ecf520cd9",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 160,
+            "candidate": 160,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 280,
+            "candidate": 280,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 251,
+            "candidate": 251,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 225,
+            "candidate": 225,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:b19f58ee34c621071d3ae6f1",
+        "meanDelta": 8.25,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 256,
+            "candidate": 257,
+            "delta": 1
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 229,
+            "candidate": 205,
+            "delta": -24
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 152,
+            "candidate": 171,
+            "delta": 19
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 201,
+            "candidate": 238,
+            "delta": 37
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:89f044e40d4d1d234322bdb6",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 188,
+            "candidate": 188,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 300,
+            "candidate": 300,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 249,
+            "candidate": 249,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 243,
+            "candidate": 243,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:b3a510ebd2d4a436d7e2bfb9",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "寰宇超动力",
+            "baseline": 189,
+            "candidate": 189,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "宇宙大战略集团",
+            "baseline": 175,
+            "candidate": 175,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 235,
+            "candidate": 235,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 196,
+            "candidate": 196,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:e936135c0237bbb028b0cfdd",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 186,
+            "candidate": 186,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 242,
+            "candidate": 242,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 165,
+            "candidate": 165,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 227,
+            "candidate": 227,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:7d7e6108df80c08498feb3a7",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 173,
+            "candidate": 173,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 332,
+            "candidate": 332,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 149,
+            "candidate": 149,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 282,
+            "candidate": 282,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:fbbdae1bc220d4745c44fdf7",
+        "meanDelta": 11.5,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 280,
+            "candidate": 284,
+            "delta": 4
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 211,
+            "candidate": 196,
+            "delta": -15
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 249,
+            "candidate": 372,
+            "delta": 123
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 252,
+            "candidate": 186,
+            "delta": -66
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:3f115101bb48936dfa45e88d",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 245,
+            "candidate": 245,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 276,
+            "candidate": 276,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "寰宇超动力",
+            "baseline": 197,
+            "candidate": 197,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 202,
+            "candidate": 202,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:bbc7232d548604a535cc7031",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 206,
+            "candidate": 206,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 241,
+            "candidate": 241,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 215,
+            "candidate": 215,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 190,
+            "candidate": 190,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:4ec07fefccbbe83feb8efeaa",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "宇宙大战略集团",
+            "baseline": 270,
+            "candidate": 270,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 201,
+            "candidate": 201,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 244,
+            "candidate": 244,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "作弊实验室",
+            "baseline": 245,
+            "candidate": 245,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:60157c954d7928b6ec8e2275",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 333,
+            "candidate": 333,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "寰宇超动力",
+            "baseline": 164,
+            "candidate": 164,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "作弊实验室",
+            "baseline": 195,
+            "candidate": 195,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "宇宙大战略集团",
+            "baseline": 173,
+            "candidate": 173,
+            "delta": 0
+          }
+        ]
+      },
+      {
+        "seed": "codex-ai-runezu-reward-api-validation-20260928:1239ed7b98e01ce384aed900",
+        "meanDelta": 0,
+        "seats": [
+          {
+            "playerId": "player-blue",
+            "company": "作弊实验室",
+            "baseline": 259,
+            "candidate": 259,
+            "delta": 0
+          },
+          {
+            "playerId": "player-green",
+            "company": "作弊实验室",
+            "baseline": 276,
+            "candidate": 276,
+            "delta": 0
+          },
+          {
+            "playerId": "player-brown",
+            "company": "宇宙大战略集团",
+            "baseline": 153,
+            "candidate": 153,
+            "delta": 0
+          },
+          {
+            "playerId": "player-white",
+            "company": "寰宇超动力",
+            "baseline": 172,
+            "candidate": 172,
+            "delta": 0
+          }
+        ]
+      }
+    ]
+  },
+  "ledger": [
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:de974a6ea31c03727278b5d3",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 122,
+        "inferredEventCount": 122
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:de974a6ea31c03727278b5d3",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 122,
+        "inferredEventCount": 122
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:7de8e85cece29fe6a1415095",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 106,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:7de8e85cece29fe6a1415095",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 106,
+        "inferredEventCount": 108
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:e5f0dd20cb5df7c35f83ffbf",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 101,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:e5f0dd20cb5df7c35f83ffbf",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 101,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5f1bf34780801e8946af83ec",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 97,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5f1bf34780801e8946af83ec",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 97,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:033e0574c4897d047502d84c",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 125,
+        "inferredEventCount": 130
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:033e0574c4897d047502d84c",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 125,
+        "inferredEventCount": 130
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:83a5a86bffa1478f37b5e6eb",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 75,
+        "inferredEventCount": 89
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:83a5a86bffa1478f37b5e6eb",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 101,
+        "inferredEventCount": 92
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:b129371be3d7677a8d95e8b9",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 161,
+        "inferredEventCount": 121
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:b129371be3d7677a8d95e8b9",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 141,
+        "inferredEventCount": 118
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6a4b1da940f0281aed0c1c09",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 131,
+        "inferredEventCount": 131
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6a4b1da940f0281aed0c1c09",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 128,
+        "inferredEventCount": 122
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:0edce5abb655ebc063c88533",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 104,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:0edce5abb655ebc063c88533",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 115,
+        "inferredEventCount": 112
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:de8dc81c1fdb0482b40c3656",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 99,
+        "inferredEventCount": 118
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:de8dc81c1fdb0482b40c3656",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 99,
+        "inferredEventCount": 118
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:bde644a475aa518bf0442b76",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 116,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:bde644a475aa518bf0442b76",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 116,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6e22636a0e61a3c288894105",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 108,
+        "inferredEventCount": 102
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6e22636a0e61a3c288894105",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 108,
+        "inferredEventCount": 102
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5af38845ab87b9e5db60e981",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 145,
+        "inferredEventCount": 123
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5af38845ab87b9e5db60e981",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 145,
+        "inferredEventCount": 123
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:2dde2da88b4ef22c357e5687",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 89,
+        "inferredEventCount": 98
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:2dde2da88b4ef22c357e5687",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 89,
+        "inferredEventCount": 98
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:87aa49eb9dc46a6810bfbfe6",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 160,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:87aa49eb9dc46a6810bfbfe6",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 160,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:ceb453ac5fd76769494a6131",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 80,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:ceb453ac5fd76769494a6131",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 80,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:146541e12f567b78a34acd6e",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 93,
+        "inferredEventCount": 108
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:146541e12f567b78a34acd6e",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 100,
+        "inferredEventCount": 118
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:635d77e30fb0999eedcce27d",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 103,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:635d77e30fb0999eedcce27d",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 103,
+        "inferredEventCount": 96
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:aad14a4ac696e8b81722cec4",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 107,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:aad14a4ac696e8b81722cec4",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 107,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8ae7f9c7ed7a3cc5578aed70",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 141,
+        "inferredEventCount": 123
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8ae7f9c7ed7a3cc5578aed70",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 141,
+        "inferredEventCount": 123
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:7aa63104cf86c8dc47555040",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 126,
+        "inferredEventCount": 112
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:7aa63104cf86c8dc47555040",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 126,
+        "inferredEventCount": 112
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:d66eacf6303f8a2c03ee75bb",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 112,
+        "inferredEventCount": 108
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:d66eacf6303f8a2c03ee75bb",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 112,
+        "inferredEventCount": 107
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:afadaee6ef3dfbac1a53bfa7",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 77,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:afadaee6ef3dfbac1a53bfa7",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 77,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5b37ddc3a3c862dce3676591",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 107,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5b37ddc3a3c862dce3676591",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 107,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:cd3f1283ed7304faa4039977",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 90,
+        "inferredEventCount": 105
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:cd3f1283ed7304faa4039977",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 104,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:1132c66f648f8655bb3f1e0a",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 100,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:1132c66f648f8655bb3f1e0a",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 99,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:ea03a97bdcec8ff1ca7d6a4f",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 82,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:ea03a97bdcec8ff1ca7d6a4f",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 82,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8369244fe52f3a24adf7a791",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 126,
+        "inferredEventCount": 130
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8369244fe52f3a24adf7a791",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 94,
+        "inferredEventCount": 109
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:682974d9ada9d999d904d516",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 119,
+        "inferredEventCount": 115
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:682974d9ada9d999d904d516",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 119,
+        "inferredEventCount": 115
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6f5b04e616b514f1bb1c0e74",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 122,
+        "inferredEventCount": 119
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6f5b04e616b514f1bb1c0e74",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 122,
+        "inferredEventCount": 119
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5bf70a9c0c67a6beb9287576",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 118,
+        "inferredEventCount": 117
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5bf70a9c0c67a6beb9287576",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 145,
+        "inferredEventCount": 131
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8cc7b32d5c2f28f0298ed1b7",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 110,
+        "inferredEventCount": 116
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8cc7b32d5c2f28f0298ed1b7",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 110,
+        "inferredEventCount": 116
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:b604de79aed191f433120c19",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 129,
+        "inferredEventCount": 118
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:b604de79aed191f433120c19",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 129,
+        "inferredEventCount": 118
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:1ea26c44f975dab80c16e0fa",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 123,
+        "inferredEventCount": 113
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:1ea26c44f975dab80c16e0fa",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 123,
+        "inferredEventCount": 113
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8c304d9c38c132ad7150c131",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 130,
+        "inferredEventCount": 118
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8c304d9c38c132ad7150c131",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 130,
+        "inferredEventCount": 118
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5571765f5f5ec241f78b98ba",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 155,
+        "inferredEventCount": 134
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5571765f5f5ec241f78b98ba",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 125,
+        "inferredEventCount": 123
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:a58a92cf45a99ded9a4237b2",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 97,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:a58a92cf45a99ded9a4237b2",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 97,
+        "inferredEventCount": 100
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:d929bc953477635346708da8",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 83,
+        "inferredEventCount": 95
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:d929bc953477635346708da8",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 88,
+        "inferredEventCount": 112
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:0f42cb33e3bba168db08ef5b",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 133,
+        "inferredEventCount": 115
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:0f42cb33e3bba168db08ef5b",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 173,
+        "inferredEventCount": 142
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:c656e19f6d41e5c00f4f737b",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 175,
+        "inferredEventCount": 131
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:c656e19f6d41e5c00f4f737b",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 175,
+        "inferredEventCount": 131
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8bf367a9dfd289743f6bbe6f",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 132,
+        "inferredEventCount": 114
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:8bf367a9dfd289743f6bbe6f",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 145,
+        "inferredEventCount": 128
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:dd5626b80b354354086ed07b",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 86,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:dd5626b80b354354086ed07b",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 86,
+        "inferredEventCount": 103
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6c6258189b45f526eb3264a4",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 115,
+        "inferredEventCount": 122
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:6c6258189b45f526eb3264a4",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 115,
+        "inferredEventCount": 122
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5014c09dc0bfea3c4bd3be6c",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 79,
+        "inferredEventCount": 90
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5014c09dc0bfea3c4bd3be6c",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 79,
+        "inferredEventCount": 90
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:e9084d92d7a20a8d9eaeb7e7",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 136,
+        "inferredEventCount": 119
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:e9084d92d7a20a8d9eaeb7e7",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 136,
+        "inferredEventCount": 119
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:91f0573c6ab1b21cfef5cf1e",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 139,
+        "inferredEventCount": 127
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:91f0573c6ab1b21cfef5cf1e",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 139,
+        "inferredEventCount": 127
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:239e53ac20006a0cc3c1ee3f",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 127,
+        "inferredEventCount": 121
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:239e53ac20006a0cc3c1ee3f",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 127,
+        "inferredEventCount": 121
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5e418c0482bd31f3b6ceedca",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 82,
+        "inferredEventCount": 98
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:5e418c0482bd31f3b6ceedca",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 82,
+        "inferredEventCount": 98
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:229f755dd7a793f4a70a1d8e",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 89,
+        "inferredEventCount": 107
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:229f755dd7a793f4a70a1d8e",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 89,
+        "inferredEventCount": 107
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:d28e53480adffdae0693af6d",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 142,
+        "inferredEventCount": 122
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:d28e53480adffdae0693af6d",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 131,
+        "inferredEventCount": 127
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:55461edeb801d543bfd3352d",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 82,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:55461edeb801d543bfd3352d",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 82,
+        "inferredEventCount": 97
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:69e3abbda782fde63438455b",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 141,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:69e3abbda782fde63438455b",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 141,
+        "inferredEventCount": 110
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:554c2064717da18ecf520cd9",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 106,
+        "inferredEventCount": 117
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:554c2064717da18ecf520cd9",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 106,
+        "inferredEventCount": 117
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:b19f58ee34c621071d3ae6f1",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 129,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:b19f58ee34c621071d3ae6f1",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 110,
+        "inferredEventCount": 113
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:89f044e40d4d1d234322bdb6",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 99,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:89f044e40d4d1d234322bdb6",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 99,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:b3a510ebd2d4a436d7e2bfb9",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 98,
+        "inferredEventCount": 108
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:b3a510ebd2d4a436d7e2bfb9",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 98,
+        "inferredEventCount": 108
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:e936135c0237bbb028b0cfdd",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 108,
+        "inferredEventCount": 117
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:e936135c0237bbb028b0cfdd",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 108,
+        "inferredEventCount": 117
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:7d7e6108df80c08498feb3a7",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 122,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:7d7e6108df80c08498feb3a7",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 122,
+        "inferredEventCount": 111
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:fbbdae1bc220d4745c44fdf7",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 123,
+        "inferredEventCount": 126
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:fbbdae1bc220d4745c44fdf7",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 139,
+        "inferredEventCount": 116
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:3f115101bb48936dfa45e88d",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 99,
+        "inferredEventCount": 105
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:3f115101bb48936dfa45e88d",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 99,
+        "inferredEventCount": 105
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:bbc7232d548604a535cc7031",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 90,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:bbc7232d548604a535cc7031",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 90,
+        "inferredEventCount": 101
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:4ec07fefccbbe83feb8efeaa",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 113,
+        "inferredEventCount": 119
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:4ec07fefccbbe83feb8efeaa",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 113,
+        "inferredEventCount": 119
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:60157c954d7928b6ec8e2275",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 117,
+        "inferredEventCount": 122
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:60157c954d7928b6ec8e2275",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 117,
+        "inferredEventCount": 122
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:1239ed7b98e01ce384aed900",
+      "model": "baseline",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 137,
+        "inferredEventCount": 134
+      }
+    },
+    {
+      "seed": "codex-ai-runezu-reward-api-validation-20260928:1239ed7b98e01ce384aed900",
+      "model": "candidate",
+      "playerCount": 4,
+      "balanceResiduals": [],
+      "reconciliation": {
+        "residualMagnitude": 0,
+        "residuals": [],
+        "baselineMissing": [],
+        "baselineMissingCount": 0,
+        "inferredMagnitude": 137,
+        "inferredEventCount": 134
+      }
+    }
+  ]
+}
