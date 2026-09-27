@@ -159,7 +159,7 @@
         "randomizer/solar-system/layout.js": "7cefd0c7ffe7bcb1106d7054ba80f20cf9ca0fbb59c9e39443d9fbea130b6fba",
         "randomizer/style.css": "5bf8327aea43711b7aba9f0c9856356f81ecda5bb9a36607d79a3f61ff10bccf"
       },
-      "fingerprint": "ed7b5ce69c3a62fa0e976989db076c73655b4d16315232142600c18deb5e0d9b"
+      "fingerprint": "6ef94a21e8b5a4bead6a90d5438a591330fd1e96b6a7e253a98daa65a291f7ad"
     },
     "candidate": {
       "root": "runezu-validation-candidate-fix",
@@ -314,7 +314,7 @@
         "randomizer/solar-system/layout.js": "7cefd0c7ffe7bcb1106d7054ba80f20cf9ca0fbb59c9e39443d9fbea130b6fba",
         "randomizer/style.css": "5bf8327aea43711b7aba9f0c9856356f81ecda5bb9a36607d79a3f61ff10bccf"
       },
-      "fingerprint": "a2f305b9b992de50e167b7a2821a2e74fc9e387126f37b3dc4b184d69c652624"
+      "fingerprint": "8442f21502b2994288925d075ae22c0ea0ce4847daadbed3c215bf384e1c8fc2"
     }
   },
   "runtimeDifferences": [
@@ -715,5 +715,19 @@
   "scope": "Full24 seen development vs c0a7 default policy and same frozen resource parser. Export existing Runezu getTraceReward so current AI sees actual trace score and card rewards. No generic analysis premium, no game-rule or resource changes. All24 required; new frozen random validation only after development assessment. Mean first, original high and low seats and company/resource changes reported.",
   "developmentSource": "runeapi",
   "previousAttempt": "runeapivalidation64",
-  "originalFrozenAt": "2026-09-27T16:35:07.683Z"
+  "originalFrozenAt": "2026-09-27T16:35:07.683Z",
+  "metadataCorrection": {
+    "at": "2026-09-27T16:56:06.814Z",
+    "reason": "Summary fingerprint was inherited from prior suite instead of recomputed. Per-file frozen hashes and commits were correct and checked by every run; only this derived summary label changes. No source, seed, harness, or run output changed.",
+    "models": {
+      "base": {
+        "previousSummaryFingerprint": "ed7b5ce69c3a62fa0e976989db076c73655b4d16315232142600c18deb5e0d9b",
+        "fingerprint": "6ef94a21e8b5a4bead6a90d5438a591330fd1e96b6a7e253a98daa65a291f7ad"
+      },
+      "candidate": {
+        "previousSummaryFingerprint": "a2f305b9b992de50e167b7a2821a2e74fc9e387126f37b3dc4b184d69c652624",
+        "fingerprint": "8442f21502b2994288925d075ae22c0ea0ce4847daadbed3c215bf384e1c8fc2"
+      }
+    }
+  }
 }
