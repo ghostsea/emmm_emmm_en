@@ -682,7 +682,12 @@
   }
 
   function parseDeltaText(text = "") {
-    const normalizedText = String(text || "");
+    // Counted-alien rewards log a per-alien formula before the actual payout.
+    // Its "+1能量" is part of the label, not an additional resource gain.
+    const normalizedText = String(text || "").replace(
+      /^每个外星人\s*[:：][^；;\n]*?[:：](?=\s*\d+\s*个外星人[，,])/,
+      "",
+    );
     const resourceDeltas = {};
     const incomeDeltas = {};
     const explicitRanges = [];

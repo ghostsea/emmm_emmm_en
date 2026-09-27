@@ -1,0 +1,272 @@
+{
+  "scope": "Shared parser correction only, runtime rewards and AI policy unchanged. Full18 reference files reprocessed,17 unique games. Frozen AI outputs are not rewritten; their counted reward energy and inferred compensating consumption may be inflated. The exact observed b46 reward text is checked against actual browser payout4score2energy. Frozen candidate remains on its old parser, so score/step comparisons stay valid while these resource rows need this caveat.",
+  "oldSourceSha256": "88c4a0eca2ada0a2b34752e31ab61586d3304c9761925e1bdcf36d39c7b6f190",
+  "newSourceSha256": "c6bf4578757506a3f25d7d0f929c7b40b76bb2b70f9a12ccd167f2012a75b8c9",
+  "example": {
+    "text": "每个外星人：2分+1能量：2 个外星人，分数+4、能量+2",
+    "before": {
+      "resourceDeltas": {
+        "score": 4,
+        "energy": 3
+      },
+      "incomeDeltas": {},
+      "matchedMagnitude": 7,
+      "duplicateSuppressed": 0
+    },
+    "after": {
+      "resourceDeltas": {
+        "score": 4,
+        "energy": 2
+      },
+      "incomeDeltas": {},
+      "matchedMagnitude": 6,
+      "duplicateSuppressed": 0
+    }
+  },
+  "inputFiles": [
+    {
+      "file": "参考行动日志\\3人局348.md",
+      "sha256": "36902d347336ef85a8917a25282370edd49f854c075879f65f13e03cda6f97fe"
+    },
+    {
+      "file": "参考行动日志\\4G哥304寰宇动力.md",
+      "sha256": "a4974480a8c1e4e2c500ab96f131e6f864e13187bffe6560a1abfbcb56c597e0"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260806-014849.md",
+      "sha256": "0424316de363e37a7c9e226be5d6f3d688278cf67622b8421d861cc92894ef73"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260806-233701.md",
+      "sha256": "740108ba1079bf77a2b72a7c6c1fc59c4b6d71fe0ce9332177eac1665cb51b45"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260807-203749.md",
+      "sha256": "2cd7582fc06eb14a91371cbc2cf61d556136ab3e60d41692eb5fe31f10576d84"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260909-231236.md",
+      "sha256": "f1a0d815619bef5d376ca3c12cf9760c68d1acc51e00278009b09d817a67b8ae"
+    },
+    {
+      "file": "参考行动日志\\seti-action-log-20260919-223731.md",
+      "sha256": "f2c2300ffa999f1d934a185f1c0d0710d569f47c623eba14bd8372c0d9f54e05"
+    },
+    {
+      "file": "参考行动日志\\任务中继站283.md",
+      "sha256": "8082db3520a54499c393c442eed6b5cb0f613773d7ec2d0800d314b8824fd3d1"
+    },
+    {
+      "file": "参考行动日志\\哨兵224.md",
+      "sha256": "f28403247132eb210493a071fc74a8a13b00fe63f73326c754e5ad22a6a89813"
+    },
+    {
+      "file": "参考行动日志\\宇宙战略245.md",
+      "sha256": "8b2c231980ffd23455b8540a8740e27754fbb0679646571331a2dc431bf2815b"
+    },
+    {
+      "file": "参考行动日志\\宇宙战略374.md",
+      "sha256": "d0416a1cc1ea65ba26382b9f29c99aa2ff528b60d5f9177007c94bfe1b72ad0d"
+    },
+    {
+      "file": "参考行动日志\\宇宙战略集团342.md",
+      "sha256": "9665833a7f1e4fc19b154b0661ea88040efa2bd192c32d6e1453f1c614febd3e"
+    },
+    {
+      "file": "参考行动日志\\寰宇291.md",
+      "sha256": "b4707899699c53ba8d5a505a3f271a8da0e3721e225d1bf41a32880e4b9f798d"
+    },
+    {
+      "file": "参考行动日志\\寰宇动力285.md",
+      "sha256": "fafc9e6ae35b4314d30bdf2468da8e0681d83e65645437d3a9a6f734827c3d7c"
+    },
+    {
+      "file": "参考行动日志\\层云261.md",
+      "sha256": "7753cbda2cd6fd25b9976365f9230e06ca68b13072b42aafedf47dbd2b52ce4a"
+    },
+    {
+      "file": "参考行动日志\\层云核心.md",
+      "sha256": "a12f37b2e2bc802bb00176dd4574493ebe4deee6a7db7c49c153901f6bc80bd1"
+    },
+    {
+      "file": "参考行动日志\\深空探测314.md",
+      "sha256": "bfaca7289a8d289603eac5edf8b2b2cf7b2c30a4b80d1168caefd724b3d1045a"
+    },
+    {
+      "file": "参考行动日志\\赫利昂266.md",
+      "sha256": "ac87e8de93a7d86f90a03f2da733c3f161f712a39fbaedab0b2499c1812a76a2"
+    }
+  ],
+  "beforeSummary": {
+    "totals": {
+      "playerCount": 17,
+      "averageFinalScore": 302.3529411764706,
+      "averageWeightedActionCost": 337.94117647058823,
+      "averageMainActionsPerWeightedCost": 0.11458560378741746,
+      "averageFullDataCycleCount": 4.588235294117647
+    },
+    "coverage": {
+      "trackedMagnitude": 7984,
+      "classifiedMagnitude": 7984,
+      "weighted": 1
+    }
+  },
+  "afterSummary": {
+    "totals": {
+      "playerCount": 17,
+      "averageFinalScore": 302.3529411764706,
+      "averageWeightedActionCost": 337.94117647058823,
+      "averageMainActionsPerWeightedCost": 0.11458560378741746,
+      "averageFullDataCycleCount": 4.588235294117647
+    },
+    "coverage": {
+      "trackedMagnitude": 7982,
+      "classifiedMagnitude": 7982,
+      "weighted": 1
+    }
+  },
+  "changedHumanGames": [
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\seti-action-log-20260919-223731.md",
+      "before": {
+        "gameId": "human-7",
+        "player": "白色",
+        "score": 362,
+        "company": "任务中继站",
+        "main": 48,
+        "income": {
+          "score": 0,
+          "credits": 14,
+          "energy": 12,
+          "publicity": 3,
+          "availableData": 6,
+          "handSize": 8
+        },
+        "nonIncome": {
+          "score": 150,
+          "credits": 12,
+          "energy": 19,
+          "publicity": 56,
+          "availableData": 50,
+          "handSize": 27
+        },
+        "spent": {
+          "score": 0,
+          "credits": 34,
+          "energy": 35,
+          "publicity": 67,
+          "availableData": 55,
+          "handSize": 41
+        },
+        "analysis": 6,
+        "blue1": 6,
+        "blue2": 5
+      },
+      "after": {
+        "gameId": "human-7",
+        "player": "白色",
+        "score": 362,
+        "company": "任务中继站",
+        "main": 48,
+        "income": {
+          "score": 0,
+          "credits": 14,
+          "energy": 12,
+          "publicity": 3,
+          "availableData": 6,
+          "handSize": 8
+        },
+        "nonIncome": {
+          "score": 150,
+          "credits": 12,
+          "energy": 18,
+          "publicity": 56,
+          "availableData": 50,
+          "handSize": 27
+        },
+        "spent": {
+          "score": 0,
+          "credits": 34,
+          "energy": 35,
+          "publicity": 67,
+          "availableData": 55,
+          "handSize": 41
+        },
+        "analysis": 6,
+        "blue1": 6,
+        "blue2": 5
+      }
+    },
+    {
+      "file": "D:\\code\\seti\\参考行动日志\\层云261.md",
+      "before": {
+        "gameId": "human-15",
+        "player": "白色",
+        "score": 261,
+        "company": "层云核心",
+        "main": 37,
+        "income": {
+          "score": 0,
+          "credits": 18,
+          "energy": 8,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 6
+        },
+        "nonIncome": {
+          "score": 94,
+          "credits": 2,
+          "energy": 6,
+          "publicity": 21,
+          "availableData": 21,
+          "handSize": 15
+        },
+        "spent": {
+          "score": 0,
+          "credits": 27,
+          "energy": 13,
+          "publicity": 49,
+          "availableData": 23,
+          "handSize": 26
+        },
+        "analysis": 4,
+        "blue1": 1,
+        "blue2": 0
+      },
+      "after": {
+        "gameId": "human-15",
+        "player": "白色",
+        "score": 261,
+        "company": "层云核心",
+        "main": 37,
+        "income": {
+          "score": 0,
+          "credits": 18,
+          "energy": 8,
+          "publicity": 0,
+          "availableData": 0,
+          "handSize": 6
+        },
+        "nonIncome": {
+          "score": 94,
+          "credits": 2,
+          "energy": 5,
+          "publicity": 21,
+          "availableData": 21,
+          "handSize": 15
+        },
+        "spent": {
+          "score": 0,
+          "credits": 27,
+          "energy": 13,
+          "publicity": 49,
+          "availableData": 23,
+          "handSize": 26
+        },
+        "analysis": 4,
+        "blue1": 1,
+        "blue2": 0
+      }
+    }
+  ]
+}
