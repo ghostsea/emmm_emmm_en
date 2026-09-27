@@ -10860,7 +10860,12 @@
           const rewardValue = scoreAiOrbitRewardValue(check.planet?.planetId, player);
           return Math.max(9, rewardValue * 0.65 + directScore * 0.4 + scoreAiPaceValueForDirectScore(directScore, player));
         }
-        case cardEffects.EFFECT_TYPES.CARD_LAND:
+        case cardEffects.EFFECT_TYPES.CARD_LAND: {
+          const preview = getAiCardLandPreview(effect, player);
+          if (!preview) return 0;
+          return Math.max(0, preview.rewardValue * 0.7 + preview.directScore * 0.45
+            + scoreAiPaceValueForDirectScore(preview.directScore, player));
+        }
         case "aomomo_land_only": {
           const check = actions.canExecute("land", createActionContext());
           if (!check.ok) return 11;
@@ -13004,7 +13009,9 @@
       const target = choice?.target || { type: "planet" };
       const rewardEffects = effect?.options?.grantRewards === false
         ? []
-        : [...getAiLandRewardEffectsForTarget(planetId, target)];
+        : target.type === "planet" && effect?.options?.forceFirstLandingReward
+          ? [...(planetRewards.buildPlanetLandRewardEffects?.(planetId, 1) || [])]
+          : [...getAiLandRewardEffectsForTarget(planetId, target)];
       const afterLandRewards = (effect?.options?.afterLandRewards || [])
         .filter((reward) => {
           const planetIds = reward.planetIds || [];
@@ -13015,6 +13022,28 @@
         .map((reward) => reward.effect)
         .filter(Boolean);
       return [...rewardEffects, ...afterLandRewards];
+    }
+
+    function getAiCardLandPreview(effect, player = getCurrentPlayer()) {
+      const context = { ...createActionContext(), currentPlayer: player };
+      const available = abilities.planet.getLandOptions(context, effect?.options || {});
+      if (!available.ok) return null;
+      const choices = (available.choices || []).filter((choice) => (
+        canAiResolveCardLandChoice(effect, choice, available.planet?.planetId, player)
+      ));
+      const selected = chooseAiLandChoice(choices, player, { cardEffect: effect });
+      if (!selected) return null;
+      const choice = selected.choice;
+      const planetId = getAiCardLandChoicePlanetId(choice, available.planet?.planetId);
+      const rewards = getAiCardLandChoiceRewardEffects(effect, choice, planetId);
+      return {
+        choice,
+        planetId,
+        rewards,
+        directScore: getAiRewardDirectScore(rewards, player, { immediate: true }),
+        rewardValue: scoreAiRewardEffects(rewards, player)
+          + scoreAiRunezuSourceSymbolValue("planet", planetId, player),
+      };
     }
 
     function isAiAlienTraceRewardEffect(effect) {
@@ -13746,7 +13775,10 @@
         const check = actions.canExecute("orbit", createActionContext());
         return check.ok ? getAiOrbitDirectScoreGain(check.planet?.planetId, player) : 0;
       }
-      if (type === cardEffects.EFFECT_TYPES.CARD_LAND || type === "aomomo_land_only") {
+      if (type === cardEffects.EFFECT_TYPES.CARD_LAND) {
+        return getAiCardLandPreview(effect, player)?.directScore || 0;
+      }
+      if (type === "aomomo_land_only") {
         const check = actions.canExecute("land", createActionContext());
         return check.ok ? getAiBestLandDirectScoreGain(check.planet?.planetId, check.choices || [], player) : 0;
       }
@@ -13791,10 +13823,12 @@
 
     function getAiBestLandDirectScoreGain(planetId, choices = [], player = getCurrentPlayer()) {
       const selected = chooseAiLandChoice(choices || [], player)?.choice || null;
-      if (selected) return getAiLandDirectScoreGainForTarget(planetId, selected.target, player);
+      if (selected) return getAiLandDirectScoreGainForTarget(
+        getAiCardLandChoicePlanetId(selected, planetId), selected.target, player,
+      );
       return (choices || []).reduce((best, choice) => Math.max(
         best,
-        getAiLandDirectScoreGainForTarget(planetId, choice.target, player),
+        getAiLandDirectScoreGainForTarget(getAiCardLandChoicePlanetId(choice, planetId), choice.target, player),
       ), getAiLandDirectScoreGainForTarget(planetId, { type: "planet" }, player));
     }
 
@@ -14017,10 +14051,19 @@
     function scoreAiLandChoice(choice, player = getCurrentPlayer(), options = {}) {
       if (!choice) return -Infinity;
       if (choice.kind === "orbit") return scoreAiOrbitChoice(choice, player, options);
-      const planetId = choice.planet?.planetId || choice.target?.planetId || null;
-      const rewardEffects = getAiLandRewardEffectsForTarget(planetId, choice.target);
-      const rewardValue = aiNumber(scoreAiLandResolvedRewardValueForTarget(planetId, choice.target, player));
-      const energyCost = Math.max(0, aiNumber(choice.energyCost ?? choice.cost?.energy));
+      const planetId = getAiCardLandChoicePlanetId(choice);
+      const cardEffect = options.cardEffect?.type === cardEffects.EFFECT_TYPES.CARD_LAND
+        ? options.cardEffect : null;
+      const rewardEffects = cardEffect
+        ? getAiCardLandChoiceRewardEffects(cardEffect, choice, planetId)
+        : getAiLandRewardEffectsForTarget(planetId, choice.target);
+      const rewardValue = cardEffect
+        ? scoreAiRewardEffects(rewardEffects.filter((effect) => (
+          !isAiAlienTraceRewardEffect(effect) || canAiResolveAlienTraceEffect(effect, player)
+        )), player) + scoreAiRunezuSourceSymbolValue("planet", planetId, player)
+        : aiNumber(scoreAiLandResolvedRewardValueForTarget(planetId, choice.target, player));
+      // energyCost is the normal landing price; cost is the actual card payment (possibly {}).
+      const energyCost = Math.max(0, aiNumber(choice.cost ? choice.cost.energy : choice.energyCost));
       const demand = getAiStrategyDemand(player);
       const planetDemand = getAiMapDemand(demand.planetIds, planetId);
       const taskRouteCashout = getAiPendingPlanetTaskRouteCashout(planetId, player);
@@ -14028,7 +14071,9 @@
       const yellowTracePenalty = getAiYellowTraceLandCompetitionPenalty(planetId, choice.target, player);
       const deferredTracePenalty = scoreAiDeferredAlienTraceRewardPenalty(rewardEffects, player);
       const reservePenalty = scoreAiResourceReservePenaltyForCost(player, { energy: energyCost }, { actionId: "land" });
-      const directScoreGain = getAiLandDirectScoreGainForTarget(planetId, choice.target, player);
+      const directScoreGain = cardEffect
+        ? getAiRewardDirectScore(rewardEffects, player, { immediate: true })
+        : getAiLandDirectScoreGainForTarget(planetId, choice.target, player);
       const pointConversionPenalty = scoreAiHighCostPointConversionPenalty(player, {
         actionId: "land",
         planetId,
@@ -14070,12 +14115,12 @@
         - contestRiskPenalty;
     }
 
-    function chooseAiLandChoice(choices = [], player = getCurrentPlayer()) {
+    function chooseAiLandChoice(choices = [], player = getCurrentPlayer(), options = {}) {
       return (choices || [])
         .map((choice, index) => ({
           choice,
           index,
-          score: scoreAiLandChoice(choice, player),
+          score: scoreAiLandChoice(choice, player, options),
         }))
         .filter((entry) => Number.isFinite(Number(entry.score)))
         .sort((left, right) => right.score - left.score || left.index - right.index)[0] || null;
@@ -17456,7 +17501,29 @@
       return 0;
     }
 
+    function resolveAiLandCandidateTarget(candidate, player = getCurrentPlayer()) {
+      if (!candidate?.available) return candidate;
+      const selected = chooseAiLandChoice(candidate.choices || [], player);
+      if (!selected?.choice) return candidate;
+      const choice = selected.choice;
+      const planetId = getAiCardLandChoicePlanetId(choice, candidate.planetId);
+      const energyCost = choice.cost && typeof choice.cost === "object"
+        ? Math.max(0, aiNumber(choice.cost.energy))
+        : Math.max(0, aiNumber(choice.energyCost ?? candidate.energyCost));
+      return {
+        ...candidate,
+        planetId,
+        planetName: choice.planet?.name || planetId,
+        energyCost,
+        selectedChoiceIndex: selected.index,
+        selectedRocketId: choice.rocketId || null,
+        selectedTarget: choice.target || { type: "planet" },
+        directScoreGain: getAiLandDirectScoreGainForTarget(planetId, choice.target, player),
+      };
+    }
+
     function scoreAiLandAction(candidate) {
+      candidate = resolveAiLandCandidateTarget(candidate);
       if (!candidate?.available) return 0;
       const energyCost = Math.max(0, Math.round(aiNumber(candidate.energyCost)));
       const currentPlayer = getCurrentPlayer();
@@ -20832,7 +20899,7 @@
         ? pending.getOptions()
         : abilities.planet.getLandOptions(createActionContext());
       const selected = options?.ok
-        ? chooseAiLandChoice(options.choices || [], player)
+        ? chooseAiLandChoice(options.choices || [], player, { cardEffect: pending?.effect })
         : null;
       const selectedIndex = Math.min(
         optionCount - 1,
@@ -23303,7 +23370,7 @@
       orbitCandidate.score = scoreAiOrbitAction(orbitCandidate);
       candidates.push(orbitCandidate);
       const landCheck = actions.canExecute("land", context);
-      const landCandidate = {
+      const landCandidate = resolveAiLandCandidateTarget({
         id: "land",
         kind: "main",
         available: landCheck.ok,
@@ -23313,7 +23380,7 @@
         energyCost: landCheck.energyCost ?? null,
         choices: landCheck.choices || [],
         finalMarkCashoutIncluded: true,
-      };
+      }, currentPlayer);
       landCandidate.directScoreGain = landCheck.ok
         ? getAiBestLandDirectScoreGain(landCandidate.planetId, landCandidate.choices, currentPlayer)
         : 0;
@@ -26721,6 +26788,8 @@
     }
 
     return {
+      getAiCardLandPreview,
+      getAiBestLandDirectScoreGain,
       getAiIntendedPlayCardCandidate,
       aiNumber,
       applyAiStrategyTuning,

@@ -17171,3 +17171,73 @@ for (const consumed of [false, true]) for (const rocketCount of [2, 3]) {
   assert.deepEqual(card.cardEffectState.consumedTriggerIds, consumed ? ['dlc24-orange-tech-launch-1'] : [],
     'research candidate enumeration must not consume optional triggers');
 }
+
+{
+  const effects = cardEffects.EFFECT_TYPES;
+  const gain = (score, energy = 0) => ({ type: 'gain_resources', options: { gain: { score, energy } } });
+  const normal = { planetId: 'jupiter', target: { type: 'planet' }, energyCost: 3, cost: {} };
+  const io = { planetId: 'jupiter', target: { type: 'satellite', satelliteId: 'io' }, energyCost: 3, cost: {} };
+  const seen = [];
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue', blueResources: { credits: 2, energy: 0 },
+    planetRewards: {
+      EFFECT_TYPES: {},
+      buildPlanetLandRewardEffects: (id) => id === 'jupiter' ? [gain(7)] : [],
+      buildSatelliteLandRewardEffects: (id) => id === 'io' ? [gain(10, 4)] : [],
+      buildOrbitRewardEffects: () => [],
+    },
+    abilities: { planet: {
+      DEFAULT_ORBIT_COST: { credits: 1, energy: 1 }, BASE_LAND_ENERGY_COST: 3,
+      getLandEnergyCost: () => 3, getOrbitOptions: () => ({ ok: false }),
+      getLandOptions: (context, options) => {
+        seen.push(options);
+        if (!options.skipCost) return { ok: false };
+        return { ok: true, planet: { planetId: 'multi-land' }, choices: options.allowSatelliteWithoutTech ? [normal, io] : [normal] };
+      },
+    }, rocket: { getRocketLimitForPlayer: () => 1 } },
+  });
+  const preview = (options) => harness.controller.getAiCardLandPreview({ type: effects.CARD_LAND, options }, harness.blue);
+  assert.equal(preview({ skipCost: true }).directScore, 7, 'read the selected Jupiter ID, not multi-land');
+  const allowed = preview({ skipCost: true, allowSatelliteWithoutTech: true });
+  assert.equal(allowed.choice.target.satelliteId, 'io', 'free card can value Io without orange4 or landing energy');
+  assert.equal(allowed.directScore, 10);
+  assert.equal(allowed.rewards[0].options.gain.energy, 4);
+  assert.equal(preview({ skipCost: false }), null, 'unaffordable effect has no current landing preview');
+  const silent = preview({ skipCost: true, grantRewards: false });
+  assert.equal(silent.directScore, 0, 'suppressed location reward must not earn fake points');
+  assert.deepEqual(silent.rewards, []);
+  const extra = preview({ skipCost: true, grantRewards: false, afterLandRewards: [
+    { planetIds: ['jupiter'], effect: gain(6) }, { planetIds: ['mars'], effect: gain(90) },
+  ] });
+  assert.equal(extra.directScore, 6, 'only rewards matching the chosen planet apply');
+  assert(seen.some(o => o.allowSatelliteWithoutTech));
+}
+
+
+{
+  const harness = createAiControllerHarness(null, {
+    currentPlayerColor: 'blue',
+    planetRewards: {
+      EFFECT_TYPES: {}, buildOrbitRewardEffects: () => [],
+      buildPlanetLandRewardEffects: (planetId) => [{ type: 'gain_resources', options: { gain: { score: planetId === 'mars' ? 6 : planetId === 'venus' ? 3 : 0 } } }],
+    },
+  });
+  const choice = { planetId: 'mars', planet: { planetId: 'mars' }, target: { type: 'planet', rocketId: 1 }, energyCost: 2 };
+  const value = harness.controller.getAiBestLandDirectScoreGain('multi-land', [choice, { ...choice, target: { type: 'planet', rocketId: 2 } }], harness.blue);
+  assert.equal(value, 6, 'two Mars probes must value the chosen Mars reward, not the multi-land UI placeholder');
+  assert.equal(harness.controller.getAiBestLandDirectScoreGain('venus', [choice], harness.blue), 6, 'selected planet identity takes precedence over a stale group ID');
+  assert.equal(harness.controller.getAiBestLandDirectScoreGain('venus', [], harness.blue), 3, 'no-choice fallback retains the specified planet');
+}
+
+{
+ const choice={planetId:'mars',planet:{planetId:'mars'},target:{type:'planet'},energyCost:2,cost:{}};
+ const harness=createAiControllerHarness(null,{
+  currentPlayerColor:'blue',blueResources:{credits:1,energy:0},
+  planetStats:{getPlanetLandingCount:()=>3,getPlanetOrbitCount:()=>0},
+  planetRewards:{EFFECT_TYPES:{},buildPlanetLandRewardEffects:(_id,sequence)=>[{type:'gain_resources',options:{gain:{score:sequence===1?6:2}}}],buildSatelliteLandRewardEffects:()=>[],buildOrbitRewardEffects:()=>[]},
+  abilities:{planet:{DEFAULT_ORBIT_COST:{credits:1,energy:1},BASE_LAND_ENERGY_COST:3,getLandEnergyCost:()=>2,getOrbitOptions:()=>({ok:false}),getLandOptions:()=>({ok:true,planet:{planetId:'mars'},choices:[choice]})},rocket:{getRocketLimitForPlayer:()=>1}},
+ });
+ const preview=forced=>harness.controller.getAiCardLandPreview({type:cardEffects.EFFECT_TYPES.CARD_LAND,options:{skipCost:true,forceFirstLandingReward:forced}},harness.blue);
+ assert.equal(preview(false).directScore,2);
+ assert.equal(preview(true).directScore,6,'card first-landing override uses first reward even when the next marker is fourth');
+}
